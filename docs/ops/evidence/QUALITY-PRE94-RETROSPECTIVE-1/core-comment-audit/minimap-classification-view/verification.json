@@ -1,0 +1,132 @@
+{
+  "base": "987bdddac38ea3e95d84a3b82dcdeb1ba314556c",
+  "scope": "Finite minimap comment/test/read/control/raw/three ledger evidence-cell delta only; no whole-file/card/UI/native/unified closeout",
+  "rawPairs": [
+    {
+      "receipt": "module-final.json",
+      "raw": "module-final.raw.gz",
+      "sha256": "34115f4af408bc585c9a1c259dfe9f6a0ebf55f3a6c0b54281478ddd4ecbaa3c"
+    },
+    {
+      "receipt": "fetch-final.json",
+      "raw": "fetch-final.raw.gz",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "receipt": "docs.json",
+      "raw": "docs.raw.gz",
+      "sha256": "e6faca7a2292bda3c38ce7c174f01a6ac904d5e6d0cb7b5f53c9729bc6607061"
+    },
+    {
+      "receipt": "lint-final.json",
+      "raw": "lint-final.raw.gz",
+      "sha256": "450bee19e5e86ceaebe11c091076b0f1241793bab7660a264c86017bff2ffbab"
+    },
+    {
+      "receipt": "baseline.json",
+      "raw": "baseline.raw.gz",
+      "sha256": "159d6296fcba52736d58aeb39af5ac12876cf101f6562f5f8f584e0e51038a49"
+    },
+    {
+      "receipt": "current.json",
+      "raw": "current.raw.gz",
+      "sha256": "d63672d7c463c74b00d0648e22136d4deac03143f342843efb68193050a2d503"
+    },
+    {
+      "receipt": "typecheck.json",
+      "raw": "typecheck.raw.gz",
+      "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+    },
+    {
+      "receipt": "ledger-final.json",
+      "raw": "ledger-final.raw.gz",
+      "sha256": "937f8ef834cd400927832aff6748a935d2938278f61b3b7c6de89023b9027cd1"
+    },
+    {
+      "receipt": "divergence-final.json",
+      "raw": "divergence-final.raw.gz",
+      "sha256": "916ed48427d8b2543d137e8e43919a12d4dc59a77225effea013fad520e22a19"
+    }
+  ],
+  "controls": [
+    {
+      "id": "view-y-uses-x",
+      "oldFullFilePassed": 14,
+      "currentFullFilePassed": 13,
+      "specifiedBusinessAssertionErrors": 1,
+      "restored": true
+    },
+    {
+      "id": "view-upper-clamp-missing",
+      "oldFullFilePassed": 14,
+      "currentFullFilePassed": 13,
+      "specifiedBusinessAssertionErrors": 1,
+      "restored": true
+    },
+    {
+      "id": "teleport-returns-before-later-item",
+      "oldFullFilePassed": 14,
+      "currentFullFilePassed": 13,
+      "specifiedBusinessAssertionErrors": 1,
+      "restored": true
+    },
+    {
+      "id": "equal-shortcut-no-zoom",
+      "oldFullFilePassed": 6,
+      "currentFullFilePassed": 7,
+      "specifiedBusinessAssertionErrors": 1,
+      "restored": true
+    },
+    {
+      "id": "input-focus-guard-missing",
+      "oldFullFilePassed": 6,
+      "currentFullFilePassed": 7,
+      "specifiedBusinessAssertionErrors": 1,
+      "restored": true
+    }
+  ],
+  "readBoundariesAndShaExact": true,
+  "implementationCommentOnly": true,
+  "ledgerStatusAndFrozenHistoryExact": true,
+  "ledgerEvidenceOnlyDelta": 3,
+  "reviewBindings": [
+    {
+      "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "targets": ["docs/ops/audits/code-quality-file-ledger.md"],
+      "allOtherNativeVerdictsAndHistoricalObjectsExact": true,
+      "addedBoundedHistoryItem": 1
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "targets": ["docs/phase-governance/reviews/20261016-historical-cards-d.json"],
+      "allOtherNativeVerdictsAndHistoricalObjectsExact": true,
+      "addedBoundedHistoryItem": 1
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "targets": ["docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"],
+      "allOtherNativeVerdictsAndHistoricalObjectsExact": true,
+      "addedBoundedHistoryItem": 1
+    }
+  ],
+  "unchangedBoardIndexQueueAndOtherReview": [
+    "docs/ops/board.md",
+    "docs/ops/tasks/index.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md",
+    "docs/phase-governance/reviews/20261004-semantic-current-batch.json"
+  ],
+  "noBaselineRetirementOrCatalogEdits": true,
+  "newClosed": 0,
+  "allowedTrackedChanges": [
+    "docs/ops/audits/code-quality-file-ledger.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/README.md",
+    "docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md",
+    "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+    "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+    "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+    "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+    "packages/game/src/tools/minimap.test.ts",
+    "packages/game/src/tools/minimap.ts"
+  ]
+}

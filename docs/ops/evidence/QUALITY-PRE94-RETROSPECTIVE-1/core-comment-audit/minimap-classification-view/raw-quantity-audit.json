@@ -1,0 +1,19 @@
+{
+  "producer": "init-producer.py.gz",
+  "raw": "/Users/zhangxu/illegal/type-pal/data/raw/SSS.MKF",
+  "rawSha256": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756",
+  "bytes": 574838,
+  "chunkOffsets": [24, 162488, 164848, 172758, 226814, 574838],
+  "scriptCount": 43503,
+  "addItemInstructions": 425,
+  "quantityCounts": {
+    "0": 401,
+    "3": 6,
+    "2": 7,
+    "5": 1,
+    "9": 9,
+    "7": 1
+  },
+  "signedNegative": [],
+  "scope": "All 0x1F instructions in this raw SSS snapshot, not specifically map treasures, runtime reachability or original EXE observations. Raw source is read-only; no asset extraction or generated output written."
+}

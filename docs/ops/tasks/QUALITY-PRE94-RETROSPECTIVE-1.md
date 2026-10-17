@@ -718,3 +718,9 @@ L18保持6例：移除按被测worldToThumb/DOT_COLORS生成oracle的自证，�
 证据见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/README.md)，原56/58过度信用已在当前报告撤回，旧原件/卡历史保留。docs/lint看最终回执；全仓check、官方coverage/protected、完整boot与视觉/E2E本批未跑。已列十组注释纠正不等于专项完成；数值160/161等裁决、毒列表与两UI、CODE57等继续。重复DOM构建/640接线的抽象候选未证统一owner与生命周期，不强提公共模块。无下一位Agent提示词，Codex继续pre94 minimap分类/缩放及剩余模块。
 
 本片最终补证：同一minimap模块切片为3注释源+2测试，合计20直接/36相邻（9文件56绿），game typecheck-final零诊断；新增主测修改使先前6/50/早期lint仅保留其时点，不当最终候选门。早期pnpm check:docs的125工具测试原件保留；工具源码未变，最终只重放五个真实文档消费者，不重复125。此范围变化不更改0新closed、261/82/2972与83卡51/32/0accept。
+
+### 2026-10-18 minimap分类与缩放测试准入
+
+Codex premise verified/design agree/build allowed：本批仅minimap.ts事实注释、既有minimap.test.ts和minimap.glm-phase1-leaves.test.ts的oracle/合法夹具/键盘宿主补强，单一Owner Codex，沿用3y隔离树。三文件全文及公开controller/computeView/classifier出口、正式GameState与Command、真实tools/bootstrap与C库存语义已核。原C无此小地图UI；不改实现、产品分类、seam、资产、save/schema或公共接口。raw/具名数量域差异只读，不把无原盘负数量的潜在问题写成当前剧情缺陷。证据落core-comment-audit/minimap-classification-view；定向/相邻、必要typecheck和静态门，完整check/official coverage/protected留大任务收尾。
+
+本片实交：主测14保持、leaves6→8；独立中心/钳制、item优先双顺序与实际widget键盘/canvas合同补强。五反控分别旧14→新13/1（三枚）、旧6→新7/1（两枚），全未过滤原件与恢复SHA保存；恢复9文件58绿（22直接/36相邻）、game typecheck零诊断。只修两源码注释，parsedTS/JS相同。原SSS计数425/401不能外推“地图宝箱”，负quantity真实caller未见，继续只读。证据见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/minimap-classification-view/README.md)；三文件review与3315/261/82/2972、83卡51/32/0accept不变，0关闭，CODE57停止线不解除。最终静态门看gates，全仓check/coverage/protected留大任务收尾。下一步返回其余pending pre94模块；无下一位Agent提示词。

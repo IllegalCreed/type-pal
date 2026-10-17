@@ -52,3 +52,5 @@ Search的primary是play.c PAL_GetSearchTriggerRange/PAL_Search，真实caller为
 当前[工具缩略图/快捷键返工](tools-thumbnail-hotkeys/README.md)全文核三源与两bootstrap helper测试，纠正已列最后两组96/256/640及F10/F8坏注，并清理可直接证明的旧stub/资源说明。L18六例用独立RGBA/crop与宿主清理补强，三旧绿新单红；主minimap测缺字段核心强转只读重开。已列十组错注已纠正不等于整文件/整卡验收；法术数值、毒列表、两UI及CODE57 seam/色板/视觉继续pending/review。
 
 本片收尾发现L18的具体X320/原点精度谓词不能仅按主题判重复；已在同模块主测精确迁移，并一并修主测核心夹具，14例保持、第四枚旧14绿新13绿1指定红。最终20直接/36相邻与typecheck零诊断，早期只读待修声明为中间时点；当前两个minimap测仍review，分类/全域继续。
+
+2026-10-18：[minimap分类/缩放续核](minimap-classification-view/README.md)只修两注释、补独立视野/优先级与两真实widget键盘合同；22直接/36相邻、五旧绿新单红，三文件仍review。真实SSS425/401统计不外推地图宝箱；未知输入/生命周期与CODE57保持，0新增closed，83卡51/32/0accept。

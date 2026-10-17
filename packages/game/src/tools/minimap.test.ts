@@ -32,20 +32,31 @@ describe('worldToThumb', () => {
 
 describe('computeView', () => {
   it('视野>=全图 → 全图(sx=sy=0,sw=BASE_PX)', () => {
-    expect(computeView(2080, 1024, 1024)).toEqual({ sx: 0, sy: 0, sw: BASE_PX })
+    expect(computeView(2080, 1024, 1024)).toEqual({ sx: 0, sy: 0, sw: 640 })
   })
   it('缩放档以主角为中心(960 世界px → 1/3 框),clamp 在底图内', () => {
+    // 640/2080=4/13;中心(1040,1040)*4/13=(320,320),半宽1920/13。
     const v = computeView(960, 1024, 1024)
-    expect(v.sw).toBeCloseTo((960 * BASE_PX) / 2080, 3)
-    // 主角(1024)→ 底图中心附近,视图围绕它
-    const [px] = worldToThumb(1024, 1024)
-    expect(px).toBeGreaterThanOrEqual(v.sx)
-    expect(px).toBeLessThanOrEqual(v.sx + v.sw)
+    expect(v.sw).toBeCloseTo(3840 / 13, 6)
+    expect(v.sx).toBeCloseTo(2240 / 13, 6)
+    expect(v.sy).toBeCloseTo(2240 / 13, 6)
+    // 独立的y中心输入,避免x/y被错用时因对称夹具互相掩盖。
+    const offset = computeView(960, 1024, 512)
+    expect(offset.sx).toBeCloseTo(2240 / 13, 6)
+    expect(offset.sy).toBeCloseTo(192 / 13, 6)
+    expect(offset.sw).toBeCloseTo(3840 / 13, 6)
   })
   it('主角在边角 → clamp 不越界(sx>=0, sx+sw<=BASE_PX)', () => {
-    const v = computeView(640, 0, 0)
-    expect(v.sx).toBeGreaterThanOrEqual(0)
-    expect(v.sx + v.sw).toBeLessThanOrEqual(BASE_PX + 0.001)
+    const near = computeView(640, 0, 0)
+    expect(near.sx).toBe(0)
+    expect(near.sy).toBe(0)
+    expect(near.sw).toBeCloseTo(2560 / 13, 6)
+    const far = computeView(640, 2048, 2048)
+    expect(far.sx).toBeCloseTo(5760 / 13, 6)
+    expect(far.sy).toBeCloseTo(5760 / 13, 6)
+    expect(far.sw).toBeCloseTo(2560 / 13, 6)
+    expect(far.sx + far.sw).toBeCloseTo(640, 6)
+    expect(far.sy + far.sw).toBeCloseTo(640, 6)
   })
 })
 
@@ -75,9 +86,11 @@ describe('classifyTrigger', () => {
     expect(classifyTrigger(cmds(teleport(), end()), { L_0: 0 }, 'L_0').kind).toBe('teleport')
   })
   it('item 优先于 teleport', () => {
-    expect(classifyTrigger(cmds(give(1), teleport(), end()), { L_0: 0 }, 'L_0').kind).toBe('item')
+    for (const commands of [cmds(give(1), teleport(), end()), cmds(teleport(), give(1), end())]) {
+      expect(classifyTrigger(commands, { L_0: 0 }, 'L_0').kind).toBe('item')
+    }
   })
-  it('count=0 → item(sdlpal count==0 给 1 个;**绝大多数地图宝物 count=0**,如木鞋)', () => {
+  it('count=0仍归item(库存helper将0按1处理;不代表原盘道具名称)', () => {
     expect(classifyTrigger(cmds(give(0, '木鞋'), end()), { L_0: 0 }, 'L_0')).toEqual({
       kind: 'item',
       name: '木鞋',

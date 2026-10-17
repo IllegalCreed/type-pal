@@ -1,0 +1,14 @@
+{
+  "typescript": "6.0.3",
+  "scope": "Only minimap.ts implementation, same transpile options; not native/gameplay/whole-file acceptance",
+  "rows": [
+    {
+      "path": "packages/game/src/tools/minimap.ts",
+      "beforeSha256": "aaf2d4b03ac2f83e54f7c9fdf85312d04f2864261577eebaa95a872978ef418e",
+      "currentSha256": "c72a685a086dc30d52832a4a131c0b723ba11405c16619c4e12a73d8b2c715a2",
+      "removeCommentsJavaScriptSha256": "02d412b0d8d84282f7eae5e1e89c3c7d2b1a3aaff935dcbcba887ed825bf849f",
+      "byteIdentical": true,
+      "parsedTypeScriptWithoutCommentsIdentical": true
+    }
+  ]
+}

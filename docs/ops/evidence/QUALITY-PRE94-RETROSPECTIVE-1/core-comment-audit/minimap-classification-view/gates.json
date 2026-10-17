@@ -1,0 +1,137 @@
+{
+  "base": "987bdddac38ea3e95d84a3b82dcdeb1ba314556c",
+  "status": "recorded: 22 direct/36 adjacent, game typecheck, docs125/five consumers, lint-zero and ledger pass; no unified closeout or merge",
+  "rows": [
+    {
+      "label": "baseline",
+      "receipt": "baseline.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      },
+      "passed": 20
+    },
+    {
+      "label": "current",
+      "receipt": "current.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      },
+      "passed": 22
+    },
+    {
+      "label": "module-final",
+      "receipt": "module-final.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      },
+      "passed": 58,
+      "files": 9,
+      "direct": 22,
+      "adjacent": 36,
+      "nativeReport": "module-final.vitest.json.gz",
+      "nativeReportSha256": "f85af9ecf4719b3fec18c26030533c752c576290d2ba5bb7896a9603b67ef87b",
+      "temporaryNativeReportRemoved": true
+    },
+    {
+      "label": "typecheck",
+      "receipt": "typecheck.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      }
+    },
+    {
+      "label": "docs",
+      "receipt": "docs.json",
+      "exit": 0,
+      "tests": {
+        "passed": 125,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "consumers": 5,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "info": 0
+      },
+      "scope": "Static document tool125 and five actual consumers only; no product/runtime/visual/coverage claim"
+    },
+    {
+      "label": "lint-final",
+      "receipt": "lint-final.json",
+      "exit": 0,
+      "files": 5311,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "info": 0
+      }
+    },
+    {
+      "label": "ledger-final",
+      "receipt": "ledger-final.json",
+      "exit": 0,
+      "tracked": 3315,
+      "closed": 261,
+      "review": 82,
+      "pending": 2972
+    },
+    {
+      "label": "fetch-final",
+      "receipt": "fetch-final.json",
+      "exit": 0
+    },
+    {
+      "label": "divergence-final",
+      "receipt": "divergence-final.json",
+      "exit": 0,
+      "behind": 0,
+      "ahead": 251,
+      "scope": "Before this batch commit; no main merge"
+    }
+  ],
+  "tracked": 3315,
+  "closed": 261,
+  "review": 82,
+  "pending": 2972,
+  "newClosed": 0,
+  "cards": {
+    "partial": 51,
+    "pending": 32,
+    "accept": 0
+  },
+  "mergeAllowed": false,
+  "productExecutionChanged": false,
+  "notRun": [
+    "whole repository pnpm check",
+    "official coverage ratchet",
+    "protected fast",
+    "full game package test",
+    "complete bootstrap/thumbnail runtime",
+    "visual",
+    "original EXE",
+    "E2E"
+  ]
+}

@@ -1,8 +1,8 @@
 /**
  * L18 minimap:与minimap.test的纯几何/分类合同分层,本文件核真实canvas与控制器IO。
  * 像素坐标/颜色为独立手算;裁剪用自有图像。不借被测变换或DOT_COLORS生成oracle。
- * 六例保持:原重复worldToThumb例替换成底图裁剪。控制器只证开关读写与Image loading/failed ownership,
- * 不把getter当widget可见性或坏zoom的验收。每例释放自有rAF/监听/DOM/全局与偏好。
+ * 原六例加两例真实widget快捷键:用实际canvas绘制调用核缩放/两端钳制与输入焦点/关闭守卫。
+ * getter仍只证开关读写;不冒充完整可见性/坏持久zoom验收。每例释放自有rAF/监听/DOM/全局与偏好。
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createInitialGameState } from '../core/game-state.js'
@@ -152,6 +152,60 @@ describe('L18 setupMinimap 控制器持久化', () => {
     const ctl = createController({ getGs: () => gs, getMapThumbnail: async () => null })
     expect(ctl.isShowNpc()).toBe(true)
     expect(ctl.isWidgetEnabled()).toBe(false)
+  })
+
+  it('widget快捷键按四档裁剪真实canvas,两端钳制后仍保持边界档', () => {
+    setCurrentMapNum(1)
+    const gs = createInitialGameState({ x: 1024, y: 1024, facing: 'down' })
+    const ctl = createController({ getGs: () => gs, getMapThumbnail: async () => null })
+    ctl.setWidgetEnabled(true)
+    const canvas = document.querySelector<HTMLCanvasElement>('#tp-minimap-widget canvas')!
+    expect(canvas.width).toBe(180)
+    expect(canvas.height).toBe(180)
+    const rect = vi.spyOn(canvas.getContext('2d')!, 'strokeRect') // 穿透真实canvas绘制
+    try {
+      const press = (code: string, index: number, expected: readonly number[]): void => {
+        rect.mockClear()
+        window.dispatchEvent(new KeyboardEvent('keydown', { code }))
+        expect(localStorage.getItem('tp-minimap-zoom')).toBe(String(index))
+        expect(rect).toHaveBeenCalledTimes(1)
+        const actual = rect.mock.calls[0]!
+        expected.forEach((value, i) => expect(actual[i]).toBeCloseTo(value, 6))
+      }
+      // 180px画布;默认960→640。相机=主角-(160,112),白框世界宽高320×200。
+      press('Equal', 3, [45, 58.5, 90, 56.25])
+      press('Equal', 3, [45, 58.5, 90, 56.25])
+      press('Minus', 2, [60, 69, 60, 37.5])
+      press('Minus', 1, [67.5, 74.25, 45, 28.125])
+      press('Minus', 0, [990 / 13, 1044 / 13, 360 / 13, 225 / 13])
+      press('Minus', 0, [990 / 13, 1044 / 13, 360 / 13, 225 / 13])
+    } finally {
+      rect.mockRestore()
+    }
+  })
+
+  it('widget关闭或焦点在INPUT/TEXTAREA时,快捷键不改缩放也不重绘', () => {
+    setCurrentMapNum(1)
+    const gs = createInitialGameState({ x: 1024, y: 1024, facing: 'down' })
+    const ctl = createController({ getGs: () => gs, getMapThumbnail: async () => null })
+    ctl.setWidgetEnabled(true)
+    const canvas = document.querySelector<HTMLCanvasElement>('#tp-minimap-widget canvas')!
+    const rect = vi.spyOn(canvas.getContext('2d')!, 'strokeRect')
+    try {
+      for (const tag of ['input', 'textarea']) {
+        const input = document.createElement(tag)
+        document.body.appendChild(input)
+        input.dispatchEvent(new KeyboardEvent('keydown', { code: 'Equal', bubbles: true }))
+        expect(localStorage.getItem('tp-minimap-zoom')).toBeNull()
+        expect(rect).not.toHaveBeenCalled()
+      }
+      ctl.setWidgetEnabled(false)
+      window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Equal' }))
+      expect(localStorage.getItem('tp-minimap-zoom')).toBeNull()
+      expect(rect).not.toHaveBeenCalled()
+    } finally {
+      rect.mockRestore()
+    }
   })
 
   it('底图 URL 已 resolve 但 Image 尚未 onload 时，不重复请求同一 map', async () => {

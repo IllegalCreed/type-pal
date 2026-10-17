@@ -93,12 +93,12 @@ export function classifyTrigger(
   for (let i = start; i < commands.length && i < start + LIMIT; i++) {
     const c = commands[i]
     if (!c) break
-    // count >= 0 = 给道具(sdlpal count==0 → 给 1 个,global.c:1094;**绝大多数地图宝物就是 count=0**);负=扣除不算。
+    // 具名count>=0归作宝物,0按inventory helper给1(global.c:1094-1097);静态分类不执行脚本。
     if (c.op === 'giveItem' && c.count >= 0 && c.itemId > 0) return { kind: 'item', name: c._item }
     if (c.op === 'raw') {
       const op = c.opcode
       const a0 = c.operands[0] ?? 0
-      if (op === OP_ADD_ITEM && a0 > 0) return { kind: 'item' } // 0x1F operand[0]=itemId(remove 是 0x20)
+      if (op === OP_ADD_ITEM && a0 > 0) return { kind: 'item' } // raw 0x1F此处只看itemId,未检查signed数量;0x20另作移除
       if (op === OP_ADD_CASH && a0 > 0 && a0 < 0x8000) return { kind: 'item', name: '金钱' } // 正额=获得(负=花钱)
       if (op === OP_ADD_MAGIC && a0 > 0) return { kind: 'item', name: '法术' }
     }
