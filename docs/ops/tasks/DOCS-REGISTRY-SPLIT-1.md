@@ -1,9 +1,9 @@
 # DOCS-REGISTRY-SPLIT-1 — 文档 registry 存储拆分
 
-Status: draft
+Status: build
 Phase: ops
 Capability: documentation registry storage
-Coding Owner: 待设计复核后指派隔离贡献者
+Coding Owner: /root/registry_storage_author（隔离实现唯一写入者）
 Reviewer: Codex（不得验收自己编写的实现）
 Branch: codex/docs-audit-rework
 Last reviewed: 2026-10-18
@@ -39,7 +39,9 @@ Template: task-card-v1 / 1.0.0
 
 ## 当前模式推进记录
 
-设计已提出，待非作者复核后冻结并记 build allowed。暂未实施，也未改动旧 registry。09ec 草案收到 REGISTRY-WRITER-RACE，2.0.1 又收到 REGISTRY-NATIVE-METADATA counter；storage 设计 2.0.2 补排他锁、持锁重验、失败恢复与完整顶层来源保全，尚待复核，不能先实施。
+Codex build allowed，仅隔离文档存储候选。`receipt_integrity_independent` 非作者接收固定 `38f18ff9102bf45104573b29beda4e3a2b662483` 的设计 2.0.2，设计 SHA `830e81119d2936f6cc714bcb75a1fd6f66b7d15663656fa0cf7d4bc888c4a75c`。独立报告 SHA `992fac9597ff974dc6a3d5d26ee447d2409173f9fd6f341b1d2cfe1099130870`，原报告与110项产物保存在`/tmp/type-pal-registry-design-independent-20261018-09ecbcbb`，中央证据登记待存储扩容后接入。原两个 counter 仅在设计层闭合，不授实现或全量信用。
+
+指定唯一实现 Owner `/root/registry_storage_author`，隔离 worktree `docs-registry-storage-v2/type-pal`，候选分支 `codex/docs-registry-storage-v2`。允许其按本卡设计写公开工具/adapter/文档工具fixture及真实2374源的manifest+七片；显式映射由其工具生成到/tmp供root独立核验后登记。root不同时写其实现白名单，中央review/pin/卡/索引仍由root维护。固定源不加新条目、不变状态；新增登记另列待接入清单。
 
 ## Draft: 设计与风险
 
@@ -47,7 +49,7 @@ Template: task-card-v1 / 1.0.0
 
 ## Build: 实现与自测
 
-未开始。实现 Owner 仅写专属隔离 worktree；根 Owner 不同时改其白名单。迁移后才接收 S03 中央登记。
+设计门已完成：root实际check:docs1、lint0与完整基点/staged diff0；非作者自己的完整check超时照原保留，不借作者128测试替换其退出码。非作者strict/progress仍失败，board/index当前两处pin漂移待实际delta接入处理，不能伪称零诊断。实现 Owner 只写专属隔离worktree，交固定候选后由root独立核实现、迁移与反例；通过存储验收后才接入S03中央记录。
 
 ## Review: 审查与返工
 

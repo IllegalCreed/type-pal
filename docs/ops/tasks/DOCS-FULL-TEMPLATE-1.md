@@ -1641,3 +1641,15 @@ Template: task-card-v1 / 1.0.0
 - 原报告SHA db1c98bc5bbc3d2b7a52f51ce37e7c732932ba4ea205289a5e64edebf7291381未改；47项原artifact按显式gzip容器、原payload与stored双SHA/bytes映射保全。Reviewer自身capture末尾清理断言失败及真实15条命令分别保留，不改为候选失败或虚报通过。
 - 本次只恢复1896撤回中的这1篇新正文，原撤回清单不删，剩1895未重授；S01另属R33新发现counter。继承进度不是本轮重认证总量。完整check:docs/strict/require-complete仍真实FAIL，lint/完整基点和staged diff零诊断，整卡rework、不合main。
 - 当前registry距1MiB仅约2KB，S02接入后先作正式分片结构方案；不得压字符串或调BiomemaxSize救急。S03作者仅在独立树改README，不触共享账本。
+
+### S03 固定正文的非作者限定接收，中央登记待接入
+
+- root 先核原33/前68/候选90行、by-stage全文及合同/检查点/相关卡/producer/validator明确窄域，对cafe0578的无条件quote逆回表述提出counter。贡献者独立修为f9fbf0c7，正文SHA `8ddfbda4c48af97ff8c33a229f8cb45f00b1d91e5952d635def86a946be7c9e9`：整个quote不变，直接逆回2213字节不等于2212字节原文；仅剔除已核恰一个分隔LF后按原SHA相等，不能无条件trim或恢复R60旧exactRoundTrip声明。
+- root未编写该正文，固定字节上接收本篇具体导航、事实权、版本/预览/停止线及五章模板；实际公共consumer/producer核六组阶段路径。非作者报告SHA `f1b24c7d962ef21135f033e5c5a01daa09da1290846ee26d78752a44f34bcf25`及原始七条命令在`/tmp/type-pal-s03-root-independent-u7kxokal`，作者原141项/追加58项payload均复核SHA；原失败/报告未改。
+- 此为单篇固定候选接受，中央ledger尚未接入；不增加当前完成数。S03隔离树实际check:docs/strict/require-complete失败，lint0、staged及作者基点完整diff0；不冒充当前根集成字节验收。
+
+## 2026-10-18 S04：横向材料导航的隔离贡献准入
+
+- Codex build allowed，仅单篇文档候选。Owner继续为`e2e_entry_semantic_author`，在其干净S03冻结候选之后复用隔离worktree；新增唯一写域`docs/testing/e2e/cross-stage/README.md`，中央ledger、catalog、任务/看板、产品/旧产品测试/coverage均由原Owner保护。
+- root已全文核现行40行及其中原始短导航：它仍承担现行横向材料导航，采用既有governance-index-v1/1.0.0。作者必须自行全文核固定源/当前正文与必要common-issues入口、catalog发布/配对字段和R4准入窄域后，写出可用的当前入口、issue-family回链职责与真实停止线；不得把common-issues所有历史业务结论或001–005执行当作本次已审。
+- 原quote/source字节及日期保留；有分隔LF、旧状态或原counter须逐项记录。只准真实所读/所跑范围，作者自验不能授reviewed/template-compliant。root随后独立实读原/新/来源与反例，再决定单篇接收；registry分片未独立接收前不批量中央入账，整卡保持rework。
