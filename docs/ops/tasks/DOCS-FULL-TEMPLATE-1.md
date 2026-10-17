@@ -1633,3 +1633,11 @@ Template: task-card-v1 / 1.0.0
 - 设计：复用已经真实通过的governance-index-v1/1.0.0，实际重写五必填章；恢复001–006阶段页/正式报告、共同合同/预览起点/路线proposal/横向问题/检查点/当前任务入口；当前状态由testing catalog与生成by-stage投影拥有，旧状态表只作原时点quote。原33行quote全字节保留，不续期下游阶段运行。移除当前部分无关Q批次提示，历史看板不充当前准入。
 - 作者须独立全文读固定dc478db11c6b52c4e50a1d1135f8a4740796418c原33行和当前68行；实际读当前catalog相关9项导航字段、by-stage完整投影、现行治理/模板合同及必要的contract窄域。不得声称读过6篇完整报告、跑过E2E或获得业务接受。
 - 验收：root核原/新全文、具体导航与事实权反例、入出链、完整quote/source-after SHA、producer/catalog消费与本篇模板；作者自验不代签。只有本文固定新正文可审，不外推其余R60或1896绑定，整卡rework/硬门未过不合main。
+
+
+### S02 非作者单篇接收（fe546c7e固定正文）
+
+- `/root/receipt_integrity_independent`独立全文核原73/前108/新83行及真实consumer，逐六步骤/来源反例、复放publication-IO probes，限定接收正文SHA dbd68ac55137df0edaa38efebcb3591f4ea826bbdbb5357b9914c6ff684926f9与runbook模板。
+- 原报告SHA db1c98bc5bbc3d2b7a52f51ce37e7c732932ba4ea205289a5e64edebf7291381未改；47项原artifact按显式gzip容器、原payload与stored双SHA/bytes映射保全。Reviewer自身capture末尾清理断言失败及真实15条命令分别保留，不改为候选失败或虚报通过。
+- 本次只恢复1896撤回中的这1篇新正文，原撤回清单不删，剩1895未重授；S01另属R33新发现counter。继承进度不是本轮重认证总量。完整check:docs/strict/require-complete仍真实FAIL，lint/完整基点和staged diff零诊断，整卡rework、不合main。
+- 当前registry距1MiB仅约2KB，S02接入后先作正式分片结构方案；不得压字符串或调BiomemaxSize救急。S03作者仅在独立树改README，不触共享账本。

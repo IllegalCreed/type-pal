@@ -56,3 +56,8 @@ rework。完整 check:docs 与 require-complete 的失败必须保留；结构�
 
 
 S01接入的6份编号源码摘录含原有行尾空格，0bac72c2完整范围diff真实失败已另捕获；目前仅将这6个payload以gzip无损承载。[接入映射](independent-intake-S01-8ef07ca7.json)同时列原payload SHA/bytes、存储SHA/bytes、from→to和解码规则。45/45解码后均匹配审查者原pin；原报告、原counter和0bac Git字节不改。不是trim原证据、排除文件或降低diff检查。
+
+
+## S02 真正逐篇重审的独立结论
+
+[测试治理固定正文独立报告](independent-review-S02-fe546c7e.json)SHA db1c98bc…限定接受fe54正文dbd68ac…与runbook模板，并复核S01的45原payload/6无损容器和0bac真实失败。[接入映射](independent-intake-S02-fe546c7e.json)为47原artifact逐项列gzip解码、payload/stored双pin；原报告与失败不改。仅S02从1896撤回中重授，当前剩1895，五隔离不解除；本轮两篇语义接受不等于继承总量重认证或全门通过。

@@ -100,6 +100,10 @@
       {
         "path": "/root/receipt_integrity_independent S01",
         "scope": "raw/independent-s01-8ef0 exact reviewer artifacts and original counter; intake map resolves45 original paths, not fresh root execution"
+      },
+      {
+        "path": "/root/receipt_integrity_independent S02",
+        "scope": "raw/independent-s02-fe54 lossless47 gzip payloads; map gives original paths/decoder and dual SHA/bytes; no new root execution"
       }
     ]
   },

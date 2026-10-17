@@ -258,14 +258,14 @@
     },
     {
       "path": "docs/testing/governance.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "guide-runbook",
       "templateId": "guide-runbook-v1",
       "templateVersion": "1.0.0",
-      "templateCompliance": "needs-migration",
-      "reviewDepth": "partial-semantic",
-      "readMethod": "Root full read of original73/current108 and new83 runbook lines; actual validator/generator/migration sources read in listed scopes. Manually regrouped full governance meaning into executable steps, not retained-body-under-generic-wrapper. New bytes await non-author review.",
-      "coreConclusion": "测试治理须分开catalog发布、一次执行和文档迁移信用；当前schema2 canonical需要front matter与testing-meta/evidence配对，非归档/非替代记录都受reviewBy约束，原legacy census不准追加扩容。新runbook按唯一身份、真实配对、状态、业务质量、显式迁移与实跑留存重写，九投影由producer生成，不改业务状态/机器字段。",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "Root full read of original73/before108/new83 lines and exact listed validator/producer/migration scopes; manually wrote six-stage runbook. Distinct non-author reviewer independently read all source/body and consumer scopes, replayed publication-IO probes, ran current complete docs gate (FAIL), lint and full-base/staged diff, then accepted only fixedfe54 body/template.",
+      "coreConclusion": "测试治理须分开catalog发布、一次执行和文档迁移信用；当前schema2 canonical需要front matter与testing-meta/evidence配对，非归档/非替代记录都受reviewBy约束，原legacy census不准追加扩容。新runbook按唯一身份、真实配对、状态、业务质量、显式迁移与实跑留存重写，九投影由producer生成，不改业务状态/机器字段。 固定dbd68ac…正文与runbook模板已获非作者限定接收，不授任何其他R83或运行信用。",
       "truthAnchors": [
         "scripts/docs/check-testing.mjs:193",
         "scripts/docs/check-testing.mjs:475",
@@ -274,11 +274,10 @@
         "scripts/docs/generate-testing-index.mjs:76"
       ],
       "unresolved": [
-        "New runbook body pending non-author semantic/template acceptance.",
         "Catalog/reports/raw were not all business-semantically reviewed; five receipt scopes remain quarantined.",
-        "Whole-docs hard gates and1896 affected binding rework remain incomplete."
+        "Whole-docs hard gates andremaining affected binding rework remain incomplete."
       ],
-      "nextStep": "Freeze candidate; obtain non-author original/new/source/consumer/counterexample review before granting this one binding.",
+      "nextStep": "Continue S03 and remaining actual semantic reviews; handle registry structural size before additional bulk intake. No other R83 status is restored.",
       "phase": "testing",
       "module": "testing-governance",
       "capability": "publication-and-evidence-governance",
@@ -398,22 +397,28 @@
       "counterReworkBlocked": [
         {
           "id": "S02-FRONT-MATTER",
-          "status": "author-fixed-pending-non-author",
-          "statement": "Prior text required testing-meta but omitted current consumer front matter schema/id/evidence."
+          "status": "closed-by-non-author-for-fixed-body-only",
+          "statement": "Prior text required testing-meta but omitted current consumer front matter schema/id/evidence.",
+          "closureCommit": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
+          "closureReport": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S02-fe546c7e.json"
         },
         {
           "id": "S02-EXPIRY",
-          "status": "author-fixed-pending-non-author",
-          "statement": "Prior text only named current/verified/rework; consumer expires all except archived/superseded."
+          "status": "closed-by-non-author-for-fixed-body-only",
+          "statement": "Prior text only named current/verified/rework; consumer expires all except archived/superseded.",
+          "closureCommit": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
+          "closureReport": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S02-fe546c7e.json"
         },
         {
           "id": "S02-PROJECTIONS-CENSUS",
-          "status": "author-fixed-pending-non-author",
-          "statement": "Current producer emits9 views, not just4; frozen legacy identity cannot grow by appending a manifest row."
+          "status": "closed-by-non-author-for-fixed-body-only",
+          "statement": "Current producer emits9 views, not just4; frozen legacy identity cannot grow by appending a manifest row.",
+          "closureCommit": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
+          "closureReport": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S02-fe546c7e.json"
         }
       ],
       "revision": {
-        "currentSha": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+        "currentSha": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
         "history": [
           {
             "date": "2026-10-18",
@@ -431,10 +436,20 @@
         ]
       },
       "evidence": {
-        "kind": "actual-per-document-semantic-rework-candidate",
+        "kind": "actual-per-document-semantic-rework-with-fixed-body-non-author-acceptance",
         "path": "docs/testing/governance.md",
         "sourceRevision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
-        "nonAuthorAcceptance": "pending",
+        "nonAuthorAcceptance": {
+          "reviewerTask": "/root/receipt_integrity_independent",
+          "authorTask": "/root",
+          "nonAuthorReviewer": true,
+          "reviewedCommit": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
+          "bodySha256": "dbd68ac55137df0edaa38efebcb3591f4ea826bbdbb5357b9914c6ff684926f9",
+          "report": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S02-fe546c7e.json",
+          "reportSha256": "db1c98bc5bbc3d2b7a52f51ce37e7c732932ba4ea205289a5e64edebf7291381",
+          "intakeMap": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S02-fe546c7e.json",
+          "scope": "fixed testing/governance body and runbook template only; no global/runtime credit"
+        },
         "historicalSource": {
           "revision": "97af63389174bbb35629d98d90c9c4de460a729a",
           "sha256": "ce72a508eaa5693be8cdcb8be9d0da6536c4418a8f88cb7ee584f6c2f5edd995",
@@ -470,6 +485,14 @@
             "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
           },
           "previousAfterSha256": "ea9d0fa69ea00a903c1628f2674636925e126e3d9b19baac07e0bd3e8955a653"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "S02 actual non-author fixed-body semantic/template acceptance",
+          "reviewedCommit": "fe546c7ef21c5d53ca1f294911562bbab4e82ffa",
+          "reportSha256": "db1c98bc5bbc3d2b7a52f51ce37e7c732932ba4ea205289a5e64edebf7291381",
+          "priorWithdrawalRemainsHistorical": true,
+          "globalHardGatePassed": false
         }
       ],
       "historicalWithdrawal": {
@@ -501,7 +524,7 @@
         "steps": "6 executable stages with real fields/commands",
         "failureHandling": "specific validator failures, raw preservation and stop conditions",
         "completion": "consumer zero diagnostics + non-author content review, no runtime inference",
-        "status": "author candidate pending independent review"
+        "status": "non-author accepted fixedfe546c7e body"
       }
     }
   ]

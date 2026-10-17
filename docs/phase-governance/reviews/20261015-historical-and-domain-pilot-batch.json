@@ -278,7 +278,7 @@
       "reviewedSourceSha256": "522c958d325afaf4a92845d9dbb89a00d72bce72e3396aad4b890920b39c01f2",
       "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
       "sourceGitObject": "906868289a9187830360dedaf4f28ab048318445",
-      "afterSha256": "a4dc5930c4ec8e9abb649bd149a2ce0630ca2e39b590e731f2d7b8b837aa045e",
+      "afterSha256": "0794e21009b796bdce235e364c8ed830d6d8da3a0a60a097385f43a6042fcdd4",
       "publicCallers": [
         "docs/phase-governance/README.md",
         "node scripts/docs/check-content-review.mjs --strict"
@@ -6767,8 +6767,8 @@
       "reviewedSourceGitObject": "3f13cd3768f2d0741da8e322748c8f68c14b2abd",
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "91f6fa88ce3a0212c4e5b37bbe695658e2462afae94ee36e34e150ba1a8a68c6",
-        "afterSha256": "a4dc5930c4ec8e9abb649bd149a2ce0630ca2e39b590e731f2d7b8b837aa045e",
+        "previousAfterSha256": "a4dc5930c4ec8e9abb649bd149a2ce0630ca2e39b590e731f2d7b8b837aa045e",
+        "afterSha256": "0794e21009b796bdce235e364c8ed830d6d8da3a0a60a097385f43a6042fcdd4",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
