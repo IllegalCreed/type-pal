@@ -407,7 +407,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "65ec2ca49d62e3638c89f946b8a2c182860a25cdec72b22e1200a438da20ad40",
+      "afterSha256": "8dc2ad2472e8a6a7f3dc75cc887504e0c595abc3299e580e8406a73a5d98fbe3",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -437,7 +437,7 @@
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
-        "currentSha": "65ec2ca49d62e3638c89f946b8a2c182860a25cdec72b22e1200a438da20ad40",
+        "currentSha": "8dc2ad2472e8a6a7f3dc75cc887504e0c595abc3299e580e8406a73a5d98fbe3",
         "implementationSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
@@ -675,7 +675,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "65ec2ca49d62e3638c89f946b8a2c182860a25cdec72b22e1200a438da20ad40",
+        "afterSha256": "8dc2ad2472e8a6a7f3dc75cc887504e0c595abc3299e580e8406a73a5d98fbe3",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
@@ -1116,7 +1116,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "2e7ced56031205b5e66e084976f40ff7672e9ed2a700ea94913f4df0fceddac3",
+      "afterSha256": "4ce386b815202df56b1b742882c7dc4fde60d4d431b6ef3baec7cc9eb3bfdf2e",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -1136,7 +1136,7 @@
         "against": ["scripts/docs/check.mjs --print-task-index", "docs/ops/tasks/README.md"]
       },
       "revision": {
-        "currentSha": "2e7ced56031205b5e66e084976f40ff7672e9ed2a700ea94913f4df0fceddac3",
+        "currentSha": "4ce386b815202df56b1b742882c7dc4fde60d4d431b6ef3baec7cc9eb3bfdf2e",
         "implementationSha": "b6d9a3d17513f92aef4289a1116fd09d9bfb2dbc800a056ba708fd5c297b21ee",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
@@ -1367,7 +1367,7 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "2e7ced56031205b5e66e084976f40ff7672e9ed2a700ea94913f4df0fceddac3",
+        "afterSha256": "4ce386b815202df56b1b742882c7dc4fde60d4d431b6ef3baec7cc9eb3bfdf2e",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "b6d9a3d17513f92aef4289a1116fd09d9bfb2dbc800a056ba708fd5c297b21ee",

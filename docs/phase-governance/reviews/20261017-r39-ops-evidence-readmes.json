@@ -38,7 +38,7 @@
         }
       ],
       "sourceSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
-      "afterSha256": "90489fcbd843f06e266acc6b612b653b4070cd49c0f766a442434e49668d267b",
+      "afterSha256": "1baab91cc8b9dcc7fc9fc2d7e41089f42c9297ddf5c3df179f27d97809dad76c",
       "publicCallers": [
         "docs/ops/evidence/README.md → docs/ops/evidence/README.md navigation",
         "task card / evidence consumer references"
@@ -58,7 +58,7 @@
         "against": ["docs/ops/evidence/README.md"]
       },
       "revision": {
-        "currentSha": "90489fcbd843f06e266acc6b612b653b4070cd49c0f766a442434e49668d267b",
+        "currentSha": "1baab91cc8b9dcc7fc9fc2d7e41089f42c9297ddf5c3df179f27d97809dad76c",
         "implementationSha": "17a0f858b7a320a3c920b2de2cca77c4fe8fa3171b68b9b512e9f323ff002614",
         "history": [
           {
@@ -81,7 +81,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r39-ops-evidence-readmes-20261017.json",
         "sourceSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
         "candidateSha256": "17a0f858b7a320a3c920b2de2cca77c4fe8fa3171b68b9b512e9f323ff002614",
-        "afterSha256": "90489fcbd843f06e266acc6b612b653b4070cd49c0f766a442434e49668d267b",
+        "afterSha256": "1baab91cc8b9dcc7fc9fc2d7e41089f42c9297ddf5c3df179f27d97809dad76c",
         "lineCount": 112,
         "artifactPreserved": false,
         "originalPreservation": {
@@ -111,7 +111,7 @@
           "revision": "89bf84e16",
           "action": "sync-latest-main-and-code-quality-navigation",
           "previousAfterSha256": "17a0f858b7a320a3c920b2de2cca77c4fe8fa3171b68b9b512e9f323ff002614",
-          "afterSha256": "90489fcbd843f06e266acc6b612b653b4070cd49c0f766a442434e49668d267b",
+          "afterSha256": "1baab91cc8b9dcc7fc9fc2d7e41089f42c9297ddf5c3df179f27d97809dad76c",
           "scope": "Current main merge and code-quality navigation only; no runtime or product acceptance.",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
