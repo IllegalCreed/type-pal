@@ -51,7 +51,7 @@ Codex 维护本页导航。Agent 先按 catalog 的稳定 `id` 找 `index`，再
 
 ## 历史与原文保全
 
-下方是固定 revision `dc478db11c6b52c4e50a1d1135f8a4740796418c` 的 33 行原文快照，source SHA `310f5031be8e76964cbd1cf2d4e704c5bbfbd2cf4f6451d64a7109d93e67ca6f`；quote 可逆回原始 UTF-8 字节。旧表状态只属于该时点，旧看板链接用于追溯，今天的任务准入从上方当前看板和原卡读取。
+下方是固定 revision `dc478db11c6b52c4e50a1d1135f8a4740796418c` 的 33 行原文快照，source SHA `310f5031be8e76964cbd1cf2d4e704c5bbfbd2cf4f6451d64a7109d93e67ca6f`。整个 quote 块字节保持不变；剥离每行引用前缀后，须剔除结束标记前既有分隔空行产生的恰一个 LF，再按固定 source SHA 验证原始 UTF-8 字节。这不是无条件 trim，也不表示直接 inverse 与源字节相等。旧表状态只属于该时点，旧看板链接用于追溯，今天的任务准入从上方当前看板和原卡读取。
 <!-- original-source-quote:start -->
 > # E2E 专项总览
 >
