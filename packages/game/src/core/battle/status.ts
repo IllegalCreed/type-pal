@@ -34,12 +34,12 @@ function tickOwnerStatus(owner: StatusOwner): void {
   }
 }
 
-/** 每回合 turn 推进前 tick 全部 player + enemy(只 alive)。 */
+/** 每回合 turn 推进前 tick 全部 player + enemy 槽位。 */
 export function tickStatusEffects(state: BattleState): void {
   for (const p of state.players) tickOwnerStatus(p)
-  for (const e of state.enemies) {
-    if (e.e.health > 0) tickOwnerStatus(e)
-  }
+  // SDLPal fight.c:1655-1661 遍历 wMaxEnemyIndex 的全部槽位，没有按 HP 过滤。
+  // 保留死槽的状态递减，避免把当前槽位状态与原版回合生命周期分叉。
+  for (const e of state.enemies) tickOwnerStatus(e)
 }
 
 /** 可行动检查:sleep/paralyzed 跳过正常行动;confused 由 battle-system 改派 attack-mate。 */

@@ -215,13 +215,13 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-3l；battle UI pixel/early-return 证据 | 高判别力像素 oracle |
 | `packages/game/src/core/battle/formulas.ts` | product | 已验证 | CODE-QUALITY-3m；fight.c:131-389 primary source、battle callers、formula tests | SHORT cast/CLASSIC formula/resist/element field 合同逐段核对；未发现直接缺陷 |
 | `packages/game/src/core/battle/magic-damage.ts` | product | 已验证 | CODE-QUALITY-3m；fight.c:4270-4318/5300-5400/4673-4853、inline/Simulate/throw callers、magic tests | per-target RNG/minDamage/def/resistance/autoDefend/defeated skip 合同逐段核对 |
-| `packages/game/src/core/battle/status.ts` | product | 已验证 | CODE-QUALITY-3m；fight.c:1632-1661、battle-system turn-end caller、status/actions tests | 全 status counter tick、alive enemy、canAct/canCast 合同完整 |
+| `packages/game/src/core/battle/status.ts` | product | 已验证 | CODE-QUALITY-3m 3m-status；fight.c:1632-1661、battle-system turn-end caller、battle-finalization、status/actions/state-machine tests | 全 status counter tick；敌方按 SDLPal 全槽位递减（含死槽）；canAct/canCast 与 <=999 清理边界已核；3m 整卡仍 partial |
 | `packages/game/src/core/battle/turn-queue.ts` | product | 已验证 | CODE-QUALITY-3m 当前只读复审；battle-system:680-770 caller、fight.c:1451-1584、battle.h ACTIONQUEUE、queue/state-machine tests | stable dex sort、dualMove dex2/legacy fallback、enemy-first tie 逐文件核验；未发现直接缺陷 |
 | `packages/game/src/core/battle/battle-positions.ts` | product | 已验证 | CODE-QUALITY-3m 当前只读复审；battle-state/opcode/present/UI/sprite callers、battle.c:27/903-939、global.h:401-404、position tests | 1/2/3 人 SDL 表、4/5 fallback、EnemyPos fallback/idx bounds 逐文件核验；未发现直接缺陷 |
 | `packages/game/src/core/rng.ts` | product | 已验证 | CODE-QUALITY-3m；battle/event/shell callers、rng tests、seed state contract | mulberry32 deterministic state/range APIs；sdlpal LCG 差异为已记录设计，不擅改 |
 | `packages/game/src/core/battle/__tests__/formulas.test.ts` | test | 已验证 | CODE-QUALITY-3m；base/physical/magic/dex formula contracts | primary-source numeric oracle |
 | `packages/game/src/core/battle/__tests__/magic-damage.test.ts` | test | 已验证 | CODE-QUALITY-3m；inline/Simulate/enemy magic/autoDefend contracts | real BattleState caller oracle |
-| `packages/game/src/core/battle/__tests__/status.test.ts` | test | 已验证 | CODE-QUALITY-3m；all status tick/alive enemy/canAct contracts | counter lifecycle oracle |
+| `packages/game/src/core/battle/__tests__/status.test.ts` | test | 已验证 | CODE-QUALITY-3m 3m-status；all status tick、死敌槽位反例、canAct/canCast、相邻 battle lifecycle contracts | counter lifecycle oracle；旧“死敌不 tick”弱 oracle 已改为 primary 全槽位语义 |
 | `packages/game/src/core/battle/__tests__/turn-queue.test.ts` | test | 已验证 | CODE-QUALITY-3m；sort/tie/dualMove/dex2 contracts | queue identity oracle |
 | `packages/game/src/core/rng.test.ts` | test | 已验证 | CODE-QUALITY-3m；same seed/different seed/range/state contracts | deterministic RNG oracle |
 | `packages/game/src/core/palette-fade.ts` | product | 已验证 | CODE-QUALITY-3n；event-system fade builders、present/present-battle callers、palette-fade tests | fade60/fade63/lerp/approach/freeze/nightColors contracts；caller normalizes zero delays |
@@ -577,13 +577,13 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-3l；battle UI pixel/early-return 证据 | 高判别力像素 oracle |
 | `packages/game/src/core/battle/formulas.ts` | product | 已验证 | CODE-QUALITY-3m；fight.c:131-389 primary source、battle callers、formula tests | SHORT cast/CLASSIC formula/resist/element field 合同逐段核对；未发现直接缺陷 |
 | `packages/game/src/core/battle/magic-damage.ts` | product | 已验证 | CODE-QUALITY-3m；fight.c:4270-4318/5300-5400/4673-4853、inline/Simulate/throw callers、magic tests | per-target RNG/minDamage/def/resistance/autoDefend/defeated skip 合同逐段核对 |
-| `packages/game/src/core/battle/status.ts` | product | 已验证 | CODE-QUALITY-3m；fight.c:1632-1661、battle-system turn-end caller、status/actions tests | 全 status counter tick、alive enemy、canAct/canCast 合同完整 |
+| `packages/game/src/core/battle/status.ts` | product | 已验证 | CODE-QUALITY-3m 3m-status；fight.c:1632-1661、battle-system turn-end caller、battle-finalization、status/actions/state-machine tests | 全 status counter tick；敌方按 SDLPal 全槽位递减（含死槽）；canAct/canCast 与 <=999 清理边界已核；3m 整卡仍 partial |
 | `packages/game/src/core/battle/turn-queue.ts` | product | 已验证 | CODE-QUALITY-3m 当前只读复审；battle-system:680-770 caller、fight.c:1451-1584、battle.h ACTIONQUEUE、queue/state-machine tests | stable dex sort、dualMove dex2/legacy fallback、enemy-first tie 逐文件核验；未发现直接缺陷 |
 | `packages/game/src/core/battle/battle-positions.ts` | product | 已验证 | CODE-QUALITY-3m 当前只读复审；battle-state/opcode/present/UI/sprite callers、battle.c:27/903-939、global.h:401-404、position tests | 1/2/3 人 SDL 表、4/5 fallback、EnemyPos fallback/idx bounds 逐文件核验；未发现直接缺陷 |
 | `packages/game/src/core/rng.ts` | product | 已验证 | CODE-QUALITY-3m；battle/event/shell callers、rng tests、seed state contract | mulberry32 deterministic state/range APIs；sdlpal LCG 差异为已记录设计，不擅改 |
 | `packages/game/src/core/battle/__tests__/formulas.test.ts` | test | 已验证 | CODE-QUALITY-3m；base/physical/magic/dex formula contracts | primary-source numeric oracle |
 | `packages/game/src/core/battle/__tests__/magic-damage.test.ts` | test | 已验证 | CODE-QUALITY-3m；inline/Simulate/enemy magic/autoDefend contracts | real BattleState caller oracle |
-| `packages/game/src/core/battle/__tests__/status.test.ts` | test | 已验证 | CODE-QUALITY-3m；all status tick/alive enemy/canAct contracts | counter lifecycle oracle |
+| `packages/game/src/core/battle/__tests__/status.test.ts` | test | 已验证 | CODE-QUALITY-3m 3m-status；all status tick、死敌槽位反例、canAct/canCast、相邻 battle lifecycle contracts | counter lifecycle oracle；旧“死敌不 tick”弱 oracle 已改为 primary 全槽位语义 |
 | `packages/game/src/core/battle/__tests__/turn-queue.test.ts` | test | 已验证 | CODE-QUALITY-3m；sort/tie/dualMove/dex2 contracts | queue identity oracle |
 | `packages/game/src/core/rng.test.ts` | test | 已验证 | CODE-QUALITY-3m；same seed/different seed/range/state contracts | deterministic RNG oracle |
 | `packages/game/src/core/palette-fade.ts` | product | 已验证 | CODE-QUALITY-3n；event-system fade builders、present/present-battle callers、palette-fade tests | fade60/fade63/lerp/approach/freeze/nightColors contracts；caller normalizes zero delays |

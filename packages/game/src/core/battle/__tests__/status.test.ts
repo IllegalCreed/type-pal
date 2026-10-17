@@ -100,10 +100,10 @@ describe('B-w1.a status tick', () => {
     expect(state.enemies[0]?.status.silence).toBe(1)
   })
 
-  it('dead enemy(health<=0)不 tick(避免无意义衰减)', () => {
+  it('dead enemy 仍按回合末递减 status（对齐 fight.c:1655-1661 的全槽遍历）', () => {
     const state = makeBattleState({ enemyHealth: 0, enemySilence: 3 })
     tickStatusEffects(state)
-    expect(state.enemies[0]?.status.silence).toBe(3)
+    expect(state.enemies[0]?.status.silence).toBe(2)
   })
 
   it('canAct:sleep>0 或 paralyzed>0 → false', () => {

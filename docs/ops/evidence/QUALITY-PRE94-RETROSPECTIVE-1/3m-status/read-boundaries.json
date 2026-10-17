@@ -1,0 +1,80 @@
+{
+  "base": "e63bb2051",
+  "fullReads": [
+    {
+      "path": "packages/game/src/core/battle/status.ts",
+      "sha256": "6c56c7892e735d02deeca5ce1c82e3d5b9ae05a2beeeb30e92b8b788a495ba15",
+      "lines": 54,
+      "boundary": "Full implementation read; status key set, counter decrement, player/enemy ownership and canAct/canCast predicates."
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/status.test.ts",
+      "sha256": "8ed3fad151925527ab37a7d0a6ae3a08771e30b8c66f6ac5901552491c12103c",
+      "lines": 124,
+      "boundary": "Full direct test read; legal counters, zero floor, enemy-slot oracle and action predicates."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "ac0b7567b9cc93f0713debc36d37d40cf0fde926e71891b1c77c35b4bf542cca",
+      "lines": 918,
+      "ranges": ["1-100", "748-840"],
+      "boundary": "BattleStatus shape, persistent status seed and battle lifecycle ranges."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "c286881a1d1d5932333a9fcd084376e42d8871c5abc2a052573a6dbc9267b11c",
+      "lines": 3141,
+      "ranges": ["240-300", "700-770", "930-1075", "3090-3140"],
+      "boundary": "Start-battle status seeding, status consumers and turn-end tick caller."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.ts",
+      "sha256": "c613002b06e83ccc6a4805c1fc0a3ace2d7107068d2305689ab3e456fe3f2c0c",
+      "lines": 67,
+      "boundary": "Full battle cleanup read; <=999 status clearing and equipment/poison cleanup ownership."
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de0819e3d2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "lines": 5400,
+      "ranges": ["1610-1675", "4470-4490", "5150-5190"],
+      "boundary": "Player and enemy status tick primary ranges, including CLASSIC end-of-round behavior."
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "lines": 2409,
+      "ranges": ["2173-2344"],
+      "boundary": "Set/remove/clear player status and <=999 equipment boundary."
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f",
+      "lines": 1858,
+      "ranges": ["1818-1835"],
+      "boundary": "Battle-end cleanup primary range."
+    },
+    {
+      "path": "reference/sdlpal/global.h",
+      "sha256": "07f307f91af62291fba50a345075c54adf170a33d1eba1f389852abf9c44d28c",
+      "lines": 757,
+      "ranges": ["38-56"],
+      "boundary": "Status enum order and kStatusAll cardinality."
+    },
+    {
+      "path": "docs/phase1/game-mechanics.md",
+      "sha256": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
+      "lines": 1673,
+      "ranges": ["1490-1588", "1610-1628"],
+      "boundary": "Historical first-phase status persistence, battle cleanup and revive boundaries."
+    }
+  ],
+  "notClaimed": [
+    "Complete CODE-QUALITY-3m acceptance",
+    "Second-phase reforge status model",
+    "Schema/save/migration or public API changes",
+    "Coverage, official ratchet, protected fast or whole-repository acceptance"
+  ]
+}

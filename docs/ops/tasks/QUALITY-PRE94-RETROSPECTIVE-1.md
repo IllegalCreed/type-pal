@@ -360,6 +360,13 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 - 结论：敌先填充、玩家后填充、dex 降序稳定排序、dualMove dex2 两方向标记与 caller 的失能 dex=0/不耗 RNG 接线一致；未发现直接缺陷。NaN/越界 dex 不在合法 caller 域，保持未裁决。
 - 验证：`turn-queue.test.ts` + `battle-state-machine.glm-battle.test.ts` 关键词定向 `5 passed / 14 skipped`，game typecheck 通过；coverage、official ratchet、protected fast、全仓 `pnpm check` 留待完整大模块收口。已读清单与 SHA 见 [`3m-turn-queue`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3m-turn-queue/README.md)。3m 整卡保持 `partial`。
 
+### 2026-10-17 CODE-QUALITY-3m status 复审/最小修复切片
+
+- 范围：`packages/game/src/core/battle/status.ts`、`__tests__/status.test.ts`；读取 `battle-state.ts` 状态 shape/seed、`battle-system.ts` 状态消费与回合末 caller、`battle-finalization.ts` 战后清理；primary 为 `global.h:38-56`、`fight.c:1632-1661`、`global.c:2173-2344`、`battle.c:1818-1835`、`script.c:1052-1102`，并对照 `docs/phase1/game-mechanics.md` 状态寿命段。
+- 发现并修复：TS 原先按 `health > 0` 跳过死敌状态，SDLPal 对 `wMaxEnemyIndex` 的全部敌方槽位统一递减。先把既有“死敌不 tick”测试改为 primary 反例并确认旧实现 `1 failed / 6 passed`，再删除 HP 过滤；未改变 status shape、存档或公共接口。
+- 结论：玩家/敌方全部 status counter 仍统一 `>0` 后减一；战末/复活 `<=999` 清理和 `>999` 装备授予保留由现有 owner 负责。死槽递减合同已由直接测试固定；3m 公式、magic-damage、RNG 与统一质量门仍未完成，整卡保持 `partial`。
+- 验证：status/actions/battle-system/state-machine/finalization/state 六组定向共 `308 passed`，无测试 stderr；`pnpm --filter @type-pal/game typecheck` 通过；coverage、official ratchet、protected fast、全仓 `pnpm check` 留待完整大模块收口。已读清单与 SHA 见 [`3m-status`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3m-status/README.md)。
+
 ### 2026-10-17 CODE1/CODE2 boundary carry-over
 
 本片接收工作树中已完成的两个窄测试合同：`packages/shared/src/rle.boundaries.test.ts` 新增“相邻 offset 截断前一帧帧头即拒绝”反例；`packages/shared/src/rng.boundaries.test.ts` 新增同一 surface 连续 delta 累加并保留首帧像素的 ownership 合同。两项都只改测试，不改 RLE/RNG/YJ2 实现、公共出口、资源或格式策略；RLE 高位 literal 风险继续留在 `QUALITY-RLE-COMMAND-TRUTH-1` draft。
