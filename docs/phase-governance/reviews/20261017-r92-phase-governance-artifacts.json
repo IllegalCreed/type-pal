@@ -4057,7 +4057,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "26211ddd76d51e6782ff42e971075f719b58c3b407f86b1b2bc7118d7b5f8def",
-      "afterSha256": "1caba70a1f60c0cd257274d8d8432eb6f0b7df48b5b70e16c624f8f2be5cfcfa",
+      "afterSha256": "17148b287465a3804e10e890e74f4f21e1b9a37d00c876a41adf76f8678a83c7",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -4202,6 +4202,15 @@
           "previousAfterSha256": "6f07fdc168c175fc136592d03dd10725c14c3c3aecc48666bbc9d42032b1fecc",
           "afterSha256": "1caba70a1f60c0cd257274d8d8432eb6f0b7df48b5b70e16c624f8f2be5cfcfa",
           "method": "Root actually read sole new frozen storage design link relative3fae; no new semantic credit.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "7eca34c5c7606e960976b87dc450b6d5d9e632ea",
+          "previousAfterSha256": "1caba70a1f60c0cd257274d8d8432eb6f0b7df48b5b70e16c624f8f2be5cfcfa",
+          "afterSha256": "17148b287465a3804e10e890e74f4f21e1b9a37d00c876a41adf76f8678a83c7",
+          "method": "One explicit successor link added above immutable archive quote to repair independently observed missing navigation; no semantic completion.",
           "grantsNewSemanticAcceptance": false
         }
       ]

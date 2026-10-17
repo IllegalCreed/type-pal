@@ -516,7 +516,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "45d3ac468efc7d54f0e357b11afbc15fbb9f6473a373f47172d3f0bb692832a8",
-      "afterSha256": "a41367f56c25bd211c4f1de1143fa6e19bff6d8fe3116f5f27994572063e3324",
+      "afterSha256": "764e68fc4700c883c9275802f4ed8b3f6e31aee389c78ab7a945dbc6207e2f0e",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -711,6 +711,15 @@
           "previousAfterSha256": "9bbf233b9f1f022101dd11f9404d57857f0f4786f36e79c900bcd0b44de329ba",
           "afterSha256": "a41367f56c25bd211c4f1de1143fa6e19bff6d8fe3116f5f27994572063e3324",
           "method": "Guarded proposal date-counter scope appended, S06/body relationships unchanged.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "7eca34c5c7606e960976b87dc450b6d5d9e632ea",
+          "previousAfterSha256": "a41367f56c25bd211c4f1de1143fa6e19bff6d8fe3116f5f27994572063e3324",
+          "afterSha256": "764e68fc4700c883c9275802f4ed8b3f6e31aee389c78ab7a945dbc6207e2f0e",
+          "method": "Only S06 data acceptance scope/remaining wholecounter, no extra body/runtime credit.",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -3382,7 +3391,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "c9674a22cfb8a77f1da1ca46167185882b9b51dca04edb09da5f8c19231f2668",
-      "afterSha256": "ba2aab501bc9d9b1a153e448cb59acf283265938120f199a546f698a7fdeff28",
+      "afterSha256": "b7fa3e3d766e028e747a5ac36c758a216fc01e3018e2ed89f331d278fa79ead1",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -3576,6 +3585,15 @@
           "sourceRevision": "9885491a47e81f30300c3744853556d1e4e0f663",
           "previousAfterSha256": "82cd1ec42068ddbb72b9f12d02b5e31b700362d9d3020e5c93f62283564d456b",
           "afterSha256": "ba2aab501bc9d9b1a153e448cb59acf283265938120f199a546f698a7fdeff28",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "7eca34c5c7606e960976b87dc450b6d5d9e632ea",
+          "previousAfterSha256": "ba2aab501bc9d9b1a153e448cb59acf283265938120f199a546f698a7fdeff28",
+          "afterSha256": "b7fa3e3d766e028e747a5ac36c758a216fc01e3018e2ed89f331d278fa79ead1",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }

@@ -1536,10 +1536,15 @@
         "docs/phase-governance/reviews/20261018-semantic-rework.json"
       ],
       "unresolved": [
-        "Fixed body/template only; actual combined central binding/byte/transport intake pending.",
+        "Fixed67 S06 central data independently accepted; original proposal navigation counter and later acknowledgment/newtool composition remain pending; fullhardFAIL.",
         "Other affected documents, full hard gates and execution remain separate; five quarantines retained."
       ],
-      "stopLine": "No other R60/1896 restoration, raw eligibility bypass, native status/version rewrite or product/runtime/E2E/preview/visual/capture/coverage/global/main/done credit."
+      "stopLine": "No other R60/1896 restoration, raw eligibility bypass, native status/version rewrite or product/runtime/E2E/preview/visual/capture/coverage/global/main/done credit.",
+      "independentCentralDataReview": {
+        "sourceRevision": "67c9c840fb4056573f9d039ed020330d2f50c577",
+        "reportPayloadSha256": "af7435845492cc524ef5e1666b72114cc5d4dd8141ce2086d18eb6e5e4c79d04",
+        "additionalBodyCredit": 0
+      }
     },
     {
       "id": "governance-receipt-design-v1-20261018",

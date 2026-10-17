@@ -278,7 +278,7 @@
       "reviewedSourceSha256": "522c958d325afaf4a92845d9dbb89a00d72bce72e3396aad4b890920b39c01f2",
       "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
       "sourceGitObject": "906868289a9187830360dedaf4f28ab048318445",
-      "afterSha256": "e21324d19dc041e1cd1fb9651ea5d54375999eec4b8d9ce5289adaf2d59df5fd",
+      "afterSha256": "6e83f0e85800ce9da2b74d14f26936fa95a098578c0216bb5303ac1fdeae28a1",
       "publicCallers": [
         "docs/phase-governance/README.md",
         "node scripts/docs/check-content-review.mjs --strict"
@@ -6835,6 +6835,15 @@
           "previousAfterSha256": "1d2df7ecce34447c491762630610ce77b87f367c1f73b577e6493e482ea85822",
           "afterSha256": "e21324d19dc041e1cd1fb9651ea5d54375999eec4b8d9ce5289adaf2d59df5fd",
           "method": "Readable proposal date-counter and pending template completion only.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "7eca34c5c7606e960976b87dc450b6d5d9e632ea",
+          "previousAfterSha256": "e21324d19dc041e1cd1fb9651ea5d54375999eec4b8d9ce5289adaf2d59df5fd",
+          "afterSha256": "6e83f0e85800ce9da2b74d14f26936fa95a098578c0216bb5303ac1fdeae28a1",
+          "method": "Readable S06 data-scoped independent acceptance and pending next composition.",
           "grantsNewSemanticAcceptance": false
         }
       ]

@@ -994,7 +994,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "50aa0c90de769ebf8c426e93c8bc83635d86e4c84e91d2711d73ceaf9bb0fd54",
-      "afterSha256": "a18e013bdc1150d2474b4934ff158ce7f2dcf7a97c67a8a20c91b6a61f5b6538",
+      "afterSha256": "6668ccdd991e9f74cf0aaefcb466f2fa837a9ca483aa24256cd283d58d0f7a21",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1128,6 +1128,15 @@
           "afterSha256": "a18e013bdc1150d2474b4934ff158ce7f2dcf7a97c67a8a20c91b6a61f5b6538",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "7eca34c5c7606e960976b87dc450b6d5d9e632ea",
+          "previousAfterSha256": "a18e013bdc1150d2474b4934ff158ce7f2dcf7a97c67a8a20c91b6a61f5b6538",
+          "afterSha256": "6668ccdd991e9f74cf0aaefcb466f2fa837a9ca483aa24256cd283d58d0f7a21",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -1160,7 +1169,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "d2fa7f18129fbb8bb69281c1772303bba3217b56a88afdc46b0faa9d6e1b5eb7",
+      "afterSha256": "25ce855285e8c2ee62df156b1c6cad8e5bf8dcc34db60c7967d8e23d7ab0ce00",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1355,6 +1364,15 @@
           "sourceRevision": "9885491a47e81f30300c3744853556d1e4e0f663",
           "previousAfterSha256": "660ebacd9aa726b1c149251c5dd3984410f450871ae778cdd0ff125b8e6f3d9c",
           "afterSha256": "d2fa7f18129fbb8bb69281c1772303bba3217b56a88afdc46b0faa9d6e1b5eb7",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "7eca34c5c7606e960976b87dc450b6d5d9e632ea",
+          "previousAfterSha256": "d2fa7f18129fbb8bb69281c1772303bba3217b56a88afdc46b0faa9d6e1b5eb7",
+          "afterSha256": "25ce855285e8c2ee62df156b1c6cad8e5bf8dcc34db60c7967d8e23d7ab0ce00",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
@@ -5340,7 +5358,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "145472a10347f74a4c30d424a12c78723759f536d20fc26b791d2e69d5fe54ae",
+      "afterSha256": "c64e39116fab4e779da327ea5457f8ec755587d5b186d511be52b4232f4b4734",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -5573,6 +5591,15 @@
           "previousAfterSha256": "e5b8cd57f52acdddd20e7f327f8f4ace824cb328fa1a43c9f58b3e676a511217",
           "afterSha256": "145472a10347f74a4c30d424a12c78723759f536d20fc26b791d2e69d5fe54ae",
           "method": "Explicit S09 single-native-envelope author admission and separately owned docs inventory structural fix admission after real ENOBUFS; no completion credit.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "7eca34c5c7606e960976b87dc450b6d5d9e632ea",
+          "previousAfterSha256": "145472a10347f74a4c30d424a12c78723759f536d20fc26b791d2e69d5fe54ae",
+          "afterSha256": "c64e39116fab4e779da327ea5457f8ec755587d5b186d511be52b4232f4b4734",
+          "method": "Fixed67 scopeddata acceptance, precise first-two-gate failure attribution, fixed405 independent tool acceptance/S09 fixedbody-only and limited S10 admission; overallrework unchanged.",
           "grantsNewSemanticAcceptance": false
         }
       ]

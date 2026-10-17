@@ -5,9 +5,9 @@ Execution: rework（2026-10-18 撤回 R39–R93 及最终收口的过度审阅�
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: 待非作者复核；旧独立最终接受已撤回，本轮仅 Codex 自验
+Reviewer: 纠错包及分篇已获非作者限定接收；全量验收与后继中央组合仍待验
 Branch: codex/docs-audit-rework
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-18
 Template: task-card-v1 / 1.0.0
 
 > 2026-10-18 当前裁定：全量 done 已撤回。下方 R39–R96 的深审、非作者接受和完成数字为被纠正的历史声明，不是当前信用。见[返工卡](DOCS-RECORD-INTEGRITY-1.md)与[完整降档清单](../evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json)。原文保真有效不等于语义审阅完成。
@@ -1761,3 +1761,25 @@ root首份真实dry-run计划漏列未变化的设计独立报告作为expectedF
 第二轮中央check:docs真实触发scripts/docs/check.mjs:329的spawnSync git ENOBUFS；Git已输出超过默认1MiB的完整候选路径清单。原失败会话/tmp/type-pal-central-s06-design-date-pending-_69lky7w完整保全；不能将178工具通过或progress零integrity冒称check:docs通过。此时lint4508零诊断、完整diff零、strict/require-complete仍FAIL，缺口不豁免。
 
 Codex build allowed，仅文档工具结构修复。唯一实现Owner `/root/receipt_integrity_independent` 在其已冻结S08只读输入之后独立干净新分支，白名单scripts/docs/check.mjs与新增/必要文档工具测试；root只负责本卡和中央。采用真正分块读取或stdout磁盘spool，保Git原argv/根/cached+others+exclude-standard/-z集合、NUL/Unicode路径、存在性过滤、导航/链接判定、错误fail closed和清理；不抬maxBuffer、不新增ignore/exclude、不缩分母、不改产品/旧产品测试/coverage。至少一个真实Git输出大于1MiB的回归，验证末尾路径/特殊路径及Git失败不会变空成功；冻结后由不同主体核实现/实际消费/原失败与新输出、执行必要门。此准入不是修复接受或统一门通过。
+
+### 固定67中央数据接收、导航counter与文件清单实现接收
+
+- 非作者原报告payload af7435845492cc524ef5e1666b72114cc5d4dd8141ce2086d18eb6e5e4c79d04限定接受S06唯一中央数据与设计诚实降档，wholeCentralClosure=false。实际114根/2431 afterpin零漂，三真实计划22维护delta逐次format→hash后字节精确复现；其余2427旧native/缺省/顺序、R60其他4/semantic旧5、480原件及13session运输、1896仅5重授/1891待审与五隔离保全。不借此接收本次写回或未来正文/工具。
+- 原失败归属更正：两轮check:docs都在178工具通过后因ENOBUFS退出1；首轮两条缺审阅日期诊断来自progress完整迁移消费者，不来自尚未走到的check:docs正文阶段。原日志/日期counter/自身harness错误不改。日期新0d16另获6c43完整单篇consumer限定接受，但本次只写回证据，设计仍partial/needs且proposed，未重授模板完成。
+- 固定67真实公共navigation发现reviews/README缺设计入口。root现在只在继任区补相对链接，原archive quote整个块不变；这是待新门/非作者窄复验的修复，旧67不倒签全中央通过。
+- 405清单实现由另一Owner编写，root非作者实际2IO验证及旧buffer反控/完整root清单逐序核，限定报告payload159e674199306c5940657cd0d3622141798ef78ccf2f86ea2952c1aa637cd8f5；已仅导入两个docs工具文件为7eca34c5。1,104,714B fixture与真实1,089,542B root清单完整，NUL/Unicode/尾部/不存在/ignore原语义与失败清理保持。root第一次误期望导航零而失败、C第一次symlink夹具误读、作者初始lint排序失败均保留；不抬maxBuffer/ignore/分母、不改产品/旧产品tests/coverage。
+- 原清单覆盖和后继快照分开：C37项+manifest/外部seal/pycache实际运输40，工具作者247+manifest运输248，root27+manifest运输28；不是原manifest自动覆盖后继。所有原JSON/失败/数字字节按payload/stored双身份保留，工具原件附件不授报告自身完成。当前整卡rework、硬门未过不合main/done。
+
+### S09固定正文/模板限定接受，中央尚未接入
+
+root非作者实际核固定de423正文SHA1e50d535c2b16aa466207da22e698768bd5abb1cd88a0323ae4e16504fe172f1、新616内容与原/前native、独有508/541/668/60源码全文及必要依赖窄域。38Git pins与16字段/8refs/6015B prefix、旧治理保全及真实fullmigrated/pair正针、三类mutation和两轨背景/news边界12组source controls均通过；共享B c3f的固定927/1082/895/275旧读域继承，不称root重新全文读过。原报告payload b4190c6c6af1c3fe4ab54a6a2e096251cd78a2187be732ed65402445acc22d5f，仅正文/1.5 audit-v2接受，未导入005或迁移当前binding、不增加5重授计数。
+
+作者87清单之外7个自回执/manifest另运输；harvest77之外7另存；root51清单之外manifest及排除字段说明addendum另存。原报告builder取错排除字段名写null，原字节不改；92c188cf独立补列实际exclusions且不冒称在原51清单。当前S07/S08/S09仅隔离固定正文接受，未来gzip授权和实际中央pilot须独立接收后才可复用。
+
+## 2026-10-18 S10：历史执行006的限定正文准入
+
+- Codex build allowed，仅文档候选。唯一Owner `/root/e2e_entry_semantic_author` 在干净de423后新分支，只改docs/testing/e2e/evidence/e2e-006.json._governance；16native/3refs/原日期/5artifacts/key数组序/4676B prefix保持。实际kind仍document-audit但历史performed=true，必须用现有1.5/historical-execution-publication-v2，不套audit-v2或翻false；当前审查非执行轴单列false，不新增schema/变体/artifactOnly。
+- root全文读现120行及harvest12发现/5前提影响/迁移方案，未读全部独有237/364/447等源码，不借作者harvest作root语义接受。冻结报告7b93548dfa2d4da6faf482f649ce1118027b63048cd535b33888d21844df967f、95manifest f17b8437663df2107b91550ad068a7347f00afc94b2ef5fca2c5007a354c2114；实际原源33cc2df50c7279d2750ddad4fcf6c373b7b2bda3的96行/4679B与dc/current同120行/6419B分层。原4676B前缀加固定LF右括号LF实际逆回9b692423，不把任意JSON等值当字节逆回。
+- 正文实质解释16字段、3短ref能力、95行含四落地收尾/真实前驱/只消费报告的both、有限helper与terminal/rider/资源的不同职责、doctor当前state2与旧state3、旧偏移/朝向冲突和各历史日期；公共规则引用权威入口，避免重复复制005长段。原历史true和旧治理完整保留，不把旧C2/expired提示当今日下一步。
+- 明确blocked结论：原1513/1516/1517数据实际缺席，95行原版内容/terminal原意等价、真实slot/rider原件、完整SAVE12船链和视觉等不能因函数或author小片段变已核。旧偏移两组冲突缺原raw/修正时序不裁一组为真；保带日期原声明并列unknown/blocked，不重建raw或擅跑产品/离线E2E。harvest16 shell exit0但stderr FileNotFoundError与两次exit2真实诊断失败保留。
+- 这只准治理候选写入，不预授006 semantic/template完成、原版事实/历史运行真实性或当前E2E接收。作者自验nonAuthor=false，冻结后由非作者逐项核实际正文/来源/反例/保全/consumer；前提不足者继续blocked，中央信用与全量硬门均不授。产品/旧测试/coverage/canonical/catalog/中央不在作者写域，全卡rework，不合main/done。
