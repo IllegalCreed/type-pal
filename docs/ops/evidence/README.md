@@ -112,3 +112,4 @@ current（仅指导航索引）。历史交付不得外推为当前 runtime/E2E/
 <!-- original-source-quote:end -->
 
 - [R 波记录可信度返工](DOCS-RECORD-INTEGRITY-1/README.md)：撤回过度信用、原证据保全、真实重跑与逐篇待审清单。
+- [Registry 存储拆分](DOCS-REGISTRY-SPLIT-1/README.md)：设计限定接收、真实实现 counter 与逐项待验，未授全量通过。

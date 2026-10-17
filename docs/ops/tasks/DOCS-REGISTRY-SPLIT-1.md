@@ -55,6 +55,12 @@ Codex build allowed，仅隔离文档存储候选。`receipt_integrity_independe
 
 待设计与实现分别核验；不将设计复核误称实现验收。全量 strict / require-complete 仍应真实失败。
 
+设计原报告与110项产物已按原 SHA/无损 gzip 映射接入[本卡证据](../evidence/DOCS-REGISTRY-SPLIT-1/README.md)，旧 flat 未添条目，新增待登记范围由该入口公开。实现审查新增以下待验项，不以作者专项全绿闭合：
+
+- REGISTRY-MIGRATION-OUTPUT-PREFLIGHT：root在owned/tmp真实运行缺mapping父目录的CLI，exit1但源已由v1转v2并写七片，mapping缺失。原完整输出与限制见[独立反例](../evidence/DOCS-REGISTRY-SPLIT-1/implementation-output-counter.json)；作者已修前置排他输出fd，仍待固定候选独立重跑。
+- 映射TOCTOU：源码观察到publish解锁后重新读live分片，可能与返回snapshot错批；作者已改私有验证bytes并报告双writer反例，待root固定源码与实跑复核。此观察不虚称原路径已有race实跑。
+- 半发布判别力：原SIGKILL用例只改manifest scopeNote，首片字节未实际变化。作者正增强为真实首片delta/旧manifest混包，核锁拒绝、SHA拒绝及全部旧bytes恢复凭证。
+
 ## 用户验收
 
 用户已授权持续完成全量治理、纠错和结构方案，不逐批申请。新的产品取舍、不可逆清理仍超出本卡。
