@@ -1,0 +1,79 @@
+{
+  "base": "de046b002",
+  "fullReads": [
+    {
+      "path": "packages/game/src/present/battle/draw-battle-settlement.ts",
+      "sha256": "ae7c4a1930d7e49afb68809f90e5902ac7bf5aa40f84b2bd6258c6db6af8d7b4",
+      "lines": 246,
+      "boundary": "Full implementation read; all four settlement screen kinds, layout, text, numbers and resource ownership."
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-settlement.test.ts",
+      "sha256": "15bf29f89525e52bec6686ba17fcdca42cddc1b00dbf2d32a3680c40066aa45d",
+      "lines": 16,
+      "boundary": "Full hidden-exp x formula oracle read."
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-settlement.glm-phase1-leaves.test.ts",
+      "sha256": "e9fcfc5f8153c8bc7f164b9d2669080804318fe7172b32ea99817ea9861c1a4b",
+      "lines": 156,
+      "boundary": "Full four-screen precise pixel/oracle read."
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-settlement-pixels.grok-r1.test.ts",
+      "sha256": "0191a2b06f9f36c50d4cf2cb673a8a83ea84d19e021dea35d2d0f188c0347a44",
+      "lines": 139,
+      "boundary": "Full missing-frame/sentinel/width pixel read."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/present/battle/present-battle.ts",
+      "sha256": "7ca203c4de814c295b4e70ca414e3d62b31e22da1af980a52119bd83590fae2e",
+      "lines": 449,
+      "ranges": ["330-360"],
+      "boundary": "Settlement screen caller range only."
+    },
+    {
+      "path": "packages/game/src/present/draw-number.ts",
+      "sha256": "29b6f5dbc54d3ec0587de2380cf48e97c1744d3e503e0ec56587ae229a73aebd",
+      "lines": 109,
+      "ranges": ["1-109"],
+      "boundary": "Shared number renderer full read, reused risk remains in 3k review."
+    },
+    {
+      "path": "packages/game/src/present/font.ts",
+      "sha256": "3df0f1a1b23d221f55050f1a172725f32f5019016b99da1e3f98d68fab46b539",
+      "lines": 202,
+      "ranges": ["1-80"],
+      "boundary": "renderText/glyph port range only."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.ts",
+      "sha256": "7f0509e12428217023464c69a20abdb7aca49569cb504b0e4a3ea917c6ce715e",
+      "lines": 191,
+      "ranges": ["1-100"],
+      "boundary": "drawBox/drawSingleLineBox port range only."
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33",
+      "lines": 1858,
+      "ranges": ["991-1373"],
+      "boundary": "PAL_BattleWon settlement primary range."
+    },
+    {
+      "path": "reference/sdlpal/ui.c",
+      "sha256": "15a03e60ebe4c51ae45d479740b8dfdf8029805cc6bf8ca8fc39926d62cf2242",
+      "lines": 994,
+      "ranges": ["640-732"],
+      "boundary": "PAL_DrawNumber primary range reused by settlement."
+    }
+  ],
+  "notClaimed": [
+    "Complete CODE-QUALITY-3l acceptance",
+    "draw-battle-sprites, draw-battle-ui or full present-battle semantic review",
+    "Browser visual/E2E verification",
+    "Coverage, official ratchet, protected fast or whole-repository acceptance"
+  ]
+}

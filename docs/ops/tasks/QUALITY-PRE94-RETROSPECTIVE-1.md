@@ -326,6 +326,13 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 - 未修/保留：`draw-battle-settlement`、`draw-battle-sprites`、`draw-battle-ui` 和整卡统一门/E2E 未核；未触碰 battle core、公式、schema/save 或 UI 形态。3l 整卡保持 `partial`。
 - 验证：定向 4 files/23 tests passed，`pnpm --filter @type-pal/game typecheck` passed；覆盖率、official ratchet、protected fast、全仓 `pnpm check` 按用户成本规则留到完整大模块收口。已读清单与 SHA 见 [`3l-battle-present-primitives`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3l-battle-present-primitives/README.md)。
 
+### 2026-10-17 CODE-QUALITY-3l 战斗结算屏切片
+
+- 范围：`packages/game/src/present/battle/draw-battle-settlement.ts` 与三份直接/像素测试；读取 `present-battle.ts` 结算 caller、`draw-number.ts`/`font.ts`/`draw-box.ts` 公共绘制端口，以及 `battle.c:991-1373`、`ui.c:640-732` primary。
+- 逐文件结论：经验/金钱、升级八项、隐藏经验涨点和练成屏的 box/文字/数字/arrow/slash/mask/动态字宽均有像素 oracle，缺资源保持 no-op；未发现直接缺陷。共享 `drawNumber` 正 Infinity 风险仍按 3k review 保留。
+- 未修/保留：精灵/UI/完整装配器仍未核，不改变 battle core、玩法、schema/save 或 UI 形态；3l 整卡继续 `partial`。
+- 验证：定向 3 files/11 tests passed，`pnpm --filter @type-pal/game typecheck` passed，无测试 stderr；coverage、official ratchet、protected fast、全仓 `pnpm check` 留到完整大模块收口。已读清单与 SHA 见 [`3l-settlement`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3l-settlement/README.md)。
+
 ### 2026-10-17 CODE1/CODE2 boundary carry-over
 
 本片接收工作树中已完成的两个窄测试合同：`packages/shared/src/rle.boundaries.test.ts` 新增“相邻 offset 截断前一帧帧头即拒绝”反例；`packages/shared/src/rng.boundaries.test.ts` 新增同一 surface 连续 delta 累加并保留首帧像素的 ownership 合同。两项都只改测试，不改 RLE/RNG/YJ2 实现、公共出口、资源或格式策略；RLE 高位 literal 风险继续留在 `QUALITY-RLE-COMMAND-TRUTH-1` draft。
