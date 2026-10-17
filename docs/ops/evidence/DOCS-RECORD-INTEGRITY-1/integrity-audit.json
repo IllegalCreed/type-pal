@@ -2268,6 +2268,31 @@
       "nonAuthorReviewer": true,
       "scope": "Frozen65 S03/S04 central binding/data/transport only. This acknowledgment adds receipt metadata without new body credit; later new files and metadata are separate.",
       "additionalBodyCredit": 0
-    }
+    },
+    "additionalCentralIntakeAcceptances": [
+      {
+        "candidateCommit": "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+        "report": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/fb5ea36b30cef2d79c30a2fc7cd715f95bc5e359135eaebaf9ff89218d82dbce.gz",
+        "reportSha256": "fb5ea36b30cef2d79c30a2fc7cd715f95bc5e359135eaebaf9ff89218d82dbce",
+        "reportEncoding": "gzip; reportSha256 identifies decoded original, not container or reader",
+        "originalReportRef": {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/fb5ea36b30cef2d79c30a2fc7cd715f95bc5e359135eaebaf9ff89218d82dbce.gz",
+          "encoding": "gzip",
+          "payloadSha256": "fb5ea36b30cef2d79c30a2fc7cd715f95bc5e359135eaebaf9ff89218d82dbce",
+          "payloadBytes": 44182,
+          "storedSha256": "08ff2ba9af3907a59315060ba6fdc3069cc6955ad1662d4ba92cb028120c63c7",
+          "storedBytes": 10618
+        },
+        "readerProjection": {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-S05-central-review-4ddd17e4.json",
+          "sha256": "1af081ffdd647b2e51020eb37af6e255bcc88e7ffdaac74bc7ac5889ef47c55e",
+          "bytes": 43818
+        },
+        "reviewer": "/root/central_intake_guard_review",
+        "nonAuthorReviewer": true,
+        "scope": "Only fixed4ddd actual S05 central binding/data/history/transport accepted; later acknowledgment, design, S06/S07 and new records separate.",
+        "additionalBodyCredit": 0
+      }
+    ]
   }
 }

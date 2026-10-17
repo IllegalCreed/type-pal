@@ -79,3 +79,7 @@ S01接入的6份编号源码摘录含原有行尾空格，0bac72c2完整范围di
 ## S05固定路线设计的单篇接收
 
 [非作者原报告](independent-review-S05-b87a2397.json)与[236项无损映射](independent-intake-S05-b87a2397.json)保留原174/前219/新274全文审读、27依赖范围、七用户规则与五章设计、source/publication及synthetic IO反例；两个cold CLI提前缺资产失败和自身probe失败不改。只接受固定b87本文/模板且状态proposed，不授真实档、E2E/preview/visual/capture/coverage或其他R60信用。此次1896中4篇重授/1892待审，实际中央组合仍须独立验收。
+
+## S05固定中央组合的独立闭合
+
+[4ddd独立报告阅读投影](../DOCS-REGISTRY-SPLIT-1/independent-S05-central-review-4ddd17e4.json)及[62项原件映射](../DOCS-REGISTRY-SPLIT-1/intake-independent-central-s05-4ddd.json)限定接受S05唯一绑定、原2417旧对象与2424 pin保全。原payload SHA fb5ea36b…以gzip原字节保存；投影只改格式，map区分payload/stored/view身份。原harness失败和三项硬门FAIL保留；仅关闭固定4ddd待项，当前1896中4篇重授/1892待审不变，后继S06/S07/设计/本次接入另验。

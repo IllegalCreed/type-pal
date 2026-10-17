@@ -1153,12 +1153,12 @@
         "docs/testing/e2e/contract.md:377"
       ],
       "unresolved": [
-        "Actual combined central intake requires a separate frozen-data/binding review.",
+        "Fixed4ddd central S05 intake accepted; later metadata, design and remaining bodies separate.",
         "Both cold CLI attempts failed at missing extracted asset import before capture guard; 001 capture rejection is source-backed,002 parser synthetic API-backed, neither proves real CLI execution.",
         "No whole six stage reports/full548-line contract/full3577-line continuous card or game raw, authentic checkpoint, preview/visual/capture/coverage were reaccepted.",
         "Remaining withdrawn bindings, five historical quarantines and global hard acceptance remain open."
       ],
-      "nextStep": "Independently verify actual sole-binding/donor/history/pin intake, then continue true per-document semantic review; no main/done while full hard gates fail.",
+      "nextStep": "Continue S06/S07 actual per-document review without restoring other withdrawals, quarantines or global/main/done credit.",
       "phase": "testing",
       "module": "e2e-route-design",
       "capability": "two-native-route-checkpoint-and-capture-contract",
@@ -1849,6 +1849,13 @@
             "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
           },
           "oldUnconditionalExactRoundTrip": true
+        },
+        {
+          "date": "2026-10-18",
+          "action": "fixed4ddd non-author central receipt recorded; no extra semantic grant",
+          "sourceRevision": "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+          "originalReportPayloadSha256": "fb5ea36b30cef2d79c30a2fc7cd715f95bc5e359135eaebaf9ff89218d82dbce",
+          "additionalBodyCredit": 0
         }
       ],
       "historicalWithdrawal": {
@@ -1906,6 +1913,29 @@
           }
         ],
         "noExecutionOrImplementationCredit": true
+      },
+      "centralIntakeAcceptance": {
+        "candidateCommit": "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+        "report": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/fb5ea36b30cef2d79c30a2fc7cd715f95bc5e359135eaebaf9ff89218d82dbce.gz",
+        "reportSha256": "fb5ea36b30cef2d79c30a2fc7cd715f95bc5e359135eaebaf9ff89218d82dbce",
+        "reportEncoding": "gzip; reportSha256 identifies decoded original, not container or reader",
+        "originalReportRef": {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/fb5ea36b30cef2d79c30a2fc7cd715f95bc5e359135eaebaf9ff89218d82dbce.gz",
+          "encoding": "gzip",
+          "payloadSha256": "fb5ea36b30cef2d79c30a2fc7cd715f95bc5e359135eaebaf9ff89218d82dbce",
+          "payloadBytes": 44182,
+          "storedSha256": "08ff2ba9af3907a59315060ba6fdc3069cc6955ad1662d4ba92cb028120c63c7",
+          "storedBytes": 10618
+        },
+        "readerProjection": {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-S05-central-review-4ddd17e4.json",
+          "sha256": "1af081ffdd647b2e51020eb37af6e255bcc88e7ffdaac74bc7ac5889ef47c55e",
+          "bytes": 43818
+        },
+        "reviewer": "/root/central_intake_guard_review",
+        "nonAuthorReviewer": true,
+        "scope": "Only fixed4ddd actual S05 central binding/data/history/transport accepted; later acknowledgment, design, S06/S07 and new records separate.",
+        "additionalBodyCredit": 0
       }
     }
   ]

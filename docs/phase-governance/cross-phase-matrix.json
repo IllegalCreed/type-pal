@@ -1511,10 +1511,12 @@
       "status": "guarded",
       "evidence": [
         "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S05-b87a2397.json",
-        "docs/phase-governance/reviews/20261018-semantic-rework.json"
+        "docs/phase-governance/reviews/20261018-semantic-rework.json",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-S05-central-review-4ddd17e4.json",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-central-s05-4ddd.json"
       ],
       "unresolved": [
-        "Fixedb87 body/design template only; actual combined central intake is pending.",
+        "Fixed4ddd actual S05 central intake accepted by non-author; later confirmation/design/body additions and full hard gate remain outside scope.",
         "No authentic game raw, full route/sibling/preview/capture/coverage acceptance; two cold CLI probes failed before capture guard."
       ],
       "stopLine": "No bulk R60/1896 restoration, source→runtime credit, historical version/status renewal, or full hard/main/done credit."

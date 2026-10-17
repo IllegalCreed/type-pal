@@ -3,7 +3,7 @@
 Status: proposed
 Owner: Codex
 Template: design-spec-v1 / 1.0.0
-Design version: 1.0.0-draft
+Design version: 1.0.0
 Source snapshot: 4ddd17e401115c8f2ce128bbd2af0ab0349de8db
 
 ## 问题与目标

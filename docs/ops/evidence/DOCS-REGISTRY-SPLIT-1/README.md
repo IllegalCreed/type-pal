@@ -46,3 +46,9 @@ Template: governance-index-v1 / 1.0.0
 ### S05私有接入工具的固定护栏扩展
 
 [76509484非作者报告](independent-private-runner-v3-review-76509484.json)SHA `250b0984d54c574b2dd0e48fefd2edd0a0d1f68e2574ed1d81cb8e87ea9eb293`与[460项无损运输](intake-independent-runner-v3-76509484.json)只接收root工具增加S05精确path/body/report/design tuple的护栏：13次真实执行，3合法/10指定负针拒绝、完整2414native与R60六→五保全、旧S03/S04类型边界未退化。旧344623/builder字节及原200+107+97封包不变；并非新模板/审阅标准放宽，也不授真实未来中央、报告本文语义/模板、全量或main/done信用。
+
+### 固定4ddd S05中央接收与后续原件设计
+
+[固定S05中央报告阅读投影](independent-S05-central-review-4ddd17e4.json)与[62项原件运输](intake-independent-central-s05-4ddd.json)保留原payload fb5ea36b…/gzip stored及展示SHA；只接收4ddd唯一迁移与旧对象/历史、所有pin、原执行scope，未来变化另验。
+
+[回执存储设计报告](independent-governance-receipt-design-review-4ddd17e4.json)及[210项运输](intake-independent-receipt-design-4ddd.json)限定接受稳定93a6 proposed1.0.0的设计正文/模板和可冻结性。既有2424/1838候选零迁移，未知归属pending、native JSON实际gzip拒绝反例保留；实施/consumer/pilot/采用均未验收。不用该设计追溯删除既有报告，不新增ignore或structuralRoots，不授报告本文完成。

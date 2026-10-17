@@ -1,0 +1,1900 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-governance-receipt-storage-design-review",
+  "reviewerTask": "/root/receipt_integrity_independent",
+  "authorTask": "/root",
+  "nonAuthorReviewer": true,
+  "independenceBasis": "本 agent 未编写 eada/93a6 设计或 fixed4ddd 的实现/中央源；本轮仅独立只读核设计与固定 Git 来源、在自身 /tmp 写报告及运行 consumer 对照。独立性不等于对 root 未来实现/组合提交的认可。",
+  "subject": {
+    "sourceRevision": "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+    "draft": {
+      "path": "/tmp/20261018-governance-receipt-storage-design.md",
+      "sha256": "eada2ad69a273073a677727857d95f845473c1ac71c31bd2396b7facf5b6fe7e",
+      "bytes": 7572,
+      "readLines": "1-69 complete"
+    },
+    "stable": {
+      "path": "/tmp/20261018-governance-receipt-storage-design-v1.0.0.md",
+      "sha256": "93a6b8765f03bde606574a325004393156260557c97988dc5c4ea651ef7ea892",
+      "bytes": 7566,
+      "version": "1.0.0",
+      "readLines": "1-69, complete content inherited from full draft after exact single-line delta check"
+    },
+    "onlyStableDelta": "line6 Design version 1.0.0-draft -> 1.0.0; Status remains proposed; no adoption or implementation",
+    "checkoutHead": "88043307ff04fe9989c7f6637482c773f196c803",
+    "checkout": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+    "fixedSourcesReadWith": "git show 4ddd:<path>; checkout intentionally remains the clean S06 author candidate; no current moving root files used as fixed4ddd inputs"
+  },
+  "scopedDesignVerdict": "accept-for-design-freeze-only",
+  "scopedBodySemanticVerdict": "accept only the concrete five-section proposal at the two exact subject SHAs; no root d90 registration or later adoption reviewed",
+  "scopedTemplateVerdict": {
+    "verdict": "accept limited design-spec-v1 / 1.0.0 body semantics and actual structural consumer at these exact SHAs",
+    "consumer": "fixed4ddd checkTemplateBody",
+    "issues": 0,
+    "limitation": "Does not update any registry/binding/routing/pin or declare this independent report template-compliant. Current reader has no statusPolicy on this template; structural success alone did not establish semantic acceptance."
+  },
+  "counter": [],
+  "implementationAccepted": false,
+  "gzipIntakeConsumerAccepted": false,
+  "pilotAccepted": false,
+  "routingAdoptionAllowed": false,
+  "centralIntakeAccepted": false,
+  "globalHardGatePassed": false,
+  "fullSemanticAcceptance": false,
+  "mergeMain": false,
+  "cardDone": false,
+  "reportSelfTemplateCompletionGranted": false,
+  "fiveSectionReadings": [
+    {
+      "section": "问题与目标",
+      "lines": "9-13",
+      "verdict": "support",
+      "reason": "把递归报告问题限定为未来执行回执存储；完整 1838 基线、2424 已登记/current pending 与原路径不因此消失。避免再造 canonical 文件并不取消逐篇可区分的实审 entry。"
+    },
+    {
+      "section": "真值与约束",
+      "lines": "15-21",
+      "verdict": "support",
+      "reason": "准确承接模型70-76的 native/公开 consumer 与 immutable raw 合同。资格须全文内容核定且无既有 canonical 直接读取义务；明确排除 suffix/generated/size/artifactOnly 分类捷径和作者自验。"
+    },
+    {
+      "section": "方案",
+      "lines": "23-53",
+      "verdict": "support-design-only",
+      "reason": "原始未格式化 payload 与 gzip stored 身份独立；owner/caller/时间/版本/退出条件保留。现有 semantic root 存逐篇完整结论、报告只作证据附件；精确授权 tuple 及所有写入前校验后再发布。旧 plain 不改意义，零迁移既有候选。协议未假装跨文件事务。"
+    },
+    {
+      "section": "边界与风险",
+      "lines": "55-61",
+      "verdict": "support",
+      "reason": "明确 gzip 与普通 JSON reader 不兼容，projection 另身份/另候选；未知归属 pending。真实 native consumer 反例支持此限制。当前 S06 纯函数 counter 未升格成游戏复现，产品/历史不被补造。"
+    },
+    {
+      "section": "验收",
+      "lines": "63-69",
+      "verdict": "support-with-unmet-implementation-gates",
+      "reason": "要求真实 gzip 正反针、主体/授权/模板/版本/身份错配写前不变、唯一 binding/旧对象与历史和现有 plain 回归；真实机器证据 pilot 正文和中央分开非作者接收前不能复用。17 类模板和全局 FAIL/main/done 停止线明确。"
+    }
+  ],
+  "strongAlternatives": [
+    {
+      "alternative": "把 fixed1838 换成较小的 gzip 后分母，或把当前2424说成新的全部必审基线",
+      "source": "model80,109; frozen-document-source.mjs4-12,181-315; registry.summary and scopeNote",
+      "judgment": "reject this interpretation: design13,21,53,69 preserve fixed cohort and all current candidates separately. Public frozen-root/current-view consumer actually accepted 1838; live v2 loader reconstructs 2424 unique paths, without treating their summaries as source semantic review."
+    },
+    {
+      "alternative": "文件名带 independent/generated 或 artifactOnly 为 true 就可移入 raw、洗掉当前 pending",
+      "source": "registry native entries and report-governance-progress.mjs59-65; design19,21,53,59",
+      "judgment": "reject: current retained artifactOnly metadata is not completion. 1972 partial / 1978 needs remain; selected 243 path-pattern matches are mechanical example selection only, not a content-based raw-eligibility decision. Existing registered reports are expressly zero migration, no waiver."
+    },
+    {
+      "alternative": "将 e2e-002 之类 canonical native JSON gzip 一下仍算兼容",
+      "source": "model72; check-testing.mjs31,187-335; document-model.mjs108-173",
+      "judgment": "reject with actual public consumer counterfactual: baseline [], same native path replaced by its true gzip bytes -> [e2e-002: evidence is invalid JSON], restored []. This is why design18/53/57 excludes it; no actual product execution or new gzip consumer is proven."
+    },
+    {
+      "alternative": "gzip SHA 与原报告 SHA 相同意义，解压后 JSON 值相等即可替代原件",
+      "source": "design27-31,37,45,51",
+      "judgment": "reject: explicit stored/payload bytes+SHA, exact gunzip byte equality, projections and original identity separately retained. Actual native fixture payload and stored hashes differ while gunzip equality is exact; implementation still must reject swapped/mismatched/truncated identities before any write."
+    },
+    {
+      "alternative": "一个 nonAuthorReviewer=true 或 report exit0 就足以更新 content-reviewed",
+      "source": "document-integrity.mjs14-25; check-content-review.mjs72-167; design20,35-45",
+      "judgment": "reject: report identity and substantive verdict must be independently authorized against exact body/docType/templateId/templateVersion tuple. The real credit helper rejects withdrawn/mechanical promotion. Existing general check-content-review validates records but is not itself a new trusted gzip intake authorization mechanism."
+    },
+    {
+      "alternative": "semantic root 的 structural exemption 自动覆盖任意新 report 或同 root 里所有条目",
+      "source": "registry.structuralRoots exact three records; design21,35,59",
+      "judgment": "reject: existing semantic root is only ledger traceability, no self-certified body acceptance; design adds no structural root/ignore. Each body retains full independent, source-bound review fields. Reading five root entry identities here did not re-review their complete business claims or root d90 future registration."
+    },
+    {
+      "alternative": "可信 writer 可以跳过 preflight，失败后刷新 pin 算成功，或声称 gzip 改动实现事务",
+      "source": "design43-47,67",
+      "judgment": "reject: all-input/identity/output preflight and reject-before-registry/review-write are explicit. No cross-file transaction is claimed; external drift/postpublish failure must be preserved, not repaired by blind pin refresh. No writer/rollback implementation was executed or accepted in this design review."
+    },
+    {
+      "alternative": "稳定版本号1.0.0就表示 current/采用/模板自动通过",
+      "source": "actual draft-to-stable byte diff, design3-7; template registry design-spec-v1",
+      "judgment": "reject: only line6 changes, Status is still proposed. Five chapters were independently read and current structural consumer returns [] on each exact body; semantic body acceptance here is narrow and separate from adoption, central registration and implementation pilot."
+    },
+    {
+      "alternative": "一次标准 gzip 或模板结构 green 就能代替独立机器证据 pilot、E2E/visual/coverage 或所有 pending的语义完成",
+      "source": "model82-84; design20,47,67-69",
+      "judgment": "reject: actual future gzip intake consumer and one real machine-evidence body/central pilot are unmet gates. No game, browser, runtime, E2E, preview/capture, coverage or all-candidate semantics were accepted."
+    }
+  ],
+  "fixedInventoryObservation": {
+    "approvedCohort": 1838,
+    "currentRegistryEntries": 2424,
+    "uniquePaths": 2424,
+    "reviewStatus": {
+      "partial-review-unknown": 1972,
+      "content-reviewed": 452
+    },
+    "templateCompliance": {
+      "needs-migration": 1978,
+      "template-compliant": 446
+    },
+    "templateTypes": 17,
+    "structuralRoots": 3,
+    "meaning": "Mechanical loader/count/shape observation, not a re-review of 2424 bodies or a new completion claim."
+  },
+  "actualConsumerChecks": [
+    {
+      "command": "audit-design-scope",
+      "meaning": "actual frozen v2 load + count/unique/summary checks; actual plain/gzip/restored public native consumer; real mechanical promotion helper rejects",
+      "exit": 0,
+      "runtimeOrBusinessTestCredit": false
+    },
+    {
+      "command": "audit-template-and-baseline",
+      "meaning": "actual current checkTemplateBody both proposal SHAs [] and real readFrozenBaselineRoot/inspectFrozenBaselineView against original Git Buffer and current view: no issues, governed1838",
+      "exit": 0,
+      "limitation": "Structural body and provenance check only; five-section semantic judgment is independently written above."
+    },
+    {
+      "command": "audit-design-version",
+      "meaning": "stable93a6 verified full original bytes with exact only line6 delta from eada",
+      "exit": 0
+    }
+  ],
+  "actualReadScope": [
+    {
+      "source": "proposal eada and stable93a6",
+      "scope": "draft full69 lines; stable exact whole-byte delta and five complete sections"
+    },
+    {
+      "source": "fixed4ddd docs/ops/guides/documentation-model.md",
+      "scope": "55-111 including full70-76 native/raw/self-recursion,80-84 cohort/pilot,105-111 completion"
+    },
+    {
+      "source": "fixed4ddd AGENTS.md and agent-workflow.md",
+      "scope": "current operation/non-author/quality/test-governance rules inherited from prior full reads; fixed blobs archived this round; no new reinterpretation of whole history"
+    },
+    {
+      "source": "fixed4ddd registry manifest and 7 shards",
+      "scope": "entire manifest and public loader validates all entries/order/positions/native shape/hash/summary. Counts/selected entry metadata; NOT every business field semantically reviewed"
+    },
+    {
+      "source": "fixed4ddd binding-baseline and frozen-document-source.mjs",
+      "scope": "native count/identity/cohort metadata; exported frozen root/view consumer, source lines4-12 and181-315 read. No 1838 source-document full semantic review"
+    },
+    {
+      "source": "fixed4ddd semantic root",
+      "scope": "root keys/policy/three declared structural-root meanings and five entry identity/status/pin metadata only; not each full prior business field"
+    },
+    {
+      "source": "fixed4ddd check-content-review.mjs and document-integrity.mjs",
+      "scope": "complete167/25 lines: required per-body fields/status/identity/credit boundaries; no report-gzip authorization code presumed"
+    },
+    {
+      "source": "fixed4ddd document-model.mjs",
+      "scope": "1-230 JSON publication/template/preserved-source contracts; actual exported checkTemplateBody"
+    },
+    {
+      "source": "fixed4ddd check-testing.mjs",
+      "scope": "1-105,187-335 and CLI guard; actual exported validateCanonicalEvidence. Referenced e2e sources were captured only for truthful hash/line consumer reads, not fresh full game business review"
+    },
+    {
+      "source": "fixed4ddd report-governance-progress.mjs",
+      "scope": "complete155 lines printed/read: fixed cohort/current candidates/structural roots/artifactOnly no completion shortcut/full gate"
+    },
+    {
+      "source": "fixed4ddd templates/registry.json and design-spec.md",
+      "scope": "17 type identities and entire design-spec entry + complete design-spec template"
+    },
+    {
+      "source": "fixed4ddd document-registry.mjs",
+      "scope": "1-128 native document path/required keys; actual public loader executed. Earlier 95 storage review remains separate, no wholesale implementation re-review here"
+    }
+  ],
+  "notReadOrNotRun": [
+    "No root d90 or later moving root registration/adoption was accepted.",
+    "No future gzip intake implementation, canonical migration, authorized-tuple writer or pilot exists in this package.",
+    "No full4ddd check:docs/lint/strict/require-complete run was performed; this /tmp-only design review does not claim those gates green. Prior S06 gates are at880 and are not substituted for4ddd.",
+    "No 2424 whole-body review, 1838 full semantics, all historical report contents, runtime/game/browser/E2E/visual/preview/capture/coverage acceptance.",
+    "This report is not self-certified template-compliant; its JSON formatting is transport hygiene only."
+  ],
+  "allowedNextSteps": [
+    "Freeze the exact stable93a6 version1.0.0 as a proposed design; preserve original eada.",
+    "Prepare separately scoped implementation/fixtures/explicit authorization and independent gzip consumer positive/negative review; do not silently route production receipts before acceptance.",
+    "Complete one real machine-evidence body and separate central pilot non-author acceptance before reuse; preserve all existing candidates and original reports/maps/pending.",
+    "Continue S06 only against fixed successor71 Git bytes; original880 rework/counter unchanged."
+  ],
+  "stopLines": [
+    "No retrospective compression/removal/reclassification of existing1838/2424 candidates or pending.",
+    "No new ignore/exclude/maxSize/structuralRoot; unknown raw eligibility remains pending.",
+    "No body/template completion from raw transport/booleans/static greens.",
+    "No adoption/consumer/pilot/main/done/full semantic or global hard gate acceptance from this report."
+  ],
+  "reviewerSetupFailures": {
+    "description": "Two outer snapshot setup attempts initially used guessed wrong Git paths; both terminated before the intended audit. Per-child Git128 stderr/empty stdout are retained under distinct names. First wrapper JSONDecodeError followed wrong registry path, second AssertionError followed treating a shard basename as repo-relative. Correct paths were discovered via captured git ls-tree, new snapshot names were used; no failed output was replaced or counted as candidate counter. Outer Python traceback was visible in tool output but was not separately raw-captured; this is explicitly a capture limitation.",
+    "failedCommandNames": [
+      "snapshot-05",
+      "snapshot-09",
+      "snapshot-11",
+      "snapshot-12",
+      "snapshot-registry-manifest",
+      "snapshot-resolved-10",
+      "snapshot-shard-01"
+    ],
+    "candidateCounter": false
+  },
+  "commands": [
+    {
+      "name": "audit-design-scope",
+      "argv": [
+        "node",
+        "/tmp/type-pal-governance-receipt-design-independent-20261018-4ddd17e4/audit-design-scope.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:22:42.942764+00:00",
+      "endedAt": "2026-10-17T22:22:43.033584+00:00",
+      "elapsedSeconds": 0.091171875,
+      "pid": 1338,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/audit-design-scope.stdout.log",
+          "bytes": 13114,
+          "sha256": "f06f65ce8e027908c4b4c4c93dc2f199c6f330805e02f5f253612383ad289beb"
+        },
+        "stderr": {
+          "path": "raw/audit-design-scope.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "audit-design-version",
+      "argv": [
+        "python3",
+        "/tmp/type-pal-governance-receipt-design-independent-20261018-4ddd17e4/audit-design-version.py"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:23:39.722035+00:00",
+      "endedAt": "2026-10-17T22:23:39.740897+00:00",
+      "elapsedSeconds": 0.018995458000000003,
+      "pid": 59527,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/audit-design-version.stdout.log",
+          "bytes": 576,
+          "sha256": "5f96cef2d40e0c9f4f0c0d17b6131ca4ca84a1fe87e4f03b442a3c704f4a2cf6"
+        },
+        "stderr": {
+          "path": "raw/audit-design-version.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "audit-template-and-baseline",
+      "argv": [
+        "node",
+        "/tmp/type-pal-governance-receipt-design-independent-20261018-4ddd17e4/audit-design-template-and-baseline.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:24:12.063470+00:00",
+      "endedAt": "2026-10-17T22:24:12.136769+00:00",
+      "elapsedSeconds": 0.07354095799999999,
+      "pid": 65164,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/audit-template-and-baseline.stdout.log",
+          "bytes": 905,
+          "sha256": "0327306da25705a91081ddfd289c0a99ac2198162549ebe36eb47b821d8baf38"
+        },
+        "stderr": {
+          "path": "raw/audit-template-and-baseline.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "clean",
+      "argv": ["git", "status", "--porcelain=v1", "--untracked-files=all"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:03.324059+00:00",
+      "endedAt": "2026-10-17T22:21:03.357250+00:00",
+      "elapsedSeconds": 0.033452709,
+      "pid": 62587,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/clean.stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "raw/clean.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "final-clean",
+      "argv": ["git", "status", "--porcelain=v1", "--untracked-files=all"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:25:08.115809+00:00",
+      "endedAt": "2026-10-17T22:25:08.249603+00:00",
+      "elapsedSeconds": 0.134119834,
+      "pid": 70538,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/final-clean.stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "raw/final-clean.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "final-identity",
+      "argv": ["git", "rev-parse", "HEAD", "main"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:25:08.109315+00:00",
+      "endedAt": "2026-10-17T22:25:08.115289+00:00",
+      "elapsedSeconds": 0.006209584000000001,
+      "pid": 70536,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/final-identity.stdout.log",
+          "bytes": 82,
+          "sha256": "74b27fe1872c63fa769077296f67ad83523208bb1f47245785c65d5361fda451"
+        },
+        "stderr": {
+          "path": "raw/final-identity.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "find-report-readers",
+      "argv": [
+        "git",
+        "grep",
+        "-n",
+        "-E",
+        "reportSha256|rawReportRef|nonAuthorReviewer",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+        "--",
+        "scripts/docs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:51.685927+00:00",
+      "endedAt": "2026-10-17T22:21:51.698769+00:00",
+      "elapsedSeconds": 0.013082583000000002,
+      "pid": 78148,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/find-report-readers.stdout.log",
+          "bytes": 244,
+          "sha256": "6990881248836cc43100e703a9f8a2b802f10658da01f70730c08ff3602e8064"
+        },
+        "stderr": {
+          "path": "raw/find-report-readers.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "identity",
+      "argv": ["git", "rev-parse", "HEAD", "4ddd17e401115c8f2ce128bbd2af0ab0349de8db", "main"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:03.318702+00:00",
+      "endedAt": "2026-10-17T22:21:03.323490+00:00",
+      "elapsedSeconds": 0.005012291000000002,
+      "pid": 62578,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/identity.stdout.log",
+          "bytes": 123,
+          "sha256": "0fcbd9e345a89cff5a4c6c2ef34a4f4a7979405e385638dc4ff70332615e5e61"
+        },
+        "stderr": {
+          "path": "raw/identity.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "locate-fixed-paths-all",
+      "argv": ["git", "ls-tree", "-r", "--name-only", "4ddd17e401115c8f2ce128bbd2af0ab0349de8db"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:12.989545+00:00",
+      "endedAt": "2026-10-17T22:21:13.020416+00:00",
+      "elapsedSeconds": 0.031473957999999996,
+      "pid": 66343,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/locate-fixed-paths-all.stdout.log",
+          "bytes": 952949,
+          "sha256": "1c9a8df765e9408cb29f9c28282624a684fb81e7ef77bd29b79af500f73a6dbc"
+        },
+        "stderr": {
+          "path": "raw/locate-fixed-paths-all.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "locate-fixed-paths",
+      "argv": [
+        "git",
+        "ls-tree",
+        "-r",
+        "--name-only",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+        "scripts/docs",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1",
+        "docs/ops/reviews",
+        "docs/ops/templates"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:09.118594+00:00",
+      "endedAt": "2026-10-17T22:21:09.124002+00:00",
+      "elapsedSeconds": 0.0056097080000000014,
+      "pid": 64719,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/locate-fixed-paths.stdout.log",
+          "bytes": 35300,
+          "sha256": "f3229d5a71ba1ea4a5451077369a8ac6b930e8087d9d7a41e138a17a7d28348f"
+        },
+        "stderr": {
+          "path": "raw/locate-fixed-paths.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-01",
+      "argv": ["git", "show", "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:AGENTS.md"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:03.358021+00:00",
+      "endedAt": "2026-10-17T22:21:03.363365+00:00",
+      "elapsedSeconds": 0.005702291999999998,
+      "pid": 62624,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-01.stdout.log",
+          "bytes": 6028,
+          "sha256": "24771e0310c9dec44df9912d09179d3540724971306e0095ca252b190e318a8e"
+        },
+        "stderr": {
+          "path": "raw/snapshot-01.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-02",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:docs/ops/guides/documentation-model.md"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:03.364084+00:00",
+      "endedAt": "2026-10-17T22:21:03.369189+00:00",
+      "elapsedSeconds": 0.005451250000000005,
+      "pid": 62631,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-02.stdout.log",
+          "bytes": 9468,
+          "sha256": "3a087aec18bd1e3a5918f7ba01fd440696c43411f743cbd5c185a93b9f1fae50"
+        },
+        "stderr": {
+          "path": "raw/snapshot-02.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-03",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:docs/ops/agent-workflow.md"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:03.369976+00:00",
+      "endedAt": "2026-10-17T22:21:03.375172+00:00",
+      "elapsedSeconds": 0.005532917000000012,
+      "pid": 62635,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-03.stdout.log",
+          "bytes": 9567,
+          "sha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d"
+        },
+        "stderr": {
+          "path": "raw/snapshot-03.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-04",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:03.375830+00:00",
+      "endedAt": "2026-10-17T22:21:03.382502+00:00",
+      "elapsedSeconds": 0.007470709000000006,
+      "pid": 62637,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-04.stdout.log",
+          "bytes": 854465,
+          "sha256": "a628c7f734ddc1aa1f51eeb79524b9c8771f2dd4eec65d12a10ef68dcfbe9e9d"
+        },
+        "stderr": {
+          "path": "raw/snapshot-04.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-05",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:docs/ops/reviews/20261018-semantic-rework.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:03.383844+00:00",
+      "endedAt": "2026-10-17T22:21:03.389307+00:00",
+      "elapsedSeconds": 0.005795999999999996,
+      "pid": 62654,
+      "exitCode": 128,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-05.stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "raw/snapshot-05.stderr.log",
+          "bytes": 122,
+          "sha256": "3b7ec58228d13398c216fa2ab038385d8021d3d826aa839d344a83a3b37c3d5b"
+        }
+      }
+    },
+    {
+      "name": "snapshot-06",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:scripts/docs/document-integrity.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:03.389824+00:00",
+      "endedAt": "2026-10-17T22:21:03.395656+00:00",
+      "elapsedSeconds": 0.006158625000000001,
+      "pid": 62663,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-06.stdout.log",
+          "bytes": 1041,
+          "sha256": "5b9f905c67b568cb7862ae86b81194937a3eda32f08a95550ad2fa953c02edd8"
+        },
+        "stderr": {
+          "path": "raw/snapshot-06.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-07",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:scripts/docs/check-content-review.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:03.396349+00:00",
+      "endedAt": "2026-10-17T22:21:03.402002+00:00",
+      "elapsedSeconds": 0.006025125000000006,
+      "pid": 62668,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-07.stdout.log",
+          "bytes": 7429,
+          "sha256": "e7041f5deae5bee28a5931a3b6f8dcc2833ef72fd81f91bc5ed6ff95431a96e3"
+        },
+        "stderr": {
+          "path": "raw/snapshot-07.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-08",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:scripts/docs/document-registry.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:03.402708+00:00",
+      "endedAt": "2026-10-17T22:21:03.408479+00:00",
+      "elapsedSeconds": 0.006042167000000001,
+      "pid": 62670,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-08.stdout.log",
+          "bytes": 17576,
+          "sha256": "96743250d7e3a20c9bc348ff7f86c3728cf9f05a48e81dd65496333ca2a4047a"
+        },
+        "stderr": {
+          "path": "raw/snapshot-08.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-09",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:scripts/docs/check-doc-model.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:03.409049+00:00",
+      "endedAt": "2026-10-17T22:21:03.414601+00:00",
+      "elapsedSeconds": 0.0058422909999999995,
+      "pid": 62672,
+      "exitCode": 128,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-09.stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "raw/snapshot-09.stderr.log",
+          "bytes": 108,
+          "sha256": "8e002dea976ebef93319ed87c8ba765e14aea5c552fc1af0c365679585f55ec0"
+        }
+      }
+    },
+    {
+      "name": "snapshot-10",
+      "argv": ["git", "show", "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:03.415057+00:00",
+      "endedAt": "2026-10-17T22:21:03.420637+00:00",
+      "elapsedSeconds": 0.0058846249999999906,
+      "pid": 62675,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-10.stdout.log",
+          "bytes": 15862,
+          "sha256": "278ed0c125ab1d7a0c4e539be20aa0a278aace9ed5623a9eccd26d27fff31314"
+        },
+        "stderr": {
+          "path": "raw/snapshot-10.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-11",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:scripts/docs/check-testing-catalog.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:03.421221+00:00",
+      "endedAt": "2026-10-17T22:21:03.426966+00:00",
+      "elapsedSeconds": 0.006016791999999993,
+      "pid": 62677,
+      "exitCode": 128,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-11.stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "raw/snapshot-11.stderr.log",
+          "bytes": 114,
+          "sha256": "67f2c8c2e090bfbe3853b97559b81c78a2ad7219a7ab05b9c39494a408e2325d"
+        }
+      }
+    },
+    {
+      "name": "snapshot-12",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:scripts/docs/templates.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:03.427401+00:00",
+      "endedAt": "2026-10-17T22:21:03.432608+00:00",
+      "elapsedSeconds": 0.005430042000000024,
+      "pid": 62678,
+      "exitCode": 128,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-12.stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "raw/snapshot-12.stderr.log",
+          "bytes": 103,
+          "sha256": "d736d395c4b489569898bf725d2dbdd073be1ad282a12f37e79a978c66ce4cd7"
+        }
+      }
+    },
+    {
+      "name": "snapshot-13",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:docs/testing/e2e/evidence/e2e-002.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:03.432979+00:00",
+      "endedAt": "2026-10-17T22:21:03.438144+00:00",
+      "elapsedSeconds": 0.0054340829999999785,
+      "pid": 62681,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-13.stdout.log",
+          "bytes": 6393,
+          "sha256": "25fdd7d621e0f618b4676e6d777c0c44802033bc257f0f0ebea107b5f8d7138a"
+        },
+        "stderr": {
+          "path": "raw/snapshot-13.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-consumer-01",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:scripts/docs/document-model.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:51.699284+00:00",
+      "endedAt": "2026-10-17T22:21:51.704215+00:00",
+      "elapsedSeconds": 0.005216833000000001,
+      "pid": 78149,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-consumer-01.stdout.log",
+          "bytes": 14057,
+          "sha256": "2c7ed0419c90332dd27e866629f06fd7670112cb924084f8162f84ee74c4f64b"
+        },
+        "stderr": {
+          "path": "raw/snapshot-consumer-01.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-consumer-02",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:scripts/docs/terminal-json.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:51.704763+00:00",
+      "endedAt": "2026-10-17T22:21:51.709521+00:00",
+      "elapsedSeconds": 0.005045250000000001,
+      "pid": 78150,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-consumer-02.stdout.log",
+          "bytes": 9817,
+          "sha256": "20fbd622a638e014e6eb3bb1448dc81dd01b7e978ee88bc40f716012c44e1965"
+        },
+        "stderr": {
+          "path": "raw/snapshot-consumer-02.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-consumer-03",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:scripts/docs/generate-testing-index.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:51.710086+00:00",
+      "endedAt": "2026-10-17T22:21:51.714841+00:00",
+      "elapsedSeconds": 0.005021417,
+      "pid": 78151,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-consumer-03.stdout.log",
+          "bytes": 13188,
+          "sha256": "c1dd2577350b4b7298a3566f72b1c1d72fe0272a098f376af128843446dece42"
+        },
+        "stderr": {
+          "path": "raw/snapshot-consumer-03.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-consumer-04",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:scripts/docs/report-governance-progress.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:51.715376+00:00",
+      "endedAt": "2026-10-17T22:21:51.719845+00:00",
+      "elapsedSeconds": 0.004736917,
+      "pid": 78152,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-consumer-04.stdout.log",
+          "bytes": 6671,
+          "sha256": "f4fb211024b66edd2b490b4138345c142a2e514e4aa6a36a959ccb3b17488c98"
+        },
+        "stderr": {
+          "path": "raw/snapshot-consumer-04.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-consumer-05",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:scripts/docs/promote-semantic-review.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:51.720372+00:00",
+      "endedAt": "2026-10-17T22:21:51.724917+00:00",
+      "elapsedSeconds": 0.004818792000000002,
+      "pid": 78153,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-consumer-05.stdout.log",
+          "bytes": 6032,
+          "sha256": "806646b0f1aeae507ae6dcc85d5eca2ae7be3e4bc86bdf93b448def29831d687"
+        },
+        "stderr": {
+          "path": "raw/snapshot-consumer-05.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-corrected-01",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:docs/phase-governance/reviews/20261018-semantic-rework.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:18.976661+00:00",
+      "endedAt": "2026-10-17T22:21:18.982324+00:00",
+      "elapsedSeconds": 0.005907625000000003,
+      "pid": 67860,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-corrected-01.stdout.log",
+          "bytes": 107173,
+          "sha256": "e68a8d05248b97758fafbfeb15b492d064994e1da9ca59e6b79ccd54813f67f0"
+        },
+        "stderr": {
+          "path": "raw/snapshot-corrected-01.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-corrected-02",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:scripts/docs/check-document-model.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:18.983082+00:00",
+      "endedAt": "2026-10-17T22:21:18.988325+00:00",
+      "elapsedSeconds": 0.005476000000000002,
+      "pid": 67862,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-corrected-02.stdout.log",
+          "bytes": 1294,
+          "sha256": "b61048dc9e575b30bcb9c62225490fab6ad9e18f79b856d6b5d1a22ab7e2984b"
+        },
+        "stderr": {
+          "path": "raw/snapshot-corrected-02.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-corrected-03",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:scripts/docs/check-testing.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:18.988813+00:00",
+      "endedAt": "2026-10-17T22:21:18.994031+00:00",
+      "elapsedSeconds": 0.005542666000000002,
+      "pid": 67864,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-corrected-03.stdout.log",
+          "bytes": 25785,
+          "sha256": "15aa96323821b771107b7b372880af8469a9310bc545bfd56c852c95e449a166"
+        },
+        "stderr": {
+          "path": "raw/snapshot-corrected-03.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-corrected-04",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:docs/phase-governance/document-registry.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:18.994621+00:00",
+      "endedAt": "2026-10-17T22:21:18.999606+00:00",
+      "elapsedSeconds": 0.005454500000000001,
+      "pid": 67866,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-corrected-04.stdout.log",
+          "bytes": 4746,
+          "sha256": "4a85654825c9e9c741b02cbba5c767cdf57e18caea846d084685f27ea8f5eee9"
+        },
+        "stderr": {
+          "path": "raw/snapshot-corrected-04.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-design-template",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:docs/phase-governance/templates/design-spec.md"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:24:01.965554+00:00",
+      "endedAt": "2026-10-17T22:24:01.971188+00:00",
+      "elapsedSeconds": 0.0058311249999999995,
+      "pid": 63382,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-design-template.stdout.log",
+          "bytes": 442,
+          "sha256": "fc2671156e74512e2367511ff2e3f7dd81ed4a7921a63d574a4c636d5a577ee3"
+        },
+        "stderr": {
+          "path": "raw/snapshot-design-template.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-git-source-reader",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:scripts/docs/git-document-snapshot.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:24:01.971765+00:00",
+      "endedAt": "2026-10-17T22:24:01.976942+00:00",
+      "elapsedSeconds": 0.005464541,
+      "pid": 63384,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-git-source-reader.stdout.log",
+          "bytes": 1274,
+          "sha256": "ab1a61e21ffe4862bb4bb5ec9ddc6e63998bc2ba6d6117186f6b96c44117ce7c"
+        },
+        "stderr": {
+          "path": "raw/snapshot-git-source-reader.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-native-dependency-01",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:docs/testing/e2e/stages/002-inn-guests-and-reward/report.md"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:22:26.052509+00:00",
+      "endedAt": "2026-10-17T22:22:26.057991+00:00",
+      "elapsedSeconds": 0.0056760000000000005,
+      "pid": 85476,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-native-dependency-01.stdout.log",
+          "bytes": 35111,
+          "sha256": "a309227364ad10087b47b45de39f956faa1005d77555cdd6c9aec231388185e3"
+        },
+        "stderr": {
+          "path": "raw/snapshot-native-dependency-01.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-native-dependency-02",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:packages/content/src/character.ts"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:22:26.058613+00:00",
+      "endedAt": "2026-10-17T22:22:26.063460+00:00",
+      "elapsedSeconds": 0.0050930409999999995,
+      "pid": 85477,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-native-dependency-02.stdout.log",
+          "bytes": 15471,
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+        },
+        "stderr": {
+          "path": "raw/snapshot-native-dependency-02.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-native-dependency-03",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:scripts/docs/frozen-document-source.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:22:26.064051+00:00",
+      "endedAt": "2026-10-17T22:22:26.068591+00:00",
+      "elapsedSeconds": 0.0048417910000000015,
+      "pid": 85479,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-native-dependency-03.stdout.log",
+          "bytes": 10473,
+          "sha256": "d83596fa33a1bc04656c58190b767a0323718c433cfe53efb3025eb57d3ee374"
+        },
+        "stderr": {
+          "path": "raw/snapshot-native-dependency-03.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-native-dependency-04",
+      "argv": ["git", "show", "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:scripts/docs/markdown.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:22:26.069158+00:00",
+      "endedAt": "2026-10-17T22:22:26.073523+00:00",
+      "elapsedSeconds": 0.004631749999999997,
+      "pid": 85480,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-native-dependency-04.stdout.log",
+          "bytes": 4750,
+          "sha256": "1427de079109a39fb03ce0b0251d80dc813f8f9758f71e3cf09099030eca5215"
+        },
+        "stderr": {
+          "path": "raw/snapshot-native-dependency-04.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-native-dependency-05",
+      "argv": ["git", "show", "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:scripts/e2e/game-inn.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:22:26.074034+00:00",
+      "endedAt": "2026-10-17T22:22:26.078512+00:00",
+      "elapsedSeconds": 0.004678833,
+      "pid": 85482,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-native-dependency-05.stdout.log",
+          "bytes": 79,
+          "sha256": "aac23811c42ceeccdc95543fe84fd6f9e8252db27248316c6d6286ccd95714e2"
+        },
+        "stderr": {
+          "path": "raw/snapshot-native-dependency-05.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-native-dependency-06",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:scripts/e2e/inn-contract.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:22:26.078970+00:00",
+      "endedAt": "2026-10-17T22:22:26.083624+00:00",
+      "elapsedSeconds": 0.004922792000000002,
+      "pid": 85483,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-native-dependency-06.stdout.log",
+          "bytes": 25120,
+          "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+        },
+        "stderr": {
+          "path": "raw/snapshot-native-dependency-06.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-native-dependency-07",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:scripts/e2e/inn-observer.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:22:26.084127+00:00",
+      "endedAt": "2026-10-17T22:22:26.088934+00:00",
+      "elapsedSeconds": 0.0050525000000000014,
+      "pid": 85484,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-native-dependency-07.stdout.log",
+          "bytes": 17520,
+          "sha256": "34151d490e64013ce147fc415ea4478b6444350c0f14a63fef6073cbec5ec0f7"
+        },
+        "stderr": {
+          "path": "raw/snapshot-native-dependency-07.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-registry-manifest",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:docs/ops/document-registry.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:03.438827+00:00",
+      "endedAt": "2026-10-17T22:21:03.443914+00:00",
+      "elapsedSeconds": 0.005353249999999976,
+      "pid": 62683,
+      "exitCode": 128,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-registry-manifest.stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "raw/snapshot-registry-manifest.stderr.log",
+          "bytes": 107,
+          "sha256": "963e824874cd7853b23faea6ff82ed4918ed925fbd7dac826263ddeccfea8e9b"
+        }
+      }
+    },
+    {
+      "name": "snapshot-resolved-01",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:docs/phase-governance/document-registry.ops.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:32.560210+00:00",
+      "endedAt": "2026-10-17T22:21:32.566399+00:00",
+      "elapsedSeconds": 0.006637874999999998,
+      "pid": 72264,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-resolved-01.stdout.log",
+          "bytes": 607572,
+          "sha256": "985a8d917b49c5ae85ae7cdd3fd889c929ba6c088529a475e37251b9568b1170"
+        },
+        "stderr": {
+          "path": "raw/snapshot-resolved-01.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-resolved-02",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:docs/phase-governance/document-registry.lore.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:32.567356+00:00",
+      "endedAt": "2026-10-17T22:21:32.573112+00:00",
+      "elapsedSeconds": 0.0061373750000000005,
+      "pid": 72265,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-resolved-02.stdout.log",
+          "bytes": 4980,
+          "sha256": "a5f6d4f5a2930528d651fdf1559aab701a9090e828b1ff0ca6545d7250185af5"
+        },
+        "stderr": {
+          "path": "raw/snapshot-resolved-02.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-resolved-03",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:docs/phase-governance/document-registry.phase1.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:32.573845+00:00",
+      "endedAt": "2026-10-17T22:21:32.579746+00:00",
+      "elapsedSeconds": 0.006146542000000001,
+      "pid": 72266,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-resolved-03.stdout.log",
+          "bytes": 23584,
+          "sha256": "9ccb32a113f5d757ef646b496b186bd3049b2d9ea4272444cb40d7810f77e92e"
+        },
+        "stderr": {
+          "path": "raw/snapshot-resolved-03.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-resolved-04",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:docs/phase-governance/document-registry.phase2.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:32.580231+00:00",
+      "endedAt": "2026-10-17T22:21:32.585302+00:00",
+      "elapsedSeconds": 0.005300166000000002,
+      "pid": 72267,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-resolved-04.stdout.log",
+          "bytes": 42462,
+          "sha256": "ef532d88a2b094a7b17c3c65b32afaf42f87dbf0efbf3796c31071b4cd2e5cc4"
+        },
+        "stderr": {
+          "path": "raw/snapshot-resolved-04.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-resolved-05",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:docs/phase-governance/document-registry.phase3.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:32.585748+00:00",
+      "endedAt": "2026-10-17T22:21:32.591724+00:00",
+      "elapsedSeconds": 0.006321625000000004,
+      "pid": 72268,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-resolved-05.stdout.log",
+          "bytes": 1860,
+          "sha256": "d4c7fb0b3ea28e355159b24fd6cf2911fe5b7258aae8002af4a2871788bd93b7"
+        },
+        "stderr": {
+          "path": "raw/snapshot-resolved-05.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-resolved-06",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:docs/phase-governance/document-registry.phase-governance.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:32.592370+00:00",
+      "endedAt": "2026-10-17T22:21:32.598577+00:00",
+      "elapsedSeconds": 0.006528208000000001,
+      "pid": 72269,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-resolved-06.stdout.log",
+          "bytes": 73342,
+          "sha256": "0888ba9d004a25eca6265dccee21814eea9f4e980ed959374667d1fe53fe30a6"
+        },
+        "stderr": {
+          "path": "raw/snapshot-resolved-06.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-resolved-07",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:docs/phase-governance/document-registry.testing.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:32.599184+00:00",
+      "endedAt": "2026-10-17T22:21:32.604983+00:00",
+      "elapsedSeconds": 0.006260292000000001,
+      "pid": 72270,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-resolved-07.stdout.log",
+          "bytes": 325434,
+          "sha256": "bb835ffac0cb96c634026101d8f70c34b2045925440340cc6d238495bf294618"
+        },
+        "stderr": {
+          "path": "raw/snapshot-resolved-07.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-resolved-08",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:docs/phase-governance/templates/registry.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:32.605763+00:00",
+      "endedAt": "2026-10-17T22:21:32.611601+00:00",
+      "elapsedSeconds": 0.0061967920000000065,
+      "pid": 72272,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-resolved-08.stdout.log",
+          "bytes": 29292,
+          "sha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd"
+        },
+        "stderr": {
+          "path": "raw/snapshot-resolved-08.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-resolved-09",
+      "argv": ["git", "show", "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:docs/testing/catalog.json"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:32.612289+00:00",
+      "endedAt": "2026-10-17T22:21:32.618540+00:00",
+      "elapsedSeconds": 0.006624749999999999,
+      "pid": 72273,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-resolved-09.stdout.log",
+          "bytes": 82424,
+          "sha256": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0"
+        },
+        "stderr": {
+          "path": "raw/snapshot-resolved-09.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "snapshot-resolved-10",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:scripts/docs/check-template-progress.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:32.619221+00:00",
+      "endedAt": "2026-10-17T22:21:32.624900+00:00",
+      "elapsedSeconds": 0.005930332999999996,
+      "pid": 72274,
+      "exitCode": 128,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-resolved-10.stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "raw/snapshot-resolved-10.stderr.log",
+          "bytes": 116,
+          "sha256": "862ea3528e506283bf17e5ce29202d0fc8c8a2a1b8ee702d42f82f6d09260121"
+        }
+      }
+    },
+    {
+      "name": "snapshot-shard-01",
+      "argv": [
+        "git",
+        "show",
+        "4ddd17e401115c8f2ce128bbd2af0ab0349de8db:document-registry.ops.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T22:21:19.000407+00:00",
+      "endedAt": "2026-10-17T22:21:19.005273+00:00",
+      "elapsedSeconds": 0.005088875,
+      "pid": 67869,
+      "exitCode": 128,
+      "signal": null,
+      "timedOut": false,
+      "streams": {
+        "stdout": {
+          "path": "raw/snapshot-shard-01.stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "raw/snapshot-shard-01.stderr.log",
+          "bytes": 102,
+          "sha256": "18d9c610199e10a63ee475e4faf1152f72d95e54f7cf86b51be3cda3fa9e9207"
+        }
+      }
+    }
+  ],
+  "sourceFileIdentities": [
+    {
+      "path": "sources/design-proposed-original.md",
+      "bytes": 7572,
+      "sha256": "eada2ad69a273073a677727857d95f845473c1ac71c31bd2396b7facf5b6fe7e"
+    },
+    {
+      "path": "sources/design-proposed-stable-v1.0.0.md",
+      "bytes": 7566,
+      "sha256": "93a6b8765f03bde606574a325004393156260557c97988dc5c4ea651ef7ea892"
+    },
+    {
+      "path": "sources/fixed4ddd/AGENTS.md",
+      "bytes": 6028,
+      "sha256": "24771e0310c9dec44df9912d09179d3540724971306e0095ca252b190e318a8e"
+    },
+    {
+      "path": "sources/fixed4ddd/docs/ops/agent-workflow.md",
+      "bytes": 9567,
+      "sha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d"
+    },
+    {
+      "path": "sources/fixed4ddd/docs/ops/document-registry.json",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "sources/fixed4ddd/docs/ops/evidence/DOCS-FULL-TEMPLATE-1/binding-baseline.json",
+      "bytes": 854465,
+      "sha256": "a628c7f734ddc1aa1f51eeb79524b9c8771f2dd4eec65d12a10ef68dcfbe9e9d"
+    },
+    {
+      "path": "sources/fixed4ddd/docs/ops/guides/documentation-model.md",
+      "bytes": 9468,
+      "sha256": "3a087aec18bd1e3a5918f7ba01fd440696c43411f743cbd5c185a93b9f1fae50"
+    },
+    {
+      "path": "sources/fixed4ddd/docs/phase-governance/document-registry.json",
+      "bytes": 4746,
+      "sha256": "4a85654825c9e9c741b02cbba5c767cdf57e18caea846d084685f27ea8f5eee9"
+    },
+    {
+      "path": "sources/fixed4ddd/docs/phase-governance/document-registry.lore.json",
+      "bytes": 4980,
+      "sha256": "a5f6d4f5a2930528d651fdf1559aab701a9090e828b1ff0ca6545d7250185af5"
+    },
+    {
+      "path": "sources/fixed4ddd/docs/phase-governance/document-registry.ops.json",
+      "bytes": 607572,
+      "sha256": "985a8d917b49c5ae85ae7cdd3fd889c929ba6c088529a475e37251b9568b1170"
+    },
+    {
+      "path": "sources/fixed4ddd/docs/phase-governance/document-registry.phase-governance.json",
+      "bytes": 73342,
+      "sha256": "0888ba9d004a25eca6265dccee21814eea9f4e980ed959374667d1fe53fe30a6"
+    },
+    {
+      "path": "sources/fixed4ddd/docs/phase-governance/document-registry.phase1.json",
+      "bytes": 23584,
+      "sha256": "9ccb32a113f5d757ef646b496b186bd3049b2d9ea4272444cb40d7810f77e92e"
+    },
+    {
+      "path": "sources/fixed4ddd/docs/phase-governance/document-registry.phase2.json",
+      "bytes": 42462,
+      "sha256": "ef532d88a2b094a7b17c3c65b32afaf42f87dbf0efbf3796c31071b4cd2e5cc4"
+    },
+    {
+      "path": "sources/fixed4ddd/docs/phase-governance/document-registry.phase3.json",
+      "bytes": 1860,
+      "sha256": "d4c7fb0b3ea28e355159b24fd6cf2911fe5b7258aae8002af4a2871788bd93b7"
+    },
+    {
+      "path": "sources/fixed4ddd/docs/phase-governance/document-registry.testing.json",
+      "bytes": 325434,
+      "sha256": "bb835ffac0cb96c634026101d8f70c34b2045925440340cc6d238495bf294618"
+    },
+    {
+      "path": "sources/fixed4ddd/docs/phase-governance/reviews/20261018-semantic-rework.json",
+      "bytes": 107173,
+      "sha256": "e68a8d05248b97758fafbfeb15b492d064994e1da9ca59e6b79ccd54813f67f0"
+    },
+    {
+      "path": "sources/fixed4ddd/docs/phase-governance/templates/design-spec.md",
+      "bytes": 442,
+      "sha256": "fc2671156e74512e2367511ff2e3f7dd81ed4a7921a63d574a4c636d5a577ee3"
+    },
+    {
+      "path": "sources/fixed4ddd/docs/phase-governance/templates/registry.json",
+      "bytes": 29292,
+      "sha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd"
+    },
+    {
+      "path": "sources/fixed4ddd/docs/testing/catalog.json",
+      "bytes": 82424,
+      "sha256": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0"
+    },
+    {
+      "path": "sources/fixed4ddd/docs/testing/e2e/evidence/e2e-002.json",
+      "bytes": 6393,
+      "sha256": "25fdd7d621e0f618b4676e6d777c0c44802033bc257f0f0ebea107b5f8d7138a"
+    },
+    {
+      "path": "sources/fixed4ddd/docs/testing/e2e/stages/002-inn-guests-and-reward/report.md",
+      "bytes": 35111,
+      "sha256": "a309227364ad10087b47b45de39f956faa1005d77555cdd6c9aec231388185e3"
+    },
+    {
+      "path": "sources/fixed4ddd/packages/content/src/character.ts",
+      "bytes": 15471,
+      "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+    },
+    {
+      "path": "sources/fixed4ddd/scripts/docs/check-content-review.mjs",
+      "bytes": 7429,
+      "sha256": "e7041f5deae5bee28a5931a3b6f8dcc2833ef72fd81f91bc5ed6ff95431a96e3"
+    },
+    {
+      "path": "sources/fixed4ddd/scripts/docs/check-document-model.mjs",
+      "bytes": 1294,
+      "sha256": "b61048dc9e575b30bcb9c62225490fab6ad9e18f79b856d6b5d1a22ab7e2984b"
+    },
+    {
+      "path": "sources/fixed4ddd/scripts/docs/check-testing.mjs",
+      "bytes": 25785,
+      "sha256": "15aa96323821b771107b7b372880af8469a9310bc545bfd56c852c95e449a166"
+    },
+    {
+      "path": "sources/fixed4ddd/scripts/docs/check.mjs",
+      "bytes": 15862,
+      "sha256": "278ed0c125ab1d7a0c4e539be20aa0a278aace9ed5623a9eccd26d27fff31314"
+    },
+    {
+      "path": "sources/fixed4ddd/scripts/docs/document-integrity.mjs",
+      "bytes": 1041,
+      "sha256": "5b9f905c67b568cb7862ae86b81194937a3eda32f08a95550ad2fa953c02edd8"
+    },
+    {
+      "path": "sources/fixed4ddd/scripts/docs/document-model.mjs",
+      "bytes": 14057,
+      "sha256": "2c7ed0419c90332dd27e866629f06fd7670112cb924084f8162f84ee74c4f64b"
+    },
+    {
+      "path": "sources/fixed4ddd/scripts/docs/document-registry.mjs",
+      "bytes": 17576,
+      "sha256": "96743250d7e3a20c9bc348ff7f86c3728cf9f05a48e81dd65496333ca2a4047a"
+    },
+    {
+      "path": "sources/fixed4ddd/scripts/docs/frozen-document-source.mjs",
+      "bytes": 10473,
+      "sha256": "d83596fa33a1bc04656c58190b767a0323718c433cfe53efb3025eb57d3ee374"
+    },
+    {
+      "path": "sources/fixed4ddd/scripts/docs/generate-testing-index.mjs",
+      "bytes": 13188,
+      "sha256": "c1dd2577350b4b7298a3566f72b1c1d72fe0272a098f376af128843446dece42"
+    },
+    {
+      "path": "sources/fixed4ddd/scripts/docs/git-document-snapshot.mjs",
+      "bytes": 1274,
+      "sha256": "ab1a61e21ffe4862bb4bb5ec9ddc6e63998bc2ba6d6117186f6b96c44117ce7c"
+    },
+    {
+      "path": "sources/fixed4ddd/scripts/docs/markdown.mjs",
+      "bytes": 4750,
+      "sha256": "1427de079109a39fb03ce0b0251d80dc813f8f9758f71e3cf09099030eca5215"
+    },
+    {
+      "path": "sources/fixed4ddd/scripts/docs/promote-semantic-review.mjs",
+      "bytes": 6032,
+      "sha256": "806646b0f1aeae507ae6dcc85d5eca2ae7be3e4bc86bdf93b448def29831d687"
+    },
+    {
+      "path": "sources/fixed4ddd/scripts/docs/report-governance-progress.mjs",
+      "bytes": 6671,
+      "sha256": "f4fb211024b66edd2b490b4138345c142a2e514e4aa6a36a959ccb3b17488c98"
+    },
+    {
+      "path": "sources/fixed4ddd/scripts/docs/terminal-json.mjs",
+      "bytes": 9817,
+      "sha256": "20fbd622a638e014e6eb3bb1448dc81dd01b7e978ee88bc40f716012c44e1965"
+    },
+    {
+      "path": "sources/fixed4ddd/scripts/e2e/game-inn.mjs",
+      "bytes": 79,
+      "sha256": "aac23811c42ceeccdc95543fe84fd6f9e8252db27248316c6d6286ccd95714e2"
+    },
+    {
+      "path": "sources/fixed4ddd/scripts/e2e/inn-contract.mjs",
+      "bytes": 25120,
+      "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+    },
+    {
+      "path": "sources/fixed4ddd/scripts/e2e/inn-observer.mjs",
+      "bytes": 17520,
+      "sha256": "34151d490e64013ce147fc415ea4478b6444350c0f14a63fef6073cbec5ec0f7"
+    },
+    {
+      "path": "sources/independent-design-review.unformatted.json",
+      "bytes": 73331,
+      "sha256": "899091128f83a73fe5036eafbde83744a7591e05279a25a1556c69454c0f5fed"
+    }
+  ],
+  "sealing": "Report and artifact manifest formatted by project Biome before final SHA; external final seal pins report+manifest, without recursive self-hash. Command raw/metadata stay unchanged."
+}

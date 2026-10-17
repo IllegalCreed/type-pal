@@ -1715,3 +1715,10 @@ Template: task-card-v1 / 1.0.0
 
 - [1.0.0-draft提案](../../phase-governance/reviews/20261018-governance-receipt-storage-design.md)固定原稿SHA `eada2ad69a273073a677727857d95f845473c1ac71c31bd2396b7facf5b6fe7e`，Owner root，仅设计审查准入；非作者接受/版本冻结/真实consumer与反控pilot之前不实施。目的为落实文档模型的附件原件与review不递归自审规则，后续一次性工具输出以双SHA原件附件归属，逐篇完整semantic条目仍必需。
 - 1838与现2424全部既有候选/待审/原报告零迁移、零豁免，不因gzip退出既有分母；业务canonical JSON及配对机器证据路径和字段不变。新提案本身另登记为pending，不自授模板/语义完成。若需任何既有路径迁移，须另逐篇source→target/link/consumer映射，不以本提案预批。
+
+### S05固定4ddd中央接收与回执设计1.0.0冻结
+
+- S05非作者中央报告原payload SHA `fb5ea36b30cef2d79c30a2fc7cd715f95bc5e359135eaebaf9ff89218d82dbce`，62项无损运输含原manifest。原JSON格式不合当前formatter时原字节存gzip，同名文件仅JSON值/键序/数组序相等的阅读投影，双身份在map明确；不改原命令/数字/失败，也不拿投影SHA钉原报告。固定4ddd的2417旧native/唯一迁移/2424 after pin/236+460运输及原门输入已限定接受，原始自身harness失败保留，后继本次写回不在其scope。
+- [设计独立报告](../evidence/DOCS-REGISTRY-SPLIT-1/independent-governance-receipt-design-review-4ddd17e4.json)SHA `d632fabe7f8162f3eb09a03d321786559c2f0e62bb3c24c963d7d6550b64c8fe`全文核两稿、五章具体语义/真实template consumer及fixed4ddd基线，限定接受稳定设计93a6；唯一改动为Design version行。原eada不删，正式冻结proposed1.0.0，不授实施/采用/pilot/中央或报告本文完成。210项运输含208原项、manifest及外部seal；原自身setup失败保留。
+- root build allowed仅准备私有工具新版本与owned/tmp正反针，Owner root；实施白名单为新的/tmp runner与夹具、原件显式运输及本卡中央登记，旧344623/765094/builder/公共storage API冻结，不动产品/旧测试/coverage/ignore/structuralRoots。须非作者核真实gzip consumer、精确body/template版本/报告双身份、旧plain回归及写前拒绝，再做一篇实际机器证据正文和中央分别独立pilot，之前不能复用新路由。
+- 1838/全部既有候选和pending无缩分母；当前仍仅1896中4篇重授/1892待审，S01另列，五隔离不解除。新四份回执/映射pending；提案仅冻结字节，不自授其binding完成，后继单篇记录须真实非作者凭据。S06新71只修过强“不再现”一句，仍待非作者闭合；S07隔离写入不授中央信用。完整硬门仍FAIL，不合main或done。

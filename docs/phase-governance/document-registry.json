@@ -32,9 +32,9 @@
     }
   ],
   "summary": {
-    "total": 2425,
+    "total": 2429,
     "byPhase": {
-      "ops": 1322,
+      "ops": 1326,
       "lore": 14,
       "phase1": 60,
       "phase2": 109,
@@ -48,7 +48,7 @@
       "archive-record": 1494,
       "audit-report": 60,
       "governance-index": 108,
-      "evidence-receipt": 148,
+      "evidence-receipt": 152,
       "design-spec": 39,
       "quality-gate": 1,
       "test-machine-evidence": 49,
@@ -62,11 +62,11 @@
       "test-catalog": 11
     },
     "reviewStatus": {
-      "partial-review-unknown": 1973,
+      "partial-review-unknown": 1977,
       "content-reviewed": 452
     },
     "templateCompliance": {
-      "needs-migration": 1979,
+      "needs-migration": 1983,
       "template-compliant": 446
     }
   },
@@ -84,8 +84,8 @@
       "key": "ops",
       "phase": "ops",
       "path": "document-registry.ops.json",
-      "total": 1322,
-      "sha256": "985a8d917b49c5ae85ae7cdd3fd889c929ba6c088529a475e37251b9568b1170"
+      "total": 1326,
+      "sha256": "745f674298ecbd23bdfcaef9bfa7a96954abb03f3f84fd3c934842db6a91fb5d"
     },
     {
       "key": "lore",
