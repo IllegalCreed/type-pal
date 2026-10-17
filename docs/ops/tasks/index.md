@@ -41,6 +41,7 @@ Template: governance-index-v1 / 1.0.0
 | [CODE-QUALITY-106 — Reforge reward-gain 测试 Promise 诊断](CODE-QUALITY-106-reforge-reward-gain-act-diagnostic.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-107 — Game menu primitives / item-select 逐文件复核](CODE-QUALITY-107-game-menu-primitives-item-select-review.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-108 — game magic-script warning ownership](CODE-QUALITY-108-game-magic-script-warning-diagnostic.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [CODE-QUALITY-109 — game analytics 安装器生命周期复核](CODE-QUALITY-109-game-analytics-install-review.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-3Y-CLOSEOUT-1 — 统一治理分支与3y复审集成](CODE-QUALITY-3Y-CLOSEOUT-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-53 — game player status runtime-zero ownership conflict](CODE-QUALITY-53-player-status-runtime-zero.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-57 — game bootstrap thumbnail seam boundary](CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | review | 以任务卡当前准入与看板分工为准。 |
