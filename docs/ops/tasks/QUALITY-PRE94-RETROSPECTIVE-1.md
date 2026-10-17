@@ -276,6 +276,6 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 
 ### 2026-10-17 C1 取消生命周期与最新main收口
 
-当前治理分支已合并 `origin/main=36caec0251b48f94fa5b9d5c4c786571037f9869`，0 behind/158 ahead。`QUALITY-FETCH-ABORT-LIFECYCLE-1` 已从失败反例进入 build：`fetch-retry.ts` 增加可取消退避与 Request.signal 归属，合并后四文件26例、game typecheck 和全仓 `pnpm check` 通过；本批抽取输出边界C1另有定向9/9、pal-extract 72/434、全仓 `pnpm check` 通过，lint 4959 文件0/0/0，当前账本3307/226/10/3071。
+当前治理分支已合并 `origin/main=36caec0251b48f94fa5b9d5c4c786571037f9869`，0 behind/158 ahead。`QUALITY-FETCH-ABORT-LIFECYCLE-1` 已从失败反例进入 build：`fetch-retry.ts` 增加可取消退避与 Request.signal 归属，合并后四文件26例、game typecheck 和全仓 `pnpm check` 通过；本批抽取输出边界C1另有定向9/9、pal-extract 72/434、全仓 `pnpm check` 通过，lint 4959 文件0/0/0，当前账本3307/226/12/3069。
 
 官方 `pnpm coverage:ratchet` 与 `TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast` 均因 baseline 回退失败：shared statements 447/466、branches 203/218；pal-extract statements 1068/1546、branches 461/593、functions 111/140、lines 943/1367。未改 baseline、未新增弱测试。完整 game 仍有17块stderr，editor全包运行时诊断仍在；不合main、不关闭任何ledger文件。下一批继续game/editor诊断和83卡逐文件复审。

@@ -5,7 +5,7 @@
  * 2. Extra 格 6 的写入与卸下清空
  * 3. 越界 partIdx 与未知 row 时的无损忽略与域保真 (不破坏其他槽位与其他角色)
  */
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import {
   PLAYERROLES_ROW,
   removeEquipmentEffect,
@@ -62,23 +62,32 @@ describe('E2: 装备效果层字段写入与卸下保真', () => {
   it('E2-03 越界部位索引与未知行静默安全退出，无关域保持纯净', () => {
     const gs = makeFreshGameState()
     const roleId = 0
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
-    // 预先写入合法槽位数据
-    writeEquipmentEffectField(gs, 3, PLAYERROLES_ROW.ATTACK_STRENGTH, roleId, 10)
-    const before = structuredClone(gs.rgEquipmentEffect)
+    try {
+      // 预先写入合法槽位数据
+      writeEquipmentEffectField(gs, 3, PLAYERROLES_ROW.ATTACK_STRENGTH, roleId, 10)
+      const before = structuredClone(gs.rgEquipmentEffect)
 
-    // 越界写入 partIdx = -1 或 7
-    writeEquipmentEffectField(gs, -1, PLAYERROLES_ROW.ATTACK_STRENGTH, roleId, 99)
-    writeEquipmentEffectField(gs, 7, PLAYERROLES_ROW.ATTACK_STRENGTH, roleId, 99)
-    // 未知行 999
-    writeEquipmentEffectField(gs, 3, 999, roleId, 99)
+      // 越界写入 partIdx = -1 或 7
+      writeEquipmentEffectField(gs, -1, PLAYERROLES_ROW.ATTACK_STRENGTH, roleId, 99)
+      writeEquipmentEffectField(gs, 7, PLAYERROLES_ROW.ATTACK_STRENGTH, roleId, 99)
+      // 未知行 999
+      writeEquipmentEffectField(gs, 3, 999, roleId, 99)
 
-    // 越界卸下
-    removeEquipmentEffect(gs, roleId, -1)
-    removeEquipmentEffect(gs, roleId, 8)
+      // 越界卸下
+      removeEquipmentEffect(gs, roleId, -1)
+      removeEquipmentEffect(gs, roleId, 8)
 
-    // 所有槽位和所有角色保持完整前像，不能只漏检未点名字段。
-    expect(gs.rgEquipmentEffect).toEqual(before)
-    expect(gs.rgEquipmentEffect[3]!.rgwAttackStrength[roleId]).toBe(10)
+      // 所有槽位和所有角色保持完整前像，不能只漏检未点名字段。
+      expect(gs.rgEquipmentEffect).toEqual(before)
+      expect(gs.rgEquipmentEffect[3]!.rgwAttackStrength[roleId]).toBe(10)
+      expect(warning).toHaveBeenCalledWith(
+        'writeEquipmentEffectField: row 999 未支持(装备 effect 真值)',
+      )
+      expect(warning).toHaveBeenCalledTimes(1)
+    } finally {
+      warning.mockRestore()
+    }
   })
 })

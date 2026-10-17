@@ -61,11 +61,19 @@ describe('E4: 装备脚本执行器 runEquipScript', () => {
 
   it('E4-03 scriptOnEquip === 0 或 labelMap 未命中时安全返回', () => {
     const gs = makeFreshGameState()
-    runEquipScript(gs, 0, 0)
-    expect(gs.iCurEquipPart).toBe(-1)
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
-    runEquipScript(gs, 99999, 0)
-    expect(gs.iCurEquipPart).toBe(-1)
+    try {
+      runEquipScript(gs, 0, 0)
+      expect(gs.iCurEquipPart).toBe(-1)
+
+      runEquipScript(gs, 99999, 0)
+      expect(gs.iCurEquipPart).toBe(-1)
+      expect(warning).toHaveBeenCalledWith('runEquipScriptSync: L_99999 不在全局 labelMap')
+      expect(warning).toHaveBeenCalledTimes(1)
+    } finally {
+      warning.mockRestore()
+    }
   })
 
   it('E4-04 16 位有符号操作数正确还原负值 (signExtendI16)', () => {
