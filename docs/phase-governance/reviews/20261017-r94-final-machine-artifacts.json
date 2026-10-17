@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "2095f11a22a035e2175b75835460237b53332ca5364a7c2d76c2addd26561a5d",
+      "afterSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1065,8 +1065,8 @@
         "against": ["docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"]
       },
       "revision": {
-        "currentSha": "c8627905ccbbabb7a43f075f6d003f3e16286cb562174a1e1ebb036d3dec1194",
-        "implementationSha": "c8627905ccbbabb7a43f075f6d003f3e16286cb562174a1e1ebb036d3dec1194",
+        "currentSha": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+        "implementationSha": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
         "history": [
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
@@ -1080,8 +1080,8 @@
         "kind": "machine-artifact-envelope",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-        "candidateSha256": "c8627905ccbbabb7a43f075f6d003f3e16286cb562174a1e1ebb036d3dec1194",
-        "afterSha256": "c8627905ccbbabb7a43f075f6d003f3e16286cb562174a1e1ebb036d3dec1194",
+        "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+        "afterSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
         "lineCount": 13734,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1119,7 +1119,7 @@
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "c8627905ccbbabb7a43f075f6d003f3e16286cb562174a1e1ebb036d3dec1194",
+      "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
       "primarySource": [
         {
           "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
@@ -5045,7 +5045,7 @@
         }
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "3eaa1e7265e53745bfc4cdee8acafb46c3e37b7eb7773ffdfbf224bb7c3df2cc",
+      "afterSha256": "54c050874eb9079eabe7a16a424ec8a1f25bf04f1b0aa009f92b6b9da1731098",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -5067,8 +5067,8 @@
         "against": ["docs/phase-governance/document-registry.json"]
       },
       "revision": {
-        "currentSha": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-        "implementationSha": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
+        "currentSha": "54c050874eb9079eabe7a16a424ec8a1f25bf04f1b0aa009f92b6b9da1731098",
+        "implementationSha": "54c050874eb9079eabe7a16a424ec8a1f25bf04f1b0aa009f92b6b9da1731098",
         "history": [
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
@@ -5100,8 +5100,8 @@
         "kind": "structural-root-artifact",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-        "candidateSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-        "afterSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
+        "candidateSha256": "54c050874eb9079eabe7a16a424ec8a1f25bf04f1b0aa009f92b6b9da1731098",
+        "afterSha256": "54c050874eb9079eabe7a16a424ec8a1f25bf04f1b0aa009f92b6b9da1731098",
         "lineCount": 27086,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -5131,7 +5131,7 @@
       "artifactFormat": "json",
       "documentStatus": "current",
       "sourceGitRevision": "current-working-tree-after-governance-index-migration",
-      "candidateSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
+      "candidateSha256": "54c050874eb9079eabe7a16a424ec8a1f25bf04f1b0aa009f92b6b9da1731098",
       "primarySource": [
         {
           "path": "docs/phase-governance/document-registry.json",

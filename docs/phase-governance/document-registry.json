@@ -16,19 +16,19 @@
     }
   ],
   "summary": {
-    "total": 2341,
+    "total": 2345,
     "byPhase": {
       "ops": 1251,
       "lore": 14,
       "phase1": 60,
       "phase2": 109,
       "phase3": 5,
-      "phase-governance": 143,
+      "phase-governance": 147,
       "testing": 759
     },
     "byType": {
       "guide-runbook": 17,
-      "archive-record": 1472,
+      "archive-record": 1476,
       "audit-report": 59,
       "governance-index": 105,
       "evidence-receipt": 100,
@@ -46,10 +46,10 @@
       "test-catalog": 4
     },
     "reviewStatus": {
-      "content-reviewed": 2341
+      "content-reviewed": 2345
     },
     "templateCompliance": {
-      "template-compliant": 2341,
+      "template-compliant": 2345,
       "governed-legacy": 0
     }
   },
@@ -25124,6 +25124,55 @@
       "artifactEnvelope": true,
       "artifactFormat": "json"
     },
+    {
+      "path": "docs/phase-governance/catalog.lore.json",
+      "phase": "phase-governance",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261017-r93-phase-governance-artifacts.json",
+      "artifactOnly": true,
+      "artifactEnvelope": true,
+      "artifactFormat": "json"
+    },
+    {
+      "path": "docs/phase-governance/catalog.phase1.json",
+      "phase": "phase-governance",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261017-r93-phase-governance-artifacts.json",
+      "artifactOnly": true,
+      "artifactEnvelope": true,
+      "artifactFormat": "json"
+    },
+    {
+      "path": "docs/phase-governance/catalog.phase2.json",
+      "phase": "phase-governance",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261017-r93-phase-governance-artifacts.json",
+      "artifactOnly": true,
+      "artifactEnvelope": true,
+      "artifactFormat": "json"
+    },
+    {
+      "path": "docs/phase-governance/catalog.phase3.json",
+      "phase": "phase-governance",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261017-r93-phase-governance-artifacts.json",
+      "artifactOnly": true,
+      "artifactEnvelope": true,
+      "artifactFormat": "json"
+    },
+
     {
       "path": "docs/phase-governance/cross-phase-matrix.json",
       "phase": "phase-governance",

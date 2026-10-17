@@ -286,12 +286,12 @@
       "templateCompliance": "template-compliant",
       "readMethod": "full phase-governance JSON/derived index read and artifact envelope",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/catalog.json machine artifact：historical phase-governance artifact；保留原内容、日期和边界，不单独证明当前通过。",
+      "coreConclusion": "phase/lore catalog manifest：entries 已按 phase 迁移到四个 byte-addressed shard；loader 保留原 native entry 字段并校验 184 条逻辑视图。结构迁移不授 runtime/E2E/visual/coverage credit。",
       "truthAnchors": ["docs/phase-governance/catalog.json:1"],
       "unresolved": [
-        "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
+        "未来新增 phase/lore 文档必须更新对应 shard 与 manifest SHA，并通过 loader；manifest 不再独立承载 entries。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 phase/lore canonical 文档、task card 和 fresh evidence 复核。",
+      "nextStep": "所有 phase/lore consumer 通过 scripts/docs/phase-lore-catalog.mjs 读取；新增文档沿对应 shard 写回并更新 R93/R94 pin。",
       "phase": "phase-governance",
       "module": "reviews",
       "capability": "docs/phase-governance/catalog.json machine artifact",
@@ -307,7 +307,7 @@
         }
       ],
       "sourceSha256": "687a9e3d69088bfbb387346fbbb3e58f83db6afedf7141fd7f9067dcdc276560",
-      "afterSha256": "30cdc009da3a4f744b930604d7a6af2a23f8b186d2b32c01dc8064c1905756ae",
+      "afterSha256": "77daa5edc7b28ae5a85d96f9a1542aad4bd169a5c101d4f68ef429ba27496dcb",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -327,13 +327,21 @@
         "against": ["docs/phase-governance/catalog.json"]
       },
       "revision": {
-        "currentSha": "30cdc009da3a4f744b930604d7a6af2a23f8b186d2b32c01dc8064c1905756ae",
-        "implementationSha": "30cdc009da3a4f744b930604d7a6af2a23f8b186d2b32c01dc8064c1905756ae",
+        "currentSha": "77daa5edc7b28ae5a85d96f9a1542aad4bd169a5c101d4f68ef429ba27496dcb",
+        "implementationSha": "77daa5edc7b28ae5a85d96f9a1542aad4bd169a5c101d4f68ef429ba27496dcb",
         "history": [
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
             "date": "2026-10-17",
             "action": "byte-stable phase-governance artifact review",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "catalog-manifest-shard-migration",
+            "previousAfterSha256": "30cdc009da3a4f744b930604d7a6af2a23f8b186d2b32c01dc8064c1905756ae",
+            "afterSha256": "77daa5edc7b28ae5a85d96f9a1542aad4bd169a5c101d4f68ef429ba27496dcb",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
@@ -342,21 +350,32 @@
         "kind": "machine-artifact-envelope",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "687a9e3d69088bfbb387346fbbb3e58f83db6afedf7141fd7f9067dcdc276560",
-        "candidateSha256": "30cdc009da3a4f744b930604d7a6af2a23f8b186d2b32c01dc8064c1905756ae",
-        "afterSha256": "30cdc009da3a4f744b930604d7a6af2a23f8b186d2b32c01dc8064c1905756ae",
-        "lineCount": 22987,
+        "candidateSha256": "77daa5edc7b28ae5a85d96f9a1542aad4bd169a5c101d4f68ef429ba27496dcb",
+        "afterSha256": "77daa5edc7b28ae5a85d96f9a1542aad4bd169a5c101d4f68ef429ba27496dcb",
+        "lineCount": 52,
         "artifactPreserved": true,
         "originalPreservation": {
-          "method": "byte-stable phase-governance artifact",
+          "method": "pre-split monolith retained in Git history; current manifest is the authoritative structural projection",
           "sourceBytes": 1048119,
           "sourceLines": 22987,
-          "sourceFinalNewline": true,
           "inverseSha256": "687a9e3d69088bfbb387346fbbb3e58f83db6afedf7141fd7f9067dcdc276560",
           "exactRoundTrip": true
         },
         "nativeShape": {
           "format": "json",
-          "byteStable": true
+          "topLevelType": "object",
+          "topLevelKeys": [
+            "schemaVersion",
+            "id",
+            "generatedBy",
+            "sourceRevision",
+            "policy",
+            "summary",
+            "maintenancePolicy",
+            "loader",
+            "shards"
+          ],
+          "byteStable": false
         }
       },
       "history": [
@@ -371,21 +390,28 @@
           "action": "R93 phase-governance artifact migration",
           "reviewer": "r93_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "revision": "working-tree",
+          "action": "catalog-manifest-shard-migration",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [
-        "governed-legacy phase-governance presentation; original facts remain date-scoped"
+        "single-file phase/lore catalog payload; original entry objects remain in phase shards and Git history"
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-22987",
+      "userVisibleBeforeAfter": "近 1 MiB 的单一 catalog entries → 小 manifest + lore/phase1/phase2/phase3 shards + loader 合并视图；entry native 字段、after SHA、状态和历史不变。",
+      "reviewedLines": "1-52",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "30cdc009da3a4f744b930604d7a6af2a23f8b186d2b32c01dc8064c1905756ae",
+      "candidateSha256": "77daa5edc7b28ae5a85d96f9a1542aad4bd169a5c101d4f68ef429ba27496dcb",
       "primarySource": [
         {
           "path": "docs/phase-governance/catalog.json",
@@ -999,7 +1025,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "f88bac5e8546ce78cd058f1e9f89db201a509846b7c989f09e7b344dafe4accc",
+      "afterSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1022,8 +1048,8 @@
         "against": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json"]
       },
       "revision": {
-        "currentSha": "9d91cc393991fdef070673b1a593edce1a78a5d51b016e63ce3fd2727195ad9b",
-        "implementationSha": "9d91cc393991fdef070673b1a593edce1a78a5d51b016e63ce3fd2727195ad9b",
+        "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
+        "implementationSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
         "history": [
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
@@ -1037,8 +1063,8 @@
         "kind": "machine-artifact-envelope",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-        "candidateSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-        "afterSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
+        "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
+        "afterSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
         "lineCount": 1987,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -13725,6 +13751,542 @@
       "counterReworkBlocked": [
         {
           "id": "R93-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/catalog.lore.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON byte read plus loader/native-entry preservation review",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "lore catalog shard：14 条原 phase/lore entry 按原对象保留；loader 已验证 phase、SHA、重复 id/path、summary 和确定性合并。",
+      "truthAnchors": [
+        "docs/phase-governance/catalog.lore.json:1",
+        "scripts/docs/phase-lore-catalog.mjs:1"
+      ],
+      "unresolved": [],
+      "nextStep": "后续 phase 文档只通过 loader 合同更新对应 shard 与 manifest SHA。",
+      "phase": "phase-governance",
+      "module": "catalog-shards",
+      "capability": "docs/phase-governance/lore shard",
+      "owner": "Codex",
+      "provenance": ["generated-shard", "full-json-byte-read", "loader-consumer-review"],
+      "sourceSha256": "fa8e8f6808fae6dd93f9dd0a8be78e9df694a7e9597a07f722a9c6b65c963060",
+      "afterSha256": "fa8e8f6808fae6dd93f9dd0a8be78e9df694a7e9597a07f722a9c6b65c963060",
+      "publicCallers": [
+        "scripts/docs/check-phase-lore-governance.mjs",
+        "scripts/docs/build-phase-lore-governance.mjs",
+        "scripts/docs/phase-lore-catalog.mjs"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/catalog.lore.json"
+      ],
+      "businessOracle": {
+        "type": "catalog-shard-preservation",
+        "assertions": [
+          "native entry fields remain byte-equivalent to the pre-split entry objects",
+          "loader returns the exact phase membership and aggregate summary",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": ["docs/phase-governance/catalog.json", "scripts/docs/phase-lore-catalog.mjs"]
+      },
+      "revision": {
+        "currentSha": "fa8e8f6808fae6dd93f9dd0a8be78e9df694a7e9597a07f722a9c6b65c963060",
+        "implementationSha": "fa8e8f6808fae6dd93f9dd0a8be78e9df694a7e9597a07f722a9c6b65c963060",
+        "contentVersion": "N/A-document-migration",
+        "minimumSaveVersion": "N/A-document-migration",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "generated-phase-shard-and-loader-review",
+            "afterSha256": "bc82881faf643d9c164faf6ffbc276e807138a4ac8296cafa64f3202299730f5",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/phase-governance/catalog.lore.json",
+        "sourceSha256": "fa8e8f6808fae6dd93f9dd0a8be78e9df694a7e9597a07f722a9c6b65c963060",
+        "candidateSha256": "fa8e8f6808fae6dd93f9dd0a8be78e9df694a7e9597a07f722a9c6b65c963060",
+        "afterSha256": "fa8e8f6808fae6dd93f9dd0a8be78e9df694a7e9597a07f722a9c6b65c963060",
+        "lineCount": 1952,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "entry-preserving phase partition from pre-split catalog",
+          "exactRoundTrip": true,
+          "inverseSha256": "fa8e8f6808fae6dd93f9dd0a8be78e9df694a7e9597a07f722a9c6b65c963060"
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": [
+            "schemaVersion",
+            "id",
+            "generatedBy",
+            "sourceRevision",
+            "phase",
+            "summary",
+            "entries"
+          ],
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "generated-phase-shard-and-loader-review",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not edit a shard without recomputing its manifest SHA; do not treat catalog structure as runtime/E2E/visual/coverage evidence.",
+      "userVisibleBeforeAfter": "pre-split lore entries → lore shard with native entry objects preserved",
+      "reviewedLines": "1-1952",
+      "reviewNotes": "Full JSON object read and loader/consumer preservation verified; this is structural catalog evidence only.",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "current",
+      "sourceGitRevision": "working-tree",
+      "candidateSha256": "fa8e8f6808fae6dd93f9dd0a8be78e9df694a7e9597a07f722a9c6b65c963060",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/catalog.lore.json",
+          "revision": "working-tree",
+          "sha256": "fa8e8f6808fae6dd93f9dd0a8be78e9df694a7e9597a07f722a9c6b65c963060",
+          "scope": "full JSON UTF-8 bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "catalog-shards",
+        "currentBoundary": "manifest + loader own aggregate catalog truth"
+      },
+      "dependencies": "catalog manifest, loader, phase/lore consumer scripts",
+      "versionScope": {
+        "sourceRevision": "working-tree",
+        "date": "2026-10-17",
+        "validity": "current"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "CATALOG-SPLIT-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/catalog.phase1.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON byte read plus loader/native-entry preservation review",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "phase1 catalog shard：60 条原 phase/lore entry 按原对象保留；loader 已验证 phase、SHA、重复 id/path、summary 和确定性合并。",
+      "truthAnchors": [
+        "docs/phase-governance/catalog.phase1.json:1",
+        "scripts/docs/phase-lore-catalog.mjs:1"
+      ],
+      "unresolved": [],
+      "nextStep": "后续 phase 文档只通过 loader 合同更新对应 shard 与 manifest SHA。",
+      "phase": "phase-governance",
+      "module": "catalog-shards",
+      "capability": "docs/phase-governance/phase1 shard",
+      "owner": "Codex",
+      "provenance": ["generated-shard", "full-json-byte-read", "loader-consumer-review"],
+      "sourceSha256": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
+      "afterSha256": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
+      "publicCallers": [
+        "scripts/docs/check-phase-lore-governance.mjs",
+        "scripts/docs/build-phase-lore-governance.mjs",
+        "scripts/docs/phase-lore-catalog.mjs"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/catalog.phase1.json"
+      ],
+      "businessOracle": {
+        "type": "catalog-shard-preservation",
+        "assertions": [
+          "native entry fields remain byte-equivalent to the pre-split entry objects",
+          "loader returns the exact phase membership and aggregate summary",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": ["docs/phase-governance/catalog.json", "scripts/docs/phase-lore-catalog.mjs"]
+      },
+      "revision": {
+        "currentSha": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
+        "implementationSha": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
+        "contentVersion": "N/A-document-migration",
+        "minimumSaveVersion": "N/A-document-migration",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "generated-phase-shard-and-loader-review",
+            "afterSha256": "38f065a27b2e3b98c78d3b9b23033abb1b9c5b76ae05fd6235f15da792387599",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/phase-governance/catalog.phase1.json",
+        "sourceSha256": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
+        "candidateSha256": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
+        "afterSha256": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
+        "lineCount": 9249,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "entry-preserving phase partition from pre-split catalog",
+          "exactRoundTrip": true,
+          "inverseSha256": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579"
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": [
+            "schemaVersion",
+            "id",
+            "generatedBy",
+            "sourceRevision",
+            "phase",
+            "summary",
+            "entries"
+          ],
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "generated-phase-shard-and-loader-review",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not edit a shard without recomputing its manifest SHA; do not treat catalog structure as runtime/E2E/visual/coverage evidence.",
+      "userVisibleBeforeAfter": "pre-split phase1 entries → phase1 shard with native entry objects preserved",
+      "reviewedLines": "1-9249",
+      "reviewNotes": "Full JSON object read and loader/consumer preservation verified; this is structural catalog evidence only.",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "current",
+      "sourceGitRevision": "working-tree",
+      "candidateSha256": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/catalog.phase1.json",
+          "revision": "working-tree",
+          "sha256": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
+          "scope": "full JSON UTF-8 bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "catalog-shards",
+        "currentBoundary": "manifest + loader own aggregate catalog truth"
+      },
+      "dependencies": "catalog manifest, loader, phase/lore consumer scripts",
+      "versionScope": {
+        "sourceRevision": "working-tree",
+        "date": "2026-10-17",
+        "validity": "current"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "CATALOG-SPLIT-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/catalog.phase2.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON byte read plus loader/native-entry preservation review",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "phase2 catalog shard：105 条原 phase/lore entry 按原对象保留；loader 已验证 phase、SHA、重复 id/path、summary 和确定性合并。",
+      "truthAnchors": [
+        "docs/phase-governance/catalog.phase2.json:1",
+        "scripts/docs/phase-lore-catalog.mjs:1"
+      ],
+      "unresolved": [],
+      "nextStep": "后续 phase 文档只通过 loader 合同更新对应 shard 与 manifest SHA。",
+      "phase": "phase-governance",
+      "module": "catalog-shards",
+      "capability": "docs/phase-governance/phase2 shard",
+      "owner": "Codex",
+      "provenance": ["generated-shard", "full-json-byte-read", "loader-consumer-review"],
+      "sourceSha256": "d7a70394297627d7b5e1ad8b868082c3f6669fd18a2287f9521fd7c39eafce55",
+      "afterSha256": "d7a70394297627d7b5e1ad8b868082c3f6669fd18a2287f9521fd7c39eafce55",
+      "publicCallers": [
+        "scripts/docs/check-phase-lore-governance.mjs",
+        "scripts/docs/build-phase-lore-governance.mjs",
+        "scripts/docs/phase-lore-catalog.mjs"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/catalog.phase2.json"
+      ],
+      "businessOracle": {
+        "type": "catalog-shard-preservation",
+        "assertions": [
+          "native entry fields remain byte-equivalent to the pre-split entry objects",
+          "loader returns the exact phase membership and aggregate summary",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": ["docs/phase-governance/catalog.json", "scripts/docs/phase-lore-catalog.mjs"]
+      },
+      "revision": {
+        "currentSha": "d7a70394297627d7b5e1ad8b868082c3f6669fd18a2287f9521fd7c39eafce55",
+        "implementationSha": "d7a70394297627d7b5e1ad8b868082c3f6669fd18a2287f9521fd7c39eafce55",
+        "contentVersion": "N/A-document-migration",
+        "minimumSaveVersion": "N/A-document-migration",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "generated-phase-shard-and-loader-review",
+            "afterSha256": "0de61e4fe1ee4b66a96bc9d0f24deefbf3c00a19ba5c8c3ab45036539ae32daf",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/phase-governance/catalog.phase2.json",
+        "sourceSha256": "d7a70394297627d7b5e1ad8b868082c3f6669fd18a2287f9521fd7c39eafce55",
+        "candidateSha256": "d7a70394297627d7b5e1ad8b868082c3f6669fd18a2287f9521fd7c39eafce55",
+        "afterSha256": "d7a70394297627d7b5e1ad8b868082c3f6669fd18a2287f9521fd7c39eafce55",
+        "lineCount": 13705,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "entry-preserving phase partition from pre-split catalog",
+          "exactRoundTrip": true,
+          "inverseSha256": "d7a70394297627d7b5e1ad8b868082c3f6669fd18a2287f9521fd7c39eafce55"
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": [
+            "schemaVersion",
+            "id",
+            "generatedBy",
+            "sourceRevision",
+            "phase",
+            "summary",
+            "entries"
+          ],
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "generated-phase-shard-and-loader-review",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not edit a shard without recomputing its manifest SHA; do not treat catalog structure as runtime/E2E/visual/coverage evidence.",
+      "userVisibleBeforeAfter": "pre-split phase2 entries → phase2 shard with native entry objects preserved",
+      "reviewedLines": "1-13705",
+      "reviewNotes": "Full JSON object read and loader/consumer preservation verified; this is structural catalog evidence only.",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "current",
+      "sourceGitRevision": "working-tree",
+      "candidateSha256": "d7a70394297627d7b5e1ad8b868082c3f6669fd18a2287f9521fd7c39eafce55",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/catalog.phase2.json",
+          "revision": "working-tree",
+          "sha256": "d7a70394297627d7b5e1ad8b868082c3f6669fd18a2287f9521fd7c39eafce55",
+          "scope": "full JSON UTF-8 bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "catalog-shards",
+        "currentBoundary": "manifest + loader own aggregate catalog truth"
+      },
+      "dependencies": "catalog manifest, loader, phase/lore consumer scripts",
+      "versionScope": {
+        "sourceRevision": "working-tree",
+        "date": "2026-10-17",
+        "validity": "current"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "CATALOG-SPLIT-NO-EXECUTION-CREDIT",
+          "status": "closed-for-migration-open-for-product",
+          "statement": "No runtime/E2E/visual/coverage credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/catalog.phase3.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "template": "docs/phase-governance/templates/archive-record.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full JSON byte read plus loader/native-entry preservation review",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "phase3 catalog shard：5 条原 phase/lore entry 按原对象保留；loader 已验证 phase、SHA、重复 id/path、summary 和确定性合并。",
+      "truthAnchors": [
+        "docs/phase-governance/catalog.phase3.json:1",
+        "scripts/docs/phase-lore-catalog.mjs:1"
+      ],
+      "unresolved": [],
+      "nextStep": "后续 phase 文档只通过 loader 合同更新对应 shard 与 manifest SHA。",
+      "phase": "phase-governance",
+      "module": "catalog-shards",
+      "capability": "docs/phase-governance/phase3 shard",
+      "owner": "Codex",
+      "provenance": ["generated-shard", "full-json-byte-read", "loader-consumer-review"],
+      "sourceSha256": "87c3af6f71f4d22aaa8b2c76ba0c1aca1b9201aff11b3ac2aa6e747a6522da8f",
+      "afterSha256": "87c3af6f71f4d22aaa8b2c76ba0c1aca1b9201aff11b3ac2aa6e747a6522da8f",
+      "publicCallers": [
+        "scripts/docs/check-phase-lore-governance.mjs",
+        "scripts/docs/build-phase-lore-governance.mjs",
+        "scripts/docs/phase-lore-catalog.mjs"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/catalog.phase3.json"
+      ],
+      "businessOracle": {
+        "type": "catalog-shard-preservation",
+        "assertions": [
+          "native entry fields remain byte-equivalent to the pre-split entry objects",
+          "loader returns the exact phase membership and aggregate summary",
+          "no runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed-and-retained",
+        "against": ["docs/phase-governance/catalog.json", "scripts/docs/phase-lore-catalog.mjs"]
+      },
+      "revision": {
+        "currentSha": "87c3af6f71f4d22aaa8b2c76ba0c1aca1b9201aff11b3ac2aa6e747a6522da8f",
+        "implementationSha": "87c3af6f71f4d22aaa8b2c76ba0c1aca1b9201aff11b3ac2aa6e747a6522da8f",
+        "contentVersion": "N/A-document-migration",
+        "minimumSaveVersion": "N/A-document-migration",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "generated-phase-shard-and-loader-review",
+            "afterSha256": "0105d6c20b32e541d774ccf4662d81ae0ae52c0d2c4c64555270e12063ee8cde",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "machine-artifact-envelope",
+        "path": "docs/phase-governance/catalog.phase3.json",
+        "sourceSha256": "87c3af6f71f4d22aaa8b2c76ba0c1aca1b9201aff11b3ac2aa6e747a6522da8f",
+        "candidateSha256": "87c3af6f71f4d22aaa8b2c76ba0c1aca1b9201aff11b3ac2aa6e747a6522da8f",
+        "afterSha256": "87c3af6f71f4d22aaa8b2c76ba0c1aca1b9201aff11b3ac2aa6e747a6522da8f",
+        "lineCount": 777,
+        "artifactPreserved": true,
+        "originalPreservation": {
+          "method": "entry-preserving phase partition from pre-split catalog",
+          "exactRoundTrip": true,
+          "inverseSha256": "87c3af6f71f4d22aaa8b2c76ba0c1aca1b9201aff11b3ac2aa6e747a6522da8f"
+        },
+        "nativeShape": {
+          "format": "json",
+          "topLevelType": "object",
+          "topLevelKeys": [
+            "schemaVersion",
+            "id",
+            "generatedBy",
+            "sourceRevision",
+            "phase",
+            "summary",
+            "entries"
+          ],
+          "byteStable": true
+        }
+      },
+      "history": [
+        {
+          "revision": "working-tree",
+          "action": "generated-phase-shard-and-loader-review",
+          "contentReviewStatus": "content-reviewed",
+          "reviewDepth": "structured-content"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not edit a shard without recomputing its manifest SHA; do not treat catalog structure as runtime/E2E/visual/coverage evidence.",
+      "userVisibleBeforeAfter": "pre-split phase3 entries → phase3 shard with native entry objects preserved",
+      "reviewedLines": "1-777",
+      "reviewNotes": "Full JSON object read and loader/consumer preservation verified; this is structural catalog evidence only.",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "artifactOnly": true,
+      "artifactFormat": "json",
+      "documentStatus": "current",
+      "sourceGitRevision": "working-tree",
+      "candidateSha256": "87c3af6f71f4d22aaa8b2c76ba0c1aca1b9201aff11b3ac2aa6e747a6522da8f",
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/catalog.phase3.json",
+          "revision": "working-tree",
+          "sha256": "87c3af6f71f4d22aaa8b2c76ba0c1aca1b9201aff11b3ac2aa6e747a6522da8f",
+          "scope": "full JSON UTF-8 bytes"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "module": "catalog-shards",
+        "currentBoundary": "manifest + loader own aggregate catalog truth"
+      },
+      "dependencies": "catalog manifest, loader, phase/lore consumer scripts",
+      "versionScope": {
+        "sourceRevision": "working-tree",
+        "date": "2026-10-17",
+        "validity": "current"
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "CATALOG-SPLIT-NO-EXECUTION-CREDIT",
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
