@@ -50,6 +50,14 @@
       "inputSnapshot": "raw/09c01f13-24cb-460b-816b-061cdeac677f.inputs.log",
       "inputSnapshotSha256ObservedAtClosure": "c990535e79c6303a6122f91c620ab94b6cffd4c3e463af780633edff634dbef4",
       "role": "S01 repaired author candidate actual capture; lint/diff0, strict/check-docs/require-complete1. Claims apply to its input manifest, not later index registration."
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-6325bba0-f6ec-47b4-950f-b735c305a288.json",
+      "sha256": "7f0bbb0abefb1a47f65ce7b6d014a63bf287b5ee9d610930714f720d94381680",
+      "startedAt": "2026-10-17T20:31:52.641Z",
+      "inputSnapshot": "raw/6325bba0-f6ec-47b4-950f-b735c305a288.inputs.log",
+      "inputSnapshotSha256ObservedAtClosure": "61d13764ddf2aa4cd19f4796982ad5a47fb8fbced7b6c5b72eff2ec2f012cf8a",
+      "role": "S01-LAYER-BLIT author fix new actual capture; lint/diff0, strict/check-docs/require-complete1; fixed input manifest, not later control registration"
     }
   ],
   "lossDisclosure": "Earlier uncommitted managed worktree disappeared during execution. Raw captures in that directory are unavailable and are not accepted as retained evidence. Recovered command construction from this chat was re-executed in this checkout; current receipts will identify the new execution.",
@@ -79,5 +87,5 @@
       }
     ]
   },
-  "latestRetainedSession": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-09c01f13-24cb-460b-816b-061cdeac677f.json"
+  "latestRetainedSession": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-6325bba0-f6ec-47b4-950f-b735c305a288.json"
 }

@@ -32,9 +32,9 @@
     }
   ],
   "summary": {
-    "total": 2368,
+    "total": 2369,
     "byPhase": {
-      "ops": 1274,
+      "ops": 1275,
       "lore": 14,
       "phase1": 60,
       "phase2": 109,
@@ -45,7 +45,7 @@
     "byType": {
       "task-card": 364,
       "guide-runbook": 17,
-      "archive-record": 1492,
+      "archive-record": 1493,
       "audit-report": 60,
       "governance-index": 107,
       "evidence-receipt": 104,
@@ -62,11 +62,11 @@
       "test-catalog": 4
     },
     "reviewStatus": {
-      "partial-review-unknown": 1921,
+      "partial-review-unknown": 1922,
       "content-reviewed": 447
     },
     "templateCompliance": {
-      "needs-migration": 1927,
+      "needs-migration": 1928,
       "template-compliant": 441
     }
   },
@@ -27450,6 +27450,18 @@
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-09c01f13-24cb-460b-816b-061cdeac677f.json",
+      "phase": "ops",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "templateVersion": "1.0.0",
+      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "needs-migration",
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "artifactOnly": true,
+      "artifactFormat": "json"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-6325bba0-f6ec-47b4-950f-b735c305a288.json",
       "phase": "ops",
       "docType": "archive-record",
       "templateId": "archive-record-v1",

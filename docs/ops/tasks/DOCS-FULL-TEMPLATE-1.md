@@ -1599,3 +1599,8 @@ Template: task-card-v1 / 1.0.0
 - R33旧绑定迁出至S01唯一后继；原完整record由d4d5cfc6源Git/SHA定位，其余R33正文不外推复核。仅READ-FIRST一项临时改partial/needs-migration，故继承进度暂减1，并非篡改固定1838分母。
 - 首次S01捕获如实保留两个JSON格式error的lint失败；修格式后另起新UUID，lint零诊断、diff0，strict/check:docs/require-complete依旧exit1。具体输入、命令与输出见返工证据rerun索引，后续登记不冒充同字节重跑。
 - 新候选待非作者全文/来源/反例审查；不以静态结构绿灯自授语义接收，不改产品或旧测试/coverage。
+
+
+### S01 非作者counter返工（0ec6b296）
+
+独立Reviewer指出作者沿用的“sLayer×8只进排序”排他断语错误：Game present.ts588/589/600–610将sortY和iLayer都供cover几何，Reforge SpriteDraw也分列排序与cover参数。root实际补读present.ts560–617及render.ts74–115；只将现行表述限缩为最终blit不重复叠加、排序与cover各按真实合同，原quote保持。S01-LAYER-BLIT登记为author-fixed-pending-non-author；修复候选未重新获accept，不授正文或产品信用。

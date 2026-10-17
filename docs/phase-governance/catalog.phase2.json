@@ -10626,7 +10626,7 @@
         "S01 actual source and body review candidate; non-author pending"
       ],
       "sourceSha256": "25afb5f4d2d72878ab23985413f579b4552b987fc6a8f67866bb725cd4e3e1e6",
-      "afterSha256": "20e20dab3014c10c20ea9f216a0a18ba5f6d01cdb096860540c60e7df2c8f185",
+      "afterSha256": "70a835e7a8cab70fe2c62618791e8fba4b124f385a8e8f95817560a41bc244be",
       "sourceRefs": [
         {
           "path": "AGENTS.md",
@@ -10672,10 +10672,17 @@
         },
         {
           "path": "packages/reforge/src/render.ts",
-          "lines": "90-115 spriteBlitRect only; current 7px versus Game difference explicitly read",
-          "anchor": "90-115 spriteBlitRect only; current 7px versus Game difference explicitly read",
+          "lines": "74-115",
+          "anchor": "coverILayer",
           "role": "S01-directly-read-primary-scope",
           "sha256": "bca134f8488232b4f0bb5c3025aff645817bdbbc6577e46aa9bf500246cda3a1"
+        },
+        {
+          "path": "packages/game/src/present/present.ts",
+          "lines": "560-617",
+          "anchor": "addCoverTileEntries",
+          "role": "non-author counter actual source read: sorting and cover geometry",
+          "sha256": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab"
         }
       ],
       "publicCallers": [
@@ -10695,7 +10702,8 @@
           "Current source-owned assets require upstream reproducibility; canonical author scene/shared/skill/enemyAI text must not be rewritten by retired PAL conversion.",
           "Performance comparison retains full frames and explicit take/release/clear evidence without requiring accidental old scheduling or freezing unrelated NPCs.",
           "Asset anchors remain per-frame; current reforge7px policy is not generalized to every first-phase path.",
-          "Only one active content review binding; prior55-line quote remains byte-equal."
+          "Only one active content review binding; prior55-line quote remains byte-equal.",
+          "Final sprite blit does not duplicate layer offsets, while sortY/iLayer still participate in cover geometry; no sorting-only exclusivity."
         ]
       },
       "dedupe": {
@@ -10784,6 +10792,13 @@
             "contentVersion": 22,
             "minimumSaveVersion": 12
           },
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "S01-LAYER-BLIT non-author counter author-fix; pending closure",
+          "sourceRevision": "0ec6b2964f8dcb8b06804aaa22c118c0c7de8849",
+          "afterSha256": "70a835e7a8cab70fe2c62618791e8fba4b124f385a8e8f95817560a41bc244be",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],

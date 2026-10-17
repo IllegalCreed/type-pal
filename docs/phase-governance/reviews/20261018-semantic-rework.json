@@ -14,14 +14,15 @@
       "templateVersion": "1.0.0",
       "templateCompliance": "needs-migration",
       "reviewDepth": "partial-semantic",
-      "readMethod": "Root actually read all original 55 lines and complete current/before body; manually authored the eleven current rules and five stop lines; listed primary dependency scopes separately. Non-author review of new bytes pending.",
+      "readMethod": "Root actually read all original 55 lines and complete current/before body; manually authored the eleven current rules and five stop lines; listed primary dependency scopes separately. Non-author review of new bytes pending. Non-author sorting-only counter prompted an additional actual read of present.ts560-617/render74-115 and a narrow current wording fix; independent closure still pending.",
       "coreConclusion": "READ-FIRST是AGENTS明确路由的现行L1准入规则，R33将整页historical而catalog仍current构成事实权冲突。恢复十一条规则与五类停止线，分清原始源供应和canonical作者正文、演出归因与资产约定；原55行quote保持。作者候选不授新执行或独立信用。",
       "truthAnchors": [
         "AGENTS.md:21",
         "docs/ops/guides/documentation-model.md:27",
         "docs/testing/e2e/contract.md:98",
         "docs/ops/archive/tasks/done/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md:178",
-        "packages/reforge/src/render.ts:97"
+        "packages/reforge/src/render.ts:97",
+        "packages/game/src/present/present.ts:588"
       ],
       "unresolved": [
         "New authored body awaits non-author semantic review; whole task/global gates remain unpassed.",
@@ -82,7 +83,13 @@
           "path": "packages/reforge/src/render.ts",
           "revision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
           "sha256": "bca134f8488232b4f0bb5c3025aff645817bdbbc6577e46aa9bf500246cda3a1",
-          "scopeActuallyRead": "90-115 spriteBlitRect only; current 7px versus Game difference explicitly read"
+          "scopeActuallyRead": "74-115 SpriteDraw sort/cover fields and spriteBlitRect; not the whole renderer or visual acceptance"
+        },
+        {
+          "path": "packages/game/src/present/present.ts",
+          "revision": "0ec6b2964f8dcb8b06804aaa22c118c0c7de8849",
+          "sha256": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab",
+          "scopeActuallyRead": "560-617 NPC sortY/iLayer, final drawSprite and addCoverTileEntries; no product execution"
         }
       ],
       "phaseAnchors": {
@@ -124,7 +131,8 @@
           "Current source-owned assets require upstream reproducibility; canonical author scene/shared/skill/enemyAI text must not be rewritten by retired PAL conversion.",
           "Performance comparison retains full frames and explicit take/release/clear evidence without requiring accidental old scheduling or freezing unrelated NPCs.",
           "Asset anchors remain per-frame; current reforge7px policy is not generalized to every first-phase path.",
-          "Only one active content review binding; prior55-line quote remains byte-equal."
+          "Only one active content review binding; prior55-line quote remains byte-equal.",
+          "Final sprite blit does not duplicate layer offsets, while sortY/iLayer still participate in cover geometry; no sorting-only exclusivity."
         ]
       },
       "dedupe": {
@@ -151,6 +159,17 @@
           "id": "S01-FALSE-UNRESOLVED",
           "status": "context-explained-not-product-completion",
           "statement": "Old numbered unresolved excerpts merely repeat rule9 mechanism reading and rule10 blocked completion policy; new text states the obligations, not a product fix claim."
+        },
+        {
+          "id": "S01-LAYER-BLIT",
+          "status": "author-fixed-pending-non-author",
+          "reportedBy": "/root/receipt_integrity_independent",
+          "candidate": "0ec6b2964f8dcb8b06804aaa22c118c0c7de8849",
+          "statement": "原文与作者候选都把sLayer只进排序写得过于绝对，忽略sortY与iLayer仍供cover几何；修为最终blit不重复叠加，排序/cover各按实际合同。",
+          "primarySource": [
+            "packages/game/src/present/present.ts:570-610",
+            "packages/reforge/src/render.ts:82-115"
+          ]
         }
       ],
       "revision": {
@@ -162,6 +181,12 @@
             "action": "replace-wrong-historical-wrapper-with-current-rule-candidate",
             "previousAfterSha256": "25afb5f4d2d72878ab23985413f579b4552b987fc6a8f67866bb725cd4e3e1e6",
             "afterSha256": "20e20dab3014c10c20ea9f216a0a18ba5f6d01cdb096860540c60e7df2c8f185"
+          },
+          {
+            "date": "2026-10-18",
+            "revision": "0ec6b2964f8dcb8b06804aaa22c118c0c7de8849",
+            "action": "non-author S01-LAYER-BLIT counter: narrow sorting-only overstatement; source quote preserved",
+            "afterSha256": "70a835e7a8cab70fe2c62618791e8fba4b124f385a8e8f95817560a41bc244be"
           }
         ]
       },
@@ -193,7 +218,7 @@
       ],
       "stopLine": "No batch credit restoration; no product policy change; this author candidate cannot self-grant independent acceptance or global hard-gate completion.",
       "sourceSha256": "25afb5f4d2d72878ab23985413f579b4552b987fc6a8f67866bb725cd4e3e1e6",
-      "afterSha256": "20e20dab3014c10c20ea9f216a0a18ba5f6d01cdb096860540c60e7df2c8f185",
+      "afterSha256": "70a835e7a8cab70fe2c62618791e8fba4b124f385a8e8f95817560a41bc244be",
       "sourceGitRevision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
       "reviewedLines": "1-120 current;1-122 before;55 original; dependency scopes explicit",
       "historyOverlay": false,
