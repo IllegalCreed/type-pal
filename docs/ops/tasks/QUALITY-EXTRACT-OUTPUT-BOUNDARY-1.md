@@ -45,3 +45,9 @@ Codex完成四向真值与直接IO反例核验，单一Coding Owner，build allo
 ## 未决与交接
 
 下一步记录本批完整文档、账本与质量门回执，提交并推送治理分支；3g其它只读复审与全83卡/94–102/editor范围继续。CLI旧关闭因直接counter保持rework；coverage baseline回退、game/editor运行时诊断未收口，不合main。无下一位Agent提示词，Codex单Agent继续。
+
+## 2026-10-17 当前实现回执
+
+实现白名单已落在 `packages/pal-extract/src/cli.ts`、`packages/pal-extract/src/output-boundary.ts` 与对应 `output-boundary.test.ts`；CLI 入口通过 `prepareOutputRoot` 调用共享所有权守卫，并保持直接执行时的错误退出。方案A行为不变：`data` 或 `data/extracted` 根节点为 symlink 时在任何清理/写出前拒绝；自有目录、缺失 output、`data/raw` 输入链接和 output 内部子项仍保留原边界。没有修改提取格式、生成物、argv、force 开关或公共游戏接口。
+
+直接回归：`output-boundary.test.ts` 与 `cli-error-exits.kimi-r1.test.ts` 为 2 files / 12 tests passed；pal-extract typecheck 通过；`check:docs`、`lint`（4971 files，0/0/0）、ledger 均通过。此批未运行 coverage、official ratchet、protected fast 或全仓 `pnpm check`，因为用户已明确要求把这些昂贵门集中到完整大任务收口；coverage baseline 未纳入本提交。CLI 旧 ledger 关闭仍保持 `rework`，新增实现/合同文件登记为 `review`，本卡继续 `build`，等待大窗口统一门与独立收口。
