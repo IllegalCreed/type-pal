@@ -1,0 +1,46 @@
+{
+  "base": "1ffef6802",
+  "fullReads": [
+    {
+      "path": "packages/game/src/core/battle/turn-queue.ts",
+      "sha256": "d7ff1f4fa1071b98ab86e6c0976a3a45535faf8b6085f5a734089c575603876c",
+      "lines": 98,
+      "boundary": "Full implementation read; enemy/player fill order, dualMove dex2, stable sort and queue item ownership."
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/turn-queue.test.ts",
+      "sha256": "2c0e340046499df8d57bc70f5923de9f2f740e8b126365d7ac980b05b1e0846f",
+      "lines": 117,
+      "boundary": "Full direct queue/dex/dualMove/stability oracle read."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "c286881a1d1d5932333a9fcd084376e42d8871c5abc2a052573a6dbc9267b11c",
+      "lines": 3141,
+      "ranges": ["680-770", "1900-1960"],
+      "boundary": "Queue construction and perform caller ranges only."
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "lines": 5400,
+      "ranges": ["1451-1605"],
+      "boundary": "PAL_CLASSIC queue fill, dualMove and strict sort primary range."
+    },
+    {
+      "path": "reference/sdlpal/battle.h",
+      "sha256": "3234d15bfcb91e9ce1e8c5ddba56d57bed7150d743a1119af6b05a185a310284",
+      "lines": 334,
+      "ranges": ["158-167", "216-216"],
+      "boundary": "ACTIONQUEUE structure and max-size primary fields."
+    }
+  ],
+  "notClaimed": [
+    "Complete CODE-QUALITY-3m acceptance",
+    "Formula/status/RNG/positions beyond the separate positions slice",
+    "Any action-order or gameplay behavior change",
+    "Coverage, official ratchet, protected fast or whole-repository acceptance"
+  ]
+}

@@ -354,6 +354,12 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 - 结论：1/2/3 人 SDL 表、4/5 fallback、EnemyPos 缺失 fallback 与 idx bounds 逐文件核验；未发现直接缺陷。3m 其余 formulas/magic-damage/status/turn-queue/rng 仍 pending，不作高风险取舍。
 - 验证：按关键词定向 `battle-state.test.ts` 为 `1 passed / 13 skipped`，game typecheck 无诊断；coverage、official ratchet、protected fast、全仓 `pnpm check` 留待完整大模块收口。已读清单与 SHA 见 [`3m-battle-positions`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3m-battle-positions/README.md)。3m 整卡保持 `partial`。
 
+### 2026-10-17 CODE-QUALITY-3m turn-queue 只读切片
+
+- 高风险边界：不改 action order、RNG、dualMove 或玩法；完整读取 `turn-queue.ts`/直接测试，读取 `battle-system.ts:680-770` caller、`fight.c:1451-1584` 和 `battle.h` ACTIONQUEUE primary。
+- 结论：敌先填充、玩家后填充、dex 降序稳定排序、dualMove dex2 两方向标记与 caller 的失能 dex=0/不耗 RNG 接线一致；未发现直接缺陷。NaN/越界 dex 不在合法 caller 域，保持未裁决。
+- 验证：`turn-queue.test.ts` + `battle-state-machine.glm-battle.test.ts` 关键词定向 `5 passed / 14 skipped`，game typecheck 通过；coverage、official ratchet、protected fast、全仓 `pnpm check` 留待完整大模块收口。已读清单与 SHA 见 [`3m-turn-queue`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3m-turn-queue/README.md)。3m 整卡保持 `partial`。
+
 ### 2026-10-17 CODE1/CODE2 boundary carry-over
 
 本片接收工作树中已完成的两个窄测试合同：`packages/shared/src/rle.boundaries.test.ts` 新增“相邻 offset 截断前一帧帧头即拒绝”反例；`packages/shared/src/rng.boundaries.test.ts` 新增同一 surface 连续 delta 累加并保留首帧像素的 ownership 合同。两项都只改测试，不改 RLE/RNG/YJ2 实现、公共出口、资源或格式策略；RLE 高位 literal 风险继续留在 `QUALITY-RLE-COMMAND-TRUTH-1` draft。
