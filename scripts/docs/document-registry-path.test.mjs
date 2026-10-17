@@ -27,15 +27,24 @@ function fixture(t, paths) {
 }
 
 test('canonical native paths retain distinct basenames, Unicode and interior spaces', (t) => {
-  const paths = ['docs/ops/one.md', 'docs/ops/中文 document.md', 'docs/lore/reference.json']
+  const paths = [
+    'docs/ops/one.md',
+    'docs/ops/中文 document.md',
+    'docs/lore/reference.json',
+    'docs/ops/emoji-\u{1f600}.md',
+    'docs/ops/supplementary-\u{20000}.md',
+  ]
   const f = fixture(t, paths)
   assert.deepEqual(
     loadDocumentRegistry(f).registry.entries.map((value) => value.path),
     paths,
   )
+  for (const path of paths) assert.equal(Buffer.from(path, 'utf8').toString('utf8'), path)
 })
 
 const invalidPaths = [
+  ['unpaired high surrogate', 'docs/ops/\ud800.md'],
+  ['unpaired low surrogate', 'docs/ops/\udc00.md'],
   ['first parent segment', 'docs/../AGENTS.md'],
   ['first current-directory alias', 'docs/./ops/one.md'],
   ['middle current-directory alias', 'docs/ops/./one.md'],
@@ -56,6 +65,7 @@ for (const [label, path] of invalidPaths)
     // Keep a real canonical counterpart so aliases cannot bypass path identity.
     const f = fixture(t, ['docs/ops/one.md', path])
     const expected = `document registry: unsafe document path: ${path}`
+    const expectedStderr = Buffer.from(expected, 'utf8').toString('utf8')
     let loaderRejection
     try {
       loadDocumentRegistry(f)
@@ -72,7 +82,7 @@ for (const [label, path] of invalidPaths)
         code: result.status,
         signal: result.signal,
         spawnError: result.error?.message,
-        rejectedPath: result.stderr.includes(expected),
+        rejectedPath: result.stderr.includes(expectedStderr),
       }
     })
     assert.equal(loaderRejection, expected)

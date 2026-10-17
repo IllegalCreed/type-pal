@@ -104,9 +104,12 @@ function entriesValid(entries) {
             segment.trim() === segment &&
             !segment.endsWith('.') &&
             !/[<>:"\\|?*]/.test(segment) &&
-            Array.from(segment).every(
-              (character) => character.codePointAt(0) >= 32 && character.codePointAt(0) !== 127,
-            ),
+            Array.from(segment).every((character) => {
+              const codePoint = character.codePointAt(0)
+              return (
+                codePoint >= 32 && codePoint !== 127 && (codePoint < 0xd800 || codePoint > 0xdfff)
+              )
+            }),
         ) &&
         /\.(?:md|json|html)$/.test(entry.path),
       `unsafe document path: ${entry.path}`,
