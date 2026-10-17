@@ -84,6 +84,8 @@
 
 最新[56 minimap thumbnail 生命周期复审](56-minimap/README.md)：完整读取 minimap、两份专属测试、bootstrap/tools/dev/tilemap caller；直接20、相邻51+picker5通过；临时提前释放 loading ownership 的变异使专属测试1红5绿，原文件已恢复。56 当前 `partial`，seam repair 仍由57独立处理。
 
+最新[58 tools-panel 复审](58-tools-panel/README.md)：完整读取工具面板、两份专属测试、bootstrap/minimap/save/quick-save/battle-inspect caller；18 直接测试通过，未发现本卡直接缺陷。58 当前 `partial`，save-io VERSION/payload 边界留 CODE-QUALITY-59。
+
 ## 统一候选后的范围更正
 
 以下role键探针和四项counter针对冻结f0cf0f7f主线系候选。用户要求先收3y后，已发现其未合入的CODE53包含party-slot mapper/离队guard与对应测试；现统一候选已有该实现，不能继续宣称“当前helper仍按role键”。CODE53仍待端到端/整文件/视觉与统一门复审，原probe不被改写为当前失败。重复GAME-PLAYER-POISON-KEY-DOMAIN-1取消、归CODE53；YJ2过期注释与cleanup fixture待核仍保留。

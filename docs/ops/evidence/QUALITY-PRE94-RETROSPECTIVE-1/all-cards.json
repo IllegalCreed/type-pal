@@ -2262,10 +2262,10 @@
       "number": 58,
       "suffix": "",
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-58-game-tools-panel-audit.md",
-      "sha256": "8a9de1ab3c753f2d2bcd7a15121e3156875ce4aacef38852187b1768a81815ac",
-      "lines": 54,
+      "sha256": "6f51c26075a7b86f26b953978c722509d61a1b1fdd4152507e2e719783b3d413",
+      "lines": 60,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -3923,8 +3923,8 @@
   ],
   "reviewCheckpointBase": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
   "currentReviewCounts": {
-    "partial": 37,
-    "pending": 46,
+    "partial": 38,
+    "pending": 45,
     "accept": 0
   }
 }

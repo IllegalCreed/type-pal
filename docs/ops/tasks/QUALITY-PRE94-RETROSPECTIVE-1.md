@@ -524,3 +524,9 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 - 范围：`minimap.ts`、两份专属测试；完整读取 bootstrap thumbnail renderer、tools-panel/dev-panel caller、scene-system、draw-tilemap 两层绘制与 phase1 相机边界。
 - 结论：`baseLoading` 直到 `Image.onload/onerror` 才释放，成功/失败缓存与 map/outW dedup ownership 均成立；未发现新产品缺陷。临时提前释放 loading 的变异使专属测试 1 failed / 5 passed，证明反例有判别力；变异已恢复，未留下实现改动。
 - 验证：直接 2 files/20 tests、相邻 tools/dev 4 files/51 tests + picker lifecycle 5 tests、game typecheck通过；coverage 等沿用 [`53-wave-gates`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)。56 从 pending 提升为 `partial`，seam repair/视觉差异留 CODE-QUALITY-57。
+
+### 2026-10-18 CODE-QUALITY-58 tools-panel 当前复审
+
+- 范围：完整读取 `tools-panel.ts`、两份专属测试、bootstrap setup caller、minimap/save-io/quick-save/battle-inspect 依赖；核 DOM/键盘传播、tab 投影、战斗刷新签名、音频/缩放/FPS/fullscreen 委托与 timer lifecycle。
+- 结论：面板根节点与样式幂等、Backquote 放行/其它键阻断、真实依赖委托和战斗 250ms 刷新均有 caller/oracle；未发现本卡直接缺陷。不改 save-io VERSION/payload 或公共接口。
+- 验证：定向 2 files/18 tests、game typecheck通过；coverage 等沿用 [`53-wave-gates`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)。58 从 pending 提升为 `partial`，save/import 版本风险继续由 CODE-QUALITY-59 独立处理。
