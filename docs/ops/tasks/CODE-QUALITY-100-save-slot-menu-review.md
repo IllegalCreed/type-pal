@@ -7,6 +7,32 @@ Phase: phase1
 Capability: Q3 save-slot menu governance（存档域边界切片）
 Visual Verification Timing: N/A（纯数据层，无产品/UI行为修改）
 
+## Codex 当前复核与测试收紧（2026-10-17）
+
+本批在最新 `origin/main=36caec0251b48f94fa5b9d5c4c786571037f9869` 的
+`codex/code-quality-3y` 隔离树中重新完整读取了三个目标文件：
+`save-slot-menu.ts`、`save-slot-menu.test.ts`、
+`save-slot-menu.glm-phase1-leaves.test.ts`；并核对了真实 caller
+`menu-driver.ts`（标题读档、系统保存/读档、Confirm/Cancel ownership）、
+`present/menu/draw-menu.ts`（每帧 SlotMeta oracle）、`core/save/api.ts`、
+`core/save/indexed-db.ts`、`core/menu/primitives.ts` 及相邻真链测试
+`menu-save-chain.glm-msio.test.ts`、`menu-driver.cov85.test.ts`。
+
+复核结论：`save-slot-menu.ts` 的同步选择、非顺序 id、defaultSlot、空表防御、
+异步 `Save.listSlots()` 填充和失败 warning ownership 与 caller/primary 对齐，
+未发现产品缺陷或 schema/save 写路径变更。测试收紧了两处真实质量问题：移除三条
+重复 `Save.saveSlot/loadSlot` roundtrip（Save API 自有测试已覆盖），将错误标注为
+wrap 的中间项用例改成准确语义并补首项环绕反例；新增 `listSlots` reject 后
+warning、状态不污染且 spy 在 `afterEach` 恢复的隔离合同。leaves 继续只验证同步
+工厂/导航，不重复 IO。
+
+当前定向门：四文件、58 tests PASS，0 stderr；game typecheck PASS。为反映本批真实
+game 测试身份，`scripts/coverage/baseline.fast.json` 仅刷新 game 包 fast baseline
+（3536→3585 tests、指标上升；shared/pal-extract baseline 未改）。完整门仍受
+official ratchet/protected fast 的 shared/pal-extract 回退阻塞；本批不降低阈值。
+全仓既有 editor 诊断、game stderr 和 shared/pal-extract coverage baseline 回退
+阻塞，因此本卡保持 `review`，不能把本卡整卡写成 `done`。
+
 ## 2026-10-15 最终模块窗口（当前）
 
 稳定源码候选bb94ad8e2，完整check/official ratchet/protected fast均exit0，

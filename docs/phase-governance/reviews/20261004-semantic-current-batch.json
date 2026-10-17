@@ -407,7 +407,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "4cf6bbfd1d24cd11163d2a2b90629812a6a97f4c3cac5fd848e6e423eff453a6",
+      "afterSha256": "f3c70de9ea45f2d04d2616dcf9f61fddc80dbdc86cc4710b0746223cafbde301",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -437,7 +437,7 @@
         "notes": "Type/template and content review are distinct from product verification."
       },
       "revision": {
-        "currentSha": "4cf6bbfd1d24cd11163d2a2b90629812a6a97f4c3cac5fd848e6e423eff453a6",
+        "currentSha": "f3c70de9ea45f2d04d2616dcf9f61fddc80dbdc86cc4710b0746223cafbde301",
         "implementationSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
@@ -675,7 +675,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "4cf6bbfd1d24cd11163d2a2b90629812a6a97f4c3cac5fd848e6e423eff453a6",
+        "afterSha256": "f3c70de9ea45f2d04d2616dcf9f61fddc80dbdc86cc4710b0746223cafbde301",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",

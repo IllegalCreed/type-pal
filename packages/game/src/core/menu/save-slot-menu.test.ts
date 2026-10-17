@@ -1,10 +1,10 @@
 /**
  * SaveSlotMenu state machine 单测 — sdlpal uigame.c:169-242 真值。
  *
- * C8(2026-05-29)更新:加 slotMetas + fetchSlotMetas + Save IO integration 防回归。
+ * C8(2026-05-29)更新:加 slotMetas + fetchSlotMetas + Save.listSlots caller integration 防回归。
  */
 
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createInitialGameState } from '../game-state.js'
 import { Save } from '../save/api.js'
 import {
@@ -57,11 +57,17 @@ describe('saveSlotMenuUp/Down + Current', () => {
     expect(s.selection.cursor).toBe(1)
   })
 
-  it('Up 切上一 slot;边界 wrap(SelectionMenu 默认行为)', () => {
+  it('Up 从中间项切上一 slot(SelectionMenu 委托)', () => {
     const s = createSaveSlotMenu('save')
     s.selection.cursor = 2
     saveSlotMenuUp(s)
     expect(s.selection.cursor).toBe(1)
+  })
+
+  it('Up 从首项环绕到末项(SelectionMenu 委托)', () => {
+    const s = createSaveSlotMenu('save')
+    saveSlotMenuUp(s)
+    expect(saveSlotMenuCurrent(s)).toBe(5)
   })
 
   it('Current 返回 slot id(1-based,sdlpal uigame.c:184 真值)', () => {
@@ -85,6 +91,7 @@ describe('fetchSlotMetas + Save IO', () => {
 
   afterEach(async () => {
     await Save._clearAllForTest()
+    vi.restoreAllMocks()
   })
 
   it('fetchSlotMetas 空 slots → slotMetas 仍空', async () => {
@@ -122,6 +129,68 @@ describe('fetchSlotMetas + Save IO', () => {
     expect(s.slotMetas.size).toBe(5)
     expect(s.slotMetas.get(3)?.savedTimes).toBe(30)
   })
+
+  it('fetchSlotMetas 在 listSlots resolve 前不写入状态，resolve 后按真实 id 填充', async () => {
+    type ListedSlot = Awaited<ReturnType<typeof Save.listSlots>>
+    let resolveSlots!: (slots: ListedSlot) => void
+    const pending = new Promise<ListedSlot>((resolve) => {
+      resolveSlots = resolve
+    })
+    vi.spyOn(Save, 'listSlots').mockReturnValue(pending)
+    const s = createSaveSlotMenu('load')
+
+    const fetching = fetchSlotMetas(s)
+    expect(s.slotMetas.size).toBe(0)
+    resolveSlots([
+      {
+        id: 4,
+        meta: { partyLevel: 8, cash: 400, sceneId: 6, savedAt: 2, savedTimes: 9 },
+      },
+    ])
+    await expect(fetching).resolves.toBeUndefined()
+    expect(s.slotMetas.get(4)?.savedTimes).toBe(9)
+    expect(s.slotMetas.get(0)).toBeUndefined()
+  })
+
+  it('刷新同 slot 会替换元数据并按 id 增加新 slot', async () => {
+    const s = createSaveSlotMenu('load')
+    s.slotMetas.set(2, { partyLevel: 1, cash: 10, sceneId: 1, savedAt: 1, savedTimes: 1 })
+    vi.spyOn(Save, 'listSlots').mockResolvedValue([
+      {
+        id: 2,
+        meta: { partyLevel: 3, cash: 30, sceneId: 3, savedAt: 3, savedTimes: 3 },
+      },
+      {
+        id: 5,
+        meta: { partyLevel: 5, cash: 50, sceneId: 5, savedAt: 5, savedTimes: 5 },
+      },
+    ])
+
+    await fetchSlotMetas(s)
+    expect(s.slotMetas.size).toBe(2)
+    expect(s.slotMetas.get(2)?.cash).toBe(30)
+    expect(s.slotMetas.get(5)?.cash).toBe(50)
+  })
+
+  it('Save.listSlots 失败 → 记录 warning 且不污染已有元数据', async () => {
+    const s = createSaveSlotMenu('load')
+    const existing = {
+      partyLevel: 9,
+      cash: 100,
+      sceneId: 2,
+      savedAt: 1,
+      savedTimes: 4,
+    }
+    s.slotMetas.set(1, existing)
+    const failure = new Error('storage unavailable')
+    const listSlots = vi.spyOn(Save, 'listSlots').mockRejectedValue(failure)
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+    await expect(fetchSlotMetas(s)).resolves.toBeUndefined()
+    expect(listSlots).toHaveBeenCalledOnce()
+    expect(warn).toHaveBeenCalledWith('[save-slot-menu] fetchSlotMetas failed:', failure)
+    expect(s.slotMetas.get(1)).toEqual(existing)
+  })
 })
 
 // ── C8 SlotMeta.savedTimes 真值(sdlpal cross-slot counter)──────────────────
@@ -146,51 +215,4 @@ describe('SlotMeta.savedTimes — sdlpal uigame.c:589-597 真值', () => {
   // C5 排重(2026-10-15)：原"cross-slot max+1 算法验证(dispatcher 模拟)"自写聚合模型
   // 重复实现 dispatcher 逻辑，不算真实 caller 证据 —— 真正触发 driver 聚合的合同由
   // menu-save-chain.glm-msio.test.ts 承担（跨槽 7→8、原槽不变），删除本模拟。
-})
-
-// ── Save / Load roundtrip ────────────────────────────────────────────────────
-
-describe('Save → Load roundtrip', () => {
-  beforeEach(async () => {
-    await Save._clearAllForTest()
-  })
-
-  afterEach(async () => {
-    await Save._clearAllForTest()
-  })
-
-  it('save GameState → loadSlot 取回同字段值', async () => {
-    const gs = createInitialGameState({ x: 100, y: 200, facing: 'left' })
-    gs.dwCash = 999
-    gs.wNumScene = 12
-    gs.wSavedTimes = 7
-    gs.PlayerRolesRuntime.rgwHP[0] = 150
-    gs.PlayerRolesRuntime.rgwLevel[1] = 8
-    gs.inventory = [{ itemId: 105, count: 3 }]
-    await Save.saveSlot(4, gs)
-
-    const loaded = await Save.loadSlot(4)
-    expect(loaded).toBeTruthy()
-    expect(loaded!.dwCash).toBe(999)
-    expect(loaded!.wNumScene).toBe(12)
-    expect(loaded!.wSavedTimes).toBe(7)
-    expect(loaded!.PlayerRolesRuntime.rgwHP[0]).toBe(150)
-    expect(loaded!.PlayerRolesRuntime.rgwLevel[1]).toBe(8)
-    expect(loaded!.inventory).toEqual([{ itemId: 105, count: 3 }])
-  })
-
-  it('save 是 deep clone — loaded 修改不影响 saved', async () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.dwCash = 100
-    await Save.saveSlot(1, gs)
-    const loaded1 = (await Save.loadSlot(1))!
-    loaded1.dwCash = 9999
-    const loaded2 = (await Save.loadSlot(1))!
-    expect(loaded2.dwCash).toBe(100) // 不受 loaded1 修改影响
-  })
-
-  it('loadSlot 不存在 slot → null', async () => {
-    const r = await Save.loadSlot(99)
-    expect(r).toBeNull()
-  })
 })
