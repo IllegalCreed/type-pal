@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { buildActionQueue } from '../turn-queue.js'
 
 /**
- * ActionQueue 测试 —— PAL_CLASSIC 路径,对照 sdlpal `fight.c:1451-1571`。
+ * ActionQueue 测试 —— PAL_BattleStartFrame(PAL_CLASSIC)填充/交换;置换反例见parity专测。
  */
 
 describe('buildActionQueue (PAL_CLASSIC)', () => {
@@ -32,7 +32,7 @@ describe('buildActionQueue (PAL_CLASSIC)', () => {
     expect(enemyEntries[1]?.fIsSecond).toBe(true)
   })
 
-  it('同 dex 排序稳定(敌人先于队员,fight.c 先填敌人且只在严格小于时交换)', () => {
+  it('仅一敌一队员同速且不发生交换时,保持敌人先填顺序', () => {
     const queue = buildActionQueue({
       players: [{ idx: 0, dex: 30 }],
       enemies: [{ idx: 0, dex: 30, dualMove: false }],
@@ -41,7 +41,7 @@ describe('buildActionQueue (PAL_CLASSIC)', () => {
     expect(queue[1]?.isEnemy).toBe(false)
   })
 
-  it('同 dex 的多个敌人与队员均保持原填充顺序', () => {
+  it('所有项同速且不发生交换时,保持原填充顺序', () => {
     const queue = buildActionQueue({
       players: [
         { idx: 0, dex: 30 },

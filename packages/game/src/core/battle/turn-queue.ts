@@ -1,20 +1,24 @@
 /**
- * PAL_CLASSIC ActionQueue —— from `reference/sdlpal/fight.c:1900-1985`(`#ifdef PAL_CLASSIC` 分支)。
+ * PAL_CLASSIC ActionQueue —— PAL_BattleStartFrame 的填充/排序(fight.c:1451-1585)。
  *
- * 每轮重排:敌人 + 队员 按 dexterity 降序;dualMove enemy 进队列两次(第二次 fIsSecond=true,
- * 实际效果是排在第一次之后,等所有人都行动完再轮到它)。
+ * 每轮先填敌人再填队员,按 SHORT 速度双循环交换;此排序不稳定。
+ * dualMove 两抽中较小者标 fIsSecond,同速时标第二条;交换可能反转同速条目的先后。
  *
  * 对照 sdlpal `battle.h:158-167` `tagACTIONQUEUE`:{ fIsEnemy, wDexterity, wIndex, fIsSecond }。
  *
  * 注:sdlpal 用 RandomFloat(0.9, 1.1) 给 enemy dex 加抖动,dualMove 第二个 entry 也独立摇一次,
  * 然后比较两个 dex 选小者标 fIsSecond(`fight.c:1486-1489`)。本函数为纯函数,不持 RNG,
- * 把抖动职责留给调用方(传 dex 时已 modulated),并用 dex-1 模拟「第二次必排在第一次之后」。
- * SDLPal 先填敌人、再填队员,排序只在 `<` 时交换,故同 dex 保持敌人在前。
+ * 把抖动职责留给调用方(生产caller传入两抽)。缺省 dex2 的 dex-1 是既有helper近似,
+ * 不作为 SDLPal 二抽真值。排序保留原C的13槽与速度0xffff终止边界,仅返回可执行前缀。
  */
+
+/** MAX_ACTIONQUEUE_ITEMS = MAX_PLAYERS_IN_PARTY + MAX_ENEMIES_IN_TEAM * 2。 */
+const ACTION_QUEUE_CAPACITY = 3 + 5 * 2
+const UNUSED_DEXTERITY = 0xffff
 
 export interface PlayerSlot {
   idx: number
-  /** getPlayerActualDexterity 算出的值。 */
+  /** caller完成状态、行动倍率、濒死和jitter后的速度。 */
   dex: number
 }
 
@@ -25,7 +29,7 @@ export interface EnemySlot {
   dualMove: boolean
   /**
    * D7(W1):dualMove 第二行动的**独立**dex 二抽(sdlpal fight.c:1483-1489 第二 entry 也
-   *   GetEnemyDexterity*RandomFloat 再摇一次)。提供时用 dex/dex2 比较定 fIsSecond(小者当第二动);
+   *   GetEnemyDexterity*RandomFloat 再摇一次)。提供时按两抽比较标记fIsSecond,相等时标第二条;
    *   省略时回退旧 `dex-1` 近似(兼容未传 dex2 的调用方)。
    */
   dex2?: number
@@ -36,7 +40,7 @@ export interface ActionQueueItem {
   /** rgPlayer[idx] 或 rgEnemy[idx] 的索引。 */
   idx: number
   dex: number
-  /** 仅 dualMove enemy 的第二次行动 = true。 */
+  /** dualMove二抽比较标记的附加行动;同速交换后不保证仍排在另一条之后。 */
   fIsSecond: boolean
   /**
    * 敌人 wScriptOnReady 已跑过(本 turn 项一次性)。tickPerformAction 跑 scriptOnReady 后置真,
@@ -58,12 +62,12 @@ export interface BuildActionQueueInput {
 /**
  * 构建一轮 ActionQueue。
  *
- * from `reference/sdlpal/fight.c:1451-1571`(`#ifdef PAL_CLASSIC` 分支 enemy + player 填充)。
+ * PAL_BattleStartFrame(PAL_CLASSIC):填充、SHORT比较交换,消费遇速度0xffff结束。
  *
  * 步骤:
- *   1. 把所有敌人塞队列;dualMove enemy 进队列两次,第二次 dex-1 + fIsSecond=true
+ *   1. 先填敌人;dualMove进两条,按dex/dex2比较标记fIsSecond(缺省dex2保留既有近似)
  *   2. 把所有队员塞队列(fIsSecond=false)
- *   3. dex 降序稳定排序;同 dex 保持填充顺序,即敌人先于队员
+ *   3. 补齐原C空槽,按SHORT速度双循环交换,截取首个速度0xffff之前的队列
  */
 export function buildActionQueue(input: BuildActionQueueInput): ActionQueueItem[] {
   const items: ActionQueueItem[] = []
@@ -74,7 +78,7 @@ export function buildActionQueue(input: BuildActionQueueInput): ActionQueueItem[
     if (e.dualMove) {
       // D7(W1):dualMove 第二行动 — sdlpal fight.c:1483-1489 第二 entry 独立二抽 dex(GetEnemyDexterity*RandomFloat),
       //   然后 `if (second.dex <= first.dex) second.fIsSecond=TRUE; else first.fIsSecond=TRUE`(小 dex 者当第二动)。
-      //   dex2 提供则真值比较;省略回退旧 `dex-1`(第二条恒 fIsSecond,排第一条之后)。
+      //   dex2提供则按两抽比较;省略保留既有dex-1近似,仅标记第二条,不保证其排序后位置。
       if (e.dex2 !== undefined) {
         const second: ActionQueueItem = { isEnemy: true, idx: e.idx, dex: e.dex2, fIsSecond: false }
         if (e.dex2 <= e.dex) second.fIsSecond = true
@@ -90,9 +94,33 @@ export function buildActionQueue(input: BuildActionQueueInput): ActionQueueItem[
     items.push({ isEnemy: false, idx: p.idx, dex: p.dex, fIsSecond: false })
   }
 
-  // SDLPal 用双循环仅在 `(SHORT)a.dex < (SHORT)b.dex` 时交换(fight.c:1574-1584)。
-  // JS stable sort + 只比较 dex 等价:同 dex 保留「敌人先填、队员后填」的顺序。
-  items.sort((a, b) => b.dex - a.dex)
+  // 原C空槽速度为WORD0xffff,参与SHORT比较时是-1;不能先删空槽再排序。
+  while (items.length < ACTION_QUEUE_CAPACITY) {
+    items.push({
+      isEnemy: false,
+      idx: 0xffff,
+      dex: UNUSED_DEXTERITY,
+      fIsSecond: false,
+    })
+  }
 
-  return items
+  // 严格小于也可能因与较快项交换而反转同速项;稳定sort不能替代此控制流。
+  for (let i = 0; i < items.length; i++) {
+    for (let j = i; j < items.length; j++) {
+      const first = items[i]
+      const second = items[j]
+      if (!first || !second) continue
+      // 这是原C WORD→SHORT数值语义,不修改公开队列项的dex值。
+      const firstDex = (first.dex << 16) >> 16
+      const secondDex = (second.dex << 16) >> 16
+      if (firstDex < secondDex) {
+        items[i] = second
+        items[j] = first
+      }
+    }
+  }
+
+  // PAL_BattleStartFrame在wDexterity==0xffff时结束本轮(不是检查wIndex)。
+  const end = items.findIndex((item) => (item.dex & 0xffff) === UNUSED_DEXTERITY)
+  return end < 0 ? items : items.slice(0, end)
 }

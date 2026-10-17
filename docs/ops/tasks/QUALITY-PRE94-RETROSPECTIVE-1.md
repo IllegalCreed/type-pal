@@ -636,3 +636,9 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 全文核读另发现turn-queue稳定sort与原C交换顺序分叉，原生13槽C片段对照成立；开[队列卡](GAME-ACTION-QUEUE-TIE-ORDER-1.md)，用户已批准SDL对齐，后续独立行为提交先正式红例。GLM指出的Wear毒列表不压缩也已原生对照确认，开[毒列表卡](GAME-PLAYER-POISON-SLOT-COMPACTION-1.md)只读待因果，未改其行为。两者原件不是完整SDLPal/浏览器，首版C片段漏外括号的编译失败完整保留、不计counter信用。
 
 本片5条旧closed转review、0新closed，83卡仍50partial/33pending/0accept。搜索注释项已修，其余9项及两UI差异仍待；队列行为窄修优先依用户批准推进，毒压缩与其它前提未知项不抢写。[本片证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/README.md)。全仓check/coverage/protected继续大窗口收尾，未合main。
+
+## 2026-10-18 已批准队列窄修
+
+搜索注释批c3d943dde已先提交推送；本批分离实现第一阶段队列排序：原C13槽/SHORT交换/速度0xffff前缀，真实按键caller和dualMove标记已核。正式初红7；最终敌方WORD边界spec对仅旧queue源重放7红，当前7绿、旧9绿，38/942相邻零stderr后仅复跑最终改动7例；六指定单红反控恢复SHA一致。初版高WORD队员边界不记生产caller信用，实际原件全部保留。
+
+源/旧测仍review，新增parity与H fixture review，0新增closed；83卡仍50partial/33pending/0accept。两项审计注释（Search/turn-queue）已处理，剩余8组、formulas冗余算式和两UI差异继续；phase1毒列表卡只读。证据见[批准队列修复](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/queue-approved-fix/README.md)。昂贵统一门/coverage/protected未运行，未合main，不扩大新103+范围。

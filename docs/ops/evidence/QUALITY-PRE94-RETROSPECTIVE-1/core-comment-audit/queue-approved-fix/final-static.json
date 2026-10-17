@@ -1,0 +1,19 @@
+{
+  "command": [
+    "pnpm",
+    "exec",
+    "biome",
+    "check",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/queue-approved-fix"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T20:30:09.444246+00:00",
+  "completedAt": "2026-10-17T20:30:09.630209+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "final-static.raw.gz",
+  "rawBytes": 44,
+  "rawSha256": "7263589506435993fbba5af19c445be95a0ab5c8b8f916b87fa43380a29ba320",
+  "fullUncutMergedStdoutStderr": true
+}

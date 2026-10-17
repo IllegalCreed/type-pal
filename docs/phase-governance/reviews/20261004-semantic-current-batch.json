@@ -407,7 +407,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "204910f9662bd9c3270a12ffcee50d65c32483a7d2421f47d6477f9536512a70",
+      "afterSha256": "a143fcd9f85d439d696d249473895bedd424fa76a20a6bcf244a1bf60fee456d",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -438,10 +438,25 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "204910f9662bd9c3270a12ffcee50d65c32483a7d2421f47d6477f9536512a70",
+        "implementationSha": "a143fcd9f85d439d696d249473895bedd424fa76a20a6bcf244a1bf60fee456d",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "c3d943ddeba9c05d01a752c0c22f8d3e78d724a8",
+            "date": "2026-10-18",
+            "action": "Record user-approved CLASSIC queue repair and finite red/green/native-caller evidence",
+            "previousAfterSha256": "204910f9662bd9c3270a12ffcee50d65c32483a7d2421f47d6477f9536512a70",
+            "scope": "Only named board/index/ledger and incoming review bindings: queue task build to review, two additional review rows, user-approved queue repair with native oracle/real caller. No new closures, no schema/save or new rule/retirement/baseline acceptance. Historical native conclusions preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/queue-approved-fix/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "78f8e3c79be8a89412e19986a1a1c54d645f2005",
             "date": "2026-10-18",
@@ -830,7 +845,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "204910f9662bd9c3270a12ffcee50d65c32483a7d2421f47d6477f9536512a70",
+        "afterSha256": "a143fcd9f85d439d696d249473895bedd424fa76a20a6bcf244a1bf60fee456d",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
@@ -1279,7 +1294,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "12bf6b25468e704a0d3af962b1ed45e692dab8ee65f5af04dd80e8f8d2ece939",
+      "afterSha256": "1d91f5957fff66c27e1301f66ba20e09dedcae3140ce4f6bbf8273bdc86f6608",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -1300,10 +1315,25 @@
       },
       "revision": {
         "currentSha": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
-        "implementationSha": "12bf6b25468e704a0d3af962b1ed45e692dab8ee65f5af04dd80e8f8d2ece939",
+        "implementationSha": "1d91f5957fff66c27e1301f66ba20e09dedcae3140ce4f6bbf8273bdc86f6608",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "c3d943ddeba9c05d01a752c0c22f8d3e78d724a8",
+            "date": "2026-10-18",
+            "action": "Record user-approved CLASSIC queue repair and finite red/green/native-caller evidence",
+            "previousAfterSha256": "12bf6b25468e704a0d3af962b1ed45e692dab8ee65f5af04dd80e8f8d2ece939",
+            "scope": "Only named board/index/ledger and incoming review bindings: queue task build to review, two additional review rows, user-approved queue repair with native oracle/real caller. No new closures, no schema/save or new rule/retirement/baseline acceptance. Historical native conclusions preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/queue-approved-fix/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "78f8e3c79be8a89412e19986a1a1c54d645f2005",
             "date": "2026-10-18",
@@ -1580,7 +1610,7 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "12bf6b25468e704a0d3af962b1ed45e692dab8ee65f5af04dd80e8f8d2ece939",
+        "afterSha256": "1d91f5957fff66c27e1301f66ba20e09dedcae3140ce4f6bbf8273bdc86f6608",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",

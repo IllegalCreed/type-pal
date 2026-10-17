@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "842ab355d883c5b5b21477f332aca93fe5a3242e9cba8312bd7f87c1e5d12869",
+      "afterSha256": "7ee30029eccc85d55e7811e22c9a14c3c2e12cbdf38800c24f549bd73132aa9b",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,8 +1066,23 @@
       },
       "revision": {
         "currentSha": "a2101ce8ffeb73642521f0b489d17642f27bbd3fcdc581d0e9c354dedbc05778",
-        "implementationSha": "842ab355d883c5b5b21477f332aca93fe5a3242e9cba8312bd7f87c1e5d12869",
+        "implementationSha": "7ee30029eccc85d55e7811e22c9a14c3c2e12cbdf38800c24f549bd73132aa9b",
         "history": [
+          {
+            "revision": "c3d943ddeba9c05d01a752c0c22f8d3e78d724a8",
+            "date": "2026-10-18",
+            "action": "Record user-approved CLASSIC queue repair and finite red/green/native-caller evidence",
+            "previousAfterSha256": "842ab355d883c5b5b21477f332aca93fe5a3242e9cba8312bd7f87c1e5d12869",
+            "scope": "Only named board/index/ledger and incoming review bindings: queue task build to review, two additional review rows, user-approved queue repair with native oracle/real caller. No new closures, no schema/save or new rule/retirement/baseline acceptance. Historical native conclusions preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/queue-approved-fix/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "78f8e3c79be8a89412e19986a1a1c54d645f2005",
             "date": "2026-10-18",
@@ -1258,7 +1273,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "842ab355d883c5b5b21477f332aca93fe5a3242e9cba8312bd7f87c1e5d12869",
+        "afterSha256": "7ee30029eccc85d55e7811e22c9a14c3c2e12cbdf38800c24f549bd73132aa9b",
         "lineCount": 13734,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1289,7 +1304,7 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "1-14746",
+      "reviewedLines": "1-14776",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

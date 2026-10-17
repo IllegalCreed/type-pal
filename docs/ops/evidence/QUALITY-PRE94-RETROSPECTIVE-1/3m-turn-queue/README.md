@@ -10,3 +10,5 @@
 
 coverage、official ratchet、protected fast、全仓 `pnpm check` 按用户成本规则留到完整大模块收口；3m formulas/magic-damage/status/RNG 仍 pending。
 
+
+2026-10-18 批准窄修当前进展：原C双循环/SHORT/13槽及速度0xffff前缀已恢复，原C静态oracle和真实按键caller已测；[完整实施原件](../core-comment-audit/queue-approved-fix/README.md)。旧稳定等价结论仍撤回，任务review，非有限数值/超容量/dex2缺省/统一门和视觉未完成，不重签整文件。

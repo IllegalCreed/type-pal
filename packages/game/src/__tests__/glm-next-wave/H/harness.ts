@@ -1,5 +1,5 @@
 /**
- * TEST-GLM-NEW-H-1 专属 typed fixture harness(仅 H01–H06 测试共用)。
+ * 第一阶段战斗测试共用typed fixture factories(始于TEST-GLM-NEW-H-1,亦供SDL对齐回归使用)。
  * 一律走现行公开构造器(createInitialGameState / createBattleState),不用 any / 双强转。
  */
 import type { BattleField, Enemy, PlayerRole, PlayerRoles, Spell } from '@type-pal/shared'

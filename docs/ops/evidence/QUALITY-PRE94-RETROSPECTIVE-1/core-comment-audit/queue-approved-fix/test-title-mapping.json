@@ -1,0 +1,15 @@
+{
+  "scope": "Same existing two atomic test bodies/assertions, corrected overbroad titles; baseline/retirement payload not updated or claimed accepted here.",
+  "mappings": [
+    {
+      "before": "buildActionQueue (PAL_CLASSIC) 同 dex 排序稳定(敌人先于队员,fight.c 先填敌人且只在严格小于时交换)",
+      "after": "buildActionQueue (PAL_CLASSIC) 仅一敌一队员同速且不发生交换时,保持敌人先填顺序"
+    },
+    {
+      "before": "buildActionQueue (PAL_CLASSIC) 同 dex 的多个敌人与队员均保持原填充顺序",
+      "after": "buildActionQueue (PAL_CLASSIC) 所有项同速且不发生交换时,保持原填充顺序"
+    }
+  ],
+  "protectedIdentityGateNotRun": true,
+  "nextStep": "At large closeout derive and verify actual protected identities; do not invent retirement credit or lower gates."
+}

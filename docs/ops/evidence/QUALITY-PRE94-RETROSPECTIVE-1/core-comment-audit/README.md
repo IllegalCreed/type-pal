@@ -36,3 +36,5 @@ Search的primary是play.c PAL_GetSearchTriggerRange/PAL_Search，真实caller为
 实际门与完整原件以gates.json为准。相邻只筛选scene-system.test的三条真实Confirm链，另外107条未执行，不写成整文件/包绿。左朝向专测、隐藏负状态、同点双NPC顺序、全scene/event测试及已有诊断仍不据本片接受。
 
 5旧closed转review（搜索源/测、队列源/测、毒实现），0新closed；83卡仍50partial/33pending/0accept。搜索注释项已修，其余9注释、formulas算式风险和两UI差异待续；progression本轮虽全文读过，但锚纠正留下一有限批，不重签。全仓check、官方coverage ratchet、protected fast仍按用户要求大任务收尾；未合main，不宣布专项完成。
+
+后续[用户批准的队列修复](queue-approved-fix/README.md)在独立行为提交中先红后绿；本页上述“未改队列”只适用于c3d943dde搜索批候选，原C对照和历史原件保持。毒列表压缩未实现。

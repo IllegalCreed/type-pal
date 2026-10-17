@@ -1,0 +1,13 @@
+{
+  "command": ["node", "/tmp/type-pal-queue-verify-oracles.cjs"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T20:21:47.793635+00:00",
+  "completedAt": "2026-10-17T20:21:47.905484+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "oracle-verification.raw.gz",
+  "rawBytes": 332,
+  "rawSha256": "aae02f33b12f68fd081700b1314e78c7d659b52f64db26b50b0de6490dac9681",
+  "fullUncutMergedStdoutStderr": true
+}
