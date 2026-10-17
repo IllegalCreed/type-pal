@@ -34,11 +34,27 @@
       "inputSnapshot": "raw/fd83a69c-01ee-4c5f-b773-a181419a4979.inputs.log",
       "inputSnapshotSha256ObservedAtClosure": "52058c1f76b79f471037df7f22c4afa231db23c4cdd821bc9594ce715eb9d327",
       "role": "current-input-candidate execution, never retrospective historical proof"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-dc04960f-09b2-4878-addb-5dc4c0a2d5d6.json",
+      "sha256": "cc83c95478faea208fd9c1396258d7be53a01d300f20edeb6170ca18dae88e75",
+      "startedAt": "2026-10-17T20:25:30.052Z",
+      "inputSnapshot": "raw/dc04960f-09b2-4878-addb-5dc4c0a2d5d6.inputs.log",
+      "inputSnapshotSha256ObservedAtClosure": "b47e151ff685ae4f4e4de5e78c1cd49fa539a884d9d6f66fd5ee9d9add8cd76e",
+      "role": "S01 author candidate execution; lint failed on two authored JSON format diagnostics (routing and semantic-review ledger), preserved unchanged; later repair requires new execution."
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-09c01f13-24cb-460b-816b-061cdeac677f.json",
+      "sha256": "74520857bd27a67edba49f2ad40e0d0f85b7cb1cc3cb38ea79bdffa174d760ee",
+      "startedAt": "2026-10-17T20:27:12.456Z",
+      "inputSnapshot": "raw/09c01f13-24cb-460b-816b-061cdeac677f.inputs.log",
+      "inputSnapshotSha256ObservedAtClosure": "c990535e79c6303a6122f91c620ab94b6cffd4c3e463af780633edff634dbef4",
+      "role": "S01 repaired author candidate actual capture; lint/diff0, strict/check-docs/require-complete1. Claims apply to its input manifest, not later index registration."
     }
   ],
   "lossDisclosure": "Earlier uncommitted managed worktree disappeared during execution. Raw captures in that directory are unavailable and are not accepted as retained evidence. Recovered command construction from this chat was re-executed in this checkout; current receipts will identify the new execution.",
   "artifactOwnership": {
-    "scope": "Every raw/ file is owned by this task. UUID streams/input snapshots/journals come from the execution capturer; retained-SHA.log files are exact old artifact copies, not new execution.",
+    "scope": "All raw files are owned by this task; UUID captures, retained old artifacts, and independent-reviewer byte copies are separate producers, never interchangeable executions.",
     "owner": "Codex",
     "task": "DOCS-RECORD-INTEGRITY-1",
     "callers": [
@@ -56,8 +72,12 @@
       {
         "path": "scripts/docs/inspect-receipt-candidates.py",
         "scope": "retained-SHA.log copies only; declared original paths/SHA/observed mtime in receipt-candidate-observations-20261018.json"
+      },
+      {
+        "path": "/root/receipt_integrity_independent",
+        "scope": "raw/independent-58e899bf exact reviewer report artifacts; intake map pins original paths/SHA/bytes, not fresh root command output"
       }
     ]
   },
-  "latestRetainedSession": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-fd83a69c-01ee-4c5f-b773-a181419a4979.json"
+  "latestRetainedSession": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-09c01f13-24cb-460b-816b-061cdeac677f.json"
 }

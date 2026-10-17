@@ -21,12 +21,20 @@
       "reason": "Current withdrawal and evidence index; no recursive self-hash or semantic completion credit.",
       "retention": "retain-with-Git-source-and-task",
       "credit": "rework control only; not a completed semantic review"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261018-semantic-rework.json",
+      "kind": "per-document-semantic-review-root",
+      "owner": "Codex",
+      "reason": "Single successor ledger for actual per-document rework; no recursive self-hash or self-certified document completion.",
+      "retention": "retain-with-source-Git-and-independent-receipt",
+      "credit": "ledger traceability only; no current inventory-body or runtime acceptance"
     }
   ],
   "summary": {
-    "total": 2366,
+    "total": 2368,
     "byPhase": {
-      "ops": 1272,
+      "ops": 1274,
       "lore": 14,
       "phase1": 60,
       "phase2": 109,
@@ -37,7 +45,7 @@
     "byType": {
       "task-card": 364,
       "guide-runbook": 17,
-      "archive-record": 1490,
+      "archive-record": 1492,
       "audit-report": 60,
       "governance-index": 107,
       "evidence-receipt": 104,
@@ -54,12 +62,12 @@
       "test-catalog": 4
     },
     "reviewStatus": {
-      "partial-review-unknown": 1918,
-      "content-reviewed": 448
+      "partial-review-unknown": 1921,
+      "content-reviewed": 447
     },
     "templateCompliance": {
-      "needs-migration": 1924,
-      "template-compliant": 442
+      "needs-migration": 1927,
+      "template-compliant": 441
     }
   },
   "entries": [
@@ -3161,11 +3169,11 @@
       "phase": "phase2",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
-      "templateCompliance": "template-compliant",
-      "reviewStatus": "content-reviewed",
-      "reviewRecord": "20261017-r33-phase2-lore.json",
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261018-semantic-rework.json",
       "templateVersion": "1.0.0",
-      "historyOverlay": true
+      "historyOverlay": false
     },
     {
       "path": "docs/phase2/README.md",
@@ -27421,6 +27429,30 @@
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "needs-migration",
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "artifactOnly": true,
+      "artifactFormat": "json"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-dc04960f-09b2-4878-addb-5dc4c0a2d5d6.json",
+      "phase": "ops",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "templateVersion": "1.0.0",
+      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "needs-migration",
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "artifactOnly": true,
+      "artifactFormat": "json"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-09c01f13-24cb-460b-816b-061cdeac677f.json",
+      "phase": "ops",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
       "templateVersion": "1.0.0",
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",

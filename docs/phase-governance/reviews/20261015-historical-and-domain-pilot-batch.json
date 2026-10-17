@@ -278,7 +278,7 @@
       "reviewedSourceSha256": "522c958d325afaf4a92845d9dbb89a00d72bce72e3396aad4b890920b39c01f2",
       "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
       "sourceGitObject": "906868289a9187830360dedaf4f28ab048318445",
-      "afterSha256": "f609117103a32bbbf11567cf8caf53b8315f65eb335c02fbb4096bdd1a15173c",
+      "afterSha256": "f2f63f78af3d58bbfb9bd890beb7b9fe9bb621c5fd1fd6ddd51e0096723b8803",
       "publicCallers": [
         "docs/phase-governance/README.md",
         "node scripts/docs/check-content-review.mjs --strict"
@@ -6764,7 +6764,15 @@
           "completePriorObjectRetrievedAndCompared": true
         }
       ],
-      "reviewedSourceGitObject": "3f13cd3768f2d0741da8e322748c8f68c14b2abd"
+      "reviewedSourceGitObject": "3f13cd3768f2d0741da8e322748c8f68c14b2abd",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "f609117103a32bbbf11567cf8caf53b8315f65eb335c02fbb4096bdd1a15173c",
+        "afterSha256": "f2f63f78af3d58bbfb9bd890beb7b9fe9bb621c5fd1fd6ddd51e0096723b8803",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     }
   ]
 }

@@ -1582,3 +1582,20 @@ Template: task-card-v1 / 1.0.0
 - R27本次逐篇sourceSha对比15/20直接UTF-8逆回、5/20需行尾U+2420/U+21E5解码，均匹配原source；与审计14/6差异保留逐篇表。旧20/20不能不加条件地称原字节逆回。
 - 全部“独立”标签须有作者/审查者身份和受审范围支撑。同一Codex自跑只记自验；本次没有非作者复核，不自授重审通过。
 - 完整check:docs/strict/require-complete失败是撤回完成状态的真实结果；保留失败，不改规则或批量刷新状态变绿。本卡rework，逐篇语义重审和非作者复核未完成。
+
+
+## 2026-10-18 S01：READ-FIRST 真实语义重审准入
+
+- 前提：58e899bf纠错包已由非作者`/root/receipt_integrity_independent`限定接收，冻结报告与39项原证据接入d4d5cfc6；五项receipt隔离不解除，统一门仍FAIL。
+- Codex build allowed：仅重审`docs/phase2/READ-FIRST.md`正文及其registry/routing/R33后继记录、phase2 catalog/view/manifest、矩阵、任务和必要证据/pin链。Coding Owner为root；不改产品、旧测试、coverage或静态规则。
+- 具体counter S01-AUTHORITY：当前AGENTS操作表与文档模型L1都要求开工必读；R33却把现行十一条铁律降为historical、仅存quote，catalog还称current。保真不关闭这个事实权冲突。
+- 设计：恢复governance-index-v1现行正文，十一条规则逐项表达，五类串台有可操作停止线；原文quote字节与原日期保持。以现行AGENTS、原用户规则、演出共同标准及09-30作者真源裁决决定边界，不把旧行数/修复数量或阶段实现快照当今天事实。
+- 当前作者只对本篇和明确读取的依赖段负责；R33原接受不外推到本篇新字节。本篇先partial-review-unknown/needs-migration，固定候选交非作者全文复核后才决定单篇信用；整卡继续rework、不合main。
+
+
+### S01 作者候选与命令边界
+
+- 已实际读原55行、纠错前122行和新120行；七项直接依赖按逐篇记录的窄域/全文范围分开，没有声称重审所有链接目标。十一条规则、五类停止线和资产约定重新写入现行部分，quote完整字节不变。
+- R33旧绑定迁出至S01唯一后继；原完整record由d4d5cfc6源Git/SHA定位，其余R33正文不外推复核。仅READ-FIRST一项临时改partial/needs-migration，故继承进度暂减1，并非篡改固定1838分母。
+- 首次S01捕获如实保留两个JSON格式error的lint失败；修格式后另起新UUID，lint零诊断、diff0，strict/check:docs/require-complete依旧exit1。具体输入、命令与输出见返工证据rerun索引，后续登记不冒充同字节重跑。
+- 新候选待非作者全文/来源/反例审查；不以静态结构绿灯自授语义接收，不改产品或旧测试/coverage。

@@ -1,0 +1,215 @@
+{
+  "schemaVersion": 1,
+  "id": "semantic-rework-20261018",
+  "reviewer": "Codex root author candidate; non-author review pending",
+  "reviewDate": "2026-10-18",
+  "sourceRevision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+  "policy": "One actually read document at a time. No bulk restoration; global hard gate remains unpassed. Ledger root has no self-hash or semantic completion credit.",
+  "entries": [
+    {
+      "path": "docs/phase2/READ-FIRST.md",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "partial-semantic",
+      "readMethod": "Root actually read all original 55 lines and complete current/before body; manually authored the eleven current rules and five stop lines; listed primary dependency scopes separately. Non-author review of new bytes pending.",
+      "coreConclusion": "READ-FIRST是AGENTS明确路由的现行L1准入规则，R33将整页historical而catalog仍current构成事实权冲突。恢复十一条规则与五类停止线，分清原始源供应和canonical作者正文、演出归因与资产约定；原55行quote保持。作者候选不授新执行或独立信用。",
+      "truthAnchors": [
+        "AGENTS.md:21",
+        "docs/ops/guides/documentation-model.md:27",
+        "docs/testing/e2e/contract.md:98",
+        "docs/ops/archive/tasks/done/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md:178",
+        "packages/reforge/src/render.ts:97"
+      ],
+      "unresolved": [
+        "New authored body awaits non-author semantic review; whole task/global gates remain unpassed.",
+        "Other current entry points with historical wrappers require their own reads; no mass status change.",
+        "Referenced harvest, game-mechanics, roadmap and capability-map bodies were not fully re-reviewed in S01; their own credit is not renewed."
+      ],
+      "nextStep": "Freeze candidate and obtain non-author full-body/primary-scope review, then decide only this binding; preserve five receipt quarantines.",
+      "owner": "Codex root",
+      "provenance": [
+        "current AGENTS caller",
+        "actual full original and before/after content read",
+        "narrow primary-source reading; no product execution"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/phase2/READ-FIRST.md",
+          "revision": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
+          "sha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
+          "scopeActuallyRead": "all55 source lines"
+        },
+        {
+          "path": "AGENTS.md",
+          "revision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+          "sha256": "24771e0310c9dec44df9912d09179d3540724971306e0095ca252b190e318a8e",
+          "scopeActuallyRead": "full current operation routing and protocol, 1-45"
+        },
+        {
+          "path": "docs/ops/guides/documentation-model.md",
+          "revision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+          "sha256": "3a087aec18bd1e3a5918f7ba01fd440696c43411f743cbd5c185a93b9f1fae50",
+          "scopeActuallyRead": "full current L0-L3, writeback and completion model"
+        },
+        {
+          "path": "docs/testing/e2e/contract.md",
+          "revision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+          "sha256": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f",
+          "scopeActuallyRead": "98-133 common performance standard only; neighboring historical admission not renewed"
+        },
+        {
+          "path": "docs/ops/archive/tasks/done/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md",
+          "revision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+          "sha256": "348fc7dfb7f95e827254f54ed52ff93002c23026b213f4b543d56bbc9e28fad5",
+          "scopeActuallyRead": "178-184 user decision and author-source boundary; not the full historical implementation"
+        },
+        {
+          "path": "docs/phase2/decisions.md",
+          "revision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+          "sha256": "459c18840a7621f29347ec7a72f03a75ec3d28e232b1dd64dc929fd4ea4adc7e",
+          "scopeActuallyRead": "323-350 D20 only; no renewal of every historical decision"
+        },
+        {
+          "path": "packages/game/src/present/draw-sprite.ts",
+          "revision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+          "sha256": "d17f04ccaf8a771b6832cd7e833c093140d52f9e990ff97023c748e17e4cf7dc",
+          "scopeActuallyRead": "1-43 per-frame toSpriteImages only; source read, not execution or sdlpal revalidation"
+        },
+        {
+          "path": "packages/reforge/src/render.ts",
+          "revision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+          "sha256": "bca134f8488232b4f0bb5c3025aff645817bdbbc6577e46aa9bf500246cda3a1",
+          "scopeActuallyRead": "90-115 spriteBlitRect only; current 7px versus Game difference explicitly read"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase2",
+        "authority": "current L1 policy; first-phase knowledge is reference; third-phase scope needs its own authorization"
+      },
+      "dependencies": [
+        "AGENTS.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/testing/e2e/contract.md",
+        "2026-09-30 user author-source retirement decision"
+      ],
+      "versionScope": {
+        "validity": "current policy",
+        "sourceRevision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+        "notBoundToHistoricalContentOrSaveVersion": true,
+        "notClaimed": [
+          "runtime",
+          "E2E",
+          "visual",
+          "coverage",
+          "full dependent-document semantic acceptance"
+        ]
+      },
+      "publicCallers": [
+        "AGENTS.md operation routing",
+        "CLAUDE.md phase routing",
+        "docs/phase2/README.md navigation",
+        "docs/ops/guides/documentation-model.md L1"
+      ],
+      "legalInputs": [
+        "Authorized phase2 engine/editor/content work; stable current canonical fields and legitimate gameplay evidence",
+        "Generation claims must identify actual field owner; projects/pal path alone is not ownership proof"
+      ],
+      "businessOracle": {
+        "type": "current-phase-admission-authority",
+        "assertions": [
+          "A new Agent follows AGENTS to eleven actionable current rules rather than treating them as an expired archive.",
+          "Current source-owned assets require upstream reproducibility; canonical author scene/shared/skill/enemyAI text must not be rewritten by retired PAL conversion.",
+          "Performance comparison retains full frames and explicit take/release/clear evidence without requiring accidental old scheduling or freezing unrelated NPCs.",
+          "Asset anchors remain per-frame; current reforge7px policy is not generalized to every first-phase path.",
+          "Only one active content review binding; prior55-line quote remains byte-equal."
+        ]
+      },
+      "dedupe": {
+        "result": "replace-one-R33-authority-binding-with-specific-semantic-rework-candidate",
+        "against": [
+          "20261017-r33-phase2-lore.json",
+          "docs/phase2/README.md",
+          "docs/ops/guides/documentation-model.md"
+        ],
+        "notes": "No second rule source: READ-FIRST owns phase admission, E2E contract owns detailed performance criteria, cards own execution status."
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "S01-AUTHORITY",
+          "status": "author-fixed-pending-non-author",
+          "statement": "historical wrapper conflicts with mandatory current AGENTS/L1 caller and current phase catalog"
+        },
+        {
+          "id": "S01-BYTE-PRESERVATION",
+          "status": "author-verified-pending-non-author",
+          "statement": "Original quote marker span retained unchanged; original55 source SHA remains pinned"
+        },
+        {
+          "id": "S01-FALSE-UNRESOLVED",
+          "status": "context-explained-not-product-completion",
+          "statement": "Old numbered unresolved excerpts merely repeat rule9 mechanism reading and rule10 blocked completion policy; new text states the obligations, not a product fix claim."
+        }
+      ],
+      "revision": {
+        "currentSha": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "revision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+            "action": "replace-wrong-historical-wrapper-with-current-rule-candidate",
+            "previousAfterSha256": "25afb5f4d2d72878ab23985413f579b4552b987fc6a8f67866bb725cd4e3e1e6",
+            "afterSha256": "20e20dab3014c10c20ea9f216a0a18ba5f6d01cdb096860540c60e7df2c8f185"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "actual-per-document-semantic-rework-candidate",
+        "path": "docs/phase2/READ-FIRST.md",
+        "sourceRevision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+        "originalQuoteSha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
+        "originalQuoteBytesUnchanged": true,
+        "nonAuthorAcceptance": "pending"
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "S01-authority-counter-and-real-current-body-authored",
+          "sourceRecord": "20261017-r33-phase2-lore.json",
+          "sourceRecordRevision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+          "sourceRecordSha256": "beef8af71396fc8a1b745d7a75077ce9508ecdc209d0095daa05d49f581f6e35",
+          "previousAfterSha256": "25afb5f4d2d72878ab23985413f579b4552b987fc6a8f67866bb725cd4e3e1e6",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": [
+        {
+          "record": "20261017-r33-phase2-lore.json",
+          "revision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+          "scope": "READ-FIRST whole-page historical classification and generic generated review only; original user rules/source bytes preserved"
+        }
+      ],
+      "stopLine": "No batch credit restoration; no product policy change; this author candidate cannot self-grant independent acceptance or global hard-gate completion.",
+      "sourceSha256": "25afb5f4d2d72878ab23985413f579b4552b987fc6a8f67866bb725cd4e3e1e6",
+      "afterSha256": "20e20dab3014c10c20ea9f216a0a18ba5f6d01cdb096860540c60e7df2c8f185",
+      "sourceGitRevision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+      "reviewedLines": "1-120 current;1-122 before;55 original; dependency scopes explicit",
+      "historyOverlay": false,
+      "documentStatus": "current",
+      "beforeAfter": {
+        "before": "mandatory current caller -> historical wrapper, rules only in quote, current catalog disagreement",
+        "after": "current governance-index with all11 rules,5stop lines, explicit source-owner and performance boundaries, immutable historical quote"
+      },
+      "templateConformance": {
+        "purpose": "phase admission",
+        "scope": "phase2 policy, not runtime credit",
+        "currentState": "current with explicit R33 correction",
+        "ownership": "Codex maintenance/user product decisions",
+        "evidenceAndNext": "real source scopes and separate review status",
+        "status": "author candidate awaiting independent verification"
+      }
+    }
+  ]
+}

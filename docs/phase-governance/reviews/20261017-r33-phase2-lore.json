@@ -1773,210 +1773,6 @@
       }
     },
     {
-      "path": "docs/phase2/READ-FIRST.md",
-      "contentReviewStatus": "content-reviewed",
-      "docType": "governance-index",
-      "templateId": "governance-index-v1",
-      "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R33 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "2026-10-04 原复核：第二阶段（Reforge）· 开工前必读：这是 governance-index，当前文档状态为 current。全文 54 行、3 个标题；摘要/首段为「> **你现在在做第二阶段。第一阶段的「忠实还原」思维全部作废。**」。属于现行文档范围，使用时受本记录的证据与未决项约束。 2026-10-11 集成增量：原有 UX 形态保留，演出按已核意图用显式编排表达；剧情 NPC 选择性接管并及时释放，无关 NPC 与环境动画继续。",
-      "truthAnchors": [
-        "docs/phase2/READ-FIRST.md:1",
-        "docs/phase2/READ-FIRST.md:1 第二阶段（Reforge）· 开工前必读",
-        "docs/phase2/READ-FIRST.md:6 十一条铁律",
-        "docs/phase2/READ-FIRST.md:32 串台自查"
-      ],
-      "unresolved": [
-        "正文信号 24:> **★★★ 战斗/数值/机制真值的首选参考（2026-07-06）**：[`docs/phase1/game-mechanics.md`](../phase1/game-mechanics.md)（1218 行）= 作者亲自逐行核对原版+sdlpal 的底层机制真值，带源出处行号 + 原版早期 bug vs 后期修复考证。覆盖 20+ 专题（伤害/暴击/",
-        "正文信号 27:> 完成定义：根因测试先红后绿；重迁产物包含修复；非脚本白名单无越界变化；连续运行迁移器第二次零 diff。若暂时无法修上游，任务必须标 `blocked` 或明确“临时诊断补丁”，不得报 done，也不得以此为基础继续堆叠内容修改。",
-        "正文信号 25:   > **★★★ 战斗/数值/机制真值的首选参考（2026-07-06）**：[`docs/phase1/game-mechanics.md`](../phase1/game-mechanics.md)（1218 行）= 作者亲自逐行核对原版+sdlpal 的底层机制真值，带源出处行号 + 原版早期 bug vs 后期修复考证。覆盖 20+ 专题（伤害/暴击/防御援护/五灵毒抗性/合击/身法/吉运/特殊技能成功率/炼丹/毒系统七大毒",
-        "正文信号 28:    > 完成定义：根因测试先红后绿；重迁产物包含修复；非脚本白名单无越界变化；连续运行迁移器第二次零 diff。若暂时无法修上游，任务必须标 `blocked` 或明确“临时诊断补丁”，不得报 done，也不得以此为基础继续堆叠内容修改。"
-      ],
-      "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
-      "phase": "phase2",
-      "module": "READ-FIRST.md",
-      "capability": "phase2-READ-FIRST",
-      "owner": "Codex（文档治理；不代签原执行）",
-      "provenance": [
-        "source-document",
-        "full-text-structured-review",
-        "repository-history",
-        {
-          "nonAuthorReviewer": "r33_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "0d5311075b4f5e67362d1953a138d678c0a4aa42"
-        }
-      ],
-      "sourceSha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
-      "afterSha256": "25afb5f4d2d72878ab23985413f579b4552b987fc6a8f67866bb725cd4e3e1e6",
-      "publicCallers": [
-        "docs/phase2/READ-FIRST.md → roadmap.md",
-        "docs/phase2/READ-FIRST.md → decisions.md",
-        "docs/phase2/READ-FIRST.md → reference/phase1-knowledge-harvest.md",
-        "docs/phase2/READ-FIRST.md → ../phase1/game-mechanics.md",
-        "docs/phase2/READ-FIRST.md → ../ops/archive/tasks/done/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md",
-        "docs/phase2/READ-FIRST.md → reference/phase1-knowledge-harvest.md"
-      ],
-      "legalInputs": ["current repository documentation", "docs/phase2/READ-FIRST.md"],
-      "businessOracle": {
-        "type": "historical-template-migration",
-        "assertions": [
-          "original bytes remain hashable",
-          "historical boundary explicit",
-          "no runtime/E2E/visual/coverage credit"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": ["docs/phase2/READ-FIRST.md"]
-      },
-      "revision": {
-        "currentSha": "405dde555f59c1dac41cf043bdd58571d06197ca4bc21c6440326fb555974429",
-        "implementationSha": "405dde555f59c1dac41cf043bdd58571d06197ca4bc21c6440326fb555974429",
-        "history": [
-          {
-            "revision": "working-tree",
-            "date": "2026-10-04",
-            "action": "full-text-structured-content-review",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          },
-          {
-            "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
-            "date": "2026-10-11",
-            "action": "E2E-integration-delta-review",
-            "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
-            "previousAfterSha256": "2623e78b2815b6ae3108cc514e0ce52dd51b6658cccf4974ed1b401b3ad85bc4",
-            "afterSha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
-            "reviewedRanges": ["9-9", "17-17", "22-22", "34-34", "36-36", "38-39"],
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          },
-          {
-            "revision": "405dde555f59c1dac41cf043bdd58571d06197ca4bc21c6440326fb555974429",
-            "date": "2026-10-17",
-            "action": "R33 phase2/lore migration or HTML artifact envelope",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r33-phase2-lore-20261017.json",
-        "sourceSha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
-        "candidateSha256": "405dde555f59c1dac41cf043bdd58571d06197ca4bc21c6440326fb555974429",
-        "afterSha256": "405dde555f59c1dac41cf043bdd58571d06197ca4bc21c6440326fb555974429",
-        "lineCount": 122,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 12281,
-          "sourceLines": 55,
-          "sourceFinalNewline": true,
-          "inverseSha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
-          "exactRoundTrip": true,
-          "trailingWhitespaceEncoding": {
-            "space": "␠",
-            "tab": "⇥"
-          }
-        }
-      },
-      "history": [
-        {
-          "revision": "working-tree",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "33afa37d55b377bcf99965dfc5e037405c22b72e",
-          "date": "2026-10-11",
-          "action": "E2E-integration-delta-review",
-          "mainParent": "fd2c6452269f39e4bf03ede91ee29f9ad974643b",
-          "previousAfterSha256": "2623e78b2815b6ae3108cc514e0ce52dd51b6658cccf4974ed1b401b3ad85bc4",
-          "afterSha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
-          "reviewedRanges": ["9-9", "17-17", "22-22", "34-34", "36-36", "38-39"],
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "revision": "405dde555f59c1dac41cf043bdd58571d06197ca4bc21c6440326fb555974429",
-          "action": "R33 readonly proposal accepted then migration/envelope",
-          "reviewer": "r33_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        }
-      ],
-      "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
-      "stopLine": "do not promote historical claims to current truth without a current source or user decision",
-      "userVisibleBeforeAfter": "原始 phase2/lore 文档或 HTML 原型保持 → 增加模板边界、artifact envelope、SHA、历史 overlay 和继任入口；产品事实不变。",
-      "reviewedLines": "1-122",
-      "integrationReview": {
-        "reviewer": "Codex",
-        "date": "2026-10-11",
-        "scope": "prior full-text review retained; changed lines relative to main parent read and compared with accepted E2E sources",
-        "reviewedRanges": ["9-9", "17-17", "22-22", "34-34", "36-36", "38-39"],
-        "conclusion": "原有 UX 形态保留，演出按已核意图用显式编排表达；剧情 NPC 选择性接管并及时释放，无关 NPC 与环境动画继续。",
-        "truthAnchors": [
-          "docs/phase2/READ-FIRST.md:9",
-          "docs/phase2/READ-FIRST.md:17",
-          "docs/phase2/READ-FIRST.md:22",
-          "docs/phase2/READ-FIRST.md:34",
-          "docs/phase2/READ-FIRST.md:36",
-          "docs/phase2/READ-FIRST.md:38"
-        ],
-        "evidence": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
-        "unresolvedScope": "prior unresolved items retained; no new runtime/E2E/visual/coverage claim; cross-phase relationships unchanged"
-      },
-      "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "documentStatus": "historical",
-      "sourceGitRevision": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
-      "candidateSha256": "405dde555f59c1dac41cf043bdd58571d06197ca4bc21c6440326fb555974429",
-      "primarySource": [
-        {
-          "path": "docs/phase2/READ-FIRST.md",
-          "revision": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
-          "sha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
-          "scope": "full source"
-        }
-      ],
-      "phaseAnchors": {
-        "phase": "phase2",
-        "module": "canonical",
-        "currentBoundary": "current phase2/lore docs/code/tests own truth"
-      },
-      "dependencies": "Current phase2/lore canonical docs, code, tests and fresh primary-source review.",
-      "versionScope": {
-        "sourceRevision": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
-        "date": "2026-07-01",
-        "validity": "historical"
-      },
-      "counterReworkBlocked": [
-        {
-          "id": "R33-1",
-          "status": "preserved-open-for-product-work",
-          "statement": "正文信号 25:   > **★★★ 战斗/数值/机制真值的首选参考（2026-07-06）**：[`docs/phase1/game-mechanics.md`](../phase1/game-mechanics.md)（1218 行）= 作者亲自逐行核对原版+sdlpal 的底层机制真值，带源出处行号 + 原版早期 bug vs 后期修复考证。覆盖 20+ 专题（伤害/暴击/防御援护/五灵毒抗性/合击/身法/吉运/特殊技能成功率/炼丹/毒系统七大毒"
-        },
-        {
-          "id": "R33-2",
-          "status": "preserved-open-for-product-work",
-          "statement": "正文信号 28:    > 完成定义：根因测试先红后绿；重迁产物包含修复；非脚本白名单无越界变化；连续运行迁移器第二次零 diff。若暂时无法修上游，任务必须标 `blocked` 或明确“临时诊断补丁”，不得报 done，也不得以此为基础继续堆叠内容修改。"
-        },
-        {
-          "id": "R33-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No product execution or visual acceptance."
-        }
-      ],
-      "correctiveDelta": {
-        "date": "2026-10-18",
-        "previousAfterSha256": "405dde555f59c1dac41cf043bdd58571d06197ca4bc21c6440326fb555974429",
-        "afterSha256": "25afb5f4d2d72878ab23985413f579b4552b987fc6a8f67866bb725cd4e3e1e6",
-        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "task": "DOCS-RECORD-INTEGRITY-1"
-      }
-    },
-    {
       "path": "docs/phase2/reference/dialogue-presentation.md",
       "contentReviewStatus": "content-reviewed",
       "docType": "reference-canon",
@@ -3718,5 +3514,15 @@
     "decision": "same-actor candidate acceptance cannot certify non-author review",
     "task": "DOCS-RECORD-INTEGRITY-1",
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
-  }
+  },
+  "supersededBindings": [
+    {
+      "path": "docs/phase2/READ-FIRST.md",
+      "sourceRevision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+      "sourceRecordSha256": "beef8af71396fc8a1b745d7a75077ce9508ecdc209d0095daa05d49f581f6e35",
+      "entrySelector": "/entries where path=docs/phase2/READ-FIRST.md",
+      "successor": "20261018-semantic-rework.json",
+      "reason": "S01 current AGENTS/L1 authority contradicts mechanical historical wrapper; original full record remains at pinned Git source; no other R33 entry re-reviewed"
+    }
+  ]
 }
