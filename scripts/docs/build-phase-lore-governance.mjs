@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { loadPhaseLoreCatalog } from './phase-lore-catalog.mjs'
 
 // The original path classifier could overwrite reviewed metadata. This command
 // now renders projections only; catalog changes require explicit reviewed edits.
@@ -40,8 +41,9 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   if (process.argv.length !== 2)
     throw new Error('Usage: node scripts/docs/build-phase-lore-governance.mjs')
   const directory = fileURLToPath(new URL('../../docs/phase-governance/', import.meta.url))
-  const catalogBytes = readFileSync(resolve(directory, 'catalog.json'), 'utf8')
-  const catalog = JSON.parse(catalogBytes)
+  const catalogPath = resolve(directory, 'catalog.json')
+  const catalogBytes = readFileSync(catalogPath, 'utf8')
+  const catalog = loadPhaseLoreCatalog({ manifestPath: catalogPath })
   for (const [name, text] of Object.entries(renderPhaseGovernanceIndexes(catalog)))
     writeFileSync(resolve(directory, name), text)
   if (readFileSync(resolve(directory, 'catalog.json'), 'utf8') !== catalogBytes)

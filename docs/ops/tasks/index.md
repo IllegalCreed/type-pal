@@ -486,6 +486,7 @@ Template: governance-index-v1 / 1.0.0
 | [X3-1 - 场景入场呈现事务](../archive/tasks/done/X3-1-scene-entry-presentation.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [X3/M3 - 通用 0x73 逐像素过渡、开场恢复与 opcode 迁移语义修复](../archive/tasks/done/X3-opening-dither-speaker-inheritance.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [X7-1 - manifest 工程设置与启动流程工作台](../archive/tasks/done/X7-1-manifest-project-workbench.md) | done | 完成证据、历史签字与交接见原卡。 |
+| [DOCS-CATALOG-SPLIT-1 — phase/lore catalog 分片与统一 loader 迁移](DOCS-CATALOG-SPLIT-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 | [DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写](DOCS-FULL-TEMPLATE-1.md) | done | 完成证据、历史签字与交接见原卡。 |
 
 ## 已取消（superseded / historical）

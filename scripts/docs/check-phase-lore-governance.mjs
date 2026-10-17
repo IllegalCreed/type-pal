@@ -2,14 +2,16 @@ import { createHash } from 'node:crypto'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { relative, resolve } from 'node:path'
 import { renderPhaseGovernanceIndexes } from './build-phase-lore-governance.mjs'
+import { loadPhaseLoreCatalog } from './phase-lore-catalog.mjs'
 
 const repoRoot = resolve(new URL('../..', import.meta.url).pathname)
 const docsRoot = resolve(repoRoot, 'docs')
-const catalogPath = resolve(docsRoot, 'phase-governance/catalog.json')
 const roots = ['lore', 'phase1', 'phase2', 'phase3']
 const digest = (path) => createHash('sha256').update(readFileSync(path)).digest('hex')
 const issues = []
-const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'))
+const catalog = loadPhaseLoreCatalog({
+  manifestPath: resolve(docsRoot, 'phase-governance/catalog.json'),
+})
 const expected = []
 function walk(root) {
   for (const entry of readdirSync(root, { withFileTypes: true })) {
