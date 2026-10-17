@@ -48,7 +48,7 @@
 | [CODE-QUALITY-52](../../archive/tasks/done/CODE-QUALITY-52-game-draw-shop-wave-member.md) | done | partial | [draw-shop 复审](52-draw-shop/README.md)：实现/三测试/P04/SDL primary，18/19 直接 + 117 相邻通过；shop-preview 保留 1 条 node DOM 诊断，wave 统一门仍待 |
 | [CODE-QUALITY-53](../../tasks/CODE-QUALITY-53-player-status-runtime-zero.md) | build | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-54](../../archive/tasks/done/CODE-QUALITY-54-game-draw-tilemap.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
-| [CODE-QUALITY-55](../../archive/tasks/done/CODE-QUALITY-55-game-draw-menu-wave-member.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
+| [CODE-QUALITY-55](../../archive/tasks/done/CODE-QUALITY-55-game-draw-menu-wave-member.md) | done | partial | [draw-menu 复审](55-draw-menu/README.md)：3 文件/SDL primary/caller，15 直接 + 197 相邻通过；清掉历史无效 lint 伪用法，仍留视觉/E2E 与统一整卡边界 |
 | [CODE-QUALITY-56](../../archive/tasks/done/CODE-QUALITY-56-game-minimap-thumbnail-lifecycle.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-57](../../tasks/CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | review | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-58](../../archive/tasks/done/CODE-QUALITY-58-game-tools-panel-audit.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |

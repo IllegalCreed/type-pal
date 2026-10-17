@@ -55,6 +55,15 @@ Visual Verification Timing: e2e-deferred（剧情/观感留集中 E2E；本批�
 
 - 2026-10-13 Codex：与 CODE-QUALITY-54 组成相邻 present 波次；draw-menu/P05 定向 15/15，tilemap + menu + present 定向/相邻共 93 tests；全仓 `pnpm check`、官方 ratchet、protected fast、lint-zero、docs/content review、ledger 全部通过。draw-menu 不拥有 poison key，runtime-zero/poison canonical 仍由 CODE-QUALITY-53 阻塞；账本收口为 `3266 / 281 closed / 5 review / 2980 pending`。
 
+## 2026-10-18 Codex 当前独立复审
+
+- **范围与读取**：完整读取 `packages/game/src/present/menu/draw-menu.ts`、`draw-menu.test.ts`、`draw-menu.glm-phase1-leaves.test.ts`；真实 caller/lifecycle 读取 `present.ts:679-705`、`menu-driver.ts` 菜单 dispatch/栈迁移、`menu-mode.ts`、`menu-stack.ts`、`game-state.ts` 的 menu union/runtime 投影，以及 in-game/system/save-slot/inventory-action/player-status/sell 相关 state owner。primary 重新读取 SDLPal `uigame.c:42-242,430-620,878-919,990-1031,1051-1286,1503-1777` 与 `ui.c:458`。
+- **逐文件结论**：`drawMenuStack` 从底到顶投影 `menuStack`，cash/主菜单/system/confirm/switch/save-slot/inventory-action/shop-sell 的坐标、颜色、rows/cols、savedTimes、extra 资源转发和缺资源占位均与 caller/primary 一致；绘制层不写 `GameState`、Save/IDB 或菜单生命周期。未发现产品行为、schema/save、公共接口或资产边界缺陷。`present.ts` 仅在 `mode='menu'` 且 `uiSpriteFrames` 已注入时调用，事件脚本期间不会遮挡对话。
+- **纯重构**：删除文件尾无实际用途的 `SelectionMenuState` 类型导入和 `void (null as unknown as SelectionMenuState)` 伪防 lint 表达式；不改变生成 framebuffer、菜单分支或公共接口。格式化后 lint-zero 仍为 5002 files、0 error/warning/info。
+- **测试判别力**：专属 `draw-menu.test.ts` 与 `draw-menu.glm-phase1-leaves.test.ts` 覆盖空栈、主/系统/confirm、两层 stack、save-slot 五框/数字、inventory-action 光标、system switch、shop-sell confirm、缺 extra 占位及输入快照；P05 通过公开 `drawMenuStack` 覆盖 items/icon/roles/equipBg/statusBg/poison 转发和 ownership。未发现重复或恒真断言。
+- **验证**：直接 3 files / 15 tests passed；相邻 11 files / 197 tests passed；`pnpm --filter @type-pal/game typecheck` passed；`pnpm lint` passed（5002 files，0/0/0）；`git diff --check` passed。波次级 `pnpm check`、审计退役后的 ratchet 与 `origin/main` protected fast 已在 [`53-wave-gates`](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md) 收口通过，本片不重复运行昂贵 coverage。
+- **未关闭/风险**：真实 word table 超长标签的 SDLPal `dx` 分支与异步 slot metadata 只读更新已有 caller 证据，当前生产默认标签/Map 路径无直接冲突；视觉集中 E2E 仍延后。CODE-QUALITY-53 的 party/status ownership、GAME-MAGIC-PLAYERINFO-STATUS-1 的高风险状态显示及其它 pending/review 不由本片覆盖。当前复审结论为 `partial`，不是整卡 `accept/done`。
+
 ## 下一位 Agent 提示词
 
 ```text

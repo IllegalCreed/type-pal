@@ -512,3 +512,9 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 - 官方 ratchet 默认模式按 fail-closed 识别 6 个已有测试身份精简；逐项核对任务卡、approved-test-retirements 精确账、双 digest/文件 SHA 与相邻 oracle 后，使用仓库现成的 `--allow-scope-removal` ratchet 正式生成新基线，提升 13 项、范围变化 10 项。没有生产 scope removal，没有新增 ignore/exclude，也没有弱化规则。
 - protected fast（`TYPE_PAL_COVERAGE_BASE_REF=origin/main`）通过；737 source files / 19,930 tests，总 coverage 为 90.02% statements、83.71% branches、89.64% functions、91.90% lines。完整命令、包级计数和基线数值见 [`53-wave-gates`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)。
 - 本波次不改变卡状态：47–52 仍 `partial`；环境诊断像素文件、draw-magic 高风险 PlayerInfoBox 状态差异和其它 pending/review 继续保留。下一批仍优先 pre-94，且避开活跃任务。
+
+### 2026-10-18 CODE-QUALITY-55 draw-menu 当前复审
+
+- 范围：`draw-menu.ts`、两份专属测试；完整读取 `present.ts:679-705`、`menu-driver.ts`/`menu-mode.ts`/`menu-stack.ts`、menu state owners 与 SDLPal `uigame.c`/`ui.c:458` primary。
+- 结论：stack 顺序、cash/主菜单/system/confirm/switch/save-slot/inventory-action/shop-sell 坐标和 extra ownership 与 primary/caller 一致，未发现产品行为或公共接口缺陷。删除无实际用途的 `SelectionMenuState` lint 伪用法，纯重构不改输出。
+- 验证：直接 3 files/15 tests、相邻 11 files/197 tests、game typecheck、lint-zero 5002 files 0/0/0、diff-check 均通过；coverage 等沿用已收口的 [`53-wave-gates`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)。55 从 pending 提升为 `partial`，不作整卡 accept/done。

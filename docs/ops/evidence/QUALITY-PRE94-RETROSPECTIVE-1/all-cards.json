@@ -2160,10 +2160,10 @@
       "number": 55,
       "suffix": "",
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-55-game-draw-menu-wave-member.md",
-      "sha256": "cc77e6ca0f84b75bffed59f21b6654a864021a7d1020e775e367ea7deebdcebc",
-      "lines": 69,
+      "sha256": "76c43197858b6a404bcc294d27b569b4dce758b6ae70f6b7208967f5a3bbd993",
+      "lines": 78,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -3923,8 +3923,8 @@
   ],
   "reviewCheckpointBase": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
   "currentReviewCounts": {
-    "partial": 35,
-    "pending": 48,
+    "partial": 36,
+    "pending": 47,
     "accept": 0
   }
 }

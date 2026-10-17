@@ -80,6 +80,8 @@
 
 最新[47–52 波次质量门](53-wave-gates/README.md)：集中跑完全仓 `pnpm check`、审计退役后的官方 ratchet 与 `origin/main` protected fast；lint-zero 为 5002 files、0 error/warning/info，coverage 总计 737 source files / 19,930 tests，ratchet 提升 13 项、范围变化 10 项。47–52 卡状态不变，像素环境诊断与 draw-magic 高风险裁决仍保留。
 
+最新[55 draw-menu 复审切片](55-draw-menu/README.md)：完整读取 draw-menu、两份专属测试、present/menu caller 与 SDLPal primary；15 直接 + 197 相邻通过，删除历史无效 lint 伪用法，未发现产品行为缺陷。55 当前 `partial`，视觉/E2E 与更宽输入域继续保留。
+
 ## 统一候选后的范围更正
 
 以下role键探针和四项counter针对冻结f0cf0f7f主线系候选。用户要求先收3y后，已发现其未合入的CODE53包含party-slot mapper/离队guard与对应测试；现统一候选已有该实现，不能继续宣称“当前helper仍按role键”。CODE53仍待端到端/整文件/视觉与统一门复审，原probe不被改写为当前失败。重复GAME-PLAYER-POISON-KEY-DOMAIN-1取消、归CODE53；YJ2过期注释与cleanup fixture待核仍保留。

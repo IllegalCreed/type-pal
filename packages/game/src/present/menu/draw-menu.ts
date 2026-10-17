@@ -20,7 +20,6 @@ import type { InventoryActionMenuState } from '../../core/menu/inventory-action-
 import type { InventoryMenuState } from '../../core/menu/inventory-menu.js'
 import type { OpeningMenuState } from '../../core/menu/opening-menu.js'
 import type { PlayerStatusState } from '../../core/menu/player-status.js'
-import type { SelectionMenuState } from '../../core/menu/primitives.js'
 import type { SaveSlotMenuState } from '../../core/menu/save-slot-menu.js'
 import type { SellMenuState } from '../../core/menu/sell-menu.js'
 import type { ShopMenuState } from '../../core/menu/shop-menu.js'
@@ -447,6 +446,3 @@ function drawPlaceholderTodo(
   drawBox({ fb, x: pos.x, y: pos.y, rows: 1, cols: 14, style: 0, uiSpriteFrames })
   renderText(fb, `Missing menu data:${kind}`, pos.x + 16, pos.y + 8, MENUITEM_COLOR, glyphs)
 }
-
-// 防 lint warn — SelectionMenuState 未直接用,但下面调用通过 state.selection 间接用
-void (null as unknown as SelectionMenuState)
