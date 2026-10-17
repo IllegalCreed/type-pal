@@ -5,8 +5,8 @@ Execution: rework（2026-10-18 撤回 R39–R93 及最终收口的过度审阅�
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: Codex 独立最终复核；各批次非作者审查与逐篇回执保留在 evidence/review records
-Branch: codex/docs-full-template-proposal
+Reviewer: 待非作者复核；旧独立最终接受已撤回，本轮仅 Codex 自验
+Branch: codex/docs-audit-rework
 Last reviewed: 2026-10-17
 Template: task-card-v1 / 1.0.0
 
@@ -34,8 +34,8 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 - 当前 Owner：Codex。
-- 阻塞/决策：无未解释治理阻塞；R94 review ledger 以 `document-registry.json.structuralRoots` 作为显式结构根保留。
-- 下一步与交接提示词：无下一位 Agent 提示词；等待用户后续治理任务。主树集成后继续维护同一 registry、routing 与 review SHA 约束。
+- 阻塞/决策：受影响绑定逐篇语义重审、非作者复核及15项receipt真实性候选待核；R94结构根仅索引，不授完成。
+- 下一步与交接提示词：从 DOCS-RECORD-INTEGRITY-1 和 correction-scope 精确清单继续重审；禁止批量恢复reviewed，不能等待新任务而宣称完成。
 
 ## 前提真值门
 ### 一句话行为 / 工程前提

@@ -108,3 +108,7 @@ Template: task-card-v1 / 1.0.0
 - JSON历史变动筛查：1805组修改、1784组成功解析、16个候选。R65确认摘要手改；其余15项待原始执行证据核验，不声明全仓清白。Git无历史mtime，因此未伪造生成时间和mtime比对。
 - 所有明确nonAuthorReviewer=false的candidate acceptance撤回独立信用；旧reviewer/policy/provenance当前标记被撤回，历史原声明在sourceRevision保留。
 - 本卡review，非作者复核、逐篇语义重审及其余候选真实性调查未完成；不得done或把此分支合为全量治理完成。
+
+### R33/R37 原生格式边界补记
+
+另有6份此前获GLM内容层通过的HTML/JSON：不改正文、不撤回具体语义结论，仅将依赖artifactOnly捷径的template-compliant改为needs-migration。content-reviewed保留，待补实际原生格式合同与consumer pilot后才能计迁移完成。逐篇列表见integrity-audit.nativeArtifactCompletionCorrection；不混入R39–R94的1896条语义信用撤回计数。

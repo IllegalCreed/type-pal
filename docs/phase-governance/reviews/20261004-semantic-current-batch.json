@@ -2074,7 +2074,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e34cf74483a3a92246ee2a9d97fa96749f02829afc2e8f29e59ea67134657f7f",
-      "afterSha256": "c76ded487bd9015a8b5691e5e0e1e1927593a364b5655406651d2661bf05aef0",
+      "afterSha256": "02393007386303d24e85297cc30e9d0323d68050f621fc95557b73e88d61bf04",
       "publicCallers": [
         "docs/ops/board.md",
         "docs/ops/tasks/index.md",
@@ -2182,8 +2182,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "c03b7887f6d1d973134c6fad22ee86fbea0fbb60cc58cffef59ba9f87f20d4bf",
-        "afterSha256": "c76ded487bd9015a8b5691e5e0e1e1927593a364b5655406651d2661bf05aef0",
+        "previousAfterSha256": "c76ded487bd9015a8b5691e5e0e1e1927593a364b5655406651d2661bf05aef0",
+        "afterSha256": "02393007386303d24e85297cc30e9d0323d68050f621fc95557b73e88d61bf04",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"

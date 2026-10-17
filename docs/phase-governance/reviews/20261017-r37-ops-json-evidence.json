@@ -11,12 +11,14 @@
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
+      "templateCompliance": "needs-migration",
       "readMethod": "full JSON parse and byte-stable artifact envelope; original fields preserved",
       "reviewDepth": "structured-content",
       "coreConclusion": "additional-attachments.json：这是 evidence-receipt，当前文档状态为 historical。全文 21 行、0 个标题；摘要/首段为「{」。属于历史/归档材料，不能单独证明当前实现。",
       "truthAnchors": ["docs/ops/archive/evidence/DOC-IA-2/additional-attachments.json:1"],
-      "unresolved": [],
+      "unresolved": [
+        "Native-format template/consumer contract pending; artifactOnly does not establish completed migration."
+      ],
       "nextStep": "当前 consumer 需要新 receipt 时，保持原字段并重新生成 envelope.",
       "phase": "ops",
       "module": "archive",
@@ -135,7 +137,14 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "templateCompletionCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "scope": "template-completion only; accepted R33/R37 semantic conclusions retained",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "reason": "GLM accepted content conclusions remain; native-format body/consumer contract is not established by artifactOnly metadata, so no template migration completion credit."
+      }
     },
     {
       "path": "docs/ops/archive/evidence/DOC-IA-2/preservation-report.json",
@@ -143,12 +152,14 @@
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
+      "templateCompliance": "needs-migration",
       "readMethod": "full JSON parse and byte-stable artifact envelope; original fields preserved",
       "reviewDepth": "structured-content",
       "coreConclusion": "preservation-report.json：这是 evidence-receipt，当前文档状态为 historical。全文 71 行、0 个标题；摘要/首段为「{」。属于历史/归档材料，不能单独证明当前实现。",
       "truthAnchors": ["docs/ops/archive/evidence/DOC-IA-2/preservation-report.json:1"],
-      "unresolved": [],
+      "unresolved": [
+        "Native-format template/consumer contract pending; artifactOnly does not establish completed migration."
+      ],
       "nextStep": "当前 consumer 需要新 receipt 时，保持原字段并重新生成 envelope.",
       "phase": "ops",
       "module": "archive",
@@ -267,7 +278,14 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "templateCompletionCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "scope": "template-completion only; accepted R33/R37 semantic conclusions retained",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "reason": "GLM accepted content conclusions remain; native-format body/consumer contract is not established by artifactOnly metadata, so no template migration completion credit."
+      }
     },
     {
       "path": "docs/ops/archive/evidence/DOC-IA-2/relocation.json",
@@ -275,12 +293,14 @@
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
+      "templateCompliance": "needs-migration",
       "readMethod": "full JSON parse and byte-stable artifact envelope; original fields preserved",
       "reviewDepth": "structured-content",
       "coreConclusion": "relocation.json：这是 evidence-receipt，当前文档状态为 historical。全文 2532 行、0 个标题；摘要/首段为「{」。属于历史/归档材料，不能单独证明当前实现。",
       "truthAnchors": ["docs/ops/archive/evidence/DOC-IA-2/relocation.json:1"],
-      "unresolved": [],
+      "unresolved": [
+        "Native-format template/consumer contract pending; artifactOnly does not establish completed migration."
+      ],
       "nextStep": "当前 consumer 需要新 receipt 时，保持原字段并重新生成 envelope.",
       "phase": "ops",
       "module": "archive",
@@ -399,7 +419,14 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "templateCompletionCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "scope": "template-completion only; accepted R33/R37 semantic conclusions retained",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "reason": "GLM accepted content conclusions remain; native-format body/consumer contract is not established by artifactOnly metadata, so no template migration completion credit."
+      }
     }
   ],
   "independentReadOnlyReceipt": {

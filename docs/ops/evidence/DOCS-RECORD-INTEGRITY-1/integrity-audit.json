@@ -2117,5 +2117,55 @@
     "lint": "PASS zero diagnostics",
     "diff": "PASS",
     "historicalExecutionCredit": false
-  }
+  },
+  "nativeArtifactCompletionCorrection": [
+    {
+      "path": "docs/ops/archive/evidence/DOC-IA-2/additional-attachments.json",
+      "record": "20261017-r37-ops-json-evidence.json",
+      "retainedContentReviewStatus": "content-reviewed",
+      "previousTemplateCompliance": "template-compliant",
+      "newTemplateCompliance": "needs-migration",
+      "reason": "GLM accepted content conclusions remain; native-format body/consumer contract is not established by artifactOnly metadata, so no template migration completion credit."
+    },
+    {
+      "path": "docs/ops/archive/evidence/DOC-IA-2/preservation-report.json",
+      "record": "20261017-r37-ops-json-evidence.json",
+      "retainedContentReviewStatus": "content-reviewed",
+      "previousTemplateCompliance": "template-compliant",
+      "newTemplateCompliance": "needs-migration",
+      "reason": "GLM accepted content conclusions remain; native-format body/consumer contract is not established by artifactOnly metadata, so no template migration completion credit."
+    },
+    {
+      "path": "docs/ops/archive/evidence/DOC-IA-2/relocation.json",
+      "record": "20261017-r37-ops-json-evidence.json",
+      "retainedContentReviewStatus": "content-reviewed",
+      "previousTemplateCompliance": "template-compliant",
+      "newTemplateCompliance": "needs-migration",
+      "reason": "GLM accepted content conclusions remain; native-format body/consumer contract is not established by artifactOnly metadata, so no template migration completion credit."
+    },
+    {
+      "path": "docs/phase2/archive/mockups/actor-mode-v1.html",
+      "record": "20261017-r33-phase2-lore.json",
+      "retainedContentReviewStatus": "content-reviewed",
+      "previousTemplateCompliance": "template-compliant",
+      "newTemplateCompliance": "needs-migration",
+      "reason": "GLM accepted content conclusions remain; native-format body/consumer contract is not established by artifactOnly metadata, so no template migration completion credit."
+    },
+    {
+      "path": "docs/phase2/archive/mockups/actor-mode-v2.html",
+      "record": "20261017-r33-phase2-lore.json",
+      "retainedContentReviewStatus": "content-reviewed",
+      "previousTemplateCompliance": "template-compliant",
+      "newTemplateCompliance": "needs-migration",
+      "reason": "GLM accepted content conclusions remain; native-format body/consumer contract is not established by artifactOnly metadata, so no template migration completion credit."
+    },
+    {
+      "path": "docs/phase2/archive/mockups/place-mode.html",
+      "record": "20261017-r33-phase2-lore.json",
+      "retainedContentReviewStatus": "content-reviewed",
+      "previousTemplateCompliance": "template-compliant",
+      "newTemplateCompliance": "needs-migration",
+      "reason": "GLM accepted content conclusions remain; native-format body/consumer contract is not established by artifactOnly metadata, so no template migration completion credit."
+    }
+  ]
 }

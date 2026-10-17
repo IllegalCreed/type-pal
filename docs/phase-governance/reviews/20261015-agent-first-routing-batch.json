@@ -120,7 +120,7 @@
       "sourceGitRevision": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c",
       "sourceGitObject": "77d2d4711394b03c3114f464e854ce5e1b18b5a6",
       "sourceState": "present",
-      "afterSha256": "120c7d1dcfa69187c6ea5105fdfd20be2a2a25c3aeb8475b626321600e9990d2",
+      "afterSha256": "7ef72b39a039c77ab145a9458ba371b903bf3d56c308be2f338da8f2b94cbae7",
       "publicCallers": [
         "AGENTS.md operation routing",
         "docs/README.md",
@@ -180,7 +180,15 @@
       "stopLine": "Unknown content stays unread/blocked; formatting and route checks do not prove runtime/E2E/visual/coverage.",
       "userVisibleBeforeAfter": "lore/三阶段入口 -> 全 docs 治理入口，保留旧索引但禁止外推为全量完成。",
       "reviewedLines": "1-32",
-      "reviewNotes": "Codex 实际核正文与实际迁移差异；不是自动标题/路径归类。全量正文与最终独立验收仍在任务卡持续推进。"
+      "reviewNotes": "Codex 实际核正文与实际迁移差异；不是自动标题/路径归类。全量正文与最终独立验收仍在任务卡持续推进。",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "120c7d1dcfa69187c6ea5105fdfd20be2a2a25c3aeb8475b626321600e9990d2",
+        "afterSha256": "7ef72b39a039c77ab145a9458ba371b903bf3d56c308be2f338da8f2b94cbae7",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase-governance/templates/README.md",

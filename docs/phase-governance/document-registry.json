@@ -24,9 +24,9 @@
     }
   ],
   "summary": {
-    "total": 2358,
+    "total": 2360,
     "byPhase": {
-      "ops": 1264,
+      "ops": 1266,
       "lore": 14,
       "phase1": 60,
       "phase2": 109,
@@ -37,7 +37,7 @@
     "byType": {
       "task-card": 364,
       "guide-runbook": 17,
-      "archive-record": 1487,
+      "archive-record": 1489,
       "audit-report": 59,
       "governance-index": 107,
       "evidence-receipt": 100,
@@ -54,12 +54,12 @@
       "test-catalog": 4
     },
     "reviewStatus": {
-      "partial-review-unknown": 1910,
+      "partial-review-unknown": 1912,
       "content-reviewed": 448
     },
     "templateCompliance": {
-      "needs-migration": 1910,
-      "template-compliant": 448
+      "needs-migration": 1918,
+      "template-compliant": 442
     }
   },
   "entries": [
@@ -272,7 +272,7 @@
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "template-compliant",
+      "templateCompliance": "needs-migration",
       "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r37-ops-json-evidence.json",
       "templateVersion": "1.0.0",
@@ -285,7 +285,7 @@
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "template-compliant",
+      "templateCompliance": "needs-migration",
       "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r37-ops-json-evidence.json",
       "templateVersion": "1.0.0",
@@ -308,7 +308,7 @@
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
-      "templateCompliance": "template-compliant",
+      "templateCompliance": "needs-migration",
       "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r37-ops-json-evidence.json",
       "templateVersion": "1.0.0",
@@ -2660,7 +2660,7 @@
       "phase": "phase2",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
-      "templateCompliance": "template-compliant",
+      "templateCompliance": "needs-migration",
       "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r33-phase2-lore.json",
       "templateVersion": "1.0.0",
@@ -2674,7 +2674,7 @@
       "phase": "phase2",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
-      "templateCompliance": "template-compliant",
+      "templateCompliance": "needs-migration",
       "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r33-phase2-lore.json",
       "templateVersion": "1.0.0",
@@ -2688,7 +2688,7 @@
       "phase": "phase2",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
-      "templateCompliance": "template-compliant",
+      "templateCompliance": "needs-migration",
       "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r33-phase2-lore.json",
       "templateVersion": "1.0.0",
@@ -27324,6 +27324,30 @@
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-a1622b45-a149-4288-9f17-7799d1236ed9.json",
+      "phase": "ops",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "templateVersion": "1.0.0",
+      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "needs-migration",
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "artifactOnly": true,
+      "artifactFormat": "json"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-baac39b4-8b40-4c0f-88b3-f09acf03372c.json",
+      "phase": "ops",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "templateVersion": "1.0.0",
+      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "needs-migration",
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "artifactOnly": true,
+      "artifactFormat": "json"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-5924dca5-da86-45dc-a6a7-397e9a1759de.json",
       "phase": "ops",
       "docType": "archive-record",
       "templateId": "archive-record-v1",

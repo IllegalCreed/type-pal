@@ -1,13 +1,46 @@
 {
   "schemaVersion": 1,
   "kind": "current-rerun-index-not-historical-execution-proof",
-  "status": "rework-real-failures-retained",
+  "status": "review-rework; hard acceptance not passed",
   "sessions": [
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-a1622b45-a149-4288-9f17-7799d1236ed9.json",
       "sha256": "70a59e69c2ebc4b3cdd8f4c577f9cf65c7ef3b8c325bdd2bdd93b21e2405919d",
+      "startedAt": "2026-10-17T19:41:03.190Z",
+      "inputSnapshot": "raw/a1622b45-a149-4288-9f17-7799d1236ed9.inputs.log",
+      "inputSnapshotSha256ObservedAtClosure": "975516c7cc0d190fed282c6a881ea352a7c60e1e203da2e6396c542813ffdba9",
+      "role": "current-input-candidate-execution; not retrospective historical proof"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-baac39b4-8b40-4c0f-88b3-f09acf03372c.json",
+      "sha256": "aac40373f71f4f79c516d4661a1a29de07cfed6152b6e8cc3b0f7fc9867d0027",
+      "startedAt": "2026-10-17T19:43:49.608Z",
+      "inputSnapshot": "raw/baac39b4-8b40-4c0f-88b3-f09acf03372c.inputs.log",
+      "inputSnapshotSha256ObservedAtClosure": "3a35289bc2190b4185cc412d0dcbeaf80e5f1a3ac5d2c8a05ea28a70ae83b137",
+      "role": "current-input-candidate-execution; not retrospective historical proof"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-5924dca5-da86-45dc-a6a7-397e9a1759de.json",
+      "sha256": "df1dbb15952ad8fa9da99ebc10113253602286063d2edfea0ac24045b11beeeb",
+      "startedAt": "2026-10-17T19:46:35.304Z",
+      "inputSnapshot": "raw/5924dca5-da86-45dc-a6a7-397e9a1759de.inputs.log",
+      "inputSnapshotSha256ObservedAtClosure": "dfe6e0d842d411853b77ecd5d6051e2f348aa1bf2b2f93236370f47a18ac5c68",
       "role": "current-input-candidate-execution; not retrospective historical proof"
     }
   ],
-  "lossDisclosure": "Earlier uncommitted managed worktree disappeared during execution. Raw captures in that directory are unavailable and are not accepted as retained evidence. Recovered command construction from this chat was re-executed in this checkout; current receipts will identify the new execution."
+  "lossDisclosure": "Earlier uncommitted managed worktree disappeared during execution. Raw captures in that directory are unavailable and are not accepted as retained evidence. Recovered command construction from this chat was re-executed in this checkout; current receipts will identify the new execution.",
+  "artifactOwnership": {
+    "scope": "Every file in raw/ is owned by this task and produced by capture-governance-rerun.mjs; streams, input snapshots and execution journals are execution artifacts, not prose candidates.",
+    "owner": "Codex",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "producer": "scripts/docs/capture-governance-rerun.mjs",
+    "callers": [
+      "docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md",
+      "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md"
+    ],
+    "timeAndVersion": "Per execution/session startedAt/finishedAt, sourceHead and captured input hashes; applies only to those inputs.",
+    "retention": "Git-tracked raw bytes are immutable; re-execution creates a new UUID, never overwrites.",
+    "exitCondition": "No automatic deletion during rework; any retirement requires an explicit reviewed replacement and provenance mapping."
+  },
+  "latestRetainedSession": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-5924dca5-da86-45dc-a6a7-397e9a1759de.json"
 }

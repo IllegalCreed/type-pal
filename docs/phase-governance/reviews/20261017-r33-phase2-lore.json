@@ -617,7 +617,7 @@
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
+      "templateCompliance": "needs-migration",
       "readMethod": "full HTML bytes and artifact envelope",
       "reviewDepth": "structured-content",
       "coreConclusion": "actor-mode-v1.html：这是 archive-record，当前文档状态为 historical。全文 267 行、0 个标题；摘要/首段为「<!doctype html>」。属于历史/归档材料，不能单独证明当前实现。",
@@ -626,7 +626,8 @@
         "正文信号 260:<span class=\"warn\">⚠ 8 问题</span>",
         "正文信号 10:    --warn: #e2b340; --err: #e05b5b; --ok: #58b37a;",
         "正文信号 33:  .valbar .warn { color: var(--warn); } .valbar .msg { color: var(--dim); font-family: var(--mono); font-size: 11px; }",
-        "正文信号 260:    <span class=\"warn\">⚠ 8 问题</span>"
+        "正文信号 260:    <span class=\"warn\">⚠ 8 问题</span>",
+        "Native-format template/consumer contract pending; artifactOnly does not establish completed migration."
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "phase2",
@@ -764,7 +765,14 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "templateCompletionCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "scope": "template-completion only; accepted R33/R37 semantic conclusions retained",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "reason": "GLM accepted content conclusions remain; native-format body/consumer contract is not established by artifactOnly metadata, so no template migration completion credit."
+      }
     },
     {
       "path": "docs/phase2/archive/mockups/actor-mode-v2.html",
@@ -772,7 +780,7 @@
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
+      "templateCompliance": "needs-migration",
       "readMethod": "full HTML bytes and artifact envelope",
       "reviewDepth": "structured-content",
       "coreConclusion": "actor-mode-v2.html：这是 archive-record，当前文档状态为 historical。全文 292 行、0 个标题；摘要/首段为「<!doctype html>」。属于历史/归档材料，不能单独证明当前实现。",
@@ -781,7 +789,8 @@
         "正文信号 285:<span class=\"warn\">⚠ 8 问题</span>",
         "正文信号 10:    --warn: #e2b340; --err: #e05b5b; --ok: #58b37a;",
         "正文信号 33:  .valbar .warn { color: var(--warn); } .valbar .msg { color: var(--dim); font-family: var(--mono); font-size: 11px; }",
-        "正文信号 285:    <span class=\"warn\">⚠ 8 问题</span>"
+        "正文信号 285:    <span class=\"warn\">⚠ 8 问题</span>",
+        "Native-format template/consumer contract pending; artifactOnly does not establish completed migration."
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "phase2",
@@ -919,7 +928,14 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "templateCompletionCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "scope": "template-completion only; accepted R33/R37 semantic conclusions retained",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "reason": "GLM accepted content conclusions remain; native-format body/consumer contract is not established by artifactOnly metadata, so no template migration completion credit."
+      }
     },
     {
       "path": "docs/phase2/archive/mockups/place-mode.html",
@@ -927,7 +943,7 @@
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
+      "templateCompliance": "needs-migration",
       "readMethod": "full HTML bytes and artifact envelope",
       "reviewDepth": "structured-content",
       "coreConclusion": "place-mode.html：这是 archive-record，当前文档状态为 historical。全文 255 行、0 个标题；摘要/首段为「<!doctype html>」。属于历史/归档材料，不能单独证明当前实现。",
@@ -936,7 +952,8 @@
         "正文信号 247:<span class=\"pill warn\">⚠ 2 警告</span>",
         "正文信号 10:    --warn: #e2b340; --err: #e05b5b; --ok: #58b37a;",
         "正文信号 137:  .valbar .warn { color: var(--warn); }",
-        "正文信号 247:    <span class=\"pill warn\">⚠ 2 警告</span>"
+        "正文信号 247:    <span class=\"pill warn\">⚠ 2 警告</span>",
+        "Native-format template/consumer contract pending; artifactOnly does not establish completed migration."
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "phase2",
@@ -1074,7 +1091,14 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "templateCompletionCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "scope": "template-completion only; accepted R33/R37 semantic conclusions retained",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "reason": "GLM accepted content conclusions remain; native-format body/consumer contract is not established by artifactOnly metadata, so no template migration completion credit."
+      }
     },
     {
       "path": "docs/phase2/capability-map.md",

@@ -5,11 +5,11 @@ Phase: ops
 Capability: documentation governance / generated catalog schema
 Coding Owner: Codex
 Generation Owner: N/A（机器 catalog 由既有脚本生成）
-Reviewer: Codex（独立验收；可另请专项审查）
+Reviewer: 待非作者复核；Codex 作者自验不计独立接受
 Visual Verification Owner: N/A（纯文档/机器索引迁移）
 Visual Verification Timing: N/A
 Contributor: Codex
-Branch: codex/docs-catalog-split
+Branch: codex/docs-audit-rework
 Last reviewed: 2026-10-17
 Template: task-card-v1 / 1.0.0
 
