@@ -1659,7 +1659,7 @@
       "sha256": "b9d0c1080023240c5c372f39094347e351bc24b8ee95be1743178ecfb4c44bf8",
       "lines": 37,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -1679,7 +1679,8 @@
           "text": "无下一位 Agent；Codex继续完成本批审计，未完成准入前不得扩大范围或标记 done。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/42-dialog-box/README.md"
     },
     {
       "id": "43",

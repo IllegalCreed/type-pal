@@ -18,12 +18,24 @@ import type { DialogBoxStyle } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
 import {
   appendDialogLine,
+  FONT_COLOR_DEFAULT,
   getDialogTitlePos,
   isCharacterNameLine,
+  parseDialogText,
   resetDialogBody,
   startDialogLine,
   type TextPos,
 } from './dialog-box.js'
+
+describe('parseDialogText narration tail delay(text.c:1551-1554)', () => {
+  it('narration/isDialog=true consumes ~NN without waiting', () => {
+    const parsed = parseDialogText('A~40', FONT_COLOR_DEFAULT, true)
+    // `TEXT_DisplayText` skips UTIL_Delay for isDialog narration; only the visible
+    // character delay remains (iDelay=3 → 24ms).
+    expect(parsed.doneAt).toBe(24)
+    expect(parsed.endedWithTilde).toBe(true)
+  })
+})
 
 describe('getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置)', () => {
   const rows: Array<[string, DialogBoxStyle, boolean, TextPos]> = [

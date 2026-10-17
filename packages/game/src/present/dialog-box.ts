@@ -140,7 +140,10 @@ export function parseDialogText(
       case '~': {
         // text.c:1551-1554 UTIL_Delay(NN*80/7) + return(本行止,尾暂停)
         const nn = Number.parseInt((chars[i + 1] ?? '') + (chars[i + 2] ?? ''), 10)
-        const endDelay = Number.isNaN(nn) ? 0 : Math.floor((nn * 80) / 7)
+        // `TEXT_DisplayText` only waits for `~NN` on ordinary dialog
+        // (`!isDialog`); narration/center-window text is already a one-shot
+        // display and skips the blocking delay (text.c:1551-1554).
+        const endDelay = !isDialog && !Number.isNaN(nn) ? Math.floor((nn * 80) / 7) : 0
         return {
           text: out.join(''),
           colors,

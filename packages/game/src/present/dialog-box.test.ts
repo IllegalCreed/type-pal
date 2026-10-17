@@ -307,7 +307,7 @@ describe('Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成�
   it('~NN 尾暂停语义保留:doneAt 前仍 typing,doneAt 后 line-done + renderPending', () => {
     const NOW0 = 2_000_000
     // "一夜过去．．"~40 : 6 字 × 24 = 144ms + ~40 尾停 457ms = doneAt 601
-    const s = startDialogLine('"一夜过去．．"~40', { style: 'center', now: NOW0 })
+    const s = startDialogLine('"一夜过去．．"~40', { style: 'bottom', now: NOW0 })
     tickDialog(s, NOW0 + 500) // 整句已出(6 字),但 500 < 601
     expect(s.charsRevealed).toBe(6)
     expect(s.phase).toBe('typing')

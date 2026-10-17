@@ -1,0 +1,71 @@
+{
+  "base": "d6bd5caad",
+  "fullReads": [
+    {
+      "path": "packages/game/src/present/dialog-box.ts",
+      "sha256": "f0a4f858eb4304180664d3f8b89f41792593fe7c6df0be4e7ef184a9d9b1c6c9",
+      "lines": 958,
+      "boundary": "Full parser/state/timing/pagination/confirm/drawing/narration/item-box implementation read; narration ~NN fix is the only product change."
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.test.ts",
+      "sha256": "e141f0ab9d6b267f6c9ae68ce6036d2dcbfa190948418d8eec18c1e95a342106",
+      "lines": 761,
+      "boundary": "Full direct oracle read: parser controls, line timing, tail delay, pagination, confirm, framebuffer, portrait, icons and item-box."
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.glm-next-wave.test.ts",
+      "sha256": "8575e34c33c9e763af64cd11a383c9ee3037ca3b9786771c16ec35e871ff9c28",
+      "lines": 84,
+      "boundary": "Full direct boundary read, including the narration ~NN counterexample and title/reset contracts."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "ranges": ["dialog start/append/tick/confirm caller ranges"],
+      "boundary": "Production dialog lifecycle caller; full event-system was independently reviewed in 3r."
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "ranges": ["dialog draw/palette caller ranges"],
+      "boundary": "Presentation caller and icon palette ownership."
+    },
+    {
+      "path": "packages/game/src/core/event-dialogue-pagination.test.ts",
+      "boundary": "Adjacent event pagination regression; direct test run."
+    },
+    {
+      "path": "packages/game/src/core/event-dialogue-pagination.glm-contracts.test.ts",
+      "boundary": "Adjacent pagination/userSkip regression; direct test run."
+    },
+    {
+      "path": "packages/game/src/present/present.test.ts",
+      "boundary": "Adjacent present/dialog frame regression; direct test run."
+    },
+    {
+      "path": "packages/game/src/present/dialog-box-pixels.grok-r1.test.ts",
+      "boundary": "Adjacent pixel oracle; one test remains blocked by missing document environment, preserved as review."
+    },
+    {
+      "path": "packages/game/src/present/dialog-box-chrome.grok-r1.test.ts",
+      "boundary": "Adjacent chrome/framebuffer regression; direct test run."
+    },
+    {
+      "path": "reference/sdlpal/text.c",
+      "ranges": ["1208-1815"],
+      "boundary": "Dialog start, parser, typing, narration, page/end waits and cleanup primary."
+    },
+    {
+      "path": "reference/sdlpal/uigame.c",
+      "ranges": ["878-930"],
+      "boundary": "Related menu/dialog input context."
+    }
+  ],
+  "notClaimed": [
+    "Current full-repository check/coverage/ratchet/protected-fast acceptance",
+    "Visual/E2E acceptance beyond framebuffer contracts",
+    "Save/schema/migration/generated-asset acceptance",
+    "Environment repair for the unrelated document diagnostic"
+  ]
+}
