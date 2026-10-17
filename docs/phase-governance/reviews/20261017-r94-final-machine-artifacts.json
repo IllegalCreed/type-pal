@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "cd9faf2963f27345c978001616457ab0110dca4a9986c1eb2f0613105eae3cee",
+      "afterSha256": "c8627905ccbbabb7a43f075f6d003f3e16286cb562174a1e1ebb036d3dec1194",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1065,8 +1065,8 @@
         "against": ["docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"]
       },
       "revision": {
-        "currentSha": "cd9faf2963f27345c978001616457ab0110dca4a9986c1eb2f0613105eae3cee",
-        "implementationSha": "cd9faf2963f27345c978001616457ab0110dca4a9986c1eb2f0613105eae3cee",
+        "currentSha": "c8627905ccbbabb7a43f075f6d003f3e16286cb562174a1e1ebb036d3dec1194",
+        "implementationSha": "c8627905ccbbabb7a43f075f6d003f3e16286cb562174a1e1ebb036d3dec1194",
         "history": [
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
@@ -1080,8 +1080,8 @@
         "kind": "machine-artifact-envelope",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-        "candidateSha256": "cd9faf2963f27345c978001616457ab0110dca4a9986c1eb2f0613105eae3cee",
-        "afterSha256": "cd9faf2963f27345c978001616457ab0110dca4a9986c1eb2f0613105eae3cee",
+        "candidateSha256": "c8627905ccbbabb7a43f075f6d003f3e16286cb562174a1e1ebb036d3dec1194",
+        "afterSha256": "c8627905ccbbabb7a43f075f6d003f3e16286cb562174a1e1ebb036d3dec1194",
         "lineCount": 13734,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1119,7 +1119,7 @@
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "cd9faf2963f27345c978001616457ab0110dca4a9986c1eb2f0613105eae3cee",
+      "candidateSha256": "c8627905ccbbabb7a43f075f6d003f3e16286cb562174a1e1ebb036d3dec1194",
       "primarySource": [
         {
           "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",

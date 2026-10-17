@@ -2347,7 +2347,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
-      "afterSha256": "0ae1d6ee752ab7a0ed54b94baf2600cca34ae3d2b7015a1b8645ac8fa5d11a5c",
+      "afterSha256": "fb6d21f4a2f293079a6649d04e01fdc5f9e032500826f3ce117f2f519f3d3c4a",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/battle/battle-system.ts",
@@ -2518,6 +2518,11 @@
         {
           "revision": "0ae1d6ee752ab7a0ed54b94baf2600cca34ae3d2b7015a1b8645ac8fa5d11a5c",
           "action": "glm field-symmetry clarification (field effect symmetric to both sides + multiplicative chaining)",
+          "status": "current"
+        },
+        {
+          "revision": "fb6d21f4a2f293079a6649d04e01fdc5f9e032500826f3ce117f2f519f3d3c4a",
+          "action": "glm coop/puppet verify",
           "status": "current"
         }
       ],

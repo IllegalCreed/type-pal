@@ -832,6 +832,8 @@ historical。do not promote historical claims to current truth without a current
 >
 > 合击回合 `fThisTurnCoop = TRUE`([fight.c:3858](../../reference/sdlpal/fight.c#L3858))→ 该回合所有参与成员的**普攻 / 防御 / 逃跑 / 单独施法全部被跳过**(各 action case 开头 `if(g_Battle.fThisTurnCoop) break;`,见 [fight.c:3620, 4112, 4121, 4176, 4334](../../reference/sdlpal/fight.c#L3620))。整队这一回合只做这一次合击。
 >
+> **先手边界怪癖(用户 2026-10-17 实机确认原版存在;源码可推)**:合击的 ×10 只把**合击者**的行动 dex 乘 10,行动序仍是纯 dex 降序——若某队友有效身法(含自身倍率与抖动,实际身法 999 封顶)超过"合击者实际身法 ×10",他仍排在合击**之前**先释放法术,法术结算完才轮到合击触发(合击后的 fThisTurnCoop 再吞掉本轮剩余)。低身法合击者+高身法队友(如 haste ×3)时可复现。引擎按 sdlpal 真值复刻此行为(ts `actionDexMultiplier` ×10 + `buildActionQueue` 纯 dex 排序),不改。
+>
 > ts 实现状态:**已实现**。`performCoopMagic` 会筛选 healthy 参与者、扣除 HP 代价、计算伤害并生成聚拢 / 施法 / 法术特效 / 归位动画;回合队列也会跳过同轮其他参与者动作。若执行前只剩一名 healthy 队员,会按原版退化成普通攻击并保留普攻动画。
 >
 > ---
@@ -1608,7 +1610,9 @@ historical。do not promote historical claims to current truth without a current
 > - **死亡**（HP→0）：**不清任何状态**。`rgPlayerStatus` 保留，只是 `canAct`/`canCastMagic` 跳过死人。
 > - **复活**（`0x22`）：`for (x=0; x<kStatusAll; x++) PAL_RemovePlayerStatus(w, x)` 遍历全清（[script.c:1071-1075](../../reference/sdlpal/script.c#L1071)）。
 >
-> → **傀儡虫控制的死者带着死前的 buff/debuff**：傀儡是 `kStatusPuppet`，死亡时保留（`PAL_SetPlayerStatus` 的 puppet 分支只检 HP==0 且取较长），复活时才被 `RemovePlayerStatus` 清。
+> → **傀儡虫控制的死者带着死前的 buff/debuff**：傀儡是 `kStatusPuppet`，死亡时保留（`PAL_SetPlayerStatus` 的 puppet 分支只检 HP==0 且取较长），复活时才被 `RemovePlayerStatus` 清。**用户场景核对(2026-10-17)**：被傀儡的死者**没有经历 0x22 复活**——连击(kStatusDualAttack)与加速(kStatusHaste)等 `rgPlayerStatus` buff、以及 Extra 槽身法/武术加成**全部存活**；连击对傀儡的强制普攻照常 ×2 段([fight.c:3628](../../reference/sdlpal/fight.c#L3628))，Extra 槽加成立即抬傀儡伤害；唯身法 buff **不影响行动序**——死人(含傀儡)在行动队列里 dex 恒 0 排队尾([fight.c:1505-1517](../../reference/sdlpal/fight.c#L1505)，ts 同 battle-system 死亡分支)。
+>
+> **大世界 F 键傀儡施法核对(用户 2026-10-17 提问;结论:本引擎与 sdlpal 均不存在)**：原版 EXE 传闻"快捷键 F 让死亡被傀儡者继续放仙术"。sdlpal 与本引擎的门都是**施法者 rgwHP>0**([uigame.c:707-708](../../reference/sdlpal/uigame.c#L707)，ts `in-game-magic-menu` caster `disabled = hp<=0`)——傀儡者 HP==0,大世界 F 与战斗法术菜单均不可选;战斗内死人(含傀儡)被强制仅物理攻击([uibattle.c:938-944](../../reference/sdlpal/uibattle.c#L938)，ts 队列死亡分支强制 attack)。若原版实机确有此 bug,则 sdlpal 已用 HP>0 门挡住,本引擎与 sdlpal 一致、不复刻该 bug。
 >
 > ### 4. 明王战赵灵儿觉醒 + 站位
 >
