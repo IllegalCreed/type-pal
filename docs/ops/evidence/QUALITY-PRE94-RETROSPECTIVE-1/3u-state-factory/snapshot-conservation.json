@@ -1,0 +1,192 @@
+{
+  "base": "9c2c5eabe143bc81ad8df1c9234aa741b130aabc",
+  "owner": "Codex single agent",
+  "scope": "Whole unfiltered old/current test file per one source mutant. No SDK network or visual acceptance.",
+  "controls": [
+    {
+      "id": "script-prevhp-conservation-v2",
+      "source": "packages/game/src/core/battle/battle-state.ts",
+      "spec": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "sourceSha256": "618063b97dabe5d7a06380296493ec33efeb51b19c512d0cf7f957836d08b87c",
+      "mutantSha256": "6d61075bacf13fbaeebfacc072831d5f4c9c586afc0a2575062440d9a611417c",
+      "expectedNewFailureNameContains": "players prevHp/prevMp 拷贝战前值",
+      "expectedOldCount": 4,
+      "expectedCurrentCount": 14,
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-state.glm-next-wave.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-state-controls-x1zk6_zr/script-prevhp-conservation-v2.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T23:55:35.942490+00:00",
+          "completedAt": "2026-10-17T23:55:36.983976+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "script-prevhp-conservation-v2.old.raw.gz",
+          "rawBytes": 2312,
+          "rawSha256": "4015f707997e9ce7db68063dcd66d6a3d01f8fd3e2f5a9ae0940f2e132028251",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "d3c40c64832253f554815e2df4236b714dcfa6c11a6b2aae7a950fee05616fd2",
+          "specPath": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+          "nativeReport": "script-prevhp-conservation-v2.old.vitest.json.gz",
+          "nativeSha256": "808748480e870d48b5ac20bef34bc67be97fce4e6b8d218c237a748aee685ee3",
+          "passed": 3,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+              "fullName": "createBattleState —— DH1 零占位槽(battle.c:1598-1720) null 槽 → defeated 空槽:objectId=0、e 全零、无脚本、不参与目标(defeated)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+              "fullName": "createBattleState —— DH1 零占位槽(battle.c:1598-1720) 真实槽不受空槽影响:e shallow copy + maxHealth=战前满血(0x64 真值基线)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+              "fullName": "createBattleState —— 开战 seed gs.fAutoBattle(true)→ state.fAutoBattle(true);缺省 false(0x8A 跨战斗持久)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+              "fullName": "createBattleState —— 开战 seed players prevHp/prevMp/scriptPrevHp 三快照 = 战前 role.hp/mp",
+              "status": "failed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected undefined to be 123 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-state.glm-next-wave.test.ts:79:28\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "618063b97dabe5d7a06380296493ec33efeb51b19c512d0cf7f957836d08b87c",
+          "specRestoredSha256": "cdbe9414af48e3da5dca54b77c7516f3df1ba5556ef0193adaa4771ed348128d",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/__tests__/battle-state.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-state-controls-x1zk6_zr/script-prevhp-conservation-v2.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T23:55:36.984389+00:00",
+          "completedAt": "2026-10-17T23:55:37.810001+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "script-prevhp-conservation-v2.current.raw.gz",
+          "rawBytes": 3437,
+          "rawSha256": "fb1aaf76af48cd40d64aa7ad38a8bc96bedb82a18a098af63ad956ef41ceded7",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "16c1f11837db4fb23df0ff9a07f9bebc9970db875b7e62a582eec9e57bf6d604",
+          "specPath": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+          "nativeReport": "script-prevhp-conservation-v2.current.vitest.json.gz",
+          "nativeSha256": "a1d9b555492fb6291806d1312f1dfcdb3240d7da486b417c5e2be11254bb69b6",
+          "passed": 13,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/battle-state.test.ts",
+              "fullName": "createBattleState 从 GameState + fixture 派生",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/battle-state.test.ts",
+              "fullName": "createBattleState players prevHp/prevMp 拷贝战前值",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/battle-state.test.ts",
+              "fullName": "createBattleState enemies prevHp = e.health 拷贝",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/battle-state.test.ts",
+              "fullName": "createBattleState 未知 roleId 抛错",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/battle-state.test.ts",
+              "fullName": "createBattleState D14:gs.rgPlayerStatus 九槽按角色身份映射，保留普通及装备计数",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/battle-state.test.ts",
+              "fullName": "createBattleState D14:无装备状态 → player.status 全 0(默认)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/battle-state.test.ts",
+              "fullName": "createBattleState 每场pendingActions/prevActions和行动队列独立，不泄漏到下一场",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/battle-state.test.ts",
+              "fullName": "createBattleState B-w0.2:partyMembers > 3 抛错(sdlpal g_rgPlayerPos[3][3][2] 真值)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/battle-state.test.ts",
+              "fullName": "createBattleState 战斗状态副本与持久状态及其它队员相互隔离",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/battle-state.test.ts",
+              "fullName": "createBattleState B-w0.2:partyMembers <= 3 正常构造",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/battle-state.test.ts",
+              "fullName": "createBattleState D17a:player pos/posOriginal = g_rgPlayerPos[count-1][i](battle.c:27)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/battle-state.test.ts",
+              "fullName": "createBattleState D17a:enemy pos/posOriginal = EnemyPos.layouts[count-1][i] + yPosOffset(battle.c:936-939)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/battle-state.test.ts",
+              "fullName": "createBattleState D17a:无 enemyPos → fallback 表(160,80)(向后兼容旧 fixture)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/battle-state.test.ts",
+              "fullName": "createBattleState D17a:enemy yPosOffset 叠加到 posOriginal.y",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected undefined to be 200 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/__tests__/battle-state.test.ts:58:44\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "618063b97dabe5d7a06380296493ec33efeb51b19c512d0cf7f957836d08b87c",
+          "specRestoredSha256": "16c1f11837db4fb23df0ff9a07f9bebc9970db875b7e62a582eec9e57bf6d604",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    }
+  ],
+  "tempDirectory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-state-controls-x1zk6_zr",
+  "tempDirectoryRemoved": true,
+  "restored": true
+}

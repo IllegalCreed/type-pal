@@ -1040,7 +1040,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "cb836a4162c85268ab26b91a56539be4ba62fd9c72b558cc39f56019382878a3",
+      "afterSha256": "b3b2cd7f8b270aa3383cbd6743f69d0e1ed40fd99d85ec99e881ae5517852585",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1064,8 +1064,24 @@
       },
       "revision": {
         "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "implementationSha": "cb836a4162c85268ab26b91a56539be4ba62fd9c72b558cc39f56019382878a3",
+        "implementationSha": "b3b2cd7f8b270aa3383cbd6743f69d0e1ed40fd99d85ec99e881ae5517852585",
         "history": [
+          {
+            "revision": "9c2c5eabe143bc81ad8df1c9234aa741b130aabc",
+            "date": "2026-10-18",
+            "action": "Bounded CODE3u factory test quality review",
+            "previousAfterSha256": "cb836a4162c85268ab26b91a56539be4ba62fd9c72b558cc39f56019382878a3",
+            "scope": "Only two existing factory specs changed; implementation916 lines fully read but bytes unchanged. Remove one self-counted runtime enum and merge duplicate player snapshot with exact conservation control; replace manual JSON with real seeded ownership;14+4 to14+3. Six whole old-green/new-single-AssertionError controls plus separate old/current snapshot one-failure conservation. Actual module283=direct17+adjacent266; source/raw/native hashes and exact owned restoration. Two old test closures reopen review, source remains review;3316/253closed/98review/2965pending,0newclosed.83cards55partial/28pending/0accept unchanged; only3u current evidence pointer changes. No baseline/retirement registry/rules/schema/save/assets/API/product execution change. Four review files incoming chain only, no native verdict rewrite.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "original game runtime",
+              "E2E",
+              "visual"
+            ]
+          },
           {
             "revision": "37e2cd7c9a54b29766a87d17ffed90e4dae465dd",
             "date": "2026-10-18",
@@ -1423,8 +1439,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "cb836a4162c85268ab26b91a56539be4ba62fd9c72b558cc39f56019382878a3",
-        "lineCount": 2636,
+        "afterSha256": "b3b2cd7f8b270aa3383cbd6743f69d0e1ed40fd99d85ec99e881ae5517852585",
+        "lineCount": 2652,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -1458,7 +1474,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-2636",
+      "reviewedLines": "1-2652",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -5177,7 +5193,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "2ca5d595af0002428d3b0bcaa4ca364e9e7284dba83aff502ec7b449330ba3c5",
+      "afterSha256": "5d1c72fe1a76875d8dfb37479a9705825af1322566ea09774f32fbe8861128ae",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5201,8 +5217,24 @@
       },
       "revision": {
         "currentSha": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "implementationSha": "2ca5d595af0002428d3b0bcaa4ca364e9e7284dba83aff502ec7b449330ba3c5",
+        "implementationSha": "5d1c72fe1a76875d8dfb37479a9705825af1322566ea09774f32fbe8861128ae",
         "history": [
+          {
+            "revision": "9c2c5eabe143bc81ad8df1c9234aa741b130aabc",
+            "date": "2026-10-18",
+            "action": "Bounded CODE3u factory test quality review",
+            "previousAfterSha256": "2ca5d595af0002428d3b0bcaa4ca364e9e7284dba83aff502ec7b449330ba3c5",
+            "scope": "Only two existing factory specs changed; implementation916 lines fully read but bytes unchanged. Remove one self-counted runtime enum and merge duplicate player snapshot with exact conservation control; replace manual JSON with real seeded ownership;14+4 to14+3. Six whole old-green/new-single-AssertionError controls plus separate old/current snapshot one-failure conservation. Actual module283=direct17+adjacent266; source/raw/native hashes and exact owned restoration. Two old test closures reopen review, source remains review;3316/253closed/98review/2965pending,0newclosed.83cards55partial/28pending/0accept unchanged; only3u current evidence pointer changes. No baseline/retirement registry/rules/schema/save/assets/API/product execution change. Four review files incoming chain only, no native verdict rewrite.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "original game runtime",
+              "E2E",
+              "visual"
+            ]
+          },
           {
             "revision": "37e2cd7c9a54b29766a87d17ffed90e4dae465dd",
             "date": "2026-10-18",
@@ -5566,8 +5598,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "2ca5d595af0002428d3b0bcaa4ca364e9e7284dba83aff502ec7b449330ba3c5",
-        "lineCount": 5547,
+        "afterSha256": "5d1c72fe1a76875d8dfb37479a9705825af1322566ea09774f32fbe8861128ae",
+        "lineCount": 5563,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -5601,7 +5633,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-5547",
+      "reviewedLines": "1-5563",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

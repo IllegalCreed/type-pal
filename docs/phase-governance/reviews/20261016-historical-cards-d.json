@@ -3265,11 +3265,27 @@
       "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "0a6c9c5380a3df7372f0afe2f63075987b1214b83effe6e4ae7695580c3e7ac1",
+      "afterSha256": "e5b183ce1af6adecb0f65e2b3c09781bc44b30084150f099bd0075197f038998",
       "revision": {
         "currentSha": "addcb44c52fd00ab0fd3397e61ae316bf98d02e2aeef1d5533ed23a2c1e5845a",
-        "implementationSha": "0a6c9c5380a3df7372f0afe2f63075987b1214b83effe6e4ae7695580c3e7ac1",
+        "implementationSha": "e5b183ce1af6adecb0f65e2b3c09781bc44b30084150f099bd0075197f038998",
         "history": [
+          {
+            "revision": "9c2c5eabe143bc81ad8df1c9234aa741b130aabc",
+            "date": "2026-10-18",
+            "action": "Bounded CODE3u factory test quality review",
+            "previousAfterSha256": "0a6c9c5380a3df7372f0afe2f63075987b1214b83effe6e4ae7695580c3e7ac1",
+            "scope": "Only two existing factory specs changed; implementation916 lines fully read but bytes unchanged. Remove one self-counted runtime enum and merge duplicate player snapshot with exact conservation control; replace manual JSON with real seeded ownership;14+4 to14+3. Six whole old-green/new-single-AssertionError controls plus separate old/current snapshot one-failure conservation. Actual module283=direct17+adjacent266; source/raw/native hashes and exact owned restoration. Two old test closures reopen review, source remains review;3316/253closed/98review/2965pending,0newclosed.83cards55partial/28pending/0accept unchanged; only3u current evidence pointer changes. No baseline/retirement registry/rules/schema/save/assets/API/product execution change. Four review files incoming chain only, no native verdict rewrite.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "original game runtime",
+              "E2E",
+              "visual"
+            ]
+          },
           {
             "revision": "37e2cd7c9a54b29766a87d17ffed90e4dae465dd",
             "date": "2026-10-18",
@@ -3712,7 +3728,7 @@
         "kind": "A8-six-pending-inventory-real-producer-maintenance",
         "path": "docs/ops/audits/code-quality-file-ledger.md",
         "sourceSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
-        "afterSha256": "0a6c9c5380a3df7372f0afe2f63075987b1214b83effe6e4ae7695580c3e7ac1",
+        "afterSha256": "e5b183ce1af6adecb0f65e2b3c09781bc44b30084150f099bd0075197f038998",
         "lineCount": 742,
         "sourceScope": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "completePrior": {

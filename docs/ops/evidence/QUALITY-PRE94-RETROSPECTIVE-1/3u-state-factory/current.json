@@ -1,0 +1,25 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/battle/__tests__/battle-state.test.ts",
+    "src/core/battle/battle-state.glm-next-wave.test.ts",
+    "--reporter=verbose",
+    "--reporter=json",
+    "--outputFile.json=/tmp/type-pal-state-current-20261018.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T23:50:28.696233+00:00",
+  "completedAt": "2026-10-17T23:50:29.864287+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "current.raw.gz",
+  "rawBytes": 2801,
+  "rawSha256": "8239099dbae538a58a47b8e2f825699a1a1181a910030cd2ae9b68f60f57a10e",
+  "fullUncutMergedStdoutStderr": true
+}

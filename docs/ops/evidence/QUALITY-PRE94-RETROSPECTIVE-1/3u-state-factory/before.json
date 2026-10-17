@@ -1,0 +1,27 @@
+{
+  "base": "9c2c5eabe143bc81ad8df1c9234aa741b130aabc",
+  "owner": "Codex single agent",
+  "files": [
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "618063b97dabe5d7a06380296493ec33efeb51b19c512d0cf7f957836d08b87c",
+      "lines": 916,
+      "snapshot": "618063b97dab-battle-state.ts.before.gz",
+      "fullRead": true
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "sha256": "93bf49d15b76014878b8893d47548837be8cd44509e16bb9ffc01185d62d8712",
+      "lines": 383,
+      "snapshot": "93bf49d15b76-battle-state.test.ts.before.gz",
+      "fullRead": true
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+      "sha256": "d3c40c64832253f554815e2df4236b714dcfa6c11a6b2aae7a950fee05616fd2",
+      "lines": 81,
+      "snapshot": "d3c40c648322-battle-state.glm-next-wave.test.ts.before.gz",
+      "fullRead": true
+    }
+  ]
+}

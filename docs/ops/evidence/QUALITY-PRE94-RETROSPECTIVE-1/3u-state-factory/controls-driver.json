@@ -1,0 +1,13 @@
+{
+  "command": ["python3", "/tmp/type-pal-state-controls.py"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T23:52:38.988578+00:00",
+  "completedAt": "2026-10-17T23:52:48.545459+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "controls-driver.raw.gz",
+  "rawBytes": 473,
+  "rawSha256": "429d403c7e13d0bb74f85196caa3f8c21d9d17a047802398a914c8cafa129edc",
+  "fullUncutMergedStdoutStderr": true
+}

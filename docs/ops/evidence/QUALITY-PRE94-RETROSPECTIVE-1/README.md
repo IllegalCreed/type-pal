@@ -6,7 +6,7 @@
 
 ## 2026-10-17 当前范围与优先级
 
-用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10原检查点bea19f80c已推送，当前恢复见本片末尾；分支已同步最新origin/main，0behind，未合main。全83卡55partial/28pending/0accept（2026-10-18 清理/runtime复审；下文数字均按各片原时点）；[6a](6a/README.md)、92、CODE1/2/2b/3/3b/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；[CODE3b](3b/README.md)两边界六oracle已补；[raw补证](3b/raw-tests/README.md)9→2/五新反控、完整extract428零stderr；全正文仍待，[3d PNG](3d/README.md)两height盲点已补，下一片3h assets/shell，再按模块逐文件推进；94–102/editor未完成项保留。
+用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10原检查点bea19f80c已推送，当前恢复见本片末尾；分支已同步最新origin/main，0behind，未合main。全83卡55partial/28pending/0accept（2026-10-18 state复审；下文数字均按各片原时点）；[6a](6a/README.md)、92、CODE1/2/2b/3/3b/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；[CODE3b](3b/README.md)两边界六oracle已补；[raw补证](3b/raw-tests/README.md)9→2/五新反控、完整extract428零stderr；全正文仍待，[3d PNG](3d/README.md)两height盲点已补，下一片3h assets/shell，再按模块逐文件推进；94–102/editor未完成项保留。
 
 下文旧数字、探针与结论作为历史保存；不会把旧抽查、历史done或包全绿补签成当前验收。
 
@@ -212,3 +212,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 最新[3z GA复审](3z-google-analytics/README.md)：原三文件/真实caller及新增共享fixture全文，五旧绿新指定单红，外owner隔离旧单红新绿；13直接12相邻/TC零诊断，0新closed。三pending转review加fixture，3316/261/89/2966，83卡53partial/30pending/0accept。真实初始化泄漏另卡draft待裁决，产品执行冻结；统一门/实网未跑，下一步pre94其它未核切片。
 
 最新[3u/3w清理/runtime复审](3u-3w-finalization/README.md)：真实factory替换强转，九状态/释放时序/实际终态接线与跨GameState隔离；七旧绿新指定单红，9直接/266相邻和TC零诊断。四旧closed重开review，0新关闭，3316/255/96/2965；83卡55partial/28pending/0accept。非队员Extra生产可达性另卡draft，未把静态差异当剧情bug；统一门仍待，后续state或40/41。
+
+最新[3u state工厂专测](3u-state-factory/README.md)：两测复用typed资源工厂、九状态role映射/owner隔离/实际活敌layout，六旧绿新单红和迁移快照双红保全；18→17，7文件283绿/TC零诊断。两旧关闭转review、实现原字节保持；3316/253/98/2965，83卡55/28/0accept不变。元数据/极端域及统一门仍待，protected身份/计数协调留大窗口，不合main。

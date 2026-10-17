@@ -1,0 +1,13 @@
+{
+  "command": ["python3", "/tmp/type-pal-state-conservation-final.py"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T23:55:35.908118+00:00",
+  "completedAt": "2026-10-17T23:55:37.814691+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "snapshot-conservation-driver-final.raw.gz",
+  "rawBytes": 114,
+  "rawSha256": "495418e14e93d7eb9e4d9df26218e82e014efc1f692f3d7b89d8b81ec99b4127",
+  "fullUncutMergedStdoutStderr": true
+}

@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "fed7f195b729b668d42e67bcab91ecb467dce47332259a2582d07d92d1da9943",
+      "afterSha256": "fddd7497b7a1a046f20778b77c1b77f36f235d1f668df53fa34c9fbfeb90b200",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,8 +1066,24 @@
       },
       "revision": {
         "currentSha": "a2101ce8ffeb73642521f0b489d17642f27bbd3fcdc581d0e9c354dedbc05778",
-        "implementationSha": "fed7f195b729b668d42e67bcab91ecb467dce47332259a2582d07d92d1da9943",
+        "implementationSha": "fddd7497b7a1a046f20778b77c1b77f36f235d1f668df53fa34c9fbfeb90b200",
         "history": [
+          {
+            "revision": "9c2c5eabe143bc81ad8df1c9234aa741b130aabc",
+            "date": "2026-10-18",
+            "action": "Bounded CODE3u factory test quality review",
+            "previousAfterSha256": "fed7f195b729b668d42e67bcab91ecb467dce47332259a2582d07d92d1da9943",
+            "scope": "Only two existing factory specs changed; implementation916 lines fully read but bytes unchanged. Remove one self-counted runtime enum and merge duplicate player snapshot with exact conservation control; replace manual JSON with real seeded ownership;14+4 to14+3. Six whole old-green/new-single-AssertionError controls plus separate old/current snapshot one-failure conservation. Actual module283=direct17+adjacent266; source/raw/native hashes and exact owned restoration. Two old test closures reopen review, source remains review;3316/253closed/98review/2965pending,0newclosed.83cards55partial/28pending/0accept unchanged; only3u current evidence pointer changes. No baseline/retirement registry/rules/schema/save/assets/API/product execution change. Four review files incoming chain only, no native verdict rewrite.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "original game runtime",
+              "E2E",
+              "visual"
+            ]
+          },
           {
             "revision": "37e2cd7c9a54b29766a87d17ffed90e4dae465dd",
             "date": "2026-10-18",
@@ -1441,8 +1457,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "fed7f195b729b668d42e67bcab91ecb467dce47332259a2582d07d92d1da9943",
-        "lineCount": 15143,
+        "afterSha256": "fddd7497b7a1a046f20778b77c1b77f36f235d1f668df53fa34c9fbfeb90b200",
+        "lineCount": 15175,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -1472,7 +1488,7 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "1-15143",
+      "reviewedLines": "1-15175",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

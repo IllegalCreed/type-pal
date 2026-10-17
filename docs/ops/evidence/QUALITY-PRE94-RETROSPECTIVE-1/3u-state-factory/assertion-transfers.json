@@ -1,0 +1,201 @@
+{
+  "base": "9c2c5eabe143bc81ad8df1c9234aa741b130aabc",
+  "oldCounts": {
+    "main": 14,
+    "glm": 4
+  },
+  "currentCounts": {
+    "main": 14,
+    "glm": 3
+  },
+  "wholeCasesRetired": 2,
+  "newBusinessCases": 1,
+  "replacedWeakCases": 1,
+  "oldCases": [
+    {
+      "file": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+      "fullName": "createBattleState —— DH1 零占位槽(battle.c:1598-1720) null 槽 → defeated 空槽:objectId=0、e 全零、无脚本、不参与目标(defeated)"
+    },
+    {
+      "file": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+      "fullName": "createBattleState —— DH1 零占位槽(battle.c:1598-1720) 真实槽不受空槽影响:e shallow copy + maxHealth=战前满血(0x64 真值基线)"
+    },
+    {
+      "file": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+      "fullName": "createBattleState —— 开战 seed gs.fAutoBattle(true)→ state.fAutoBattle(true);缺省 false(0x8A 跨战斗持久)"
+    },
+    {
+      "file": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+      "fullName": "createBattleState —— 开战 seed players prevHp/prevMp/scriptPrevHp 三快照 = 战前 role.hp/mp"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState 从 GameState + fixture 派生"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState players prevHp/prevMp 拷贝战前值"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState enemies prevHp = e.health 拷贝"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState 未知 roleId 抛错"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState D14:gs.rgPlayerStatus 装备授状态 seed 进 BattleState.players[].status"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState D14:无装备状态 → player.status 全 0(默认)"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState phase 字段联合 7 种"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState B-w0.2:partyMembers > 3 抛错(sdlpal g_rgPlayerPos[3][3][2] 真值)"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState B-w0.3:status field 扩 9 种 — silence/puppet/bravery/protect/dualAttack(全 optional)"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState B-w0.2:partyMembers <= 3 正常构造"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState D17a:player pos/posOriginal = g_rgPlayerPos[count-1][i](battle.c:27)"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState D17a:enemy pos/posOriginal = EnemyPos.layouts[count-1][i] + yPosOffset(battle.c:936-939)"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState D17a:无 enemyPos → fallback 表(160,80)(向后兼容旧 fixture)"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState D17a:enemy yPosOffset 叠加到 posOriginal.y"
+    }
+  ],
+  "currentCases": [
+    {
+      "file": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+      "fullName": "createBattleState —— DH1 零占位槽(battle.c:1598-1720) null 槽 → defeated 空槽:objectId=0、e 全零、无脚本、不参与目标(defeated)"
+    },
+    {
+      "file": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+      "fullName": "createBattleState —— DH1 零占位槽(battle.c:1598-1720) 真实槽不受空槽影响:e shallow copy + maxHealth=战前满血(0x64 真值基线)"
+    },
+    {
+      "file": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+      "fullName": "createBattleState —— 开战 seed gs.fAutoBattle(true)→ state.fAutoBattle(true);缺省 false(0x8A 脚本flag)"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState 从 GameState + fixture 派生"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState players prevHp/prevMp 拷贝战前值"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState enemies prevHp = e.health 拷贝"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState 未知 roleId 抛错"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState D14:gs.rgPlayerStatus 九槽按角色身份映射，保留普通及装备计数"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState D14:无装备状态 → player.status 全 0(默认)"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState 每场pendingActions/prevActions和行动队列独立，不泄漏到下一场"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState B-w0.2:partyMembers > 3 抛错(sdlpal g_rgPlayerPos[3][3][2] 真值)"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState 战斗状态副本与持久状态及其它队员相互隔离"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState B-w0.2:partyMembers <= 3 正常构造"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState D17a:player pos/posOriginal = g_rgPlayerPos[count-1][i](battle.c:27)"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState D17a:enemy pos/posOriginal = EnemyPos.layouts[count-1][i] + yPosOffset(battle.c:936-939)"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState D17a:无 enemyPos → fallback 表(160,80)(向后兼容旧 fixture)"
+    },
+    {
+      "file": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "fullName": "createBattleState D17a:enemy yPosOffset 叠加到 posOriginal.y"
+    }
+  ],
+  "decisions": [
+    {
+      "from": "phase 字段联合 7 种",
+      "decision": "retire no-business runtime count",
+      "reason": "It counts its own literal array and never invokes SUT. BattlePhase remains production TypeScript contract; no new runtime credit or replacement assertion count. Existing real factory preBattle oracle retained."
+    },
+    {
+      "from": "B-w0.3 status JSON roundtrip",
+      "decision": "replace with actual factory status ownership",
+      "reason": "Manual writes followed by JSON cannot guard seeding; silence/puppet/bravery/protect/dualAttack are now asserted on factory results, no serialization claim. Live-player puppet remains zero because startBattle revives then clears it; no fake live-puppet fixture."
+    },
+    {
+      "from": "GLM players prevHp/prevMp/scriptPrevHp",
+      "decision": "merge into main player snapshot",
+      "reason": "All three field oracles retained plus source mutation must not change snapshots. Original GLM MP45 exceeded maxMP40; remaining boot now maxMP60. Conservation mutant removes scriptPrevHp: old whole GLM gets one specific failure and current whole main gets one matching snapshot failure; not an old-green regression needle."
+    },
+    {
+      "from": "D14 two seeded/default fields",
+      "decision": "strengthen all nine by role identity",
+      "reason": "Party[2,0], distinct legal counters, exact CLASSIC mapping and slow0. Includes ordinary/equipment values; no poison key or phase2 change."
+    },
+    {
+      "from": "GLM placeholder position is defined",
+      "decision": "replace irrelevant placeholder layout assertion with real enemy position",
+      "reason": "Production render/target logic skips defeated placeholder; real enemy must still use two-slot layout despite null entry. Exact real position now checked against independent literal oracle."
+    },
+    {
+      "from": "enemy health/id zero and identity",
+      "decision": "retain and strengthen",
+      "reason": "Zero numeric fields/element vector on placeholder from C memset; live enemy shallow identity, maxHealth, prevHp and source/current HP isolation retained. C primitive zero-field parity is not a claim that all unused empty fields have live consumers."
+    },
+    {
+      "from": "97-line duplicate complete role/enemy construction",
+      "decision": "reuse existing pure H resource factories",
+      "reason": "H222 fully read; only makeHRole/makeHEnemy/makeHField reused. Actual core RNG and ActionQueue builder used, no copied RNG algorithm/core mocks/casts."
+    }
+  ],
+  "authority": {
+    "source": "User-provided AGENTS.md in current session, reaffirming 2026-10-03 test-quality rule",
+    "quote": "已证重复、恒真或无业务执行的用例精简，类型合同走typecheck，不计运行时数量",
+    "scope": "Only the two named cases and explicit oracle transfers here; no inherited 2026-10-03 OPQ five-file authorization or individual user signature claimed."
+  },
+  "protectedGateStatus": "Deferred to large closeout: baseline and retirement registry unchanged, identity/count reconciliation still pending; no protected acceptance claimed."
+}

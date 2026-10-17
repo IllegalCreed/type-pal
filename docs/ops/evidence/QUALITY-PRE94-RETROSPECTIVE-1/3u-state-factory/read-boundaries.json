@@ -1,0 +1,123 @@
+{
+  "base": "9c2c5eabe143bc81ad8df1c9234aa741b130aabc",
+  "owner": "Codex single agent",
+  "rows": [
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "618063b97dabe5d7a06380296493ec33efeb51b19c512d0cf7f957836d08b87c",
+      "lines": 916,
+      "fullRead": true,
+      "ranges": [[1, 916]],
+      "snapshot": "618063b97dab-battle-state.ts.read.gz",
+      "scope": "Actual semantic read ranges; whole gzip is only a byte snapshot. Adjacent test execution does not accept unread tests."
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "sha256": "16c1f11837db4fb23df0ff9a07f9bebc9970db875b7e62a582eec9e57bf6d604",
+      "lines": 340,
+      "fullRead": true,
+      "ranges": [[1, 340]],
+      "snapshot": "16c1f11837db-battle-state.test.ts.read.gz",
+      "scope": "Actual semantic read ranges; whole gzip is only a byte snapshot. Adjacent test execution does not accept unread tests."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.glm-next-wave.test.ts",
+      "sha256": "cdbe9414af48e3da5dca54b77c7516f3df1ba5556ef0193adaa4771ed348128d",
+      "lines": 82,
+      "fullRead": true,
+      "ranges": [[1, 82]],
+      "snapshot": "cdbe9414af48-battle-state.glm-next-wave.test.ts.read.gz",
+      "scope": "Actual semantic read ranges; whole gzip is only a byte snapshot. Adjacent test execution does not accept unread tests."
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "sha256": "41bc231d86581da71cea2224ad2b66831cd9b0dd1b8b75bb4f2c84c71eed739e",
+      "lines": 222,
+      "fullRead": true,
+      "ranges": [[1, 222]],
+      "snapshot": "41bc231d8658-harness.ts.read.gz",
+      "scope": "Actual semantic read ranges; whole gzip is only a byte snapshot. Adjacent test execution does not accept unread tests."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-positions.ts",
+      "sha256": "47bf72791ffe6ea9e3d3bf061e5b0232351e44f938c24e3f049267ca063a1273",
+      "lines": 93,
+      "fullRead": true,
+      "ranges": [[1, 93]],
+      "snapshot": "47bf72791ffe-battle-positions.ts.read.gz",
+      "scope": "Actual semantic read ranges; whole gzip is only a byte snapshot. Adjacent test execution does not accept unread tests."
+    },
+    {
+      "path": "packages/game/src/core/battle/turn-queue.ts",
+      "sha256": "fcbc4b47824056f30f3720900b33edba22827666d80059eb96637431d43de6d4",
+      "lines": 126,
+      "fullRead": false,
+      "ranges": [[1, 100]],
+      "snapshot": "fcbc4b478240-turn-queue.ts.read.gz",
+      "scope": "Actual semantic read ranges; whole gzip is only a byte snapshot. Adjacent test execution does not accept unread tests."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "130c7398a4f53d5a69b3d36178777ef3c18dfea0a7641f50d53c097493ee33a7",
+      "lines": 3130,
+      "fullRead": false,
+      "ranges": [[270, 355], [838, 844], [895, 945], [1938, 1975]],
+      "snapshot": "130c7398a4f5-battle-system.ts.read.gz",
+      "scope": "Actual semantic read ranges; whole gzip is only a byte snapshot. Adjacent test execution does not accept unread tests."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.ts",
+      "sha256": "799c6795b9f106300d412249244af86816dc305966a19b509dbd8011ea771f66",
+      "lines": 1533,
+      "fullRead": false,
+      "ranges": [[1425, 1458]],
+      "snapshot": "799c6795b9f1-battle-opcodes.ts.read.gz",
+      "scope": "Actual semantic read ranges; whole gzip is only a byte snapshot. Adjacent test execution does not accept unread tests."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+      "sha256": "c1ae5dbf2fbd93074fddde52d5f0b8980bae77d292cb311363313bf48e4203ba",
+      "lines": 464,
+      "fullRead": false,
+      "ranges": [[1, 135]],
+      "snapshot": "c1ae5dbf2fbd-battle-state-machine.glm-battle.test.ts.read.gz",
+      "scope": "Actual semantic read ranges; whole gzip is only a byte snapshot. Adjacent test execution does not accept unread tests."
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f",
+      "lines": 1858,
+      "fullRead": false,
+      "ranges": [[17, 38], [903, 945], [1560, 1775]],
+      "snapshot": "45f38a01d08b-battle.c.read.gz",
+      "scope": "Actual semantic read ranges; whole gzip is only a byte snapshot. Adjacent test execution does not accept unread tests."
+    },
+    {
+      "path": "reference/sdlpal/global.h",
+      "sha256": "07f307f91af62291fba50a345075c54adf170a33d1eba1f389852abf9c44d28c",
+      "lines": 757,
+      "fullRead": false,
+      "ranges": [[40, 62]],
+      "snapshot": "07f307f91af6-global.h.read.gz",
+      "scope": "Actual semantic read ranges; whole gzip is only a byte snapshot. Adjacent test execution does not accept unread tests."
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "lines": 5400,
+      "fullRead": false,
+      "ranges": [[1632, 1674]],
+      "snapshot": "6d71434242de-fight.c.read.gz",
+      "scope": "Actual semantic read ranges; whole gzip is only a byte snapshot. Adjacent test execution does not accept unread tests."
+    },
+    {
+      "path": "docs/phase1/game-mechanics.md",
+      "sha256": "a81d17a63ff80031ab257eb38dd4db03320f33eb8e33b74d1df401a10eba6c89",
+      "lines": 1675,
+      "fullRead": false,
+      "ranges": [[1480, 1595]],
+      "snapshot": "a81d17a63ff8-game-mechanics.md.read.gz",
+      "scope": "Actual semantic read ranges; whole gzip is only a byte snapshot. Adjacent test execution does not accept unread tests."
+    }
+  ]
+}

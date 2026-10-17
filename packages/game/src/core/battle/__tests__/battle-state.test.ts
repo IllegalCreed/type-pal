@@ -1,82 +1,24 @@
 import type { Enemy, PlayerRole } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
+import { makeHEnemy, makeHField, makeHRole } from '../../../__tests__/glm-next-wave/H/harness.js'
 import { createInitialGameState } from '../../game-state.js'
 import { createSeedableRng } from '../../rng.js'
-import { type BattlePhase, createBattleState } from '../battle-state.js'
+import { createBattleState } from '../battle-state.js'
+import { buildActionQueue } from '../turn-queue.js'
 
 /**
  * BattleState 测试 —— M3 T16。
  *
  * 覆盖:工厂从 GameState + fixture 派生、players prevHp/prevMp 拷贝、enemies
- * health shallow copy、roleId 错配抛错、phase 枚举 7 种。
+ * health 隔离、roleId/人数边界、九状态按角色映射与每场局部 ownership。
  */
 
 function minimalRole(id: number): PlayerRole {
-  return {
-    id,
-    _name: `Role${id}`,
-    avatar: 0,
-    spriteNumInBattle: 0,
-    spriteNum: 0,
-    name: 0,
-    attackAll: 0,
-    level: 10,
-    maxHP: 200,
-    maxMP: 30,
-    hp: 200,
-    mp: 30,
-    attackStrength: 0,
-    magicStrength: 0,
-    defense: 0,
-    dexterity: 30,
-    fleeRate: 5,
-    poisonResistance: 0,
-    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-    walkFrames: 0,
-    attackSound: 0,
-    weaponSound: 0,
-    criticalSound: 0,
-    magicSound: 0,
-    deathSound: 0,
-  }
+  return makeHRole(id, { maxHP: 200, maxMP: 30, hp: 200, mp: 30 })
 }
 
 function minimalEnemy(id: number, health = 50): Enemy {
-  return {
-    id,
-    _name: 'TestEnemy',
-    idleFrames: 0,
-    magicFrames: 0,
-    attackFrames: 0,
-    idleAnimSpeed: 0,
-    actWaitFrames: 0,
-    yPosOffset: 0,
-    attackSound: 0,
-    actionSound: 0,
-    magicSound: 0,
-    deathSound: 0,
-    callSound: 0,
-    health,
-    exp: 10,
-    cash: 30,
-    level: 5,
-    magic: 0,
-    magicRate: 0,
-    attackEquivItem: 0,
-    attackEquivItemRate: 0,
-    stealItem: 0,
-    stealItemCount: 0,
-    attackStrength: 0,
-    magicStrength: 0,
-    defense: 0,
-    dexterity: 20,
-    fleeRate: 5,
-    poisonResistance: 0,
-    elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-    physicalResistance: 1,
-    dualMove: 0,
-    collectValue: 0,
-  }
+  return makeHEnemy({ id, health })
 }
 
 describe('createBattleState', () => {
@@ -87,11 +29,7 @@ describe('createBattleState', () => {
       gs,
       playerRoles: { roles: [minimalRole(0)] },
       enemies: [minimalEnemy(100)],
-      field: {
-        id: 0,
-        screenWave: 0,
-        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-      },
+      field: makeHField(),
       isBoss: false,
       rng: createSeedableRng(42),
     })
@@ -111,34 +49,43 @@ describe('createBattleState', () => {
       gs,
       playerRoles: { roles: [role] },
       enemies: [],
-      field: {
-        id: 0,
-        screenWave: 0,
-        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-      },
+      field: makeHField(),
       isBoss: false,
       rng: createSeedableRng(1),
     })
     expect(state.players[0]?.prevHp).toBe(200)
     expect(state.players[0]?.prevMp).toBe(30)
+    expect(state.players[0]?.scriptPrevHp).toBe(200)
+    role.hp = 9
+    role.mp = 8
+    expect(state.players[0]?.prevHp).toBe(200)
+    expect(state.players[0]?.prevMp).toBe(30)
+    expect(state.players[0]?.scriptPrevHp).toBe(200)
   })
 
   it('enemies prevHp = e.health 拷贝', () => {
+    const sourceEnemy = minimalEnemy(100, 75)
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     const state = createBattleState({
       gs,
       playerRoles: { roles: [] },
-      enemies: [minimalEnemy(100, 75)],
-      field: {
-        id: 0,
-        screenWave: 0,
-        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-      },
+      enemies: [sourceEnemy],
+      field: makeHField(),
       isBoss: false,
       rng: createSeedableRng(1),
     })
     expect(state.enemies[0]?.prevHp).toBe(75)
     expect(state.enemies[0]?.e.health).toBe(75)
+    const enemy = state.enemies[0]!
+    expect(enemy.objectId).toBe(100) // 未提供对象脚本元数据时的显式fallback合同。
+    expect(enemy.maxHealth).toBe(75)
+    expect(enemy.e).not.toBe(sourceEnemy)
+    enemy.e.health = 25
+    expect(sourceEnemy.health).toBe(75)
+    expect(enemy.prevHp).toBe(75)
+    expect(enemy.maxHealth).toBe(75)
+    sourceEnemy.health = 60
+    expect(enemy.e.health).toBe(25)
   })
 
   it('未知 roleId 抛错', () => {
@@ -149,37 +96,54 @@ describe('createBattleState', () => {
         gs,
         playerRoles: { roles: [minimalRole(0)] },
         enemies: [],
-        field: {
-          id: 0,
-          screenWave: 0,
-          magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-        },
+        field: makeHField(),
         isBoss: false,
         rng: createSeedableRng(1),
       }),
     ).toThrow(/role id 99/)
   })
 
-  // ── D14:持久 gs.rgPlayerStatus → 开战 seed 进 player.status(装备授 DualAttack 等)──
-  it('D14:gs.rgPlayerStatus 装备授状态 seed 进 BattleState.players[].status', () => {
+  // CLASSIC状态按roleId读取；傀儡在正式开战复活路径清零，不伪造活人傀儡输入。
+  it('D14:gs.rgPlayerStatus 九槽按角色身份映射，保留普通及装备计数', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.partyMembers = [0]
-    gs.rgPlayerStatus[0]![8] = 32760 // kStatusDualAttack=8(仙女剑授,永久)
-    gs.rgPlayerStatus[0]![5] = 50 // kStatusBravery=5
+    gs.partyMembers = [2, 0]
+    gs.rgPlayerStatus[2] = [1, 2, 3, 4, 0, 1000, 999, 32760, 6]
+    gs.rgPlayerStatus[0] = [7, 8, 9, 10, 0, 11, 12, 13, 14]
     const state = createBattleState({
       gs,
-      playerRoles: { roles: [minimalRole(0)] },
+      playerRoles: { roles: [0, 1, 2].map(minimalRole) },
       enemies: [],
-      field: {
-        id: 0,
-        screenWave: 0,
-        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-      },
+      field: makeHField(),
       isBoss: false,
       rng: createSeedableRng(1),
     })
-    expect(state.players[0]?.status.dualAttack).toBe(32760)
-    expect(state.players[0]?.status.bravery).toBe(50)
+    expect(state.players.map((p) => p.roleId)).toEqual([2, 0])
+    expect(state.players.map((p) => p.status)).toEqual([
+      {
+        confused: 1,
+        paralyzed: 2,
+        sleep: 3,
+        silence: 4,
+        puppet: 0,
+        bravery: 1000,
+        protect: 999,
+        haste: 32760,
+        dualAttack: 6,
+        slow: 0,
+      },
+      {
+        confused: 7,
+        paralyzed: 8,
+        sleep: 9,
+        silence: 10,
+        puppet: 0,
+        bravery: 11,
+        protect: 12,
+        haste: 13,
+        dualAttack: 14,
+        slow: 0,
+      },
+    ])
   })
 
   it('D14:无装备状态 → player.status 全 0(默认)', () => {
@@ -189,29 +153,46 @@ describe('createBattleState', () => {
       gs,
       playerRoles: { roles: [minimalRole(0)] },
       enemies: [],
-      field: {
-        id: 0,
-        screenWave: 0,
-        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-      },
+      field: makeHField(),
       isBoss: false,
       rng: createSeedableRng(1),
     })
-    expect(state.players[0]?.status.dualAttack ?? 0).toBe(0)
-    expect(state.players[0]?.status.sleep).toBe(0)
+    expect(state.players[0]?.status).toEqual({
+      confused: 0,
+      paralyzed: 0,
+      sleep: 0,
+      silence: 0,
+      puppet: 0,
+      bravery: 0,
+      protect: 0,
+      haste: 0,
+      dualAttack: 0,
+      slow: 0,
+    })
   })
 
-  it('phase 字段联合 7 种', () => {
-    const phases: BattlePhase[] = [
-      'preBattle',
-      'selectAction',
-      'performAction',
-      'postAction',
-      'won',
-      'lost',
-      'fleed',
-    ]
-    expect(phases).toHaveLength(7)
+  it('每场pendingActions/prevActions和行动队列独立，不泄漏到下一场', () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.partyMembers = [0]
+    const input = {
+      gs,
+      playerRoles: { roles: [minimalRole(0)] },
+      enemies: [],
+      field: makeHField(),
+      isBoss: false,
+      rng: createSeedableRng(1),
+    }
+    const first = createBattleState(input)
+    first.pendingActions.set(0, { type: 'defend', target: 0 })
+    first.prevActions?.set(0, { type: 'attack', target: 0 })
+    first.actionQueue.push(...buildActionQueue({ players: [{ idx: 0, dex: 30 }], enemies: [] }))
+    const next = createBattleState(input)
+    expect(next.pendingActions.size).toBe(0)
+    expect(next.prevActions?.size).toBe(0)
+    expect(next.actionQueue).toEqual([])
+    expect(first.pendingActions.get(0)).toEqual({ type: 'defend', target: 0 })
+    expect(first.prevActions?.get(0)).toEqual({ type: 'attack', target: 0 })
+    expect(first.actionQueue).toEqual([{ isEnemy: false, idx: 0, dex: 30, fIsSecond: false }])
   })
 
   // ── M5.B-w0.2: PLAYER_POSITIONS 真值(sdlpal battle.c:27 g_rgPlayerPos[3][3][2])──
@@ -223,44 +204,40 @@ describe('createBattleState', () => {
         gs,
         playerRoles: { roles: [0, 1, 2, 3].map((i) => minimalRole(i)) },
         enemies: [],
-        field: {
-          id: 0,
-          screenWave: 0,
-          magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-        },
+        field: makeHField(),
         isBoss: false,
         rng: createSeedableRng(1),
       }),
     ).toThrow(/最多 3 player|partyMembers.length=4 > 3/)
   })
 
-  it('B-w0.3:status field 扩 9 种 — silence/puppet/bravery/protect/dualAttack(全 optional)', () => {
+  it('战斗状态副本与持久状态及其它队员相互隔离', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs.partyMembers = [0]
-    const state = createBattleState({
+    gs.partyMembers = [0, 1]
+    gs.rgPlayerStatus[0]![6] = 7
+    const input = {
       gs,
-      playerRoles: { roles: [minimalRole(0)] },
+      playerRoles: { roles: [0, 1].map(minimalRole) },
       enemies: [],
-      field: {
-        id: 0,
-        screenWave: 0,
-        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-      },
+      field: makeHField(),
       isBoss: false,
       rng: createSeedableRng(1),
-    })
-    // 新字段写入 + JSON round-trip 保留
-    state.players[0]!.status.silence = 3
-    state.players[0]!.status.puppet = 5
-    state.players[0]!.status.bravery = 4
-    state.players[0]!.status.protect = 4
-    state.players[0]!.status.dualAttack = 4
-    const parsed = JSON.parse(JSON.stringify(state)) as typeof state
-    expect(parsed.players[0]?.status.silence).toBe(3)
-    expect(parsed.players[0]?.status.puppet).toBe(5)
-    expect(parsed.players[0]?.status.bravery).toBe(4)
-    expect(parsed.players[0]?.status.protect).toBe(4)
-    expect(parsed.players[0]?.status.dualAttack).toBe(4)
+    }
+    const state = createBattleState(input)
+    const first = state.players[0]!.status
+    const second = state.players[1]!.status
+    first.protect = 6
+    expect(gs.rgPlayerStatus[0]![6]).toBe(7)
+    expect(second.protect).toBe(0)
+    gs.rgPlayerStatus[0]![6] = 0
+    expect(first.protect).toBe(6)
+    second.haste = 3
+    expect(first.haste).toBe(0)
+    expect(gs.rgPlayerStatus[1]![7]).toBe(0)
+    const next = createBattleState(input)
+    expect(next.players[0]!.status.protect).toBe(0)
+    expect(next.players[1]!.status.haste).toBe(0)
+    expect(first.protect).toBe(6)
   })
 
   it('B-w0.2:partyMembers <= 3 正常构造', () => {
@@ -270,11 +247,7 @@ describe('createBattleState', () => {
       gs,
       playerRoles: { roles: [0, 1, 2].map((i) => minimalRole(i)) },
       enemies: [],
-      field: {
-        id: 0,
-        screenWave: 0,
-        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-      },
+      field: makeHField(),
       isBoss: false,
       rng: createSeedableRng(1),
     })
@@ -291,11 +264,7 @@ describe('createBattleState', () => {
       gs,
       playerRoles: { roles: [0, 1].map((i) => minimalRole(i)) },
       enemies: [],
-      field: {
-        id: 0,
-        screenWave: 0,
-        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-      },
+      field: makeHField(),
       isBoss: false,
       rng: createSeedableRng(1),
     })
@@ -317,11 +286,7 @@ describe('createBattleState', () => {
       gs,
       playerRoles: { roles: [minimalRole(0)] },
       enemies: [minimalEnemy(100), minimalEnemy(200)], // 2 enemies
-      field: {
-        id: 0,
-        screenWave: 0,
-        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-      },
+      field: makeHField(),
       isBoss: false,
       rng: createSeedableRng(1),
       enemyPos: {
@@ -349,11 +314,7 @@ describe('createBattleState', () => {
       gs,
       playerRoles: { roles: [minimalRole(0)] },
       enemies: [minimalEnemy(100)],
-      field: {
-        id: 0,
-        screenWave: 0,
-        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-      },
+      field: makeHField(),
       isBoss: false,
       rng: createSeedableRng(1),
     })
@@ -369,11 +330,7 @@ describe('createBattleState', () => {
       gs,
       playerRoles: { roles: [minimalRole(0)] },
       enemies: [e],
-      field: {
-        id: 0,
-        screenWave: 0,
-        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-      },
+      field: makeHField(),
       isBoss: false,
       rng: createSeedableRng(1),
       enemyPos: { layouts: [[{ x: 160, y: 80 }]] },

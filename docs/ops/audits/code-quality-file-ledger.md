@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,316。
-当前已闭合核验：255；已读但待审：96；尚未逐文件核验：2,965；合计未闭合：3,061。
+当前已闭合核验：253；已读但待审：98；尚未逐文件核验：2,965；合计未闭合：3,063。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -323,10 +323,10 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/battle/battle-opcodes.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-3t；70 行全文、0x05/0x8E dialog clear 与 0x6B signed blow-away primary contract | 清框只影响下一段对白、SHORT 负值边界与 negative control |
 | `packages/game/src/battle-summon-slot-reuse.glm-q.test.ts` | test | 已验证 | CODE-QUALITY-3t；203 行全文、0x9E 战中死亡空槽复用/对象身份/阵型重算 oracle | 活槽不复用、毒/身份清理与阵型锚点反例 |
 | `packages/game/src/core/game-state.ts` | product | review | [投影与宿主错注](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/runtime-projection-comments/README.md)；2111行全文及公开投影/HPMP回写、实际caller/原C | 裸基础值/effect快照/状态ownership错注更正，无执行或schema变化；其余场景/存档/异步字段与旧测试强转继续待核 |
-| `packages/game/src/core/battle/battle-state.ts` | product | review | [投影与宿主错注](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/runtime-projection-comments/README.md)；918行全文；rgPlayerStatus真实写入/seed/cleanup与原C | 状态不限装备、Confirm记忆、顶层fade不推进游标错注已修；14例只回归，旧整文件关闭转review |
+| `packages/game/src/core/battle/battle-state.ts` | product | review | [state工厂复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/README.md)；916行实现全文；真实startBattle/九状态/快照/坐标与C | 实现字节未改；动画/UI类型全caller、元数据与极端域仍待，不关闭 |
 | `packages/game/src/core/battle/battle-runtime-context.ts` | product | review | [pre94 finalization/runtime复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md)；98行全文、真实start/finalize及资源/可写投影/runner归属 | 只修“只读表”坏注；公开stash结构不改，跨owner反控支持有限隔离，整卡未闭合 |
-| `packages/game/src/core/battle/__tests__/battle-state.test.ts` | test | 已验证 | CODE-QUALITY-3u；BattleState 工厂/位置/状态 seed oracle，定向/相邻 55 tests | 383 行逐段读取；未知 role、>3 player、状态 seed、快照、EnemyPos/fallback/y offset 和独立坐标对象反例 |
-| `packages/game/src/core/battle/battle-state.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-3u；null 空槽、maxHealth/object identity、autoBattle/scriptPrevHp oracle，定向/相邻 55 tests | 81 行逐段读取；0 占位槽不压缩、真实槽浅拷贝、开战 seed 反例 |
+| `packages/game/src/core/battle/__tests__/battle-state.test.ts` | test | review | [state工厂复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/README.md)；383行原测全文，现340行；九状态role/局部owner/资源隔离与typed工厂 | 枚举无业务撤销，JSON改真实隔离，快照合并保全；六旧绿新单红，整卡未完 |
+| `packages/game/src/core/battle/battle-state.glm-next-wave.test.ts` | test | review | [state工厂复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/README.md)；81行原测全文，现82行；合法MP/零槽与实际活敌layout oracle | 快照迁主测有双红保全，4→3排重；旧关闭重开review，0新增关闭 |
 | `packages/game/src/core/battle/battle-finalization.test.ts` | test | review | [pre94 finalization/runtime复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md)；80行原测全文，真实factory/hydrate/dialog，九状态与实际cursor交接观察 | 2→6补真实finalize出口；六旧2绿→新5绿1指定红；9直接/266相邻仅有限信用 |
 | `packages/game/src/core/battle/actions/attack.ts` | product | review | [投影与宿主错注](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/runtime-projection-comments/README.md)；614行全文；真实投影/原Cgetter，撤销失效行号 | 只更正投影ownership注释，JS/TS语法不变；数值极端、整个action测试/统一门仍待，旧源关闭转review |
 | `packages/game/src/core/battle/actions/attack-mate.ts` | product | 已验证 | CODE-QUALITY-3v 当前复审；3v-battle-actions；fight.c:3760-3853；battle-system attack-mate dispatch；attack-mate/action tests | 111 行实现全文核验随机活友军、目标防御/protect、HP clamp、武器声、动画与无目标 Pass；定向6 files/154 tests通过，未发现 direct defect；coverage/全仓门未在本小批运行 |
