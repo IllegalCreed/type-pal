@@ -1,0 +1,71 @@
+{
+  "base": "e203872e4",
+  "fullReads": [
+    {
+      "path": "packages/game/src/present/battle/draw-battle-ui.ts",
+      "sha256": "3b914002b9b26b277ce579630ac15d08bebf984d5d6f54d9b8adfc0b19a76330",
+      "lines": 825,
+      "boundary": "Full implementation read; every gate, menu/grid, InfoBox, poison color, arrow and fallback branch."
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-ui.test.ts",
+      "sha256": "5db9d7d93dd741924ec4d36f8f34ed76f5a185d50ed7f8010b4cb03b35c50d3f",
+      "lines": 719,
+      "boundary": "Full gate/menu/grid/description/InfoBox/poison/color test read."
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-ui.glm-phase1-leaves.test.ts",
+      "sha256": "13e479a6acacf81fafaec96e6309d5fdb68087daad681ed7b09d88083d3f22f9",
+      "lines": 139,
+      "boundary": "Full arrow/wait/target-enemy/icon discrimination read."
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts",
+      "sha256": "6dc6dbbf459110332cb58bddfc3e8b27e334ce902a78525759780fda1823b5d3",
+      "lines": 477,
+      "boundary": "Full pixel gate/threshold/poison/shadow/layout sentinel read."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/present/battle/present-battle.ts",
+      "sha256": "7ca203c4de814c295b4e70ca414e3d62b31e22da1af980a52119bd83590fae2e",
+      "lines": 449,
+      "ranges": ["300-330"],
+      "boundary": "drawBattleUI assembly caller range only."
+    },
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "sha256": "da880e6fd6a4c6dad2ac689fd6d940ede92010474b725bf68559dcb6c103d10c",
+      "lines": 139,
+      "ranges": ["1-139"],
+      "boundary": "Full party-slot mapper and poison key read."
+    },
+    {
+      "path": "reference/sdlpal/uibattle.c",
+      "sha256": "b5bd5104def667c9ae134481c4843450ec1513feb61141f7196f9047dc7814d3",
+      "lines": 1808,
+      "ranges": ["30-269", "343-545", "785-910", "980-1085", "1390-1660"],
+      "boundary": "InfoBox/menu/arrow/target/CLASSIC gating primary ranges."
+    },
+    {
+      "path": "reference/sdlpal/magicmenu.c",
+      "sha256": "d3744426d40167d4130aeaa0fac686264df285e44d73cc3648dba56f3645d312",
+      "lines": 484,
+      "ranges": ["35-299"],
+      "boundary": "Magic grid/MP/description primary range."
+    },
+    {
+      "path": "reference/sdlpal/itemmenu.c",
+      "sha256": "7026d7875f79a57cf21fd80135d13022ff792698720ef6f56de864d208742a74",
+      "lines": 466,
+      "ranges": ["28-311"],
+      "boundary": "Item grid/amount/description primary range."
+    }
+  ],
+  "notClaimed": [
+    "Complete CODE-QUALITY-3l acceptance",
+    "Full present-battle semantic/visual E2E review",
+    "Coverage, official ratchet, protected fast or whole-repository acceptance"
+  ]
+}
