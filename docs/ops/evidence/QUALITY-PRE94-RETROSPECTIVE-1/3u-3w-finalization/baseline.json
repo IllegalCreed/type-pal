@@ -1,0 +1,22 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/battle/battle-finalization.test.ts",
+    "src/core/battle/battle-runtime-context.test.ts"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T23:16:07.594575+00:00",
+  "completedAt": "2026-10-17T23:16:08.769082+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "baseline.raw.gz",
+  "rawBytes": 259,
+  "rawSha256": "ca9f29391f4321c816743a5ee287775d14155bf78391836bfd5b12a7e1ed48f7",
+  "fullUncutMergedStdoutStderr": true
+}

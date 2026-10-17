@@ -1,0 +1,214 @@
+{
+  "base": "6fde6d86cf9754e441de948c82ac99ebc1f480c8",
+  "status": "Finite four-file evidence complete; no whole-card acceptance or unified integration closeout",
+  "rows": [
+    {
+      "label": "baseline",
+      "receipt": "baseline.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0
+      },
+      "passed": 5
+    },
+    {
+      "label": "current",
+      "receipt": "current.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0
+      },
+      "passed": 9,
+      "scope": "Historical earlier fixture/assertion candidate retained; latest public-contract candidate has separate canonical receipt",
+      "supersededBy": "module-current"
+    },
+    {
+      "label": "module-final",
+      "receipt": "module-final.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0
+      },
+      "passed": 275,
+      "files": 6,
+      "direct": 9,
+      "adjacent": 266,
+      "nativeReport": "module-final.vitest.json.gz",
+      "scope": "Historical earlier fixture/assertion candidate retained; latest public-contract candidate has separate canonical receipt",
+      "supersededBy": "module-current"
+    },
+    {
+      "label": "restored-direct",
+      "receipt": "restored-direct.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0
+      },
+      "passed": 9,
+      "supersededBy": "module-current",
+      "scope": "Historical earlier fixture/assertion candidate retained; latest public-contract candidate has separate canonical receipt"
+    },
+    {
+      "label": "typecheck",
+      "receipt": "typecheck.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0
+      },
+      "supersededBy": "typecheck-current",
+      "scope": "Historical earlier fixture candidate retained; final caller alignment has new canonical receipt"
+    },
+    {
+      "label": "module-after-caller",
+      "receipt": "module-after-caller.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "files": 6,
+      "passed": 275,
+      "direct": 9,
+      "adjacent": 266,
+      "nativeReport": "module-after-caller.vitest.json.gz",
+      "nativeReportSha256": "8fa9e0a489a76212e60cca13dd3003da86d21c7b1f384d44f04b5089c84a4a56",
+      "supersededBy": "module-current",
+      "scope": "Historical earlier fixture/assertion candidate retained; latest public-contract candidate has separate canonical receipt"
+    },
+    {
+      "label": "typecheck-final",
+      "receipt": "typecheck-final.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "supersededBy": "typecheck-current"
+    },
+    {
+      "label": "ledger",
+      "receipt": "ledger.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "tracked": 3316,
+      "closed": 255,
+      "review": 96,
+      "pending": 2965
+    },
+    {
+      "label": "module-current",
+      "receipt": "module-current.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0,
+        "unhandledErrors": 0
+      },
+      "files": 6,
+      "passed": 275,
+      "direct": 9,
+      "adjacent": 266,
+      "nativeReport": "module-current.vitest.json.gz",
+      "nativeReportSha256": "96454851241f99456af89e961b0764bb577bfaeb04aca8f2ea04807ff25bccb7"
+    },
+    {
+      "label": "typecheck-current",
+      "receipt": "typecheck-current.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      }
+    },
+    {
+      "label": "docs-consumers-current",
+      "receipt": "docs-consumers-current.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "consumers": 5,
+      "scope": "Actual five consumers only; unchanged docs-tool125 from prerequisite reused"
+    },
+    {
+      "label": "lint-current",
+      "receipt": "lint-current.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "files": 5394
+    },
+    {
+      "label": "scope-verification",
+      "receipt": "scope-verification.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      }
+    }
+  ],
+  "tracked": 3316,
+  "closed": 255,
+  "review": 96,
+  "pending": 2965,
+  "newClosed": 0,
+  "reopened": 4,
+  "cards": {
+    "partial": 55,
+    "pending": 28,
+    "accept": 0
+  },
+  "mergeAllowed": false,
+  "productExecutionChanged": false,
+  "notRun": [
+    "whole repository check",
+    "official coverage ratchet",
+    "protected fast",
+    "full game package test",
+    "original game runtime",
+    "browser visual",
+    "E2E"
+  ],
+  "metadataBase": "37e2cd7c9a54b29766a87d17ffed90e4dae465dd",
+  "reuseDocsTools": {
+    "sourceCommit": "37e2cd7c9a54b29766a87d17ffed90e4dae465dd",
+    "receipt": "../../QUALITY-DOCS-GIT-PATH-ENUMERATION-1/docs.json",
+    "passedTools": 125,
+    "scope": "Same docs tool/test bytes; current module has only separate actual five-consumer replays, not a newly executed whole check:docs"
+  },
+  "gitSnapshot": "git-sync.json"
+}

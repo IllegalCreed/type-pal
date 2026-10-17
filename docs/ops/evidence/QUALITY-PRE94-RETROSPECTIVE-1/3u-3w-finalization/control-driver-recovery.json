@@ -1,0 +1,30 @@
+{
+  "status": "initial driver failed its fullName substring check after three complete controls",
+  "reason": "Vitest renders it.each $name with quotes; actual watchdog fullName contains quoted watchdog, not unquoted watchdog followed by finalizer. Native old2 green and current5 green/one business AssertionError retained, but fourth attempt is not credited as completed metadata.",
+  "retainedCompletedControls": 3,
+  "retryScope": "Only forced/termination/party-writeback/owner-alias four controls; first three not rerun",
+  "driverStdoutRawFileAvailable": false,
+  "nativeRawArtifacts": [
+    {
+      "path": "forced-branch-miswired.attempt1.mutant.gz",
+      "compressedSha256": "86dbc66bdb6b742e40bcbeb63f02a96c4cd6161f3aff0e105cc27a2642c8bfe2"
+    },
+    {
+      "path": "forced-branch-miswired.attempt1.old.raw.gz",
+      "compressedSha256": "9471c6c179d4cd8fd0c7a6fe73fe30c003e1ebc98ee4b0f193d670b5ca57dabf"
+    },
+    {
+      "path": "forced-branch-miswired.attempt1.old.vitest.json.gz",
+      "compressedSha256": "82917ccf7430416ebc1287d828ab9da93e5ecf1a737c69b9bf671cc4b51a0365"
+    },
+    {
+      "path": "forced-branch-miswired.attempt1.current.vitest.json.gz",
+      "compressedSha256": "3206cc21ce5a090c5fc88e8f8ee6fe63ca447505d903dbd64a9aed5bb682044d"
+    },
+    {
+      "path": "forced-branch-miswired.attempt1.current.raw.gz",
+      "compressedSha256": "75b2b55c7c5d2c11837cd78455859ea2188f9711e97a7d9520c33732d92ed5ab"
+    }
+  ],
+  "noProductOrTestChangesToMakeNeedlePass": true
+}

@@ -407,7 +407,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "5f23fa0469ebc2ff9f62ad2b02e91f18c9a5d29e35c7bb4b6a7bfee3342ef453",
+      "afterSha256": "fd5c631fa472cf3315ce49860cb225788021fda47b01f7d2dd9c0f66189e5c8a",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -438,10 +438,26 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "5f23fa0469ebc2ff9f62ad2b02e91f18c9a5d29e35c7bb4b6a7bfee3342ef453",
+        "implementationSha": "fd5c631fa472cf3315ce49860cb225788021fda47b01f7d2dd9c0f66189e5c8a",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "37e2cd7c9a54b29766a87d17ffed90e4dae465dd",
+            "date": "2026-10-18",
+            "action": "Battle cleanup/runtime typed fixtures, actual handoff and owner oracle review",
+            "previousAfterSha256": "5f23fa0469ebc2ff9f62ad2b02e91f18c9a5d29e35c7bb4b6a7bfee3342ef453",
+            "scope": "Only two comment-only battle lifecycle sources and two existing tests. Four old closed rows reopened review;3316/255closed/96review/2965pending, zero new closure. Seven complete old-green/new-specific-AssertionError controls (six unchanged main v2 reused, runtime owner v3 rerun); a separate private-layout equivalent-shape control old2green/1false-positive to current3green removes implementation coupling while preserving public getter/runner oracles; direct9/adjacent266, actual factory/hydrate/dialogue/owner ports and real cursor handoff. Non-party Extra reachability is draft with start/party equipment rebuild as strongest alternative, no fake product red or behavior fix. Only CODE3u and3w pending to partial;83cards55partial/28pending/0accept, scopeConfirmed=false. Source snapshot base6fde6d86c, metadata base37e2cd7c9 after independent Git buffer prerequisite; exact source restoration and bounded metadata rebase preserve prerequisite evidence. One new draft board/index row, no baseline/retirement/schema/assets/save/public API/product execution change. Historical native verdicts preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "product runtime",
+              "E2E",
+              "visual"
+            ]
+          },
           {
             "revision": "6fde6d86cf9754e441de948c82ac99ebc1f480c8",
             "date": "2026-10-18",
@@ -960,7 +976,7 @@
         "kind": "content-reading",
         "path": "docs/ops/board.md",
         "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-        "lineCount": 96,
+        "lineCount": 97,
         "headings": [
           {
             "line": 1,
@@ -981,7 +997,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "5f23fa0469ebc2ff9f62ad2b02e91f18c9a5d29e35c7bb4b6a7bfee3342ef453",
+        "afterSha256": "fd5c631fa472cf3315ce49860cb225788021fda47b01f7d2dd9c0f66189e5c8a",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
@@ -1175,7 +1191,7 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "1-96",
+      "reviewedLines": "1-97",
       "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。",
       "integrationReview": {
         "reviewer": "Codex",
@@ -1430,7 +1446,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "428b769cbf1f8f8feb2d237c39243fb65d7ccbb3a284bc3bb6a92e119403b817",
+      "afterSha256": "8bc3fe17aa2cfdc235e1f7644e42bc265f732288802a9e16d3faa75f395c1136",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -1451,10 +1467,26 @@
       },
       "revision": {
         "currentSha": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
-        "implementationSha": "428b769cbf1f8f8feb2d237c39243fb65d7ccbb3a284bc3bb6a92e119403b817",
+        "implementationSha": "8bc3fe17aa2cfdc235e1f7644e42bc265f732288802a9e16d3faa75f395c1136",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "37e2cd7c9a54b29766a87d17ffed90e4dae465dd",
+            "date": "2026-10-18",
+            "action": "Battle cleanup/runtime typed fixtures, actual handoff and owner oracle review",
+            "previousAfterSha256": "428b769cbf1f8f8feb2d237c39243fb65d7ccbb3a284bc3bb6a92e119403b817",
+            "scope": "Only two comment-only battle lifecycle sources and two existing tests. Four old closed rows reopened review;3316/255closed/96review/2965pending, zero new closure. Seven complete old-green/new-specific-AssertionError controls (six unchanged main v2 reused, runtime owner v3 rerun); a separate private-layout equivalent-shape control old2green/1false-positive to current3green removes implementation coupling while preserving public getter/runner oracles; direct9/adjacent266, actual factory/hydrate/dialogue/owner ports and real cursor handoff. Non-party Extra reachability is draft with start/party equipment rebuild as strongest alternative, no fake product red or behavior fix. Only CODE3u and3w pending to partial;83cards55partial/28pending/0accept, scopeConfirmed=false. Source snapshot base6fde6d86c, metadata base37e2cd7c9 after independent Git buffer prerequisite; exact source restoration and bounded metadata rebase preserve prerequisite evidence. One new draft board/index row, no baseline/retirement/schema/assets/save/public API/product execution change. Historical native verdicts preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "product runtime",
+              "E2E",
+              "visual"
+            ]
+          },
           {
             "revision": "6fde6d86cf9754e441de948c82ac99ebc1f480c8",
             "date": "2026-10-18",
@@ -1767,7 +1799,7 @@
         "kind": "content-reading",
         "path": "docs/ops/tasks/index.md",
         "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-        "lineCount": 510,
+        "lineCount": 511,
         "headings": [
           {
             "line": 1,
@@ -1792,7 +1824,7 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "428b769cbf1f8f8feb2d237c39243fb65d7ccbb3a284bc3bb6a92e119403b817",
+        "afterSha256": "8bc3fe17aa2cfdc235e1f7644e42bc265f732288802a9e16d3faa75f395c1136",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
@@ -2037,7 +2069,7 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "1-510",
+      "reviewedLines": "1-511",
       "reviewNotes": "任务索引将 DOCS-CATALOG-SPLIT-1 投影到 historical done；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。",
       "integrationReview": {
         "reviewer": "Codex",

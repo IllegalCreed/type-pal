@@ -42,7 +42,7 @@ export function finalizeBattleCleanup(gs: GameState, outcome: BattleOutcome): vo
     }
   }
 
-  // PAL_CurePoisonByLevel(...,3) + kBodyPartExtra，清持久毒和本场临时装备效果。
+  // 当前只遍历在队角色；C遍历全部role。非队员Extra的生产可达性仍待核，不宣称完全等价。
   const kBodyPartExtra = 6
   for (const roleId of gs.partyMembers) {
     curePlayerPoisonByLevel(gs, roleId, 3)

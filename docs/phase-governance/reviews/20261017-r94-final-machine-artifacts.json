@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "fe6fbd45e4d6418a7f0c0ba3c42fd66e20ff30cd14413e14601c42554adb4e75",
+      "afterSha256": "fed7f195b729b668d42e67bcab91ecb467dce47332259a2582d07d92d1da9943",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,8 +1066,24 @@
       },
       "revision": {
         "currentSha": "a2101ce8ffeb73642521f0b489d17642f27bbd3fcdc581d0e9c354dedbc05778",
-        "implementationSha": "fe6fbd45e4d6418a7f0c0ba3c42fd66e20ff30cd14413e14601c42554adb4e75",
+        "implementationSha": "fed7f195b729b668d42e67bcab91ecb467dce47332259a2582d07d92d1da9943",
         "history": [
+          {
+            "revision": "37e2cd7c9a54b29766a87d17ffed90e4dae465dd",
+            "date": "2026-10-18",
+            "action": "Battle cleanup/runtime typed fixtures, actual handoff and owner oracle review",
+            "previousAfterSha256": "fe6fbd45e4d6418a7f0c0ba3c42fd66e20ff30cd14413e14601c42554adb4e75",
+            "scope": "Only two comment-only battle lifecycle sources and two existing tests. Four old closed rows reopened review;3316/255closed/96review/2965pending, zero new closure. Seven complete old-green/new-specific-AssertionError controls (six unchanged main v2 reused, runtime owner v3 rerun); a separate private-layout equivalent-shape control old2green/1false-positive to current3green removes implementation coupling while preserving public getter/runner oracles; direct9/adjacent266, actual factory/hydrate/dialogue/owner ports and real cursor handoff. Non-party Extra reachability is draft with start/party equipment rebuild as strongest alternative, no fake product red or behavior fix. Only CODE3u and3w pending to partial;83cards55partial/28pending/0accept, scopeConfirmed=false. Source snapshot base6fde6d86c, metadata base37e2cd7c9 after independent Git buffer prerequisite; exact source restoration and bounded metadata rebase preserve prerequisite evidence. One new draft board/index row, no baseline/retirement/schema/assets/save/public API/product execution change. Historical native verdicts preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "product runtime",
+              "E2E",
+              "visual"
+            ]
+          },
           {
             "revision": "6fde6d86cf9754e441de948c82ac99ebc1f480c8",
             "date": "2026-10-18",
@@ -1425,8 +1441,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "fe6fbd45e4d6418a7f0c0ba3c42fd66e20ff30cd14413e14601c42554adb4e75",
-        "lineCount": 15111,
+        "afterSha256": "fed7f195b729b668d42e67bcab91ecb467dce47332259a2582d07d92d1da9943",
+        "lineCount": 15143,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -1456,7 +1472,7 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "1-15111",
+      "reviewedLines": "1-15143",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

@@ -3265,11 +3265,27 @@
       "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "f351da10c4be8f42eefeaf08f3f5d481275c0b61e9c80ebc4e31ab80fa331574",
+      "afterSha256": "0a6c9c5380a3df7372f0afe2f63075987b1214b83effe6e4ae7695580c3e7ac1",
       "revision": {
         "currentSha": "addcb44c52fd00ab0fd3397e61ae316bf98d02e2aeef1d5533ed23a2c1e5845a",
-        "implementationSha": "f351da10c4be8f42eefeaf08f3f5d481275c0b61e9c80ebc4e31ab80fa331574",
+        "implementationSha": "0a6c9c5380a3df7372f0afe2f63075987b1214b83effe6e4ae7695580c3e7ac1",
         "history": [
+          {
+            "revision": "37e2cd7c9a54b29766a87d17ffed90e4dae465dd",
+            "date": "2026-10-18",
+            "action": "Battle cleanup/runtime typed fixtures, actual handoff and owner oracle review",
+            "previousAfterSha256": "f351da10c4be8f42eefeaf08f3f5d481275c0b61e9c80ebc4e31ab80fa331574",
+            "scope": "Only two comment-only battle lifecycle sources and two existing tests. Four old closed rows reopened review;3316/255closed/96review/2965pending, zero new closure. Seven complete old-green/new-specific-AssertionError controls (six unchanged main v2 reused, runtime owner v3 rerun); a separate private-layout equivalent-shape control old2green/1false-positive to current3green removes implementation coupling while preserving public getter/runner oracles; direct9/adjacent266, actual factory/hydrate/dialogue/owner ports and real cursor handoff. Non-party Extra reachability is draft with start/party equipment rebuild as strongest alternative, no fake product red or behavior fix. Only CODE3u and3w pending to partial;83cards55partial/28pending/0accept, scopeConfirmed=false. Source snapshot base6fde6d86c, metadata base37e2cd7c9 after independent Git buffer prerequisite; exact source restoration and bounded metadata rebase preserve prerequisite evidence. One new draft board/index row, no baseline/retirement/schema/assets/save/public API/product execution change. Historical native verdicts preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "product runtime",
+              "E2E",
+              "visual"
+            ]
+          },
           {
             "revision": "6fde6d86cf9754e441de948c82ac99ebc1f480c8",
             "date": "2026-10-18",
@@ -3696,7 +3712,7 @@
         "kind": "A8-six-pending-inventory-real-producer-maintenance",
         "path": "docs/ops/audits/code-quality-file-ledger.md",
         "sourceSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
-        "afterSha256": "f351da10c4be8f42eefeaf08f3f5d481275c0b61e9c80ebc4e31ab80fa331574",
+        "afterSha256": "0a6c9c5380a3df7372f0afe2f63075987b1214b83effe6e4ae7695580c3e7ac1",
         "lineCount": 742,
         "sourceScope": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "completePrior": {

@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,316。
-当前已闭合核验：259；已读但待审：92；尚未逐文件核验：2,965；合计未闭合：3,057。
+当前已闭合核验：255；已读但待审：96；尚未逐文件核验：2,965；合计未闭合：3,061。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -324,17 +324,17 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/battle-summon-slot-reuse.glm-q.test.ts` | test | 已验证 | CODE-QUALITY-3t；203 行全文、0x9E 战中死亡空槽复用/对象身份/阵型重算 oracle | 活槽不复用、毒/身份清理与阵型锚点反例 |
 | `packages/game/src/core/game-state.ts` | product | review | [投影与宿主错注](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/runtime-projection-comments/README.md)；2111行全文及公开投影/HPMP回写、实际caller/原C | 裸基础值/effect快照/状态ownership错注更正，无执行或schema变化；其余场景/存档/异步字段与旧测试强转继续待核 |
 | `packages/game/src/core/battle/battle-state.ts` | product | review | [投影与宿主错注](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/runtime-projection-comments/README.md)；918行全文；rgPlayerStatus真实写入/seed/cleanup与原C | 状态不限装备、Confirm记忆、顶层fade不推进游标错注已修；14例只回归，旧整文件关闭转review |
-| `packages/game/src/core/battle/battle-runtime-context.ts` | product | 已验证 | CODE-QUALITY-3u；battle.c:1741-1754,1838-1857；battle-system:324-344；battle-finalization:63；runtime/finalization callers | 98 行逐段核验资源表与 runner stash、live-role identity、override 优先级和 finalize release；未发现跨战斗残留或清理缺口 |
+| `packages/game/src/core/battle/battle-runtime-context.ts` | product | review | [pre94 finalization/runtime复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md)；98行全文、真实start/finalize及资源/可写投影/runner归属 | 只修“只读表”坏注；公开stash结构不改，跨owner反控支持有限隔离，整卡未闭合 |
 | `packages/game/src/core/battle/__tests__/battle-state.test.ts` | test | 已验证 | CODE-QUALITY-3u；BattleState 工厂/位置/状态 seed oracle，定向/相邻 55 tests | 383 行逐段读取；未知 role、>3 player、状态 seed、快照、EnemyPos/fallback/y offset 和独立坐标对象反例 |
 | `packages/game/src/core/battle/battle-state.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-3u；null 空槽、maxHealth/object identity、autoBattle/scriptPrevHp oracle，定向/相邻 55 tests | 81 行逐段读取；0 占位槽不压缩、真实槽浅拷贝、开战 seed 反例 |
-| `packages/game/src/core/battle/battle-finalization.test.ts` | test | 已验证 | CODE-QUALITY-3u；finalization cleanup/resume caller oracle，定向/相邻 55 tests | 80 行逐段读取；状态/波场/模式/资源释放顺序与 0x07 resume 反例 |
+| `packages/game/src/core/battle/battle-finalization.test.ts` | test | review | [pre94 finalization/runtime复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md)；80行原测全文，真实factory/hydrate/dialog，九状态与实际cursor交接观察 | 2→6补真实finalize出口；六旧2绿→新5绿1指定红；9直接/266相邻仅有限信用 |
 | `packages/game/src/core/battle/actions/attack.ts` | product | review | [投影与宿主错注](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/runtime-projection-comments/README.md)；614行全文；真实投影/原Cgetter，撤销失效行号 | 只更正投影ownership注释，JS/TS语法不变；数值极端、整个action测试/统一门仍待，旧源关闭转review |
 | `packages/game/src/core/battle/actions/attack-mate.ts` | product | 已验证 | CODE-QUALITY-3v 当前复审；3v-battle-actions；fight.c:3760-3853；battle-system attack-mate dispatch；attack-mate/action tests | 111 行实现全文核验随机活友军、目标防御/protect、HP clamp、武器声、动画与无目标 Pass；定向6 files/154 tests通过，未发现 direct defect；coverage/全仓门未在本小批运行 |
 | `packages/game/src/core/battle/actions/defend.ts` | product | 已验证 | CODE-QUALITY-3v 当前复审；3v-battle-actions；fight.c:4110-4117,4924-4929；battle-system dispatch；actions tests | 20 行实现全文核验；只写 defending，减伤由 enemy attack owner 消费，越界 no-op 合同闭合；定向6 files/154 tests通过 |
 | `packages/game/src/core/battle/actions/flee.ts` | product | 已验证 | CODE-QUALITY-3v 当前复审；3v-battle-actions；fight.c:4119-4172；battle.c:1455-1528；battle-system dispatch；actions tests | 81 行实现全文核验 flee rate/装备、已批准敌吉运修复、boss RNG、空槽/SHORT 溢出、失败动画与 exp；未发现 direct defect；定向6 files/154 tests通过 |
 | `packages/game/src/core/battle/__tests__/attack-mate.test.ts` | test | 已验证 | CODE-QUALITY-3v；111 行实现对应的 7 个 AttackMate oracle，154 定向/相邻 tests | 148 行全文读取；随机 self/dead 跳过、protect/defend/clamp/无活友军/武器声与 HP ownership 反例 |
 | `packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-3v 当前复审；3v-battle-actions；64 行命中特效帧基号/缺表反例，定向6 files/154 tests | 全文读取；flat index `sprite*2+1`、×3、undefined fallback 与真实 timeline oracle；未发现重复或弱断言 |
-| `packages/game/src/core/battle/battle-finalization.ts` | product | 已验证 | CODE-QUALITY-3w；battle.c:1822-1857；battle-system:415,530；finalization/settlement callers | 67 行全文核验 outcome、状态/毒/装备/波场/mode/runtime/postBattle cleanup 顺序；196 定向/相邻 tests、完整 check、official ratchet、protected fast、Biome 零诊断均通过；未发现直接缺陷 |
+| `packages/game/src/core/battle/battle-finalization.ts` | product | review | [pre94 finalization/runtime复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md)；67行全文，真实tick/settlement/resume与C；只修等价范围注释 | 非队员Extra生产可达性另卡draft；两源parsedTS/JS相同，不改机制，不关闭 |
 | `packages/game/src/core/battle/battle-settlement.ts` | product | 已验证 | CODE-QUALITY-3w；battle.c:991-1373；battle-system:390-530；progression/settlement callers | 246 行全文核验 exp/cash/HP-MP 回写、屏序/timeout、Phase E once、对话 hold、半血与 finalize；未发现直接缺陷 |
 | `packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-3w；settlement screen/timeout/Phase E/half-heal oracle，196 定向/相邻 tests | 259 行全文读取；首帧残键、74+1 timeout、屏序、Phase E once/dialog hold/半血恢复反例 |
 | `packages/game/src/core/dialog-history.test.ts` | test | 已验证 | CODE-QUALITY-3o；trim/dedup/map/CAP/restore contracts | direct history oracle |
@@ -346,7 +346,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/battle/__tests__/battle-system.test.ts` | test | review | [pre-94机制返工](../evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md)；SDL fight.c/script.c、真实runScript/action caller、手算oracle | 3s本会话全文读取后SHA未变；本次补读caller/投掷场景并补裸runtime，未重新认证全4248行 |
 | `packages/game/src/core/battle/battle-system.cov85.test.ts` | test | 已验证 | CODE-QUALITY-3s 当前复审；3s-battle-system；公开 startBattle/tickBattle/tickEnemyIdleGestures callers，battle.c/fight.c oracle | 330 行 branch guard/phase/idle/资源缺失/settlement contracts；两个 console.error spy 已用 try/finally 恢复；定向9 files/242 tests通过，coverage/全仓门未在本小批运行 |
 | `packages/game/src/core/battle/battle-system.glm-next-wave.test.ts` | test | review | [pre-94机制返工相邻诊断](../evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md)；全文重读、公开startBattle/caller与真实敌队终止符 | 单敌夹具误造缺失101并产生warning；单红反例后改用0xffff终止符，保留对话/终态oracle；统一门仍待 |
-| `packages/game/src/core/battle/battle-runtime-context.test.ts` | test | 已验证 | CODE-QUALITY-3s；startBattle 安装/cleanup 与 runScript fallback caller | resource/live-role identity、runner override/clear ownership contracts，3 tests 通过 |
+| `packages/game/src/core/battle/battle-runtime-context.test.ts` | test | review | [pre94 finalization/runtime复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md)；75行原测全文，3例保持、去强转、公开getter身份与双GameState owner | 旧3绿→新2绿1指定红；公开身份/runner/释放保留，私有布局断言以独立等价反控排除，0新增关闭 |
 | `packages/game/src/core/event-opcode-player.ts` | product | 已验证 | CODE-QUALITY-3p 3p-event-opcode-player；script.c/global.c opcode 0x17-0x2F/0x41/0x55/0x56/0x8D、event-system/equip/inventory/poison callers、四 direct tests | role/slot/SHORT/WORD/fScriptSuccess/owner contracts逐段核对；未发现新缺陷 |
 | `packages/game/src/core/event-opcode-player.test.ts` | test | 已验证 | CODE-QUALITY-3p 3p-event-opcode-player；player/equipment/HP-MP/revive/poison/status/magic opcode contracts | direct opcode oracle |
 | `packages/game/src/core/event-opcode-player.cov85.test.ts` | test | 已验证 | CODE-QUALITY-3p 3p-event-opcode-player；opcode family branch contracts | branch boundary oracle |

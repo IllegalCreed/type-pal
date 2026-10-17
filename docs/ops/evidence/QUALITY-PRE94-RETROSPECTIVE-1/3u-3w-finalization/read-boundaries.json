@@ -1,0 +1,223 @@
+{
+  "base": "6fde6d86cf9754e441de948c82ac99ebc1f480c8",
+  "owner": "Codex single agent",
+  "rows": [
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.ts",
+      "sha256": "72860d1f0ce732258cb5bd15e9cb22259f4241921798796eb85698658aeefe0d",
+      "lines": 67,
+      "ranges": [[1, 67]],
+      "fullRead": true,
+      "snapshot": "72860d1f0ce7-battle-finalization.ts.read.gz",
+      "scope": "Actual bounded read; full-file test execution does not imply all adjacent source/test semantics read or accepted"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.test.ts",
+      "sha256": "2bd7845ef57f603b1db5801a1b33f08c7f05193c08d3c1d47909b8ac9a18b3fa",
+      "lines": 218,
+      "ranges": [[1, 218]],
+      "fullRead": true,
+      "snapshot": "2bd7845ef57f-battle-finalization.test.ts.read.gz",
+      "scope": "Actual bounded read; full-file test execution does not imply all adjacent source/test semantics read or accepted"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.ts",
+      "sha256": "535c0f0400feb0c322222c2937335f3199cfc808d1e2092e030c5294db31cf1b",
+      "lines": 98,
+      "ranges": [[1, 98]],
+      "fullRead": true,
+      "snapshot": "535c0f0400fe-battle-runtime-context.ts.read.gz",
+      "scope": "Actual bounded read; full-file test execution does not imply all adjacent source/test semantics read or accepted"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.test.ts",
+      "sha256": "2fb71bc84e7a5817ff54950166aec14a5de7df5f107b77a995060f294002357d",
+      "lines": 77,
+      "ranges": [[1, 77]],
+      "fullRead": true,
+      "snapshot": "2fb71bc84e7a-battle-runtime-context.test.ts.read.gz",
+      "scope": "Actual bounded read; full-file test execution does not imply all adjacent source/test semantics read or accepted"
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/stats-test-fixtures.ts",
+      "sha256": "270f953dd0c5843f95319b208c4990c7ab86bd232a236dedd13bf6dc8cded652",
+      "lines": 249,
+      "ranges": [[1, 249]],
+      "fullRead": true,
+      "snapshot": "270f953dd0c5-stats-test-fixtures.ts.read.gz",
+      "scope": "Actual bounded read; full-file test execution does not imply all adjacent source/test semantics read or accepted"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "sha256": "881a38eccfb088452cffdf1eccb71414612730a6138bae4e7ab4890a342b55c6",
+      "lines": 246,
+      "ranges": [[1, 246]],
+      "fullRead": true,
+      "snapshot": "881a38eccfb0-battle-settlement.ts.read.gz",
+      "scope": "Actual bounded read; full-file test execution does not imply all adjacent source/test semantics read or accepted"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "sha256": "8a2b8f24ecb7ee690e9edbc5419af99a6c1aae146c1e372674055b9dd4e6795a",
+      "lines": 259,
+      "ranges": [[1, 259]],
+      "fullRead": true,
+      "snapshot": "8a2b8f24ecb7-battle-settlement.glm-next-wave.test.ts.read.gz",
+      "scope": "Actual bounded read; full-file test execution does not imply all adjacent source/test semantics read or accepted"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "sha256": "93bf49d15b76014878b8893d47548837be8cd44509e16bb9ffc01185d62d8712",
+      "lines": 383,
+      "ranges": [[1, 383]],
+      "fullRead": true,
+      "snapshot": "93bf49d15b76-battle-state.test.ts.read.gz",
+      "scope": "Actual bounded read; full-file test execution does not imply all adjacent source/test semantics read or accepted"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3u-game-battle-state-runtime.md",
+      "sha256": "24536c1be644b3103a7cdfb216f96a05263820f92af9afb060ffec9a11417839",
+      "lines": 243,
+      "ranges": [[1, 243]],
+      "fullRead": true,
+      "snapshot": "24536c1be644-CODE-QUALITY-3u-game-battle-state-runtime.md.read.gz",
+      "scope": "Actual bounded read; full-file test execution does not imply all adjacent source/test semantics read or accepted"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3w-game-battle-settlement-finalization.md",
+      "sha256": "b52651c2cefdb216648a701d8bf890dd2d33aa300cdd8ea9ebb90db346faaa1d",
+      "lines": 171,
+      "ranges": [[1, 171]],
+      "fullRead": true,
+      "snapshot": "b52651c2cefd-CODE-QUALITY-3w-game-battle-settlement-finalization.md.read.gz",
+      "scope": "Actual bounded read; full-file test execution does not imply all adjacent source/test semantics read or accepted"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "618063b97dabe5d7a06380296493ec33efeb51b19c512d0cf7f957836d08b87c",
+      "lines": 916,
+      "ranges": [[1, 125], [678, 916]],
+      "fullRead": false,
+      "snapshot": "618063b97dab-battle-state.ts.read.gz",
+      "scope": "Actual bounded read; full-file test execution does not imply all adjacent source/test semantics read or accepted"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "130c7398a4f53d5a69b3d36178777ef3c18dfea0a7641f50d53c097493ee33a7",
+      "lines": 3130,
+      "ranges": [[180, 355], [380, 540]],
+      "fullRead": false,
+      "snapshot": "130c7398a4f5-battle-system.ts.read.gz",
+      "scope": "Actual bounded read; full-file test execution does not imply all adjacent source/test semantics read or accepted"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "6b20017dc7c7ca79c413fdb690cd65a5cdaa38e33d8227d009f1b19ce23fe7ea",
+      "lines": 2105,
+      "ranges": [[360, 455], [1390, 1450], [1550, 1780]],
+      "fullRead": false,
+      "snapshot": "6b20017dc7c7-game-state.ts.read.gz",
+      "scope": "Actual bounded read; full-file test execution does not imply all adjacent source/test semantics read or accepted"
+    },
+    {
+      "path": "packages/game/src/core/game-state.test.ts",
+      "sha256": "85aaef9fca1ed85c10a9b91809bd7a5c7f7da5e2f888825a20afb868ce31f4c4",
+      "lines": 1073,
+      "ranges": [[825, 883]],
+      "fullRead": false,
+      "snapshot": "85aaef9fca1e-game-state.test.ts.read.gz",
+      "scope": "Actual bounded read; full-file test execution does not imply all adjacent source/test semantics read or accepted"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-system.test.ts",
+      "sha256": "0bc3abc38cb6444099e78e9b8acd62d238e92d880eca1e9a0563fcc3c5e79a40",
+      "lines": 4251,
+      "ranges": [[1400, 1585], [1838, 1890], [2020, 2100], [4150, 4251]],
+      "fullRead": false,
+      "snapshot": "0bc3abc38cb6-battle-system.test.ts.read.gz",
+      "scope": "Actual bounded read; full-file test execution does not imply all adjacent source/test semantics read or accepted"
+    },
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "sha256": "3c7ed5879374144001595a6bc1c6d1ef1a71ab63a6407c55fd94bd89ec7bfa5a",
+      "lines": 142,
+      "ranges": [[130, 142]],
+      "fullRead": false,
+      "snapshot": "3c7ed5879374-player-poison-state.ts.read.gz",
+      "scope": "Actual bounded read; full-file test execution does not imply all adjacent source/test semantics read or accepted"
+    },
+    {
+      "path": "packages/game/src/core/equipment-state.ts",
+      "sha256": "5ebe8ee7d1c0ad76f6867253aaaa9875ea473a776afb27a00edca9c21999ed5c",
+      "lines": 392,
+      "ranges": [[339, 392]],
+      "fullRead": false,
+      "snapshot": "5ebe8ee7d1c0-equipment-state.ts.read.gz",
+      "scope": "Actual bounded read; full-file test execution does not imply all adjacent source/test semantics read or accepted"
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.ts",
+      "sha256": "06fb86b9d7ec3526062b066f0e61fff0c4cb783635c5583b4e3d9cddda3ed602",
+      "lines": 295,
+      "ranges": [[245, 278]],
+      "fullRead": false,
+      "snapshot": "06fb86b9d7ec-equip-effect.ts.read.gz",
+      "scope": "Actual bounded read; full-file test execution does not imply all adjacent source/test semantics read or accepted"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "34eaad97dd35a62a273596efecd9a5cfbf6e00360ac923fc6e64e2b76e622242",
+      "lines": 5117,
+      "ranges": [[4390, 4475]],
+      "fullRead": false,
+      "snapshot": "34eaad97dd35-event-system.ts.read.gz",
+      "scope": "Actual bounded read; full-file test execution does not imply all adjacent source/test semantics read or accepted"
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.ts",
+      "sha256": "f0a4f858eb4304180664d3f8b89f41792593fe7c6df0be4e7ef184a9d9b1c6c9",
+      "lines": 961,
+      "ranges": [[301, 373]],
+      "fullRead": false,
+      "snapshot": "f0a4f858eb43-dialog-box.ts.read.gz",
+      "scope": "Actual bounded read; full-file test execution does not imply all adjacent source/test semantics read or accepted"
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f",
+      "lines": 1858,
+      "ranges": [[1800, 1858]],
+      "fullRead": false,
+      "snapshot": "45f38a01d08b-battle.c.read.gz",
+      "scope": "Actual bounded read; full-file test execution does not imply all adjacent source/test semantics read or accepted"
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "lines": 2409,
+      "ranges": [[1555, 1618], [2300, 2350]],
+      "fullRead": false,
+      "snapshot": "6e7162374dca-global.c.read.gz",
+      "scope": "Actual bounded read; full-file test execution does not imply all adjacent source/test semantics read or accepted"
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "lines": 3652,
+      "ranges": [[3310, 3340]],
+      "fullRead": false,
+      "snapshot": "f5332e015b27-script.c.read.gz",
+      "scope": "Actual bounded read; full-file test execution does not imply all adjacent source/test semantics read or accepted"
+    },
+    {
+      "path": "docs/phase1/game-mechanics.md",
+      "sha256": "a81d17a63ff80031ab257eb38dd4db03320f33eb8e33b74d1df401a10eba6c89",
+      "lines": 1675,
+      "ranges": [[1529, 1589]],
+      "fullRead": false,
+      "snapshot": "a81d17a63ff8-game-mechanics.md.read.gz",
+      "scope": "Actual bounded read; full-file test execution does not imply all adjacent source/test semantics read or accepted"
+    }
+  ],
+  "limits": "No original-game runtime, browser, E2E, phase2, whole-card or unified quality closeout. Extra off-party reachability remains unknown."
+}

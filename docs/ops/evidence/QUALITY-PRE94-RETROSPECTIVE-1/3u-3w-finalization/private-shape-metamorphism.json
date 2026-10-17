@@ -1,0 +1,127 @@
+{
+  "base": "6fde6d86cf9754e441de948c82ac99ebc1f480c8",
+  "owner": "Codex single agent",
+  "scope": "Whole unfiltered old/current test file per one source mutant. No SDK network or visual acceptance.",
+  "controls": [
+    {
+      "id": "private-shape-equivalence",
+      "source": "packages/game/src/core/battle/battle-runtime-context.ts",
+      "spec": "packages/game/src/core/battle/battle-runtime-context.test.ts",
+      "sourceSha256": "535c0f0400feb0c322222c2937335f3199cfc808d1e2092e030c5294db31cf1b",
+      "mutantSha256": "b8fc9268378e69ce23200906f7c401e57bea5ea9d4a02c41b7e78b3e5f50207e",
+      "expectedOldFailureNameContains": "releases resources and runner",
+      "expectedOldCount": 3,
+      "expectedCurrentCount": 3,
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-runtime-context.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-finalization-controls-rvuk77oe/private-shape-equivalence.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T23:40:30.902627+00:00",
+          "completedAt": "2026-10-17T23:40:31.892161+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "private-shape-equivalence.old.raw.gz",
+          "rawBytes": 2242,
+          "rawSha256": "c97268fc91dfa0ec1a2a8c26c133d9958698cf85d62598c031d2c4b3950f42e5",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "0e6e04ef6357fca2c8bca989846f2d28514f2ca5634837814b71297dc8df57ef",
+          "nativeReport": "private-shape-equivalence.old.vitest.json.gz",
+          "nativeSha256": "c68d3eb5b935826e8b54e404f5e5c61079fa27001154250fadf6d2b35fcf399d",
+          "passed": 2,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-runtime-context.test.ts",
+              "fullName": "battle runtime context ownership keeps the exact resource and live-role identities installed by startBattle",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-runtime-context.test.ts",
+              "fullName": "battle runtime context ownership prefers the injected runner and preserves it when no new override is supplied",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-runtime-context.test.ts",
+              "fullName": "battle runtime context ownership releases resources and runner with the historical hidden-field semantics",
+              "status": "failed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected false to be true // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-runtime-context.test.ts:70:55\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "535c0f0400feb0c322222c2937335f3199cfc808d1e2092e030c5294db31cf1b",
+          "specRestoredSha256": "2fb71bc84e7a5817ff54950166aec14a5de7df5f107b77a995060f294002357d",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-runtime-context.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-finalization-controls-rvuk77oe/private-shape-equivalence.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T23:40:31.892476+00:00",
+          "completedAt": "2026-10-17T23:40:32.634350+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "private-shape-equivalence.current.raw.gz",
+          "rawBytes": 909,
+          "rawSha256": "e8df6afcdc04d9fc17dd5949bd31405a912b1f569a4c31e257a9bfd20e24c97e",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "2fb71bc84e7a5817ff54950166aec14a5de7df5f107b77a995060f294002357d",
+          "nativeReport": "private-shape-equivalence.current.vitest.json.gz",
+          "nativeSha256": "312df71be3fbe55412c6e18a824d0df983f451581a76c9bea6016f39a075a3c9",
+          "passed": 3,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-runtime-context.test.ts",
+              "fullName": "battle runtime context ownership keeps the exact resource and live-role identities installed by startBattle",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-runtime-context.test.ts",
+              "fullName": "battle runtime context ownership prefers the injected runner and preserves it when no new override is supplied",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-runtime-context.test.ts",
+              "fullName": "battle runtime context ownership releases both public resource views and restores the fallback runner",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "535c0f0400feb0c322222c2937335f3199cfc808d1e2092e030c5294db31cf1b",
+          "specRestoredSha256": "2fb71bc84e7a5817ff54950166aec14a5de7df5f107b77a995060f294002357d",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    }
+  ],
+  "tempDirectory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-finalization-controls-rvuk77oe",
+  "tempDirectoryRemoved": true,
+  "restored": true
+}

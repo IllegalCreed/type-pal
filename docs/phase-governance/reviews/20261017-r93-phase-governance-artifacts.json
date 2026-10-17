@@ -1040,7 +1040,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "636c42ce5fd8bdd5a42faac2a2d522ff801911dacb6176a109f47a10542ba4b2",
+      "afterSha256": "cb836a4162c85268ab26b91a56539be4ba62fd9c72b558cc39f56019382878a3",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1064,8 +1064,24 @@
       },
       "revision": {
         "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "implementationSha": "636c42ce5fd8bdd5a42faac2a2d522ff801911dacb6176a109f47a10542ba4b2",
+        "implementationSha": "cb836a4162c85268ab26b91a56539be4ba62fd9c72b558cc39f56019382878a3",
         "history": [
+          {
+            "revision": "37e2cd7c9a54b29766a87d17ffed90e4dae465dd",
+            "date": "2026-10-18",
+            "action": "Battle cleanup/runtime typed fixtures, actual handoff and owner oracle review",
+            "previousAfterSha256": "636c42ce5fd8bdd5a42faac2a2d522ff801911dacb6176a109f47a10542ba4b2",
+            "scope": "Only two comment-only battle lifecycle sources and two existing tests. Four old closed rows reopened review;3316/255closed/96review/2965pending, zero new closure. Seven complete old-green/new-specific-AssertionError controls (six unchanged main v2 reused, runtime owner v3 rerun); a separate private-layout equivalent-shape control old2green/1false-positive to current3green removes implementation coupling while preserving public getter/runner oracles; direct9/adjacent266, actual factory/hydrate/dialogue/owner ports and real cursor handoff. Non-party Extra reachability is draft with start/party equipment rebuild as strongest alternative, no fake product red or behavior fix. Only CODE3u and3w pending to partial;83cards55partial/28pending/0accept, scopeConfirmed=false. Source snapshot base6fde6d86c, metadata base37e2cd7c9 after independent Git buffer prerequisite; exact source restoration and bounded metadata rebase preserve prerequisite evidence. One new draft board/index row, no baseline/retirement/schema/assets/save/public API/product execution change. Historical native verdicts preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "product runtime",
+              "E2E",
+              "visual"
+            ]
+          },
           {
             "revision": "6fde6d86cf9754e441de948c82ac99ebc1f480c8",
             "date": "2026-10-18",
@@ -1407,8 +1423,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "636c42ce5fd8bdd5a42faac2a2d522ff801911dacb6176a109f47a10542ba4b2",
-        "lineCount": 2604,
+        "afterSha256": "cb836a4162c85268ab26b91a56539be4ba62fd9c72b558cc39f56019382878a3",
+        "lineCount": 2636,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -1442,7 +1458,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-2604",
+      "reviewedLines": "1-2636",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -5161,7 +5177,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "619d0a8915e12e26fa6cd3bc015e8d71b3a432b869157716a6ee1c9d2b664cd4",
+      "afterSha256": "2ca5d595af0002428d3b0bcaa4ca364e9e7284dba83aff502ec7b449330ba3c5",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5185,8 +5201,24 @@
       },
       "revision": {
         "currentSha": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "implementationSha": "619d0a8915e12e26fa6cd3bc015e8d71b3a432b869157716a6ee1c9d2b664cd4",
+        "implementationSha": "2ca5d595af0002428d3b0bcaa4ca364e9e7284dba83aff502ec7b449330ba3c5",
         "history": [
+          {
+            "revision": "37e2cd7c9a54b29766a87d17ffed90e4dae465dd",
+            "date": "2026-10-18",
+            "action": "Battle cleanup/runtime typed fixtures, actual handoff and owner oracle review",
+            "previousAfterSha256": "619d0a8915e12e26fa6cd3bc015e8d71b3a432b869157716a6ee1c9d2b664cd4",
+            "scope": "Only two comment-only battle lifecycle sources and two existing tests. Four old closed rows reopened review;3316/255closed/96review/2965pending, zero new closure. Seven complete old-green/new-specific-AssertionError controls (six unchanged main v2 reused, runtime owner v3 rerun); a separate private-layout equivalent-shape control old2green/1false-positive to current3green removes implementation coupling while preserving public getter/runner oracles; direct9/adjacent266, actual factory/hydrate/dialogue/owner ports and real cursor handoff. Non-party Extra reachability is draft with start/party equipment rebuild as strongest alternative, no fake product red or behavior fix. Only CODE3u and3w pending to partial;83cards55partial/28pending/0accept, scopeConfirmed=false. Source snapshot base6fde6d86c, metadata base37e2cd7c9 after independent Git buffer prerequisite; exact source restoration and bounded metadata rebase preserve prerequisite evidence. One new draft board/index row, no baseline/retirement/schema/assets/save/public API/product execution change. Historical native verdicts preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "product runtime",
+              "E2E",
+              "visual"
+            ]
+          },
           {
             "revision": "6fde6d86cf9754e441de948c82ac99ebc1f480c8",
             "date": "2026-10-18",
@@ -5534,8 +5566,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "619d0a8915e12e26fa6cd3bc015e8d71b3a432b869157716a6ee1c9d2b664cd4",
-        "lineCount": 5531,
+        "afterSha256": "2ca5d595af0002428d3b0bcaa4ca364e9e7284dba83aff502ec7b449330ba3c5",
+        "lineCount": 5547,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -5569,7 +5601,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-5531",
+      "reviewedLines": "1-5547",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

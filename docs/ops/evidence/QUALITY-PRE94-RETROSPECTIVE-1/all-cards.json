@@ -1168,7 +1168,7 @@
       "sha256": "f6e6796fdd4f9553367ee328cd884362bf4cbb1eb91c8c5ab1e8540e34fe3364",
       "lines": 123,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -1224,7 +1224,8 @@
           "text": "无下一位 Agent 提示词，Q3u 已由 Codex 独立验收并归档；本卡未重复关闭 Q3m/Q3s 已有记录，全仓逐文件治理仍未完成。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md"
     },
     {
       "id": "3v",
@@ -1305,7 +1306,7 @@
       "sha256": "085a25a2ea458ff5168466461893c7301944e721a9ccbb18320e4da155e06277",
       "lines": 71,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -1333,7 +1334,8 @@
           "text": "无下一位 Agent 提示词，Q3w 已由 Codex 独立验收并归档；继续从账本 pending 范围开下一张不重叠卡。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md"
     },
     {
       "id": "3x",
@@ -3871,7 +3873,7 @@
   ],
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
-    "partial": 53,
-    "pending": 30
+    "partial": 55,
+    "pending": 28
   }
 }

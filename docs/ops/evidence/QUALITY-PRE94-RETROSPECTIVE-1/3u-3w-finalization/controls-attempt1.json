@@ -1,0 +1,391 @@
+{
+  "base": "6fde6d86cf9754e441de948c82ac99ebc1f480c8",
+  "owner": "Codex single agent",
+  "scope": "Whole unfiltered old/current test file per one source mutant. No SDK network or visual acceptance.",
+  "controls": [
+    {
+      "id": "last-status-slots-ignored",
+      "source": "packages/game/src/core/battle/battle-finalization.ts",
+      "spec": "packages/game/src/core/battle/battle-finalization.test.ts",
+      "sourceSha256": "72860d1f0ce732258cb5bd15e9cb22259f4241921798796eb85698658aeefe0d",
+      "mutantSha256": "12c5a54ccb15eb0747070cadb0e0fc01d0db3302ee76d7807c5287a21e0bef3c",
+      "expectedNewFailureNameContains": "clears all nine temporary",
+      "expectedOldCount": 2,
+      "expectedCurrentCount": 6,
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-finalization.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-finalization-controls-0omah2dn/last-status-slots-ignored.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T23:18:05.897502+00:00",
+          "completedAt": "2026-10-17T23:18:06.984239+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "last-status-slots-ignored.old.raw.gz",
+          "rawBytes": 737,
+          "rawSha256": "da66213b6981b3a4e1a86d32ea003ec33a2ed792393dfc707b43b586983a6c4c",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "49ba4da01650fa6f467d272b3a0456f7205367566c1245bca5ccf20be4d20b9b",
+          "nativeReport": "last-status-slots-ignored.old.vitest.json.gz",
+          "nativeSha256": "962e62f0ed47e0eb0e1819d86696d601dbf49572911f6ad4a36542f90031d79e",
+          "passed": 2,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts",
+              "fullName": "battle finalization ownership restores world state, clears per-battle state, then releases runtime resources",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts",
+              "fullName": "battle finalization ownership resumes a 0x07 event only after battle state and resources have been released",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "72860d1f0ce732258cb5bd15e9cb22259f4241921798796eb85698658aeefe0d",
+          "specRestoredSha256": "b1ffbb2aaea40f7024bddeaa8ae8a1c17cf50dd375fcc6cc14bb3269b269e2b7",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-finalization.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-finalization-controls-0omah2dn/last-status-slots-ignored.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T23:18:06.984676+00:00",
+          "completedAt": "2026-10-17T23:18:07.935824+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "last-status-slots-ignored.current.raw.gz",
+          "rawBytes": 2797,
+          "rawSha256": "6fae6e788caec2ac5cffe4ccb4c747fa8067fecb2ee5d9b406c7c54ec0929af1",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "b1ffbb2aaea40f7024bddeaa8ae8a1c17cf50dd375fcc6cc14bb3269b269e2b7",
+          "nativeReport": "last-status-slots-ignored.current.vitest.json.gz",
+          "nativeSha256": "30684592b15ab0c87e93d2c53349a903406c5561c81d83a6d06b3d064a6b35ae",
+          "passed": 5,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts",
+              "fullName": "battle finalization ownership clears all nine temporary status slots and world transients while preserving equipment counters",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts",
+              "fullName": "battle finalization ownership observes released battle resources and runner at the actual 0x07 cursor handoff",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts",
+              "fullName": "battle finalization ownership lost finalizer writes party HP/MP by role and resumes the lost branch without revival",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts",
+              "fullName": "battle finalization ownership 'player escape' finalizer selects the real resume branch",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts",
+              "fullName": "battle finalization ownership 'enemy termination' finalizer selects the real resume branch",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts",
+              "fullName": "battle finalization ownership 'watchdog' finalizer selects the real resume branch",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected [ +0, +0, +0, +0, +0, 1000, …(3) ] to deeply equal [ +0, +0, +0, +0, +0, 1000, …(3) ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts:97:34\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "72860d1f0ce732258cb5bd15e9cb22259f4241921798796eb85698658aeefe0d",
+          "specRestoredSha256": "b1ffbb2aaea40f7024bddeaa8ae8a1c17cf50dd375fcc6cc14bb3269b269e2b7",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "resume-before-runtime-release",
+      "source": "packages/game/src/core/battle/battle-finalization.ts",
+      "spec": "packages/game/src/core/battle/battle-finalization.test.ts",
+      "sourceSha256": "72860d1f0ce732258cb5bd15e9cb22259f4241921798796eb85698658aeefe0d",
+      "mutantSha256": "47d5a3c05b28c6616cd9db35801b3c279d421037fa19347e5cbcd8080ace7244",
+      "expectedNewFailureNameContains": "observes released battle resources",
+      "expectedOldCount": 2,
+      "expectedCurrentCount": 6,
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-finalization.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-finalization-controls-0omah2dn/resume-before-runtime-release.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T23:18:07.936347+00:00",
+          "completedAt": "2026-10-17T23:18:08.818953+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "resume-before-runtime-release.old.raw.gz",
+          "rawBytes": 741,
+          "rawSha256": "17a38295a850750f7f1a60ebad9b476c387e6eb56c051cae04deab7b67707d10",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "49ba4da01650fa6f467d272b3a0456f7205367566c1245bca5ccf20be4d20b9b",
+          "nativeReport": "resume-before-runtime-release.old.vitest.json.gz",
+          "nativeSha256": "7d62bb4abf3c3e883083bd6f7bf458b152b015c6217b8366589fe10092416afd",
+          "passed": 2,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts",
+              "fullName": "battle finalization ownership restores world state, clears per-battle state, then releases runtime resources",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts",
+              "fullName": "battle finalization ownership resumes a 0x07 event only after battle state and resources have been released",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "72860d1f0ce732258cb5bd15e9cb22259f4241921798796eb85698658aeefe0d",
+          "specRestoredSha256": "b1ffbb2aaea40f7024bddeaa8ae8a1c17cf50dd375fcc6cc14bb3269b269e2b7",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-finalization.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-finalization-controls-0omah2dn/resume-before-runtime-release.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T23:18:08.819290+00:00",
+          "completedAt": "2026-10-17T23:18:09.730009+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "resume-before-runtime-release.current.raw.gz",
+          "rawBytes": 15367,
+          "rawSha256": "1718116b222415bb440b854d7ad1e6e22d4842f4f1686512ef1afd3dee33949a",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "b1ffbb2aaea40f7024bddeaa8ae8a1c17cf50dd375fcc6cc14bb3269b269e2b7",
+          "nativeReport": "resume-before-runtime-release.current.vitest.json.gz",
+          "nativeSha256": "2b76f1e48193eceece05437fac6892f1883dce95eca85abd0b5e41b46da8033d",
+          "passed": 5,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts",
+              "fullName": "battle finalization ownership clears all nine temporary status slots and world transients while preserving equipment counters",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts",
+              "fullName": "battle finalization ownership observes released battle resources and runner at the actual 0x07 cursor handoff",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts",
+              "fullName": "battle finalization ownership lost finalizer writes party HP/MP by role and resumes the lost branch without revival",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts",
+              "fullName": "battle finalization ownership 'player escape' finalizer selects the real resume branch",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts",
+              "fullName": "battle finalization ownership 'enemy termination' finalizer selects the real resume branch",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts",
+              "fullName": "battle finalization ownership 'watchdog' finalizer selects the real resume branch",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected [ { cursor: { ip: 33, …(9) }, …(4) } ] to deeply equal [ { cursor: { ip: 33, …(9) }, …(4) } ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts:146:22\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "72860d1f0ce732258cb5bd15e9cb22259f4241921798796eb85698658aeefe0d",
+          "specRestoredSha256": "b1ffbb2aaea40f7024bddeaa8ae8a1c17cf50dd375fcc6cc14bb3269b269e2b7",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "lost-branch-miswired",
+      "source": "packages/game/src/core/battle/battle-finalization.ts",
+      "spec": "packages/game/src/core/battle/battle-finalization.test.ts",
+      "sourceSha256": "72860d1f0ce732258cb5bd15e9cb22259f4241921798796eb85698658aeefe0d",
+      "mutantSha256": "fd2501edaac6c837f8ad8ccab842fa6b5d9f1483abea5fbd2751fce32354469f",
+      "expectedNewFailureNameContains": "lost finalizer writes party",
+      "expectedOldCount": 2,
+      "expectedCurrentCount": 6,
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-finalization.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-finalization-controls-0omah2dn/lost-branch-miswired.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T23:18:09.730536+00:00",
+          "completedAt": "2026-10-17T23:18:10.608415+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "lost-branch-miswired.old.raw.gz",
+          "rawBytes": 732,
+          "rawSha256": "487b6a25414854f6ad80922a8e2f13cd3428cf76bd4e9bb8b5ffd06a6ffffb81",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "49ba4da01650fa6f467d272b3a0456f7205367566c1245bca5ccf20be4d20b9b",
+          "nativeReport": "lost-branch-miswired.old.vitest.json.gz",
+          "nativeSha256": "1f956e36fa5daaf4906ba7fd4439860f0ba8e78a47e68e89f6be4c4a422c7dba",
+          "passed": 2,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts",
+              "fullName": "battle finalization ownership restores world state, clears per-battle state, then releases runtime resources",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts",
+              "fullName": "battle finalization ownership resumes a 0x07 event only after battle state and resources have been released",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "72860d1f0ce732258cb5bd15e9cb22259f4241921798796eb85698658aeefe0d",
+          "specRestoredSha256": "b1ffbb2aaea40f7024bddeaa8ae8a1c17cf50dd375fcc6cc14bb3269b269e2b7",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/battle/battle-finalization.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-finalization-controls-0omah2dn/lost-branch-miswired.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T23:18:10.608752+00:00",
+          "completedAt": "2026-10-17T23:18:11.553171+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "lost-branch-miswired.current.raw.gz",
+          "rawBytes": 2605,
+          "rawSha256": "1ad101d7d0d18fbe364aab8776b5fad9a6d52abd9acb26b276515c92f9b27a6c",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "b1ffbb2aaea40f7024bddeaa8ae8a1c17cf50dd375fcc6cc14bb3269b269e2b7",
+          "nativeReport": "lost-branch-miswired.current.vitest.json.gz",
+          "nativeSha256": "b99f1db4983de3c46da40e252a1f6e355ac0325246834e753a4e804ef979005d",
+          "passed": 5,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts",
+              "fullName": "battle finalization ownership clears all nine temporary status slots and world transients while preserving equipment counters",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts",
+              "fullName": "battle finalization ownership observes released battle resources and runner at the actual 0x07 cursor handoff",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts",
+              "fullName": "battle finalization ownership lost finalizer writes party HP/MP by role and resumes the lost branch without revival",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts",
+              "fullName": "battle finalization ownership 'player escape' finalizer selects the real resume branch",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts",
+              "fullName": "battle finalization ownership 'enemy termination' finalizer selects the real resume branch",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts",
+              "fullName": "battle finalization ownership 'watchdog' finalizer selects the real resume branch",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected 33 to be 22 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-finalization.test.ts:184:32\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "72860d1f0ce732258cb5bd15e9cb22259f4241921798796eb85698658aeefe0d",
+          "specRestoredSha256": "b1ffbb2aaea40f7024bddeaa8ae8a1c17cf50dd375fcc6cc14bb3269b269e2b7",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    }
+  ],
+  "tempDirectory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-finalization-controls-0omah2dn",
+  "tempDirectoryRemoved": true,
+  "restored": true
+}

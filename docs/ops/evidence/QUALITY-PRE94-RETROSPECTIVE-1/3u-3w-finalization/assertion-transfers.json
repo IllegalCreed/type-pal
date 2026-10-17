@@ -1,0 +1,80 @@
+{
+  "base": "6fde6d86cf9754e441de948c82ac99ebc1f480c8",
+  "oldCounts": {
+    "finalization": 2,
+    "runtime": 3
+  },
+  "currentCounts": {
+    "finalization": 6,
+    "runtime": 3
+  },
+  "wholeCasesRetired": 0,
+  "netTests": 4,
+  "transfers": [
+    {
+      "from": "old cleanup world/status/wave/resource case",
+      "to": "current nine-status/world case",
+      "retained": "All world booleans, dialog removal, shake, exact7/-3 wave, explore, state/resource/runner release; <=999 and >999 comparisons retained. Original seven-slot invalid BattleState/dialog casts replaced by full factories; persistent counters1000/32760 moved onto legal good-status slots, two last slots and non-party row added."
+    },
+    {
+      "from": "old cleanup fled resume case",
+      "to": "current cursor handoff case",
+      "retained": "Real outcome fled/ip33,event mode, released state/resources and consumed resume retained; zero snapshot wave retained. Added actual cursor-assignment observation of release timing and injected-runner release, real command domain covers11/22/33."
+    },
+    {
+      "from": "runtime exact resource/live roles and hidden key identity",
+      "to": "same case",
+      "retained": "Exact public resource/live-role identities retained; actual second GameState install must not overwrite first owner. Private key/property-layout assertions removed as implementation coupling, not credited as public business contracts."
+    },
+    {
+      "from": "runtime override/undefined and cleanup cases",
+      "to": "same two cases",
+      "retained": "All fallback/injected identity and undefined-override behavior retained, typed RunScriptFn generic replaces casts; public resource and live-role getters both release. Private own-property/delete shape assertions removed after literal production census and the separate old-false-positive/current-green equivalent-shape control; source storage unchanged."
+    },
+    {
+      "from": "previously untested direct finalizer caller wiring",
+      "to": "lost, player flee, enemy termination and forced watchdog branches",
+      "retained": "Separate actual finalizeBattle composition layer, not duplicate resume helper calls. Lost writes zero HP and exact MP for reversed party[2,0], watchdog consumes the pending dialogue queue before hold; three other mutually distinct production exits choose expected resume IP. Watchdog is TS policy, not claimed SDLPal mechanism."
+    }
+  ],
+  "privateAssertionDecoupling": {
+    "wholeCasesRemoved": 0,
+    "publicBusinessOraclesRetained": true,
+    "privateLayoutAssertionsRemoved": true,
+    "reason": "No public consumer contract requires own undefined resource key versus an absent key. Actual typed ports and literal private-key census separately read; no arbitrary dynamic whole-runtime claim.",
+    "equivalenceEvidence": "private-shape-metamorphism.json",
+    "direction": "old 2 passed/1 specific AssertionError; current 3 passed; separate from seven regression controls"
+  },
+  "caseIdentityTransfers": [
+    {
+      "file": "packages/game/src/core/battle/battle-finalization.test.ts",
+      "oldFullName": "battle finalization ownership restores world state, clears per-battle state, then releases runtime resources",
+      "currentFullName": "battle finalization ownership clears all nine temporary status slots and world transients while preserving equipment counters",
+      "scope": "Existing case public contract retained; title mapping only. Protected identity/coverage gate deferred to large closeout, baseline/retirement payload unchanged."
+    },
+    {
+      "file": "packages/game/src/core/battle/battle-finalization.test.ts",
+      "oldFullName": "battle finalization ownership resumes a 0x07 event only after battle state and resources have been released",
+      "currentFullName": "battle finalization ownership observes released battle resources and runner at the actual 0x07 cursor handoff",
+      "scope": "Existing case public contract retained; title mapping only. Protected identity/coverage gate deferred to large closeout, baseline/retirement payload unchanged."
+    },
+    {
+      "file": "packages/game/src/core/battle/battle-runtime-context.test.ts",
+      "oldFullName": "battle runtime context ownership keeps the exact resource and live-role identities installed by startBattle",
+      "currentFullName": "battle runtime context ownership keeps the exact resource and live-role identities installed by startBattle",
+      "scope": "Existing case public contract retained; title mapping only. Protected identity/coverage gate deferred to large closeout, baseline/retirement payload unchanged."
+    },
+    {
+      "file": "packages/game/src/core/battle/battle-runtime-context.test.ts",
+      "oldFullName": "battle runtime context ownership prefers the injected runner and preserves it when no new override is supplied",
+      "currentFullName": "battle runtime context ownership prefers the injected runner and preserves it when no new override is supplied",
+      "scope": "Existing case public contract retained; title mapping only. Protected identity/coverage gate deferred to large closeout, baseline/retirement payload unchanged."
+    },
+    {
+      "file": "packages/game/src/core/battle/battle-runtime-context.test.ts",
+      "oldFullName": "battle runtime context ownership releases resources and runner with the historical hidden-field semantics",
+      "currentFullName": "battle runtime context ownership releases both public resource views and restores the fallback runner",
+      "scope": "Existing case public contract retained; title mapping only. Protected identity/coverage gate deferred to large closeout, baseline/retirement payload unchanged."
+    }
+  ]
+}
