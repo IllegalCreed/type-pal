@@ -628,3 +628,11 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 ## 2026-10-18 九笔代码补审有限返工
 
 用户转交的七笔通过结论保持，不重复改写。Save排重漏迁已由API单文件补测，提取dd341e5f3性质勘误/三个边界pending逐条写回原卡，770f9168e对应三机制、真实caller和先红后修原件已补交接。[完整记录](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)。只修已核counter，不恢复53旧门信用；1旧测试关闭撤回review，0新关闭，83卡仍50partial/33pending/0accept。pre94十项注释、formulas算术风险和两UI差异继续在前，94–102其它修复/editor在后；本支持片不开始新103+范围。另见GameState.runtime.rgwAttackStrength“含装备”旧注与已核裸基础ownership冲突，记录留注释波，不在本片改实现。昂贵全仓check/coverage/protected留大任务收尾，本次不合main。
+
+## 2026-10-18 搜索注释/测试边界与新停止线
+
+本有限批只改scene-system-search实现注释和其专测：纠正阈值方向、完整13点手算oracle、近/普通上界与紧邻外侧、最远far点和真正first-hit优先级；10→12，无生产可执行变化。六精确变异均旧10绿→新11绿1个指定AssertionError、无pending/runtime error，源/spec恢复。caller相邻仅明确筛选3条真实Confirm链，不冒称整110例或game全包。
+
+全文核读另发现turn-queue稳定sort与原C交换顺序分叉，原生13槽C片段对照成立；开[队列卡](GAME-ACTION-QUEUE-TIE-ORDER-1.md)，用户已批准SDL对齐，后续独立行为提交先正式红例。GLM指出的Wear毒列表不压缩也已原生对照确认，开[毒列表卡](GAME-PLAYER-POISON-SLOT-COMPACTION-1.md)只读待因果，未改其行为。两者原件不是完整SDLPal/浏览器，首版C片段漏外括号的编译失败完整保留、不计counter信用。
+
+本片5条旧closed转review、0新closed，83卡仍50partial/33pending/0accept。搜索注释项已修，其余9项及两UI差异仍待；队列行为窄修优先依用户批准推进，毒压缩与其它前提未知项不抢写。[本片证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/README.md)。全仓check/coverage/protected继续大窗口收尾，未合main。

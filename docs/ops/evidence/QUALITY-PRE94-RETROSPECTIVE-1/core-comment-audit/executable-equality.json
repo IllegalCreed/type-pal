@@ -1,0 +1,13 @@
+{
+  "command": ["node", "/tmp/type-pal-search-code-equality.cjs"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T20:07:57.639382+00:00",
+  "completedAt": "2026-10-17T20:07:57.780552+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "executable-equality.raw.gz",
+  "rawBytes": 435,
+  "rawSha256": "9e839589d9815e23564f21bcdf6f3477c3e38e9115ddc9bc53381c8a35fab82d",
+  "fullUncutMergedStdoutStderr": true
+}

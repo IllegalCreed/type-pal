@@ -1,0 +1,49 @@
+{
+  "base": "78f8e3c79be8a89412e19986a1a1c54d645f2005",
+  "scope": "Native compiled exact C body fragments in minimal typed contexts vs actual TS public leaves. Not a native full SDLPal executable or browser/gameplay run. No product edits.",
+  "fragments": [
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sourceSha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "range": [1574, 1584],
+      "fragmentSha256": "732fc1e04c0f7def9ce86dea045501695338fcfe00759e1ed1bf93e7b94ba293"
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "sourceSha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "range": [1414, 1455],
+      "fragmentSha256": "82142dc665ed963c2f46a620558b9f51966a72c279fe3b3da2d3e0b84591a2c5"
+    }
+  ],
+  "queuePadding": "13 native slots (3+5*2); unfilled WORD0xffff fields sorted as SHORT -1, filtered only after native sort for display",
+  "legalDomain": "Positive ordinary dex30/100; one player/two nondual enemies. Poison typed catalog positive ids1/2, level99/1, compact two occupied slots for party[2]; no native asset identity or completed gameplay claim.",
+  "rows": [
+    {
+      "label": "queue-compile",
+      "command": [
+        "/usr/bin/clang",
+        "-std=c99",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-primary-counter-ay2dweze/queue.c",
+        "-o",
+        "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-primary-counter-ay2dweze/queue-probe"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T19:56:30.930426+00:00",
+      "completedAt": "2026-10-17T19:56:31.114962+00:00",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "stdout": "",
+      "stderr": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-primary-counter-ay2dweze/queue.c:27:175: error: expected '}'\n   27 | printf(\"[\");for(i=0;i<3;i++){ACTIONQUEUE q=g_Battle.ActionQueue[i];printf(\"%s[\\\"%s\\\",%u,%u]\",i?\",\":\"\",q.fIsEnemy?\"enemy\":\"player\",q.wIndex,q.wDexterity);}puts(\"]\");return 0;}\n      |                                                                                                                                                                               ^\n/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-primary-counter-ay2dweze/queue.c:13:16: note: to match this '{'\n   13 | int main(void) { int i,j;\n      |                ^\n1 error generated.\n",
+      "raw": "queue-compile.raw.gz",
+      "rawSha256": "924f321654dee8f939bbfbbd05bc5af838e9a5151694db00b79203b9ae729e1c",
+      "rawBytes": 708,
+      "fullUncutStdoutAndStderr": true
+    }
+  ],
+  "ownedTemporaryRoot": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-pre94-primary-counter-ay2dweze",
+  "temporaryRootRemoved": true
+}

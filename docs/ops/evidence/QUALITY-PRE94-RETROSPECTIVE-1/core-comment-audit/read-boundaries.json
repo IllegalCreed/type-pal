@@ -1,0 +1,112 @@
+{
+  "base": "78f8e3c79be8a89412e19986a1a1c54d645f2005",
+  "owner": "Codex single agent",
+  "fullReads": [
+    {
+      "path": "packages/game/src/core/scene-system-search.ts",
+      "sha256": "3ef06a57e9912ea270259e3c43d00da3673f775c40c7dfa8bca05b67f5ac75fd",
+      "lines": 98,
+      "scope": "Full current text read plus own search delta; not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/core/scene-system-search.test.ts",
+      "sha256": "66c2ec403245adb410bfd8a4dc69ff1f4c69b2d5496c9cb4b08ed248429a2f58",
+      "lines": 95,
+      "scope": "Full current text read plus own search delta; not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/core/battle/turn-queue.ts",
+      "sha256": "d7ff1f4fa1071b98ab86e6c0976a3a45535faf8b6085f5a734089c575603876c",
+      "lines": 98,
+      "scope": "Full current text read plus own search delta; not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/turn-queue.test.ts",
+      "sha256": "2c0e340046499df8d57bc70f5923de9f2f740e8b126365d7ac980b05b1e0846f",
+      "lines": 117,
+      "scope": "Full current text read plus own search delta; not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "sha256": "da880e6fd6a4c6dad2ac689fd6d940ede92010474b725bf68559dcb6c103d10c",
+      "lines": 139,
+      "scope": "Full current text read plus own search delta; not whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.ts",
+      "sha256": "6ad9607369e7c2bb619184d2e6bf189e4695094e4ac02c3d92885338a3fe93e1",
+      "lines": 306,
+      "scope": "Full current text read plus own search delta; not whole-file acceptance."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "reference/sdlpal/play.c",
+      "sha256": "f13ba4e3a9c86c494390ea1eda121be1ae4c7fa5110f5e51cf4680321c742ef8",
+      "ranges": [[362, 510]],
+      "scope": "Only these primary/caller/fixture ranges; no whole-file claim."
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "ranges": [[1070, 1105], [1440, 1590], [1590, 1630]],
+      "scope": "Only these primary/caller/fixture ranges; no whole-file claim."
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "ranges": [[1380, 1620], [2347, 2409]],
+      "scope": "Only these primary/caller/fixture ranges; no whole-file claim."
+    },
+    {
+      "path": "reference/sdlpal/battle.h",
+      "sha256": "3234d15bfcb91e9ce1e8c5ddba56d57bed7150d743a1119af6b05a185a310284",
+      "ranges": [[148, 170]],
+      "scope": "Only these primary/caller/fixture ranges; no whole-file claim."
+    },
+    {
+      "path": "reference/sdlpal/palcommon.h",
+      "sha256": "92ca376598778230c7433449ede5e597cc23ef91ea246b2720b10da045ff86ba",
+      "ranges": [[42, 42], [60, 60]],
+      "scope": "Only these primary/caller/fixture ranges; no whole-file claim."
+    },
+    {
+      "path": "packages/game/src/core/scene-system.ts",
+      "sha256": "9b11dd7e866210a15dc7e57087fa230a2ab22593f64cc6b5eb4d441948ef2f64",
+      "ranges": [[530, 590]],
+      "scope": "Only these primary/caller/fixture ranges; no whole-file claim."
+    },
+    {
+      "path": "packages/game/src/core/scene-system.test.ts",
+      "sha256": "81c48be848ff01b58060c7fe7e5f37c08b754c1ffa4277a5dd53c4ea5553231e",
+      "ranges": [[1, 90], [300, 414]],
+      "scope": "Only these primary/caller/fixture ranges; no whole-file claim."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "c286881a1d1d5932333a9fcd084376e42d8871c5abc2a052573a6dbc9267b11c",
+      "ranges": [[690, 770]],
+      "scope": "Only these primary/caller/fixture ranges; no whole-file claim."
+    },
+    {
+      "path": "packages/game/src/core/equipment-state.ts",
+      "sha256": "5ebe8ee7d1c0ad76f6867253aaaa9875ea473a776afb27a00edca9c21999ed5c",
+      "ranges": [[365, 398]],
+      "scope": "Only these primary/caller/fixture ranges; no whole-file claim."
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.ts",
+      "sha256": "aaa871cb7a4a2ee1ff86dc9ccfea798c4ec9a8c7f42b577af593e21cc114354d",
+      "ranges": [[242, 258]],
+      "scope": "Only these primary/caller/fixture ranges; no whole-file claim."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "sha256": "881a38eccfb088452cffdf1eccb71414612730a6138bae4e7ab4890a342b55c6",
+      "ranges": [[115, 148]],
+      "scope": "Only these primary/caller/fixture ranges; no whole-file claim."
+    }
+  ],
+  "sourceScope": "Only search.ts comments and its tests changed. Queue/poison/progression implementation remains unchanged in this commit.",
+  "notRun": ["whole-repository check", "official ratchet", "protected fast", "browser/E2E"]
+}

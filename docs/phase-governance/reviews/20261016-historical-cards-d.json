@@ -3265,11 +3265,26 @@
       "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "df59e1c9aca2a1c87c001ef58a5c523f37ce187ad53a01c80b7011f0dbfeee43",
+      "afterSha256": "297c6c340a61660e4930955637b5703c26fec99ca8b593c46eb2d5b49964bd85",
       "revision": {
         "currentSha": "addcb44c52fd00ab0fd3397e61ae316bf98d02e2aeef1d5533ed23a2c1e5845a",
-        "implementationSha": "df59e1c9aca2a1c87c001ef58a5c523f37ce187ad53a01c80b7011f0dbfeee43",
+        "implementationSha": "297c6c340a61660e4930955637b5703c26fec99ca8b593c46eb2d5b49964bd85",
         "history": [
+          {
+            "revision": "78f8e3c79be8a89412e19986a1a1c54d645f2005",
+            "date": "2026-10-18",
+            "action": "Repair Search annotation/oracle precision and record two primary-backed phase1 stop-lines",
+            "previousAfterSha256": "df59e1c9aca2a1c87c001ef58a5c523f37ce187ad53a01c80b7011f0dbfeee43",
+            "scope": "Only named board/index/ledger and incoming review bindings: five unsupported closures withdrawn, two high-risk tasks registered, search direction/oracles corrected. Search executable emit unchanged; queue/poison behavior untouched in this commit. Historical native verdicts remain historical; no new whole-file acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "835bd059bb4ed815e844a153ee02d577d339af0f",
             "date": "2026-10-18",
@@ -3515,7 +3530,7 @@
         "kind": "A8-six-pending-inventory-real-producer-maintenance",
         "path": "docs/ops/audits/code-quality-file-ledger.md",
         "sourceSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
-        "afterSha256": "df59e1c9aca2a1c87c001ef58a5c523f37ce187ad53a01c80b7011f0dbfeee43",
+        "afterSha256": "297c6c340a61660e4930955637b5703c26fec99ca8b593c46eb2d5b49964bd85",
         "lineCount": 592,
         "sourceScope": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "completePrior": {
@@ -3738,7 +3753,7 @@
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "1-724",
+      "reviewedLines": "1-726",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {

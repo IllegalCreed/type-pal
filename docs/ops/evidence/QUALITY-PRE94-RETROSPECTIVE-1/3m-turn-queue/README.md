@@ -1,5 +1,7 @@
 # CODE3m turn-queue 只读复审切片
 
+2026-10-18 counter：严格小于时交换不保证全域稳定；较快玩家能反转两同速敌。原生C片段与真实helper已复现，原“未发现缺陷/C稳定等价”当前信用撤回，源/专测转review。完整排序外括号实际在fight.c:1585，不是1584。用户已批准GAME-ACTION-QUEUE-TIE-ORDER-1先红后修；[直接原件](../core-comment-audit/README.md)。下文保留原候选历史，不恢复整文件闭合。
+
 基点：`1ffef6802`；分支：`codex/code-quality-3y`，相对 `origin/main` 为 `0 behind / 198 ahead`。本片只读 `turn-queue.ts`、直接测试和 battle-system caller；不改行动顺序、RNG、战斗玩法或公共接口。3m 整卡保持 `partial`。
 
 完整读取 98 行队列实现和 117 行直接测试；读取 `battle-system.ts` 建队列区间，核对 `fight.c:1451-1584` CLASSIC 填充/dualMove 二抽/玩家倍率/严格比较排序和 `battle.h:158-167,216` ACTIONQUEUE 结构。caller 先填敌人、再填玩家；失能玩家在 caller 中 dex=0 且不消耗 RNG；dualMove 的 dex2 由 caller 独立抖动，helper 只负责 fIsSecond 归属和稳定降序排序。

@@ -407,7 +407,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "4dcb23376daec7973391957da9e59356405aa11bd92468a00f9c9d5e51666796",
+      "afterSha256": "204910f9662bd9c3270a12ffcee50d65c32483a7d2421f47d6477f9536512a70",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -438,10 +438,25 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "4dcb23376daec7973391957da9e59356405aa11bd92468a00f9c9d5e51666796",
+        "implementationSha": "204910f9662bd9c3270a12ffcee50d65c32483a7d2421f47d6477f9536512a70",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "78f8e3c79be8a89412e19986a1a1c54d645f2005",
+            "date": "2026-10-18",
+            "action": "Repair Search annotation/oracle precision and record two primary-backed phase1 stop-lines",
+            "previousAfterSha256": "4dcb23376daec7973391957da9e59356405aa11bd92468a00f9c9d5e51666796",
+            "scope": "Only named board/index/ledger and incoming review bindings: five unsupported closures withdrawn, two high-risk tasks registered, search direction/oracles corrected. Search executable emit unchanged; queue/poison behavior untouched in this commit. Historical native verdicts remain historical; no new whole-file acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "835bd059bb4ed815e844a153ee02d577d339af0f",
             "date": "2026-10-18",
@@ -815,7 +830,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "4dcb23376daec7973391957da9e59356405aa11bd92468a00f9c9d5e51666796",
+        "afterSha256": "204910f9662bd9c3270a12ffcee50d65c32483a7d2421f47d6477f9536512a70",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
@@ -1009,7 +1024,7 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "1-91",
+      "reviewedLines": "1-93",
       "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。",
       "integrationReview": {
         "reviewer": "Codex",
@@ -1264,7 +1279,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "626c9aebeefebb47c9fa92905294c2418e2e2542365c73a78de030cddcad3d72",
+      "afterSha256": "12bf6b25468e704a0d3af962b1ed45e692dab8ee65f5af04dd80e8f8d2ece939",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -1285,10 +1300,25 @@
       },
       "revision": {
         "currentSha": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
-        "implementationSha": "626c9aebeefebb47c9fa92905294c2418e2e2542365c73a78de030cddcad3d72",
+        "implementationSha": "12bf6b25468e704a0d3af962b1ed45e692dab8ee65f5af04dd80e8f8d2ece939",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "78f8e3c79be8a89412e19986a1a1c54d645f2005",
+            "date": "2026-10-18",
+            "action": "Repair Search annotation/oracle precision and record two primary-backed phase1 stop-lines",
+            "previousAfterSha256": "626c9aebeefebb47c9fa92905294c2418e2e2542365c73a78de030cddcad3d72",
+            "scope": "Only named board/index/ledger and incoming review bindings: five unsupported closures withdrawn, two high-risk tasks registered, search direction/oracles corrected. Search executable emit unchanged; queue/poison behavior untouched in this commit. Historical native verdicts remain historical; no new whole-file acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
             "date": "2026-10-18",
@@ -1550,7 +1580,7 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "626c9aebeefebb47c9fa92905294c2418e2e2542365c73a78de030cddcad3d72",
+        "afterSha256": "12bf6b25468e704a0d3af962b1ed45e692dab8ee65f5af04dd80e8f8d2ece939",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
@@ -1795,7 +1825,7 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "1-505",
+      "reviewedLines": "1-507",
       "reviewNotes": "任务索引将 DOCS-CATALOG-SPLIT-1 投影到 historical done；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。",
       "integrationReview": {
         "reviewer": "Codex",

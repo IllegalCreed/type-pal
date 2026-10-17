@@ -1040,7 +1040,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "f739e30d9757e8119004a98259d35538e5c8e56194ba63d8d59bb4e5182e7f9d",
+      "afterSha256": "4668e46b7b7133d0bdbfc410e4b529380d57ca0998902d98dc732ea9546e0945",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1064,8 +1064,23 @@
       },
       "revision": {
         "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "implementationSha": "f739e30d9757e8119004a98259d35538e5c8e56194ba63d8d59bb4e5182e7f9d",
+        "implementationSha": "4668e46b7b7133d0bdbfc410e4b529380d57ca0998902d98dc732ea9546e0945",
         "history": [
+          {
+            "revision": "78f8e3c79be8a89412e19986a1a1c54d645f2005",
+            "date": "2026-10-18",
+            "action": "Repair Search annotation/oracle precision and record two primary-backed phase1 stop-lines",
+            "previousAfterSha256": "f739e30d9757e8119004a98259d35538e5c8e56194ba63d8d59bb4e5182e7f9d",
+            "scope": "Only named board/index/ledger and incoming review bindings: five unsupported closures withdrawn, two high-risk tasks registered, search direction/oracles corrected. Search executable emit unchanged; queue/poison behavior untouched in this commit. Historical native verdicts remain historical; no new whole-file acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "835bd059bb4ed815e844a153ee02d577d339af0f",
             "date": "2026-10-18",
@@ -1241,7 +1256,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "f739e30d9757e8119004a98259d35538e5c8e56194ba63d8d59bb4e5182e7f9d",
+        "afterSha256": "4668e46b7b7133d0bdbfc410e4b529380d57ca0998902d98dc732ea9546e0945",
         "lineCount": 1987,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1276,7 +1291,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-2362",
+      "reviewedLines": "1-2392",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -4963,7 +4978,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "beeac1c80b0d46fabc2698d37d07ca634b2c1826256ae31e9428b4f0681fad5f",
+      "afterSha256": "e6dcdd8f47accedf5d6ed02df1baffa03320967061ddc705397b2e84aecf57d9",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -4987,8 +5002,23 @@
       },
       "revision": {
         "currentSha": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "implementationSha": "beeac1c80b0d46fabc2698d37d07ca634b2c1826256ae31e9428b4f0681fad5f",
+        "implementationSha": "e6dcdd8f47accedf5d6ed02df1baffa03320967061ddc705397b2e84aecf57d9",
         "history": [
+          {
+            "revision": "78f8e3c79be8a89412e19986a1a1c54d645f2005",
+            "date": "2026-10-18",
+            "action": "Repair Search annotation/oracle precision and record two primary-backed phase1 stop-lines",
+            "previousAfterSha256": "beeac1c80b0d46fabc2698d37d07ca634b2c1826256ae31e9428b4f0681fad5f",
+            "scope": "Only named board/index/ledger and incoming review bindings: five unsupported closures withdrawn, two high-risk tasks registered, search direction/oracles corrected. Search executable emit unchanged; queue/poison behavior untouched in this commit. Historical native verdicts remain historical; no new whole-file acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "835bd059bb4ed815e844a153ee02d577d339af0f",
             "date": "2026-10-18",
@@ -5155,7 +5185,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "beeac1c80b0d46fabc2698d37d07ca634b2c1826256ae31e9428b4f0681fad5f",
+        "afterSha256": "e6dcdd8f47accedf5d6ed02df1baffa03320967061ddc705397b2e84aecf57d9",
         "lineCount": 5074,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -5190,7 +5220,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-5350",
+      "reviewedLines": "1-5365",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

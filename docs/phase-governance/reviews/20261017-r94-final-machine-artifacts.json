@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "7f847174e36e6a950cf1e5de90422c9a6e437d1d5a98471b74266af9e5b5085c",
+      "afterSha256": "842ab355d883c5b5b21477f332aca93fe5a3242e9cba8312bd7f87c1e5d12869",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,8 +1066,23 @@
       },
       "revision": {
         "currentSha": "a2101ce8ffeb73642521f0b489d17642f27bbd3fcdc581d0e9c354dedbc05778",
-        "implementationSha": "7f847174e36e6a950cf1e5de90422c9a6e437d1d5a98471b74266af9e5b5085c",
+        "implementationSha": "842ab355d883c5b5b21477f332aca93fe5a3242e9cba8312bd7f87c1e5d12869",
         "history": [
+          {
+            "revision": "78f8e3c79be8a89412e19986a1a1c54d645f2005",
+            "date": "2026-10-18",
+            "action": "Repair Search annotation/oracle precision and record two primary-backed phase1 stop-lines",
+            "previousAfterSha256": "7f847174e36e6a950cf1e5de90422c9a6e437d1d5a98471b74266af9e5b5085c",
+            "scope": "Only named board/index/ledger and incoming review bindings: five unsupported closures withdrawn, two high-risk tasks registered, search direction/oracles corrected. Search executable emit unchanged; queue/poison behavior untouched in this commit. Historical native verdicts remain historical; no new whole-file acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "835bd059bb4ed815e844a153ee02d577d339af0f",
             "date": "2026-10-18",
@@ -1243,7 +1258,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "7f847174e36e6a950cf1e5de90422c9a6e437d1d5a98471b74266af9e5b5085c",
+        "afterSha256": "842ab355d883c5b5b21477f332aca93fe5a3242e9cba8312bd7f87c1e5d12869",
         "lineCount": 13734,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1274,7 +1289,7 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "1-14716",
+      "reviewedLines": "1-14746",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
