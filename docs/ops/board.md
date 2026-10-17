@@ -53,6 +53,7 @@ Template: governance-index-v1 / 1.0.0
 | CODE-QUALITY-103 | [editor残余测试逐文件复核](tasks/CODE-QUALITY-103-editor-residual-tests-review.md) | review | Codex / 相邻诊断清零后复验 | 两文件定向4/4；相邻224/224但22条React act诊断，未关闭 |
 | CODE-QUALITY-104 | [editor M02 测试 act 生命周期诊断](tasks/CODE-QUALITY-104-editor-act-diagnostics.md) | review | Codex / coverage baseline 收口后复验 | 两文件/24相邻测试零诊断；coverage ratchet/protected 仍受 shared/pal-extract baseline 阻塞 |
 | CODE-QUALITY-105 | [Reforge MenuBox 残余测试逐文件复核](tasks/CODE-QUALITY-105-reforge-menu-box-residual-review.md) | review | Codex / 先处理相邻 Vitest 未 await 诊断 | 5合同/25定向通过，K1–K5反控当前重放通过；相邻118测试仍有一条未 await 诊断，coverage门阻塞 |
+| CODE-QUALITY-106 | [Reforge reward-gain 测试 Promise 诊断](tasks/CODE-QUALITY-106-reforge-reward-gain-act-diagnostic.md) | review | Codex / 运行全仓质量门后复验 | 定向5/5、相邻21/118零 stderr；仅测试 Promise/Abort oracle 修复，coverage门仍待收口 |
 | QUALITY-EDITOR-DIAGNOSTICS-1 | [editor测试诊断清理](tasks/QUALITY-EDITOR-DIAGNOSTICS-1.md) | review | Codex / 后续诊断切片待核 | 67定向0诊断；完整门仍非零诊断，未合main |
 | QUALITY-EDITOR-DIAGNOSTICS-2 | [C02宿主与删除生命周期](tasks/QUALITY-EDITOR-DIAGNOSTICS-2.md) | review | Codex / 续C02剩余用例 | 九例0诊断、两反控；完整门仍非零，不合main |
 | QUALITY-EDITOR-DIAGNOSTICS-3 | [C02导入与历史回流](tasks/QUALITY-EDITOR-DIAGNOSTICS-3.md) | review | Codex / 续Kimi工作流 | 29定向/77相邻0诊断；完整门带其它诊断，未合main |

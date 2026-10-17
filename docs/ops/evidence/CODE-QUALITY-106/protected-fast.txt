@@ -1,0 +1,174 @@
+
+[coverage:fast] @type-pal/shared
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/shared
+      Coverage enabled with v8
+
+
+ Test Files  16 passed (16)
+      Tests  126 passed (126)
+   Start at  15:46:01
+   Duration  626ms (transform 683ms, setup 0ms, import 939ms, tests 477ms, environment 1ms)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 95.92% ( 447/466 )
+Branches     : 93.11% ( 203/218 )
+Functions    : 100% ( 23/23 )
+Lines        : 97.08% ( 400/412 )
+================================================================================
+
+[coverage:fast] @type-pal/content
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/content
+      Coverage enabled with v8
+
+
+ Test Files  149 passed (149)
+      Tests  1498 passed (1498)
+   Start at  15:46:05
+   Duration  3.15s (transform 3.26s, setup 0ms, import 8.19s, tests 1.24s, environment 9ms)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 96.42% ( 5668/5878 )
+Branches     : 94.11% ( 4827/5129 )
+Functions    : 98.06% ( 811/827 )
+Lines        : 97.34% ( 5061/5199 )
+================================================================================
+
+[coverage:fast] @type-pal/pal-extract
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract
+      Coverage enabled with v8
+
+
+ Test Files  61 passed (61)
+      Tests  293 passed (293)
+   Start at  15:46:10
+   Duration  21.26s (transform 1.45s, setup 0ms, import 3.00s, tests 56.01s, environment 4ms)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 69.08% ( 1068/1546 )
+Branches     : 77.74% ( 461/593 )
+Functions    : 79.28% ( 111/140 )
+Lines        : 68.98% ( 943/1367 )
+================================================================================
+
+[coverage:fast] @type-pal/migrate
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/migrate
+      Coverage enabled with v8
+
+
+ Test Files  80 passed (80)
+      Tests  671 passed (671)
+   Start at  15:46:36
+   Duration  20.64s (transform 613ms, setup 0ms, import 3.28s, tests 31.34s, environment 3ms)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 90.47% ( 2345/2592 )
+Branches     : 90.76% ( 1622/1787 )
+Functions    : 93.9% ( 385/410 )
+Lines        : 90.77% ( 2057/2266 )
+================================================================================
+
+[coverage:fast] @type-pal/reforge
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/reforge
+      Coverage enabled with v8
+
+
+ Test Files  359 passed (359)
+      Tests  8964 passed (8964)
+   Start at  15:47:35
+   Duration  72.70s (transform 9.52s, setup 0ms, import 34.23s, tests 55.50s, environment 19.22s)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 90.01% ( 16999/18885 )
+Branches     : 82.51% ( 10807/13097 )
+Functions    : 90.04% ( 2767/3073 )
+Lines        : 92.29% ( 15208/16477 )
+================================================================================
+
+[coverage:fast] @type-pal/game
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game
+      Coverage enabled with v8
+
+
+ Test Files  316 passed (316)
+      Tests  3585 passed (3585)
+   Start at  15:49:19
+   Duration  37.42s (transform 9.56s, setup 5.78s, import 29.33s, tests 57.22s, environment 206.16s)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 88.92% ( 14152/15914 )
+Branches     : 79.89% ( 9214/11532 )
+Functions    : 84.75% ( 1623/1915 )
+Lines        : 90.55% ( 12634/13951 )
+================================================================================
+
+[coverage:fast] @type-pal/editor
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/editor
+      Coverage enabled with v8
+
+
+ Test Files  612 passed (612)
+      Tests  4781 passed (4781)
+   Start at  15:51:53
+   Duration  199.44s (transform 9.82s, setup 0ms, import 104.48s, tests 124.13s, environment 93.61s)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 90.21% ( 30524/33836 )
+Branches     : 83.49% ( 24578/29437 )
+Functions    : 89.69% ( 7769/8662 )
+Lines        : 92.38% ( 27309/29561 )
+================================================================================
+
+[coverage:fast] consolidated
+package      statements            branches              functions             lines                 files  tests
+-----------  --------------------  --------------------  --------------------  --------------------  -----  -----
+shared       95.92% (447/466)      93.12% (203/218)      100.00% (23/23)       97.09% (400/412)      11     126
+content      96.43% (5668/5878)    94.11% (4827/5129)    98.07% (811/827)      97.35% (5061/5199)    56     1498
+pal-extract  69.08% (1068/1546)    77.74% (461/593)      79.29% (111/140)      68.98% (943/1367)     39     293
+migrate      90.47% (2345/2592)    90.77% (1622/1787)    93.90% (385/410)      90.78% (2057/2266)    38     671
+reforge      90.01% (16999/18885)  82.52% (10807/13097)  90.04% (2767/3073)    92.30% (15208/16477)  158    8964
+game         88.93% (14152/15914)  79.90% (9214/11532)   84.75% (1623/1915)    90.56% (12634/13951)  140    3585
+editor       90.21% (30524/33836)  83.49% (24578/29437)  89.69% (7769/8662)    92.38% (27309/29561)  294    4781
+TOTAL        90.00% (71203/79117)  83.69% (51712/61793)  89.63% (13489/15050)  91.88% (63612/69233)  736    19918
+已核精确历史退役保护账: packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx 10 -> 9
+已核精确历史退役保护账: packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx 10 -> 9
+已核精确历史退役保护账: packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx 70 -> 67
+已核精确历史退役保护账: packages/game/src/assets/png-decode.grok-r1.test.ts 5 -> 4
+已核精确历史退役保护账: packages/game/src/assets/png.glm-phase1-leaves.test.ts 2 -> 1
+已核精确历史退役保护账: packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts 4 -> 3
+已核精确历史退役保护账: packages/game/src/core/menu/opening-menu.glm-phase1-leaves.test.ts 3 -> 2
+已核精确历史退役保护账: packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts 3 -> 2
+已核精确历史退役保护账: packages/game/src/shell/bootstrap-resources.test.ts 4 -> 3
+
+[coverage:fast] FAIL
+覆盖率不得下降:
+- pal-extract.statements: 69.08% (1068/1546) < 69.64% (1069/1535)
+- pal-extract.branches: 77.74% (461/593) < 79.11% (462/584)
+- pal-extract.functions: 79.29% (111/140) < 79.86% (111/139)
+- pal-extract.lines: 68.98% (943/1367) < 69.57% (944/1357)
+- shared.statements: 95.92% (447/466) < 96.14% (448/466)
+- shared.branches: 93.12% (203/218) < 93.58% (204/218)
+- total.statements: 90.00% (71203/79117) < 90.01% (71205/79106)
+- total.branches: 83.69% (51712/61793) < 83.70% (51714/61784)
+- total.functions: 89.63% (13489/15050) < 89.63% (13489/15049)
+- total.lines: 91.88% (63612/69233) < 91.90% (63613/69223)
