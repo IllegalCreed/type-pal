@@ -3056,6 +3056,9 @@ describe('多轮战斗集成', () => {
     // 战斗中 magic / item warn 不污染输出
     consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => {})
   })
+  afterEach(() => {
+    consoleWarn.mockRestore()
+  })
 
   it('两个 attack-only 实体互殴 — 最终一方胜利', () => {
     const { gs, bus, emptyInput } = bootstrap({
@@ -3072,7 +3075,6 @@ describe('多轮战斗集成', () => {
     }
 
     expect(gs.mode).toBe('explore')
-    void consoleWarn // silence unused
   })
 })
 
@@ -3369,6 +3371,9 @@ describe('throw-item action 派发(E2)', () => {
   beforeEach(() => {
     consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => {})
   })
+  afterEach(() => {
+    consoleWarn.mockRestore()
+  })
 
   it('投掷物 action → 跑 scriptOnThrow(0x42)→ 敌人落血 + 扣 inventory', () => {
     const throwItem: Item = {
@@ -3429,7 +3434,6 @@ describe('throw-item action 派发(E2)', () => {
 
     expect(gs.battleState?.enemies[0]!.e.health).toBe(60) // 200 - 140
     expect(gs.inventory[0]!.count).toBe(1) // 消耗 1
-    void consoleWarn
   })
 
   it('投掷武器(0x66)→ w=op1*5+attackStr*RandomLong → 敌人落血(playerRoles 全链注入)', () => {
@@ -3500,7 +3504,6 @@ describe('throw-item action 派发(E2)', () => {
     // w = 10*5 + 30*2 = 110;calcBase(110,74)=102;/4=25;+198=223 → 300-223=77
     expect(gs.battleState?.enemies[0]!.e.health).toBe(77)
     expect(gs.inventory[0]!.count).toBe(0) // 武器投掉
-    void consoleWarn
   })
 
   it('UseItem action → 先播用物前摇,动画后才跑 scriptOnUse + 扣 inventory(fight.c:4385-4400)', () => {
@@ -3609,7 +3612,6 @@ describe('throw-item action 派发(E2)', () => {
     expect(gs.battleState!.enemies.length).toBe(1)
     expect(gs.battleState!.enemies[0]!.e.id).toBe(100)
     expect(gs.battleState!.enemies[0]!.e.health).toBeGreaterThan(0)
-    void consoleWarn
   })
 
   it('毒 tick(postAction):中毒敌人每回合跑 wEnemyScript(0x21)扣血', () => {
@@ -3636,7 +3638,6 @@ describe('throw-item action 派发(E2)', () => {
 
     // 敌人 200 - 50(毒)= 150
     expect(gs.battleState?.enemies[0]!.e.health).toBe(150)
-    void consoleWarn
   })
 
   it('蛊孵化链(食妖虫附→灵蛊):毒脚本自推进 — 逐回合递增吸灵气 + 炼成灵蛊(sdlpal fight.c:1647 回写)', () => {
@@ -3681,7 +3682,6 @@ describe('throw-item action 派发(E2)', () => {
     runRound() // 炼成灵蛊:giveItem(145) + 移除食妖虫附
     expect(gs.inventory.find((e) => e.itemId === 145)?.count ?? 0).toBeGreaterThanOrEqual(1)
     expect(enemy().poisons?.some((p) => p.poisonId === 561)).toBe(false)
-    void consoleWarn
   })
 })
 

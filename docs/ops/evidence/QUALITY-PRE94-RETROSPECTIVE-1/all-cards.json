@@ -1090,7 +1090,7 @@
       "sha256": "eb0707d529bcf8dda355d78e12cbe68ca6a9b450be350c6f7e8369eb1257bfdc",
       "lines": 131,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -1142,7 +1142,8 @@
           "text": "你的角色：Codex 先完成前提真值与独立证据核验。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3s-battle-system/README.md"
     },
     {
       "id": "3t",

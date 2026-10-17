@@ -4,7 +4,7 @@
 
 ## 2026-10-17 当前范围与优先级
 
-用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10原检查点bea19f80c已推送，当前恢复见本片末尾；分支已同步最新origin/main，0behind，未合main。全83卡24partial/59pending/0accept；[6a](6a/README.md)、92、CODE1/2/2b/3/3b/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；[CODE3b](3b/README.md)两边界六oracle已补；[raw补证](3b/raw-tests/README.md)9→2/五新反控、完整extract428零stderr；全正文仍待，[3d PNG](3d/README.md)两height盲点已补，下一片3h assets/shell，再按模块逐文件推进；94–102/editor未完成项保留。
+用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10原检查点bea19f80c已推送，当前恢复见本片末尾；分支已同步最新origin/main，0behind，未合main。全83卡25partial/58pending/0accept；[6a](6a/README.md)、92、CODE1/2/2b/3/3b/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；[CODE3b](3b/README.md)两边界六oracle已补；[raw补证](3b/raw-tests/README.md)9→2/五新反控、完整extract428零stderr；全正文仍待，[3d PNG](3d/README.md)两height盲点已补，下一片3h assets/shell，再按模块逐文件推进；94–102/editor未完成项保留。
 
 下文旧数字、探针与结论作为历史保存；不会把旧抽查、历史done或包全绿补签成当前验收。
 
@@ -55,6 +55,8 @@
 最新[3q scene-system 复审切片](3q-scene-system/README.md)：完整读取 662 行 scene-system、2064 行主测试及 scene/mode/event/bootstrap caller、SDL play/scene/map/res primary；5 个定向文件467例通过，未发现新直接缺陷，保留既有 warning 诊断；3q 仍 partial，未运行 coverage 或全仓 check。
 
 最新[3r event-system 复审切片](3r-event-system/README.md)：完整读取 5,117 行 event-system、5,974 行主测试及 K01–K03/控制流/状态/对话/跨模块/mode/search 合同，核对 SDL script/play/scene/global 与 mode/scene/bootstrap/menu caller；game package 实际 321 files/3,619 tests、typecheck通过，未发现新直接缺陷；3r 当前 partial，coverage/ratchet/protected/full check 未运行。
+
+最新[3s battle-system 复审切片](3s-battle-system/README.md)：完整读取 3,141 行 battle-system、4,248 行主测试及 cov85/GLM/runtime-context/finalization/settlement/state/turn-boundaries 合同，核对 SDL battle/fight/script/global 与 mode/bootstrap/cleanup caller；发现并修复测试 spy 未恢复造成的跨用例诊断污染，定向 9 files/242 tests、game typecheck 通过，未发现实现 direct defect；3s 当前 partial，coverage/ratchet/protected/full check 未运行。
 
 ## 统一候选后的范围更正
 
