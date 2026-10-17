@@ -299,3 +299,9 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 本片接收工作树中已完成的两个窄测试合同：`packages/shared/src/rle.boundaries.test.ts` 新增“相邻 offset 截断前一帧帧头即拒绝”反例；`packages/shared/src/rng.boundaries.test.ts` 新增同一 surface 连续 delta 累加并保留首帧像素的 ownership 合同。两项都只改测试，不改 RLE/RNG/YJ2 实现、公共出口、资源或格式策略；RLE 高位 literal 风险继续留在 `QUALITY-RLE-COMMAND-TRUTH-1` draft。
 
 验证：shared 定向 `3 files / 30 tests passed`，shared 全包 `16 files / 128 tests passed`，shared typecheck 通过；本片不运行 coverage、official ratchet、protected fast 或全仓 `pnpm check`。两测试从历史 ledger `已验证` 重开为 `review`，不增加 closed；CODE1/CODE2 整卡仍 partial，未把测试绿灯推成格式或全仓验收。
+
+### 2026-10-17 CODE3j countdown 当前复审切片
+
+完整读取 `packages/game/src/tools/speedrun/countdown.ts`、两份直接合同测试、`speedrun/index.ts` 及其两份 caller 测试；另读 tools-panel 的 pause caller 和 toast 相邻 DOM 生命周期。`showCountdown` 的单例节点、文本变更、`null` 清理、重复清理和无 document no-op 均由真实合同覆盖；index 在计时器停用时主动清理，在启用时只传正倒计时文本，未发现直接缺陷或重复测试。
+
+定向 `4 files / 17 tests passed`，无失败、跳过或 stderr；本片不运行 coverage、official ratchet、protected fast 或全仓 `pnpm check`。证据见 [`3j-countdown`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-countdown/README.md)，3j 整卡保持 partial，94–102 继续后置。

@@ -1,0 +1,64 @@
+{
+  "base": "912a75b2d",
+  "fullReads": [
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.ts",
+      "sha256": "1496186d3dddd0c818aac769fec34fa4b98cf6b7aef06e8173618b3d65551a62",
+      "lines": 29,
+      "boundary": "Full implementation read; no production change."
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.test.ts",
+      "sha256": "2ed9d55199cb26f0bbb71f408c6954eb96d325be9afe20165a581998b7cd0121",
+      "lines": 19,
+      "boundary": "Full direct contract read."
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts",
+      "sha256": "98c0396fd7cfddabe2f8497b1f31c97b3d18d939a04523c8018a6caa3a86224a",
+      "lines": 37,
+      "boundary": "Full leaf/duplication read."
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.ts",
+      "sha256": "6dc10a66fe524d8c77c53cd65ad0cd07b58b2904e7b4ec5ba9ecaf1d2f8ecddd",
+      "lines": 116,
+      "boundary": "Full caller/lifecycle read."
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.test.ts",
+      "sha256": "1b3a06c02a508765534296e9b1f7a7cc72a746c073c23e7db87e17762da869b3",
+      "lines": 126,
+      "boundary": "Full caller contract read."
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts",
+      "sha256": "731da3fbe98aae9b987aca2c7789b0790e86cc70494fbc9e2954b5c806a2aacf",
+      "lines": 47,
+      "boundary": "Full caller leaf/cleanup read."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "ranges": ["1-260", "820-930"],
+      "boundary": "Only pause/control imports and timer-tab caller; whole panel remains outside this slice."
+    },
+    {
+      "path": "packages/game/src/tools/toast.ts",
+      "lines": 81,
+      "boundary": "Full adjacent DOM lifecycle read for ownership comparison; no countdown conclusion is delegated to toast."
+    },
+    {
+      "path": "packages/game/src/tools/toast.test.ts",
+      "lines": 39,
+      "boundary": "Full adjacent test read; not counted as countdown evidence."
+    }
+  ],
+  "notClaimed": [
+    "Complete CODE-QUALITY-3j acceptance",
+    "Whole tools-panel semantic review",
+    "Runtime/browser visual verification or gameplay E2E",
+    "Coverage, official ratchet, protected fast or whole-repository acceptance"
+  ]
+}

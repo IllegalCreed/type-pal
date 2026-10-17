@@ -16,6 +16,8 @@
 
 最新[3j time-format 切片](3j-time-format/README.md)：完整读取实现、三份直接测试和 store/overlay/timer/index caller，补齐超长输入形成 `Infinity` 的失败反例并修复 finite 守卫；定向15、相邻43、game typecheck通过。3j 其余工具文件仍待核，当前全83卡15partial/68pending/0accept；本片未运行 coverage 或全仓 check。
 
+最新[3j countdown 切片](3j-countdown/README.md)：完整读取 countdown DOM、两份直接测试和 speedrun/index caller；单例复用、文本更新、`null` 移除、无 document no-op 与输入不阻塞合同均有直接证据，定向4文件17例通过。3j 整卡仍 partial，未运行 coverage 或全仓 check。
+
 ## 统一候选后的范围更正
 
 以下role键探针和四项counter针对冻结f0cf0f7f主线系候选。用户要求先收3y后，已发现其未合入的CODE53包含party-slot mapper/离队guard与对应测试；现统一候选已有该实现，不能继续宣称“当前helper仍按role键”。CODE53仍待端到端/整文件/视觉与统一门复审，原probe不被改写为当前失败。重复GAME-PLAYER-POISON-KEY-DOMAIN-1取消、归CODE53；YJ2过期注释与cleanup fixture待核仍保留。
