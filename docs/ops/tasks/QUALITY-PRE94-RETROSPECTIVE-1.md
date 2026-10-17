@@ -690,3 +690,11 @@ Codex premise verified / design agree / build allowed：206b18563基点，3y同�
 三旧关闭转review，G07仍review，0新增closed；269closed/73review/2973pending（提交前实测），83卡50partial/33pending/0accept不变。共六组注释已修，余formulas、尺寸、快捷键、ColorFade及算术风险、两UI差异继续。P04装备资格与两共享role工厂mp99/maxMP40只读问题登记；blit可复用候选须核调用域，未在本片提取或伪称不存在重复。
 
 证据见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/shop-layout-tests/README.md)，源码与旧52/55过度结论已在当前正文收窄，旧原件保留。昂贵全仓check/official ratchet/protected/视觉/E2E未跑、不合main；无下一位Agent提示词，Codex单Agent继续pre94。
+
+### 2026-10-18 CODE3m公式数值与测试当前结果
+
+有限白名单仅formulas.ts与magic-damage.ts事实注释、既有formulas.test.ts判别力；由父卡低风险注释/测试准入推进，产品数值不在本片build范围。全文核三文件与RNG/H工厂，真实hydrate/projection/createBattleState/applyMagicDamage及C FLOAT/WORD赋值；clang O0/O2正常域161，真实TS/SeedableRng(244049)扣160/HP8840，一次抽样状态一致。开GAME-MAGIC-NUMERIC-ASSIGNMENT-1只读draft卡请求裁决，未收到回复前不改公式，不以删除*10/10代替修复。
+
+第七组错注已修：玩家身法无level、抗性除数1/20、TS半开与C含端点、抗性倍率[0,5]及投影前提；parsedTS/去注释JS均同字节。原测试28例保持，五灵五个独立值与非零毒抗、合法1.05倍率；删除被精确值蕴含的finite/单调两断言。两反控各旧28绿→新27绿1指定AssertionError，源/测finally字节恢复；C原函数给相同矩阵/毒抗/中点oracle。51定向/293相邻与game typecheck零诊断，文档与lint以本片原件为准。
+
+formulas源/测两旧关闭转review，magic-damage原review保持；267closed/75review/2973pending（提交前机器复核），83卡50partial/33pending/0accept不变。尚余三组注释、毒列表/新数值/两UI风险、极端WORD与其它FLOAT系数等，不能因小值绿关闭。rng.ts的rangeFloat“对齐SDL”端点说明及asShort复用仅只读登记，未扩写实现/公开出口。4个测试标题映射保留，protected身份/coverage基准待大任务统一收尾。证据见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/formula-numeric-audit/README.md)；不跑昂贵全仓check/official coverage/protected，不合main。无下一位Agent提示词，Codex继续pre94。

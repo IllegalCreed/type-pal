@@ -1,7 +1,8 @@
 /**
- * 战斗公式 —— from `reference/sdlpal/fight.c`(PAL_CLASSIC 路径,D30 忠实原版)。
+ * 战斗公式 —— 参考 `reference/sdlpal/fight.c` 的 PAL_CLASSIC 路径。
  *
- * 1:1 port,SHORT 语义保持(JS 用 `(n << 16) >> 16` 模拟 SHORT cast)。
+ * 参考原 C 的公式结构;JS 用 `(n << 16) >> 16` 截取有符号 16 位结果。
+ * JS double 与 C FLOAT/WORD 中间赋值并非全数值域等价,见 GAME-MAGIC-NUMERIC-ASSIGNMENT-1。
  * 全部纯函数,无 side effect,可在 worker / Node 直接跑。
  *
  * 5 个公式对照 sdlpal `fight.c` 行号:
@@ -31,7 +32,8 @@ function asShort(n: number): number {
  *   else            → 0
  *
  * 注:sdlpal C 把 float `(SHORT)(x)` 是 truncate-towards-zero;JS 模拟用 `Math.trunc`
- * (而非 `Math.floor`,二者对负值有差异)。但本公式三段保证非负结果,实际等价。
+ * (而非 `Math.floor`,二者对负值有差异)。非负 atk/def 在截取 SHORT 前得到非负值;
+ * 截取后可为负。此处不承诺越出 C SHORT 可表示范围的浮点转换等价。
  */
 export function calcBaseDamage(atk: number, def: number): number {
   if (atk > def) {
@@ -72,7 +74,7 @@ export interface MagicDamageInput {
   elemRes: { wind: number; thunder: number; water: number; fire: number; earth: number }
   /** 受方毒抗。 */
   poisonRes: number
-  /** 抗性除数(sdlpal `wResistanceMultiplier`,默认 10)。 */
+  /** 必填抗性除数;生产 caller 对敌传 1,对玩家传 20。 */
   resistMult: number
   magicData: {
     /** sdlpal `wBaseDamage`。 */
@@ -83,8 +85,9 @@ export interface MagicDamageInput {
   /** 战场加成(每个元素 -10..+10)。 */
   fieldEffect: { wind: number; thunder: number; water: number; fire: number; earth: number }
   /**
-   * 替代 sdlpal `RandomFloat(10, 11) / 10` 的 multiplier(范围 [1.0, 1.1])。
-   * 调用方喂(测试用定值,运行时用 rng);本函数不持 RNG。
+   * TS caller 用 1 + SeedableRng.next() * 0.1,范围 [1.0, 1.1)。
+   * 原 C RandomFloat(10,11) 可取端点11,且先写回 WORD 再除10;不是直接等价替换。
+   * 调用方提供倍率,本函数不持 RNG;中间数值差异见 GAME-MAGIC-NUMERIC-ASSIGNMENT-1。
    */
   rngFactor: number
 }
@@ -95,7 +98,8 @@ export interface MagicDamageInput {
  * from `reference/sdlpal/fight.c:174-249` —— PAL_CalcMagicDamage。
  *
  * 流程(sdlpal 注释:Formula courtesy of palxex and shenyanduxing):
- *   1. magStr *= RandomFloat(10, 11); magStr /= 10  (本函数用 rngFactor 替代)
+ *   1. C: magStr *= RandomFloat(10, 11); magStr /= 10 (WORD 两次赋值)
+ *      TS: 接收 rngFactor 后连续 double 运算并截断,存在已登记的数值差异
  *   2. sDamage = calcBaseDamage(magStr, def) / 4
  *   3. sDamage += magic.baseDamage
  *   4. if elemental != 0:
@@ -110,15 +114,16 @@ export interface MagicDamageInput {
  * 注:sdlpal `WORD wMagicID` 是经 `gpGlobals->g.rgObject[id].magic.wMagicNumber`
  * 解析后的 magic struct;本函数让调用方先解析,只接受 `magicData`。
  *
- * 注:sdlpal C `SHORT *= FLOAT` 顺序里 sDamage 每步都是 SHORT,
- * 这里用 `asShort` 在每个赋值点 truncate 以保 1:1 语义。
+ * 注:原 C 的 sDamage 每次赋值都回到 SHORT;这里保留相应截断步骤,
+ * 但 C FLOAT 运算精度、WORD 中间赋值及越界域尚不能据此称为 1:1。
  */
 export function calcMagicDamage(input: MagicDamageInput): number {
   const NUM_MAGIC_ELEMENTAL = 5
 
   // step 1: rng-modulated magic strength
   // sdlpal: wMagicStrength *= RandomFloat(10, 11); wMagicStrength /= 10
-  // WORD 是 uint16,这里中间值不溢出(magStr < 65535 / 11 ≈ 5957 即安全)。
+  // 当前连续 double 运算不模拟 C 的 FLOAT→WORD 中间赋值,正常域已有反例。
+  // 按 GAME-MAGIC-NUMERIC-ASSIGNMENT-1 等待裁决;删除 *10/10 不能修复该反例。
   const magStr = Math.trunc((input.magStr * input.rngFactor * 10) / 10)
 
   // step 2-3: base / 4 + magic.baseDamage
@@ -194,8 +199,8 @@ export interface PlayerStatusFlags {
  *
  * from `reference/sdlpal/fight.c:336-389` —— PAL_GetPlayerActualDexterity。
  *
- * `baseDexterity` 来自 sdlpal `PAL_GetPlayerDexterity(role)`(包含 level + 装备 + raw),
- * 由调用方算好;本函数只应用 status / 上限。
+ * `baseDexterity` 对应 PAL_GetPlayerDexterity(role): runtime 基础身法 + 装备效果,无等级项。
+ * TS battle-system 从 projectRuntimeToBattleRoles 的 role.dexterity 传入;本函数只应用 status / 上限。
  *
  * PAL_CLASSIC 路径:
  *   - haste     → dex *= 3

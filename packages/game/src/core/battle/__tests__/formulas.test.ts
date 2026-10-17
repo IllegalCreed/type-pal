@@ -8,8 +8,8 @@ import {
 } from '../formulas.js'
 
 /**
- * 公式测试 —— D29 + D30 数值忠诚度。手算输入 → 期望输出,
- * 与 sdlpal `fight.c` 行号一一对照。具体 1:1 数值由 T23 baseline 跑 sdlpal harness 校验。
+ * 公式叶合同:手算小值及当前 TS 截断边界,不代替真实 caller 或全数值域 SDLPal 验证。
+ * 五灵使用对敌生产除数1;已知 FLOAT/WORD 差异见 GAME-MAGIC-NUMERIC-ASSIGNMENT-1。
  */
 
 describe('calcBaseDamage (fight.c:131-171)', () => {
@@ -35,9 +35,8 @@ describe('calcBaseDamage (fight.c:131-171)', () => {
     expect(calcBaseDamage(50, 50)).toBe(20)
   })
 
-  it('SHORT cast 行为(大值溢出有限数,不抛)', () => {
+  it('当前 TS 截取16位:65535输入得到-2,不声称C越界浮点转换等价', () => {
     const result = calcBaseDamage(65535, 0)
-    expect(Number.isFinite(result)).toBe(true)
     // 131070 经 (n<<16)>>16 截到 -2
     expect(result).toBe(-2)
   })
@@ -74,7 +73,7 @@ describe('calcMagicDamage (fight.c:174-249)', () => {
       def: 50,
       elemRes: ZERO_ELEM,
       poisonRes: 0,
-      resistMult: 10,
+      resistMult: 1,
       magicData: { baseDamage: 50, elemental: 0 },
       fieldEffect: ZERO_ELEM,
       rngFactor: 1.0,
@@ -83,14 +82,14 @@ describe('calcMagicDamage (fight.c:174-249)', () => {
   })
 
   it('元素=wind (1), 无 resistance, 无 field → base * 2 (10/5)', () => {
-    // damage 进 elem 分支前 = 80; multiplier = 10 - 0/10 = 10
+    // damage 进 elem 分支前 = 80; multiplier = 10 - 0/1 = 10
     // *= 10 → 800; /= 5 → 160; field 0 → *=10 /=10 → 160
     const result = calcMagicDamage({
       magStr: 100,
       def: 50,
       elemRes: ZERO_ELEM,
       poisonRes: 0,
-      resistMult: 10,
+      resistMult: 1,
       magicData: { baseDamage: 50, elemental: 1 },
       fieldEffect: ZERO_ELEM,
       rngFactor: 1.0,
@@ -98,15 +97,15 @@ describe('calcMagicDamage (fight.c:174-249)', () => {
     expect(result).toBe(160)
   })
 
-  it('高 elemental resistance (50) → 低伤害', () => {
-    // damage 进 elem 分支前 = 80; multiplier = 10 - 50/10 = 5
+  it('敌方 elemental resistance=5,生产除数1 → 伤害80', () => {
+    // damage 进 elem 分支前 = 80; multiplier = 10 - 5/1 = 5
     // *= 5 → 400; /= 5 → 80; field 0 → 80
     const result = calcMagicDamage({
       magStr: 100,
       def: 50,
-      elemRes: { ...ZERO_ELEM, wind: 50 },
+      elemRes: { ...ZERO_ELEM, wind: 5 },
       poisonRes: 0,
-      resistMult: 10,
+      resistMult: 1,
       magicData: { baseDamage: 50, elemental: 1 },
       fieldEffect: ZERO_ELEM,
       rngFactor: 1.0,
@@ -114,14 +113,14 @@ describe('calcMagicDamage (fight.c:174-249)', () => {
     expect(result).toBe(80)
   })
 
-  it('满 elemental resistance (100) → 免疫,damage = 0', () => {
-    // multiplier = 10 - 100/10 = 0; sDamage *= 0 → 0
+  it('敌方 elemental resistance=10,生产除数1 → 免疫', () => {
+    // multiplier = 10 - 10/1 = 0; sDamage *= 0 → 0
     const result = calcMagicDamage({
       magStr: 100,
       def: 50,
-      elemRes: { ...ZERO_ELEM, wind: 100 },
+      elemRes: { ...ZERO_ELEM, wind: 10 },
       poisonRes: 0,
-      resistMult: 10,
+      resistMult: 1,
       magicData: { baseDamage: 50, elemental: 1 },
       fieldEffect: ZERO_ELEM,
       rngFactor: 1.0,
@@ -130,19 +129,18 @@ describe('calcMagicDamage (fight.c:174-249)', () => {
   })
 
   it('poison (elemental=6, > NUM_MAGIC_ELEMENTAL) → 用 poisonRes', () => {
-    // damage 前 = 80; multiplier = 10 - 0/10 = 10; *= 10 → 800; /= 5 → 160
-    // elem > 5 → 跳过 field 修正
+    // 80*(10-5)/5=80;元素抗设8,场效设10,必须只用毒抗并跳过场效。
     const result = calcMagicDamage({
       magStr: 100,
       def: 50,
-      elemRes: ZERO_ELEM,
-      poisonRes: 0,
-      resistMult: 10,
+      elemRes: { wind: 8, thunder: 8, water: 8, fire: 8, earth: 8 },
+      poisonRes: 5,
+      resistMult: 1,
       magicData: { baseDamage: 50, elemental: 6 },
-      fieldEffect: ZERO_ELEM,
+      fieldEffect: { wind: 10, thunder: 10, water: 10, fire: 10, earth: 10 },
       rngFactor: 1.0,
     })
-    expect(result).toBe(160)
+    expect(result).toBe(80)
   })
 
   it('field bonus 加 (+10) → damage * 2 (20/10)', () => {
@@ -152,7 +150,7 @@ describe('calcMagicDamage (fight.c:174-249)', () => {
       def: 50,
       elemRes: ZERO_ELEM,
       poisonRes: 0,
-      resistMult: 10,
+      resistMult: 1,
       magicData: { baseDamage: 50, elemental: 1 },
       fieldEffect: { ...ZERO_ELEM, wind: 10 },
       rngFactor: 1.0,
@@ -160,13 +158,13 @@ describe('calcMagicDamage (fight.c:174-249)', () => {
     expect(result).toBe(320)
   })
 
-  it('rngFactor 1.1 ≥ 1.0 (放大 magStr → 不减伤)', () => {
+  it('caller可达倍率1.05与1.0分别得到52与50', () => {
     const base = calcMagicDamage({
       magStr: 100,
       def: 0,
       elemRes: ZERO_ELEM,
       poisonRes: 0,
-      resistMult: 10,
+      resistMult: 1,
       magicData: { baseDamage: 0, elemental: 0 },
       fieldEffect: ZERO_ELEM,
       rngFactor: 1.0,
@@ -176,16 +174,15 @@ describe('calcMagicDamage (fight.c:174-249)', () => {
       def: 0,
       elemRes: ZERO_ELEM,
       poisonRes: 0,
-      resistMult: 10,
+      resistMult: 1,
       magicData: { baseDamage: 0, elemental: 0 },
       fieldEffect: ZERO_ELEM,
-      rngFactor: 1.1,
+      rngFactor: 1.05,
     })
-    expect(higher).toBeGreaterThanOrEqual(base)
     // base: magStr=100, calcBase(100,0)=trunc(200+0.5)=200; /4=50
-    // higher: magStr=trunc(110)=110, calcBase=trunc(220+0.5)=220; /4=55
+    // next=0.5时倍率1.05:magStr=105,calcBase=210;整数除4=52
     expect(base).toBe(50)
-    expect(higher).toBe(55)
+    expect(higher).toBe(52)
   })
 
   it('elem 1-5 对应 wind/thunder/water/fire/earth 索引', () => {
@@ -195,16 +192,15 @@ describe('calcMagicDamage (fight.c:174-249)', () => {
         def: 50,
         elemRes,
         poisonRes: 0,
-        resistMult: 10,
+        resistMult: 1,
         magicData: { baseDamage: 50, elemental },
         fieldEffect: ZERO_ELEM,
         rngFactor: 1.0,
       })
-    // 给 thunder (索引 1) 一个高 resist,只有 elem=2 受影响
-    const resThunder = { ...ZERO_ELEM, thunder: 100 }
-    expect(make(2, resThunder)).toBe(0)
-    expect(make(1, resThunder)).toBe(160) // wind 不受 thunder resist 影响
-    expect(make(5, resThunder)).toBe(160) // earth 不受影响
+    // 共同入元素前为80;不同抗性使五个索引各有独立结果,可辨别水/火互换。
+    // 80 * (10-res) / 5;场效0。输入与生产对敌抗性/除数口径一致。
+    const res = { wind: 0, thunder: 2, water: 4, fire: 6, earth: 8 }
+    expect([1, 2, 3, 4, 5].map((elemental) => make(elemental, res))).toEqual([160, 128, 96, 64, 32])
   })
 })
 

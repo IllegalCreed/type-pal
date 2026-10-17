@@ -1,0 +1,30 @@
+{
+  "file": "packages/game/src/core/battle/__tests__/formulas.test.ts",
+  "base": "8dabfd49976f818364d451635f155af08a41b9a9",
+  "testCountBefore": 28,
+  "testCountCurrent": 28,
+  "mappings": [
+    {
+      "old": "calcBaseDamage (fight.c:131-171) SHORT cast 行为(大值溢出有限数,不抛)",
+      "current": "calcBaseDamage (fight.c:131-171) 当前 TS 截取16位:65535输入得到-2,不声称C越界浮点转换等价",
+      "reason": "Correct actual test scope/input/oracle; same contract slot, stronger exact assertions or explicit TS-only extreme domain."
+    },
+    {
+      "old": "calcMagicDamage (fight.c:174-249) 高 elemental resistance (50) → 低伤害",
+      "current": "calcMagicDamage (fight.c:174-249) 敌方 elemental resistance=5,生产除数1 → 伤害80",
+      "reason": "Correct actual test scope/input/oracle; same contract slot, stronger exact assertions or explicit TS-only extreme domain."
+    },
+    {
+      "old": "calcMagicDamage (fight.c:174-249) 满 elemental resistance (100) → 免疫,damage = 0",
+      "current": "calcMagicDamage (fight.c:174-249) 敌方 elemental resistance=10,生产除数1 → 免疫",
+      "reason": "Correct actual test scope/input/oracle; same contract slot, stronger exact assertions or explicit TS-only extreme domain."
+    },
+    {
+      "old": "calcMagicDamage (fight.c:174-249) rngFactor 1.1 ≥ 1.0 (放大 magStr → 不减伤)",
+      "current": "calcMagicDamage (fight.c:174-249) caller可达倍率1.05与1.0分别得到52与50",
+      "reason": "Correct actual test scope/input/oracle; same contract slot, stronger exact assertions or explicit TS-only extreme domain."
+    }
+  ],
+  "baselineEdited": false,
+  "officialProtectedIdentityGate": "not run; reconcile exact identities at large-task closeout without count/coverage weakening"
+}

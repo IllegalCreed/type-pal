@@ -1,0 +1,173 @@
+{
+  "base": "8dabfd49976f818364d451635f155af08a41b9a9",
+  "owner": "Codex single agent",
+  "scope": "Exact declared source/read/raw/mutation/ledger/current-review delta verification; not whole-file/native gameplay/official unified acceptance",
+  "rawPairs": [
+    {
+      "receipt": "adjacent.json",
+      "raw": "adjacent.raw.gz",
+      "sha256": "64c7188ed6cd3b2c2abb6d6c883eca10a4d73c6e3b30d083b870a0175f1f0260"
+    },
+    {
+      "receipt": "baseline.json",
+      "raw": "baseline.raw.gz",
+      "sha256": "2c893681b5f4622480ef934a66a2a9bcdfe0e03242ef6a891489cd37e1bea980"
+    },
+    {
+      "receipt": "caller-lifecycle.json",
+      "raw": "caller-lifecycle.raw.gz",
+      "sha256": "7a160bd895fcbdbb48327949ac33da8f454c3a7aaef4bec19ef74b5a7acef74b"
+    },
+    {
+      "receipt": "current.json",
+      "raw": "current.raw.gz",
+      "sha256": "4c8fbe89f9838a9d0a6fa74c21edbb5995a7524ba33a06dbf84c76d19d1e94b3"
+    },
+    {
+      "receipt": "divergence-final.json",
+      "raw": "divergence-final.raw.gz",
+      "sha256": "2f53ed32b5d1c61747a8a447d1ff1c16d5fbe41adbee0a4e1e2268c23a64de27"
+    },
+    {
+      "receipt": "docs.json",
+      "raw": "docs.raw.gz",
+      "sha256": "08143a50ff8d5814649925043854c57d38132601e64f043e16a220601f8b23c1"
+    },
+    {
+      "receipt": "fetch-final.json",
+      "raw": "fetch-final.raw.gz",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "receipt": "ledger.json",
+      "raw": "ledger.raw.gz",
+      "sha256": "88ce3cad3666b24725509f4d835cbd69c8b47085054098f0bc35ca277a5eed64"
+    },
+    {
+      "receipt": "lint.json",
+      "raw": "lint.raw.gz",
+      "sha256": "20bdbb9dd2000dfa6e1dd2002b9f2a188b1a52cf5ea7a28ff38b8025e5a71049"
+    },
+    {
+      "receipt": "mapping-oracle.json",
+      "raw": "map-compile-O0.raw.gz",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "receipt": "mapping-oracle.json",
+      "raw": "map-native-O0.raw.gz",
+      "sha256": "2022b44dc943db76cf9673e2cce9c4740b1ceae37381d4d8eda03212ee6faeb7"
+    },
+    {
+      "receipt": "mapping-oracle.json",
+      "raw": "map-compile-O2.raw.gz",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "receipt": "mapping-oracle.json",
+      "raw": "map-native-O2.raw.gz",
+      "sha256": "2022b44dc943db76cf9673e2cce9c4740b1ceae37381d4d8eda03212ee6faeb7"
+    },
+    {
+      "receipt": "numeric-counter.json",
+      "raw": "compile-O0.raw.gz",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "receipt": "numeric-counter.json",
+      "raw": "native-O0.raw.gz",
+      "sha256": "348b0ae52e2cbaf72cb61d15d52c964c865ec4a8957b80177225c220acbe25a0"
+    },
+    {
+      "receipt": "numeric-counter.json",
+      "raw": "compile-O2.raw.gz",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "receipt": "numeric-counter.json",
+      "raw": "native-O2.raw.gz",
+      "sha256": "348b0ae52e2cbaf72cb61d15d52c964c865ec4a8957b80177225c220acbe25a0"
+    },
+    {
+      "receipt": "numeric-counter.json",
+      "raw": "typescript.raw.gz",
+      "sha256": "7a160bd895fcbdbb48327949ac33da8f454c3a7aaef4bec19ef74b5a7acef74b"
+    },
+    {
+      "receipt": "poison-oracle.json",
+      "raw": "poison-compile-O0.raw.gz",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "receipt": "poison-oracle.json",
+      "raw": "poison-native-O0.raw.gz",
+      "sha256": "a291a5c87047efbc8e1c968b9f58ac450923064236ddb997cc55d5a9d20f2b65"
+    },
+    {
+      "receipt": "poison-oracle.json",
+      "raw": "poison-compile-O2.raw.gz",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "receipt": "poison-oracle.json",
+      "raw": "poison-native-O2.raw.gz",
+      "sha256": "a291a5c87047efbc8e1c968b9f58ac450923064236ddb997cc55d5a9d20f2b65"
+    },
+    {
+      "receipt": "restored-final.json",
+      "raw": "restored-final.raw.gz",
+      "sha256": "0feb516232258b9d339159f3c4d50e940331dd9ff0d4ba6f96ceee8925f7c3e4"
+    },
+    {
+      "receipt": "restored.json",
+      "raw": "restored.raw.gz",
+      "sha256": "5f7686f603905fbbcdc2cad819094d63b66b08f9e6ce3912c3aa294a8584dfbf"
+    },
+    {
+      "receipt": "typecheck.json",
+      "raw": "typecheck.raw.gz",
+      "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+    }
+  ],
+  "controlPairs": [
+    {
+      "id": "water-fire-resistance-swap",
+      "oldPassed": 28,
+      "currentPassed": 27,
+      "currentSpecifiedAssertionError": 1,
+      "restored": true
+    },
+    {
+      "id": "poison-resistance-ignored",
+      "oldPassed": 28,
+      "currentPassed": 27,
+      "currentSpecifiedAssertionError": 1,
+      "restored": true
+    }
+  ],
+  "beforeSnapshotsMatchGit": true,
+  "allReadShaAndBoundariesMatch": true,
+  "twoSourceCommentOnlyProofsMatch": true,
+  "ledgerStatusDelta": {
+    "`packages/game/src/core/battle/formulas.ts`": ["已验证", "review"],
+    "`packages/game/src/core/battle/__tests__/formulas.test.ts`": ["已验证", "review"]
+  },
+  "historicalLedgerFenceExact": true,
+  "noBaselineRetirementOrTestingCatalogChanges": true,
+  "allowedTrackedChanges": [
+    "docs/ops/audits/code-quality-file-ledger.md",
+    "docs/ops/board.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3m-formulas-magic/README.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/README.md",
+    "docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md",
+    "docs/ops/tasks/index.md",
+    "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+    "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+    "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+    "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+    "packages/game/src/core/battle/__tests__/formulas.test.ts",
+    "packages/game/src/core/battle/formulas.ts",
+    "packages/game/src/core/battle/magic-damage.ts"
+  ],
+  "newClosed": 0
+}

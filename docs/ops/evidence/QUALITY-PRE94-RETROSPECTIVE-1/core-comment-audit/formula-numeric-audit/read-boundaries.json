@@ -1,0 +1,132 @@
+{
+  "base": "8dabfd49976f818364d451635f155af08a41b9a9",
+  "fullReads": [
+    {
+      "path": "packages/game/src/core/battle/formulas.ts",
+      "sha256": "69595552a0230603b53e6e2b1a7800b31f98db9c793fc7d5d548fb9ff3f9a549",
+      "lines": 223,
+      "ranges": [[1, 223]],
+      "scope": "Full implementation/test read; caller ranges below; not whole-file quality acceptance.",
+      "snapshot": "69595552a023-formulas.ts.current.gz"
+    },
+    {
+      "path": "packages/game/src/core/battle/magic-damage.ts",
+      "sha256": "dbe4cc35a692113f9820d41590fe5eecde3ec0b5b1476969a0d06293debac423",
+      "lines": 333,
+      "ranges": [[1, 333]],
+      "scope": "Full implementation/test read; caller ranges below; not whole-file quality acceptance.",
+      "snapshot": "dbe4cc35a692-magic-damage.ts.current.gz"
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/formulas.test.ts",
+      "sha256": "ca28c48de869a35bde89b9bed43eee3c1b49d6d8c200ed16fafc27b64332bd1c",
+      "lines": 260,
+      "ranges": [[1, 260]],
+      "scope": "Full implementation/test read; caller ranges below; not whole-file quality acceptance.",
+      "snapshot": "ca28c48de869-formulas.test.ts.current.gz"
+    },
+    {
+      "path": "packages/game/src/core/rng.ts",
+      "sha256": "a1b685dd3851cdda39012481c7dd0ddda1cffa5761c15a82a045060e56b9fd4c",
+      "lines": 51,
+      "ranges": [[1, 51]],
+      "scope": "Full implementation/test read; caller ranges below; not whole-file quality acceptance."
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "sha256": "41bc231d86581da71cea2224ad2b66831cd9b0dd1b8b75bb4f2c84c71eed739e",
+      "lines": 222,
+      "ranges": [[1, 222]],
+      "scope": "Full implementation/test read; caller ranges below; not whole-file quality acceptance."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "reference/sdlpal/fight.c",
+      "lines": 5400,
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "ranges": [[130, 390]],
+      "scope": "Only these primary/caller/type ranges; no whole-file acceptance."
+    },
+    {
+      "path": "reference/sdlpal/util.c",
+      "lines": 1003,
+      "sha256": "e8f70ab5b01a21f0a2f40c9ae3fb2c05a38dd3b13bb4fc28d8603af8f54deac7",
+      "ranges": [[165, 280]],
+      "scope": "Only these primary/caller/type ranges; no whole-file acceptance."
+    },
+    {
+      "path": "reference/sdlpal/common.h",
+      "lines": 299,
+      "sha256": "48f7ccfe8c287d5518b603ac8c7afe8af868cf42f547d072b175d73d588276ce",
+      "ranges": [[131, 162]],
+      "scope": "Only these primary/caller/type ranges; no whole-file acceptance."
+    },
+    {
+      "path": "reference/sdlpal/util.h",
+      "lines": 373,
+      "sha256": "d61ffb6c542ead05f92400c225d241de5a8dabdca5eca43be5dc8a637db2f121",
+      "ranges": [[69, 88]],
+      "scope": "Only these primary/caller/type ranges; no whole-file acceptance."
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "lines": 2409,
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "ranges": [[1830, 1868]],
+      "scope": "Only these primary/caller/type ranges; no whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "lines": 3130,
+      "sha256": "130c7398a4f53d5a69b3d36178777ef3c18dfea0a7641f50d53c097493ee33a7",
+      "ranges": [[284, 332], [729, 763]],
+      "scope": "Only these primary/caller/type ranges; no whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "lines": 2105,
+      "sha256": "6b20017dc7c7ca79c413fdb690cd65a5cdaa38e33d8227d009f1b19ce23fe7ea",
+      "ranges": [[1390, 1455], [1571, 1606], [1645, 1678], [1875, 1960]],
+      "scope": "Only these primary/caller/type ranges; no whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "lines": 916,
+      "sha256": "618063b97dabe5d7a06380296493ec33efeb51b19c512d0cf7f957836d08b87c",
+      "ranges": [[785, 916]],
+      "scope": "Only these primary/caller/type ranges; no whole-file acceptance."
+    },
+    {
+      "path": "docs/phase1/game-mechanics.md",
+      "lines": 1675,
+      "sha256": "a81d17a63ff80031ab257eb38dd4db03320f33eb8e33b74d1df401a10eba6c89",
+      "ranges": [[250, 334], [855, 890]],
+      "scope": "Only these primary/caller/type ranges; no whole-file acceptance."
+    },
+    {
+      "path": "docs/phase1/engineering-notes.md",
+      "lines": 279,
+      "sha256": "e37d7232b6aff955f4aa8b50e33f87b15377a3707c0c548d5d6cc7ddffb2e89f",
+      "ranges": [[107, 125]],
+      "scope": "Only these primary/caller/type ranges; no whole-file acceptance."
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/magic.ts",
+      "lines": 1076,
+      "sha256": "f9b0f72ad5ead271fc69e30ab28a665e8d6f6a9ef76358c56662e6a458add5f4",
+      "ranges": [[220, 270], [315, 390]],
+      "scope": "Only script pre-roll/guard and actual damage caller/number consumers; whole action remains unaccepted."
+    }
+  ],
+  "newClosed": 0,
+  "limits": [
+    "C bodies compiled in minimal typed context with selected lrand sample, not full SDLPal/original executable.",
+    "Real TS public caller and SeedableRng, no same-seed cross-PRNG claim; synthetic typed role/enemy/field, not original asset identity.",
+    "Numerical change remains unapproved; no formula execution change.",
+    "rng.ts adjacent rangeFloat alignment comment remains inaccurate about C endpoints; only read here, no new quality closure.",
+    "asShort is an internal reuse candidate; no new module/export until domains and ownership are fully checked.",
+    "Extreme WORD/SHORT domains, other FLOAT coefficient accuracy, field permutations and original visual/E2E remain pending.",
+    "Protected test title identity changes recorded, official identity/coverage/protected gates deferred to large task closeout."
+  ]
+}

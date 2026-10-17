@@ -1040,7 +1040,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "391944d607ebabb93c9d5cfad80336159fabf9876fee35ef57aad6091472bc72",
+      "afterSha256": "1b5822744320e78e9c14001b603a400b26bd56036e5b4a58fd4206723e0de141",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1064,8 +1064,23 @@
       },
       "revision": {
         "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "implementationSha": "391944d607ebabb93c9d5cfad80336159fabf9876fee35ef57aad6091472bc72",
+        "implementationSha": "1b5822744320e78e9c14001b603a400b26bd56036e5b4a58fd4206723e0de141",
         "history": [
+          {
+            "revision": "8dabfd49976f818364d451635f155af08a41b9a9",
+            "date": "2026-10-18",
+            "action": "Record pre94 C/TS magic numerical counter and correct comments and existing formula test oracles",
+            "previousAfterSha256": "391944d607ebabb93c9d5cfad80336159fabf9876fee35ef57aad6091472bc72",
+            "scope": "Only board progress plus one draft risk row, task index new entry, three selected live ledger rows and incoming bindings. Two implementation comments and one existing 28-case test file; two old closures to review, no new closure. Two old-green/new-specified-single-red controls and51/293 regressions do not grant whole-file/native/UI/coverage acceptance. Magic numerical behavior remains frozen pending user decision. Original native verdict/history retained; no baseline/retirement edits.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/formula-numeric-audit/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "206b18563e07569414f4ec90f08597c5b8ac66de",
             "date": "2026-10-18",
@@ -1316,7 +1331,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "391944d607ebabb93c9d5cfad80336159fabf9876fee35ef57aad6091472bc72",
+        "afterSha256": "1b5822744320e78e9c14001b603a400b26bd56036e5b4a58fd4206723e0de141",
         "lineCount": 1987,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1351,7 +1366,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-2467",
+      "reviewedLines": "1-2497",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -5070,7 +5085,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "c0e6d500deb03958e2c45128cb03a1fd0573d26692f673e824e70c15537600ed",
+      "afterSha256": "45eb45b31f30204879e7ad8b19795be0047af91049967a714d26ad97c32326a7",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5094,8 +5109,23 @@
       },
       "revision": {
         "currentSha": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "implementationSha": "c0e6d500deb03958e2c45128cb03a1fd0573d26692f673e824e70c15537600ed",
+        "implementationSha": "45eb45b31f30204879e7ad8b19795be0047af91049967a714d26ad97c32326a7",
         "history": [
+          {
+            "revision": "8dabfd49976f818364d451635f155af08a41b9a9",
+            "date": "2026-10-18",
+            "action": "Record pre94 C/TS magic numerical counter and correct comments and existing formula test oracles",
+            "previousAfterSha256": "c0e6d500deb03958e2c45128cb03a1fd0573d26692f673e824e70c15537600ed",
+            "scope": "Only board progress plus one draft risk row, task index new entry, three selected live ledger rows and incoming bindings. Two implementation comments and one existing 28-case test file; two old closures to review, no new closure. Two old-green/new-specified-single-red controls and51/293 regressions do not grant whole-file/native/UI/coverage acceptance. Magic numerical behavior remains frozen pending user decision. Original native verdict/history retained; no baseline/retirement edits.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/formula-numeric-audit/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "206b18563e07569414f4ec90f08597c5b8ac66de",
             "date": "2026-10-18",
@@ -5337,7 +5367,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "c0e6d500deb03958e2c45128cb03a1fd0573d26692f673e824e70c15537600ed",
+        "afterSha256": "45eb45b31f30204879e7ad8b19795be0047af91049967a714d26ad97c32326a7",
         "lineCount": 5074,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -5372,7 +5402,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-5425",
+      "reviewedLines": "1-5440",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

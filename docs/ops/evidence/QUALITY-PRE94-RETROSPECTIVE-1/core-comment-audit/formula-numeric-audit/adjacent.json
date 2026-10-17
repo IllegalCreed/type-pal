@@ -1,0 +1,27 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/battle/__tests__/actions.test.ts",
+    "src/core/battle/__tests__/coop-magic.test.ts",
+    "src/core/battle/__tests__/battle-opcodes.test.ts",
+    "src/core/battle/__tests__/throw-item.test.ts",
+    "src/core/battle/__tests__/magic-parity.test.ts",
+    "src/core/rng.test.ts",
+    "--reporter=verbose"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T21:39:53.490689+00:00",
+  "completedAt": "2026-10-17T21:39:54.907520+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "adjacent.raw.gz",
+  "rawBytes": 48691,
+  "rawSha256": "64c7188ed6cd3b2c2abb6d6c883eca10a4d73c6e3b30d083b870a0175f1f0260",
+  "fullUncutMergedStdoutStderr": true
+}
