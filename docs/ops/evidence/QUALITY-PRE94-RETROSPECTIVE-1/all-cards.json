@@ -500,8 +500,8 @@
       "number": 3,
       "suffix": "i",
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3i-game-dialog-precache-ui.md",
-      "sha256": "c04b75d6bfc46d99cfccb9997b7dc6f35698b2cfff8bbf58785b4128f49d1982",
-      "lines": 69,
+      "sha256": "83fbd07f262bd173bbcac4cb7ed8551c77730ef20ef5676949755c85ba46e404",
+      "lines": 166,
       "historicalStatus": "done",
       "currentReview": "partial",
       "currentAcceptance": false,
@@ -2615,10 +2615,10 @@
       "number": 72,
       "suffix": "",
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-72-game-boot-loading-lifecycle.md",
-      "sha256": "00c678769eb7b1c2efddd20b01fdaec62beab36a8e26028901bbe300388d1d9f",
-      "lines": 30,
+      "sha256": "a1b6a35ff3b92b6c59e202a7a30508bc83bbfc5da71eec767ed3862857a609b3",
+      "lines": 36,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -3923,8 +3923,8 @@
   ],
   "reviewCheckpointBase": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
   "currentReviewCounts": {
-    "partial": 48,
-    "pending": 35,
+    "partial": 49,
+    "pending": 34,
     "accept": 0
   }
 }

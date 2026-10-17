@@ -4,7 +4,7 @@
 
 ## 2026-10-17 当前范围与优先级
 
-用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10原检查点bea19f80c已推送，当前恢复见本片末尾；分支已同步最新origin/main，0behind，未合main。全83卡48partial/35pending/0accept（2026-10-18 CODE70；下文数字均按各片原时点）；[6a](6a/README.md)、92、CODE1/2/2b/3/3b/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；[CODE3b](3b/README.md)两边界六oracle已补；[raw补证](3b/raw-tests/README.md)9→2/五新反控、完整extract428零stderr；全正文仍待，[3d PNG](3d/README.md)两height盲点已补，下一片3h assets/shell，再按模块逐文件推进；94–102/editor未完成项保留。
+用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10原检查点bea19f80c已推送，当前恢复见本片末尾；分支已同步最新origin/main，0behind，未合main。全83卡49partial/34pending/0accept（2026-10-18 CODE72；下文数字均按各片原时点）；[6a](6a/README.md)、92、CODE1/2/2b/3/3b/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；[CODE3b](3b/README.md)两边界六oracle已补；[raw补证](3b/raw-tests/README.md)9→2/五新反控、完整extract428零stderr；全正文仍待，[3d PNG](3d/README.md)两height盲点已补，下一片3h assets/shell，再按模块逐文件推进；94–102/editor未完成项保留。
 
 下文旧数字、探针与结论作为历史保存；不会把旧抽查、历史done或包全绿补签成当前验收。
 
@@ -190,3 +190,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 最新[63/65夹具与解绑勘误](63-65-speedrun-fixtures/README.md)：三测试合法构造器、实际计时不重置oracle及失败清理；静默重置反控旧20绿→新19绿1红、正式20绿，数量不增。账本与47partial/36pending/0accept不变，新统一门未跑，下一批70。
 
 最新[70音量两测试](70-audio-volume/README.md)：精确sink/state/storage、排重/拆职责、修正共享键注释，keyMute旧6绿新单红；相邻36绿/typecheck通过。287closed/44review/2981pending，48partial/35pending/0accept，新统一门未跑；下一批72。
+
+最新[72启动加载](72-boot-loading/README.md)：20例精简/透传/拒绝/分母与隔离，三旧绿新单红，相邻54绿/typecheck通过。真实错误文案被迟到进度覆盖已另卡，UI旧关闭撤回rework，生产未动；288closed/47review/2977pending，49partial/34pending/0accept，无新统一门；下一批73。

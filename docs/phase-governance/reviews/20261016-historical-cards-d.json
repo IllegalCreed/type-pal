@@ -2108,11 +2108,25 @@
       "sourceGitRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
       "sourceGitObject": "b7dbc731f4063e28e68bcd6d981d3c7a26be66c1",
       "candidateSha256": "5a63ab71e7d5d46bd6ec52270389ab779a60801714c82b04e3ab8891b9beb54c",
-      "afterSha256": "e98995cede6dd93d9597a83d7a4247d3f93ffc85a96cd4354fb686407d028714",
+      "afterSha256": "83fbd07f262bd173bbcac4cb7ed8551c77730ef20ef5676949755c85ba46e404",
       "revision": {
         "currentSha": "bb90428668808368e816bd8e2ddeb5da57e4b166",
-        "implementationSha": "e98995cede6dd93d9597a83d7a4247d3f93ffc85a96cd4354fb686407d028714",
+        "implementationSha": "83fbd07f262bd173bbcac4cb7ed8551c77730ef20ef5676949755c85ba46e404",
         "history": [
+          {
+            "revision": "0587d8714",
+            "date": "2026-10-18",
+            "action": "CODE72 direct counter note on historical CODE3i card",
+            "previousAfterSha256": "e98995cede6dd93d9597a83d7a4247d3f93ffc85a96cd4354fb686407d028714",
+            "scope": "Read full historical card and only add current four-line failure-state counter; keep quoted original, original dates/native evidence and NaN fix unchanged; whole-file current product credit revoked by ledger.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md",
+            "notRun": [
+              "new whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "full main/browser visual"
+            ]
+          },
           {
             "date": "2026-10-16",
             "action": "full-semantic-task-and-history-migration",
@@ -2127,7 +2141,7 @@
         "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
         "sourceSha256": "c04b75d6bfc46d99cfccb9997b7dc6f35698b2cfff8bbf58785b4128f49d1982",
         "candidateSha256": "5a63ab71e7d5d46bd6ec52270389ab779a60801714c82b04e3ab8891b9beb54c",
-        "afterSha256": "e98995cede6dd93d9597a83d7a4247d3f93ffc85a96cd4354fb686407d028714",
+        "afterSha256": "83fbd07f262bd173bbcac4cb7ed8551c77730ef20ef5676949755c85ba46e404",
         "lineCount": 162,
         "exactOriginalBytes": 5788,
         "originalPreservation": {
@@ -2166,7 +2180,7 @@
         "after": "historical。DOM功能状态、typed合同与原NaN修复不等于新浏览器视觉、商标演出或E2E通过；不把修正skipKeys注释写成行为改变。原已验证只按当时范围，guard候选不得扩张。",
         "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
       },
-      "reviewedLines": "1-162",
+      "reviewedLines": "1-166",
       "phase": "ops",
       "module": "historical-quality-contracts",
       "templateConformity": {
@@ -3212,11 +3226,25 @@
       "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "bb16e539fe02c96dba996b13762ee42e3157cd1ce1000c3a809e27b95b77ac2e",
+      "afterSha256": "6c5c74c087dc105768e599752d09f958c89c969b6e39426ca29a98445b4a4aaf",
       "revision": {
         "currentSha": "addcb44c52fd00ab0fd3397e61ae316bf98d02e2aeef1d5533ed23a2c1e5845a",
-        "implementationSha": "bb16e539fe02c96dba996b13762ee42e3157cd1ce1000c3a809e27b95b77ac2e",
+        "implementationSha": "6c5c74c087dc105768e599752d09f958c89c969b6e39426ca29a98445b4a4aaf",
         "history": [
+          {
+            "revision": "0587d8714",
+            "date": "2026-10-18",
+            "action": "CODE72 loader test contracts and directly evidenced failure-state rework",
+            "previousAfterSha256": "bb16e539fe02c96dba996b13762ee42e3157cd1ce1000c3a809e27b95b77ac2e",
+            "scope": "Only two verified boot test rows, two newly read review rows and revoked precache UI whole-file close; corresponding active/draft/index rows and metadata references. New risk stays draft, production unchanged; historical raw/native judgments preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md",
+            "notRun": [
+              "new whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "full main/browser/SW visual"
+            ]
+          },
           {
             "revision": "9cd270f26",
             "date": "2026-10-18",
@@ -3379,7 +3407,7 @@
         "kind": "A8-six-pending-inventory-real-producer-maintenance",
         "path": "docs/ops/audits/code-quality-file-ledger.md",
         "sourceSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
-        "afterSha256": "bb16e539fe02c96dba996b13762ee42e3157cd1ce1000c3a809e27b95b77ac2e",
+        "afterSha256": "6c5c74c087dc105768e599752d09f958c89c969b6e39426ca29a98445b4a4aaf",
         "lineCount": 592,
         "sourceScope": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "completePrior": {
@@ -3602,7 +3630,7 @@
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "1-712",
+      "reviewedLines": "1-716",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {

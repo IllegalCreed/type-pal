@@ -1,0 +1,82 @@
+[
+  {
+    "name": "docs",
+    "command": ["pnpm", "check:docs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 1,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "e97a6c58af4f24cd4e38d18522379bb818b0ff0d4bd95fa4d9034df1d5813479",
+    "receiptPhase": "initial"
+  },
+  {
+    "name": "lint",
+    "command": ["pnpm", "lint"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "629cb023ffe6cebcead519fcb5a462c268b15cd97f0c25b6b04587627c9cf305",
+    "receiptPhase": "initial"
+  },
+  {
+    "name": "ledger",
+    "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "f97c28733be06142b6f920b2d4038b90c160761adf074a8e36912506b7599eef",
+    "receiptPhase": "initial"
+  },
+  {
+    "name": "diff",
+    "command": ["git", "diff", "--check"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receiptPhase": "initial"
+  },
+  {
+    "name": "final-docs",
+    "command": ["pnpm", "check:docs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "5eedf34cb675b1b69a5166ba1fc7a275e7c7a8c3d7caeb0c4831ed00ff2c3aa5",
+    "receiptPhase": "final"
+  },
+  {
+    "name": "final-lint",
+    "command": ["pnpm", "lint"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "629cb023ffe6cebcead519fcb5a462c268b15cd97f0c25b6b04587627c9cf305",
+    "receiptPhase": "final"
+  },
+  {
+    "name": "final-ledger",
+    "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "f97c28733be06142b6f920b2d4038b90c160761adf074a8e36912506b7599eef",
+    "receiptPhase": "final"
+  },
+  {
+    "name": "final-diff",
+    "command": ["git", "diff", "--check"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receiptPhase": "final"
+  }
+]

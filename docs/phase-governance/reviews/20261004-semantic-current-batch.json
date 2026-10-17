@@ -407,7 +407,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "9c6f0fe91c0c1829b071626f90ab2669a0ec808be3c639198b03e9b6e59231ec",
+      "afterSha256": "cb23ba6973be49e701d9f6acb1a28f4a0510bd9438c3383b9a610e1025c3bb3a",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -438,10 +438,24 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "9c6f0fe91c0c1829b071626f90ab2669a0ec808be3c639198b03e9b6e59231ec",
+        "implementationSha": "cb23ba6973be49e701d9f6acb1a28f4a0510bd9438c3383b9a610e1025c3bb3a",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "0587d8714",
+            "date": "2026-10-18",
+            "action": "CODE72 loader test contracts and directly evidenced failure-state rework",
+            "previousAfterSha256": "9c6f0fe91c0c1829b071626f90ab2669a0ec808be3c639198b03e9b6e59231ec",
+            "scope": "Only two verified boot test rows, two newly read review rows and revoked precache UI whole-file close; corresponding active/draft/index rows and metadata references. New risk stays draft, production unchanged; historical raw/native judgments preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md",
+            "notRun": [
+              "new whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "full main/browser/SW visual"
+            ]
+          },
           {
             "revision": "9cd270f26",
             "date": "2026-10-18",
@@ -723,7 +737,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "9c6f0fe91c0c1829b071626f90ab2669a0ec808be3c639198b03e9b6e59231ec",
+        "afterSha256": "cb23ba6973be49e701d9f6acb1a28f4a0510bd9438c3383b9a610e1025c3bb3a",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
@@ -917,7 +931,7 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "1-89",
+      "reviewedLines": "1-90",
       "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。",
       "integrationReview": {
         "reviewer": "Codex",
@@ -1172,7 +1186,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "6f9405678037d49a03aa0eee9a80daf965645f41c138c141991d3ffd049546e4",
+      "afterSha256": "00610c9c9e00fb7ccbc56f87e44e618fa80a90bda896031053e53594d267e376",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -1193,10 +1207,24 @@
       },
       "revision": {
         "currentSha": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
-        "implementationSha": "6f9405678037d49a03aa0eee9a80daf965645f41c138c141991d3ffd049546e4",
+        "implementationSha": "00610c9c9e00fb7ccbc56f87e44e618fa80a90bda896031053e53594d267e376",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "0587d8714",
+            "date": "2026-10-18",
+            "action": "CODE72 loader test contracts and directly evidenced failure-state rework",
+            "previousAfterSha256": "6f9405678037d49a03aa0eee9a80daf965645f41c138c141991d3ffd049546e4",
+            "scope": "Only two verified boot test rows, two newly read review rows and revoked precache UI whole-file close; corresponding active/draft/index rows and metadata references. New risk stays draft, production unchanged; historical raw/native judgments preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md",
+            "notRun": [
+              "new whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "full main/browser/SW visual"
+            ]
+          },
           {
             "revision": "working-tree",
             "date": "2026-10-07",
@@ -1411,7 +1439,7 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "6f9405678037d49a03aa0eee9a80daf965645f41c138c141991d3ffd049546e4",
+        "afterSha256": "00610c9c9e00fb7ccbc56f87e44e618fa80a90bda896031053e53594d267e376",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
@@ -1656,7 +1684,7 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "1-503",
+      "reviewedLines": "1-504",
       "reviewNotes": "任务索引将 DOCS-CATALOG-SPLIT-1 投影到 historical done；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。",
       "integrationReview": {
         "reviewer": "Codex",

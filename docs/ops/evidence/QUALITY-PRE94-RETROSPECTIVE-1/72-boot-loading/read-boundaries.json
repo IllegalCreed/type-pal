@@ -1,0 +1,83 @@
+{
+  "base": "0587d8714",
+  "files": [
+    {
+      "path": "packages/game/src/shell/boot-loading.ts",
+      "sha256": "d3b407ee9e960f43c18577b7422be1aa8288cdd1905ffbd6c700aedd2977f845",
+      "lines": 149,
+      "scope": "full file; fetch/progress/DOM ownership, branches and lifecycle; review, not closed"
+    },
+    {
+      "path": "packages/game/src/shell/boot-loading.test.ts",
+      "sha256": "faa01deb7af7b24d429c9499f472b3fd797272938100c002f976486ddfc220f3",
+      "lines": 164,
+      "scope": "full file; all9 direct contracts and test cleanup"
+    },
+    {
+      "path": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+      "sha256": "b9a8943cbdff28b47187317230a46145fa73f4408149c08d973caeb1180d2650",
+      "lines": 235,
+      "scope": "full file; all11 host contracts and global/RAF/timeout ownership"
+    },
+    {
+      "path": "packages/game/src/main.ts",
+      "sha256": "f4add3675f3d1b5e9205058d4403face28e0d068a9fb5ec584b1a41b0aa30e64",
+      "lines": 83,
+      "scope": "full file; PROD/fallback init, onPlayable and bootstrap catch; review only"
+    },
+    {
+      "path": "packages/game/src/shell/precache-ui.ts",
+      "sha256": "ba6cc9ee369dd852552ca797d0f689d501f2ddd37afcb833ab575052686f43a9",
+      "lines": 187,
+      "scope": "full file; necessary/full/entered state and fail; direct counter reopens old whole-file close"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.ts",
+      "sha256": "7298c33038868dd9f514b04940f5f9f8dbcf29a5592201a6e83509d4b04ed6aa",
+      "lines": 67,
+      "scope": "full file; real public concurrent resourcesReady rejection/settle barrier"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "6c02f5c426c7bf4fb8ef096117c23dd79ee10a2d642e70c1d4d51119b2026298",
+      "lines": 1944,
+      "scope": "225-264 resourcesReady; 1860-1897 onPlayable/enterGate; 1915-1948 finish caller"
+    },
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "sha256": "0b85511a72be93396cc7c7776c78513a57fb176292e70da12e7f776b0910a842",
+      "lines": 501,
+      "scope": "135-182 parallel fetches in loadAll; not an asset-pipeline review"
+    },
+    {
+      "path": "packages/game/index.html",
+      "sha256": "aeabd8dd442041f8449aa3400941c387b420a7544da3b11da561cdc53b6d55a4",
+      "lines": 132,
+      "scope": "108-122 real static overlay IDs; not visual/style acceptance"
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.ts",
+      "sha256": "6a583e9a53cf4a3b2a80993c7ef792877dfc4c60a3628fbde94ca58f967fefdc",
+      "lines": 97,
+      "scope": "24-65 wrapper install/method/signal owner only; no new implementation acceptance"
+    },
+    {
+      "path": "packages/game/src/__tests__/grok-render-r1/dump-evidence.ts",
+      "sha256": "0190fb4ea18357e24e30a552ece01049ecdb208539895e3117fda5c2e402a6c4",
+      "lines": 286,
+      "scope": "20-113 readHost/dumpHost; DOM payload encoding is an IO witness, not a browser screenshot"
+    },
+    {
+      "path": "docs/phase1/engineering-notes.md",
+      "sha256": "e37d7232b6aff955f4aa8b50e33f87b15377a3707c0c548d5d6cc7ddffb2e89f",
+      "lines": 279,
+      "scope": "205-224 SW two-stage progress/current historical constraints"
+    }
+  ],
+  "notClaimed": [
+    "product repair permission",
+    "main/HTTP/SW full runtime or visual acceptance",
+    "asset/save/schema/phase2 change",
+    "whole-repository/coverage/protected gate"
+  ]
+}

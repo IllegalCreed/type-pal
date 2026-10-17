@@ -21,6 +21,12 @@ Visual Verification Timing: functional-ui（启动 overlay DOM 生命周期）
 
 2026-10-13 Codex：accept/done；账本收口为 `3266 / 322 closed / 8 review / 2936 pending`。
 
+## 2026-10-18 当前复审
+
+Codex单一Owner，build allowed仅两测试与治理证据；完整读取149行实现、主/host和真实main/资源屏障/UI/HTML caller。原20例保留数量：弱重复失败提示归G09-C11，增加Request/init/Response透传，增强底层reject同一对象、4/8分母、599/600ms与异步/全局清理。三枚隔离反控各旧20绿→新19绿1指定AssertionError，正式20绿；相邻6文件54例和game typecheck通过。
+
+另发现真实模块组合ui.fail被迟到fetch进度覆盖，一条明确DOM AssertionError；生产未修，已开[高风险卡](../../../tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md)，main/boot review、precache-ui旧关闭撤回rework。source/caller/oracle/排重、raw/native/hash与未执行边界见[72证据](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md)。本批无新全仓check/ratchet/protected；当前partial，不以原done或邻包全绿关闭产品。288closed/47review/2977pending；49partial/34pending/0整卡accept；下一批73。
+
 ## 下一位 Agent 提示词
 
 ```text

@@ -1025,7 +1025,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "920dbd36f45b8a085af36eb92184c1ce55b5530e7569e9f7b3278f6db0cf4af9",
+      "afterSha256": "8628f70b9b4e2021694848b4c592aa0d0746c25085edd927035904f2605b87cc",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1049,8 +1049,22 @@
       },
       "revision": {
         "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "implementationSha": "920dbd36f45b8a085af36eb92184c1ce55b5530e7569e9f7b3278f6db0cf4af9",
+        "implementationSha": "8628f70b9b4e2021694848b4c592aa0d0746c25085edd927035904f2605b87cc",
         "history": [
+          {
+            "revision": "0587d8714",
+            "date": "2026-10-18",
+            "action": "CODE72 loader test contracts and directly evidenced failure-state rework",
+            "previousAfterSha256": "920dbd36f45b8a085af36eb92184c1ce55b5530e7569e9f7b3278f6db0cf4af9",
+            "scope": "Only two verified boot test rows, two newly read review rows and revoked precache UI whole-file close; corresponding active/draft/index rows and metadata references. New risk stays draft, production unchanged; historical raw/native judgments preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md",
+            "notRun": [
+              "new whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "full main/browser/SW visual"
+            ]
+          },
           {
             "revision": "9cd270f26",
             "date": "2026-10-18",
@@ -1134,7 +1148,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "920dbd36f45b8a085af36eb92184c1ce55b5530e7569e9f7b3278f6db0cf4af9",
+        "afterSha256": "8628f70b9b4e2021694848b4c592aa0d0746c25085edd927035904f2605b87cc",
         "lineCount": 1987,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1169,7 +1183,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-2223",
+      "reviewedLines": "1-2251",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -4856,7 +4870,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "ee3c6c02ddf0cf0b87be81414634724f47643bdb5a4835d41a4e43386df9c1da",
+      "afterSha256": "3f1b55dce94681649af599475738714035c59c1a4955c1517fbcf0096951fd4a",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -4880,8 +4894,22 @@
       },
       "revision": {
         "currentSha": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "implementationSha": "ee3c6c02ddf0cf0b87be81414634724f47643bdb5a4835d41a4e43386df9c1da",
+        "implementationSha": "3f1b55dce94681649af599475738714035c59c1a4955c1517fbcf0096951fd4a",
         "history": [
+          {
+            "revision": "0587d8714",
+            "date": "2026-10-18",
+            "action": "CODE72 loader test contracts and directly evidenced failure-state rework",
+            "previousAfterSha256": "ee3c6c02ddf0cf0b87be81414634724f47643bdb5a4835d41a4e43386df9c1da",
+            "scope": "Only two verified boot test rows, two newly read review rows and revoked precache UI whole-file close; corresponding active/draft/index rows and metadata references. New risk stays draft, production unchanged; historical raw/native judgments preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md",
+            "notRun": [
+              "new whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "full main/browser/SW visual"
+            ]
+          },
           {
             "revision": "9cd270f26",
             "date": "2026-10-18",
@@ -4965,7 +4993,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "ee3c6c02ddf0cf0b87be81414634724f47643bdb5a4835d41a4e43386df9c1da",
+        "afterSha256": "3f1b55dce94681649af599475738714035c59c1a4955c1517fbcf0096951fd4a",
         "lineCount": 5074,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -5000,7 +5028,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-5214",
+      "reviewedLines": "1-5242",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

@@ -3,6 +3,7 @@ import {
   failBootLoading,
   finishBootLoading,
   initBootLoading,
+  restoreBootFetch,
   setBootLoadingNote,
 } from './boot-loading.js'
 
@@ -15,30 +16,32 @@ function mountOverlay(): void {
     </div>`
 }
 
-const realFetch = globalThis.fetch
-
-afterEach(() => {
-  // 还原全局 fetch(失败的测试可能留 wrapper)
-  finishBootLoading()
-  globalThis.fetch = realFetch
-  document.body.innerHTML = ''
-  vi.useRealTimers()
-})
+let transport = vi.fn<typeof fetch>()
 
 beforeEach(() => {
-  globalThis.fetch = vi.fn(async () => new Response('{}')) as unknown as typeof fetch
+  vi.useFakeTimers()
+  transport = vi.fn<typeof fetch>(async () => new Response('{}'))
+  vi.stubGlobal('fetch', transport)
 })
 
-/** flush rAF 节流的渲染(jsdom rAF 是宏任务,等一拍)。 */
+afterEach(async () => {
+  restoreBootFetch()
+  await flushRender() // Drain the pending render so its module-owned flag is cleared.
+  vi.clearAllTimers()
+  vi.unstubAllGlobals()
+  vi.useRealTimers()
+  document.body.replaceChildren()
+})
+
 async function flushRender(): Promise<void> {
-  await new Promise((r) => requestAnimationFrame(() => r(undefined)))
+  await vi.advanceTimersByTimeAsync(16)
 }
 
 describe('boot-loading(启动加载覆盖层)', () => {
   it('init 后 fetch 计数驱动状态文本与进度条(分母 = max(已发起, 预估总量))', async () => {
     mountOverlay()
     initBootLoading(4) // 预估 4 项
-    expect(globalThis.fetch).not.toBe(realFetch)
+    expect(globalThis.fetch).not.toBe(transport)
 
     await Promise.all([fetch('/a'), fetch('/b'), fetch('/c')])
     await flushRender()
@@ -51,7 +54,6 @@ describe('boot-loading(启动加载覆盖层)', () => {
 
   it('进度单调不回退:新一波请求发起(分母涨)时显示值保持(2026-06-12 用户反馈条回退)', async () => {
     mountOverlay()
-    const underlying = globalThis.fetch as ReturnType<typeof vi.fn> // wrapper 包之前抓底层 mock
     initBootLoading(4)
     // 第一波:4 项全完成 → raw 99(满格只由 finish 给)
     await Promise.all([fetch('/1'), fetch('/2'), fetch('/3'), fetch('/4')])
@@ -59,34 +61,49 @@ describe('boot-loading(启动加载覆盖层)', () => {
     const fill = document.getElementById('boot-loading-fill')!
     expect(fill.style.width).toBe('99%')
     // 第二波:再发起 4 项未完成(挂着的 fetch 抬高分母)→ raw = 4/8 = 50,显示不回退仍 99
-    underlying.mockImplementation(() => new Promise<Response>(() => {})) // 永不 resolve
-    void fetch('/5')
-    void fetch('/6')
-    void fetch('/7')
-    void fetch('/8')
-    await flushRender()
-    expect(fill.style.width).toBe('99%')
+    const resolveResponses: Array<(response: Response) => void> = []
+    transport.mockImplementation(
+      () => new Promise<Response>((resolve) => resolveResponses.push(resolve)),
+    )
+    const requests = ['/5', '/6', '/7', '/8'].map((url) => fetch(url))
+    try {
+      await flushRender()
+      expect(document.getElementById('boot-loading-status')!.textContent).toBe('正在加载资源 4 / 8')
+      expect(fill.style.width).toBe('99%')
+    } finally {
+      for (const resolve of resolveResponses) resolve(new Response('{}'))
+      await Promise.all(requests)
+    }
   })
 
-  it('finish 还原 fetch、补满格并移除 overlay(过渡后)', async () => {
+  it('Request/init 与 Response 身份透传，包装层不丢 headers 或 signal', async () => {
     mountOverlay()
-    vi.useFakeTimers()
+    const response = new Response('asset')
+    transport.mockResolvedValue(response)
+    initBootLoading()
+    const request = new Request('https://assets.test/table.json')
+    const init: RequestInit = {
+      headers: { 'X-Boot': 'resource' },
+      signal: new AbortController().signal,
+    }
+    expect(await fetch(request, init)).toBe(response)
+    expect(transport).toHaveBeenCalledTimes(1)
+    expect(transport).toHaveBeenCalledWith(request, init)
+  })
+
+  it('finish 还原 fetch、补满格并在 600ms 过渡后移除 overlay', () => {
+    mountOverlay()
     initBootLoading()
     const wrapped = globalThis.fetch
     finishBootLoading()
     expect(globalThis.fetch).not.toBe(wrapped) // fetch 已还原
     expect(document.getElementById('boot-loading-fill')!.style.width).toBe('100%')
-    vi.advanceTimersByTime(1000) // 淡出过渡后移除节点
+    vi.advanceTimersByTime(599)
+    expect(document.getElementById('boot-loading')?.classList.contains('boot-loading-done')).toBe(
+      true,
+    )
+    vi.advanceTimersByTime(1)
     expect(document.getElementById('boot-loading')).toBeNull()
-  })
-
-  it('fail 显示错误文本、还原 fetch、overlay 保留', () => {
-    mountOverlay()
-    initBootLoading()
-    failBootLoading('资源加载失败 (500)')
-    const status = document.getElementById('boot-loading-status')!
-    expect(status.textContent).toContain('资源加载失败')
-    expect(document.getElementById('boot-loading')).not.toBeNull()
   })
 
   it('setBootLoadingNote 追加说明到计数文本,清空恢复(soundfont 尾段等待文案)', async () => {
@@ -102,15 +119,16 @@ describe('boot-loading(启动加载覆盖层)', () => {
     expect(status.textContent).toBe('正在加载资源 1 / 4')
   })
 
-  it('无 overlay 节点(单测/SSR)时全部 no-op 不抛错', async () => {
+  it('无 overlay 节点时不包装 fetch，公开入口安全', async () => {
     expect(() => initBootLoading()).not.toThrow()
     expect(() => finishBootLoading()).not.toThrow()
     expect(() => failBootLoading('x')).not.toThrow()
     expect(() => setBootLoadingNote('x')).not.toThrow()
-    await expect(fetch('/ok')).resolves.toBeInstanceOf(Response) // fetch 未被包(或包了也透传)
+    expect(globalThis.fetch).toBe(transport)
+    await expect(fetch('/ok')).resolves.toBeInstanceOf(Response)
   })
 
-  it('重复 init 幂等(不双层包 fetch)', async () => {
+  it('重复 init 幂等(不双层包 fetch)', () => {
     mountOverlay()
     initBootLoading()
     const once = globalThis.fetch

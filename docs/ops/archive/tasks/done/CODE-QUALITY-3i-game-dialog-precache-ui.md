@@ -65,6 +65,10 @@ Template: task-card-v1 / 1.0.0
 
 历史内容见[原始结论](#原始结论)；按原时点读取。
 
+## 2026-10-18 错误态直接counter
+
+CODE72核真实main/boot-loading/UI及并行资源屏障，公开模块组合先fail、再在途fetch完成，启动失败文案被“加载必要资源50%”覆盖。[72原件](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md)保留恰一业务AssertionError、spec/native/raw/hash和实际范围；非完整浏览器/main现场。precache-ui.ts旧整文件已验证撤回rework，原NaN窄修/旧raw保持，不把当前counter倒写为历史执行失败。生产未改，后续仅按[高风险卡](../../../tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md)准入；本卡当前复审仍partial。
+
 ## 历史范围
 
 10-05、基点9c9b4b973；原ledger113闭合/2846尚未核验属于接手时点，不与今日清单混写。商标DOS chunk6/1000ms/600ms行为未改，注释纠正不算新产品时序设计。

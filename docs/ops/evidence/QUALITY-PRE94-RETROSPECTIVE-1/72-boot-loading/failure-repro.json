@@ -1,0 +1,47 @@
+{
+  "base": "0587d87144736201a342ea6f3bc2869e89cf5fce",
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/shell/pre94-boot72-failure-repro.test.ts",
+    "--maxWorkers=1",
+    "--silent=false",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-boot-failure-bmslpwrf/runner.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 1,
+  "signal": null,
+  "spawnError": null,
+  "sourceSha256": {
+    "packages/game/src/main.ts": "f4add3675f3d1b5e9205058d4403face28e0d068a9fb5ec584b1a41b0aa30e64",
+    "packages/game/src/shell/boot-loading.ts": "d3b407ee9e960f43c18577b7422be1aa8288cdd1905ffbd6c700aedd2977f845",
+    "packages/game/src/shell/precache-ui.ts": "ba6cc9ee369dd852552ca797d0f689d501f2ddd37afcb833ab575052686f43a9"
+  },
+  "specSha256": "bdef5c47e9cbfae675579ba9f5fb9ca236031d3c681f186da5d9edde4863251e",
+  "rawSha256": "5626930580ac49e99eb85e90024df34ceacc03b2e038c61bca6bcf4847d3da51",
+  "runnerSha256": "2ec672cdc7ff28d254310c3aeba5cf67a085cac4c9ff48a23aa04414cb61ca37",
+  "cases": [
+    {
+      "ancestorTitles": [],
+      "fullName": "启动失败后迟到 fetch 进度不能覆盖失败文案",
+      "status": "failed",
+      "title": "启动失败后迟到 fetch 进度不能覆盖失败文案",
+      "duration": 10.224208000000033,
+      "failureMessages": [
+        "AssertionError: expected '加载必要资源 50%' to be '启动失败:主资源加载失败' // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/shell/pre94-boot72-failure-repro.test.ts:29:73\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+      ],
+      "meta": {},
+      "tags": []
+    }
+  ],
+  "observed": "exact DOM text changes from 启动失败:主资源加载失败 to 加载必要资源 50%; fill width and visual rendering were not asserted",
+  "scope": "real public boot-loading and precache-ui composition; simulates main catch call ordering, no bootstrap core mock and no full main runtime claim",
+  "temporaryCopyRemoved": true,
+  "productionUnchanged": true
+}

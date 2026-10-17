@@ -20,3 +20,7 @@ primary source 为 `reference/sdlpal/main.c:197-203` 的 DOS 商标顺序，资�
 
 按用户成本约束，本小批未运行 coverage、official ratchet、protected fast 或全仓 `pnpm check`；这些门留到一个完整大模块收口前集中执行。后续仍需继续 3j 以外的 pre-94 队列；本批不改变 94–102 优先级，不把包级绿灯当作全仓完成。
 
+
+## 2026-10-18 当前counter
+
+原NaN窄修与当轮测试保持；当前[72反例](../72-boot-loading/README.md)证真实boot/UI组合的失败文案被迟到进度覆盖，precache-ui整文件旧已验证精确撤回rework。生产未修，按[高风险卡](../../../tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md)继续；本页旧“阶段/失败生命周期保持”不得扩张成当前失败终态accept。
