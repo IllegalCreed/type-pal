@@ -21,6 +21,12 @@ Visual Verification Timing: N/A（工具层，无产品/UI行为修改）
 实改范围、红绿反例及后续统一门见 [Codex接手日志](../evidence/CODE-QUALITY-94/codex-takeover.md)。
 这是作者修复/自验证，不冒充再次独立accept；本卡保持review、不标done、不增加closed。
 
+## Codex 当前独立复核（2026-10-17）
+
+Codex 完整读取 `quick-save.ts`、`quick-save.test.ts`、`toast.test.ts`、bootstrap 的 `setupQuickSave` 注入、Save API/IDB caller 与生命周期。定向 quick-save + toast 为 2 files / 12 tests，game typecheck 通过；E-13 完整 `GameState` 夹具、preventDefault、异步失败/空槽、解绑、fake-timer 和 DOM 清理均由当前源码直接核验。独立结论见 [CODE-QUALITY-102 当前证据](../evidence/CODE-QUALITY-102/codex-current-review.md)。
+
+两个文件已进入账本 `已验证`，但本卡继续保持 `review`：全局 game verbose 仍有15块运行时诊断，official ratchet/protected fast 正式 coverage 门仍因 shared/pal-extract 基线回退失败；这些风险不被本切片的直接证据冒称已收口。
+
 ## Codex R3 独立验收与接手（2026-10-15，冻结作者旧交付）
 
 候选 `5477af1e4`，最新主线 `f98d0ddd8`，独立验收树 0 behind / 17 ahead。

@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,307。
-当前已闭合核验：226；已读但待审：12；尚未逐文件核验：3,069；合计未闭合：3,081。
+当前已闭合核验：228；已读但待审：12；尚未逐文件核验：3,067；合计未闭合：3,079。
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
@@ -158,6 +158,8 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/tools/display-scale.ts` | product | 已验证 | CODE-QUALITY-3j；canvas/localStorage/fullscreen callers、scale tests；NaN negative control | 修复 NaN 百分比写入 NaN CSS/storage；有限百分比 clamp/居中形态不变 |
 | `packages/game/src/tools/fps-overlay.ts` | product | 已验证 | CODE-QUALITY-3j；tools-panel/rAF caller、启停/采样/DOM tests | module sampling state 在停用时清零；非法持久值仅 `'1'` 开启 |
 | `packages/game/src/tools/toast.ts` | product | 已验证 | CODE-QUALITY-3j；save/tool callers、success/error/info/stack lifecycle tests | DOM 单例/多 toast 到期自删合同完整，未发现直接缺陷 |
+| `packages/game/src/tools/quick-save.ts` | product | 已验证 | [CODE-QUALITY-102 Codex独立复核](../evidence/CODE-QUALITY-102/codex-current-review.md)；bootstrap setupQuickSave真实注入、Save API/IDB caller、quick-save/toast tests | F5/F9 时机门、preventDefault、错误反馈、SSR no-op、disposer 与依赖 ownership 逐文件核验；无直接缺陷 |
+| `packages/game/src/tools/quick-save.test.ts` | test | 已验证 | [CODE-QUALITY-102 Codex独立复核](../evidence/CODE-QUALITY-102/codex-current-review.md)；真实 GameState/KeyboardEvent、save/load/toast oracle 与 finally 清理 | 8 tests；E-13 `as never` 夹具已移除，异步失败/空槽/解绑/计时器和 DOM 隔离均有判别力；无重复 toast 原语断言 |
 | `packages/game/src/tools/map-names.ts` | product | 已验证 | CODE-QUALITY-3j；shared authored map-name caller 与 known/fallback tests | 缺名保持 `地图N` 回退，不改 authored table |
 | `packages/game/src/tools/speedrun/time-format.ts` | product | 已验证 | CODE-QUALITY-3j；speedrun store/overlay callers、format/parse boundary + leaves tests | 合法时钟/解析/符号/负数合同完整，未发现直接缺陷 |
 | `packages/game/src/tools/speedrun/countdown.ts` | product | 已验证 | CODE-QUALITY-3j；speedrun store caller、singleton/update/remove DOM tests | 单节点复用、null 幂等移除；未发现直接缺陷 |
