@@ -307,7 +307,7 @@
         }
       ],
       "sourceSha256": "687a9e3d69088bfbb387346fbbb3e58f83db6afedf7141fd7f9067dcdc276560",
-      "afterSha256": "77daa5edc7b28ae5a85d96f9a1542aad4bd169a5c101d4f68ef429ba27496dcb",
+      "afterSha256": "6a1be4b834767cc61839e96d5c05274b16fa00ed78a3a4417aae919c8d6aa3a0",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -327,8 +327,8 @@
         "against": ["docs/phase-governance/catalog.json"]
       },
       "revision": {
-        "currentSha": "77daa5edc7b28ae5a85d96f9a1542aad4bd169a5c101d4f68ef429ba27496dcb",
-        "implementationSha": "77daa5edc7b28ae5a85d96f9a1542aad4bd169a5c101d4f68ef429ba27496dcb",
+        "currentSha": "6a1be4b834767cc61839e96d5c05274b16fa00ed78a3a4417aae919c8d6aa3a0",
+        "implementationSha": "6a1be4b834767cc61839e96d5c05274b16fa00ed78a3a4417aae919c8d6aa3a0",
         "history": [
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
@@ -8504,7 +8504,7 @@
         }
       ],
       "sourceSha256": "cd96f7c35d7e448441dcd8059d34ba305b11d308341569f554e9e39484ff7dad",
-      "afterSha256": "6a58b257ce5a455e62dbe724f5862f736801fee11ce9ccfabf9c3957efeff1d7",
+      "afterSha256": "c16869eb6414b318363ee4a69ca26f7de60cd2c745727c0925c8648345359b43",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -8527,8 +8527,8 @@
         "against": ["docs/phase-governance/reviews/20261017-r30-phase1-foundation.json"]
       },
       "revision": {
-        "currentSha": "6a58b257ce5a455e62dbe724f5862f736801fee11ce9ccfabf9c3957efeff1d7",
-        "implementationSha": "6a58b257ce5a455e62dbe724f5862f736801fee11ce9ccfabf9c3957efeff1d7",
+        "currentSha": "c16869eb6414b318363ee4a69ca26f7de60cd2c745727c0925c8648345359b43",
+        "implementationSha": "c16869eb6414b318363ee4a69ca26f7de60cd2c745727c0925c8648345359b43",
         "history": [
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
@@ -13912,7 +13912,7 @@
       "owner": "Codex",
       "provenance": ["generated-shard", "full-json-byte-read", "loader-consumer-review"],
       "sourceSha256": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
-      "afterSha256": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
+      "afterSha256": "7144194a364c004429e9eefaba2e548e593c498141983e5ec88333d5f64e40d3",
       "publicCallers": [
         "scripts/docs/check-phase-lore-governance.mjs",
         "scripts/docs/build-phase-lore-governance.mjs",
@@ -13935,8 +13935,8 @@
         "against": ["docs/phase-governance/catalog.json", "scripts/docs/phase-lore-catalog.mjs"]
       },
       "revision": {
-        "currentSha": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
-        "implementationSha": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
+        "currentSha": "7144194a364c004429e9eefaba2e548e593c498141983e5ec88333d5f64e40d3",
+        "implementationSha": "7144194a364c004429e9eefaba2e548e593c498141983e5ec88333d5f64e40d3",
         "contentVersion": "N/A-document-migration",
         "minimumSaveVersion": "N/A-document-migration",
         "history": [

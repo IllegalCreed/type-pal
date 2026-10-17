@@ -80,6 +80,12 @@
             "date": "2026-10-17",
             "action": "glm coop-dex-edge + puppet-F-key verification（用户2026-10-17 确认/提问；sdlpal 一手核验：合击×10 纯 dex 序边界怪癖复刻、大世界 F 键傀儡施法门 HP>0 不存在、傀儡保 buff 场景钉真）",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "revision": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
+            "date": "2026-10-17",
+            "action": "glm coop-section upgrade: HP cost subsection + full first-move edge bug record with numeric example (fight.c:3961-3967/1532/1586-1596/383-385 first-hand)",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
           }
         ]
       },
@@ -124,6 +130,11 @@
           "revision": "fb6d21f4a2f293079a6649d04e01fdc5f9e032500826f3ce117f2f519f3d3c4a",
           "date": "2026-10-17",
           "action": "glm coop-dex-edge + puppet-F-key verification（用户2026-10-17 确认/提问；sdlpal 一手核验：合击×10 纯 dex 序边界怪癖复刻、大世界 F 键傀儡施法门 HP>0 不存在、傀儡保 buff 场景钉真）"
+        },
+        {
+          "revision": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
+          "date": "2026-10-17",
+          "action": "glm coop-section upgrade: HP cost subsection + full first-move edge bug record with numeric example (fight.c:3961-3967/1532/1586-1596/383-385 first-hand)"
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -949,7 +960,7 @@
         }
       ],
       "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
-      "afterSha256": "fb6d21f4a2f293079a6649d04e01fdc5f9e032500826f3ce117f2f519f3d3c4a",
+      "afterSha256": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
       "publicCallers": ["docs navigation"],
       "legalInputs": ["current repository documentation", "docs/phase1/game-mechanics.md"],
       "businessOracle": {
@@ -966,8 +977,8 @@
         "against": ["docs/phase1/game-mechanics.md"]
       },
       "revision": {
-        "currentSha": "fb6d21f4a2f293079a6649d04e01fdc5f9e032500826f3ce117f2f519f3d3c4a",
-        "implementationSha": "fb6d21f4a2f293079a6649d04e01fdc5f9e032500826f3ce117f2f519f3d3c4a",
+        "currentSha": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
+        "implementationSha": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
         "history": [
           {
             "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
@@ -987,8 +998,8 @@
         "kind": "document-template-migration",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r30-phase1-foundation-20261017.json",
         "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
-        "candidateSha256": "fb6d21f4a2f293079a6649d04e01fdc5f9e032500826f3ce117f2f519f3d3c4a",
-        "afterSha256": "fb6d21f4a2f293079a6649d04e01fdc5f9e032500826f3ce117f2f519f3d3c4a",
+        "candidateSha256": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
+        "afterSha256": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
         "lineCount": 1655,
         "originalPreservation": {
           "method": "line-by-line blockquote quote",
@@ -1030,7 +1041,7 @@
       "historyOverlay": true,
       "documentStatus": "historical",
       "sourceGitRevision": "d62602284cbfe2d9306f4acb006d15d944d1f6e2",
-      "candidateSha256": "fb6d21f4a2f293079a6649d04e01fdc5f9e032500826f3ce117f2f519f3d3c4a",
+      "candidateSha256": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
       "primarySource": [
         {
           "path": "docs/phase1/game-mechanics.md",

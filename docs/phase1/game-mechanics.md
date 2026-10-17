@@ -828,13 +828,27 @@ historical。do not promote historical claims to current truth without a current
 > - 放哪个合击仙术:由发起者的 `PAL_GetPlayerCooperativeMagic(role)` 决定 = 角色 `rgwCooperativeMagic[role]`,装备可覆盖([global.c:2013-2045](../../reference/sdlpal/global.c#L2013-L2045))。
 > - 可单体或 `kMagicFlagApplyToAll` 全体。
 >
-> ### 回合代价
+> ### 生命值代价(扣 HP,不是 MP!)
+>
+> [fight.c:3961-3967](../../reference/sdlpal/fight.c#L3961-L3967):每个 coopContributor 执行 `rgwHP[role] -= wCostMP`(注意是**扣血**,读的却是法术表 costMP 字段),扣到 `<= 0` 钳到 **1**(合击永远打不死自己人)。这是"合击要付出全队血线"的设计——放一次合击,每个健康队员都掉合击仙术 costMP 点 HP。
+>
+> 合击结算后 CLASSIC 把全员 state 复位 `kFighterWait`([fight.c:3971-3976](../../reference/sdlpal/fight.c#L3971-L3976) `#ifdef PAL_CLASSIC` 分支);非 CLASSIC ATB 则是 `flTimeMeter=0` + `flTimeSpeedModifier=2`(下一轮充能加倍,本引擎不适用)。
+>
+> ### 回合代价(吞掉全队本轮行动)
 >
 > 合击回合 `fThisTurnCoop = TRUE`([fight.c:3858](../../reference/sdlpal/fight.c#L3858))→ 该回合所有参与成员的**普攻 / 防御 / 逃跑 / 单独施法全部被跳过**(各 action case 开头 `if(g_Battle.fThisTurnCoop) break;`,见 [fight.c:3620, 4112, 4121, 4176, 4334](../../reference/sdlpal/fight.c#L3620))。整队这一回合只做这一次合击。
 >
-> **先手边界怪癖(用户 2026-10-17 实机确认原版存在;源码可推)**:合击的 ×10 只把**合击者**的行动 dex 乘 10,行动序仍是纯 dex 降序——若某队友有效身法(含自身倍率与抖动,实际身法 999 封顶)超过"合击者实际身法 ×10",他仍排在合击**之前**先释放法术,法术结算完才轮到合击触发(合击后的 fThisTurnCoop 再吞掉本轮剩余)。低身法合击者+高身法队友(如 haste ×3)时可复现。引擎按 sdlpal 真值复刻此行为(ts `actionDexMultiplier` ×10 + `buildActionQueue` 纯 dex 排序),不改。
+> ### 先手边界怪癖(用户 2026-10-17 实机确认的原版 bug;引擎忠实复刻)
 >
-> ts 实现状态:**已实现**。`performCoopMagic` 会筛选 healthy 参与者、扣除 HP 代价、计算伤害并生成聚拢 / 施法 / 法术特效 / 归位动画;回合队列也会跳过同轮其他参与者动作。若执行前只剩一名 healthy 队员,会按原版退化成普通攻击并保留普攻动画。
+> **机制**:行动队列按 dex **纯数值降序**排([fight.c:1586-1596](../../reference/sdlpal/fight.c#L1586)),合击的 ×10 倍率([fight.c:1532](../../reference/sdlpal/fight.c#L1532))只乘在**合击者**一个人的行动 dex 上,排序不设任何下限或保护。
+>
+> **推论**:若某队友的"有效身法 × 自身行动倍率 × 抖动" > "合击者有效身法 × 10 × 抖动",该队友排在合击**之前**——先把自己的法术完整释放结算,然后才轮到合击触发,合击的 fThisTurnCoop 再吞掉本轮剩余行动。
+>
+> **可达性(数值例)**:实际身法封顶 999([fight.c:383-385](../../reference/sdlpal/fight.c#L383),封顶发生在行动倍率**之前**)→ 合击者实际身法 < 100 时 ×10 仍 < 999。例:合击者身法 80 → 80×10×抖动 ∈ [720, 880];被 haste ×3 的队友身法 340 → 实际 999(封顶)×抖动 ∈ [899, 1099] → **多数掷骰下队友先动**。低身法角色(早期李逍遥)发起合击 + 高身法 haste 队友时最容易复现,与用户实机观察一致。
+>
+> **引擎立场**:本引擎按 sdlpal 真值 1:1 复刻(`actionDexMultiplier` coop×10 [battle-system.ts:602-625](../../packages/game/src/core/battle/battle-system.ts#L602-L625) + `buildActionQueue` 纯 dex 降序),**不修**此边界——修它会偏离原版行为,属机制取舍,未经用户裁决不动。
+>
+> ts 实现状态:**已实现**。`performCoopMagic` 会筛选 healthy 参与者、扣除 HP 代价(钳 1)、计算伤害并生成聚拢 / 施法 / 法术特效 / 归位动画;回合队列也会跳过同轮其他参与者动作;若执行前只剩一名 healthy 队员,会按原版退化成普通攻击并保留普攻动画与经验/RNG 序。
 >
 > ---
 >
