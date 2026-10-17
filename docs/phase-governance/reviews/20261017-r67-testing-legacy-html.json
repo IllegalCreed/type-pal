@@ -7,22 +7,23 @@
   "entries": [
     {
       "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-b.html",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full HTML UTF-8 byte read and artifact envelope; title/DOM/script boundary enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-b.html：historical testing HTML host/artifact；保留原始 bytes、关联 host/source/evidence 和时点边界，不能单独证明当前 runtime/E2E/视觉通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-b.html:1"
       ],
       "unresolved": [
         "Historical host requires its paired README/source/evidence and fresh execution receipt before reuse.",
-        "Deletion is not authorized while archive migration, local README or evidence still references the host."
+        "Deletion is not authorized while archive migration, local README or evidence still references the host.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以配对 README、host source、machine evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive/legacy-html",
       "capability": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-b.html historical browser host",
@@ -168,26 +169,35 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while paired README, source, evidence or migration ledger references this artifact."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-c.html",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full HTML UTF-8 byte read and artifact envelope; title/DOM/script boundary enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-c.html：historical testing HTML host/artifact；保留原始 bytes、关联 host/source/evidence 和时点边界，不能单独证明当前 runtime/E2E/视觉通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-c.html:1"
       ],
       "unresolved": [
         "Historical host requires its paired README/source/evidence and fresh execution receipt before reuse.",
-        "Deletion is not authorized while archive migration, local README or evidence still references the host."
+        "Deletion is not authorized while archive migration, local README or evidence still references the host.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以配对 README、host source、machine evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive/legacy-html",
       "capability": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index-c.html historical browser host",
@@ -333,26 +343,35 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while paired README, source, evidence or migration ledger references this artifact."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index.html",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full HTML UTF-8 byte read and artifact envelope; title/DOM/script boundary enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index.html：historical testing HTML host/artifact；保留原始 bytes、关联 host/source/evidence 和时点边界，不能单独证明当前 runtime/E2E/视觉通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index.html:1"
       ],
       "unresolved": [
         "Historical host requires its paired README/source/evidence and fresh execution receipt before reuse.",
-        "Deletion is not authorized while archive migration, local README or evidence still references the host."
+        "Deletion is not authorized while archive migration, local README or evidence still references the host.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以配对 README、host source、machine evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive/legacy-html",
       "capability": "docs/testing/archive/legacy/batches/glm-large-wave/browser-host/index.html historical browser host",
@@ -498,26 +517,35 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while paired README, source, evidence or migration ledger references this artifact."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/index.html",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full HTML UTF-8 byte read and artifact envelope; title/DOM/script boundary enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/index.html：historical testing HTML host/artifact；保留原始 bytes、关联 host/source/evidence 和时点边界，不能单独证明当前 runtime/E2E/视觉通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/index.html:1"
       ],
       "unresolved": [
         "Historical host requires its paired README/source/evidence and fresh execution receipt before reuse.",
-        "Deletion is not authorized while archive migration, local README or evidence still references the host."
+        "Deletion is not authorized while archive migration, local README or evidence still references the host.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以配对 README、host source、machine evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive/legacy-html",
       "capability": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host-d/index.html historical browser host",
@@ -658,26 +686,35 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while paired README, source, evidence or migration ledger references this artifact."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/index.html",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full HTML UTF-8 byte read and artifact envelope; title/DOM/script boundary enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/index.html：historical testing HTML host/artifact；保留原始 bytes、关联 host/source/evidence 和时点边界，不能单独证明当前 runtime/E2E/视觉通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/index.html:1"
       ],
       "unresolved": [
         "Historical host requires its paired README/source/evidence and fresh execution receipt before reuse.",
-        "Deletion is not authorized while archive migration, local README or evidence still references the host."
+        "Deletion is not authorized while archive migration, local README or evidence still references the host.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以配对 README、host source、machine evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive/legacy-html",
       "capability": "docs/testing/archive/legacy/batches/glm-leaf-workflows/browser-host/index.html historical browser host",
@@ -819,26 +856,35 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while paired README, source, evidence or migration ledger references this artifact."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host/index.html",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full HTML UTF-8 byte read and artifact envelope; title/DOM/script boundary enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host/index.html：historical testing HTML host/artifact；保留原始 bytes、关联 host/source/evidence 和时点边界，不能单独证明当前 runtime/E2E/视觉通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host/index.html:1"
       ],
       "unresolved": [
         "Historical host requires its paired README/source/evidence and fresh execution receipt before reuse.",
-        "Deletion is not authorized while archive migration, local README or evidence still references the host."
+        "Deletion is not authorized while archive migration, local README or evidence still references the host.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以配对 README、host source、machine evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive/legacy-html",
       "capability": "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/browser-host/index.html historical browser host",
@@ -981,26 +1027,35 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while paired README, source, evidence or migration ledger references this artifact."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/index.html",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full HTML UTF-8 byte read and artifact envelope; title/DOM/script boundary enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/index.html：historical testing HTML host/artifact；保留原始 bytes、关联 host/source/evidence 和时点边界，不能单独证明当前 runtime/E2E/视觉通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/index.html:1"
       ],
       "unresolved": [
         "Historical host requires its paired README/source/evidence and fresh execution receipt before reuse.",
-        "Deletion is not authorized while archive migration, local README or evidence still references the host."
+        "Deletion is not authorized while archive migration, local README or evidence still references the host.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以配对 README、host source、machine evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive/legacy-html",
       "capability": "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/browser-host/index.html historical browser host",
@@ -1142,26 +1197,35 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while paired README, source, evidence or migration ledger references this artifact."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/host.html",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full HTML UTF-8 byte read and artifact envelope; title/DOM/script boundary enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/host.html：historical testing HTML host/artifact；保留原始 bytes、关联 host/source/evidence 和时点边界，不能单独证明当前 runtime/E2E/视觉通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/host.html:1"
       ],
       "unresolved": [
         "Historical host requires its paired README/source/evidence and fresh execution receipt before reuse.",
-        "Deletion is not authorized while archive migration, local README or evidence still references the host."
+        "Deletion is not authorized while archive migration, local README or evidence still references the host.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以配对 README、host source、machine evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive/legacy-html",
       "capability": "docs/testing/archive/legacy/batches/glm-phase1-leaves/browser-host/host.html historical browser host",
@@ -1321,26 +1385,35 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while paired README, source, evidence or migration ledger references this artifact."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/index.html",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full HTML UTF-8 byte read and artifact envelope; title/DOM/script boundary enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/index.html：historical testing HTML host/artifact；保留原始 bytes、关联 host/source/evidence 和时点边界，不能单独证明当前 runtime/E2E/视觉通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/index.html:1"
       ],
       "unresolved": [
         "Historical host requires its paired README/source/evidence and fresh execution receipt before reuse.",
-        "Deletion is not authorized while archive migration, local README or evidence still references the host."
+        "Deletion is not authorized while archive migration, local README or evidence still references the host.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以配对 README、host source、machine evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive/legacy-html",
       "capability": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv1/index.html historical browser host",
@@ -1480,26 +1553,35 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while paired README, source, evidence or migration ledger references this artifact."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv2/index.html",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full HTML UTF-8 byte read and artifact envelope; title/DOM/script boundary enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv2/index.html：historical testing HTML host/artifact；保留原始 bytes、关联 host/source/evidence 和时点边界，不能单独证明当前 runtime/E2E/视觉通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv2/index.html:1"
       ],
       "unresolved": [
         "Historical host requires its paired README/source/evidence and fresh execution receipt before reuse.",
-        "Deletion is not authorized while archive migration, local README or evidence still references the host."
+        "Deletion is not authorized while archive migration, local README or evidence still references the host.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以配对 README、host source、machine evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive/legacy-html",
       "capability": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv2/index.html historical browser host",
@@ -1639,26 +1721,35 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while paired README, source, evidence or migration ledger references this artifact."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/index.html",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full HTML UTF-8 byte read and artifact envelope; title/DOM/script boundary enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/index.html：historical testing HTML host/artifact；保留原始 bytes、关联 host/source/evidence 和时点边界，不能单独证明当前 runtime/E2E/视觉通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/index.html:1"
       ],
       "unresolved": [
         "Historical host requires its paired README/source/evidence and fresh execution receipt before reuse.",
-        "Deletion is not authorized while archive migration, local README or evidence still references the host."
+        "Deletion is not authorized while archive migration, local README or evidence still references the host.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以配对 README、host source、machine evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive/legacy-html",
       "capability": "docs/testing/archive/legacy/batches/glm-runtime-resource-wave/hosts/rv3-rv4/index.html historical browser host",
@@ -1798,26 +1889,35 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while paired README, source, evidence or migration ledger references this artifact."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/index.html",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full HTML UTF-8 byte read and artifact envelope; title/DOM/script boundary enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/index.html：historical testing HTML host/artifact；保留原始 bytes、关联 host/source/evidence 和时点边界，不能单独证明当前 runtime/E2E/视觉通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/index.html:1"
       ],
       "unresolved": [
         "Historical host requires its paired README/source/evidence and fresh execution receipt before reuse.",
-        "Deletion is not authorized while archive migration, local README or evidence still references the host."
+        "Deletion is not authorized while archive migration, local README or evidence still references the host.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以配对 README、host source、machine evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive/legacy-html",
       "capability": "docs/testing/archive/legacy/batches/kimi-editor-workflows/browser-host/index.html historical browser host",
@@ -1958,7 +2058,21 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while paired README, source, evidence or migration ledger references this artifact."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r67-testing-legacy-html.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     }
-  ]
+  ],
+  "currentCorrection": {
+    "date": "2026-10-18",
+    "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  }
 }

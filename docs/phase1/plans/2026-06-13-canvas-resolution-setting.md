@@ -31,7 +31,7 @@ Template: plan-status-v1 / 1.0.0
 
 ## 下一步
 
-- 后继入口：C；u；r；r；e；n；t； ；d；i；s；p；l；a；y；-；s；c；a；l；e；/；c；a；n；v；a；s； ；c；o；d；e； ；a；n；d； ；p；r；o；d；u；c；t； ；d；e；c；i；s；i；o；n；.。
+- 后继入口：Current display-scale/canvas code and product decision.。
 - 若重新执行须新 task card、当前 source/oracle 和独立验收。
 
 ## 历史范围
@@ -56,7 +56,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；d；i；s；p；l；a；y；-；s；c；a；l；e；/；c；a；n；v；a；s； ；c；o；d；e； ；a；n；d； ；p；r；o；d；u；c；t； ；d；e；c；i；s；i；o；n；.。
+- Current display-scale/canvas code and product decision.。
 - 当前事实由继任规范、代码和新的 review 决定。
 
 ## 原文保全

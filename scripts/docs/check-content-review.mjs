@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { reviewCreditIssues } from './document-integrity.mjs'
 
 const repoRoot = resolve(new URL('../..', import.meta.url).pathname)
 const registryPath = resolve(repoRoot, 'docs/phase-governance/document-registry.json')
@@ -95,6 +96,7 @@ for (const item of registry.entries ?? []) {
     add(`${item.path}: missing content review record`)
     continue
   }
+  for (const issue of reviewCreditIssues(item, entry)) add(`${item.path}: ${issue}`)
   for (const field of required)
     if (entry[field] === undefined || entry[field] === null || entry[field] === '')
       add(`${item.path}: missing ${field}`)

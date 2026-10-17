@@ -1,0 +1,2002 @@
+{
+  "schemaVersion": 1,
+  "kind": "integrity-correction-facts-not-new-semantic-review",
+  "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+  "date": "2026-10-18",
+  "owner": "Codex",
+  "repairs": [
+    {
+      "path": "docs/lore/timeline.md",
+      "sourceSha256": "c1f91f188644ab7f63c1e65732aafc48186bedbd9f40fb16ce35487a91e4c1a7",
+      "afterSha256": "67c549f74563aa7fa09ee5c1eaf67c33154c420dc2299e41a80b0e149b7be5c7",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 42,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；2；/；l；o；r；e； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；,； ；c；o；d；e；,； ；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase2/lore canonical docs, code, tests and fresh primary-source review."
+        },
+        {
+          "line": 72,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；2；/；l；o；r；e； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；,； ；c；o；d；e；,； ；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase2/lore canonical docs, code, tests and fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/lore/ideas/guijie/beat-sheet.md",
+      "sourceSha256": "ed5c0180cc2881fc99ca5449ed6aa406f32b3d90549a2eeefe385d7c47cf5523",
+      "afterSha256": "32cca7269bfe2f0f266a9f1f0c0b048218180f3ac2a4e0bca745f8a4ef972197",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 66,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；2；/；l；o；r；e； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；,； ；c；o；d；e；,； ；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase2/lore canonical docs, code, tests and fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/lore/ideas/guijie/brainstorm.md",
+      "sourceSha256": "1b788487f31cf5b710420fc49456ab6e45a0d166b9eafb3eb08a5d5a94a23584",
+      "afterSha256": "4f2239c0ce792bb58cae858550227fe6614dbe65cbcdcb99361a7c1e637f2e58",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 60,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；2；/；l；o；r；e； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；,； ；c；o；d；e；,； ；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase2/lore canonical docs, code, tests and fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase2/design-backlog.md",
+      "sourceSha256": "21a0692015ec3202611b1c1eb61a1aa08108f73d27f41431444b7391811168d2",
+      "afterSha256": "40eecdfcbde1fcafde7b5a88dd26fa39114c9e5b52254a64696f25c126ec18a5",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 65,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；2；/；l；o；r；e； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；,； ；c；o；d；e；,； ；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase2/lore canonical docs, code, tests and fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase2/roadmap.md",
+      "sourceSha256": "be94e0b9d1b15612b81eb0f7fc017d52b4777bbeb83a7d0fa49c7efab442e2ca",
+      "afterSha256": "d129505ac4520db84a2b99ce34021f0a28c60d0dac56b70ffc74045d92f7715a",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 36,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；2；/；l；o；r；e； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；,； ；c；o；d；e；,； ；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase2/lore canonical docs, code, tests and fresh primary-source review."
+        },
+        {
+          "line": 60,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；2；/；l；o；r；e； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；,； ；c；o；d；e；,； ；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase2/lore canonical docs, code, tests and fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase2/capability-map.md",
+      "sourceSha256": "abdb0af02c0132071e9d5602a31dcbd10450ead72847c01fbc63669389fcef92",
+      "afterSha256": "8de8e8f1eb3ddf6eb253eb54e1747c5484fa25f65407222ebff1beabd70c262d",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 71,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；2；/；l；o；r；e； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；,； ；c；o；d；e；,； ；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase2/lore canonical docs, code, tests and fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase2/READ-FIRST.md",
+      "sourceSha256": "405dde555f59c1dac41cf043bdd58571d06197ca4bc21c6440326fb555974429",
+      "afterSha256": "25afb5f4d2d72878ab23985413f579b4552b987fc6a8f67866bb725cd4e3e1e6",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 59,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；2；/；l；o；r；e； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；,； ；c；o；d；e；,； ；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase2/lore canonical docs, code, tests and fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase2/decisions.md",
+      "sourceSha256": "6696f1cad835e5d0f792ef5b7e43779b2c6dc8faa7b2a71333764ee6af00d013",
+      "afterSha256": "459c18840a7621f29347ec7a72f03a75ec3d28e232b1dd64dc929fd4ea4adc7e",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 67,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；2；/；l；o；r；e； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；,； ；c；o；d；e；,； ；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase2/lore canonical docs, code, tests and fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase2/archive/slices/indoor/guijie-minju.md",
+      "sourceSha256": "a312cf18f0f2dc08131dc4d874c11d73b585ef80e56b6181ff3a4bde24694dcd",
+      "afterSha256": "96a820cda7b324cf182b62a4e4c05b7c0b7005eb9ffb75b0d509431302031418",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 34,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；2； ；d；e；c；i；s；i；o；n；s； ；a；n；d； ；a；n；y； ；n；e；w；l；y； ；r；e；v；i；e；w；e；d； ；c；a；n；o；n；i；c；a；l； ；s；l；i；c；e；-；1； ；c；o；n；t；e；n；t；/；r；e；f；o；r；g；e； ；s；p；e；c；;； ；t；h；e； ；o；l；d； ；s；p；e；c；.；m；d； ；i；s； ；e；x；p；l；i；c；i；t；l；y； ；r；e；p；l；a；c；e；d； ；i；n； ；t；h；e； ；t；e；x；t； ；b；u；t； ；r；e；m；a；i；n；s； ；a；r；c；h；i；v；e；-；o；n；l；y；.",
+          "after": "Current phase2 decisions and any newly reviewed canonical slice-1 content/reforge spec; the old spec.md is explicitly replaced in the text but remains archive-only."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase2/archive/slices/indoor/plan.md",
+      "sourceSha256": "3a1ff726d26d90cccb2549950075289c87853b6b85be9f38e9ae86dff859feb4",
+      "afterSha256": "984d0ca463561889d6c8da3e3fa86e5a52fd591cb36dd6f886591de1885cfe23",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 34,
+          "before": "d；o；c；s；/；p；h；a；s；e；2；/；a；r；c；h；i；v；e；/；s；l；i；c；e；s；/；i；n；d；o；o；r；/；g；u；i；j；i；e；-；m；i；n；j；u；.；m；d； ；a；s； ；t；h；e； ；h；i；s；t；o；r；i；c；a；l； ；r；e；f；o；c；u；s；e；d； ；s；l；i；c；e； ；p；r；o；p；o；s；a；l；,； ；c；u；r；r；e；n；t； ；p；h；a；s；e；2； ；d；e；c；i；s；i；o；n；s；,； ；a；n；d； ；a； ；n；e；w；l；y； ；r；e；v；i；e；w；e；d； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；i；f； ；t；h；e； ；s；l；i；c；e； ；r；e；s；t；a；r；t；s；.",
+          "after": "docs/phase2/archive/slices/indoor/guijie-minju.md as the historical refocused slice proposal, current phase2 decisions, and a newly reviewed implementation plan if the slice restarts."
+        },
+        {
+          "line": 55,
+          "before": "d；o；c；s；/；p；h；a；s；e；2；/；a；r；c；h；i；v；e；/；s；l；i；c；e；s；/；i；n；d；o；o；r；/；g；u；i；j；i；e；-；m；i；n；j；u；.；m；d； ；a；s； ；t；h；e； ；h；i；s；t；o；r；i；c；a；l； ；r；e；f；o；c；u；s；e；d； ；s；l；i；c；e； ；p；r；o；p；o；s；a；l；,； ；c；u；r；r；e；n；t； ；p；h；a；s；e；2； ；d；e；c；i；s；i；o；n；s；,； ；a；n；d； ；a； ；n；e；w；l；y； ；r；e；v；i；e；w；e；d； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；i；f； ；t；h；e； ；s；l；i；c；e； ；r；e；s；t；a；r；t；s；.",
+          "after": "docs/phase2/archive/slices/indoor/guijie-minju.md as the historical refocused slice proposal, current phase2 decisions, and a newly reviewed implementation plan if the slice restarts."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase2/archive/slices/indoor/spec.md",
+      "sourceSha256": "0dd2d3b248c1922070e5106e75ebeab88c8f34e905df18ba2bd97b811ebe39c6",
+      "afterSha256": "e0d83b044d05b17445c72e7852dbc086a3214c3f05da6c5a61fd38a2bd53ba5b",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 34,
+          "before": "d；o；c；s；/；p；h；a；s；e；2；/；a；r；c；h；i；v；e；/；s；l；i；c；e；s；/；i；n；d；o；o；r；/；g；u；i；j；i；e；-；m；i；n；j；u；.；m；d； ；i；s； ；t；h；e； ；n；a；m；e；d； ；t；e；x；t；u；a；l； ；s；u；c；c；e；s；s；o；r；;； ；c；u；r；r；e；n；t； ；p；h；a；s；e；2； ；d；e；c；i；s；i；o；n；s； ；a；n；d； ；r；e；f；o；r；g；e；/；c；o；n；t；e；n；t； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；m；u；s；t； ；b；e； ；r；e；v；a；l；i；d；a；t；e；d； ；b；e；f；o；r；e； ；u；s；e；.",
+          "after": "docs/phase2/archive/slices/indoor/guijie-minju.md is the named textual successor; current phase2 decisions and reforge/content implementation must be revalidated before use."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase2/archive/slices/indoor/npc-collision-plan.md",
+      "sourceSha256": "59a7fa21f34d721da96f7da149cd0f048fc25dfff519ef53df82403b4fc80727",
+      "afterSha256": "b6a58fecb5d1ea12ceffd8b7d8628ca52c7e6606a9509471efac4e6f9f436ad3",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 34,
+          "before": "C；u；r；r；e；n；t； ；r；e；f；o；r；g；e； ；c；o；l；l；i；s；i；o；n； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；/；t；e；s；t；s； ；a；n；d； ；c；a；p；a；b；i；l；i；t；y；-；m；a；p；/；t；a；s；k；-；c；a；r；d； ；e；v；i；d；e；n；c；e；;； ；a；n；y； ；n；e；w； ；d；y；n；a；m；i；c；-；c；o；l；l；i；s；i；o；n； ；d；e；s；i；g；n； ；m；u；s；t； ；b；e； ；s；e；p；a；r；a；t；e；l；y； ；s；c；o；p；e；d；.",
+          "after": "Current reforge collision implementation/tests and capability-map/task-card evidence; any new dynamic-collision design must be separately scoped."
+        },
+        {
+          "line": 55,
+          "before": "C；u；r；r；e；n；t； ；r；e；f；o；r；g；e； ；c；o；l；l；i；s；i；o；n； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；/；t；e；s；t；s； ；a；n；d； ；c；a；p；a；b；i；l；i；t；y；-；m；a；p；/；t；a；s；k；-；c；a；r；d； ；e；v；i；d；e；n；c；e；;； ；a；n；y； ；n；e；w； ；d；y；n；a；m；i；c；-；c；o；l；l；i；s；i；o；n； ；d；e；s；i；g；n； ；m；u；s；t； ；b；e； ；s；e；p；a；r；a；t；e；l；y； ；s；c；o；p；e；d；.",
+          "after": "Current reforge collision implementation/tests and capability-map/task-card evidence; any new dynamic-collision design must be separately scoped."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase2/specs/content-schema.md",
+      "sourceSha256": "6f47673657dca0b278bb7cf083fe6bb32e34e164b667b6d6977f82844d28266a",
+      "afterSha256": "fcf35b532e1d5aff90ac5899e6df28f78730c28a18b243e7506ff2c8aad9aa5d",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 63,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；2；/；l；o；r；e； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；,； ；c；o；d；e；,； ；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase2/lore canonical docs, code, tests and fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase2/specs/editor-architecture.md",
+      "sourceSha256": "3405d8b19cc02d5e377867cfb8e4f2d81d3610405f64a8f85cf88f165fde5d77",
+      "afterSha256": "91778e98539f515262c91222d7ac989003edb49feef776a602801f7574d7de05",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 69,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；2；/；l；o；r；e； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；,； ；c；o；d；e；,； ；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase2/lore canonical docs, code, tests and fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase2/specs/editor-design-system.md",
+      "sourceSha256": "a5d60238ca0268da875c1628a953a4b47fee9d79aa5912625ad9c1908b1a17ac",
+      "afterSha256": "dd146daf87439864ff39ebb186feb6f4c4ebfd7f696c6de8168a20e8f9325504",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 75,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；2；/；l；o；r；e； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；,； ；c；o；d；e；,； ；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase2/lore canonical docs, code, tests and fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase2/specs/script-system.md",
+      "sourceSha256": "16933b62d09a66b4029f81c60dcf6fb7b8e7b020ebc2f2f06ab3dc88cff5156c",
+      "afterSha256": "f271e3fc6d7fed2724793857fac1a16a41dbc7467891838f124a45fe3b706190",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 63,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；2；/；l；o；r；e； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；,； ；c；o；d；e；,； ；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase2/lore canonical docs, code, tests and fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase2/specs/project-lifecycle.md",
+      "sourceSha256": "577d15c60666426cd5921c949642d7eeeceee2c1c081d667900ee6ffa5216e5c",
+      "afterSha256": "e69376bef6e5502500e7a0a07c20a22eeed0a76cb3d4221bd776740461f8c193",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 67,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；2；/；l；o；r；e； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；,； ；c；o；d；e；,； ；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase2/lore canonical docs, code, tests and fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase2/reference/dialogue-presentation.md",
+      "sourceSha256": "2936b4364b8883e1d1a57c4afffeb030de15111c994e1bee06272ed5ccb0e254",
+      "afterSha256": "e22c0b6c0e0997621f894d8d5cab4e7d292d477b1dfdcf68586605f832de7587",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 60,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；2；/；l；o；r；e； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；,； ；c；o；d；e；,； ；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase2/lore canonical docs, code, tests and fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase2/reference/phase1-knowledge-harvest.md",
+      "sourceSha256": "48492d17d73510284c7d82a095bdbc38495f1176ecedc53d8b3f5926aeba7f3b",
+      "afterSha256": "2f74504006b2669420cad809f7d17c9ba37ae71cbbff2e5e573c5e3ee5ce09d9",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 70,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；2；/；l；o；r；e； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；,； ；c；o；d；e；,； ；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase2/lore canonical docs, code, tests and fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md",
+      "sourceSha256": "7a26728cc4c00a957e2c56a0c728fcb7f6b1560f018be13a5d9e8433a1ee7d1f",
+      "afterSha256": "25de55bbd3812ba006415877a8bfaa40c4ccf0715ee953fe2eb9d104bd10ba50",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 62,
+          "before": "C；u；r；r；e；n；t； ；o；p；s； ；t；a；s；k； ；b；o；a；r；d；,； ；a；c；t；i；v；e； ；t；a；s；k； ；c；a；r；d；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；e；v；i；d；e；n；c；e；.",
+          "after": "Current ops task board, active task cards and fresh primary-source evidence."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md",
+      "sourceSha256": "c5435fb26a8bfe8a0052d97b61445440c221bd1a0700549c72d47f9acd4f5e25",
+      "afterSha256": "a8a65b28f097736f58cace6e03f16c96aeebc6c16ae5804edf13a073888d520b",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 78,
+          "before": "C；u；r；r；e；n；t； ；o；p；s； ；t；a；s；k； ；b；o；a；r；d；,； ；a；c；t；i；v；e； ；t；a；s；k； ；c；a；r；d；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；e；v；i；d；e；n；c；e；.",
+          "after": "Current ops task board, active task cards and fresh primary-source evidence."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md",
+      "sourceSha256": "1068b112c9054ae00fed1ca47d7555426d55450c05776bed8ab02b6a869f53d5",
+      "afterSha256": "65f9f05097109878f4a105093240f61588a83b8440fd81ee7f44fd1d7463ee4e",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 78,
+          "before": "C；u；r；r；e；n；t； ；o；p；s； ；t；a；s；k； ；b；o；a；r；d；,； ；a；c；t；i；v；e； ；t；a；s；k； ；c；a；r；d；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；e；v；i；d；e；n；c；e；.",
+          "after": "Current ops task board, active task cards and fresh primary-source evidence."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/README.md",
+      "sourceSha256": "0401af9f83928309768f670de5a36fe1bca684d3e57d7607cc76cfeab994c5fb",
+      "afterSha256": "c346d499c79ac59e68b8a5d46b68ffc27d180386839dc61c95ea1a2112ab2c4c",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 62,
+          "before": "C；u；r；r；e；n；t； ；o；p；s； ；t；a；s；k； ；b；o；a；r；d；,； ；a；c；t；i；v；e； ；t；a；s；k； ；c；a；r；d；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；e；v；i；d；e；n；c；e；.",
+          "after": "Current ops task board, active task cards and fresh primary-source evidence."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md",
+      "sourceSha256": "3422307e53cfb75e24ab84570ba8ec21151b1958aa49544efe25e8e24e7f74ae",
+      "afterSha256": "e32839df21e0d6731c43f64b078db19138610ad1bd071488d988c2669504f87c",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 78,
+          "before": "C；u；r；r；e；n；t； ；o；p；s； ；t；a；s；k； ；b；o；a；r；d；,； ；a；c；t；i；v；e； ；t；a；s；k； ；c；a；r；d；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；e；v；i；d；e；n；c；e；.",
+          "after": "Current ops task board, active task cards and fresh primary-source evidence."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md",
+      "sourceSha256": "4730f68eb760e220577fa2cf064c0f0fffed188dec2db6d23a072474799d1b97",
+      "afterSha256": "9e63c627c811043151605b65e11dc3342a2d76952711e7fc79bd271f021a9792",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 78,
+          "before": "C；u；r；r；e；n；t； ；o；p；s； ；t；a；s；k； ；b；o；a；r；d；,； ；a；c；t；i；v；e； ；t；a；s；k； ；c；a；r；d；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；e；v；i；d；e；n；c；e；.",
+          "after": "Current ops task board, active task cards and fresh primary-source evidence."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md",
+      "sourceSha256": "e522689101ac24ce76c1820ee9b65219d1985d47bd7fb0e5b7e42cbbf7af1ee4",
+      "afterSha256": "978aa10090b2d54ccb151ec1fee919dcd92d68595fb2db86804891ba0739c5c1",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 72,
+          "before": "C；u；r；r；e；n；t； ；o；p；s； ；t；a；s；k； ；b；o；a；r；d；,； ；a；c；t；i；v；e； ；t；a；s；k； ；c；a；r；d；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；e；v；i；d；e；n；c；e；.",
+          "after": "Current ops task board, active task cards and fresh primary-source evidence."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md",
+      "sourceSha256": "5151dddc0de65c5834f980841b7d4dd8998863e56a98f98646ac1c998706023b",
+      "afterSha256": "7afea6adbed6039a8b6630f939185d017dd23a8b72733b8be8deb914acbaf949",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 67,
+          "before": "C；u；r；r；e；n；t； ；e；v；i；d；e；n；c；e； ；r；e；c；e；i；p；t；,； ；t；a；s；k； ；c；a；r；d； ；a；n；d； ；v；e；r；i；f；i；e；d； ；c；o；n；s；u；m；e；r； ；r；e；s；u；l；t； ；w；h；e；n； ；r；e；-；r；u；n；.",
+          "after": "Current evidence receipt, task card and verified consumer result when re-run."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/evidence/ED-INPUT-PERF-1-pal-chromium-2026-08-25.md",
+      "sourceSha256": "98a682f1a351d6052a0096eeffd4d1bec7c6db3e0548fdcf5197edf5056e67b8",
+      "afterSha256": "37b126058f6b25bb0077c63b9b26d0261e277ca649e7234b3bfc559d54b82e9f",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 61,
+          "before": "C；u；r；r；e；n；t； ；e；v；i；d；e；n；c；e； ；r；e；c；e；i；p；t；,； ；t；a；s；k； ；c；a；r；d； ；a；n；d； ；v；e；r；i；f；i；e；d； ；c；o；n；s；u；m；e；r； ；r；e；s；u；l；t； ；w；h；e；n； ；r；e；-；r；u；n；.",
+          "after": "Current evidence receipt, task card and verified consumer result when re-run."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/evidence/README.md",
+      "sourceSha256": "d86988de8c024a608ce9fbe82b623e98b3286ff1ac038f45385a3b7259e4715f",
+      "afterSha256": "4aa1241c9b2c0f66604f3978de1fcfc123d7c311abe8765d938a50c8ad014fce",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 61,
+          "before": "C；u；r；r；e；n；t； ；e；v；i；d；e；n；c；e； ；r；e；c；e；i；p；t；,； ；t；a；s；k； ；c；a；r；d； ；a；n；d； ；v；e；r；i；f；i；e；d； ；c；o；n；s；u；m；e；r； ；r；e；s；u；l；t； ；w；h；e；n； ；r；e；-；r；u；n；.",
+          "after": "Current evidence receipt, task card and verified consumer result when re-run."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md",
+      "sourceSha256": "6ff37bb40ff44a617797f007e5e3e6195d891b89397ef1508bd2d56917cd7b5f",
+      "afterSha256": "e851c0901ded70ede5132ac32549a71026e73e70aa91c395374d9101641bdb50",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 61,
+          "before": "C；u；r；r；e；n；t； ；e；v；i；d；e；n；c；e； ；r；e；c；e；i；p；t；,； ；t；a；s；k； ；c；a；r；d； ；a；n；d； ；v；e；r；i；f；i；e；d； ；c；o；n；s；u；m；e；r； ；r；e；s；u；l；t； ；w；h；e；n； ；r；e；-；r；u；n；.",
+          "after": "Current evidence receipt, task card and verified consumer result when re-run."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md",
+      "sourceSha256": "389cf1eb10e97ea50c9b14cb06a31ef53d8347f2141f635acd74280b7cf3a7d8",
+      "afterSha256": "9d50f5c5d34eac5168a9095654dfc692262d11c9c49ca73fdd102d14a133e7d4",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 63,
+          "before": "C；u；r；r；e；n；t； ；e；v；i；d；e；n；c；e； ；r；e；c；e；i；p；t；,； ；t；a；s；k； ；c；a；r；d； ；a；n；d； ；v；e；r；i；f；i；e；d； ；c；o；n；s；u；m；e；r； ；r；e；s；u；l；t； ；w；h；e；n； ；r；e；-；r；u；n；.",
+          "after": "Current evidence receipt, task card and verified consumer result when re-run."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/evidence/C1-3-first-batch-proposal.md",
+      "sourceSha256": "a51be959f3cfb6edde85fddbb76608151ab508bf1a9775bbf393bcd004fe0dd4",
+      "afterSha256": "c3a4caaea3320fbec8ab276c54f2ea21f026b0e64e9ddfd4d667b3772083b717",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 61,
+          "before": "C；u；r；r；e；n；t； ；e；v；i；d；e；n；c；e； ；r；e；c；e；i；p；t；,； ；t；a；s；k； ；c；a；r；d； ；a；n；d； ；v；e；r；i；f；i；e；d； ；c；o；n；s；u；m；e；r； ；r；e；s；u；l；t； ；w；h；e；n； ；r；e；-；r；u；n；.",
+          "after": "Current evidence receipt, task card and verified consumer result when re-run."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/evidence/A7-3/README.md",
+      "sourceSha256": "a9bfdc01f083e69d2a505e8b4e8f12c76a7b3c5ce761a9f73d47d0fd97ebdf86",
+      "afterSha256": "440b5b7ce34767944c1ec6f6d4d1eb0094639c3201f313d406c3f66236d9282e",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 61,
+          "before": "C；u；r；r；e；n；t； ；e；v；i；d；e；n；c；e； ；r；e；c；e；i；p；t；,； ；t；a；s；k； ；c；a；r；d； ；a；n；d； ；v；e；r；i；f；i；e；d； ；c；o；n；s；u；m；e；r； ；r；e；s；u；l；t； ；w；h；e；n； ；r；e；-；r；u；n；.",
+          "after": "Current evidence receipt, task card and verified consumer result when re-run."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/evidence/DOC-IA-2/README.md",
+      "sourceSha256": "115aa72cf19bec676ceefb22d391d8073c77e4b559eadaab13eee9b922c29748",
+      "afterSha256": "6f6ea396a4e1c9d156799eca104fc89a60f15bc3dddb4e9016930b30291f27f0",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 61,
+          "before": "C；u；r；r；e；n；t； ；e；v；i；d；e；n；c；e； ；r；e；c；e；i；p；t；,； ；t；a；s；k； ；c；a；r；d； ；a；n；d； ；v；e；r；i；f；i；e；d； ；c；o；n；s；u；m；e；r； ；r；e；s；u；l；t； ；w；h；e；n； ；r；e；-；r；u；n；.",
+          "after": "Current evidence receipt, task card and verified consumer result when re-run."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/evidence/ED-REORDER-DRAG-1/README.md",
+      "sourceSha256": "14f716081e1f818f921115404f399825fb3f8f126e62c7ea7ffa2a81ebcbade1",
+      "afterSha256": "e7a4088cea6ed06e346fc2b9151d3ae15601676eae463dc5cc1c114acffe4711",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 61,
+          "before": "C；u；r；r；e；n；t； ；e；v；i；d；e；n；c；e； ；r；e；c；e；i；p；t；,； ；t；a；s；k； ；c；a；r；d； ；a；n；d； ；v；e；r；i；f；i；e；d； ；c；o；n；s；u；m；e；r； ；r；e；s；u；l；t； ；w；h；e；n； ；r；e；-；r；u；n；.",
+          "after": "Current evidence receipt, task card and verified consumer result when re-run."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/evidence/ED-3/README.md",
+      "sourceSha256": "a7c53fcb200e803f671438d45352636e27c1a66a935eb6e4db00d879af87addb",
+      "afterSha256": "aa22a6c1c51d4c9f7fba2a892b70d9c82baf7fa65f2eb53d6904c2ac87d26aca",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 61,
+          "before": "C；u；r；r；e；n；t； ；e；v；i；d；e；n；c；e； ；r；e；c；e；i；p；t；,； ；t；a；s；k； ；c；a；r；d； ；a；n；d； ；v；e；r；i；f；i；e；d； ；c；o；n；s；u；m；e；r； ；r；e；s；u；l；t； ；w；h；e；n； ；r；e；-；r；u；n；.",
+          "after": "Current evidence receipt, task card and verified consumer result when re-run."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/evidence/ED-SHOP/README.md",
+      "sourceSha256": "1aa15e89c3a590adfc2ec79cac1d71eab33beb48ea99d4fc8f5b832c026bd634",
+      "afterSha256": "59cbba5cfe52e13baadf76f2487289dcf2a9244f839e5e6e14cef7e496d55e8f",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 61,
+          "before": "C；u；r；r；e；n；t； ；e；v；i；d；e；n；c；e； ；r；e；c；e；i；p；t；,； ；t；a；s；k； ；c；a；r；d； ；a；n；d； ；v；e；r；i；f；i；e；d； ；c；o；n；s；u；m；e；r； ；r；e；s；u；l；t； ；w；h；e；n； ；r；e；-；r；u；n；.",
+          "after": "Current evidence receipt, task card and verified consumer result when re-run."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/acceptance/2026-07-checklist.md",
+      "sourceSha256": "f06a25be651f21009d2296324e8ba8f21536c90b8cc6df0d308bb7083a6770be",
+      "afterSha256": "de0bc58e7bcd2f9330de22de65fa28cef058cc1301e63232e998ead752fb3c20",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 31,
+          "before": "C；u；r；r；e；n；t； ；o；p；s； ；b；o；a；r；d；/；t；a；s；k；/；e；v；i；d；e；n；c；e； ；r；e；c；o；r；d；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current ops board/task/evidence records and a fresh primary-source review."
+        },
+        {
+          "line": 55,
+          "before": "C；u；r；r；e；n；t； ；o；p；s； ；b；o；a；r；d；/；t；a；s；k；/；e；v；i；d；e；n；c；e； ；r；e；c；o；r；d；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current ops board/task/evidence records and a fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/acceptance/README.md",
+      "sourceSha256": "9de3a33182b01adb220b3bb5cebf037599d7c34f915633286e229382204842a4",
+      "afterSha256": "b8847eb085bec0446447ff47c70632a6be6381916d9345af78666ee96da82db7",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 31,
+          "before": "C；u；r；r；e；n；t； ；o；p；s； ；b；o；a；r；d；/；t；a；s；k；/；e；v；i；d；e；n；c；e； ；r；e；c；o；r；d；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current ops board/task/evidence records and a fresh primary-source review."
+        },
+        {
+          "line": 55,
+          "before": "C；u；r；r；e；n；t； ；o；p；s； ；b；o；a；r；d；/；t；a；s；k；/；e；v；i；d；e；n；c；e； ；r；e；c；o；r；d；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current ops board/task/evidence records and a fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/board-history/board-20261004.md",
+      "sourceSha256": "bffdc9d849fca644adc4099db2d046f2686c11f06f14b7365440b3254ba7cdb6",
+      "afterSha256": "5dcc59924cc098bc3293e8dd10da1c875efe82fef65036eacd01af10239512fd",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 31,
+          "before": "C；u；r；r；e；n；t； ；o；p；s； ；b；o；a；r；d；/；t；a；s；k；/；e；v；i；d；e；n；c；e； ；r；e；c；o；r；d；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current ops board/task/evidence records and a fresh primary-source review."
+        },
+        {
+          "line": 55,
+          "before": "C；u；r；r；e；n；t； ；o；p；s； ；b；o；a；r；d；/；t；a；s；k；/；e；v；i；d；e；n；c；e； ；r；e；c；o；r；d；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current ops board/task/evidence records and a fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/archive/board-history/README.md",
+      "sourceSha256": "80b1409d319037866daf7ff57e12c4bdbdd33b6e7d4d0e2faf87c9aec1b6901d",
+      "afterSha256": "2e3eb281c1ebbc9bcd04f6d9d3bef26355a1136874cf764dda248dda92155637",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 31,
+          "before": "C；u；r；r；e；n；t； ；o；p；s； ；b；o；a；r；d；/；t；a；s；k；/；e；v；i；d；e；n；c；e； ；r；e；c；o；r；d；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current ops board/task/evidence records and a fresh primary-source review."
+        },
+        {
+          "line": 55,
+          "before": "C；u；r；r；e；n；t； ；o；p；s； ；b；o；a；r；d；/；t；a；s；k；/；e；v；i；d；e；n；c；e； ；r；e；c；o；r；d；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current ops board/task/evidence records and a fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/engineering.md",
+      "sourceSha256": "418bf9164b30ca3816dbf43f05bf5f897baaa28cd67b73bf1448085797460423",
+      "afterSha256": "8ff98306b9b28f6ac89e81466295777ed4661844d01d12102898e5699a44000d",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 39,
+          "before": "C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.",
+          "after": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable."
+        },
+        {
+          "line": 63,
+          "before": "C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.",
+          "after": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/summary.md",
+      "sourceSha256": "06a5592c902c9e55c67ad7e80bb2128bc4036bd1c63b7f61c9dbab242bd5587b",
+      "afterSha256": "5bce7463bc66b5a6c866909dc8712db7872c2e281d20c9e71bf6776d1042b2c6",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 41,
+          "before": "C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.",
+          "after": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable."
+        },
+        {
+          "line": 67,
+          "before": "C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.",
+          "after": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/battle.md",
+      "sourceSha256": "99939ced904533524f1882bb24e654ce679cf6adbc25f05e9873292b8dc6d052",
+      "afterSha256": "e49e6631f445cf030cf2e89e2493fd0b72a7885e1e320a416a3a5db0f84256fe",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 38,
+          "before": "C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.",
+          "after": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable."
+        },
+        {
+          "line": 61,
+          "before": "C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.",
+          "after": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/world-lifecycle.md",
+      "sourceSha256": "e3c56ec952784bb0bb46513de9cb59c2b0a1ec3a42bafd25f45e1831a5753248",
+      "afterSha256": "24f7c99048463536eac848f6d67b8a0e4429f39d20edbd54bd5469c6bec3f010",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 37,
+          "before": "C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.",
+          "after": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable."
+        },
+        {
+          "line": 59,
+          "before": "C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.",
+          "after": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/README.md",
+      "sourceSha256": "fd2160362f7c5d8f68d92f00ec50519971459c8b2cbc7614bb1ceae5a75141f3",
+      "afterSha256": "2ba51344522bbbe01a38349cd98ad5ced8817517d3f96c2d6f19dac49ad24d0f",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 48,
+          "before": "C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.",
+          "after": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable."
+        },
+        {
+          "line": 79,
+          "before": "C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.",
+          "after": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/save-preflight-remediation.md",
+      "sourceSha256": "7af0d27b86ddc6a5bf222daf99a94a9aa6ee7f6a9b53e4b5487b0be4dcbc2216",
+      "afterSha256": "0167171c726cf03746f58599da1c5363fc29806f4cdf0e75c75ceab9f8a69ef6",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 37,
+          "before": "C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.",
+          "after": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable."
+        },
+        {
+          "line": 59,
+          "before": "C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.",
+          "after": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/editor-workflows.md",
+      "sourceSha256": "d493f99a9d6acd82af6fe335ce0283d911a550663861116057712d866e7555c8",
+      "afterSha256": "359fb222937b2fdb56fd6b9cd5fb49e28dca1c3146938006387c3569612105ce",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 37,
+          "before": "C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.",
+          "after": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable."
+        },
+        {
+          "line": 59,
+          "before": "C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.",
+          "after": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/save-barrier-lineage-premise.md",
+      "sourceSha256": "1d1a9eaac62270823cc86b9fb5edffbedeafa1d9cae2aaeb43164944b0eb3248",
+      "afterSha256": "00e02cdecd3a9bd532cd817f93e846fe80f1e3ab128d3c4b4394af1aea87bc5a",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 38,
+          "before": "C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.",
+          "after": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable."
+        },
+        {
+          "line": 61,
+          "before": "C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.",
+          "after": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/audits/pre-e2e/tools/README.md",
+      "sourceSha256": "7d4e1c93b206df0b0d36c6af88b15d0d559ac61020558a97cf847f67c2e7cb05",
+      "afterSha256": "693513243128c79c4330b12d5c381c601f284ec1da79a35618db630cb30db647",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 37,
+          "before": "C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.",
+          "after": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable."
+        },
+        {
+          "line": 59,
+          "before": "C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.",
+          "after": "Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/guides/README.md",
+      "sourceSha256": "9aa6e7a2c735a4114a13e26e47b10da89b390fae4d6e97fa683126b290289a1f",
+      "afterSha256": "675c16e9438555543c8381fb3a33791d3cddd0ff4cea6a774ad3de418334d75b",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 57,
+          "before": "C；u；r；r；e；n；t； ；A；G；E；N；T；S；/；o；p；s； ；w；o；r；k；f；l；o；w；,； ；t；a；s；k； ；c；a；r；d；s； ；a；n；d； ；c；u；r；r；e；n；t； ；p；r；o；j；e；c；t； ；e；v；i；d；e；n；c；e；.",
+          "after": "Current AGENTS/ops workflow, task cards and current project evidence."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/guides/browser-verification.md",
+      "sourceSha256": "3129e0f3bc94b2ba56ad85ff375ccbb57acd7269dfa1f99c5d31d5ebe01bd9e0",
+      "afterSha256": "49dd61a137d23b897a39c4f470e2c49e03a5fd2b1253e5e8cd7c99d44b70fe82",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 57,
+          "before": "C；u；r；r；e；n；t； ；A；G；E；N；T；S；/；o；p；s； ；w；o；r；k；f；l；o；w；,； ；t；a；s；k； ；c；a；r；d；s； ；a；n；d； ；c；u；r；r；e；n；t； ；p；r；o；j；e；c；t； ；e；v；i；d；e；n；c；e；.",
+          "after": "Current AGENTS/ops workflow, task cards and current project evidence."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/guides/documentation.md",
+      "sourceSha256": "83ace665092e50b88f7c98c1611b4ab084bc0461417c496a620ead404e19c2a4",
+      "afterSha256": "dadcee81c33ce239bfa49e4f822472714b1368bd962914769e755d9168861869",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 59,
+          "before": "C；u；r；r；e；n；t； ；A；G；E；N；T；S；/；o；p；s； ；w；o；r；k；f；l；o；w；,； ；t；a；s；k； ；c；a；r；d；s； ；a；n；d； ；c；u；r；r；e；n；t； ；p；r；o；j；e；c；t； ；e；v；i；d；e；n；c；e；.",
+          "after": "Current AGENTS/ops workflow, task cards and current project evidence."
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/guides/dev-servers.md",
+      "sourceSha256": "f8e3402e11466373c3b0b0666c6dc8184b33a30a991d03cae54d13ddb7649af3",
+      "afterSha256": "86a41544cb38547512a2a55061b8b27ea9d7caf4bf355c0a4ad879a60f8c0a83",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 57,
+          "before": "C；u；r；r；e；n；t； ；A；G；E；N；T；S；/；o；p；s； ；w；o；r；k；f；l；o；w；,； ；t；a；s；k； ；c；a；r；d；s； ；a；n；d； ；c；u；r；r；e；n；t； ；p；r；o；j；e；c；t； ；e；v；i；d；e；n；c；e；.",
+          "after": "Current AGENTS/ops workflow, task cards and current project evidence."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/01-feasibility.md",
+      "sourceSha256": "cb7bd6acadc0deed4f0b5f618f322ec324c5d64cd54b361feecbf1c056492237",
+      "afterSha256": "a378129bf3a8c80d87d90c3b45f13f9d9e9c52e52c9afa429d15d3ba3c0561ec",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 56,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase1 canonical docs/code/tests and a fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/sdlpal-runbook.md",
+      "sourceSha256": "1d883589684306f1737a50a54f20858a377c04fc080159cdb47df9284c7a1214",
+      "afterSha256": "0027eb5bdbb1319c1ed0240bc2a0c508aebfaaaba61ebc5476c8d4c0f8e8f403",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 57,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase1 canonical docs/code/tests and a fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/02-architecture.md",
+      "sourceSha256": "a2b6f53917d439c1336d148d5652ccc4052419cdb8bda27a7bc8d2913c31119a",
+      "afterSha256": "606379fb5f345c4627dc8fbf086d2bb177e9b76cdd9f16c01638cfcb42da4526",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 61,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase1 canonical docs/code/tests and a fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/engineering-notes.md",
+      "sourceSha256": "e37d7232b6aff955f4aa8b50e33f87b15377a3707c0c548d5d6cc7ddffb2e89f",
+      "afterSha256": "5612d4c2273474b6f5f6778e58411b3724effe70e66f0410aea7ff178c2bb227",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 57,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase1 canonical docs/code/tests and a fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/04-decisions.md",
+      "sourceSha256": "eac592169088408de540284a94821a50eb1a099c6a5e35799f1483aaeceb7bea",
+      "afterSha256": "25610b69faed3157217bee03c9685291903616967aadb6ddf924dfe39982c03f",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 57,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase1 canonical docs/code/tests and a fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/README.md",
+      "sourceSha256": "98787ab9406278533cd7ee556c84624233abb45ff5936e78d29ff7ffa9a31e5f",
+      "afterSha256": "4991bfc6474256501a58435be44b9812e1635d72acbb10254b0f2ecc25230ead",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 57,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase1 canonical docs/code/tests and a fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/03-development-plan.md",
+      "sourceSha256": "604476c81a2f97dfae245b835b099622dfd8070b2655445eac9a4a2af07aadb2",
+      "afterSha256": "164ddde5a9dee6017231536bcba9b7e7278213b111b56042473d62596f000141",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 35,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase1 status tables/code/tests and a fresh primary-source review."
+        },
+        {
+          "line": 59,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase1 status tables/code/tests and a fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/game-mechanics.md",
+      "sourceSha256": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
+      "afterSha256": "c44a5230436f632c16ee53a8ba7d1ba9a73704e82ff6e6e0bfa4572acea47e1b",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 66,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase1 canonical docs/code/tests and a fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/05-events-schema.md",
+      "sourceSha256": "e27b92e2ff5d54169bdbaccb5f3a2efa2b63eb3b11d0946a9cd47feb36cf25da",
+      "afterSha256": "4a71e631302b45734fc5681bf4a069a300ff1111a6f8a2a2b873aa26b4ac109c",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 61,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase1 canonical docs/code/tests and a fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/06-testing.md",
+      "sourceSha256": "99d0d454ba5f3228885eb13c7d035e174ddb557ed63a4eb4b6bdf022b840cccf",
+      "afterSha256": "1f08e597b5aa105d881b6df88cd0af8d8ea9f2ac2cdb4d1cb9de78d547b2e549",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 57,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase1 canonical docs/code/tests and a fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-27-m4-extract-audit.md",
+      "sourceSha256": "54034fe1a28f5b4a687fb1d4eb39fb60dfa736410e64e28599f78a554a4dbb93",
+      "afterSha256": "4527753e22c130069b30c3834c2e04338282a107cc11563b1cf8e14e541902b7",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 42,
+          "before": "C；u；r；r；e；n；t； ；r；e；s；o；u；r；c；e；-；s；t；a；t；u；s；/；e；x；t；r；a；c；t；i；o；n； ；c；o；d；e； ；a；n；d； ；a； ；n；e；w； ；a；u；d；i；t； ；i；f； ；r；e；m；a；i；n；i；n；g； ；a；u；d；i；o；/；A；V；I； ；g；a；p；s； ；m；a；t；t；e；r；.",
+          "after": "Current resource-status/extraction code and a new audit if remaining audio/AVI gaps matter."
+        },
+        {
+          "line": 73,
+          "before": "C；u；r；r；e；n；t； ；r；e；s；o；u；r；c；e；-；s；t；a；t；u；s；/；e；x；t；r；a；c；t；i；o；n； ；c；o；d；e； ；a；n；d； ；a； ；n；e；w； ；a；u；d；i；t； ；i；f； ；r；e；m；a；i；n；i；n；g； ；a；u；d；i；o；/；A；V；I； ；g；a；p；s； ；m；a；t；t；e；r；.",
+          "after": "Current resource-status/extraction code and a new audit if remaining audio/AVI gaps matter."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-23-m3-battle-vertical-slice.md",
+      "sourceSha256": "c27e1aafc276abda182f6c8611f01be8b0ebe0659e6a990401ceed58e91006b6",
+      "afterSha256": "4e1e242fc3f5921d1675e333ce7d99c01102a5b9b591e97543e91360e3454fb3",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 43,
+          "before": "M；3；.；5； ；d；e；s；i；g；n；/；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；b；a；t；t；l；e；/；r；u；n；t；i；m；e； ；c；o；d；e；;； ；f；i；x；t；u；r；e； ；a；n；d； ；u；n；k；n；o；w；n；-；f；i；e；l；d； ；d；e；c；i；s；i；o；n；s； ；a；r；e； ；h；i；s；t；o；r；i；c；a；l；.",
+          "after": "M3.5 design/plan and current battle/runtime code; fixture and unknown-field decisions are historical."
+        },
+        {
+          "line": 77,
+          "before": "M；3；.；5； ；d；e；s；i；g；n；/；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；b；a；t；t；l；e；/；r；u；n；t；i；m；e； ；c；o；d；e；;； ；f；i；x；t；u；r；e； ；a；n；d； ；u；n；k；n；o；w；n；-；f；i；e；l；d； ；d；e；c；i；s；i；o；n；s； ；a；r；e； ；h；i；s；t；o；r；i；c；a；l；.",
+          "after": "M3.5 design/plan and current battle/runtime code; fixture and unknown-field decisions are historical."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-13-prod-tools-panel.md",
+      "sourceSha256": "e0f93350e3ad84073fa02a270cce26664ea3e5520864ef539b8d6b1384ea5f0f",
+      "afterSha256": "fe9084b2476257e0952ef2054def088d9c84e52f47307f8c03013adfd7dc3154",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 39,
+          "before": "C；u；r；r；e；n；t； ；t；o；o；l；s； ；p；a；n；e；l；/；d；e；s；i；g；n； ；s；y；s；t；e；m； ；a；n；d； ；d；i；s；p；l；a；y；-；s；c；a；l；e； ；c；o；n；t；r；a；c；t；.",
+          "after": "Current tools panel/design system and display-scale contract."
+        },
+        {
+          "line": 69,
+          "before": "C；u；r；r；e；n；t； ；t；o；o；l；s； ；p；a；n；e；l；/；d；e；s；i；g；n； ；s；y；s；t；e；m； ；a；n；d； ；d；i；s；p；l；a；y；-；s；c；a；l；e； ；c；o；n；t；r；a；c；t；.",
+          "after": "Current tools panel/design system and display-scale contract."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-31-poison-and-portrait-color.md",
+      "sourceSha256": "aa1332c4a22a0002c331817006c357a67894a8ca4b0416a6a45353625eb1ba69",
+      "afterSha256": "9ad325b52dfe228bf25d120d2ea8530085cec9dc3f403cf8fa9d3fa50d0a2367",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 33,
+          "before": "C；u；r；r；e；n；t； ；c；a；n；o；n；i；c；a；l； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；;； ；h；i；s；t；o；r；i；c；a；l； ；c；l；a；i；m；s； ；r；e；q；u；i；r；e； ；r；e；v；a；l；i；d；a；t；i；o；n；.",
+          "after": "Current canonical phase1 status tables/code/tests and a fresh primary-source review; historical claims require revalidation."
+        },
+        {
+          "line": 57,
+          "before": "C；u；r；r；e；n；t； ；c；a；n；o；n；i；c；a；l； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；;； ；h；i；s；t；o；r；i；c；a；l； ；c；l；a；i；m；s； ；r；e；q；u；i；r；e； ；r；e；v；a；l；i；d；a；t；i；o；n；.",
+          "after": "Current canonical phase1 status tables/code/tests and a fresh primary-source review; historical claims require revalidation."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-24-m3-5-scene-encounter-design.md",
+      "sourceSha256": "74107a7e584e66e308e7f3cec3a2531888a22d0133e716848ff9e9aba300c8ea",
+      "afterSha256": "0997357a5656ef4a1d60725e6aea1a6d2f67aa81ec9895d6c61f1d59e5c00162",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 38,
+          "before": "M；3；.；5； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；p；l；u；s； ；c；u；r；r；e；n；t； ；s；c；e；n；e；/；b；a；t；t；l；e； ；c；o；d；e；;； ；B；-；r；o；u；t；e； ；d；e；v； ；s；h；o；r；t；c；u；t； ；i；s； ；n；o；t； ；a； ；c；u；r；r；e；n；t； ；s；t；o；r；y； ；c；o；n；t；r；a；c；t；.",
+          "after": "M3.5 implementation plan plus current scene/battle code; B-route dev shortcut is not a current story contract."
+        },
+        {
+          "line": 67,
+          "before": "M；3；.；5； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；p；l；u；s； ；c；u；r；r；e；n；t； ；s；c；e；n；e；/；b；a；t；t；l；e； ；c；o；d；e；;； ；B；-；r；o；u；t；e； ；d；e；v； ；s；h；o；r；t；c；u；t； ；i；s； ；n；o；t； ；a； ；c；u；r；r；e；n；t； ；s；t；o；r；y； ；c；o；n；t；r；a；c；t；.",
+          "after": "M3.5 implementation plan plus current scene/battle code; B-route dev shortcut is not a current story contract."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-31-d-batch2-enemy-ai.md",
+      "sourceSha256": "38f006f4d6d50b1e1e5808368549f596434e92c764d7c7e91e5084b95a69690b",
+      "afterSha256": "14501751ad11c9509936beeb7070d4d4a94be38956581d2851b9a7deb02cbd6b",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 34,
+          "before": "C；u；r；r；e；n；t； ；b；a；t；t；l；e； ；A；I；/；s；c；r；i；p；t； ；c；o；d；e；,； ；t；e；s；t；s；,； ；f；e；a；t；u；r；e；/；o；p；c；o；d；e； ；s；t；a；t；u；s； ；a；n；d； ；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current battle AI/script code, tests, feature/opcode status and source review."
+        },
+        {
+          "line": 59,
+          "before": "C；u；r；r；e；n；t； ；b；a；t；t；l；e； ；A；I；/；s；c；r；i；p；t； ；c；o；d；e；,； ；t；e；s；t；s；,； ；f；e；a；t；u；r；e；/；o；p；c；o；d；e； ；s；t；a；t；u；s； ；a；n；d； ；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current battle AI/script code, tests, feature/opcode status and source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-01-feature-status-audit.md",
+      "sourceSha256": "00276248d4dc7f3b61e693de475279a7ea863c2a272e1f8e271ff096666a60f0",
+      "afterSha256": "79735b05168c6c2027939169f18750e1fe78a10ab1bef82c4eabb0cdb99c659d",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 44,
+          "before": "C；u；r；r；e；n；t； ；f；e；a；t；u；r；e；-；s；t；a；t；u；s； ；a；n；d； ；c；a；n；o；n；i；c；a；l； ；c；o；d；e；/；s；o；u；r；c；e； ；c；h；e；c；k；s；.",
+          "after": "Current feature-status and canonical code/source checks."
+        },
+        {
+          "line": 77,
+          "before": "C；u；r；r；e；n；t； ；f；e；a；t；u；r；e；-；s；t；a；t；u；s； ；a；n；d； ；c；a；n；o；n；i；c；a；l； ；c；o；d；e；/；s；o；u；r；c；e； ；c；h；e；c；k；s；.",
+          "after": "Current feature-status and canonical code/source checks."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-27-m5-6-playability.md",
+      "sourceSha256": "33d2765cc4fd5849bc4ce7f1f46be08356a8238393ce58a54fc34937d6d2c4a5",
+      "afterSha256": "83bb400d2a38e6ba515da9bffa35cc5acd7f7e434be13b048ebbb38fec3de155",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 43,
+          "before": "C；u；r；r；e；n；t； ；f；e；a；t；u；r；e；-；s；t；a；t；u；s； ；a；n；d； ；c；a；n；o；n；i；c；a；l； ；m；e；n；u；/；s；c；e；n；e；/；i；n；p；u；t； ；c；o；d；e；/；t；e；s；t；s；;； ；d；o； ；n；o；t； ；p；r；o；m；o；t；e； ；s；n；a；p；s；h；o；t； ；c；l；a；i；m；s；.",
+          "after": "Current feature-status and canonical menu/scene/input code/tests; do not promote snapshot claims."
+        },
+        {
+          "line": 77,
+          "before": "C；u；r；r；e；n；t； ；f；e；a；t；u；r；e；-；s；t；a；t；u；s； ；a；n；d； ；c；a；n；o；n；i；c；a；l； ；m；e；n；u；/；s；c；e；n；e；/；i；n；p；u；t； ；c；o；d；e；/；t；e；s；t；s；;； ；d；o； ；n；o；t； ；p；r；o；m；o；t；e； ；s；n；a；p；s；h；o；t； ；c；l；a；i；m；s；.",
+          "after": "Current feature-status and canonical menu/scene/input code/tests; do not promote snapshot claims."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-27-m5-5-sdlpal-audit.md",
+      "sourceSha256": "0980bf2cabbd096205d10c363598e7e6265ae6fb1392a2461cfab8ee0527e6a7",
+      "afterSha256": "bcbb1bf647fe9d1c16acdc485f93f92d4e1e79942126a0c08b0cf4c52e318bb1",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 44,
+          "before": "C；u；r；r；e；n；t； ；f；e；a；t；u；r；e；-；s；t；a；t；u；s；/；o；p；c；o；d；e；-；s；t；a；t；u；s； ；a；n；d； ；c；a；n；o；n；i；c；a；l； ；c；o；d；e；;； ；M；5；.；6； ；p；l；a；n； ；i；s； ；t；h；e； ；h；i；s；t；o；r；i；c；a；l； ；f；o；l；l；o；w；-；u；p；,； ；n；o；t； ；r；u；n；t；i；m；e； ；p；r；o；o；f；.",
+          "after": "Current feature-status/opcode-status and canonical code; M5.6 plan is the historical follow-up, not runtime proof."
+        },
+        {
+          "line": 77,
+          "before": "C；u；r；r；e；n；t； ；f；e；a；t；u；r；e；-；s；t；a；t；u；s；/；o；p；c；o；d；e；-；s；t；a；t；u；s； ；a；n；d； ；c；a；n；o；n；i；c；a；l； ；c；o；d；e；;； ；M；5；.；6； ；p；l；a；n； ；i；s； ；t；h；e； ；h；i；s；t；o；r；i；c；a；l； ；f；o；l；l；o；w；-；u；p；,； ；n；o；t； ；r；u；n；t；i；m；e； ；p；r；o；o；f；.",
+          "after": "Current feature-status/opcode-status and canonical code; M5.6 plan is the historical follow-up, not runtime proof."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-18-speedrun-timer-design.md",
+      "sourceSha256": "319e152a0ea0aab091b33be44b4c139f0d65589f50061851030b082cc08d6e8c",
+      "afterSha256": "e3cc2a3da54eb1afc31716c011d019de6240519f3bb438b9b408d26223b6ec84",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 65,
+          "before": "C；u；r；r；e；n；t； ；t；i；m；e；r； ；c；o；d；e；/；p；r；o；d；u；c；t； ；d；e；c；i；s；i；o；n； ；a；n；d； ；b；e；h；a；v；i；o；r； ；r；e；v；i；e；w；.",
+          "after": "Current timer code/product decision and behavior review."
+        },
+        {
+          "line": 91,
+          "before": "C；u；r；r；e；n；t； ；t；i；m；e；r； ；c；o；d；e；/；p；r；o；d；u；c；t； ；d；e；c；i；s；i；o；n； ；a；n；d； ；b；e；h；a；v；i；o；r； ；r；e；v；i；e；w；.",
+          "after": "Current timer code/product decision and behavior review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-01-remaining-work-plan.md",
+      "sourceSha256": "3640ecd8e77f19ce0087a108b8f3b0b4e4bddda7dfe06a882982e142f3fd81c3",
+      "afterSha256": "dd610c5abf733a9855bbb6da83e654710f6cea1cd34a1a657866565128727bb9",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 40,
+          "before": "C；u；r；r；e；n；t； ；c；a；n；o；n；i；c；a；l； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；;； ；h；i；s；t；o；r；i；c；a；l； ；c；l；a；i；m；s； ；r；e；q；u；i；r；e； ；r；e；v；a；l；i；d；a；t；i；o；n；.",
+          "after": "Current canonical phase1 status tables/code/tests and a fresh primary-source review; historical claims require revalidation."
+        },
+        {
+          "line": 71,
+          "before": "C；u；r；r；e；n；t； ；c；a；n；o；n；i；c；a；l； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；;； ；h；i；s；t；o；r；i；c；a；l； ；c；l；a；i；m；s； ；r；e；q；u；i；r；e； ；r；e；v；a；l；i；d；a；t；i；o；n；.",
+          "after": "Current canonical phase1 status tables/code/tests and a fresh primary-source review; historical claims require revalidation."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-10-sdlpal-deep-audit.md",
+      "sourceSha256": "36ab07f61707eea49a085eaa3589aaca2a9df6fd2b8b4266862ce6628cdc6c64",
+      "afterSha256": "c8022e6be917f22c681a532f94a8de05210544a55d7f2eb62015fe7aa20b06cf",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 44,
+          "before": "C；u；r；r；e；n；t； ；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；r；e；n；e；w；e；d； ；l；i；f；e；c；y；c；l；e； ；a；u；d；i；t；.",
+          "after": "Current code/tests and renewed lifecycle audit."
+        },
+        {
+          "line": 77,
+          "before": "C；u；r；r；e；n；t； ；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；r；e；n；e；w；e；d； ；l；i；f；e；c；y；c；l；e； ；a；u；d；i；t；.",
+          "after": "Current code/tests and renewed lifecycle audit."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-23-m1-pal-extract-design.md",
+      "sourceSha256": "e5533b482f2d692189cc2c1a97c1ba7c8424ffc16ca149e8500c77545bff4aff",
+      "afterSha256": "3e66cf3509e67b95a150ad985f94f0df5463c65d00469ca0a634ff04d15d3cac",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 36,
+          "before": "M；1； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；e；x；t；r；a；c；t；i；o；n； ；c；o；d；e；/；s；t；a；t；u；s；;； ；r；e；s；o；l；v；e； ；h；i；s；t；o；r；i；c；a；l； ；o；p；c；o；d；e； ；m；i；l；e；s；t；o；n；e； ；c；o；n；f；l；i；c；t； ；f；r；o；m； ；c；u；r；r；e；n；t； ；d；e；c；i；s；i；o；n；s；.",
+          "after": "M1 implementation plan and current extraction code/status; resolve historical opcode milestone conflict from current decisions."
+        },
+        {
+          "line": 63,
+          "before": "M；1； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；e；x；t；r；a；c；t；i；o；n； ；c；o；d；e；/；s；t；a；t；u；s；;； ；r；e；s；o；l；v；e； ；h；i；s；t；o；r；i；c；a；l； ；o；p；c；o；d；e； ；m；i；l；e；s；t；o；n；e； ；c；o；n；f；l；i；c；t； ；f；r；o；m； ；c；u；r；r；e；n；t； ；d；e；c；i；s；i；o；n；s；.",
+          "after": "M1 implementation plan and current extraction code/status; resolve historical opcode milestone conflict from current decisions."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-27-m5-6-playability-design.md",
+      "sourceSha256": "170496add7abab23e2849e4c5347b340d8b3b2304422ffdf78b20707b440d9ae",
+      "afterSha256": "7e045e0df846d761cf5e391467e330c05f41c0a29e8b1dc54fbebcabe73aa27b",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 43,
+          "before": "M；5；.；6； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；p；l；u；s； ；c；u；r；r；e；n；t； ；m；e；n；u；/；s；c；e；n；e；/；i；n；p；u；t； ；c；o；d；e； ；a；n；d； ；f；e；a；t；u；r；e；-；s；t；a；t；u；s；.",
+          "after": "M5.6 implementation plan plus current menu/scene/input code and feature-status."
+        },
+        {
+          "line": 77,
+          "before": "M；5；.；6； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；p；l；u；s； ；c；u；r；r；e；n；t； ；m；e；n；u；/；s；c；e；n；e；/；i；n；p；u；t； ；c；o；d；e； ；a；n；d； ；f；e；a；t；u；r；e；-；s；t；a；t；u；s；.",
+          "after": "M5.6 implementation plan plus current menu/scene/input code and feature-status."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-23-m2-runtime-slice-design.md",
+      "sourceSha256": "bc75f53998c6bffdd9fe37ea1f4d479496a45f679c61c1dc115679fb82c3d93e",
+      "afterSha256": "6ae3b274be08dc67bd638e7263a79248f43e8bfdf0d837098222f975847f6eff",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 41,
+          "before": "M；2； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；g；a；m；e；/；r；u；n；t；i；m；e； ；a；r；c；h；i；t；e；c；t；u；r；e；;； ；r；e；c；h；e；c；k； ；r；a；w；-；o；p；c；o；d；e； ；a；n；d； ；N；P；C； ；b；e；h；a；v；i；o；r； ；b；o；u；n；d；a；r；i；e；s；.",
+          "after": "M2 implementation plan and current game/runtime architecture; recheck raw-opcode and NPC behavior boundaries."
+        },
+        {
+          "line": 73,
+          "before": "M；2； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；g；a；m；e；/；r；u；n；t；i；m；e； ；a；r；c；h；i；t；e；c；t；u；r；e；;； ；r；e；c；h；e；c；k； ；r；a；w；-；o；p；c；o；d；e； ；a；n；d； ；N；P；C； ；b；e；h；a；v；i；o；r； ；b；o；u；n；d；a；r；i；e；s；.",
+          "after": "M2 implementation plan and current game/runtime architecture; recheck raw-opcode and NPC behavior boundaries."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-18-speedrun-timer.md",
+      "sourceSha256": "5e649bf286aa6f72814a4b2dae4212dbd1c78f70a2976f5af099114e53445298",
+      "afterSha256": "0a37ec0a49d9c8d149556d404692beb83a16b43c25c3caad020a84b06938080d",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 43,
+          "before": "C；u；r；r；e；n；t； ；t；i；m；e；r； ；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；t；o；o；l；s；-；p；a；n；e；l； ；i；n；t；e；g；r；a；t；i；o；n；.",
+          "after": "Current timer code/tests and tools-panel integration."
+        },
+        {
+          "line": 77,
+          "before": "C；u；r；r；e；n；t； ；t；i；m；e；r； ；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；t；o；o；l；s；-；p；a；n；e；l； ；i；n；t；e；g；r；a；t；i；o；n；.",
+          "after": "Current timer code/tests and tools-panel integration."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-24-m3-5-scene-encounter.md",
+      "sourceSha256": "00054c6df4851241ab0b419f6ba4ca913dd152f6a54d81520b89273daec970e6",
+      "afterSha256": "b1055f743020928957f91962c4989300998d5a3105cc8b273f945ad082f705ab",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 43,
+          "before": "M；4； ；p；l；a；n；/；c；u；r；r；e；n；t； ；s；c；e；n；e； ；a；n；d； ；l；o；a；d；e；r； ；c；o；d；e；;； ；r；e；v；a；l；i；d；a；t；e； ；r；a；w； ；l；o；a；d；S；c；e；n；e； ；a；n；d； ；l；o；c；a；l； ；b；a；s；e；l；i；n；e； ；a；s；s；u；m；p；t；i；o；n；s；.",
+          "after": "M4 plan/current scene and loader code; revalidate raw loadScene and local baseline assumptions."
+        },
+        {
+          "line": 77,
+          "before": "M；4； ；p；l；a；n；/；c；u；r；r；e；n；t； ；s；c；e；n；e； ；a；n；d； ；l；o；a；d；e；r； ；c；o；d；e；;； ；r；e；v；a；l；i；d；a；t；e； ；r；a；w； ；l；o；a；d；S；c；e；n；e； ；a；n；d； ；l；o；c；a；l； ；b；a；s；e；l；i；n；e； ；a；s；s；u；m；p；t；i；o；n；s；.",
+          "after": "M4 plan/current scene and loader code; revalidate raw loadScene and local baseline assumptions."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-30-xianglan-cutscene-fidelity.md",
+      "sourceSha256": "46639d8d721b5e0ef6d794ed27b7be39ee5bbac33ccb3962b91dace5e9f30f0b",
+      "afterSha256": "f56de79e1cd4c2ba30ceab05a429a025fcba4f5e0a0a7374be8bc6606e9e7a5a",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 32,
+          "before": "C；u；r；r；e；n；t； ；r；u；n；t；i；m；e； ；d；i；a；g；n；o；s；t；i；c；s； ；a；n；d； ；c；u；t；s；c；e；n；e； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；/；t；e；s；t；s；;； ；a；n；y； ；r；e；p；a；i；r； ；n；e；e；d；s； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e；/；r；u；n；t；i；m；e； ；r；e；v；i；e；w；.",
+          "after": "Current runtime diagnostics and cutscene implementation/tests; any repair needs a fresh primary-source/runtime review."
+        },
+        {
+          "line": 55,
+          "before": "C；u；r；r；e；n；t； ；r；u；n；t；i；m；e； ；d；i；a；g；n；o；s；t；i；c；s； ；a；n；d； ；c；u；t；s；c；e；n；e； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；/；t；e；s；t；s；;； ；a；n；y； ；r；e；p；a；i；r； ；n；e；e；d；s； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e；/；r；u；n；t；i；m；e； ；r；e；v；i；e；w；.",
+          "after": "Current runtime diagnostics and cutscene implementation/tests; any repair needs a fresh primary-source/runtime review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-31-d-series-completion-roadmap.md",
+      "sourceSha256": "57978306d7d0f65131afc5d588ff9f752a3e64f6cdb84205b64050e59ed031c5",
+      "afterSha256": "035ef91a086a943b8e1e435d660cb4250466a37681940798452c257bc9ce8925",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 43,
+          "before": "C；u；r；r；e；n；t； ；D；-；s；e；r；i；e；s； ；s；t；a；t；u；s； ；a；n；d； ；u；s；e；r；-；v；e；r；i；f；i；e；d； ；b；e；h；a；v；i；o；r； ；e；v；i；d；e；n；c；e；.",
+          "after": "Current D-series status and user-verified behavior evidence."
+        },
+        {
+          "line": 77,
+          "before": "C；u；r；r；e；n；t； ；D；-；s；e；r；i；e；s； ；s；t；a；t；u；s； ；a；n；d； ；u；s；e；r；-；v；e；r；i；f；i；e；d； ；b；e；h；a；v；i；o；r； ；e；v；i；d；e；n；c；e；.",
+          "after": "Current D-series status and user-verified behavior evidence."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-06-battle-system-current-audit.md",
+      "sourceSha256": "878c39a0a16e19f49f3b299e3c22da9262b58552f46f66d3adc627223ec8eed1",
+      "afterSha256": "3be2c604625821776dcc8263aa53cf64143f4da8ac1e8656218451b4faea3c32",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 36,
+          "before": "C；u；r；r；e；n；t； ；b；a；t；t；l；e； ；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；a；u；d；i；t；.",
+          "after": "Current battle code/tests and fresh audit."
+        },
+        {
+          "line": 61,
+          "before": "C；u；r；r；e；n；t； ；b；a；t；t；l；e； ；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；a；u；d；i；t；.",
+          "after": "Current battle code/tests and fresh audit."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/README.md",
+      "sourceSha256": "1b282ed34822d329647d8167b05363e88d88fca146369456760c7e6867771f20",
+      "afterSha256": "63d372503d55e0405bfd7e24847ae630e78f23de272810accc1d2d68c4e29cb9",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 25,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；R；E；A；D；M；E；/；s；t；a；t；u；s； ；i；n；d；e；x；e；s；;； ；n；a；v；i；g；a；t；i；o；n； ；o；n；l；y；.",
+          "after": "Current phase1 README/status indexes; navigation only."
+        },
+        {
+          "line": 54,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；R；E；A；D；M；E；/；s；t；a；t；u；s； ；i；n；d；e；x；e；s；;； ；n；a；v；i；g；a；t；i；o；n； ；o；n；l；y；.",
+          "after": "Current phase1 README/status indexes; navigation only."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-23-m0-project-skeleton.md",
+      "sourceSha256": "ead04df1615699f3c3af890e8f6ddf9bd21fb62a80bc4823c47a570aecb43d27",
+      "afterSha256": "33b71df315e990774abbf5330e075848d5589bd7c433fd63dc1ec48869fa38d3",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 34,
+          "before": "M；1； ；p；a；l；-；e；x；t；r；a；c；t； ；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；w；o；r；k；s；p；a；c；e；/；p；a；c；k；a；g；e； ；c；o；d；e；;； ；v；e；r；i；f；y； ；c；u；r；r；e；n；t； ；c；a；n；o；n；i；c；a；l； ；p；a；c；k；a；g；e； ；c；o；n；t；r；a；c；t；s； ；b；e；f；o；r；e； ；r；e；u；s；e；.",
+          "after": "M1 pal-extract plan and current workspace/package code; verify current canonical package contracts before reuse."
+        },
+        {
+          "line": 59,
+          "before": "M；1； ；p；a；l；-；e；x；t；r；a；c；t； ；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；w；o；r；k；s；p；a；c；e；/；p；a；c；k；a；g；e； ；c；o；d；e；;； ；v；e；r；i；f；y； ；c；u；r；r；e；n；t； ；c；a；n；o；n；i；c；a；l； ；p；a；c；k；a；g；e； ；c；o；n；t；r；a；c；t；s； ；b；e；f；o；r；e； ；r；e；u；s；e；.",
+          "after": "M1 pal-extract plan and current workspace/package code; verify current canonical package contracts before reuse."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-31-d-batch6-numeric-equip.md",
+      "sourceSha256": "b763ff54ce01a2abecf1a6976c9656d2ada3e3c84ad2f2f5741353294d7e75d0",
+      "afterSha256": "237ef0b02307a0a58bde99ea203bcf1d053ff511af319f0173607562d3a140db",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 32,
+          "before": "C；u；r；r；e；n；t； ；c；a；n；o；n；i；c；a；l； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；;； ；h；i；s；t；o；r；i；c；a；l； ；c；l；a；i；m；s； ；r；e；q；u；i；r；e； ；r；e；v；a；l；i；d；a；t；i；o；n；.",
+          "after": "Current canonical phase1 status tables/code/tests and a fresh primary-source review; historical claims require revalidation."
+        },
+        {
+          "line": 55,
+          "before": "C；u；r；r；e；n；t； ；c；a；n；o；n；i；c；a；l； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；;； ；h；i；s；t；o；r；i；c；a；l； ；c；l；a；i；m；s； ；r；e；q；u；i；r；e； ；r；e；v；a；l；i；d；a；t；i；o；n；.",
+          "after": "Current canonical phase1 status tables/code/tests and a fresh primary-source review; historical claims require revalidation."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-14-unified-precache-progress-gate-impl.md",
+      "sourceSha256": "98982f79f767c2d57d72fae4c319433691869fb488ebf75961c331c0fc7320e1",
+      "afterSha256": "32e22ce5759553a59e77e8231e61030e928f422cb15ae03e77e5619c2dd26c7f",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 41,
+          "before": "C；u；r；r；e；n；t； ；p；r；e；c；a；c；h；e；/；p；r；o；g；r；e；s；s； ；g；a；t；e； ；c；o；d；e； ；a；n；d； ；d；e；p；l；o；y；m；e；n；t； ；e；v；i；d；e；n；c；e；.",
+          "after": "Current precache/progress gate code and deployment evidence."
+        },
+        {
+          "line": 73,
+          "before": "C；u；r；r；e；n；t； ；p；r；e；c；a；c；h；e；/；p；r；o；g；r；e；s；s； ；g；a；t；e； ；c；o；d；e； ；a；n；d； ；d；e；p；l；o；y；m；e；n；t； ；e；v；i；d；e；n；c；e；.",
+          "after": "Current precache/progress gate code and deployment evidence."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-07-sdlpal-diff-audit.md",
+      "sourceSha256": "c7a97a152557a9824d2b9883400e5a34912c64ee5cbc68adbdb37e5258a66241",
+      "afterSha256": "bccc9e151ff3fca2388783af1a5dc4444d923e4cfa9179608ac3e71b728c0226",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 44,
+          "before": "C；u；r；r；e；n；t； ；c；o；d；e； ；p；l；u；s； ；n；e；w； ；s；o；u；r；c；e；-；a；n；c；h；o；r；e；d； ；d；i；f；f； ；a；u；d；i；t；.",
+          "after": "Current code plus new source-anchored diff audit."
+        },
+        {
+          "line": 77,
+          "before": "C；u；r；r；e；n；t； ；c；o；d；e； ；p；l；u；s； ；n；e；w； ；s；o；u；r；c；e；-；a；n；c；h；o；r；e；d； ；d；i；f；f； ；a；u；d；i；t；.",
+          "after": "Current code plus new source-anchored diff audit."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-01-gameoveractive-refactor.md",
+      "sourceSha256": "08fb426ac7cc456d046e2511e123da37b543d3483fae1e5407c032d67caa1086",
+      "afterSha256": "8dd681772fcce05120d62dde0e7eca1d74b611863c7cd9e787cb0798456f117a",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 35,
+          "before": "C；u；r；r；e；n；t； ；c；a；n；o；n；i；c；a；l； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；;； ；h；i；s；t；o；r；i；c；a；l； ；c；l；a；i；m；s； ；r；e；q；u；i；r；e； ；r；e；v；a；l；i；d；a；t；i；o；n；.",
+          "after": "Current canonical phase1 status tables/code/tests and a fresh primary-source review; historical claims require revalidation."
+        },
+        {
+          "line": 61,
+          "before": "C；u；r；r；e；n；t； ；c；a；n；o；n；i；c；a；l； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；;； ；h；i；s；t；o；r；i；c；a；l； ；c；l；a；i；m；s； ；r；e；q；u；i；r；e； ；r；e；v；a；l；i；d；a；t；i；o；n；.",
+          "after": "Current canonical phase1 status tables/code/tests and a fresh primary-source review; historical claims require revalidation."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-13-offline-precache-sw.md",
+      "sourceSha256": "37d822660dd7e6905d5758ba804048880c8f468ec037ea473f87526b70b05a53",
+      "afterSha256": "fb87a27082e4b6d40389f7de3efe621b6a1f5b58eb2d3105428c21c5cc420976",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 37,
+          "before": "C；u；r；r；e；n；t； ；s；e；r；v；i；c；e； ；w；o；r；k；e；r；/；p；r；e；c；a；c；h；e； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；a；n；d； ；d；e；p；l；o；y；m；e；n；t； ；e；v；i；d；e；n；c；e；.",
+          "after": "Current service worker/precache implementation and deployment evidence."
+        },
+        {
+          "line": 65,
+          "before": "C；u；r；r；e；n；t； ；s；e；r；v；i；c；e； ；w；o；r；k；e；r；/；p；r；e；c；a；c；h；e； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；a；n；d； ；d；e；p；l；o；y；m；e；n；t； ；e；v；i；d；e；n；c；e；.",
+          "after": "Current service worker/precache implementation and deployment evidence."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-13-canvas-resolution-setting.md",
+      "sourceSha256": "fd9f19b8fbefc568192b064f4327e11c93b4bbecb5bb2149af462d1f99edd0c7",
+      "afterSha256": "15b0578884424943cf27112864e1c7d10288d9073ce4d326401ed87c7c5d2d18",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 34,
+          "before": "C；u；r；r；e；n；t； ；d；i；s；p；l；a；y；-；s；c；a；l；e；/；c；a；n；v；a；s； ；c；o；d；e； ；a；n；d； ；p；r；o；d；u；c；t； ；d；e；c；i；s；i；o；n；.",
+          "after": "Current display-scale/canvas code and product decision."
+        },
+        {
+          "line": 59,
+          "before": "C；u；r；r；e；n；t； ；d；i；s；p；l；a；y；-；s；c；a；l；e；/；c；a；n；v；a；s； ；c；o；d；e； ；a；n；d； ；p；r；o；d；u；c；t； ；d；e；c；i；s；i；o；n；.",
+          "after": "Current display-scale/canvas code and product decision."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-22-tileset-atlas-packing.md",
+      "sourceSha256": "1d400ad25f0dd7b05226b4e45b9b450fb9b0ffff5c713ac17cdb16eb79b2e2df",
+      "afterSha256": "b750fd5f3fe8890f087a47cff6652553d7f20c5dca6503a48d07b06e383485c1",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 37,
+          "before": "C；u；r；r；e；n；t； ；r；e；s；o；u；r；c；e； ；p；i；p；e；l；i；n；e；/；p；h；a；s；e；2； ；t；i；l；e；s；e；t； ；d；e；c；i；s；i；o；n；s； ；a；n；d； ；m；e；a；s；u；r；e；d； ；e；v；i；d；e；n；c；e；.",
+          "after": "Current resource pipeline/phase2 tileset decisions and measured evidence."
+        },
+        {
+          "line": 65,
+          "before": "C；u；r；r；e；n；t； ；r；e；s；o；u；r；c；e； ；p；i；p；e；l；i；n；e；/；p；h；a；s；e；2； ；t；i；l；e；s；e；t； ；d；e；c；i；s；i；o；n；s； ；a；n；d； ；m；e；a；s；u；r；e；d； ；e；v；i；d；e；n；c；e；.",
+          "after": "Current resource pipeline/phase2 tileset decisions and measured evidence."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-23-m1-pal-extract.md",
+      "sourceSha256": "772c44d5f4d4f3e735b8a327a1112e8dad9689307ec91ce4443d649ac4777ce7",
+      "afterSha256": "e9f28dad21f647cf385d78175cdc2bfb29e01a66ff70989299b03db28feef8a9",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 43,
+          "before": "M；2； ；r；u；n；t；i；m；e； ；s；l；i；c；e； ；d；e；s；i；g；n；/；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；p；a；l；-；e；x；t；r；a；c；t；/；s；h；a；r；e；d； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；;； ；r；e；v；a；l；i；d；a；t；e； ；a；l；l； ；T；O；D；O； ；o；f；f；s；e；t；s； ；a；g；a；i；n；s；t； ；s；o；u；r；c；e；.",
+          "after": "M2 runtime slice design/plan and current pal-extract/shared implementation; revalidate all TODO offsets against source."
+        },
+        {
+          "line": 77,
+          "before": "M；2； ；r；u；n；t；i；m；e； ；s；l；i；c；e； ；d；e；s；i；g；n；/；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；p；a；l；-；e；x；t；r；a；c；t；/；s；h；a；r；e；d； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；;； ；r；e；v；a；l；i；d；a；t；e； ；a；l；l； ；T；O；D；O； ；o；f；f；s；e；t；s； ；a；g；a；i；n；s；t； ；s；o；u；r；c；e；.",
+          "after": "M2 runtime slice design/plan and current pal-extract/shared implementation; revalidate all TODO offsets against source."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-24-m4-pal-extract-complete-design.md",
+      "sourceSha256": "bea471368850aaeaf572ae969f6e9fb6ab2336b006f5ba26bc0f69fa2f129815",
+      "afterSha256": "22704f070ded16d2b9ca802a52162cf31ca99e6667cd086651ba89f1f9dbfc97",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 43,
+          "before": "M；4； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；e；x；t；r；a；c；t；i；o；n；/；r；e；s；o；u；r；c；e； ；s；t；a；t；u；s；;； ；s；c；h；e；m；a； ；B； ；a；n；d； ；r；e；m；a；i；n；i；n；g； ；m；e；d；i；a； ；g；a；p；s； ；n；e；e；d； ；f；r；e；s；h； ；e；v；i；d；e；n；c；e；.",
+          "after": "M4 implementation plan and current extraction/resource status; schema B and remaining media gaps need fresh evidence."
+        },
+        {
+          "line": 77,
+          "before": "M；4； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；e；x；t；r；a；c；t；i；o；n；/；r；e；s；o；u；r；c；e； ；s；t；a；t；u；s；;； ；s；c；h；e；m；a； ；B； ；a；n；d； ；r；e；m；a；i；n；i；n；g； ；m；e；d；i；a； ；g；a；p；s； ；n；e；e；d； ；f；r；e；s；h； ；e；v；i；d；e；n；c；e；.",
+          "after": "M4 implementation plan and current extraction/resource status; schema B and remaining media gaps need fresh evidence."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-25-m5-systems-complete.md",
+      "sourceSha256": "1a382319faa637d0c98ad6198f296eb474999575075bc65ffc2562fbf4b01c85",
+      "afterSha256": "47a0af32bf5713d2a1b2fb196d2f8f69b761a7ee50edc8e3955470e1698c49ca",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 43,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；f；e；a；t；u；r；e；/；s；t；a；t；u；s； ；t；a；b；l；e；s； ；a；n；d； ；c；a；n；o；n；i；c；a；l； ；c；o；d；e；/；t；e；s；t；s；;； ；M；5； ；p；l；a；n； ；i；s； ；h；i；s；t；o；r；i；c；a；l； ；e；x；e；c；u；t；i；o；n； ；g；u；i；d；a；n；c；e；.",
+          "after": "Current phase1 feature/status tables and canonical code/tests; M5 plan is historical execution guidance."
+        },
+        {
+          "line": 77,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；f；e；a；t；u；r；e；/；s；t；a；t；u；s； ；t；a；b；l；e；s； ；a；n；d； ；c；a；n；o；n；i；c；a；l； ；c；o；d；e；/；t；e；s；t；s；;； ；M；5； ；p；l；a；n； ；i；s； ；h；i；s；t；o；r；i；c；a；l； ；e；x；e；c；u；t；i；o；n； ；g；u；i；d；a；n；c；e；.",
+          "after": "Current phase1 feature/status tables and canonical code/tests; M5 plan is historical execution guidance."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-24-m4-pal-extract-complete.md",
+      "sourceSha256": "382224ba060ccd76e55395aebd0ab6256143899a7f3e989616a73c3c78e70943",
+      "afterSha256": "87c047b328899323e289ef13ac948497b948feae62dff75855baca3e7d984575",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 43,
+          "before": "M；5； ；d；e；s；i；g；n；/；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；e；x；t；r；a；c；t；i；o；n；/；r；e；s；o；u；r；c；e； ；c；o；d；e；;； ；d；o； ；n；o；t； ；i；n；f；e；r； ；c；o；m；p；l；e；t；i；o；n； ；f；r；o；m； ；t；a；s；k； ；c；h；e；c；k；b；o；x；e；s；.",
+          "after": "M5 design/plan and current extraction/resource code; do not infer completion from task checkboxes."
+        },
+        {
+          "line": 77,
+          "before": "M；5； ；d；e；s；i；g；n；/；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；e；x；t；r；a；c；t；i；o；n；/；r；e；s；o；u；r；c；e； ；c；o；d；e；;； ；d；o； ；n；o；t； ；i；n；f；e；r； ；c；o；m；p；l；e；t；i；o；n； ；f；r；o；m； ；t；a；s；k； ；c；h；e；c；k；b；o；x；e；s；.",
+          "after": "M5 design/plan and current extraction/resource code; do not infer completion from task checkboxes."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-25-m5-systems-complete-design.md",
+      "sourceSha256": "f29db300965721a304524379227bcd881f5601a5cc90f36b284a4dd147ebb71a",
+      "afterSha256": "b92b8e7d445aa7863691fd91307282d27cc635e73b3a0ef7fd80bb646aecceb1",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 39,
+          "before": "M；5； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s；/；c；o；d；e；;； ；p；h；y；s；i；c；s； ；a；n；d； ；D；2；6； ；b；o；u；n；d；a；r；i；e；s； ；r；e；q；u；i；r；e； ；c；u；r；r；e；n；t； ；p；r；i；m；a；r；y； ；s；o；u；r；c；e；s；.",
+          "after": "M5 implementation plan and current phase1 status/code; physics and D26 boundaries require current primary sources."
+        },
+        {
+          "line": 69,
+          "before": "M；5； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s；/；c；o；d；e；;； ；p；h；y；s；i；c；s； ；a；n；d； ；D；2；6； ；b；o；u；n；d；a；r；i；e；s； ；r；e；q；u；i；r；e； ；c；u；r；r；e；n；t； ；p；r；i；m；a；r；y； ；s；o；u；r；c；e；s；.",
+          "after": "M5 implementation plan and current phase1 status/code; physics and D26 boundaries require current primary sources."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-02-item-audit.md",
+      "sourceSha256": "6e2b0b5d77983a34b21824157fb3e45723f262d78ac3cf7d7a29310d86fa6f80",
+      "afterSha256": "cc1c18032b5c1b9fa0c498eba570f080cf6a5bbe98761e93b0f25f6e175782f2",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 44,
+          "before": "C；u；r；r；e；n；t； ；i；t；e；m； ；s；c；r；i；p；t；/；o；p；c；o；d；e； ；c；o；d；e； ；a；n；d； ；f；o；c；u；s；e；d； ；t；e；s；t；s；.",
+          "after": "Current item script/opcode code and focused tests."
+        },
+        {
+          "line": 77,
+          "before": "C；u；r；r；e；n；t； ；i；t；e；m； ；s；c；r；i；p；t；/；o；p；c；o；d；e； ；c；o；d；e； ；a；n；d； ；f；o；c；u；s；e；d； ；t；e；s；t；s；.",
+          "after": "Current item script/opcode code and focused tests."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-14-unified-precache-progress-gate.md",
+      "sourceSha256": "e967dda52f5e9eb85bea32c92ef63d940576d5195b4feca1b8d575a6c81e2a13",
+      "afterSha256": "edc7ab798f27dea5ad07514eea6529c14d0f914faee9f45a0b6c9d5cc84cbea1",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 62,
+          "before": "C；u；r；r；e；n；t； ；p；r；e；c；a；c；h；e； ；g；a；t；e； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；.",
+          "after": "Current precache gate implementation."
+        },
+        {
+          "line": 85,
+          "before": "C；u；r；r；e；n；t； ；p；r；e；c；a；c；h；e； ；g；a；t；e； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；.",
+          "after": "Current precache gate implementation."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-23-m2-runtime-slice.md",
+      "sourceSha256": "65a64faac97fc0fe66c723da9d1a482322be4f57cbe2637eca8b568da3811c07",
+      "afterSha256": "9c9d6bfb1e7254dd98b684860b5869ec6a7ca3c980bd908b767a61b12c84e7a4",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 43,
+          "before": "M；3； ；d；e；s；i；g；n；/；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；r；u；n；t；i；m；e； ；c；o；d；e；/；t；e；s；t；s；;； ；h；i；s；t；o；r；i；c；a；l； ；T；O；D；O；s； ；r；e；q；u；i；r；e； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；a；l；i；d；a；t；i；o；n；.",
+          "after": "M3 design/plan and current runtime code/tests; historical TODOs require primary-source revalidation."
+        },
+        {
+          "line": 77,
+          "before": "M；3； ；d；e；s；i；g；n；/；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；r；u；n；t；i；m；e； ；c；o；d；e；/；t；e；s；t；s；;； ；h；i；s；t；o；r；i；c；a；l； ；T；O；D；O；s； ；r；e；q；u；i；r；e； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；a；l；i；d；a；t；i；o；n；.",
+          "after": "M3 design/plan and current runtime code/tests; historical TODOs require primary-source revalidation."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-28-feature-audit-and-replanning.md",
+      "sourceSha256": "a2702172935725bfbe1c09c77fca361c2ab7bc8d98d046826dc4cf1bd271a280",
+      "afterSha256": "d54c441c57aee7273ab5986ae8dbae1d7b45b42564041051f890ae4426809847",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 44,
+          "before": "d；o；c；s；/；p；h；a；s；e；1；/；s；t；a；t；u；s；/；f；e；a；t；u；r；e；-；s；t；a；t；u；s；.；m；d； ；a；n；d； ；c；u；r；r；e；n；t； ；s；d；l；p；a；l；-；t；o；-；T；S； ；a；u；d；i；t；s；;； ；u；s；e；r； ；d；e；c；i；s；i；o；n；s； ；r；e；m；a；i；n； ；r；e；q；u；i；r；e；d； ；f；o；r； ；p；r；o；d；u；c；t； ；c；h；a；n；g；e；s；.",
+          "after": "docs/phase1/status/feature-status.md and current sdlpal-to-TS audits; user decisions remain required for product changes."
+        },
+        {
+          "line": 77,
+          "before": "d；o；c；s；/；p；h；a；s；e；1；/；s；t；a；t；u；s；/；f；e；a；t；u；r；e；-；s；t；a；t；u；s；.；m；d； ；a；n；d； ；c；u；r；r；e；n；t； ；s；d；l；p；a；l；-；t；o；-；T；S； ；a；u；d；i；t；s；;； ；u；s；e；r； ；d；e；c；i；s；i；o；n；s； ；r；e；m；a；i；n； ；r；e；q；u；i；r；e；d； ；f；o；r； ；p；r；o；d；u；c；t； ；c；h；a；n；g；e；s；.",
+          "after": "docs/phase1/status/feature-status.md and current sdlpal-to-TS audits; user decisions remain required for product changes."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-01-d-series-test-cases.md",
+      "sourceSha256": "335305c7b0fbcda5c88d3ad243365005c762e3237c1acf12f61cf5514d4ce801",
+      "afterSha256": "40175d1ead59a01c80e9934a75058894b251cfd38d0938ea485fe54efaf8157e",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 43,
+          "before": "C；u；r；r；e；n；t； ；h；a；r；n；e；s；s； ；p；l；u；s； ；u；s；e；r；-；r；u；n； ；e；v；i；d；e；n；c；e；;； ；m；a；n；u；a；l； ；c；a；s；e；s； ；a；r；e； ；n；o；t； ；r；u；n；t；i；m；e； ；p；r；o；o；f；.",
+          "after": "Current harness plus user-run evidence; manual cases are not runtime proof."
+        },
+        {
+          "line": 77,
+          "before": "C；u；r；r；e；n；t； ；h；a；r；n；e；s；s； ；p；l；u；s； ；u；s；e；r；-；r；u；n； ；e；v；i；d；e；n；c；e；;； ；m；a；n；u；a；l； ；c；a；s；e；s； ；a；r；e； ；n；o；t； ；r；u；n；t；i；m；e； ；p；r；o；o；f；.",
+          "after": "Current harness plus user-run evidence; manual cases are not runtime proof."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-23-m3-battle-vertical-slice-design.md",
+      "sourceSha256": "85f9b83053be7cceccb9a9016dee8295f97e98bf25dd01ec20a8b65d6aecfedc",
+      "afterSha256": "42074ed8ccebbae1b2652a4642bc07b7c68d0e3dd09a77b4880b3005bb85c6a8",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 42,
+          "before": "M；3； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；b；a；t；t；l；e； ；c；o；d；e；;； ；D；2；9；/；D；3；0； ；d；e；c；i；s；i；o；n；s； ；m；u；s；t； ；b；e； ；r；e；a；d； ；f；r；o；m； ；c；u；r；r；e；n；t； ；s；t；a；t；u；s；.",
+          "after": "M3 implementation plan and current battle code; D29/D30 decisions must be read from current status."
+        },
+        {
+          "line": 75,
+          "before": "M；3； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；b；a；t；t；l；e； ；c；o；d；e；;； ；D；2；9；/；D；3；0； ；d；e；c；i；s；i；o；n；s； ；m；u；s；t； ；b；e； ；r；e；a；d； ；f；r；o；m； ；c；u；r；r；e；n；t； ；s；t；a；t；u；s；.",
+          "after": "M3 implementation plan and current battle code; D29/D30 decisions must be read from current status."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-05-31-d-batch1-status-behavior.md",
+      "sourceSha256": "f25eb570605525a312596be540712720cba9bfe67b7c47ff26f09f7f91cb714a",
+      "afterSha256": "c2e6b3a076692ec7d3aa6b33b19001ae52a8719d32053cfff9a04385c7b3e714",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 38,
+          "before": "C；u；r；r；e；n；t； ；b；a；t；t；l；e； ；s；t；a；t；u；s； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；/；t；e；s；t；s；,； ；f；e；a；t；u；r；e；-；s；t；a；t；u；s； ；a；n；d； ；D；-；s；e；r；i；e；s； ；r；o；a；d；m；a；p；;； ；h；i；s；t；o；r；i；c；a；l； ；p；l；a；n； ；d；o；e；s； ；n；o；t； ；g；r；a；n；t； ；b；e；h；a；v；i；o；r； ；c；r；e；d；i；t；.",
+          "after": "Current battle status implementation/tests, feature-status and D-series roadmap; historical plan does not grant behavior credit."
+        },
+        {
+          "line": 67,
+          "before": "C；u；r；r；e；n；t； ；b；a；t；t；l；e； ；s；t；a；t；u；s； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；/；t；e；s；t；s；,； ；f；e；a；t；u；r；e；-；s；t；a；t；u；s； ；a；n；d； ；D；-；s；e；r；i；e；s； ；r；o；a；d；m；a；p；;； ；h；i；s；t；o；r；i；c；a；l； ；p；l；a；n； ；d；o；e；s； ；n；o；t； ；g；r；a；n；t； ；b；e；h；a；v；i；o；r； ；c；r；e；d；i；t；.",
+          "after": "Current battle status implementation/tests, feature-status and D-series roadmap; historical plan does not grant behavior credit."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-01-sdlpal-feature-surface-audit.md",
+      "sourceSha256": "29208d5cd7159e98cf6404d5c8879afeb457263656cf4ab924f45663f5cc5997",
+      "afterSha256": "9404b6a024a81d3e6e26f9e5eb7fed172d0e8a6cb71e05f466d9345a698982d0",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 44,
+          "before": "C；u；r；r；e；n；t； ；f；e；a；t；u；r；e；/；r；e；s；o；u；r；c；e；/；o；p；c；o；d；e； ；t；a；b；l；e；s； ；a；n；d； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；.",
+          "after": "Current feature/resource/opcode tables and implementation."
+        },
+        {
+          "line": 77,
+          "before": "C；u；r；r；e；n；t； ；f；e；a；t；u；r；e；/；r；e；s；o；u；r；c；e；/；o；p；c；o；d；e； ；t；a；b；l；e；s； ；a；n；d； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；.",
+          "after": "Current feature/resource/opcode tables and implementation."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/status/opcode-status.md",
+      "sourceSha256": "63629febae20c781a89bf4eb73b9ed15cbee2cb8a627ac126fad2a747696a21e",
+      "afterSha256": "a987ecd80b31adc4581cfe386f7c440382163e9a4b8d95c84ac34b68c9cb8c8c",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 42,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase1 status tables/code/tests and a fresh primary-source review."
+        },
+        {
+          "line": 73,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase1 status tables/code/tests and a fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/status/resource-status.md",
+      "sourceSha256": "71762b5badd18f9c48436a0aa4b5f7dcb506b485b3bbe4810c5b8771b9d29974",
+      "afterSha256": "1bf0851ce68fc4b5c4618228cf82b21d1c16e521f851a4ca5488c4efb4c087bc",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 34,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase1 status tables/code/tests and a fresh primary-source review."
+        },
+        {
+          "line": 57,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase1 status tables/code/tests and a fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/status/cutscene-status.md",
+      "sourceSha256": "eff3bf7b200abde1fec2d1e24c98678d899e8bbe6af133e09531286c400ac3b0",
+      "afterSha256": "3e9e09bfb96950e2f0a594304132ffbd6c05b3604718e52bdbf7b98fd5b179d1",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 34,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase1 status tables/code/tests and a fresh primary-source review."
+        },
+        {
+          "line": 57,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase1 status tables/code/tests and a fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/status/magic-status.md",
+      "sourceSha256": "3b5b5ff1da6632482cca67133989bf4c8e0690b84bc13f809a22787755052c28",
+      "afterSha256": "ef8d4763c41cfa2390e0f106aa0550fbab70c8b219f0f113de1f0ebd011c81ff",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 34,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase1 status tables/code/tests and a fresh primary-source review."
+        },
+        {
+          "line": 57,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase1 status tables/code/tests and a fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/status/README.md",
+      "sourceSha256": "3b780e2f52b65e841ab65313ff0be359c1f58071c12066bb57af7478edb746a6",
+      "afterSha256": "893b6a2ee4f5737ef28b3d0ef19475e5193182c2c35c0915f95405f68b4335e6",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 57,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase1 status tables/code/tests and a fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/status/item-status.md",
+      "sourceSha256": "1b1df64e8b83508ae53771c2aeee729095682d6645168e05e267302115d03bb8",
+      "afterSha256": "3ecadaf38de486d7b31f0462ba6a0cbb6df7e94e45c94d078757e22b32d8d1c7",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 37,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase1 status tables/code/tests and a fresh primary-source review."
+        },
+        {
+          "line": 63,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase1 status tables/code/tests and a fresh primary-source review."
+        }
+      ]
+    },
+    {
+      "path": "docs/phase1/status/feature-status.md",
+      "sourceSha256": "f1af27116414c9eb6e99bca8505e9efb9f1c3a1766a49da832bc97d2032da5db",
+      "afterSha256": "9621210e9b5811ef6dfaf33d1a28e969258c79477648b5e5d4e4182040f4510b",
+      "quoteBytesUnchanged": true,
+      "edits": [
+        {
+          "line": 45,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase1 status tables/code/tests and a fresh primary-source review."
+        },
+        {
+          "line": 79,
+          "before": "C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.",
+          "after": "Current phase1 status tables/code/tests and a fresh primary-source review."
+        }
+      ]
+    }
+  ],
+  "repairCount": 113,
+  "notes": [
+    "All edits are generated non-quote text; 113 files were detected in the current tree, not 44.",
+    "Git mtimes do not authenticate historical command execution."
+  ],
+  "r65": {
+    "commit": "183ec0bf0b7ce290bcfa68839e5ce9d29af3245a",
+    "finding": "summary-only edit 8080 -> 7970, without attached new raw execution; accept withdrawn; original bytes retained",
+    "verdict": "counter"
+  },
+  "artifactOnly": {
+    "commit": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
+    "decision": "rollback completion shortcut; metadata may describe storage only; no retrospective approval"
+  },
+  "independence": {
+    "finding": "same-actor verification cannot claim non-author acceptance; filenames and old reviewer strings alone are not identity evidence",
+    "currentRun": "Codex author self-check; no independent credit"
+  },
+  "r27": {
+    "originalSummary": "sourceQuoteInverse:20/20",
+    "directUtf8": 15,
+    "requiresSentinelDecoding": 5,
+    "failed": 0,
+    "decoding": "Trailing U+2420 -> U+0020 and U+21E5 -> U+0009 only; no blanket character replacement.",
+    "documents": [
+      {
+        "path": "docs/phase1/plans/2026-05-23-m0-project-skeleton.md",
+        "sourceSha256": "48cd9d8c5fc824ba720e31ba4de4c77c143d40533a4374ef73ff450e5bf9f206",
+        "directUtf8Inverse": true,
+        "sentinelDecodedInverse": true
+      },
+      {
+        "path": "docs/phase1/plans/2026-05-23-m1-pal-extract-design.md",
+        "sourceSha256": "176db881be3c7b2e5ccc842903d44a32d3f7d9ca5577a7c6261420b5be18087d",
+        "directUtf8Inverse": true,
+        "sentinelDecodedInverse": true
+      },
+      {
+        "path": "docs/phase1/plans/2026-05-23-m1-pal-extract.md",
+        "sourceSha256": "ac7d9b89b5536107b3d52fbb346cbe96d3b2ad2cfabfcab835e6f5fa32fbacab",
+        "directUtf8Inverse": true,
+        "sentinelDecodedInverse": true
+      },
+      {
+        "path": "docs/phase1/plans/2026-05-23-m2-runtime-slice-design.md",
+        "sourceSha256": "1a41396403e06b0c32c59bd1be1e29d13a8ac9dc6a0b997f5b50aadb31016091",
+        "directUtf8Inverse": true,
+        "sentinelDecodedInverse": true
+      },
+      {
+        "path": "docs/phase1/plans/2026-05-23-m2-runtime-slice.md",
+        "sourceSha256": "2c1af6fa890e7f841bc166cd75a6923a46bb67e7d15403e6e85cef2849b8fa58",
+        "directUtf8Inverse": true,
+        "sentinelDecodedInverse": true
+      },
+      {
+        "path": "docs/phase1/plans/2026-05-23-m3-battle-vertical-slice-design.md",
+        "sourceSha256": "d030e218834e3856eaba1a9307d870aa681474a8cb7893cc5a04de43f8d8b43c",
+        "directUtf8Inverse": true,
+        "sentinelDecodedInverse": true
+      },
+      {
+        "path": "docs/phase1/plans/2026-05-23-m3-battle-vertical-slice.md",
+        "sourceSha256": "8ccaafd4547cc3f82fcf72d3bd40c92af8b0da2dc41d87c4f5f01492a6573753",
+        "directUtf8Inverse": true,
+        "sentinelDecodedInverse": true
+      },
+      {
+        "path": "docs/phase1/plans/2026-05-24-m3-5-scene-encounter-design.md",
+        "sourceSha256": "22675b3967351b81254862c3bf32699998320c4c7fd565fd9c0cc8ba87be9fdc",
+        "directUtf8Inverse": false,
+        "sentinelDecodedInverse": true
+      },
+      {
+        "path": "docs/phase1/plans/2026-05-24-m3-5-scene-encounter.md",
+        "sourceSha256": "b6453eada4c72d17b71b1a82059bdc52c1b65659bf58755bf602bcb3b1dedd17",
+        "directUtf8Inverse": false,
+        "sentinelDecodedInverse": true
+      },
+      {
+        "path": "docs/phase1/plans/2026-05-24-m4-pal-extract-complete-design.md",
+        "sourceSha256": "378839296d24f2987401e894c21ee425886eeac298f757445014ec3ab8612b5a",
+        "directUtf8Inverse": true,
+        "sentinelDecodedInverse": true
+      },
+      {
+        "path": "docs/phase1/plans/2026-05-24-m4-pal-extract-complete.md",
+        "sourceSha256": "6520846aa673fe376f0e9ae1253fe05e86fe4af29ce90434affea62068868b22",
+        "directUtf8Inverse": true,
+        "sentinelDecodedInverse": true
+      },
+      {
+        "path": "docs/phase1/plans/2026-05-25-m5-systems-complete-design.md",
+        "sourceSha256": "8041d8de8b30f9dc253469c1d4b18916b848e79ebd43c7cb561ef8382a6e28ea",
+        "directUtf8Inverse": true,
+        "sentinelDecodedInverse": true
+      },
+      {
+        "path": "docs/phase1/plans/2026-05-25-m5-systems-complete.md",
+        "sourceSha256": "69fc28c6f2c1811b9b3a24682a181be89c40f684d006fc27049a10cea5c22688",
+        "directUtf8Inverse": false,
+        "sentinelDecodedInverse": true
+      },
+      {
+        "path": "docs/phase1/plans/2026-05-27-m4-extract-audit.md",
+        "sourceSha256": "f2832e78939c971c49078a98c4af7e89eafa2593fb0330866714091d1c916aad",
+        "directUtf8Inverse": true,
+        "sentinelDecodedInverse": true
+      },
+      {
+        "path": "docs/phase1/plans/2026-05-27-m5-5-sdlpal-audit.md",
+        "sourceSha256": "d8a912e1098868e26664a68589206412edc0e15398545fa5f83da4eb944e5c88",
+        "directUtf8Inverse": true,
+        "sentinelDecodedInverse": true
+      },
+      {
+        "path": "docs/phase1/plans/2026-05-27-m5-6-playability-design.md",
+        "sourceSha256": "9bd4d7bd5f0f47d0158dc451644f2024d8dc6dea10b209cdf95a34026aba1fae",
+        "directUtf8Inverse": false,
+        "sentinelDecodedInverse": true
+      },
+      {
+        "path": "docs/phase1/plans/2026-05-27-m5-6-playability.md",
+        "sourceSha256": "96a62624d8763ad21035aefaab3b081d0360026eb6d34389966ef00b5112c56a",
+        "directUtf8Inverse": false,
+        "sentinelDecodedInverse": true
+      },
+      {
+        "path": "docs/phase1/plans/2026-05-28-feature-audit-and-replanning.md",
+        "sourceSha256": "38690783507726aa3ef11b55ff91a830e467a5996ca848c4eedd807e024e7096",
+        "directUtf8Inverse": true,
+        "sentinelDecodedInverse": true
+      },
+      {
+        "path": "docs/phase1/plans/2026-05-30-xianglan-cutscene-fidelity.md",
+        "sourceSha256": "06ec22dea6d79a298b59f4c3711f7dcc66ac7aa543a2a924b10a8eb9c6e2f606",
+        "directUtf8Inverse": true,
+        "sentinelDecodedInverse": true
+      },
+      {
+        "path": "docs/phase1/plans/2026-05-31-d-batch1-status-behavior.md",
+        "sourceSha256": "0d968e75990474077ccef9b77e21f8b7c6636638770e5b4ed37e2aab556940d6",
+        "directUtf8Inverse": true,
+        "sentinelDecodedInverse": true
+      }
+    ]
+  },
+  "r24": {
+    "badPin": "1567068529b5e0d200b7abff9a0924817dfc22b6fd6beb1c0740cc7d12fba925",
+    "sourceCommit": "091fa23a1f06075d422cd496fe75a2f58797bfe6",
+    "correctionCommit": "6f3754397498e5974d3e3bfc32518246692f2d60",
+    "finding": "A hash was asserted without an authenticated matching blob/output; withdrawn. This run verifies the intended receipt hash, not an exhaustive SHA256 search of every repository blob.",
+    "currentReceiptSha256": "1141788c1e70443ecc3f86ae6a80fd394384775cd4d47895fe3ca9476c6b8787"
+  },
+  "r22": {
+    "missingCandidatePointerAdded": true,
+    "receipt": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r22-candidate-acceptance-20261017.json",
+    "credit": "chain completeness only; no newly certified independent verdict"
+  },
+  "r38": {
+    "status": "unused identifier; no R38 document batch was executed or accepted",
+    "sequence": ["a32a087a0 R37", "a1ac53bbe artifactOnly tool change", "170d97c7f R39"],
+    "correction": "Previously unexplained numbering gap; no inferred R38 review credit."
+  },
+  "r66": {
+    "migrationCommit": "a23d06241",
+    "lateTaskReceiptCommit": "bfd78102163886d32f54e7d99d6b076d57f318d6",
+    "finding": "Eight task log lines appended after migration; they are not a command run or independent acceptance. Historical semantic accept withdrawn; fresh current commands are captured separately."
+  },
+  "damageCountsBySelectedBatch": {
+    "26": 4,
+    "30": 9,
+    "29": 8,
+    "27": 20,
+    "28": 22
+  },
+  "gateGap": "Old gates checked headings, links and hashes, not generated prose readability. The damaged text was not a parsed Markdown link and did not alter original-source quotes. A real auditDocuments corruption check and regression now reject it.",
+  "receiptHistoryScreen": {
+    "source": "receipt-history-scan.json",
+    "modifiedJsonPairsExamined": 1805,
+    "jsonPairsParsed": 1784,
+    "unavailablePairs": 0,
+    "candidates": 16,
+    "confirmedR65": 1,
+    "otherCandidatesPending": 15,
+    "decision": "Other candidates are a mechanical screen, not proof of fabricated execution; primary raw-run verification remains pending. This is not a clean audit declaration."
+  },
+  "workspaceLoss": {
+    "event": "Uncommitted managed worktree disappeared during capture; main unchanged.",
+    "recovery": "Construction commands recovered from this chat and executed anew in sibling worktree.",
+    "retention": "No lost raw captures accepted. All current receipts will describe fresh execution.",
+    "priorFailureDisclosure": "Before loss, self-check introduced missing module in isolated docs-tool fixture; fixture dependency list fixed. New full suite will rerun; no lost failure capture is presented as retained raw evidence.",
+    "unsupportedAttributionWithdrawn": "No evidence establishes that another task Git process caused the earlier failure."
+  }
+}

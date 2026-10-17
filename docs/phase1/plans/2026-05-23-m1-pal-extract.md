@@ -40,7 +40,7 @@ Template: plan-status-v1 / 1.0.0
 
 ## 下一步
 
-- 后继入口：M；2； ；r；u；n；t；i；m；e； ；s；l；i；c；e； ；d；e；s；i；g；n；/；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；p；a；l；-；e；x；t；r；a；c；t；/；s；h；a；r；e；d； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；;； ；r；e；v；a；l；i；d；a；t；e； ；a；l；l； ；T；O；D；O； ；o；f；f；s；e；t；s； ；a；g；a；i；n；s；t； ；s；o；u；r；c；e；.。
+- 后继入口：M2 runtime slice design/plan and current pal-extract/shared implementation; revalidate all TODO offsets against source.。
 - 若重新执行须新 task card、当前 source/oracle 和独立验收。
 
 ## 历史范围
@@ -74,7 +74,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- M；2； ；r；u；n；t；i；m；e； ；s；l；i；c；e； ；d；e；s；i；g；n；/；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；p；a；l；-；e；x；t；r；a；c；t；/；s；h；a；r；e；d； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；;； ；r；e；v；a；l；i；d；a；t；e； ；a；l；l； ；T；O；D；O； ；o；f；f；s；e；t；s； ；a；g；a；i；n；s；t； ；s；o；u；r；c；e；.。
+- M2 runtime slice design/plan and current pal-extract/shared implementation; revalidate all TODO offsets against source.。
 - 当前事实由继任规范、代码和新的 review 决定。
 
 ## 原文保全

@@ -7,21 +7,22 @@
   "entries": [
     {
       "path": "docs/testing/domains/editor/commands/command-form-families/history/report.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R61 historical domain-report migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "B3 命令表单族所有权候选：historical testing domain candidate archived with original evidence scope preserved.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/domains/editor/commands/command-form-families/history/report.md:1"
       ],
       "unresolved": [
-        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse."
+        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "当前 catalog/canonical report/paired evidence 重新核对。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "domains/editor/commands/command-form-families",
       "capability": "B3 命令表单族所有权候选",
@@ -150,25 +151,34 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/domains/editor/map/map-workspace-sessions/history/report.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R61 historical domain-report migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "B2 地图工作区会话所有权候选：historical testing domain candidate archived with original evidence scope preserved.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/domains/editor/map/map-workspace-sessions/history/report.md:1"
       ],
       "unresolved": [
-        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse."
+        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "当前 catalog/canonical report/paired evidence 重新核对。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "domains/editor/map/map-workspace-sessions",
       "capability": "B2 地图工作区会话所有权候选",
@@ -297,25 +307,34 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/report.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R61 historical domain-report migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "D1 第一阶段依赖环拆分：historical testing domain candidate archived with original evidence scope preserved.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/report.md:1"
       ],
       "unresolved": [
-        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse."
+        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "当前 catalog/canonical report/paired evidence 重新核对。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "domains/phase1-runtime/dependencies/dependency-ownership",
       "capability": "D1 第一阶段依赖环拆分",
@@ -444,23 +463,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/history/report.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R61 historical domain-report migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Reforge 战斗宿主拆分（A2）：historical testing domain candidate archived with original evidence scope preserved.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/domains/runtime/battle/battle-host/history/report.md:1"],
       "unresolved": [
-        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse."
+        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "当前 catalog/canonical report/paired evidence 重新核对。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "domains/runtime/battle/battle-host",
       "capability": "Reforge 战斗宿主拆分（A2）",
@@ -589,25 +617,34 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/history/report.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R61 historical domain-report migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "C1 BattleSession 状态所有权候选：historical testing domain candidate archived with original evidence scope preserved.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/domains/runtime/battle/battle-session-owners/history/report.md:1"
       ],
       "unresolved": [
-        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse."
+        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "当前 catalog/canonical report/paired evidence 重新核对。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "domains/runtime/battle/battle-session-owners",
       "capability": "C1 BattleSession 状态所有权候选",
@@ -736,23 +773,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/domains/runtime/menu/menu-session/history/report.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R61 historical domain-report migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Reforge菜单/物品宿主拆分 · A1：historical testing domain candidate archived with original evidence scope preserved.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/domains/runtime/menu/menu-session/history/report.md:1"],
       "unresolved": [
-        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse."
+        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "当前 catalog/canonical report/paired evidence 重新核对。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "domains/runtime/menu/menu-session",
       "capability": "Reforge菜单/物品宿主拆分 · A1",
@@ -881,23 +927,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/history/report.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R61 historical domain-report migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "A3-c 活动场景与镜头状态归属：historical testing domain candidate archived with original evidence scope preserved.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/domains/runtime/scene/active-scene/history/report.md:1"],
       "unresolved": [
-        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse."
+        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "当前 catalog/canonical report/paired evidence 重新核对。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "domains/runtime/scene/active-scene",
       "capability": "A3-c 活动场景与镜头状态归属",
@@ -1026,23 +1081,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/history/report.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R61 historical domain-report migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "A3-d/e 世界移动与绘制状态归属候选：historical testing domain candidate archived with original evidence scope preserved.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/domains/runtime/world/world-runtime/history/report.md:1"],
       "unresolved": [
-        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse."
+        "Historical report requires current catalog status, paired evidence and a fresh independent receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "当前 catalog/canonical report/paired evidence 重新核对。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "domains/runtime/world/world-runtime",
       "capability": "A3-d/e 世界移动与绘制状态归属候选",
@@ -1171,25 +1235,34 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/domains/editor/commands/command-form-families/history/evidence.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON parse and byte-stable historical artifact envelope; original machine fields preserved",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "history history/evidence.json：historical machine evidence artifact; original fields and bytes remain unchanged.",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/domains/editor/commands/command-form-families/history/evidence.json:1"
       ],
       "unresolved": [
-        "Historical machine evidence requires current domain consumer and fresh receipt before reuse."
+        "Historical machine evidence requires current domain consumer and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "保持原始 machine fields；当前验收由 canonical report/catalog 和 fresh receipt 负责。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "domains/editor/commands/command-form-families",
       "capability": "history",
@@ -1337,25 +1410,34 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/domains/editor/map/map-workspace-sessions/history/evidence.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON parse and byte-stable historical artifact envelope; original machine fields preserved",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "history history/evidence.json：historical machine evidence artifact; original fields and bytes remain unchanged.",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/domains/editor/map/map-workspace-sessions/history/evidence.json:1"
       ],
       "unresolved": [
-        "Historical machine evidence requires current domain consumer and fresh receipt before reuse."
+        "Historical machine evidence requires current domain consumer and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "保持原始 machine fields；当前验收由 canonical report/catalog 和 fresh receipt 负责。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "domains/editor/map/map-workspace-sessions",
       "capability": "history",
@@ -1503,25 +1585,34 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/evidence.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON parse and byte-stable historical artifact envelope; original machine fields preserved",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "history history/evidence.json：historical machine evidence artifact; original fields and bytes remain unchanged.",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/history/evidence.json:1"
       ],
       "unresolved": [
-        "Historical machine evidence requires current domain consumer and fresh receipt before reuse."
+        "Historical machine evidence requires current domain consumer and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "保持原始 machine fields；当前验收由 canonical report/catalog 和 fresh receipt 负责。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "domains/phase1-runtime/dependencies/dependency-ownership",
       "capability": "history",
@@ -1665,23 +1756,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-host/history/evidence.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON parse and byte-stable historical artifact envelope; original machine fields preserved",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "history history/evidence.json：historical machine evidence artifact; original fields and bytes remain unchanged.",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/domains/runtime/battle/battle-host/history/evidence.json:1"],
       "unresolved": [
-        "Historical machine evidence requires current domain consumer and fresh receipt before reuse."
+        "Historical machine evidence requires current domain consumer and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "保持原始 machine fields；当前验收由 canonical report/catalog 和 fresh receipt 负责。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "domains/runtime/battle/battle-host",
       "capability": "history",
@@ -1825,25 +1925,34 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/domains/runtime/battle/battle-session-owners/history/evidence.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON parse and byte-stable historical artifact envelope; original machine fields preserved",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "history history/evidence.json：historical machine evidence artifact; original fields and bytes remain unchanged.",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/domains/runtime/battle/battle-session-owners/history/evidence.json:1"
       ],
       "unresolved": [
-        "Historical machine evidence requires current domain consumer and fresh receipt before reuse."
+        "Historical machine evidence requires current domain consumer and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "保持原始 machine fields；当前验收由 canonical report/catalog 和 fresh receipt 负责。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "domains/runtime/battle/battle-session-owners",
       "capability": "history",
@@ -1991,23 +2100,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/domains/runtime/menu/menu-session/history/evidence.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON parse and byte-stable historical artifact envelope; original machine fields preserved",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "history history/evidence.json：historical machine evidence artifact; original fields and bytes remain unchanged.",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/domains/runtime/menu/menu-session/history/evidence.json:1"],
       "unresolved": [
-        "Historical machine evidence requires current domain consumer and fresh receipt before reuse."
+        "Historical machine evidence requires current domain consumer and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "保持原始 machine fields；当前验收由 canonical report/catalog 和 fresh receipt 负责。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "domains/runtime/menu/menu-session",
       "capability": "history",
@@ -2152,23 +2270,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/domains/runtime/scene/active-scene/history/evidence.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON parse and byte-stable historical artifact envelope; original machine fields preserved",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "history history/evidence.json：historical machine evidence artifact; original fields and bytes remain unchanged.",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/domains/runtime/scene/active-scene/history/evidence.json:1"],
       "unresolved": [
-        "Historical machine evidence requires current domain consumer and fresh receipt before reuse."
+        "Historical machine evidence requires current domain consumer and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "保持原始 machine fields；当前验收由 canonical report/catalog 和 fresh receipt 负责。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "domains/runtime/scene/active-scene",
       "capability": "history",
@@ -2319,23 +2446,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/domains/runtime/world/world-runtime/history/evidence.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON parse and byte-stable historical artifact envelope; original machine fields preserved",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "history history/evidence.json：historical machine evidence artifact; original fields and bytes remain unchanged.",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/domains/runtime/world/world-runtime/history/evidence.json:1"],
       "unresolved": [
-        "Historical machine evidence requires current domain consumer and fresh receipt before reuse."
+        "Historical machine evidence requires current domain consumer and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "保持原始 machine fields；当前验收由 canonical report/catalog 和 fresh receipt 负责。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "domains/runtime/world/world-runtime",
       "capability": "history",
@@ -2481,23 +2617,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/domains/ops/testing-governance/legacy-flat-audit.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-domain-report",
       "templateId": "test-domain-report-v1",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-domain-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R61 legacy-flat audit migration; testing-meta/catalog/quote checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "legacy-flat-audit.md：current testing governance domain report; machine census and migration boundaries remain explicit without execution credit.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/domains/ops/testing-governance/legacy-flat-audit.md:1"],
       "unresolved": [
-        "Legacy manifest/classification and migration consumers remain source of truth; no new runtime/E2E/coverage credit."
+        "Legacy manifest/classification and migration consumers remain source of truth; no new runtime/E2E/coverage credit.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "继续按 legacy-flat manifest、catalog、retired SHA 和 consumer 逐篇复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "ops/testing-governance",
       "capability": "legacy-flat-audit",
@@ -2622,7 +2767,21 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     }
-  ]
+  ],
+  "currentCorrection": {
+    "date": "2026-10-18",
+    "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  }
 }

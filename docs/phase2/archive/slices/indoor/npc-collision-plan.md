@@ -31,7 +31,7 @@ Template: plan-status-v1 / 1.0.0
 
 ## 下一步
 
-- C；u；r；r；e；n；t； ；r；e；f；o；r；g；e； ；c；o；l；l；i；s；i；o；n； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；/；t；e；s；t；s； ；a；n；d； ；c；a；p；a；b；i；l；i；t；y；-；m；a；p；/；t；a；s；k；-；c；a；r；d； ；e；v；i；d；e；n；c；e；;； ；a；n；y； ；n；e；w； ；d；y；n；a；m；i；c；-；c；o；l；l；i；s；i；o；n； ；d；e；s；i；g；n； ；m；u；s；t； ；b；e； ；s；e；p；a；r；a；t；e；l；y； ；s；c；o；p；e；d；.。
+- Current reforge collision implementation/tests and capability-map/task-card evidence; any new dynamic-collision design must be separately scoped.。
 - 重新执行须新 task card、当前 source/oracle 和独立验收。
 
 ## 历史范围
@@ -52,7 +52,7 @@ historical。Do not execute or cite this plan as current work; consult capabilit
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；r；e；f；o；r；g；e； ；c；o；l；l；i；s；i；o；n； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；/；t；e；s；t；s； ；a；n；d； ；c；a；p；a；b；i；l；i；t；y；-；m；a；p；/；t；a；s；k；-；c；a；r；d； ；e；v；i；d；e；n；c；e；;； ；a；n；y； ；n；e；w； ；d；y；n；a；m；i；c；-；c；o；l；l；i；s；i；o；n； ；d；e；s；i；g；n； ；m；u；s；t； ；b；e； ；s；e；p；a；r；a；t；e；l；y； ；s；c；o；p；e；d；.。
+- Current reforge collision implementation/tests and capability-map/task-card evidence; any new dynamic-collision design must be separately scoped.。
 
 ## 原文保全
 

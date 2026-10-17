@@ -7,19 +7,20 @@
   "entries": [
     {
       "path": "docs/ops/evidence/CI-GAME-OVERLAY-PERFORMANCE-1/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R63 evidence migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Game 大世界叠层测试性能修复：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/evidence/CI-GAME-OVERLAY-PERFORMANCE-1/README.md:1"],
       "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse."
+        "Historical evidence requires current consumer and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "evidence",
       "capability": "Game 大世界叠层测试性能修复",
@@ -138,23 +139,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R63 evidence migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "有限测试合同派发 2026年10月8日：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/README.md:1"],
       "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse."
+        "Historical evidence requires current consumer and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "evidence",
       "capability": "有限测试合同派发 2026年10月8日",
@@ -273,23 +283,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R63 evidence migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "三个 GLM 有限测试包独立验收：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/evidence/TEST-CONTRACT-BATCH-20261008/codex-review.md:1"],
       "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse."
+        "Historical evidence requires current consumer and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "evidence",
       "capability": "三个 GLM 有限测试包独立验收",
@@ -408,23 +427,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/evidence/TEST-DISPATCH-20261011.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R63 evidence migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TEST dispatch 2026-10-11：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/evidence/TEST-DISPATCH-20261011.md:1"],
       "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse."
+        "Historical evidence requires current consumer and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "evidence",
       "capability": "TEST dispatch 2026-10-11",
@@ -543,23 +571,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R63 evidence migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1 证据：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/evidence/TEST-EDITOR-ALCHEMY-BOUNDARIES-1/README.md:1"],
       "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse."
+        "Historical evidence requires current consumer and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "evidence",
       "capability": "TEST-EDITOR-ALCHEMY-BOUNDARIES-1 证据",
@@ -678,23 +715,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R63 evidence migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "当前作者命令表单引用与草稿合同证据：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/README.md:1"],
       "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse."
+        "Historical evidence requires current consumer and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "evidence",
       "capability": "当前作者命令表单引用与草稿合同证据",
@@ -813,25 +859,34 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/codex-review-r1.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R63 evidence migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "当前作者命令表单独立验收：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/ops/evidence/TEST-EDITOR-AUTHOR-COMMAND-FORM-CONTRACTS-1/codex-review-r1.md:1"
       ],
       "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse."
+        "Historical evidence requires current consumer and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "evidence",
       "capability": "当前作者命令表单独立验收",
@@ -954,23 +1009,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R63 evidence migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TEST-EDITOR-SCRIPT-INTERACTION-1 证据目录：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/evidence/TEST-EDITOR-SCRIPT-INTERACTION-1/README.md:1"],
       "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse."
+        "Historical evidence requires current consumer and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "evidence",
       "capability": "TEST-EDITOR-SCRIPT-INTERACTION-1 证据目录",
@@ -1089,23 +1153,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R63 evidence migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TEST-GAME-MEDIA-LIFECYCLE-1 交付证据：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/evidence/TEST-GAME-MEDIA-LIFECYCLE-1/README.md:1"],
       "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse."
+        "Historical evidence requires current consumer and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "evidence",
       "capability": "TEST-GAME-MEDIA-LIFECYCLE-1 交付证据",
@@ -1224,23 +1297,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R63 evidence migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TEST-GLM-EDITOR-BATTLE-REGISTRY-1 证据索引：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/README.md:1"],
       "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse."
+        "Historical evidence requires current consumer and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "evidence",
       "capability": "TEST-GLM-EDITOR-BATTLE-REGISTRY-1 证据索引",
@@ -1359,7 +1441,21 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r63-ops-evidence-readmes.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     }
-  ]
+  ],
+  "currentCorrection": {
+    "date": "2026-10-18",
+    "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  }
 }

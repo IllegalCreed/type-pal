@@ -40,7 +40,7 @@ Template: plan-status-v1 / 1.0.0
 
 ## 下一步
 
-- 后继入口：M；3；.；5； ；d；e；s；i；g；n；/；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；b；a；t；t；l；e；/；r；u；n；t；i；m；e； ；c；o；d；e；;； ；f；i；x；t；u；r；e； ；a；n；d； ；u；n；k；n；o；w；n；-；f；i；e；l；d； ；d；e；c；i；s；i；o；n；s； ；a；r；e； ；h；i；s；t；o；r；i；c；a；l；.。
+- 后继入口：M3.5 design/plan and current battle/runtime code; fixture and unknown-field decisions are historical.。
 - 若重新执行须新 task card、当前 source/oracle 和独立验收。
 
 ## 历史范围
@@ -74,7 +74,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- M；3；.；5； ；d；e；s；i；g；n；/；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；b；a；t；t；l；e；/；r；u；n；t；i；m；e； ；c；o；d；e；;； ；f；i；x；t；u；r；e； ；a；n；d； ；u；n；k；n；o；w；n；-；f；i；e；l；d； ；d；e；c；i；s；i；o；n；s； ；a；r；e； ；h；i；s；t；o；r；i；c；a；l；.。
+- M3.5 design/plan and current battle/runtime code; fixture and unknown-field decisions are historical.。
 - 当前事实由继任规范、代码和新的 review 决定。
 
 ## 原文保全

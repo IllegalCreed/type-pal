@@ -36,7 +36,7 @@ Template: plan-status-v1 / 1.0.0
 
 ## 下一步
 
-- 后继入口：M；5； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s；/；c；o；d；e；;； ；p；h；y；s；i；c；s； ；a；n；d； ；D；2；6； ；b；o；u；n；d；a；r；i；e；s； ；r；e；q；u；i；r；e； ；c；u；r；r；e；n；t； ；p；r；i；m；a；r；y； ；s；o；u；r；c；e；s；.。
+- 后继入口：M5 implementation plan and current phase1 status/code; physics and D26 boundaries require current primary sources.。
 - 若重新执行须新 task card、当前 source/oracle 和独立验收。
 
 ## 历史范围
@@ -66,7 +66,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- M；5； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；p；h；a；s；e；1； ；s；t；a；t；u；s；/；c；o；d；e；;； ；p；h；y；s；i；c；s； ；a；n；d； ；D；2；6； ；b；o；u；n；d；a；r；i；e；s； ；r；e；q；u；i；r；e； ；c；u；r；r；e；n；t； ；p；r；i；m；a；r；y； ；s；o；u；r；c；e；s；.。
+- M5 implementation plan and current phase1 status/code; physics and D26 boundaries require current primary sources.。
 - 当前事实由继任规范、代码和新的 review 决定。
 
 ## 原文保全

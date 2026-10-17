@@ -39,7 +39,7 @@ Template: audit-report-v1 / 1.0.0
 ## 整改与复核
 
 - 停止线：do not promote historical claims to current truth without a current source or user decision
-- 后继：C；u；r；r；e；n；t； ；r；e；s；o；u；r；c；e；-；s；t；a；t；u；s；/；e；x；t；r；a；c；t；i；o；n； ；c；o；d；e； ；a；n；d； ；a； ；n；e；w； ；a；u；d；i；t； ；i；f； ；r；e；m；a；i；n；i；n；g； ；a；u；d；i；o；/；A；V；I； ；g；a；p；s； ；m；a；t；t；e；r；.。
+- 后继：Current resource-status/extraction code and a new audit if remaining audio/AVI gaps matter.。
 
 ## 历史范围
 
@@ -70,7 +70,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；r；e；s；o；u；r；c；e；-；s；t；a；t；u；s；/；e；x；t；r；a；c；t；i；o；n； ；c；o；d；e； ；a；n；d； ；a； ；n；e；w； ；a；u；d；i；t； ；i；f； ；r；e；m；a；i；n；i；n；g； ；a；u；d；i；o；/；A；V；I； ；g；a；p；s； ；m；a；t；t；e；r；.。
+- Current resource-status/extraction code and a new audit if remaining audio/AVI gaps matter.。
 - 当前事实由继任规范、代码和新的 review 决定。
 
 ## 原文保全

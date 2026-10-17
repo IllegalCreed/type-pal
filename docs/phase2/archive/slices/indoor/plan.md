@@ -31,7 +31,7 @@ Template: plan-status-v1 / 1.0.0
 
 ## 下一步
 
-- d；o；c；s；/；p；h；a；s；e；2；/；a；r；c；h；i；v；e；/；s；l；i；c；e；s；/；i；n；d；o；o；r；/；g；u；i；j；i；e；-；m；i；n；j；u；.；m；d； ；a；s； ；t；h；e； ；h；i；s；t；o；r；i；c；a；l； ；r；e；f；o；c；u；s；e；d； ；s；l；i；c；e； ；p；r；o；p；o；s；a；l；,； ；c；u；r；r；e；n；t； ；p；h；a；s；e；2； ；d；e；c；i；s；i；o；n；s；,； ；a；n；d； ；a； ；n；e；w；l；y； ；r；e；v；i；e；w；e；d； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；i；f； ；t；h；e； ；s；l；i；c；e； ；r；e；s；t；a；r；t；s；.。
+- docs/phase2/archive/slices/indoor/guijie-minju.md as the historical refocused slice proposal, current phase2 decisions, and a newly reviewed implementation plan if the slice restarts.。
 - 重新执行须新 task card、当前 source/oracle 和独立验收。
 
 ## 历史范围
@@ -52,7 +52,7 @@ historical。Do not execute this plan or treat its checkboxes/self-review as com
 
 ## 继任文档
 
-- d；o；c；s；/；p；h；a；s；e；2；/；a；r；c；h；i；v；e；/；s；l；i；c；e；s；/；i；n；d；o；o；r；/；g；u；i；j；i；e；-；m；i；n；j；u；.；m；d； ；a；s； ；t；h；e； ；h；i；s；t；o；r；i；c；a；l； ；r；e；f；o；c；u；s；e；d； ；s；l；i；c；e； ；p；r；o；p；o；s；a；l；,； ；c；u；r；r；e；n；t； ；p；h；a；s；e；2； ；d；e；c；i；s；i；o；n；s；,； ；a；n；d； ；a； ；n；e；w；l；y； ；r；e；v；i；e；w；e；d； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；i；f； ；t；h；e； ；s；l；i；c；e； ；r；e；s；t；a；r；t；s；.。
+- docs/phase2/archive/slices/indoor/guijie-minju.md as the historical refocused slice proposal, current phase2 decisions, and a newly reviewed implementation plan if the slice restarts.。
 
 ## 原文保全
 

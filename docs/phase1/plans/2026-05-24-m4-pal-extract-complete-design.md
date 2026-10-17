@@ -40,7 +40,7 @@ Template: plan-status-v1 / 1.0.0
 
 ## 下一步
 
-- 后继入口：M；4； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；e；x；t；r；a；c；t；i；o；n；/；r；e；s；o；u；r；c；e； ；s；t；a；t；u；s；;； ；s；c；h；e；m；a； ；B； ；a；n；d； ；r；e；m；a；i；n；i；n；g； ；m；e；d；i；a； ；g；a；p；s； ；n；e；e；d； ；f；r；e；s；h； ；e；v；i；d；e；n；c；e；.。
+- 后继入口：M4 implementation plan and current extraction/resource status; schema B and remaining media gaps need fresh evidence.。
 - 若重新执行须新 task card、当前 source/oracle 和独立验收。
 
 ## 历史范围
@@ -74,7 +74,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- M；4； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；e；x；t；r；a；c；t；i；o；n；/；r；e；s；o；u；r；c；e； ；s；t；a；t；u；s；;； ；s；c；h；e；m；a； ；B； ；a；n；d； ；r；e；m；a；i；n；i；n；g； ；m；e；d；i；a； ；g；a；p；s； ；n；e；e；d； ；f；r；e；s；h； ；e；v；i；d；e；n；c；e；.。
+- M4 implementation plan and current extraction/resource status; schema B and remaining media gaps need fresh evidence.。
 - 当前事实由继任规范、代码和新的 review 决定。
 
 ## 原文保全

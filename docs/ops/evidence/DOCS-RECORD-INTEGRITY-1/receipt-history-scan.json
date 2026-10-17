@@ -1,0 +1,731 @@
+{
+  "schemaVersion": 1,
+  "kind": "git-history-machine-receipt-mutation-screen",
+  "owner": "Codex self-audit",
+  "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+  "date": "2026-10-18",
+  "scope": "All reachable Git refs; all modified docs JSON paths, without filename filtering; recursive command/output/identity fields compared, then select command/evidence objects. Creation-only receipts not authenticated by this mutation screen.",
+  "historyEntriesExamined": 1805,
+  "jsonPairsParsed": 1784,
+  "unavailablePairs": [],
+  "candidateCount": 16,
+  "mtimeLimit": "Git has no historical per-file mtime. Checkout mtimes cannot prove generation or rerun. Commit times and blob pairs are recorded; raw output authentication remains per candidate.",
+  "candidates": [
+    {
+      "commit": "183ec0bf0b7ce290bcfa68839e5ce9d29af3245a",
+      "commitTime": "2026-10-17T02:56:29+09:00",
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r65-ops-evidence-readmes-candidate-acceptance-20261017.json",
+      "beforeSha256": "c867e85e700c134c71ba7d6155965000f231d6c7f2585b52814b78ce91b9c2d8",
+      "afterSha256": "8541d1f9f7f327a26028ea894b693855328a289d75a75c941e591fdf762c1a1b",
+      "changedObservationFields": [
+        {
+          "field": "/staticCommands/pnpm check:docs/summary",
+          "before": "PASS (docs 1293 Markdown / 8080 local links / 361 tasks / content22 SAVE12; testing 0; phase/lore 184; content 847/847)",
+          "after": "PASS (docs 1293 Markdown / 7970 local links / 361 tasks / content22 SAVE12; testing 0; phase/lore 184; content 847/847)"
+        }
+      ],
+      "changedExecutionIdentityFields": [],
+      "classification": "suspicious-observation-edit-without-recorded-execution-identity-change",
+      "verdict": "candidate-not-proven-execution-or-fraud"
+    },
+    {
+      "commit": "d8ec18185a058fd1f1142163f2246512802ecce8",
+      "commitTime": "2026-10-16T08:22:48+09:00",
+      "path": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
+      "beforeSha256": "9e951b1685342eb4ba81b2717500430cf96b8cab974085754cfef06a9303880e",
+      "afterSha256": "9fe374ef834a6c1536f8e550fd49d2202f2c095df8a1a59784ad7faf683b6d91",
+      "changedObservationFields": [
+        {
+          "field": "/actualPhaseProjections/execution/proof/exitCode",
+          "before": 0,
+          "after": null
+        }
+      ],
+      "changedExecutionIdentityFields": [
+        {
+          "field": "/rootPSWritebackRepair/actualConsumers/producer/proof/command",
+          "before": null,
+          "after": "node scripts/docs/build-phase-lore-governance.mjs"
+        }
+      ],
+      "classification": "observation-edit-needs-raw-run-verification",
+      "verdict": "candidate-not-proven-execution-or-fraud"
+    },
+    {
+      "commit": "c562676bf570469f609121f349022599d7810fd0",
+      "commitTime": "2026-10-16T07:53:34+09:00",
+      "path": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
+      "beforeSha256": "c898578cf6176434b9ac7450a58f598ab0c977a017ae1015f63a2bdd6b3673b2",
+      "afterSha256": "d8f0ee22062ba06848d273697f26b79484614447d9c31de75a5dcab582c43266",
+      "changedObservationFields": [
+        {
+          "field": "/rootC1Repair/actualProjectionRegeneration/exitCode",
+          "before": null,
+          "after": 0
+        }
+      ],
+      "changedExecutionIdentityFields": [
+        {
+          "field": "/rootC1Repair/actualProjectionRegeneration/command",
+          "before": null,
+          "after": "node scripts/docs/build-phase-lore-governance.mjs"
+        }
+      ],
+      "classification": "observation-edit-needs-raw-run-verification",
+      "verdict": "candidate-not-proven-execution-or-fraud"
+    },
+    {
+      "commit": "d5641eef5238d711b8df3c6cda235eecbb7122b0",
+      "commitTime": "2026-10-16T07:15:42+09:00",
+      "path": "docs/phase-governance/reviews/20261016-lore-reference-n.json",
+      "beforeSha256": "80e637183701a997d22a7572bb2ba371c3399b8aecd4ea64a55a5e9a27abc224",
+      "afterSha256": "bf2e28afb45e3ae1d4a9248d77ecc853febbe4c1f9204f5be5627867d75de003",
+      "changedObservationFields": [
+        {
+          "field": "/rootIntakeAcceptance/report/review/rootSameByteGatesVerifiedNotRerunByThisReviewer/logs/1/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/rootIntakeAcceptance/report/review/rootSameByteGatesVerifiedNotRerunByThisReviewer/logs/0/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/rootIntakeAcceptance/report/review/rootSameByteGatesVerifiedNotRerunByThisReviewer/logs/2/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/rootIntakeAcceptance/report/review/rootSameByteGatesVerifiedNotRerunByThisReviewer/logs/4/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/rootIntakeAcceptance/report/review/rootSameByteGatesVerifiedNotRerunByThisReviewer/logs/3/exitCode",
+          "before": null,
+          "after": 0
+        }
+      ],
+      "changedExecutionIdentityFields": [],
+      "classification": "suspicious-observation-edit-without-recorded-execution-identity-change",
+      "verdict": "candidate-not-proven-execution-or-fraud"
+    },
+    {
+      "commit": "69427d5d564366fc3f82e325d049e8bafa0fcda4",
+      "commitTime": "2026-10-16T06:54:37+09:00",
+      "path": "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
+      "beforeSha256": "b3619cd4d25e886496287e170b6e731b73bbf954a0ef094f693712e622eec3f8",
+      "afterSha256": "ed097cb1a5aa03d9421f5cb717c40b639b2b61101f2d42a429dfec19a8d02942",
+      "changedObservationFields": [
+        {
+          "field": "/rootIndependentAcceptance/fullReview/finalSameBytesRootHardGates/checks/3/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/rootIndependentAcceptance/fullReview/finalSameBytesRootHardGates/checks/1/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/rootIndependentAcceptance/fullReview/finalSameBytesRootHardGates/checks/0/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/rootIndependentAcceptance/fullReview/finalSameBytesRootHardGates/checks/2/exitCode",
+          "before": null,
+          "after": 0
+        }
+      ],
+      "changedExecutionIdentityFields": [],
+      "classification": "suspicious-observation-edit-without-recorded-execution-identity-change",
+      "verdict": "candidate-not-proven-execution-or-fraud"
+    },
+    {
+      "commit": "e1366cd135ddcd79263d6ece928a62e96fa04ad1",
+      "commitTime": "2026-10-16T06:03:06+09:00",
+      "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "beforeSha256": "bfa5e663d89c9c7011fd9aa34ff448df3d5cb832aa4e060211850fb9b8d65cb0",
+      "afterSha256": "5298e5dc4ac1ca7995092b0cf28aa586648dae438630639f40b7dc9a7c80feb2",
+      "changedObservationFields": [
+        {
+          "field": "/entries/13/evidence/actualInventoryConsumer/exitCode",
+          "before": 0,
+          "after": null
+        }
+      ],
+      "changedExecutionIdentityFields": [],
+      "classification": "suspicious-observation-edit-without-recorded-execution-identity-change",
+      "verdict": "candidate-not-proven-execution-or-fraud"
+    },
+    {
+      "commit": "9cf1fd09f1f7d09a490136567b8ee4df1a370722",
+      "commitTime": "2026-10-16T02:21:13+09:00",
+      "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "beforeSha256": "61fe787e250c2e8bc71b4737237002244802c6e23e81fd9a659ca65d6ec17a67",
+      "afterSha256": "0b198981a49704d8d9df2ac988d767c3bd4de0dfa668edc3bcf51f832c1c9682",
+      "changedObservationFields": [
+        {
+          "field": "/integration/additionalQualityLedgerFailure/originalRecordedFailure/exitCode",
+          "before": null,
+          "after": 1
+        }
+      ],
+      "changedExecutionIdentityFields": [
+        {
+          "field": "/sharedQualityCandidate/checks/ledgerActualConsumer/command",
+          "before": null,
+          "after": "node scripts/quality/code-quality-ledger.mjs"
+        },
+        {
+          "field": "/integration/additionalQualityLedgerFailure/originalRecordedFailure/command",
+          "before": null,
+          "after": "node scripts/quality/code-quality-ledger.mjs"
+        }
+      ],
+      "classification": "observation-edit-needs-raw-run-verification",
+      "verdict": "candidate-not-proven-execution-or-fraud"
+    },
+    {
+      "commit": "bb90428668808368e816bd8e2ddeb5da57e4b166",
+      "commitTime": "2026-10-16T01:24:59+09:00",
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/c2-historical-execution-pilot-20261016.json",
+      "beforeSha256": "7bb281a783dc610c76f4754277bbb1df470dcd75563ff274110b5ac6a8027532",
+      "afterSha256": "bf2aa737c5e8897f7b4f30b93e2eb7ae4f4411cc594d7e55e83d724e637f2aa3",
+      "changedObservationFields": [
+        {
+          "field": "/rootPairedIntegrationGates/lint/rerun/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/rootPairedIntegrationGates/checkDocs/exitCode",
+          "before": null,
+          "after": 0
+        }
+      ],
+      "changedExecutionIdentityFields": [],
+      "classification": "suspicious-observation-edit-without-recorded-execution-identity-change",
+      "verdict": "candidate-not-proven-execution-or-fraud"
+    },
+    {
+      "commit": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+      "commitTime": "2026-10-16T00:06:37+09:00",
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+      "beforeSha256": "3cec98b595428d9b1d453dbe4476b1eeb60a20efec82c30a2fcd2945a7420b4b",
+      "afterSha256": "df62e47c6844b58d5e06d3a07c3d3a1035b79769107eab16e403e8460f9e6b9e",
+      "changedObservationFields": [
+        {
+          "field": "/acceptedContributorCardsB/integratedGates/diff/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/acceptedContributorCardsB/integratedGates/lint/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/acceptedContributorCardsB/integratedGates/docs/exitCode",
+          "before": null,
+          "after": 0
+        }
+      ],
+      "changedExecutionIdentityFields": [
+        {
+          "field": "/acceptedContributorCardsB/integratedGates/docs/command",
+          "before": null,
+          "after": "pnpm check:docs"
+        },
+        {
+          "field": "/acceptedContributorCardsB/integratedGates/lint/command",
+          "before": null,
+          "after": "pnpm lint"
+        },
+        {
+          "field": "/acceptedContributorCardsB/integratedGates/diff/command",
+          "before": null,
+          "after": "git diff --check"
+        }
+      ],
+      "classification": "observation-edit-needs-raw-run-verification",
+      "verdict": "candidate-not-proven-execution-or-fraud"
+    },
+    {
+      "commit": "c1c4ba289b44ad060cb4c5f3ab881a5412f229cd",
+      "commitTime": "2026-10-15T23:59:33+09:00",
+      "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+      "beforeSha256": "27ab046dc4e0e5dcd738c408d227d85fcabb3297642f695a112a59afd9547a9b",
+      "afterSha256": "3cec98b595428d9b1d453dbe4476b1eeb60a20efec82c30a2fcd2945a7420b4b",
+      "changedObservationFields": [
+        {
+          "field": "/followupMachineAudits/staticGates/lint/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/followupMachineAudits/staticGates/docs/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/followupMachineAudits/staticGates/diff/exitCode",
+          "before": null,
+          "after": 0
+        }
+      ],
+      "changedExecutionIdentityFields": [
+        {
+          "field": "/followupMachineAudits/staticGates/diff/command",
+          "before": null,
+          "after": "git diff --check"
+        },
+        {
+          "field": "/followupMachineAudits/staticGates/lint/command",
+          "before": null,
+          "after": "pnpm lint"
+        },
+        {
+          "field": "/followupMachineAudits/staticGates/docs/command",
+          "before": null,
+          "after": "pnpm check:docs"
+        }
+      ],
+      "classification": "observation-edit-needs-raw-run-verification",
+      "verdict": "candidate-not-proven-execution-or-fraud"
+    },
+    {
+      "commit": "517dc85717bbbb45538f8387a9a6c85a5b75fe94",
+      "commitTime": "2026-10-15T10:24:20+09:00",
+      "path": "docs/ops/evidence/game-rix-music-1/release-verification.json",
+      "beforeSha256": "99054c5308a806ab51d77d9ce300b8a3f28b8cd36f4f79c649da7c7ed72a960e",
+      "afterSha256": "48d88fdad173462ae2d8bc8ff0ad63c93250d5d01c64010344e302a3e6cc6dcb",
+      "changedObservationFields": [
+        {
+          "field": "/coverage/exitCode",
+          "before": null,
+          "after": 0
+        }
+      ],
+      "changedExecutionIdentityFields": [
+        {
+          "field": "/coverage/command",
+          "before": null,
+          "after": "TYPE_PAL_COVERAGE_PARALLEL_EDITOR=1 TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:ratchet"
+        }
+      ],
+      "classification": "observation-edit-needs-raw-run-verification",
+      "verdict": "candidate-not-proven-execution-or-fraud"
+    },
+    {
+      "commit": "53eb295a0fff5679b65646091cfead48eafd38d4",
+      "commitTime": "2026-10-05T23:01:47+09:00",
+      "path": "docs/ops/evidence/TEST-GLM-REFORGE-MOTION-TRANSITION-1/counterproof.json",
+      "beforeSha256": "14a09413fecc1db8f83572234b5d2c6793efa62a605e57bb8131d92812ab7cec",
+      "afterSha256": "3d18df42c0fcbd1b17f7b8856d98107e3f2cea00487b42b085c6a9848706d285",
+      "changedObservationFields": [
+        {
+          "field": "/injections/2/mutant/consolePhase/exitCode",
+          "before": null,
+          "after": 1
+        },
+        {
+          "field": "/injections/0/restored/exitCode",
+          "before": 0,
+          "after": null
+        },
+        {
+          "field": "/injections/0/restored/phase/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/injections/0/mutant/consolePhase/exitCode",
+          "before": null,
+          "after": 1
+        },
+        {
+          "field": "/injections/2/restored/phase/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/injections/0/original/baseline/exitCode",
+          "before": 0,
+          "after": null
+        },
+        {
+          "field": "/injections/1/original/baseline/summary",
+          "before": "      Tests  8767 passed (8767)",
+          "after": null
+        },
+        {
+          "field": "/injections/2/mutant/exitCode",
+          "before": 1,
+          "after": null
+        },
+        {
+          "field": "/injections/1/restored/summary",
+          "before": "      Tests  8767 passed (8767)",
+          "after": null
+        },
+        {
+          "field": "/injections/2/original/baseline/exitCode",
+          "before": 0,
+          "after": null
+        },
+        {
+          "field": "/injections/2/restored/exitCode",
+          "before": 0,
+          "after": null
+        },
+        {
+          "field": "/injections/1/mutant/phase/exitCode",
+          "before": null,
+          "after": 1
+        },
+        {
+          "field": "/injections/0/restored/summary",
+          "before": "      Tests  8767 passed (8767)",
+          "after": null
+        },
+        {
+          "field": "/injections/2/mutant/phase/exitCode",
+          "before": null,
+          "after": 1
+        },
+        {
+          "field": "/injections/1/original/baseline/exitCode",
+          "before": 0,
+          "after": null
+        },
+        {
+          "field": "/injections/1/restored/phase/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/injections/0/original/baseline/summary",
+          "before": "      Tests  8767 passed (8767)",
+          "after": null
+        },
+        {
+          "field": "/injections/0/mutant/phase/exitCode",
+          "before": null,
+          "after": 1
+        },
+        {
+          "field": "/baseline/summary",
+          "before": "      Tests  8767 passed (8767)",
+          "after": null
+        },
+        {
+          "field": "/injections/1/mutant/exitCode",
+          "before": 1,
+          "after": null
+        },
+        {
+          "field": "/injections/0/mutant/exitCode",
+          "before": 1,
+          "after": null
+        },
+        {
+          "field": "/injections/2/original/baseline/summary",
+          "before": "      Tests  8767 passed (8767)",
+          "after": null
+        },
+        {
+          "field": "/finalReplay/phase/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/injections/1/restored/exitCode",
+          "before": 0,
+          "after": null
+        },
+        {
+          "field": "/injections/2/restored/summary",
+          "before": "      Tests  8767 passed (8767)",
+          "after": null
+        },
+        {
+          "field": "/injections/1/mutant/consolePhase/exitCode",
+          "before": null,
+          "after": 1
+        }
+      ],
+      "changedExecutionIdentityFields": [
+        {
+          "field": "/generatedAt",
+          "before": "2026-10-05T12:43:14.996Z",
+          "after": "2026-10-05T13:40:28.201Z"
+        }
+      ],
+      "classification": "observation-edit-needs-raw-run-verification",
+      "verdict": "candidate-not-proven-execution-or-fraud"
+    },
+    {
+      "commit": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+      "commitTime": "2026-10-04T17:02:36+09:00",
+      "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-results.json",
+      "beforeSha256": "9d768482ee8eebec17cbcf7e2d36e7f19cb0abc2b98572bc1fe9287ff660b08e",
+      "afterSha256": "fbdbb49faa7e3735b9dcb1fcbc20f8cff8b25467324ad7537741c8ab33acfc3e",
+      "changedObservationFields": [
+        {
+          "field": "/results/10/execution/greenBefore/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/results/11/execution/greenBefore/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/results/8/execution/greenAfter/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/results/6/execution/greenAfter/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/results/7/execution/greenBefore/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/results/9/execution/greenAfter/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/results/11/execution/greenAfter/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/results/6/execution/greenBefore/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/results/6/execution/red/exitCode",
+          "before": null,
+          "after": 1
+        },
+        {
+          "field": "/results/9/execution/greenBefore/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/results/11/execution/red/exitCode",
+          "before": null,
+          "after": 1
+        },
+        {
+          "field": "/results/8/execution/greenBefore/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/results/10/execution/greenAfter/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/results/10/execution/red/exitCode",
+          "before": null,
+          "after": 1
+        },
+        {
+          "field": "/results/8/execution/red/exitCode",
+          "before": null,
+          "after": 1
+        },
+        {
+          "field": "/results/7/execution/red/exitCode",
+          "before": null,
+          "after": 1
+        },
+        {
+          "field": "/results/9/execution/red/exitCode",
+          "before": null,
+          "after": 1
+        },
+        {
+          "field": "/results/7/execution/greenAfter/exitCode",
+          "before": null,
+          "after": 0
+        }
+      ],
+      "changedExecutionIdentityFields": [],
+      "classification": "suspicious-observation-edit-without-recorded-execution-identity-change",
+      "verdict": "candidate-not-proven-execution-or-fraud"
+    },
+    {
+      "commit": "d03cba2c23c858526bc514a5389347177794861c",
+      "commitTime": "2026-10-02T18:07:42+09:00",
+      "path": "docs/testing/medium-triple-20261002/grok/receipt.json",
+      "beforeSha256": "c31795e8aef7187e3311b5213323d6ccb4baf089cf5848cbdf6cb5e4fbd84664",
+      "afterSha256": "913d66469e610a0d2610c667d15efc8de9a5e0ca01e658c708b20457540e892b",
+      "changedObservationFields": [
+        {
+          "field": "/gates/directedAdjacent/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/gates/packageTest/exitCode",
+          "before": null,
+          "after": 1
+        },
+        {
+          "field": "/gates/lint/summary",
+          "before": "PASS — 2787 files; 0 errors / 0 warnings / 0 infos; complete report",
+          "after": "PASS — 2791 files; 0 errors / 0 warnings / 0 infos; complete report"
+        },
+        {
+          "field": "/gates/packageTest/summary",
+          "before": null,
+          "after": "Test Files  1 failed | 241 passed | 4 skipped (246); Tests  2764 passed | 13 skipped (2777)"
+        }
+      ],
+      "changedExecutionIdentityFields": [
+        {
+          "field": "/gates/packageTest/command",
+          "before": null,
+          "after": "pnpm --filter @type-pal/game test"
+        },
+        {
+          "field": "/gates/directedAdjacent/command",
+          "before": null,
+          "after": "node ../../node_modules/vitest/vitest.mjs run src/shell/bootstrap-resources.grok-mid-1.test.ts src/shell/bootstrap-resources.test.ts src/assets/dialog-resources.grok-mid-1.test.ts src/assets/dialog-assets.glm-phase1-leaves.test.ts src/assets/scene-cache.grok-mid-1.test.ts src/assets/loader.test.ts --reporter=json --outputFile=/tmp/grok-mid-1-r1-adjacent.json"
+        }
+      ],
+      "classification": "observation-edit-needs-raw-run-verification",
+      "verdict": "candidate-not-proven-execution-or-fraud"
+    },
+    {
+      "commit": "d056af0e65f8e02324709fe79eac6e3643b8bdb7",
+      "commitTime": "2026-09-29T00:19:40+09:00",
+      "path": "docs/testing/kimi-editor-workflows/evidence.json",
+      "beforeSha256": "ab49111a29f5f23a30b64090e4cf7c2da64af308013dc9e7e95d78702ad0cd8e",
+      "afterSha256": "2111f0bf2e8860683e65ed60f47772e073c5c5762fc21d6fb403e3218e3f5b55",
+      "changedObservationFields": [
+        {
+          "field": "/batches/A/counterControl/records/7/exitCode",
+          "before": 0,
+          "after": 1
+        },
+        {
+          "field": "/batches/C/counterControl/records/18/exitCode",
+          "before": 1,
+          "after": null
+        },
+        {
+          "field": "/batches/C/counterControl/records/19/exitCode",
+          "before": 1,
+          "after": null
+        },
+        {
+          "field": "/batches/C/counterControl/records/8/exitCode",
+          "before": 1,
+          "after": 0
+        },
+        {
+          "field": "/batches/C/counterControl/records/14/exitCode",
+          "before": 0,
+          "after": 1
+        },
+        {
+          "field": "/batches/A/counterControl/records/1/exitCode",
+          "before": 1,
+          "after": 0
+        },
+        {
+          "field": "/batches/C/counterControl/records/17/exitCode",
+          "before": 0,
+          "after": 1
+        },
+        {
+          "field": "/batches/C/counterControl/records/9/exitCode",
+          "before": 0,
+          "after": 1
+        }
+      ],
+      "changedExecutionIdentityFields": [],
+      "classification": "suspicious-observation-edit-without-recorded-execution-identity-change",
+      "verdict": "candidate-not-proven-execution-or-fraud"
+    },
+    {
+      "commit": "525c40cd086fa743cf0f16d39f078a8a40eeb5e7",
+      "commitTime": "2026-09-23T21:56:37+09:00",
+      "path": "docs/testing/coverage-initializer-evidence.json",
+      "beforeSha256": "ceacd0d80558ebe479143542ef6b0f586898dd5fdc1bed948afccb8421297d76",
+      "afterSha256": "c1e884ca47d7993a9890f23008c73844a034427773f1c9309315a28f04ab52d6",
+      "changedObservationFields": [
+        {
+          "field": "/implementation/gates/2/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/implementation/gates/0/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/implementation/coldInstall/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/implementation/unpatchedControl/exitCode",
+          "before": null,
+          "after": 1
+        },
+        {
+          "field": "/implementation/hostNegativeControls/exitCode",
+          "before": null,
+          "after": 0
+        },
+        {
+          "field": "/implementation/gates/1/exitCode",
+          "before": null,
+          "after": 0
+        }
+      ],
+      "changedExecutionIdentityFields": [
+        {
+          "field": "/implementation/gates/1/command",
+          "before": null,
+          "after": "TYPE_PAL_COVERAGE_BASE_REF=c5569d1a pnpm coverage:ratchet"
+        },
+        {
+          "field": "/implementation/gates/0/command",
+          "before": null,
+          "after": "pnpm check"
+        },
+        {
+          "field": "/implementation/gates/2/command",
+          "before": null,
+          "after": "TYPE_PAL_COVERAGE_BASE_REF=c5569d1a pnpm coverage:fast"
+        },
+        {
+          "field": "/implementation/coldInstall/command",
+          "before": null,
+          "after": "pnpm install --frozen-lockfile --offline"
+        }
+      ],
+      "classification": "observation-edit-needs-raw-run-verification",
+      "verdict": "candidate-not-proven-execution-or-fraud"
+    }
+  ]
+}

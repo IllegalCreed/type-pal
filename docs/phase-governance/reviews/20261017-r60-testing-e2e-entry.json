@@ -7,19 +7,20 @@
   "entries": [
     {
       "path": "docs/testing/e2e/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R60 E2E entry migration; testing-meta/catalog/quote checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "E2E 专项总览：governance-index testing entry; current/proposal status, catalog identity, sourceRefs and execution boundary remain explicit.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/e2e/README.md:1"],
       "unresolved": [
-        "Testing metadata, catalog publication and linked evidence remain authoritative; this documentation migration grants no runtime/E2E/visual/coverage credit."
+        "Testing metadata, catalog publication and linked evidence remain authoritative; this documentation migration grants no runtime/E2E/visual/coverage credit.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "由当前 catalog、阶段报告、任务卡和 fresh evidence 继续核对；不以导航或源码核读代替实跑。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "e2e",
       "capability": "E2E 专项总览",
@@ -145,23 +146,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/e2e/cross-stage/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R60 E2E entry migration; testing-meta/catalog/quote checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "E2E 横向材料：governance-index testing entry; current/proposal status, catalog identity, sourceRefs and execution boundary remain explicit.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/e2e/cross-stage/README.md:1"],
       "unresolved": [
-        "Testing metadata, catalog publication and linked evidence remain authoritative; this documentation migration grants no runtime/E2E/visual/coverage credit."
+        "Testing metadata, catalog publication and linked evidence remain authoritative; this documentation migration grants no runtime/E2E/visual/coverage credit.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "由当前 catalog、阶段报告、任务卡和 fresh evidence 继续核对；不以导航或源码核读代替实跑。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "e2e/cross-stage",
       "capability": "E2E 横向材料",
@@ -287,23 +297,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/e2e/cross-stage/common-issues.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-domain-report",
       "templateId": "test-domain-report-v1",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-domain-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R60 E2E entry migration; testing-meta/catalog/quote checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "001–005 共性问题族：test-domain-report testing entry; current/proposal status, catalog identity, sourceRefs and execution boundary remain explicit.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/e2e/cross-stage/common-issues.md:1"],
       "unresolved": [
-        "Testing metadata, catalog publication and linked evidence remain authoritative; this documentation migration grants no runtime/E2E/visual/coverage credit."
+        "Testing metadata, catalog publication and linked evidence remain authoritative; this documentation migration grants no runtime/E2E/visual/coverage credit.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "由当前 catalog、阶段报告、任务卡和 fresh evidence 继续核对；不以导航或源码核读代替实跑。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "e2e/cross-stage",
       "capability": "001–005 共性问题族",
@@ -429,23 +448,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/e2e/route-proposal.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R60 E2E entry migration; testing-meta/catalog/quote checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "双阶段快速通关 E2E：路线驱动方案：design-spec testing entry; current/proposal status, catalog identity, sourceRefs and execution boundary remain explicit.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/e2e/route-proposal.md:1"],
       "unresolved": [
-        "Testing metadata, catalog publication and linked evidence remain authoritative; this documentation migration grants no runtime/E2E/visual/coverage credit."
+        "Testing metadata, catalog publication and linked evidence remain authoritative; this documentation migration grants no runtime/E2E/visual/coverage credit.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "由当前 catalog、阶段报告、任务卡和 fresh evidence 继续核对；不以导航或源码核读代替实跑。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "e2e",
       "capability": "双阶段快速通关 E2E：路线驱动方案",
@@ -571,24 +599,33 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-002.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "templateVariant": "document-audit-v2",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON parse and non-overwriting governance envelope; original machine fields preserved",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "e2e-002: document-audit E2E machine evidence; original top-level fields and runtimeExecution=false retained, no new execution.",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/e2e/evidence/e2e-002.json:1"],
       "unresolved": [
-        "Historical/source publication remains bounded by catalog and paired stage report; no new runtime/E2E/visual/coverage credit."
+        "Historical/source publication remains bounded by catalog and paired stage report; no new runtime/E2E/visual/coverage credit.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "保持原始机器字段；当前验收由对应 stage report、task card 和 fresh receipt 负责。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "e2e/evidence",
       "capability": "e2e-002",
@@ -728,24 +765,33 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No new runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-003.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "templateVariant": "document-audit-v2",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON parse and non-overwriting governance envelope; original machine fields preserved",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "e2e-003: document-audit E2E machine evidence; original top-level fields and runtimeExecution=false retained, no new execution.",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/e2e/evidence/e2e-003.json:1"],
       "unresolved": [
-        "Historical/source publication remains bounded by catalog and paired stage report; no new runtime/E2E/visual/coverage credit."
+        "Historical/source publication remains bounded by catalog and paired stage report; no new runtime/E2E/visual/coverage credit.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "保持原始机器字段；当前验收由对应 stage report、task card 和 fresh receipt 负责。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "e2e/evidence",
       "capability": "e2e-003",
@@ -881,24 +927,33 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No new runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-004.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "templateVariant": "document-audit-v2",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON parse and non-overwriting governance envelope; original machine fields preserved",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "e2e-004: document-audit E2E machine evidence; original top-level fields and runtimeExecution=false retained, no new execution.",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/e2e/evidence/e2e-004.json:1"],
       "unresolved": [
-        "Historical/source publication remains bounded by catalog and paired stage report; no new runtime/E2E/visual/coverage credit."
+        "Historical/source publication remains bounded by catalog and paired stage report; no new runtime/E2E/visual/coverage credit.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "保持原始机器字段；当前验收由对应 stage report、task card 和 fresh receipt 负责。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "e2e/evidence",
       "capability": "e2e-004",
@@ -1038,24 +1093,33 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No new runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-005.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "templateVariant": "document-audit-v2",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON parse and non-overwriting governance envelope; original machine fields preserved",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "e2e-005: document-audit E2E machine evidence; original top-level fields and runtimeExecution=false retained, no new execution.",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/e2e/evidence/e2e-005.json:1"],
       "unresolved": [
-        "Historical/source publication remains bounded by catalog and paired stage report; no new runtime/E2E/visual/coverage credit."
+        "Historical/source publication remains bounded by catalog and paired stage report; no new runtime/E2E/visual/coverage credit.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "保持原始机器字段；当前验收由对应 stage report、task card 和 fresh receipt 负责。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "e2e/evidence",
       "capability": "e2e-005",
@@ -1195,7 +1259,21 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No new runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     }
-  ]
+  ],
+  "currentCorrection": {
+    "date": "2026-10-18",
+    "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  }
 }

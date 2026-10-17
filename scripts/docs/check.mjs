@@ -8,6 +8,7 @@ import {
   historicalStatusFiles,
   linkExceptions,
 } from './config.mjs'
+import { generatedTextIssues } from './document-integrity.mjs'
 import { markdownLinks } from './markdown.mjs'
 import { inspectTerminalNamespace } from './terminal-namespace.mjs'
 
@@ -171,6 +172,7 @@ export function auditDocuments({
   const usedExceptions = new Set()
   let linkCount = 0
   for (const [file, text] of documents) {
+    for (const issue of generatedTextIssues(text)) add(file, 1, issue)
     const destinations = new Set()
     for (const link of markdownLinks(text)) {
       let target

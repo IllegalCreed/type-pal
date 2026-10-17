@@ -40,7 +40,7 @@ Template: plan-status-v1 / 1.0.0
 
 ## 下一步
 
-- 后继入口：C；u；r；r；e；n；t； ；f；e；a；t；u；r；e；-；s；t；a；t；u；s； ；a；n；d； ；c；a；n；o；n；i；c；a；l； ；m；e；n；u；/；s；c；e；n；e；/；i；n；p；u；t； ；c；o；d；e；/；t；e；s；t；s；;； ；d；o； ；n；o；t； ；p；r；o；m；o；t；e； ；s；n；a；p；s；h；o；t； ；c；l；a；i；m；s；.。
+- 后继入口：Current feature-status and canonical menu/scene/input code/tests; do not promote snapshot claims.。
 - 若重新执行须新 task card、当前 source/oracle 和独立验收。
 
 ## 历史范围
@@ -74,7 +74,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；f；e；a；t；u；r；e；-；s；t；a；t；u；s； ；a；n；d； ；c；a；n；o；n；i；c；a；l； ；m；e；n；u；/；s；c；e；n；e；/；i；n；p；u；t； ；c；o；d；e；/；t；e；s；t；s；;； ；d；o； ；n；o；t； ；p；r；o；m；o；t；e； ；s；n；a；p；s；h；o；t； ；c；l；a；i；m；s；.。
+- Current feature-status and canonical menu/scene/input code/tests; do not promote snapshot claims.。
 - 当前事实由继任规范、代码和新的 review 决定。
 
 ## 原文保全

@@ -75,7 +75,7 @@ historical。do not promote historical cancelled task claims to current work wit
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；o；p；s； ；t；a；s；k； ；b；o；a；r；d；,； ；a；c；t；i；v；e； ；t；a；s；k； ；c；a；r；d；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；e；v；i；d；e；n；c；e；.。
+- Current ops task board, active task cards and fresh primary-source evidence.。
 - 当前事实由继任规范、代码、测试和新的 review 决定。
 
 ## 原文保全

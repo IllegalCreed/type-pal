@@ -7,19 +7,20 @@
   "entries": [
     {
       "path": "docs/ops/archive/tasks/done/E2E-CAPTURE-1-local-001-004-media.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R45 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "E2E-CAPTURE-1-local-001-004-media.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/archive/tasks/done/E2E-CAPTURE-1-local-001-004-media.md:1"],
       "unresolved": [
-        "Historical task claims require a current successor card and fresh evidence before reuse."
+        "Historical task claims require a current successor card and fresh evidence before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "archive/tasks",
       "capability": "ops-archive-task-E2E-CAPTURE-1-local-001-004-media",
@@ -141,23 +142,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r45-ops-archive-task.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R45 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TESTING-DOC-GOVERNANCE-1-depth.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/archive/tasks/done/TESTING-DOC-GOVERNANCE-1-depth.md:1"],
       "unresolved": [
-        "Historical task claims require a current successor card and fresh evidence before reuse."
+        "Historical task claims require a current successor card and fresh evidence before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "archive/tasks",
       "capability": "ops-archive-task-TESTING-DOC-GOVERNANCE-1-depth",
@@ -279,23 +289,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r45-ops-archive-task.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-REFORGE-1.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R45 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TEST-COVERAGE85-GLM-REFORGE-1.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/archive/tasks/done/TEST-COVERAGE85-GLM-REFORGE-1.md:1"],
       "unresolved": [
-        "Historical task claims require a current successor card and fresh evidence before reuse."
+        "Historical task claims require a current successor card and fresh evidence before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "archive/tasks",
       "capability": "ops-archive-task-TEST-COVERAGE85-GLM-REFORGE-1",
@@ -417,25 +436,34 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r45-ops-archive-task.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/E2E-002-DOOR-1-persistent-open-presentation.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R45 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "E2E-002-DOOR-1-persistent-open-presentation.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/ops/archive/tasks/done/E2E-002-DOOR-1-persistent-open-presentation.md:1"
       ],
       "unresolved": [
-        "Historical task claims require a current successor card and fresh evidence before reuse."
+        "Historical task claims require a current successor card and fresh evidence before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "archive/tasks",
       "capability": "ops-archive-task-E2E-002-DOOR-1-persistent-open-presentation",
@@ -557,23 +585,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r45-ops-archive-task.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/TEST-GLM-GAME-EVENT-CONTRACTS-1.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R45 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TEST-GLM-GAME-EVENT-CONTRACTS-1.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/archive/tasks/done/TEST-GLM-GAME-EVENT-CONTRACTS-1.md:1"],
       "unresolved": [
-        "Historical task claims require a current successor card and fresh evidence before reuse."
+        "Historical task claims require a current successor card and fresh evidence before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "archive/tasks",
       "capability": "ops-archive-task-TEST-GLM-GAME-EVENT-CONTRACTS-1",
@@ -695,25 +732,34 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r45-ops-archive-task.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/TEST-GLM-LEAF-WORKFLOWS-1-thirty-two-groups.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R45 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TEST-GLM-LEAF-WORKFLOWS-1-thirty-two-groups.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/ops/archive/tasks/done/TEST-GLM-LEAF-WORKFLOWS-1-thirty-two-groups.md:1"
       ],
       "unresolved": [
-        "Historical task claims require a current successor card and fresh evidence before reuse."
+        "Historical task claims require a current successor card and fresh evidence before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "archive/tasks",
       "capability": "ops-archive-task-TEST-GLM-LEAF-WORKFLOWS-1-thirty-two-groups",
@@ -835,23 +881,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r45-ops-archive-task.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/E2E-003-1-inn-stairs-and-kitchen.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R45 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "E2E-003-1-inn-stairs-and-kitchen.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/archive/tasks/done/E2E-003-1-inn-stairs-and-kitchen.md:1"],
       "unresolved": [
-        "Historical task claims require a current successor card and fresh evidence before reuse."
+        "Historical task claims require a current successor card and fresh evidence before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "archive/tasks",
       "capability": "ops-archive-task-E2E-003-1-inn-stairs-and-kitchen",
@@ -973,25 +1028,34 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r45-ops-archive-task.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/ED-FRAME-TIMELINE-UX-RESTORE-1-original-card-drag.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R45 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "ED-FRAME-TIMELINE-UX-RESTORE-1-original-card-drag.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/ops/archive/tasks/done/ED-FRAME-TIMELINE-UX-RESTORE-1-original-card-drag.md:1"
       ],
       "unresolved": [
-        "Historical task claims require a current successor card and fresh evidence before reuse."
+        "Historical task claims require a current successor card and fresh evidence before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "archive/tasks",
       "capability": "ops-archive-task-ED-FRAME-TIMELINE-UX-RESTORE-1-original-card-drag",
@@ -1115,25 +1179,34 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r45-ops-archive-task.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/TEST-GLM-RUNTIME-RESOURCE-2-parallel-wave.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R45 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TEST-GLM-RUNTIME-RESOURCE-2-parallel-wave.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/ops/archive/tasks/done/TEST-GLM-RUNTIME-RESOURCE-2-parallel-wave.md:1"
       ],
       "unresolved": [
-        "Historical task claims require a current successor card and fresh evidence before reuse."
+        "Historical task claims require a current successor card and fresh evidence before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "archive/tasks",
       "capability": "ops-archive-task-TEST-GLM-RUNTIME-RESOURCE-2-parallel-wave",
@@ -1255,23 +1328,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r45-ops-archive-task.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/ED-5J-item-private-script-create.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R45 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "ED-5J-item-private-script-create.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/archive/tasks/done/ED-5J-item-private-script-create.md:1"],
       "unresolved": [
-        "Historical task claims require a current successor card and fresh evidence before reuse."
+        "Historical task claims require a current successor card and fresh evidence before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "archive/tasks",
       "capability": "ops-archive-task-ED-5J-item-private-script-create",
@@ -1393,23 +1475,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r45-ops-archive-task.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/BATTLE-FIRE-READINESS-1-no-effect-marker.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R45 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "BATTLE-FIRE-READINESS-1-no-effect-marker.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/archive/tasks/done/BATTLE-FIRE-READINESS-1-no-effect-marker.md:1"],
       "unresolved": [
-        "Historical task claims require a current successor card and fresh evidence before reuse."
+        "Historical task claims require a current successor card and fresh evidence before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "archive/tasks",
       "capability": "ops-archive-task-BATTLE-FIRE-READINESS-1-no-effect-marker",
@@ -1531,25 +1622,34 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r45-ops-archive-task.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R45 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/ops/archive/tasks/done/TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups.md:1"
       ],
       "unresolved": [
-        "Historical task claims require a current successor card and fresh evidence before reuse."
+        "Historical task claims require a current successor card and fresh evidence before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "archive/tasks",
       "capability": "ops-archive-task-TEST-KIMI-EDITOR-WORKFLOWS-1-twelve-groups",
@@ -1671,25 +1771,34 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r45-ops-archive-task.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R45 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TEST-GLM-CONTENT-GUARDS-3-script-and-records.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/ops/archive/tasks/done/TEST-GLM-CONTENT-GUARDS-3-script-and-records.md:1"
       ],
       "unresolved": [
-        "Historical task claims require a current successor card and fresh evidence before reuse."
+        "Historical task claims require a current successor card and fresh evidence before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "archive/tasks",
       "capability": "ops-archive-task-TEST-GLM-CONTENT-GUARDS-3-script-and-records",
@@ -1811,23 +1920,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r45-ops-archive-task.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/TEST-GLM-EDITOR-AUTHORING-PANELS-1.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R45 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TEST-GLM-EDITOR-AUTHORING-PANELS-1.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/archive/tasks/done/TEST-GLM-EDITOR-AUTHORING-PANELS-1.md:1"],
       "unresolved": [
-        "Historical task claims require a current successor card and fresh evidence before reuse."
+        "Historical task claims require a current successor card and fresh evidence before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "archive/tasks",
       "capability": "ops-archive-task-TEST-GLM-EDITOR-AUTHORING-PANELS-1",
@@ -1949,23 +2067,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r45-ops-archive-task.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/E2E-002-1-inn-route-and-trio.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R45 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "E2E-002-1-inn-route-and-trio.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/archive/tasks/done/E2E-002-1-inn-route-and-trio.md:1"],
       "unresolved": [
-        "Historical task claims require a current successor card and fresh evidence before reuse."
+        "Historical task claims require a current successor card and fresh evidence before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "archive/tasks",
       "capability": "ops-archive-task-E2E-002-1-inn-route-and-trio",
@@ -2087,23 +2214,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r45-ops-archive-task.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R45 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TEST-GLM-EDITOR-ASSET-LIFECYCLE-1.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/archive/tasks/done/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1.md:1"],
       "unresolved": [
-        "Historical task claims require a current successor card and fresh evidence before reuse."
+        "Historical task claims require a current successor card and fresh evidence before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "archive/tasks",
       "capability": "ops-archive-task-TEST-GLM-EDITOR-ASSET-LIFECYCLE-1",
@@ -2225,23 +2361,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r45-ops-archive-task.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/TEST-GLM-REFORGE-RUNTIME-SESSION-1.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R45 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TEST-GLM-REFORGE-RUNTIME-SESSION-1.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/archive/tasks/done/TEST-GLM-REFORGE-RUNTIME-SESSION-1.md:1"],
       "unresolved": [
-        "Historical task claims require a current successor card and fresh evidence before reuse."
+        "Historical task claims require a current successor card and fresh evidence before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "archive/tasks",
       "capability": "ops-archive-task-TEST-GLM-REFORGE-RUNTIME-SESSION-1",
@@ -2363,23 +2508,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r45-ops-archive-task.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-N-1-reforge-runtime-host.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R45 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TEST-GLM-WAVE-N-1-reforge-runtime-host.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/archive/tasks/done/TEST-GLM-WAVE-N-1-reforge-runtime-host.md:1"],
       "unresolved": [
-        "Historical task claims require a current successor card and fresh evidence before reuse."
+        "Historical task claims require a current successor card and fresh evidence before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "archive/tasks",
       "capability": "ops-archive-task-TEST-GLM-WAVE-N-1-reforge-runtime-host",
@@ -2501,25 +2655,34 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r45-ops-archive-task.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R45 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/ops/archive/tasks/done/TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries.md:1"
       ],
       "unresolved": [
-        "Historical task claims require a current successor card and fresh evidence before reuse."
+        "Historical task claims require a current successor card and fresh evidence before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "archive/tasks",
       "capability": "ops-archive-task-TEST-GLM-CONTENT-GUARDS-2-leaf-boundaries",
@@ -2641,25 +2804,34 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r45-ops-archive-task.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/done/TEST-GLM-EDITOR-UI-WAVE-1-twelve-surfaces.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R45 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TEST-GLM-EDITOR-UI-WAVE-1-twelve-surfaces.md：历史 ops archive task-card; original status, evidence, dates and links remain quote-preserved and cannot prove current execution.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/ops/archive/tasks/done/TEST-GLM-EDITOR-UI-WAVE-1-twelve-surfaces.md:1"
       ],
       "unresolved": [
-        "Historical task claims require a current successor card and fresh evidence before reuse."
+        "Historical task claims require a current successor card and fresh evidence before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和新 receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "archive/tasks",
       "capability": "ops-archive-task-TEST-GLM-EDITOR-UI-WAVE-1-twelve-surfaces",
@@ -2781,7 +2953,21 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r45-ops-archive-task.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     }
-  ]
+  ],
+  "currentCorrection": {
+    "date": "2026-10-18",
+    "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  }
 }

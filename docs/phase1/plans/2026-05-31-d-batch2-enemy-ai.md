@@ -31,7 +31,7 @@ Template: plan-status-v1 / 1.0.0
 
 ## 下一步
 
-- 后继入口：C；u；r；r；e；n；t； ；b；a；t；t；l；e； ；A；I；/；s；c；r；i；p；t； ；c；o；d；e；,； ；t；e；s；t；s；,； ；f；e；a；t；u；r；e；/；o；p；c；o；d；e； ；s；t；a；t；u；s； ；a；n；d； ；s；o；u；r；c；e； ；r；e；v；i；e；w；.。
+- 后继入口：Current battle AI/script code, tests, feature/opcode status and source review.。
 - 若重新执行须新 task card、当前 source/oracle 和独立验收。
 
 ## 历史范围
@@ -56,7 +56,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；b；a；t；t；l；e； ；A；I；/；s；c；r；i；p；t； ；c；o；d；e；,； ；t；e；s；t；s；,； ；f；e；a；t；u；r；e；/；o；p；c；o；d；e； ；s；t；a；t；u；s； ；a；n；d； ；s；o；u；r；c；e； ；r；e；v；i；e；w；.。
+- Current battle AI/script code, tests, feature/opcode status and source review.。
 - 当前事实由继任规范、代码和新的 review 决定。
 
 ## 原文保全

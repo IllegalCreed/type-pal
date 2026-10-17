@@ -31,7 +31,7 @@ Template: plan-status-v1 / 1.0.0
 
 ## 下一步
 
-- 后继入口：M；1； ；p；a；l；-；e；x；t；r；a；c；t； ；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；w；o；r；k；s；p；a；c；e；/；p；a；c；k；a；g；e； ；c；o；d；e；;； ；v；e；r；i；f；y； ；c；u；r；r；e；n；t； ；c；a；n；o；n；i；c；a；l； ；p；a；c；k；a；g；e； ；c；o；n；t；r；a；c；t；s； ；b；e；f；o；r；e； ；r；e；u；s；e；.。
+- 后继入口：M1 pal-extract plan and current workspace/package code; verify current canonical package contracts before reuse.。
 - 若重新执行须新 task card、当前 source/oracle 和独立验收。
 
 ## 历史范围
@@ -56,7 +56,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- M；1； ；p；a；l；-；e；x；t；r；a；c；t； ；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；w；o；r；k；s；p；a；c；e；/；p；a；c；k；a；g；e； ；c；o；d；e；;； ；v；e；r；i；f；y； ；c；u；r；r；e；n；t； ；c；a；n；o；n；i；c；a；l； ；p；a；c；k；a；g；e； ；c；o；n；t；r；a；c；t；s； ；b；e；f；o；r；e； ；r；e；u；s；e；.。
+- M1 pal-extract plan and current workspace/package code; verify current canonical package contracts before reuse.。
 - 当前事实由继任规范、代码和新的 review 决定。
 
 ## 原文保全

@@ -7,19 +7,20 @@
   "entries": [
     {
       "path": "docs/testing/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown read and current template migration; original body retained under governed navigation section",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "docs/testing/README.md：current current-entry 已接入 governance-index-v1；机器/导航合同保留，状态与执行信用不外推。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/README.md:1"],
       "unresolved": [
-        "Links and current status remain dependent on downstream catalog/report/evidence; this index does not assert execution."
+        "Links and current status remain dependent on downstream catalog/report/evidence; this index does not assert execution.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "按当前 catalog、canonical report、contract 和 fresh evidence 继续维护；历史材料不回升为 current execution.",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "testing-governance",
       "capability": "docs/testing/README.md",
@@ -134,23 +135,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r83-testing-current.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/governance.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "guide-runbook",
       "templateId": "guide-runbook-v1",
       "template": "docs/phase-governance/templates/guide-runbook.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown read and current template migration; original body retained under governed navigation section",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "docs/testing/governance.md：current current-governance 已接入 guide-runbook-v1；机器/导航合同保留，状态与执行信用不外推。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/governance.md:1"],
       "unresolved": [
-        "Links and current status remain dependent on downstream catalog/report/evidence; this index does not assert execution."
+        "Links and current status remain dependent on downstream catalog/report/evidence; this index does not assert execution.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "按当前 catalog、canonical report、contract 和 fresh evidence 继续维护；历史材料不回升为 current execution.",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "testing-governance",
       "capability": "docs/testing/governance.md",
@@ -265,23 +275,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r83-testing-current.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/legacy-flat-classification.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-catalog",
       "templateId": "test-catalog-v1",
       "template": "docs/testing/_templates/test-catalog.json",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 read; native schema, top-level keys, entries/retired counts and generated/source identity enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/testing/legacy-flat-classification.json：current current-classification-catalog 已接入 test-catalog-v1；机器/导航合同保留，状态与执行信用不外推。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/legacy-flat-classification.json:1"],
       "unresolved": [
-        "Legacy catalog entries are retired compatibility records; current claims still require paired catalog/report/evidence."
+        "Legacy catalog entries are retired compatibility records; current claims still require paired catalog/report/evidence.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "按当前 catalog、canonical report、contract 和 fresh evidence 继续维护；历史材料不回升为 current execution.",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "testing-governance",
       "capability": "docs/testing/legacy-flat-classification.json",
@@ -412,23 +431,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r83-testing-current.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/legacy-flat.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-catalog",
       "templateId": "test-catalog-v1",
       "template": "docs/testing/_templates/test-catalog.json",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 read; native schema, top-level keys, entries/retired counts and generated/source identity enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/testing/legacy-flat.json：current current-legacy-catalog 已接入 test-catalog-v1；机器/导航合同保留，状态与执行信用不外推。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/legacy-flat.json:1"],
       "unresolved": [
-        "Legacy catalog entries are retired compatibility records; current claims still require paired catalog/report/evidence."
+        "Legacy catalog entries are retired compatibility records; current claims still require paired catalog/report/evidence.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "按当前 catalog、canonical report、contract 和 fresh evidence 继续维护；历史材料不回升为 current execution.",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "testing-governance",
       "capability": "docs/testing/legacy-flat.json",
@@ -549,7 +577,21 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r83-testing-current.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     }
-  ]
+  ],
+  "currentCorrection": {
+    "date": "2026-10-18",
+    "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  }
 }

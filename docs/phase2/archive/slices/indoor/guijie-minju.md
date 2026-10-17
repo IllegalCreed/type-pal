@@ -31,7 +31,7 @@ historical。Do not cite this archive as current canonical truth or runtime proo
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；p；h；a；s；e；2； ；d；e；c；i；s；i；o；n；s； ；a；n；d； ；a；n；y； ；n；e；w；l；y； ；r；e；v；i；e；w；e；d； ；c；a；n；o；n；i；c；a；l； ；s；l；i；c；e；-；1； ；c；o；n；t；e；n；t；/；r；e；f；o；r；g；e； ；s；p；e；c；;； ；t；h；e； ；o；l；d； ；s；p；e；c；.；m；d； ；i；s； ；e；x；p；l；i；c；i；t；l；y； ；r；e；p；l；a；c；e；d； ；i；n； ；t；h；e； ；t；e；x；t； ；b；u；t； ；r；e；m；a；i；n；s； ；a；r；c；h；i；v；e；-；o；n；l；y；.。
+- Current phase2 decisions and any newly reviewed canonical slice-1 content/reforge spec; the old spec.md is explicitly replaced in the text but remains archive-only.。
 - 当前事实需从继任规范、代码和新 review 读取。
 
 ## 原文保全

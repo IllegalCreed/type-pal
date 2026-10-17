@@ -423,12 +423,20 @@
   "independentCandidateAcceptance": {
     "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r37-ops-json-evidence-candidate-acceptance-20261017.json",
     "sha256": "6e1e083b9186c5eb8b850ce90218ce61b674bd96584315cbfbaff2aecc2d059e",
-    "verdict": "accept",
+    "verdict": "withdrawn-independent-credit",
     "scope": "3/3 candidate reception only",
     "nonAuthorReviewer": false,
     "runtimeEvidence": false,
     "e2eEvidence": false,
     "visualEvidence": false,
-    "coverageEvidence": false
+    "coverageEvidence": false,
+    "historicalVerdict": "accept",
+    "currentReviewerRelationship": "explicit nonAuthorReviewer=false; author self-check only; historical content preservation assessed separately"
+  },
+  "reviewerRelationshipCorrection": {
+    "date": "2026-10-18",
+    "decision": "same-actor candidate acceptance cannot certify non-author review",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
   }
 }

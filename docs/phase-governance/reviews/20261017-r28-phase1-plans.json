@@ -58,7 +58,7 @@
         }
       ],
       "sourceSha256": "2334c00020011843e2cb4cd7979653b07cfd5918998329a319faa9969624e55d",
-      "afterSha256": "38f006f4d6d50b1e1e5808368549f596434e92c764d7c7e91e5084b95a69690b",
+      "afterSha256": "14501751ad11c9509936beeb7070d4d4a94be38956581d2851b9a7deb02cbd6b",
       "publicCallers": [
         "docs/phase1/plans/2026-05-31-d-batch2-enemy-ai.md → 2026-05-31-d-series-completion-roadmap.md",
         "docs/phase1/plans/2026-05-31-d-batch2-enemy-ai.md → re-arm 指定"
@@ -196,7 +196,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "38f006f4d6d50b1e1e5808368549f596434e92c764d7c7e91e5084b95a69690b"
+      "candidateSha256": "38f006f4d6d50b1e1e5808368549f596434e92c764d7c7e91e5084b95a69690b",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "38f006f4d6d50b1e1e5808368549f596434e92c764d7c7e91e5084b95a69690b",
+        "afterSha256": "14501751ad11c9509936beeb7070d4d4a94be38956581d2851b9a7deb02cbd6b",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/plans/2026-05-31-d-batch6-numeric-equip.md",
@@ -245,7 +253,7 @@
         }
       ],
       "sourceSha256": "c8ef20f2dc9ab2a5135ada4ad2b091d76ac16bbac6e9a4bc45f16efef1203b89",
-      "afterSha256": "b763ff54ce01a2abecf1a6976c9656d2ada3e3c84ad2f2f5741353294d7e75d0",
+      "afterSha256": "237ef0b02307a0a58bde99ea203bcf1d053ff511af319f0173607562d3a140db",
       "publicCallers": [
         "docs/phase1/plans/2026-05-31-d-batch6-numeric-equip.md → 2026-05-31-d-series-completion-roadmap.md"
       ],
@@ -372,7 +380,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "b763ff54ce01a2abecf1a6976c9656d2ada3e3c84ad2f2f5741353294d7e75d0"
+      "candidateSha256": "b763ff54ce01a2abecf1a6976c9656d2ada3e3c84ad2f2f5741353294d7e75d0",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "b763ff54ce01a2abecf1a6976c9656d2ada3e3c84ad2f2f5741353294d7e75d0",
+        "afterSha256": "237ef0b02307a0a58bde99ea203bcf1d053ff511af319f0173607562d3a140db",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/plans/2026-05-31-d-series-completion-roadmap.md",
@@ -454,7 +470,7 @@
         }
       ],
       "sourceSha256": "0fe9f548f6043c8c6e81118074a25b1dc4b289d9e3425473befc61d529ad7f4f",
-      "afterSha256": "57978306d7d0f65131afc5d588ff9f752a3e64f6cdb84205b64050e59ed031c5",
+      "afterSha256": "035ef91a086a943b8e1e435d660cb4250466a37681940798452c257bc9ce8925",
       "publicCallers": [
         "docs/phase1/plans/2026-05-31-d-series-completion-roadmap.md → ../status/feature-status.md",
         "docs/phase1/plans/2026-05-31-d-series-completion-roadmap.md → ../status/opcode-status.md",
@@ -639,7 +655,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "57978306d7d0f65131afc5d588ff9f752a3e64f6cdb84205b64050e59ed031c5"
+      "candidateSha256": "57978306d7d0f65131afc5d588ff9f752a3e64f6cdb84205b64050e59ed031c5",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "57978306d7d0f65131afc5d588ff9f752a3e64f6cdb84205b64050e59ed031c5",
+        "afterSha256": "035ef91a086a943b8e1e435d660cb4250466a37681940798452c257bc9ce8925",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/plans/2026-05-31-poison-and-portrait-color.md",
@@ -691,7 +715,7 @@
         }
       ],
       "sourceSha256": "d6cdfbd33a3ccaede59411873aff3e9902ac08c2297e8e746a299fb8f317c40b",
-      "afterSha256": "aa1332c4a22a0002c331817006c357a67894a8ca4b0416a6a45353625eb1ba69",
+      "afterSha256": "9ad325b52dfe228bf25d120d2ea8530085cec9dc3f403cf8fa9d3fa50d0a2367",
       "publicCallers": ["docs navigation / repository reference"],
       "legalInputs": [
         "current repository documentation",
@@ -821,7 +845,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "aa1332c4a22a0002c331817006c357a67894a8ca4b0416a6a45353625eb1ba69"
+      "candidateSha256": "aa1332c4a22a0002c331817006c357a67894a8ca4b0416a6a45353625eb1ba69",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "aa1332c4a22a0002c331817006c357a67894a8ca4b0416a6a45353625eb1ba69",
+        "afterSha256": "9ad325b52dfe228bf25d120d2ea8530085cec9dc3f403cf8fa9d3fa50d0a2367",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/plans/2026-06-01-d-series-test-cases.md",
@@ -903,7 +935,7 @@
         }
       ],
       "sourceSha256": "e5b17e2d48f418636f28f96b4246ad7e4567f1f9bfe63270f610bd2e5bbc801b",
-      "afterSha256": "335305c7b0fbcda5c88d3ad243365005c762e3237c1acf12f61cf5514d4ce801",
+      "afterSha256": "40175d1ead59a01c80e9934a75058894b251cfd38d0938ea485fe54efaf8157e",
       "publicCallers": [
         "docs/phase1/plans/2026-06-01-d-series-test-cases.md → 2373-2374",
         "docs/phase1/plans/2026-06-01-d-series-test-cases.md → 升级满血满蓝,battle-system.ts:2373-2374",
@@ -1093,7 +1125,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "335305c7b0fbcda5c88d3ad243365005c762e3237c1acf12f61cf5514d4ce801"
+      "candidateSha256": "335305c7b0fbcda5c88d3ad243365005c762e3237c1acf12f61cf5514d4ce801",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "335305c7b0fbcda5c88d3ad243365005c762e3237c1acf12f61cf5514d4ce801",
+        "afterSha256": "40175d1ead59a01c80e9934a75058894b251cfd38d0938ea485fe54efaf8157e",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/plans/2026-06-01-feature-status-audit.md",
@@ -1175,7 +1215,7 @@
         }
       ],
       "sourceSha256": "631626a9f460ee18aa43369cb69aaf7540e737ab3f2b6444921e36322885773d",
-      "afterSha256": "00276248d4dc7f3b61e693de475279a7ea863c2a272e1f8e271ff096666a60f0",
+      "afterSha256": "79735b05168c6c2027939169f18750e1fe78a10ab1bef82c4eabb0cdb99c659d",
       "publicCallers": ["docs navigation / repository reference"],
       "legalInputs": [
         "current repository documentation",
@@ -1355,7 +1395,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "00276248d4dc7f3b61e693de475279a7ea863c2a272e1f8e271ff096666a60f0"
+      "candidateSha256": "00276248d4dc7f3b61e693de475279a7ea863c2a272e1f8e271ff096666a60f0",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "00276248d4dc7f3b61e693de475279a7ea863c2a272e1f8e271ff096666a60f0",
+        "afterSha256": "79735b05168c6c2027939169f18750e1fe78a10ab1bef82c4eabb0cdb99c659d",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/plans/2026-06-01-gameoveractive-refactor.md",
@@ -1413,7 +1461,7 @@
         }
       ],
       "sourceSha256": "a49e069c3ac85b4e0e5ee1ed8f31958d1ca9be2f96229eda1061017d09230160",
-      "afterSha256": "08fb426ac7cc456d046e2511e123da37b543d3483fae1e5407c032d67caa1086",
+      "afterSha256": "8dd681772fcce05120d62dde0e7eca1d74b611863c7cd9e787cb0798456f117a",
       "publicCallers": ["docs navigation / repository reference"],
       "legalInputs": [
         "current repository documentation",
@@ -1553,7 +1601,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "08fb426ac7cc456d046e2511e123da37b543d3483fae1e5407c032d67caa1086"
+      "candidateSha256": "08fb426ac7cc456d046e2511e123da37b543d3483fae1e5407c032d67caa1086",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "08fb426ac7cc456d046e2511e123da37b543d3483fae1e5407c032d67caa1086",
+        "afterSha256": "8dd681772fcce05120d62dde0e7eca1d74b611863c7cd9e787cb0798456f117a",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/plans/2026-06-01-remaining-work-plan.md",
@@ -1626,7 +1682,7 @@
         }
       ],
       "sourceSha256": "8a82755a4ab62a922bf158e473b05220a12c02d2af056b7e0827e11f8aafedfe",
-      "afterSha256": "3640ecd8e77f19ce0087a108b8f3b0b4e4bddda7dfe06a882982e142f3fd81c3",
+      "afterSha256": "dd610c5abf733a9855bbb6da83e654710f6cea1cd34a1a657866565128727bb9",
       "publicCallers": ["docs navigation / repository reference"],
       "legalInputs": [
         "current repository documentation",
@@ -1791,7 +1847,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "3640ecd8e77f19ce0087a108b8f3b0b4e4bddda7dfe06a882982e142f3fd81c3"
+      "candidateSha256": "3640ecd8e77f19ce0087a108b8f3b0b4e4bddda7dfe06a882982e142f3fd81c3",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "3640ecd8e77f19ce0087a108b8f3b0b4e4bddda7dfe06a882982e142f3fd81c3",
+        "afterSha256": "dd610c5abf733a9855bbb6da83e654710f6cea1cd34a1a657866565128727bb9",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/plans/2026-06-01-sdlpal-feature-surface-audit.md",
@@ -1873,7 +1937,7 @@
         }
       ],
       "sourceSha256": "7ffffc5e6cde1f1d0d437fb58185dfa558e42a3466f27596739e25698ea22592",
-      "afterSha256": "29208d5cd7159e98cf6404d5c8879afeb457263656cf4ab924f45663f5cc5997",
+      "afterSha256": "9404b6a024a81d3e6e26f9e5eb7fed172d0e8a6cb71e05f466d9345a698982d0",
       "publicCallers": ["docs navigation / repository reference"],
       "legalInputs": [
         "current repository documentation",
@@ -2053,7 +2117,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "29208d5cd7159e98cf6404d5c8879afeb457263656cf4ab924f45663f5cc5997"
+      "candidateSha256": "29208d5cd7159e98cf6404d5c8879afeb457263656cf4ab924f45663f5cc5997",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "29208d5cd7159e98cf6404d5c8879afeb457263656cf4ab924f45663f5cc5997",
+        "afterSha256": "9404b6a024a81d3e6e26f9e5eb7fed172d0e8a6cb71e05f466d9345a698982d0",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/plans/2026-06-02-item-audit.md",
@@ -2135,7 +2207,7 @@
         }
       ],
       "sourceSha256": "f5370361515195631fc1274d76d45bf74a163be37c0c806a69e7507dbbfdf568",
-      "afterSha256": "6e2b0b5d77983a34b21824157fb3e45723f262d78ac3cf7d7a29310d86fa6f80",
+      "afterSha256": "cc1c18032b5c1b9fa0c498eba570f080cf6a5bbe98761e93b0f25f6e175782f2",
       "publicCallers": ["docs navigation / repository reference"],
       "legalInputs": [
         "current repository documentation",
@@ -2315,7 +2387,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "6e2b0b5d77983a34b21824157fb3e45723f262d78ac3cf7d7a29310d86fa6f80"
+      "candidateSha256": "6e2b0b5d77983a34b21824157fb3e45723f262d78ac3cf7d7a29310d86fa6f80",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "6e2b0b5d77983a34b21824157fb3e45723f262d78ac3cf7d7a29310d86fa6f80",
+        "afterSha256": "cc1c18032b5c1b9fa0c498eba570f080cf6a5bbe98761e93b0f25f6e175782f2",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/plans/2026-06-06-battle-system-current-audit.md",
@@ -2370,7 +2450,7 @@
         }
       ],
       "sourceSha256": "ebe68652d716825ef012051b9ce9357f9fceec6ebecde2b9535e53b93bb83165",
-      "afterSha256": "878c39a0a16e19f49f3b299e3c22da9262b58552f46f66d3adc627223ec8eed1",
+      "afterSha256": "3be2c604625821776dcc8263aa53cf64143f4da8ac1e8656218451b4faea3c32",
       "publicCallers": ["docs navigation / repository reference"],
       "legalInputs": [
         "current repository documentation",
@@ -2510,7 +2590,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "878c39a0a16e19f49f3b299e3c22da9262b58552f46f66d3adc627223ec8eed1"
+      "candidateSha256": "878c39a0a16e19f49f3b299e3c22da9262b58552f46f66d3adc627223ec8eed1",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "878c39a0a16e19f49f3b299e3c22da9262b58552f46f66d3adc627223ec8eed1",
+        "afterSha256": "3be2c604625821776dcc8263aa53cf64143f4da8ac1e8656218451b4faea3c32",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/plans/2026-06-07-sdlpal-diff-audit.md",
@@ -2592,7 +2680,7 @@
         }
       ],
       "sourceSha256": "eb548e4b6202fe666816fc4ee6cb074ab8909fb064fb55198d4badeaefd8f414",
-      "afterSha256": "c7a97a152557a9824d2b9883400e5a34912c64ee5cbc68adbdb37e5258a66241",
+      "afterSha256": "bccc9e151ff3fca2388783af1a5dc4444d923e4cfa9179608ac3e71b728c0226",
       "publicCallers": [
         "docs/phase1/plans/2026-06-07-sdlpal-diff-audit.md → 247",
         "docs/phase1/plans/2026-06-07-sdlpal-diff-audit.md → 朝南站立",
@@ -2780,7 +2868,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "c7a97a152557a9824d2b9883400e5a34912c64ee5cbc68adbdb37e5258a66241"
+      "candidateSha256": "c7a97a152557a9824d2b9883400e5a34912c64ee5cbc68adbdb37e5258a66241",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "c7a97a152557a9824d2b9883400e5a34912c64ee5cbc68adbdb37e5258a66241",
+        "afterSha256": "bccc9e151ff3fca2388783af1a5dc4444d923e4cfa9179608ac3e71b728c0226",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/plans/2026-06-10-sdlpal-deep-audit.md",
@@ -2862,7 +2958,7 @@
         }
       ],
       "sourceSha256": "4d947c9c9b3c14dabc585beb1f32db26dced4ff07cba6970d1e4641be2411f1b",
-      "afterSha256": "36ab07f61707eea49a085eaa3589aaca2a9df6fd2b8b4266862ce6628cdc6c64",
+      "afterSha256": "c8022e6be917f22c681a532f94a8de05210544a55d7f2eb62015fe7aa20b06cf",
       "publicCallers": [
         "docs/phase1/plans/2026-06-10-sdlpal-deep-audit.md → 逐帧 UpdatePartyGestures(FALSE"
       ],
@@ -3044,7 +3140,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "36ab07f61707eea49a085eaa3589aaca2a9df6fd2b8b4266862ce6628cdc6c64"
+      "candidateSha256": "36ab07f61707eea49a085eaa3589aaca2a9df6fd2b8b4266862ce6628cdc6c64",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "36ab07f61707eea49a085eaa3589aaca2a9df6fd2b8b4266862ce6628cdc6c64",
+        "afterSha256": "c8022e6be917f22c681a532f94a8de05210544a55d7f2eb62015fe7aa20b06cf",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/plans/2026-06-13-canvas-resolution-setting.md",
@@ -3099,7 +3203,7 @@
         }
       ],
       "sourceSha256": "a296220f590610c7906cb363fde2ad92c1ce6235378610be360a7f9cc50482cd",
-      "afterSha256": "fd9f19b8fbefc568192b064f4327e11c93b4bbecb5bb2149af462d1f99edd0c7",
+      "afterSha256": "15b0578884424943cf27112864e1c7d10288d9073ce4d326401ed87c7c5d2d18",
       "publicCallers": [
         "docs/phase1/plans/2026-06-13-canvas-resolution-setting.md → ../../../packages/game/index.html",
         "docs/phase1/plans/2026-06-13-canvas-resolution-setting.md → ../../../packages/game/src/main.ts"
@@ -3237,7 +3341,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "fd9f19b8fbefc568192b064f4327e11c93b4bbecb5bb2149af462d1f99edd0c7"
+      "candidateSha256": "fd9f19b8fbefc568192b064f4327e11c93b4bbecb5bb2149af462d1f99edd0c7",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "fd9f19b8fbefc568192b064f4327e11c93b4bbecb5bb2149af462d1f99edd0c7",
+        "afterSha256": "15b0578884424943cf27112864e1c7d10288d9073ce4d326401ed87c7c5d2d18",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/plans/2026-06-13-offline-precache-sw.md",
@@ -3301,7 +3413,7 @@
         }
       ],
       "sourceSha256": "abe15bfdfb745ca63533cd3c9b45bf9bdf57deb5cb7dd26c7ab5cf5b1c54d6ae",
-      "afterSha256": "37d822660dd7e6905d5758ba804048880c8f468ec037ea473f87526b70b05a53",
+      "afterSha256": "fb87a27082e4b6d40389f7de3efe621b6a1f5b58eb2d3105428c21c5cc420976",
       "publicCallers": [
         "docs/phase1/plans/2026-06-13-offline-precache-sw.md → ../../../packages/game/src/shell/fetch-retry.ts",
         "docs/phase1/plans/2026-06-13-offline-precache-sw.md → ../../../packages/game/src/shell/boot-loading.ts",
@@ -3457,7 +3569,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "37d822660dd7e6905d5758ba804048880c8f468ec037ea473f87526b70b05a53"
+      "candidateSha256": "37d822660dd7e6905d5758ba804048880c8f468ec037ea473f87526b70b05a53",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "37d822660dd7e6905d5758ba804048880c8f468ec037ea473f87526b70b05a53",
+        "afterSha256": "fb87a27082e4b6d40389f7de3efe621b6a1f5b58eb2d3105428c21c5cc420976",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/plans/2026-06-13-prod-tools-panel.md",
@@ -3527,7 +3647,7 @@
         }
       ],
       "sourceSha256": "48be7fcb7d43db926b8f731cddf3196f19e42ea4b68740f7031612c2f7b4657e",
-      "afterSha256": "e0f93350e3ad84073fa02a270cce26664ea3e5520864ef539b8d6b1384ea5f0f",
+      "afterSha256": "fe9084b2476257e0952ef2054def088d9c84e52f47307f8c03013adfd7dc3154",
       "publicCallers": [
         "docs/phase1/plans/2026-06-13-prod-tools-panel.md → ../../../packages/game/src/dev/dev-panel.ts",
         "docs/phase1/plans/2026-06-13-prod-tools-panel.md → ../../../packages/game/src/core/game-state.ts",
@@ -3694,7 +3814,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "e0f93350e3ad84073fa02a270cce26664ea3e5520864ef539b8d6b1384ea5f0f"
+      "candidateSha256": "e0f93350e3ad84073fa02a270cce26664ea3e5520864ef539b8d6b1384ea5f0f",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "e0f93350e3ad84073fa02a270cce26664ea3e5520864ef539b8d6b1384ea5f0f",
+        "afterSha256": "fe9084b2476257e0952ef2054def088d9c84e52f47307f8c03013adfd7dc3154",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/plans/2026-06-14-unified-precache-progress-gate-impl.md",
@@ -3770,7 +3898,7 @@
         }
       ],
       "sourceSha256": "bc41ff609083cd6ddca46fbb29a0be8ef6452959adc6e2301036b0e25cd4b294",
-      "afterSha256": "98982f79f767c2d57d72fae4c319433691869fb488ebf75961c331c0fc7320e1",
+      "afterSha256": "32e22ce5759553a59e77e8231e61030e928f422cb15ae03e77e5619c2dd26c7f",
       "publicCallers": [
         "docs/phase1/plans/2026-06-14-unified-precache-progress-gate-impl.md → 2026-06-14-unified-precache-progress-gate.md",
         "docs/phase1/plans/2026-06-14-unified-precache-progress-gate-impl.md → 2026-06-13-offline-precache-sw.md",
@@ -3945,7 +4073,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "98982f79f767c2d57d72fae4c319433691869fb488ebf75961c331c0fc7320e1"
+      "candidateSha256": "98982f79f767c2d57d72fae4c319433691869fb488ebf75961c331c0fc7320e1",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "98982f79f767c2d57d72fae4c319433691869fb488ebf75961c331c0fc7320e1",
+        "afterSha256": "32e22ce5759553a59e77e8231e61030e928f422cb15ae03e77e5619c2dd26c7f",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/plans/2026-06-14-unified-precache-progress-gate.md",
@@ -3994,7 +4130,7 @@
         }
       ],
       "sourceSha256": "0b4d47ebd7d6c349f106f2843667c4a23e9f6fe8357665314eddbd84d5975e99",
-      "afterSha256": "e967dda52f5e9eb85bea32c92ef63d940576d5195b4feca1b8d575a6c81e2a13",
+      "afterSha256": "edc7ab798f27dea5ad07514eea6529c14d0f914faee9f45a0b6c9d5cc84cbea1",
       "publicCallers": [
         "docs/phase1/plans/2026-06-14-unified-precache-progress-gate.md → 2026-06-13-offline-precache-sw.md"
       ],
@@ -4121,7 +4257,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "e967dda52f5e9eb85bea32c92ef63d940576d5195b4feca1b8d575a6c81e2a13"
+      "candidateSha256": "e967dda52f5e9eb85bea32c92ef63d940576d5195b4feca1b8d575a6c81e2a13",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "e967dda52f5e9eb85bea32c92ef63d940576d5195b4feca1b8d575a6c81e2a13",
+        "afterSha256": "edc7ab798f27dea5ad07514eea6529c14d0f914faee9f45a0b6c9d5cc84cbea1",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/plans/2026-06-18-speedrun-timer-design.md",
@@ -4179,7 +4323,7 @@
         }
       ],
       "sourceSha256": "6fd7bb18d3887867288e0e37b7d2fa6349e28e0b90bc8cabc52b9cd2e4f00d28",
-      "afterSha256": "319e152a0ea0aab091b33be44b4c139f0d65589f50061851030b082cc08d6e8c",
+      "afterSha256": "e3cc2a3da54eb1afc31716c011d019de6240519f3bb438b9b408d26223b6ec84",
       "publicCallers": ["docs navigation / repository reference"],
       "legalInputs": [
         "current repository documentation",
@@ -4319,7 +4463,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "319e152a0ea0aab091b33be44b4c139f0d65589f50061851030b082cc08d6e8c"
+      "candidateSha256": "319e152a0ea0aab091b33be44b4c139f0d65589f50061851030b082cc08d6e8c",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "319e152a0ea0aab091b33be44b4c139f0d65589f50061851030b082cc08d6e8c",
+        "afterSha256": "e3cc2a3da54eb1afc31716c011d019de6240519f3bb438b9b408d26223b6ec84",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/plans/2026-06-18-speedrun-timer.md",
@@ -4401,7 +4553,7 @@
         }
       ],
       "sourceSha256": "49c2c20b5a2a5723b27e5bb2b5274d8e908c35287e581593f69c161d6d1328d8",
-      "afterSha256": "5e649bf286aa6f72814a4b2dae4212dbd1c78f70a2976f5af099114e53445298",
+      "afterSha256": "0a37ec0a49d9c8d149556d404692beb83a16b43c25c3caad020a84b06938080d",
       "publicCallers": ["docs navigation / repository reference"],
       "legalInputs": [
         "current repository documentation",
@@ -4581,7 +4733,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "5e649bf286aa6f72814a4b2dae4212dbd1c78f70a2976f5af099114e53445298"
+      "candidateSha256": "5e649bf286aa6f72814a4b2dae4212dbd1c78f70a2976f5af099114e53445298",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "5e649bf286aa6f72814a4b2dae4212dbd1c78f70a2976f5af099114e53445298",
+        "afterSha256": "0a37ec0a49d9c8d149556d404692beb83a16b43c25c3caad020a84b06938080d",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/plans/2026-06-22-tileset-atlas-packing.md",
@@ -4645,7 +4805,7 @@
         }
       ],
       "sourceSha256": "ade58414e9128ba82dc65beaba7497d70bf4875dbbea83e6503f0953aef19d91",
-      "afterSha256": "1d400ad25f0dd7b05226b4e45b9b450fb9b0ffff5c713ac17cdb16eb79b2e2df",
+      "afterSha256": "b750fd5f3fe8890f087a47cff6652553d7f20c5dca6503a48d07b06e383485c1",
       "publicCallers": [
         "docs/phase1/plans/2026-06-22-tileset-atlas-packing.md → ../../../packages/pal-extract/src/io/rle.ts",
         "docs/phase1/plans/2026-06-22-tileset-atlas-packing.md → ../../../packages/pal-extract/src/resources/sprite.ts",
@@ -4801,7 +4961,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "1d400ad25f0dd7b05226b4e45b9b450fb9b0ffff5c713ac17cdb16eb79b2e2df"
+      "candidateSha256": "1d400ad25f0dd7b05226b4e45b9b450fb9b0ffff5c713ac17cdb16eb79b2e2df",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "1d400ad25f0dd7b05226b4e45b9b450fb9b0ffff5c713ac17cdb16eb79b2e2df",
+        "afterSha256": "b750fd5f3fe8890f087a47cff6652553d7f20c5dca6503a48d07b06e383485c1",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/plans/README.md",
@@ -4859,7 +5027,7 @@
         }
       ],
       "sourceSha256": "6647b1a1eb72b3eef34c56505835b9e04f273d381cf169a802d249d4df191c82",
-      "afterSha256": "1b282ed34822d329647d8167b05363e88d88fca146369456760c7e6867771f20",
+      "afterSha256": "63d372503d55e0405bfd7e24847ae630e78f23de272810accc1d2d68c4e29cb9",
       "publicCallers": [
         "docs/phase1/plans/README.md → ../status/feature-status.md",
         "docs/phase1/plans/README.md → ../status/opcode-status.md",
@@ -5013,7 +5181,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "1b282ed34822d329647d8167b05363e88d88fca146369456760c7e6867771f20"
+      "candidateSha256": "1b282ed34822d329647d8167b05363e88d88fca146369456760c7e6867771f20",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "1b282ed34822d329647d8167b05363e88d88fca146369456760c7e6867771f20",
+        "afterSha256": "63d372503d55e0405bfd7e24847ae630e78f23de272810accc1d2d68c4e29cb9",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     }
   ],
   "independentReadOnlyReceipt": {
@@ -5040,12 +5216,20 @@
   "independentCandidateAcceptance": {
     "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r28-phase1-plans-candidate-acceptance-20261017.json",
     "sha256": "8d4d9fc3f8fde5b31bf0b86695094500b370231c4bbe4c9fc098a7a2bf1ed26d",
-    "verdict": "accept",
+    "verdict": "withdrawn-independent-credit",
     "scope": "22/22 candidate reception only",
     "nonAuthorReviewer": false,
     "runtimeEvidence": false,
     "e2eEvidence": false,
     "visualEvidence": false,
-    "coverageEvidence": false
+    "coverageEvidence": false,
+    "historicalVerdict": "accept",
+    "currentReviewerRelationship": "explicit nonAuthorReviewer=false; author self-check only; historical content preservation assessed separately"
+  },
+  "reviewerRelationshipCorrection": {
+    "date": "2026-10-18",
+    "decision": "same-actor candidate acceptance cannot certify non-author review",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
   }
 }

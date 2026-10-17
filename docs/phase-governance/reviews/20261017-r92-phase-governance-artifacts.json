@@ -7,19 +7,20 @@
   "entries": [
     {
       "path": "docs/phase-governance/reviews/20261017-r69-ops-evidence-readmes.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261017-r69-ops-evidence-readmes.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r69-ops-evidence-readmes.json:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "governance-artifact",
       "capability": "docs/phase-governance/reviews/20261017-r69-ops-evidence-readmes.json machine artifact",
@@ -35,7 +36,7 @@
         }
       ],
       "sourceSha256": "8e0f5d50a1fb44837487e3a79c67f4b66f8e3c63a4cd80f0b05c8046e4bdfb7d",
-      "afterSha256": "8e0f5d50a1fb44837487e3a79c67f4b66f8e3c63a4cd80f0b05c8046e4bdfb7d",
+      "afterSha256": "fb9eb55b4647a0967f73ac1a5f057374aad90fc05c12c60ee08190cd32b82967",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -156,23 +157,40 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "8e0f5d50a1fb44837487e3a79c67f4b66f8e3c63a4cd80f0b05c8046e4bdfb7d",
+        "afterSha256": "fb9eb55b4647a0967f73ac1a5f057374aad90fc05c12c60ee08190cd32b82967",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r70-ops-evidence-readmes.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261017-r70-ops-evidence-readmes.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r70-ops-evidence-readmes.json:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "governance-artifact",
       "capability": "docs/phase-governance/reviews/20261017-r70-ops-evidence-readmes.json machine artifact",
@@ -188,7 +206,7 @@
         }
       ],
       "sourceSha256": "fab811e823661f7f6392c2757edc3bef740e29818e8dd73c5df2ad1e7ba0c983",
-      "afterSha256": "fab811e823661f7f6392c2757edc3bef740e29818e8dd73c5df2ad1e7ba0c983",
+      "afterSha256": "a669eb8c2cde7611b3dd00e5f325ce215ddfd5a96ed25d3b9d13d9735d8d6a66",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -309,23 +327,40 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "fab811e823661f7f6392c2757edc3bef740e29818e8dd73c5df2ad1e7ba0c983",
+        "afterSha256": "a669eb8c2cde7611b3dd00e5f325ce215ddfd5a96ed25d3b9d13d9735d8d6a66",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r71-testing-archive.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261017-r71-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r71-testing-archive.json:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "governance-artifact",
       "capability": "docs/phase-governance/reviews/20261017-r71-testing-archive.json machine artifact",
@@ -341,7 +376,7 @@
         }
       ],
       "sourceSha256": "3982f8ff2322387c2b2c7e2ec1b08be916e75c4b7c28800bf2e5220216199afe",
-      "afterSha256": "3982f8ff2322387c2b2c7e2ec1b08be916e75c4b7c28800bf2e5220216199afe",
+      "afterSha256": "e5963165e2e4d227037807d2d4c232c6e2d84f933ce9e76c388f7bce95a3c064",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -462,23 +497,40 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "3982f8ff2322387c2b2c7e2ec1b08be916e75c4b7c28800bf2e5220216199afe",
+        "afterSha256": "e5963165e2e4d227037807d2d4c232c6e2d84f933ce9e76c388f7bce95a3c064",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r72-testing-archive.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261017-r72-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r72-testing-archive.json:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "governance-artifact",
       "capability": "docs/phase-governance/reviews/20261017-r72-testing-archive.json machine artifact",
@@ -494,7 +546,7 @@
         }
       ],
       "sourceSha256": "63a4d599ec97057f39aac26a610b688eb283d1b1770936f62cfa4cdb92bf0634",
-      "afterSha256": "63a4d599ec97057f39aac26a610b688eb283d1b1770936f62cfa4cdb92bf0634",
+      "afterSha256": "d6617209e6ff250bb85e01ef9de1d95f80f674bc3c6a2d084192dd63d2655dc3",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -615,23 +667,40 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "63a4d599ec97057f39aac26a610b688eb283d1b1770936f62cfa4cdb92bf0634",
+        "afterSha256": "d6617209e6ff250bb85e01ef9de1d95f80f674bc3c6a2d084192dd63d2655dc3",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261017-r73-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r73-testing-archive.json:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "governance-artifact",
       "capability": "docs/phase-governance/reviews/20261017-r73-testing-archive.json machine artifact",
@@ -647,7 +716,7 @@
         }
       ],
       "sourceSha256": "0b7c72d91739cc2f0868fa6ff1b572c423bd914de918a48921b3d27130007ac4",
-      "afterSha256": "0b7c72d91739cc2f0868fa6ff1b572c423bd914de918a48921b3d27130007ac4",
+      "afterSha256": "3604ebbb83ec044ac87e300f70a05a3769623facc866221094d133c31c66a740",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -768,23 +837,40 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "0b7c72d91739cc2f0868fa6ff1b572c423bd914de918a48921b3d27130007ac4",
+        "afterSha256": "3604ebbb83ec044ac87e300f70a05a3769623facc866221094d133c31c66a740",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r74-testing-archive.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261017-r74-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r74-testing-archive.json:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "governance-artifact",
       "capability": "docs/phase-governance/reviews/20261017-r74-testing-archive.json machine artifact",
@@ -800,7 +886,7 @@
         }
       ],
       "sourceSha256": "fdb09d4eeadeb403004a483e055442f000ca25eda388723d9086ff8d40440b7b",
-      "afterSha256": "fdb09d4eeadeb403004a483e055442f000ca25eda388723d9086ff8d40440b7b",
+      "afterSha256": "63fcec1928402687dfed62ae2a768b78a30dfa3027f9ee0fc9a5bd9219562114",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -921,23 +1007,40 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "fdb09d4eeadeb403004a483e055442f000ca25eda388723d9086ff8d40440b7b",
+        "afterSha256": "63fcec1928402687dfed62ae2a768b78a30dfa3027f9ee0fc9a5bd9219562114",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r75-testing-archive.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261017-r75-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r75-testing-archive.json:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "governance-artifact",
       "capability": "docs/phase-governance/reviews/20261017-r75-testing-archive.json machine artifact",
@@ -953,7 +1056,7 @@
         }
       ],
       "sourceSha256": "e932fca7ede288213a73c3b55dc94367dfba6bcd83c26fc9b28401fb6f10ab55",
-      "afterSha256": "e932fca7ede288213a73c3b55dc94367dfba6bcd83c26fc9b28401fb6f10ab55",
+      "afterSha256": "222afeb822ebc1f88a12f5cc5fe9da437a146f6553e8916c1618bc46b0abf1c4",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1074,23 +1177,40 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "e932fca7ede288213a73c3b55dc94367dfba6bcd83c26fc9b28401fb6f10ab55",
+        "afterSha256": "222afeb822ebc1f88a12f5cc5fe9da437a146f6553e8916c1618bc46b0abf1c4",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r76-testing-archive.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261017-r76-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r76-testing-archive.json:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "governance-artifact",
       "capability": "docs/phase-governance/reviews/20261017-r76-testing-archive.json machine artifact",
@@ -1106,7 +1226,7 @@
         }
       ],
       "sourceSha256": "99eac885b172edaa05f182fa734e7e6b51b4f3fc85b673eb7b0d9649b1bcc56f",
-      "afterSha256": "99eac885b172edaa05f182fa734e7e6b51b4f3fc85b673eb7b0d9649b1bcc56f",
+      "afterSha256": "b52b91f33437de876198d8e4ddbebd080eb13a4494e08072ee26e1d31fbbe0cb",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1227,23 +1347,40 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "99eac885b172edaa05f182fa734e7e6b51b4f3fc85b673eb7b0d9649b1bcc56f",
+        "afterSha256": "b52b91f33437de876198d8e4ddbebd080eb13a4494e08072ee26e1d31fbbe0cb",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r77-testing-archive.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261017-r77-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r77-testing-archive.json:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "governance-artifact",
       "capability": "docs/phase-governance/reviews/20261017-r77-testing-archive.json machine artifact",
@@ -1259,7 +1396,7 @@
         }
       ],
       "sourceSha256": "a907292200be026214de05c3312015b0f1d7175c303b163ca0fc1d95585a6688",
-      "afterSha256": "a907292200be026214de05c3312015b0f1d7175c303b163ca0fc1d95585a6688",
+      "afterSha256": "07b96bbc4f242435b960a73fc07ff1bec8f9be1b5023cbb794e249d8f0565061",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1380,23 +1517,40 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "a907292200be026214de05c3312015b0f1d7175c303b163ca0fc1d95585a6688",
+        "afterSha256": "07b96bbc4f242435b960a73fc07ff1bec8f9be1b5023cbb794e249d8f0565061",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r78-testing-archive.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261017-r78-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r78-testing-archive.json:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "governance-artifact",
       "capability": "docs/phase-governance/reviews/20261017-r78-testing-archive.json machine artifact",
@@ -1412,7 +1566,7 @@
         }
       ],
       "sourceSha256": "e6babd2a47f586dbe16a2ea49bdbf1bb42d329c21481e47d47f1b8acb300e7a8",
-      "afterSha256": "e6babd2a47f586dbe16a2ea49bdbf1bb42d329c21481e47d47f1b8acb300e7a8",
+      "afterSha256": "061dd28efd149a9a463969e2c212c7792f2e8cedbb04a1641b51b3cfeac9c2be",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1533,23 +1687,40 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "e6babd2a47f586dbe16a2ea49bdbf1bb42d329c21481e47d47f1b8acb300e7a8",
+        "afterSha256": "061dd28efd149a9a463969e2c212c7792f2e8cedbb04a1641b51b3cfeac9c2be",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r79-testing-archive.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261017-r79-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r79-testing-archive.json:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "governance-artifact",
       "capability": "docs/phase-governance/reviews/20261017-r79-testing-archive.json machine artifact",
@@ -1565,7 +1736,7 @@
         }
       ],
       "sourceSha256": "9222029236d8cd4cf41ab26272b8d94ef470185118f4d958d69cbb2bc74dcbd5",
-      "afterSha256": "9222029236d8cd4cf41ab26272b8d94ef470185118f4d958d69cbb2bc74dcbd5",
+      "afterSha256": "183bd20c340b24e2bef68b24989b041053aead209030fb397a609b9e337dab49",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1686,23 +1857,40 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "9222029236d8cd4cf41ab26272b8d94ef470185118f4d958d69cbb2bc74dcbd5",
+        "afterSha256": "183bd20c340b24e2bef68b24989b041053aead209030fb397a609b9e337dab49",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r80-testing-archive.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261017-r80-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r80-testing-archive.json:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "governance-artifact",
       "capability": "docs/phase-governance/reviews/20261017-r80-testing-archive.json machine artifact",
@@ -1718,7 +1906,7 @@
         }
       ],
       "sourceSha256": "b9f829b53949ebe4b97ec5b08304e561305c1fc2a90e323d7de937d2000838f4",
-      "afterSha256": "b9f829b53949ebe4b97ec5b08304e561305c1fc2a90e323d7de937d2000838f4",
+      "afterSha256": "17c1aa4bc63ff0bc2e6fcee6de2919b6e119fdec4cc36c7c78b9745ebd220351",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1839,23 +2027,40 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "b9f829b53949ebe4b97ec5b08304e561305c1fc2a90e323d7de937d2000838f4",
+        "afterSha256": "17c1aa4bc63ff0bc2e6fcee6de2919b6e119fdec4cc36c7c78b9745ebd220351",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r81-testing-archive.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261017-r81-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r81-testing-archive.json:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "governance-artifact",
       "capability": "docs/phase-governance/reviews/20261017-r81-testing-archive.json machine artifact",
@@ -1871,7 +2076,7 @@
         }
       ],
       "sourceSha256": "7ec9d1a89fa3334a445b84aafbe49cc6dcd982a488529e3cc1eecdcaefd3130b",
-      "afterSha256": "7ec9d1a89fa3334a445b84aafbe49cc6dcd982a488529e3cc1eecdcaefd3130b",
+      "afterSha256": "21debf88bfb0558609598cd589c391cf7e1fdddbc7c0f2a772c3c3a5b42b2e62",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1992,23 +2197,40 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "7ec9d1a89fa3334a445b84aafbe49cc6dcd982a488529e3cc1eecdcaefd3130b",
+        "afterSha256": "21debf88bfb0558609598cd589c391cf7e1fdddbc7c0f2a772c3c3a5b42b2e62",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r82-testing-archive.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261017-r82-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r82-testing-archive.json:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "governance-artifact",
       "capability": "docs/phase-governance/reviews/20261017-r82-testing-archive.json machine artifact",
@@ -2024,7 +2246,7 @@
         }
       ],
       "sourceSha256": "57bfe8c55e581db6c9d50873e3adab854f3692e4c4a7aaafa1cc5668eeef7b0a",
-      "afterSha256": "57bfe8c55e581db6c9d50873e3adab854f3692e4c4a7aaafa1cc5668eeef7b0a",
+      "afterSha256": "181a621c14d6532abba1617e4fe3d31e151a1aa1aa0f2f0e734e47e60cca40af",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -2145,23 +2367,40 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "57bfe8c55e581db6c9d50873e3adab854f3692e4c4a7aaafa1cc5668eeef7b0a",
+        "afterSha256": "181a621c14d6532abba1617e4fe3d31e151a1aa1aa0f2f0e734e47e60cca40af",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r83-testing-current.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261017-r83-testing-current.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r83-testing-current.json:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "governance-artifact",
       "capability": "docs/phase-governance/reviews/20261017-r83-testing-current.json machine artifact",
@@ -2177,7 +2416,7 @@
         }
       ],
       "sourceSha256": "2ccc9e897b116c467fa5d720f32719d81bacd3050d9d7bd2c91959292d292be4",
-      "afterSha256": "2ccc9e897b116c467fa5d720f32719d81bacd3050d9d7bd2c91959292d292be4",
+      "afterSha256": "391cc31f50732b57b8e3eb3fc35ca6398b6716ea0726ade248634e0f554447d1",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -2298,23 +2537,40 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "2ccc9e897b116c467fa5d720f32719d81bacd3050d9d7bd2c91959292d292be4",
+        "afterSha256": "391cc31f50732b57b8e3eb3fc35ca6398b6716ea0726ade248634e0f554447d1",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r84-ops-evidence-index.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261017-r84-ops-evidence-index.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r84-ops-evidence-index.json:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "governance-artifact",
       "capability": "docs/phase-governance/reviews/20261017-r84-ops-evidence-index.json machine artifact",
@@ -2330,7 +2586,7 @@
         }
       ],
       "sourceSha256": "25d2c93e055d812a55bc9236fb3a2f5e9885e97225423abf200a2fd16dc853cc",
-      "afterSha256": "25d2c93e055d812a55bc9236fb3a2f5e9885e97225423abf200a2fd16dc853cc",
+      "afterSha256": "3d959bed9b4f8838fb1785e267d427a49cd77672dde1cb048a4def57453dc066",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -2451,23 +2707,40 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "25d2c93e055d812a55bc9236fb3a2f5e9885e97225423abf200a2fd16dc853cc",
+        "afterSha256": "3d959bed9b4f8838fb1785e267d427a49cd77672dde1cb048a4def57453dc066",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r85-testing-archive.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261017-r85-testing-archive.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r85-testing-archive.json:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "governance-artifact",
       "capability": "docs/phase-governance/reviews/20261017-r85-testing-archive.json machine artifact",
@@ -2483,7 +2756,7 @@
         }
       ],
       "sourceSha256": "4388f8b6c8fd5724a71649e2b8092bdd4fb74026fb843b7e8433636aeb19cfda",
-      "afterSha256": "4388f8b6c8fd5724a71649e2b8092bdd4fb74026fb843b7e8433636aeb19cfda",
+      "afterSha256": "bde1d7a8fc753e31b99897df4337b0af510256e95c340681d37354890e5dda0b",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -2604,23 +2877,40 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "4388f8b6c8fd5724a71649e2b8092bdd4fb74026fb843b7e8433636aeb19cfda",
+        "afterSha256": "bde1d7a8fc753e31b99897df4337b0af510256e95c340681d37354890e5dda0b",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "governance-artifact",
       "capability": "docs/phase-governance/reviews/20261017-r86-ops-evidence-artifacts.json machine artifact",
@@ -2636,7 +2926,7 @@
         }
       ],
       "sourceSha256": "a7192286f68e6f85b32ce1e3379272d12bb7e46bc6e7a6c690cddd24f97206bd",
-      "afterSha256": "a7192286f68e6f85b32ce1e3379272d12bb7e46bc6e7a6c690cddd24f97206bd",
+      "afterSha256": "d8736439dfccf6fedc384762c768552a7927e6c8a0a4bd5fe7dc451db5b6e627",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -2757,23 +3047,40 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "a7192286f68e6f85b32ce1e3379272d12bb7e46bc6e7a6c690cddd24f97206bd",
+        "afterSha256": "d8736439dfccf6fedc384762c768552a7927e6c8a0a4bd5fe7dc451db5b6e627",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "governance-artifact",
       "capability": "docs/phase-governance/reviews/20261017-r87-ops-evidence-artifacts.json machine artifact",
@@ -2789,7 +3096,7 @@
         }
       ],
       "sourceSha256": "4d542cdf011e44405f837e1a1339eca3393e957d756ab3e704d7f64e21f1484f",
-      "afterSha256": "4d542cdf011e44405f837e1a1339eca3393e957d756ab3e704d7f64e21f1484f",
+      "afterSha256": "9b5903c7926a281fbf7c102ad416b6363821401f7567bc84bd8c537c5da7d4b0",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -2910,23 +3217,40 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "4d542cdf011e44405f837e1a1339eca3393e957d756ab3e704d7f64e21f1484f",
+        "afterSha256": "9b5903c7926a281fbf7c102ad416b6363821401f7567bc84bd8c537c5da7d4b0",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r88-ops-evidence-artifacts.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261017-r88-ops-evidence-artifacts.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r88-ops-evidence-artifacts.json:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "governance-artifact",
       "capability": "docs/phase-governance/reviews/20261017-r88-ops-evidence-artifacts.json machine artifact",
@@ -2942,7 +3266,7 @@
         }
       ],
       "sourceSha256": "5af6f7d0ceb7b0ab77214b09f33163ff9bdcd6e7f522c85f042c48f09526cbc1",
-      "afterSha256": "5af6f7d0ceb7b0ab77214b09f33163ff9bdcd6e7f522c85f042c48f09526cbc1",
+      "afterSha256": "96377ec2228b1d39d69cf10e4044f57973d95fd183b8ca393e12dd4f86698498",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -3063,23 +3387,40 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "5af6f7d0ceb7b0ab77214b09f33163ff9bdcd6e7f522c85f042c48f09526cbc1",
+        "afterSha256": "96377ec2228b1d39d69cf10e4044f57973d95fd183b8ca393e12dd4f86698498",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r89-ops-evidence-artifacts.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261017-r89-ops-evidence-artifacts.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r89-ops-evidence-artifacts.json:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "governance-artifact",
       "capability": "docs/phase-governance/reviews/20261017-r89-ops-evidence-artifacts.json machine artifact",
@@ -3095,7 +3436,7 @@
         }
       ],
       "sourceSha256": "fd99fc9eba6fbff81f2639cce03e5fc293a35ccd83eff185eb7b35305bbb93d3",
-      "afterSha256": "fd99fc9eba6fbff81f2639cce03e5fc293a35ccd83eff185eb7b35305bbb93d3",
+      "afterSha256": "3d8ee7c3932e2f328815d9a1535db752e43ca215206b14fc0de25a78087e4143",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -3216,23 +3557,40 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "fd99fc9eba6fbff81f2639cce03e5fc293a35ccd83eff185eb7b35305bbb93d3",
+        "afterSha256": "3d8ee7c3932e2f328815d9a1535db752e43ca215206b14fc0de25a78087e4143",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "governance-artifact",
       "capability": "docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json machine artifact",
@@ -3248,7 +3606,7 @@
         }
       ],
       "sourceSha256": "97912888ab9dc9ddf045760fc9c4b085ff71cd3c968a631a748fdea95ed7a02a",
-      "afterSha256": "97912888ab9dc9ddf045760fc9c4b085ff71cd3c968a631a748fdea95ed7a02a",
+      "afterSha256": "999c3d1528ecfdad8461bf293d567813384be3319112449ef4c2836dc0940ce0",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -3369,23 +3727,40 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "97912888ab9dc9ddf045760fc9c4b085ff71cd3c968a631a748fdea95ed7a02a",
+        "afterSha256": "999c3d1528ecfdad8461bf293d567813384be3319112449ef4c2836dc0940ce0",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r91-ops-evidence-artifacts.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261017-r91-ops-evidence-artifacts.json machine artifact：historical phase-governance artifact machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/reviews/20261017-r91-ops-evidence-artifacts.json:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "governance-artifact",
       "capability": "docs/phase-governance/reviews/20261017-r91-ops-evidence-artifacts.json machine artifact",
@@ -3401,7 +3776,7 @@
         }
       ],
       "sourceSha256": "87b393dbcc5883d7e7ff556ddcb1dd72cc4d171d8ea2fae784b0393b858a919d",
-      "afterSha256": "87b393dbcc5883d7e7ff556ddcb1dd72cc4d171d8ea2fae784b0393b858a919d",
+      "afterSha256": "eecc5b81ec7e9e9c579afd7d98068bc1e5f365273892bdfcde9eb1d99a4b0532",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -3522,23 +3897,40 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "87b393dbcc5883d7e7ff556ddcb1dd72cc4d171d8ea2fae784b0393b858a919d",
+        "afterSha256": "eecc5b81ec7e9e9c579afd7d98068bc1e5f365273892bdfcde9eb1d99a4b0532",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase-governance/reviews/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "内容深审记录：historical phase-governance artifact document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/reviews/README.md:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "governance-artifact",
       "capability": "内容深审记录",
@@ -3673,7 +4065,21 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     }
-  ]
+  ],
+  "currentCorrection": {
+    "date": "2026-10-18",
+    "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  }
 }

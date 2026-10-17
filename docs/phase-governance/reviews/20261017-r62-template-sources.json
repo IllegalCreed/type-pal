@@ -7,17 +7,20 @@
   "entries": [
     {
       "path": "docs/phase-governance/templates/archive-record.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "archive-record.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/templates/archive-record.md:1"],
-      "unresolved": ["Template source changes require registry/consumer review before reuse."],
-      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "unresolved": [
+        "Template source changes require registry/consumer review before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "templates",
       "capability": "archive-record.md",
@@ -147,21 +150,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/phase-governance/templates/audit-report.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "audit-report.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/templates/audit-report.md:1"],
-      "unresolved": ["Template source changes require registry/consumer review before reuse."],
-      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "unresolved": [
+        "Template source changes require registry/consumer review before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "templates",
       "capability": "audit-report.md",
@@ -291,21 +305,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/phase-governance/templates/design-spec.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "design-spec.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/templates/design-spec.md:1"],
-      "unresolved": ["Template source changes require registry/consumer review before reuse."],
-      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "unresolved": [
+        "Template source changes require registry/consumer review before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "templates",
       "capability": "design-spec.md",
@@ -435,21 +460,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/phase-governance/templates/evidence-receipt.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "evidence-receipt.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/templates/evidence-receipt.md:1"],
-      "unresolved": ["Template source changes require registry/consumer review before reuse."],
-      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "unresolved": [
+        "Template source changes require registry/consumer review before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "templates",
       "capability": "evidence-receipt.md",
@@ -579,21 +615,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/phase-governance/templates/governance-index.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "governance-index.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/templates/governance-index.md:1"],
-      "unresolved": ["Template source changes require registry/consumer review before reuse."],
-      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "unresolved": [
+        "Template source changes require registry/consumer review before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "templates",
       "capability": "governance-index.md",
@@ -723,21 +770,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/phase-governance/templates/guide-runbook.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "guide-runbook.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/templates/guide-runbook.md:1"],
-      "unresolved": ["Template source changes require registry/consumer review before reuse."],
-      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "unresolved": [
+        "Template source changes require registry/consumer review before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "templates",
       "capability": "guide-runbook.md",
@@ -867,21 +925,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/phase-governance/templates/narrative-idea.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "narrative-idea.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/templates/narrative-idea.md:1"],
-      "unresolved": ["Template source changes require registry/consumer review before reuse."],
-      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "unresolved": [
+        "Template source changes require registry/consumer review before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "templates",
       "capability": "narrative-idea.md",
@@ -1011,21 +1080,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/phase-governance/templates/plan-status.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "plan-status.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/templates/plan-status.md:1"],
-      "unresolved": ["Template source changes require registry/consumer review before reuse."],
-      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "unresolved": [
+        "Template source changes require registry/consumer review before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "templates",
       "capability": "plan-status.md",
@@ -1155,21 +1235,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/phase-governance/templates/reference-canon.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "reference-canon.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/templates/reference-canon.md:1"],
-      "unresolved": ["Template source changes require registry/consumer review before reuse."],
-      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "unresolved": [
+        "Template source changes require registry/consumer review before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "templates",
       "capability": "reference-canon.md",
@@ -1299,21 +1390,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/phase-governance/templates/registry-proposal-20261011.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "registry-proposal-20261011.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/templates/registry-proposal-20261011.md:1"],
-      "unresolved": ["Template source changes require registry/consumer review before reuse."],
-      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "unresolved": [
+        "Template source changes require registry/consumer review before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "templates",
       "capability": "registry-proposal-20261011.md",
@@ -1443,21 +1545,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/phase-governance/templates/registry.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "registry.json：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/templates/registry.json:1"],
-      "unresolved": ["Template source changes require registry/consumer review before reuse."],
-      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "unresolved": [
+        "Template source changes require registry/consumer review before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "templates",
       "capability": "registry.json",
@@ -1584,21 +1697,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/phase-governance/templates/task-card.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "task-card.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/phase-governance/templates/task-card.md:1"],
-      "unresolved": ["Template source changes require registry/consumer review before reuse."],
-      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "unresolved": [
+        "Template source changes require registry/consumer review before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
       "module": "templates",
       "capability": "task-card.md",
@@ -1725,21 +1849,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/_templates/e2e-report.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "e2e-report.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/_templates/e2e-report.md:1"],
-      "unresolved": ["Template source changes require registry/consumer review before reuse."],
-      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "unresolved": [
+        "Template source changes require registry/consumer review before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "_templates",
       "capability": "e2e-report.md",
@@ -1866,21 +2001,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/_templates/e2e-stage-README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "e2e-stage-README.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/_templates/e2e-stage-README.md:1"],
-      "unresolved": ["Template source changes require registry/consumer review before reuse."],
-      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "unresolved": [
+        "Template source changes require registry/consumer review before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "_templates",
       "capability": "e2e-stage-README.md",
@@ -2007,21 +2153,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/_templates/evidence.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "evidence.json：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/_templates/evidence.json:1"],
-      "unresolved": ["Template source changes require registry/consumer review before reuse."],
-      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "unresolved": [
+        "Template source changes require registry/consumer review before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "_templates",
       "capability": "evidence.json",
@@ -2148,21 +2305,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/_templates/quality-gate.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "quality-gate.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/_templates/quality-gate.md:1"],
-      "unresolved": ["Template source changes require registry/consumer review before reuse."],
-      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "unresolved": [
+        "Template source changes require registry/consumer review before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "_templates",
       "capability": "quality-gate.md",
@@ -2289,21 +2457,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/_templates/test-catalog.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "test-catalog.json：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/_templates/test-catalog.json:1"],
-      "unresolved": ["Template source changes require registry/consumer review before reuse."],
-      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "unresolved": [
+        "Template source changes require registry/consumer review before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "_templates",
       "capability": "test-catalog.json",
@@ -2430,21 +2609,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/_templates/test-catalog.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "test-catalog.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/_templates/test-catalog.md:1"],
-      "unresolved": ["Template source changes require registry/consumer review before reuse."],
-      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "unresolved": [
+        "Template source changes require registry/consumer review before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "_templates",
       "capability": "test-catalog.md",
@@ -2571,21 +2761,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/_templates/test-contract.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "test-contract.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/_templates/test-contract.md:1"],
-      "unresolved": ["Template source changes require registry/consumer review before reuse."],
-      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "unresolved": [
+        "Template source changes require registry/consumer review before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "_templates",
       "capability": "test-contract.md",
@@ -2712,21 +2913,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/_templates/test-domain-report.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "test-domain-report.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/_templates/test-domain-report.md:1"],
-      "unresolved": ["Template source changes require registry/consumer review before reuse."],
-      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "unresolved": [
+        "Template source changes require registry/consumer review before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "_templates",
       "capability": "test-domain-report.md",
@@ -2853,21 +3065,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/_templates/test-e2e-stage.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "test-e2e-stage.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/_templates/test-e2e-stage.md:1"],
-      "unresolved": ["Template source changes require registry/consumer review before reuse."],
-      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "unresolved": [
+        "Template source changes require registry/consumer review before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "_templates",
       "capability": "test-e2e-stage.md",
@@ -2994,21 +3217,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/_templates/test-machine-evidence.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "test-machine-evidence.json：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/_templates/test-machine-evidence.json:1"],
-      "unresolved": ["Template source changes require registry/consumer review before reuse."],
-      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "unresolved": [
+        "Template source changes require registry/consumer review before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "_templates",
       "capability": "test-machine-evidence.json",
@@ -3138,21 +3372,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/_templates/test-run-report.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "test-run-report.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/_templates/test-run-report.md:1"],
-      "unresolved": ["Template source changes require registry/consumer review before reuse."],
-      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "unresolved": [
+        "Template source changes require registry/consumer review before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+      ],
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "_templates",
       "capability": "test-run-report.md",
@@ -3279,7 +3524,21 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     }
-  ]
+  ],
+  "currentCorrection": {
+    "date": "2026-10-18",
+    "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  }
 }

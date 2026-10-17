@@ -7,21 +7,22 @@
   "entries": [
     {
       "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Legacy 历史归档：batches/finite-test-intake-20261003/current-counters：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/README.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Legacy 历史归档：batches/finite-test-intake-20261003/current-counters",
@@ -152,25 +153,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C1-01/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Legacy 历史归档：batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C1-01：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C1-01/README.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Legacy 历史归档：batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C1-01",
@@ -302,25 +312,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C3-01/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Legacy 历史归档：batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C3-01：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C3-01/README.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Legacy 历史归档：batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C3-01",
@@ -452,25 +471,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C4-01/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Legacy 历史归档：batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C4-01：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C4-01/README.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Legacy 历史归档：batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C4-01",
@@ -602,25 +630,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C4-04/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Legacy 历史归档：batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C4-04：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C4-04/README.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Legacy 历史归档：batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C4-04",
@@ -752,25 +789,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C6-01/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Legacy 历史归档：batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C6-01：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C6-01/README.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Legacy 历史归档：batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C6-01",
@@ -902,25 +948,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C7-01/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Legacy 历史归档：batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C7-01：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C7-01/README.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Legacy 历史归档：batches/finite-test-intake-20261003/current-counters/cursor-mid-1/CTR-C7-01",
@@ -1052,25 +1107,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/cursor-mid-1/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Legacy 历史归档：batches/finite-test-intake-20261003/current-counters/cursor-mid-1：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/cursor-mid-1/README.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Legacy 历史归档：batches/finite-test-intake-20261003/current-counters/cursor-mid-1",
@@ -1201,25 +1265,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/cursor-mid-1/cleanup/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Legacy 历史归档：batches/finite-test-intake-20261003/current-counters/cursor-mid-1/cleanup：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/cursor-mid-1/cleanup/README.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Legacy 历史归档：batches/finite-test-intake-20261003/current-counters/cursor-mid-1/cleanup",
@@ -1350,25 +1423,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/kimi-mid-1/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Legacy 历史归档：batches/finite-test-intake-20261003/current-counters/kimi-mid-1：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/finite-test-intake-20261003/current-counters/kimi-mid-1/README.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Legacy 历史归档：batches/finite-test-intake-20261003/current-counters/kimi-mid-1",
@@ -1499,25 +1581,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/intake.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/intake.json machine artifact：historical testing archive machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/finite-test-intake-20261003/intake.json:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/intake.json machine artifact",
@@ -1667,25 +1758,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Legacy 历史归档：batches/glm-architecture-regression-lab：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/README.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Legacy 历史归档：batches/glm-architecture-regression-lab",
@@ -1817,25 +1917,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/candidates/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Legacy 历史归档：batches/glm-architecture-regression-lab/candidates：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/candidates/README.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Legacy 历史归档：batches/glm-architecture-regression-lab/candidates",
@@ -1966,25 +2075,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/candidates/editor/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Legacy 历史归档：batches/glm-architecture-regression-lab/candidates/editor：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/candidates/editor/README.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Legacy 历史归档：batches/glm-architecture-regression-lab/candidates/editor",
@@ -2115,25 +2233,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/candidates/game/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Legacy 历史归档：batches/glm-architecture-regression-lab/candidates/game：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/candidates/game/README.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Legacy 历史归档：batches/glm-architecture-regression-lab/candidates/game",
@@ -2264,25 +2391,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/candidates/migrate/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Legacy 历史归档：batches/glm-architecture-regression-lab/candidates/migrate：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/candidates/migrate/README.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Legacy 历史归档：batches/glm-architecture-regression-lab/candidates/migrate",
@@ -2413,25 +2549,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/configs/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Legacy 历史归档：batches/glm-architecture-regression-lab/configs：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/configs/README.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Legacy 历史归档：batches/glm-architecture-regression-lab/configs",
@@ -2562,25 +2707,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/configs/candidates-exec.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/configs/candidates-exec.json machine artifact：historical testing archive machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/configs/candidates-exec.json:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/configs/candidates-exec.json machine artifact",
@@ -2728,25 +2882,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/configs/tsconfig.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/configs/tsconfig.json machine artifact：historical testing archive machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/configs/tsconfig.json:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/configs/tsconfig.json machine artifact",
@@ -2880,25 +3043,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/diagnostics/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Legacy 历史归档：batches/glm-architecture-regression-lab/diagnostics：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/diagnostics/README.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Legacy 历史归档：batches/glm-architecture-regression-lab/diagnostics",
@@ -3029,25 +3201,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/fixtures/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Legacy 历史归档：batches/glm-architecture-regression-lab/fixtures：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/fixtures/README.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Legacy 历史归档：batches/glm-architecture-regression-lab/fixtures",
@@ -3178,25 +3359,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/fixtures/editor/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Legacy 历史归档：batches/glm-architecture-regression-lab/fixtures/editor：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/fixtures/editor/README.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Legacy 历史归档：batches/glm-architecture-regression-lab/fixtures/editor",
@@ -3327,25 +3517,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/fixtures/migrate/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Legacy 历史归档：batches/glm-architecture-regression-lab/fixtures/migrate：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/fixtures/migrate/README.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Legacy 历史归档：batches/glm-architecture-regression-lab/fixtures/migrate",
@@ -3476,25 +3675,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/receipt.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "ARCH-REGRESSION-LAB-GLM-1 · 简短回执（GLM 十二组，r12 剩余视觉/回执收口批次）：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/receipt.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "ARCH-REGRESSION-LAB-GLM-1 · 简短回执（GLM 十二组，r12 剩余视觉/回执收口批次）",
@@ -3626,25 +3834,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/results.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/results.json machine artifact：historical testing archive machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/results.json:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/results.json machine artifact",
@@ -3794,25 +4011,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/tools/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Legacy 历史归档：batches/glm-architecture-regression-lab/tools：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/tools/README.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Legacy 历史归档：batches/glm-architecture-regression-lab/tools",
@@ -3943,25 +4169,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/tools/fixture/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Legacy 历史归档：batches/glm-architecture-regression-lab/tools/fixture：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-regression-lab/tools/fixture/README.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Legacy 历史归档：batches/glm-architecture-regression-lab/tools/fixture",
@@ -4092,23 +4327,32 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Legacy 历史归档：batches/glm-architecture-support：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/archive/legacy/batches/glm-architecture-support/README.md:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Legacy 历史归档：batches/glm-architecture-support",
@@ -4243,25 +4487,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-f423-review.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Codex定点复核：f4236474：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-support/codex-f423-review.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Codex定点复核：f4236474",
@@ -4397,25 +4650,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-intake-evidence.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-intake-evidence.json machine artifact：historical testing archive machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-support/codex-intake-evidence.json:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-intake-evidence.json machine artifact",
@@ -4569,25 +4831,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-intake-review.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Codex 独立接收：ARCH-SUPPORT-GLM-1 / 3967a376：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-support/codex-intake-review.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Codex 独立接收：ARCH-SUPPORT-GLM-1 / 3967a376",
@@ -4723,25 +4994,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-r2-evidence.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-r2-evidence.json machine artifact：historical testing archive machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-support/codex-r2-evidence.json:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-r2-evidence.json machine artifact",
@@ -4892,25 +5172,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-r2-review.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Codex r2接收：717d507d / 登记9e5ba310：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-support/codex-r2-review.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Codex r2接收：717d507d / 登记9e5ba310",
@@ -5046,25 +5335,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-r3-evidence.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-r3-evidence.json machine artifact：historical testing archive machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-support/codex-r3-evidence.json:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-r3-evidence.json machine artifact",
@@ -5219,25 +5517,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-r3-review.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Codex r3窄复核：1410916e：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-support/codex-r3-review.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Codex r3窄复核：1410916e",
@@ -5373,25 +5680,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/evidence.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/testing/archive/legacy/batches/glm-architecture-support/evidence.json machine artifact：historical testing archive machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-support/evidence.json:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "docs/testing/archive/legacy/batches/glm-architecture-support/evidence.json machine artifact",
@@ -5548,23 +5864,32 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/p1-app.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "P1 · App.tsx 所有权与边界取证（ARCH-SUPPORT-GLM-1）：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/archive/legacy/batches/glm-architecture-support/p1-app.md:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "P1 · App.tsx 所有权与边界取证（ARCH-SUPPORT-GLM-1）",
@@ -5700,25 +6025,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/p2-mapmode.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "P2 · MapMode.tsx 生命周期与手势边界取证（ARCH-SUPPORT-GLM-1）：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-support/p2-mapmode.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "P2 · MapMode.tsx 生命周期与手势边界取证（ARCH-SUPPORT-GLM-1）",
@@ -5854,25 +6188,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/p3-script-forms.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "P3 · ScriptEditor / CommandForm / SceneScriptWorkspace 取证（ARCH-SUPPORT-GLM-1）：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-support/p3-script-forms.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "P3 · ScriptEditor / CommandForm / SceneScriptWorkspace 取证（ARCH-SUPPORT-GLM-1）",
@@ -6008,25 +6351,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/p4-battle-session.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "P4 · battle-session.ts 阶段与 Promise 所有权取证（ARCH-SUPPORT-GLM-1）：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-support/p4-battle-session.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "P4 · battle-session.ts 阶段与 Promise 所有权取证（ARCH-SUPPORT-GLM-1）",
@@ -6162,25 +6514,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/p5-phase1-core.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "P5 · 第一阶段环与主控取证（ARCH-SUPPORT-GLM-1）：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-support/p5-phase1-core.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "P5 · 第一阶段环与主控取证（ARCH-SUPPORT-GLM-1）",
@@ -6316,25 +6677,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/p6-conversion-validation.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "P6 · 迁移/校验边界取证（ARCH-SUPPORT-GLM-1）：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-support/p6-conversion-validation.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "P6 · 迁移/校验边界取证（ARCH-SUPPORT-GLM-1）",
@@ -6470,23 +6840,32 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/summary.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "ARCH-SUPPORT-GLM-1 · 总报告（GLM 八包准备取证，r3 收窄返工）：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/archive/legacy/batches/glm-architecture-support/summary.md:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "ARCH-SUPPORT-GLM-1 · 总报告（GLM 八包准备取证，r3 收窄返工）",
@@ -6622,25 +7001,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/v0-visual-sample.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "V0 视觉小样（视觉通路证明）：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-support/v0-visual-sample.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "V0 视觉小样（视觉通路证明）",
@@ -6776,25 +7164,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/v1-forms.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "V1 · 表单视觉/交互取证（ARCH-SUPPORT-GLM-1）：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-support/v1-forms.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "V1 · 表单视觉/交互取证（ARCH-SUPPORT-GLM-1）",
@@ -6930,25 +7327,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/v2-workspaces.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "V2 · 工作区视觉/交互取证（ARCH-SUPPORT-GLM-1）：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-architecture-support/v2-workspaces.md:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "V2 · 工作区视觉/交互取证（ARCH-SUPPORT-GLM-1）",
@@ -7084,23 +7490,32 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave2/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Legacy 历史归档：batches/glm-content-guards-wave2：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/archive/legacy/batches/glm-content-guards-wave2/README.md:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Legacy 历史归档：batches/glm-content-guards-wave2",
@@ -7233,25 +7648,34 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave2/evidence.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON UTF-8 byte read and artifact envelope; top-level keys/entry shape enumerated",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/testing/archive/legacy/batches/glm-content-guards-wave2/evidence.json machine artifact：historical testing archive machine artifact；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/testing/archive/legacy/batches/glm-content-guards-wave2/evidence.json:1"
       ],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "docs/testing/archive/legacy/batches/glm-content-guards-wave2/evidence.json machine artifact",
@@ -7400,23 +7824,32 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave2/receipt.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TEST-GLM-CONTENT-GUARDS-2 · GLM 作者交付回执（r3 返工版）：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/archive/legacy/batches/glm-content-guards-wave2/receipt.md:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "TEST-GLM-CONTENT-GUARDS-2 · GLM 作者交付回执（r3 返工版）",
@@ -7549,23 +7982,32 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave3/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full Markdown UTF-8 read and archive wrapper migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "Legacy 历史归档：batches/glm-content-guards-wave3：historical testing archive document；保留原始内容、日期和执行边界，不能单独证明当前通过。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/testing/archive/legacy/batches/glm-content-guards-wave3/README.md:1"],
       "unresolved": [
-        "Historical material requires current catalog/contract and fresh receipt before reuse."
+        "Historical material requires current catalog/contract and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 testing catalog、contract、paired evidence 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "testing",
       "module": "archive",
       "capability": "Legacy 历史归档：batches/glm-content-guards-wave3",
@@ -7699,7 +8141,21 @@
           "status": "open-for-cleanup-audit",
           "statement": "Do not delete while archive README, evidence, migration ledger or successor references this file."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r73-testing-archive.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     }
-  ]
+  ],
+  "currentCorrection": {
+    "date": "2026-10-18",
+    "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  }
 }

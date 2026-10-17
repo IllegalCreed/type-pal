@@ -25,7 +25,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "e9e688ecf63eede4d7b16629bce9e0f23961eacc5d8a1659a22c4a53eb3016bc",
-      "afterSha256": "cb7bd6acadc0deed4f0b5f618f322ec324c5d64cd54b361feecbf1c056492237",
+      "afterSha256": "a378129bf3a8c80d87d90c3b45f13f9d9e9c52e52c9afa429d15d3ba3c0561ec",
       "sourceRefs": [
         {
           "path": "docs/phase1/01-feasibility.md",
@@ -74,6 +74,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "cb7bd6acadc0deed4f0b5f618f322ec324c5d64cd54b361feecbf1c056492237",
+          "afterSha256": "a378129bf3a8c80d87d90c3b45f13f9d9e9c52e52c9afa429d15d3ba3c0561ec"
         }
       ],
       "supersedes": [],
@@ -93,7 +99,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "1fa3eedd1004268f790e071ddec7b203b17f452928353355231764a2f5f2f13c",
-      "afterSha256": "a2b6f53917d439c1336d148d5652ccc4052419cdb8bda27a7bc8d2913c31119a",
+      "afterSha256": "606379fb5f345c4627dc8fbf086d2bb177e9b76cdd9f16c01638cfcb42da4526",
       "sourceRefs": [
         {
           "path": "docs/phase1/02-architecture.md",
@@ -142,6 +148,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "a2b6f53917d439c1336d148d5652ccc4052419cdb8bda27a7bc8d2913c31119a",
+          "afterSha256": "606379fb5f345c4627dc8fbf086d2bb177e9b76cdd9f16c01638cfcb42da4526"
         }
       ],
       "supersedes": [],
@@ -161,7 +173,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "e80f714a55dd90539a661ed04bf568cc514e24e537d1de17be21d5de97f91706",
-      "afterSha256": "604476c81a2f97dfae245b835b099622dfd8070b2655445eac9a4a2af07aadb2",
+      "afterSha256": "164ddde5a9dee6017231536bcba9b7e7278213b111b56042473d62596f000141",
       "sourceRefs": [
         {
           "path": "docs/phase1/03-development-plan.md",
@@ -210,6 +222,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "604476c81a2f97dfae245b835b099622dfd8070b2655445eac9a4a2af07aadb2",
+          "afterSha256": "164ddde5a9dee6017231536bcba9b7e7278213b111b56042473d62596f000141"
         }
       ],
       "supersedes": [],
@@ -229,7 +247,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "03446a701b452a98d8d4fe3bc292e99a61c2f814fc62dc78e9e32435044bc479",
-      "afterSha256": "eac592169088408de540284a94821a50eb1a099c6a5e35799f1483aaeceb7bea",
+      "afterSha256": "25610b69faed3157217bee03c9685291903616967aadb6ddf924dfe39982c03f",
       "sourceRefs": [
         {
           "path": "docs/phase1/04-decisions.md",
@@ -278,6 +296,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "eac592169088408de540284a94821a50eb1a099c6a5e35799f1483aaeceb7bea",
+          "afterSha256": "25610b69faed3157217bee03c9685291903616967aadb6ddf924dfe39982c03f"
         }
       ],
       "supersedes": [],
@@ -297,7 +321,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "f273dc84575750ef4b7cc543eb635e7b8cb9f21f9051a6d114b49b3a45395d58",
-      "afterSha256": "e27b92e2ff5d54169bdbaccb5f3a2efa2b63eb3b11d0946a9cd47feb36cf25da",
+      "afterSha256": "4a71e631302b45734fc5681bf4a069a300ff1111a6f8a2a2b873aa26b4ac109c",
       "sourceRefs": [
         {
           "path": "docs/phase1/05-events-schema.md",
@@ -346,6 +370,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "e27b92e2ff5d54169bdbaccb5f3a2efa2b63eb3b11d0946a9cd47feb36cf25da",
+          "afterSha256": "4a71e631302b45734fc5681bf4a069a300ff1111a6f8a2a2b873aa26b4ac109c"
         }
       ],
       "supersedes": [],
@@ -365,7 +395,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "9f603594d8d203d732edb717e0f51e20863353c463ee0767a387c0cbb46a92cd",
-      "afterSha256": "99d0d454ba5f3228885eb13c7d035e174ddb557ed63a4eb4b6bdf022b840cccf",
+      "afterSha256": "1f08e597b5aa105d881b6df88cd0af8d8ea9f2ac2cdb4d1cb9de78d547b2e549",
       "sourceRefs": [
         {
           "path": "docs/phase1/06-testing.md",
@@ -414,6 +444,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "99d0d454ba5f3228885eb13c7d035e174ddb557ed63a4eb4b6bdf022b840cccf",
+          "afterSha256": "1f08e597b5aa105d881b6df88cd0af8d8ea9f2ac2cdb4d1cb9de78d547b2e549"
         }
       ],
       "supersedes": [],
@@ -433,7 +469,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "add785a2ba75146b7425fa4b62d52bda40072d3b64cb6f9db89e4405ec4e8b96",
-      "afterSha256": "e37d7232b6aff955f4aa8b50e33f87b15377a3707c0c548d5d6cc7ddffb2e89f",
+      "afterSha256": "5612d4c2273474b6f5f6778e58411b3724effe70e66f0410aea7ff178c2bb227",
       "sourceRefs": [
         {
           "path": "docs/phase2/READ-FIRST.md",
@@ -530,6 +566,12 @@
           "reviewedRanges": ["142-152"],
           "evidence": "docs/ops/evidence/game-rng-scene-restore-1/README.md",
           "scope": "新增已复现的RNG末帧生命周期经验，未重审其它既有条目。"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "e37d7232b6aff955f4aa8b50e33f87b15377a3707c0c548d5d6cc7ddffb2e89f",
+          "afterSha256": "5612d4c2273474b6f5f6778e58411b3724effe70e66f0410aea7ff178c2bb227"
         }
       ],
       "supersedes": [],
@@ -549,7 +591,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
-      "afterSha256": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
+      "afterSha256": "c44a5230436f632c16ee53a8ba7d1ba9a73704e82ff6e6e0bfa4572acea47e1b",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/battle/battle-system.ts",
@@ -731,6 +773,12 @@
           "revision": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
           "action": "glm coop-section upgrade",
           "status": "current"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
+          "afterSha256": "c44a5230436f632c16ee53a8ba7d1ba9a73704e82ff6e6e0bfa4572acea47e1b"
         }
       ],
       "supersedes": [],
@@ -750,7 +798,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "48cd9d8c5fc824ba720e31ba4de4c77c143d40533a4374ef73ff450e5bf9f206",
-      "afterSha256": "ead04df1615699f3c3af890e8f6ddf9bd21fb62a80bc4823c47a570aecb43d27",
+      "afterSha256": "33b71df315e990774abbf5330e075848d5589bd7c433fd63dc1ec48869fa38d3",
       "sourceRefs": [
         {
           "path": "packages/shared/src/index.test.ts",
@@ -871,6 +919,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "ead04df1615699f3c3af890e8f6ddf9bd21fb62a80bc4823c47a570aecb43d27",
+          "afterSha256": "33b71df315e990774abbf5330e075848d5589bd7c433fd63dc1ec48869fa38d3"
         }
       ],
       "supersedes": [],
@@ -890,7 +944,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "176db881be3c7b2e5ccc842903d44a32d3f7d9ca5577a7c6261420b5be18087d",
-      "afterSha256": "e5533b482f2d692189cc2c1a97c1ba7c8424ffc16ca149e8500c77545bff4aff",
+      "afterSha256": "3e66cf3509e67b95a150ad985f94f0df5463c65d00469ca0a634ff04d15d3cac",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-23-m1-pal-extract-design.md",
@@ -942,6 +996,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "e5533b482f2d692189cc2c1a97c1ba7c8424ffc16ca149e8500c77545bff4aff",
+          "afterSha256": "3e66cf3509e67b95a150ad985f94f0df5463c65d00469ca0a634ff04d15d3cac"
         }
       ],
       "supersedes": [],
@@ -961,7 +1021,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "ac7d9b89b5536107b3d52fbb346cbe96d3b2ad2cfabfcab835e6f5fa32fbacab",
-      "afterSha256": "772c44d5f4d4f3e735b8a327a1112e8dad9689307ec91ce4443d649ac4777ce7",
+      "afterSha256": "e9f28dad21f647cf385d78175cdc2bfb29e01a66ff70989299b03db28feef8a9",
       "sourceRefs": [
         {
           "path": "packages/pal-extract/src/utils/gbk.ts",
@@ -1335,6 +1395,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "772c44d5f4d4f3e735b8a327a1112e8dad9689307ec91ce4443d649ac4777ce7",
+          "afterSha256": "e9f28dad21f647cf385d78175cdc2bfb29e01a66ff70989299b03db28feef8a9"
         }
       ],
       "supersedes": [],
@@ -1354,7 +1420,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "1a41396403e06b0c32c59bd1be1e29d13a8ac9dc6a0b997f5b50aadb31016091",
-      "afterSha256": "bc75f53998c6bffdd9fe37ea1f4d479496a45f679c61c1dc115679fb82c3d93e",
+      "afterSha256": "6ae3b274be08dc67bd638e7263a79248f43e8bfdf0d837098222f975847f6eff",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-23-m2-runtime-slice-design.md",
@@ -1406,6 +1472,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "bc75f53998c6bffdd9fe37ea1f4d479496a45f679c61c1dc115679fb82c3d93e",
+          "afterSha256": "6ae3b274be08dc67bd638e7263a79248f43e8bfdf0d837098222f975847f6eff"
         }
       ],
       "supersedes": [],
@@ -1425,7 +1497,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "2c1af6fa890e7f841bc166cd75a6923a46bb67e7d15403e6e85cef2849b8fa58",
-      "afterSha256": "65a64faac97fc0fe66c723da9d1a482322be4f57cbe2637eca8b568da3811c07",
+      "afterSha256": "9c9d6bfb1e7254dd98b684860b5869ec6a7ca3c980bd908b767a61b12c84e7a4",
       "sourceRefs": [
         {
           "path": "packages/shared/src/events.ts",
@@ -1895,6 +1967,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "65a64faac97fc0fe66c723da9d1a482322be4f57cbe2637eca8b568da3811c07",
+          "afterSha256": "9c9d6bfb1e7254dd98b684860b5869ec6a7ca3c980bd908b767a61b12c84e7a4"
         }
       ],
       "supersedes": [],
@@ -1914,7 +1992,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "d030e218834e3856eaba1a9307d870aa681474a8cb7893cc5a04de43f8d8b43c",
-      "afterSha256": "85f9b83053be7cceccb9a9016dee8295f97e98bf25dd01ec20a8b65d6aecfedc",
+      "afterSha256": "42074ed8ccebbae1b2652a4642bc07b7c68d0e3dd09a77b4880b3005bb85c6a8",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-23-m3-battle-vertical-slice-design.md",
@@ -1975,6 +2053,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "85f9b83053be7cceccb9a9016dee8295f97e98bf25dd01ec20a8b65d6aecfedc",
+          "afterSha256": "42074ed8ccebbae1b2652a4642bc07b7c68d0e3dd09a77b4880b3005bb85c6a8"
         }
       ],
       "supersedes": [],
@@ -1994,7 +2078,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "8ccaafd4547cc3f82fcf72d3bd40c92af8b0da2dc41d87c4f5f01492a6573753",
-      "afterSha256": "c27e1aafc276abda182f6c8611f01be8b0ebe0659e6a990401ceed58e91006b6",
+      "afterSha256": "4e1e242fc3f5921d1675e333ce7d99c01102a5b9b591e97543e91360e3454fb3",
       "sourceRefs": [
         {
           "path": "packages/shared/src/resources.ts",
@@ -2468,6 +2552,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "c27e1aafc276abda182f6c8611f01be8b0ebe0659e6a990401ceed58e91006b6",
+          "afterSha256": "4e1e242fc3f5921d1675e333ce7d99c01102a5b9b591e97543e91360e3454fb3"
         }
       ],
       "supersedes": [],
@@ -2487,7 +2577,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "22675b3967351b81254862c3bf32699998320c4c7fd565fd9c0cc8ba87be9fdc",
-      "afterSha256": "74107a7e584e66e308e7f3cec3a2531888a22d0133e716848ff9e9aba300c8ea",
+      "afterSha256": "0997357a5656ef4a1d60725e6aea1a6d2f67aa81ec9895d6c61f1d59e5c00162",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-24-m3-5-scene-encounter-design.md",
@@ -2547,6 +2637,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "74107a7e584e66e308e7f3cec3a2531888a22d0133e716848ff9e9aba300c8ea",
+          "afterSha256": "0997357a5656ef4a1d60725e6aea1a6d2f67aa81ec9895d6c61f1d59e5c00162"
         }
       ],
       "supersedes": [],
@@ -2566,7 +2662,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "b6453eada4c72d17b71b1a82059bdc52c1b65659bf58755bf602bcb3b1dedd17",
-      "afterSha256": "00054c6df4851241ab0b419f6ba4ca913dd152f6a54d81520b89273daec970e6",
+      "afterSha256": "b1055f743020928957f91962c4989300998d5a3105cc8b273f945ad082f705ab",
       "sourceRefs": [
         {
           "path": "packages/shared/src/resources.ts",
@@ -2872,6 +2968,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "00054c6df4851241ab0b419f6ba4ca913dd152f6a54d81520b89273daec970e6",
+          "afterSha256": "b1055f743020928957f91962c4989300998d5a3105cc8b273f945ad082f705ab"
         }
       ],
       "supersedes": [],
@@ -2891,7 +2993,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "378839296d24f2987401e894c21ee425886eeac298f757445014ec3ab8612b5a",
-      "afterSha256": "bea471368850aaeaf572ae969f6e9fb6ab2336b006f5ba26bc0f69fa2f129815",
+      "afterSha256": "22704f070ded16d2b9ca802a52162cf31ca99e6667cd086651ba89f1f9dbfc97",
       "sourceRefs": [
         {
           "path": "packages/pal-extract/src/cli.ts",
@@ -2980,6 +3082,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "bea471368850aaeaf572ae969f6e9fb6ab2336b006f5ba26bc0f69fa2f129815",
+          "afterSha256": "22704f070ded16d2b9ca802a52162cf31ca99e6667cd086651ba89f1f9dbfc97"
         }
       ],
       "supersedes": [],
@@ -2999,7 +3107,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "6520846aa673fe376f0e9ae1253fe05e86fe4af29ce90434affea62068868b22",
-      "afterSha256": "382224ba060ccd76e55395aebd0ab6256143899a7f3e989616a73c3c78e70943",
+      "afterSha256": "87c047b328899323e289ef13ac948497b948feae62dff75855baca3e7d984575",
       "sourceRefs": [
         {
           "path": "packages/pal-extract/src/cli.ts",
@@ -3350,6 +3458,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "382224ba060ccd76e55395aebd0ab6256143899a7f3e989616a73c3c78e70943",
+          "afterSha256": "87c047b328899323e289ef13ac948497b948feae62dff75855baca3e7d984575"
         }
       ],
       "supersedes": [],
@@ -3369,7 +3483,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "8041d8de8b30f9dc253469c1d4b18916b848e79ebd43c7cb561ef8382a6e28ea",
-      "afterSha256": "f29db300965721a304524379227bcd881f5601a5cc90f36b284a4dd147ebb71a",
+      "afterSha256": "b92b8e7d445aa7863691fd91307282d27cc635e73b3a0ef7fd80bb646aecceb1",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-25-m5-systems-complete-design.md",
@@ -3421,6 +3535,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "f29db300965721a304524379227bcd881f5601a5cc90f36b284a4dd147ebb71a",
+          "afterSha256": "b92b8e7d445aa7863691fd91307282d27cc635e73b3a0ef7fd80bb646aecceb1"
         }
       ],
       "supersedes": [],
@@ -3440,7 +3560,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "69fc28c6f2c1811b9b3a24682a181be89c40f684d006fc27049a10cea5c22688",
-      "afterSha256": "1a382319faa637d0c98ad6198f296eb474999575075bc65ffc2562fbf4b01c85",
+      "afterSha256": "47a0af32bf5713d2a1b2fb196d2f8f69b761a7ee50edc8e3955470e1698c49ca",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/game-state.ts",
@@ -3952,6 +4072,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "1a382319faa637d0c98ad6198f296eb474999575075bc65ffc2562fbf4b01c85",
+          "afterSha256": "47a0af32bf5713d2a1b2fb196d2f8f69b761a7ee50edc8e3955470e1698c49ca"
         }
       ],
       "supersedes": [],
@@ -3971,7 +4097,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "f2832e78939c971c49078a98c4af7e89eafa2593fb0330866714091d1c916aad",
-      "afterSha256": "54034fe1a28f5b4a687fb1d4eb39fb60dfa736410e64e28599f78a554a4dbb93",
+      "afterSha256": "4527753e22c130069b30c3834c2e04338282a107cc11563b1cf8e14e541902b7",
       "sourceRefs": [
         {
           "path": "packages/pal-extract/src/cli.ts",
@@ -4055,6 +4181,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "54034fe1a28f5b4a687fb1d4eb39fb60dfa736410e64e28599f78a554a4dbb93",
+          "afterSha256": "4527753e22c130069b30c3834c2e04338282a107cc11563b1cf8e14e541902b7"
         }
       ],
       "supersedes": [],
@@ -4074,7 +4206,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "d8a912e1098868e26664a68589206412edc0e15398545fa5f83da4eb944e5c88",
-      "afterSha256": "0980bf2cabbd096205d10c363598e7e6265ae6fb1392a2461cfab8ee0527e6a7",
+      "afterSha256": "bcbb1bf647fe9d1c16acdc485f93f92d4e1e79942126a0c08b0cf4c52e318bb1",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-27-m5-5-sdlpal-audit.md",
@@ -4126,6 +4258,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "0980bf2cabbd096205d10c363598e7e6265ae6fb1392a2461cfab8ee0527e6a7",
+          "afterSha256": "bcbb1bf647fe9d1c16acdc485f93f92d4e1e79942126a0c08b0cf4c52e318bb1"
         }
       ],
       "supersedes": [],
@@ -4145,7 +4283,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "9bd4d7bd5f0f47d0158dc451644f2024d8dc6dea10b209cdf95a34026aba1fae",
-      "afterSha256": "170496add7abab23e2849e4c5347b340d8b3b2304422ffdf78b20707b440d9ae",
+      "afterSha256": "7e045e0df846d761cf5e391467e330c05f41c0a29e8b1dc54fbebcabe73aa27b",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-27-m5-6-playability-design.md",
@@ -4197,6 +4335,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "170496add7abab23e2849e4c5347b340d8b3b2304422ffdf78b20707b440d9ae",
+          "afterSha256": "7e045e0df846d761cf5e391467e330c05f41c0a29e8b1dc54fbebcabe73aa27b"
         }
       ],
       "supersedes": [],
@@ -4216,7 +4360,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "96a62624d8763ad21035aefaab3b081d0360026eb6d34389966ef00b5112c56a",
-      "afterSha256": "33d2765cc4fd5849bc4ce7f1f46be08356a8238393ce58a54fc34937d6d2c4a5",
+      "afterSha256": "83bb400d2a38e6ba515da9bffa35cc5acd7f7e434be13b048ebbb38fec3de155",
       "sourceRefs": [
         {
           "path": "packages/game/src/shell/input.ts",
@@ -4447,6 +4591,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "33d2765cc4fd5849bc4ce7f1f46be08356a8238393ce58a54fc34937d6d2c4a5",
+          "afterSha256": "83bb400d2a38e6ba515da9bffa35cc5acd7f7e434be13b048ebbb38fec3de155"
         }
       ],
       "supersedes": [],
@@ -4466,7 +4616,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "38690783507726aa3ef11b55ff91a830e467a5996ca848c4eedd807e024e7096",
-      "afterSha256": "a2702172935725bfbe1c09c77fca361c2ab7bc8d98d046826dc4cf1bd271a280",
+      "afterSha256": "d54c441c57aee7273ab5986ae8dbae1d7b45b42564041051f890ae4426809847",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/battle/formulas.ts",
@@ -4615,6 +4765,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "a2702172935725bfbe1c09c77fca361c2ab7bc8d98d046826dc4cf1bd271a280",
+          "afterSha256": "d54c441c57aee7273ab5986ae8dbae1d7b45b42564041051f890ae4426809847"
         }
       ],
       "supersedes": [],
@@ -4730,7 +4886,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "06ec22dea6d79a298b59f4c3711f7dcc66ac7aa543a2a924b10a8eb9c6e2f606",
-      "afterSha256": "46639d8d721b5e0ef6d794ed27b7be39ee5bbac33ccb3962b91dace5e9f30f0b",
+      "afterSha256": "f56de79e1cd4c2ba30ceab05a429a025fcba4f5e0a0a7374be8bc6606e9e7a5a",
       "sourceRefs": [
         {
           "path": "packages/game/src/shell/main-loop.ts",
@@ -4782,6 +4938,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "46639d8d721b5e0ef6d794ed27b7be39ee5bbac33ccb3962b91dace5e9f30f0b",
+          "afterSha256": "f56de79e1cd4c2ba30ceab05a429a025fcba4f5e0a0a7374be8bc6606e9e7a5a"
         }
       ],
       "supersedes": [],
@@ -4801,7 +4963,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "0d968e75990474077ccef9b77e21f8b7c6636638770e5b4ed37e2aab556940d6",
-      "afterSha256": "f25eb570605525a312596be540712720cba9bfe67b7c47ff26f09f7f91cb714a",
+      "afterSha256": "c2e6b3a076692ec7d3aa6b33b19001ae52a8719d32053cfff9a04385c7b3e714",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/battle/battle-state.ts",
@@ -4897,6 +5059,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "f25eb570605525a312596be540712720cba9bfe67b7c47ff26f09f7f91cb714a",
+          "afterSha256": "c2e6b3a076692ec7d3aa6b33b19001ae52a8719d32053cfff9a04385c7b3e714"
         }
       ],
       "supersedes": [],
@@ -4916,7 +5084,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "2334c00020011843e2cb4cd7979653b07cfd5918998329a319faa9969624e55d",
-      "afterSha256": "38f006f4d6d50b1e1e5808368549f596434e92c764d7c7e91e5084b95a69690b",
+      "afterSha256": "14501751ad11c9509936beeb7070d4d4a94be38956581d2851b9a7deb02cbd6b",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-31-d-batch2-enemy-ai.md",
@@ -4968,6 +5136,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "38f006f4d6d50b1e1e5808368549f596434e92c764d7c7e91e5084b95a69690b",
+          "afterSha256": "14501751ad11c9509936beeb7070d4d4a94be38956581d2851b9a7deb02cbd6b"
         }
       ],
       "supersedes": [],
@@ -4987,7 +5161,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "c8ef20f2dc9ab2a5135ada4ad2b091d76ac16bbac6e9a4bc45f16efef1203b89",
-      "afterSha256": "b763ff54ce01a2abecf1a6976c9656d2ada3e3c84ad2f2f5741353294d7e75d0",
+      "afterSha256": "237ef0b02307a0a58bde99ea203bcf1d053ff511af319f0173607562d3a140db",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-31-d-batch6-numeric-equip.md",
@@ -5039,6 +5213,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "b763ff54ce01a2abecf1a6976c9656d2ada3e3c84ad2f2f5741353294d7e75d0",
+          "afterSha256": "237ef0b02307a0a58bde99ea203bcf1d053ff511af319f0173607562d3a140db"
         }
       ],
       "supersedes": [],
@@ -5058,7 +5238,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "0fe9f548f6043c8c6e81118074a25b1dc4b289d9e3425473befc61d529ad7f4f",
-      "afterSha256": "57978306d7d0f65131afc5d588ff9f752a3e64f6cdb84205b64050e59ed031c5",
+      "afterSha256": "035ef91a086a943b8e1e435d660cb4250466a37681940798452c257bc9ce8925",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-31-d-series-completion-roadmap.md",
@@ -5110,6 +5290,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "57978306d7d0f65131afc5d588ff9f752a3e64f6cdb84205b64050e59ed031c5",
+          "afterSha256": "035ef91a086a943b8e1e435d660cb4250466a37681940798452c257bc9ce8925"
         }
       ],
       "supersedes": [],
@@ -5129,7 +5315,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "d6cdfbd33a3ccaede59411873aff3e9902ac08c2297e8e746a299fb8f317c40b",
-      "afterSha256": "aa1332c4a22a0002c331817006c357a67894a8ca4b0416a6a45353625eb1ba69",
+      "afterSha256": "9ad325b52dfe228bf25d120d2ea8530085cec9dc3f403cf8fa9d3fa50d0a2367",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-31-poison-and-portrait-color.md",
@@ -5181,6 +5367,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "aa1332c4a22a0002c331817006c357a67894a8ca4b0416a6a45353625eb1ba69",
+          "afterSha256": "9ad325b52dfe228bf25d120d2ea8530085cec9dc3f403cf8fa9d3fa50d0a2367"
         }
       ],
       "supersedes": [],
@@ -5200,7 +5392,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "e5b17e2d48f418636f28f96b4246ad7e4567f1f9bfe63270f610bd2e5bbc801b",
-      "afterSha256": "335305c7b0fbcda5c88d3ad243365005c762e3237c1acf12f61cf5514d4ce801",
+      "afterSha256": "40175d1ead59a01c80e9934a75058894b251cfd38d0938ea485fe54efaf8157e",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/battle/battle-system.ts",
@@ -5300,6 +5492,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "335305c7b0fbcda5c88d3ad243365005c762e3237c1acf12f61cf5514d4ce801",
+          "afterSha256": "40175d1ead59a01c80e9934a75058894b251cfd38d0938ea485fe54efaf8157e"
         }
       ],
       "supersedes": [],
@@ -5319,7 +5517,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "631626a9f460ee18aa43369cb69aaf7540e737ab3f2b6444921e36322885773d",
-      "afterSha256": "00276248d4dc7f3b61e693de475279a7ea863c2a272e1f8e271ff096666a60f0",
+      "afterSha256": "79735b05168c6c2027939169f18750e1fe78a10ab1bef82c4eabb0cdb99c659d",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-06-01-feature-status-audit.md",
@@ -5371,6 +5569,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "00276248d4dc7f3b61e693de475279a7ea863c2a272e1f8e271ff096666a60f0",
+          "afterSha256": "79735b05168c6c2027939169f18750e1fe78a10ab1bef82c4eabb0cdb99c659d"
         }
       ],
       "supersedes": [],
@@ -5390,7 +5594,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "a49e069c3ac85b4e0e5ee1ed8f31958d1ca9be2f96229eda1061017d09230160",
-      "afterSha256": "08fb426ac7cc456d046e2511e123da37b543d3483fae1e5407c032d67caa1086",
+      "afterSha256": "8dd681772fcce05120d62dde0e7eca1d74b611863c7cd9e787cb0798456f117a",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/game-state.ts",
@@ -5482,6 +5686,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "08fb426ac7cc456d046e2511e123da37b543d3483fae1e5407c032d67caa1086",
+          "afterSha256": "8dd681772fcce05120d62dde0e7eca1d74b611863c7cd9e787cb0798456f117a"
         }
       ],
       "supersedes": [],
@@ -5501,7 +5711,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "8a82755a4ab62a922bf158e473b05220a12c02d2af056b7e0827e11f8aafedfe",
-      "afterSha256": "3640ecd8e77f19ce0087a108b8f3b0b4e4bddda7dfe06a882982e142f3fd81c3",
+      "afterSha256": "dd610c5abf733a9855bbb6da83e654710f6cea1cd34a1a657866565128727bb9",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-06-01-remaining-work-plan.md",
@@ -5553,6 +5763,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "3640ecd8e77f19ce0087a108b8f3b0b4e4bddda7dfe06a882982e142f3fd81c3",
+          "afterSha256": "dd610c5abf733a9855bbb6da83e654710f6cea1cd34a1a657866565128727bb9"
         }
       ],
       "supersedes": [],
@@ -5572,7 +5788,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "7ffffc5e6cde1f1d0d437fb58185dfa558e42a3466f27596739e25698ea22592",
-      "afterSha256": "29208d5cd7159e98cf6404d5c8879afeb457263656cf4ab924f45663f5cc5997",
+      "afterSha256": "9404b6a024a81d3e6e26f9e5eb7fed172d0e8a6cb71e05f466d9345a698982d0",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-06-01-sdlpal-feature-surface-audit.md",
@@ -5624,6 +5840,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "29208d5cd7159e98cf6404d5c8879afeb457263656cf4ab924f45663f5cc5997",
+          "afterSha256": "9404b6a024a81d3e6e26f9e5eb7fed172d0e8a6cb71e05f466d9345a698982d0"
         }
       ],
       "supersedes": [],
@@ -5643,7 +5865,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "f5370361515195631fc1274d76d45bf74a163be37c0c806a69e7507dbbfdf568",
-      "afterSha256": "6e2b0b5d77983a34b21824157fb3e45723f262d78ac3cf7d7a29310d86fa6f80",
+      "afterSha256": "cc1c18032b5c1b9fa0c498eba570f080cf6a5bbe98761e93b0f25f6e175782f2",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-06-02-item-audit.md",
@@ -5695,6 +5917,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "6e2b0b5d77983a34b21824157fb3e45723f262d78ac3cf7d7a29310d86fa6f80",
+          "afterSha256": "cc1c18032b5c1b9fa0c498eba570f080cf6a5bbe98761e93b0f25f6e175782f2"
         }
       ],
       "supersedes": [],
@@ -5714,7 +5942,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "ebe68652d716825ef012051b9ce9357f9fceec6ebecde2b9535e53b93bb83165",
-      "afterSha256": "878c39a0a16e19f49f3b299e3c22da9262b58552f46f66d3adc627223ec8eed1",
+      "afterSha256": "3be2c604625821776dcc8263aa53cf64143f4da8ac1e8656218451b4faea3c32",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-06-06-battle-system-current-audit.md",
@@ -5766,6 +5994,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "878c39a0a16e19f49f3b299e3c22da9262b58552f46f66d3adc627223ec8eed1",
+          "afterSha256": "3be2c604625821776dcc8263aa53cf64143f4da8ac1e8656218451b4faea3c32"
         }
       ],
       "supersedes": [],
@@ -5785,7 +6019,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "eb548e4b6202fe666816fc4ee6cb074ab8909fb064fb55198d4badeaefd8f414",
-      "afterSha256": "c7a97a152557a9824d2b9883400e5a34912c64ee5cbc68adbdb37e5258a66241",
+      "afterSha256": "bccc9e151ff3fca2388783af1a5dc4444d923e4cfa9179608ac3e71b728c0226",
       "sourceRefs": [
         {
           "path": "packages/game/src/shell/bootstrap.ts",
@@ -6414,6 +6648,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "c7a97a152557a9824d2b9883400e5a34912c64ee5cbc68adbdb37e5258a66241",
+          "afterSha256": "bccc9e151ff3fca2388783af1a5dc4444d923e4cfa9179608ac3e71b728c0226"
         }
       ],
       "supersedes": [],
@@ -6433,7 +6673,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "4d947c9c9b3c14dabc585beb1f32db26dced4ff07cba6970d1e4641be2411f1b",
-      "afterSha256": "36ab07f61707eea49a085eaa3589aaca2a9df6fd2b8b4266862ce6628cdc6c64",
+      "afterSha256": "c8022e6be917f22c681a532f94a8de05210544a55d7f2eb62015fe7aa20b06cf",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-06-10-sdlpal-deep-audit.md",
@@ -6485,6 +6725,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "36ab07f61707eea49a085eaa3589aaca2a9df6fd2b8b4266862ce6628cdc6c64",
+          "afterSha256": "c8022e6be917f22c681a532f94a8de05210544a55d7f2eb62015fe7aa20b06cf"
         }
       ],
       "supersedes": [],
@@ -6504,7 +6750,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "a296220f590610c7906cb363fde2ad92c1ce6235378610be360a7f9cc50482cd",
-      "afterSha256": "fd9f19b8fbefc568192b064f4327e11c93b4bbecb5bb2149af462d1f99edd0c7",
+      "afterSha256": "15b0578884424943cf27112864e1c7d10288d9073ce4d326401ed87c7c5d2d18",
       "sourceRefs": [
         {
           "path": "packages/game/src/main.ts",
@@ -6567,6 +6813,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "fd9f19b8fbefc568192b064f4327e11c93b4bbecb5bb2149af462d1f99edd0c7",
+          "afterSha256": "15b0578884424943cf27112864e1c7d10288d9073ce4d326401ed87c7c5d2d18"
         }
       ],
       "supersedes": [],
@@ -6586,7 +6838,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "abe15bfdfb745ca63533cd3c9b45bf9bdf57deb5cb7dd26c7ab5cf5b1c54d6ae",
-      "afterSha256": "37d822660dd7e6905d5758ba804048880c8f468ec037ea473f87526b70b05a53",
+      "afterSha256": "fb87a27082e4b6d40389f7de3efe621b6a1f5b58eb2d3105428c21c5cc420976",
       "sourceRefs": [
         {
           "path": "packages/game/src/shell/fetch-retry.ts",
@@ -6744,6 +6996,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "37d822660dd7e6905d5758ba804048880c8f468ec037ea473f87526b70b05a53",
+          "afterSha256": "fb87a27082e4b6d40389f7de3efe621b6a1f5b58eb2d3105428c21c5cc420976"
         }
       ],
       "supersedes": [],
@@ -6763,7 +7021,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "48be7fcb7d43db926b8f731cddf3196f19e42ea4b68740f7031612c2f7b4657e",
-      "afterSha256": "e0f93350e3ad84073fa02a270cce26664ea3e5520864ef539b8d6b1384ea5f0f",
+      "afterSha256": "fe9084b2476257e0952ef2054def088d9c84e52f47307f8c03013adfd7dc3154",
       "sourceRefs": [
         {
           "path": "packages/game/src/dev/dev-panel.ts",
@@ -6954,6 +7212,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "e0f93350e3ad84073fa02a270cce26664ea3e5520864ef539b8d6b1384ea5f0f",
+          "afterSha256": "fe9084b2476257e0952ef2054def088d9c84e52f47307f8c03013adfd7dc3154"
         }
       ],
       "supersedes": [],
@@ -6973,7 +7237,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "bc41ff609083cd6ddca46fbb29a0be8ef6452959adc6e2301036b0e25cd4b294",
-      "afterSha256": "98982f79f767c2d57d72fae4c319433691869fb488ebf75961c331c0fc7320e1",
+      "afterSha256": "32e22ce5759553a59e77e8231e61030e928f422cb15ae03e77e5619c2dd26c7f",
       "sourceRefs": [
         {
           "path": "packages/game/src/shell/precache-ui.ts",
@@ -7108,6 +7372,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "98982f79f767c2d57d72fae4c319433691869fb488ebf75961c331c0fc7320e1",
+          "afterSha256": "32e22ce5759553a59e77e8231e61030e928f422cb15ae03e77e5619c2dd26c7f"
         }
       ],
       "supersedes": [],
@@ -7127,7 +7397,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "0b4d47ebd7d6c349f106f2843667c4a23e9f6fe8357665314eddbd84d5975e99",
-      "afterSha256": "e967dda52f5e9eb85bea32c92ef63d940576d5195b4feca1b8d575a6c81e2a13",
+      "afterSha256": "edc7ab798f27dea5ad07514eea6529c14d0f914faee9f45a0b6c9d5cc84cbea1",
       "sourceRefs": [
         {
           "path": "packages/game/src/main.ts",
@@ -7219,6 +7489,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "e967dda52f5e9eb85bea32c92ef63d940576d5195b4feca1b8d575a6c81e2a13",
+          "afterSha256": "edc7ab798f27dea5ad07514eea6529c14d0f914faee9f45a0b6c9d5cc84cbea1"
         }
       ],
       "supersedes": [],
@@ -7238,7 +7514,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "6fd7bb18d3887867288e0e37b7d2fa6349e28e0b90bc8cabc52b9cd2e4f00d28",
-      "afterSha256": "319e152a0ea0aab091b33be44b4c139f0d65589f50061851030b082cc08d6e8c",
+      "afterSha256": "e3cc2a3da54eb1afc31716c011d019de6240519f3bb438b9b408d26223b6ec84",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-06-18-speedrun-timer-design.md",
@@ -7290,6 +7566,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "319e152a0ea0aab091b33be44b4c139f0d65589f50061851030b082cc08d6e8c",
+          "afterSha256": "e3cc2a3da54eb1afc31716c011d019de6240519f3bb438b9b408d26223b6ec84"
         }
       ],
       "supersedes": [],
@@ -7309,7 +7591,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "49c2c20b5a2a5723b27e5bb2b5274d8e908c35287e581593f69c161d6d1328d8",
-      "afterSha256": "5e649bf286aa6f72814a4b2dae4212dbd1c78f70a2976f5af099114e53445298",
+      "afterSha256": "0a37ec0a49d9c8d149556d404692beb83a16b43c25c3caad020a84b06938080d",
       "sourceRefs": [
         {
           "path": "packages/game/src/tools/speedrun/time-format.ts",
@@ -7558,6 +7840,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "5e649bf286aa6f72814a4b2dae4212dbd1c78f70a2976f5af099114e53445298",
+          "afterSha256": "0a37ec0a49d9c8d149556d404692beb83a16b43c25c3caad020a84b06938080d"
         }
       ],
       "supersedes": [],
@@ -7577,7 +7865,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "ade58414e9128ba82dc65beaba7497d70bf4875dbbea83e6503f0953aef19d91",
-      "afterSha256": "1d400ad25f0dd7b05226b4e45b9b450fb9b0ffff5c713ac17cdb16eb79b2e2df",
+      "afterSha256": "b750fd5f3fe8890f087a47cff6652553d7f20c5dca6503a48d07b06e383485c1",
       "sourceRefs": [
         {
           "path": "packages/pal-extract/src/io/rle.ts",
@@ -7661,6 +7949,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "1d400ad25f0dd7b05226b4e45b9b450fb9b0ffff5c713ac17cdb16eb79b2e2df",
+          "afterSha256": "b750fd5f3fe8890f087a47cff6652553d7f20c5dca6503a48d07b06e383485c1"
         }
       ],
       "supersedes": [],
@@ -7680,7 +7974,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "6647b1a1eb72b3eef34c56505835b9e04f273d381cf169a802d249d4df191c82",
-      "afterSha256": "1b282ed34822d329647d8167b05363e88d88fca146369456760c7e6867771f20",
+      "afterSha256": "63d372503d55e0405bfd7e24847ae630e78f23de272810accc1d2d68c4e29cb9",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/README.md",
@@ -7729,6 +8023,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "1b282ed34822d329647d8167b05363e88d88fca146369456760c7e6867771f20",
+          "afterSha256": "63d372503d55e0405bfd7e24847ae630e78f23de272810accc1d2d68c4e29cb9"
         }
       ],
       "supersedes": [],
@@ -7748,7 +8048,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "1bc2f3b578845ad1d937c37749303a8742f40c0a09e1b8605c657d00370120ae",
-      "afterSha256": "98787ab9406278533cd7ee556c84624233abb45ff5936e78d29ff7ffa9a31e5f",
+      "afterSha256": "4991bfc6474256501a58435be44b9812e1635d72acbb10254b0f2ecc25230ead",
       "sourceRefs": [
         {
           "path": "docs/phase1/README.md",
@@ -7797,6 +8097,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "98787ab9406278533cd7ee556c84624233abb45ff5936e78d29ff7ffa9a31e5f",
+          "afterSha256": "4991bfc6474256501a58435be44b9812e1635d72acbb10254b0f2ecc25230ead"
         }
       ],
       "supersedes": [],
@@ -7816,7 +8122,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "01fcf70b015aa3c0f873e910873c89a95e35f859afa08a40d784a0a188c51b81",
-      "afterSha256": "1d883589684306f1737a50a54f20858a377c04fc080159cdb47df9284c7a1214",
+      "afterSha256": "0027eb5bdbb1319c1ed0240bc2a0c508aebfaaaba61ebc5476c8d4c0f8e8f403",
       "sourceRefs": [
         {
           "path": "docs/phase1/sdlpal-runbook.md",
@@ -7865,6 +8171,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "1d883589684306f1737a50a54f20858a377c04fc080159cdb47df9284c7a1214",
+          "afterSha256": "0027eb5bdbb1319c1ed0240bc2a0c508aebfaaaba61ebc5476c8d4c0f8e8f403"
         }
       ],
       "supersedes": [],
@@ -7884,7 +8196,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "ca3fe616dc370fc1b2c2cdf0485e1c716ee17bd2acf34eac5f3a9cec1795dced",
-      "afterSha256": "eff3bf7b200abde1fec2d1e24c98678d899e8bbe6af133e09531286c400ac3b0",
+      "afterSha256": "3e9e09bfb96950e2f0a594304132ffbd6c05b3604718e52bdbf7b98fd5b179d1",
       "sourceRefs": [
         {
           "path": "docs/phase1/status/cutscene-status.md",
@@ -7936,6 +8248,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "eff3bf7b200abde1fec2d1e24c98678d899e8bbe6af133e09531286c400ac3b0",
+          "afterSha256": "3e9e09bfb96950e2f0a594304132ffbd6c05b3604718e52bdbf7b98fd5b179d1"
         }
       ],
       "supersedes": [],
@@ -7955,7 +8273,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "ee1e7d657967e2f4efd76b1929c1f4853ed9c64a2c1fd601b6965bcb400a292f",
-      "afterSha256": "f1af27116414c9eb6e99bca8505e9efb9f1c3a1766a49da832bc97d2032da5db",
+      "afterSha256": "9621210e9b5811ef6dfaf33d1a28e969258c79477648b5e5d4e4182040f4510b",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/event-system.test.ts",
@@ -8027,6 +8345,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "f1af27116414c9eb6e99bca8505e9efb9f1c3a1766a49da832bc97d2032da5db",
+          "afterSha256": "9621210e9b5811ef6dfaf33d1a28e969258c79477648b5e5d4e4182040f4510b"
         }
       ],
       "supersedes": [],
@@ -8046,7 +8370,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "218be9bc33204981b3a5b1e4dcb2706e402f438c4e905435ae70fc0344f2acde",
-      "afterSha256": "1b1df64e8b83508ae53771c2aeee729095682d6645168e05e267302115d03bb8",
+      "afterSha256": "3ecadaf38de486d7b31f0462ba6a0cbb6df7e94e45c94d078757e22b32d8d1c7",
       "sourceRefs": [
         {
           "path": "docs/phase1/status/item-status.md",
@@ -8095,6 +8419,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "1b1df64e8b83508ae53771c2aeee729095682d6645168e05e267302115d03bb8",
+          "afterSha256": "3ecadaf38de486d7b31f0462ba6a0cbb6df7e94e45c94d078757e22b32d8d1c7"
         }
       ],
       "supersedes": [],
@@ -8114,7 +8444,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "1ab501c07865c01b8b6567caefcc969f54b57d284230be17517f99a29e738b8a",
-      "afterSha256": "3b5b5ff1da6632482cca67133989bf4c8e0690b84bc13f809a22787755052c28",
+      "afterSha256": "ef8d4763c41cfa2390e0f106aa0550fbab70c8b219f0f113de1f0ebd011c81ff",
       "sourceRefs": [
         {
           "path": "docs/phase1/status/magic-status.md",
@@ -8163,6 +8493,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "3b5b5ff1da6632482cca67133989bf4c8e0690b84bc13f809a22787755052c28",
+          "afterSha256": "ef8d4763c41cfa2390e0f106aa0550fbab70c8b219f0f113de1f0ebd011c81ff"
         }
       ],
       "supersedes": [],
@@ -8182,7 +8518,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "40f9a7bb9fff42026744d09e8546d63f4930be9ea85703bd8ee454ce70255b1b",
-      "afterSha256": "63629febae20c781a89bf4eb73b9ed15cbee2cb8a627ac126fad2a747696a21e",
+      "afterSha256": "a987ecd80b31adc4581cfe386f7c440382163e9a4b8d95c84ac34b68c9cb8c8c",
       "sourceRefs": [
         {
           "path": "docs/phase1/status/opcode-status.md",
@@ -8234,6 +8570,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "63629febae20c781a89bf4eb73b9ed15cbee2cb8a627ac126fad2a747696a21e",
+          "afterSha256": "a987ecd80b31adc4581cfe386f7c440382163e9a4b8d95c84ac34b68c9cb8c8c"
         }
       ],
       "supersedes": [],
@@ -8253,7 +8595,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "2dc16fcb09bb80cceca8708bd129052ba51778e29cfa91037fbb61d87d8254cd",
-      "afterSha256": "3b780e2f52b65e841ab65313ff0be359c1f58071c12066bb57af7478edb746a6",
+      "afterSha256": "893b6a2ee4f5737ef28b3d0ef19475e5193182c2c35c0915f95405f68b4335e6",
       "sourceRefs": [
         {
           "path": "docs/phase1/status/README.md",
@@ -8302,6 +8644,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "3b780e2f52b65e841ab65313ff0be359c1f58071c12066bb57af7478edb746a6",
+          "afterSha256": "893b6a2ee4f5737ef28b3d0ef19475e5193182c2c35c0915f95405f68b4335e6"
         }
       ],
       "supersedes": [],
@@ -8321,7 +8669,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "24ab703da109eef6c4b3069910d6b6c9f78ac15a166ec5412ecfbbb68b14a32e",
-      "afterSha256": "71762b5badd18f9c48436a0aa4b5f7dcb506b485b3bbe4810c5b8771b9d29974",
+      "afterSha256": "1bf0851ce68fc4b5c4618228cf82b21d1c16e521f851a4ca5488c4efb4c087bc",
       "sourceRefs": [
         {
           "path": "packages/pal-extract/src/cli.ts",
@@ -8370,6 +8718,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "71762b5badd18f9c48436a0aa4b5f7dcb506b485b3bbe4810c5b8771b9d29974",
+          "afterSha256": "1bf0851ce68fc4b5c4618228cf82b21d1c16e521f851a4ca5488c4efb4c087bc"
         }
       ],
       "supersedes": [],

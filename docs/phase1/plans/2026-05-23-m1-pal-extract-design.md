@@ -33,7 +33,7 @@ Template: plan-status-v1 / 1.0.0
 
 ## 下一步
 
-- 后继入口：M；1； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；e；x；t；r；a；c；t；i；o；n； ；c；o；d；e；/；s；t；a；t；u；s；;； ；r；e；s；o；l；v；e； ；h；i；s；t；o；r；i；c；a；l； ；o；p；c；o；d；e； ；m；i；l；e；s；t；o；n；e； ；c；o；n；f；l；i；c；t； ；f；r；o；m； ；c；u；r；r；e；n；t； ；d；e；c；i；s；i；o；n；s；.。
+- 后继入口：M1 implementation plan and current extraction code/status; resolve historical opcode milestone conflict from current decisions.。
 - 若重新执行须新 task card、当前 source/oracle 和独立验收。
 
 ## 历史范围
@@ -60,7 +60,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- M；1； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；e；x；t；r；a；c；t；i；o；n； ；c；o；d；e；/；s；t；a；t；u；s；;； ；r；e；s；o；l；v；e； ；h；i；s；t；o；r；i；c；a；l； ；o；p；c；o；d；e； ；m；i；l；e；s；t；o；n；e； ；c；o；n；f；l；i；c；t； ；f；r；o；m； ；c；u；r；r；e；n；t； ；d；e；c；i；s；i；o；n；s；.。
+- M1 implementation plan and current extraction code/status; resolve historical opcode milestone conflict from current decisions.。
 - 当前事实由继任规范、代码和新的 review 决定。
 
 ## 原文保全

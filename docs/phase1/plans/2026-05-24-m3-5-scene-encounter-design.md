@@ -35,7 +35,7 @@ Template: plan-status-v1 / 1.0.0
 
 ## 下一步
 
-- 后继入口：M；3；.；5； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；p；l；u；s； ；c；u；r；r；e；n；t； ；s；c；e；n；e；/；b；a；t；t；l；e； ；c；o；d；e；;； ；B；-；r；o；u；t；e； ；d；e；v； ；s；h；o；r；t；c；u；t； ；i；s； ；n；o；t； ；a； ；c；u；r；r；e；n；t； ；s；t；o；r；y； ；c；o；n；t；r；a；c；t；.。
+- 后继入口：M3.5 implementation plan plus current scene/battle code; B-route dev shortcut is not a current story contract.。
 - 若重新执行须新 task card、当前 source/oracle 和独立验收。
 
 ## 历史范围
@@ -64,7 +64,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- M；3；.；5； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；p；l；u；s； ；c；u；r；r；e；n；t； ；s；c；e；n；e；/；b；a；t；t；l；e； ；c；o；d；e；;； ；B；-；r；o；u；t；e； ；d；e；v； ；s；h；o；r；t；c；u；t； ；i；s； ；n；o；t； ；a； ；c；u；r；r；e；n；t； ；s；t；o；r；y； ；c；o；n；t；r；a；c；t；.。
+- M3.5 implementation plan plus current scene/battle code; B-route dev shortcut is not a current story contract.。
 - 当前事实由继任规范、代码和新的 review 决定。
 
 ## 原文保全

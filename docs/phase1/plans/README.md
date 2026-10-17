@@ -22,7 +22,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 入口与责任
 
-- 后继入口：C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；R；E；A；D；M；E；/；s；t；a；t；u；s； ；i；n；d；e；x；e；s；;； ；n；a；v；i；g；a；t；i；o；n； ；o；n；l；y；.
+- 后继入口：Current phase1 README/status indexes; navigation only.
 
 ## 证据与下一步
 
@@ -51,7 +51,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；R；E；A；D；M；E；/；s；t；a；t；u；s； ；i；n；d；e；x；e；s；;； ；n；a；v；i；g；a；t；i；o；n； ；o；n；l；y；.。
+- Current phase1 README/status indexes; navigation only.。
 - 当前事实由继任规范、代码和新的 review 决定。
 
 ## 原文保全

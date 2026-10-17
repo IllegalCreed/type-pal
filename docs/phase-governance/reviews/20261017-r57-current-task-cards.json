@@ -7,23 +7,24 @@
   "entries": [
     {
       "path": "docs/ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R57 current task-card migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "E2E-005-1 买虾出门与香兰报信：current task card with status review; goal, scope, premise, owner, evidence and unresolved boundaries remain explicit.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md:1",
         "docs/ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md:20",
         "docs/ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md:73"
       ],
       "unresolved": [
-        "技术交付已有独立核验，但用户观感、当前脚本/内容版本与后续剧情边界仍需按卡复核；本卡不能把 005 技术回执外推为 006 或全剧情通过。"
+        "技术交付已有独立核验，但用户观感、当前脚本/内容版本与后续剧情边界仍需按卡复核；本卡不能把 005 技术回执外推为 006 或全剧情通过。",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "沿当前 task card/board、fresh evidence 与独立验收闭合；本批不推进状态。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "tasks",
       "capability": "e2e-005-1",
@@ -160,27 +161,36 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r57-current-task-cards.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R57 current task-card migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "E2E-006-1 — 回客栈求药与张四出海上仙灵岛：current task card with status rework; goal, scope, premise, owner, evidence and unresolved boundaries remain explicit.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:1",
         "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:23",
         "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md:77"
       ],
       "unresolved": [
-        "当前卡已明确 rework：链路和船队数学有证，但关键 NPC 状态/位置/朝向日志、第一阶段顺序对比和用户指出的视觉问题未闭合，不能标 done。"
+        "当前卡已明确 rework：链路和船队数学有证，但关键 NPC 状态/位置/朝向日志、第一阶段顺序对比和用户指出的视觉问题未闭合，不能标 done。",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "沿当前 task card/board、fresh evidence 与独立验收闭合；本批不推进状态。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "tasks",
       "capability": "e2e-006-1",
@@ -319,27 +329,36 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r57-current-task-cards.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R57 current task-card migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "E2E-R4-1 — 路线驱动与合法检查点薄基线：current task card with status build; goal, scope, premise, owner, evidence and unresolved boundaries remain explicit.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md:1",
         "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md:8",
         "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md:139"
       ],
       "unresolved": [
-        "当前仍 build：完整 Q1/Q2、异常监督清理、capture/录像音轨和后续剧情未完成；正常 case 通过不等于监督机制、视觉或全剧情完成。"
+        "当前仍 build：完整 Q1/Q2、异常监督清理、capture/录像音轨和后续剧情未完成；正常 case 通过不等于监督机制、视觉或全剧情完成。",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "沿当前 task card/board、fresh evidence 与独立验收闭合；本批不推进状态。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "tasks",
       "capability": "e2e-r4-1",
@@ -478,27 +497,36 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r57-current-task-cards.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/tasks/REFORGE-OPENING-LOAD-ERROR-1.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R57 current task-card migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝：current task card with status draft; goal, scope, premise, owner, evidence and unresolved boundaries remain explicit.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/ops/tasks/REFORGE-OPENING-LOAD-ERROR-1.md:1",
         "docs/ops/tasks/REFORGE-OPENING-LOAD-ERROR-1.md:11",
         "docs/ops/tasks/REFORGE-OPENING-LOAD-ERROR-1.md:21"
       ],
       "unresolved": [
-        "当前仍 draft、无产品 build 准入；旧诊断只证明当时合法输入下的悬空拒绝观察，未在最新 main 重新运行，也没有得到错误呈现/重试/接口取舍授权。"
+        "当前仍 draft、无产品 build 准入；旧诊断只证明当时合法输入下的悬空拒绝观察，未在最新 main 重新运行，也没有得到错误呈现/重试/接口取舍授权。",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "沿当前 task card/board、fresh evidence 与独立验收闭合；本批不推进状态。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "tasks",
       "capability": "reforge-opening-load-error-1",
@@ -635,27 +663,36 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r57-current-task-cards.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R57 current task-card migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "SCRIPT-AUTHOR-2 — 客栈脚本语义命名与坐标走位：current task card with status build; goal, scope, premise, owner, evidence and unresolved boundaries remain explicit.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/ops/tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md:1",
         "docs/ops/tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md:34",
         "docs/ops/tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md:75"
       ],
       "unresolved": [
-        "本卡明确全工程命名尚未完成，跨方案选择和 E2E 命名观感仍有边界；不能以客栈批次完成宣称全局脚本治理 done。"
+        "本卡明确全工程命名尚未完成，跨方案选择和 E2E 命名观感仍有边界；不能以客栈批次完成宣称全局脚本治理 done。",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "沿当前 task card/board、fresh evidence 与独立验收闭合；本批不推进状态。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "tasks",
       "capability": "script-author-2",
@@ -794,27 +831,36 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r57-current-task-cards.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R57 current task-card migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TEST-GLM-GAME-TURN-BOUNDARIES-1 — battle turn and finalization contracts：current task card with status rework; goal, scope, premise, owner, evidence and unresolved boundaries remain explicit.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md:1",
         "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md:11",
         "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md:44"
       ],
       "unresolved": [
-        "当前 rework：原始 mutation raw/JSON、合法物品输入、同回合前序可达性和完整执行身份仍缺；既有全绿、15 针计数和历史 accept 已撤回，不能标 done。"
+        "当前 rework：原始 mutation raw/JSON、合法物品输入、同回合前序可达性和完整执行身份仍缺；既有全绿、15 针计数和历史 accept 已撤回，不能标 done。",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "沿当前 task card/board、fresh evidence 与独立验收闭合；本批不推进状态。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "tasks",
       "capability": "test-glm-game-turn-boundaries-1",
@@ -953,7 +999,21 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r57-current-task-cards.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     }
-  ]
+  ],
+  "currentCorrection": {
+    "date": "2026-10-18",
+    "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  }
 }

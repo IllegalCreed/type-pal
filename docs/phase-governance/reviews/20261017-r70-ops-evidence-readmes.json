@@ -7,19 +7,20 @@
   "entries": [
     {
       "path": "docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/dedup-ledger.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R70 evidence migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TEST-REFORGE-OPENING-IO-LIFECYCLE-1 排重账（GLM r2）：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/evidence/TEST-REFORGE-OPENING-IO-LIFECYCLE-1/dedup-ledger.md:1"],
       "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse."
+        "Historical evidence requires current consumer and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "evidence",
       "capability": "TEST-REFORGE-OPENING-IO-LIFECYCLE-1 排重账（GLM r2）",
@@ -138,23 +139,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r70-ops-evidence-readmes.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R70 evidence migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1 证据目录：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/evidence/TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1/README.md:1"],
       "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse."
+        "Historical evidence requires current consumer and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "evidence",
       "capability": "TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1 证据目录",
@@ -273,23 +283,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r70-ops-evidence-readmes.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/evidence/game-rix-music-1/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R70 evidence migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "GAME-RIX-MUSIC-1 验证证据：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/evidence/game-rix-music-1/README.md:1"],
       "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse."
+        "Historical evidence requires current consumer and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "evidence",
       "capability": "GAME-RIX-MUSIC-1 验证证据",
@@ -408,23 +427,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r70-ops-evidence-readmes.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/evidence/game-rix-music-1/tools-style-audit.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R70 evidence migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "第一阶段工具面板：控件规范与复核（2026-10-15）：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/evidence/game-rix-music-1/tools-style-audit.md:1"],
       "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse."
+        "Historical evidence requires current consumer and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "evidence",
       "capability": "第一阶段工具面板：控件规范与复核（2026-10-15）",
@@ -543,23 +571,32 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r70-ops-evidence-readmes.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/evidence/game-rng-scene-restore-1/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R70 evidence migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "酒剑仙传功后场景恢复证据：historical ops evidence receipt; original facts, test boundaries and no-execution limits remain date-scoped.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/evidence/game-rng-scene-restore-1/README.md:1"],
       "unresolved": [
-        "Historical evidence requires current consumer and fresh receipt before reuse."
+        "Historical evidence requires current consumer and fresh receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并以当前 task card、consumer 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "evidence",
       "capability": "酒剑仙传功后场景恢复证据",
@@ -678,7 +715,21 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r70-ops-evidence-readmes.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     }
-  ]
+  ],
+  "currentCorrection": {
+    "date": "2026-10-18",
+    "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  }
 }

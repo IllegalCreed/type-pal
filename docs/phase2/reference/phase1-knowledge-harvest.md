@@ -67,7 +67,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；p；h；a；s；e；2；/；l；o；r；e； ；c；a；n；o；n；i；c；a；l； ；d；o；c；s；,； ；c；o；d；e；,； ；t；e；s；t；s； ；a；n；d； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.。
+- Current phase2/lore canonical docs, code, tests and fresh primary-source review.。
 - 当前事实由继任规范、代码、测试和新的 review 决定。
 
 ## 原文保全

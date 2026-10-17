@@ -53,7 +53,7 @@
         }
       ],
       "sourceSha256": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff",
-      "afterSha256": "ed5c0180cc2881fc99ca5449ed6aa406f32b3d90549a2eeefe385d7c47cf5523",
+      "afterSha256": "32cca7269bfe2f0f266a9f1f0c0b048218180f3ac2a4e0bca745f8a4ef972197",
       "publicCallers": ["lore navigation", "DLC-01 content planning"],
       "legalInputs": [
         "docs/lore/ideas/guijie/beat-sheet.md",
@@ -190,7 +190,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "ed5c0180cc2881fc99ca5449ed6aa406f32b3d90549a2eeefe385d7c47cf5523",
+        "afterSha256": "32cca7269bfe2f0f266a9f1f0c0b048218180f3ac2a4e0bca745f8a4ef972197",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/lore/ideas/guijie/brainstorm.md",
@@ -236,7 +244,7 @@
         }
       ],
       "sourceSha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
-      "afterSha256": "1b788487f31cf5b710420fc49456ab6e45a0d166b9eafb3eb08a5d5a94a23584",
+      "afterSha256": "4f2239c0ce792bb58cae858550227fe6614dbe65cbcdcb99361a7c1e637f2e58",
       "publicCallers": ["lore navigation", "DLC-01 design history"],
       "legalInputs": [
         "docs/lore/ideas/guijie/brainstorm.md",
@@ -358,7 +366,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "1b788487f31cf5b710420fc49456ab6e45a0d166b9eafb3eb08a5d5a94a23584",
+        "afterSha256": "4f2239c0ce792bb58cae858550227fe6614dbe65cbcdcb99361a7c1e637f2e58",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/lore/timeline.md",
@@ -401,7 +417,7 @@
         }
       ],
       "sourceSha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
-      "afterSha256": "c1f91f188644ab7f63c1e65732aafc48186bedbd9f40fb16ce35487a91e4c1a7",
+      "afterSha256": "67c549f74563aa7fa09ee5c1eaf67c33154c420dc2299e41a80b0e149b7be5c7",
       "publicCallers": ["docs navigation"],
       "legalInputs": ["current repository documentation", "docs/lore/timeline.md"],
       "businessOracle": {
@@ -585,7 +601,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "c1f91f188644ab7f63c1e65732aafc48186bedbd9f40fb16ce35487a91e4c1a7",
+        "afterSha256": "67c549f74563aa7fa09ee5c1eaf67c33154c420dc2299e41a80b0e149b7be5c7",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase2/archive/mockups/actor-mode-v1.html",
@@ -1111,7 +1135,7 @@
         }
       ],
       "sourceSha256": "b0c23417830e4e871249f2ac839cff7897136272d3a900fcce5f017b90d80702",
-      "afterSha256": "abdb0af02c0132071e9d5602a31dcbd10450ead72847c01fbc63669389fcef92",
+      "afterSha256": "8de8e8f1eb3ddf6eb253eb54e1747c5484fa25f65407222ebff1beabd70c262d",
       "publicCallers": [
         "docs/phase2/capability-map.md → ../ops/archive/tasks/done/SAVE-AUTO-CHECKPOINT-1-background-script-snapshots.md",
         "docs/phase2/capability-map.md → ../ops/archive/tasks/done/OPS-MAP-3-current-truth-reconciliation.md",
@@ -1300,7 +1324,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "abdb0af02c0132071e9d5602a31dcbd10450ead72847c01fbc63669389fcef92",
+        "afterSha256": "8de8e8f1eb3ddf6eb253eb54e1747c5484fa25f65407222ebff1beabd70c262d",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase2/decisions.md",
@@ -1359,7 +1391,7 @@
         }
       ],
       "sourceSha256": "b981d3883174306a6483bfdf6cd19a587bf356720bbc9d505c0ed2d3378703e0",
-      "afterSha256": "6696f1cad835e5d0f792ef5b7e43779b2c6dc8faa7b2a71333764ee6af00d013",
+      "afterSha256": "459c18840a7621f29347ec7a72f03a75ec3d28e232b1dd64dc929fd4ea4adc7e",
       "publicCallers": [
         "docs/phase2/decisions.md → design-backlog.md",
         "docs/phase2/decisions.md → roadmap.md",
@@ -1508,7 +1540,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "6696f1cad835e5d0f792ef5b7e43779b2c6dc8faa7b2a71333764ee6af00d013",
+        "afterSha256": "459c18840a7621f29347ec7a72f03a75ec3d28e232b1dd64dc929fd4ea4adc7e",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase2/design-backlog.md",
@@ -1564,7 +1604,7 @@
         }
       ],
       "sourceSha256": "49838c395ace5b7501a389d8aeab0b13454c0a169c98bfec23b6ab027270c8ae",
-      "afterSha256": "21a0692015ec3202611b1c1eb61a1aa08108f73d27f41431444b7391811168d2",
+      "afterSha256": "40eecdfcbde1fcafde7b5a88dd26fa39114c9e5b52254a64696f25c126ec18a5",
       "publicCallers": [
         "docs/phase2/design-backlog.md → roadmap.md",
         "docs/phase2/design-backlog.md → READ-FIRST.md",
@@ -1698,7 +1738,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "21a0692015ec3202611b1c1eb61a1aa08108f73d27f41431444b7391811168d2",
+        "afterSha256": "40eecdfcbde1fcafde7b5a88dd26fa39114c9e5b52254a64696f25c126ec18a5",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase2/READ-FIRST.md",
@@ -1738,7 +1786,7 @@
         }
       ],
       "sourceSha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
-      "afterSha256": "405dde555f59c1dac41cf043bdd58571d06197ca4bc21c6440326fb555974429",
+      "afterSha256": "25afb5f4d2d72878ab23985413f579b4552b987fc6a8f67866bb725cd4e3e1e6",
       "publicCallers": [
         "docs/phase2/READ-FIRST.md → roadmap.md",
         "docs/phase2/READ-FIRST.md → decisions.md",
@@ -1894,7 +1942,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "405dde555f59c1dac41cf043bdd58571d06197ca4bc21c6440326fb555974429",
+        "afterSha256": "25afb5f4d2d72878ab23985413f579b4552b987fc6a8f67866bb725cd4e3e1e6",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase2/reference/dialogue-presentation.md",
@@ -1950,7 +2006,7 @@
         }
       ],
       "sourceSha256": "b493813d09a14f76fdee1b38c0dc754fa1b13c5cbdf9ae7bd70f1ac342baf920",
-      "afterSha256": "2936b4364b8883e1d1a57c4afffeb030de15111c994e1bee06272ed5ccb0e254",
+      "afterSha256": "e22c0b6c0e0997621f894d8d5cab4e7d292d477b1dfdcf68586605f832de7587",
       "publicCallers": [
         "docs/phase2/reference/dialogue-presentation.md → ../design-backlog.md",
         "docs/phase2/reference/dialogue-presentation.md → ../archive/designs/visual-design.md"
@@ -2073,7 +2129,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "2936b4364b8883e1d1a57c4afffeb030de15111c994e1bee06272ed5ccb0e254",
+        "afterSha256": "e22c0b6c0e0997621f894d8d5cab4e7d292d477b1dfdcf68586605f832de7587",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase2/reference/phase1-knowledge-harvest.md",
@@ -2134,7 +2198,7 @@
         }
       ],
       "sourceSha256": "b655054bfb6cb95ea0d3fdface86bf81d6d0f1b97a99a37e49c9d01f28c269b4",
-      "afterSha256": "48492d17d73510284c7d82a095bdbc38495f1176ecedc53d8b3f5926aeba7f3b",
+      "afterSha256": "2f74504006b2669420cad809f7d17c9ba37ae71cbbff2e5e573c5e3ee5ce09d9",
       "publicCallers": [
         "docs/phase2/reference/phase1-knowledge-harvest.md → ../../phase1/game-mechanics.md",
         "docs/phase2/reference/phase1-knowledge-harvest.md → ../archive/audits/battle-presentation-audit-2026-07-05.md",
@@ -2320,7 +2384,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "48492d17d73510284c7d82a095bdbc38495f1176ecedc53d8b3f5926aeba7f3b",
+        "afterSha256": "2f74504006b2669420cad809f7d17c9ba37ae71cbbff2e5e573c5e3ee5ce09d9",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase2/roadmap.md",
@@ -2375,7 +2447,7 @@
         }
       ],
       "sourceSha256": "2a488824a2dcc6195c76c31a691c2db691eac99c6bfdd6d0a2e2b72562ed43b5",
-      "afterSha256": "be94e0b9d1b15612b81eb0f7fc017d52b4777bbeb83a7d0fa49c7efab442e2ca",
+      "afterSha256": "d129505ac4520db84a2b99ce34021f0a28c60d0dac56b70ffc74045d92f7715a",
       "publicCallers": [
         "docs/phase2/roadmap.md → ../phase1/README.md",
         "docs/phase2/roadmap.md → ../phase3/backlog.md",
@@ -2504,7 +2576,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "be94e0b9d1b15612b81eb0f7fc017d52b4777bbeb83a7d0fa49c7efab442e2ca",
+        "afterSha256": "d129505ac4520db84a2b99ce34021f0a28c60d0dac56b70ffc74045d92f7715a",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase2/specs/content-schema.md",
@@ -2546,7 +2626,7 @@
         }
       ],
       "sourceSha256": "ee9188e215f0b88f01724092559edc2345df7893eb843f2f5a71418267bd6d62",
-      "afterSha256": "6f47673657dca0b278bb7cf083fe6bb32e34e164b667b6d6977f82844d28266a",
+      "afterSha256": "fcf35b532e1d5aff90ac5899e6df28f78730c28a18b243e7506ff2c8aad9aa5d",
       "publicCallers": [
         "docs/phase2/specs/content-schema.md → ../../ops/audits/pre-e2e/summary.md",
         "docs/phase2/specs/content-schema.md → ../archive/designs/content-schema.md"
@@ -2689,7 +2769,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "6f47673657dca0b278bb7cf083fe6bb32e34e164b667b6d6977f82844d28266a",
+        "afterSha256": "fcf35b532e1d5aff90ac5899e6df28f78730c28a18b243e7506ff2c8aad9aa5d",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase2/specs/editor-architecture.md",
@@ -2746,7 +2834,7 @@
         }
       ],
       "sourceSha256": "e17805c77f9b2425ae2178886f4411a733d37c0749624ac896146a124643d91a",
-      "afterSha256": "3405d8b19cc02d5e377867cfb8e4f2d81d3610405f64a8f85cf88f165fde5d77",
+      "afterSha256": "91778e98539f515262c91222d7ac989003edb49feef776a602801f7574d7de05",
       "publicCallers": [
         "docs/phase2/specs/editor-architecture.md → ../../ops/audits/pre-e2e/summary.md",
         "docs/phase2/specs/editor-architecture.md → ../archive/designs/editor-design.md",
@@ -2912,7 +3000,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "3405d8b19cc02d5e377867cfb8e4f2d81d3610405f64a8f85cf88f165fde5d77",
+        "afterSha256": "91778e98539f515262c91222d7ac989003edb49feef776a602801f7574d7de05",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase2/specs/editor-design-system.md",
@@ -2973,7 +3069,7 @@
         }
       ],
       "sourceSha256": "f89afdc32ac36148c0c294282056018cb48c3ca333d556b6362b781d9b19a7d8",
-      "afterSha256": "a5d60238ca0268da875c1628a953a4b47fee9d79aa5912625ad9c1908b1a17ac",
+      "afterSha256": "dd146daf87439864ff39ebb186feb6f4c4ebfd7f696c6de8168a20e8f9325504",
       "publicCallers": [
         "docs/phase2/specs/editor-design-system.md → ../READ-FIRST.md",
         "docs/phase2/specs/editor-design-system.md → editor-architecture.md",
@@ -3122,7 +3218,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "a5d60238ca0268da875c1628a953a4b47fee9d79aa5912625ad9c1908b1a17ac",
+        "afterSha256": "dd146daf87439864ff39ebb186feb6f4c4ebfd7f696c6de8168a20e8f9325504",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase2/specs/project-lifecycle.md",
@@ -3178,7 +3282,7 @@
         }
       ],
       "sourceSha256": "3079dc0850edf532ca817913f8af92a13204a3d107586afc57dbb036add3681a",
-      "afterSha256": "577d15c60666426cd5921c949642d7eeeceee2c1c081d667900ee6ffa5216e5c",
+      "afterSha256": "e69376bef6e5502500e7a0a07c20a22eeed0a76cb3d4221bd776740461f8c193",
       "publicCallers": [
         "docs/phase2/specs/project-lifecycle.md → ../../ops/audits/pre-e2e/summary.md",
         "docs/phase2/specs/project-lifecycle.md → ../archive/designs/project-lifecycle-design.md",
@@ -3336,7 +3440,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "577d15c60666426cd5921c949642d7eeeceee2c1c081d667900ee6ffa5216e5c",
+        "afterSha256": "e69376bef6e5502500e7a0a07c20a22eeed0a76cb3d4221bd776740461f8c193",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase2/specs/script-system.md",
@@ -3388,7 +3500,7 @@
         }
       ],
       "sourceSha256": "28fefb1eeca344d583a050d7602d90e09c3d3f9842d12aabc35a5711c3030666",
-      "afterSha256": "16933b62d09a66b4029f81c60dcf6fb7b8e7b020ebc2f2f06ab3dc88cff5156c",
+      "afterSha256": "f271e3fc6d7fed2724793857fac1a16a41dbc7467891838f124a45fe3b706190",
       "publicCallers": [
         "docs/phase2/specs/script-system.md → ../../ops/audits/pre-e2e/summary.md",
         "docs/phase2/specs/script-system.md → ../archive/designs/script-system-design.md",
@@ -3531,7 +3643,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "16933b62d09a66b4029f81c60dcf6fb7b8e7b020ebc2f2f06ab3dc88cff5156c",
+        "afterSha256": "f271e3fc6d7fed2724793857fac1a16a41dbc7467891838f124a45fe3b706190",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     }
   ],
   "independentReadOnlyReceipt": {
@@ -3559,12 +3679,20 @@
   "independentCandidateAcceptance": {
     "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r33-phase2-lore-candidate-acceptance-20261017.json",
     "sha256": "94d71b507838b2bc3999cabca33a10cbc0aa796c80afdf62eadcc319b6c7be65",
-    "verdict": "accept",
+    "verdict": "withdrawn-independent-credit",
     "scope": "18/18 candidate reception only",
     "nonAuthorReviewer": false,
     "runtimeEvidence": false,
     "e2eEvidence": false,
     "visualEvidence": false,
-    "coverageEvidence": false
+    "coverageEvidence": false,
+    "historicalVerdict": "accept",
+    "currentReviewerRelationship": "explicit nonAuthorReviewer=false; author self-check only; historical content preservation assessed separately"
+  },
+  "reviewerRelationshipCorrection": {
+    "date": "2026-10-18",
+    "decision": "same-actor candidate acceptance cannot certify non-author review",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
   }
 }

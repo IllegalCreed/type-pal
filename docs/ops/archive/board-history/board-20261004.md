@@ -28,7 +28,7 @@ Template: archive-record-v1 / 1.0.0
 
 ## 继任文档
 
-- 当前 canonical 文档：C；u；r；r；e；n；t； ；o；p；s； ；b；o；a；r；d；/；t；a；s；k；/；e；v；i；d；e；n；c；e； ；r；e；c；o；r；d；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.。
+- 当前 canonical 文档：Current ops board/task/evidence records and a fresh primary-source review.。
 - supersedes / superseded-by：本归档记录不替代当前 task/evidence。
 - 若重新启用的复核条件：新的 task card、当前 source/oracle、独立验收和相应执行证据齐全。
 
@@ -52,7 +52,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；o；p；s； ；b；o；a；r；d；/；t；a；s；k；/；e；v；i；d；e；n；c；e； ；r；e；c；o；r；d；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；.。
+- Current ops board/task/evidence records and a fresh primary-source review.。
 - 当前事实由继任规范、代码、测试和新的 review 决定。
 
 ## 原文保全

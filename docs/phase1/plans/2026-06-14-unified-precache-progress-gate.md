@@ -59,7 +59,7 @@ Template: design-spec-v1 / 1.0.0
 
 ## 下一步
 
-- 后继入口：C；u；r；r；e；n；t； ；p；r；e；c；a；c；h；e； ；g；a；t；e； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；.。
+- 后继入口：Current precache gate implementation.。
 - 若重新执行须新 task card、当前 source/oracle 和独立验收。
 
 ## 历史范围
@@ -82,7 +82,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；p；r；e；c；a；c；h；e； ；g；a；t；e； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；.。
+- Current precache gate implementation.。
 - 当前事实由继任规范、代码和新的 review 决定。
 
 ## 原文保全

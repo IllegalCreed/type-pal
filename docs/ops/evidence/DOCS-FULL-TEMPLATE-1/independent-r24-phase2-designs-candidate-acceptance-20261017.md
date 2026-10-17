@@ -21,6 +21,11 @@ Template: archive-record-v1 / 1.0.0
 
 ## 当前有效性
 
+### 2026-10-18 哈希与悬空声明勘误
+
+原引用的 1567068529b5e0d200b7abff9a0924817dfc22b6fd6beb1c0740cc7d12fba925 没有可核对的目标证据，不再采信。6f3754397 已改为目标 JSON 当时的真实 SHA 1141788c1e70443ecc3f86ae6a80fd394384775cd4d47895fe3ca9476c6b8787；该 JSON 当前字节 SHA 为 1141788c1e70443ecc3f86ae6a80fd394384775cd4d47895fe3ca9476c6b8787，见[实际 JSON](independent-r24-phase2-designs-candidate-acceptance-20261017.json)。下方原文的“reported below”和自称重跑不是当前证明；其历史文字保留，当前真实性/独立审信用另行核验。
+
+
 historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
 
 ## 继任文档

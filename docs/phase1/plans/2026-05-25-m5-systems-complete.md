@@ -40,7 +40,7 @@ Template: plan-status-v1 / 1.0.0
 
 ## 下一步
 
-- 后继入口：C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；f；e；a；t；u；r；e；/；s；t；a；t；u；s； ；t；a；b；l；e；s； ；a；n；d； ；c；a；n；o；n；i；c；a；l； ；c；o；d；e；/；t；e；s；t；s；;； ；M；5； ；p；l；a；n； ；i；s； ；h；i；s；t；o；r；i；c；a；l； ；e；x；e；c；u；t；i；o；n； ；g；u；i；d；a；n；c；e；.。
+- 后继入口：Current phase1 feature/status tables and canonical code/tests; M5 plan is historical execution guidance.。
 - 若重新执行须新 task card、当前 source/oracle 和独立验收。
 
 ## 历史范围
@@ -74,7 +74,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；p；h；a；s；e；1； ；f；e；a；t；u；r；e；/；s；t；a；t；u；s； ；t；a；b；l；e；s； ；a；n；d； ；c；a；n；o；n；i；c；a；l； ；c；o；d；e；/；t；e；s；t；s；;； ；M；5； ；p；l；a；n； ；i；s； ；h；i；s；t；o；r；i；c；a；l； ；e；x；e；c；u；t；i；o；n； ；g；u；i；d；a；n；c；e；.。
+- Current phase1 feature/status tables and canonical code/tests; M5 plan is historical execution guidance.。
 - 当前事实由继任规范、代码和新的 review 决定。
 
 ## 原文保全

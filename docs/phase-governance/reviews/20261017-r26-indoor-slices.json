@@ -48,7 +48,7 @@
         }
       ],
       "sourceSha256": "ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932",
-      "afterSha256": "a312cf18f0f2dc08131dc4d874c11d73b585ef80e56b6181ff3a4bde24694dcd",
+      "afterSha256": "96a820cda7b324cf182b62a4e4c05b7c0b7005eb9ffb75b0d509431302031418",
       "publicCallers": [
         "docs/phase2/archive/slices/indoor/guijie-minju.md → spec.md",
         "docs/phase2/archive/slices/indoor/guijie-minju.md → ../../../decisions.md",
@@ -167,7 +167,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "a312cf18f0f2dc08131dc4d874c11d73b585ef80e56b6181ff3a4bde24694dcd"
+      "candidateSha256": "a312cf18f0f2dc08131dc4d874c11d73b585ef80e56b6181ff3a4bde24694dcd",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "a312cf18f0f2dc08131dc4d874c11d73b585ef80e56b6181ff3a4bde24694dcd",
+        "afterSha256": "96a820cda7b324cf182b62a4e4c05b7c0b7005eb9ffb75b0d509431302031418",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase2/archive/slices/indoor/npc-collision-plan.md",
@@ -221,7 +229,7 @@
         }
       ],
       "sourceSha256": "d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295",
-      "afterSha256": "59a7fa21f34d721da96f7da149cd0f048fc25dfff519ef53df82403b4fc80727",
+      "afterSha256": "b6a58fecb5d1ea12ceffd8b7d8628ca52c7e6606a9509471efac4e6f9f436ad3",
       "publicCallers": [
         "docs/phase2/archive/slices/indoor/npc-collision-plan.md → ../../../../../packages/reforge/src/main.ts#L188",
         "docs/phase2/archive/slices/indoor/npc-collision-plan.md → ../../../design-backlog.md",
@@ -339,7 +347,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "59a7fa21f34d721da96f7da149cd0f048fc25dfff519ef53df82403b4fc80727"
+      "candidateSha256": "59a7fa21f34d721da96f7da149cd0f048fc25dfff519ef53df82403b4fc80727",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "59a7fa21f34d721da96f7da149cd0f048fc25dfff519ef53df82403b4fc80727",
+        "afterSha256": "b6a58fecb5d1ea12ceffd8b7d8628ca52c7e6606a9509471efac4e6f9f436ad3",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase2/archive/slices/indoor/plan.md",
@@ -395,7 +411,7 @@
         }
       ],
       "sourceSha256": "bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec",
-      "afterSha256": "3a1ff726d26d90cccb2549950075289c87853b6b85be9f38e9ae86dff859feb4",
+      "afterSha256": "984d0ca463561889d6c8da3e3fa86e5a52fd591cb36dd6f886591de1885cfe23",
       "publicCallers": [
         "docs/phase2/archive/slices/indoor/plan.md → README.md",
         "docs/phase2/archive/slices/indoor/plan.md → ../../../decisions.md",
@@ -512,7 +528,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "3a1ff726d26d90cccb2549950075289c87853b6b85be9f38e9ae86dff859feb4"
+      "candidateSha256": "3a1ff726d26d90cccb2549950075289c87853b6b85be9f38e9ae86dff859feb4",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "3a1ff726d26d90cccb2549950075289c87853b6b85be9f38e9ae86dff859feb4",
+        "afterSha256": "984d0ca463561889d6c8da3e3fa86e5a52fd591cb36dd6f886591de1885cfe23",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase2/archive/slices/indoor/spec.md",
@@ -562,7 +586,7 @@
         }
       ],
       "sourceSha256": "01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80",
-      "afterSha256": "0dd2d3b248c1922070e5106e75ebeab88c8f34e905df18ba2bd97b811ebe39c6",
+      "afterSha256": "e0d83b044d05b17445c72e7852dbc086a3214c3f05da6c5a61fd38a2bd53ba5b",
       "publicCallers": [
         "docs/phase2/archive/slices/indoor/spec.md → ../../../decisions.md",
         "docs/phase2/archive/slices/indoor/spec.md → guijie-minju.md",
@@ -692,7 +716,15 @@
         }
       ],
       "sourceGitRevision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-      "candidateSha256": "0dd2d3b248c1922070e5106e75ebeab88c8f34e905df18ba2bd97b811ebe39c6"
+      "candidateSha256": "0dd2d3b248c1922070e5106e75ebeab88c8f34e905df18ba2bd97b811ebe39c6",
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "0dd2d3b248c1922070e5106e75ebeab88c8f34e905df18ba2bd97b811ebe39c6",
+        "afterSha256": "e0d83b044d05b17445c72e7852dbc086a3214c3f05da6c5a61fd38a2bd53ba5b",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     }
   ],
   "independentReadOnlyReceipt": {
@@ -714,12 +746,20 @@
   "independentCandidateAcceptance": {
     "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r26-indoor-slices-candidate-acceptance-20261017.json",
     "sha256": "23f27fcf57bc93608789ad3a5d4a18b687a0f6225482e19c600e8826332c1d65",
-    "verdict": "accept",
+    "verdict": "withdrawn-independent-credit",
     "scope": "4/4 Markdown candidate reception; HTML 3 deferred",
     "nonAuthorReviewer": false,
     "runtimeEvidence": false,
     "e2eEvidence": false,
     "visualEvidence": false,
-    "coverageEvidence": false
+    "coverageEvidence": false,
+    "historicalVerdict": "accept",
+    "currentReviewerRelationship": "explicit nonAuthorReviewer=false; author self-check only; historical content preservation assessed separately"
+  },
+  "reviewerRelationshipCorrection": {
+    "date": "2026-10-18",
+    "decision": "same-actor candidate acceptance cannot certify non-author review",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
   }
 }

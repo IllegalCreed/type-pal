@@ -40,7 +40,7 @@ Template: plan-status-v1 / 1.0.0
 
 ## 下一步
 
-- 后继入口：M；5；.；6； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；p；l；u；s； ；c；u；r；r；e；n；t； ；m；e；n；u；/；s；c；e；n；e；/；i；n；p；u；t； ；c；o；d；e； ；a；n；d； ；f；e；a；t；u；r；e；-；s；t；a；t；u；s；.。
+- 后继入口：M5.6 implementation plan plus current menu/scene/input code and feature-status.。
 - 若重新执行须新 task card、当前 source/oracle 和独立验收。
 
 ## 历史范围
@@ -74,7 +74,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- M；5；.；6； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；p；l；u；s； ；c；u；r；r；e；n；t； ；m；e；n；u；/；s；c；e；n；e；/；i；n；p；u；t； ；c；o；d；e； ；a；n；d； ；f；e；a；t；u；r；e；-；s；t；a；t；u；s；.。
+- M5.6 implementation plan plus current menu/scene/input code and feature-status.。
 - 当前事实由继任规范、代码和新的 review 决定。
 
 ## 原文保全

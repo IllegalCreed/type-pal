@@ -7,20 +7,21 @@
   "entries": [
     {
       "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/branch-census.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON parse and byte-stable artifact envelope; original machine fields preserved",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "branch-census.json：historical machine evidence artifact; original object shape, fields and bytes remain unchanged. Coverage/mutation/vitest results are historical evidence and do not prove current runtime/E2E/visual/coverage acceptance.",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/tasks/evidence/coverage85-glm-editor-r1/branch-census.json:1"],
       "unresolved": [
         "Historical machine evidence requires the current task card, matching consumer and a fresh receipt before reuse.",
-        "Artifact identity is preserved; this migration does not rerun tests, coverage or mutation."
+        "Artifact identity is preserved; this migration does not rerun tests, coverage or mutation.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "保持原始 machine fields；若 consumer 需要当前结论，按合法输入重新执行并生成 fresh receipt。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "tasks/evidence",
       "capability": "branch-census",
@@ -151,24 +152,33 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/coverage-summary.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON parse and byte-stable artifact envelope; original machine fields preserved",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "coverage-summary.json：historical machine evidence artifact; original object shape, fields and bytes remain unchanged. Coverage/mutation/vitest results are historical evidence and do not prove current runtime/E2E/visual/coverage acceptance.",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/tasks/evidence/coverage85-glm-editor-r1/coverage-summary.json:1"],
       "unresolved": [
         "Historical machine evidence requires the current task card, matching consumer and a fresh receipt before reuse.",
-        "Artifact identity is preserved; this migration does not rerun tests, coverage or mutation."
+        "Artifact identity is preserved; this migration does not rerun tests, coverage or mutation.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "保持原始 machine fields；若 consumer 需要当前结论，按合法输入重新执行并生成 fresh receipt。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "tasks/evidence",
       "capability": "coverage-summary",
@@ -593,24 +603,33 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/mutation-evidence.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON parse and byte-stable artifact envelope; original machine fields preserved",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "mutation-evidence.json：historical machine evidence artifact; original array shape, fields and bytes remain unchanged. Coverage/mutation/vitest results are historical evidence and do not prove current runtime/E2E/visual/coverage acceptance.",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/tasks/evidence/coverage85-glm-editor-r1/mutation-evidence.json:1"],
       "unresolved": [
         "Historical machine evidence requires the current task card, matching consumer and a fresh receipt before reuse.",
-        "Artifact identity is preserved; this migration does not rerun tests, coverage or mutation."
+        "Artifact identity is preserved; this migration does not rerun tests, coverage or mutation.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "保持原始 machine fields；若 consumer 需要当前结论，按合法输入重新执行并生成 fresh receipt。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "tasks/evidence",
       "capability": "mutation-evidence",
@@ -741,24 +760,33 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/vitest-fresh.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON parse and byte-stable artifact envelope; original machine fields preserved",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "vitest-fresh.json：historical machine evidence artifact; original object shape, fields and bytes remain unchanged. Coverage/mutation/vitest results are historical evidence and do not prove current runtime/E2E/visual/coverage acceptance.",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": ["docs/ops/tasks/evidence/coverage85-glm-editor-r1/vitest-fresh.json:1"],
       "unresolved": [
         "Historical machine evidence requires the current task card, matching consumer and a fresh receipt before reuse.",
-        "Artifact identity is preserved; this migration does not rerun tests, coverage or mutation."
+        "Artifact identity is preserved; this migration does not rerun tests, coverage or mutation.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "保持原始 machine fields；若 consumer 需要当前结论，按合法输入重新执行并生成 fresh receipt。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "tasks/evidence",
       "capability": "vitest-fresh",
@@ -900,26 +928,35 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/counterproof.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON parse and byte-stable artifact envelope; original machine fields preserved",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "counterproof.json：historical machine evidence artifact; original object shape, fields and bytes remain unchanged. Coverage/mutation/vitest results are historical evidence and do not prove current runtime/E2E/visual/coverage acceptance.",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/ops/tasks/evidence/TEST-GLM-EDITOR-ASSET-LIFECYCLE-1/counterproof.json:1"
       ],
       "unresolved": [
         "Historical machine evidence requires the current task card, matching consumer and a fresh receipt before reuse.",
-        "Artifact identity is preserved; this migration does not rerun tests, coverage or mutation."
+        "Artifact identity is preserved; this migration does not rerun tests, coverage or mutation.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "保持原始 machine fields；若 consumer 需要当前结论，按合法输入重新执行并生成 fresh receipt。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "tasks/evidence",
       "capability": "counterproof",
@@ -1060,26 +1097,35 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/tasks/evidence/TEST-GLM-EDITOR-AUTHORING-PANELS-1/mutation-evidence.json",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full JSON parse and byte-stable artifact envelope; original machine fields preserved",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
       "reviewDepth": "structured-content",
-      "coreConclusion": "mutation-evidence.json：historical machine evidence artifact; original object shape, fields and bytes remain unchanged. Coverage/mutation/vitest results are historical evidence and do not prove current runtime/E2E/visual/coverage acceptance.",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/ops/tasks/evidence/TEST-GLM-EDITOR-AUTHORING-PANELS-1/mutation-evidence.json:1"
       ],
       "unresolved": [
         "Historical machine evidence requires the current task card, matching consumer and a fresh receipt before reuse.",
-        "Artifact identity is preserved; this migration does not rerun tests, coverage or mutation."
+        "Artifact identity is preserved; this migration does not rerun tests, coverage or mutation.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "保持原始 machine fields；若 consumer 需要当前结论，按合法输入重新执行并生成 fresh receipt。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "tasks/evidence",
       "capability": "mutation-evidence",
@@ -1220,7 +1266,21 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     }
-  ]
+  ],
+  "currentCorrection": {
+    "date": "2026-10-18",
+    "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  }
 }

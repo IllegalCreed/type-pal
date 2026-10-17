@@ -36,7 +36,7 @@ Template: plan-status-v1 / 1.0.0
 
 ## 下一步
 
-- 后继入口：C；u；r；r；e；n；t； ；t；o；o；l；s； ；p；a；n；e；l；/；d；e；s；i；g；n； ；s；y；s；t；e；m； ；a；n；d； ；d；i；s；p；l；a；y；-；s；c；a；l；e； ；c；o；n；t；r；a；c；t；.。
+- 后继入口：Current tools panel/design system and display-scale contract.。
 - 若重新执行须新 task card、当前 source/oracle 和独立验收。
 
 ## 历史范围
@@ -66,7 +66,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；t；o；o；l；s； ；p；a；n；e；l；/；d；e；s；i；g；n； ；s；y；s；t；e；m； ；a；n；d； ；d；i；s；p；l；a；y；-；s；c；a；l；e； ；c；o；n；t；r；a；c；t；.。
+- Current tools panel/design system and display-scale contract.。
 - 当前事实由继任规范、代码和新的 review 决定。
 
 ## 原文保全

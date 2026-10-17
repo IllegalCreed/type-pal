@@ -64,7 +64,7 @@ historical。do not promote historical evidence receipt to current runtime/E2E/v
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；e；v；i；d；e；n；c；e； ；r；e；c；e；i；p；t；,； ；t；a；s；k； ；c；a；r；d； ；a；n；d； ；v；e；r；i；f；i；e；d； ；c；o；n；s；u；m；e；r； ；r；e；s；u；l；t； ；w；h；e；n； ；r；e；-；r；u；n；.。
+- Current evidence receipt, task card and verified consumer result when re-run.。
 - 当前事实由继任规范、代码、测试和新的 review 决定。
 
 ## 原文保全

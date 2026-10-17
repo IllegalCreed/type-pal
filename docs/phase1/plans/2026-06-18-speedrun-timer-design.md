@@ -62,7 +62,7 @@ Template: design-spec-v1 / 1.0.0
 
 ## 下一步
 
-- 后继入口：C；u；r；r；e；n；t； ；t；i；m；e；r； ；c；o；d；e；/；p；r；o；d；u；c；t； ；d；e；c；i；s；i；o；n； ；a；n；d； ；b；e；h；a；v；i；o；r； ；r；e；v；i；e；w；.。
+- 后继入口：Current timer code/product decision and behavior review.。
 - 若重新执行须新 task card、当前 source/oracle 和独立验收。
 
 ## 历史范围
@@ -88,7 +88,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；t；i；m；e；r； ；c；o；d；e；/；p；r；o；d；u；c；t； ；d；e；c；i；s；i；o；n； ；a；n；d； ；b；e；h；a；v；i；o；r； ；r；e；v；i；e；w；.。
+- Current timer code/product decision and behavior review.。
 - 当前事实由继任规范、代码和新的 review 决定。
 
 ## 原文保全

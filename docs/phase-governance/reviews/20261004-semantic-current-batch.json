@@ -407,7 +407,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
+      "afterSha256": "92408414764bc3e99d561b5b8f688bcdbce24559517d1cb05b8fa01baf90920b",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -868,7 +868,15 @@
       },
       "documentStatus": "current",
       "templateVersion": "1.0.0",
-      "historyOverlay": false
+      "historyOverlay": false,
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
+        "afterSha256": "92408414764bc3e99d561b5b8f688bcdbce24559517d1cb05b8fa01baf90920b",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/ops/README.md",
@@ -1102,7 +1110,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
+      "afterSha256": "8758462ab37a39a7ef821f2e19bdbc81e7310ec485f96b8bee8eabc1890efc47",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -1605,7 +1613,15 @@
       },
       "documentStatus": "current",
       "templateVersion": "1.0.0",
-      "historyOverlay": false
+      "historyOverlay": false,
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
+        "afterSha256": "8758462ab37a39a7ef821f2e19bdbc81e7310ec485f96b8bee8eabc1890efc47",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/ops/tasks/README.md",
@@ -2028,14 +2044,14 @@
     },
     {
       "path": "docs/ops/tasks/DOCS-CATALOG-SPLIT-1.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text-read-plus-structured-design-review",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "DOCS-CATALOG-SPLIT-1 选择 manifest + phase shards + loader 的结构拆分方案，拒绝全局 maxSize/ignore 救急；卡为 draft，正式迁移在 pilot、consumer 验证与 pin 级联完成前保持 blocked。 DOCS-CATALOG-SPLIT-1 记录实际分片、loader、consumer 和 pin 级联验收 catalog split card 已写入实际 SHA mapping 与独立验收；不代表全 docs 或产品执行完成。 catalog split card 已写入实际 SHA mapping 与独立验收；不代表全 docs 或产品执行完成。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "corrective-state-delta-only; no independent semantic acceptance",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18：任务改回rework，原完成和独立接受声明撤回；实现/保真与结构检查范围保留，后续重审和非作者复核待补。",
       "truthAnchors": [
         "docs/ops/tasks/DOCS-CATALOG-SPLIT-1.md:1",
         "scripts/docs/check-phase-lore-governance.mjs:1",
@@ -2057,7 +2073,7 @@
         "user-authorized-structural-decision"
       ],
       "sourceSha256": "e34cf74483a3a92246ee2a9d97fa96749f02829afc2e8f29e59ea67134657f7f",
-      "afterSha256": "c03b7887f6d1d973134c6fad22ee86fbea0fbb60cc58cffef59ba9f87f20d4bf",
+      "afterSha256": "c76ded487bd9015a8b5691e5e0e1e1927593a364b5655406651d2661bf05aef0",
       "publicCallers": [
         "docs/ops/board.md",
         "docs/ops/tasks/index.md",
@@ -2147,7 +2163,27 @@
       "reviewNotes": "DOCS-CATALOG-SPLIT-1 记录实际分片、loader、consumer 和 pin 级联验收；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。",
       "documentStatus": "current",
       "templateVersion": "1.0.0",
-      "historyOverlay": false
+      "historyOverlay": false,
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "scope": "premature done and same-actor independent credit withdrawn"
+      },
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "c03b7887f6d1d973134c6fad22ee86fbea0fbb60cc58cffef59ba9f87f20d4bf",
+        "afterSha256": "c76ded487bd9015a8b5691e5e0e1e1927593a364b5655406651d2661bf05aef0",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     }
-  ]
+  ],
+  "currentCorrection": {
+    "date": "2026-10-18",
+    "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  }
 }

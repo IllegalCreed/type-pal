@@ -38,7 +38,7 @@ Template: plan-status-v1 / 1.0.0
 
 ## 下一步
 
-- 后继入口：M；2； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；g；a；m；e；/；r；u；n；t；i；m；e； ；a；r；c；h；i；t；e；c；t；u；r；e；;； ；r；e；c；h；e；c；k； ；r；a；w；-；o；p；c；o；d；e； ；a；n；d； ；N；P；C； ；b；e；h；a；v；i；o；r； ；b；o；u；n；d；a；r；i；e；s；.。
+- 后继入口：M2 implementation plan and current game/runtime architecture; recheck raw-opcode and NPC behavior boundaries.。
 - 若重新执行须新 task card、当前 source/oracle 和独立验收。
 
 ## 历史范围
@@ -70,7 +70,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- M；2； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；g；a；m；e；/；r；u；n；t；i；m；e； ；a；r；c；h；i；t；e；c；t；u；r；e；;； ；r；e；c；h；e；c；k； ；r；a；w；-；o；p；c；o；d；e； ；a；n；d； ；N；P；C； ；b；e；h；a；v；i；o；r； ；b；o；u；n；d；a；r；i；e；s；.。
+- M2 implementation plan and current game/runtime architecture; recheck raw-opcode and NPC behavior boundaries.。
 - 当前事实由继任规范、代码和新的 review 决定。
 
 ## 原文保全

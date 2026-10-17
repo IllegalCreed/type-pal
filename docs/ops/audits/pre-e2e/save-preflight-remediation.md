@@ -34,7 +34,7 @@ Template: audit-report-v1 / 1.0.0
 
 - 修复 Owner：由后续 task card 和当前 Owner 明确。
 - 复核条件：当前 primary source、真实调用域、可证伪反例和执行证据齐全。
-- 继任/ supersedes：C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.。
+- 继任/ supersedes：Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable.。
 
 ## 历史范围
 
@@ -56,7 +56,7 @@ historical。do not promote static audit or in-memory boundary evidence to runti
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；t；a；s；k； ；c；a；r；d；s；,； ；c；o；d；e；/；t；e；s；t； ；e；v；i；d；e；n；c；e； ；a；n；d； ；a； ；f；r；e；s；h； ；E；2；E； ；o；r； ；r；u；n；t；i；m；e； ；a；c；c；e；p；t；a；n；c；e； ；w；h；e；n； ；a；p；p；l；i；c；a；b；l；e；.。
+- Current task cards, code/test evidence and a fresh E2E or runtime acceptance when applicable.。
 - 当前事实由继任规范、代码、测试和新的 review 决定。
 
 ## 原文保全

@@ -34,7 +34,7 @@ Template: plan-status-v1 / 1.0.0
 
 ## 下一步
 
-- 后继入口：C；u；r；r；e；n；t； ；s；e；r；v；i；c；e； ；w；o；r；k；e；r；/；p；r；e；c；a；c；h；e； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；a；n；d； ；d；e；p；l；o；y；m；e；n；t； ；e；v；i；d；e；n；c；e；.。
+- 后继入口：Current service worker/precache implementation and deployment evidence.。
 - 若重新执行须新 task card、当前 source/oracle 和独立验收。
 
 ## 历史范围
@@ -62,7 +62,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；s；e；r；v；i；c；e； ；w；o；r；k；e；r；/；p；r；e；c；a；c；h；e； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；a；n；d； ；d；e；p；l；o；y；m；e；n；t； ；e；v；i；d；e；n；c；e；.。
+- Current service worker/precache implementation and deployment evidence.。
 - 当前事实由继任规范、代码和新的 review 决定。
 
 ## 原文保全

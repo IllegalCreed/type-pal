@@ -1,6 +1,6 @@
 # DOCS-CATALOG-SPLIT-1 — phase/lore catalog 分片与统一 loader 迁移
 
-Status: done
+Status: rework
 Phase: ops
 Capability: documentation governance / generated catalog schema
 Coding Owner: Codex
@@ -14,6 +14,8 @@ Last reviewed: 2026-10-17
 Template: task-card-v1 / 1.0.0
 
 > 当前采用 AGENTS.md 的“Codex 分派—贡献者执行—Codex 独立验收”临时模式。本卡只授权设计、pilot 和迁移验证；不改变产品源码、旧测试或 coverage。
+
+> 2026-10-18 记录勘误：分片实现与consumer/结构结果保留；此前“独立验收”和在完整check:docs未完成时的done撤回。作者自验不能代替非作者复核。本卡rework，不恢复旧巨型catalog。
 
 ## 目标
 

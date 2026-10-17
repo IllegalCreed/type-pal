@@ -906,6 +906,7 @@ function entryFixture(t) {
   const fixture = gitFixture(t)
   for (const path of [
     'scripts/docs/check.mjs',
+    'scripts/docs/document-integrity.mjs',
     'scripts/docs/config.mjs',
     'scripts/docs/markdown.mjs',
     'scripts/docs/terminal-codec.mjs',

@@ -28,6 +28,9 @@ Template: governance-index-v1 / 1.0.0
 
 | ID | 任务 | 状态 | 负责人/下一步 | 一句话备注 |
 |---|---|---|---|---|
+| DOCS-RECORD-INTEGRITY-1 | [R 波记录可信度撤回与补救](tasks/DOCS-RECORD-INTEGRITY-1.md) | build | Codex / 降档、真实重跑、待非作者复核 | 机械保真不授语义信用；原回执保全 |
+| DOCS-FULL-TEMPLATE-1 | [全 docs 深度治理与模板化改写](tasks/DOCS-FULL-TEMPLATE-1.md) | rework | Codex / 按勘误清单逐篇重审 | 原 done 和 R39 后过度信用已撤回 |
+| DOCS-CATALOG-SPLIT-1 | [phase/lore catalog 分片](tasks/DOCS-CATALOG-SPLIT-1.md) | rework | Codex / 非作者复核待补 | 实现保留；自验冒称独立与过早done撤回 |
 | ED-ENTITY-STATE-PLAN-1 | [实体状态方案、脚本组合与编辑器预览](tasks/ED-ENTITY-STATE-PLAN-1.md) | review | Codex / 完整现场与E2E采集待续 | 首批UI用户验收通过；临时方案丢弃，正式状态须经E2E核对 |
 | TEST-GLM-GAME-TURN-BOUNDARIES-1 | [战斗回合与结算边界测试](tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md) | rework | GLM / 补原始反控与合法输入；Codex复核 | 先前accept撤回；全绿与已合入不等于合同验收 |
 | E2E-R4-1 | [路线驱动与合法检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 共性批次优先于006 | 001–005已验；浏览器启动失败自动清理待补 |

@@ -7,22 +7,23 @@
   "entries": [
     {
       "path": "docs/ops/templates/TASK-template.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read; reusable task-template source preserved byte-stably and consumer references checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TASK-template.md：canonical reusable task-card template source; byte-stable preservation is required because agents and documentation tooling copy/consume this file directly. It is not a task card and does not carry a task status or execution credit.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/ops/templates/TASK-template.md:1",
         "docs/ops/templates/TASK-template.md:8"
       ],
       "unresolved": [
-        "Template source must remain copyable and synchronized with task-card-v1; changes require a template registry review and consumer checks."
+        "Template source must remain copyable and synchronized with task-card-v1; changes require a template registry review and consumer checks.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时从本 canonical template source 复制；若改章节/状态词，先更新 template registry、README 和 consumer tests。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "templates",
       "capability": "full-task-card-template",
@@ -160,26 +161,35 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r58-task-template-sources.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/templates/TASK-lite-template.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read; reusable task-template source preserved byte-stably and consumer references checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TASK-lite-template.md：canonical reusable task-card template source; byte-stable preservation is required because agents and documentation tooling copy/consume this file directly. It is not a task card and does not carry a task status or execution credit.",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/ops/templates/TASK-lite-template.md:1",
         "docs/ops/templates/TASK-lite-template.md:8"
       ],
       "unresolved": [
-        "Template source must remain copyable and synchronized with task-card-v1; changes require a template registry review and consumer checks."
+        "Template source must remain copyable and synchronized with task-card-v1; changes require a template registry review and consumer checks.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时从本 canonical template source 复制；若改章节/状态词，先更新 template registry、README 和 consumer tests。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "templates",
       "capability": "light-task-card-template",
@@ -317,7 +327,21 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r58-task-template-sources.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     }
-  ]
+  ],
+  "currentCorrection": {
+    "date": "2026-10-18",
+    "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  }
 }

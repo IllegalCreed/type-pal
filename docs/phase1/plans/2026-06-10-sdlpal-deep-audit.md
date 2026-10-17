@@ -41,7 +41,7 @@ Template: audit-report-v1 / 1.0.0
 ## 整改与复核
 
 - 停止线：do not promote historical claims to current truth without a current source or user decision
-- 后继：C；u；r；r；e；n；t； ；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；r；e；n；e；w；e；d； ；l；i；f；e；c；y；c；l；e； ；a；u；d；i；t；.。
+- 后继：Current code/tests and renewed lifecycle audit.。
 
 ## 历史范围
 
@@ -74,7 +74,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；r；e；n；e；w；e；d； ；l；i；f；e；c；y；c；l；e； ；a；u；d；i；t；.。
+- Current code/tests and renewed lifecycle audit.。
 - 当前事实由继任规范、代码和新的 review 决定。
 
 ## 原文保全

@@ -40,7 +40,7 @@
         }
       ],
       "sourceSha256": "e80f714a55dd90539a661ed04bf568cc514e24e537d1de17be21d5de97f91706",
-      "afterSha256": "604476c81a2f97dfae245b835b099622dfd8070b2655445eac9a4a2af07aadb2",
+      "afterSha256": "164ddde5a9dee6017231536bcba9b7e7278213b111b56042473d62596f000141",
       "publicCallers": ["docs navigation"],
       "legalInputs": ["current repository documentation", "docs/phase1/03-development-plan.md"],
       "businessOracle": {
@@ -157,7 +157,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "604476c81a2f97dfae245b835b099622dfd8070b2655445eac9a4a2af07aadb2",
+        "afterSha256": "164ddde5a9dee6017231536bcba9b7e7278213b111b56042473d62596f000141",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/status/cutscene-status.md",
@@ -203,7 +211,7 @@
         }
       ],
       "sourceSha256": "ca3fe616dc370fc1b2c2cdf0485e1c716ee17bd2acf34eac5f3a9cec1795dced",
-      "afterSha256": "eff3bf7b200abde1fec2d1e24c98678d899e8bbe6af133e09531286c400ac3b0",
+      "afterSha256": "3e9e09bfb96950e2f0a594304132ffbd6c05b3604718e52bdbf7b98fd5b179d1",
       "publicCallers": [
         "docs/phase1/status/cutscene-status.md → item-status.md",
         "docs/phase1/status/cutscene-status.md → magic-status.md",
@@ -318,7 +326,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "eff3bf7b200abde1fec2d1e24c98678d899e8bbe6af133e09531286c400ac3b0",
+        "afterSha256": "3e9e09bfb96950e2f0a594304132ffbd6c05b3604718e52bdbf7b98fd5b179d1",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/status/feature-status.md",
@@ -382,7 +398,7 @@
         }
       ],
       "sourceSha256": "ee1e7d657967e2f4efd76b1929c1f4853ed9c64a2c1fd601b6965bcb400a292f",
-      "afterSha256": "f1af27116414c9eb6e99bca8505e9efb9f1c3a1766a49da832bc97d2032da5db",
+      "afterSha256": "9621210e9b5811ef6dfaf33d1a28e969258c79477648b5e5d4e4182040f4510b",
       "publicCallers": [
         "docs/phase1/status/feature-status.md → opcode-status.md",
         "docs/phase1/status/feature-status.md → resource-status.md",
@@ -555,7 +571,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "f1af27116414c9eb6e99bca8505e9efb9f1c3a1766a49da832bc97d2032da5db",
+        "afterSha256": "9621210e9b5811ef6dfaf33d1a28e969258c79477648b5e5d4e4182040f4510b",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/status/item-status.md",
@@ -609,7 +633,7 @@
         }
       ],
       "sourceSha256": "218be9bc33204981b3a5b1e4dcb2706e402f438c4e905435ae70fc0344f2acde",
-      "afterSha256": "1b1df64e8b83508ae53771c2aeee729095682d6645168e05e267302115d03bb8",
+      "afterSha256": "3ecadaf38de486d7b31f0462ba6a0cbb6df7e94e45c94d078757e22b32d8d1c7",
       "publicCallers": ["docs/phase1/status/item-status.md → feature-status.md"],
       "legalInputs": ["current repository documentation", "docs/phase1/status/item-status.md"],
       "businessOracle": {
@@ -731,7 +755,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "1b1df64e8b83508ae53771c2aeee729095682d6645168e05e267302115d03bb8",
+        "afterSha256": "3ecadaf38de486d7b31f0462ba6a0cbb6df7e94e45c94d078757e22b32d8d1c7",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/status/magic-status.md",
@@ -776,7 +808,7 @@
         }
       ],
       "sourceSha256": "1ab501c07865c01b8b6567caefcc969f54b57d284230be17517f99a29e738b8a",
-      "afterSha256": "3b5b5ff1da6632482cca67133989bf4c8e0690b84bc13f809a22787755052c28",
+      "afterSha256": "ef8d4763c41cfa2390e0f106aa0550fbab70c8b219f0f113de1f0ebd011c81ff",
       "publicCallers": [
         "docs/phase1/status/magic-status.md → item-status.md",
         "docs/phase1/status/magic-status.md → item-status.md",
@@ -885,7 +917,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "3b5b5ff1da6632482cca67133989bf4c8e0690b84bc13f809a22787755052c28",
+        "afterSha256": "ef8d4763c41cfa2390e0f106aa0550fbab70c8b219f0f113de1f0ebd011c81ff",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/status/opcode-status.md",
@@ -947,7 +987,7 @@
         }
       ],
       "sourceSha256": "40f9a7bb9fff42026744d09e8546d63f4930be9ea85703bd8ee454ce70255b1b",
-      "afterSha256": "63629febae20c781a89bf4eb73b9ed15cbee2cb8a627ac126fad2a747696a21e",
+      "afterSha256": "a987ecd80b31adc4581cfe386f7c440382163e9a4b8d95c84ac34b68c9cb8c8c",
       "publicCallers": [
         "docs/phase1/status/opcode-status.md → feature-status.md",
         "docs/phase1/status/opcode-status.md → resource-status.md",
@@ -1101,7 +1141,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "63629febae20c781a89bf4eb73b9ed15cbee2cb8a627ac126fad2a747696a21e",
+        "afterSha256": "a987ecd80b31adc4581cfe386f7c440382163e9a4b8d95c84ac34b68c9cb8c8c",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/status/README.md",
@@ -1135,7 +1183,7 @@
         }
       ],
       "sourceSha256": "2dc16fcb09bb80cceca8708bd129052ba51778e29cfa91037fbb61d87d8254cd",
-      "afterSha256": "3b780e2f52b65e841ab65313ff0be359c1f58071c12066bb57af7478edb746a6",
+      "afterSha256": "893b6a2ee4f5737ef28b3d0ef19475e5193182c2c35c0915f95405f68b4335e6",
       "publicCallers": [
         "docs/phase1/status/README.md → ../../ops/audits/pre-e2e/summary.md",
         "docs/phase1/status/README.md → cutscene-status.md",
@@ -1245,7 +1293,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "3b780e2f52b65e841ab65313ff0be359c1f58071c12066bb57af7478edb746a6",
+        "afterSha256": "893b6a2ee4f5737ef28b3d0ef19475e5193182c2c35c0915f95405f68b4335e6",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/status/resource-status.md",
@@ -1289,7 +1345,7 @@
         }
       ],
       "sourceSha256": "24ab703da109eef6c4b3069910d6b6c9f78ac15a166ec5412ecfbbb68b14a32e",
-      "afterSha256": "71762b5badd18f9c48436a0aa4b5f7dcb506b485b3bbe4810c5b8771b9d29974",
+      "afterSha256": "1bf0851ce68fc4b5c4618228cf82b21d1c16e521f851a4ca5488c4efb4c087bc",
       "publicCallers": [
         "docs/phase1/status/resource-status.md → feature-status.md",
         "docs/phase1/status/resource-status.md → opcode-status.md",
@@ -1403,7 +1459,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "71762b5badd18f9c48436a0aa4b5f7dcb506b485b3bbe4810c5b8771b9d29974",
+        "afterSha256": "1bf0851ce68fc4b5c4618228cf82b21d1c16e521f851a4ca5488c4efb4c087bc",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     }
   ],
   "independentReadOnlyReceipt": {
@@ -1428,12 +1492,20 @@
   "independentCandidateAcceptance": {
     "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r29-phase1-status-candidate-acceptance-20261017.json",
     "sha256": "806ef86cbf3e8b3e952d2213508fb4ee94c9cf4f81abdfe4610e7d30f7ceb815",
-    "verdict": "accept",
+    "verdict": "withdrawn-independent-credit",
     "scope": "8/8 candidate reception only",
     "nonAuthorReviewer": false,
     "runtimeEvidence": false,
     "e2eEvidence": false,
     "visualEvidence": false,
-    "coverageEvidence": false
+    "coverageEvidence": false,
+    "historicalVerdict": "accept",
+    "currentReviewerRelationship": "explicit nonAuthorReviewer=false; author self-check only; historical content preservation assessed separately"
+  },
+  "reviewerRelationshipCorrection": {
+    "date": "2026-10-18",
+    "decision": "same-actor candidate acceptance cannot certify non-author review",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
   }
 }

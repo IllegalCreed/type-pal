@@ -7,23 +7,24 @@
   "entries": [
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R55 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TEST-GLM-GAME-EVENT-CONTRACTS-1 合同排重账：历史测试排重 ledger；保留 NEW/REG、source:line、caller、合法输入、oracle、未证边界和判例，不授当前执行信用。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md:1",
         "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md:13",
         "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md:92"
       ],
       "unresolved": [
-        "Historical test contracts require the current task card, legal input, business oracle and fresh independent receipt before reuse."
+        "Historical test contracts require the current task card, legal input, business oracle and fresh independent receipt before reuse.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并由当前 task card、identity/mutation consumer 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "evidence/test-dedup",
       "capability": "test-glm-game-event-contracts-1",
@@ -152,18 +153,26 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r55-ops-dedup-ledger.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     },
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R55 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "TEST-GLM-GAME-TURN-BOUNDARIES-1 排重账（GLM r1）：历史测试排重 ledger；保留 NEW/REG、source:line、caller、合法输入、oracle、未证边界和判例，不授当前执行信用。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
       "truthAnchors": [
         "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md:1",
         "docs/ops/evidence/TEST-GLM-GAME-TURN-BOUNDARIES-1/dedup-ledger.md:10",
@@ -171,9 +180,10 @@
       ],
       "unresolved": [
         "Historical test contracts require the current task card, legal input, business oracle and fresh independent receipt before reuse.",
-        "Current task remains rework; original raw mutation evidence and reachability gaps are not closed by this migration."
+        "Current task remains rework; original raw mutation evidence and reachability gaps are not closed by this migration.",
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
       ],
-      "nextStep": "引用时带 source revision/date，并由当前 task card、identity/mutation consumer 和 fresh receipt 复核。",
+      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "ops",
       "module": "evidence/test-dedup",
       "capability": "test-glm-game-turn-boundaries-1",
@@ -302,7 +312,21 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "priorRecordPath": "docs/phase-governance/reviews/20261017-r55-ops-dedup-ledger.json",
+        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+      }
     }
-  ]
+  ],
+  "currentCorrection": {
+    "date": "2026-10-18",
+    "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  }
 }

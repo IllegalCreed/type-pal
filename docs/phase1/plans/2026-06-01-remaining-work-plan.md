@@ -37,7 +37,7 @@ Template: plan-status-v1 / 1.0.0
 
 ## 下一步
 
-- 后继入口：C；u；r；r；e；n；t； ；c；a；n；o；n；i；c；a；l； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；;； ；h；i；s；t；o；r；i；c；a；l； ；c；l；a；i；m；s； ；r；e；q；u；i；r；e； ；r；e；v；a；l；i；d；a；t；i；o；n；.。
+- 后继入口：Current canonical phase1 status tables/code/tests and a fresh primary-source review; historical claims require revalidation.。
 - 若重新执行须新 task card、当前 source/oracle 和独立验收。
 
 ## 历史范围
@@ -68,7 +68,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；c；a；n；o；n；i；c；a；l； ；p；h；a；s；e；1； ；s；t；a；t；u；s； ；t；a；b；l；e；s；/；c；o；d；e；/；t；e；s；t；s； ；a；n；d； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；i；e；w；;； ；h；i；s；t；o；r；i；c；a；l； ；c；l；a；i；m；s； ；r；e；q；u；i；r；e； ；r；e；v；a；l；i；d；a；t；i；o；n；.。
+- Current canonical phase1 status tables/code/tests and a fresh primary-source review; historical claims require revalidation.。
 - 当前事实由继任规范、代码和新的 review 决定。
 
 ## 原文保全

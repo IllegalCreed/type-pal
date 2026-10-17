@@ -319,7 +319,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "ef0776b5e401b611c97cff380359c125675cb87544135dd67db0011be38919ff",
-      "afterSha256": "ed5c0180cc2881fc99ca5449ed6aa406f32b3d90549a2eeefe385d7c47cf5523",
+      "afterSha256": "32cca7269bfe2f0f266a9f1f0c0b048218180f3ac2a4e0bca745f8a4ef972197",
       "sourceRefs": [
         {
           "path": "docs/lore/ideas/guijie/beat-sheet.md",
@@ -371,6 +371,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "ed5c0180cc2881fc99ca5449ed6aa406f32b3d90549a2eeefe385d7c47cf5523",
+          "afterSha256": "32cca7269bfe2f0f266a9f1f0c0b048218180f3ac2a4e0bca745f8a4ef972197"
         }
       ],
       "supersedes": [],
@@ -390,7 +396,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "5e102bea7e6d978296cf454b6b0ab1ebd6961dff6718808aed0c103240b5a5cd",
-      "afterSha256": "1b788487f31cf5b710420fc49456ab6e45a0d166b9eafb3eb08a5d5a94a23584",
+      "afterSha256": "4f2239c0ce792bb58cae858550227fe6614dbe65cbcdcb99361a7c1e637f2e58",
       "sourceRefs": [
         {
           "path": "docs/lore/ideas/guijie/brainstorm.md",
@@ -442,6 +448,12 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "draft"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "1b788487f31cf5b710420fc49456ab6e45a0d166b9eafb3eb08a5d5a94a23584",
+          "afterSha256": "4f2239c0ce792bb58cae858550227fe6614dbe65cbcdcb99361a7c1e637f2e58"
         }
       ],
       "supersedes": [],
@@ -1290,7 +1302,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "0ba61635356386d1cff3221763161b7be8d5a9078ecae13587a6053b0066ece1",
-      "afterSha256": "c1f91f188644ab7f63c1e65732aafc48186bedbd9f40fb16ce35487a91e4c1a7",
+      "afterSha256": "67c549f74563aa7fa09ee5c1eaf67c33154c420dc2299e41a80b0e149b7be5c7",
       "sourceRefs": [
         {
           "path": "docs/lore/timeline.md",
@@ -1359,6 +1371,12 @@
           "afterSha256": "49bed5ff4012203c8ba4759e368146122e9803fa0017bd7fc1d1a44581d45c88",
           "reviewedRanges": ["35-39", "61-66", "78-82", "141-147", "150-152", "154-154"],
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
+          "previousAfterSha256": "c1f91f188644ab7f63c1e65732aafc48186bedbd9f40fb16ce35487a91e4c1a7",
+          "afterSha256": "67c549f74563aa7fa09ee5c1eaf67c33154c420dc2299e41a80b0e149b7be5c7"
         }
       ],
       "supersedes": [],

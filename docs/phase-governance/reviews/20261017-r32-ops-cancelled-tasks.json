@@ -66,7 +66,7 @@
         }
       ],
       "sourceSha256": "5c956850a397698cef17871cba68ea94e3976d58d8741bf431595f8611bc8c2e",
-      "afterSha256": "3422307e53cfb75e24ab84570ba8ec21151b1958aa49544efe25e8e24e7f74ae",
+      "afterSha256": "e32839df21e0d6731c43f64b078db19138610ad1bd071488d988c2669504f87c",
       "publicCallers": ["docs navigation / repository reference"],
       "legalInputs": [
         "current repository documentation",
@@ -221,7 +221,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "3422307e53cfb75e24ab84570ba8ec21151b1958aa49544efe25e8e24e7f74ae",
+        "afterSha256": "e32839df21e0d6731c43f64b078db19138610ad1bd071488d988c2669504f87c",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md",
@@ -280,7 +288,7 @@
         }
       ],
       "sourceSha256": "30fbeb247545b62b52d0f3409b5048e28264ad0f5db1d7a68b1c4739f355ae7b",
-      "afterSha256": "e522689101ac24ce76c1820ee9b65219d1985d47bd7fb0e5b7e42cbbf7af1ee4",
+      "afterSha256": "978aa10090b2d54ccb151ec1fee919dcd92d68595fb2db86804891ba0739c5c1",
       "publicCallers": ["docs navigation / repository reference"],
       "legalInputs": [
         "current repository documentation",
@@ -422,7 +430,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "e522689101ac24ce76c1820ee9b65219d1985d47bd7fb0e5b7e42cbbf7af1ee4",
+        "afterSha256": "978aa10090b2d54ccb151ec1fee919dcd92d68595fb2db86804891ba0739c5c1",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/cancelled/ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md",
@@ -465,7 +481,7 @@
         }
       ],
       "sourceSha256": "1de6e7cacfc4a1a9877566d0abd38ffcf22f48d882be8c3df7f5169506ff5926",
-      "afterSha256": "7a26728cc4c00a957e2c56a0c728fcb7f6b1560f018be13a5d9e8433a1ee7d1f",
+      "afterSha256": "25de55bbd3812ba006415877a8bfaa40c4ccf0715ee953fe2eb9d104bd10ba50",
       "publicCallers": ["docs navigation / repository reference"],
       "legalInputs": [
         "current repository documentation",
@@ -582,7 +598,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "7a26728cc4c00a957e2c56a0c728fcb7f6b1560f018be13a5d9e8433a1ee7d1f",
+        "afterSha256": "25de55bbd3812ba006415877a8bfaa40c4ccf0715ee953fe2eb9d104bd10ba50",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md",
@@ -645,7 +669,7 @@
         }
       ],
       "sourceSha256": "685aa5500244d975f5f36f728bd41f51433a8f2ee942fa71504c6c4fc9339165",
-      "afterSha256": "4730f68eb760e220577fa2cf064c0f0fffed188dec2db6d23a072474799d1b97",
+      "afterSha256": "9e63c627c811043151605b65e11dc3342a2d76952711e7fc79bd271f021a9792",
       "publicCallers": ["docs navigation / repository reference"],
       "legalInputs": [
         "current repository documentation",
@@ -800,7 +824,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "4730f68eb760e220577fa2cf064c0f0fffed188dec2db6d23a072474799d1b97",
+        "afterSha256": "9e63c627c811043151605b65e11dc3342a2d76952711e7fc79bd271f021a9792",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md",
@@ -863,7 +895,7 @@
         }
       ],
       "sourceSha256": "bae45a9869120e57ec4b15407981e8efc5e9b50999d598cf980bf4d25ff6899e",
-      "afterSha256": "c5435fb26a8bfe8a0052d97b61445440c221bd1a0700549c72d47f9acd4f5e25",
+      "afterSha256": "a8a65b28f097736f58cace6e03f16c96aeebc6c16ae5804edf13a073888d520b",
       "publicCallers": ["docs navigation / repository reference"],
       "legalInputs": [
         "current repository documentation",
@@ -1018,7 +1050,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "c5435fb26a8bfe8a0052d97b61445440c221bd1a0700549c72d47f9acd4f5e25",
+        "afterSha256": "a8a65b28f097736f58cace6e03f16c96aeebc6c16ae5804edf13a073888d520b",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/cancelled/README.md",
@@ -1055,7 +1095,7 @@
         }
       ],
       "sourceSha256": "a3d28f030ea60b18f34caedf6fb9416a5b1f568020c4a113ef089e142fb2cf2d",
-      "afterSha256": "0401af9f83928309768f670de5a36fe1bca684d3e57d7607cc76cfeab994c5fb",
+      "afterSha256": "c346d499c79ac59e68b8a5d46b68ffc27d180386839dc61c95ea1a2112ab2c4c",
       "publicCallers": [
         "docs/ops/archive/tasks/cancelled/README.md → ../README.md",
         "docs/ops/archive/tasks/cancelled/README.md → ../../../tasks/index.md"
@@ -1173,7 +1213,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "0401af9f83928309768f670de5a36fe1bca684d3e57d7607cc76cfeab994c5fb",
+        "afterSha256": "c346d499c79ac59e68b8a5d46b68ffc27d180386839dc61c95ea1a2112ab2c4c",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md",
@@ -1236,7 +1284,7 @@
         }
       ],
       "sourceSha256": "27c1b85516f87338dae0d8299c30bc6f858ea2af91025b3c09346c85bcd7c38e",
-      "afterSha256": "1068b112c9054ae00fed1ca47d7555426d55450c05776bed8ab02b6a869f53d5",
+      "afterSha256": "65f9f05097109878f4a105093240f61588a83b8440fd81ee7f44fd1d7463ee4e",
       "publicCallers": [
         "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md → ../done/W7F-canonical-map-pipeline.md"
       ],
@@ -1393,7 +1441,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "1068b112c9054ae00fed1ca47d7555426d55450c05776bed8ab02b6a869f53d5",
+        "afterSha256": "65f9f05097109878f4a105093240f61588a83b8440fd81ee7f44fd1d7463ee4e",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     }
   ],
   "independentReadOnlyReceipt": {
@@ -1417,12 +1473,20 @@
   "independentCandidateAcceptance": {
     "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r32-ops-cancelled-tasks-candidate-acceptance-20261017.json",
     "sha256": "bbf1363cb52b419071460b66a3c4a882d1510a019202b4bb04fc4d6f8752917a",
-    "verdict": "accept",
+    "verdict": "withdrawn-independent-credit",
     "scope": "7/7 candidate reception only",
     "nonAuthorReviewer": false,
     "runtimeEvidence": false,
     "e2eEvidence": false,
     "visualEvidence": false,
-    "coverageEvidence": false
+    "coverageEvidence": false,
+    "historicalVerdict": "accept",
+    "currentReviewerRelationship": "explicit nonAuthorReviewer=false; author self-check only; historical content preservation assessed separately"
+  },
+  "reviewerRelationshipCorrection": {
+    "date": "2026-10-18",
+    "decision": "same-actor candidate acceptance cannot certify non-author review",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
   }
 }

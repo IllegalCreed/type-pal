@@ -6,7 +6,11 @@
   "rows": [
     {
       "id": "P1-P2-architecture-boundary",
-      "from": ["docs/phase1/01-feasibility.md", "docs/phase1/02-architecture.md", "CLAUDE.md"],
+      "from": [
+        "docs/phase1/01-feasibility.md",
+        "docs/phase1/02-architecture.md",
+        "CLAUDE.md"
+      ],
       "to": [
         "docs/phase2/READ-FIRST.md",
         "docs/phase2/specs/editor-architecture.md",
@@ -14,7 +18,10 @@
       ],
       "relationship": "Phase1 is faithful-restoration/reference work; Phase2 is a new Reforge architecture and must not inherit old module coupling or fidelity as its implementation contract.",
       "status": "resolved",
-      "evidence": ["docs/phase1/02-architecture.md:1", "docs/phase2/READ-FIRST.md:1-11"],
+      "evidence": [
+        "docs/phase1/02-architecture.md:1",
+        "docs/phase2/READ-FIRST.md:1-11"
+      ],
       "stopLine": "Do not cite Phase1 architecture as the current Phase2 design without an explicit Phase2 decision."
     },
     {
@@ -48,7 +55,11 @@
         "docs/phase1/status/README.md",
         "docs/phase1/03-development-plan.md"
       ],
-      "to": ["docs/ops/board.md", "docs/ops/tasks/index.md", "docs/ops/audits/README.md"],
+      "to": [
+        "docs/ops/board.md",
+        "docs/ops/tasks/index.md",
+        "docs/ops/audits/README.md"
+      ],
       "relationship": "Phase1 plans/status snapshots are historical evidence; Ops board/task status is the current responsibility surface.",
       "status": "resolved",
       "evidence": [
@@ -253,7 +264,11 @@
         "docs/ops/archive/tasks/done/A4-own-sprite-upload.md",
         "docs/ops/archive/tasks/done/B10-poison-structured-editor.md"
       ],
-      "to": ["packages/", "scripts/e2e/", "docs/testing/"],
+      "to": [
+        "packages/",
+        "scripts/e2e/",
+        "docs/testing/"
+      ],
       "relationship": "Ops documents describe work, evidence and claims; only current callers, executable tests and business oracles can establish runtime/test results.",
       "status": "guarded",
       "evidence": [
@@ -318,7 +333,11 @@
         "docs/ops/archive/protocols/three-sages-20261015.md",
         "docs/ops/archive/protocols/workflow-snapshot-20261015.md"
       ],
-      "to": ["AGENTS.md", "docs/ops/agent-workflow.md", "docs/ops/tasks/README.md"],
+      "to": [
+        "AGENTS.md",
+        "docs/ops/agent-workflow.md",
+        "docs/ops/tasks/README.md"
+      ],
       "relationship": "Old three-party signatures and retired role rules are preserved as historical source; current Codex dispatch/independent acceptance controls new work. Closed tasks keep stable identities and do not regain authority from old handoffs.",
       "status": "resolved",
       "evidence": [
@@ -333,7 +352,10 @@
       "from": [
         "docs/ops/evidence/TEST-GLM-GAME-EVENT-STATE-OPCODES-1/onenter-walk-reachability.md"
       ],
-      "to": ["docs/testing/governance.md", "docs/ops/agent-workflow.md"],
+      "to": [
+        "docs/testing/governance.md",
+        "docs/ops/agent-workflow.md"
+      ],
       "relationship": "The onEnter scan stops at first end and does not follow goto/jumps; absence in that linear lower bound is not proof of whole-program unreachability or missing business coverage.",
       "status": "guarded",
       "evidence": [
@@ -346,11 +368,20 @@
     },
     {
       "id": "phase3-art-reference-vs-current-build",
-      "from": ["docs/phase3/reference/art-pipeline.md"],
-      "to": ["docs/phase3/backlog.md", "docs/phase2/READ-FIRST.md", "docs/lore/dlc-ideas.md"],
+      "from": [
+        "docs/phase3/reference/art-pipeline.md"
+      ],
+      "to": [
+        "docs/phase3/backlog.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/lore/dlc-ideas.md"
+      ],
       "relationship": "Art pipeline proposals, model/API recommendations and legal safety assertions belong to dated historical planning input; the accepted phase boundary does not certify those technical/legal claims or approve current generation/publication.",
       "status": "guarded",
-      "evidence": ["docs/phase3/reference/art-pipeline.md:1", "docs/phase3/backlog.md:1"],
+      "evidence": [
+        "docs/phase3/reference/art-pipeline.md:1",
+        "docs/phase3/backlog.md:1"
+      ],
       "unresolved": [
         "Current technical capability, legal assertions and old source links were not revalidated by this document migration.",
         "No new art_description/schema task or commercial publication is authorized by historical now/recommended wording."
@@ -373,7 +404,10 @@
         "docs/testing/e2e/stages/005-shrimp/README.md",
         "docs/testing/e2e/stages/005-shrimp/report.md"
       ],
-      "to": ["docs/phase2/specs/save-system.md", "docs/testing/catalog.json"],
+      "to": [
+        "docs/phase2/specs/save-system.md",
+        "docs/testing/catalog.json"
+      ],
       "relationship": "Current source constants are content22/minimumSave12 while published audit revisions and older execution receipts keep their original SAVE/content axes. A governance envelope preserves public machine fields and does not manufacture a new execution. M002 canonical pair retains original verified publication/date, historical content21/SAVE9/10 and22/11 versus current source22/12. Oct8 local35/35 does not restore revoked complete-chain/infrastructure credit; Oct11 later fixed batch and Oct2 team-local feedback successor stay distinct. Static content acceptance grants no execution or user-perception credit. Six003-005 retain own-engine002/003/004saves predecessor contracts, unique stage duties and original warnings/failures. Oct2 specific004 continuous-demo user recognition is preserved; other per-item/capture/fullQ1Q2/publication and006 rework are separate. Oct8 local kitchen result lacks initial idle and does not restore complete-chain credit;005 wrapper failed plus supplements do not become one successful wrapper. No static reception creates current-version execution.",
       "status": "guarded",
       "evidence": [
@@ -405,7 +439,10 @@
               "docs/testing/e2e/stages/002-inn-guests-and-reward/README.md",
               "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md"
             ],
-            "to": ["docs/phase2/specs/save-system.md", "docs/testing/catalog.json"],
+            "to": [
+              "docs/phase2/specs/save-system.md",
+              "docs/testing/catalog.json"
+            ],
             "relationship": "Current source constants are content22/minimumSave12 while published audit revisions and older execution receipts keep their original SAVE/content axes. A governance envelope preserves public machine fields and does not manufacture a new execution. M002 canonical pair retains original verified publication/date, historical content21/SAVE9/10 and22/11 versus current source22/12. Oct8 local35/35 does not restore revoked complete-chain/infrastructure credit; Oct11 later fixed batch and Oct2 team-local feedback successor stay distinct. Static content acceptance grants no execution or user-perception credit.",
             "status": "guarded",
             "evidence": [
@@ -444,7 +481,10 @@
               "docs/testing/e2e/stages/005-shrimp/README.md",
               "docs/testing/e2e/stages/005-shrimp/report.md"
             ],
-            "to": ["docs/phase2/specs/save-system.md", "docs/testing/catalog.json"],
+            "to": [
+              "docs/phase2/specs/save-system.md",
+              "docs/testing/catalog.json"
+            ],
             "relationship": "Current source constants are content22/minimumSave12 while published audit revisions and older execution receipts keep their original SAVE/content axes. A governance envelope preserves public machine fields and does not manufacture a new execution. M002 canonical pair retains original verified publication/date, historical content21/SAVE9/10 and22/11 versus current source22/12. Oct8 local35/35 does not restore revoked complete-chain/infrastructure credit; Oct11 later fixed batch and Oct2 team-local feedback successor stay distinct. Static content acceptance grants no execution or user-perception credit. Six003-005 retain own-engine002/003/004saves predecessor contracts, unique stage duties and original warnings/failures. Oct2 specific004 continuous-demo user recognition is preserved; other per-item/capture/fullQ1Q2/publication and006 rework are separate. Oct8 local kitchen result lacks initial idle and does not restore complete-chain credit;005 wrapper failed plus supplements do not become one successful wrapper. No static reception creates current-version execution.",
             "status": "guarded",
             "evidence": [
@@ -476,7 +516,10 @@
                     "docs/testing/e2e/stages/002-inn-guests-and-reward/README.md",
                     "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md"
                   ],
-                  "to": ["docs/phase2/specs/save-system.md", "docs/testing/catalog.json"],
+                  "to": [
+                    "docs/phase2/specs/save-system.md",
+                    "docs/testing/catalog.json"
+                  ],
                   "relationship": "Current source constants are content22/minimumSave12 while published audit revisions and older execution receipts keep their original SAVE/content axes. A governance envelope preserves public machine fields and does not manufacture a new execution. M002 canonical pair retains original verified publication/date, historical content21/SAVE9/10 and22/11 versus current source22/12. Oct8 local35/35 does not restore revoked complete-chain/infrastructure credit; Oct11 later fixed batch and Oct2 team-local feedback successor stay distinct. Static content acceptance grants no execution or user-perception credit.",
                   "status": "guarded",
                   "evidence": [
@@ -516,8 +559,14 @@
     },
     {
       "id": "historical-static-diagnostics-vs-current-zero-gate",
-      "from": ["docs/ops/audits/pre-e2e/quality-gate-remediation.md"],
-      "to": ["AGENTS.md", "docs/ops/agent-workflow.md", "docs/testing/governance.md"],
+      "from": [
+        "docs/ops/audits/pre-e2e/quality-gate-remediation.md"
+      ],
+      "to": [
+        "AGENTS.md",
+        "docs/ops/agent-workflow.md",
+        "docs/testing/governance.md"
+      ],
       "relationship": "The 2026-09-06 E-06 report preserves its final 0 errors / 50 warnings / 11 infos and original check/coverage/CI decisions. The later zero-diagnostics policy governs current checks without falsifying the past.",
       "status": "guarded",
       "evidence": [
@@ -536,7 +585,10 @@
         "docs/testing/domains/runtime/battle/battle-session-owners/report.md",
         "docs/testing/domains/runtime/battle/battle-session-owners/evidence.json"
       ],
-      "to": ["docs/ops/agent-workflow.md", "docs/testing/governance.md"],
+      "to": [
+        "docs/ops/agent-workflow.md",
+        "docs/testing/governance.md"
+      ],
       "relationship": "A source-backed publication records original caller/oracle obligations, but cannot grant current test-quality acceptance. The cited readiness fixture includes an as unknown as BattleState cast that requires a separate legal-input/contract audit.",
       "status": "guarded",
       "evidence": [
@@ -576,7 +628,10 @@
         "docs/testing/domains/runtime/scene/active-scene/report.md",
         "docs/testing/domains/runtime/scene/active-scene/evidence.json"
       ],
-      "to": ["docs/phase-governance/templates/registry.json", "scripts/docs/document-model.mjs"],
+      "to": [
+        "docs/phase-governance/templates/registry.json",
+        "scripts/docs/document-model.mjs"
+      ],
       "relationship": "Domain report and document-audit status project the unique catalog publication entry. Default execution evidence keeps a separate lifecycle; current/verified publication does not mean this task executed runtime.",
       "status": "resolved",
       "evidence": [
@@ -833,7 +888,9 @@
     },
     {
       "id": "phase3-index-vs-candidate-text-authority",
-      "from": ["docs/phase3/README.md"],
+      "from": [
+        "docs/phase3/README.md"
+      ],
       "to": [
         "docs/phase3/backlog.md",
         "docs/phase3/map-reconstruction.md",
@@ -862,7 +919,9 @@
       ],
       "relationship": "Contributor assertions, Codex independent source-loading evidence, extra integration metadata fixes and final historical acceptance retain separate identities. Overflow September 25 labels-draft state precedes labels September 26 accept. RF-22 image nonidentity, RF-06 two-state byte identity and confirm host substitution have distinct scopes.",
       "status": "guarded",
-      "evidence": ["docs/ops/evidence/DOCS-FULL-TEMPLATE-1/historical-receipts-20261016.json:1"],
+      "evidence": [
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/historical-receipts-20261016.json:1"
+      ],
       "unresolved": [
         "Old temporary screenshots/logs and deleted contributor mock tools not recovered or rerun.",
         "Current source/test quality and runtime/visual/coverage acceptance not established by migration."
@@ -895,33 +954,47 @@
     },
     {
       "id": "a7-music-role-and-denominator-history",
-      "from": ["docs/ops/archive/tasks/done/A7-0-resource-closure-registry.md"],
-      "to": ["docs/ops/archive/tasks/done/A7-0A-opening-menu-music-role.md"],
+      "from": [
+        "docs/ops/archive/tasks/done/A7-0-resource-closure-registry.md"
+      ],
+      "to": [
+        "docs/ops/archive/tasks/done/A7-0A-opening-menu-music-role.md"
+      ],
       "relationship": "四音乐角色被第五标题菜单角色纠正；1326/13与1327/12按不同日期，G5 Record atomic错误归因不恢复。",
       "status": "guarded",
       "evidence": [
         "docs/ops/archive/tasks/done/A7-0-resource-closure-registry.md:1",
         "docs/phase-governance/reviews/20261016-historical-cards-c.json:1"
       ],
-      "unresolved": ["002仅binding、048无专门走场和O2统一回执缺口保留。"],
+      "unresolved": [
+        "002仅binding、048无专门走场和O2统一回执缺口保留。"
+      ],
       "stopLine": "绑定、同逻辑或浏览器网络链不等实际走场/物理听觉；不恢复旧upgrader。"
     },
     {
       "id": "a7-face-absence-supersedes-transparent-stub",
-      "from": ["docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md"],
-      "to": ["docs/ops/archive/tasks/done/MIG-PAL-ACTOR-FACE-1-pal-actor-face-absence.md"],
+      "from": [
+        "docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md"
+      ],
+      "to": [
+        "docs/ops/archive/tasks/done/MIG-PAL-ACTOR-FACE-1-pal-actor-face-absence.md"
+      ],
       "relationship": "旧6face/10392B/68B透明stub被Aug23/24 raw后继5face/10324B/absence取代，portrait044保留。",
       "status": "guarded",
       "evidence": [
         "docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md:1",
         "docs/phase-governance/reviews/20261016-historical-cards-c.json:1"
       ],
-      "unresolved": ["本轮未重新解码DATA.MKF或运行产品/视觉；后继固定raw证据与原历史快照分开。"],
+      "unresolved": [
+        "本轮未重新解码DATA.MKF或运行产品/视觉；后继固定raw证据与原历史快照分开。"
+      ],
       "stopLine": "旧accept不升当前真值，不新增按角色号或透明度猜测fallback。"
     },
     {
       "id": "a7-cutscene-skip-counter-and-shared-source-conflict",
-      "from": ["docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md"],
+      "from": [
+        "docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md"
+      ],
       "to": [
         "docs/phase2/archive/designs/cutscene-asset-workbench-design.md",
         "docs/phase2/archive/audits/a7-resource-closure-audit.md"
@@ -941,7 +1014,9 @@
           "date": "2026-10-16",
           "before": {
             "id": "a7-cutscene-skip-counter-and-shared-source-conflict",
-            "from": ["docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md"],
+            "from": [
+              "docs/ops/archive/tasks/done/A7-3-cutscene-asset-workbench.md"
+            ],
             "to": [
               "docs/phase2/archive/designs/cutscene-asset-workbench-design.md",
               "docs/phase2/archive/audits/a7-resource-closure-audit.md"
@@ -963,7 +1038,9 @@
     },
     {
       "id": "a7-tileset-ofl-failure-and-later-byte-restoration",
-      "from": ["docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md"],
+      "from": [
+        "docs/ops/archive/tasks/done/A7-3T-tileset-asset-closure.md"
+      ],
       "to": [
         "docs/ops/archive/tasks/done/A7-3W-world-sprite-asset-closure.md",
         "docs/ops/archive/tasks/done/A7-2-static-images-engine-chrome.md"
@@ -1076,7 +1153,9 @@
         "docs/ops/archive/tasks/done/CODE-QUALITY-3c-editor-coverage-determinism.md:1",
         "docs/ops/audits/pre-e2e/coverage-determinism.md:1"
       ],
-      "unresolved": ["未执行当前coverage或旧测试，原测试质量与今日基准不由历史合同重新认证。"],
+      "unresolved": [
+        "未执行当前coverage或旧测试，原测试质量与今日基准不由历史合同重新认证。"
+      ],
       "stopLine": "不继续将旧runner猜测当已证根因，不为历史数字降低当前门或增加弱用例。",
       "history": [
         {
@@ -1111,7 +1190,9 @@
     },
     {
       "id": "catalog-own-labels-vs-inherited-properties",
-      "from": ["docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md"],
+      "from": [
+        "docs/ops/archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md"
+      ],
       "to": [
         "docs/ops/audits/code-quality-governance.md",
         "docs/ops/audits/code-quality-file-ledger.md"
@@ -1201,7 +1282,10 @@
         "docs/ops/archive/tasks/done/ARCH-ENTRY-ACTOR-SEED-1-entry-actor-initial-state.md",
         "docs/ops/archive/tasks/done/ARCH-ENTRYPOINT-CANONICAL-1-explicit-startup-entry-model.md"
       ],
-      "to": ["docs/phase2/READ-FIRST.md", "packages/reforge/src/actor-condition-lifecycle.ts"],
+      "to": [
+        "docs/phase2/READ-FIRST.md",
+        "packages/reforge/src/actor-condition-lifecycle.ts"
+      ],
       "relationship": "角色ActorDef基线、入口当前hp/mp覆盖、入口condition快照和剧情apply/clear各有维护权；undefined首次learnedSkills播种与空数组/再入队不同，restore清incurable与战后severe封顶不同。稳定defaultEntryId不共享StartWorld，旧query组合语义变化仍披露。",
       "status": "guarded",
       "evidence": [
@@ -1219,7 +1303,10 @@
         "docs/ops/archive/tasks/done/ARCH-CURRENT-ONLY-1-development-current-only-consolidation.md",
         "docs/ops/archive/tasks/done/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md"
       ],
-      "to": ["docs/phase2/READ-FIRST.md", "docs/phase2/guides/content-publication.md"],
+      "to": [
+        "docs/phase2/READ-FIRST.md",
+        "docs/phase2/guides/content-publication.md"
+      ],
       "relationship": "开发期current-only按产品epoch/本地格式/源与平台分轴；PAL作者正文独立后完整原版脚本转换与动作audit按r6退役，资源/地图/商店/角色及批准窄输入仍有供应真源。PB4 leaf通过与current-v4表示重建失败不同，不删除整个migrate。",
       "status": "guarded",
       "evidence": [
@@ -1382,6 +1469,31 @@
         "未知后继UI、完整prepare安全门、required-self全保存发布与未实现N6b/DFS须另任务事实核验；指南不授权补产品。"
       ],
       "stopLine": "不得以模板/源码窄域/操作说明证明产品完整通过；保留原413行及失败、历史与未知，不将静态正文审查升级执行信用。"
+    },
+    {
+      "id": "record-integrity-withdrawal-20261018",
+      "from": [
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md"
+      ],
+      "to": [
+        "docs/lore/README.md",
+        "docs/phase1/README.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/phase3/README.md",
+        "docs/testing/governance.md"
+      ],
+      "relationship": "R39–R94 mechanical envelope records cannot establish current semantic/template or non-author completion across any document family. Historical facts and runtime claims retain their source boundaries.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json"
+      ],
+      "unresolved": [
+        "1896 affected current bindings require actual per-document semantic review before credit can be regranted.",
+        "Other receipt history mutation candidates require primary raw-run review; same-actor checks give no independent acceptance."
+      ],
+      "stopLine": "Do not infer all-docs completion, user decisions, runtime/E2E/visual/coverage or semantic approval from shape/hash checks."
     }
   ],
   "acceptance": {

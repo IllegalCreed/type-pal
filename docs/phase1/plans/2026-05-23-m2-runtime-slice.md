@@ -40,7 +40,7 @@ Template: plan-status-v1 / 1.0.0
 
 ## 下一步
 
-- 后继入口：M；3； ；d；e；s；i；g；n；/；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；r；u；n；t；i；m；e； ；c；o；d；e；/；t；e；s；t；s；;； ；h；i；s；t；o；r；i；c；a；l； ；T；O；D；O；s； ；r；e；q；u；i；r；e； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；a；l；i；d；a；t；i；o；n；.。
+- 后继入口：M3 design/plan and current runtime code/tests; historical TODOs require primary-source revalidation.。
 - 若重新执行须新 task card、当前 source/oracle 和独立验收。
 
 ## 历史范围
@@ -74,7 +74,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- M；3； ；d；e；s；i；g；n；/；p；l；a；n； ；a；n；d； ；c；u；r；r；e；n；t； ；r；u；n；t；i；m；e； ；c；o；d；e；/；t；e；s；t；s；;； ；h；i；s；t；o；r；i；c；a；l； ；T；O；D；O；s； ；r；e；q；u；i；r；e； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e； ；r；e；v；a；l；i；d；a；t；i；o；n；.。
+- M3 design/plan and current runtime code/tests; historical TODOs require primary-source revalidation.。
 - 当前事实由继任规范、代码和新的 review 决定。
 
 ## 原文保全

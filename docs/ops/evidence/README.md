@@ -110,3 +110,5 @@ current（仅指导航索引）。历史交付不得外推为当前 runtime/E2E/
 >
 > - [全 docs 盘点与模板治理证据](DOCS-FULL-TEMPLATE-1/README.md)
 <!-- original-source-quote:end -->
+
+- [R 波记录可信度返工](DOCS-RECORD-INTEGRITY-1/README.md)：撤回过度信用、原证据保全、真实重跑与逐篇待审清单。

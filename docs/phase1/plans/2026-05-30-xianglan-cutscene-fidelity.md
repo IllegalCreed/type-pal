@@ -29,7 +29,7 @@ Template: plan-status-v1 / 1.0.0
 
 ## 下一步
 
-- 后继入口：C；u；r；r；e；n；t； ；r；u；n；t；i；m；e； ；d；i；a；g；n；o；s；t；i；c；s； ；a；n；d； ；c；u；t；s；c；e；n；e； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；/；t；e；s；t；s；;； ；a；n；y； ；r；e；p；a；i；r； ；n；e；e；d；s； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e；/；r；u；n；t；i；m；e； ；r；e；v；i；e；w；.。
+- 后继入口：Current runtime diagnostics and cutscene implementation/tests; any repair needs a fresh primary-source/runtime review.。
 - 若重新执行须新 task card、当前 source/oracle 和独立验收。
 
 ## 历史范围
@@ -52,7 +52,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- C；u；r；r；e；n；t； ；r；u；n；t；i；m；e； ；d；i；a；g；n；o；s；t；i；c；s； ；a；n；d； ；c；u；t；s；c；e；n；e； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n；/；t；e；s；t；s；;； ；a；n；y； ；r；e；p；a；i；r； ；n；e；e；d；s； ；a； ；f；r；e；s；h； ；p；r；i；m；a；r；y；-；s；o；u；r；c；e；/；r；u；n；t；i；m；e； ；r；e；v；i；e；w；.。
+- Current runtime diagnostics and cutscene implementation/tests; any repair needs a fresh primary-source/runtime review.。
 - 当前事实由继任规范、代码和新的 review 决定。
 
 ## 原文保全

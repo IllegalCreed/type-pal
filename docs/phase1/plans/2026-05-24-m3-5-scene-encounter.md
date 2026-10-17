@@ -40,7 +40,7 @@ Template: plan-status-v1 / 1.0.0
 
 ## 下一步
 
-- 后继入口：M；4； ；p；l；a；n；/；c；u；r；r；e；n；t； ；s；c；e；n；e； ；a；n；d； ；l；o；a；d；e；r； ；c；o；d；e；;； ；r；e；v；a；l；i；d；a；t；e； ；r；a；w； ；l；o；a；d；S；c；e；n；e； ；a；n；d； ；l；o；c；a；l； ；b；a；s；e；l；i；n；e； ；a；s；s；u；m；p；t；i；o；n；s；.。
+- 后继入口：M4 plan/current scene and loader code; revalidate raw loadScene and local baseline assumptions.。
 - 若重新执行须新 task card、当前 source/oracle 和独立验收。
 
 ## 历史范围
@@ -74,7 +74,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- M；4； ；p；l；a；n；/；c；u；r；r；e；n；t； ；s；c；e；n；e； ；a；n；d； ；l；o；a；d；e；r； ；c；o；d；e；;； ；r；e；v；a；l；i；d；a；t；e； ；r；a；w； ；l；o；a；d；S；c；e；n；e； ；a；n；d； ；l；o；c；a；l； ；b；a；s；e；l；i；n；e； ；a；s；s；u；m；p；t；i；o；n；s；.。
+- M4 plan/current scene and loader code; revalidate raw loadScene and local baseline assumptions.。
 - 当前事实由继任规范、代码和新的 review 决定。
 
 ## 原文保全

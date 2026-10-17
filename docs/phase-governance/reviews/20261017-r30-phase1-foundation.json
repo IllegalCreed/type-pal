@@ -37,7 +37,7 @@
         }
       ],
       "sourceSha256": "e9e688ecf63eede4d7b16629bce9e0f23961eacc5d8a1659a22c4a53eb3016bc",
-      "afterSha256": "cb7bd6acadc0deed4f0b5f618f322ec324c5d64cd54b361feecbf1c056492237",
+      "afterSha256": "a378129bf3a8c80d87d90c3b45f13f9d9e9c52e52c9afa429d15d3ba3c0561ec",
       "publicCallers": ["docs navigation"],
       "legalInputs": ["current repository documentation", "docs/phase1/01-feasibility.md"],
       "businessOracle": {
@@ -177,7 +177,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "cb7bd6acadc0deed4f0b5f618f322ec324c5d64cd54b361feecbf1c056492237",
+        "afterSha256": "a378129bf3a8c80d87d90c3b45f13f9d9e9c52e52c9afa429d15d3ba3c0561ec",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/02-architecture.md",
@@ -212,7 +220,7 @@
         }
       ],
       "sourceSha256": "1fa3eedd1004268f790e071ddec7b203b17f452928353355231764a2f5f2f13c",
-      "afterSha256": "a2b6f53917d439c1336d148d5652ccc4052419cdb8bda27a7bc8d2913c31119a",
+      "afterSha256": "606379fb5f345c4627dc8fbf086d2bb177e9b76cdd9f16c01638cfcb42da4526",
       "publicCallers": ["docs navigation"],
       "legalInputs": ["current repository documentation", "docs/phase1/02-architecture.md"],
       "businessOracle": {
@@ -319,7 +327,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "a2b6f53917d439c1336d148d5652ccc4052419cdb8bda27a7bc8d2913c31119a",
+        "afterSha256": "606379fb5f345c4627dc8fbf086d2bb177e9b76cdd9f16c01638cfcb42da4526",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/04-decisions.md",
@@ -353,7 +369,7 @@
         }
       ],
       "sourceSha256": "03446a701b452a98d8d4fe3bc292e99a61c2f814fc62dc78e9e32435044bc479",
-      "afterSha256": "eac592169088408de540284a94821a50eb1a099c6a5e35799f1483aaeceb7bea",
+      "afterSha256": "25610b69faed3157217bee03c9685291903616967aadb6ddf924dfe39982c03f",
       "publicCallers": ["docs navigation"],
       "legalInputs": ["current repository documentation", "docs/phase1/04-decisions.md"],
       "businessOracle": {
@@ -465,7 +481,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "eac592169088408de540284a94821a50eb1a099c6a5e35799f1483aaeceb7bea",
+        "afterSha256": "25610b69faed3157217bee03c9685291903616967aadb6ddf924dfe39982c03f",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/05-events-schema.md",
@@ -500,7 +524,7 @@
         }
       ],
       "sourceSha256": "f273dc84575750ef4b7cc543eb635e7b8cb9f21f9051a6d114b49b3a45395d58",
-      "afterSha256": "e27b92e2ff5d54169bdbaccb5f3a2efa2b63eb3b11d0946a9cd47feb36cf25da",
+      "afterSha256": "4a71e631302b45734fc5681bf4a069a300ff1111a6f8a2a2b873aa26b4ac109c",
       "publicCallers": ["docs navigation"],
       "legalInputs": ["current repository documentation", "docs/phase1/05-events-schema.md"],
       "businessOracle": {
@@ -607,7 +631,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "e27b92e2ff5d54169bdbaccb5f3a2efa2b63eb3b11d0946a9cd47feb36cf25da",
+        "afterSha256": "4a71e631302b45734fc5681bf4a069a300ff1111a6f8a2a2b873aa26b4ac109c",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/06-testing.md",
@@ -642,7 +674,7 @@
         }
       ],
       "sourceSha256": "9f603594d8d203d732edb717e0f51e20863353c463ee0767a387c0cbb46a92cd",
-      "afterSha256": "99d0d454ba5f3228885eb13c7d035e174ddb557ed63a4eb4b6bdf022b840cccf",
+      "afterSha256": "1f08e597b5aa105d881b6df88cd0af8d8ea9f2ac2cdb4d1cb9de78d547b2e549",
       "publicCallers": ["docs navigation"],
       "legalInputs": ["current repository documentation", "docs/phase1/06-testing.md"],
       "businessOracle": {
@@ -749,7 +781,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "99d0d454ba5f3228885eb13c7d035e174ddb557ed63a4eb4b6bdf022b840cccf",
+        "afterSha256": "1f08e597b5aa105d881b6df88cd0af8d8ea9f2ac2cdb4d1cb9de78d547b2e549",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/engineering-notes.md",
@@ -785,7 +825,7 @@
         }
       ],
       "sourceSha256": "3937967f7b24431dcd0d2dcb0cde8ec1def1bcc78e9df9d552e61c18805d77ed",
-      "afterSha256": "e37d7232b6aff955f4aa8b50e33f87b15377a3707c0c548d5d6cc7ddffb2e89f",
+      "afterSha256": "5612d4c2273474b6f5f6778e58411b3724effe70e66f0410aea7ff178c2bb227",
       "publicCallers": ["docs navigation"],
       "legalInputs": ["current repository documentation", "docs/phase1/engineering-notes.md"],
       "businessOracle": {
@@ -919,7 +959,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "e37d7232b6aff955f4aa8b50e33f87b15377a3707c0c548d5d6cc7ddffb2e89f",
+        "afterSha256": "5612d4c2273474b6f5f6778e58411b3724effe70e66f0410aea7ff178c2bb227",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/game-mechanics.md",
@@ -960,7 +1008,7 @@
         }
       ],
       "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
-      "afterSha256": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
+      "afterSha256": "c44a5230436f632c16ee53a8ba7d1ba9a73704e82ff6e6e0bfa4572acea47e1b",
       "publicCallers": ["docs navigation"],
       "legalInputs": ["current repository documentation", "docs/phase1/game-mechanics.md"],
       "businessOracle": {
@@ -1097,7 +1145,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
+        "afterSha256": "c44a5230436f632c16ee53a8ba7d1ba9a73704e82ff6e6e0bfa4572acea47e1b",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/README.md",
@@ -1130,7 +1186,7 @@
         }
       ],
       "sourceSha256": "1bc2f3b578845ad1d937c37749303a8742f40c0a09e1b8605c657d00370120ae",
-      "afterSha256": "98787ab9406278533cd7ee556c84624233abb45ff5936e78d29ff7ffa9a31e5f",
+      "afterSha256": "4991bfc6474256501a58435be44b9812e1635d72acbb10254b0f2ecc25230ead",
       "publicCallers": ["docs navigation"],
       "legalInputs": ["current repository documentation", "docs/phase1/README.md"],
       "businessOracle": {
@@ -1237,7 +1293,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "98787ab9406278533cd7ee556c84624233abb45ff5936e78d29ff7ffa9a31e5f",
+        "afterSha256": "4991bfc6474256501a58435be44b9812e1635d72acbb10254b0f2ecc25230ead",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     },
     {
       "path": "docs/phase1/sdlpal-runbook.md",
@@ -1272,7 +1336,7 @@
         }
       ],
       "sourceSha256": "01fcf70b015aa3c0f873e910873c89a95e35f859afa08a40d784a0a188c51b81",
-      "afterSha256": "1d883589684306f1737a50a54f20858a377c04fc080159cdb47df9284c7a1214",
+      "afterSha256": "0027eb5bdbb1319c1ed0240bc2a0c508aebfaaaba61ebc5476c8d4c0f8e8f403",
       "publicCallers": ["docs navigation"],
       "legalInputs": ["current repository documentation", "docs/phase1/sdlpal-runbook.md"],
       "businessOracle": {
@@ -1379,7 +1443,15 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No product execution or visual acceptance."
         }
-      ]
+      ],
+      "correctiveDelta": {
+        "date": "2026-10-18",
+        "previousAfterSha256": "1d883589684306f1737a50a54f20858a377c04fc080159cdb47df9284c7a1214",
+        "afterSha256": "0027eb5bdbb1319c1ed0240bc2a0c508aebfaaaba61ebc5476c8d4c0f8e8f403",
+        "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "task": "DOCS-RECORD-INTEGRITY-1"
+      }
     }
   ],
   "independentReadOnlyReceipt": {
@@ -1406,12 +1478,20 @@
   "independentCandidateAcceptance": {
     "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r30-phase1-foundation-candidate-acceptance-20261017.json",
     "sha256": "a71fc6523b1f05f316fa5660546c841135d4d2294ff5297cc7665c65b1dda030",
-    "verdict": "accept",
+    "verdict": "withdrawn-independent-credit",
     "scope": "9/9 candidate reception only",
     "nonAuthorReviewer": false,
     "runtimeEvidence": false,
     "e2eEvidence": false,
     "visualEvidence": false,
-    "coverageEvidence": false
+    "coverageEvidence": false,
+    "historicalVerdict": "accept",
+    "currentReviewerRelationship": "explicit nonAuthorReviewer=false; author self-check only; historical content preservation assessed separately"
+  },
+  "reviewerRelationshipCorrection": {
+    "date": "2026-10-18",
+    "decision": "same-actor candidate acceptance cannot certify non-author review",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
   }
 }

@@ -31,7 +31,7 @@ historical。Do not execute or cite this draft as current canonical spec; rewrit
 
 ## 继任文档
 
-- d；o；c；s；/；p；h；a；s；e；2；/；a；r；c；h；i；v；e；/；s；l；i；c；e；s；/；i；n；d；o；o；r；/；g；u；i；j；i；e；-；m；i；n；j；u；.；m；d； ；i；s； ；t；h；e； ；n；a；m；e；d； ；t；e；x；t；u；a；l； ；s；u；c；c；e；s；s；o；r；;； ；c；u；r；r；e；n；t； ；p；h；a；s；e；2； ；d；e；c；i；s；i；o；n；s； ；a；n；d； ；r；e；f；o；r；g；e；/；c；o；n；t；e；n；t； ；i；m；p；l；e；m；e；n；t；a；t；i；o；n； ；m；u；s；t； ；b；e； ；r；e；v；a；l；i；d；a；t；e；d； ；b；e；f；o；r；e； ；u；s；e；.。
+- docs/phase2/archive/slices/indoor/guijie-minju.md is the named textual successor; current phase2 decisions and reforge/content implementation must be revalidated before use.。
 - 当前事实需从继任规范、代码和新 review 读取。
 
 ## 原文保全

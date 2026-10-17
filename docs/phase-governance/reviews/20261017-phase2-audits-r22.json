@@ -2866,5 +2866,13 @@
     "e2eEvidence": false,
     "visualEvidence": false,
     "coverageEvidence": false
+  },
+  "candidateAcceptanceChainCorrection": {
+    "date": "2026-10-18",
+    "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r22-candidate-acceptance-20261017.json",
+    "sha256": "856a993f66ac2e6c847ccd4d747391e5e8a8cd6f37de06c08868c59e5b25a129",
+    "historicalVerdict": "accept",
+    "currentScope": "preservation/structure only; no new semantic or independent acceptance granted by adding this missing pointer",
+    "reviewerRelationship": "not re-certified; actual historical reviewer identity must be checked independently"
   }
 }

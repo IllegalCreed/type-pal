@@ -41,7 +41,7 @@ Template: audit-report-v1 / 1.0.0
 ## 整改与复核
 
 - 停止线：do not promote historical claims to current truth without a current source or user decision
-- 后继：d；o；c；s；/；p；h；a；s；e；1；/；s；t；a；t；u；s；/；f；e；a；t；u；r；e；-；s；t；a；t；u；s；.；m；d； ；a；n；d； ；c；u；r；r；e；n；t； ；s；d；l；p；a；l；-；t；o；-；T；S； ；a；u；d；i；t；s；;； ；u；s；e；r； ；d；e；c；i；s；i；o；n；s； ；r；e；m；a；i；n； ；r；e；q；u；i；r；e；d； ；f；o；r； ；p；r；o；d；u；c；t； ；c；h；a；n；g；e；s；.。
+- 后继：docs/phase1/status/feature-status.md and current sdlpal-to-TS audits; user decisions remain required for product changes.。
 
 ## 历史范围
 
@@ -74,7 +74,7 @@ historical。do not promote historical claims to current truth without a current
 
 ## 继任文档
 
-- d；o；c；s；/；p；h；a；s；e；1；/；s；t；a；t；u；s；/；f；e；a；t；u；r；e；-；s；t；a；t；u；s；.；m；d； ；a；n；d； ；c；u；r；r；e；n；t； ；s；d；l；p；a；l；-；t；o；-；T；S； ；a；u；d；i；t；s；;； ；u；s；e；r； ；d；e；c；i；s；i；o；n；s； ；r；e；m；a；i；n； ；r；e；q；u；i；r；e；d； ；f；o；r； ；p；r；o；d；u；c；t； ；c；h；a；n；g；e；s；.。
+- docs/phase1/status/feature-status.md and current sdlpal-to-TS audits; user decisions remain required for product changes.。
 - 当前事实由继任规范、代码和新的 review 决定。
 
 ## 原文保全
