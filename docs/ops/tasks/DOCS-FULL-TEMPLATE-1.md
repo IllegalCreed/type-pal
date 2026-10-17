@@ -1624,3 +1624,12 @@ Template: task-card-v1 / 1.0.0
 ### 独立证据的无损存储迁移（0bac72c2反控）
 
 原样接入的编号源码摘录包含有意义的行尾空格，staged diff检查真实失败后仍提交候选检查点；未合main。当前设计仅将该检查列出的6份原payload用确定性gzip承载，原source SHA/bytes不变，新增stored SHA/bytes/encoding/from→to映射。原报告不改，Git源0bac与临时原件继续保留；接入索引为唯一仓库路径映射。先按计划核原SHA，压缩后解压逐字节复核，再重算索引pin和完整范围diff；不改规则、ignore/gitattributes、原文空格或审查verdict。此为附件存储容器迁移，不授模板/语义新信用。
+
+
+## 2026-10-18 S03：E2E总览的隔离贡献准入
+
+- Codex build allowed，仅隔离文档候选，不授产品build/全量门通过。按AGENTS“Codex分派、贡献者执行、Codex独立验收”分派单篇Owner `e2e_entry_semantic_author`；root负责非作者正文复核及中央ledger/索引接入。S02仍在fe546c7e固定快照独立审，不混入未来字节。
+- 唯一贡献者写入白名单：docs/testing/e2e/README.md；不得写registry/review/catalog/任务/看板、代码、旧测试或coverage。作者报告和原始执行输出只在自己的/tmp生成，提交README的精确候选SHA后交root接收。
+- 设计：复用已经真实通过的governance-index-v1/1.0.0，实际重写五必填章；恢复001–006阶段页/正式报告、共同合同/预览起点/路线proposal/横向问题/检查点/当前任务入口；当前状态由testing catalog与生成by-stage投影拥有，旧状态表只作原时点quote。原33行quote全字节保留，不续期下游阶段运行。移除当前部分无关Q批次提示，历史看板不充当前准入。
+- 作者须独立全文读固定dc478db11c6b52c4e50a1d1135f8a4740796418c原33行和当前68行；实际读当前catalog相关9项导航字段、by-stage完整投影、现行治理/模板合同及必要的contract窄域。不得声称读过6篇完整报告、跑过E2E或获得业务接受。
+- 验收：root核原/新全文、具体导航与事实权反例、入出链、完整quote/source-after SHA、producer/catalog消费与本篇模板；作者自验不代签。只有本文固定新正文可审，不外推其余R60或1896绑定，整卡rework/硬门未过不合main。
