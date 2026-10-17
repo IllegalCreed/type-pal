@@ -909,7 +909,7 @@
       "sha256": "8fadff5658094309b263e63eb70d8e24377f68413ad86ea75d42c2eb6fe3a95f",
       "lines": 130,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -957,7 +957,8 @@
           "text": "当前状态：build；只能在 event-opcode-player.ts 与白名单测试内工作。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3p-event-opcode-player/README.md"
     },
     {
       "id": "3q",
@@ -3915,8 +3916,8 @@
   ],
   "reviewCheckpointBase": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
   "currentReviewCounts": {
-    "partial": 21,
-    "pending": 62,
+    "partial": 22,
+    "pending": 61,
     "accept": 0
   }
 }

@@ -1,0 +1,85 @@
+{
+  "base": "6110cc585",
+  "fullReads": [
+    {
+      "path": "packages/game/src/core/event-opcode-player.ts",
+      "sha256": "aaa871cb7a4a2ee1ff86dc9ccfea798c4ec9a8c7f42b577af593e21cc114354d",
+      "lines": 427,
+      "boundary": "Full player/equipment/HPMP/revive/poison/status/magic opcode implementation read."
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.test.ts",
+      "sha256": "79046bfbeb1bd7a1efad2d0954163719d52b5bb8b194f77766aabd4350553a87",
+      "lines": 212,
+      "boundary": "Full public owner/role/HPMP/equipment/poison/level-up oracle read."
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.glm-next-wave.test.ts",
+      "sha256": "dd978a600e02a8e65a98777d8a9e7e27203c717a98a247281709e0c50e033bba",
+      "lines": 153,
+      "boundary": "Full role context/slot/poison runner/invalid input oracle read."
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.cov85.test.ts",
+      "sha256": "f5a301509e8297f5a1c2e9bad1e956eb8200543c80699d17067267b2670d2d53",
+      "lines": 565,
+      "boundary": "Full branch/boundary oracle read; revive, equipment, poison, status, magic and invalid/no-op paths."
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.glm-opcode-residual.test.ts",
+      "sha256": "15eaf7f1ed6097b33ca8397a445f7ac71353c2fa5467503a414e5d630fc4bb05",
+      "lines": 194,
+      "boundary": "Full residual opcode ownership and negative-control oracle read."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "34eaad97dd35a62a273596efecd9a5cfbf6e00360ac923fc6e64e2b76e622242",
+      "lines": 5117,
+      "ranges": ["40-130", "3450-3520"],
+      "boundary": "Owner import/export and applyPlayerOpcode dispatch ranges."
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.ts",
+      "sha256": "06fb86b9d7ec3526062b066f0e61fff0c4cb783635c5583b4e3d9cddda3ed602",
+      "lines": 295,
+      "ranges": ["1-295"],
+      "boundary": "Full equipment stat/poison/status owner read."
+    },
+    {
+      "path": "packages/game/src/core/inventory-state.ts",
+      "sha256": "61bedc73a9a72cd587b7bb202162528b4c2ad5e1bd5dfd9c6d0eea35ec0d8d25",
+      "lines": 31,
+      "ranges": ["1-31"],
+      "boundary": "Full inventory add/consume owner read."
+    },
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "sha256": "da880e6fd6a4c6dad2ac689fd6d940ede92010474b725bf68559dcb6c103d10c",
+      "lines": 139,
+      "ranges": ["1-139"],
+      "boundary": "Full party-slot poison owner read."
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "lines": 3652,
+      "ranges": ["752-832", "1052-1135", "1257-1405", "1623-1627", "1816-1846"],
+      "boundary": "Player/equipment/HPMP/revive/poison/status/magic opcode primary ranges."
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "lines": 2409,
+      "ranges": ["1459-1685", "2173-2344"],
+      "boundary": "Poison/status/equipment cleanup primary ranges."
+    }
+  ],
+  "notClaimed": [
+    "Complete CODE-QUALITY-3p acceptance",
+    "Full event-system/battle-opcodes/raw/save/runtime diagnosis",
+    "Schema/save/migration or event format changes",
+    "Coverage, official ratchet, protected fast or whole-repository acceptance"
+  ]
+}
