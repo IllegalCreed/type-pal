@@ -32,14 +32,14 @@
     }
   ],
   "summary": {
-    "total": 2424,
+    "total": 2425,
     "byPhase": {
       "ops": 1322,
       "lore": 14,
       "phase1": 60,
       "phase2": 109,
       "phase3": 5,
-      "phase-governance": 155,
+      "phase-governance": 156,
       "testing": 759
     },
     "byType": {
@@ -49,7 +49,7 @@
       "audit-report": 60,
       "governance-index": 108,
       "evidence-receipt": 148,
-      "design-spec": 38,
+      "design-spec": 39,
       "quality-gate": 1,
       "test-machine-evidence": 49,
       "reference-canon": 38,
@@ -62,11 +62,11 @@
       "test-catalog": 11
     },
     "reviewStatus": {
-      "partial-review-unknown": 1972,
+      "partial-review-unknown": 1973,
       "content-reviewed": 452
     },
     "templateCompliance": {
-      "needs-migration": 1978,
+      "needs-migration": 1979,
       "template-compliant": 446
     }
   },
@@ -119,8 +119,8 @@
       "key": "phase-governance",
       "phase": "phase-governance",
       "path": "document-registry.phase-governance.json",
-      "total": 155,
-      "sha256": "0888ba9d004a25eca6265dccee21814eea9f4e980ed959374667d1fe53fe30a6"
+      "total": 156,
+      "sha256": "2475fc738ba7ec96927469c66f948cdfafb32070f8347e6cf3318c863fcf2e5b"
     },
     {
       "key": "testing",

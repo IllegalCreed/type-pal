@@ -1700,3 +1700,18 @@ Template: task-card-v1 / 1.0.0
 - 固定b87正文SHA `7311da4e0920a21b2df42091e7f547fcc8687aa4c51f207c66e8717555bd45b6`，非作者报告SHA `4fd5060bd3c78f64ccbd7c34729acd2a733967168b17b08279e1af9b54c0c302`；只移R60该篇6→5，其余五条和semantic旧四条不变，原撤回/quote条件/history保留。
 - 原54 harvest/82作者/97非作者项及三个manifest共236项显式运输；原失败不改。七用户规则/五章设计和具体source/IO反例获接受，方案仍proposed，历史22/min11不改、现源22/min12与RF12分轴。两次CLI缺资产提前失败不授capture guard或运行信用。
 - 1896中仅4篇重新授信、余1892，S01另列，五隔离仍在。新六份报告/映射一律pending，不自授报告完成；v3私有工具765094护栏已获非作者13正反针限定接收，未来实际中央组合另验。硬门未过整卡仍rework、不合main或done。
+
+## 2026-10-18 S07：原生003机器证据的逐字段治理准入
+
+- Codex build allowed，仅隔离`docs/testing/e2e/evidence/e2e-003.json`的`_governance`；唯一Owner `/root/e2e_entry_semantic_author`先完成S06单counter修正、冻结新commit/原回执，再在干净新分支改003。产品、旧产品测试、coverage、catalog、canonical报告、其他正文与中央记录均不可写。S06仍待非作者复核，不借本准入接受它。
+- root实际全文读003现127行、harvest的16字段/13发现/8替代解释/迁移方案与真实读域，未读655/503源全文，不借harvest当自己或本篇的semantic接受。固定harvest在`/tmp/type-pal-e2e003-readonly-harvest-20261018-k1j_n_io`：报告SHA `cc18db7cdab1e64553afb2dc7499fe8f3d19c6701be5986f0d1945735e200115`、64项清单SHA `5e573607c8146fecf21627c3954d6ecfb88e22befe304951a482cff91984a5b0`，原临时脚本引号错误与后继修复保留。
+- 内容核定为schema2 document-audit，使用现有test-machine-evidence-v1/1.5.0/document-audit-v2，无新变体或artifactOnly捷径。原110行5294与现127行6273的16native对象/键序/数组序同值但非字节相等；现5301B前缀SHA `00ed42ae233338691538403222ccce3356d19b1db977eecdbd1b6dda18a08c55`、日期/status/历史/原7sourceRefs全部保全。只改治理对象，保旧治理限定history，作者nonAuthor=false/验收pending。
+- 实质解释16字段和7引用：verified发布、历史dedupe.reviewed、source-backed、performedfalse分轴；d022/22/11与现源22/min12、RF12及Game原生格式分开。003的002前驱含route/core/choreography、真实字节/world/Canvas/handoff一致，40hex不证明HEAD/producer真实性，sourceDifferences记录不等于拒绝或无影响结论。
+- 业务须按003实际范围：12楼梯提交的交替delta/间隔实绘/步相/三帧，14行完整正文与speaker/顺序；126/127控制/未取菜交接，ready body不等于004执行；153<启用<155、大娘58之后实际路线与厨房替身/大厅隐藏偏序。完整NPC/对白槽显隐/preview另验，不能从部分predicate或source存在补强保证，S06首次hidden→暂现→hidden反例作为不夸大源码的提醒。
+- collector是8000events/800pages/4000partyframes/60000world/2restore的所读窄域，后半bridge与共享预算未全文核不能抄002数字。verify保存/fresh-context正式恢复与capture提前return、both拒capture分清；32路径本checkout metadata absent不说明历史未运行，未开raw/未hash、原Owner/retentionunknown。原五findings按日期/候选及旧异SHArun与后继both分别保留，不把旧待做句当今日进度。
+- 冻结后由非作者完整核原/前/新及必要一手域、真实consumer/具体反例、native/prefix保全与模板。作者自验不授reviewed/template-compliant，中央只按真实固定字节另接入；全卡仍rework、不合main或done。
+
+### 后续治理回执原件存储设计（尚未采用）
+
+- [1.0.0-draft提案](../../phase-governance/reviews/20261018-governance-receipt-storage-design.md)固定原稿SHA `eada2ad69a273073a677727857d95f845473c1ac71c31bd2396b7facf5b6fe7e`，Owner root，仅设计审查准入；非作者接受/版本冻结/真实consumer与反控pilot之前不实施。目的为落实文档模型的附件原件与review不递归自审规则，后续一次性工具输出以双SHA原件附件归属，逐篇完整semantic条目仍必需。
+- 1838与现2424全部既有候选/待审/原报告零迁移、零豁免，不因gzip退出既有分母；业务canonical JSON及配对机器证据路径和字段不变。新提案本身另登记为pending，不自授模板/语义完成。若需任何既有路径迁移，须另逐篇source→target/link/consumer映射，不以本提案预批。
