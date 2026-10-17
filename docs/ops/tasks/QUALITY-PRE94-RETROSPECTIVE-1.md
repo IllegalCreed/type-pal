@@ -548,3 +548,9 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 - 范围：完整读取 `speedrun/snapshot.ts`、`snapshot.test.ts`，并读取 `index.ts`、`timer.ts`、`detectors.ts`、`shell/main-loop.ts` caller、`GameState` 相关 owner 与 speedrun design §4.1。
 - 结论：inventory count>0、battle enemy id/总血、每次调用新建 Set、explore/sceneLoading/paletteFade/suspendRaf 的 canMove 门控与真实消费方一致，未发现 direct defect。
 - 验证：直接 1 file/7 tests；相邻 5 files/32 tests；game typecheck通过。coverage 等沿用 [`53-wave-gates`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)。63 从 pending 提升为 `partial`，不作整卡 accept/done。
+
+### 2026-10-18 CODE-QUALITY-64 speedrun detectors 当前复审
+
+- 范围：完整读取 `speedrun/detectors.ts`、两份专属测试，并读取 `timer.ts`、`snapshot.ts`、`checkpoints.ts` 与 speedrun design §4.2–4.3。
+- 结论：prev/mem 生命周期、enter/leave/any、坐标容差、boss/item/music 谓词和彩依两阶段状态机与真实消费方一致，未发现 direct defect。
+- 验证：六文件 42 tests、game typecheck通过；coverage 等沿用 [`53-wave-gates`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)。64 从 pending 提升为 `partial`，不作整卡 accept/done。

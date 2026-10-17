@@ -2438,10 +2438,10 @@
       "number": 64,
       "suffix": "",
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-64-game-speedrun-detectors-boundary.md",
-      "sha256": "8179df4464f6d06b5de48bbd7df5c7f6e5c090de0052de1815b8fa5ef1c7a1c1",
-      "lines": 40,
+      "sha256": "3781722ecb4ec5458629d168744cf37d219ae54decf74edd793ed6d511fb57a6",
+      "lines": 48,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -3923,8 +3923,8 @@
   ],
   "reviewCheckpointBase": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
   "currentReviewCounts": {
-    "partial": 41,
-    "pending": 42,
+    "partial": 42,
+    "pending": 41,
     "accept": 0
   }
 }

@@ -28,6 +28,14 @@ Visual Verification Timing: N/A（纯检测器）
 
 - 2026-10-13 Codex：enter/leave/any/spot/boss/item/music 与彩依两段状态机的 prev/mem、容差、集合内转场、null prev、自定义 enemy id 均由主/边界测试反控；未发现直接缺陷。账本收口为 `3266 / 303 closed / 8 review / 2955 pending`。
 
+## 2026-10-18 Codex 当前独立复审
+
+- **范围与读取**：完整读取 `detectors.ts`（76 行）、`detectors.test.ts`（77 行）、`detectors.glm-phase1-leaves.test.ts`（65 行）；读取 `timer.ts` 的依序消费与 `mem`/`prevSnap` 生命周期、`snapshot.ts` 投影、`checkpoints.ts` 21 个真实 detector 配置，以及 speedrun design §4.2–4.3。
+- **Primary/caller/oracle**：PalTimer/checkpoint 设计是工具真值；`SpeedrunTimer.tick` 每帧只把当前 detector 的快照、上一帧快照和该 checkpoint 的独立 `DetectorMem` 传入；`detectors.ts` 不写 `GameState`，坐标/场景/敌人/物品/BGM 均由 `ProgressSnapshot` owner 提供。
+- **结论**：enter/leave/集合进入的 prev 语义、atSpot/atAnySpot 矩形容差、boss id+全场总血、item/music 纯谓词，以及 caiyi “先见 boss、再血清/离场”两阶段 mem 均与真实 caller 一致。`enterAnyScene` 在工厂时复制输入集合，未发现可由 caller/primary 直接证明的实现缺陷；未改变 checkpoint 数据或公共接口。
+- **测试判别力**：直接两份 detectors 测试共 12 tests，覆盖 null prev、集合内转场、空集合、默认与显式容差边界、多点命中/不命中、boss/战斗空值、caiyi 自定义敌 id 和独立 mem；snapshot/timer/checkpoints 相邻合同一并通过，无新增弱重复用例。
+- **验证**：detectors、snapshot、timer、timer.boundaries、checkpoints 六文件共 42 tests passed；`pnpm --filter @type-pal/game typecheck` passed。coverage、protected fast、全仓 check 沿用 47–52 波次证据，本小批不重复运行昂贵门。当前复审为 `partial`，不是整卡 `accept/done`。
+
 ## 下一位 Agent 提示词
 
 ```text

@@ -57,7 +57,7 @@
 | [CODE-QUALITY-61](../../archive/tasks/done/CODE-QUALITY-61-game-speedrun-store-boundary.md) | done | partial | [speedrun store 复审](61-speedrun-store/README.md)：2 文件/9 直接，index/overlay/tools-panel 30 相邻；非法 localStorage 与小数毫秒 PB 合同已核 |
 | [CODE-QUALITY-62](../../archive/tasks/done/CODE-QUALITY-62-game-speedrun-timer-boundary.md) | done | partial | [speedrun timer 复审](62-speedrun-timer/README.md)：3 文件/22 tests 通过；起表/暂停/倒计时/setStep/PB/detector 边界已核 |
 | [CODE-QUALITY-63](../../archive/tasks/done/CODE-QUALITY-63-game-speedrun-snapshot-boundary.md) | done | partial | [speedrun snapshot 复审](63-speedrun-snapshot/README.md)：实现/测试与 index/timer/detectors/main-loop caller 已核；直接1文件/7 tests、相邻5文件/32 tests、game typecheck通过 |
-| [CODE-QUALITY-64](../../archive/tasks/done/CODE-QUALITY-64-game-speedrun-detectors-boundary.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
+| [CODE-QUALITY-64](../../archive/tasks/done/CODE-QUALITY-64-game-speedrun-detectors-boundary.md) | done | partial | [speedrun detectors 复审](64-speedrun-detectors/README.md)：实现/两测试与 timer/snapshot/checkpoints caller 已核；六文件/42 tests、game typecheck通过 |
 | [CODE-QUALITY-65](../../archive/tasks/done/CODE-QUALITY-65-game-speedrun-index-orchestration.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-66](../../archive/tasks/done/CODE-QUALITY-66-game-speedrun-overlay-boundary.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-67](../../archive/tasks/done/CODE-QUALITY-67-game-speedrun-checkpoint-boundary-tests.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |

@@ -172,3 +172,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 取消生命周期已按 CODE71 真实反例修复并在最新 main 合并后复跑：四文件26例、game typecheck、全仓 `pnpm check` 与 lint 通过。ratchet/protected fast 均因 shared/pal-extract baseline 回退失败，game完整17块stderr与editor运行时诊断继续保留；全部83卡仍14 partial / 69 pending / 0整卡accept。下一批按用户已批准的输出边界方案A继续，未知不关闭。
 
 最新[63 speedrun snapshot 复审切片](63-speedrun-snapshot/README.md)：完整读取快照实现/测试与 index/timer/detectors/main-loop caller，核清 inventory、battle id/总血、canMove 四门和 Set ownership；直接 1 文件/7 tests、相邻 5 文件/32 tests、game typecheck 通过，未发现 direct defect；63 当前 partial，64–69 与统一门仍待。
+
+最新[64 speedrun detectors 复审切片](64-speedrun-detectors/README.md)：完整读取 detectors 两份测试与 timer/snapshot/checkpoints caller，核清 prev/mem、场景集合/容差、boss/item/music 和彩依两阶段；六文件 42 tests、game typecheck通过，未发现 direct defect；64 当前 partial，65–69 与统一门仍待。
