@@ -1,0 +1,27 @@
+350:   const leaderSpriteNum = getOverworldSpriteNum(gs, leaderRoleId, ctx.playerRoles)
+351:   if (leaderSpriteNum !== undefined && ctx.npcSpriteFrames) {
+352:     const overrideFrames = ctx.npcSpriteFrames.get(leaderSpriteNum)
+353:     if (overrideFrames && overrideFrames.length > 0) {
+354:       activePartyFrames = overrideFrames
+355:     } else if (leaderRoleId !== 0) {
+356:       activePartyFrames = []
+357:     }
+358:   }
+359:   const partyFrame = activePartyFrames[frameIdx] ?? activePartyFrames[0]
+360:   if (partyFrame) {
+361:     // sdlpal scene.c:224-226:party pos.y = party.y - viewport.y + wLayer + 10,iLayer = wLayer + 6。
+362:     // L3:gs.wLayer(0x6E 设的队伍层,= operand*8,上桥/上下层时非 0)接入 sort key 与 cover iLayer。
+363:     //   sort key = pos.y = world.y + wLayer + 10(viewport 相消)。
+364:     //   blit_y = pos.y - height - iLayer = (world.y+wLayer+10) - height - (wLayer+6) = world.y+4-height
+365:     //     → wLayer 在 blit 相消,精灵屏幕像素位置不随 wLayer 变(cy 仍传 capturedSY + 4)。
+366:     //   wLayer 真实影响:① sort key 排序(同 y 的 NPC/tile 前后序)② cover sx = x - iLayer/2(遮挡列)。
+367:     const capturedFrame = partyFrame
+368:     const capturedSX = partySX
+369:     const capturedSY = partySY
+370:     entries.push({
+371:       // sdlpal party sort key: world.y + wLayer + 10(scene.c:225)
+372:       baseY: gs.party.y + gs.wLayer + 10,
+373:       draw: (f) => drawSprite(f, capturedFrame, capturedSX, capturedSY + 4),
+374:       id: 'party',
+375:     })
+376:     // cover tiles for party

@@ -1,21 +1,21 @@
 {
   "schemaVersion": 1,
   "id": "semantic-rework-20261018",
-  "reviewer": "Codex root author candidate; non-author review pending",
+  "reviewer": "Per-entry non-author receipt determines acceptance; root authors intake and unresolved candidates",
   "reviewDate": "2026-10-18",
   "sourceRevision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
   "policy": "One actually read document at a time. No bulk restoration; global hard gate remains unpassed. Ledger root has no self-hash or semantic completion credit.",
   "entries": [
     {
       "path": "docs/phase2/READ-FIRST.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "templateVersion": "1.0.0",
-      "templateCompliance": "needs-migration",
-      "reviewDepth": "partial-semantic",
-      "readMethod": "Root actually read all original 55 lines and complete current/before body; manually authored the eleven current rules and five stop lines; listed primary dependency scopes separately. Non-author review of new bytes pending. Non-author sorting-only counter prompted an additional actual read of present.ts560-617/render74-115 and a narrow current wording fix; independent closure still pending.",
-      "coreConclusion": "READ-FIRST是AGENTS明确路由的现行L1准入规则，R33将整页historical而catalog仍current构成事实权冲突。恢复十一条规则与五类停止线，分清原始源供应和canonical作者正文、演出归因与资产约定；原55行quote保持。作者候选不授新执行或独立信用。",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "Root actually read original55/before122/current120 lines, manually rewrote all11 rules/5stop lines, then read additional present560-617/render74-115 in response to the non-author sorting-only counter. Distinct reviewer independently read original/before/new body and listed primary scopes, preserved0ec6 rework and accepted fixed8ef07ca7 body. Dependency whole-document and runtime credit are not granted.",
+      "coreConclusion": "READ-FIRST是AGENTS明确路由的现行L1准入规则，R33将整页historical而catalog仍current构成事实权冲突。恢复十一条规则与五类停止线，分清原始源供应和canonical作者正文、演出归因与资产约定；原55行quote保持。固定正文语义与模板已获非作者限定接收，不授新执行或全量信用。",
       "truthAnchors": [
         "AGENTS.md:21",
         "docs/ops/guides/documentation-model.md:27",
@@ -25,11 +25,10 @@
         "packages/game/src/present/present.ts:588"
       ],
       "unresolved": [
-        "New authored body awaits non-author semantic review; whole task/global gates remain unpassed.",
         "Other current entry points with historical wrappers require their own reads; no mass status change.",
         "Referenced harvest, game-mechanics, roadmap and capability-map bodies were not fully re-reviewed in S01; their own credit is not renewed."
       ],
-      "nextStep": "Freeze candidate and obtain non-author full-body/primary-scope review, then decide only this binding; preserve five receipt quarantines.",
+      "nextStep": "Continue separate S02/testing and remaining per-document queue; do not extend this body/template acceptance to dependent texts or global gates.",
       "owner": "Codex root",
       "provenance": [
         "current AGENTS caller",
@@ -147,8 +146,10 @@
       "counterReworkBlocked": [
         {
           "id": "S01-AUTHORITY",
-          "status": "author-fixed-pending-non-author",
-          "statement": "historical wrapper conflicts with mandatory current AGENTS/L1 caller and current phase catalog"
+          "status": "closed-by-non-author-for-fixed-body-only",
+          "statement": "historical wrapper conflicts with mandatory current AGENTS/L1 caller and current phase catalog",
+          "closureCommit": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+          "closureReport": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S01-8ef07ca7.json"
         },
         {
           "id": "S01-BYTE-PRESERVATION",
@@ -162,18 +163,20 @@
         },
         {
           "id": "S01-LAYER-BLIT",
-          "status": "author-fixed-pending-non-author",
+          "status": "closed-by-non-author-for-fixed-body-only",
           "reportedBy": "/root/receipt_integrity_independent",
           "candidate": "0ec6b2964f8dcb8b06804aaa22c118c0c7de8849",
           "statement": "原文与作者候选都把sLayer只进排序写得过于绝对，忽略sortY与iLayer仍供cover几何；修为最终blit不重复叠加，排序/cover各按实际合同。",
           "primarySource": [
             "packages/game/src/present/present.ts:570-610",
             "packages/reforge/src/render.ts:82-115"
-          ]
+          ],
+          "closureCommit": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+          "closureReport": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S01-8ef07ca7.json"
         }
       ],
       "revision": {
-        "currentSha": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+        "currentSha": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
         "history": [
           {
             "date": "2026-10-18",
@@ -191,12 +194,22 @@
         ]
       },
       "evidence": {
-        "kind": "actual-per-document-semantic-rework-candidate",
+        "kind": "actual-per-document-semantic-rework-with-fixed-body-non-author-acceptance",
         "path": "docs/phase2/READ-FIRST.md",
         "sourceRevision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
         "originalQuoteSha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
         "originalQuoteBytesUnchanged": true,
-        "nonAuthorAcceptance": "pending"
+        "nonAuthorAcceptance": {
+          "reviewerTask": "/root/receipt_integrity_independent",
+          "authorTask": "/root",
+          "nonAuthorReviewer": true,
+          "reviewedCommit": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+          "bodySha256": "70a835e7a8cab70fe2c62618791e8fba4b124f385a8e8f95817560a41bc244be",
+          "report": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S01-8ef07ca7.json",
+          "reportSha256": "288a330b872a18d1db6ca765b04005910e89384f2de49d1a361b7123c0d48303",
+          "intakeMap": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S01-8ef07ca7.json",
+          "scope": "this fixed READ-FIRST body/template only; no global or runtime credit"
+        }
       },
       "history": [
         {
@@ -207,6 +220,13 @@
           "sourceRecordSha256": "beef8af71396fc8a1b745d7a75077ce9508ecdc209d0095daa05d49f581f6e35",
           "previousAfterSha256": "25afb5f4d2d72878ab23985413f579b4552b987fc6a8f67866bb725cd4e3e1e6",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "S01 actual non-author fixed-body semantic/template acceptance; original counter remains history",
+          "reviewedCommit": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+          "reportSha256": "288a330b872a18d1db6ca765b04005910e89384f2de49d1a361b7123c0d48303",
+          "globalHardGatePassed": false
         }
       ],
       "supersedes": [
@@ -233,7 +253,249 @@
         "currentState": "current with explicit R33 correction",
         "ownership": "Codex maintenance/user product decisions",
         "evidenceAndNext": "real source scopes and separate review status",
-        "status": "author candidate awaiting independent verification"
+        "status": "non-author accepted fixed8ef07ca7 body"
+      }
+    },
+    {
+      "path": "docs/testing/governance.md",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "partial-semantic",
+      "readMethod": "Root full read of original73/current108 and new83 runbook lines; actual validator/generator/migration sources read in listed scopes. Manually regrouped full governance meaning into executable steps, not retained-body-under-generic-wrapper. New bytes await non-author review.",
+      "coreConclusion": "测试治理须分开catalog发布、一次执行和文档迁移信用；当前schema2 canonical需要front matter与testing-meta/evidence配对，非归档/非替代记录都受reviewBy约束，原legacy census不准追加扩容。新runbook按唯一身份、真实配对、状态、业务质量、显式迁移与实跑留存重写，九投影由producer生成，不改业务状态/机器字段。",
+      "truthAnchors": [
+        "scripts/docs/check-testing.mjs:193",
+        "scripts/docs/check-testing.mjs:475",
+        "scripts/docs/check-testing.mjs:575",
+        "docs/ops/agent-workflow.md:46",
+        "scripts/docs/generate-testing-index.mjs:76"
+      ],
+      "unresolved": [
+        "New runbook body pending non-author semantic/template acceptance.",
+        "Catalog/reports/raw were not all business-semantically reviewed; five receipt scopes remain quarantined.",
+        "Whole-docs hard gates and1896 affected binding rework remain incomplete."
+      ],
+      "nextStep": "Freeze candidate; obtain non-author original/new/source/consumer/counterexample review before granting this one binding.",
+      "phase": "testing",
+      "module": "testing-governance",
+      "capability": "publication-and-evidence-governance",
+      "owner": "Codex root",
+      "provenance": [
+        "actual full original and current body read",
+        "actual public validators and producer source scopes",
+        "manual semantic runbook rewrite",
+        "no execution/business-test recertification"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/testing/governance.md",
+          "revision": "97af63389174bbb35629d98d90c9c4de460a729a",
+          "sha256": "ce72a508eaa5693be8cdcb8be9d0da6536c4418a8f88cb7ee584f6c2f5edd995",
+          "scopeActuallyRead": "all73 pre-R83 source lines"
+        },
+        {
+          "path": "AGENTS.md",
+          "revision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+          "sha256": "24771e0310c9dec44df9912d09179d3540724971306e0095ca252b190e318a8e",
+          "scopeActuallyRead": "full45 current lines; zero diagnostics and testing quality boundary"
+        },
+        {
+          "path": "docs/ops/guides/documentation-model.md",
+          "revision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+          "sha256": "3a087aec18bd1e3a5918f7ba01fd440696c43411f743cbd5c185a93b9f1fae50",
+          "scopeActuallyRead": "full current model; source ownership, writeback, immutable raw and migration mapping"
+        },
+        {
+          "path": "docs/ops/agent-workflow.md",
+          "revision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+          "sha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
+          "scopeActuallyRead": "35-66 current testing quality and independent acceptance only"
+        },
+        {
+          "path": "docs/testing/_templates/README.md",
+          "revision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+          "sha256": "65e9deb6d0412e42502ac7ae4fed897447e48a150e211ecf1e4868721cc34b01",
+          "scopeActuallyRead": "full template routing and publication/execution distinction; not all referenced template variant sources"
+        },
+        {
+          "path": "scripts/docs/check-testing.mjs",
+          "revision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+          "sha256": "15aa96323821b771107b7b372880af8469a9310bc545bfd56c852c95e449a166",
+          "scopeActuallyRead": "1-605 canonical/catalog/sourceRef/claim/index/legacy validators; final CLI tail not claimed as full-file semantic read"
+        },
+        {
+          "path": "scripts/docs/generate-testing-index.mjs",
+          "revision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+          "sha256": "c1dd2577350b4b7298a3566f72b1c1d72fe0272a098f376af128843446dece42",
+          "scopeActuallyRead": "full generator; all nine projections and two-input parse-before-write"
+        },
+        {
+          "path": "scripts/docs/relocate.mjs",
+          "revision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+          "sha256": "75e6b03db1d859aac87a8459eb7a0aab703cca77bae360b41a5ab2d365268468",
+          "scopeActuallyRead": "full source; explicit plan/SHA, dry-run default, collision and path checks; not executed on repo"
+        },
+        {
+          "path": "scripts/docs/finalize-testing-migration.mjs",
+          "revision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+          "sha256": "1bea1e207856899b3ae7f72208dee6ba6f9bc82711ef8958c9e9e3247656bb38",
+          "scopeActuallyRead": "full source; link reconciliation/retired metadata only; not executed on repo"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing across phase1/phase2/ops",
+        "currentBoundary": "Publication records, product execution and documentation migration have different authorities."
+      },
+      "dependencies": [
+        "AGENTS.md",
+        "docs/ops/guides/documentation-model.md",
+        "docs/ops/agent-workflow.md",
+        "docs/testing/_templates/README.md",
+        "scripts/docs/check-testing.mjs",
+        "scripts/docs/generate-testing-index.mjs",
+        "scripts/docs/relocate.mjs",
+        "scripts/docs/finalize-testing-migration.mjs"
+      ],
+      "versionScope": {
+        "validity": "current publication/runbook policy",
+        "sourceRevision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+        "nativeBoundary": "schema2 rules apply to current catalog canonical pairs; approved historical-native variants keep their own fields",
+        "notRun": ["product", "old tests", "coverage", "E2E", "visual"]
+      },
+      "publicCallers": [
+        "AGENTS.md testing operation",
+        "docs/ops/agent-workflow.md testing quality",
+        "docs/testing/_templates/README.md publication routing",
+        "pnpm check:testing-docs current consumers"
+      ],
+      "legalInputs": [
+        "Current registered canonical/index/evidence and legitimate public typed callers; unknown IO inputs only within explicit boundary",
+        "Explicit migration plan with stable old identity/SHA; frozen legacy census does not authorize append-only new flat entries"
+      ],
+      "businessOracle": {
+        "type": "actual-testing-publication-runbook",
+        "assertions": [
+          "Missing schema2 front matter cannot pass merely because testing-meta is present.",
+          "Expired proposal/draft/active are not exempt from current reviewBy validation; only archived/superseded bypass expiry.",
+          "Changing publication status never rewrites immutable execution raw or fabricates a fresh historical run.",
+          "A newly appended legacy entry cannot satisfy unchanged frozenCensus.",
+          "Nine generated views preserve one catalog/classification authority; counts are not tests/acceptance.",
+          "Document governance alone cannot authorize modifying/deleting old tests or official coverage."
+        ]
+      },
+      "dedupe": {
+        "result": "one current runbook replaces R83 generic envelope; no parallel protocol",
+        "against": [
+          "docs/ops/agent-workflow.md",
+          "docs/testing/_templates/README.md",
+          "20261017-r83-testing-current.json"
+        ],
+        "notes": "Workflow owns business quality; template registry owns format versions; this runbook owns publication and migration procedure."
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "S02-FRONT-MATTER",
+          "status": "author-fixed-pending-non-author",
+          "statement": "Prior text required testing-meta but omitted current consumer front matter schema/id/evidence."
+        },
+        {
+          "id": "S02-EXPIRY",
+          "status": "author-fixed-pending-non-author",
+          "statement": "Prior text only named current/verified/rework; consumer expires all except archived/superseded."
+        },
+        {
+          "id": "S02-PROJECTIONS-CENSUS",
+          "status": "author-fixed-pending-non-author",
+          "statement": "Current producer emits9 views, not just4; frozen legacy identity cannot grow by appending a manifest row."
+        }
+      ],
+      "revision": {
+        "currentSha": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "revision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+            "action": "S02 real whole-runbook candidate after record-credit withdrawal",
+            "previousAfterSha256": "ea9d0fa69ea00a903c1628f2674636925e126e3d9b19baac07e0bd3e8955a653",
+            "afterSha256": "356567e207aa13cf77c8ff8e2ac360dfafe0b6e76b975fbef17e28bacf87fdfa"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "actual-per-document-semantic-rework-candidate",
+        "path": "docs/testing/governance.md",
+        "sourceRevision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+        "nonAuthorAcceptance": "pending",
+        "historicalSource": {
+          "revision": "97af63389174bbb35629d98d90c9c4de460a729a",
+          "sha256": "ce72a508eaa5693be8cdcb8be9d0da6536c4418a8f88cb7ee584f6c2f5edd995",
+          "lines": 73
+        },
+        "publicationIOProbes": [
+          {
+            "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/s02-probes-v1-757d2d6a-135b-4259-b5c2-0d354601a838.receipt.log",
+            "sha256": "b908786f028d00477a18caf2b6d2d3659941c0791f8e764b730fd2ce26f061f3",
+            "exitCode": 1
+          },
+          {
+            "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/s02-probes-v2-983bf4b5-2c96-4dd0-87d1-39d6a6f78f7f.receipt.log",
+            "sha256": "eb532cfbc27e2bf2af1b77503a5135068c54b64943c836ec18b1a0fac68468e1",
+            "exitCode": 0
+          }
+        ],
+        "probeDisclosure": "v1 author harness chose contract/status, producing an extra legitimate dependency rejection and failing the harness; that reproduced failure is retained. v2 expires an already-proposal leaf, then independently probes missing-frontmatter and frozen-census through real validators with exact fixture cleanup. No repository rule or product test changed."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "prior R83 unsupported acceptance withdrawn; actual new semantic rework candidate remains partial",
+          "priorRecord": "20261017-r83-testing-current.json",
+          "priorRecordRevision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+          "priorRecordSha256": "39980baccbf7b7c838224c28bcff03dc2be4ca8df8c22609ad3908768182a01f",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r83-testing-current.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "previousAfterSha256": "ea9d0fa69ea00a903c1628f2674636925e126e3d9b19baac07e0bd3e8955a653"
+        }
+      ],
+      "historicalWithdrawal": {
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "scope": "R83 old reviewed credit remains withdrawn; any new grant must identify new body and non-author receipt"
+      },
+      "supersedes": [
+        {
+          "record": "20261017-r83-testing-current.json",
+          "revision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+          "scope": "this path generic envelope/current credit only; old user rules and withdrawal retained in history"
+        }
+      ],
+      "stopLine": "No reviewed/template-compliant before non-author acceptance of new bytes; no bulk restoration or product/old-test/coverage edits; global gate failures remain failures.",
+      "sourceSha256": "ea9d0fa69ea00a903c1628f2674636925e126e3d9b19baac07e0bd3e8955a653",
+      "afterSha256": "356567e207aa13cf77c8ff8e2ac360dfafe0b6e76b975fbef17e28bacf87fdfa",
+      "sourceGitRevision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+      "reviewedLines": "1-83 current;1-108 before;original73; dependency ranges explicit",
+      "historyOverlay": false,
+      "documentStatus": "current",
+      "beforeAfter": {
+        "before": "generic five-section wrapper plus unchanged old governance body; omitted front matter and overstated only-three-state expiry/four views",
+        "after": "real six-step runbook tied to validators and9 projections; publication/execution/history separated; frozen legacy identity and explicit retirement"
+      },
+      "templateConformance": {
+        "purpose": "testing publication and retirement",
+        "preconditions": "authority, templates, legal input and independent roles",
+        "steps": "6 executable stages with real fields/commands",
+        "failureHandling": "specific validator failures, raw preservation and stop conditions",
+        "completion": "consumer zero diagnostics + non-author content review, no runtime inference",
+        "status": "author candidate pending independent review"
       }
     }
   ]

@@ -1,0 +1,957 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-single-document-semantic-review",
+  "reviewerTask": "/root/receipt_integrity_independent",
+  "authorTask": "/root",
+  "nonAuthorReviewer": true,
+  "nonAuthorBasis": "本独立逻辑任务未编写候选仓库文件、原十一条规则、S01正文、审查账本或执行捕获。所有审查写入仅位于自己的新/tmp目录。反例反馈后由/root修改候选并给出新冻结提交，我再独立复核；反馈不等于写入候选。同属Codex平台，不声称不同组织或供应商身份。",
+  "reviewedCommit": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+  "sourceCommit": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+  "originalSourceCommit": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
+  "rejectedCandidateCommit": "0ec6b2964f8dcb8b06804aaa22c118c0c7de8849",
+  "document": "docs/phase2/READ-FIRST.md",
+  "bodySha256": "70a835e7a8cab70fe2c62618791e8fba4b124f385a8e8f95817560a41bc244be",
+  "sourceBodySha256": "25afb5f4d2d72878ab23985413f579b4552b987fc6a8f67866bb725cd4e3e1e6",
+  "originalBodySha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
+  "createdAt": "2026-10-17T20:35:29.029792+00:00",
+  "scopedSemanticVerdict": "accept-S01-fixed-READ-FIRST-body-and-template-only",
+  "singleDocumentSemanticAcceptance": true,
+  "templateConformanceAccepted": true,
+  "globalHardGatePassed": false,
+  "fullSemanticAcceptance": false,
+  "mergeMain": false,
+  "cardDone": false,
+  "newOpenBlockingCounters": [],
+  "priorCorrectionIntake": {
+    "commit": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+    "originalReportSha256": "06c482cda4cd56705a72d15e36a763c5ccc62ca609e83a744878000083b6dacf",
+    "reportExactOriginalBytes": true,
+    "artifactsExactOriginalBytes": 39,
+    "sameReportBoundaries": "接入保留作者/Reviewer身份、全部四个false全局/完成/合并标记、五项隔离及不授执行/1838语义信用的限制。复制与索引raw不产生新执行。"
+  },
+  "actualReadScope": {
+    "sourceBodies": "全文读原0d531的55行、d4d5纠错前122行、0ec6当前120行；随后完整读8ef0差异（两行现行正文）及对应账本和扩展来源范围，其余118行经diff确认相同。实际固定blob均留存。",
+    "ledger": "完整读0ec6的20261018-semantic-rework.json，再完整核8ef0的所有差异；始终仅一篇记录。不声称其他大型账本每个业务字段均经语义深审。",
+    "primaryDependencyScopes": [
+      {
+        "path": "docs/phase2/READ-FIRST.md",
+        "revision": "0d5311075b4f5e67362d1953a138d678c0a4aa42",
+        "sha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
+        "scope": "all55 source lines"
+      },
+      {
+        "path": "AGENTS.md",
+        "revision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+        "sha256": "24771e0310c9dec44df9912d09179d3540724971306e0095ca252b190e318a8e",
+        "scope": "full current operation routing and protocol, 1-45"
+      },
+      {
+        "path": "docs/ops/guides/documentation-model.md",
+        "revision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+        "sha256": "3a087aec18bd1e3a5918f7ba01fd440696c43411f743cbd5c185a93b9f1fae50",
+        "scope": "full current L0-L3, writeback and completion model"
+      },
+      {
+        "path": "docs/testing/e2e/contract.md",
+        "revision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+        "sha256": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f",
+        "scope": "98-133 common performance standard only; neighboring historical admission not renewed"
+      },
+      {
+        "path": "docs/ops/archive/tasks/done/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md",
+        "revision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+        "sha256": "348fc7dfb7f95e827254f54ed52ff93002c23026b213f4b543d56bbc9e28fad5",
+        "scope": "178-184 user decision and author-source boundary; not the full historical implementation"
+      },
+      {
+        "path": "docs/phase2/decisions.md",
+        "revision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+        "sha256": "459c18840a7621f29347ec7a72f03a75ec3d28e232b1dd64dc929fd4ea4adc7e",
+        "scope": "323-350 D20 only; no renewal of every historical decision"
+      },
+      {
+        "path": "packages/game/src/present/draw-sprite.ts",
+        "revision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+        "sha256": "d17f04ccaf8a771b6832cd7e833c093140d52f9e990ff97023c748e17e4cf7dc",
+        "scope": "1-43 per-frame toSpriteImages only; source read, not execution or sdlpal revalidation"
+      },
+      {
+        "path": "packages/reforge/src/render.ts",
+        "revision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+        "sha256": "bca134f8488232b4f0bb5c3025aff645817bdbbc6577e46aa9bf500246cda3a1",
+        "scope": "74-115 SpriteDraw sort/cover fields and spriteBlitRect; not the whole renderer or visual acceptance"
+      },
+      {
+        "path": "packages/game/src/present/present.ts",
+        "revision": "0ec6b2964f8dcb8b06804aaa22c118c0c7de8849",
+        "sha256": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab",
+        "scope": "560-617 NPC sortY/iLayer, final drawSprite and addCoverTileEntries; no product execution"
+      }
+    ],
+    "additionalReviewerScopes": [
+      {
+        "sourcePath": "AGENTS.md",
+        "sourceSha256": "24771e0310c9dec44df9912d09179d3540724971306e0095ca252b190e318a8e",
+        "lines": "1-45",
+        "snippetPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-01.txt",
+        "snippetSha256": "adc4701bc8de2ff7eda6b50895c20b135f96aa18cbf365632badf31721f5ab99"
+      },
+      {
+        "sourcePath": "docs/ops/guides/documentation-model.md",
+        "sourceSha256": "3a087aec18bd1e3a5918f7ba01fd440696c43411f743cbd5c185a93b9f1fae50",
+        "lines": "1-111",
+        "snippetPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-02.txt",
+        "snippetSha256": "3bf6dadfbc6a4f9bbf3f6b0972b56e06590eacae603bfa9fd7e04a8a01d5157d"
+      },
+      {
+        "sourcePath": "docs/testing/e2e/contract.md",
+        "sourceSha256": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f",
+        "lines": "98-133",
+        "snippetPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-03.txt",
+        "snippetSha256": "e418db1cb7cfd0796f1f416b4743707cabf0c44c68d4e24bcf880c2585d03174"
+      },
+      {
+        "sourcePath": "docs/ops/archive/tasks/done/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md",
+        "sourceSha256": "348fc7dfb7f95e827254f54ed52ff93002c23026b213f4b543d56bbc9e28fad5",
+        "lines": "178-184",
+        "snippetPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-04.txt",
+        "snippetSha256": "009a155c753c70ba05d2d02e6c8b8f6ac065b032d6f1b45ec78422989b855b3a"
+      },
+      {
+        "sourcePath": "docs/ops/archive/tasks/done/ARCH-PAL-SUPPLY-1-author-publication-and-import-retirement.md",
+        "sourceSha256": "348fc7dfb7f95e827254f54ed52ff93002c23026b213f4b543d56bbc9e28fad5",
+        "lines": "253-268",
+        "snippetPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-05.txt",
+        "snippetSha256": "7ad4377c39ae781a7f0ab6c7fb6f57795b7547066a0c8469ae123cbf02bfde51"
+      },
+      {
+        "sourcePath": "docs/phase2/decisions.md",
+        "sourceSha256": "459c18840a7621f29347ec7a72f03a75ec3d28e232b1dd64dc929fd4ea4adc7e",
+        "lines": "323-350",
+        "snippetPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-06.txt",
+        "snippetSha256": "d7f962a205ca998889a04246cf5c44d1c9a823de2cbf8ce4acadd2f755739733"
+      },
+      {
+        "sourcePath": "packages/game/src/present/draw-sprite.ts",
+        "sourceSha256": "d17f04ccaf8a771b6832cd7e833c093140d52f9e990ff97023c748e17e4cf7dc",
+        "lines": "1-43",
+        "snippetPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-07.txt",
+        "snippetSha256": "6142850d8ab6f7c53912e57ad641a042187dd594653ca2787dfb3a1055a82b58"
+      },
+      {
+        "sourcePath": "packages/reforge/src/render.ts",
+        "sourceSha256": "bca134f8488232b4f0bb5c3025aff645817bdbbc6577e46aa9bf500246cda3a1",
+        "lines": "74-115",
+        "snippetPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-08.txt",
+        "snippetSha256": "4b0b6fb8d3a8abeeb838994de544c2c50e72319a3ce61d0efd5e267aecddf9f1"
+      },
+      {
+        "sourcePath": "packages/reforge/src/render.ts",
+        "sourceSha256": "bca134f8488232b4f0bb5c3025aff645817bdbbc6577e46aa9bf500246cda3a1",
+        "lines": "367-388",
+        "snippetPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-09.txt",
+        "snippetSha256": "ce9720fe0424f37993e568939252bd6ff5ac73ca16987277b232782778ab6f4a"
+      },
+      {
+        "sourcePath": "packages/game/src/present/present.ts",
+        "sourceSha256": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab",
+        "lines": "350-376",
+        "snippetPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-10.txt",
+        "snippetSha256": "54fcbdf8dac18f061e88148402a7eaa09bf4bc4d3eabbebb976c2eccd77ce9a5"
+      },
+      {
+        "sourcePath": "packages/game/src/present/present.ts",
+        "sourceSha256": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab",
+        "lines": "570-610",
+        "snippetPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-11.txt",
+        "snippetSha256": "622ef20324263d2a25bec3d681e6f781793b0c966818309bfb8e1c248525f14f"
+      }
+    ],
+    "reusedUnchangedSource": "AGENTS与文档模型在前轮独立审查已全文读过，本轮验证其固定/当前字节一致并重读相关事实权章节；不因此续期其他被引用指南。",
+    "notGranted": [
+      "不授产品runtime、E2E、视觉或coverage执行与验收。",
+      "不授harvest、game-mechanics、roadmap、capability-map、全部D20决策或ARCH实现的整篇语义接受；仅指定依赖与读取scope支撑本篇。",
+      "不外推其他R33条目、1896撤回绑定、剩余447条reviewed记录或固定1838 cohort。",
+      "不制定正式发布后的兼容政策，不新增产品/UI取舍。"
+    ]
+  },
+  "elevenRuleConclusions": [
+    {
+      "rule": 1,
+      "currentLines": "23",
+      "sourceRead": "Original8",
+      "verdict": "accept-for-fixed-body",
+      "independentReason": "The rewrite remains a new engine/editor, not an instruction to refactor the old Game. The added duty to state responsibilities follows the original clean architecture objective."
+    },
+    {
+      "rule": 2,
+      "currentLines": "24",
+      "sourceRead": "Original9,34-39; E2E104-120",
+      "verdict": "accept-for-fixed-body",
+      "independentReason": "Frame comparison remains mandatory for relevant NPC positions/directions/visibility/draw/wait/control. Different internal scheduling or draw repetition is not automatically a defect; missing actions/waits cannot be offset by similar total duration. Suspected first-phase defects still require attribution, not a baseline edit to make comparison pass."
+    },
+    {
+      "rule": 3,
+      "currentLines": "25",
+      "sourceRead": "Original10",
+      "verdict": "accept-for-fixed-body",
+      "independentReason": "Reusable formulas/opcode/rendering knowledge are separated from copying old module structure and coupling. No old runtime structure is reauthorized."
+    },
+    {
+      "rule": 4,
+      "currentLines": "26",
+      "sourceRead": "Original11-14,45-47",
+      "verdict": "accept-for-fixed-body",
+      "independentReason": "Modern/decomposed/extensible architecture and proactive review of transition states survive. The four high-risk shapes, layered static configuration and explicit world override/replay remain; the historical battleField example does not imply an approved current global slot."
+    },
+    {
+      "rule": 5,
+      "currentLines": "27",
+      "sourceRead": "Original15",
+      "verdict": "accept-for-fixed-body",
+      "independentReason": "Objects, references and state keys retain stable IDs/semantic names; array position is not identity."
+    },
+    {
+      "rule": 6,
+      "currentLines": "28-30",
+      "sourceRead": "Original16-20; E2E104-131; D20323-350; Game draw-sprite16-36; Game present350-376,570-610; Reforge render74-115,374-388",
+      "verdict": "accept-for-fixed-body",
+      "independentReason": "Explicit choreography replaces dialogue/globalNPC coupling. Selective takeover/release and continuation of unrelated/environmental animation remain, with frame and dialogue-clear evidence inherited from the detailed common contract. Per-frame anchoring and the Reforge 7 px convention are kept without changing Game party 4 px. The initial sorting-only defect is corrected: final blit is distinct from sorting and cover geometry."
+    },
+    {
+      "rule": 7,
+      "currentLines": "31",
+      "sourceRead": "Original21; AGENTS15-45; documentation-model24-29",
+      "verdict": "accept-for-fixed-body",
+      "independentReason": "Only CLAUDE first-phase fidelity methodology is demoted to reference. AGENTS collaboration, evidence, authorization and zero-diagnostic rules still apply. Stage isolation cannot erase the active governance protocol."
+    },
+    {
+      "rule": 8,
+      "currentLines": "32",
+      "sourceRead": "Original22-23; Original9; E2E104-120",
+      "verdict": "accept-for-fixed-body",
+      "independentReason": "Existing UI forms are preserved unless the user chooses a change; absent precedent requires a mockup/user choice. The source-specificpixel-art/nine-slice preference survives. The summary does not license copying a proven bad frame merely to match the old engine."
+    },
+    {
+      "rule": 9,
+      "currentLines": "33",
+      "sourceRead": "Original24-26,41-43",
+      "verdict": "accept-for-fixed-body",
+      "independentReason": "Harvest and the associated code comments/fix history remain pre-implementation obligations. The first-hand game-mechanics conclusions outrank second-hand harvest within established mechanic scope. Old 792/432/1218 figures are explicitly historical, not recounted/current verified facts."
+    },
+    {
+      "rule": 10,
+      "currentLines": "34",
+      "sourceRead": "Original27-29,49-51; ARCH178-184 and additional253-268",
+      "verdict": "accept-for-fixed-body",
+      "independentReason": "The field owner is checked before deciding the repair source. Canonical scene/shared/skill/enemyAI content is maintained by the author; retired world-script conversion must not be revived. Still-source-owned partitions and the four casualty/two hint narrow inputs remain subject to upstream regeneration, root-cause red/green, whitelist preservation and second-run zero diff. A projects/pal pathname alone does not decide ownership."
+    },
+    {
+      "rule": 11,
+      "currentLines": "35",
+      "sourceRead": "Original30,53-55",
+      "verdict": "accept-for-fixed-body",
+      "independentReason": "Only current canonical input is admitted during development. Upgraders/types/fixtures/tests/version branches/dual IO/compat fallback retire in the same version task. A retained test or possible future need does not authorize compatibility. The exception still requires non-rebuildable real input, user approval, one caller and a deletion condition; post-release policy is separate."
+    }
+  ],
+  "fiveStopLineConclusions": [
+    {
+      "currentLine": 41,
+      "originalLines": "34-39",
+      "judgment": "The attribution stop remains; frame evidence is required and a real product choice or unknown intent returns to the user."
+    },
+    {
+      "currentLine": 42,
+      "originalLines": "41-43",
+      "judgment": "No implementation before the corresponding harvest and source/fix checklist."
+    },
+    {
+      "currentLine": 43,
+      "originalLines": "45-47",
+      "judgment": "Equivalent migrated behavior does not certify architecture; globals/residual state/index identity remain active counters."
+    },
+    {
+      "currentLine": 44,
+      "originalLines": "49-51",
+      "judgment": "Both directions of source ownership error are blocked: patching a still generated output, and rewriting canonical author content through a retired converter."
+    },
+    {
+      "currentLine": 45,
+      "originalLines": "53-55",
+      "judgment": "Old dev data/test coverage alone cannot admit compat code; the exception requires the actual input/caller/user approval/deletion boundary."
+    }
+  ],
+  "adversarialSourceAssessments": [
+    {
+      "id": "S01-ALT-AUTHORITY",
+      "alternative": "All R33-wrapped material may be safely treated as expired history because its wrapper says historical.",
+      "source": "AGENTS.md:6,21; documentation-model.md:24-29; beforeREAD-FIRST:3-9,47-55",
+      "decision": "rejected",
+      "reason": "The active callers explicitly require this page before phase2 work. R33 did not establish a replacement rule owner or a user decision retiring its 11 rules; the old wrapper even quotes a current classification while labeling itself historical. Current policy is the correct authority, with old execution/history still scoped separately."
+    },
+    {
+      "id": "S01-ALT-CONTENT-OWNER",
+      "alternative": "Everything under projects/pal must be regenerated by the original PAL script converter whenever an author changes it.",
+      "source": "OriginalREAD-FIRST:27-29,51; ARCH-PAL-SUPPLY:178-184,259-266",
+      "decision": "rejected",
+      "reason": "The September30 decision makes canonical author script text the maintenance source. The partition table separately retains resource/map/store reconstruction, sixroles withfour casualty callbacks, and two specific item hints. The newrule retains the two distinct ownership tracks and requires proof of theactual field owner."
+    },
+    {
+      "id": "S01-ALT-FRAME-SKIP",
+      "alternative": "Because draw counts and old timing need not match, matching start/end positions or duration is enough.",
+      "source": "E2E contract:107-120; OriginalREAD-FIRST:38-39",
+      "decision": "rejected",
+      "reason": "The contract requires complete relevant frames, gait, actions/waits/control and specific attribution. Rule2 preserves this rather than letting rational difference become an unknown waiver. No coordinate tolerance or baseline rewrite is newly authorized."
+    },
+    {
+      "id": "S01-ALT-FREEZE-AND-CLEAR",
+      "alternative": "Freeze all NPCs for dialogue, clear dialogue on any ambient auto action, or treat input confirmation as proof ofcleared slots.",
+      "source": "E2E contract:121-131; OriginalREAD-FIRST:16-17; currentREAD-FIRST:28",
+      "decision": "rejected-with-source-scope-preserved",
+      "reason": "Takeover applies to participating NPCs whose auto could disrupt the window; unrelated NPCs/environment continue. Confirmation ends input wait, not pixels. The detailed clear obligation is referenced as common standard item7, including its 001-006 foreground action/release boundary; the shorthand does not create a new blanket ambient action clear rule or reauthorize per-opcode clearing."
+    },
+    {
+      "id": "S01-ALT-GAME-7PX",
+      "alternative": "Use the Reforge uniform 7 px offset for every Game path, or group first-frame dimensions for all animation anchors.",
+      "source": "Game draw-sprite.ts:16-36; Game present.ts:361-373,570-596; Reforge render.ts:97-114",
+      "decision": "rejected",
+      "reason": "The frame constructor uses each frame width/height. Game party actually draws+4 whileNPC draws+7; Reforge rect explicitly chooses+7 and says it need not matchGame party. The rewritten rule limits itsclaim accordingly."
+    },
+    {
+      "id": "S01-LAYER-BLIT",
+      "alternative": "sLayer is exclusively a sortingoffset, so a cover consumer must not use it.",
+      "source": "Game present.ts:570-610; Reforge render.ts:82-89,374-388",
+      "decision": "counter-found-on-0ec6-and-closed-only-on-8ef0",
+      "reason": "The actual NPC path passes sortY and iLayer to addCoverTileEntries; the renderer has explicit cover geometry fields. The new current line30 permits those consumers while prohibiting duplicate final blit offset. Historicalquote shorthand is called out at line61 and kept byte-equal."
+    },
+    {
+      "id": "S01-ALT-OLD-TEST-COMPAT",
+      "alternative": "An old fixture/test still covers a fallback, so keeping it is an approved product capability.",
+      "source": "OriginalREAD-FIRST:30,55; currentREAD-FIRST:35,45",
+      "decision": "rejected",
+      "reason": "The original explicitly disallows test coverage or speculative future use as authority. The rewritten rule retains actual non-rebuildable input/user approval/single caller/exit conditions and does not conflate ordinary current-schema defaults with version compatibility."
+    }
+  ],
+  "counterHistory": [
+    {
+      "id": "S01-LAYER-BLIT",
+      "reviewerOriginalId": "S01-SLAYER-EXCLUSIVE",
+      "atCommit": "0ec6b2964f8dcb8b06804aaa22c118c0c7de8849",
+      "atBodySha256": "20e20dab3014c10c20ea9f216a0a18ba5f6d01cdb096860540c60e7df2c8f185",
+      "initialVerdict": "rework-not-accepted",
+      "originalCounterArtifact": "/tmp/type-pal-s01-independent-20261018-0ec6b296/counter-S01-SLAYER-0ec6.json",
+      "originalCounterSha256": "5f00a7d33902660261ef512ca85279cabf5f14ad5a2db3278924d66499264704",
+      "status": "closed-for-this-fixed-body-only",
+      "closedAtCommit": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+      "closedAtBodySha256": "70a835e7a8cab70fe2c62618791e8fba4b124f385a8e8f95817560a41bc244be",
+      "closureReason": "Actual code showed sortY/iLayer are still cover inputs; current line30 now distinguishesfinal blit fromsort/cover, and line61 explicitly qualifies the historical quote. Thecounter record and old body remain unaltered. No product change or independent visual validation was needed/claimed."
+    }
+  ],
+  "authorityAndTemplate": {
+    "authorityResult": "AGENTS仍要求开工前读本页，READ-FIRST恢复现行L1准入事实权正确；规则不再只能从历史quote推断。",
+    "fiveSections": {
+      "目的": "说明二阶段准入与规则事实权，不授执行通过。",
+      "范围": "限定二阶段，分清一阶段参考和三阶段愿景。",
+      "当前状态": "解释R33事实权冲突，逐条给十一规则和五类停止线。",
+      "入口与责任": "分清阶段方针、决策/规格、任务执行、测试catalog事实权，明确维护与用户裁决责任。",
+      "证据与下一步": "指向实际来源scope、全量待办与执行边界。"
+    },
+    "historyOverlay": false,
+    "historyResult": "本页是带保留历史quote的现行规则，不是纯归档。原日期、数字、案例保留在quote并明确时点。R33把机制阅读要求和blocked政策抽成的未决片段，如今作为义务解释，没有冒称对应产品缺陷已修。"
+  },
+  "mechanicalScope": {
+    "uniqueActiveReviewBinding": "20261018-semantic-rework.json",
+    "R33OtherEntriesExact": 17,
+    "phase2EntriesTotal": 105,
+    "phase2ChangedEntryCount": 1,
+    "quoteBytesUnchanged": true,
+    "lineCounts": {
+      "original": 55,
+      "before": 122,
+      "candidate": 120
+    },
+    "routing": "READ-FIRST只有一条governance-index-v1/historyOverlay=false路由；其他路由与top对象均未变。",
+    "manifest": "所有catalog分片SHA/数量pin吻合；本篇source/after和各primary Git pin均匹配真实字节。",
+    "matrix": "READ-FIRST关系仍guarded并显式保留未决/无执行信用；矩阵仍是非穷尽关系索引。",
+    "withdrawnBindingsStillPartialNeedsMigration": 1896,
+    "fiveQuarantinesUnchanged": true,
+    "authorLedgerStatusAtFreeze": "冻结时partial-review-unknown / needs-migration，作者未自授接受；本独立报告只接受固定正文与模板。"
+  },
+  "commandEvidence": {
+    "independentCommands": [
+      {
+        "name": "docs",
+        "argv": ["node", "scripts/docs/check.mjs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+        "sourceHead": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+        "environment": {
+          "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+        },
+        "startedAt": "2026-10-17T20:33:33.479614+00:00",
+        "finishedAt": "2026-10-17T20:33:34.097598+00:00",
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "raw": [
+          {
+            "stream": "stdout",
+            "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/docs.stdout.raw",
+            "sha256": "6b6b1be74434856f9481d656893bd830998182aeea717e92805bb7e6f7ba6a5d",
+            "bytes": 92
+          },
+          {
+            "stream": "stderr",
+            "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/docs.stderr.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        ]
+      },
+      {
+        "name": "model",
+        "argv": ["node", "scripts/docs/check-document-model.mjs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+        "sourceHead": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+        "environment": {
+          "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+        },
+        "startedAt": "2026-10-17T20:33:34.097844+00:00",
+        "finishedAt": "2026-10-17T20:33:35.184635+00:00",
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "raw": [
+          {
+            "stream": "stdout",
+            "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/model.stdout.raw",
+            "sha256": "04bed978b3714769d7642fc0467c16fb49d8cdbe57614af9c6ed7d6e3e79fc67",
+            "bytes": 79
+          },
+          {
+            "stream": "stderr",
+            "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/model.stderr.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        ]
+      },
+      {
+        "name": "phase-lore",
+        "argv": ["node", "scripts/docs/check-phase-lore-governance.mjs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+        "sourceHead": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+        "environment": {
+          "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+        },
+        "startedAt": "2026-10-17T20:33:35.184867+00:00",
+        "finishedAt": "2026-10-17T20:33:35.232718+00:00",
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "raw": [
+          {
+            "stream": "stdout",
+            "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/phase-lore.stdout.raw",
+            "sha256": "b008831f3075038e0d16c5676748c83b509ebd5b7bf907c444e80b04403c774c",
+            "bytes": 44
+          },
+          {
+            "stream": "stderr",
+            "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/phase-lore.stderr.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        ]
+      },
+      {
+        "name": "content-integrity",
+        "argv": ["node", "scripts/docs/check-content-review.mjs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+        "sourceHead": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+        "environment": {
+          "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+        },
+        "startedAt": "2026-10-17T20:33:35.232921+00:00",
+        "finishedAt": "2026-10-17T20:33:35.625165+00:00",
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "raw": [
+          {
+            "stream": "stdout",
+            "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/content-integrity.stdout.raw",
+            "sha256": "98b91cfa5d590f75bd7ae8d6abc95a6b3588f6d60cb74081330afd081efff18d",
+            "bytes": 94
+          },
+          {
+            "stream": "stderr",
+            "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/content-integrity.stderr.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        ]
+      },
+      {
+        "name": "strict",
+        "argv": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+        "sourceHead": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+        "environment": {
+          "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+        },
+        "startedAt": "2026-10-17T20:33:35.625436+00:00",
+        "finishedAt": "2026-10-17T20:33:35.889843+00:00",
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "raw": [
+          {
+            "stream": "stdout",
+            "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/strict.stdout.raw",
+            "sha256": "8245ac72c148dac68d4b7347ce9fc37e2887171550803479bbaaac1be2eee1fd",
+            "bytes": 94
+          },
+          {
+            "stream": "stderr",
+            "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/strict.stderr.raw",
+            "sha256": "e76f03cfa2ce130cfe43879cb17cfaf1f1223ac9dfef19da54b216055d884d06",
+            "bytes": 478534
+          }
+        ]
+      },
+      {
+        "name": "require-complete",
+        "argv": [
+          "node",
+          "scripts/docs/report-governance-progress.mjs",
+          "--json",
+          "--require-complete"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+        "sourceHead": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+        "environment": {
+          "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+        },
+        "startedAt": "2026-10-17T20:33:35.890181+00:00",
+        "finishedAt": "2026-10-17T20:33:37.798482+00:00",
+        "exitCode": 1,
+        "signal": null,
+        "spawnError": null,
+        "raw": [
+          {
+            "stream": "stdout",
+            "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/require-complete.stdout.raw",
+            "sha256": "3cbcb99d601d778f8f73fd858f57a1dc71ce175f50828202b40e5ea91aa77553",
+            "bytes": 137359
+          },
+          {
+            "stream": "stderr",
+            "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/require-complete.stderr.raw",
+            "sha256": "464c356152392bb35f5535c6bddb27b81425b1a2a4e075ba2dc3c35e60773917",
+            "bytes": 89
+          }
+        ]
+      },
+      {
+        "name": "lint",
+        "argv": ["pnpm", "lint"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+        "sourceHead": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+        "environment": {
+          "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+        },
+        "startedAt": "2026-10-17T20:33:37.798746+00:00",
+        "finishedAt": "2026-10-17T20:33:40.059438+00:00",
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "raw": [
+          {
+            "stream": "stdout",
+            "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/lint.stdout.raw",
+            "sha256": "360c927e0c44dd9cd9ab9fdf5e8b40252690493b9fb577978db51d4e0c2870b3",
+            "bytes": 197
+          },
+          {
+            "stream": "stderr",
+            "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/lint.stderr.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        ]
+      },
+      {
+        "name": "diff",
+        "argv": ["git", "diff", "--check", "d4d5cfc6463014e67ff741f65799a97b9f99c754..HEAD"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+        "sourceHead": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+        "environment": {
+          "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+        },
+        "startedAt": "2026-10-17T20:33:40.059810+00:00",
+        "finishedAt": "2026-10-17T20:33:40.113741+00:00",
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "raw": [
+          {
+            "stream": "stdout",
+            "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/diff.stdout.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          },
+          {
+            "stream": "stderr",
+            "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/diff.stderr.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        ]
+      },
+      {
+        "argv": [
+          "python3",
+          "/tmp/type-pal-s01-independent-20261018-0ec6b296/verify-s01-final.py",
+          "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+          "8ef0"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+        "startedAt": "2026-10-17T20:33:47.827291+00:00",
+        "finishedAt": "2026-10-17T20:33:50.884059+00:00",
+        "exitCode": 0,
+        "signal": null,
+        "spawnError": null,
+        "raw": [
+          {
+            "stream": "stdout",
+            "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/mechanical-final.stdout.raw",
+            "sha256": "33657c399848853ab4bb3cba83e77f63cea62a45271440856f151d489dd432e3",
+            "bytes": 1364
+          },
+          {
+            "stream": "stderr",
+            "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/mechanical-final.stderr.raw",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        ]
+      }
+    ],
+    "results": {
+      "docs": "exit0;1297Markdown/8069links,0issues",
+      "model": "exit0;7routes/1263bodycontracts,0issues,structureonly",
+      "phaseLore": "exit0;184documents",
+      "contentIntegrity": "exit0;2369documents,1922partial-review-unknown/447content-reviewed",
+      "strict": "actualexit1 onfrozen8ef0",
+      "requireComplete": {
+        "actualExitCode": 1,
+        "approvedCohort": 1838,
+        "inheritedCohortMigrated": 436,
+        "inheritedIncrementalMigrated": 5,
+        "currentCandidates": 2369,
+        "currentPending": 1928,
+        "integrityIssues": []
+      },
+      "lint": "exit0;4445files,0errors/0warnings/0infos",
+      "diff": "exit0;emptyoutput",
+      "fullCheckDocs": "未在8ef0独立重跑完整check:docs；留存作者6325对其固定输入的真实exit1。8ef0的strict和require-complete由我独立实跑并失败，不宣称当前统一门通过。",
+      "docsToolSuite": "不重复运行：scripts/docs自前次独立受审58e899bf起字节未变。原128/128结果仍绑定此前候选，不冒充新产品执行。"
+    },
+    "authorCaptures": [
+      {
+        "sessionId": "dc04960f-09b2-4878-addb-5dc4c0a2d5d6",
+        "sourceHead": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+        "inputSnapshotSha256": "b47e151ff685ae4f4e4de5e78c1cd49fa539a884d9d6f66fd5ee9d9add8cd76e",
+        "exits": {
+          "r65-r66-preservation": 0,
+          "docs": 0,
+          "model": 0,
+          "testing": 0,
+          "phase-lore": 0,
+          "content-integrity": 0,
+          "content-strict": 1,
+          "progress": 1,
+          "check-docs": 1,
+          "lint": 1,
+          "diff": 0
+        }
+      },
+      {
+        "sessionId": "09c01f13-24cb-460b-816b-061cdeac677f",
+        "sourceHead": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+        "inputSnapshotSha256": "c990535e79c6303a6122f91c620ab94b6cffd4c3e463af780633edff634dbef4",
+        "exits": {
+          "r65-r66-preservation": 0,
+          "docs": 0,
+          "model": 0,
+          "testing": 0,
+          "phase-lore": 0,
+          "content-integrity": 0,
+          "content-strict": 1,
+          "progress": 1,
+          "check-docs": 1,
+          "lint": 0,
+          "diff": 0
+        }
+      },
+      {
+        "sessionId": "6325bba0-f6ec-47b4-950f-b735c305a288",
+        "sourceHead": "0ec6b2964f8dcb8b06804aaa22c118c0c7de8849",
+        "inputSnapshotSha256": "61d13764ddf2aa4cd19f4796982ad5a47fb8fbced7b6c5b72eff2ec2f012cf8a",
+        "exits": {
+          "r65-r66-preservation": 0,
+          "docs": 0,
+          "model": 0,
+          "testing": 0,
+          "phase-lore": 0,
+          "content-integrity": 0,
+          "content-strict": 1,
+          "progress": 1,
+          "check-docs": 1,
+          "lint": 0,
+          "diff": 0
+        }
+      }
+    ],
+    "authorCaptureBoundaries": "dc049真实exit1及两个格式诊断保持；09c01为另一次lint0执行；6325为counter修复后的第三次新执行。全部stream/journal/input manifest的SHA和bytes已核。6325正文pin匹配70a835；四个后置控制文件相对捕获manifest的差异见capture6325-current-delta.json。捕获命令不追授后置登记后的整树通过。"
+  },
+  "nextAllowed": [
+    "按原SHA接入本报告，只给READ-FIRST@70a835e7a8cab70fe2c62618791e8fba4b124f385a8e8f95817560a41bc244be登记非作者正文/模板接受。",
+    "root可按此实际限定结论更新这一篇binding；后续正文变化须另记before/after并重新核变化范围。",
+    "继续已授权的逐篇语义队列；下一篇仍须自己的来源、反例和consumer审查。"
+  ],
+  "stopLines": [
+    "全仓硬门未通过，不得合main或将整卡done。",
+    "不得批量恢复R33/1896条撤回信用，不得称1838或全量语义完成。",
+    "quote、SHA、模板形状、current状态或本次限定accept均不能转为runtime/E2E/视觉/coverage证明。",
+    "不得为canonical作者正文复活退役PAL转换器，不得丢弃合法cover层消费、把Reforge7px泛化到Game队伍、冻结无关NPC或扩大对白清除合同。",
+    "新正文SHA或关键来源前提变化须重新限定复核；0ec6 counter继续作为历史rework记录保留。"
+  ],
+  "artifacts": [
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/prior-intake-verification.json",
+      "sha256": "13229420acd264e6ad73a2753eb7c8ef8f6aa41f40c62925f59a4ab9996ab69f",
+      "bytes": 14839
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/counter-S01-SLAYER-0ec6.json",
+      "sha256": "5f00a7d33902660261ef512ca85279cabf5f14ad5a2db3278924d66499264704",
+      "bytes": 1621
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/counter-S01-SLAYER-source570-610.txt",
+      "sha256": "622ef20324263d2a25bec3d681e6f781793b0c966818309bfb8e1c248525f14f",
+      "bytes": 2218
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/mechanical-0ec6.json",
+      "sha256": "0bf744d77362098356b520a324f62e80e366deb82642322e00c26f33104f101a",
+      "bytes": 344426
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/mechanical-8ef0.json",
+      "sha256": "ae93814138dd9b36016055acf00c360f85cc206626fadbc5b50280ec9f1380b8",
+      "bytes": 350642
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/mechanical-command.json",
+      "sha256": "a3820efe705361a91f46d9617174c2c72ab9e85f827910f0dc51c182174c9ea9",
+      "bytes": 890
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/mechanical-final.stdout.raw",
+      "sha256": "33657c399848853ab4bb3cba83e77f63cea62a45271440856f151d489dd432e3",
+      "bytes": 1364
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/mechanical-final.stderr.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/capture6325-current-delta.json",
+      "sha256": "061c6b357a30192e77fc94083884abc2b1373522e318c3ff0bffdc02330ff82b",
+      "bytes": 1658
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/reviewer-primary-scope-manifest.json",
+      "sha256": "badb44c9a131756bfe30af13984fb3ca795c9483c78654be5489d9f45d2bf395",
+      "bytes": 3984
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/original-READ-FIRST.md",
+      "sha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
+      "bytes": 12281
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/before-READ-FIRST.md",
+      "sha256": "25afb5f4d2d72878ab23985413f579b4552b987fc6a8f67866bb725cd4e3e1e6",
+      "bytes": 16632
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/candidate-READ-FIRST.md",
+      "sha256": "20e20dab3014c10c20ea9f216a0a18ba5f6d01cdb096860540c60e7df2c8f185",
+      "bytes": 22177
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-READ-FIRST.md",
+      "sha256": "70a835e7a8cab70fe2c62618791e8fba4b124f385a8e8f95817560a41bc244be",
+      "bytes": 22426
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/verify-s01.py",
+      "sha256": "d3bdec04b812b7c7513d4a268aef0589ef9ec8fc901acfdc7ae1655c1ba8cc3e",
+      "bytes": 7272
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/verify-s01-final.py",
+      "sha256": "1e1697199b99807b8766272022ce9850ee52652841afa4cbb23e99b0704fff98",
+      "bytes": 7322
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/run-s01-checks.py",
+      "sha256": "bac14b1c116562432fd12c91abeb5c81b00a79a04cca0853db8ac90196c4fa4b",
+      "bytes": 2226
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/commands.json",
+      "sha256": "f832e8112e08d6ca3acac09d193c12306a1a50b6347a0fbf553025cd01653f17",
+      "bytes": 8357
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-01.txt",
+      "sha256": "adc4701bc8de2ff7eda6b50895c20b135f96aa18cbf365632badf31721f5ab99",
+      "bytes": 6199
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-02.txt",
+      "sha256": "3bf6dadfbc6a4f9bbf3f6b0972b56e06590eacae603bfa9fd7e04a8a01d5157d",
+      "bytes": 9915
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-03.txt",
+      "sha256": "e418db1cb7cfd0796f1f416b4743707cabf0c44c68d4e24bcf880c2585d03174",
+      "bytes": 4061
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-04.txt",
+      "sha256": "009a155c753c70ba05d2d02e6c8b8f6ac065b032d6f1b45ec78422989b855b3a",
+      "bytes": 586
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-05.txt",
+      "sha256": "7ad4377c39ae781a7f0ab6c7fb6f57795b7547066a0c8469ae123cbf02bfde51",
+      "bytes": 2304
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-06.txt",
+      "sha256": "d7f962a205ca998889a04246cf5c44d1c9a823de2cbf8ce4acadd2f755739733",
+      "bytes": 4124
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-07.txt",
+      "sha256": "6142850d8ab6f7c53912e57ad641a042187dd594653ca2787dfb3a1055a82b58",
+      "bytes": 1972
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-08.txt",
+      "sha256": "4b0b6fb8d3a8abeeb838994de544c2c50e72319a3ce61d0efd5e267aecddf9f1",
+      "bytes": 1800
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-09.txt",
+      "sha256": "ce9720fe0424f37993e568939252bd6ff5ac73ca16987277b232782778ab6f4a",
+      "bytes": 1273
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-10.txt",
+      "sha256": "54fcbdf8dac18f061e88148402a7eaa09bf4bc4d3eabbebb976c2eccd77ce9a5",
+      "bytes": 1592
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-11.txt",
+      "sha256": "622ef20324263d2a25bec3d681e6f781793b0c966818309bfb8e1c248525f14f",
+      "bytes": 2218
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/content-integrity.stderr.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/content-integrity.stdout.raw",
+      "sha256": "98b91cfa5d590f75bd7ae8d6abc95a6b3588f6d60cb74081330afd081efff18d",
+      "bytes": 94
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/diff.stderr.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/diff.stdout.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/docs.stderr.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/docs.stdout.raw",
+      "sha256": "6b6b1be74434856f9481d656893bd830998182aeea717e92805bb7e6f7ba6a5d",
+      "bytes": 92
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/lint.stderr.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/lint.stdout.raw",
+      "sha256": "360c927e0c44dd9cd9ab9fdf5e8b40252690493b9fb577978db51d4e0c2870b3",
+      "bytes": 197
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/model.stderr.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/model.stdout.raw",
+      "sha256": "04bed978b3714769d7642fc0467c16fb49d8cdbe57614af9c6ed7d6e3e79fc67",
+      "bytes": 79
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/phase-lore.stderr.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/phase-lore.stdout.raw",
+      "sha256": "b008831f3075038e0d16c5676748c83b509ebd5b7bf907c444e80b04403c774c",
+      "bytes": 44
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/require-complete.stderr.raw",
+      "sha256": "464c356152392bb35f5535c6bddb27b81425b1a2a4e075ba2dc3c35e60773917",
+      "bytes": 89
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/require-complete.stdout.raw",
+      "sha256": "3cbcb99d601d778f8f73fd858f57a1dc71ce175f50828202b40e5ea91aa77553",
+      "bytes": 137359
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/strict.stderr.raw",
+      "sha256": "e76f03cfa2ce130cfe43879cb17cfaf1f1223ac9dfef19da54b216055d884d06",
+      "bytes": 478534
+    },
+    {
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/strict.stdout.raw",
+      "sha256": "8245ac72c148dac68d4b7347ce9fc37e2887171550803479bbaaac1be2eee1fd",
+      "bytes": 94
+    }
+  ]
+}

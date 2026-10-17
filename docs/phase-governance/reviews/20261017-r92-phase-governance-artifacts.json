@@ -2482,7 +2482,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "2ccc9e897b116c467fa5d720f32719d81bacd3050d9d7bd2c91959292d292be4",
-      "afterSha256": "39980baccbf7b7c838224c28bcff03dc2be4ca8df8c22609ad3908768182a01f",
+      "afterSha256": "7cca584efbfaf66eee2f9f5820a9d1b6110089e6fa233b78a2f2272081271c96",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -2623,8 +2623,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "391cc31f50732b57b8e3eb3fc35ca6398b6716ea0726ade248634e0f554447d1",
-        "afterSha256": "39980baccbf7b7c838224c28bcff03dc2be4ca8df8c22609ad3908768182a01f",
+        "previousAfterSha256": "39980baccbf7b7c838224c28bcff03dc2be4ca8df8c22609ad3908768182a01f",
+        "afterSha256": "7cca584efbfaf66eee2f9f5820a9d1b6110089e6fa233b78a2f2272081271c96",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"

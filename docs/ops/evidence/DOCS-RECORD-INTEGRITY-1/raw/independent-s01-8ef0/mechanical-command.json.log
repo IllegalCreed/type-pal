@@ -1,0 +1,28 @@
+{
+  "argv": [
+    "python3",
+    "/tmp/type-pal-s01-independent-20261018-0ec6b296/verify-s01-final.py",
+    "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+    "8ef0"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+  "startedAt": "2026-10-17T20:33:47.827291+00:00",
+  "finishedAt": "2026-10-17T20:33:50.884059+00:00",
+  "exitCode": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": [
+    {
+      "stream": "stdout",
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/mechanical-final.stdout.raw",
+      "sha256": "33657c399848853ab4bb3cba83e77f63cea62a45271440856f151d489dd432e3",
+      "bytes": 1364
+    },
+    {
+      "stream": "stderr",
+      "path": "/tmp/type-pal-s01-independent-20261018-0ec6b296/mechanical-final.stderr.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ]
+}

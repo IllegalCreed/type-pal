@@ -1,0 +1,375 @@
+{
+  "schemaVersion": 1,
+  "kind": "exact-independent-report-ingestion",
+  "reviewedCommit": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+  "reviewerTask": "/root/receipt_integrity_independent",
+  "report": {
+    "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/independent-review-S01-8ef07ca7.json",
+    "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S01-8ef07ca7.json",
+    "sha256": "288a330b872a18d1db6ca765b04005910e89384f2de49d1a361b7123c0d48303",
+    "bytes": 47663
+  },
+  "artifacts": [
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/prior-intake-verification.json",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/prior-intake-verification.json.log",
+      "sha256": "13229420acd264e6ad73a2753eb7c8ef8f6aa41f40c62925f59a4ab9996ab69f",
+      "bytes": 14839,
+      "originalFormat": ".json",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/counter-S01-SLAYER-0ec6.json",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/counter-S01-SLAYER-0ec6.json.log",
+      "sha256": "5f00a7d33902660261ef512ca85279cabf5f14ad5a2db3278924d66499264704",
+      "bytes": 1621,
+      "originalFormat": ".json",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/counter-S01-SLAYER-source570-610.txt",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/counter-S01-SLAYER-source570-610.txt.log",
+      "sha256": "622ef20324263d2a25bec3d681e6f781793b0c966818309bfb8e1c248525f14f",
+      "bytes": 2218,
+      "originalFormat": ".txt",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/mechanical-0ec6.json",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/mechanical-0ec6.json.log",
+      "sha256": "0bf744d77362098356b520a324f62e80e366deb82642322e00c26f33104f101a",
+      "bytes": 344426,
+      "originalFormat": ".json",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/mechanical-8ef0.json",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/mechanical-8ef0.json.log",
+      "sha256": "ae93814138dd9b36016055acf00c360f85cc206626fadbc5b50280ec9f1380b8",
+      "bytes": 350642,
+      "originalFormat": ".json",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/mechanical-command.json",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/mechanical-command.json.log",
+      "sha256": "a3820efe705361a91f46d9617174c2c72ab9e85f827910f0dc51c182174c9ea9",
+      "bytes": 890,
+      "originalFormat": ".json",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/mechanical-final.stdout.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/mechanical-final.stdout.raw.log",
+      "sha256": "33657c399848853ab4bb3cba83e77f63cea62a45271440856f151d489dd432e3",
+      "bytes": 1364,
+      "originalFormat": ".raw",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/mechanical-final.stderr.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/mechanical-final.stderr.raw.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalFormat": ".raw",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/capture6325-current-delta.json",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/capture6325-current-delta.json.log",
+      "sha256": "061c6b357a30192e77fc94083884abc2b1373522e318c3ff0bffdc02330ff82b",
+      "bytes": 1658,
+      "originalFormat": ".json",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/reviewer-primary-scope-manifest.json",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/reviewer-primary-scope-manifest.json.log",
+      "sha256": "badb44c9a131756bfe30af13984fb3ca795c9483c78654be5489d9f45d2bf395",
+      "bytes": 3984,
+      "originalFormat": ".json",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/original-READ-FIRST.md",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/original-READ-FIRST.md.log",
+      "sha256": "1169ee7f0506c8bc3efbe9c5ea55071ac064477686342fc40970279983feef58",
+      "bytes": 12281,
+      "originalFormat": ".md",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/before-READ-FIRST.md",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/before-READ-FIRST.md.log",
+      "sha256": "25afb5f4d2d72878ab23985413f579b4552b987fc6a8f67866bb725cd4e3e1e6",
+      "bytes": 16632,
+      "originalFormat": ".md",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/candidate-READ-FIRST.md",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/candidate-READ-FIRST.md.log",
+      "sha256": "20e20dab3014c10c20ea9f216a0a18ba5f6d01cdb096860540c60e7df2c8f185",
+      "bytes": 22177,
+      "originalFormat": ".md",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-READ-FIRST.md",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-READ-FIRST.md.log",
+      "sha256": "70a835e7a8cab70fe2c62618791e8fba4b124f385a8e8f95817560a41bc244be",
+      "bytes": 22426,
+      "originalFormat": ".md",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/verify-s01.py",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/verify-s01.py.log",
+      "sha256": "d3bdec04b812b7c7513d4a268aef0589ef9ec8fc901acfdc7ae1655c1ba8cc3e",
+      "bytes": 7272,
+      "originalFormat": ".py",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/verify-s01-final.py",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/verify-s01-final.py.log",
+      "sha256": "1e1697199b99807b8766272022ce9850ee52652841afa4cbb23e99b0704fff98",
+      "bytes": 7322,
+      "originalFormat": ".py",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/run-s01-checks.py",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/run-s01-checks.py.log",
+      "sha256": "bac14b1c116562432fd12c91abeb5c81b00a79a04cca0853db8ac90196c4fa4b",
+      "bytes": 2226,
+      "originalFormat": ".py",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/commands.json",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-8ef0/commands.json.log",
+      "sha256": "f832e8112e08d6ca3acac09d193c12306a1a50b6347a0fbf553025cd01653f17",
+      "bytes": 8357,
+      "originalFormat": ".json",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-01.txt",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-01.txt.log",
+      "sha256": "adc4701bc8de2ff7eda6b50895c20b135f96aa18cbf365632badf31721f5ab99",
+      "bytes": 6199,
+      "originalFormat": ".txt",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-02.txt",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-02.txt.log",
+      "sha256": "3bf6dadfbc6a4f9bbf3f6b0972b56e06590eacae603bfa9fd7e04a8a01d5157d",
+      "bytes": 9915,
+      "originalFormat": ".txt",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-03.txt",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-03.txt.log",
+      "sha256": "e418db1cb7cfd0796f1f416b4743707cabf0c44c68d4e24bcf880c2585d03174",
+      "bytes": 4061,
+      "originalFormat": ".txt",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-04.txt",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-04.txt.log",
+      "sha256": "009a155c753c70ba05d2d02e6c8b8f6ac065b032d6f1b45ec78422989b855b3a",
+      "bytes": 586,
+      "originalFormat": ".txt",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-05.txt",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-05.txt.log",
+      "sha256": "7ad4377c39ae781a7f0ab6c7fb6f57795b7547066a0c8469ae123cbf02bfde51",
+      "bytes": 2304,
+      "originalFormat": ".txt",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-06.txt",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-06.txt.log",
+      "sha256": "d7f962a205ca998889a04246cf5c44d1c9a823de2cbf8ce4acadd2f755739733",
+      "bytes": 4124,
+      "originalFormat": ".txt",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-07.txt",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-07.txt.log",
+      "sha256": "6142850d8ab6f7c53912e57ad641a042187dd594653ca2787dfb3a1055a82b58",
+      "bytes": 1972,
+      "originalFormat": ".txt",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-08.txt",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-08.txt.log",
+      "sha256": "4b0b6fb8d3a8abeeb838994de544c2c50e72319a3ce61d0efd5e267aecddf9f1",
+      "bytes": 1800,
+      "originalFormat": ".txt",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-09.txt",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-09.txt.log",
+      "sha256": "ce9720fe0424f37993e568939252bd6ff5ac73ca16987277b232782778ab6f4a",
+      "bytes": 1273,
+      "originalFormat": ".txt",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-10.txt",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-10.txt.log",
+      "sha256": "54fcbdf8dac18f061e88148402a7eaa09bf4bc4d3eabbebb976c2eccd77ce9a5",
+      "bytes": 1592,
+      "originalFormat": ".txt",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-11.txt",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-11.txt.log",
+      "sha256": "622ef20324263d2a25bec3d681e6f781793b0c966818309bfb8e1c248525f14f",
+      "bytes": 2218,
+      "originalFormat": ".txt",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/content-integrity.stderr.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-8ef0/content-integrity.stderr.raw.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalFormat": ".raw",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/content-integrity.stdout.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-8ef0/content-integrity.stdout.raw.log",
+      "sha256": "98b91cfa5d590f75bd7ae8d6abc95a6b3588f6d60cb74081330afd081efff18d",
+      "bytes": 94,
+      "originalFormat": ".raw",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/diff.stderr.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-8ef0/diff.stderr.raw.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalFormat": ".raw",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/diff.stdout.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-8ef0/diff.stdout.raw.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalFormat": ".raw",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/docs.stderr.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-8ef0/docs.stderr.raw.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalFormat": ".raw",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/docs.stdout.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-8ef0/docs.stdout.raw.log",
+      "sha256": "6b6b1be74434856f9481d656893bd830998182aeea717e92805bb7e6f7ba6a5d",
+      "bytes": 92,
+      "originalFormat": ".raw",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/lint.stderr.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-8ef0/lint.stderr.raw.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalFormat": ".raw",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/lint.stdout.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-8ef0/lint.stdout.raw.log",
+      "sha256": "360c927e0c44dd9cd9ab9fdf5e8b40252690493b9fb577978db51d4e0c2870b3",
+      "bytes": 197,
+      "originalFormat": ".raw",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/model.stderr.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-8ef0/model.stderr.raw.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalFormat": ".raw",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/model.stdout.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-8ef0/model.stdout.raw.log",
+      "sha256": "04bed978b3714769d7642fc0467c16fb49d8cdbe57614af9c6ed7d6e3e79fc67",
+      "bytes": 79,
+      "originalFormat": ".raw",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/phase-lore.stderr.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-8ef0/phase-lore.stderr.raw.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "originalFormat": ".raw",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/phase-lore.stdout.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-8ef0/phase-lore.stdout.raw.log",
+      "sha256": "b008831f3075038e0d16c5676748c83b509ebd5b7bf907c444e80b04403c774c",
+      "bytes": 44,
+      "originalFormat": ".raw",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/require-complete.stderr.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-8ef0/require-complete.stderr.raw.log",
+      "sha256": "464c356152392bb35f5535c6bddb27b81425b1a2a4e075ba2dc3c35e60773917",
+      "bytes": 89,
+      "originalFormat": ".raw",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/require-complete.stdout.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-8ef0/require-complete.stdout.raw.log",
+      "sha256": "3cbcb99d601d778f8f73fd858f57a1dc71ce175f50828202b40e5ea91aa77553",
+      "bytes": 137359,
+      "originalFormat": ".raw",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/strict.stderr.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-8ef0/strict.stderr.raw.log",
+      "sha256": "e76f03cfa2ce130cfe43879cb17cfaf1f1223ac9dfef19da54b216055d884d06",
+      "bytes": 478534,
+      "originalFormat": ".raw",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    },
+    {
+      "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/final-8ef0/strict.stdout.raw",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/final-8ef0/strict.stdout.raw.log",
+      "sha256": "8245ac72c148dac68d4b7347ce9fc37e2887171550803479bbaaac1be2eee1fd",
+      "bytes": 94,
+      "originalFormat": ".raw",
+      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+    }
+  ],
+  "policy": "Original report names/absolute references retained verbatim; this path map resolves originals after temp cleanup; no independent judgment is reauthored."
+}

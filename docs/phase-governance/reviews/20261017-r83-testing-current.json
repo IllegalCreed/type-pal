@@ -151,151 +151,6 @@
       }
     },
     {
-      "path": "docs/testing/governance.md",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "guide-runbook",
-      "templateId": "guide-runbook-v1",
-      "template": "docs/phase-governance/templates/guide-runbook.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/testing/governance.md:1"],
-      "unresolved": [
-        "Links and current status remain dependent on downstream catalog/report/evidence; this index does not assert execution.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "testing",
-      "module": "testing-governance",
-      "capability": "docs/testing/governance.md",
-      "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "ce72a508eaa5693be8cdcb8be9d0da6536c4418a8f88cb7ee584f6c2f5edd995",
-      "afterSha256": "ea9d0fa69ea00a903c1628f2674636925e126e3d9b19baac07e0bd3e8955a653",
-      "publicCallers": [
-        "docs/testing/README.md",
-        "docs/testing/catalog.json",
-        "pnpm check:testing-docs"
-      ],
-      "legalInputs": ["current repository documentation", "docs/testing/governance.md"],
-      "businessOracle": {
-        "type": "testing-governance-navigation",
-        "assertions": [
-          "required template sections present",
-          "canonical links remain resolvable",
-          "no execution credit from navigation"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": ["docs/testing/governance.md"]
-      },
-      "revision": {
-        "currentSha": "ea9d0fa69ea00a903c1628f2674636925e126e3d9b19baac07e0bd3e8955a653",
-        "implementationSha": "ea9d0fa69ea00a903c1628f2674636925e126e3d9b19baac07e0bd3e8955a653",
-        "history": [
-          {
-            "revision": "97af63389174bbb35629d98d90c9c4de460a729a",
-            "date": "2026-10-17",
-            "action": "current template migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r83-testing-current-20261017.json",
-        "sourceSha256": "ce72a508eaa5693be8cdcb8be9d0da6536c4418a8f88cb7ee584f6c2f5edd995",
-        "candidateSha256": "ea9d0fa69ea00a903c1628f2674636925e126e3d9b19baac07e0bd3e8955a653",
-        "afterSha256": "ea9d0fa69ea00a903c1628f2674636925e126e3d9b19baac07e0bd3e8955a653",
-        "lineCount": 108,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "full current body retained under template sections",
-          "sourceBytes": 5232,
-          "sourceLines": 73,
-          "sourceFinalNewline": true,
-          "inverseSha256": "ce72a508eaa5693be8cdcb8be9d0da6536c4418a8f88cb7ee584f6c2f5edd995",
-          "exactRoundTrip": false
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
-      },
-      "history": [
-        {
-          "revision": "97af63389174bbb35629d98d90c9c4de460a729a",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R83 current testing governance migration",
-          "reviewer": "r83_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
-        }
-      ],
-      "supersedes": [
-        "unstructured current presentation; native fields and historical entries retained"
-      ],
-      "stopLine": "do not promote catalog/index/governance text to runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 testing 当前文档保持 → 增加统一模板元数据与必填章节；原始导航/治理正文不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
-      "templateVersion": "1.0.0",
-      "historyOverlay": false,
-      "artifactOnly": false,
-      "documentStatus": "current",
-      "sourceGitRevision": "97af63389174bbb35629d98d90c9c4de460a729a",
-      "candidateSha256": "ea9d0fa69ea00a903c1628f2674636925e126e3d9b19baac07e0bd3e8955a653",
-      "primarySource": [
-        {
-          "path": "docs/testing/governance.md",
-          "revision": "97af63389174bbb35629d98d90c9c4de460a729a",
-          "sha256": "ce72a508eaa5693be8cdcb8be9d0da6536c4418a8f88cb7ee584f6c2f5edd995",
-          "scope": "full UTF-8 source"
-        }
-      ],
-      "phaseAnchors": {
-        "phase": "testing",
-        "module": "testing-governance",
-        "currentBoundary": "catalog/report/contract/evidence own execution truth"
-      },
-      "dependencies": "testing catalog, canonical report/domain README, contract, evidence and task card.",
-      "versionScope": {
-        "sourceRevision": "97af63389174bbb35629d98d90c9c4de460a729a",
-        "date": "2026-10-17",
-        "validity": "current structure; native historical entries remain date-scoped"
-      },
-      "counterReworkBlocked": [
-        {
-          "id": "R83-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        }
-      ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r83-testing-current.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
-    },
-    {
       "path": "docs/testing/legacy-flat-classification.json",
       "contentReviewStatus": "partial-review-unknown",
       "docType": "test-catalog",
@@ -618,5 +473,14 @@
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
     "recordPath": "docs/phase-governance/reviews/20261017-r83-testing-current.json",
     "meaning": "Original reviewer/policy/migration summary are historical claims at this revision; current correction supersedes their semantic and independence credit."
-  }
+  },
+  "supersededBindings": [
+    {
+      "path": "docs/testing/governance.md",
+      "sourceRevision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+      "sourceRecordSha256": "39980baccbf7b7c838224c28bcff03dc2be4ca8df8c22609ad3908768182a01f",
+      "successor": "20261018-semantic-rework.json",
+      "reason": "S02 actual whole-document runbook rework candidate; historical withdrawal remains pinned; no credit restored by this move"
+    }
+  ]
 }

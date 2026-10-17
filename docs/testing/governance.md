@@ -1,108 +1,83 @@
 # 测试文档治理与淘汰机制
 
 Status: current
-Owner: Codex（文档治理维护；原作者/贡献者身份保留于正文历史）
-Last reviewed: 2026-10-17
+Owner: Codex（测试文档合同维护；测试作者与审查者分别署名）
+Last reviewed: 2026-10-18
 Template: guide-runbook-v1 / 1.0.0
-
-本次治理只统一当前文档结构与入口字段；原始测试范围、机器字段、日期、状态和未执行边界保持，不新增 runtime/E2E/视觉/coverage 信用。
 
 ## 目的
 
-- 让文档治理 Agent 在进入 testing、迁移、E2E 或质量门前先读到合法输入、caller/oracle、历史和停止线。
+让维护者从一个稳定测试身份找到当前合同、报告、机器证据与原始输入，并按真实来源决定保留、返工或退役。本文定义文档发布流程；测试的业务质量按[协作流程的测试质量验收](../ops/agent-workflow.md#测试质量验收用户-2026-10-03-固化)独立核定，不能用模板、测试数或覆盖率代替。
 
 ## 前置条件
 
-- 先读 testing catalog、对应 domain/report/contract/evidence；确认 source revision、合法输入、当前状态和 reviewBy。
+- 读[AGENTS操作路由](../../AGENTS.md#操作与必读)、当前任务卡、[文档模型](../ops/guides/documentation-model.md)及对应domain/report/contract/evidence。核真实caller、合法输入、business oracle、排重、source revision、content/save版本、状态与reviewBy；未知明确写缺失，不补造SHA或实跑。
+- [catalog.json](catalog.json)是测试索引与发布状态事实源；目录名、作者名和标题不推断状态。任务状态归任务卡；某次执行的exit、失败、skip、诊断和raw归原回执；全docs迁移覆盖归document-registry，三者不互相代授信用。
+- 先从[统一模板注册表](../phase-governance/templates/README.md)和[测试模板](./_templates/README.md)按实际内容选类型。导航用governance-index，catalog用JSON合同，runbook不是E2E报告；历史原生JSON按已批准变体核真实consumer，不能强套schema2或把业务对象搬进payload。
+- 同一文件只有一位Coding Owner；作者自验和非作者验收分别记录。旧accept、旧counter和历史三签不自动构成今天准入。当前全量纠错与重审未结束，本文不宣称全testing已通过。
 
 ## 步骤
 
-1. 创建或更新 domain README 与 catalog 条目。
-2. 将 canonical report、machine evidence、contract、任务卡和引用保持一一配对。
-3. 运行 testing/docs checks，记录 source/after SHA 和未执行边界。
+### 1. 固定唯一身份与位置
+
+正式测试记录使用稳定`e2e-NNN`、`coverage-YYYYMMDD-slug`或既有任务ID，返工不换ID。目录按工程域、模块与功能命名，阶段使用`NNN-lower-kebab-case`（如`002-inn-guests-and-reward`）；`e56`/`s003`仅作sourceRefs、caller或正文锚点。canonical/index/evidence路径不用Agent名；原始历史路径和owner/provenance中的作者身份保留，不借命名规则静默删除证据。
+
+| 位置 | 唯一职责 |
+|---|---|
+| `README.md`、`indexes/` | 人类总入口与由catalog生成的阶段/状态/标签/Owner及域/模块/phase/engine等投影 |
+| `catalog.json` | 稳定记录、发布状态、依赖、来源与canonical/index/evidence路径 |
+| `e2e/contract.md`、`route-proposal.md` | 共同合同与尚待批准的路线方案，proposal不授执行准入 |
+| `e2e/stages/NNN-slug/README.md`、`report.md` | 稳定阶段入口与正式报告；不建report-r1/r2平行真相 |
+| `e2e/cross-stage/`、`domains/<domain>/` | 共性问题族或工程域的合同/报告/evidence |
+| `_templates/` | 模板示例，不能当执行报告 |
+| 对应domain的`tools/`或任务专属证据目录 | judge/run等工具，与报告分开 |
+| `archive/`、明确的history | 旧结论、迁移与退役材料；不能继续充当当前canonical或有效前驱 |
+| `legacy-flat.json`及`legacy-flat-classification.json` | 冻结存量平面文件的active/retired身份、分类和去向，不准通过追加清单扩容 |
+
+### 2. 配对catalog、正文与机器证据
+
+每项catalog记录保留`id/kind/title/status/phase/engines/owner/provenance/domain/module/canonical/index/evidence/tags/lastVerified/reviewBy/dependsOn`以及`sourceRefs/publicCallers/legalInputs/businessOracle/dedupe/revision`。报告中的checkpoint、候选SHA及原始运行结果由配对报告/evidence持有，catalog不复制一整份运行日志。
+
+当前catalog的schema2 canonical contract/report须同时有顶部front matter的`testingSchema: 2`、同一`id`与`evidence`路径，以及`<!-- testing-meta ... -->` JSON的`schemaVersion: 2`。metadata的来源、caller、输入、oracle、排重和revision必须与catalog相等；revision提供完整Git SHA（或合同允许的明确缺失声明）、content/save版本及历史。不能只有一个形状正确的注释而漏front matter。
+
+配对evidence保持schema2/id、catalog发布status、候选SHA、content/save版本与history一致；sourceRefs的文件、数值行范围、范围内anchor和当前全文件SHA要可核。`source-backed`只能引用声明过的来源；`runtime-backed`还需`kind: runtime-execution`、`runtimeExecution.performed: true`及真实存在、SHA吻合的artifact。字段齐全与日志匹配仍不单独证明业务验收。已批准的历史原生格式保持原顶层字段、原诊断和原执行范围，不伪造catalog身份或本轮执行。
+
+### 3. 分开发布状态、执行结果和审查状态
+
+常见发布推进为`draft → active → verified | rework → superseded → archived`；当前consumer还接受`proposal`与`current`。依赖只可指向同catalog的`current`/`verified`，不得有未知ID或环。`current`/`verified`表示发布状态，不能让一次未跑命令变成成功。
+
+每条catalog记录都保留合法`lastVerified`和`reviewBy`；当前checker会拒绝**所有未archived/superseded记录**的过期reviewBy，不能只为current/verified/rework三种状态查日期。脚本默认以UTC当日判过期。真正读完适用内容与配对证据后才决定续期；只改日期或排版不构成复核，Last verified不冒充新执行日期。
+
+变更状态时同提交更新catalog与其发布投影（E2E阶段README的status/lastVerified/reviewBy），同步配对evidence的发布status与必要metadata；历史报告保留当时结论，追加勘误、revision和supersedes，不倒改旧stdout/hash。immutable执行原件不能承载可变发布字段时，按已批准合同用sidecar分离，先验证consumer，不能为了状态一致覆写原始执行。
+
+### 4. 核业务质量后决定保留或精简
+
+逐合同核公开typed caller、合法输入、可观察oracle、隔离、真实生命周期与既有用例排重。业务核心不以`as unknown as`/`as never`、核心mock、放宽timeout或ignore造输入与绿灯；坏输入只用于明确的IO/未知域。已证重复、恒真、无业务执行或非法业务输入的候选，按证据保留/合并/补强/撤信或删除；未知候选保持待核，不因“慢、老、全绿”单独淘汰或接受。
+
+有效反控按协作流程保留执行身份、command/cwd、JSON/raw、exit/signal/spawn、file×fullName集合、恰一指定业务AssertionError、恢复绿、源/测试/mutant hash及精确清理。普通Error、收集失败、skip/todo/pending或重复红不算有效针。若精简涉及旧测试或官方基准，须另有该任务授权并真实重测；本文和文档治理卡不授权修改产品、旧测试或coverage。
+
+### 5. 有映射地迁移、归档和退役
+
+先读原文与真实consumer，决定唯一目标和保留理由；位置移动不是正文模板迁移的前提，也不因done自动搬目录。确需移动时，迁移计划列完整from→to、源SHA、链接/引用重算和consumer验证；按[文档维护流程](../ops/guides/documentation.md)审查后才用`scripts/docs/relocate.mjs`，不要无计划批量重命名。
+
+移动后以同一计划运行`scripts/docs/finalize-testing-migration.mjs`核Markdown引用与legacy manifest收退，再核分类账：active entries去掉已迁项，retired和分类账保存旧路径、目标、原SHA与计划，原frozen census身份不扩容。迁移器只做机械改链/登记，不证明原文语义或完成质量。重复/低信息材料可用archive及supersedes提供后继；未独立核验保持retain-legacy/rework。删除前核catalog、卡、脚本、README和其他引用，无明确退出与替代映射不静默删raw或孤立材料。
+
+### 6. 同提交验证与留存
+
+1. 更新唯一canonical/report、配对evidence、catalog、任务和相关引用；用`node scripts/docs/generate-testing-index.mjs`重建stage/status/tag/owner/domain/module/phase/engine及legacy-domain九个视图，生成器不授reviewed。
+2. 运行`pnpm check:testing-docs`、`pnpm check:docs`、`pnpm lint`、`git diff --check`；保留实际命令、cwd、候选/输入、时间、exit与全部诊断，任何error/warning/info均不算通过。当前全量门失败就如实保留失败。
+3. 持久证据明确产生者、Owner、caller、任务、时间/版本、SHA、保留理由与退出条件。新临时截图/trace可留`artifacts/`并由回执定位；既有已承载验收的Git/raw不因“临时”标签删除或改写。只保留/tmp路径而未保全的旧输出不能继续授信。
+4. 非作者从实际正文、source/after、consumer和反例独立复核；作者自验、静态绿或历史报告的independent字段不代签。完成状态仅按任务硬验收条件变更。
 
 ## 失败处理
 
-- 可预期失败：缺 canonical、catalog/evidence 不一致、过期 reviewBy、依赖状态不合格、孤儿路径或链接漂移。
-- 停止线：静态核读、proposal、rework 或历史 receipt 不能冒充 runtime/E2E/visual/coverage。
-- 回滚/人工接管：保留原始历史正文与 SHA，回到 draft/rework/blocked，并由 Owner 补齐真实 evidence。
+- 缺canonical/index/evidence、metadata或配对值不等、sourceRef越界/anchor/SHA错、孤儿阶段/受管domain、依赖不合格、过期、Agent名污染发布路径或冻结legacy身份变化：保留失败输出，定位唯一源并修正；不追加ignore、降规则或假状态。
+- 模板/原生格式/consumer不适配：记录具体counter，保持draft/rework/blocked；先冻结变体设计再pilot，不能自行放宽artifactOnly完成条件。
+- 证据冲突或原raw缺失：区分缺证和已证错误，保留最强替代解释；撤回相应信用，另存当前勘误，不补造历史执行。旧回执、quote和counter保持可回读。
+- 移动或删除有未解释引用、维护权或语义冲突：停止该项，保留原件和源SHA，由Owner补映射/一手证据；新产品取舍才交用户，不逐批重复请示既有授权。
 
 ## 完成定义
 
-- 可观察条件：catalog、README、report、evidence、任务卡和索引一致，检查命令零 error/warning/info。
-- 证据路径与复核人：本页配套 docs/testing/catalog.json、review records、machine evidence 和独立 Codex review。
+本项的唯一身份、真实内容、合法输入与oracle、配对evidence、当前状态/日期/依赖、原始历史和迁移映射一致；实际consumer及必要静态门零诊断，并有明确的非作者结论。全量治理还需固定1838 cohort与增量逐篇闭合，单篇或schema通过不能代替。
 
-
-## 治理正文
-
-## 唯一事实源
-
-`docs/testing/catalog.json` 是机器可读的索引事实源；文件名、目录名和正文标题只是展示层，不能用来推断状态。
-每个条目必须有稳定 `id`、`kind`、`status`、`phase`、`engines`、`owner`、`provenance`、`domain`、`module`、
-`canonical`、`index`、`evidence`、`tags`、`lastVerified`、`reviewBy`、`dependsOn`，以及 `sourceRefs`、
-`publicCallers`、`legalInputs`、`businessOracle`、`dedupe`、`revision`。Agent 名称只能出现在 `owner`/`provenance`
-和历史正文，不能出现在 canonical/index/evidence 路径。报告中的候选 SHA、checkpoint、证据 hash 仍是业务证据，
-catalog 不复制大段运行结果。
-
-每个 canonical contract/report 顶部必须有 `<!-- testing-meta ... -->` JSON 块，并与 `evidence` 文件一一配对。
-metadata 和 evidence 都要给出 source file:line、公开 caller、合法输入、业务 oracle、排重结论、当前或明确缺失的
-SHA、content/save 版本和历史 revision。`runtime-backed`/`source-backed` claim 必须带可追溯 evidence；源码核读、
-proposal 或 rework 的缺口必须显式写出，不能用“已检查”冒充实跑。
-
-## 分级目录
-
-```text
-docs/testing/
-├── README.md                 总入口（人类先看这里）
-├── catalog.json              Agent/脚本唯一索引源
-├── indexes/                  生成的多维入口：阶段、状态、标签、Owner
-├── e2e/                      端到端专项
-│   ├── README.md             E2E 总览
-│   ├── contract.md           跨阶段合同
-│   ├── route-proposal.md     路线/前置方案
-│   ├── stages/NNN-slug/      一个稳定阶段一个目录
-│   │   ├── README.md         元数据、依赖、当前状态、入口
-│   │   └── report.md         正式报告；不得拆成 report-r1/r2 平行真相
-│   └── cross-stage/          跨阶段问题族和共性审计
-├── _templates/               新文档模板，不作为报告
-├── archive/                  迁移计划和已退役过程材料
-├── legacy-flat-classification.json  存量平面文件的域/模块/功能分类账
-└── <legacy-flat-files>       兼容区，必须在 legacy-flat.json 登记
-```
-
-覆盖率、专项回归、质量审计等其它主题沿用同样规则：`<domain>/README.md`、`catalog.json` 条目、
-`report.md`、`evidence.json`/工具分离。工具文件与报告不混放；工具只能落在对应 domain 的 `tools/` 或
-任务专属证据目录。
-
-## 命名规则
-
-- 稳定身份使用 `e2e-NNN`、`coverage-YYYYMMDD-slug` 或任务卡 ID；不因返工改 ID。
-- 目录使用 `NNN-lower-kebab-case`；正式报告固定叫 `report.md`，机器回执固定叫 `evidence.json`，
-  反控工具固定放 `tools/` 并用 `judge.mjs`/`run.mjs` 等职责名。
-- E2E 阶段名使用剧情用途，例如 `002-inn-guests-and-reward`；`e56`、`s003` 等内部 ID 只放 sourceRefs、
-  caller 或正文证据锚点。
-- 返工不是新文档：更新同一 `report.md` 的 revision history；新候选 SHA 写入证据，不复制 `report-r3.md`。
-- `archive/` 只放历史/迁移记录；历史不能继续作为 canonical 或当前前驱。
-
-## 生命周期
-
-`draft → active → verified | rework → superseded → archived`。状态变更只改 catalog 和对应 README，
-历史报告正文保留原始结论；若新 revision 推翻旧事实，追加勘误段并明确 `supersedes`，不静默改写历史 hash。
-每条 current/verified/rework 记录必须有 `reviewBy`。依赖只能指向 `current`/`verified`；过期、缺 canonical、
-缺索引、缺 evidence、依赖状态不合格、sourceRef 行号越界、claim/evidence 不一致、Agent 名称污染 canonical
-路径或孤儿阶段文件会让 `pnpm check:docs` 失败。
-
-## 提交流程
-
-1. 创建/更新 domain README 与 catalog 条目。
-2. 运行 `node scripts/docs/generate-testing-index.mjs`，生成四维索引。
-3. 运行 `pnpm check:testing-docs` 和 `pnpm check:docs`。
-4. 报告、证据、工具、任务卡互相链接；只提交持久证据，临时截图/trace 放 `artifacts/` 不入 Git。
-5. 旧文档迁移使用 `scripts/docs/relocate.mjs`，必须提交带源 SHA 的迁移计划；完成移动后用
-   `scripts/docs/finalize-testing-migration.mjs` 重写 Markdown 引用，并在 `legacy-flat.json.retired` 与分类账登记源路径、
-   目标和 SHA。删除前先确认没有 catalog、任务卡、脚本或 README 引用。过期 legacy 条目只能迁移、归档或明确续期，
-   不能无限新增平面文件。
-6. 代表性深审先落分类账与迁移理由，再按批次迁移；重复/低信息材料通过 `archive/` 与 `supersedes` 导航，保留
-   原始正文和历史 hash。未完成独立核验的条目保持 `retain-legacy`/`rework`，不能静默删除或标 verified。
-7. 已迁移条目不再从 active `entries` 计数，但必须在 `retired` 和分类账中保留；canonical 只能用工程域、模块和功能
-   语义命名，Agent 名称只能作为 provenance 或历史原始文件的来源说明。
+本页重审记录与实际来源范围见[S02逐篇记录](../phase-governance/reviews/20261018-semantic-rework.json)。原73行规范及R83机械封套由固定Git/SHA保留；本次重组进真实runbook步骤，未修改测试catalog状态、历史JSON、产品、旧测试或coverage，也不宣布runtime/E2E/视觉通过。

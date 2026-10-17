@@ -1,0 +1,15 @@
+import datetime,hashlib,json,os,pathlib,subprocess,sys
+root=pathlib.Path('/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal');out=pathlib.Path(__file__).parent/sys.argv[2];head=sys.argv[1]
+out.mkdir();env=dict(os.environ,NODE_PATH='/Users/zhangxu/illegal/type-pal/node_modules')
+assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,timeout=30).decode().strip()==head
+assert not subprocess.check_output(['git','status','--porcelain'],cwd=root,timeout=30)
+commands=[('docs',['node','scripts/docs/check.mjs']),('model',['node','scripts/docs/check-document-model.mjs']),('phase-lore',['node','scripts/docs/check-phase-lore-governance.mjs']),('content-integrity',['node','scripts/docs/check-content-review.mjs']),('strict',['node','scripts/docs/check-content-review.mjs','--strict']),('require-complete',['node','scripts/docs/report-governance-progress.mjs','--json','--require-complete']),('lint',['pnpm','lint']),('diff',['git','diff','--check','d4d5cfc6463014e67ff741f65799a97b9f99c754..HEAD'])]
+receipts=[]
+for name,argv in commands:
+ start=datetime.datetime.now(datetime.timezone.utc).isoformat();r=subprocess.run(argv,cwd=root,env=env,capture_output=True,timeout=60);streams=[]
+ for stream,b in [('stdout',r.stdout),('stderr',r.stderr)]:
+  p=out/(name+'.'+stream+'.raw');p.write_bytes(b);streams.append({'stream':stream,'path':str(p),'sha256':hashlib.sha256(b).hexdigest(),'bytes':len(b)})
+ receipt={'name':name,'argv':argv,'cwd':str(root),'sourceHead':head,'environment':{'NODE_PATH':env['NODE_PATH']},'startedAt':start,'finishedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'exitCode':r.returncode if r.returncode>=0 else None,'signal':-r.returncode if r.returncode<0 else None,'spawnError':None,'raw':streams};receipts.append(receipt)
+ (out/'commands.json').write_text(json.dumps(receipts,indent=2)+'\n')
+ print(json.dumps({'name':name,'exitCode':receipt['exitCode'],'signal':receipt['signal'],'stdoutTail':r.stdout.decode(errors='replace')[-550:] if name!='require-complete' else '(full JSON retained)','stderrTail':r.stderr.decode(errors='replace')[-120:]},ensure_ascii=False),flush=True)
+assert not subprocess.check_output(['git','status','--porcelain'],cwd=root,timeout=30)

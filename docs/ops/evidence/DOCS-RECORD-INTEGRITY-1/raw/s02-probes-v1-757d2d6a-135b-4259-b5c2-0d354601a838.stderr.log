@@ -1,0 +1,25 @@
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
+  [
+    'e2e-contract: reviewBy 2000-01-01 is before 2026-10-17',
++   'e2e-route: dependency e2e-contract is not current/verified'
+  ]
+
+    at file:///private/tmp/s02-consumer-probes-v1.mjs:17:8 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [
+    'e2e-contract: reviewBy 2000-01-01 is before 2026-10-17',
+    'e2e-route: dependency e2e-contract is not current/verified'
+  ],
+  expected: [ 'e2e-contract: reviewBy 2000-01-01 is before 2026-10-17' ],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v22.23.2

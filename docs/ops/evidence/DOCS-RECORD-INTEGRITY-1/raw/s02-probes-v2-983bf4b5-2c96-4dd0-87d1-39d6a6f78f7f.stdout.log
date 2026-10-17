@@ -1,0 +1,39 @@
+{
+  "kind": "documentation-publication-IO-consumer-probes",
+  "today": "2026-10-17",
+  "observations": [
+    {
+      "case": "proposal-expiry",
+      "baselineIssues": 0,
+      "rejectedIssues": [
+        "e2e-route: reviewBy 2000-01-01 is before 2026-10-17"
+      ],
+      "originalRestoredIssues": []
+    },
+    {
+      "case": "frontmatter-required-alongside-meta",
+      "id": "e2e-contract",
+      "baselineIssues": 0,
+      "rejectedIssues": [
+        "e2e-contract: canonical missing testing front matter"
+      ],
+      "restoredIssues": 0
+    },
+    {
+      "case": "frozen-legacy-identity",
+      "baselineIssues": 0,
+      "rejectedIssues": [
+        "legacy frozen census changed: new entries cannot be authorized by appending to the manifest"
+      ],
+      "restoredIssues": 0
+    }
+  ],
+  "temporaryCleanup": "exact two mkdtemp trees removed; repo/catalog/raw/product/tests unchanged",
+  "notClaimed": [
+    "business-test quality",
+    "runtime",
+    "E2E",
+    "coverage",
+    "full semantic acceptance"
+  ]
+}

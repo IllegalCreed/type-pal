@@ -49,3 +49,7 @@ rework。完整 check:docs 与 require-complete 的失败必须保留；结构�
 [接入映射](independent-intake-58e899bf-20261018.json)保存报告和39项证据的原路径、仓库路径、SHA和字节数。raw现在分别归执行捕获器、历史artifact原字节留存、独立审查者产物所有；不能把后两者当新命令输出。原报告的临时绝对路径不改写，由映射负责定位。
 
 统一门仍FAIL，任务不done、不合main。纠错包限定接受后开始单篇语义重审；本报告没有重授1838篇内容、历史执行、产品运行或coverage信用。
+
+## S01 真正逐篇重审的独立结论
+
+[READ-FIRST固定正文独立报告](independent-review-S01-8ef07ca7.json)逐项核11规则/5停止线，首候选counter后只在8ef07ca7正文SHA70a835e7…闭合sLayer/cover勘误，限定接受该正文与模板。报告SHA288a330b…及45证据原字节接入，路径对应见[独立接入映射](independent-intake-S01-8ef07ca7.json)。原counter不抹掉，原55行quote不改；不授其余R33、依赖整篇或1896撤回绑定、全量门及运行信用。

@@ -994,7 +994,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "50aa0c90de769ebf8c426e93c8bc83635d86e4c84e91d2711d73ceaf9bb0fd54",
-      "afterSha256": "20c4080f5b3edf42e65315f84f458c9a0650290c52e34b221a73bfb576ab23c2",
+      "afterSha256": "2c9e0b1b38838f832ee63e4f2cdec375b399834124fd38f24494038cf20d7f3f",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1113,8 +1113,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "068cafc03a0886775727300a80656336d8fa1d39c6dac6d44055336125ddb831",
-        "afterSha256": "20c4080f5b3edf42e65315f84f458c9a0650290c52e34b221a73bfb576ab23c2",
+        "previousAfterSha256": "20c4080f5b3edf42e65315f84f458c9a0650290c52e34b221a73bfb576ab23c2",
+        "afterSha256": "2c9e0b1b38838f832ee63e4f2cdec375b399834124fd38f24494038cf20d7f3f",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -1149,7 +1149,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "5139abea2579bb9d0c4183863b834800cb73f26fd561ab0fa0a5df473daceb3d",
+      "afterSha256": "0b7dbdfe309cb5b89e96a75bf4f9efbce11428eb79464e1421f7a504eb3bed49",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1268,8 +1268,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "9422e94a7c8b53eb4ca4931332a3c954317417b092ab468237f73ca45eadba43",
-        "afterSha256": "5139abea2579bb9d0c4183863b834800cb73f26fd561ab0fa0a5df473daceb3d",
+        "previousAfterSha256": "5203f5732a84ce2052dbc342ed42ba6d7bbc2da40d2fb9e0930e1f2813b1ed55",
+        "afterSha256": "0b7dbdfe309cb5b89e96a75bf4f9efbce11428eb79464e1421f7a504eb3bed49",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -5255,7 +5255,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "3331f23cf94e35446a2e3b3fb1bc0644fd6a26d4f171419e18fcf611f730195c",
+      "afterSha256": "bef3d83d9cfd7cd32a17b1c8cc90d6cb1e7207f6588c0408bfe2d63c3501d3c7",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -5384,8 +5384,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "6121d2128ff67096f408ed4dab72592afa863622f2096c7c1d78503232f5cbcf",
-        "afterSha256": "3331f23cf94e35446a2e3b3fb1bc0644fd6a26d4f171419e18fcf611f730195c",
+        "previousAfterSha256": "5d17a53de4c6b5ed8ecf26e46890c0ebfcbc2d6b0654337536c6ed68396eebf2",
+        "afterSha256": "bef3d83d9cfd7cd32a17b1c8cc90d6cb1e7207f6588c0408bfe2d63c3501d3c7",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -5555,7 +5555,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "c3ba1d75f7ef64ef09ae9ed2dc0964b129851180f6c591506923e36202390abe",
+      "afterSha256": "2d722fc7d4690fd5bd5e007676c8838ed504b05f29505a85ba478db0c37a35cc",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -5687,8 +5687,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "0a6e56fa5849ab1045061bce086c923647827ecdc32ca4c35a86130dbfc733d7",
-        "afterSha256": "c3ba1d75f7ef64ef09ae9ed2dc0964b129851180f6c591506923e36202390abe",
+        "previousAfterSha256": "152c7634fcd8bce01757a5874ac44d0b07cc5d7591abc5642cb558d1843aef8c",
+        "afterSha256": "2d722fc7d4690fd5bd5e007676c8838ed504b05f29505a85ba478db0c37a35cc",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"

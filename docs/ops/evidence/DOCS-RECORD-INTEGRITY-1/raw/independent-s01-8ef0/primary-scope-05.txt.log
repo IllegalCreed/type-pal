@@ -1,0 +1,16 @@
+253: > ## r1只读准备与独立复核（2026-09-30）
+254: >
+255: > Codex独立读取publication、完整生成核、源读取器、伤亡解析、物品消息同步、alias校验和现行
+256: > 作者保存链；只读贡献者`pal_supply_audit`另外逐项核生产/审计/测试消费者。以下是双方源码
+257: > 复核收敛，不是实现自验或build准入。没有新产品取舍：首批保持当前字段归属。
+258: >
+259: > | 分区/职责 | 实际边界与保留条件 | 一手锚点 |
+260: > |---|---|---|
+261: > | catalog、地图/索引、瓦片集、商店 | 可独立从资源/地图/stores源重建，不应调用世界剧情转换 | `packages/migrate/src/pal-assets.ts:1034/1090`、`packages/migrate/src/pal-migration.ts:393/616/627/628/636` |
+262: > | 六角色 | 基础表与4个真实伤亡回调混合；不能用只有数值的mapActor代替当前完整输出 | `packages/migrate/src/migrate-content.ts:276`、`packages/migrate/src/pal-casualty-scripts.ts:149` |
+263: > | 物品 | 作者正文保留，只同步item268炼蛊/item270资源池失败提示；应抽窄producer，不再为两个消息调用migrateAll | `packages/migrate/src/pal-authored-overlays.ts:324/367`、`packages/migrate/src/migrate-content.ts:962/1058` |
+264: > | sprites与场景别名 | 保留current定义，只退休严格等价重复定义并改显式清单内引用；不是全量generated sprites覆盖 | `packages/migrate/src/pal-world-sprite-semantic-alias.ts:80/206`、`packages/migrate/src/pal-current-publication.ts:162/190` |
+265: > | 环境动作重新推导 | 真实依赖全脚本及外部写入排除，但其新场景正文/完整精灵列表不用于日常current发布；独立审计入口需显式取消或替代后才删 | `packages/migrate/src/pal-migration.ts:529/542`、`packages/migrate/src/pal-sprite-action-census.ts:1043`、`packages/migrate/scripts/audit-pal-sprite-actions.mts:9` |
+266: > | 作者维护 | 现有current loader与作者保存已不依赖PAL原始输入；优先复用，不能为拆分重复造一套校验器 | `packages/reforge/src/project-loader.ts:324`、`packages/editor/src/core/project-io.ts:163` |
+267: >
+268: > 关键counter已收窄：反对的是“一次删除全部原始脚本解析”，不是职责拆分方向。把六角色伤亡/

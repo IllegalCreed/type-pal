@@ -1604,3 +1604,18 @@ Template: task-card-v1 / 1.0.0
 ### S01 非作者counter返工（0ec6b296）
 
 独立Reviewer指出作者沿用的“sLayer×8只进排序”排他断语错误：Game present.ts588/589/600–610将sortY和iLayer都供cover几何，Reforge SpriteDraw也分列排序与cover参数。root实际补读present.ts560–617及render.ts74–115；只将现行表述限缩为最终blit不重复叠加、排序与cover各按真实合同，原quote保持。S01-LAYER-BLIT登记为author-fixed-pending-non-author；修复候选未重新获accept，不授正文或产品信用。
+
+
+## 2026-10-18 S02：测试治理真实runbook重审准入
+
+- Codex build allowed：在已限定接收纠错之后，单篇重审docs/testing/governance.md及唯一review/registry、矩阵、任务、证据和必要pin；Coding Owner为root。S01新正文仍等非作者最终回执，不改其固定字节。
+- 已全文读R83前73行与当前正文；实际回读check-testing.mjs的catalog/canonical/evidence/legacy验证、生成器与relocate/finalizer、AGENTS/文档模型/测试质量段/模板入口。这里不核18份测试记录的业务质量，不改catalog/机器证据或旧测试。
+- S02具体counter：旧正文漏schema2 front matter；reviewBy过期门实际上覆盖所有非archived/superseded发布状态；旧四维生成描述不足当前九个投影；原legacy census禁止靠追加清单授权新平面文件。改写成唯一身份→配对→状态→业务质量→迁移退役→实跑留存的真实步骤，不能仅加模板封套。
+- 只对本篇新字节准备后继；1896撤回历史清单保留，作者候选仍partial/needs-migration，固定新SHA再由非作者逐篇核验。无产品/旧测试/coverage或模板放宽授权，整卡rework、硬门未过不合main。
+
+
+### S01 非作者单篇接收（8ef07ca7固定正文）
+
+- Reviewer `/root/receipt_integrity_independent`逐条核十一条规则/五类停止线及来源反例，首个0ec6候选rework与sLayer原counter保留，仅在8ef0正文SHA70a835e7a8cab70fe2c62618791e8fba4b124f385a8e8f95817560a41bc244be闭合并接受本篇语义/模板。
+- 冻结报告SHA288a330b872a18d1db6ca765b04005910e89384f2de49d1a361b7123c0d48303和45项原证据按原字节接入返工证据目录，独立intake map保原路径与SHA。本篇恢复唯一binding信用；不是R33全批复审或1896批量恢复。
+- 当前S02测试治理作者候选仍partial/needs-migration；统一门和整卡均未过，main不变、整卡rework。S01只恢复此前被本轮单篇counter暂停的1份，不将继承437视为本轮重认证437份。

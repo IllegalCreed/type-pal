@@ -58,6 +58,14 @@
       "inputSnapshot": "raw/6325bba0-f6ec-47b4-950f-b735c305a288.inputs.log",
       "inputSnapshotSha256ObservedAtClosure": "61d13764ddf2aa4cd19f4796982ad5a47fb8fbced7b6c5b72eff2ec2f012cf8a",
       "role": "S01-LAYER-BLIT author fix new actual capture; lint/diff0, strict/check-docs/require-complete1; fixed input manifest, not later control registration"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-aaee99c8-86e5-4bdc-8c7a-0d904fdd5273.json",
+      "sha256": "b517d90b82ecbd35ea37728a2c67e899d30d1cb68f91de0e4e5ace5a40191d04",
+      "startedAt": "2026-10-17T20:38:08.677Z",
+      "inputSnapshot": "raw/aaee99c8-86e5-4bdc-8c7a-0d904fdd5273.inputs.log",
+      "inputSnapshotSha256ObservedAtClosure": "5f95c182f82b667d237969443f254268a85d1e9fb6a37cb4dfa70cc47bfed49e",
+      "role": "S02 actual runbook author candidate plus S01 exact receipt intake; lint/diff0, strict/check-docs/require-complete1; commands bind captured inputs, not later control registration"
     }
   ],
   "lossDisclosure": "Earlier uncommitted managed worktree disappeared during execution. Raw captures in that directory are unavailable and are not accepted as retained evidence. Recovered command construction from this chat was re-executed in this checkout; current receipts will identify the new execution.",
@@ -84,8 +92,16 @@
       {
         "path": "/root/receipt_integrity_independent",
         "scope": "raw/independent-58e899bf exact reviewer report artifacts; intake map pins original paths/SHA/bytes, not fresh root command output"
+      },
+      {
+        "path": "raw/s02-probes-v2-*.source.log",
+        "scope": "Root authored, retained source publication-IO probes via real check-testing public validators; v1 harness failure retained separately, no product-test/coverage execution"
+      },
+      {
+        "path": "/root/receipt_integrity_independent S01",
+        "scope": "raw/independent-s01-8ef0 exact reviewer artifacts and original counter; intake map resolves45 original paths, not fresh root execution"
       }
     ]
   },
-  "latestRetainedSession": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-6325bba0-f6ec-47b4-950f-b735c305a288.json"
+  "latestRetainedSession": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-aaee99c8-86e5-4bdc-8c7a-0d904fdd5273.json"
 }

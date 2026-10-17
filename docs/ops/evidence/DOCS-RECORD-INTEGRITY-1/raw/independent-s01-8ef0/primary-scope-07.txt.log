@@ -1,0 +1,43 @@
+1: import type { Framebuffer } from './framebuffer.js'
+2: 
+3: export interface SpriteImage {
+4:   width: number
+5:   height: number
+6:   indices: Uint8Array
+7:   /** opaque mask(M3.5 fix):1 = 写入,0 = RLE-skip 透明跳过。
+8:    *  之前 blit 用 `idx === 0 continue` 把 RLE-skip 与 opaque-palette-0 合并 →
+9:    *  人物 sprite palette-0 像素(头发暗部 / 眼睛等)被误判为透明 → 半透明。 */
+10:   opaque: Uint8Array
+11:   anchorX: number
+12:   anchorY: number
+13: }
+14: 
+15: /**
+16:  * 把解码后的逐帧位图装配成 SpriteImage[]。**每帧用自身宽高定 anchor**(底部中心)。
+17:  *
+18:  * sdlpal 真值(scene.c:224 / 291 / 358):blit 时一律按**当前帧**的 PAL_RLEGetWidth/Height —
+19:  *   x = pos.x - PAL_RLEGetWidth(本帧)/2;  y = pos.y - PAL_RLEGetHeight(本帧) - iLayer。
+20:  * 即每帧脚底中心对齐到同一 anchor 点,高/宽不同的帧各自向上 / 左右居中延展。
+21:  *
+22:  * 之前 bug:三处 loader 都用 `first.height` / `first.width/2`(frame[0])当整组所有帧的 anchor。
+23:  *   行走精灵各帧等高(chunk2 全 22×50)看不出;但爬行精灵 chunk193 各帧高度 31~73 差异巨大,
+24:  *   爬帧(frame6=73)用 frame0 高度 31 当锚 → 脚底向下溢出 (73-31)=42px = 密道攀爬"玩家偏下"。
+25:  */
+26: export function toSpriteImages(
+27:   frames: { width: number; height: number; indices: Uint8Array; opaque: Uint8Array }[],
+28: ): SpriteImage[] {
+29:   return frames.map((f) => ({
+30:     width: f.width,
+31:     height: f.height,
+32:     indices: f.indices,
+33:     opaque: f.opaque,
+34:     anchorX: Math.floor(f.width / 2),
+35:     anchorY: f.height,
+36:   }))
+37: }
+38: 
+39: export function drawSprite(fb: Framebuffer, sprite: SpriteImage, cx: number, cy: number): void {
+40:   const dstX = cx - sprite.anchorX
+41:   const dstY = cy - sprite.anchorY
+42:   for (let y = 0; y < sprite.height; y++) {
+43:     for (let x = 0; x < sprite.width; x++) {

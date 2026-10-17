@@ -1,0 +1,52 @@
+import assert from 'node:assert/strict'
+import { mkdtempSync, readFileSync, mkdirSync, writeFileSync, rmSync, symlinkSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { dirname, join } from 'node:path'
+import { pathToFileURL } from 'node:url'
+const repo = process.cwd()
+const { validateCatalog, validateCanonicalEvidence, validateLegacyFlat } = await import(pathToFileURL(join(repo, 'scripts/docs/check-testing.mjs')))
+const root = join(repo, 'docs/testing')
+const original = JSON.parse(readFileSync(join(root, 'catalog.json')))
+const observations = []
+const today = new Date().toISOString().slice(0,10)
+assert.deepEqual(validateCatalog(original, root, today), [])
+const expired = structuredClone(original)
+expired.entries[0].status = 'proposal'
+expired.entries[0].reviewBy = '2000-01-01'
+const expiry = validateCatalog(expired, root, today)
+assert.deepEqual(expiry, [`${expired.entries[0].id}: reviewBy 2000-01-01 is before ${today}`])
+observations.push({case:'proposal-expiry',baselineIssues:0,rejectedIssues:expiry,originalRestoredIssues:validateCatalog(original, root, today)})
+const fixture = mkdtempSync(join(tmpdir(), 'type-pal-s02-pub-'))
+try {
+ const entry = original.entries[0]
+ for (const p of [entry.canonical, entry.evidence]) { const q=join(fixture,p);mkdirSync(dirname(q),{recursive:true});writeFileSync(q,readFileSync(join(root,p))) }
+ assert.deepEqual(validateCanonicalEvidence(entry,fixture,repo),[])
+ const canonical=join(fixture,entry.canonical), bytes=readFileSync(canonical), text=bytes.toString()
+ const missing=text.replace(/^---\s*\n[\s\S]*?\n---\s*\n/,'')
+ assert.notEqual(missing,text)
+ writeFileSync(canonical,missing)
+ const issues=validateCanonicalEvidence(entry,fixture,repo)
+ assert.deepEqual(issues,[`${entry.id}: canonical missing testing front matter`])
+ writeFileSync(canonical,bytes)
+ assert.deepEqual(validateCanonicalEvidence(entry,fixture,repo),[])
+ observations.push({case:'frontmatter-required-alongside-meta',id:entry.id,baselineIssues:0,rejectedIssues:issues,restoredIssues:0})
+} finally { rmSync(fixture,{recursive:true}) }
+assert.deepEqual(validateLegacyFlat(root,today),[])
+const legacyFixture=mkdtempSync(join(tmpdir(),'type-pal-s02-legacy-'))
+try {
+ const manifest=JSON.parse(readFileSync(join(root,'legacy-flat.json')))
+ for (const e of manifest.entries) symlinkSync(join(root,e.path),join(legacyFixture,e.path))
+ writeFileSync(join(legacyFixture,'legacy-flat.json'),JSON.stringify(manifest))
+ assert.deepEqual(validateLegacyFlat(legacyFixture,today),[])
+ const baseline=structuredClone(manifest)
+ manifest.entries.push({path:'new-flat.md',migrateBy:'2099-01-01'})
+ writeFileSync(join(legacyFixture,'new-flat.md'),'new IO fixture only\n')
+ writeFileSync(join(legacyFixture,'legacy-flat.json'),JSON.stringify(manifest))
+ const issues=validateLegacyFlat(legacyFixture,today)
+ assert.deepEqual(issues,['legacy frozen census changed: new entries cannot be authorized by appending to the manifest'])
+ rmSync(join(legacyFixture,'new-flat.md'))
+ writeFileSync(join(legacyFixture,'legacy-flat.json'),JSON.stringify(baseline))
+ assert.deepEqual(validateLegacyFlat(legacyFixture,today),[])
+ observations.push({case:'frozen-legacy-identity',baselineIssues:0,rejectedIssues:issues,restoredIssues:0})
+} finally { rmSync(legacyFixture,{recursive:true}) }
+console.log(JSON.stringify({kind:'documentation-publication-IO-consumer-probes',today,observations,temporaryCleanup:'exact two mkdtemp trees removed; repo/catalog/raw/product/tests unchanged',notClaimed:['business-test quality','runtime','E2E','coverage','full semantic acceptance']},null,2))

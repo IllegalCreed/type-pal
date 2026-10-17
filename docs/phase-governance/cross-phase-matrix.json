@@ -1422,13 +1422,35 @@
       "evidence": [
         "docs/phase-governance/reviews/20261018-semantic-rework.json",
         "docs/phase2/READ-FIRST.md:1",
-        "AGENTS.md:21"
+        "AGENTS.md:21",
+        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S01-8ef07ca7.json"
       ],
       "unresolved": [
-        "New S01 candidate pending non-author full semantic review; no other current entry point renewed.",
+        "S01 fixed READ-FIRST body/template accepted by non-author after sLayer counter rework; other current entry points are not renewed.",
         "Whole-docs strict and require-complete remain FAIL; no runtime/E2E/visual/coverage reacceptance."
       ],
       "stopLine": "Do not treat original quote preservation or current status alone as completed semantic migration; do not revive retired PAL conversion for canonical author scripts."
+    },
+    {
+      "id": "testing-publication-authority-s02-20261018",
+      "from": ["docs/testing/governance.md", "AGENTS.md", "docs/ops/agent-workflow.md"],
+      "to": [
+        "scripts/docs/check-testing.mjs",
+        "scripts/docs/generate-testing-index.mjs",
+        "docs/testing/catalog.json",
+        "docs/testing/legacy-flat.json"
+      ],
+      "relationship": "Publication schema2 requires front matter/meta/evidence equality and source ranges; execution and semantic migration credit remain separate. Expiry covers all statuses except archived/superseded; current nine projections and frozen legacy identity follow actual consumers, not old four-view prose.",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261018-semantic-rework.json",
+        "docs/testing/governance.md"
+      ],
+      "unresolved": [
+        "S02 new actual runbook awaits non-author body/template acceptance.",
+        "Product/old-test/coverage quality and full1896 semantic rework are not completed by publication-validator probes."
+      ],
+      "stopLine": "No metadata pass, old verified or source-backed claim can fabricate runtime/full semantic acceptance; no append to frozen legacy census to admit a new flat file."
     }
   ],
   "acceptance": {

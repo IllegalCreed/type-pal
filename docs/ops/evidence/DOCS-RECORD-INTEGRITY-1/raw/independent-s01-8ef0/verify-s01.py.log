@@ -1,0 +1,65 @@
+import collections,hashlib,json,pathlib,re,subprocess,sys
+ROOT=pathlib.Path('/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal');OUT=pathlib.Path(__file__).parent
+BASE='d4d5cfc6463014e67ff741f65799a97b9f99c754';HEAD=sys.argv[1];TAG=sys.argv[2]
+def sha(b):return hashlib.sha256(b).hexdigest()
+def raw(p):return (ROOT/p).read_bytes()
+def load(p):return json.loads(raw(p))
+def git(*a):return subprocess.check_output(['git',*a],cwd=ROOT,timeout=30)
+def before(p):return json.loads(git('show',BASE+':'+p))
+checks=[]
+def ck(n,x,d=None):checks.append({'name':n,'passed':bool(x),'details':d})
+ck('frozen clean HEAD',git('rev-parse','HEAD').decode().strip()==HEAD and not git('status','--porcelain'))
+ledger=load('docs/phase-governance/reviews/20261018-semantic-rework.json');e=ledger['entries'][0];path=e['path'];body=raw(path);old=git('show',BASE+':'+path);origin=git('show',e['primarySource'][0]['revision']+':'+path)
+ck('single ledger entry',len(ledger['entries'])==1 and path=='docs/phase2/READ-FIRST.md')
+ck('source and after pins',sha(old)==e['sourceSha256'] and sha(body)==e['afterSha256'])
+quote=re.compile(rb'<!-- original-source-quote:start -->[\s\S]*?<!-- original-source-quote:end -->')
+ck('one exact quote span',len(quote.findall(body))==1 and quote.findall(body)==quote.findall(old))
+inner=quote.findall(body)[0].split(b'\n',1)[1].rsplit(b'<!-- original-source-quote:end -->',1)[0]
+inv=b'\n'.join(line[2:] if line.startswith(b'> ') else b'' if line==b'>' else line for line in inner.split(b'\n'))
+ck('original source exact inverse',any(v==origin for v in [inv,inv[:-1] if inv.endswith(b'\n\n') else inv]))
+ck('original pin',sha(origin)==e['evidence']['originalQuoteSha256']==e['primarySource'][0]['sha256'])
+pins=[]
+for pin in e['primarySource']:
+ b=git('show',pin['revision']+':'+pin['path']);ck('primary pin '+pin['path'],sha(b)==pin['sha256']);pins.append({'path':pin['path'],'revision':pin['revision'],'sha256':sha(b),'scope':pin.get('scopeActuallyRead')})
+reg=load('docs/phase-governance/document-registry.json');entry=next(x for x in reg['entries'] if x['path']==path)
+ck('binding pending author acceptance',entry['reviewRecord']=='20261018-semantic-rework.json' and entry['reviewStatus']==e['contentReviewStatus']=='partial-review-unknown' and entry['templateCompliance']==e['templateCompliance']=='needs-migration')
+records=[]
+for p in (ROOT/'docs/phase-governance/reviews').glob('*.json'):
+ for row in json.loads(p.read_bytes()).get('entries',[]):
+  if row['path']==path:records.append(p.name)
+ck('one active review binding',records==['20261018-semantic-rework.json'],records)
+r33='docs/phase-governance/reviews/20261017-r33-phase2-lore.json';a=before(r33);b=load(r33);aa={x['path']:x for x in a['entries']};bb={x['path']:x for x in b['entries']}
+ck('R33 other entries exact',aa.keys()-bb.keys()=={path} and not bb.keys()-aa.keys() and all(aa[p]==bb[p] for p in bb))
+link=next(x for x in b['supersededBindings'] if x['path']==path)
+ck('R33 exact prior record pin',link['sourceRevision']==BASE and link['sourceRecordSha256']==sha(git('show',BASE+':'+r33)) and link['successor']=='20261018-semantic-rework.json')
+cat='docs/phase-governance/catalog.phase2.json';ca=before(cat);cb=load(cat);cae={x['path']:x for x in ca['entries']};cbe={x['path']:x for x in cb['entries']};changed=[p for p in cae if cae[p]!=cbe.get(p)]
+ck('phase2 exactly one of105 changed',len(cae)==len(cbe)==105 and set(cae)==set(cbe) and changed==[path],changed)
+ck('phase2 target pin/status',cbe[path]['afterSha256']==sha(body) and cbe[path]['reviewStatus']=='partial-review-unknown' and cbe[path]['status']=='current')
+for s in load('docs/phase-governance/catalog.json')['shards']:
+ p='docs/phase-governance/'+s['path'];ck('manifest shard '+p,sha(raw(p))==s['sha256'] and len(load(p)['entries'])==s['total'])
+route='docs/phase-governance/routing.json';ra=before(route);rb=load(route);routes=[x for x in rb['migratedDocuments'] if x['path']==path];ck('single current route',len(routes)==1 and routes[0]['templateId']=='governance-index-v1' and routes[0]['historyOverlay'] is False)
+for key in ra:
+ if key!='migratedDocuments':ck('other routing top exact '+key,ra[key]==rb[key])
+ck('other migrated routes exact',[x for x in ra['migratedDocuments'] if x['path']!=path]==[x for x in rb['migratedDocuments'] if x['path']!=path])
+matrix=load('docs/phase-governance/cross-phase-matrix.json');row=next(x for x in matrix['rows'] if x['id']=='read-first-current-authority-20261018');ck('matrix remains guarded',row['status']=='guarded' and len(row['unresolved'])>0)
+scope=load('docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json');regmap={x['path']:x for x in reg['entries']};count=0
+for part in scope['parts']:
+ for x in load(part['path'])['entries']:
+  count+=1;rr=next(v for v in load('docs/phase-governance/reviews/'+x['record'])['entries'] if v['path']==x['path']);ck('prior withdrawal '+x['path'],regmap[x['path']]['reviewStatus']==rr['contentReviewStatus']=='partial-review-unknown' and regmap[x['path']]['templateCompliance']==rr['templateCompliance']=='needs-migration')
+ck('1896 not restored',count==1896)
+oldscope=before('docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json')['receiptHistoryScreen']['quarantinedClaims'];now=load('docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json')['receiptHistoryScreen']['quarantinedClaims'];ck('five quarantines exact',now==oldscope and len(now)==5)
+ck('tool sources unchanged since prior review',git('diff','--name-only','58e899bf000e0d3bbeafb5c4a7ecb478b07ac656..'+HEAD,'--','scripts/docs')==b'')
+captures=[]
+for item in load('docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun.json')['sessions']:
+ if not item['path'].endswith(('rerun-dc04960f-09b2-4878-addb-5dc4c0a2d5d6.json','rerun-09c01f13-24cb-460b-816b-061cdeac677f.json')):continue
+ r=load(item['path']);ck('author capture index SHA '+r['sessionId'],sha(raw(item['path']))==item['sha256'])
+ ev=ROOT/'docs/ops/evidence/DOCS-RECORD-INTEGRITY-1';ck('author capture input manifest '+r['sessionId'],sha((ev/r['inputSnapshot']).read_bytes())==r['inputSnapshotSha256']==item['inputSnapshotSha256ObservedAtClosure'])
+ for ex in r['executions']:
+  for f in ex['files']:
+   data=(ev/f['path']).read_bytes();ck('capture raw '+f['path'],sha(data)==f['sha256'] and len(data)==f['bytes'])
+ for j in r['executionJournals']:
+  data=(ev/j['path']).read_bytes();ck('capture journal '+j['path'],sha(data)==j['sha256'] and len(data)==j['bytes'] and json.loads(data) in r['executions'])
+ captures.append({'sessionId':r['sessionId'],'sourceHead':r['sourceHead'],'inputSnapshotSha256':r['inputSnapshotSha256'],'exits':{x['executionId'].split('-'+r['sessionId'])[0]:x['exitCode'] for x in r['executions']}})
+report={'head':HEAD,'bodySha256':sha(body),'beforeSha256':sha(old),'originalSha256':sha(origin),'lineCounts':{'original':len(origin.splitlines()),'before':len(old.splitlines()),'candidate':len(body.splitlines())},'primaryPins':pins,'checks':checks,'captures':captures,'failed':[x for x in checks if not x['passed']]}
+(OUT/('mechanical-'+TAG+'.json')).write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
+print(json.dumps({'head':HEAD,'bodySha256':sha(body),'checks':len(checks),'failed':report['failed'],'captures':captures},ensure_ascii=False))

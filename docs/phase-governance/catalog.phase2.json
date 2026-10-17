@@ -10619,11 +10619,12 @@
       "module": "governance",
       "capability": "phase2-read-first",
       "status": "current",
-      "reviewStatus": "partial-review-unknown",
+      "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": [
         "current L1 policy",
-        "S01 actual source and body review candidate; non-author pending"
+        "S01 actual source and body review candidate; non-author pending",
+        "S01 non-author fixed-body acceptance8ef07ca7/report288a330b"
       ],
       "sourceSha256": "25afb5f4d2d72878ab23985413f579b4552b987fc6a8f67866bb725cd4e3e1e6",
       "afterSha256": "70a835e7a8cab70fe2c62618791e8fba4b124f385a8e8f95817560a41bc244be",
@@ -10716,7 +10717,7 @@
         "notes": "No second rule source: READ-FIRST owns phase admission, E2E contract owns detailed performance criteria, cards own execution status."
       },
       "revision": {
-        "currentSha": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
+        "currentSha": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
         "implementationSha": "405dde555f59c1dac41cf043bdd58571d06197ca4bc21c6440326fb555974429",
         "history": [
           {
@@ -10743,10 +10744,11 @@
         ]
       },
       "evidence": {
-        "kind": "actual-document-semantic-rework-candidate",
+        "kind": "actual-document-semantic-rework-with-limited-independent-body-acceptance",
         "path": "docs/phase-governance/reviews/20261018-semantic-rework.json",
         "sourceRevision": "d4d5cfc6463014e67ff741f65799a97b9f99c754",
-        "noExecutionCredit": true
+        "noExecutionCredit": true,
+        "nonAuthorAcceptance": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S01-8ef07ca7.json"
       },
       "history": [
         {
@@ -10800,6 +10802,13 @@
           "sourceRevision": "0ec6b2964f8dcb8b06804aaa22c118c0c7de8849",
           "afterSha256": "70a835e7a8cab70fe2c62618791e8fba4b124f385a8e8f95817560a41bc244be",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "non-author S01 semantic/template fixed-body accepted; no runtime or global completion",
+          "reviewedCommit": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
+          "report": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S01-8ef07ca7.json",
+          "reportSha256": "288a330b872a18d1db6ca765b04005910e89384f2de49d1a361b7123c0d48303"
         }
       ],
       "supersedes": [

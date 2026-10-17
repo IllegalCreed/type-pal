@@ -1,0 +1,27 @@
+{
+  "id": "S01-SLAYER-EXCLUSIVE",
+  "status": "open-at-0ec6b296",
+  "reviewerTask": "/root/receipt_integrity_independent",
+  "authorTask": "/root",
+  "reviewedCommit": "0ec6b2964f8dcb8b06804aaa22c118c0c7de8849",
+  "bodyPath": "docs/phase2/READ-FIRST.md",
+  "bodyLine": 30,
+  "bodySha256": "20e20dab3014c10c20ea9f216a0a18ba5f6d01cdb096860540c60e7df2c8f185",
+  "statement": "原素材的sLayer×8只进排序，不重复叠进blit",
+  "counterSource": {
+    "path": "packages/game/src/present/present.ts",
+    "sha256": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab",
+    "scope": "570-610; actual sortY/iLayer consumption in addCoverTileEntries",
+    "lines": {
+      "588": "    const sortY = npc.y + sLayer * 8 + 9",
+      "589": "    const iLayer = sLayer * 8 + 2",
+      "599": "    // cover tiles for NPC — sy 与 iLayer 都用 sLayer 计算",
+      "605": "      sortY,",
+      "610": "      iLayer,"
+    }
+  },
+  "finding": "Only final blit cancels sLayer; the same layer participates in sort and cover geometry. Exclusive only-sorting wording would reject a legitimate current cover consumer. The historical original quote also has that shorthand but cannot authorize the erroneous exclusive current instruction.",
+  "requestedChange": "Limit no-addition rule to final blit; preserve sorting and cover/occlusion geometry according to actual consumer. Add the source scope without changing code or immutable quote.",
+  "parentAcknowledged": "Root accepted counter and is preparing a new frozen documentation candidate; no S01 accept yet.",
+  "recordedAt": "2026-10-17T20:31:23.087555+00:00"
+}
