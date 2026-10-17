@@ -1876,10 +1876,10 @@
       "number": 49,
       "suffix": "",
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-49-game-draw-inventory.md",
-      "sha256": "2f9accc798276ca90bfa6b79031fa755b8337d7ec50ae8ce79d6cea632c37559",
-      "lines": 71,
+      "sha256": "daee67ea54de0726e692a0c46ab6ef28c50cc1eaa96eb9c16eedb9549854cc9e",
+      "lines": 78,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -1911,7 +1911,7 @@
           "text": "请你做：下一批另开任务卡并从最新 origin/main 重新核对范围与账本"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true
     },
     {
       "id": "50",
@@ -3923,8 +3923,8 @@
   ],
   "reviewCheckpointBase": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
   "currentReviewCounts": {
-    "partial": 31,
-    "pending": 52,
+    "partial": 32,
+    "pending": 51,
     "accept": 0
   }
 }

@@ -69,3 +69,10 @@ Visual Verification Timing: mixed（功能行为先裁决；菜单观感仍留�
 不要做：不得把本卡历史提示词当作新的实现授权
 输出要求：无下一位 Agent 提示词，等待下一批治理任务
 ```
+
+
+## Codex 当前复审（2026-10-18）
+
+历史 `done` 不等于本轮验收。用户已批准大世界目标层 live-zero 按 SDLPal 对齐。本轮在 `codex/code-quality-3y` 上完整读取实现、三份范围测试、P01/P02 caller/oracle、inventory/menu 生命周期与 SDLPal `uigame.c:1289-1473`、`itemmenu.c:28-310`、`play.c:268-323`；确认绘制层 live count 分支和 dispatcher 的零数量 auto-cancel 与 primary 一致，未发现新的实现缺陷。
+
+当前测试环境仍有 `inventory-list-pixels.grok-r1.test.ts` 的 G06-A12 `document is not defined`：该文件 12 tests 中 11 passed、1 failed；未修改环境、未静音，文件保留 `review`。其余相关测试 10 files / 190 tests passed，game typecheck passed。复审状态为 `partial`，不标 `accept`。证据见 [`49-draw-inventory`](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/49-draw-inventory/README.md)。

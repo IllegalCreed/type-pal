@@ -1,0 +1,91 @@
+{
+  "base": "421ee54b",
+  "fullReads": [
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.ts",
+      "sha256": "8aab3f1f2292dc1a8d610be94825847d5b2c9459197ea1260db94f9f581fd1c3",
+      "lines": 390,
+      "boundary": "Full implementation read: list/use-target layers, live inventory count, SDL zero branch, resource fallback, descriptions, colors, framebuffer ownership."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.glm-phase1-leaves.test.ts",
+      "sha256": "0639c4004e69d77a690e036ca631a0d134a8297195f5c44bea4689e11c4db42b",
+      "lines": 95,
+      "boundary": "Full direct leaves read: unknown catalog/filter and use-target missing dependency defensive contracts."
+    },
+    {
+      "path": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "sha256": "847ba3cd0594f5578ea7a564df055435fa57b9e4a333f69cd25086f6547a8389",
+      "lines": 405,
+      "boundary": "Full direct pixel read: shadow/amount/clip/missing-frame/live-zero and canvas flush contract; one node-environment failure retained as review."
+    },
+    {
+      "path": "packages/game/src/present/menu/inventory-desc-filter.grok-r1.test.ts",
+      "sha256": "8dc479efefc2d143cf70cdfe4a59d271140bbb0c9272d84006eb7f4e8a6905b4",
+      "lines": 316,
+      "boundary": "Full adjacent test read: description lines/noDesc/filter colors and amount layout."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p01-inventory-list.test.ts",
+      "sha256": "770ecf1d4d4266e5b50ed51ee71c3dafcd643b445ffb11fcafca197e3cedadc3",
+      "lines": 200,
+      "boundary": "Full caller/oracle read: list, cursor, paging, colors, equipped virtual entries and immutability."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p02-inventory-target.test.ts",
+      "sha256": "49abedabe81e7cb35703d7e4cedb355cd5d6295370a18c634a07227143fe569e",
+      "lines": 213,
+      "boundary": "Full caller/oracle read: target layer live amount, party stats, equipment effects, noDesc and immutability."
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.ts",
+      "sha256": "3a7e3a01dd41af9bc884f2a88e4b2497862b72785834b73a91a8b27c9fad618d",
+      "lines": 280,
+      "boundary": "Full state read: inventory snapshot, filter, target menu and confirm legality."
+    },
+    {
+      "path": "reference/sdlpal/uigame.c",
+      "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1",
+      "lines": 2076,
+      "ranges": ["1289-1473"],
+      "boundary": "PAL_ItemUseMenu live amount branch, zero cancellation and target UI primary."
+    },
+    {
+      "path": "reference/sdlpal/itemmenu.c",
+      "sha256": "7026d7875f79a57cf21fd80135d13022ff792698720ef6f56de864d208742a74",
+      "lines": 466,
+      "ranges": ["28-310"],
+      "boundary": "PAL_ItemSelectMenu layout, amount, descriptions, cursor and selectable filter primary."
+    },
+    {
+      "path": "reference/sdlpal/play.c",
+      "sha256": "f13ba4e3a9c86c494390ea1eda121be1ae4c7fa5110f5e51cf4680321c742ef8",
+      "lines": 682,
+      "ranges": ["268-323"],
+      "boundary": "PAL_GameUseItem target loop, script consume and return lifecycle primary."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "ranges": ["660-748"],
+      "boundary": "Live snapshot refresh, zero-count auto-cancel and target confirm caller."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "ranges": ["inventory dispatch"],
+      "boundary": "Public inventory/use-target render injection."
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "ranges": ["menu resource injection"],
+      "boundary": "Runtime items/roles/icon projection."
+    }
+  ],
+  "notClaimed": [
+    "Current full-repository check/coverage/ratchet/protected-fast acceptance",
+    "Node DOM/canvas pixel test environment acceptance",
+    "Runtime visual/E2E acceptance beyond framebuffer oracle",
+    "Any change to the user-approved live-zero product decision"
+  ]
+}
