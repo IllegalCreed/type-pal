@@ -505,3 +505,10 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 完整读取 `toast.ts`、`map-names.ts`、`speedrun/checkpoints.ts` 及直接测试、detectors/store 和 shared authored map-name caller。toast 的容器/元素两个 timer 与空容器清理、map-name 的 shared 薄适配/缺名回退、checkpoint 的 21/id/时间/BANANA 静态合同均有直接证据；PalTimer 坐标和边缘点仍按源码注释保持 runtime unknown，不擅改速通数据。
 
 定向 `5 files / 22 tests passed`，无失败、跳过或 stderr；本片不运行 coverage、official ratchet、protected fast 或全仓 `pnpm check`。证据见 [`3j-toast-map-checkpoints`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-toast-map-checkpoints/README.md)，3j 七个生产文件已有切片证据但整卡仍 partial。
+
+### 2026-10-18 CODE52 波次质量门收口（覆盖 47–52）
+
+- 本波次把 47–52 的低成本逐包回归集中收口：`pnpm check` 通过，docs/coverage-tools/quality-tools/E2E-tools/script-governance 全绿；七包 typecheck/test 均通过，最终 lint-zero 为 5002 files、0 errors / 0 warnings / 0 infos。
+- 官方 ratchet 默认模式按 fail-closed 识别 6 个已有测试身份精简；逐项核对任务卡、approved-test-retirements 精确账、双 digest/文件 SHA 与相邻 oracle 后，使用仓库现成的 `--allow-scope-removal` ratchet 正式生成新基线，提升 13 项、范围变化 10 项。没有生产 scope removal，没有新增 ignore/exclude，也没有弱化规则。
+- protected fast（`TYPE_PAL_COVERAGE_BASE_REF=origin/main`）通过；737 source files / 19,930 tests，总 coverage 为 90.02% statements、83.71% branches、89.64% functions、91.90% lines。完整命令、包级计数和基线数值见 [`53-wave-gates`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)。
+- 本波次不改变卡状态：47–52 仍 `partial`；环境诊断像素文件、draw-magic 高风险 PlayerInfoBox 状态差异和其它 pending/review 继续保留。下一批仍优先 pre-94，且避开活跃任务。

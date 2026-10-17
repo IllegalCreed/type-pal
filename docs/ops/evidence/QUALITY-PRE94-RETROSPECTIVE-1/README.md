@@ -78,6 +78,8 @@
 
 最新[52 draw-shop 复审切片](52-draw-shop/README.md)：完整读取商店实现/三份测试、P04 caller、shop/menu 生命周期和 SDLPal uigame；18/19 直接、117 相邻通过，shop-preview 保留 1 条 node DOM 诊断，52 当前 partial，coverage/ratchet/protected/full check 未运行。
 
+最新[47–52 波次质量门](53-wave-gates/README.md)：集中跑完全仓 `pnpm check`、审计退役后的官方 ratchet 与 `origin/main` protected fast；lint-zero 为 5002 files、0 error/warning/info，coverage 总计 737 source files / 19,930 tests，ratchet 提升 13 项、范围变化 10 项。47–52 卡状态不变，像素环境诊断与 draw-magic 高风险裁决仍保留。
+
 ## 统一候选后的范围更正
 
 以下role键探针和四项counter针对冻结f0cf0f7f主线系候选。用户要求先收3y后，已发现其未合入的CODE53包含party-slot mapper/离队guard与对应测试；现统一候选已有该实现，不能继续宣称“当前helper仍按role键”。CODE53仍待端到端/整文件/视觉与统一门复审，原probe不被改写为当前失败。重复GAME-PLAYER-POISON-KEY-DOMAIN-1取消、归CODE53；YJ2过期注释与cleanup fixture待核仍保留。
