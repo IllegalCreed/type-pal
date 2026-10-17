@@ -1,0 +1,79 @@
+{
+  "base": "6937c7a70",
+  "fullReads": [
+    {
+      "path": "packages/game/src/present/battle/draw-battle-sprites.ts",
+      "sha256": "bf9d33201028c448361549c2c8d1971ba8193d7cd41b99abd6dd97348ca44d58",
+      "lines": 413,
+      "boundary": "Full implementation read; anchors, idle/death/color shift, sorting, hiding and crossfade."
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-sprites.test.ts",
+      "sha256": "b4626b6cd2b3b06cd789b52e2462d49fb5972f10d69ba26bfd124c671cd08f95",
+      "lines": 756,
+      "boundary": "Full core sprite position/color/frame/death/idle/sort/highlight oracle read."
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-sprites.glm-phase1-leaves.test.ts",
+      "sha256": "1837084372269c3e5aeccd5069a565b96d8765ded478d57b6977216c4cf433ca",
+      "lines": 55,
+      "boundary": "Full edge clipping oracle read."
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-sprite-pixels.grok-r1.test.ts",
+      "sha256": "63a6c093cbdbb80126fe87416e9ee6027d1ded34dc6e9ef1d3f0d964e68b332d",
+      "lines": 373,
+      "boundary": "Full host pixel/hidden/override/render-state/sort oracle read."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/present/battle/present-battle.ts",
+      "sha256": "7ca203c4de814c295b4e70ca414e3d62b31e22da1af980a52119bd83590fae2e",
+      "lines": 449,
+      "ranges": ["210-290"],
+      "boundary": "Background/wave/sprite/overlay caller ranges only."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-positions.ts",
+      "sha256": "47bf72791ffe6ea9e3d3bf061e5b0232351e44f938c24e3f049267ca063a1273",
+      "lines": 93,
+      "ranges": ["1-93"],
+      "boundary": "Full short anchor layout read."
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33",
+      "lines": 1858,
+      "ranges": ["110-220", "430-490", "600-680", "850-945"],
+      "boundary": "Battle scene positions/sort/hidden/death primary ranges."
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "lines": 5400,
+      "ranges": ["40-60", "940-1020", "2100-2200"],
+      "boundary": "Idle/death/fight animation primary ranges."
+    },
+    {
+      "path": "reference/sdlpal/uibattle.c",
+      "sha256": "b5bd5104def667c9ae134481c4843450ec1513feb61141f7196f9047dc7814d3",
+      "lines": 1808,
+      "ranges": ["1480-1650"],
+      "boundary": "Target highlight/CLASSIC all-target primary range."
+    },
+    {
+      "path": "reference/sdlpal/palcommon.c",
+      "sha256": "919f428112e70c11b8db208e9bba486c8ab056aa4a893a8d4d6bae9b21b9aae6",
+      "lines": 1136,
+      "ranges": ["380-420"],
+      "boundary": "Color-shift mask primary range."
+    }
+  ],
+  "notClaimed": [
+    "Complete CODE-QUALITY-3l acceptance",
+    "draw-battle-ui or full present-battle semantic review",
+    "Browser visual/E2E verification",
+    "Coverage, official ratchet, protected fast or whole-repository acceptance"
+  ]
+}
