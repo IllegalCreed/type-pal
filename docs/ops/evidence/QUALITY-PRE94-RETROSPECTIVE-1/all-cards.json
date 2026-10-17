@@ -626,7 +626,7 @@
       "sha256": "707c34eb35310de4b00e90d2bb35123af3a07a1abf0e59ddef1bcc496587682b",
       "lines": 74,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -682,7 +682,8 @@
           "text": "当前状态：build；只能在六个白名单生产文件及对应测试内工作。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-present-primitives/README.md"
     },
     {
       "id": "3l",

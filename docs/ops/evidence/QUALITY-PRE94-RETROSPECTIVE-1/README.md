@@ -4,7 +4,7 @@
 
 ## 2026-10-17 当前范围与优先级
 
-用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10原检查点bea19f80c已推送，当前恢复见本片末尾；分支已同步最新origin/main，0behind，未合main。全83卡16partial/67pending/0accept；[6a](6a/README.md)、92、CODE1/2/2b/3/3b/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；[CODE3b](3b/README.md)两边界六oracle已补；[raw补证](3b/raw-tests/README.md)9→2/五新反控、完整extract428零stderr；全正文仍待，[3d PNG](3d/README.md)两height盲点已补，下一片3h assets/shell，再按模块逐文件推进；94–102/editor未完成项保留。
+用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10原检查点bea19f80c已推送，当前恢复见本片末尾；分支已同步最新origin/main，0behind，未合main。全83卡17partial/66pending/0accept；[6a](6a/README.md)、92、CODE1/2/2b/3/3b/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；[CODE3b](3b/README.md)两边界六oracle已补；[raw补证](3b/raw-tests/README.md)9→2/五新反控、完整extract428零stderr；全正文仍待，[3d PNG](3d/README.md)两height盲点已补，下一片3h assets/shell，再按模块逐文件推进；94–102/editor未完成项保留。
 
 下文旧数字、探针与结论作为历史保存；不会把旧抽查、历史done或包全绿补签成当前验收。
 
@@ -22,7 +22,9 @@
 
 最新[3j toast / map-names / checkpoints 切片](3j-toast-map-checkpoints/README.md)：完整读取三个剩余生产小文件、直接测试、detectors/store 与 shared authored map-name caller；定向5文件22例通过。速通 checkpoint 坐标实跑仍 unknown，3j 整卡保持 partial，未运行 coverage 或全仓 check。
 
-最新[3i 对话资源 / 预缓存 / 音量 / 商标切片](3i-dialog-precache/README.md)：五个生产文件、直接测试及 bootstrap/main/present/SW/tools-panel caller 已逐文件核读；先以两个失败反例确认 `precache-ui` 的 `NaN` 进度会污染状态，再加入有限性/非负字节边界并验证后续合法进度可恢复。定向12文件78例与 game typecheck 通过；3i 整卡保持 partial，未运行 coverage 或全仓 check。
+最新[3i 对话资源 / 预缓存 / 音量 / 商标切片](3i-dialog-precache/README.md)：五个生产文件、直接测试及 bootstrap/main/present/SW/tools-panel caller 已逐文件核读；先以两个失败反例确认 `precache-ui` 的 `NaN` 进度会污染状态，再加入有限性/非负字节边界并验证后续合法进度可恢复。定向12文件79例与 game typecheck 通过；3i 整卡保持 partial，未运行 coverage 或全仓 check。
+
+最新[3k present primitives 三文件切片](3k-present-primitives/README.md)：完整读取 framebuffer、screen-shake、screen-wave 及七份直接测试，核对 present/draw caller 与 SDL scene/video/global primary；定向7文件35例与 game typecheck通过，未发现新直接缺陷。3k 的 dither/number/follower 三文件和整卡统一门仍待核，未运行 coverage 或全仓 check。
 
 ## 统一候选后的范围更正
 

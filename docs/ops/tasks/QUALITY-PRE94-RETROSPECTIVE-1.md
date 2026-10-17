@@ -302,6 +302,14 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 - 未修/保留：dialog 资源按单资产失败隔离；precache-client 的 onPlayable/ready race/SW 协议保留，模块级 worker 状态在多次 bootstrap/HMR 下缺生产 caller 证据，仍为 review 候选；音量与商标流程未发现新的直接缺陷。没有触碰 schema/save、生成物、公共接口或用户可见形态。
 - 验证：先行 `precache-ui-host.grok-r1.test.ts` 22 例中 2 例失败；修复后定向 12 files/79 tests passed，`pnpm --filter @type-pal/game typecheck` passed。覆盖率、official ratchet、protected fast、全仓 `pnpm check` 按用户成本规则留到完整大模块收口；本片已读清单与 SHA 见 [`3i-dialog-precache`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/README.md)。3i 整卡保持 `partial`，不据此宣布全仓完成。
 
+### 2026-10-17 CODE-QUALITY-3k present primitives 三文件切片
+
+- 范围：`packages/game/src/present/{framebuffer,screen-shake,screen-wave}.ts` 与七份直接测试；读取 `present.ts` 的 clear/wave/shake/flush caller、`draw-tilemap.ts`/`draw-sprite.ts` 的 `writePixel` caller，以及 SDL `scene.c`、`video.c`、`global.h` 对应 primary 区间。
+- primary/caller/oracle：`scene.c:365-430,486`、`video.c:571-620`、`global.h:379,538-539`；真实 typed framebuffer、行级像素搬运、循环守恒、相位 reset、advance=false 和 present 时序。
+- 逐文件结论：framebuffer 默认/离屏尺寸、越界静默写、palette 缺色 fallback；screen-shake 奇偶搬运/黑条/level 边界/递减；screen-wave 32 相位、循环卷动、WORD 关断、跨帧相位和 fade-only 均与 caller/primary 一致，未发现新直接缺陷。历史 raw opcode/mutant 证据未在本片重跑，不扩写成当前运行结果。
+- 未修/保留：`dither-fade`、`draw-number`、`follower-pos` 未读，真实视觉/E2E 与整卡统一质量门保持 pending/partial；未触碰 battle/menu/dialog/save/schema 或 UI 形态。
+- 验证：定向 7 files/35 tests passed，`pnpm --filter @type-pal/game typecheck` passed，无测试 stderr。覆盖率、official ratchet、protected fast、全仓 `pnpm check` 按用户成本规则留到完整大模块收口；已读清单与 SHA 见 [`3k-present-primitives`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-present-primitives/README.md)。3k 整卡保持 `partial`。
+
 ### 2026-10-17 CODE1/CODE2 boundary carry-over
 
 本片接收工作树中已完成的两个窄测试合同：`packages/shared/src/rle.boundaries.test.ts` 新增“相邻 offset 截断前一帧帧头即拒绝”反例；`packages/shared/src/rng.boundaries.test.ts` 新增同一 surface 连续 delta 累加并保留首帧像素的 ownership 合同。两项都只改测试，不改 RLE/RNG/YJ2 实现、公共出口、资源或格式策略；RLE 高位 literal 风险继续留在 `QUALITY-RLE-COMMAND-TRUTH-1` draft。
