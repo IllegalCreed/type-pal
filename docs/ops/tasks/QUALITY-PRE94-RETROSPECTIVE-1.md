@@ -305,3 +305,9 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 完整读取 `packages/game/src/tools/speedrun/countdown.ts`、两份直接合同测试、`speedrun/index.ts` 及其两份 caller 测试；另读 tools-panel 的 pause caller 和 toast 相邻 DOM 生命周期。`showCountdown` 的单例节点、文本变更、`null` 清理、重复清理和无 document no-op 均由真实合同覆盖；index 在计时器停用时主动清理，在启用时只传正倒计时文本，未发现直接缺陷或重复测试。
 
 定向 `4 files / 17 tests passed`，无失败、跳过或 stderr；本片不运行 coverage、official ratchet、protected fast 或全仓 `pnpm check`。证据见 [`3j-countdown`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-countdown/README.md)，3j 整卡保持 partial，94–102 继续后置。
+
+### 2026-10-17 CODE3j display-scale / fps-overlay 当前复审切片
+
+完整读取 `display-scale.ts`、两份直接测试、`fps-overlay.ts`、`fps-overlay.test.ts`、display/fps leaves 和 tools-panel 的委派合同；另核 `main-loop.ts` 的 rAF 时间戳 caller 与 bootstrap 的 controller 构造范围。NaN/损坏存储、clamp/round、居中样式、fullscreen 委派、FPS 采样/50阈值、关闭清理和 module state ownership 均有直接判别力，没有发现新的实现缺陷或重复合同。
+
+定向 5 文件 `40 passed`，game typecheck 通过且无诊断；本片不运行 coverage、official ratchet、protected fast 或全仓 `pnpm check`。证据见 [`3j-scale-fps`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-scale-fps/README.md)，3j 整卡保持 partial。
