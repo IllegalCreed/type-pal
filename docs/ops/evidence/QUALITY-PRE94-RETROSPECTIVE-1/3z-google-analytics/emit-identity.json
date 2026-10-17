@@ -1,0 +1,14 @@
+{
+  "typescript": "6.0.3",
+  "scope": "Only google-analytics.ts implementation, same transpile options; not native/gameplay/whole-file acceptance",
+  "rows": [
+    {
+      "path": "packages/game/src/analytics/google-analytics.ts",
+      "beforeSha256": "e69a0b31962b28691014000912bf938148a29808fce52cde37ce68b388310f11",
+      "currentSha256": "4c21dd24ac7fae7717bb955d1721bb5dfddf086507b359a10aa98f4db0dc24b7",
+      "removeCommentsJavaScriptSha256": "02eb45f9a7a5223c043e6af4ef70e32fb611037c1d216d363a4cf69fb13991e0",
+      "byteIdentical": true,
+      "parsedTypeScriptWithoutCommentsIdentical": true
+    }
+  ]
+}

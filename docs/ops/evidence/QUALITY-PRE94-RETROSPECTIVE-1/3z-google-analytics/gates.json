@@ -1,0 +1,171 @@
+{
+  "base": "4b86b04b790eb6b83f93a10f4ac07102c608b39b",
+  "status": "recorded: 13direct/12adjacent, game typecheck, docs-tool125 plus repaired five actual consumers, lint-zero and ledger passed; initial docs exit1 and unfixed initialization counter retained; no unified closeout/merge",
+  "rows": [
+    {
+      "label": "baseline",
+      "receipt": "baseline.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      },
+      "passed": 12
+    },
+    {
+      "label": "current",
+      "receipt": "current.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      },
+      "passed": 13
+    },
+    {
+      "label": "module-final",
+      "receipt": "module-final.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      },
+      "passed": 25,
+      "files": 6,
+      "direct": 13,
+      "adjacent": 12,
+      "nativeReport": "module-final.vitest.json.gz",
+      "nativeReportSha256": "438404a0bacfd9b956960f6f35725558b82bdf463c4d9af1aef9bddfd70e1e3d",
+      "temporaryNativeReportRemoved": true
+    },
+    {
+      "label": "typecheck",
+      "receipt": "typecheck.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      }
+    },
+    {
+      "label": "ledger",
+      "receipt": "ledger.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      },
+      "tracked": 3316,
+      "closed": 261,
+      "review": 89,
+      "pending": 2966
+    },
+    {
+      "label": "docs-initial",
+      "receipt": "docs.json",
+      "exit": 1,
+      "toolTests": {
+        "passed": 125,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "diagnostics": {
+        "errors": 1,
+        "warnings": 0,
+        "info": 0
+      },
+      "consumerIssue": "README linked gates.json before this receipt existed; later consumers not run in initial command",
+      "currentStatus": "Historical failed attempt retained, repaired by final five-consumer replay",
+      "supersededBy": "docs-consumers-final"
+    },
+    {
+      "label": "docs-consumers-final",
+      "receipt": "docs-consumers-final.json",
+      "exit": 0,
+      "consumers": 5,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "info": 0
+      },
+      "scope": "Only five actual consumers after missing receipt repair; unchanged125 tools already passed, not a new whole check:docs run"
+    },
+    {
+      "label": "lint-final",
+      "receipt": "lint-final.json",
+      "exit": 0,
+      "files": 5350,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "info": 0
+      }
+    },
+    {
+      "label": "fetch-final",
+      "receipt": "fetch-final.json",
+      "exit": 0
+    },
+    {
+      "label": "divergence-final",
+      "receipt": "divergence-final.json",
+      "exit": 0,
+      "behind": 0,
+      "ahead": 253,
+      "scope": "Before this batch commit; no main merge"
+    },
+    {
+      "label": "main-final",
+      "receipt": "main-final.json",
+      "exit": 0
+    }
+  ],
+  "tracked": 3316,
+  "closed": 261,
+  "review": 89,
+  "pending": 2966,
+  "newClosed": 0,
+  "cards": {
+    "partial": 53,
+    "pending": 30,
+    "accept": 0
+  },
+  "knownUnfixedCounter": {
+    "receipt": "initialization-probe.json",
+    "exit": 1,
+    "passed": 12,
+    "specifiedAssertionErrors": 1,
+    "status": "Draft awaiting user product decision; never a passed gate"
+  },
+  "mutationControls": "Five old full-file green/current specified AssertionError pairs; not final gate failures",
+  "ownerIsolation": "Old8green+1outer-owner-red to current10green; fixture fix only",
+  "mergeAllowed": false,
+  "productExecutionChanged": false,
+  "notRun": [
+    "whole repository pnpm check",
+    "official coverage ratchet",
+    "protected fast",
+    "full game package test",
+    "real Google endpoint",
+    "production deployment",
+    "browser visual",
+    "E2E"
+  ]
+}

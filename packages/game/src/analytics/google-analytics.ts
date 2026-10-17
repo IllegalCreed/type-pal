@@ -112,7 +112,7 @@ export function startGoogleAnalytics(options: GoogleAnalyticsOptions): () => voi
       })
       lastPath = pagePath
     } catch {
-      // Analytics 是可选能力，任何异常都不得影响游戏启动、输入或渲染。
+      // 此处只隔离URL/发送阶段异常；初始initialize/readPage不在本catch内，见安装失败ownership卡。
     }
   }
 

@@ -1,0 +1,110 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/analytics/google-analytics.test.ts",
+    "src/analytics/google-analytics.boundaries.test.ts",
+    "src/analytics/ga-init-review-4732rxu_/initialization.probe.test.ts",
+    "--reporter=verbose",
+    "--reporter=json",
+    "--outputFile.json=/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/ga-init-review-4732rxu_/native.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T22:57:48.540773+00:00",
+  "completedAt": "2026-10-17T22:57:49.476403+00:00",
+  "exit": 1,
+  "signal": null,
+  "spawnError": null,
+  "raw": "initialization-probe.raw.gz",
+  "rawBytes": 4275,
+  "rawSha256": "92629b842c07bcc1cf306591510f1f9f54e9ced61b3b32b4491e760f144e552f",
+  "fullUncutMergedStdoutStderr": true,
+  "nativeReport": "initialization-probe.vitest.json.gz",
+  "nativeSha256": "a609ac398cab17aa935445e70a73d9dc8de9e9528c2173c7772c381c1aec04e8",
+  "passed": 12,
+  "failed": 1,
+  "pending": 0,
+  "cases": [
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.boundaries.test.ts",
+      "fullName": "H05 边界 measurement ID 归一化：小写合法提升；7 字符截断非法零副作用",
+      "status": "passed"
+    },
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.boundaries.test.ts",
+      "fullName": "H05 边界 UTM 64 字符保留、65 丢弃；非法 token（前导 -、大写）丢弃；game 参数不进 URL",
+      "status": "passed"
+    },
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.boundaries.test.ts",
+      "fullName": "H05 边界 不传 subscribePage：grant 发当前页一次；deny 停发且清 lastPath；regrant 同页可再发；stop 后零回调",
+      "status": "passed"
+    },
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.boundaries.test.ts",
+      "fullName": "H05 边界 disable 键随同意翻转：granted=false、denied=true",
+      "status": "passed"
+    },
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+      "fullName": "minimal Google Analytics page view 非生产或 Measurement ID 非法时零副作用",
+      "status": "passed"
+    },
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+      "fullName": "minimal Google Analytics page view unset/denied 不加载；granted 只加载并记录当前页一次",
+      "status": "passed"
+    },
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+      "fullName": "minimal Google Analytics page view P1: 只保留 pathname 与合法 UTM，丢弃所有游戏参数和 hash",
+      "status": "passed"
+    },
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+      "fullName": "minimal Google Analytics page view G1/P3: 同 pathname 去重、场景事件不计页、撤回后停发",
+      "status": "passed"
+    },
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+      "fullName": "minimal Google Analytics page view Google 或 URL 异常不影响游戏调用方",
+      "status": "passed"
+    },
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+      "fullName": "minimal Google Analytics page view 复用既有 gtag 与 script，不重复注入",
+      "status": "passed"
+    },
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+      "fullName": "minimal Google Analytics page view 标签加载失败后可重试且不重复排队当前页",
+      "status": "passed"
+    },
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+      "fullName": "minimal Google Analytics page view 内建 gtag 使用官方 arguments 命令形态",
+      "status": "passed"
+    },
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/ga-init-review-4732rxu_/initialization.probe.test.ts",
+      "fullName": "failed analytics installation leaves no consent reaction after SDK recovers",
+      "status": "failed"
+    }
+  ],
+  "failureMessages": [
+    "AssertionError: expected \"vi.fn()\" to not be called at all, but actually been called 1 times\n\nReceived:\n\n  1st vi.fn() call:\n\n    Array [\n      \"event\",\n      \"page_view\",\n      Object {\n        \"page_location\": \"http://localhost:3000/\",\n        \"page_path\": \"/\",\n        \"page_title\": \"owned probe\",\n      },\n    ]\n\n\nNumber of calls: 1\n\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1467:10)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/ga-init-review-4732rxu_/initialization.probe.test.ts:25:31\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+  ],
+  "productSourcesSha256": {
+    "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.ts": "e69a0b31962b28691014000912bf938148a29808fce52cde37ce68b388310f11",
+    "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/install-analytics.ts": "ff1c2c7d18175a282c011c8e72bb2d33ef898c0151631ada0b97577b92c1f375",
+    "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.ts": "15e5a9897e2d272459a5d2dc7e94e118e61dddc56d8e3930d9d9fccecd0b34df"
+  },
+  "productSourcesByteExact": true,
+  "temporaryTree": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/ga-init-review-4732rxu_",
+  "temporaryTreeRemoved": true,
+  "scope": "Read-only lifecycle counter: owned throwing SDK port, actual install and consent APIs, inert Document. No real Google endpoint, no product fix approval."
+}

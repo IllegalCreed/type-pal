@@ -1,96 +1,39 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import type { AnalyticsConsent } from './analytics-consent.js'
-import { sanitizePageViewUrl, startGoogleAnalytics } from './google-analytics.js'
+import { describe, expect, it, vi } from 'vitest'
+import { sanitizePageViewUrl } from './google-analytics.js'
+import { useGoogleAnalyticsTestHost } from './google-analytics.test-fixtures.js'
 
-interface TestPage {
-  path: string
-  title: string
-}
-
-function createHarness(options?: {
-  enabled?: boolean
-  measurementId?: string
-  consent?: AnalyticsConsent
-  page?: TestPage
-}) {
-  let consent = options?.consent ?? 'unset'
-  let page = options?.page ?? {
-    path: '/?utm_source=DEV&scene=75&pos=1,2&facing=3&give=999#battle',
-    title: '仙剑奇侠传 · type-pal',
-  }
-  let consentListener: ((next: AnalyticsConsent) => void) | undefined
-  let pageListener: ((next: TestPage) => void) | undefined
-
-  const stop = startGoogleAnalytics({
-    enabled: options?.enabled ?? true,
-    measurementId: options?.measurementId ?? 'G-TEST12345',
-    window,
-    document,
-    readConsent: () => consent,
-    subscribeConsent: (listener) => {
-      consentListener = listener
-      return () => {
-        consentListener = undefined
-      }
-    },
-    readPage: () => page,
-    subscribePage: (listener) => {
-      pageListener = listener
-      return () => {
-        pageListener = undefined
-      }
-    },
-  })
-
-  return {
-    stop,
-    grant() {
-      consent = 'granted'
-      consentListener?.(consent)
-    },
-    deny() {
-      consent = 'denied'
-      consentListener?.(consent)
-    },
-    navigate(next: TestPage) {
-      page = next
-      pageListener?.(page)
-    },
-  }
-}
-
-function pageViewEvents(): unknown[][] {
-  return ((window as unknown as { dataLayer?: Array<ArrayLike<unknown>> }).dataLayer ?? [])
-    .map((entry) => Array.from(entry))
-    .filter((entry) => entry[0] === 'event' && entry[1] === 'page_view')
-}
+const host = useGoogleAnalyticsTestHost()
 
 describe('minimal Google Analytics page view', () => {
-  beforeEach(() => {
-    document.head.innerHTML = ''
-    delete (window as unknown as { dataLayer?: unknown[][] }).dataLayer
-    delete (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag
-  })
-
   it('非生产或 Measurement ID 非法时零副作用', () => {
-    createHarness({ enabled: false, consent: 'granted' })
-    createHarness({ measurementId: 'invalid', consent: 'granted' })
-
-    expect(document.querySelector('script[data-ga4-measurement-id]')).toBeNull()
-    expect((window as unknown as { dataLayer?: unknown[][] }).dataLayer).toBeUndefined()
+    host.create({ enabled: false, consent: 'granted' })
+    host.create({ measurementId: 'invalid', consent: 'granted' })
+    expect(host.document.querySelector('script[data-ga4-measurement-id]')).toBeNull()
+    expect(host.readProperty('dataLayer')).toBeUndefined()
+    expect(host.readProperty('gtag')).toBeUndefined()
   })
 
   it('unset/denied 不加载；granted 只加载并记录当前页一次', () => {
-    const harness = createHarness()
+    const harness = host.create()
+    expect(host.document.querySelector('script[data-ga4-measurement-id]')).toBeNull()
+    expect(host.entries()).toEqual([])
+    harness.deny()
+    expect(host.document.querySelector('script[data-ga4-measurement-id]')).toBeNull()
+    expect(host.entries()).toEqual([])
     harness.grant()
     harness.grant()
-
-    expect(document.querySelectorAll('script[data-ga4-measurement-id]')).toHaveLength(1)
-    expect(pageViewEvents()).toHaveLength(1)
-    expect(pageViewEvents()[0]?.[2]).toMatchObject({
-      page_path: '/',
-      page_location: 'http://localhost:3000/?utm_source=dev',
-    })
+    expect(host.document.querySelectorAll('script[data-ga4-measurement-id]')).toHaveLength(1)
+    expect(host.events()).toEqual([
+      [
+        'event',
+        'page_view',
+        {
+          page_path: '/',
+          page_location: 'http://localhost:3000/?utm_source=dev',
+          page_title: '仙剑奇侠传 · type-pal',
+        },
+      ],
+    ])
   })
 
   it('P1: 只保留 pathname 与合法 UTM，丢弃所有游戏参数和 hash', () => {
@@ -105,65 +48,92 @@ describe('minimal Google Analytics page view', () => {
   })
 
   it('G1/P3: 同 pathname 去重、场景事件不计页、撤回后停发', () => {
-    const harness = createHarness({ consent: 'granted' })
-
+    const harness = host.create({ consent: 'granted' })
+    expect(host.events()).toHaveLength(1)
     window.dispatchEvent(new CustomEvent('typepal:scene-change', { detail: 75 }))
+    expect(host.events()).toHaveLength(1)
     harness.navigate({ path: '/?scene=80', title: 'scene 80' })
+    expect(host.events()).toHaveLength(1)
     harness.navigate({ path: '/manual', title: 'manual' })
+    expect(host.events()).toHaveLength(2)
+    expect(host.events()[1]?.[2]).toEqual({
+      page_path: '/manual',
+      page_location: 'http://localhost:3000/manual',
+      page_title: 'manual',
+    })
     harness.deny()
     harness.navigate({ path: '/privacy', title: 'privacy' })
-
-    expect(pageViewEvents()).toHaveLength(2)
-    expect(pageViewEvents()[1]?.[2]).toMatchObject({ page_path: '/manual' })
+    expect(host.events()).toHaveLength(2)
   })
 
-  it('Google 或 URL 异常不影响游戏调用方', () => {
-    const harness = createHarness({
+  it('URL解析失败后仍可处理后续合法页面', () => {
+    const harness = host.create({
       consent: 'granted',
       page: { path: 'https://[invalid', title: 'invalid' },
     })
+    expect(host.events()).toHaveLength(0)
     expect(() => harness.navigate({ path: '/manual', title: 'manual' })).not.toThrow()
-    expect(pageViewEvents()).toHaveLength(1)
+    expect(host.events()).toHaveLength(1)
+    // SDK初始化异常不由此例证明,另见失败安装ownership反例。
   })
 
   it('复用既有 gtag 与 script，不重复注入', () => {
-    const script = document.createElement('script')
+    const script = host.document.createElement('script')
     script.dataset.ga4MeasurementId = 'G-TEST12345'
-    document.head.append(script)
+    host.document.head.append(script)
     const gtag = vi.fn()
-    ;(window as unknown as { gtag?: (...args: unknown[]) => void }).gtag = gtag
-
-    createHarness({ consent: 'granted' })
-    expect(document.querySelectorAll('script[data-ga4-measurement-id]')).toHaveLength(1)
-    expect(gtag).toHaveBeenCalledWith(
-      'event',
-      'page_view',
-      expect.objectContaining({ page_path: '/' }),
-    )
+    host.setGtag(gtag)
+    host.create({ consent: 'granted' })
+    expect(host.document.querySelectorAll('script[data-ga4-measurement-id]')).toHaveLength(1)
+    expect(host.document.querySelector('script[data-ga4-measurement-id]')).toBe(script)
+    expect(host.readProperty('gtag')).toBe(gtag)
+    expect(gtag).toHaveBeenCalledWith('event', 'page_view', {
+      page_path: '/',
+      page_location: 'http://localhost:3000/?utm_source=dev',
+      page_title: '仙剑奇侠传 · type-pal',
+    })
   })
 
   it('标签加载失败后可重试且不重复排队当前页', () => {
-    const harness = createHarness()
+    const harness = host.create()
     harness.grant()
-    const failedScript = document.querySelector<HTMLScriptElement>(
+    const failedScript = host.document.querySelector<HTMLScriptElement>(
+      'script[data-ga4-measurement-id]',
+    )!
+    expect(failedScript).not.toBeNull()
+    failedScript.dispatchEvent(new Event('error'))
+    expect(host.document.querySelectorAll('script[data-ga4-measurement-id]')).toHaveLength(0)
+    harness.grant()
+    const retryScript = host.document.querySelector<HTMLScriptElement>(
       'script[data-ga4-measurement-id]',
     )
-
-    failedScript?.dispatchEvent(new Event('error'))
-    harness.grant()
-
-    const retryScript = document.querySelector<HTMLScriptElement>('script[data-ga4-measurement-id]')
     expect(retryScript).not.toBe(failedScript)
-    expect(document.querySelectorAll('script[data-ga4-measurement-id]')).toHaveLength(1)
-    expect(pageViewEvents()).toHaveLength(1)
+    expect(host.document.querySelectorAll('script[data-ga4-measurement-id]')).toHaveLength(1)
+    expect(host.events()).toHaveLength(1)
+    expect(host.commands().map((command) => command[0])).toEqual(['js', 'config', 'event'])
   })
 
-  it('内建 gtag 使用官方 arguments 命令形态', () => {
-    createHarness({ consent: 'granted' })
+  it('内建gtag采用arguments队列并关闭自动page_view', () => {
+    host.create({ consent: 'granted' })
+    const entries = host.entries()
+    expect(entries).toHaveLength(3)
+    for (const entry of entries)
+      expect(Object.prototype.toString.call(entry)).toBe('[object Arguments]')
+    const commands = host.commands()
+    expect(commands[0]?.[0]).toBe('js')
+    expect(commands[0]?.[1]).toBeInstanceOf(Date)
+    expect(commands[1]?.slice(0, 2)).toEqual(['config', 'G-TEST12345'])
+    expect(commands[1]?.[2]).toEqual(expect.objectContaining({ send_page_view: false }))
+  })
 
-    const commands = (window as unknown as { dataLayer?: Array<ArrayLike<unknown>> }).dataLayer
-    expect(commands).toBeDefined()
-    expect(Array.isArray(commands?.[0])).toBe(false)
-    expect(Array.from(commands?.[1] ?? []).slice(0, 2)).toEqual(['config', 'G-TEST12345'])
+  it('stop后同意与页面两订阅均不再触发', () => {
+    const harness = host.create({ consent: 'granted' })
+    expect(host.events()).toHaveLength(1)
+    harness.stop()
+    harness.navigate({ path: '/after-stop', title: 'after' })
+    expect(host.events()).toHaveLength(1)
+    harness.deny()
+    harness.grant()
+    expect(host.events()).toHaveLength(1)
   })
 })

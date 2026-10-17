@@ -1449,7 +1449,7 @@
       "sha256": "d5a8f11926f9d831c5b4f72937212f809329608a64b07aa5e953bb507950635b",
       "lines": 47,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -1477,7 +1477,8 @@
           "text": "无下一位 Agent；Codex继续完成本批审计与质量门，不扩大文件白名单。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md"
     },
     {
       "id": "6a",
@@ -3870,7 +3871,7 @@
   ],
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
-    "partial": 52,
-    "pending": 31
+    "partial": 53,
+    "pending": 30
   }
 }

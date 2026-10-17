@@ -11,7 +11,7 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
 ## 当前用户要求、范围与准入
 
-用户2026-10-16重申“复审94号之前的所有卡的成果”，本卡当前覆盖全部83张CODE-QUALITY编号小于94的卡，包含字母后缀，不是抽样。77张历史done、1张build、4张review、1张draft仅是原卡状态；本轮重新accept为0。当前复审队列已推进为52张partial、31张pending；partial只表示有限证据切片，不是验收。按当前Git tracked路径收集，大小写敏感编号规则排除行政卡CODE-QUALITY-3Y-CLOSEOUT-1；不按编号空缺虚构卡。完整83行清单与卡SHA见[复审队列](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)。原36卡结构/8卡全文抽查是历史部分证据，不能替代任何整卡成果复验。3y的58差异卡矩阵也不是全部83卡。
+用户2026-10-16重申“复审94号之前的所有卡的成果”，本卡当前覆盖全部83张CODE-QUALITY编号小于94的卡，包含字母后缀，不是抽样。77张历史done、1张build、4张review、1张draft仅是原卡状态；本轮重新accept为0。当前复审队列已推进为53张partial、30张pending；partial只表示有限证据切片，不是验收。按当前Git tracked路径收集，大小写敏感编号规则排除行政卡CODE-QUALITY-3Y-CLOSEOUT-1；不按编号空缺虚构卡。完整83行清单与卡SHA见[复审队列](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)。原36卡结构/8卡全文抽查是历史部分证据，不能替代任何整卡成果复验。3y的58差异卡矩阵也不是全部83卡。
 
 唯一工作树/分支codex/code-quality-3y；主树和其它Owner只读，不再新建治理分支。94–102及editor既有返工继续保留；C10未完成检查点bea19f80c已提交推送，当前先推进本卡。工程→模块→功能→文件；先6a的账本/清单四文件，再核92的受保护门证据，继而逐卡回到shared/extract/game等模块。活跃53/57/79/80/81/90只读协调，未核前不抢写其实现。
 
@@ -21,7 +21,7 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 
 ## 当前推进
 
-83卡当前全量accept=0、52partial/31pending；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3b SSS/MSG、3c动画清理、3d PNG、3g CLI、3h assets/shell、CODE71 fetch取消与测试、CODE3/3f切分与标注已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
+83卡当前全量accept=0、53partial/30pending；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3b SSS/MSG、3c动画清理、3d PNG、3g CLI、3h assets/shell、CODE71 fetch取消与测试、CODE3/3f切分与标注已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
 
 无下一位Agent提示词，Codex单Agent继续全量复审，不把本卡交回GLM。
 
@@ -730,3 +730,9 @@ Codex premise verified/design agree/build allowed：本批仅minimap.ts事实注
 Codex premise verified/design agree/build allowed：三文件analytics-consent.ts及其主/边界测试全文，真实install→UI/GA与main页面生命周期caller已核；该扩展无SDLPal对应功能，primary为本项目OPS-GA4既有basic-consent合同、当前typed端口和正式game jsdom的Storage/EventTarget。只准修90行实现中的过强事实注释与两既有测试的合法输入、持久化/广播顺序、失败零广播、默认/缺失宿主、信号优先级、排重和精确隔离；不改产品执行、隐私/GA策略、网络/UI、schema/save、资产或公共接口。单一Owner Codex，沿用3y隔离树。先补完整旧绿/新单业务红反控再收证，原卡done与旧protected失败不恢复当今验收；全仓check/coverage/protected仍留大任务收尾。
 
 本片交付：三原文件90/57/71行及真实install/UI/GA/main、相邻测试与原OPS/宿主卡已全文核证；源仅校正广播异常不回滚的事实注释。两测去不必要强转、只恢复自有key、订阅/spy/window异常finally清理，旧duplicate/混职责逐断言迁移；主3保持、H04 3→4。五旧全文件3绿→新主2绿1指定AssertionError（三枚）/新H04 3绿1指定AssertionError（两枚），正常7直接/17相邻与game typecheck零诊断。三原未列pending→review，3315/261closed/85review/2969pending，0关闭；只3y pending→partial，83卡52/31/0accept，scopeConfirmed=false保留。详见[consent证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/README.md)；未知跨realm/注入组合与广播失败端到端继续review，不修改隐私/GA网络、UI、save/schema、资源或API。最终docs/lint/ledger看gates，全仓check/coverage/protected仍留大任务收尾、不合main；下一批旧3z GA源/两测试，无下一位Agent提示词。
+
+### 2026-10-18 CODE-QUALITY-3z GA逐文件复审准入
+
+Codex premise verified/design agree/build allowed：原GA实现139行、主169行、H05边界121行及真实install/consent/UI/main已全文核读，单一Owner Codex。低风险白名单为原三文件的事实注释/两测试补强及新增google-analytics.test-fixtures.ts测试专用共享宿主：两份重复harness与全局恢复合并，使用实际SUT、typed公开订阅端口、自有Document与精确属性描述符恢复，不改生产接口。对照项目OPS-GA4合同、Google官方gtag API/安装/禁用文档；项目ID/UTM/去重策略与SDK规则分开。未知错误传播先隔离探针及专卡，产品执行/网络/隐私策略/UI/schema/save/资源冻结，不能把旧标题当已验证。全仓check/官方coverage/protected仍留大任务收尾。
+
+本片交付：原139/169/121行与真实caller、当前四代码文件全文；只校正catch范围注释，parsedTS/JS一致。两重复测试harness合并到自有Document/SDK描述符/typed订阅宿主，外owner完整cohort反证旧8绿1红→新10绿。原12合同逐断言保留，主8→9、H05仍4；五反控旧全绿新指定单AssertionError，恢复13直接12相邻/TC零诊断。三未列pending→review、新fixture review，机器3316/261closed/89review/2966pending，0关闭；只3z pending→partial，83卡53/30/0accept，scopeConfirmed=false。真实初始化失败后无owner订阅counter另开GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 draft等裁决，产品执行冻结；反例exit1与旧12绿均完整保存。详见[GA证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md)，全仓check/coverage/protected留大任务收尾，不合main。下一步回pre94 40/41或3u/3w，94–102/editor后置，无下一位Agent提示词。

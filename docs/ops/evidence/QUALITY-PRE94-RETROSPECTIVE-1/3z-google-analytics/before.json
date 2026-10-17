@@ -1,0 +1,31 @@
+{
+  "base": "4b86b04b790eb6b83f93a10f4ac07102c608b39b",
+  "owner": "Codex single agent",
+  "files": [
+    {
+      "path": "packages/game/src/analytics/google-analytics.ts",
+      "sha256": "e69a0b31962b28691014000912bf938148a29808fce52cde37ce68b388310f11",
+      "lines": 139,
+      "readRanges": [[1, 139]],
+      "snapshot": "e69a0b31962b-google-analytics.ts.before.gz",
+      "beforeLiveLedgerStatus": "unlisted pending"
+    },
+    {
+      "path": "packages/game/src/analytics/google-analytics.test.ts",
+      "sha256": "a8323b5e8b56890592b05bb3715cb63503ed1130f12cfc79e4769c4fc2c0fb46",
+      "lines": 169,
+      "readRanges": [[1, 169]],
+      "snapshot": "a8323b5e8b56-google-analytics.test.ts.before.gz",
+      "beforeLiveLedgerStatus": "unlisted pending"
+    },
+    {
+      "path": "packages/game/src/analytics/google-analytics.boundaries.test.ts",
+      "sha256": "89dcf6f135ea68b7b679e297178c9a0736af2827bbf353aeee94dfa7aa690b16",
+      "lines": 121,
+      "readRanges": [[1, 121]],
+      "snapshot": "89dcf6f135ea-google-analytics.boundaries.test.ts.before.gz",
+      "beforeLiveLedgerStatus": "unlisted pending"
+    }
+  ],
+  "plannedNewFixture": "packages/game/src/analytics/google-analytics.test-fixtures.ts"
+}

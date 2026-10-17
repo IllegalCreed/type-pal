@@ -1,0 +1,780 @@
+{
+  "base": "4b86b04b790eb6b83f93a10f4ac07102c608b39b",
+  "owner": "Codex single agent",
+  "scope": "Whole unfiltered old/current test file per one source mutant. No SDK network or visual acceptance.",
+  "controls": [
+    {
+      "id": "automatic-page-view",
+      "source": "packages/game/src/analytics/google-analytics.ts",
+      "spec": "packages/game/src/analytics/google-analytics.test.ts",
+      "sourceSha256": "4c21dd24ac7fae7717bb955d1721bb5dfddf086507b359a10aa98f4db0dc24b7",
+      "mutantSha256": "9f6c1fcb33afeca69f483a2e6645cca3b172c36e3e8a5dd30614b75b91ca7264",
+      "expectedNewFailureNameContains": "内建gtag采用arguments队列",
+      "expectedOldCount": 8,
+      "expectedCurrentCount": 9,
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/analytics/google-analytics.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-ga-controls-79jn9a9m/automatic-page-view.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T23:07:03.185530+00:00",
+          "completedAt": "2026-10-17T23:07:04.137476+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "automatic-page-view.old.raw.gz",
+          "rawBytes": 1542,
+          "rawSha256": "1f2ff0fd52f39107435a02e113ea9b863b4224abce409b848dd0987abf1e9b09",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "a8323b5e8b56890592b05bb3715cb63503ed1130f12cfc79e4769c4fc2c0fb46",
+          "nativeReport": "automatic-page-view.old.vitest.json.gz",
+          "nativeSha256": "747b26b1f1c71f9799ee37a32367ee728a04698a18ca256f426873a8bead311c",
+          "passed": 8,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view 非生产或 Measurement ID 非法时零副作用",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view unset/denied 不加载；granted 只加载并记录当前页一次",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view P1: 只保留 pathname 与合法 UTM，丢弃所有游戏参数和 hash",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view G1/P3: 同 pathname 去重、场景事件不计页、撤回后停发",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view Google 或 URL 异常不影响游戏调用方",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view 复用既有 gtag 与 script，不重复注入",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view 标签加载失败后可重试且不重复排队当前页",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view 内建 gtag 使用官方 arguments 命令形态",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "4c21dd24ac7fae7717bb955d1721bb5dfddf086507b359a10aa98f4db0dc24b7",
+          "specRestoredSha256": "d9f88d9ee28faabb1ff354b6e2a43c3866f55c8c4749e272c673d3a0b65f7439",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/analytics/google-analytics.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-ga-controls-79jn9a9m/automatic-page-view.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T23:07:04.137842+00:00",
+          "completedAt": "2026-10-17T23:07:04.897425+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "automatic-page-view.current.raw.gz",
+          "rawBytes": 3018,
+          "rawSha256": "cbd3513d54c8a563e60335909580ee124964e2a32dadecc99e97bfa735261ba9",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "d9f88d9ee28faabb1ff354b6e2a43c3866f55c8c4749e272c673d3a0b65f7439",
+          "nativeReport": "automatic-page-view.current.vitest.json.gz",
+          "nativeSha256": "a6c34f59a0bb0839b2609f27b4423909b3175cda40da9c2082fa53af448bf886",
+          "passed": 8,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view 非生产或 Measurement ID 非法时零副作用",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view unset/denied 不加载；granted 只加载并记录当前页一次",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view P1: 只保留 pathname 与合法 UTM，丢弃所有游戏参数和 hash",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view G1/P3: 同 pathname 去重、场景事件不计页、撤回后停发",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view URL解析失败后仍可处理后续合法页面",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view 复用既有 gtag 与 script，不重复注入",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view 标签加载失败后可重试且不重复排队当前页",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view 内建gtag采用arguments队列并关闭自动page_view",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view stop后同意与页面两订阅均不再触发",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected { send_page_view: true, …(1) } to deeply equal ObjectContaining{…}\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts:126:30\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "4c21dd24ac7fae7717bb955d1721bb5dfddf086507b359a10aa98f4db0dc24b7",
+          "specRestoredSha256": "d9f88d9ee28faabb1ff354b6e2a43c3866f55c8c4749e272c673d3a0b65f7439",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "page-unsubscribe-missing",
+      "source": "packages/game/src/analytics/google-analytics.ts",
+      "spec": "packages/game/src/analytics/google-analytics.test.ts",
+      "sourceSha256": "4c21dd24ac7fae7717bb955d1721bb5dfddf086507b359a10aa98f4db0dc24b7",
+      "mutantSha256": "866c8388b25e5d313194bb098cdd5a9cacd80eb951a7b9630e270d07203dac0e",
+      "expectedNewFailureNameContains": "stop后同意与页面两订阅",
+      "expectedOldCount": 8,
+      "expectedCurrentCount": 9,
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/analytics/google-analytics.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-ga-controls-79jn9a9m/page-unsubscribe-missing.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T23:07:04.897978+00:00",
+          "completedAt": "2026-10-17T23:07:05.635327+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "page-unsubscribe-missing.old.raw.gz",
+          "rawBytes": 1547,
+          "rawSha256": "58a0c1c2be1689e1377324cc7631d55e213f4954c2dd9ee3b6a227585ad04a53",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "a8323b5e8b56890592b05bb3715cb63503ed1130f12cfc79e4769c4fc2c0fb46",
+          "nativeReport": "page-unsubscribe-missing.old.vitest.json.gz",
+          "nativeSha256": "a57ca0e4199574e9d046e214da03414390be4bf476448650e6e86ce0ef1f23da",
+          "passed": 8,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view 非生产或 Measurement ID 非法时零副作用",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view unset/denied 不加载；granted 只加载并记录当前页一次",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view P1: 只保留 pathname 与合法 UTM，丢弃所有游戏参数和 hash",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view G1/P3: 同 pathname 去重、场景事件不计页、撤回后停发",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view Google 或 URL 异常不影响游戏调用方",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view 复用既有 gtag 与 script，不重复注入",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view 标签加载失败后可重试且不重复排队当前页",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view 内建 gtag 使用官方 arguments 命令形态",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "4c21dd24ac7fae7717bb955d1721bb5dfddf086507b359a10aa98f4db0dc24b7",
+          "specRestoredSha256": "d9f88d9ee28faabb1ff354b6e2a43c3866f55c8c4749e272c673d3a0b65f7439",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/analytics/google-analytics.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-ga-controls-79jn9a9m/page-unsubscribe-missing.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T23:07:05.635692+00:00",
+          "completedAt": "2026-10-17T23:07:06.417348+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "page-unsubscribe-missing.current.raw.gz",
+          "rawBytes": 2817,
+          "rawSha256": "b1ae2663715e5228fb207afabae279d1fff73323b32ca4c081740b0374430a1c",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "d9f88d9ee28faabb1ff354b6e2a43c3866f55c8c4749e272c673d3a0b65f7439",
+          "nativeReport": "page-unsubscribe-missing.current.vitest.json.gz",
+          "nativeSha256": "ddc3f02c2310778bc910b796e6fa5f2e835a33e27baed52c251fb407e5a50abf",
+          "passed": 8,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view 非生产或 Measurement ID 非法时零副作用",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view unset/denied 不加载；granted 只加载并记录当前页一次",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view P1: 只保留 pathname 与合法 UTM，丢弃所有游戏参数和 hash",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view G1/P3: 同 pathname 去重、场景事件不计页、撤回后停发",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view URL解析失败后仍可处理后续合法页面",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view 复用既有 gtag 与 script，不重复注入",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view 标签加载失败后可重试且不重复排队当前页",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view 内建gtag采用arguments队列并关闭自动page_view",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view stop后同意与页面两订阅均不再触发",
+              "status": "failed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected [ …(2) ] to have a length of 1 but got 2\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts:134:27\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ],
+          "sourceRestoredSha256": "4c21dd24ac7fae7717bb955d1721bb5dfddf086507b359a10aa98f4db0dc24b7",
+          "specRestoredSha256": "d9f88d9ee28faabb1ff354b6e2a43c3866f55c8c4749e272c673d3a0b65f7439",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "reload-resets-command-state",
+      "source": "packages/game/src/analytics/google-analytics.ts",
+      "spec": "packages/game/src/analytics/google-analytics.test.ts",
+      "sourceSha256": "4c21dd24ac7fae7717bb955d1721bb5dfddf086507b359a10aa98f4db0dc24b7",
+      "mutantSha256": "73a54501fafa059b6bc89fed75e526f933ce25f67a18dc747b3e204260021c87",
+      "expectedNewFailureNameContains": "标签加载失败后可重试",
+      "expectedOldCount": 8,
+      "expectedCurrentCount": 9,
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/analytics/google-analytics.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-ga-controls-79jn9a9m/reload-resets-command-state.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T23:07:06.417899+00:00",
+          "completedAt": "2026-10-17T23:07:07.190303+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "reload-resets-command-state.old.raw.gz",
+          "rawBytes": 1550,
+          "rawSha256": "ea1fc96a118fc2fa9c3164278a8d8106fbcf08edc2a9e0541c105b912e8a9bf3",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "a8323b5e8b56890592b05bb3715cb63503ed1130f12cfc79e4769c4fc2c0fb46",
+          "nativeReport": "reload-resets-command-state.old.vitest.json.gz",
+          "nativeSha256": "a78066993859ce884b5df46b18738c1edbaaa50700f19d48571efce41284f479",
+          "passed": 8,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view 非生产或 Measurement ID 非法时零副作用",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view unset/denied 不加载；granted 只加载并记录当前页一次",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view P1: 只保留 pathname 与合法 UTM，丢弃所有游戏参数和 hash",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view G1/P3: 同 pathname 去重、场景事件不计页、撤回后停发",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view Google 或 URL 异常不影响游戏调用方",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view 复用既有 gtag 与 script，不重复注入",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view 标签加载失败后可重试且不重复排队当前页",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view 内建 gtag 使用官方 arguments 命令形态",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "4c21dd24ac7fae7717bb955d1721bb5dfddf086507b359a10aa98f4db0dc24b7",
+          "specRestoredSha256": "d9f88d9ee28faabb1ff354b6e2a43c3866f55c8c4749e272c673d3a0b65f7439",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/analytics/google-analytics.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-ga-controls-79jn9a9m/reload-resets-command-state.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T23:07:07.190665+00:00",
+          "completedAt": "2026-10-17T23:07:07.968221+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "reload-resets-command-state.current.raw.gz",
+          "rawBytes": 3045,
+          "rawSha256": "babddca24eef98d9cac9810f8e7bd56874cdde5fb58871740ebe8695eb8b8212",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "d9f88d9ee28faabb1ff354b6e2a43c3866f55c8c4749e272c673d3a0b65f7439",
+          "nativeReport": "reload-resets-command-state.current.vitest.json.gz",
+          "nativeSha256": "7d7bd012a496ae42a0347e0ab1126293a5cd931baa219409854b53452bcee5b3",
+          "passed": 8,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view 非生产或 Measurement ID 非法时零副作用",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view unset/denied 不加载；granted 只加载并记录当前页一次",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view P1: 只保留 pathname 与合法 UTM，丢弃所有游戏参数和 hash",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view G1/P3: 同 pathname 去重、场景事件不计页、撤回后停发",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view URL解析失败后仍可处理后续合法页面",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view 复用既有 gtag 与 script，不重复注入",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view 标签加载失败后可重试且不重复排队当前页",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view 内建gtag采用arguments队列并关闭自动page_view",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts",
+              "fullName": "minimal Google Analytics page view stop后同意与页面两订阅均不再触发",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected [ 'js', 'config', 'event', 'js', …(1) ] to deeply equal [ 'js', 'config', 'event' ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.test.ts:113:58\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "4c21dd24ac7fae7717bb955d1721bb5dfddf086507b359a10aa98f4db0dc24b7",
+          "specRestoredSha256": "d9f88d9ee28faabb1ff354b6e2a43c3866f55c8c4749e272c673d3a0b65f7439",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "utm-term-leak",
+      "source": "packages/game/src/analytics/google-analytics.ts",
+      "spec": "packages/game/src/analytics/google-analytics.boundaries.test.ts",
+      "sourceSha256": "4c21dd24ac7fae7717bb955d1721bb5dfddf086507b359a10aa98f4db0dc24b7",
+      "mutantSha256": "db721d5eefab39304f410866299ffc36545cbd921d254bdaff1b748a4b91bb6f",
+      "expectedNewFailureNameContains": "UTM 64保留",
+      "expectedOldCount": 4,
+      "expectedCurrentCount": 4,
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/analytics/google-analytics.boundaries.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-ga-controls-79jn9a9m/utm-term-leak.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T23:07:07.968761+00:00",
+          "completedAt": "2026-10-17T23:07:08.711979+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "utm-term-leak.old.raw.gz",
+          "rawBytes": 1040,
+          "rawSha256": "13ab36ba838f33882cab81ff9e0bac0931ff64f39c11a5593ab90cacb59d05ef",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "89dcf6f135ea68b7b679e297178c9a0736af2827bbf353aeee94dfa7aa690b16",
+          "nativeReport": "utm-term-leak.old.vitest.json.gz",
+          "nativeSha256": "d09578ba8aa840ab95383786c03eece3d35a48b6db676742c425fd4ee716dae4",
+          "passed": 4,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.boundaries.test.ts",
+              "fullName": "H05 边界 measurement ID 归一化：小写合法提升；7 字符截断非法零副作用",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.boundaries.test.ts",
+              "fullName": "H05 边界 UTM 64 字符保留、65 丢弃；非法 token（前导 -、大写）丢弃；game 参数不进 URL",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.boundaries.test.ts",
+              "fullName": "H05 边界 不传 subscribePage：grant 发当前页一次；deny 停发且清 lastPath；regrant 同页可再发；stop 后零回调",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.boundaries.test.ts",
+              "fullName": "H05 边界 disable 键随同意翻转：granted=false、denied=true",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "4c21dd24ac7fae7717bb955d1721bb5dfddf086507b359a10aa98f4db0dc24b7",
+          "specRestoredSha256": "0c14224b787602de65a8a6bb81b61bda8050297e81f7fde02b4c8e207725b96b",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/analytics/google-analytics.boundaries.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-ga-controls-79jn9a9m/utm-term-leak.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T23:07:08.712323+00:00",
+          "completedAt": "2026-10-17T23:07:09.475916+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "utm-term-leak.current.raw.gz",
+          "rawBytes": 2320,
+          "rawSha256": "612779a50044a43ed6de8c4a2a1b6ae0f0dcaded3eeb794349e1829d3c737a26",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "0c14224b787602de65a8a6bb81b61bda8050297e81f7fde02b4c8e207725b96b",
+          "nativeReport": "utm-term-leak.current.vitest.json.gz",
+          "nativeSha256": "8049b9a5b60c57e298074952fc1365ad39ccc2acd882920409598f9a85fe3304",
+          "passed": 3,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.boundaries.test.ts",
+              "fullName": "H05 边界 项目ID格式归一化:小写、6/20字符接受,5/21字符拒绝",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.boundaries.test.ts",
+              "fullName": "H05 边界 UTM 64保留/65丢弃,前导减号拒绝,大写归一且不扩展白名单",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.boundaries.test.ts",
+              "fullName": "H05 边界 不传 subscribePage：grant 发当前页一次；deny 停发且清 lastPath；regrant 同页可再发；stop 后零回调",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.boundaries.test.ts",
+              "fullName": "H05 边界 disable 键随同意翻转：granted=false、denied=true",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected { …(3) } to deeply equal { …(2) }\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.boundaries.test.ts:62:53\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "4c21dd24ac7fae7717bb955d1721bb5dfddf086507b359a10aa98f4db0dc24b7",
+          "specRestoredSha256": "0c14224b787602de65a8a6bb81b61bda8050297e81f7fde02b4c8e207725b96b",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "id-six-rejected",
+      "source": "packages/game/src/analytics/google-analytics.ts",
+      "spec": "packages/game/src/analytics/google-analytics.boundaries.test.ts",
+      "sourceSha256": "4c21dd24ac7fae7717bb955d1721bb5dfddf086507b359a10aa98f4db0dc24b7",
+      "mutantSha256": "d230c32d479145340476330b9afa965b03a9d5bc125d0eb1c86435fdcd5ac43e",
+      "expectedNewFailureNameContains": "项目ID格式归一化",
+      "expectedOldCount": 4,
+      "expectedCurrentCount": 4,
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/analytics/google-analytics.boundaries.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-ga-controls-79jn9a9m/id-six-rejected.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T23:07:09.476442+00:00",
+          "completedAt": "2026-10-17T23:07:10.223913+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "id-six-rejected.old.raw.gz",
+          "rawBytes": 1042,
+          "rawSha256": "01bf9150f73dc26f28191e3bb4a9950150d1c14353fd2c5e8e0cdc3394038419",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "89dcf6f135ea68b7b679e297178c9a0736af2827bbf353aeee94dfa7aa690b16",
+          "nativeReport": "id-six-rejected.old.vitest.json.gz",
+          "nativeSha256": "d247499ece184e679c89e38154cbdbc61836263156d1386e39da7b6e86f16370",
+          "passed": 4,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.boundaries.test.ts",
+              "fullName": "H05 边界 measurement ID 归一化：小写合法提升；7 字符截断非法零副作用",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.boundaries.test.ts",
+              "fullName": "H05 边界 UTM 64 字符保留、65 丢弃；非法 token（前导 -、大写）丢弃；game 参数不进 URL",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.boundaries.test.ts",
+              "fullName": "H05 边界 不传 subscribePage：grant 发当前页一次；deny 停发且清 lastPath；regrant 同页可再发；stop 后零回调",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.boundaries.test.ts",
+              "fullName": "H05 边界 disable 键随同意翻转：granted=false、denied=true",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "4c21dd24ac7fae7717bb955d1721bb5dfddf086507b359a10aa98f4db0dc24b7",
+          "specRestoredSha256": "0c14224b787602de65a8a6bb81b61bda8050297e81f7fde02b4c8e207725b96b",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/analytics/google-analytics.boundaries.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-ga-controls-79jn9a9m/id-six-rejected.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T23:07:10.224263+00:00",
+          "completedAt": "2026-10-17T23:07:10.985077+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "id-six-rejected.current.raw.gz",
+          "rawBytes": 2202,
+          "rawSha256": "b734ef8740844d2590c27ab3737bcf5703e0ec9c1e412de631ec1c3bd366c07f",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "0c14224b787602de65a8a6bb81b61bda8050297e81f7fde02b4c8e207725b96b",
+          "nativeReport": "id-six-rejected.current.vitest.json.gz",
+          "nativeSha256": "8e43c88e0df45fa017ee3ee478cb9944e33b37d21d257019e87b0fc6aa5ede28",
+          "passed": 3,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.boundaries.test.ts",
+              "fullName": "H05 边界 项目ID格式归一化:小写、6/20字符接受,5/21字符拒绝",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.boundaries.test.ts",
+              "fullName": "H05 边界 UTM 64保留/65丢弃,前导减号拒绝,大写归一且不扩展白名单",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.boundaries.test.ts",
+              "fullName": "H05 边界 不传 subscribePage：grant 发当前页一次；deny 停发且清 lastPath；regrant 同页可再发；stop 后零回调",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.boundaries.test.ts",
+              "fullName": "H05 边界 disable 键随同意翻转：granted=false、denied=true",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected [ [ 'event', 'page_view', { …(3) } ] ] to have a length of 2 but got 1\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/google-analytics.boundaries.test.ts:31:29\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ],
+          "sourceRestoredSha256": "4c21dd24ac7fae7717bb955d1721bb5dfddf086507b359a10aa98f4db0dc24b7",
+          "specRestoredSha256": "0c14224b787602de65a8a6bb81b61bda8050297e81f7fde02b4c8e207725b96b",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    }
+  ],
+  "tempDirectory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-ga-controls-79jn9a9m",
+  "tempDirectoryRemoved": true,
+  "restored": true
+}

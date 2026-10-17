@@ -3265,11 +3265,26 @@
       "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "bb7cb728adabb3b66e57f64f81f9aac504d6cce676283823489c80933a767b64",
+      "afterSha256": "87a1fa935c1532aa72f02565a0f9385e1763a07c54bf900c64a8aa4b59d0542b",
       "revision": {
         "currentSha": "addcb44c52fd00ab0fd3397e61ae316bf98d02e2aeef1d5533ed23a2c1e5845a",
-        "implementationSha": "bb7cb728adabb3b66e57f64f81f9aac504d6cce676283823489c80933a767b64",
+        "implementationSha": "87a1fa935c1532aa72f02565a0f9385e1763a07c54bf900c64a8aa4b59d0542b",
         "history": [
+          {
+            "revision": "4b86b04b790eb6b83f93a10f4ac07102c608b39b",
+            "date": "2026-10-18",
+            "action": "Review GA implementation and tests with shared owned host; record failed-install risk",
+            "previousAfterSha256": "bb7cb728adabb3b66e57f64f81f9aac504d6cce676283823489c80933a767b64",
+            "scope": "Three unlisted pending GA paths and one new test fixture are review only, zero closure. Execution unchanged beyond one catch-scope comment; main8 to9/H05 remains4 with exact assertion transfers, five whole-file old-green/new-specific-AssertionError controls, outer-owner isolation old8-green/1-red to current10-green, formal13direct/12adjacent and typecheck. Actual failed-install ownership counter is a separate draft and awaits user choice; no product build allowed. Only CODE3z pending to partial;83cards53partial/30pending/0accept, scopeConfirmed=false. Bounded board progress/new draft row, generated index adds its one task. No baseline/retirement/schema/save/API/assets or historical native verdict changes.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "28fcfbe310815bcfd712b2f3da1849e0f4076092",
             "date": "2026-10-18",
@@ -3665,7 +3680,7 @@
         "kind": "A8-six-pending-inventory-real-producer-maintenance",
         "path": "docs/ops/audits/code-quality-file-ledger.md",
         "sourceSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
-        "afterSha256": "bb7cb728adabb3b66e57f64f81f9aac504d6cce676283823489c80933a767b64",
+        "afterSha256": "87a1fa935c1532aa72f02565a0f9385e1763a07c54bf900c64a8aa4b59d0542b",
         "lineCount": 592,
         "sourceScope": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "completePrior": {
@@ -3888,7 +3903,7 @@
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "1-737",
+      "reviewedLines": "1-741",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {

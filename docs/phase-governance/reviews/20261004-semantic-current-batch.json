@@ -407,7 +407,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "e8f60a9a9adfcd1c4201a2af0d1abb65c556233792c4d625c384df273aa26281",
+      "afterSha256": "f492beaaa38d1a8efe96f6051ebd72abf1b7107d8e3aef34a6340bc04080b89b",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -438,10 +438,25 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "e8f60a9a9adfcd1c4201a2af0d1abb65c556233792c4d625c384df273aa26281",
+        "implementationSha": "f492beaaa38d1a8efe96f6051ebd72abf1b7107d8e3aef34a6340bc04080b89b",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "4b86b04b790eb6b83f93a10f4ac07102c608b39b",
+            "date": "2026-10-18",
+            "action": "Review GA implementation and tests with shared owned host; record failed-install risk",
+            "previousAfterSha256": "e8f60a9a9adfcd1c4201a2af0d1abb65c556233792c4d625c384df273aa26281",
+            "scope": "Three unlisted pending GA paths and one new test fixture are review only, zero closure. Execution unchanged beyond one catch-scope comment; main8 to9/H05 remains4 with exact assertion transfers, five whole-file old-green/new-specific-AssertionError controls, outer-owner isolation old8-green/1-red to current10-green, formal13direct/12adjacent and typecheck. Actual failed-install ownership counter is a separate draft and awaits user choice; no product build allowed. Only CODE3z pending to partial;83cards53partial/30pending/0accept, scopeConfirmed=false. Bounded board progress/new draft row, generated index adds its one task. No baseline/retirement/schema/save/API/assets or historical native verdict changes.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "28fcfbe310815bcfd712b2f3da1849e0f4076092",
             "date": "2026-10-18",
@@ -950,7 +965,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "e8f60a9a9adfcd1c4201a2af0d1abb65c556233792c4d625c384df273aa26281",
+        "afterSha256": "f492beaaa38d1a8efe96f6051ebd72abf1b7107d8e3aef34a6340bc04080b89b",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
@@ -1144,7 +1159,7 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "1-94",
+      "reviewedLines": "1-95",
       "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。",
       "integrationReview": {
         "reviewer": "Codex",
@@ -1399,7 +1414,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "004a0a8c645c2acde740b5b54e5f45ae477a09e85b314ae4fdbabec7dffb1ba9",
+      "afterSha256": "14a0f429ae04edd739b68ff260f417823e13c8a1a67ee79d0ae57912f635fe6a",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -1420,10 +1435,25 @@
       },
       "revision": {
         "currentSha": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
-        "implementationSha": "004a0a8c645c2acde740b5b54e5f45ae477a09e85b314ae4fdbabec7dffb1ba9",
+        "implementationSha": "14a0f429ae04edd739b68ff260f417823e13c8a1a67ee79d0ae57912f635fe6a",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "4b86b04b790eb6b83f93a10f4ac07102c608b39b",
+            "date": "2026-10-18",
+            "action": "Review GA implementation and tests with shared owned host; record failed-install risk",
+            "previousAfterSha256": "004a0a8c645c2acde740b5b54e5f45ae477a09e85b314ae4fdbabec7dffb1ba9",
+            "scope": "Three unlisted pending GA paths and one new test fixture are review only, zero closure. Execution unchanged beyond one catch-scope comment; main8 to9/H05 remains4 with exact assertion transfers, five whole-file old-green/new-specific-AssertionError controls, outer-owner isolation old8-green/1-red to current10-green, formal13direct/12adjacent and typecheck. Actual failed-install ownership counter is a separate draft and awaits user choice; no product build allowed. Only CODE3z pending to partial;83cards53partial/30pending/0accept, scopeConfirmed=false. Bounded board progress/new draft row, generated index adds its one task. No baseline/retirement/schema/save/API/assets or historical native verdict changes.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "8dabfd49976f818364d451635f155af08a41b9a9",
             "date": "2026-10-18",
@@ -1730,7 +1760,7 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "004a0a8c645c2acde740b5b54e5f45ae477a09e85b314ae4fdbabec7dffb1ba9",
+        "afterSha256": "14a0f429ae04edd739b68ff260f417823e13c8a1a67ee79d0ae57912f635fe6a",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
@@ -1975,7 +2005,7 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "1-508",
+      "reviewedLines": "1-509",
       "reviewNotes": "任务索引将 DOCS-CATALOG-SPLIT-1 投影到 historical done；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。",
       "integrationReview": {
         "reviewer": "Codex",

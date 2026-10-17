@@ -1,0 +1,193 @@
+{
+  "base": "4b86b04b790eb6b83f93a10f4ac07102c608b39b",
+  "scope": "GA four-file source/test/read/control/lifecycle-risk and bounded semantic ledger/queue/index chain; no whole-file or unified closeout",
+  "rawPairs": [
+    {
+      "receipt": "module-final.json",
+      "raw": "module-final.raw.gz",
+      "sha256": "75db1ec44ccbb12949fd0da4fa30388037f301c418f2cd613a8e0a07a78bcc6b",
+      "exit": 0
+    },
+    {
+      "receipt": "main-final.json",
+      "raw": "main-final.raw.gz",
+      "sha256": "38987edf9eee2816dc689b9a05311c23a0b0cce9a2ff8efd1e9f55fac3a64cd6",
+      "exit": 0
+    },
+    {
+      "receipt": "fetch-final.json",
+      "raw": "fetch-final.raw.gz",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit": 0
+    },
+    {
+      "receipt": "docs-consumers-final.json",
+      "raw": "docs-consumers-final.raw.gz",
+      "sha256": "90418a54a8e040454bd9e845f473814bba016e848b509451779047b465e679f2",
+      "exit": 0
+    },
+    {
+      "receipt": "docs.json",
+      "raw": "docs.raw.gz",
+      "sha256": "669564d7ad8633515448839e010315f2632dc498a31f4f897f233fa923639907",
+      "exit": 1
+    },
+    {
+      "receipt": "lint-final.json",
+      "raw": "lint-final.raw.gz",
+      "sha256": "3215dca3ae3fd09c34de7b85612b701c5fd410af500fc82dbed86f73439d6f39",
+      "exit": 0
+    },
+    {
+      "receipt": "baseline.json",
+      "raw": "baseline.raw.gz",
+      "sha256": "61fcbf9a498213e94f213459e89dcb7494f8cdee273910d8e06ffc0a71b9e2ea",
+      "exit": 0
+    },
+    {
+      "receipt": "current.json",
+      "raw": "current.raw.gz",
+      "sha256": "4b5ffd930abf5d5c8953922a8779597d6db7cb74600863e1ef9af469e6d17e9a",
+      "exit": 0
+    },
+    {
+      "receipt": "initialization-probe.json",
+      "raw": "initialization-probe.raw.gz",
+      "sha256": "92629b842c07bcc1cf306591510f1f9f54e9ced61b3b32b4491e760f144e552f",
+      "exit": 1
+    },
+    {
+      "receipt": "typecheck.json",
+      "raw": "typecheck.raw.gz",
+      "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80",
+      "exit": 0
+    },
+    {
+      "receipt": "divergence-final.json",
+      "raw": "divergence-final.raw.gz",
+      "sha256": "cdcbcd960840a66c6bcb9eb2ef91f19819bd903b9a9aff6a88d6c9e483f65031",
+      "exit": 0
+    },
+    {
+      "receipt": "ledger.json",
+      "raw": "ledger.raw.gz",
+      "sha256": "4a4c092a037dd417aee62a89760ba99b37cc04e5f3d8bcf3744480b6830cae2f",
+      "exit": 0
+    }
+  ],
+  "controls": [
+    {
+      "id": "automatic-page-view",
+      "oldWholeFileGreen": 8,
+      "currentPassed": 8,
+      "specifiedAssertionErrors": 1,
+      "restored": true
+    },
+    {
+      "id": "page-unsubscribe-missing",
+      "oldWholeFileGreen": 8,
+      "currentPassed": 8,
+      "specifiedAssertionErrors": 1,
+      "restored": true
+    },
+    {
+      "id": "reload-resets-command-state",
+      "oldWholeFileGreen": 8,
+      "currentPassed": 8,
+      "specifiedAssertionErrors": 1,
+      "restored": true
+    },
+    {
+      "id": "utm-term-leak",
+      "oldWholeFileGreen": 4,
+      "currentPassed": 3,
+      "specifiedAssertionErrors": 1,
+      "restored": true
+    },
+    {
+      "id": "id-six-rejected",
+      "oldWholeFileGreen": 4,
+      "currentPassed": 3,
+      "specifiedAssertionErrors": 1,
+      "restored": true
+    }
+  ],
+  "all13CurrentDirectIdentitiesPassedInFormalNative": true,
+  "module": {
+    "files": 6,
+    "passed": 25,
+    "direct": 13,
+    "adjacent": 12
+  },
+  "knownUnfixedReadOnlyInitializationCounter": {
+    "exit": 1,
+    "passed": 12,
+    "specifiedAssertionErrors": 1,
+    "draft": "docs/ops/tasks/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md",
+    "productFixAuthorized": false
+  },
+  "outerOwnerIsolation": {
+    "oldPassed": 8,
+    "oldSpecifiedAssertionErrors": 1,
+    "currentPassed": 10
+  },
+  "commentOnlyProductionExecutionProof": true,
+  "tracked": 3316,
+  "closed": 261,
+  "review": 89,
+  "pending": 2966,
+  "newClosed": 0,
+  "queue": {
+    "onlyCard": "3z",
+    "partial": 53,
+    "pending": 30,
+    "accept": 0,
+    "scopeConfirmed": false,
+    "other82ObjectsExact": true
+  },
+  "reviewBindings": [
+    {
+      "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "targets": ["docs/ops/board.md", "docs/ops/tasks/index.md"],
+      "otherNativeVerdictsAndHistoricalObjectsExact": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "targets": ["docs/ops/audits/code-quality-file-ledger.md"],
+      "otherNativeVerdictsAndHistoricalObjectsExact": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "targets": [
+        "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+        "docs/phase-governance/reviews/20261016-historical-cards-d.json"
+      ],
+      "otherNativeVerdictsAndHistoricalObjectsExact": true
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "targets": ["docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"],
+      "otherNativeVerdictsAndHistoricalObjectsExact": true
+    }
+  ],
+  "indexDeltaOneDraftRow": true,
+  "noBaselineRetirementOrCatalogChanges": true,
+  "allowedChanges": [
+    "docs/ops/audits/code-quality-file-ledger.md",
+    "docs/ops/board.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md",
+    "docs/ops/tasks/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md",
+    "docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md",
+    "docs/ops/tasks/index.md",
+    "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+    "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+    "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+    "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+    "packages/game/src/analytics/google-analytics.boundaries.test.ts",
+    "packages/game/src/analytics/google-analytics.test-fixtures.ts",
+    "packages/game/src/analytics/google-analytics.test.ts",
+    "packages/game/src/analytics/google-analytics.ts"
+  ]
+}

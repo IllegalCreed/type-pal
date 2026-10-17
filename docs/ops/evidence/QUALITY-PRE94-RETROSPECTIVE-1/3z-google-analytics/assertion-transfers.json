@@ -1,0 +1,81 @@
+{
+  "base": "4b86b04b790eb6b83f93a10f4ac07102c608b39b",
+  "oldCounts": {
+    "main": 8,
+    "boundaries": 4
+  },
+  "currentCounts": {
+    "main": 9,
+    "boundaries": 4
+  },
+  "netTests": 1,
+  "wholeCasesRetired": 0,
+  "sharedFixture": "Only duplicated SDK/Document/event-source test ownership; SUT unchanged",
+  "transfers": [
+    {
+      "from": "main1 no-prod/invalid ID",
+      "to": "main1",
+      "retained": "Both original inputs and no-script/no-dataLayer; adds no-gtag."
+    },
+    {
+      "from": "main2 unset/denied title but only grant executed",
+      "to": "main2",
+      "retained": "Two grants, exact one script and original path/location; adds actual unset/denied before grant and exact title/payload."
+    },
+    {
+      "from": "main3 URL",
+      "to": "main3",
+      "retained": "Exact original complete input/output string unchanged."
+    },
+    {
+      "from": "main4 pathname/scene/revoke",
+      "to": "main4",
+      "retained": "All original events and paths, exact manual event plus per-transition counts make individual behavior distinguishable."
+    },
+    {
+      "from": "main5 Google-or-URL exception title",
+      "to": "main5 plus separate initialization-probe",
+      "retained": "Same malformed URL followed by legal page, noThrow and one event; withdraw unproved SDK-failure credit, preserve true product counter separately."
+    },
+    {
+      "from": "main6 reuse",
+      "to": "main6",
+      "retained": "Existing external gtag/script and page call; adds exact identities and full payload."
+    },
+    {
+      "from": "main7 retry",
+      "to": "main7",
+      "retained": "Actual error, replacement script, count1 and one page; removes optional no-op dispatch, adds complete js/config/event command count."
+    },
+    {
+      "from": "main8 arguments shape",
+      "to": "main8",
+      "retained": "Actual queue and config ID retained; strengthens non-array to exact Arguments tag for every entry, Date and send_page_view:false."
+    },
+    {
+      "from": "H05 idempotent stop title with no ID boundary",
+      "to": "H05 ID case",
+      "retained": "Lowercase normalization and two actual stops retained; adds project-local 6/20 acceptance and 5/21 rejection."
+    },
+    {
+      "from": "H05 UTM boundaries",
+      "to": "H05 UTM case",
+      "retained": "64/65/leading-minus and uppercase Up input retained; uppercase expectation corrected to up, adds forbidden term and exact complete search/origin/path."
+    },
+    {
+      "from": "H05 no-page-subscription",
+      "to": "H05 no-page-subscription",
+      "retained": "Grant1, deny/regrant2, deny/stop/grant2 original sequence and counts unchanged."
+    },
+    {
+      "from": "H05 disable flag",
+      "to": "H05 disable flag",
+      "retained": "Exact normalized key, granted false/denied true, real stop preserved."
+    },
+    {
+      "from": "new missing subscription teardown axis",
+      "to": "new main9",
+      "retained": "No original whole case retired; actual stop followed by page and consent source emissions proves both ports inert before fixture cleanup."
+    }
+  ]
+}

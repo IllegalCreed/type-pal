@@ -1,0 +1,29 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/analytics/google-analytics.test.ts",
+    "src/analytics/google-analytics.boundaries.test.ts",
+    "src/analytics/analytics-consent.test.ts",
+    "src/analytics/analytics-consent.boundaries.test.ts",
+    "src/analytics/analytics-consent-ui.test.ts",
+    "src/analytics/install-analytics.test.ts",
+    "--reporter=verbose",
+    "--reporter=json",
+    "--outputFile.json=/tmp/type-pal-ga-module-20261018.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T23:08:15.157397+00:00",
+  "completedAt": "2026-10-17T23:08:16.595356+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "module-final.raw.gz",
+  "rawBytes": 4017,
+  "rawSha256": "75db1ec44ccbb12949fd0da4fa30388037f301c418f2cd613a8e0a07a78bcc6b",
+  "fullUncutMergedStdoutStderr": true
+}

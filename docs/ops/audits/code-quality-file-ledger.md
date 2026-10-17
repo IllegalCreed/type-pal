@@ -17,8 +17,8 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-起始基点机器清单：2,962。当前 tracked 清单：3,315。
-当前已闭合核验：261；已读但待审：85；尚未逐文件核验：2,969；合计未闭合：3,054。
+起始基点机器清单：2,962。当前 tracked 清单：3,316。
+当前已闭合核验：261；已读但待审：89；尚未逐文件核验：2,966；合计未闭合：3,055。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -376,6 +376,10 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/analytics/analytics-consent.ts` | product | review | [pre94 consent复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/README.md)；90行全文，真实main/install/UI/GA与OPS项目合同 | 只修广播失败过强注释，parsedTS/JS相同；跨realm/注入组合和实网端到端未知，不关闭 |
 | `packages/game/src/analytics/analytics-consent.test.ts` | test | review | [pre94 consent复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/README.md)；57行原测全文，独立持久键/真实默认Storage+window、通知时已提交与信号优先级 | 三旧3绿→新2绿1指定AssertionError；3例保持，按自有键/finally隔离；7定向/17相邻仅有限信用 |
 | `packages/game/src/analytics/analytics-consent.boundaries.test.ts` | test | review | [pre94 consent复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/README.md)；71行原测全文，typed getter/原生EventTarget、无window与失败零通知 | 两旧3绿→新3绿1指定AssertionError；3→4拆职责，读异常/denied与重复detail逐断言迁主测；零新关闭 |
+| `packages/game/src/analytics/google-analytics.ts` | product | review | [pre94 GA复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md)；139行及真实installer/main/同意caller、官方命令合同 | 执行冻结，仅改catch范围注释；真实初始化泄漏另卡draft，0关闭 |
+| `packages/game/src/analytics/google-analytics.test.ts` | test | review | [pre94 GA复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md)；169行原测与9例当前全文，精确payload/Arguments/stop/重试 | 三旧8绿→新8绿1指定红，隔离外owner旧单红新绿；未知SDK/浏览器不关闭 |
+| `packages/game/src/analytics/google-analytics.boundaries.test.ts` | test | review | [pre94 GA复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md)；121行原测与当前4例，项目ID6/20与UTM白名单、真实订阅 | 两旧4绿→新3绿1指定红；坏注/伪fetch隔离撤回，13直接/12相邻只是有限证据 |
+| `packages/game/src/analytics/google-analytics.test-fixtures.ts` | fixture | review | [pre94 GA复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md)；新增测试专用共享宿主全文，真实SUT/自有Document与属性描述符 | 完整cohort外owner断言旧8/1红→新10绿；stop断言前不代清；不改公共接口/不关闭 |
 
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 CanonicalScriptBodyEditor→EntityAddressEditor caller、合法 EntityAddress 与自动改绑 oracle | 1合同/4定向测试通过；相邻测试有22条 React act诊断，保持 review，不标已验证 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 ItemTab/loader/EditSession/save-gate caller、R1/R3/R5 oracle | 3合同/4定向测试通过；相邻测试有22条 React act诊断，P1 puppet/battleOnly仍是产品裁决，保持 review |
