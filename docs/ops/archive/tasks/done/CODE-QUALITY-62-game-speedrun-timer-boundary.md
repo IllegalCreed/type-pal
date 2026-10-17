@@ -36,6 +36,12 @@ Visual Verification Timing: N/A（纯状态机）
 
 - 2026-10-13 Codex：完整读取 timer 218 行、三份测试、index/snapshot/detectors/tools-panel caller 与 speedrun design；起表、依序 detector、PB、香蕉/手动暂停、倒计时、setStep/reset、一次性 flags 均有直接 oracle，未发现直接缺陷。账本收口为 `3266 / 298 closed / 8 review / 2960 pending`。
 
+## 2026-10-18 Codex 当前独立复审
+
+- **范围与读取**：完整读取 `timer.ts`、`timer.test.ts`、`timer.glm-phase1-leaves.test.ts`、`timer.boundaries.test.ts`；读取 `speedrun/index.ts`、`snapshot.ts`、`store.ts`、`overlay.ts` caller。
+- **结论**：scene>0 且 canMove 起表、delta 非负累加、依序单步、finished 停表、香蕉直接恢复、F8 三秒恢复、2999/3000ms 边界、setStep/reset、PB/dirty/justResumed 一次性消费和 detector 实例隔离均与当前设计一致；未发现直接缺陷。
+- **验证**：3 files/22 tests、game typecheck通过；coverage 等沿用 [`53-wave-gates`](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)，不重复运行昂贵 coverage。当前复审为 `partial`，不是整卡 `accept/done`。
+
 ## 下一位 Agent 提示词
 
 ```text

@@ -536,3 +536,9 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 - 范围：完整读取 `speedrun/store.ts`、两份专属测试、`speedrun/index.ts`/`overlay.ts`/`tools-panel.ts:723-805` caller 与 timer/checkpoint 设计边界。
 - 结论：设置仅识别 1/0；bests 以 defaults 为骨架，拒绝坏 JSON、未知 key、数组/标量、负数、Infinity、字符串/对象并保留合法小数毫秒；未发现直接缺陷。
 - 验证：直接 2 files/9 tests、相邻 3 files/30 tests通过；coverage 等沿用 [`53-wave-gates`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)。61 从 pending 提升为 `partial`，不作整卡 accept/done。
+
+### 2026-10-18 CODE-QUALITY-62 speedrun timer 当前复审
+
+- 范围：完整读取 `speedrun/timer.ts`、三份 timer 测试及 `index.ts`/`snapshot.ts`/`store.ts`/`overlay.ts` caller。
+- 结论：起表门、wall-clock delta、依序单步、PB、香蕉直接恢复、F8 三秒倒计时、setStep/reset、一次性 flags 与 detector 边界均有真实状态 oracle，未发现直接缺陷。
+- 验证：3 files/22 tests、game typecheck通过；coverage 等沿用 [`53-wave-gates`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)。62 从 pending 提升为 `partial`，不作整卡 accept/done。

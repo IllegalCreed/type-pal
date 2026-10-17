@@ -88,6 +88,8 @@
 
 最新[61 speedrun store 复审](61-speedrun-store/README.md)：完整读取 store、两份测试、speedrun/index/overlay/tools-panel caller；9 直接 + 30 相邻通过，非法 localStorage 值 fail-closed 与小数毫秒 PB 均有反控。61 当前 `partial`。
 
+最新[62 speedrun timer 复审](62-speedrun-timer/README.md)：完整读取 timer、三份测试与 speedrun caller；3 文件/22 tests 通过，起表、暂停、倒计时、setStep、PB 与 detector 边界均有 oracle。62 当前 `partial`。
+
 ## 统一候选后的范围更正
 
 以下role键探针和四项counter针对冻结f0cf0f7f主线系候选。用户要求先收3y后，已发现其未合入的CODE53包含party-slot mapper/离队guard与对应测试；现统一候选已有该实现，不能继续宣称“当前helper仍按role键”。CODE53仍待端到端/整文件/视觉与统一门复审，原probe不被改写为当前失败。重复GAME-PLAYER-POISON-KEY-DOMAIN-1取消、归CODE53；YJ2过期注释与cleanup fixture待核仍保留。
