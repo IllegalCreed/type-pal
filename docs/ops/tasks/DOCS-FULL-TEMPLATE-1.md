@@ -1675,3 +1675,22 @@ Template: task-card-v1 / 1.0.0
 - 正文SHA `1c345654a9f10a19455a8df696b48d9a2f1b86e6fc36bdfe050933a48a8f574c`，原非作者报告SHA `e844f43f94214872f5b79f196d85907ba0c37eb0d50c921601e305da2419a9a7`，实际原报告与运输映射见[本篇报告](../evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S04-c8715c2c.json)。此次只移R60本篇，另6条对象与原顺序保留；旧撤回与无条件inverse声明仅留历史，不恢复。
 - 仅本篇新正文/模板接受：Human cross-stage navigation routes to the existing canonical audit/pair and formal parent index. Catalog depends001–005, historical006 findings do not admit006rework. Concrete issue-family attribution/backlinks cannot close render/save/preview/capture.
 - 1896撤回中已逐篇重授3篇，余1893；S01另列，五隔离不解除。当前计划和结果须按固定组合字节独立复验；全量卡仍rework，硬门未过不合main或done。
+
+### S05固定正文非作者接受，中央接入尚未授信
+
+- 固定作者候选`b87a239769295a4a2549255adc3b91f0417324ca`，正文SHA `7311da4e0920a21b2df42091e7f547fcc8687aa4c51f207c66e8717555bd45b6`。非作者全文读原174/前219/新274行、逐七规则与五章设计模板及27项明确依赖范围，限定接受正文/模板；报告SHA `4fd5060bd3c78f64ccbd7c34729acd2a733967168b17b08279e1af9b54c0c302`，原97项清单在`/tmp/type-pal-s05-independent-_4zlmxx2`。
+- 两次CLI在隔离树缺资产的前置阶段失败，未到capture guard，不能冒称CLI拒capture成功；001拒capture仅源核，002另有公共API的synthetic IO验证，不计真实存档或运行信用。自身probe设置失败、原始输出与全局docs/strict/progress失败均保留。此时尚未迁移S05中央binding，不增加当前1896重授计数；本卡仍rework。
+
+## 2026-10-18 S06：原生002机器证据的逐字段治理准入
+
+- Codex build allowed，仅隔离`docs/testing/e2e/evidence/e2e-002.json`的`_governance`内容；唯一Owner `/root/e2e_entry_semantic_author`在干净S05 b87后新分支实施。其余16个原生字段的值、顶层key/数组序、日期与现5421字节原生前缀全部保留；catalog、canonical报告、产品、旧产品测试和coverage不可写。原107行5414字节与现124行6393字节按对象/顺序相等说明，不伪称字节逆回相等。
+- 既有test-machine-evidence-v1/1.5.0的document-audit-v2足够，不新增变体或降低标准。root已全文读现124行/模板及harvest的16字段释义、14项发现；作者原107/当前124及六sourceRef、实际caller/20行/现金偏序/三人生命周期/正式恢复的实读范围，见`/tmp/type-pal-s06-readonly-harvest-20261018-g2s9_afu`，报告SHA `79392410d1086109e5107c81648550fdc23ff218bbda552159aa26dad1bede62`、70项清单SHA `c23e18c9e97ea298ca43e82b34da331062ef83e8cfa7c362ba20538ab15c269a`。
+- 须实质重写治理对象：逐16字段的意义/事实权/适用时间/证据范围，primarySource的真实完整或窄域、当前静态审查/非执行身份、原_governance历史及具体反例/停止线。只更新lastReviewed、添加泛封套、或复用artifactOnly授完成均不合格。
+- 原verified、dedupe.reviewed、source-backed分别归发布/历史命名/源码轴；d022与22/11不变，现源22/min12和RF12另记，不把RF格式套Game。短oracle引文不覆盖完整三人/恢复合同；20行、[0,500]及dlg50<commit<dlg51、真实位移/替身生命周期/控制与独立呈现/停读/正式恢复各按实际source范围解释，不能把终态/源码存在当实跑。
+- raw缺失仅指原时点checkout，本轮也未打开游戏raw；不得抹去canonical的历史实跑或把docs日志填进native artifacts。findings逐日期保留，旧待做句不升格为今天状态。作者候选保持非作者验收pending，冻结新字节后独立逐字段验源码、保全、模板及真实consumer；中央登记与1896信用另经root接入，不合main或done。
+
+### S03/S04固定中央组合的非作者接收
+
+- 非作者逐项核固定`65ee30adc41fd78c49b0ea261ce77b62b816ece0`及其源2407/2411/目标2414绑定，限定接受S03/S04两次唯一迁移：R60 8→7→6，其余对象、顺序、S01/S02及第二次的S03不变；七个新增证据仍partial/needs。原报告SHA `f3f8674ff4bb1e9887088095a950f55fd85261bd9420d9fe3979bd420f6e6821`及146项运输见[中央报告](../evidence/DOCS-REGISTRY-SPLIT-1/independent-S03-S04-central-review-65ee30ad.json)。
+- 同时核364个原payload/存储身份、25个Git一手pin、真实178工具与lint4492零诊断；完整docs/strict/progress仍FAIL。两次自身harness错误与原日志保留，不倒写为候选失败或通过。
+- 1896撤回中仍仅重授3篇、余1893；S01另列。这里只关闭固定65的中央复核待项，新报告登记/本次确认写回及未来S05/S06不在该报告接受范围，整卡继续rework、不合main或done。

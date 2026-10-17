@@ -1160,7 +1160,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "6ae98798961cea1b1e70c60d2d94cda5ec899a5d9a71880c9e04cf5d8c1c18b5",
+      "afterSha256": "d59b1d076a92d4d62411a7e4dab7a94c935d391043f07cfa05f51664afbc3a0a",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1310,6 +1310,15 @@
           "sourceRevision": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
           "previousAfterSha256": "d962e3194e7b92e389547b8991b0220f9ee54137f7b8df3d8edd992d521753fa",
           "afterSha256": "6ae98798961cea1b1e70c60d2d94cda5ec899a5d9a71880c9e04cf5d8c1c18b5",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-REGISTRY-SPLIT-1",
+          "sourceRevision": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+          "previousAfterSha256": "6ae98798961cea1b1e70c60d2d94cda5ec899a5d9a71880c9e04cf5d8c1c18b5",
+          "afterSha256": "d59b1d076a92d4d62411a7e4dab7a94c935d391043f07cfa05f51664afbc3a0a",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
@@ -5295,7 +5304,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "6d763812dbcdee06ea6d9276e9a66477f91690da5f0198d69b6d973400376c56",
+      "afterSha256": "0261242254110ed2761287030512f123aad782838122641c73cc14ceff189db6",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -5456,6 +5465,24 @@
           "previousAfterSha256": "871a0ccf3f849eeec34634899ca9361790d6a3ae7b6da07a2341d336837b6ff5",
           "afterSha256": "6d763812dbcdee06ea6d9276e9a66477f91690da5f0198d69b6d973400376c56",
           "method": "S04 exact body/report/donor-preservation scope and pending central review; existing statusrework unchanged.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-REGISTRY-SPLIT-1",
+          "sourceRevision": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+          "previousAfterSha256": "6d763812dbcdee06ea6d9276e9a66477f91690da5f0198d69b6d973400376c56",
+          "afterSha256": "b8721e4a4decc4fff8c04e5cf69e2218668bde00d41e1bfec2a66bbe96cafd55",
+          "method": "Root recorded fixed S05 body-only non-author acceptance with no central credit and explicit S06 isolated governance-only admission; full card remainsrework.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-REGISTRY-SPLIT-1",
+          "sourceRevision": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+          "previousAfterSha256": "b8721e4a4decc4fff8c04e5cf69e2218668bde00d41e1bfec2a66bbe96cafd55",
+          "afterSha256": "0261242254110ed2761287030512f123aad782838122641c73cc14ceff189db6",
+          "method": "Root acknowledges exact frozen65 non-author central receipt only, with no extra semantic regrant; S05/S06 and later changes remain separate, 3/1893 and quarantines preserved.",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -5624,7 +5651,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "553e81083574b823061950c9e69cb87bacc0d254b7ff9bc5414a9fc1f66683bd",
+      "afterSha256": "2c1cfab97ad468983d5740477d3107b67709cfc87907ef6db141135299b1c185",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -5787,6 +5814,24 @@
           "sourceRevision": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
           "previousAfterSha256": "4313ed399b51a96589440db24f410ff96f838f1b944c8c7d3feba5524af9555d",
           "afterSha256": "553e81083574b823061950c9e69cb87bacc0d254b7ff9bc5414a9fc1f66683bd",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-REGISTRY-SPLIT-1",
+          "sourceRevision": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+          "previousAfterSha256": "553e81083574b823061950c9e69cb87bacc0d254b7ff9bc5414a9fc1f66683bd",
+          "afterSha256": "b3c1a3203c221f5509d656830e420b7e5e7209c41f22aa014e44732fc2efada9",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-REGISTRY-SPLIT-1",
+          "sourceRevision": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+          "previousAfterSha256": "b3c1a3203c221f5509d656830e420b7e5e7209c41f22aa014e44732fc2efada9",
+          "afterSha256": "2c1cfab97ad468983d5740477d3107b67709cfc87907ef6db141135299b1c185",
           "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
           "grantsNewSemanticAcceptance": false
         }

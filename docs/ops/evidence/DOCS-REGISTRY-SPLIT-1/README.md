@@ -15,7 +15,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-设计和固定95实现已获非作者限定接收，实现仅进入候选分支，任务仍build。原2374对象/顺序/缺省、八项metadata与八份物理文件全部保真；新增候选另行登记partial/needs，不授任何正文完成。中央登记、S03/S04后续绑定及全量硬门须按实际组合字节另验。
+设计、固定95实现和c4d中央存储增量已获非作者限定接收，均只在候选分支，任务仍build。b753快照的原2374对象/顺序/缺省与八项metadata保真；c4d仅按33个新增pending调整summary，不把现summary说成原值，也不授正文完成。S03/S04固定65ee30ad组合也已获限定接收；本次报告接入、再新增候选及全量硬门按各自实际字节另验。
 
 ## 入口与责任
 
@@ -26,6 +26,8 @@ Template: governance-index-v1 / 1.0.0
 - [95固定实现独立接收](independent-storage-review-95def601-scoped-accept.json)：原counter闭合，50专项/178工具检查通过；完整check:docs、strict、require-complete仍失败。
 - [root canonical映射核验](canonical-intake-b7534fc5.json)：源mapping原目标不改，八份显式路径转换仅绑定b7534fc5候选快照，后续新增登记与语义绑定变更另列。
 - [中央脚本首版反例](independent-central-guard-review-v1.json)、[固定344623护栏复验](independent-central-guard-followup-34462316.json)和[S04合法/非法正反针](independent-s04-guard-addendum-34462316.json)：只证明owned fixture中的护栏；尚不接收真实中央结果。
+- [固定65ee30ad的S03/S04中央报告](independent-S03-S04-central-review-65ee30ad.json)与[146项运输](intake-independent-central-65ee.json)：只接收两篇唯一迁移及原2407→2411→2414组合，新增七份仍pending；本次确认写回和后继正文另验。
+- [固定c4d中央增量独立报告](independent-central-intake-review-c4d00d3e.json)与[134项原件运输](intake-independent-central-c4d.json)：核原2374+33pending、2407绑定/全部pin、原报告/四阅读投影与实际门；不外推后继S03/S04或全量语义。
 
 上述每个原报告的`intake-*.json`配对表逐项保存原路径、payload/stored双SHA与字节数。原始文本、fixture的Git元文件等均按payload SHA无损gzip保存，避免在仓库重建嵌套`.git`；字节相等才复用同一容器。作者37目录的590项是本次实际晚期快照，活动命令索引已追加过，不能冒称原37报告生成时的完整快照。
 
@@ -39,4 +41,4 @@ Template: governance-index-v1 / 1.0.0
 
 迁移输出旧counter保留未冻结完整模块的限制。固定实现已通过非作者真实输出前置拒绝、并发writer、映射snapshot、真实混包kill与显式恢复检查。中央脚本也不提供跨文件事务：发布后的外部字节竞态会拒绝继续pin，但可能已发布registry并留下空输出；外部原始stderr才是该次失败证据，空JSON不能登记为成功。
 
-先接收真实实现、2374 对象/顺序/顶层 metadata 映射及并发/混包/输出路径反例，再接新文件和逐篇语义记录。check:docs、lint、完整基点/staged diff 与全量语义门按实际字节重跑；未满足全量硬验收前不合 main、不标 done。
+固定实现与c4d中央增量已按限定范围验收，后继逐篇语义和每次中央变化继续独立核验。check:docs、lint、完整基点/staged diff与全量语义门按实际字节重跑；未满足全量硬验收前不合main、不标done。

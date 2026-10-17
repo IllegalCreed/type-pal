@@ -21,7 +21,7 @@ Template: task-card-v1 / 1.0.0
 
 冻结源为 `3fae68aec8f448bf83d1d85e61da35c94d5200ae` 的 `document-registry.json`：1,047,444 字节，SHA256 `921eaef61673fdf83c69763e1f2e9a72e55b08afaf67bc8b5930dbd08331ae33`，2374 条，剩余 1132 字节。main 仍为 `28fd9013e09e8792decbff2fa117aae14c36b196`，本任务只在候选 worktree 推进。
 
-当前 449 条 content-reviewed / 443 条 template-compliant 是账本继承投影，不是本卡新认证。1896 条历史撤回中仅 S02 已重授一篇；S01 在撤回集合之外。固定 1838 cohort 不因拆分或新增文件变化。
+冻结源的449条content-reviewed / 443条template-compliant是账本继承投影，不是本卡新认证。当时1896条历史撤回中仅S02已重授；S01在撤回集合之外。后续单篇接入另有固定报告和变更记录，固定1838 cohort不因拆分或新增文件变化。
 
 ## 上下文锚点
 
@@ -53,7 +53,7 @@ Codex build allowed，仅隔离文档存储候选。`receipt_integrity_independe
 
 ## Review: 审查与返工
 
-设计与固定实现分别获得限定接收；中央真实接入待核，任务仍build，不将存储验收误称正文或全量验收。全量strict/require-complete仍真实失败。
+设计、固定实现和c4d的存储中央增量分别获得限定接收；S03/S04固定65ee30ad也已获限定接收；本次确认写回及新增变化另验，任务仍build，不将存储验收误称正文或全量验收。全量strict/require-complete仍真实失败。
 
 设计原报告与110项产物已按原SHA/无损gzip映射接入[本卡证据](../evidence/DOCS-REGISTRY-SPLIT-1/README.md)。以下保留拆分前的初轮待验观察；固定95的逐项闭合见下节，旧反例本身不重写成通过：
 
@@ -69,6 +69,16 @@ Codex build allowed，仅隔离文档存储候选。`receipt_integrity_independe
 - root中央接入脚本首版在owned/tmp被独立检出输出前置、引用环、伪独立布尔升档和并发自动pin四类counter；首版从未用于仓库。固定344623版先核DAG/输出排他FD，升档仅许S03/S04固定body+report SHA，所有target绑定精确已核bytes。独立合法pending/S03与完整七条donor的S04正反针通过，真实中央计划和结果仍须另验。发布后竞态并非事务回滚，原始捕获与空输出区别保留。
 - 新报告、无损映射、设计/本卡、七片等逐项登记partial/needs；原2374继承条目不因扩容升档。行政board/index仅核原新增registry任务行与producer字节，不借此称全索引或全部卡语义重审。
 - 首轮中央入账33项后，实际178工具通过、文档结构零问题，但lint因四份原始报告格式不合规则失败，完整raw保留。原始报告移入已指明的无损容器，同名文件只作JSON值相等的格式化阅读投影；配对表分别钉原件与展示SHA，未篡改命令数字、exit或原报告。修正后须重跑，不把首次失败改成通过。
+
+### c4d00d3e存储中央增量的非作者接收
+
+- [独立中央报告](../evidence/DOCS-REGISTRY-SPLIT-1/independent-central-intake-review-c4d00d3e.json)SHA `add7c29d52352b7239947931a852d8b05ba6b28c83b0bb5fb0c1fd76cea765cb`，限定固定c4d：原2374对象/序/缺省不变，33新增全partial/needs，2407唯一绑定与所有after pin匹配；无任何新增正文语义升档。
+- 非作者实际核1859运输行、666唯一容器、四个原件/阅读投影的双SHA与JSON值相等、原migration2374位置映射及110设计产物。两次自身probe假设失败与后继v2原样保留，不伪装成候选counter或抹去失败。
+- 其独立178工具与lint4485零诊断，完整docs/strict/progress仍FAIL。438/1838是当时继承投影，board/index仅行政pin修正令计数回增2，不是本轮新重审两篇；报告明确当时仅S01/S02已接入，不外推后来的S03/S04组合字节。原133项清单与manifest本身的134项运输见[接入表](../evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-central-c4d.json)。
+
+### 固定65ee30ad的两篇中央迁移接收
+
+[非作者报告](../evidence/DOCS-REGISTRY-SPLIT-1/independent-S03-S04-central-review-65ee30ad.json)SHA `f3f8674ff4bb1e9887088095a950f55fd85261bd9420d9fe3979bd420f6e6821`核2407→2411→2414、R60 8→7→6、其他旧对象/键序/缺省与25个Git一手pin，七新增仍pending。364原payload与stored身份相等，146项运输含原manifest；原178/lint4492零诊断与完整门FAIL并存。两次自身harness错误原样保留。只关闭固定65待项，不外推本次确认写回、S05/S06、全量语义或运行验收；原1896重授计数仍3/1893。
 
 ## 用户验收
 

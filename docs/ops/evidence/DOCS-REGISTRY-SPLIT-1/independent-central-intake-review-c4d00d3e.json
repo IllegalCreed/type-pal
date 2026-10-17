@@ -1,0 +1,1648 @@
+{
+  "kind": "independent-frozen-central-registry-storage-intake-review",
+  "reviewerTask": "/root/receipt_integrity_independent",
+  "authorTask": "/root",
+  "underlyingStorageImplementationAuthorTask": "/root/registry_storage_author",
+  "nonAuthorReviewer": true,
+  "identityBasis": "Root authored the central registration, reader-projection transport, maintenance plan/pins and candidate docs. This reviewer did not edit these or candidate code/data. Reviewer authored three older independent reports retained here: comparison of their original bytes is provenance checking, not a fresh independent review or promotion of reviewer-authored report content. Current central-intake decision is against root-owned changes and actual fixed bytes.",
+  "candidateCommit": "c4d00d3e697a8ef59a76a03c3ebc3e5eb8a18f2d",
+  "parentCommit": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+  "checkout": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+  "finalCheckoutClean": true,
+  "mainUnchanged": "28fd9013e09e8792decbff2fa117aae14c36b196",
+  "sourcePins": [
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/AGENTS.md",
+      "bytes": 6028,
+      "sha256": "24771e0310c9dec44df9912d09179d3540724971306e0095ca252b190e318a8e",
+      "repoPath": "AGENTS.md"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/ops/guides/documentation-model.md",
+      "bytes": 9468,
+      "sha256": "3a087aec18bd1e3a5918f7ba01fd440696c43411f743cbd5c185a93b9f1fae50",
+      "repoPath": "docs/ops/guides/documentation-model.md"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/ops/agent-workflow.md",
+      "bytes": 9567,
+      "sha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
+      "repoPath": "docs/ops/agent-workflow.md"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+      "bytes": 8286,
+      "sha256": "6d25ff996945a9bcd3f6b7050d76f6ec8a2489265a14d7b33659e6214744a90d",
+      "repoPath": "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+      "bytes": 288263,
+      "sha256": "762505f24eecd1c88dee341eb470ac019c679d7c4d03c9f7288ff27d725afd7f",
+      "repoPath": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md",
+      "bytes": 4549,
+      "sha256": "178d25a21f7ea531e83d63c0ac24c630aa82867c0ce2fdbaab3104a90a86d367",
+      "repoPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/ops/evidence/README.md",
+      "bytes": 12896,
+      "sha256": "4fddc5b071a22e29f024b291c602d2683fbec0ae48c5aeaef1b1eb3873faba8c",
+      "repoPath": "docs/ops/evidence/README.md"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/phase-governance/reviews/README.md",
+      "bytes": 8471,
+      "sha256": "1caba70a1f60c0cd257274d8d8432eb6f0b7df48b5b70e16c624f8f2be5cfcfa",
+      "repoPath": "docs/phase-governance/reviews/README.md"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/ops/board.md",
+      "bytes": 3938,
+      "sha256": "3a1d55c5df9da820c098a2dc2082d94fc0233182d36aacf567e585daa578b6f2",
+      "repoPath": "docs/ops/board.md"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/ops/tasks/index.md",
+      "bytes": 72477,
+      "sha256": "bed1612cd2346b3ab44e84fcea8bd2d0ca51ab64da88b1132f225d1fc3f0a496",
+      "repoPath": "docs/ops/tasks/index.md"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/phase-governance/reviews/20261018-document-registry-storage-v2-design.md",
+      "bytes": 9012,
+      "sha256": "830e81119d2936f6cc714bcb75a1fd6f66b7d15663656fa0cf7d4bc888c4a75c",
+      "repoPath": "docs/phase-governance/reviews/20261018-document-registry-storage-v2-design.md"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/canonical-intake-b7534fc5.json",
+      "bytes": 4644,
+      "sha256": "bb469792e9250a39f836f78353334098e077a4261cb265cf899b93242dc9c7f7",
+      "repoPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/canonical-intake-b7534fc5.json"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-central-guard-review-v1.json",
+      "bytes": 7374,
+      "sha256": "b907624989dbb7b9c45cc1e9931f16e52437e27b0913503d95a79d7085433c14",
+      "repoPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-central-guard-review-v1.json"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-central-guard-followup-34462316.json",
+      "bytes": 7876,
+      "sha256": "fbd237c8e0230181a0435b6e202c3f37f0c414e9dcd61479db9b220720531685",
+      "repoPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-central-guard-followup-34462316.json"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-s04-guard-addendum-34462316.json",
+      "bytes": 4980,
+      "sha256": "6eaa056f1e7bf16dd398040242ed5db03dee388493a263c89ed2974ad9b4b358",
+      "repoPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-s04-guard-addendum-34462316.json"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/scripts/docs/document-registry.mjs",
+      "bytes": 17576,
+      "sha256": "96743250d7e3a20c9bc348ff7f86c3728cf9f05a48e81dd65496333ca2a4047a",
+      "repoPath": "scripts/docs/document-registry.mjs"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/scripts/docs/check-content-review.mjs",
+      "bytes": 7429,
+      "sha256": "e7041f5deae5bee28a5931a3b6f8dcc2833ef72fd81f91bc5ed6ff95431a96e3",
+      "repoPath": "scripts/docs/check-content-review.mjs"
+    },
+    {
+      "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/scripts/docs/report-governance-progress.mjs",
+      "bytes": 6671,
+      "sha256": "f4fb211024b66edd2b490b4138345c142a2e514e4aa6a36a959ccb3b17488c98",
+      "repoPath": "scripts/docs/report-governance-progress.mjs"
+    }
+  ],
+  "readScope": [
+    "Full current AGENTS/model/workflow and storage card; full dedicated evidence README, canonical snapshot receipt and three guard review reports. Actual append-only delta of full-template card and two navigation entries read. Board/index only already-reviewed one-task administrative delta/current producer bytes, not all364cards.",
+    "Complete native2374ordered prefix object comparison including key order/absent optionals and seven unchanged native metadata values; explicit summary recomputed after33pending additions. Every2407registry/review binding and actual after SHA mechanically read and compared.",
+    "Six review JSON files parsed in full to compare all old fields/entry order and exact10pin+maintenance-only changes, plus33new pending entries. New per-entry coreConclusion/readMethod/source/after/state/stop-line fields assessed as pending registration. This does not deeply rereview all business prose/fields in those large JSON bodies.",
+    "All1859transport mapping rows/666unique stored paths decoded/hash/length checked; four reader views compared with original JSON values and original source identity.110design artifacts and all2374original migration mapping rows/8historical snapshot target translations independently checked.",
+    "Actual root first-registration/correction plans/results, fixed344623runner copies and native session receipts/raw inspected; source plan hash and runner hash matched. Reviewer did not run private writer against repository. Existing subset counter results remain those report authors observations; current actual result bytes were independently checked.",
+    "All1896affected statuses and original scope/quarantine fields versus58e; known two preexisting integrity-audit acceptance metadata additions distinguished from immutable original fields. Independent current full docs/strict/progress/lint/index/full-range/staged commands captured separately."
+  ],
+  "mechanicalFindings": [
+    {
+      "id": "ORIGINAL-NATIVE-DATA",
+      "verdict": "verified",
+      "evidence": {
+        "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/registry-audit.stdout",
+        "bytes": 36594,
+        "sha256": "4e7431a211767d8a2786ab62c1617fe1bafc27650110e056592cc9f02a43feb3"
+      },
+      "sourceCommit": "3fae68aec8f448bf83d1d85e61da35c94d5200ae",
+      "sourceSha256": "921eaef61673fdf83c69763e1f2e9a72e55b08afaf67bc8b5930dbd08331ae33",
+      "originalOrderedPrefixEntries": 2374,
+      "entryObjectsIncludingKeyOrderAndAbsenceEqual": true,
+      "unchangedMetadata": [
+        "id",
+        "generatedBy",
+        "policy",
+        "roots",
+        "extensions",
+        "structuralRoots",
+        "scopeNote"
+      ],
+      "summaryBefore": {
+        "total": 2374,
+        "byPhase": {
+          "ops": 1280,
+          "lore": 14,
+          "phase1": 60,
+          "phase2": 109,
+          "phase3": 5,
+          "phase-governance": 147,
+          "testing": 759
+        },
+        "byType": {
+          "task-card": 364,
+          "guide-runbook": 17,
+          "archive-record": 1494,
+          "audit-report": 60,
+          "governance-index": 107,
+          "evidence-receipt": 108,
+          "design-spec": 37,
+          "quality-gate": 1,
+          "test-machine-evidence": 49,
+          "reference-canon": 38,
+          "narrative-idea": 2,
+          "plan-status": 70,
+          "test-e2e-stage": 6,
+          "test-run-report": 6,
+          "test-domain-report": 10,
+          "test-contract": 1,
+          "test-catalog": 4
+        },
+        "reviewStatus": {
+          "partial-review-unknown": 1925,
+          "content-reviewed": 449
+        },
+        "templateCompliance": {
+          "needs-migration": 1931,
+          "template-compliant": 443
+        }
+      },
+      "summaryAfter": {
+        "total": 2407,
+        "byPhase": {
+          "ops": 1305,
+          "lore": 14,
+          "phase1": 60,
+          "phase2": 109,
+          "phase3": 5,
+          "phase-governance": 155,
+          "testing": 759
+        },
+        "byType": {
+          "task-card": 365,
+          "guide-runbook": 17,
+          "archive-record": 1494,
+          "audit-report": 60,
+          "governance-index": 108,
+          "evidence-receipt": 131,
+          "design-spec": 38,
+          "quality-gate": 1,
+          "test-machine-evidence": 49,
+          "reference-canon": 38,
+          "narrative-idea": 2,
+          "plan-status": 70,
+          "test-e2e-stage": 6,
+          "test-run-report": 6,
+          "test-domain-report": 10,
+          "test-contract": 1,
+          "test-catalog": 11
+        },
+        "reviewStatus": {
+          "partial-review-unknown": 1958,
+          "content-reviewed": 449
+        },
+        "templateCompliance": {
+          "needs-migration": 1964,
+          "template-compliant": 443
+        }
+      },
+      "decision": "Only explicit summary counts grow by33pending items: reviewed449/compliant443 do not grow. generatedBy/roots/policy/scopeNote retain historical native meanings, no optional default backfill or directory-based phase rewriting."
+    },
+    {
+      "id": "EXPLICIT-33-PENDING-REGISTRATIONS",
+      "verdict": "verified-no-semantic-promotion",
+      "newCount": 33,
+      "breakdown": {
+        "designAndCard": 2,
+        "shards": 7,
+        "evidenceFilesNewInThisCommit": 20,
+        "preexistingEvidenceCandidatesPreviouslyUnregistered": 4
+      },
+      "evidenceCandidates": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md",
+          "existedInParent": true
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-native-path-db814e3c.json",
+          "existedInParent": false
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-storage-37adc410.json",
+          "existedInParent": false
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-unicode-95def601.json",
+          "existedInParent": false
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/canonical-intake-b7534fc5.json",
+          "existedInParent": false
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/design-intake-38f18ff9.json",
+          "existedInParent": true
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/implementation-output-counter.json",
+          "existedInParent": true
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-central-guard-followup-34462316.json",
+          "existedInParent": false
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-central-guard-review-v1.json",
+          "existedInParent": false
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-design-review-38f18ff9.json",
+          "existedInParent": true
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-implementation-review-37adc410-rework.json",
+          "existedInParent": false
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-s04-guard-addendum-34462316.json",
+          "existedInParent": false
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-storage-path-review-db814e3c-rework.json",
+          "existedInParent": false
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-storage-review-95def601-scoped-accept.json",
+          "existedInParent": false
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-37-late-snapshot.json",
+          "existedInParent": false
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-native-path-db814e3c.json",
+          "existedInParent": false
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-unicode-95def601.json",
+          "existedInParent": false
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-central-guard-s04-subset.json",
+          "existedInParent": false
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-central-guard-v1-rework.json",
+          "existedInParent": false
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-central-guard-v2-followup.json",
+          "existedInParent": false
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-37-rework.json",
+          "existedInParent": false
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-95-scoped-accept.json",
+          "existedInParent": false
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-db-rework.json",
+          "existedInParent": false
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-root-canonical-b7534fc5.json",
+          "existedInParent": false
+        }
+      ],
+      "entries": [
+        {
+          "path": "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u5b58\u50a8\u62c6\u5206\u5361\u8bb0\u5f552.0.2\u51c6\u5165\u3001\u552f\u4e00\u5b9e\u73b0Owner\u3001\u4e09\u6b21\u5019\u9009/\u4e24\u7c7b\u8def\u5f84counter\u4e0e\u9650\u5b9a\u63a5\u6536\uff1b\u4e2d\u592e\u767b\u8bb0\u4ecd\u9700\u72ec\u7acb\u9a8c\u6536\uff0c\u4efb\u52a1\u4fdd\u6301build\u3002",
+          "readMethod": "Explicit pending registration: Root actual full card and own new implementation/guard history delta; pending-document registration only; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "6d25ff996945a9bcd3f6b7050d76f6ec8a2489265a14d7b33659e6214744a90d"
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261018-document-registry-storage-v2-design.md",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u56fa\u5b9a2.0.2\u8bbe\u8ba1\u7ea6\u675f\u8584manifest/\u4e03\u7247\u3001\u539f\u751f\u5b57\u6bb5\u7f3a\u7701/\u5168\u5e8f\u4fdd\u5168\u3001\u5171\u540c\u9501\u548c\u663e\u5f0f\u6620\u5c04\uff1b\u8bbe\u8ba1\u63a5\u6536\u4e0e\u5b9e\u73b0/\u5168\u91cf\u6b63\u6587\u5206\u5f00\u3002",
+          "readMethod": "Explicit pending registration: Root authored full73-line design; distinct frozen design report accepted design only; pending template registration; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "830e81119d2936f6cc714bcb75a1fd6f66b7d15663656fa0cf7d4bc888c4a75c"
+        },
+        {
+          "path": "docs/phase-governance/document-registry.ops.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u539f2374\u8d26\u672c\u6309\u539f\u751fphase\u5206\u7247\u4e2d\u7684ops\u7247\uff1bpositions\u91cd\u5efa\u5168\u5e8f\uff0c\u539f\u53ef\u9009\u5b57\u6bb5/\u72b6\u6001\u4e0d\u5347\u6863\u3002\u540e\u7eed\u65b0\u589e\u6ce8\u518c\u5fc5\u987b\u7ecf\u540c\u4e00\u516c\u5f00writer\uff0c\u673a\u5668\u5bf9\u8c61\u4e0d\u8f6c\u6563\u6587\u3002",
+          "readMethod": "Explicit pending registration: All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "c94f0548748763c010fd5fdfac36badc3e3f55f6e04ffd503c944d602397951d"
+        },
+        {
+          "path": "docs/phase-governance/document-registry.lore.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u539f2374\u8d26\u672c\u6309\u539f\u751fphase\u5206\u7247\u4e2d\u7684lore\u7247\uff1bpositions\u91cd\u5efa\u5168\u5e8f\uff0c\u539f\u53ef\u9009\u5b57\u6bb5/\u72b6\u6001\u4e0d\u5347\u6863\u3002\u540e\u7eed\u65b0\u589e\u6ce8\u518c\u5fc5\u987b\u7ecf\u540c\u4e00\u516c\u5f00writer\uff0c\u673a\u5668\u5bf9\u8c61\u4e0d\u8f6c\u6563\u6587\u3002",
+          "readMethod": "Explicit pending registration: All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "a5f6d4f5a2930528d651fdf1559aab701a9090e828b1ff0ca6545d7250185af5"
+        },
+        {
+          "path": "docs/phase-governance/document-registry.phase1.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u539f2374\u8d26\u672c\u6309\u539f\u751fphase\u5206\u7247\u4e2d\u7684phase1\u7247\uff1bpositions\u91cd\u5efa\u5168\u5e8f\uff0c\u539f\u53ef\u9009\u5b57\u6bb5/\u72b6\u6001\u4e0d\u5347\u6863\u3002\u540e\u7eed\u65b0\u589e\u6ce8\u518c\u5fc5\u987b\u7ecf\u540c\u4e00\u516c\u5f00writer\uff0c\u673a\u5668\u5bf9\u8c61\u4e0d\u8f6c\u6563\u6587\u3002",
+          "readMethod": "Explicit pending registration: All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "9ccb32a113f5d757ef646b496b186bd3049b2d9ea4272444cb40d7810f77e92e"
+        },
+        {
+          "path": "docs/phase-governance/document-registry.phase2.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u539f2374\u8d26\u672c\u6309\u539f\u751fphase\u5206\u7247\u4e2d\u7684phase2\u7247\uff1bpositions\u91cd\u5efa\u5168\u5e8f\uff0c\u539f\u53ef\u9009\u5b57\u6bb5/\u72b6\u6001\u4e0d\u5347\u6863\u3002\u540e\u7eed\u65b0\u589e\u6ce8\u518c\u5fc5\u987b\u7ecf\u540c\u4e00\u516c\u5f00writer\uff0c\u673a\u5668\u5bf9\u8c61\u4e0d\u8f6c\u6563\u6587\u3002",
+          "readMethod": "Explicit pending registration: All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "ef532d88a2b094a7b17c3c65b32afaf42f87dbf0efbf3796c31071b4cd2e5cc4"
+        },
+        {
+          "path": "docs/phase-governance/document-registry.phase3.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u539f2374\u8d26\u672c\u6309\u539f\u751fphase\u5206\u7247\u4e2d\u7684phase3\u7247\uff1bpositions\u91cd\u5efa\u5168\u5e8f\uff0c\u539f\u53ef\u9009\u5b57\u6bb5/\u72b6\u6001\u4e0d\u5347\u6863\u3002\u540e\u7eed\u65b0\u589e\u6ce8\u518c\u5fc5\u987b\u7ecf\u540c\u4e00\u516c\u5f00writer\uff0c\u673a\u5668\u5bf9\u8c61\u4e0d\u8f6c\u6563\u6587\u3002",
+          "readMethod": "Explicit pending registration: All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "d4c7fb0b3ea28e355159b24fd6cf2911fe5b7258aae8002af4a2871788bd93b7"
+        },
+        {
+          "path": "docs/phase-governance/document-registry.phase-governance.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u539f2374\u8d26\u672c\u6309\u539f\u751fphase\u5206\u7247\u4e2d\u7684phase-governance\u7247\uff1bpositions\u91cd\u5efa\u5168\u5e8f\uff0c\u539f\u53ef\u9009\u5b57\u6bb5/\u72b6\u6001\u4e0d\u5347\u6863\u3002\u540e\u7eed\u65b0\u589e\u6ce8\u518c\u5fc5\u987b\u7ecf\u540c\u4e00\u516c\u5f00writer\uff0c\u673a\u5668\u5bf9\u8c61\u4e0d\u8f6c\u6563\u6587\u3002",
+          "readMethod": "Explicit pending registration: All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "0888ba9d004a25eca6265dccee21814eea9f4e980ed959374667d1fe53fe30a6"
+        },
+        {
+          "path": "docs/phase-governance/document-registry.testing.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u539f2374\u8d26\u672c\u6309\u539f\u751fphase\u5206\u7247\u4e2d\u7684testing\u7247\uff1bpositions\u91cd\u5efa\u5168\u5e8f\uff0c\u539f\u53ef\u9009\u5b57\u6bb5/\u72b6\u6001\u4e0d\u5347\u6863\u3002\u540e\u7eed\u65b0\u589e\u6ce8\u518c\u5fc5\u987b\u7ecf\u540c\u4e00\u516c\u5f00writer\uff0c\u673a\u5668\u5bf9\u8c61\u4e0d\u8f6c\u6563\u6587\u3002",
+          "readMethod": "Explicit pending registration: All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u5b58\u50a8\u8bc1\u636e\u5165\u53e3\u5206\u522b\u8def\u7531\u8bbe\u8ba1\u300137/db\u539f\u8fd4\u5de5\u300195\u9650\u5b9a\u63a5\u6536\u3001root canonical\u6620\u5c04\u548c\u4e2d\u592e\u811a\u672c\u62a4\u680f\uff1b\u6240\u6709\u672a\u6765\u4e2d\u592e/\u5168\u91cf\u8303\u56f4\u7ee7\u7eed\u5f85\u9a8c\u3002",
+          "readMethod": "Explicit pending registration: Root full current index and actual cited report scopes; no renewed downstream semantic credit; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "178d25a21f7ea531e83d63c0ac24c630aa82867c0ce2fdbaab3104a90a86d367"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-native-path-db814e3c.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u539f\u751fauthor-native-document-path-correction-addendum\u8bb0\u5f55\uff0c\u9650\u5b9averdict=producer-specific scope\uff1b\u539fproducer/\u5019\u9009/\u5931\u8d25/raw\u8fb9\u754c\u4fdd\u6301\uff0c\u5c1a\u672a\u5bf9\u8be5\u6587\u4ef6\u672c\u8eab\u6388\u8bed\u4e49/\u6a21\u677f\u5b8c\u6210\u3002",
+          "readMethod": "Explicit pending registration: Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "f24ae48faff9d49e627b380c5b0c1d98d5853406945e473fc21e2c85a62107b8"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-storage-37adc410.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u539f\u751fauthor-implementation-delivery\u8bb0\u5f55\uff0c\u9650\u5b9averdict=producer-specific scope\uff1b\u539fproducer/\u5019\u9009/\u5931\u8d25/raw\u8fb9\u754c\u4fdd\u6301\uff0c\u5c1a\u672a\u5bf9\u8be5\u6587\u4ef6\u672c\u8eab\u6388\u8bed\u4e49/\u6a21\u677f\u5b8c\u6210\u3002",
+          "readMethod": "Explicit pending registration: Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "7b6fa9d3f63acf1ede968ca8a67f0dc58d3c586d6c2e6735612774c7a2cca6a1"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-unicode-95def601.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u539f\u751fauthor-unicode-scalar-path-correction-addendum\u8bb0\u5f55\uff0c\u9650\u5b9averdict=producer-specific scope\uff1b\u539fproducer/\u5019\u9009/\u5931\u8d25/raw\u8fb9\u754c\u4fdd\u6301\uff0c\u5c1a\u672a\u5bf9\u8be5\u6587\u4ef6\u672c\u8eab\u6388\u8bed\u4e49/\u6a21\u677f\u5b8c\u6210\u3002",
+          "readMethod": "Explicit pending registration: Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "118ba377563ed1ae742fadc5a76c14bad0222ed00c5af8b068dd602d53e7c1a2"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/canonical-intake-b7534fc5.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u539f\u751froot-canonical-storage-intake-mechanical-verification\u8bb0\u5f55\uff0c\u9650\u5b9averdict=producer-specific scope\uff1b\u539fproducer/\u5019\u9009/\u5931\u8d25/raw\u8fb9\u754c\u4fdd\u6301\uff0c\u5c1a\u672a\u5bf9\u8be5\u6587\u4ef6\u672c\u8eab\u6388\u8bed\u4e49/\u6a21\u677f\u5b8c\u6210\u3002",
+          "readMethod": "Explicit pending registration: Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "bb469792e9250a39f836f78353334098e077a4261cb265cf899b93242dc9c7f7"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/design-intake-38f18ff9.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u56fa\u5b9a38f\u8bbe\u8ba1\u975e\u4f5c\u8005\u62a5\u544a\u4e0e110\u9879\u539fartifact\u7684\u7cbe\u786e\u65e0\u635f\u8fd0\u8f93\u6620\u5c04\uff0c\u539f\u8d85\u65f6/\u5931\u8d25\u4fdd\u7559\uff0c\u8fd0\u8f93\u672c\u8eab\u4e0d\u6388\u8bbe\u8ba1\u4ee5\u5916\u5b8c\u6210\u3002",
+          "readMethod": "Explicit pending registration: Original design transport scope and payload manifest byte verification; not semantic acceptance of this map; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "f89304ab24ba5726e6a83dcd50114834957716aa2b2edb5957b541754efe5e2e"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/implementation-output-counter.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u8bb0\u5f55\u65e7CLI\u7f3amapping\u7236\u76ee\u5f55\u65f6exit1\u5374\u5148\u53d1\u5e03\u7684\u771f\u5b9e\u53cd\u4f8b\uff0c\u53ca\u73b0\u6709\u8f93\u51fa\u62d2\u7edd\u7684\u901a\u8fc7\u5bf9\u7167\uff1b\u5b8c\u6574\u539f\u6a21\u5757\u672a\u51bb\u7ed3\u9650\u5236\u4fdd\u7559\uff0c\u4e0d\u80fd\u8865\u9020\u5386\u53f2\u8f93\u5165\u3002",
+          "readMethod": "Explicit pending registration: Root actual original observation and exact subsequent transport, existing-output control and source-retention limitation; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "1ec544659c876ea6f3bebcc1fa9c621f3eab8344ca03c6daec1086745fcd7044"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-central-guard-followup-34462316.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u539f\u751fnon-author-central-intake-guard-followup\u8bb0\u5f55\uff0c\u9650\u5b9averdict=Limited acceptance of fixes for the tested IO/authority/pin guard counters. Real central intake plan and resulting byte/status/pin changes still require separate non-author verification.\uff1b\u539fproducer/\u5019\u9009/\u5931\u8d25/raw\u8fb9\u754c\u4fdd\u6301\uff0c\u5c1a\u672a\u5bf9\u8be5\u6587\u4ef6\u672c\u8eab\u6388\u8bed\u4e49/\u6a21\u677f\u5b8c\u6210\u3002",
+          "readMethod": "Explicit pending registration: Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "fbd237c8e0230181a0435b6e202c3f37f0c414e9dcd61479db9b220720531685"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-central-guard-review-v1.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u539f\u751fnon-author-central-intake-guard-review\u8bb0\u5f55\uff0c\u9650\u5b9averdict=counter; do not execute frozen first revision against a repository\uff1b\u539fproducer/\u5019\u9009/\u5931\u8d25/raw\u8fb9\u754c\u4fdd\u6301\uff0c\u5c1a\u672a\u5bf9\u8be5\u6587\u4ef6\u672c\u8eab\u6388\u8bed\u4e49/\u6a21\u677f\u5b8c\u6210\u3002",
+          "readMethod": "Explicit pending registration: Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "b907624989dbb7b9c45cc1e9931f16e52437e27b0913503d95a79d7085433c14"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-design-review-38f18ff9.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u975e\u4f5c\u8005\u56fa\u5b9a\u8bbe\u8ba12.0.2\u62a5\u544a\u53ea\u63a5\u6536\u8bbe\u8ba1\uff0c\u4fdd\u7559\u72ec\u7acb\u5b8c\u6574\u95e8\u8d85\u65f6\u3001strict/progress\u5931\u8d25\u548c\u884c\u653fpin\u5f85\u63a5\u5165\uff0c\u4e0d\u5192\u79f0\u5b9e\u73b0\u9a8c\u6536\u3002",
+          "readMethod": "Explicit pending registration: Whole report identity/design verdict/counter/command-limit fields, all manifest bytes; source business scope only as explicitly reported; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "992fac9597ff974dc6a3d5d26ee447d2409173f9fd6f341b1d2cfe1099130870"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-implementation-review-37adc410-rework.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u539f\u751fnon-author-registry-storage-implementation-rework-review\u8bb0\u5f55\uff0c\u9650\u5b9averdict=rework-REGISTRY-NATIVE-DOCUMENT-PATH\uff1b\u539fproducer/\u5019\u9009/\u5931\u8d25/raw\u8fb9\u754c\u4fdd\u6301\uff0c\u5c1a\u672a\u5bf9\u8be5\u6587\u4ef6\u672c\u8eab\u6388\u8bed\u4e49/\u6a21\u677f\u5b8c\u6210\u3002",
+          "readMethod": "Explicit pending registration: Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "3c9af2fac53ab494c1df83416d5e19431e753f7236353cbb7e819a38086ffdda"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-s04-guard-addendum-34462316.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u539f\u751fnon-author-S04-central-intake-guard-addendum\u8bb0\u5f55\uff0c\u9650\u5b9averdict=S04 fixed-body/report positive and exact-identity negative guards accepted in owned temporary fixture only.\uff1b\u539fproducer/\u5019\u9009/\u5931\u8d25/raw\u8fb9\u754c\u4fdd\u6301\uff0c\u5c1a\u672a\u5bf9\u8be5\u6587\u4ef6\u672c\u8eab\u6388\u8bed\u4e49/\u6a21\u677f\u5b8c\u6210\u3002",
+          "readMethod": "Explicit pending registration: Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "6eaa056f1e7bf16dd398040242ed5db03dee388493a263c89ed2974ad9b4b358"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-storage-path-review-db814e3c-rework.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u539f\u751findependent-frozen-storage-path-correction-review\u8bb0\u5f55\uff0c\u9650\u5b9averdict=rework\uff1b\u539fproducer/\u5019\u9009/\u5931\u8d25/raw\u8fb9\u754c\u4fdd\u6301\uff0c\u5c1a\u672a\u5bf9\u8be5\u6587\u4ef6\u672c\u8eab\u6388\u8bed\u4e49/\u6a21\u677f\u5b8c\u6210\u3002",
+          "readMethod": "Explicit pending registration: Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "7c4929eec1b9e15bb2b826f1582a60e8844f8870a45a72e443220647b35b8d7d"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-storage-review-95def601-scoped-accept.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u539f\u751findependent-frozen-registry-storage-implementation-and-scalar-correction-review\u8bb0\u5f55\uff0c\u9650\u5b9averdict=accept\uff1b\u539fproducer/\u5019\u9009/\u5931\u8d25/raw\u8fb9\u754c\u4fdd\u6301\uff0c\u5c1a\u672a\u5bf9\u8be5\u6587\u4ef6\u672c\u8eab\u6388\u8bed\u4e49/\u6a21\u677f\u5b8c\u6210\u3002",
+          "readMethod": "Explicit pending registration: Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "6753b624bd867d706db48cf5e110c960b3c28e4ed97fd001b676183dda7b1d0d"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-37-late-snapshot.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u65e0\u635f\u8fd0\u8f93\u6620\u5c04\uff1aAuthor storage37 self-checks plus actual later append-only command-index snapshot captured now; original37 report/mapping dates and claims unchanged. This snapshot is not reconstructed original37 complete runtime output. \u9010\u9879\u5217590\u4e2a\u6e90\u8def\u5f84\u53capayload/stored\u53ccSHA\u3001\u5b57\u8282\u6570\u548c\u89e3\u7801\u65b9\u5f0f\uff1b\u8fd0\u8f93\u4e0d\u6388\u4fe1\u7528\u3002",
+          "readMethod": "Explicit pending registration: Complete transport field/row shape and all590source/stored payload byte checks; no body semantic review of transported files; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "f81b4f86720bf79071da92191e8e6aa9503dd0487efa20e64b2b56020e5240e1"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-native-path-db814e3c.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u65e0\u635f\u8fd0\u8f93\u6620\u5c04\uff1aFrozen author path patch self-check; distinct non-author closure required. \u9010\u9879\u521785\u4e2a\u6e90\u8def\u5f84\u53capayload/stored\u53ccSHA\u3001\u5b57\u8282\u6570\u548c\u89e3\u7801\u65b9\u5f0f\uff1b\u8fd0\u8f93\u4e0d\u6388\u4fe1\u7528\u3002",
+          "readMethod": "Explicit pending registration: Complete transport field/row shape and all85source/stored payload byte checks; no body semantic review of transported files; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "cc2bc8ec7a2d5d0a31ec8b40cc8b27088778ef8d71673be983809ae3d3cf07ef"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-unicode-95def601.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u65e0\u635f\u8fd0\u8f93\u6620\u5c04\uff1aFrozen author path patch self-check; distinct non-author closure required. \u9010\u9879\u521779\u4e2a\u6e90\u8def\u5f84\u53capayload/stored\u53ccSHA\u3001\u5b57\u8282\u6570\u548c\u89e3\u7801\u65b9\u5f0f\uff1b\u8fd0\u8f93\u4e0d\u6388\u4fe1\u7528\u3002",
+          "readMethod": "Explicit pending registration: Complete transport field/row shape and all79source/stored payload byte checks; no body semantic review of transported files; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "b7020bb0cc88e67297f777960064642d1a031a91c435bd45dddf7299194782f8"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-central-guard-s04-subset.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u65e0\u635f\u8fd0\u8f93\u6620\u5c04\uff1aFixed344623 runner legal S04 full-R60-seven-entry subset fixture positive and wrong-body/report refusal only; not actual central. \u9010\u9879\u5217108\u4e2a\u6e90\u8def\u5f84\u53capayload/stored\u53ccSHA\u3001\u5b57\u8282\u6570\u548c\u89e3\u7801\u65b9\u5f0f\uff1b\u8fd0\u8f93\u4e0d\u6388\u4fe1\u7528\u3002",
+          "readMethod": "Explicit pending registration: Complete transport field/row shape and all108source/stored payload byte checks; no body semantic review of transported files; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "56f2f13502b163016d112ec8781a3f7f6a61f6585131aed2541afe5157195910"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-central-guard-v1-rework.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u65e0\u635f\u8fd0\u8f93\u6620\u5c04\uff1aNever-applied root maintenance runner v1 real IO/authority/DAG/concurrent-target failures in owned fixtures only. \u9010\u9879\u5217110\u4e2a\u6e90\u8def\u5f84\u53capayload/stored\u53ccSHA\u3001\u5b57\u8282\u6570\u548c\u89e3\u7801\u65b9\u5f0f\uff1b\u8fd0\u8f93\u4e0d\u6388\u4fe1\u7528\u3002",
+          "readMethod": "Explicit pending registration: Complete transport field/row shape and all110source/stored payload byte checks; no body semantic review of transported files; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "c68aa3a3c9fda0289c3fb425fb85f5ec2c06669113061948e4bc4efb28ebc62d"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-central-guard-v2-followup.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u65e0\u635f\u8fd0\u8f93\u6620\u5c04\uff1aFrozen344623 runner tested guard fixes and legal pending/S03-subset migration only. Actual central intake and S04 positive case not covered by this report. \u9010\u9879\u5217201\u4e2a\u6e90\u8def\u5f84\u53capayload/stored\u53ccSHA\u3001\u5b57\u8282\u6570\u548c\u89e3\u7801\u65b9\u5f0f\uff1b\u8fd0\u8f93\u4e0d\u6388\u4fe1\u7528\u3002",
+          "readMethod": "Explicit pending registration: Complete transport field/row shape and all201source/stored payload byte checks; no body semantic review of transported files; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "84717337c9db1d7599bd877ed8d7b0c63a07acf7d95919d69b4d5f4ada9d8681"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-37-rework.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u65e0\u635f\u8fd0\u8f93\u6620\u5c04\uff1a37 rework due actual first-dot traversal/alias; supported preservation/locking/mapping/admin delta scopes remain bounded. \u9010\u9879\u5217202\u4e2a\u6e90\u8def\u5f84\u53capayload/stored\u53ccSHA\u3001\u5b57\u8282\u6570\u548c\u89e3\u7801\u65b9\u5f0f\uff1b\u8fd0\u8f93\u4e0d\u6388\u4fe1\u7528\u3002",
+          "readMethod": "Explicit pending registration: Complete transport field/row shape and all202source/stored payload byte checks; no body semantic review of transported files; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "05b2939d1d5955562806e1fc8048760bc239914bf6b092d344445a6200fa5598"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-95-scoped-accept.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u65e0\u635f\u8fd0\u8f93\u6620\u5c04\uff1aFixed95 native-path/scalar counter closure and original2374 storage acceptance only; prior37/db rework preserved. \u9010\u9879\u5217229\u4e2a\u6e90\u8def\u5f84\u53capayload/stored\u53ccSHA\u3001\u5b57\u8282\u6570\u548c\u89e3\u7801\u65b9\u5f0f\uff1b\u8fd0\u8f93\u4e0d\u6388\u4fe1\u7528\u3002",
+          "readMethod": "Explicit pending registration: Complete transport field/row shape and all229source/stored payload byte checks; no body semantic review of transported files; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "d25461ade0c9828bcd1192b4379873ec947acc7f0456b0da83187ee108748526"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-db-rework.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u65e0\u635f\u8fd0\u8f93\u6620\u5c04\uff1adb original dot/empty closure; escaped surrogate same-native-file counter remains rework. Old37 package preserved. \u9010\u9879\u5217250\u4e2a\u6e90\u8def\u5f84\u53capayload/stored\u53ccSHA\u3001\u5b57\u8282\u6570\u548c\u89e3\u7801\u65b9\u5f0f\uff1b\u8fd0\u8f93\u4e0d\u6388\u4fe1\u7528\u3002",
+          "readMethod": "Explicit pending registration: Complete transport field/row shape and all250source/stored payload byte checks; no body semantic review of transported files; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "01a47907496a52885d2650f50ed81d88b6459d1d920d6f5eff6fb5e923cbb478"
+        },
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-root-canonical-b7534fc5.json",
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "coreConclusion": "\u65e0\u635f\u8fd0\u8f93\u6620\u5c04\uff1aActual root isolated canonical storage mechanical verification: original2374, eight native metadata and eight fixed95 files/mapping translations; no semantic grant. \u9010\u9879\u52175\u4e2a\u6e90\u8def\u5f84\u53capayload/stored\u53ccSHA\u3001\u5b57\u8282\u6570\u548c\u89e3\u7801\u65b9\u5f0f\uff1b\u8fd0\u8f93\u4e0d\u6388\u4fe1\u7528\u3002",
+          "readMethod": "Explicit pending registration: Complete transport field/row shape and all5source/stored payload byte checks; no body semantic review of transported files; no full semantic/template or product acceptance from registration.",
+          "afterSha256": "2d24fb8198cd34bc9940a3b16416716d1dd018f0f592a5bd120e5597b73cf264"
+        }
+      ],
+      "decision": "Every new registry+review entry is partial-review-unknown/needs-migration, no artifactOnly. Template family is a pending binding. Twenty new evidence files plus four earlier deferred evidence candidates explain24evidence registrations; total33does not change fixed1838cohort."
+    },
+    {
+      "id": "UNIQUE-BINDINGS-AND-PINS",
+      "verdict": "verified",
+      "registryEntries": 2407,
+      "uniqueReviewBindings": 2407,
+      "afterPinDrift": 0,
+      "changedReviewFiles": [
+        "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+        "docs/phase-governance/reviews/20261017-r39-ops-evidence-readmes.json",
+        "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+        "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+        "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+        "docs/phase-governance/reviews/20261018-record-integrity-rework.json"
+      ],
+      "oldPinChanges": [
+        {
+          "record": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+          "path": "docs/ops/board.md",
+          "previousAfterSha256": "38be765d96a0cb688bfab92965cf59791d42634a267075983ebfd6751304a651",
+          "afterSha256": "3a1d55c5df9da820c098a2dc2082d94fc0233182d36aacf567e585daa578b6f2",
+          "method": "Existing accepted body inherited. Only3fae\u219237 exact added registry task row independently checked by report3c9af2; no full board/card rereview or new semantic grant.",
+          "statusUnchanged": "content-reviewed"
+        },
+        {
+          "record": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+          "path": "docs/ops/tasks/index.md",
+          "previousAfterSha256": "b72083dfb2dedf727d7d7d63a1326ce8b9fb2527848f5dbff12dc3595b62e083",
+          "afterSha256": "bed1612cd2346b3ab44e84fcea8bd2d0ca51ab64da88b1132f225d1fc3f0a496",
+          "method": "Existing accepted body inherited. Exact one registry task row and real print-task-index equality independently checked by report3c9af2; no all-card semantic rereview.",
+          "statusUnchanged": "content-reviewed"
+        },
+        {
+          "record": "docs/phase-governance/reviews/20261017-r39-ops-evidence-readmes.json",
+          "path": "docs/ops/evidence/README.md",
+          "previousAfterSha256": "029dcd97a76701d55113e3c5dfd54e0bcd589667f59e13cf7dd751179aec9b3e",
+          "afterSha256": "4fddc5b071a22e29f024b291c602d2683fbec0ae48c5aeaef1b1eb3873faba8c",
+          "method": "Root actually read sole new registry evidence navigation link relative3fae; target exists, other body inherited; no new semantic acceptance.",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "record": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "path": "docs/phase-governance/reviews/README.md",
+          "previousAfterSha256": "6f07fdc168c175fc136592d03dd10725c14c3c3aecc48666bbc9d42032b1fecc",
+          "afterSha256": "1caba70a1f60c0cd257274d8d8432eb6f0b7df48b5b70e16c624f8f2be5cfcfa",
+          "method": "Root actually read sole new frozen storage design link relative3fae; no new semantic credit.",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "record": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+          "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+          "previousAfterSha256": "ed085526bec89ec97181a4b023011eddc409c12b2fbf467b2658dd4b549a7fe4",
+          "afterSha256": "444aa7c6adff0bd9f93f7d3ca5582542da12debba0eb925b53b6337910f8cf18",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "record": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+          "path": "docs/phase-governance/reviews/20261017-r39-ops-evidence-readmes.json",
+          "previousAfterSha256": "629fefc146931f729f387eeb85877e5aab813dc1a13ee695f014e86fee6b4f19",
+          "afterSha256": "e87a3b59dc254f642948494843d827bd1f35715c70e245a1c25c787a0da42db3",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "record": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+          "path": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+          "previousAfterSha256": "2c9e0b1b38838f832ee63e4f2cdec375b399834124fd38f24494038cf20d7f3f",
+          "afterSha256": "a18e013bdc1150d2474b4934ff158ce7f2dcf7a97c67a8a20c91b6a61f5b6538",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "record": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+          "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+          "previousAfterSha256": "0683575ccdb0f87fb0155a8ad03955dd015db1432534c8c673fd97b328f7fb02",
+          "afterSha256": "3594e501e29347f1a809a7f5194fc53bc7bced86787f5f90ab59778f9fa48ca8",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "record": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+          "path": "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+          "previousAfterSha256": "5bff1b0e7ba901c807f05d27c4b6ebadb23ec81247ca8bd1357c315e7a8811f1",
+          "afterSha256": "762505f24eecd1c88dee341eb470ac019c679d7c4d03c9f7288ff27d725afd7f",
+          "method": "Root actually authored/read S03 fixed-body limited acceptance, S04/S05 isolated author admission appended since3fae; task remainsrework and no central S03/S04 credit yet.",
+          "statusUnchanged": "partial-review-unknown"
+        },
+        {
+          "record": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+          "path": "docs/phase-governance/document-registry.json",
+          "previousAfterSha256": "921eaef61673fdf83c69763e1f2e9a72e55b08afaf67bc8b5930dbd08331ae33",
+          "afterSha256": "83431dd65e939aca7fbdfee5ae08c7e728e69286d10838516775a1280a9993cd",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "statusUnchanged": "partial-review-unknown"
+        }
+      ],
+      "decision": "Exactly10old entry changes are afterSha256 plus appended explicit maintenanceDeltas. Prior sourceSha, conclusions, status, template credit, old binding history and other fields/order stay identical. previousAfter and new actual after preserved; 33new pending entries added in dedicated rework packet. No blind full refresh."
+    },
+    {
+      "id": "PIN-DELTA-REASONS",
+      "verdict": "limited-maintenance-accepted",
+      "sourceDelta": {
+        "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/sources/actual-pin-target-body-deltas.txt",
+        "bytes": 6678,
+        "sha256": "fa0972ea51e2dd84c32950352c7b2a8f9e57517fd993cb0d61ffa0fb6c806c61"
+      },
+      "administrativeDelta": {
+        "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/sources/administrative-one-task-delta.txt",
+        "bytes": 2866,
+        "sha256": "3878ab184526c9de289a0581f875234cbf9ab53b1c93bb360f0cd63719f2f990"
+      },
+      "decision": "Board/index equal fixed37 already-reviewed single registry-task build/Owner row; actual print-task-index equals current bytes. Two README targets add one scoped storage/design link each. Full-template card appends fixed S03 isolated acceptance and S04/S05 author admission with no actual central credit. Four upstream review-file pins propagate exact child bytes; registry pin names explicit storage publication. These are limited target/dependency changes, not full body/whole-index rereview."
+    },
+    {
+      "id": "IMMUTABLE-REPORTS-VS-READER-VIEWS",
+      "verdict": "accepted-lossless-explicit-projection",
+      "evidence": {
+        "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/transport-audit-v2.stdout",
+        "bytes": 13473,
+        "sha256": "e18fccdf82c41ddb8fd2c248ca049d31baf26252041350bc77eb2a86b35805c8"
+      },
+      "mappedPayloadRows": 1859,
+      "uniqueStoredPaths": 666,
+      "allStoredAndPayloadHashBytesExact": true,
+      "formattedViews": [
+        {
+          "map": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-37-late-snapshot.json",
+          "formattedViewPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-storage-37adc410.json",
+          "formattedViewSha256": "7b6fa9d3f63acf1ede968ca8a67f0dc58d3c586d6c2e6735612774c7a2cca6a1",
+          "formattedViewBytes": 18511,
+          "originalRetainedPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/30c498b298458dfaf5ab5ebc25adf46bae2372a15b313cc0df45f71880df953c.gz",
+          "originalSha256": "30c498b298458dfaf5ab5ebc25adf46bae2372a15b313cc0df45f71880df953c",
+          "originalBytes": 18601,
+          "storedSha256": "f2afafc2ca756ea3af6265f34674d3678c74da025eacfa37f2d1ea87b7f34ecd",
+          "storedBytes": 6149,
+          "nativeJsonValueEquality": true,
+          "scope": "Whitespace-only reader projection; immutable original report identity resolves through gzip transport map, not this formatted view."
+        },
+        {
+          "map": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-native-path-db814e3c.json",
+          "formattedViewPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-native-path-db814e3c.json",
+          "formattedViewSha256": "f24ae48faff9d49e627b380c5b0c1d98d5853406945e473fc21e2c85a62107b8",
+          "formattedViewBytes": 8196,
+          "originalRetainedPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/5042f58e15e60ebb7c8bc3db5735b3b4d05701f6dec1d22f6a00100b74904993.gz",
+          "originalSha256": "5042f58e15e60ebb7c8bc3db5735b3b4d05701f6dec1d22f6a00100b74904993",
+          "originalBytes": 8334,
+          "storedSha256": "372a524983689aa25f415d2d588cd515494bc7d19f54744e6fd9496421d27dae",
+          "storedBytes": 3452,
+          "nativeJsonValueEquality": true,
+          "scope": "Whitespace-only reader projection; immutable original report identity resolves through gzip transport map, not this formatted view."
+        },
+        {
+          "map": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-unicode-95def601.json",
+          "formattedViewPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-unicode-95def601.json",
+          "formattedViewSha256": "118ba377563ed1ae742fadc5a76c14bad0222ed00c5af8b068dd602d53e7c1a2",
+          "formattedViewBytes": 7766,
+          "originalRetainedPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/1321a9bb69782e3c9084498b5f8e159fbd1fb10fe3768e7e9ccf7c2e0231f46a.gz",
+          "originalSha256": "1321a9bb69782e3c9084498b5f8e159fbd1fb10fe3768e7e9ccf7c2e0231f46a",
+          "originalBytes": 7910,
+          "storedSha256": "01686b92e3958deab656671e3a68c082839637e3ca4de07cdd59a4580c6ab87d",
+          "storedBytes": 3504,
+          "nativeJsonValueEquality": true,
+          "scope": "Whitespace-only reader projection; immutable original report identity resolves through gzip transport map, not this formatted view."
+        },
+        {
+          "map": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-central-guard-v1-rework.json",
+          "formattedViewPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-central-guard-review-v1.json",
+          "formattedViewSha256": "b907624989dbb7b9c45cc1e9931f16e52437e27b0913503d95a79d7085433c14",
+          "formattedViewBytes": 7374,
+          "originalRetainedPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/643f9f68f28f79499cfd843a9180e97028087d01bdff471f5c93fb2c06f8ca4f.gz",
+          "originalSha256": "643f9f68f28f79499cfd843a9180e97028087d01bdff471f5c93fb2c06f8ca4f",
+          "originalBytes": 7630,
+          "storedSha256": "dddb8229f952ee220995e34d66336f5464e61ee75f8c5dacdb593389bcda6d76",
+          "storedBytes": 3141,
+          "nativeJsonValueEquality": true,
+          "scope": "Whitespace-only reader projection; immutable original report identity resolves through gzip transport map, not this formatted view."
+        }
+      ],
+      "originalSourceDriftAtReview": [],
+      "ownOriginal37Db95ReportBytesExact": true,
+      "decision": "Only four same-name reports are whitespace-format reader projections: three author reports and original central-guard-v1 report. Original gzip payload SHA/bytes and stored SHA/bytes remain explicit; all native JSON values, command numbers and verdict/identity fields equal. Original report identity resolves to gzip, never projected-file SHA. Raw author/independent reports do not acquire new execution or business-quality credit."
+    },
+    {
+      "id": "SOURCE-MAPPING-AND-REAL-PLAN",
+      "verdict": "verified",
+      "evidence": {
+        "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/mapping-plan-audit.stdout",
+        "bytes": 10870,
+        "sha256": "67ff13090cc6f4c52e06cd3e6036ba46e38cc060a1bba9a719755a8b6ca25375"
+      },
+      "mappingSha256": "40399f4dd454c7edc01714d4ae0c6109c68db176d2426482f55249cd047b9b7f",
+      "mappingRows": 2374,
+      "historicalCanonicalTranslations": 8,
+      "designArtifacts": 110,
+      "realCentralPlans": [
+        {
+          "name": "storage-registration-first",
+          "planSha256": "0d0adb137cec75380730449c42027f4181ac7f28f75d230c61f448ce47ddceb0",
+          "runnerSha256": "344623167e2f7f7111dd59ac5664624b9558f1f158459a995b300ccd61ba902d",
+          "newRegistrations": 33,
+          "semanticRegistryUpdates": 0,
+          "wholeReviewEdits": 0,
+          "explicitPinReasons": {
+            "docs/ops/board.md": "Existing accepted body inherited. Only3fae\u219237 exact added registry task row independently checked by report3c9af2; no full board/card rereview or new semantic grant.",
+            "docs/ops/tasks/index.md": "Existing accepted body inherited. Exact one registry task row and real print-task-index equality independently checked by report3c9af2; no all-card semantic rereview.",
+            "docs/ops/evidence/README.md": "Root actually read sole new registry evidence navigation link relative3fae; target exists, other body inherited; no new semantic acceptance.",
+            "docs/phase-governance/reviews/README.md": "Root actually read sole new frozen storage design link relative3fae; no new semantic credit.",
+            "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md": "Root actually authored/read S03 fixed-body limited acceptance, S04/S05 isolated author admission appended since3fae; task remainsrework and no central S03/S04 credit yet.",
+            "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md": "Root current report-routing index delta only; pending semantic/template acceptance."
+          },
+          "actualRegistryChanges": 33,
+          "preflight": {
+            "sourceFiles": [
+              {
+                "path": "/Users/zhangxu/illegal/type-pal-docs-audit-rework/docs/phase-governance/document-registry.json",
+                "sha256": "be2b3540835468c1be306e4981f6460f547f953d3b786b68b544a53504cc7d4a"
+              },
+              {
+                "path": "/Users/zhangxu/illegal/type-pal-docs-audit-rework/docs/phase-governance/document-registry.ops.json",
+                "sha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6"
+              },
+              {
+                "path": "/Users/zhangxu/illegal/type-pal-docs-audit-rework/docs/phase-governance/document-registry.lore.json",
+                "sha256": "a5f6d4f5a2930528d651fdf1559aab701a9090e828b1ff0ca6545d7250185af5"
+              },
+              {
+                "path": "/Users/zhangxu/illegal/type-pal-docs-audit-rework/docs/phase-governance/document-registry.phase1.json",
+                "sha256": "9ccb32a113f5d757ef646b496b186bd3049b2d9ea4272444cb40d7810f77e92e"
+              },
+              {
+                "path": "/Users/zhangxu/illegal/type-pal-docs-audit-rework/docs/phase-governance/document-registry.phase2.json",
+                "sha256": "ef532d88a2b094a7b17c3c65b32afaf42f87dbf0efbf3796c31071b4cd2e5cc4"
+              },
+              {
+                "path": "/Users/zhangxu/illegal/type-pal-docs-audit-rework/docs/phase-governance/document-registry.phase3.json",
+                "sha256": "d4c7fb0b3ea28e355159b24fd6cf2911fe5b7258aae8002af4a2871788bd93b7"
+              },
+              {
+                "path": "/Users/zhangxu/illegal/type-pal-docs-audit-rework/docs/phase-governance/document-registry.phase-governance.json",
+                "sha256": "24376e367ae40c34e81cd041323521ce35fadbc92e6cec8f661d551b2d02653e"
+              },
+              {
+                "path": "/Users/zhangxu/illegal/type-pal-docs-audit-rework/docs/phase-governance/document-registry.testing.json",
+                "sha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932"
+              }
+            ],
+            "totalAfter": 2407,
+            "explicitPartialAdditions": 33,
+            "explicitBindingUpdates": 0,
+            "inheritedStatusesAreNotRecertified": true
+          }
+        },
+        {
+          "name": "storage-reader-projection-correction",
+          "planSha256": "18b73170eed7cf96155bcd02c1ae0fde04979d9954e3b977c4d82acfe1d22c6b",
+          "runnerSha256": "344623167e2f7f7111dd59ac5664624b9558f1f158459a995b300ccd61ba902d",
+          "newRegistrations": 0,
+          "semanticRegistryUpdates": 0,
+          "wholeReviewEdits": 0,
+          "explicitPinReasons": {
+            "docs/ops/board.md": "Existing accepted body inherited. Only3fae\u219237 exact added registry task row independently checked by report3c9af2; no full board/card rereview or new semantic grant.",
+            "docs/ops/tasks/index.md": "Existing accepted body inherited. Exact one registry task row and real print-task-index equality independently checked by report3c9af2; no all-card semantic rereview.",
+            "docs/ops/evidence/README.md": "Root actually read sole new registry evidence navigation link relative3fae; target exists, other body inherited; no new semantic acceptance.",
+            "docs/phase-governance/reviews/README.md": "Root actually read sole new frozen storage design link relative3fae; no new semantic credit.",
+            "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md": "Root actually authored/read S03 fixed-body limited acceptance, S04/S05 isolated author admission appended since3fae; task remainsrework and no central S03/S04 credit yet.",
+            "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md": "Root current navigation now distinguishes original/raw versus formatted reader SHA and declares fixed central-session artifact ownership; no new document completion.",
+            "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-native-path-db814e3c.json": "Original raw report retained byte-exact in gzip; this same-name reader projection is project-Biome formatted and JSON-value-equal. Dual original/view identities and actual first lint failure are explicit in intake map; no semantic grant.",
+            "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-storage-37adc410.json": "Original raw report retained byte-exact in gzip; this same-name reader projection is project-Biome formatted and JSON-value-equal. Dual original/view identities and actual first lint failure are explicit in intake map; no semantic grant.",
+            "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-unicode-95def601.json": "Original raw report retained byte-exact in gzip; this same-name reader projection is project-Biome formatted and JSON-value-equal. Dual original/view identities and actual first lint failure are explicit in intake map; no semantic grant.",
+            "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-central-guard-review-v1.json": "Original raw report retained byte-exact in gzip; this same-name reader projection is project-Biome formatted and JSON-value-equal. Dual original/view identities and actual first lint failure are explicit in intake map; no semantic grant.",
+            "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-native-path-db814e3c.json": "Actual transport correction: immutable original now resolves to gzip, distinct formattedReaderViews provide display SHA/bytes and native JSON equality; no original payload or command result edited.",
+            "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-37-late-snapshot.json": "Actual transport correction: immutable original now resolves to gzip, distinct formattedReaderViews provide display SHA/bytes and native JSON equality; no original payload or command result edited.",
+            "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-unicode-95def601.json": "Actual transport correction: immutable original now resolves to gzip, distinct formattedReaderViews provide display SHA/bytes and native JSON equality; no original payload or command result edited.",
+            "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-central-guard-v1-rework.json": "Actual transport correction: immutable original now resolves to gzip, distinct formattedReaderViews provide display SHA/bytes and native JSON equality; no original payload or command result edited.",
+            "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md": "Root explicitly appended initial four-format-error failure, lossless original versus readable projection handling and pending rerun; status staysbuild."
+          },
+          "actualRegistryChanges": 0,
+          "preflight": {
+            "sourceFiles": [
+              {
+                "path": "/Users/zhangxu/illegal/type-pal-docs-audit-rework/docs/phase-governance/document-registry.json",
+                "sha256": "83431dd65e939aca7fbdfee5ae08c7e728e69286d10838516775a1280a9993cd"
+              },
+              {
+                "path": "/Users/zhangxu/illegal/type-pal-docs-audit-rework/docs/phase-governance/document-registry.ops.json",
+                "sha256": "c94f0548748763c010fd5fdfac36badc3e3f55f6e04ffd503c944d602397951d"
+              },
+              {
+                "path": "/Users/zhangxu/illegal/type-pal-docs-audit-rework/docs/phase-governance/document-registry.lore.json",
+                "sha256": "a5f6d4f5a2930528d651fdf1559aab701a9090e828b1ff0ca6545d7250185af5"
+              },
+              {
+                "path": "/Users/zhangxu/illegal/type-pal-docs-audit-rework/docs/phase-governance/document-registry.phase1.json",
+                "sha256": "9ccb32a113f5d757ef646b496b186bd3049b2d9ea4272444cb40d7810f77e92e"
+              },
+              {
+                "path": "/Users/zhangxu/illegal/type-pal-docs-audit-rework/docs/phase-governance/document-registry.phase2.json",
+                "sha256": "ef532d88a2b094a7b17c3c65b32afaf42f87dbf0efbf3796c31071b4cd2e5cc4"
+              },
+              {
+                "path": "/Users/zhangxu/illegal/type-pal-docs-audit-rework/docs/phase-governance/document-registry.phase3.json",
+                "sha256": "d4c7fb0b3ea28e355159b24fd6cf2911fe5b7258aae8002af4a2871788bd93b7"
+              },
+              {
+                "path": "/Users/zhangxu/illegal/type-pal-docs-audit-rework/docs/phase-governance/document-registry.phase-governance.json",
+                "sha256": "0888ba9d004a25eca6265dccee21814eea9f4e980ed959374667d1fe53fe30a6"
+              },
+              {
+                "path": "/Users/zhangxu/illegal/type-pal-docs-audit-rework/docs/phase-governance/document-registry.testing.json",
+                "sha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932"
+              }
+            ],
+            "totalAfter": 2407,
+            "explicitPartialAdditions": 0,
+            "explicitBindingUpdates": 0,
+            "inheritedStatusesAreNotRecertified": true
+          }
+        }
+      ],
+      "decision": "Original mapping target paths untouched. All sourceIndex/objectSHA/shard/localIndex/globalpositions still address native objects. Eight explicit translations are checked against b753snapshot and original generated targets, not falsely claimed as final2407whole-file hashes. Actual first plan adds33, corrected plan adds0; both have0registryUpdates/0wholeReviewEdits and fixed344623runner."
+    },
+    {
+      "id": "WITHDRAWALS-AND-FIVE-QUARANTINES",
+      "verdict": "preserved",
+      "evidence": {
+        "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/withdrawal-audit-v2.stdout",
+        "bytes": 3206,
+        "sha256": "3ea4f8085322ab930794e35a50a8b352dc89625bd12c48f55395d9b9edbde98c"
+      },
+      "affectedOriginal": 1896,
+      "reacceptedAffected": 1,
+      "reacceptedPath": "docs/testing/governance.md",
+      "remainingAffectedPartialNeeds": 1895,
+      "originalScopeAndQuarantineFieldsUnchanged": true,
+      "knownPreexistingAuditAdditions": ["independentCorrectiveAcceptance", "semanticReacceptance"],
+      "decision": "All original58e audit fields are equal; two explicit prior acceptance metadata additions were already in parent and unchanged here. Other scoped source/control bytes and six scope parts equal58eexact. No new withdrawal removal or five-receipt execution credit. S01 is outside affected1896; S01/S02central packet is unchanged."
+    },
+    {
+      "id": "NO-S03-S04-CENTRAL-GRANT",
+      "verdict": "verified",
+      "semanticReworkEntries": [
+        {
+          "path": "docs/phase2/READ-FIRST.md",
+          "status": "content-reviewed"
+        },
+        {
+          "path": "docs/testing/governance.md",
+          "status": "content-reviewed"
+        }
+      ],
+      "decision": "Only S01/S02 are currently bound in successor semantic packet. S03/S04 remain partial/needs. Guard followup demonstrates owned S03 subset only; S04 addendum uses selected10-entry fixture/full-seven-entry donor, not actual central2374. Their public API snapshots were db, not independent95code acceptance. They grant no root actual result acceptance by themselves."
+    },
+    {
+      "id": "ROOT-FAILED-GATES-RETAINED",
+      "verdict": "verified",
+      "sessions": [
+        {
+          "name": "storage-gates-corrected",
+          "transport": {
+            "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/storage-gates-corrected/transport.json.gz",
+            "bytes": 2350,
+            "sha256": "80278d6e905c9007ccde1fd3732efdd0dc60e0da4ed8a6774c926a7cab6560e1"
+          },
+          "files": 21,
+          "sourceDirectory": "/tmp/type-pal-central-storage-corrected-ybskt1_g",
+          "owner": "/root",
+          "caller": "isolated root documentation governance intake; see original execution.json or command-specific native receipts"
+        },
+        {
+          "name": "storage-gates-first-format-fail",
+          "transport": {
+            "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/storage-gates-first-format-fail/transport.json.gz",
+            "bytes": 2440,
+            "sha256": "0885d6e6fd09d41d48b13ae4f296a50bbadf8d4b1cd9e2c091bbde66924cbbe4"
+          },
+          "files": 21,
+          "sourceDirectory": "/tmp/type-pal-central-storage-intake-b_mk763n",
+          "owner": "/root",
+          "caller": "isolated root documentation governance intake; see original execution.json or command-specific native receipts"
+        },
+        {
+          "name": "storage-reader-projection-correction",
+          "transport": {
+            "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/storage-reader-projection-correction/transport.json.gz",
+            "bytes": 1914,
+            "sha256": "17112307527cfdf600731477e945d8a8eacaeb63a7d8f81fbd754a67a12e97b3"
+          },
+          "files": 13,
+          "sourceDirectory": "/tmp/type-pal-v2-explicit-plan-9ml6iabo",
+          "owner": "/root",
+          "caller": "isolated root documentation governance intake; see original execution.json or command-specific native receipts"
+        },
+        {
+          "name": "storage-registration-first",
+          "transport": {
+            "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/storage-registration-first/transport.json.gz",
+            "bytes": 1476,
+            "sha256": "49c65e9d414046a773365bf8a039356cfea3bb2272c8c5ed5b63ba4366007d46"
+          },
+          "files": 8,
+          "sourceDirectory": "/tmp/type-pal-v2-explicit-plan-xmq_old8",
+          "owner": "/root",
+          "caller": "isolated root documentation governance intake; see original execution.json or command-specific native receipts"
+        }
+      ],
+      "firstLintExit": 1,
+      "firstLintFormatErrors": 4,
+      "laterLintExit": 0,
+      "laterLintFiles": 4485,
+      "laterLintDiagnostics": 0,
+      "decision": "Both native captures/raw survive exact transport. Corrected gates do not rewrite initial lint4failure. Root result remains self-check, separate from current reviewers independent commands. First reviewer verifier used wrong text spelling for first error count, preserved below."
+    }
+  ],
+  "strongestAlternatives": [
+    {
+      "alternative": "Byte equality/deep JSON equality could be mistaken for semantic acceptance of transported reports or2374document bodies.",
+      "judgment": "Rejected scope expansion: checks establish storage/transport only. New33staypartial; original statuses inherit, none are promoted. No business prose or runtime acceptance is inferred."
+    },
+    {
+      "alternative": "Current2407orzeroafterdrift can replace1838denominator or make full gate pass.",
+      "judgment": "False: fixed1838cohort remains; current full docs/strict/progress exit1. Pin repair changes inherited migration projection436\u2192438by two existing accepted board/index pins, with no registry status promotion."
+    },
+    {
+      "alternative": "Same-name formatted report replaces the immutable original and destroys rework evidence.",
+      "judgment": "Original bytes actually decode with fixed hashes; projected JSON values equal, map explicitly distinguishes display/original identities and first failure. Thus lossless reader projection is acceptable within this explicit evidence contract."
+    },
+    {
+      "alternative": "344623guard report or successful actual plan means cross-file transactions or every source/body has independent semantic acceptance.",
+      "judgment": "Not established: trusted-plan maintenance has no multi-file rollback, arbitrary external writes remain outside cooperative lock, and failed post-reservation output may be empty. Independent result verification here is limited to c4dand does not extend to future S03/S04 combinations."
+    }
+  ],
+  "currentQuality": {
+    "fullCheckDocs": {
+      "exitCode": 1,
+      "durationSeconds": 46.085460125000004,
+      "timedOut": false,
+      "toolTests": 178,
+      "pass": 178,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "markdown": 1300,
+      "localLinks": 8105,
+      "tasks": 364,
+      "docsIssues": 0,
+      "documentModelIssues": 0,
+      "testingDocsIssues": 0,
+      "phaseLoreDocuments": 184,
+      "strictDocuments": 2407,
+      "partialReviewUnknown": 1958,
+      "contentReviewed": 449,
+      "warningRetained": "Actual pnpm local-node_modules warning and ELIFECYCLE retained. No install or rule weakening."
+    },
+    "lint": {
+      "exitCode": 0,
+      "files": 4485,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0
+    },
+    "strict": {
+      "exitCode": 1,
+      "passed": false
+    },
+    "requireComplete": {
+      "exitCode": 1,
+      "approvedCohort": 1838,
+      "cohortMigrated": 438,
+      "cohortPending": 1400,
+      "currentCandidates": 2407,
+      "currentPending": 1964,
+      "incrementalMigrated": 5,
+      "issues": [],
+      "exercisedTemplates": 17,
+      "projectionExplanation": "438rather than436reflects two already accepted administrative targets matching repaired pins; source registry reviewed/compliant counts remain449/443. Not two new full semantic reviews."
+    },
+    "diff": {
+      "completeMain28fdThroughC4dExit": 0,
+      "centralParentB753ThroughC4dExit": 0,
+      "stagedExit": 0
+    },
+    "sourceTools": "All scripts/docs bytes equal accepted95; no current delta in product/old tests/coverage/shared rules. Current178suite reruns tooling; this review did not repeat standalone50suite because code is same and178includes it.",
+    "processState": "All15captured commands have exact argv/cwd/time/exit/signal/rawSHA; bounded command processes completed no timeout/signal/spawn error with empty own after-wait process groups. No foreign process cleanup performed."
+  },
+  "actualCommands": [
+    {
+      "name": "central-parent-diff",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "c4d00d3e697a8ef59a76a03c3ebc3e5eb8a18f2d",
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "b7534fc5b2d9d9c640f311d548cf64d96f51d92d..c4d00d3e697a8ef59a76a03c3ebc3e5eb8a18f2d"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:54:07.058957+00:00",
+      "endedAt": "2026-10-17T21:54:07.179860+00:00",
+      "durationSeconds": 0.12077500000000001,
+      "pid": 23784,
+      "ownProcessGroup": 23784,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/central-parent-diff.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/central-parent-diff.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "check-docs",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "c4d00d3e697a8ef59a76a03c3ebc3e5eb8a18f2d",
+      "argv": ["pnpm", "check:docs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:54:07.065310+00:00",
+      "endedAt": "2026-10-17T21:54:53.151134+00:00",
+      "durationSeconds": 46.085460125000004,
+      "pid": 23788,
+      "ownProcessGroup": 23788,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/check-docs.stdout",
+        "bytes": 44039,
+        "sha256": "c41a1d0fb04226166aed298ab7d94c704ef1865718334ca216ea672f2206325b"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/check-docs.stderr",
+        "bytes": 487070,
+        "sha256": "ad47c7e0ee16f3ef060b17b6bb4dccfc3656cacbd288d088bb4491a65af68c22"
+      }
+    },
+    {
+      "name": "detach",
+      "argv": ["git", "switch", "--detach", "c4d00d3e697a8ef59a76a03c3ebc3e5eb8a18f2d"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "startedAt": "2026-10-17T21:53:54.176710+00:00",
+      "endedAt": "2026-10-17T21:53:54.328195+00:00",
+      "exitCode": 0,
+      "signal": null,
+      "beforeCommit": "95def6014dddcebaac7e10b8b7e98f6e3ca57df3",
+      "candidateCommit": "c4d00d3e697a8ef59a76a03c3ebc3e5eb8a18f2d",
+      "beforeClean": true,
+      "afterClean": true,
+      "stdout": {
+        "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/detach.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/detach.stderr",
+        "bytes": 181,
+        "sha256": "8824221173e6ba3262be6731831c6f218aca78073ad8059f2c472241d76b18ab"
+      }
+    },
+    {
+      "name": "full-main-base-diff",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "c4d00d3e697a8ef59a76a03c3ebc3e5eb8a18f2d",
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "28fd9013e09e8792decbff2fa117aae14c36b196..c4d00d3e697a8ef59a76a03c3ebc3e5eb8a18f2d"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:54:07.067935+00:00",
+      "endedAt": "2026-10-17T21:54:07.350811+00:00",
+      "durationSeconds": 0.28284025,
+      "pid": 23789,
+      "ownProcessGroup": 23789,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/full-main-base-diff.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/full-main-base-diff.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "lint",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "c4d00d3e697a8ef59a76a03c3ebc3e5eb8a18f2d",
+      "argv": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:54:07.053706+00:00",
+      "endedAt": "2026-10-17T21:54:11.676371+00:00",
+      "durationSeconds": 4.622426,
+      "pid": 23782,
+      "ownProcessGroup": 23782,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/lint.stdout",
+        "bytes": 197,
+        "sha256": "6de16da5a6214fa66d92369ff21397b8474c00df5350e978c000fe2e2ea9feb9"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/lint.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "mapping-plan-audit",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "c4d00d3e697a8ef59a76a03c3ebc3e5eb8a18f2d",
+      "argv": [
+        "node",
+        "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/mapping_plan_audit.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:56:51.350522+00:00",
+      "endedAt": "2026-10-17T21:56:52.851812+00:00",
+      "durationSeconds": 1.5012077080000001,
+      "pid": 59986,
+      "ownProcessGroup": 59986,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/private/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/mapping-plan-audit.stdout",
+        "bytes": 10870,
+        "sha256": "67ff13090cc6f4c52e06cd3e6036ba46e38cc060a1bba9a719755a8b6ca25375"
+      },
+      "stderr": {
+        "path": "/private/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/mapping-plan-audit.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "print-task-index",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "c4d00d3e697a8ef59a76a03c3ebc3e5eb8a18f2d",
+      "argv": ["node", "scripts/docs/check.mjs", "--print-task-index"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:54:07.062801+00:00",
+      "endedAt": "2026-10-17T21:54:08.732797+00:00",
+      "durationSeconds": 1.669816375,
+      "pid": 23785,
+      "ownProcessGroup": 23785,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/print-task-index.stdout",
+        "bytes": 72477,
+        "sha256": "bed1612cd2346b3ab44e84fcea8bd2d0ca51ab64da88b1132f225d1fc3f0a496"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/print-task-index.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "progress",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "c4d00d3e697a8ef59a76a03c3ebc3e5eb8a18f2d",
+      "argv": [
+        "node",
+        "scripts/docs/report-governance-progress.mjs",
+        "--require-complete",
+        "--json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:54:07.057723+00:00",
+      "endedAt": "2026-10-17T21:54:12.217596+00:00",
+      "durationSeconds": 5.15964825,
+      "pid": 23783,
+      "ownProcessGroup": 23783,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/progress.stdout",
+        "bytes": 137915,
+        "sha256": "aa8cc6e8e79147c6d2afe0c4341700f39b0bdd2c1f308d32b401bfe00e52ce82"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/progress.stderr",
+        "bytes": 89,
+        "sha256": "464c356152392bb35f5535c6bddb27b81425b1a2a4e075ba2dc3c35e60773917"
+      }
+    },
+    {
+      "name": "registry-audit",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "c4d00d3e697a8ef59a76a03c3ebc3e5eb8a18f2d",
+      "argv": [
+        "node",
+        "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/registry_audit.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:54:57.739263+00:00",
+      "endedAt": "2026-10-17T21:54:58.352258+00:00",
+      "durationSeconds": 0.612924125,
+      "pid": 97198,
+      "ownProcessGroup": 97198,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/private/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/registry-audit.stdout",
+        "bytes": 36594,
+        "sha256": "4e7431a211767d8a2786ab62c1617fe1bafc27650110e056592cc9f02a43feb3"
+      },
+      "stderr": {
+        "path": "/private/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/registry-audit.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "staged-diff",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "c4d00d3e697a8ef59a76a03c3ebc3e5eb8a18f2d",
+      "argv": ["git", "diff", "--cached", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:54:07.063723+00:00",
+      "endedAt": "2026-10-17T21:54:07.126934+00:00",
+      "durationSeconds": 0.06308887499999999,
+      "pid": 23786,
+      "ownProcessGroup": 23786,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/staged-diff.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/staged-diff.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "strict",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "c4d00d3e697a8ef59a76a03c3ebc3e5eb8a18f2d",
+      "argv": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:54:07.065322+00:00",
+      "endedAt": "2026-10-17T21:54:08.136657+00:00",
+      "durationSeconds": 1.071228041,
+      "pid": 23787,
+      "ownProcessGroup": 23787,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/strict.stdout",
+        "bytes": 94,
+        "sha256": "d30b27296deb68e611ea01cb5f77d94b1aa60f5ab6f8e8d03a757fc96cf45768"
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/strict.stderr",
+        "bytes": 487070,
+        "sha256": "ad47c7e0ee16f3ef060b17b6bb4dccfc3656cacbd288d088bb4491a65af68c22"
+      }
+    },
+    {
+      "name": "transport-audit-v2",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "c4d00d3e697a8ef59a76a03c3ebc3e5eb8a18f2d",
+      "argv": [
+        "python3",
+        "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/transport_audit_v2.py"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:55:37.857503+00:00",
+      "endedAt": "2026-10-17T21:55:38.258913+00:00",
+      "durationSeconds": 0.40130829199999996,
+      "pid": 23408,
+      "ownProcessGroup": 23408,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/private/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/transport-audit-v2.stdout",
+        "bytes": 13473,
+        "sha256": "e18fccdf82c41ddb8fd2c248ca049d31baf26252041350bc77eb2a86b35805c8"
+      },
+      "stderr": {
+        "path": "/private/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/transport-audit-v2.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "transport-audit",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "c4d00d3e697a8ef59a76a03c3ebc3e5eb8a18f2d",
+      "argv": [
+        "python3",
+        "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/transport_audit.py"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:55:23.236230+00:00",
+      "endedAt": "2026-10-17T21:55:23.790984+00:00",
+      "durationSeconds": 0.5546013750000001,
+      "pid": 54614,
+      "ownProcessGroup": 54614,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/private/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/transport-audit.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/private/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/transport-audit.stderr",
+        "bytes": 254,
+        "sha256": "f4c34bcc5b2060bd4edd7d159d60d3d685f519102f0506d9e7784d70e74185e7"
+      }
+    },
+    {
+      "name": "withdrawal-audit-v2",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "c4d00d3e697a8ef59a76a03c3ebc3e5eb8a18f2d",
+      "argv": [
+        "node",
+        "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/withdrawal_audit_v2.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:57:59.723836+00:00",
+      "endedAt": "2026-10-17T21:57:59.949945+00:00",
+      "durationSeconds": 0.226028958,
+      "pid": 66196,
+      "ownProcessGroup": 66196,
+      "exitCode": 0,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/private/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/withdrawal-audit-v2.stdout",
+        "bytes": 3206,
+        "sha256": "3ea4f8085322ab930794e35a50a8b352dc89625bd12c48f55395d9b9edbde98c"
+      },
+      "stderr": {
+        "path": "/private/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/withdrawal-audit-v2.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "withdrawal-audit",
+      "reviewerTask": "/root/receipt_integrity_independent",
+      "candidateCommit": "c4d00d3e697a8ef59a76a03c3ebc3e5eb8a18f2d",
+      "argv": [
+        "node",
+        "/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/withdrawal_audit.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+      "envOverrides": {
+        "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+      },
+      "startedAt": "2026-10-17T21:57:39.144257+00:00",
+      "endedAt": "2026-10-17T21:57:39.979937+00:00",
+      "durationSeconds": 0.8356085,
+      "pid": 64791,
+      "ownProcessGroup": 64791,
+      "exitCode": 1,
+      "signal": null,
+      "timedOut": false,
+      "spawnError": null,
+      "processGroupStates": [
+        {
+          "phase": "after-wait",
+          "processes": []
+        }
+      ],
+      "stdout": {
+        "path": "/private/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/withdrawal-audit.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/private/tmp/type-pal-registry-central-independent-20261018-c4d00d3e/raw/withdrawal-audit.stderr",
+        "bytes": 14324,
+        "sha256": "129b9c86c12227b9f57f1ece200b6cd4e5118cf2d9afd2a1b287eb2062fdb02c"
+      }
+    }
+  ],
+  "reviewerHarnessFailures": [
+    {
+      "name": "transport-audit",
+      "exitCode": 1,
+      "reason": "Own assertion expected text4errors while native lint stderr stateserrors:4;diagnostics:4. All prior transport hash checks completed; failed script/raw kept. v2 matches original real spelling, reruns full checks and passes. No source/candidate change."
+    },
+    {
+      "name": "withdrawal-audit",
+      "exitCode": 1,
+      "reason": "Own overly broad wholeintegrity-audit-to58e byte assertion failed. Independent delta inspection found exactly two earlier metadata additions for original corrective acceptance and S02; all original fields equal58e and full current file equalparent. v2 explicitly checks that historical scope without rewriting first failure or classifying it as candidatecounter."
+    },
+    {
+      "name": "exploratory-tool-display",
+      "exitCode": 1,
+      "reason": "An uncaptured read-only exploratory tool display tried to slice a dictionaryallowedPinDeltas after printing mapping shape. Tool transcript retained; no gate or evidence result was inferred. Separate capturedmapping-plan-audit performs actual full validation."
+    }
+  ],
+  "counters": [],
+  "scopedCentralIntakeVerdict": "accept",
+  "centralIntakeAccepted": true,
+  "acceptedScope": "Only exactc4dcentral original2374preservation plus33explicit pending registrations, exact transport/projections and explained10oldpinmaintenance. Underlying95storage code acceptance inherited on identical scripts. No future combined bytes or new S03/S04binding acceptance.",
+  "perDocumentSemanticAcceptanceGranted": false,
+  "templateCompletionGranted": false,
+  "historicalExecutionCreditGranted": false,
+  "globalHardGatePassed": false,
+  "fullSemanticAcceptance": false,
+  "mergeMain": false,
+  "cardDone": false,
+  "allowedNext": [
+    "Root may prepare separately named frozen S03andS04body/binding/history integration candidates based on their fixed independent body acceptance, then obtain review of actual combined bytes. This acceptance does not cover them.",
+    "Continue real single-document semantic/template rework within authorized sequence; keep new33pending until their own actual scope is reviewed. Preserve original failure/counter reports and exact raw transport."
+  ],
+  "stopLines": [
+    "No main/done/unifiedhardgate pass while fullcheck/strict/requirecomplete fail. Zeroafterdrift and storage acceptance are separate from full semantic completion.",
+    "No new execution/E2E/visual/preview/capture/coverage/producttypecheck credit, no old receipt quarantine release or restoration of1896batch.",
+    "Do not replace original report pins with reader projection hashes; decoder and dual stored/payload identities must remain.",
+    "Do not inherit this conclusion into future root composition or universal platform path/transaction guarantees."
+  ],
+  "artifactPolicy": "New own/tmp package only. ProjectBiome formatting precedes fixed reportSHA; artifact-manifest inventories every file except itself, with nonrecursive externalfinalseal. Raw command metadata/numbers and two failed verifier versions remain. Decoded central session payloads are original-byte copies, not reexecutions."
+}

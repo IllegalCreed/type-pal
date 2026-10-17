@@ -545,11 +545,11 @@
         "docs/testing/README.md:41"
       ],
       "unresolved": [
+        "Frozen65 combined central intake accepted; later receipt/registration metadata and remaining documents are separate scope.",
         "Six stage/report bodies, historical execution results and actual editor preview were not reaccepted by this navigation review.",
-        "Full-docs hard gates and remaining historical withdrawals/quarantines remain incomplete.",
-        "Central intake was pending storage split at body acceptance; later central mutation needs actual input/hash/consumer verification."
+        "Full-docs hard gates and remaining historical withdrawals/quarantines remain incomplete."
       ],
-      "nextStep": "Verify actual combined central byte/binding intake independently, retain all other withdrawals, then continue per-document semantic reviews. No global/main/done credit.",
+      "nextStep": "Continue actual S05/S06 and remaining per-document reviews; retain historical withdrawals/quarantines and global FAIL. No new body credit from central receipt acknowledgment.",
       "phase": "testing",
       "module": "e2e-navigation",
       "capability": "current-stage-and-cross-contract-entry",
@@ -788,6 +788,13 @@
           "donorOtherEntriesPreserved": 7,
           "acceptedBodySha256": "8ddfbda4c48af97ff8c33a229f8cb45f00b1d91e5952d635def86a946be7c9e9",
           "nonAuthorReportSha256": "f1b24c7d962ef21135f033e5c5a01daa09da1290846ee26d78752a44f34bcf25"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "fixed65 non-author central intake acceptance recorded; no additional semantic grant",
+          "sourceRevision": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+          "reportSha256": "f3f8674ff4bb1e9887088095a950f55fd85261bd9420d9fe3979bd420f6e6821",
+          "additionalBodyCredit": 0
         }
       ],
       "historicalWithdrawal": {
@@ -824,7 +831,16 @@
         "semanticAcceptanceReason": "Each required section contains the specific navigation duties and limits above; structure/hash checks alone did not grant acceptance.",
         "status": "accepted at frozen body only; current central intake separately checked"
       },
-      "stopLine": "No global hard-gate/main/done/runtime/preview/capture credit from this single-document acceptance; preserve five quarantines and all other withdrawn bindings."
+      "stopLine": "No global hard-gate/main/done/runtime/preview/capture credit from this single-document acceptance; preserve five quarantines and all other withdrawn bindings.",
+      "centralIntakeAcceptance": {
+        "candidateCommit": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+        "report": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-S03-S04-central-review-65ee30ad.json",
+        "reportSha256": "f3f8674ff4bb1e9887088095a950f55fd85261bd9420d9fe3979bd420f6e6821",
+        "reviewer": "/root/receipt_integrity_independent",
+        "nonAuthorReviewer": true,
+        "scope": "Frozen65 S03/S04 central binding/data/transport only. This acknowledgment adds receipt metadata without new body credit; later new files and metadata are separate.",
+        "additionalBodyCredit": 0
+      }
     },
     {
       "path": "docs/testing/e2e/cross-stage/README.md",
@@ -844,11 +860,11 @@
         "docs/testing/e2e/contract.md:467"
       ],
       "unresolved": [
+        "Frozen65 combined central intake accepted; later receipt/registration metadata and remaining documents are separate scope.",
         "The431-line common-issues business ledger, six stage reports and full R4/contract were not reaccepted.",
-        "Future combined central intake needs its own non-author data/binding check.",
         "Global hard gates, remaining affected bindings and five historical receipt quarantines remain open."
       ],
-      "nextStep": "Verify actual combined central byte/binding intake independently, retain all other withdrawals, then continue per-document semantic reviews. No global/main/done credit.",
+      "nextStep": "Continue actual S05/S06 and remaining per-document reviews; retain historical withdrawals/quarantines and global FAIL. No new body credit from central receipt acknowledgment.",
       "phase": "testing",
       "module": "e2e-cross-stage-navigation",
       "capability": "issue-family-source-and-backlink-routing",
@@ -1067,6 +1083,13 @@
           "donorOtherEntriesPreserved": 6,
           "acceptedBodySha256": "1c345654a9f10a19455a8df696b48d9a2f1b86e6fc36bdfe050933a48a8f574c",
           "nonAuthorReportSha256": "e844f43f94214872f5b79f196d85907ba0c37eb0d50c921601e305da2419a9a7"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "fixed65 non-author central intake acceptance recorded; no additional semantic grant",
+          "sourceRevision": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+          "reportSha256": "f3f8674ff4bb1e9887088095a950f55fd85261bd9420d9fe3979bd420f6e6821",
+          "additionalBodyCredit": 0
         }
       ],
       "historicalWithdrawal": {
@@ -1099,6 +1122,15 @@
         "currentStatus": "Navigation versus publication versus execution",
         "entriesAndResponsibility": "Actual distinct destinations in live table",
         "evidenceAndNextStep": "Concrete attribution/raw/backlink/counter stops; no stage-wide acceptance"
+      },
+      "centralIntakeAcceptance": {
+        "candidateCommit": "65ee30adc41fd78c49b0ea261ce77b62b816ece0",
+        "report": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-S03-S04-central-review-65ee30ad.json",
+        "reportSha256": "f3f8674ff4bb1e9887088095a950f55fd85261bd9420d9fe3979bd420f6e6821",
+        "reviewer": "/root/receipt_integrity_independent",
+        "nonAuthorReviewer": true,
+        "scope": "Frozen65 S03/S04 central binding/data/transport only. This acknowledgment adds receipt metadata without new body credit; later new files and metadata are separate.",
+        "additionalBodyCredit": 0
       }
     }
   ]

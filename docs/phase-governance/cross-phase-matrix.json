@@ -1465,10 +1465,11 @@
       "status": "guarded",
       "evidence": [
         "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S03-f9fbf0c7.json",
-        "docs/phase-governance/reviews/20261018-semantic-rework.json"
+        "docs/phase-governance/reviews/20261018-semantic-rework.json",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-S03-S04-central-review-65ee30ad.json"
       ],
       "unresolved": [
-        "Fixed body/template non-author acceptance only; actual combined central intake review is pending.",
+        "Frozen65 body/binding/transport intake accepted by a non-author; later additions and the full-docs gate remain outside that scoped verdict.",
         "Other R60/1896, full referenced reports and runtime/E2E/visual/preview/capture/coverage are not recertified."
       ],
       "stopLine": "No metadata/source audit or historical verified/quote preservation grants product execution or bulk semantic completion."
@@ -1485,10 +1486,11 @@
       "status": "guarded",
       "evidence": [
         "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S04-c8715c2c.json",
-        "docs/phase-governance/reviews/20261018-semantic-rework.json"
+        "docs/phase-governance/reviews/20261018-semantic-rework.json",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-S03-S04-central-review-65ee30ad.json"
       ],
       "unresolved": [
-        "Fixed body/template non-author acceptance only; actual combined central intake review is pending.",
+        "Frozen65 body/binding/transport intake accepted by a non-author; later additions and the full-docs gate remain outside that scoped verdict.",
         "Other R60/1896, full referenced reports and runtime/E2E/visual/preview/capture/coverage are not recertified."
       ],
       "stopLine": "No metadata/source audit or historical verified/quote preservation grants product execution or bulk semantic completion."
