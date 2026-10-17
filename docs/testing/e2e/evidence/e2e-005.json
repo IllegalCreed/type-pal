@@ -127,14 +127,490 @@
     "templateId": "test-machine-evidence-v1",
     "templateVersion": "1.5.0",
     "variant": "document-audit-v2",
-    "lastReviewed": "2026-10-17",
-    "owner": "Codex",
-    "provenance": ["existing paired E2E evidence", "R60 testing entry migration"],
+    "lastReviewed": "2026-10-18",
+    "owner": "/root/e2e_entry_semantic_author",
+    "nonAuthorReviewer": false,
+    "provenance": [
+      "existing paired e2e-005 native publication/source audit",
+      "R60 original governance preserved as bounded history without completion renewal",
+      "S09 root build allowed; sole author governance-only candidate pending non-author review"
+    ],
     "sourceSha256": "fd0ff353a2aab63987fc54ea50edddaf94ecf81adaeaba1d0a514ce675466d89",
     "sourceGitObject": "50aa047ed02fa7eeead20ed6f4edf803347030e2",
-    "scope": "Document-audit of e2e-005; original versions/candidate/claims/history retained. No new runtime execution.",
-    "beforeAfter": "Original flat paired E2E audit evidence -> same top-level evidence fields plus non-overwriting governance envelope.",
-    "stopLine": "runtimeExecution.performed remains false; do not use schema compliance to grant a runtime-backed claim.",
-    "nextStep": "Use the actual E2E task and recorded artifacts for any current execution acceptance; this migration only validates machine publication."
+    "scope": "逐16个原生字段和8个sourceRef解释005买虾/报信/恢复后续走的实际合同、事实权和历史轴。只在_governance展开；不把source存在、发布verified或纯谓词观察授作当前实跑、完整帧、全部对白槽、preview或006接受。",
+    "governanceAuthority": [
+      "docs/ops/guides/documentation-model.md",
+      "docs/testing/governance.md",
+      "docs/testing/e2e/contract.md（仅primarySource所列读域）"
+    ],
+    "beforeAfter": "原123行6008B与现140行6987B的native对象同值；现已有通用治理封套，改为逐字段/引用、具体caller/input/oracle/producer、精确读域和原治理历史。现6015B前缀与全部16原生key/值/键序/数组序/日期保持；不声称两份不同格式源字节直接逆回相等。",
+    "primarySource": [
+      {
+        "path": "docs/testing/e2e/evidence/e2e-005.json",
+        "gitRevision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
+        "sha256": "fd0ff353a2aab63987fc54ea50edddaf94ecf81adaeaba1d0a514ce675466d89",
+        "readScope": "原123行6008B全文；固定原生文档源，不是游戏运行raw。"
+      },
+      {
+        "path": "docs/testing/e2e/evidence/e2e-005.json",
+        "gitRevision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+        "sha256": "188f58a96c87e19ab82ee05e5ba209e0d63cf189f42e634e3cc98f30d3c24530",
+        "readScope": "改前140行6987B全文；已有_governance完整留历史。"
+      },
+      {
+        "path": "scripts/e2e/errand-contract.mjs",
+        "sha256": "8816f6e279e0b8d16fe37ba37190303a8c9ba629debfd436e1fd5dd42bf11be0",
+        "readScope": "全文508行；harvest02–03，未调用真实contract/receipt读链。"
+      },
+      {
+        "path": "scripts/e2e/errand-journey.mjs",
+        "sha256": "3d0b3d74dc1f762708ba3f9e84ce35c4efef189600c8b61f6f6c4e69f93014b9",
+        "readScope": "全文541行；harvest03–05，未启动。"
+      },
+      {
+        "path": "scripts/e2e/errand-observer.mjs",
+        "sha256": "803318d912c65830fc48b960d4948f32c82db1f51136a5efd10fc39f68bcf0aa",
+        "readScope": "全文668行；harvest05–06；末含006共用readBoatGame，不代表006业务验收。"
+      },
+      {
+        "path": "scripts/e2e/errand-trace-plugin.mjs",
+        "sha256": "3dd53e2f70215be39106af6413e3bd9d7bc9d2beee378957d9fbdd64e5ff50d6",
+        "readScope": "全文60行；未执行transform。"
+      },
+      {
+        "path": "scripts/e2e/errand-game.mjs",
+        "sha256": "177ad8501907590f7d95264bce806bb446ebe845dda6826b7534abe017baf3d7",
+        "readScope": "全文3行。"
+      },
+      {
+        "path": "scripts/e2e/errand-reforge.mjs",
+        "sha256": "3e7708e9d4823a1389178579a75f460adb610545937df4430117766618007954",
+        "readScope": "全文3行。"
+      },
+      {
+        "path": "scripts/e2e/errand-both.mjs",
+        "sha256": "d490162f2ad60355311f75e281800d4ad9054bcd126764d4853728bff16865d2",
+        "readScope": "全文106行；未启动子进程/parity。"
+      },
+      {
+        "path": "scripts/e2e/errand-game.config.mts",
+        "sha256": "bc2ca647bdc3253376deadb8c95528eff341f52733657f165ff4b2903bd6cad2",
+        "readScope": "全文3行；未追base config。"
+      },
+      {
+        "path": "scripts/e2e/errand-reforge.config.mts",
+        "sha256": "1f844ec24dff2445fd67686258e35a0e672dd44a035ee0cd031160f563770b40",
+        "readScope": "全文3行；未追base config。"
+      },
+      {
+        "path": "scripts/e2e/evidence-recorder.mjs",
+        "sha256": "24bd5a6f8d0ec836bee1968bd3be45a2629e94b87b4a00745a83d72dfcfd4963",
+        "readScope": "全文141行。"
+      },
+      {
+        "path": "scripts/e2e/long-evidence.mjs",
+        "sha256": "655514f6221d30fa110e13adc0bb810eac41c479d162f1218ccde6769521771c",
+        "readScope": "全文74行；未读真实archive。"
+      },
+      {
+        "path": "scripts/e2e/restore-input-contract.mjs",
+        "sha256": "1cd4e52238e80e5ee69f118eaca9bac4010706875685aafe78dc8779ae8602f5",
+        "readScope": "全文49行；未核真实restore输入。"
+      },
+      {
+        "path": "scripts/e2e/evidence-artifact.mjs",
+        "sha256": "47eff14aaa4568eb94035c66f154af0a55af8c9e214a60c43ad7a832858846ee",
+        "readScope": "全文88行；未读真实raw/checkpoint。"
+      },
+      {
+        "path": "scripts/e2e/snapshot-graph.mjs",
+        "sha256": "929545a5703630573fbf16a3eb63e113467a5964bfd0aadbd86e890d85f2b123",
+        "readScope": "全文185行；未作旧archive逆回。"
+      },
+      {
+        "path": "scripts/e2e/reforge-actor-observation.mjs",
+        "sha256": "0ba1f9a1029d341d9cd4ebba0231eed57ca906f47aec09d124b0a9feff0859be",
+        "readScope": "全文17行；只读插入字符串，非实际绘制。"
+      },
+      {
+        "path": "docs/testing/e2e/stages/005-shrimp/report.md",
+        "sha256": "9f7a6022c2cca3999e2adc67432e256fa273bb2741bb6aca3bb7b7e83c9146e2",
+        "readScope": "仅1–84/120–137/181–189/199–231；未全文249或审raw。"
+      },
+      {
+        "path": "docs/testing/catalog.json",
+        "sha256": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0",
+        "readScope": "完整005记录；004/006/contract仅导航/状态/依赖字段。"
+      },
+      {
+        "path": "docs/phase-governance/templates/registry.json",
+        "sha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+        "readScope": "模板身份/1.5/治理必填/历史规则和audit-v2定义；不审其他变体。"
+      },
+      {
+        "path": "package.json",
+        "sha256": "259820fcdc312e11ce297a83074ce168e5a9612f2016ae6d2acb5a308dd62224",
+        "readScope": "28–35；005三个caller与四alias在28–34，006行仅导航。"
+      },
+      {
+        "path": "scripts/e2e/meal-contract.mjs",
+        "sha256": "811e6a262c332ad7f9c1608df3cc11d6d8fcd995a39db72bda3aa41a342ea4ad",
+        "readScope": "S08同SHA继承；全文927行。"
+      },
+      {
+        "path": "scripts/e2e/meal-journey.mjs",
+        "sha256": "3fa822ac5e5092f978a58022ebfe0211c7e1b8e8fda96975c41203083a4d34eb",
+        "readScope": "S08同SHA继承；全文1082行。"
+      },
+      {
+        "path": "scripts/e2e/meal-observer.mjs",
+        "sha256": "78cb8d9b5de278ab89b4f5587efdb16804dd84af73c4d379626a19e950f45f63",
+        "readScope": "S08同SHA继承；全文895行，仅hook/DTO定义非实绘。"
+      },
+      {
+        "path": "scripts/e2e/meal-trace-plugin.mjs",
+        "sha256": "b5164ba78b8bcf361579fa0af62a14833020c4ad36ec87a841bb021fda34c209",
+        "readScope": "S08同SHA继承；全文275行，未执行transform。"
+      },
+      {
+        "path": "scripts/e2e/opening-frame.mjs",
+        "sha256": "d0e092a5d5b24650ff5edb704a71966bbba147ec0e30c4ff855f971af82c43e6",
+        "readScope": "S08同SHA继承；全文58行及旧shape纯probe，非真实画面。"
+      },
+      {
+        "path": "scripts/e2e/kitchen-contract.mjs",
+        "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634",
+        "readScope": "S08同SHA继承；仅1–35 kitchenGrid/Ready/Scene。"
+      },
+      {
+        "path": "scripts/e2e/inn-contract.mjs",
+        "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+        "readScope": "S08同SHA继承；仅206–228，含完整assertInnRestoreCommitted211–224。"
+      },
+      {
+        "path": "scripts/e2e/reforge-opening-policy.mjs",
+        "sha256": "eac9c3dc8ccec1b8b4f8699c26c40eff85ad62632b32d58899280cfaba7be9e8",
+        "readScope": "S08同SHA继承；仅75–91 openingSaveView。"
+      },
+      {
+        "path": "scripts/e2e/browser-journey.mjs",
+        "sha256": "659926f4cf627c36470515adfe5aab0ec7d33fcf8b8153113e9a78c33ca201a1",
+        "readScope": "S08同SHA继承；仅175–224 newContext/空IDB及浏览器告警收集。"
+      },
+      {
+        "path": "packages/content/src/character.ts",
+        "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+        "readScope": "S08同SHA继承；仅168–170当前22/min12声明。"
+      },
+      {
+        "path": "packages/reforge/src/save/types.ts",
+        "sha256": "b40e418803af9585d944f2a5f3c0229ea26494003f0aa08b12493ddb42605bc2",
+        "readScope": "S08同SHA继承；仅1–16 SAVE12/slot声明。"
+      },
+      {
+        "path": "docs/testing/e2e/contract.md",
+        "sha256": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f",
+        "readScope": "S08同SHA继承；仅98–149/239–284全帧/对白/最小重跑/preview边界。"
+      },
+      {
+        "path": "docs/testing/_templates/test-machine-evidence.json",
+        "sha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
+        "readScope": "S08同SHA继承；通用execution示例全文46行，与audit-v2分开。"
+      },
+      {
+        "path": "packages/content/src/character.ts",
+        "gitRevision": "98a42d4e09470701a63fd3ca9d0b33e9d56a9926",
+        "sha256": "7c2cc2e736535a01c408da3502b885f3c5c19a1535e36bfe1078692579d77d77",
+        "readScope": "仅character168/170版本声明；未读整份历史源码或该run实际字节。"
+      },
+      {
+        "path": "packages/reforge/src/save/types.ts",
+        "gitRevision": "98a42d4e09470701a63fd3ca9d0b33e9d56a9926",
+        "sha256": "09cb8b249595fbdb5cb786b64fd69093a384039c7b81441a88065ec9fb8d5148",
+        "readScope": "仅save/types.ts:8的SAVE_VERSION声明；未读整份历史源码或该run实际字节。"
+      },
+      {
+        "path": "packages/content/src/character.ts",
+        "gitRevision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df",
+        "readScope": "仅character168/170版本声明；未读整份历史源码或该run实际字节。"
+      },
+      {
+        "path": "packages/reforge/src/save/types.ts",
+        "gitRevision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "sha256": "856ba7ac63a7d0a314ac6189b4c2ec9b3e5c8130b03485e700a0ec38566f41bf",
+        "readScope": "仅save/types.ts:8的SAVE_VERSION声明；未读整份历史源码或该run实际字节。"
+      }
+    ],
+    "fieldReadings": [
+      {
+        "field": "schemaVersion",
+        "factOwner": "原生JSON/既有模板注册",
+        "reading": "schema2，与kind/performed共同选择audit-v2；不改原生schema。"
+      },
+      {
+        "field": "id",
+        "factOwner": "catalog:e2e-005",
+        "reading": "稳定配对005买虾/报信canonical与机器证据，不是case或runID。"
+      },
+      {
+        "field": "kind",
+        "factOwner": "原生JSON/模板1.5.0",
+        "reading": "实际document-audit，适用既有document-audit-v2；不从路径套execution或新增变体。"
+      },
+      {
+        "field": "status",
+        "factOwner": "唯一catalog发布轴",
+        "reading": "verified与lastVerified/reviewBy保原值；不代表本轮SAVE12/E2E/preview通过。"
+      },
+      {
+        "field": "candidateSha",
+        "factOwner": "原生history/配对revision",
+        "reading": "d022是2026-10-04 source-and-publication-audit身份，不是98a六case或本次源码审查的运行候选；当前source hash相符不认证d022实跑。"
+      },
+      {
+        "field": "versions",
+        "factOwner": "原审计值与固定Git声明分别负责",
+        "reading": "原22/min11不回填；98a声明21/min10/RF10、d02222/min11/RF11、当前22/min12/RF12分轴，见currentAudit.versions。声明不认证旧run的实际SAVE/资产。"
+      },
+      {
+        "field": "sourceRefs",
+        "factOwner": "实际8项源码绑定",
+        "reading": "8项SHA/anchor均匹配；短引文职责及范围外依赖见sourceRefReadings/primarySource，不由一个anchor替代完整合同或实绘。"
+      },
+      {
+        "field": "publicCallers",
+        "factOwner": "package28–34/两个桥/both/Arguments405–425",
+        "reading": "三公开入口与四专项alias。单轨默认story，可guards/saves且必须--from；both按case逐次两轨并发，再Suite/逐receipt/parity。无capture参数；未启动CLI或子进程。"
+      },
+      {
+        "field": "legalInputs",
+        "factOwner": "validateErrandPredecessor427–450",
+        "reading": "运行须同引擎004 saves完整准入；offline通用checkpoint消费较窄，不能互代，见sourceContracts。Game部分来源差异拒绝、RF只记录；40hex不认证HEAD。"
+      },
+      {
+        "field": "businessOracle",
+        "factOwner": "errand-contract508/journey541实际全文读域",
+        "reading": "case、唯一奖励、选择/布防/走近/报信、正式IO与后台续走分项见sourceContracts；末状态不能替代过程，也不授完整返程/全程可控/全部实绘。"
+      },
+      {
+        "field": "dedupe",
+        "factOwner": "原reviewed/against历史声明",
+        "reading": "004为前驱，006为后继导航，#历史保启动失败/后补边界。本轮未审完整004/006报告或旧测试排重；006仍rework，不借旧reviewed变绿。"
+      },
+      {
+        "field": "claims",
+        "factOwner": "原claim与8locator",
+        "reading": "唯一source-contract仍source-backed，8项逐对应sourceRefs；不升runtime-backed或恢复001–006信用。"
+      },
+      {
+        "field": "runtimeExecution",
+        "factOwner": "原审计时点；当前metadata观察另轴",
+        "reading": "performed=false/raw not-present/historical-publication-only保原义；26位置缺席不否定旧运行，原件内容/Owner/retention未知。"
+      },
+      {
+        "field": "findings",
+        "factOwner": "六条原日期/顺序及canonical所读历史段",
+        "reading": "10-10对白、10-08旧未冻结进度、10-06采集/版本/入口源码刷新均不改历史运行；98a六case、22/11重建与wrapper失败后补分轴。旧待做不当今日进度，未审完整连续卡/显隐证据。"
+      },
+      {
+        "field": "artifacts",
+        "factOwner": "原发布数组",
+        "reading": "仍[]，未附游戏raw；docs日志/纯probe不能填入。原8trace/两终档/gzip未打开或hash，不认证其完整性。"
+      },
+      {
+        "field": "history",
+        "factOwner": "原生history与旧治理分开",
+        "reading": "保2026-10-04 d022/notRun三项；旧R60治理完整留限定history。当前仅作者候选，不自授接受或中央完成。"
+      }
+    ],
+    "sourceRefReadings": [
+      {
+        "index": 0,
+        "reading": "3行Game桥指runErrandJourney，RF/both分别全文读，不能由单ref代表所有caller。"
+      },
+      {
+        "index": 1,
+        "reading": "427-439完整含validator427-436及reader开头；依赖assertMealCaseReport/mealSaveView和caller真实字节仍须继承明确范围，不是只看case=saves。"
+      },
+      {
+        "index": 2,
+        "reading": "304-343含唯一奖励、两组选择/布防偏序、村页香兰精确停点/朝上及布防后到首报信页前超过1次实际walk commit；不涵盖全部对白/结束呈现/完整NPC帧。"
+      },
+      {
+        "index": 3,
+        "reading": "346-376包含background346-373及restore函数开头；实际只核restore后实际move、continuation.from/to在move记录中、final.control=true，不核完整五目标终结或全程控制。"
+      },
+      {
+        "index": 4,
+        "reading": "character168-170当前22/min12范围按同SHA从S08继承；RF12也窄域继承，不追认native22/11。"
+      },
+      {
+        "index": 5,
+        "reading": "266-298包含完整collector266-293及armed条件；只直接核overflow/errors/各list seq/global order，无atMs单调或actor before链的独立断言。"
+      },
+      {
+        "index": 6,
+        "reading": "observer1-126只有worldRender与span前部；新增全文668核delta/保存/恢复/导出，不能把hook定义当实际像素或全部生产接线。"
+      },
+      {
+        "index": 7,
+        "reading": "recorder1-18是默认配置前部；新增全文141核budget合并/stream分组/封口/资源。005覆盖events64/causes96/atomic32MiB，world默认24MiB，不套默认4/192/8或004 causes768。"
+      }
+    ],
+    "sourceContracts": {
+      "caseBoundaries": "每轨story/guards/saves为40/49/40行、1/1/2个空IDB新context，精确checks/rows。84–145还核verify kind/profile、name、passed core/route、sourceHashesStable、errors=[]、revision/SHA语法和每context一份0<byteLength<=384MiB trace。仅saves可有005.end/restored/background字段；237–255要求六个唯一engine/case、同revision/sourceHashes及各引擎同前驱。语法/一致性不认证HEAD或producer。",
+      "rows": {
+        "aunt": [211, 212, 213, 214, 215, 217, 219, 221, 223],
+        "fish": [603, 604, 605, 606],
+        "water": [552, 553, 554, 555, 557, 558, 560, 561, 562, 564, 565],
+        "zhang": [515, 516, 517, 518, 519, 521, 522],
+        "news": [282, 283, 284, 286, 288, 289, 290, 292, 293],
+        "guardsOnly": {
+          "auntRepeat": [129, 130],
+          "zhangReminder": [524, 525, 526, 527],
+          "zhangPrayer": [529, 530, 531]
+        }
+      },
+      "runtimeAdmission": "427–450运行准入先要求004 saves、非capture、同engine，再完整调用继承固定SHA的assertMealCaseReport，核004.end原字节SHA、JSON解析对象及mealSaveView=endWorld。不能以任意004 passed或story/items代替。实际journey新context经Game正式opening/slot1或RF checkpoint载入。Game对指定产品/原始数据/共享路径来源差异拒绝，RF差异仅记录；未据此认证全部未提交输入。",
+      "offlineReceipt": "readErrandReceipt175–216重新读005报告及其指定物理trace，要求实际SHA/byteLength binding=verified，解码后核collector、真实对白行、story偏序、news结束边界。前驱层仅调用通用readCheckpointInput核004 status/engine/fragment/字节绑定，随后核实际restore；它不独立重跑完整004 saves准入。saves再核005.end字节/持久投影、Game保存capture、第二context实际restore及RF输入合同、后台续走。这里只核读实现，未打开/执行真实receipt。",
+      "rewardAndOrder": "assertErrandStory304–344在progress中要求恰一次money变化，before=500、after=550，且严格晚于dlg.215；没有“早于dlg.217”的上界。张四选择须dlg.565<selected<dlg.515，布防须dlg.522<armed<dlg.282。journey还在婶婶/鱼嫂/水生后核未布防、张四后核已布防；guards重问婶婶不再发奖励，另跑张四提醒/祈祷对白。550终态本身不能替代这些观察。",
+      "arrival": "所有scene=s004且page非空的newsPages要求e83停点Game[1688,1388]/RF[139.5,34,0]、facing=up。布防后且首news page前，要有超过1条e83实际位置改变的actor提交，source精确Game commit:npcWalkTo或RF commit:meta.entity.pos。不是仅凭NPC已在场、旧巡逻或终态；也不推出每个演员的全帧实绘。",
+      "newsBoundary": "errandReadyPresentation29–43要求末page=null、存在worldRender、control.state=true，同sceneVisit；draw.order>=control.order且clear.order>control.order，没有额外要求draw晚于clear。assertErrandStoryBoundary45–58把scope.end.afterOrder绑定milestones.news.order，并只在该order之前取末draw/control/page核上述关系。journey的errandDialogueReader在同一浏览器task读state/drive并于kitchenReady时读world，避免这三个读操作间后台tick；capture/screenshot在其后异步执行，不因此授同一像素时刻或所有对白槽显隐。",
+      "endWorld": "147–173要求Game village5/cash550/e83.trigger=L_955/e19.state=0；RF s004/money550/e83.trigger=report-aunt-illness且cursor=urge-return、auto legacy-002/e19.state=0。257–264的Game errandSaveView在继承mealSaveView上增加allActors、enterOverrides、teleportOverrides；RF走继承openingSaveView的持久投影与有限默认补齐。没有核读全部底层产品存档/剧情实现，不能从这些字段扩大到完整演出。",
+      "formalSaveAndRestore": "正常菜单留证后，Game F5须新同步capture+正式slot1完成回执；RF只调用一次dumpSave生成JSON。固定005.end字节、before-restore trace后开第二空IDB context。218–235核Game共2次capture/2次ack（前驱输入落盘+005最终保存）、第二次beforeClone/commit/slot/顺序/回执/持久投影。375–389核恰一次真实loadGameFromSlot/restorePayload原子commit投影等于应载payload，不从resume后终态反推输入。",
+      "reforgeRestoreInput": "offline receipt额外核restore-input-contract：仅缺world.skillUseCounts/entityLifecycles时补{}；唯一正整数loadId、commit来源/完整inputPayload；全部应载sceneRuntime键和值在同loadId、commit前收到。未运行此consumer，不代表全部入口/底层迁移已验。",
+      "canvas": "005的frameContract明示no whole-canvas pixel equality；end/restored分别调用openingFrameMatches，不比较跨时刻整幅SHA。动态村庄的持久原子恢复、真实非黑画面、后台续走分别核。该helper对缺nonBlack/SHA的弱shape可接受（继承S08纯probe），真实readOpeningFrame另产像素/SHA；未读取本次Canvas或据自称字段授producer信用。",
+      "background": "346–373只要求一次实际restore后，e83在s004出现正确commit来源且位置改变的move；reported from出现在某条move.before、to出现在某条move.state，trace.final.control=true。from/to可来自不同move，函数不核完整五目标、终结状态、完整时钟或全程control。实际journey在恢复初始与首次位移后的观察核ready；这仍不是逐帧全程可控或完整返程证明。报告级另核from!=to；最小函数probe不替代合法report/保存/游戏链。",
+      "collectorAndProducer": "266–293核overflow=false/errors=[]、各必需list的seq=index、合并后global order连续；resources/causes仅在自身属性存在时纳入。此consumer没有独立atMs单调或actor.before连续链断言。observer668/errand-trace-plugin60与继承meal plugin等说明hook、DTO及span定义，Game drawn与RF selected/world-pass-only须分开；生产接线、底层因果/传输/绘制实现及实际完整帧未完整核或运行。",
+      "storage": "005 observer覆盖events64MiB/causes96MiB/atomicSnapshots32MiB；recorder默认worldRenders24MiB/resources16MiB仍适用，不能套默认events4/causes192/atomic8或004的causes768。worldRenders60000条、普通append默认200000、pages800/inputs2000/单种restore1/saveCaptures3/saveCompletions3；stream在条数或字节溢出后封口并记失败，不静默截断。snapshot图池128MiB/1000000节点，snapshot-graph/1物理长档上界384MiB；该物理档预算不等于解码后重复展开DTO大小。只读codec/容量逻辑，未对旧raw编码、解码或做无损验证。",
+      "artifactBinding": "evidence-artifact核实际物理字节SHA/byteLength及相对路径/realpath；缺binding=unknown，receipt拒unknown。当前codec源码不认证旧trace/终档/gzip；本次均未打开。"
+    },
+    "currentAudit": {
+      "date": "2026-10-18",
+      "sourceWorkspaceBase": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+      "kind": "author-source-and-native-field-audit",
+      "runtimeExecutionPerformed": false,
+      "nonAuthorReviewer": false,
+      "acceptance": "仅作者正文候选；非作者语义/模板验收与中央绑定待办，不因lastReviewed或结构消费恢复信用。",
+      "publication": {
+        "factOwner": "docs/testing/catalog.json:e2e-005",
+        "status": "verified",
+        "lastVerified": "2026-10-02",
+        "reviewBy": "2026-11-02",
+        "meaning": "唯一catalog发布轴；canonical各原批次负责其原结论，当前任务进度须另读当前卡，不把旧待做/通过平移为今天。"
+      },
+      "versions": {
+        "nativeCandidate": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "nativeHistorical": {
+          "content": 22,
+          "minimumSave": 11
+        },
+        "git98aDeclarations": {
+          "content": 21,
+          "minimumSave": 10,
+          "reforgeSave": 10
+        },
+        "gitD022Declarations": {
+          "content": 22,
+          "minimumSave": 11,
+          "reforgeSave": 11
+        },
+        "currentDeclarations": {
+          "content": 22,
+          "minimumSave": 12,
+          "reforgeSave": 12
+        },
+        "limit": "98a与d022两组Git声明仅窄读，当前声明按同SHA旧读域继承。Game原生type-pal-save/gs格式另轴；不认证旧run资产、未提交输入或实际SAVE，不回填native版本/日期。"
+      },
+      "nativePreservation": {
+        "prefixBytes": 6015,
+        "prefixSha256": "41aa6c3e7815c96d1832cb7c192637fdee6214ef6a4da1a7b0652534530a236a",
+        "policy": "所有_governance外字段/值/键序/数组序/日期/sourceRefs保持，artifacts仍[]；本轮docs日志只在作者tmp，不能填为游戏原件。"
+      },
+      "readProvenance": {
+        "frozenHarvestSha256": "74c385f581f9e3d14ccb022daaf1413d68e550673f0a69e371e786c6fdd5371f",
+        "scope": "primarySource逐项区分S09 harvest全文/选段与13份S08同SHA旧读域继承；hash相符不扩成fresh全文。",
+        "authorPrecisionReread": "改前140全文；errand-contract25–145/175–216/266–389/427–450；registry本模板entry实际输出，适配只核audit-v2。"
+      },
+      "purePredicateObservation": {
+        "origin": "S09 harvest command10，未重复运行",
+        "engine": "Game only",
+        "observation": "真实Background/Collector对单restore+单move+final.control=true、无atMs/无worldRender条目的最小DTO通过；finalcontrolfalse/错source拒绝。",
+        "stdoutSha256": "50f5363de3701864589259bf806c03774577a9e71b9da543e62ac73a777f9b31",
+        "limit": "不是合法完整Game/保存/receipt输入，不是游戏复现或产品测试信用。"
+      },
+      "rawAvailability": {
+        "observedAt": "2026-10-17T22:45:12.232563+00:00",
+        "checkout": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+        "metadataProbes": 26,
+        "result": "复用harvest该时点26位置metadata absent；明确目录/report/comparison与当前caller推导的trace名字分开，后者历史名未经内容确认。",
+        "contentOpened": false,
+        "contentHashed": false,
+        "originalOwnerAndRetention": "unknown；原工作树与保留策略未知，本隔离树缺席不能否定历史实跑。"
+      },
+      "historicalResults": "canonical只读上述选段。98a42d4e原六case和case-receipt-revalidation各按原范围；原12:43 wrapper failed（Game guards在newContext/renderer阶段退出、尚未剧情输入）保留，后补Game guards与双轨saves不改写为同次wrapper全绿。原browser warning Game0/0/1、RF1/1/2不归零。8trace/无video、413Git+416输入hash、377文件177904834B归档/gzip均是历史文档声明，未读原件或重新核验。后续22/11重建链与当前22/12另轴；006 catalog仍rework，不继承本页信用。",
+      "notReadOrRun": [
+        "未全文005 canonical249/004或006报告/连续或R4任务历史；未读任何游戏raw、存档、trace、图像音频或archive。",
+        "readErrandContract运行时的原始脚本/作者内容/地图/locale未打开；causal/transport/diagnostics/route/parity底层、base configs、产品存档/绘制/preview实现未完整核。",
+        "未执行Game/RF/公开入口/浏览器/实际Canvas或存读档/录制/编辑器preview/旧产品测试/coverage；静态consumer不授runtime或独立语义接受。"
+      ],
+      "templateChoice": "按实际schema2/kind=document-audit/runtimeExecution.performed=false及原发布轴适用现有1.5.0/document-audit-v2；不新增schema/变体、不借artifactOnly或日期续期。"
+    },
+    "counterexamples": [
+      {
+        "case": "004任意passed或offline bytes消费即完整前驱准入",
+        "distinction": "运行先核004 saves并调用完整MealCaseReport；offline generic层不独立重验该业务合同。"
+      },
+      {
+        "case": "550终态即唯一奖励；可补一个对白上界",
+        "distinction": "实际progress恰一次500→550且晚于215；source没有早于217要求。"
+      },
+      {
+        "case": "news末状态或任意clear/draw排列即原子完成",
+        "distinction": "选人/布防/实际walk提交偏序外，还要同visit、draw>=control、clear>control；源码未要求draw>clear或所有槽清空。"
+      },
+      {
+        "case": "续走/末观察可控即全五目标返程、全程可控",
+        "distinction": "函数最小DTO真实通过仅限定谓词；正式runner观察恢复初始与首次位移后ready，仍非全帧证明。"
+      },
+      {
+        "case": "005必须照004整幅Canvas同hash",
+        "distinction": "005分离原子持久恢复、画面有效性和后台续走，不冻结动态世界过门；真实像素未验。"
+      },
+      {
+        "case": "wrapper失败等于六case都失败，后补/receipt revalidation就是新整轮",
+        "distinction": "保原失败与分批后补、旧warnings、21/10→22/11→22/12各时点；缺raw仅该树metadata，不否定原run。"
+      }
+    ],
+    "history": [
+      {
+        "date": "2026-10-17",
+        "scope": "historical R60 governance only; withdrawn completion is not restored",
+        "preservedGovernance": {
+          "templateId": "test-machine-evidence-v1",
+          "templateVersion": "1.5.0",
+          "variant": "document-audit-v2",
+          "lastReviewed": "2026-10-17",
+          "owner": "Codex",
+          "provenance": ["existing paired E2E evidence", "R60 testing entry migration"],
+          "sourceSha256": "fd0ff353a2aab63987fc54ea50edddaf94ecf81adaeaba1d0a514ce675466d89",
+          "sourceGitObject": "50aa047ed02fa7eeead20ed6f4edf803347030e2",
+          "scope": "Document-audit of e2e-005; original versions/candidate/claims/history retained. No new runtime execution.",
+          "beforeAfter": "Original flat paired E2E audit evidence -> same top-level evidence fields plus non-overwriting governance envelope.",
+          "stopLine": "runtimeExecution.performed remains false; do not use schema compliance to grant a runtime-backed claim.",
+          "nextStep": "Use the actual E2E task and recorded artifacts for any current execution acceptance; this migration only validates machine publication."
+        }
+      },
+      {
+        "date": "2026-10-18",
+        "scope": "S09 explicit build allowed governance-only author semantic candidate",
+        "author": "/root/e2e_entry_semantic_author",
+        "nonAuthorReviewer": false,
+        "nativeHistoryUnchanged": true
+      }
+    ],
+    "stopLine": "遵循上列治理入口；仅005._governance作者候选。未核原件/producer/完整帧/全部对白槽/完整返程或全程可控/preview保持unknown；source或静态0不授当前E2E、用户或中央接受。新产品取舍交root，不合main/done/push。",
+    "nextStep": "冻结精确正文和作者报告后，由非作者完整读原123/前140/新治理及必要一手来源、具体反例、6015B/native保全和实际consumer；root再显式中央接入。当前版本实跑、正式合法前驱/存档/raw/生产完整性、全帧/对白槽/编辑器预览须依当时准入分别留证，整卡保持rework。"
   }
 }
