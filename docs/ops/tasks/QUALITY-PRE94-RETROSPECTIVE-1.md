@@ -380,6 +380,13 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 - 测试修正：单人队 `RandomLong(0,0)` 的 battle-system 回归显式固定后续伤害掷骰，解除对旧错误抽样副作用的隐式依赖；仍验证目标越界不崩溃且玩家受击。
 - 验证：rng/enemy-ai/actions/battle-system/progression/state-machine/event-system 共 `7 files / 638 passed`；无新增测试诊断。coverage、official ratchet、protected fast、全仓 `pnpm check` 留待完整大模块收口。已读清单与 SHA 见 [`3m-rng`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3m-rng/README.md)。3m 整卡保持 `partial`。
 
+### 2026-10-17 CODE-QUALITY-3n fade / identity / catalog 当前复审切片
+
+- 范围：完整读取 `palette-fade.ts`、`scene-identity.ts`、`word-lookup.ts`、`script-catalog.ts` 及四份直接/跨模块测试；读取 `event-system.ts` fade/catalog caller、`scene-system.ts` map identity、`present.ts`/battle present palette step、`bootstrap.ts` WORD/global/map 注入；primary 为 `palette.c:123-666`、`text.c:966-1000`、`script.c` 相关脚本入口。
+- 发现并修复：`PAL_PaletteFade` C 实现使用 32 步、每通道 `/31` 整数截断；TS 原 `Math.round` 在 0→1 边界提前一档。先行反例确认旧实现失败，再改为 `floor(progress*32)` + `/31` + `Math.trunc`；原80色中点 oracle同步改为 C 真值41。
+- 结论：scene identity 单一 map ownership、WORD 表优先/fallback、script catalog own-property/null-prototype、已批准 zero-item overlay 与 fade freeze/quantization/remap 均与 caller/primary 一致，未发现其它直接缺陷。3n 当前 `partial`，不标 accept/done。
+- 验证：直接/跨模块四文件 `34 passed`、无测试 stderr；相邻 event/scene/present 八文件 `554 passed`，但有既有 fixture 的预期 `console.warn`（未知 label、无当前对象、越界 scene object），因此运行时诊断未清零。game typecheck通过；coverage、official ratchet、protected fast、全仓 `pnpm check` 留待完整大模块收口。已读清单与 SHA 见 [`3n-fade-identity-catalog`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3n-fade-identity-catalog/README.md)。
+
 ### 2026-10-17 CODE1/CODE2 boundary carry-over
 
 本片接收工作树中已完成的两个窄测试合同：`packages/shared/src/rle.boundaries.test.ts` 新增“相邻 offset 截断前一帧帧头即拒绝”反例；`packages/shared/src/rng.boundaries.test.ts` 新增同一 surface 连续 delta 累加并保留首帧像素的 ownership 合同。两项都只改测试，不改 RLE/RNG/YJ2 实现、公共出口、资源或格式策略；RLE 高位 literal 风险继续留在 `QUALITY-RLE-COMMAND-TRUTH-1` draft。

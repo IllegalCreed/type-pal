@@ -135,7 +135,18 @@ describe('buildPaletteFade(0x80)', () => {
     const pf = buildPaletteFade(cur, target, 3200, 0)
     const colors = fill([0, 0, 0])
     stepPaletteFade(colors, pf, 1600)
-    expect(colors[0]).toEqual([40, 40, 40])
+    // SDLPal step 16 uses 16/31, so 80*16/31 truncates to 41.
+    expect(colors[0]).toEqual([41, 41, 41])
+  })
+
+  it('每通道按 SDLPal /31 整数截断，不使用四舍五入', () => {
+    const cur = fill([0, 0, 0])
+    const target = fill([1, 1, 1])
+    const pf = buildPaletteFade(cur, target, 3200, 0)
+    const colors = fill([0, 0, 0])
+    // 32-step loop at step 16: (0 * 15 + 1 * 16) / 31 = 0 (C integer division).
+    stepPaletteFade(colors, pf, 1600)
+    expect(colors[0]).toEqual([0, 0, 0])
   })
 })
 

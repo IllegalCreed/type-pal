@@ -276,14 +276,17 @@ export function stepPaletteFade(colors: RGB[], pf: PaletteFadeState, nowMs: numb
       }
       return
     }
+    // SDLPal PAL_PaletteFade runs i=0..31 and uses integer `/31` per channel;
+    // derive the same step from elapsed progress instead of rounding a float lerp.
+    const step = Math.min(31, Math.floor(progress * 32))
     for (let j = 0; j < 256; j++) {
       if (j === pf.skipIndex) continue
       const s = pf.startColors[j]!
       const t = pf.targetColors[j]!
       colors[j] = [
-        Math.round(s[0] + (t[0] - s[0]) * progress),
-        Math.round(s[1] + (t[1] - s[1]) * progress),
-        Math.round(s[2] + (t[2] - s[2]) * progress),
+        Math.trunc((s[0] * (31 - step) + t[0] * step) / 31),
+        Math.trunc((s[1] * (31 - step) + t[1] * step) / 31),
+        Math.trunc((s[2] * (31 - step) + t[2] * step) / 31),
       ]
     }
   } else {

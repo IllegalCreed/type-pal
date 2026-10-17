@@ -799,7 +799,7 @@
       "sha256": "78e0596bd5a044357dcf95b3914ff45d33b00401997895a23228012df66ac3e5",
       "lines": 69,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -843,7 +843,8 @@
           "text": "当前状态：build；只能在四个白名单生产文件及对应 tests/callers 内工作。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3n-fade-identity-catalog/README.md"
     },
     {
       "id": "3o",
@@ -3913,8 +3914,8 @@
   ],
   "reviewCheckpointBase": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
   "currentReviewCounts": {
-    "partial": 19,
-    "pending": 64,
+    "partial": 20,
+    "pending": 63,
     "accept": 0
   }
 }
