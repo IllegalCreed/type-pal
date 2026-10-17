@@ -327,7 +327,8 @@ function main(args) {
   const files = execFileSync(
     'git',
     ['ls-files', '--cached', '--others', '--exclude-standard', '-z'],
-    { cwd: repoRoot, encoding: 'utf8' },
+    // Complete checkout paths can exceed Node's default 1MiB; keep a finite IO bound.
+    { cwd: repoRoot, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 },
   )
     .split('\0')
     .filter((file) => file && existsSync(resolve(repoRoot, file)))

@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "68338784cbe84ce00e2bedde8cde34c251ab2e38befae72e6306a99c644abf98",
+      "afterSha256": "fe6fbd45e4d6418a7f0c0ba3c42fd66e20ff30cd14413e14601c42554adb4e75",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,8 +1066,24 @@
       },
       "revision": {
         "currentSha": "a2101ce8ffeb73642521f0b489d17642f27bbd3fcdc581d0e9c354dedbc05778",
-        "implementationSha": "68338784cbe84ce00e2bedde8cde34c251ab2e38befae72e6306a99c644abf98",
+        "implementationSha": "fe6fbd45e4d6418a7f0c0ba3c42fd66e20ff30cd14413e14601c42554adb4e75",
         "history": [
+          {
+            "revision": "6fde6d86cf9754e441de948c82ac99ebc1f480c8",
+            "date": "2026-10-18",
+            "action": "Bounded Git enumeration capacity prerequisite, real tail CLI tests",
+            "previousAfterSha256": "68338784cbe84ce00e2bedde8cde34c251ab2e38befae72e6306a99c644abf98",
+            "scope": "Only three-code-file tooling slice plus its review task, generated index, ledger two closed to review/one pending to review, and evidence navigation. Complete Git path response16MiB; independent namespace4MiB/validation rules unchanged. Two actual business red-to-green CLI tests and two original1-green/current2-green-one-AssertionError controls; no new product closure, baseline/retirement/schema/save/API or gameplay change. Pre94 queue remains53partial/30pending/0accept. Ten owned finalization WIP files parked with hashes for resumption, not discarded. Evidence index stale50/33 copy replaced by canonical link; historical quote/native verdicts preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "product runtime",
+              "E2E",
+              "visual"
+            ]
+          },
           {
             "revision": "4b86b04b790eb6b83f93a10f4ac07102c608b39b",
             "date": "2026-10-18",
@@ -1409,8 +1425,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "68338784cbe84ce00e2bedde8cde34c251ab2e38befae72e6306a99c644abf98",
-        "lineCount": 13734,
+        "afterSha256": "fe6fbd45e4d6418a7f0c0ba3c42fd66e20ff30cd14413e14601c42554adb4e75",
+        "lineCount": 15111,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -1440,7 +1456,7 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "1-15063",
+      "reviewedLines": "1-15111",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

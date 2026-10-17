@@ -1040,7 +1040,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "b192e3bec454cbacae56ebf310f0c73bd1b1e84d3c7c882a3d36f4880799db6e",
+      "afterSha256": "636c42ce5fd8bdd5a42faac2a2d522ff801911dacb6176a109f47a10542ba4b2",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1064,8 +1064,24 @@
       },
       "revision": {
         "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "implementationSha": "b192e3bec454cbacae56ebf310f0c73bd1b1e84d3c7c882a3d36f4880799db6e",
+        "implementationSha": "636c42ce5fd8bdd5a42faac2a2d522ff801911dacb6176a109f47a10542ba4b2",
         "history": [
+          {
+            "revision": "6fde6d86cf9754e441de948c82ac99ebc1f480c8",
+            "date": "2026-10-18",
+            "action": "Bounded Git enumeration capacity prerequisite, real tail CLI tests",
+            "previousAfterSha256": "b192e3bec454cbacae56ebf310f0c73bd1b1e84d3c7c882a3d36f4880799db6e",
+            "scope": "Only three-code-file tooling slice plus its review task, generated index, ledger two closed to review/one pending to review, and evidence navigation. Complete Git path response16MiB; independent namespace4MiB/validation rules unchanged. Two actual business red-to-green CLI tests and two original1-green/current2-green-one-AssertionError controls; no new product closure, baseline/retirement/schema/save/API or gameplay change. Pre94 queue remains53partial/30pending/0accept. Ten owned finalization WIP files parked with hashes for resumption, not discarded. Evidence index stale50/33 copy replaced by canonical link; historical quote/native verdicts preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "product runtime",
+              "E2E",
+              "visual"
+            ]
+          },
           {
             "revision": "4b86b04b790eb6b83f93a10f4ac07102c608b39b",
             "date": "2026-10-18",
@@ -1391,8 +1407,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "b192e3bec454cbacae56ebf310f0c73bd1b1e84d3c7c882a3d36f4880799db6e",
-        "lineCount": 1987,
+        "afterSha256": "636c42ce5fd8bdd5a42faac2a2d522ff801911dacb6176a109f47a10542ba4b2",
+        "lineCount": 2604,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -1426,7 +1442,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-2572",
+      "reviewedLines": "1-2604",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -5145,7 +5161,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "83955b2d4af8f03207242a7a6920826490ba940ce2ded89e0ae576326ae19bb7",
+      "afterSha256": "619d0a8915e12e26fa6cd3bc015e8d71b3a432b869157716a6ee1c9d2b664cd4",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5169,8 +5185,24 @@
       },
       "revision": {
         "currentSha": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "implementationSha": "83955b2d4af8f03207242a7a6920826490ba940ce2ded89e0ae576326ae19bb7",
+        "implementationSha": "619d0a8915e12e26fa6cd3bc015e8d71b3a432b869157716a6ee1c9d2b664cd4",
         "history": [
+          {
+            "revision": "6fde6d86cf9754e441de948c82ac99ebc1f480c8",
+            "date": "2026-10-18",
+            "action": "Bounded Git enumeration capacity prerequisite, real tail CLI tests",
+            "previousAfterSha256": "83955b2d4af8f03207242a7a6920826490ba940ce2ded89e0ae576326ae19bb7",
+            "scope": "Only three-code-file tooling slice plus its review task, generated index, ledger two closed to review/one pending to review, and evidence navigation. Complete Git path response16MiB; independent namespace4MiB/validation rules unchanged. Two actual business red-to-green CLI tests and two original1-green/current2-green-one-AssertionError controls; no new product closure, baseline/retirement/schema/save/API or gameplay change. Pre94 queue remains53partial/30pending/0accept. Ten owned finalization WIP files parked with hashes for resumption, not discarded. Evidence index stale50/33 copy replaced by canonical link; historical quote/native verdicts preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "product runtime",
+              "E2E",
+              "visual"
+            ]
+          },
           {
             "revision": "4b86b04b790eb6b83f93a10f4ac07102c608b39b",
             "date": "2026-10-18",
@@ -5502,8 +5534,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "83955b2d4af8f03207242a7a6920826490ba940ce2ded89e0ae576326ae19bb7",
-        "lineCount": 5074,
+        "afterSha256": "619d0a8915e12e26fa6cd3bc015e8d71b3a432b869157716a6ee1c9d2b664cd4",
+        "lineCount": 5531,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -5537,7 +5569,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-5515",
+      "reviewedLines": "1-5531",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -10353,7 +10385,7 @@
         }
       ],
       "sourceSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
-      "afterSha256": "72a3459930920fd295ac2c6b86c88acdab13f105c81eaaa8c4f9def807e84b1d",
+      "afterSha256": "57f2d895ab5362d851c28478d838864ca8f09b238d49e9428d3646c3fbece5d6",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -10377,8 +10409,24 @@
       },
       "revision": {
         "currentSha": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
-        "implementationSha": "72a3459930920fd295ac2c6b86c88acdab13f105c81eaaa8c4f9def807e84b1d",
+        "implementationSha": "57f2d895ab5362d851c28478d838864ca8f09b238d49e9428d3646c3fbece5d6",
         "history": [
+          {
+            "revision": "6fde6d86cf9754e441de948c82ac99ebc1f480c8",
+            "date": "2026-10-18",
+            "action": "Bounded Git enumeration capacity prerequisite, real tail CLI tests",
+            "previousAfterSha256": "72a3459930920fd295ac2c6b86c88acdab13f105c81eaaa8c4f9def807e84b1d",
+            "scope": "Only three-code-file tooling slice plus its review task, generated index, ledger two closed to review/one pending to review, and evidence navigation. Complete Git path response16MiB; independent namespace4MiB/validation rules unchanged. Two actual business red-to-green CLI tests and two original1-green/current2-green-one-AssertionError controls; no new product closure, baseline/retirement/schema/save/API or gameplay change. Pre94 queue remains53partial/30pending/0accept. Ten owned finalization WIP files parked with hashes for resumption, not discarded. Evidence index stale50/33 copy replaced by canonical link; historical quote/native verdicts preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "product runtime",
+              "E2E",
+              "visual"
+            ]
+          },
           {
             "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
             "date": "2026-10-18",
@@ -10407,8 +10455,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
         "candidateSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
-        "afterSha256": "72a3459930920fd295ac2c6b86c88acdab13f105c81eaaa8c4f9def807e84b1d",
-        "lineCount": 993,
+        "afterSha256": "57f2d895ab5362d851c28478d838864ca8f09b238d49e9428d3646c3fbece5d6",
+        "lineCount": 1033,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -10442,7 +10490,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-1017",
+      "reviewedLines": "1-1033",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

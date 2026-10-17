@@ -16,7 +16,12 @@ const packageRoots = new Set([
 ])
 
 function trackedFiles() {
-  return execFileSync('git', ['ls-files', '-z'], { cwd: root, encoding: 'utf8' })
+  return execFileSync('git', ['ls-files', '-z'], {
+    cwd: root,
+    encoding: 'utf8',
+    // This is the whole tracked path list, including out-of-scope evidence paths.
+    maxBuffer: 16 * 1024 * 1024,
+  })
     .split('\0')
     .filter(Boolean)
 }

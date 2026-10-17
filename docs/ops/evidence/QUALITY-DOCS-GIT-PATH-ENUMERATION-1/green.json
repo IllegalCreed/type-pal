@@ -1,0 +1,18 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "--test-reporter=tap",
+    "scripts/quality/code-quality-inventory.test.mjs"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T23:25:56.503655+00:00",
+  "completedAt": "2026-10-17T23:25:59.157842+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "green.raw.gz",
+  "rawBytes": 895,
+  "rawSha256": "1b9f7c0fe1bde4a9ba8a5994f5ba28436ee665fe2fb00313534945f10de748ea",
+  "fullUncutMergedStdoutStderr": true
+}

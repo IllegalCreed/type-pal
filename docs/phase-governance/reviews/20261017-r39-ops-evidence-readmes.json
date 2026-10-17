@@ -38,7 +38,7 @@
         }
       ],
       "sourceSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
-      "afterSha256": "8ab6f82c698484f6d83dcabf9f68870d78a6c5342fb24b4e94ca96316d0cf627",
+      "afterSha256": "c95d0011f4d47337fd47ed4d96e48d3d688cd24bb25324992121582daea4ed6c",
       "publicCallers": [
         "docs/ops/evidence/README.md → docs/ops/evidence/README.md navigation",
         "task card / evidence consumer references"
@@ -59,8 +59,24 @@
       },
       "revision": {
         "currentSha": "5b9929b61608a51db20c5478a58253c51e7f54bfe676e473ac526061080a11f0",
-        "implementationSha": "8ab6f82c698484f6d83dcabf9f68870d78a6c5342fb24b4e94ca96316d0cf627",
+        "implementationSha": "c95d0011f4d47337fd47ed4d96e48d3d688cd24bb25324992121582daea4ed6c",
         "history": [
+          {
+            "revision": "6fde6d86cf9754e441de948c82ac99ebc1f480c8",
+            "date": "2026-10-18",
+            "action": "Bounded Git enumeration capacity prerequisite, real tail CLI tests",
+            "previousAfterSha256": "8ab6f82c698484f6d83dcabf9f68870d78a6c5342fb24b4e94ca96316d0cf627",
+            "scope": "Only three-code-file tooling slice plus its review task, generated index, ledger two closed to review/one pending to review, and evidence navigation. Complete Git path response16MiB; independent namespace4MiB/validation rules unchanged. Two actual business red-to-green CLI tests and two original1-green/current2-green-one-AssertionError controls; no new product closure, baseline/retirement/schema/save/API or gameplay change. Pre94 queue remains53partial/30pending/0accept. Ten owned finalization WIP files parked with hashes for resumption, not discarded. Evidence index stale50/33 copy replaced by canonical link; historical quote/native verdicts preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "product runtime",
+              "E2E",
+              "visual"
+            ]
+          },
           {
             "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
             "date": "2026-10-18",
@@ -96,8 +112,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r39-ops-evidence-readmes-20261017.json",
         "sourceSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
         "candidateSha256": "17a0f858b7a320a3c920b2de2cca77c4fe8fa3171b68b9b512e9f323ff002614",
-        "afterSha256": "8ab6f82c698484f6d83dcabf9f68870d78a6c5342fb24b4e94ca96316d0cf627",
-        "lineCount": 112,
+        "afterSha256": "c95d0011f4d47337fd47ed4d96e48d3d688cd24bb25324992121582daea4ed6c",
+        "lineCount": 167,
         "artifactPreserved": false,
         "originalPreservation": {
           "method": "line-by-line blockquote quote",
@@ -134,7 +150,7 @@
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
       "stopLine": "do not promote evidence receipt or index claims to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 ops evidence README 保持 → 接入统一模板、历史 overlay、可逆 quote、SHA 和 consumer/执行边界；产品事实不变。",
-      "reviewedLines": "1-165",
+      "reviewedLines": "1-167",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "documentStatus": "current-index",

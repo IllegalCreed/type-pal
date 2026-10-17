@@ -1,0 +1,125 @@
+{
+  "base": "6fde6d86cf9754e441de948c82ac99ebc1f480c8",
+  "controls": [
+    {
+      "id": "docs-default-buffer",
+      "source": "scripts/docs/check.mjs",
+      "sourceSha256": "8ffce288f92eb90c4971cbb64edd77a78516e1d9a80c8ec9748e5ce7aa37d407",
+      "mutantSha256": "a3626ea8fb71e98f67c8daee76788e03d058f723af80c37ad975ade5cf0dd200",
+      "expectedFailure": "actual docs index CLI",
+      "runs": {
+        "old": {
+          "command": [
+            "node",
+            "--test",
+            "--test-reporter=tap",
+            "scripts/quality/code-quality-inventory.test.mjs"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T23:27:03.323986+00:00",
+          "completedAt": "2026-10-17T23:27:05.669678+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "docs-default-buffer.old.raw.gz",
+          "rawBytes": 371,
+          "rawSha256": "9b47c33a284109bd1fd323327da5baca19245067302f526997830b1ec8bd4729",
+          "nativeReporter": "Node TAP full unfiltered file",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "97a35784f99e1036e20920549deb4388d06fe8272e904d9b87694aad7673fdaa",
+          "failedNames": [],
+          "sourceRestoredSha256": "8ffce288f92eb90c4971cbb64edd77a78516e1d9a80c8ec9748e5ce7aa37d407",
+          "specRestoredSha256": "ed2a85a2a501ba7ac6aaa5ea3d93b1bf048dac05792f36483917712d649b0510",
+          "restored": true
+        },
+        "current": {
+          "command": [
+            "node",
+            "--test",
+            "--test-reporter=tap",
+            "scripts/quality/code-quality-inventory.test.mjs"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T23:27:05.669982+00:00",
+          "completedAt": "2026-10-17T23:27:07.970236+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "docs-default-buffer.current.raw.gz",
+          "rawBytes": 24026,
+          "rawSha256": "26dca3fae991cfa3eb176520423fbf6ad4ec99904f5eee819bd2fc267eef79e0",
+          "nativeReporter": "Node TAP full unfiltered file",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "ed2a85a2a501ba7ac6aaa5ea3d93b1bf048dac05792f36483917712d649b0510",
+          "failedNames": [
+            "not ok 2 - actual docs index CLI consumes over1MiB Git paths and still rejects an invalid tail task"
+          ],
+          "sourceRestoredSha256": "8ffce288f92eb90c4971cbb64edd77a78516e1d9a80c8ec9748e5ce7aa37d407",
+          "specRestoredSha256": "ed2a85a2a501ba7ac6aaa5ea3d93b1bf048dac05792f36483917712d649b0510",
+          "restored": true
+        }
+      }
+    },
+    {
+      "id": "inventory-default-buffer",
+      "source": "scripts/quality/code-quality-inventory.mjs",
+      "sourceSha256": "03df42b0fb4e7e7366173b21c527b905e8d74109691f26f5c021fdfdc14588d0",
+      "mutantSha256": "3506486afd2a30c6182042b9e2c1badb46e8f36465e46541c09057a191265ee2",
+      "expectedFailure": "actual quality inventory CLI",
+      "runs": {
+        "old": {
+          "command": [
+            "node",
+            "--test",
+            "--test-reporter=tap",
+            "scripts/quality/code-quality-inventory.test.mjs"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T23:27:07.970854+00:00",
+          "completedAt": "2026-10-17T23:27:10.003967+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "inventory-default-buffer.old.raw.gz",
+          "rawBytes": 372,
+          "rawSha256": "97cb8a7a00e3c76870b458563d4575c3eb2895e46647ea0378699443ec1727d3",
+          "nativeReporter": "Node TAP full unfiltered file",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "97a35784f99e1036e20920549deb4388d06fe8272e904d9b87694aad7673fdaa",
+          "failedNames": [],
+          "sourceRestoredSha256": "03df42b0fb4e7e7366173b21c527b905e8d74109691f26f5c021fdfdc14588d0",
+          "specRestoredSha256": "ed2a85a2a501ba7ac6aaa5ea3d93b1bf048dac05792f36483917712d649b0510",
+          "restored": true
+        },
+        "current": {
+          "command": [
+            "node",
+            "--test",
+            "--test-reporter=tap",
+            "scripts/quality/code-quality-inventory.test.mjs"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T23:27:10.004251+00:00",
+          "completedAt": "2026-10-17T23:27:12.388245+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "inventory-default-buffer.current.raw.gz",
+          "rawBytes": 24341,
+          "rawSha256": "ea5b542de3d443a9da438f610a414ffea3614a2d240096dad16af3a675994de6",
+          "nativeReporter": "Node TAP full unfiltered file",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "ed2a85a2a501ba7ac6aaa5ea3d93b1bf048dac05792f36483917712d649b0510",
+          "failedNames": [
+            "not ok 3 - actual quality inventory CLI consumes over1MiB Git paths and preserves exact tail records and callers"
+          ],
+          "sourceRestoredSha256": "03df42b0fb4e7e7366173b21c527b905e8d74109691f26f5c021fdfdc14588d0",
+          "specRestoredSha256": "ed2a85a2a501ba7ac6aaa5ea3d93b1bf048dac05792f36483917712d649b0510",
+          "restored": true
+        }
+      }
+    }
+  ],
+  "restored": true,
+  "scope": "Actual complete Node TAP test file per original/current spec with one actual source maxBuffer reverted. No fake Git or subprocess replacement."
+}

@@ -736,3 +736,7 @@ Codex premise verified/design agree/build allowed：三文件analytics-consent.t
 Codex premise verified/design agree/build allowed：原GA实现139行、主169行、H05边界121行及真实install/consent/UI/main已全文核读，单一Owner Codex。低风险白名单为原三文件的事实注释/两测试补强及新增google-analytics.test-fixtures.ts测试专用共享宿主：两份重复harness与全局恢复合并，使用实际SUT、typed公开订阅端口、自有Document与精确属性描述符恢复，不改生产接口。对照项目OPS-GA4合同、Google官方gtag API/安装/禁用文档；项目ID/UTM/去重策略与SDK规则分开。未知错误传播先隔离探针及专卡，产品执行/网络/隐私策略/UI/schema/save/资源冻结，不能把旧标题当已验证。全仓check/官方coverage/protected仍留大任务收尾。
 
 本片交付：原139/169/121行与真实caller、当前四代码文件全文；只校正catch范围注释，parsedTS/JS一致。两重复测试harness合并到自有Document/SDK描述符/typed订阅宿主，外owner完整cohort反证旧8绿1红→新10绿。原12合同逐断言保留，主8→9、H05仍4；五反控旧全绿新指定单AssertionError，恢复13直接12相邻/TC零诊断。三未列pending→review、新fixture review，机器3316/261closed/89review/2966pending，0关闭；只3z pending→partial，83卡53/30/0accept，scopeConfirmed=false。真实初始化失败后无owner订阅counter另开GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 draft等裁决，产品执行冻结；反例exit1与旧12绿均完整保存。详见[GA证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md)，全仓check/coverage/protected留大任务收尾，不合main。下一步回pre94 40/41或3u/3w，94–102/editor后置，无下一位Agent提示词。
+
+### 2026-10-18 Git枚举前置工具修复
+
+3u/3w自有WIP已逐字节保存；其索引生成实际触发Git默认1MiB ENOBUFS，独立QUALITY-DOCS-GIT-PATH-ENUMERATION-1修两个枚举IO容量并加真实Git尾部反例，不改文档/ledger策略或终态namespace4MiB。三代码路径仅review，0新增关闭；83卡53/30/0accept不变，工具批提交推送后恢复3u/3w并重基共享元数据。详见[工具证据](../evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md)，完整全仓/coverage/protected留大任务收尾。

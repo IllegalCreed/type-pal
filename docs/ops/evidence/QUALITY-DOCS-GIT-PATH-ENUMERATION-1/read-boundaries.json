@@ -1,0 +1,92 @@
+{
+  "base": "6fde6d86cf9754e441de948c82ac99ebc1f480c8",
+  "rows": [
+    {
+      "path": "scripts/docs/check.mjs",
+      "sha256": "8ffce288f92eb90c4971cbb64edd77a78516e1d9a80c8ec9748e5ce7aa37d407",
+      "lines": 383,
+      "ranges": [[1, 383]],
+      "fullRead": true,
+      "snapshot": "8ffce288f92e-check.mjs.read.gz",
+      "phase": "Before metadata edits for evidence README; final code/caller bytes otherwise current"
+    },
+    {
+      "path": "scripts/quality/code-quality-inventory.mjs",
+      "sha256": "03df42b0fb4e7e7366173b21c527b905e8d74109691f26f5c021fdfdc14588d0",
+      "lines": 221,
+      "ranges": [[1, 221]],
+      "fullRead": true,
+      "snapshot": "03df42b0fb4e-code-quality-inventory.mjs.read.gz",
+      "phase": "Before metadata edits for evidence README; final code/caller bytes otherwise current"
+    },
+    {
+      "path": "scripts/quality/code-quality-inventory.test.mjs",
+      "sha256": "ed2a85a2a501ba7ac6aaa5ea3d93b1bf048dac05792f36483917712d649b0510",
+      "lines": 185,
+      "ranges": [[1, 185]],
+      "fullRead": true,
+      "snapshot": "ed2a85a2a501-code-quality-inventory.test.mjs.read.gz",
+      "phase": "Before metadata edits for evidence README; final code/caller bytes otherwise current"
+    },
+    {
+      "path": "scripts/docs/check.test.mjs",
+      "sha256": "ac4879d0abe20780d8cf66ebd9b84befb4a7b63d200eaf22e87d6d1b10e9b67e",
+      "lines": 272,
+      "ranges": [[1, 272]],
+      "fullRead": true,
+      "snapshot": "ac4879d0abe2-check.test.mjs.read.gz",
+      "phase": "Before metadata edits for evidence README; final code/caller bytes otherwise current"
+    },
+    {
+      "path": "scripts/quality/code-quality-ledger.mjs",
+      "sha256": "ebe8f816babc6ef316a190754f7dcc45dfc645e6c0587164a84304a1e06c29e2",
+      "lines": 142,
+      "ranges": [[1, 142]],
+      "fullRead": true,
+      "snapshot": "ebe8f816babc-code-quality-ledger.mjs.read.gz",
+      "phase": "Before metadata edits for evidence README; final code/caller bytes otherwise current"
+    },
+    {
+      "path": "scripts/docs/git-document-source.mjs",
+      "sha256": "91debaa8b71971b9b6f445218b749ac1f396b92fcbe27a7b93ab10f2cdc33874",
+      "lines": 35,
+      "ranges": [[1, 35]],
+      "fullRead": true,
+      "snapshot": "91debaa8b719-git-document-source.mjs.read.gz",
+      "phase": "Before metadata edits for evidence README; final code/caller bytes otherwise current"
+    },
+    {
+      "path": "scripts/docs/git-document-snapshot.mjs",
+      "sha256": "ab1a61e21ffe4862bb4bb5ec9ddc6e63998bc2ba6d6117186f6b96c44117ce7c",
+      "lines": 38,
+      "ranges": [[1, 38]],
+      "fullRead": true,
+      "snapshot": "ab1a61e21ffe-git-document-snapshot.mjs.read.gz",
+      "phase": "Before metadata edits for evidence README; final code/caller bytes otherwise current"
+    },
+    {
+      "path": "scripts/quality/lint-zero.mjs",
+      "sha256": "4f245ce0bf392ebf35c738eb1462dd99886d08aa81964a6d71b37d3ad7a0b580",
+      "lines": 97,
+      "ranges": [[1, 97]],
+      "fullRead": true,
+      "snapshot": "4f245ce0bf39-lint-zero.mjs.read.gz",
+      "phase": "Before metadata edits for evidence README; final code/caller bytes otherwise current"
+    },
+    {
+      "path": "docs/ops/evidence/README.md",
+      "sha256": "8ab6f82c698484f6d83dcabf9f68870d78a6c5342fb24b4e94ca96316d0cf627",
+      "lines": 165,
+      "ranges": [[1, 165]],
+      "fullRead": true,
+      "snapshot": "8ab6f82c6984-README.md.read.gz",
+      "phase": "Before metadata edits for evidence README; final code/caller bytes otherwise current"
+    }
+  ],
+  "additionalPartialReads": {
+    "scripts/docs/terminal-namespace.mjs": [[1, 95], [180, 330]],
+    "scripts/docs/terminal-codec.test.mjs": [[1, 100], [870, 925]],
+    "scripts/docs/config.mjs": [[1, 56]]
+  },
+  "scope": "Three-code-file Git enumeration module slice; read of dependencies is not their semantic closure"
+}

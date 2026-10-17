@@ -1,0 +1,92 @@
+{
+  "base": "6fde6d86cf9754e441de948c82ac99ebc1f480c8",
+  "status": "recorded: real2 red-to-green, two old1/new2+1 controls, quality40/docs125+five consumers/lint-zero/ledger; no unified closeout",
+  "tracked": 3316,
+  "closed": 259,
+  "review": 92,
+  "pending": 2965,
+  "newClosed": 0,
+  "reopened": 2,
+  "newReview": 1,
+  "pre94Cards": {
+    "partial": 53,
+    "pending": 30,
+    "accept": 0
+  },
+  "notRun": [
+    "whole repository check",
+    "official coverage ratchet",
+    "protected fast",
+    "product runtime",
+    "E2E",
+    "visual"
+  ],
+  "mergeAllowed": false,
+  "rows": [
+    {
+      "label": "green",
+      "receipt": "green.json",
+      "exit": 0,
+      "passed": 3,
+      "skipped": 0,
+      "cancelled": 0,
+      "todo": 0
+    },
+    {
+      "label": "quality-tools",
+      "receipt": "quality-tools.json",
+      "exit": 0,
+      "passed": 40,
+      "skipped": 0,
+      "cancelled": 0,
+      "todo": 0
+    },
+    {
+      "label": "docs",
+      "receipt": "docs.json",
+      "exit": 0,
+      "toolTests": 125,
+      "actualConsumers": 5,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "unchangedNamespace4MiBOverflowRegressionPassed": true
+    },
+    {
+      "label": "lint-final",
+      "receipt": "lint-final.json",
+      "exit": 0,
+      "files": 5365,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      }
+    },
+    {
+      "label": "ledger",
+      "receipt": "ledger.json",
+      "exit": 0,
+      "tracked": 3316,
+      "closed": 259,
+      "review": 92,
+      "pending": 2965
+    },
+    {
+      "label": "fetch-final",
+      "receipt": "fetch-final.json",
+      "exit": 0
+    },
+    {
+      "label": "divergence-final",
+      "receipt": "divergence-final.json",
+      "exit": 0,
+      "behind": 0,
+      "ahead": 254,
+      "scope": "Before tool batch commit, not a main merge"
+    }
+  ],
+  "typecheck": "N/A: only MJS tooling changed; actual Node CLI/test parsing and lint verify syntax, no package TS change"
+}

@@ -1,0 +1,13 @@
+{
+  "command": ["pnpm", "test:quality-tools"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T23:29:07.987052+00:00",
+  "completedAt": "2026-10-17T23:29:11.309289+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "quality-tools.raw.gz",
+  "rawBytes": 6871,
+  "rawSha256": "2a2f8bcf9b8a0125a814a58aaf39fdfe66c99fc65678d18779b70600a3b4b66f",
+  "fullUncutMergedStdoutStderr": true
+}

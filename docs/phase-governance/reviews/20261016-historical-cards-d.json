@@ -3265,11 +3265,27 @@
       "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "87a1fa935c1532aa72f02565a0f9385e1763a07c54bf900c64a8aa4b59d0542b",
+      "afterSha256": "f351da10c4be8f42eefeaf08f3f5d481275c0b61e9c80ebc4e31ab80fa331574",
       "revision": {
         "currentSha": "addcb44c52fd00ab0fd3397e61ae316bf98d02e2aeef1d5533ed23a2c1e5845a",
-        "implementationSha": "87a1fa935c1532aa72f02565a0f9385e1763a07c54bf900c64a8aa4b59d0542b",
+        "implementationSha": "f351da10c4be8f42eefeaf08f3f5d481275c0b61e9c80ebc4e31ab80fa331574",
         "history": [
+          {
+            "revision": "6fde6d86cf9754e441de948c82ac99ebc1f480c8",
+            "date": "2026-10-18",
+            "action": "Bounded Git enumeration capacity prerequisite, real tail CLI tests",
+            "previousAfterSha256": "87a1fa935c1532aa72f02565a0f9385e1763a07c54bf900c64a8aa4b59d0542b",
+            "scope": "Only three-code-file tooling slice plus its review task, generated index, ledger two closed to review/one pending to review, and evidence navigation. Complete Git path response16MiB; independent namespace4MiB/validation rules unchanged. Two actual business red-to-green CLI tests and two original1-green/current2-green-one-AssertionError controls; no new product closure, baseline/retirement/schema/save/API or gameplay change. Pre94 queue remains53partial/30pending/0accept. Ten owned finalization WIP files parked with hashes for resumption, not discarded. Evidence index stale50/33 copy replaced by canonical link; historical quote/native verdicts preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "product runtime",
+              "E2E",
+              "visual"
+            ]
+          },
           {
             "revision": "4b86b04b790eb6b83f93a10f4ac07102c608b39b",
             "date": "2026-10-18",
@@ -3680,8 +3696,8 @@
         "kind": "A8-six-pending-inventory-real-producer-maintenance",
         "path": "docs/ops/audits/code-quality-file-ledger.md",
         "sourceSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
-        "afterSha256": "87a1fa935c1532aa72f02565a0f9385e1763a07c54bf900c64a8aa4b59d0542b",
-        "lineCount": 592,
+        "afterSha256": "f351da10c4be8f42eefeaf08f3f5d481275c0b61e9c80ebc4e31ab80fa331574",
+        "lineCount": 742,
         "sourceScope": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "completePrior": {
           "kind": "complete-prior-current-in-reachable-fixed-git",
@@ -3903,7 +3919,7 @@
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "1-741",
+      "reviewedLines": "1-742",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {
