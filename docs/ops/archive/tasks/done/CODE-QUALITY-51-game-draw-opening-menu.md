@@ -65,3 +65,8 @@ Visual Verification Timing: e2e-deferred（标题菜单观感留集中 E2E；本
 不要做：不得改变产品形态、schema/save、资源格式或公共接口；不得用单包全绿关闭文件
 输出：证据、测试结果、counter/返工项，或 wave 收口待办
 ```
+
+
+## Codex 当前复审（2026-10-18）
+
+历史 `done` 不等于本轮验收。本轮完整读取三个范围文件、opening-confirm 相邻像素 oracle、opening/menu caller 与 SDLPal `uigame.c:42-167`、`ui.c:458`；直接 3 files / 17 tests、相邻 4 files / 107 tests、game typecheck 通过，未发现可由 primary + caller 证实的新 direct defect。复审状态为 `partial`，不标 `accept`；coverage/ratchet/protected/full check 留 present/menu wave 收口。证据见 [`51-draw-opening-menu`](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/51-draw-opening-menu/README.md)。

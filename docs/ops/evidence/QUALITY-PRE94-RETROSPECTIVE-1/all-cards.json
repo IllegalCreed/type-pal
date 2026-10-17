@@ -1968,10 +1968,10 @@
       "number": 51,
       "suffix": "",
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-51-game-draw-opening-menu.md",
-      "sha256": "08c7b198e5835ba510b8cdef1ba0160b5e3263313c79aa3a9ee304e0dbdb22f3",
-      "lines": 67,
+      "sha256": "2fbab56fd1caa86d75a2ee05a5d03f26e2f08a7fdce939ab3d035b846a32bfbc",
+      "lines": 72,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -1999,7 +1999,7 @@
           "text": "不要做：不得改变产品形态、schema/save、资源格式或公共接口；不得用单包全绿关闭文件"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true
     },
     {
       "id": "52",
@@ -3923,8 +3923,8 @@
   ],
   "reviewCheckpointBase": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
   "currentReviewCounts": {
-    "partial": 33,
-    "pending": 50,
+    "partial": 34,
+    "pending": 49,
     "accept": 0
   }
 }

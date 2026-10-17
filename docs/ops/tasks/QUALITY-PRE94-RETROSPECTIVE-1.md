@@ -9,7 +9,7 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
 ## 当前用户要求、范围与准入
 
-用户2026-10-16重申“复审94号之前的所有卡的成果”，本卡当前覆盖全部83张CODE-QUALITY编号小于94的卡，包含字母后缀，不是抽样。77张历史done、1张build、4张review、1张draft仅是原卡状态；本轮重新accept为0。当前复审队列已推进为33张partial、50张pending；partial只表示有限证据切片，不是验收。按当前Git tracked路径收集，大小写敏感编号规则排除行政卡CODE-QUALITY-3Y-CLOSEOUT-1；不按编号空缺虚构卡。完整83行清单与卡SHA见[复审队列](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)。原36卡结构/8卡全文抽查是历史部分证据，不能替代任何整卡成果复验。3y的58差异卡矩阵也不是全部83卡。
+用户2026-10-16重申“复审94号之前的所有卡的成果”，本卡当前覆盖全部83张CODE-QUALITY编号小于94的卡，包含字母后缀，不是抽样。77张历史done、1张build、4张review、1张draft仅是原卡状态；本轮重新accept为0。当前复审队列已推进为34张partial、49张pending；partial只表示有限证据切片，不是验收。按当前Git tracked路径收集，大小写敏感编号规则排除行政卡CODE-QUALITY-3Y-CLOSEOUT-1；不按编号空缺虚构卡。完整83行清单与卡SHA见[复审队列](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)。原36卡结构/8卡全文抽查是历史部分证据，不能替代任何整卡成果复验。3y的58差异卡矩阵也不是全部83卡。
 
 唯一工作树/分支codex/code-quality-3y；主树和其它Owner只读，不再新建治理分支。94–102及editor既有返工继续保留；C10未完成检查点bea19f80c已提交推送，当前先推进本卡。工程→模块→功能→文件；先6a的账本/清单四文件，再核92的受保护门证据，继而逐卡回到shared/extract/game等模块。活跃53/57/79/80/81/90只读协调，未核前不抢写其实现。
 
@@ -19,7 +19,7 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 
 ## 当前推进
 
-83卡当前全量accept=0、33partial/50pending；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3b SSS/MSG、3c动画清理、3d PNG、3g CLI、3h assets/shell、CODE71 fetch取消与测试、CODE3/3f切分与标注已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
+83卡当前全量accept=0、34partial/49pending；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3b SSS/MSG、3c动画清理、3d PNG、3g CLI、3h assets/shell、CODE71 fetch取消与测试、CODE3/3f切分与标注已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
 
 无下一位Agent提示词，Codex单Agent继续全量复审，不把本卡交回GLM。
 
@@ -89,6 +89,12 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 完整读取 `draw-magic.ts`（359 行）、三份专属测试（235/267/584 行）、P06 caller/oracle（345 行）、in-game-magic-menu 状态生命周期与 SDLPal `magicmenu.c:1-484`、`uigame.c:653-875`、`uibattle.c:31-269`。施法人/仙术/目标三阶段、MP/说明/分页/光标、运行时数值和资源边界均有合同，直接 4 files/25 tests、相邻 5 files/136 tests和 game typecheck通过。
 
 停线发现：SDLPal 复用的 `PAL_PlayerInfoBox` 会按中毒重染头像并绘制乱/定/眠/封状态字，当前 `draw-magic.ts` 明确省略，且第一阶段文档把该行为记为已修复。该用户可见差异需要独立高风险裁决，已开 [`GAME-MAGIC-PLAYERINFO-STATUS-1`](../tasks/GAME-MAGIC-PLAYERINFO-STATUS-1.md)，本批未改公共输入或产品实现；50 当前 `partial`。coverage ratchet、protected fast、全仓 `pnpm check`、official coverage 本小批未运行。
+
+### 2026-10-18 CODE-QUALITY-51 draw-opening-menu 当前复审
+
+完整读取 `draw-opening-menu.ts`（94 行）、两份专属测试（101/79 行）、opening-confirm 相邻像素测试、opening/menu caller 与 SDLPal `uigame.c:42-167`、`ui.c:458`。背景、两项文案、长文案 x 公式、闪烁色、三影、缺背景和状态隔离均一致，直接 3 files/17 tests、相邻 4 files/107 tests和 game typecheck通过，未发现 direct defect。
+
+51 当前 `partial`，coverage ratchet、protected fast、全仓 `pnpm check`、official coverage 本小批未运行；证据见 [`51-draw-opening-menu`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/51-draw-opening-menu/README.md)，等待 present/menu wave 统一门。
 
 ## 历史：2026-10-15抽查准入原文（已被上方全量范围取代）
 
