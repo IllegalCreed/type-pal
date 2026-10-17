@@ -1,0 +1,605 @@
+{
+  "base": "28fcfbe310815bcfd712b2f3da1849e0f4076092",
+  "owner": "Codex single agent",
+  "scope": "Whole unfiltered old/current file per mutant. Three strengthen main storage/order/signal contracts; two disambiguate missing browser and failed persistence contracts. No real GA endpoint/browser/visual acceptance.",
+  "controls": [
+    {
+      "id": "publish-before-persistence",
+      "source": "packages/game/src/analytics/analytics-consent.ts",
+      "spec": "packages/game/src/analytics/analytics-consent.test.ts",
+      "sourceSha256": "15e5a9897e2d272459a5d2dc7e94e118e61dddc56d8e3930d9d9fccecd0b34df",
+      "mutantSha256": "c3abbce27e3aa25c464c89fbcfc7e0ad733c68439a03b5c348a102fe7c318c84",
+      "expectedNewFailureNameContains": "默认宿主先持久化选择",
+      "expectedOldCount": 3,
+      "expectedCurrentCount": 3,
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/analytics/analytics-consent.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-consent-controls-lgm9j8gz/publish-before-persistence.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:41:30.918131+00:00",
+          "completedAt": "2026-10-17T22:41:31.696212+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "publish-before-persistence.old.raw.gz",
+          "rawBytes": 775,
+          "rawSha256": "c9f66e202e3f68b91608a3d411d47118f8d1648413660079db270fc2150cb8cb",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "17093b874741d76022dc519901e2c5df9f7bb649840aa9ab462b7db966894420",
+          "nativeReport": "publish-before-persistence.old.vitest.json.gz",
+          "nativeSha256": "770378742dcda27c9cf327934f92836735eb559140e82ae895467b474e6206a5",
+          "passed": 3,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.test.ts",
+              "fullName": "analytics consent 缺失、损坏或异常存储一律失败关闭",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.test.ts",
+              "fullName": "analytics consent 只保存合法选择、广播变更并支持销毁订阅",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.test.ts",
+              "fullName": "analytics consent DNT/GPC 仅在访客尚未选择时提供默认 denied",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "15e5a9897e2d272459a5d2dc7e94e118e61dddc56d8e3930d9d9fccecd0b34df",
+          "specRestoredSha256": "3b85fdd7dec529642867b2c57339df5e6caad8af39ff9f004905773d3405a240",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/analytics/analytics-consent.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-consent-controls-lgm9j8gz/publish-before-persistence.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:41:31.696604+00:00",
+          "completedAt": "2026-10-17T22:41:32.486319+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "publish-before-persistence.current.raw.gz",
+          "rawBytes": 2153,
+          "rawSha256": "d1175f27ba03b145499de1d4d4de6b9e1c918a98a39108f5fe44e0812ca5220c",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "3b85fdd7dec529642867b2c57339df5e6caad8af39ff9f004905773d3405a240",
+          "nativeReport": "publish-before-persistence.current.vitest.json.gz",
+          "nativeSha256": "277f6628e8226338d2ef90ebf1e5ffd1a1987b96bf92809aa0a9868ddbef3dd5",
+          "passed": 2,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.test.ts",
+              "fullName": "analytics consent 缺失、损坏或异常存储一律失败关闭",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.test.ts",
+              "fullName": "analytics consent 默认宿主先持久化选择,再同步广播已提交的值",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.test.ts",
+              "fullName": "analytics consent DNT/GPC 仅在访客尚未选择时提供默认 denied",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected [ [ 'granted', null ], …(1) ] to deeply equal [ [ 'granted', 'granted' ], …(1) ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.test.ts:54:20\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "15e5a9897e2d272459a5d2dc7e94e118e61dddc56d8e3930d9d9fccecd0b34df",
+          "specRestoredSha256": "3b85fdd7dec529642867b2c57339df5e6caad8af39ff9f004905773d3405a240",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "dnt-zero-treated-as-signal",
+      "source": "packages/game/src/analytics/analytics-consent.ts",
+      "spec": "packages/game/src/analytics/analytics-consent.test.ts",
+      "sourceSha256": "15e5a9897e2d272459a5d2dc7e94e118e61dddc56d8e3930d9d9fccecd0b34df",
+      "mutantSha256": "b7e2420a2324edffa998577f3319e34576a3c922a844c145ad2c2daf786cbd8a",
+      "expectedNewFailureNameContains": "DNT/GPC 仅在访客尚未选择",
+      "expectedOldCount": 3,
+      "expectedCurrentCount": 3,
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/analytics/analytics-consent.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-consent-controls-lgm9j8gz/dnt-zero-treated-as-signal.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:41:32.486847+00:00",
+          "completedAt": "2026-10-17T22:41:33.211297+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "dnt-zero-treated-as-signal.old.raw.gz",
+          "rawBytes": 775,
+          "rawSha256": "11391035c241a02b7b877765bc49bbd8ae967294e042d2c62787071b97853caa",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "17093b874741d76022dc519901e2c5df9f7bb649840aa9ab462b7db966894420",
+          "nativeReport": "dnt-zero-treated-as-signal.old.vitest.json.gz",
+          "nativeSha256": "0b455e4de73069a9644fb510a2aca592e38751171f6bedad2fa659ae1b0502e5",
+          "passed": 3,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.test.ts",
+              "fullName": "analytics consent 缺失、损坏或异常存储一律失败关闭",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.test.ts",
+              "fullName": "analytics consent 只保存合法选择、广播变更并支持销毁订阅",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.test.ts",
+              "fullName": "analytics consent DNT/GPC 仅在访客尚未选择时提供默认 denied",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "15e5a9897e2d272459a5d2dc7e94e118e61dddc56d8e3930d9d9fccecd0b34df",
+          "specRestoredSha256": "3b85fdd7dec529642867b2c57339df5e6caad8af39ff9f004905773d3405a240",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/analytics/analytics-consent.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-consent-controls-lgm9j8gz/dnt-zero-treated-as-signal.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:41:33.211630+00:00",
+          "completedAt": "2026-10-17T22:41:33.958526+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "dnt-zero-treated-as-signal.current.raw.gz",
+          "rawBytes": 2140,
+          "rawSha256": "e496887c280e99bc804962efac8a6675b7ac5a2377f90c48e44ed57f3182a2cc",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "3b85fdd7dec529642867b2c57339df5e6caad8af39ff9f004905773d3405a240",
+          "nativeReport": "dnt-zero-treated-as-signal.current.vitest.json.gz",
+          "nativeSha256": "b632cb3c997ba448c5fd7ad8eaed80d4d9bc754ce12b00803affabe3654d68e4",
+          "passed": 2,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.test.ts",
+              "fullName": "analytics consent 缺失、损坏或异常存储一律失败关闭",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.test.ts",
+              "fullName": "analytics consent 默认宿主先持久化选择,再同步广播已提交的值",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.test.ts",
+              "fullName": "analytics consent DNT/GPC 仅在访客尚未选择时提供默认 denied",
+              "status": "failed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected true to be false // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.test.ts:68:80\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "15e5a9897e2d272459a5d2dc7e94e118e61dddc56d8e3930d9d9fccecd0b34df",
+          "specRestoredSha256": "3b85fdd7dec529642867b2c57339df5e6caad8af39ff9f004905773d3405a240",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "default-write-host-missing",
+      "source": "packages/game/src/analytics/analytics-consent.ts",
+      "spec": "packages/game/src/analytics/analytics-consent.test.ts",
+      "sourceSha256": "15e5a9897e2d272459a5d2dc7e94e118e61dddc56d8e3930d9d9fccecd0b34df",
+      "mutantSha256": "2fea8f7c2a5958e889b8d32a2caec50098df3e642ed8eb61c1fa1f39d6a915f9",
+      "expectedNewFailureNameContains": "默认宿主先持久化选择",
+      "expectedOldCount": 3,
+      "expectedCurrentCount": 3,
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/analytics/analytics-consent.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-consent-controls-lgm9j8gz/default-write-host-missing.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:41:33.959001+00:00",
+          "completedAt": "2026-10-17T22:41:34.682987+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "default-write-host-missing.old.raw.gz",
+          "rawBytes": 775,
+          "rawSha256": "a350fa3d8af3b02af70c0c2ebd4c90bfeec6233e6dba95c2eaec352280733487",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "17093b874741d76022dc519901e2c5df9f7bb649840aa9ab462b7db966894420",
+          "nativeReport": "default-write-host-missing.old.vitest.json.gz",
+          "nativeSha256": "44876459f4c5776239f46ddb6d306dd03848459c15a326e4a0bc8620d6c3e3c2",
+          "passed": 3,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.test.ts",
+              "fullName": "analytics consent 缺失、损坏或异常存储一律失败关闭",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.test.ts",
+              "fullName": "analytics consent 只保存合法选择、广播变更并支持销毁订阅",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.test.ts",
+              "fullName": "analytics consent DNT/GPC 仅在访客尚未选择时提供默认 denied",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "15e5a9897e2d272459a5d2dc7e94e118e61dddc56d8e3930d9d9fccecd0b34df",
+          "specRestoredSha256": "3b85fdd7dec529642867b2c57339df5e6caad8af39ff9f004905773d3405a240",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/analytics/analytics-consent.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-consent-controls-lgm9j8gz/default-write-host-missing.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:41:34.683358+00:00",
+          "completedAt": "2026-10-17T22:41:35.432274+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "default-write-host-missing.current.raw.gz",
+          "rawBytes": 1930,
+          "rawSha256": "97970ed897fa26f5c07cfc57cfcc4df0d1b8605e7f8599a3278dffeeedeb427e",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "3b85fdd7dec529642867b2c57339df5e6caad8af39ff9f004905773d3405a240",
+          "nativeReport": "default-write-host-missing.current.vitest.json.gz",
+          "nativeSha256": "0a6112c568221b93eee792f06c2f3002ad23c2de8317f6d661843af73a1fe5fc",
+          "passed": 2,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.test.ts",
+              "fullName": "analytics consent 缺失、损坏或异常存储一律失败关闭",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.test.ts",
+              "fullName": "analytics consent 默认宿主先持久化选择,再同步广播已提交的值",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.test.ts",
+              "fullName": "analytics consent DNT/GPC 仅在访客尚未选择时提供默认 denied",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected false to be true // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.test.ts:52:48\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "15e5a9897e2d272459a5d2dc7e94e118e61dddc56d8e3930d9d9fccecd0b34df",
+          "specRestoredSha256": "3b85fdd7dec529642867b2c57339df5e6caad8af39ff9f004905773d3405a240",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "notify-after-storage-failure",
+      "source": "packages/game/src/analytics/analytics-consent.ts",
+      "spec": "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+      "sourceSha256": "15e5a9897e2d272459a5d2dc7e94e118e61dddc56d8e3930d9d9fccecd0b34df",
+      "mutantSha256": "1e29c48e315ce817dbeae19b6c236aed1cde49a71470ded0f6ef3f4942e08b87",
+      "expectedNewFailureNameContains": "持久化失败返回false且不广播",
+      "expectedOldCount": 3,
+      "expectedCurrentCount": 4,
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/analytics/analytics-consent.boundaries.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-consent-controls-lgm9j8gz/notify-after-storage-failure.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:41:35.432785+00:00",
+          "completedAt": "2026-10-17T22:41:36.174865+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "notify-after-storage-failure.old.raw.gz",
+          "rawBytes": 900,
+          "rawSha256": "5747b1f63f943e78abcea9603c837a3c669b629208202c8f9405b7fa2746242a",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "48c8e7dd27da0e2c0c994788300239aec6c6fece6d8a7d2b59e09b3fc5c57213",
+          "nativeReport": "notify-after-storage-failure.old.vitest.json.gz",
+          "nativeSha256": "03aedf4eb7cbf68dc5fb4336292a55ec27a400817fda6183e1cec8ce4d68ee1b",
+          "passed": 3,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+              "fullName": "H04 consent 边界 storage 属性 getter 抛错 → undefined；无 window → undefined；read 失败关闭 unset",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+              "fullName": "H04 consent 边界 写入成功但 dispatch 抛错仍返回 true；stored denied 优先于隐私信号",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+              "fullName": "H04 consent 边界 非 CustomEvent → unset；unsubscribe 后真实 dispatch 零回调",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "15e5a9897e2d272459a5d2dc7e94e118e61dddc56d8e3930d9d9fccecd0b34df",
+          "specRestoredSha256": "6f93eea64e190ca21262665674ecf2a7bb4b93273c49897e835bbdf75a0abee4",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/analytics/analytics-consent.boundaries.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-consent-controls-lgm9j8gz/notify-after-storage-failure.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:41:36.175204+00:00",
+          "completedAt": "2026-10-17T22:41:36.939362+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "notify-after-storage-failure.current.raw.gz",
+          "rawBytes": 2554,
+          "rawSha256": "8ef56e09da81315d4106196b2785fbef0cd53ae37b2f075abaffec116540433a",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "6f93eea64e190ca21262665674ecf2a7bb4b93273c49897e835bbdf75a0abee4",
+          "nativeReport": "notify-after-storage-failure.current.vitest.json.gz",
+          "nativeSha256": "0eb42c4fda8bab230db80e05704b48d34783374d39589a79d5bd4ec17bd2ed4b",
+          "passed": 3,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+              "fullName": "H04 consent 边界 拒绝访问localStorage或无window时返回undefined,默认读unset/写false",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+              "fullName": "H04 consent 边界 持久化失败返回false且不广播,不把未提交的选择交给订阅者",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+              "fullName": "H04 consent 边界 写入成功但广播抛错仍返回true,存储保持已提交值",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+              "fullName": "H04 consent 边界 未知外部事件按unset通知,unsubscribe后真实dispatch不再回调",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected \"dispatchEvent\" to not be called at all, but actually been called 1 times\n\nReceived:\n\n  1st dispatchEvent call:\n\n    Array [\n      CustomEvent {\n        \"isTrusted\": false,\n      },\n    ]\n\n\nNumber of calls: 1\n\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1467:10)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.boundaries.test.ts:54:28\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ],
+          "sourceRestoredSha256": "15e5a9897e2d272459a5d2dc7e94e118e61dddc56d8e3930d9d9fccecd0b34df",
+          "specRestoredSha256": "6f93eea64e190ca21262665674ecf2a7bb4b93273c49897e835bbdf75a0abee4",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "browserless-falls-back-to-global-storage",
+      "source": "packages/game/src/analytics/analytics-consent.ts",
+      "spec": "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+      "sourceSha256": "15e5a9897e2d272459a5d2dc7e94e118e61dddc56d8e3930d9d9fccecd0b34df",
+      "mutantSha256": "be6f653910cc8ac8a4118d8605e8de1e003871f70d00ab03165b9714ed5d1997",
+      "expectedNewFailureNameContains": "拒绝访问localStorage或无window",
+      "expectedOldCount": 3,
+      "expectedCurrentCount": 4,
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/analytics/analytics-consent.boundaries.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-consent-controls-lgm9j8gz/browserless-falls-back-to-global-storage.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:41:36.939897+00:00",
+          "completedAt": "2026-10-17T22:41:37.673405+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "browserless-falls-back-to-global-storage.old.raw.gz",
+          "rawBytes": 912,
+          "rawSha256": "5b304c96c836ae7573c1b5a52357ebe86d1deaba74c6d0324bc04e50dd762e7a",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "48c8e7dd27da0e2c0c994788300239aec6c6fece6d8a7d2b59e09b3fc5c57213",
+          "nativeReport": "browserless-falls-back-to-global-storage.old.vitest.json.gz",
+          "nativeSha256": "8a5304a1f27dce2203cc5e2ab54599f7a3101ae788ce2e8ebd2df29ba8c62b0e",
+          "passed": 3,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+              "fullName": "H04 consent 边界 storage 属性 getter 抛错 → undefined；无 window → undefined；read 失败关闭 unset",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+              "fullName": "H04 consent 边界 写入成功但 dispatch 抛错仍返回 true；stored denied 优先于隐私信号",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+              "fullName": "H04 consent 边界 非 CustomEvent → unset；unsubscribe 后真实 dispatch 零回调",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "15e5a9897e2d272459a5d2dc7e94e118e61dddc56d8e3930d9d9fccecd0b34df",
+          "specRestoredSha256": "6f93eea64e190ca21262665674ecf2a7bb4b93273c49897e835bbdf75a0abee4",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/analytics/analytics-consent.boundaries.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-consent-controls-lgm9j8gz/browserless-falls-back-to-global-storage.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:41:37.673767+00:00",
+          "completedAt": "2026-10-17T22:41:38.427325+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "browserless-falls-back-to-global-storage.current.raw.gz",
+          "rawBytes": 2307,
+          "rawSha256": "969e338db6bee893f515f63bc9b353c42bc014a10dda452aeb1af83fd581629e",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "6f93eea64e190ca21262665674ecf2a7bb4b93273c49897e835bbdf75a0abee4",
+          "nativeReport": "browserless-falls-back-to-global-storage.current.vitest.json.gz",
+          "nativeSha256": "ee5413f9d7f2ac586eb07a1e2531e1bc33b40481d14c0bbeb68babbdb5447849",
+          "passed": 3,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+              "fullName": "H04 consent 边界 拒绝访问localStorage或无window时返回undefined,默认读unset/写false",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+              "fullName": "H04 consent 边界 持久化失败返回false且不广播,不把未提交的选择交给订阅者",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+              "fullName": "H04 consent 边界 写入成功但广播抛错仍返回true,存储保持已提交值",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+              "fullName": "H04 consent 边界 未知外部事件按unset通知,unsubscribe后真实dispatch不再回调",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected Storage{ …(1) } to be undefined\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/analytics/analytics-consent.boundaries.test.ts:36:42\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "15e5a9897e2d272459a5d2dc7e94e118e61dddc56d8e3930d9d9fccecd0b34df",
+          "specRestoredSha256": "6f93eea64e190ca21262665674ecf2a7bb4b93273c49897e835bbdf75a0abee4",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    }
+  ],
+  "tempDirectory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-consent-controls-lgm9j8gz",
+  "tempDirectoryRemoved": true,
+  "restored": true
+}

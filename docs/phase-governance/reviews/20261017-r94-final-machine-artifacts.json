@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "4d605b3ede6ca009dab0a3c2772b4718f7a01d376f1c557fae7e182d60b5e864",
+      "afterSha256": "40cc6e25fe644362f60ac6fd73ecb9f3de6f6ffb850c055376c267bd5f3deb38",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,8 +1066,23 @@
       },
       "revision": {
         "currentSha": "a2101ce8ffeb73642521f0b489d17642f27bbd3fcdc581d0e9c354dedbc05778",
-        "implementationSha": "4d605b3ede6ca009dab0a3c2772b4718f7a01d376f1c557fae7e182d60b5e864",
+        "implementationSha": "40cc6e25fe644362f60ac6fd73ecb9f3de6f6ffb850c055376c267bd5f3deb38",
         "history": [
+          {
+            "revision": "28fcfbe310815bcfd712b2f3da1849e0f4076092",
+            "date": "2026-10-18",
+            "action": "Review three pending consent files and strengthen storage/event host oracles",
+            "previousAfterSha256": "4d605b3ede6ca009dab0a3c2772b4718f7a01d376f1c557fae7e182d60b5e864",
+            "scope": "Only three previously unlisted pending paths become live review records; no closure. One source factual comment only; two tests main3/H04 3 to main3/H04 4 with exact assertion transfers. Five full-file old3 green/current specified-single-AssertionError controls, restored7 direct/17 adjacent and game typecheck do not grant whole-file/native/real-network/visual/unified acceptance. Only CODE3y pending to partial,83cards52partial/31pending/0accept;scopeConfirmed=false and historical payloads retained. One board progress row and ledger counts updated. No baseline/retirement/schema/assets/save/API changes. Original native verdict/history retained.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "987bdddac38ea3e95d84a3b82dcdeb1ba314556c",
             "date": "2026-10-18",
@@ -1379,7 +1394,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "4d605b3ede6ca009dab0a3c2772b4718f7a01d376f1c557fae7e182d60b5e864",
+        "afterSha256": "40cc6e25fe644362f60ac6fd73ecb9f3de6f6ffb850c055376c267bd5f3deb38",
         "lineCount": 13734,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1410,7 +1425,7 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "1-15003",
+      "reviewedLines": "1-15033",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

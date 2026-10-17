@@ -70,7 +70,7 @@ export function writeAnalyticsConsent(
   try {
     eventTarget?.dispatchEvent(new CustomEvent(ANALYTICS_CONSENT_EVENT, { detail: consent }))
   } catch {
-    // 持久化选择仍是唯一真值；旧浏览器无法广播时保持失败关闭。
+    // 存储已成功，广播异常不回滚且仍返回true；不保证订阅者已收到变更。
   }
   return true
 }

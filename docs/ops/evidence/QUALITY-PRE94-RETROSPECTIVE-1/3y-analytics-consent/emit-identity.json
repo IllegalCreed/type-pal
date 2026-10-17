@@ -1,0 +1,14 @@
+{
+  "typescript": "6.0.3",
+  "scope": "Only analytics-consent.ts implementation, same transpile options; not native/gameplay/whole-file acceptance",
+  "rows": [
+    {
+      "path": "packages/game/src/analytics/analytics-consent.ts",
+      "beforeSha256": "046c898d950992f6f878d4c61bd9013e644e5a325c14bcb5f262737c8527347c",
+      "currentSha256": "15e5a9897e2d272459a5d2dc7e94e118e61dddc56d8e3930d9d9fccecd0b34df",
+      "removeCommentsJavaScriptSha256": "1343b5927f8b07c752fc9395182d1080c750c2a0eda527088ff021aeabe38646",
+      "byteIdentical": true,
+      "parsedTypeScriptWithoutCommentsIdentical": true
+    }
+  ]
+}

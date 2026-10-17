@@ -1,0 +1,10 @@
+{
+  "base": "28fcfbe310815bcfd712b2f3da1849e0f4076092",
+  "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md",
+  "beforeSha256": "3d02fc49c1b38fc9fdb6f642900e9af7109601c4ced9d94c73655c3c67a1aba5",
+  "currentSha256": "2aee8837d084687dd08e2442d71a8c40778ac539778b01ab9dcde97c1886b0b7",
+  "scope": "Only current count header and one child navigation paragraph changed; prior complete body retained and exact delta verified",
+  "initialFailure": "docs.json",
+  "repairValidation": "docs-consumers-final.json",
+  "unchangedTools125NotRepeated": true
+}

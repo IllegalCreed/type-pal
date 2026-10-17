@@ -1,7 +1,6 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import {
-  ANALYTICS_CONSENT_EVENT,
-  ANALYTICS_CONSENT_STORAGE_KEY,
+  type AnalyticsConsent,
   hasPrivacySignal,
   readAnalyticsConsent,
   resolveInitialAnalyticsConsent,
@@ -9,49 +8,78 @@ import {
   writeAnalyticsConsent,
 } from './analytics-consent.js'
 
+// 独立的产品持久键oracle;不跟随被测常量生成expected。
+const KEY = 'type-pal.analytics-consent.v1'
+let originalConsent: string | null
+beforeEach(() => {
+  originalConsent = localStorage.getItem(KEY)
+  localStorage.removeItem(KEY)
+})
+afterEach(() => {
+  if (originalConsent === null) localStorage.removeItem(KEY)
+  else localStorage.setItem(KEY, originalConsent)
+})
+
 describe('analytics consent', () => {
-  beforeEach(() => {
-    localStorage.clear()
-  })
-
   it('缺失、损坏或异常存储一律失败关闭', () => {
-    expect(readAnalyticsConsent(localStorage)).toBe('unset')
-    localStorage.setItem(ANALYTICS_CONSENT_STORAGE_KEY, 'unexpected')
-    expect(readAnalyticsConsent(localStorage)).toBe('unset')
-
-    const brokenStorage = {
-      getItem: vi.fn(() => {
-        throw new Error('storage blocked')
-      }),
-      setItem: vi.fn(() => {
-        throw new Error('storage blocked')
-      }),
+    const values: Array<[string | null, AnalyticsConsent]> = [
+      [null, 'unset'],
+      ['unexpected', 'unset'],
+      ['granted', 'granted'],
+      ['denied', 'denied'],
+    ]
+    for (const [stored, expected] of values) {
+      const getItem = vi.fn((key: string) => (key === KEY ? stored : null))
+      expect(readAnalyticsConsent({ getItem })).toBe(expected)
+      expect(getItem).toHaveBeenCalledTimes(1)
+      expect(getItem).toHaveBeenCalledWith(KEY)
     }
-    expect(readAnalyticsConsent(brokenStorage)).toBe('unset')
-    expect(writeAnalyticsConsent('granted', brokenStorage, window)).toBe(false)
+    expect(
+      readAnalyticsConsent({
+        getItem: () => {
+          throw new Error('storage blocked')
+        },
+      }),
+    ).toBe('unset')
   })
 
-  it('只保存合法选择、广播变更并支持销毁订阅', () => {
-    const listener = vi.fn()
-    const unsubscribe = subscribeAnalyticsConsent(listener, window)
-
-    expect(writeAnalyticsConsent('granted', localStorage, window)).toBe(true)
-    expect(readAnalyticsConsent(localStorage)).toBe('granted')
-    expect(listener).toHaveBeenCalledWith('granted')
-
-    window.dispatchEvent(new CustomEvent(ANALYTICS_CONSENT_EVENT, { detail: 'invalid' }))
-    expect(listener).toHaveBeenLastCalledWith('unset')
-    unsubscribe()
+  it('默认宿主先持久化选择,再同步广播已提交的值', () => {
+    const seen: Array<[AnalyticsConsent, string | null]> = []
+    const unsubscribe = subscribeAnalyticsConsent((consent) => {
+      seen.push([consent, localStorage.getItem(KEY)])
+    })
+    try {
+      expect(writeAnalyticsConsent('granted')).toBe(true)
+      expect(writeAnalyticsConsent('denied')).toBe(true)
+      expect(seen).toEqual([
+        ['granted', 'granted'],
+        ['denied', 'denied'],
+      ])
+      expect(readAnalyticsConsent()).toBe('denied')
+    } finally {
+      unsubscribe()
+    }
   })
 
   it('DNT/GPC 仅在访客尚未选择时提供默认 denied', () => {
     expect(hasPrivacySignal({ doNotTrack: '1' })).toBe(true)
     expect(hasPrivacySignal({ globalPrivacyControl: true })).toBe(true)
+    expect(hasPrivacySignal(undefined)).toBe(false)
+    expect(hasPrivacySignal({ doNotTrack: '0', globalPrivacyControl: false })).toBe(false)
+    expect(resolveInitialAnalyticsConsent(localStorage, undefined)).toBe('unset')
     expect(resolveInitialAnalyticsConsent(localStorage, { doNotTrack: '1' })).toBe('denied')
-
-    localStorage.setItem(ANALYTICS_CONSENT_STORAGE_KEY, 'granted')
     expect(resolveInitialAnalyticsConsent(localStorage, { globalPrivacyControl: true })).toBe(
-      'granted',
+      'denied',
     )
+    for (const choice of ['granted', 'denied']) {
+      localStorage.setItem(KEY, choice)
+      expect(
+        resolveInitialAnalyticsConsent(localStorage, {
+          doNotTrack: '1',
+          globalPrivacyControl: true,
+        }),
+      ).toBe(choice)
+      expect(resolveInitialAnalyticsConsent(localStorage, undefined)).toBe(choice)
+    }
   })
 })

@@ -1,0 +1,13 @@
+{
+  "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T22:44:40.317988+00:00",
+  "completedAt": "2026-10-17T22:44:41.738724+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "ledger.raw.gz",
+  "rawBytes": 112,
+  "rawSha256": "3528f0708c907ed59e7645e31c83814a53103d9c9f88e586c64b92e55ec37db8",
+  "fullUncutMergedStdoutStderr": true
+}

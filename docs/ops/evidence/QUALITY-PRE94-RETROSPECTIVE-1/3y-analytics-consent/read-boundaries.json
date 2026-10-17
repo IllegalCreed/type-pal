@@ -1,0 +1,151 @@
+{
+  "base": "28fcfbe310815bcfd712b2f3da1849e0f4076092",
+  "rows": [
+    {
+      "path": "packages/game/src/analytics/analytics-consent.ts",
+      "sha256": "15e5a9897e2d272459a5d2dc7e94e118e61dddc56d8e3930d9d9fccecd0b34df",
+      "lines": 90,
+      "ranges": [[1, 90]],
+      "fullRead": true,
+      "snapshot": "15e5a9897e2d-analytics-consent.ts.read.gz",
+      "scope": "Actual current source/caller/oracle/history read only; adjacent files not closed or product-authorized"
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent.test.ts",
+      "sha256": "3b85fdd7dec529642867b2c57339df5e6caad8af39ff9f004905773d3405a240",
+      "lines": 85,
+      "ranges": [[1, 85]],
+      "fullRead": true,
+      "snapshot": "3b85fdd7dec5-analytics-consent.test.ts.read.gz",
+      "scope": "Actual current source/caller/oracle/history read only; adjacent files not closed or product-authorized"
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+      "sha256": "6f93eea64e190ca21262665674ecf2a7bb4b93273c49897e835bbdf75a0abee4",
+      "lines": 98,
+      "ranges": [[1, 98]],
+      "fullRead": true,
+      "snapshot": "6f93eea64e19-analytics-consent.boundaries.test.ts.read.gz",
+      "scope": "Actual current source/caller/oracle/history read only; adjacent files not closed or product-authorized"
+    },
+    {
+      "path": "packages/game/src/analytics/install-analytics.ts",
+      "sha256": "ff1c2c7d18175a282c011c8e72bb2d33ef898c0151631ada0b97577b92c1f375",
+      "lines": 57,
+      "ranges": [[1, 57]],
+      "fullRead": true,
+      "snapshot": "ff1c2c7d1817-install-analytics.ts.read.gz",
+      "scope": "Actual current source/caller/oracle/history read only; adjacent files not closed or product-authorized"
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent-ui.ts",
+      "sha256": "e8bce6086369e2b4bcbbd8bf4c21efc1b8030690c841b2769aa39d018261bc52",
+      "lines": 124,
+      "ranges": [[1, 124]],
+      "fullRead": true,
+      "snapshot": "e8bce6086369-analytics-consent-ui.ts.read.gz",
+      "scope": "Actual current source/caller/oracle/history read only; adjacent files not closed or product-authorized"
+    },
+    {
+      "path": "packages/game/src/analytics/google-analytics.ts",
+      "sha256": "e69a0b31962b28691014000912bf938148a29808fce52cde37ce68b388310f11",
+      "lines": 139,
+      "ranges": [[1, 139]],
+      "fullRead": true,
+      "snapshot": "e69a0b31962b-google-analytics.ts.read.gz",
+      "scope": "Actual current source/caller/oracle/history read only; adjacent files not closed or product-authorized"
+    },
+    {
+      "path": "packages/game/src/main.ts",
+      "sha256": "2c2632eb6015f250cf31157769a569aa419dec8e7060f3e17cd0e096498b9c91",
+      "lines": 84,
+      "ranges": [[1, 84]],
+      "fullRead": true,
+      "snapshot": "2c2632eb6015-main.ts.read.gz",
+      "scope": "Actual current source/caller/oracle/history read only; adjacent files not closed or product-authorized"
+    },
+    {
+      "path": "packages/game/src/analytics/install-analytics.test.ts",
+      "sha256": "fffcb0ba4b11e7f8a308f733465e272f1581b4d95532e6bcce0830711b519cce",
+      "lines": 48,
+      "ranges": [[1, 48]],
+      "fullRead": true,
+      "snapshot": "fffcb0ba4b11-install-analytics.test.ts.read.gz",
+      "scope": "Actual current source/caller/oracle/history read only; adjacent files not closed or product-authorized"
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent-ui.test.ts",
+      "sha256": "6acdd46767977253d6a6d33d3439fa0dd8a85f8193ab4b0675520471cb5bde83",
+      "lines": 57,
+      "ranges": [[1, 57]],
+      "fullRead": true,
+      "snapshot": "6acdd4676797-analytics-consent-ui.test.ts.read.gz",
+      "scope": "Actual current source/caller/oracle/history read only; adjacent files not closed or product-authorized"
+    },
+    {
+      "path": "packages/game/src/analytics/google-analytics.test.ts",
+      "sha256": "a8323b5e8b56890592b05bb3715cb63503ed1130f12cfc79e4769c4fc2c0fb46",
+      "lines": 169,
+      "ranges": [[1, 169]],
+      "fullRead": true,
+      "snapshot": "a8323b5e8b56-google-analytics.test.ts.read.gz",
+      "scope": "Actual current source/caller/oracle/history read only; adjacent files not closed or product-authorized"
+    },
+    {
+      "path": "packages/game/src/analytics/google-analytics.boundaries.test.ts",
+      "sha256": "89dcf6f135ea68b7b679e297178c9a0736af2827bbf353aeee94dfa7aa690b16",
+      "lines": 121,
+      "ranges": [[1, 121]],
+      "fullRead": true,
+      "snapshot": "89dcf6f135ea-google-analytics.boundaries.test.ts.read.gz",
+      "scope": "Actual current source/caller/oracle/history read only; adjacent files not closed or product-authorized"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3y-game-analytics-consent.md",
+      "sha256": "fa5cf235109bb1800bec942b24d7ee2457406fe285fabf0d56e384658cad9602",
+      "lines": 37,
+      "ranges": [[1, 37]],
+      "fullRead": true,
+      "snapshot": "fa5cf235109b-CODE-QUALITY-3y-game-analytics-consent.md.read.gz",
+      "scope": "Actual current source/caller/oracle/history read only; adjacent files not closed or product-authorized"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/OPS-GA4-consent-pageviews.md",
+      "sha256": "5a3ecc09b36fe2f3d2c030d6dfee8d749cde41b7608149268270101f5cbc11d7",
+      "lines": 303,
+      "ranges": [[1, 303]],
+      "fullRead": true,
+      "snapshot": "5a3ecc09b36f-OPS-GA4-consent-pageviews.md.read.gz",
+      "scope": "Actual current source/caller/oracle/history read only; adjacent files not closed or product-authorized"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md",
+      "sha256": "3706aca4a064a1e9860bf997bc09fa13a9a15b93888a771babce3fdadda8c4c6",
+      "lines": 265,
+      "ranges": [[1, 265]],
+      "fullRead": true,
+      "snapshot": "3706aca4a064-TEST-GAME-HOST-BOUNDARIES-1-privacy-timer.md.read.gz",
+      "scope": "Actual current source/caller/oracle/history read only; adjacent files not closed or product-authorized"
+    },
+    {
+      "path": "docs/ops/tasks/CODE-QUALITY-109-game-analytics-install-review.md",
+      "sha256": "211dc07a1b79b7c03efc3e0ea6e84ffaf8deb53fb1a15c85ac2d75ebe2d9cec4",
+      "lines": 61,
+      "ranges": [[1, 61]],
+      "fullRead": true,
+      "snapshot": "211dc07a1b79-CODE-QUALITY-109-game-analytics-install-review.md.read.gz",
+      "scope": "Actual current source/caller/oracle/history read only; adjacent files not closed or product-authorized"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md",
+      "sha256": "2aee8837d084687dd08e2442d71a8c40778ac539778b01ab9dcde97c1886b0b7",
+      "lines": 210,
+      "ranges": [[1, 210]],
+      "fullRead": true,
+      "snapshot": "2aee8837d084-parent-README.read.gz",
+      "scope": "Parent evidence README fully read, current-count header and one navigation paragraph only changed; all prior history exact"
+    }
+  ],
+  "phase": "First-stage project analytics extension; no SDLPal mechanism counterpart, no phase2 changes",
+  "primary": "Current typed IO ports and actual game-runner jsdom Storage/EventTarget execution; original OPS-GA4 basic-consent scope is historical project-design provenance, not new authorization or legal advice"
+}

@@ -1414,7 +1414,7 @@
       "sha256": "fa5cf235109bb1800bec942b24d7ee2457406fe285fabf0d56e384658cad9602",
       "lines": 37,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -1438,7 +1438,8 @@
           "text": "无下一位 Agent 提示词，等待 Codex 质量门收口；不得扩大范围或标记其它 analytics 文件已验证。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/README.md"
     },
     {
       "id": "3z",
@@ -3869,7 +3870,7 @@
   ],
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
-    "partial": 51,
-    "pending": 32
+    "partial": 52,
+    "pending": 31
   }
 }

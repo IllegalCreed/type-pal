@@ -1,0 +1,30 @@
+{
+  "base": "28fcfbe310815bcfd712b2f3da1849e0f4076092",
+  "owner": "Codex single agent",
+  "files": [
+    {
+      "path": "packages/game/src/analytics/analytics-consent.ts",
+      "sha256": "046c898d950992f6f878d4c61bd9013e644e5a325c14bcb5f262737c8527347c",
+      "lines": 90,
+      "readRanges": [[1, 90]],
+      "snapshot": "046c898d9509-analytics-consent.ts.before.gz",
+      "beforeLiveLedgerStatus": "unlisted pending"
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent.test.ts",
+      "sha256": "17093b874741d76022dc519901e2c5df9f7bb649840aa9ab462b7db966894420",
+      "lines": 57,
+      "readRanges": [[1, 57]],
+      "snapshot": "17093b874741-analytics-consent.test.ts.before.gz",
+      "beforeLiveLedgerStatus": "unlisted pending"
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+      "sha256": "48c8e7dd27da0e2c0c994788300239aec6c6fece6d8a7d2b59e09b3fc5c57213",
+      "lines": 71,
+      "readRanges": [[1, 71]],
+      "snapshot": "48c8e7dd27da-analytics-consent.boundaries.test.ts.before.gz",
+      "beforeLiveLedgerStatus": "unlisted pending"
+    }
+  ]
+}

@@ -407,7 +407,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "0613f9d13d8456d3613bc0a92f4fc5594d02de0a569bb2ee4799a64e0f02a721",
+      "afterSha256": "e8f60a9a9adfcd1c4201a2af0d1abb65c556233792c4d625c384df273aa26281",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -438,10 +438,25 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "0613f9d13d8456d3613bc0a92f4fc5594d02de0a569bb2ee4799a64e0f02a721",
+        "implementationSha": "e8f60a9a9adfcd1c4201a2af0d1abb65c556233792c4d625c384df273aa26281",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "28fcfbe310815bcfd712b2f3da1849e0f4076092",
+            "date": "2026-10-18",
+            "action": "Review three pending consent files and strengthen storage/event host oracles",
+            "previousAfterSha256": "0613f9d13d8456d3613bc0a92f4fc5594d02de0a569bb2ee4799a64e0f02a721",
+            "scope": "Only three previously unlisted pending paths become live review records; no closure. One source factual comment only; two tests main3/H04 3 to main3/H04 4 with exact assertion transfers. Five full-file old3 green/current specified-single-AssertionError controls, restored7 direct/17 adjacent and game typecheck do not grant whole-file/native/real-network/visual/unified acceptance. Only CODE3y pending to partial,83cards52partial/31pending/0accept;scopeConfirmed=false and historical payloads retained. One board progress row and ledger counts updated. No baseline/retirement/schema/assets/save/API changes. Original native verdict/history retained.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "5d55e2c49a1eb517d4bd51b2814df840dd49052a",
             "date": "2026-10-18",
@@ -935,7 +950,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "0613f9d13d8456d3613bc0a92f4fc5594d02de0a569bb2ee4799a64e0f02a721",
+        "afterSha256": "e8f60a9a9adfcd1c4201a2af0d1abb65c556233792c4d625c384df273aa26281",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",

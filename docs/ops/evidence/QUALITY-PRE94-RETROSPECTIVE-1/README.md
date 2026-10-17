@@ -6,7 +6,7 @@
 
 ## 2026-10-17 当前范围与优先级
 
-用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10原检查点bea19f80c已推送，当前恢复见本片末尾；分支已同步最新origin/main，0behind，未合main。全83卡50partial/33pending/0accept（2026-10-18 机制counter返工；下文数字均按各片原时点）；[6a](6a/README.md)、92、CODE1/2/2b/3/3b/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；[CODE3b](3b/README.md)两边界六oracle已补；[raw补证](3b/raw-tests/README.md)9→2/五新反控、完整extract428零stderr；全正文仍待，[3d PNG](3d/README.md)两height盲点已补，下一片3h assets/shell，再按模块逐文件推进；94–102/editor未完成项保留。
+用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10原检查点bea19f80c已推送，当前恢复见本片末尾；分支已同步最新origin/main，0behind，未合main。全83卡52partial/31pending/0accept（2026-10-18 consent复审；下文数字均按各片原时点）；[6a](6a/README.md)、92、CODE1/2/2b/3/3b/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；[CODE3b](3b/README.md)两边界六oracle已补；[raw补证](3b/raw-tests/README.md)9→2/五新反控、完整extract428零stderr；全正文仍待，[3d PNG](3d/README.md)两height盲点已补，下一片3h assets/shell，再按模块逐文件推进；94–102/editor未完成项保留。
 
 下文旧数字、探针与结论作为历史保存；不会把旧抽查、历史done或包全绿补签成当前验收。
 
@@ -206,3 +206,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 最新[九笔代码补审返工](supplementary-audit/README.md)：Save排重漏迁六字段/读侧克隆已在API测试补回，原存侧合同保留；提取提交性质及三边界pending写回原卡，770与三机制/先红后修/caller映射补交接。1旧测试重开review、0新closed；十注释/两UI差异及统一门仍待。
 
 最新[搜索注释/边界与原C反证](core-comment-audit/README.md)：源码执行不变、10→12测试，六旧10绿新单红；相邻只3条Confirm真链。队列同速排序counter已获批先红后修，毒列表非压缩另卡只读；5旧关闭重开、0新增closed，83卡整卡accept仍0。
+
+最新[3y analytics consent复审](3y-analytics-consent/README.md)：三文件与真实caller全文，持久化/广播/默认宿主/失败隔离补强；五旧绿新单业务红，7直接/17相邻、game typecheck零诊断。三未列pending转review，0关闭；83卡52partial/31pending/0accept。首次docs门漏父导航失败，工具125已通过；补导航后只重放实际消费者，不重复125。实网、跨realm和统一门仍待。
