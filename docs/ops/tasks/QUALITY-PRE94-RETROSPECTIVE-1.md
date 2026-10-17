@@ -311,3 +311,9 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 完整读取 `display-scale.ts`、两份直接测试、`fps-overlay.ts`、`fps-overlay.test.ts`、display/fps leaves 和 tools-panel 的委派合同；另核 `main-loop.ts` 的 rAF 时间戳 caller 与 bootstrap 的 controller 构造范围。NaN/损坏存储、clamp/round、居中样式、fullscreen 委派、FPS 采样/50阈值、关闭清理和 module state ownership 均有直接判别力，没有发现新的实现缺陷或重复合同。
 
 定向 5 文件 `40 passed`，game typecheck 通过且无诊断；本片不运行 coverage、official ratchet、protected fast 或全仓 `pnpm check`。证据见 [`3j-scale-fps`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-scale-fps/README.md)，3j 整卡保持 partial。
+
+### 2026-10-17 CODE3j toast / map-names / checkpoints 当前复审切片
+
+完整读取 `toast.ts`、`map-names.ts`、`speedrun/checkpoints.ts` 及直接测试、detectors/store 和 shared authored map-name caller。toast 的容器/元素两个 timer 与空容器清理、map-name 的 shared 薄适配/缺名回退、checkpoint 的 21/id/时间/BANANA 静态合同均有直接证据；PalTimer 坐标和边缘点仍按源码注释保持 runtime unknown，不擅改速通数据。
+
+定向 `5 files / 22 tests passed`，无失败、跳过或 stderr；本片不运行 coverage、official ratchet、protected fast 或全仓 `pnpm check`。证据见 [`3j-toast-map-checkpoints`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-toast-map-checkpoints/README.md)，3j 七个生产文件已有切片证据但整卡仍 partial。
