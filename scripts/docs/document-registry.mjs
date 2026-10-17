@@ -92,8 +92,23 @@ function entriesValid(entries) {
     ])
       demand(text(entry[key]), `${entry.path ?? 'entry'}: missing native ${key}`)
     demand(documentRegistryPhases.includes(entry.phase), `${entry.path}: invalid phase`)
+    const segments = entry.path.split('/')
     demand(
-      /^docs\/(?!.*(?:^|\/)\.{1,2}(?:\/|$))[^\\\0]+\.(?:md|json|html)$/.test(entry.path),
+      segments[0] === 'docs' &&
+        segments.length > 1 &&
+        segments.every(
+          (segment) =>
+            segment.length > 0 &&
+            segment !== '.' &&
+            segment !== '..' &&
+            segment.trim() === segment &&
+            !segment.endsWith('.') &&
+            !/[<>:"\\|?*]/.test(segment) &&
+            Array.from(segment).every(
+              (character) => character.codePointAt(0) >= 32 && character.codePointAt(0) !== 127,
+            ),
+        ) &&
+        /\.(?:md|json|html)$/.test(entry.path),
       `unsafe document path: ${entry.path}`,
     )
     demand(!paths.has(entry.path), `duplicate document path: ${entry.path}`)
