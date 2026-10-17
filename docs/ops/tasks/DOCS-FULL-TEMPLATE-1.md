@@ -1668,3 +1668,10 @@ Template: task-card-v1 / 1.0.0
 - 正文SHA `8ddfbda4c48af97ff8c33a229f8cb45f00b1d91e5952d635def86a946be7c9e9`，原非作者报告SHA `f1b24c7d962ef21135f033e5c5a01daa09da1290846ee26d78752a44f34bcf25`，实际原报告与运输映射见[本篇报告](../evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S03-f9fbf0c7.json)。此次只移R60本篇，另7条对象与原顺序保留；旧撤回与无条件inverse声明仅留历史，不恢复。
 - 仅本篇新正文/模板接受：Current six-stage index/canonical navigation and shared contract/checkpoint/preview/task entries remain distinct from publication and real execution. Historical SAVE11/verified and one-LF inverse claim do not renew present runtime or capture readiness.
 - 1896撤回中已逐篇重授2篇，余1894；S01另列，五隔离不解除。当前计划和结果须按固定组合字节独立复验；全量卡仍rework，硬门未过不合main或done。
+
+
+### S04 固定正文与唯一中央绑定接入
+
+- 正文SHA `1c345654a9f10a19455a8df696b48d9a2f1b86e6fc36bdfe050933a48a8f574c`，原非作者报告SHA `e844f43f94214872f5b79f196d85907ba0c37eb0d50c921601e305da2419a9a7`，实际原报告与运输映射见[本篇报告](../evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S04-c8715c2c.json)。此次只移R60本篇，另6条对象与原顺序保留；旧撤回与无条件inverse声明仅留历史，不恢复。
+- 仅本篇新正文/模板接受：Human cross-stage navigation routes to the existing canonical audit/pair and formal parent index. Catalog depends001–005, historical006 findings do not admit006rework. Concrete issue-family attribution/backlinks cannot close render/save/preview/capture.
+- 1896撤回中已逐篇重授3篇，余1893；S01另列，五隔离不解除。当前计划和结果须按固定组合字节独立复验；全量卡仍rework，硬门未过不合main或done。

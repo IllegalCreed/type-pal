@@ -108,6 +108,10 @@
       {
         "path": "/root S03",
         "scope": "raw/semantic-s03 immutable author/independent payloads; independent-intake-S03-f9fbf0c7.json gives exact original/repository paths and dual hashes. No root new execution or unrelated semantic credit."
+      },
+      {
+        "path": "/root/receipt_integrity_independent S04",
+        "scope": "raw/semantic-s04 immutable author/independent payloads; independent-intake-S04-c8715c2c.json gives exact original/repository paths and dual hashes. No root new execution or unrelated semantic credit."
       }
     ]
   },

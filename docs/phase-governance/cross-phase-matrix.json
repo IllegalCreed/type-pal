@@ -1404,7 +1404,7 @@
         "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-58e899bf-20261018.json"
       ],
       "unresolved": [
-        "1896 bindings were withdrawn. 2 fixed new affected bodies have separate non-author acceptance; 1894 remain without reacceptance. S01 is outside this set; five quarantines remain.",
+        "1896 bindings were withdrawn. 3 fixed new affected bodies have separate non-author acceptance; 1893 remain without reacceptance. S01 is outside this set; five quarantines remain.",
         "58e899bf纠错包获非作者限定接收；全量语义及统一零诊断门未完成，五项隔离不解除。"
       ],
       "stopLine": "Do not infer all-docs completion, user decisions, runtime/E2E/visual/coverage or semantic approval from shape/hash checks."
@@ -1465,6 +1465,26 @@
       "status": "guarded",
       "evidence": [
         "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S03-f9fbf0c7.json",
+        "docs/phase-governance/reviews/20261018-semantic-rework.json"
+      ],
+      "unresolved": [
+        "Fixed body/template non-author acceptance only; actual combined central intake review is pending.",
+        "Other R60/1896, full referenced reports and runtime/E2E/visual/preview/capture/coverage are not recertified."
+      ],
+      "stopLine": "No metadata/source audit or historical verified/quote preservation grants product execution or bulk semantic completion."
+    },
+    {
+      "id": "e2e-navigation-s04-20261018",
+      "from": ["docs/testing/e2e/cross-stage/README.md", "docs/testing/catalog.json"],
+      "to": [
+        "docs/testing/e2e/contract.md",
+        "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+        "projects/pal/e2e-checkpoints/README.md"
+      ],
+      "relationship": "Human cross-stage navigation routes to the existing canonical audit/pair and formal parent index. Catalog depends001–005, historical006 findings do not admit006rework. Concrete issue-family attribution/backlinks cannot close render/save/preview/capture.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S04-c8715c2c.json",
         "docs/phase-governance/reviews/20261018-semantic-rework.json"
       ],
       "unresolved": [

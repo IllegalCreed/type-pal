@@ -75,3 +75,5 @@ Template: governance-index-v1 / 1.0.0
 当源证据推翻前提时先停受影响批次，更新关系和用户产品裁决，不将 guarded 擅改 resolved；全量审查仍由[任务卡](../ops/tasks/DOCS-FULL-TEMPLATE-1.md)推进。
 
 - S03：[docs/testing/e2e/README.md](../testing/e2e/README.md)的固定正文已非作者限定接收；实际catalog/合同/卡/原始执行各守事实权，中央复验待完成。
+
+- S04：[docs/testing/e2e/cross-stage/README.md](../testing/e2e/cross-stage/README.md)的固定正文已非作者限定接收；实际catalog/合同/卡/原始执行各守事实权，中央复验待完成。

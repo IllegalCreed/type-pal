@@ -66,3 +66,8 @@ S01接入的6份编号源码摘录含原有行尾空格，0bac72c2完整范围di
 ## S03 固定正文的逐篇接收
 
 [原非作者报告](independent-review-S03-f9fbf0c7.json)与[无损接入表](independent-intake-S03-f9fbf0c7.json)只接受f9fbf0c7的本篇正文/五章模板。Current six-stage index/canonical navigation and shared contract/checkpoint/preview/task entries remain distinct from publication and real execution. Historical SAVE11/verified and one-LF inverse claim do not renew present runtime or capture readiness. 原报告字节与失败保留，中央组合字节另验，不续其他R60或历史执行信用。
+
+
+## S04 固定正文的逐篇接收
+
+[原非作者报告](independent-review-S04-c8715c2c.json)与[无损接入表](independent-intake-S04-c8715c2c.json)只接受c8715c2c的本篇正文/五章模板。Human cross-stage navigation routes to the existing canonical audit/pair and formal parent index. Catalog depends001–005, historical006 findings do not admit006rework. Concrete issue-family attribution/backlinks cannot close render/save/preview/capture. 原报告字节与失败保留，中央组合字节另验，不续其他R60或历史执行信用。

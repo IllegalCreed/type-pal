@@ -825,6 +825,281 @@
         "status": "accepted at frozen body only; current central intake separately checked"
       },
       "stopLine": "No global hard-gate/main/done/runtime/preview/capture credit from this single-document acceptance; preserve five quarantines and all other withdrawn bindings."
+    },
+    {
+      "path": "docs/testing/e2e/cross-stage/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "Distinct contributor wrote this body. Non-author receipt_integrity_independent read complete original5/before40/new54 and exact listed first-party scopes, challenged actual dependency/attribution/publication boundaries and exercised real public consumers. Root coordinates central intake; no whole sibling/report/product review claimed.",
+      "coreConclusion": "本目录README是活跃人工导航；e2e-common-issues正式index仍为上级e2e/README，canonical与机器配对各归原路径。catalog依赖001–005，历史006条目不能扩依赖或续006 rework信用。issue-family须凭具体入口/版本/raw归因、反例与原阶段回链；共享修复/到达终点/静态或文档审查不能闭合render、存读档、编辑器预览或capture。原5行quote不变，直接逆回多一LF，按精确条件保全而非继承R60旧exactRoundTrip。",
+      "truthAnchors": [
+        "docs/testing/e2e/cross-stage/README.md:14",
+        "docs/testing/e2e/cross-stage/README.md:26",
+        "docs/testing/e2e/cross-stage/common-issues.md:242",
+        "docs/testing/e2e/contract.md:239",
+        "docs/testing/e2e/contract.md:467"
+      ],
+      "unresolved": [
+        "The431-line common-issues business ledger, six stage reports and full R4/contract were not reaccepted.",
+        "Future combined central intake needs its own non-author data/binding check.",
+        "Global hard gates, remaining affected bindings and five historical receipt quarantines remain open."
+      ],
+      "nextStep": "Verify actual combined central byte/binding intake independently, retain all other withdrawals, then continue per-document semantic reviews. No global/main/done credit.",
+      "phase": "testing",
+      "module": "e2e-cross-stage-navigation",
+      "capability": "issue-family-source-and-backlink-routing",
+      "owner": "Codex navigation maintenance",
+      "provenance": [
+        "single body author /root/e2e_entry_semantic_author",
+        "non-author body reviewer /root/receipt_integrity_independent",
+        "root central intake is separate from body authorship",
+        "immutable author and independent command packages"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/testing/e2e/cross-stage/README.md",
+          "revision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
+          "sha256": "14d8b6e5ae98f20a3be9eebe09e7ca4c4764bfd3cc92aaf2f78413af8efcaf7c",
+          "scopeActuallyRead": "complete original5lines/243bytes"
+        },
+        {
+          "path": "docs/testing/e2e/cross-stage/README.md",
+          "revision": "3a048f2a5b4d6aef204fbba47002b3e4fbca3f95",
+          "sha256": "52f53d750a5c915294703d6cf88ad736eddebb47a1f3693865135e378610f320",
+          "scopeActuallyRead": "complete before40lines/1427bytes"
+        },
+        {
+          "path": "docs/testing/e2e/cross-stage/common-issues.md",
+          "revision": "c8715c2c4ac1771a77127917812c87b53a30d676",
+          "sha256": "cdb892e3f02f59c1044599a59bb2c430032cb76406df64022fe8d07123784aec",
+          "scopeActuallyRead": "1-85,229-285,326-355; not entire431-line business ledger"
+        },
+        {
+          "path": "docs/testing/e2e/contract.md",
+          "revision": "c8715c2c4ac1771a77127917812c87b53a30d676",
+          "sha256": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f",
+          "scopeActuallyRead": "18-50,98-132,239-284,467-482; not entire548-line contract"
+        },
+        {
+          "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+          "revision": "c8715c2c4ac1771a77127917812c87b53a30d676",
+          "sha256": "5cc09fd6636533b5b06f10b38e0e114373cfc7f204ac300a45cb9c6317295d87",
+          "scopeActuallyRead": "1-103 current top/admission and dated history only"
+        },
+        {
+          "path": "docs/testing/e2e/README.md",
+          "revision": "c8715c2c4ac1771a77127917812c87b53a30d676",
+          "sha256": "8ddfbda4c48af97ff8c33a229f8cb45f00b1d91e5952d635def86a946be7c9e9",
+          "scopeActuallyRead": "1-54,75-90 current navigation and historical backlink only; S03 acceptance separate"
+        },
+        {
+          "path": "docs/testing/governance.md",
+          "revision": "c8715c2c4ac1771a77127917812c87b53a30d676",
+          "sha256": "dbd68ac55137df0edaa38efebcb3591f4ea826bbdbb5357b9914c6ff684926f9",
+          "scopeActuallyRead": "complete83-line current runbook"
+        },
+        {
+          "path": "scripts/docs/check-testing.mjs",
+          "revision": "c8715c2c4ac1771a77127917812c87b53a30d676",
+          "sha256": "15aa96323821b771107b7b372880af8469a9310bc545bfd56c852c95e449a166",
+          "scopeActuallyRead": "187-336,414-564 publication/canonical/evidence/dependency/index consumer"
+        },
+        {
+          "path": "docs/testing/catalog.json",
+          "revision": "c8715c2c4ac1771a77127917812c87b53a30d676",
+          "sha256": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0",
+          "scopeActuallyRead": "complete e2e-common-issues record and selected e2e-006 fields only"
+        },
+        {
+          "path": "docs/testing/e2e/evidence/e2e-common-issues.json",
+          "revision": "c8715c2c4ac1771a77127917812c87b53a30d676",
+          "sha256": "535d70871cc78f14bf88504698fa96699688851a44b716555ff7a2de480f6d49",
+          "scopeActuallyRead": "selected native publication/source/claim/runtime/history/version fields only"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing navigation across phase1/phase2/ops",
+        "currentBoundary": "Human navigation, publication dependency, task admission and raw execution have separate authorities."
+      },
+      "dependencies": [
+        "docs/testing/e2e/cross-stage/common-issues.md",
+        "docs/testing/e2e/contract.md",
+        "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+        "docs/testing/e2e/README.md",
+        "docs/testing/governance.md",
+        "scripts/docs/check-testing.mjs",
+        "docs/testing/catalog.json",
+        "docs/testing/e2e/evidence/e2e-common-issues.json"
+      ],
+      "versionScope": {
+        "candidateCommit": "c8715c2c4ac1771a77127917812c87b53a30d676",
+        "bodySha256": "1c345654a9f10a19455a8df696b48d9a2f1b86e6fc36bdfe050933a48a8f574c",
+        "scope": "Current human navigation only. Historical catalog d022/content22/minimumSave11 and document-audit/runtimeExecution=false remain native dated facts.",
+        "notRun": ["runtime", "E2E", "visual", "preview", "capture", "coverage"]
+      },
+      "publicCallers": [
+        "docs/testing/e2e/README.md current cross-stage navigation",
+        "Catalog e2e-common-issues formal index remains e2e/README.md; this README is not that catalog index"
+      ],
+      "legalInputs": [
+        "A concrete issue-family with actual story/NPC entry, candidate/version/raw, strongest alternative, attributable layer, stable affected IDs and original report backlinks.",
+        "Unmodified existing catalog dependsOn001–005; actual006 remains rework, not implicitly admitted by historical quote."
+      ],
+      "businessOracle": {
+        "type": "cross-stage-navigation-and-authority",
+        "assertions": [
+          "Current common-issues link and report/contract/checkpoint/task responsibility table remain directly usable.",
+          "Actual public validateCatalog baseline0 → add unchanged e2e-006 dependency → exactly one dependency-not-current/verified issue → restore0.",
+          "Same NPC or mismatch does not establish one root cause; public regression green cannot resolve unrelated stage render/save/preview/capture.",
+          "Source-backed/document-audit with performed=false cannot become new execution by review date or navigation acceptance.",
+          "Whole quote is unchanged; direct244-byte inverse differs from243-byte source; removing exactly known finalLF matches source SHA, not unconditional trim."
+        ]
+      },
+      "dedupe": {
+        "result": "One live human navigation successor; no new testing identity or parallel catalog index",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+          "docs/testing/e2e/README.md",
+          "docs/testing/e2e/cross-stage/common-issues.md"
+        ]
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "S04-FORMAL-INDEX",
+          "status": "fixed-body-non-author-accepted",
+          "statement": "Do not infer formal index/sourceRefs from directory name; actual catalog fields govern."
+        },
+        {
+          "id": "S04-006-DEPENDENCY",
+          "status": "fixed-body-non-author-accepted",
+          "statement": "Real publication-IO counter refuses006 dependency while its status remainsrework."
+        },
+        {
+          "id": "S04-R60-INVERSE",
+          "status": "historical-claim-not-inherited",
+          "statement": "Old exactRoundTrip=true is unsupported unconditionally; exactoneLF condition is explicit; old record remains Git history."
+        }
+      ],
+      "revision": {
+        "currentSha": "c8715c2c4ac1771a77127917812c87b53a30d676",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "actual S04 fixed-body non-author review, central binding intake separate",
+            "rootIntakeSourceRevision": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+            "previousAfterSha256": "52f53d750a5c915294703d6cf88ad736eddebb47a1f3693865135e378610f320",
+            "afterSha256": "1c345654a9f10a19455a8df696b48d9a2f1b86e6fc36bdfe050933a48a8f574c"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "actual-per-document-nonauthor-semantic-review",
+        "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S04-c8715c2c.json",
+        "reportSha256": "e844f43f94214872f5b79f196d85907ba0c37eb0d50c921601e305da2419a9a7",
+        "sourceRevision": "c8715c2c4ac1771a77127917812c87b53a30d676",
+        "reviewer": "/root/receipt_integrity_independent",
+        "author": "/root/e2e_entry_semantic_author",
+        "nonAuthorReviewer": true,
+        "acceptance": "fixed body/template only; no global/central combined acceptance",
+        "intakeMap": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S04-c8715c2c.json",
+        "quotePreservation": {
+          "wholeBlockUnchanged": true,
+          "directInverse": {
+            "bytes": 244,
+            "sha256": "f7e91edbb47a220ae04d2d605c192617934b329885f4df47ffee368f1d7a753a",
+            "equalsSource": false
+          },
+          "conditionedInverse": {
+            "removedExactlyOneLF": true,
+            "removedTwoLFWouldFail": true,
+            "bytes": 243,
+            "sha256": "14d8b6e5ae98f20a3be9eebe09e7ca4c4764bfd3cc92aaf2f78413af8efcaf7c",
+            "equalsSource": true
+          },
+          "noUnconditionalTrim": true
+        },
+        "publicationControl": {
+          "raw": "raw/publication-probe.stdout",
+          "sha256": "9763f873aff726a78477d16131f940f76aa677586d4b312a68eca15e23762af6",
+          "baselineIssues": [],
+          "onlyMutation": {
+            "target": "e2e-common-issues",
+            "onlyChangedField": "dependsOn",
+            "addedId": "e2e-006",
+            "addedIdUnchangedPublicationStatus": "rework"
+          },
+          "specificRejectedIssues": [
+            "e2e-common-issues: dependency e2e-006 is not current/verified"
+          ],
+          "restoredIssues": [],
+          "catalogUnchanged": true,
+          "canonicalPairIssues": [],
+          "indexIssues": [],
+          "credit": "Publication/IO dependency rejection only. Not E2E execution, business mutation control or acceptance of historicalsource-backed claims."
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "R60 unsupported prior semantic credit stays withdrawn; actual fixed-body successor accepted separately",
+          "priorRecord": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+          "priorRecordRevision": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+          "priorRecordSha256": "70c014fc012cbd7ca5aee02832255c66c72ef5c0ff5b0403662e1c9bb45e2cee",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldUnconditionalExactRoundTrip": true
+        },
+        {
+          "date": "2026-10-18",
+          "action": "S04 explicit central binding migration planned against exact current donor",
+          "sourceRevision": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+          "sourceRecordSha256": "70c014fc012cbd7ca5aee02832255c66c72ef5c0ff5b0403662e1c9bb45e2cee",
+          "donorOtherEntriesPreserved": 6,
+          "acceptedBodySha256": "1c345654a9f10a19455a8df696b48d9a2f1b86e6fc36bdfe050933a48a8f574c",
+          "nonAuthorReportSha256": "e844f43f94214872f5b79f196d85907ba0c37eb0d50c921601e305da2419a9a7"
+        }
+      ],
+      "historicalWithdrawal": {
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "scope": "Prior R60 credit not revived; only this new fixed body has a separate non-author receipt."
+      },
+      "supersedes": [
+        {
+          "record": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+          "revision": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+          "scope": "this path current binding only; all other entries and original native/historical claims retained"
+        }
+      ],
+      "stopLine": "No other R60/1896 restoration, catalog dependency expansion or runtime/render/save/preview/capture credit; global hard failure forbids main/done.",
+      "sourceSha256": "52f53d750a5c915294703d6cf88ad736eddebb47a1f3693865135e378610f320",
+      "afterSha256": "1c345654a9f10a19455a8df696b48d9a2f1b86e6fc36bdfe050933a48a8f574c",
+      "sourceGitRevision": "3a048f2a5b4d6aef204fbba47002b3e4fbca3f95",
+      "reviewedLines": "source1-5;before1-40;new1-54; every dependency read scope explicitly bounded",
+      "historyOverlay": false,
+      "documentStatus": "current",
+      "beforeAfter": {
+        "before": "Generic historical wrapper had the useful original link only in quote and falsely attributed nonexistent testing-meta/sourceRefs.",
+        "after": "Five specific navigation chapters with live links, exact formal-index/001–005 limits, attribution/backlinks and precise history/preservation stops."
+      },
+      "templateConformance": {
+        "status": "non-author accepted fixedc871 body",
+        "purpose": "Concrete issue→source/owner navigation",
+        "scope": "Canonical audit/pair/001–005 dependency boundary",
+        "currentStatus": "Navigation versus publication versus execution",
+        "entriesAndResponsibility": "Actual distinct destinations in live table",
+        "evidenceAndNextStep": "Concrete attribution/raw/backlink/counter stops; no stage-wide acceptance"
+      }
     }
   ]
 }

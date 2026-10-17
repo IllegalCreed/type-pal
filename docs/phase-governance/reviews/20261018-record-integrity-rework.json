@@ -65,7 +65,7 @@
       "supersedes": [],
       "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
       "sourceSha256": "add111f0dadbb9f6bd171af655a780120b193e06ac9610b53c6296019cd99ce0",
-      "afterSha256": "ec6649cd835bb3c1f3d983f1b654b2b1d487179c82c0fdc576c4a5c41510a308",
+      "afterSha256": "0236ae33e3b8106e3bc4e87e625c236bbf2deb043429c70f209b10162a088580",
       "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only",
       "maintenanceDeltas": [
         {
@@ -75,6 +75,15 @@
           "previousAfterSha256": "1cb9c6e8cc4bc4661a15db564e971a3722891aec12a51ec356992a4f2d1a2942",
           "afterSha256": "ec6649cd835bb3c1f3d983f1b654b2b1d487179c82c0fdc576c4a5c41510a308",
           "method": "S03 actual report/map navigation appended; no other downstream semantic acceptance.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+          "previousAfterSha256": "ec6649cd835bb3c1f3d983f1b654b2b1d487179c82c0fdc576c4a5c41510a308",
+          "afterSha256": "0236ae33e3b8106e3bc4e87e625c236bbf2deb043429c70f209b10162a088580",
+          "method": "S04 actual report/map navigation appended; no other downstream semantic acceptance.",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -944,7 +953,7 @@
       "supersedes": [],
       "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
       "sourceSha256": "01d22347bffa1427428dbb863df59493c6cbe923a48cd885a23473e94c595295",
-      "afterSha256": "f8bd3a540129298a0da27baa3ee4f602733bb4ea6f9a31d9b3d108fd6d165338",
+      "afterSha256": "2638b886fa9a6ec5254c58db4bd603bc82d46a46b88f2e5344180d0b40eed7cb",
       "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only",
       "maintenanceDeltas": [
         {
@@ -954,6 +963,15 @@
           "previousAfterSha256": "e1c6c092ef2b2932d001c8469836660a90a212824806bf3a32d6438ca68b644b",
           "afterSha256": "f8bd3a540129298a0da27baa3ee4f602733bb4ea6f9a31d9b3d108fd6d165338",
           "method": "S03 exact membership in frozen1896 and one new report-backed regrant; withdrawal snapshot unchanged.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+          "previousAfterSha256": "f8bd3a540129298a0da27baa3ee4f602733bb4ea6f9a31d9b3d108fd6d165338",
+          "afterSha256": "2638b886fa9a6ec5254c58db4bd603bc82d46a46b88f2e5344180d0b40eed7cb",
+          "method": "S04 exact membership in frozen1896 and one new report-backed regrant; withdrawal snapshot unchanged.",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -1761,7 +1779,7 @@
       "supersedes": [],
       "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
       "sourceSha256": "3d93be9a4e7f382b23f244b571a3417a1574276fa87a7e20c6d7d223baae90ba",
-      "afterSha256": "9fbd1d25aac6dd23e7c8adc35bcb5f929c2921a78493375ee7e2aa3133298bbf",
+      "afterSha256": "4fa482de8fcac49c7fc00a58a179e8ff665053fe79b543b813925872eddd20dd",
       "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only",
       "maintenanceDeltas": [
         {
@@ -1771,6 +1789,15 @@
           "previousAfterSha256": "c200e4f89e48b298d43512cd5625e43bcfd564edfcf1ce98fa03b4a8fc0220e9",
           "afterSha256": "9fbd1d25aac6dd23e7c8adc35bcb5f929c2921a78493375ee7e2aa3133298bbf",
           "method": "S03 immutable raw owner/decoder entry appended; no original command streams changed.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+          "previousAfterSha256": "9fbd1d25aac6dd23e7c8adc35bcb5f929c2921a78493375ee7e2aa3133298bbf",
+          "afterSha256": "4fa482de8fcac49c7fc00a58a179e8ff665053fe79b543b813925872eddd20dd",
+          "method": "S04 immutable raw owner/decoder entry appended; no original command streams changed.",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -2145,7 +2172,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
-      "afterSha256": "be7f68fe0b6ce9c9575bc10b0f07b31ae9e48d3d16ba3bd503c307a85b1f4dc0",
+      "afterSha256": "958284534c9549b44d80c649c551b15a99ae7fd70710448a4dfa05160dd27b0d",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -2172,6 +2199,15 @@
           "sourceRevision": "f19e35c64ef1817150cf7e90dde8b4745219aa79",
           "previousAfterSha256": "c94f0548748763c010fd5fdfac36badc3e3f55f6e04ffd503c944d602397951d",
           "afterSha256": "be7f68fe0b6ce9c9575bc10b0f07b31ae9e48d3d16ba3bd503c307a85b1f4dc0",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+          "previousAfterSha256": "be7f68fe0b6ce9c9575bc10b0f07b31ae9e48d3d16ba3bd503c307a85b1f4dc0",
+          "afterSha256": "958284534c9549b44d80c649c551b15a99ae7fd70710448a4dfa05160dd27b0d",
           "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
           "grantsNewSemanticAcceptance": false
         }
@@ -2794,7 +2830,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
-      "afterSha256": "fb0378221b7889a9befe9b2484bffd383c04eccf60702f40be7a6a2f862e5dc8",
+      "afterSha256": "66a77577cf45332f03ade68b9751000525f1595544d8be1be2bba6a03dbd0e05",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -2812,6 +2848,15 @@
           "sourceRevision": "f19e35c64ef1817150cf7e90dde8b4745219aa79",
           "previousAfterSha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
           "afterSha256": "fb0378221b7889a9befe9b2484bffd383c04eccf60702f40be7a6a2f862e5dc8",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+          "previousAfterSha256": "fb0378221b7889a9befe9b2484bffd383c04eccf60702f40be7a6a2f862e5dc8",
+          "afterSha256": "66a77577cf45332f03ade68b9751000525f1595544d8be1be2bba6a03dbd0e05",
           "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
           "grantsNewSemanticAcceptance": false
         }
@@ -5779,6 +5824,315 @@
       "afterSha256": "17ae0deb2770159b332b8068e0eaf614a6c418c935453922156a63f1fc96066b",
       "sourceGitRevision": "f19e35c64ef1817150cf7e90dde8b4745219aa79",
       "reviewedLines": "Original S03 report identity/scope or complete transport byte map; pending registration, no whole subject semantic review; registration only",
+      "beforeAfter": {
+        "before": "Prepared outside repository while storage expansion and independent body review were pending.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/author-review-S04-c8715c2c.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Original S04 report identity/scope or complete transport byte map; pending registration, no whole subject semantic review; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "S04固定正文的作者/非作者原生报告或无损映射；保留指定候选、实际读域/反例/失败，运输不授本文档自身的语义或模板信用。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md:1",
+        "docs/testing/e2e/cross-stage/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Distinct original S04 producer and exact lossless evidence package"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/author-review-S04-c8715c2c.json",
+          "revision": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+          "sha256": "6d3e05cd334a1100c933fa621c9c4f949c17a6e36cdb914afbb64936470f01bb",
+          "scopeActuallyRead": "Original S04 report identity/scope or complete transport byte map; pending registration, no whole subject semantic review",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
+        "docs/phase-governance/reviews/20261018-semantic-rework.json"
+      ],
+      "legalInputs": [
+        "Exact frozen S04 body/report and native original artifacts, not fabricated historical output"
+      ],
+      "businessOracle": {
+        "type": "fixed-body-receipt-and-lossless-transport",
+        "assertions": [
+          "Original report/payload identity remains byte exact",
+          "Only one independently accepted body binding can receive credit",
+          "No other R60 entry or historical execution is upgraded"
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "6d3e05cd334a1100c933fa621c9c4f949c17a6e36cdb914afbb64936470f01bb"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/author-review-S04-c8715c2c.json",
+        "producer": "Distinct original S04 producer and exact lossless evidence package"
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "6d3e05cd334a1100c933fa621c9c4f949c17a6e36cdb914afbb64936470f01bb",
+      "afterSha256": "6d3e05cd334a1100c933fa621c9c4f949c17a6e36cdb914afbb64936470f01bb",
+      "sourceGitRevision": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+      "reviewedLines": "Original S04 report identity/scope or complete transport byte map; pending registration, no whole subject semantic review; registration only",
+      "beforeAfter": {
+        "before": "Prepared outside repository while storage expansion and independent body review were pending.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S04-c8715c2c.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Original S04 report identity/scope or complete transport byte map; pending registration, no whole subject semantic review; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "S04固定正文的作者/非作者原生报告或无损映射；保留指定候选、实际读域/反例/失败，运输不授本文档自身的语义或模板信用。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md:1",
+        "docs/testing/e2e/cross-stage/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Distinct original S04 producer and exact lossless evidence package"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S04-c8715c2c.json",
+          "revision": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+          "sha256": "e844f43f94214872f5b79f196d85907ba0c37eb0d50c921601e305da2419a9a7",
+          "scopeActuallyRead": "Original S04 report identity/scope or complete transport byte map; pending registration, no whole subject semantic review",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
+        "docs/phase-governance/reviews/20261018-semantic-rework.json"
+      ],
+      "legalInputs": [
+        "Exact frozen S04 body/report and native original artifacts, not fabricated historical output"
+      ],
+      "businessOracle": {
+        "type": "fixed-body-receipt-and-lossless-transport",
+        "assertions": [
+          "Original report/payload identity remains byte exact",
+          "Only one independently accepted body binding can receive credit",
+          "No other R60 entry or historical execution is upgraded"
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "e844f43f94214872f5b79f196d85907ba0c37eb0d50c921601e305da2419a9a7"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S04-c8715c2c.json",
+        "producer": "Distinct original S04 producer and exact lossless evidence package"
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "e844f43f94214872f5b79f196d85907ba0c37eb0d50c921601e305da2419a9a7",
+      "afterSha256": "e844f43f94214872f5b79f196d85907ba0c37eb0d50c921601e305da2419a9a7",
+      "sourceGitRevision": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+      "reviewedLines": "Original S04 report identity/scope or complete transport byte map; pending registration, no whole subject semantic review; registration only",
+      "beforeAfter": {
+        "before": "Prepared outside repository while storage expansion and independent body review were pending.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S04-c8715c2c.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Original S04 report identity/scope or complete transport byte map; pending registration, no whole subject semantic review; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "S04固定正文的作者/非作者原生报告或无损映射；保留指定候选、实际读域/反例/失败，运输不授本文档自身的语义或模板信用。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md:1",
+        "docs/testing/e2e/cross-stage/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Distinct original S04 producer and exact lossless evidence package"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S04-c8715c2c.json",
+          "revision": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+          "sha256": "814cc52e8ee828dca892e68039993e191cda3a24068d2266f6c3cb55bee7a6b7",
+          "scopeActuallyRead": "Original S04 report identity/scope or complete transport byte map; pending registration, no whole subject semantic review",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md",
+        "docs/phase-governance/reviews/20261018-semantic-rework.json"
+      ],
+      "legalInputs": [
+        "Exact frozen S04 body/report and native original artifacts, not fabricated historical output"
+      ],
+      "businessOracle": {
+        "type": "fixed-body-receipt-and-lossless-transport",
+        "assertions": [
+          "Original report/payload identity remains byte exact",
+          "Only one independently accepted body binding can receive credit",
+          "No other R60 entry or historical execution is upgraded"
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "814cc52e8ee828dca892e68039993e191cda3a24068d2266f6c3cb55bee7a6b7"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S04-c8715c2c.json",
+        "producer": "Distinct original S04 producer and exact lossless evidence package"
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "814cc52e8ee828dca892e68039993e191cda3a24068d2266f6c3cb55bee7a6b7",
+      "afterSha256": "814cc52e8ee828dca892e68039993e191cda3a24068d2266f6c3cb55bee7a6b7",
+      "sourceGitRevision": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+      "reviewedLines": "Original S04 report identity/scope or complete transport byte map; pending registration, no whole subject semantic review; registration only",
       "beforeAfter": {
         "before": "Prepared outside repository while storage expansion and independent body review were pending.",
         "after": "Unique pending binding recorded; native file content and statuses not promoted."

@@ -6,162 +6,6 @@
   "policy": "Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalReviewIdentity; no full-text re-review is asserted.",
   "entries": [
     {
-      "path": "docs/testing/e2e/cross-stage/README.md",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "governance-index",
-      "templateId": "governance-index-v1",
-      "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/testing/e2e/cross-stage/README.md:1"],
-      "unresolved": [
-        "Testing metadata, catalog publication and linked evidence remain authoritative; this documentation migration grants no runtime/E2E/visual/coverage credit.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "testing",
-      "module": "e2e/cross-stage",
-      "capability": "E2E 横向材料",
-      "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "14d8b6e5ae98f20a3be9eebe09e7ca4c4764bfd3cc92aaf2f78413af8efcaf7c",
-      "afterSha256": "52f53d750a5c915294703d6cf88ad736eddebb47a1f3693865135e378610f320",
-      "publicCallers": ["docs/testing/e2e/README.md", "docs/testing/e2e/cross-stage/README.md"],
-      "legalInputs": [
-        "current catalog",
-        "current canonical checkpoint and stage report",
-        "testing-meta declared inputs"
-      ],
-      "businessOracle": {
-        "type": "testing-entry-template-migration",
-        "assertions": [
-          "testing metadata and catalog identity remain paired",
-          "current/proposal publication status remains date-scoped",
-          "sourceRefs/callers/oracle remain reachable",
-          "no runtime/E2E/visual/coverage credit"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": [
-          "docs/testing/e2e/cross-stage/README.md",
-          "docs/testing/catalog.json",
-          "docs/testing/e2e/README.md"
-        ]
-      },
-      "revision": {
-        "currentSha": "52f53d750a5c915294703d6cf88ad736eddebb47a1f3693865135e378610f320",
-        "implementationSha": "52f53d750a5c915294703d6cf88ad736eddebb47a1f3693865135e378610f320",
-        "history": [
-          {
-            "revision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
-            "date": "2026-10-17",
-            "action": "read-and-reviewed",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "deep-semantic"
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R60 testing E2E entry migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r60-testing-e2e-entry-20261017.json",
-        "sourceSha256": "14d8b6e5ae98f20a3be9eebe09e7ca4c4764bfd3cc92aaf2f78413af8efcaf7c",
-        "candidateSha256": "52f53d750a5c915294703d6cf88ad736eddebb47a1f3693865135e378610f320",
-        "afterSha256": "52f53d750a5c915294703d6cf88ad736eddebb47a1f3693865135e378610f320",
-        "lineCount": 40,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 243,
-          "sourceLines": 5,
-          "sourceFinalNewline": true,
-          "inverseSha256": "14d8b6e5ae98f20a3be9eebe09e7ca4c4764bfd3cc92aaf2f78413af8efcaf7c",
-          "exactRoundTrip": true
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
-      },
-      "history": [
-        {
-          "revision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R60 testing E2E entry migration",
-          "reviewer": "r60_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
-        }
-      ],
-      "supersedes": [
-        "governed-legacy presentation; testing catalog and paired evidence remain canonical"
-      ],
-      "stopLine": "do not promote E2E navigation, issue-family audit or route proposal to runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 testing E2E 入口保持 → 接入统一模板、testing-meta/catalog/consumer 边界、可逆 quote 和 SHA；执行事实不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
-      "templateVersion": "1.0.0",
-      "historyOverlay": false,
-      "documentStatus": "current",
-      "sourceGitRevision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
-      "candidateSha256": "52f53d750a5c915294703d6cf88ad736eddebb47a1f3693865135e378610f320",
-      "primarySource": [
-        {
-          "path": "docs/testing/e2e/cross-stage/README.md",
-          "revision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
-          "sha256": "14d8b6e5ae98f20a3be9eebe09e7ca4c4764bfd3cc92aaf2f78413af8efcaf7c",
-          "scope": "full UTF-8 source"
-        }
-      ],
-      "phaseAnchors": {
-        "phase": "testing",
-        "module": "e2e/cross-stage",
-        "currentBoundary": "testing catalog, paired evidence and stage reports own truth"
-      },
-      "dependencies": "testing catalog; paired e2e evidence; stage reports and E2E-R4 task card.",
-      "versionScope": {
-        "sourceRevision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
-        "date": "2026-10-17",
-        "validity": "current"
-      },
-      "counterReworkBlocked": [
-        {
-          "id": "R60-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        }
-      ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
-    },
-    {
       "path": "docs/testing/e2e/cross-stage/common-issues.md",
       "contentReviewStatus": "partial-review-unknown",
       "docType": "test-domain-report",
@@ -1172,6 +1016,13 @@
       "sourceRecordSha256": "a0e932f2aec25127dc7d16b8a8cf0e8ba3beb501b640b65120073e2bf0636aaf",
       "successor": "20261018-semantic-rework.json",
       "reason": "S03 fixed new body accepted by distinct non-author; only this binding moved. Historical withdrawals and original false exactRoundTrip are retained by source Git/entry history."
+    },
+    {
+      "path": "docs/testing/e2e/cross-stage/README.md",
+      "sourceRevision": "5ff577b30958ec0f8c1cba223f7b91d06f22ac37",
+      "sourceRecordSha256": "70c014fc012cbd7ca5aee02832255c66c72ef5c0ff5b0403662e1c9bb45e2cee",
+      "successor": "20261018-semantic-rework.json",
+      "reason": "S04 fixed new body accepted by distinct non-author; only this binding moved. Historical withdrawals and original false exactRoundTrip are retained by source Git/entry history."
     }
   ]
 }
