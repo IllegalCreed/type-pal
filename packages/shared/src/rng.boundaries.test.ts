@@ -16,6 +16,15 @@ const expectExact = (s: Uint8Array, from: number, expected: number[]) => {
   expect(s.subarray(from + expected.length).every((b) => b === MARK)).toBe(true)
 }
 
+describe('rngBlitDelta surface ownership', () => {
+  it('连续 delta 以同一 surface 累加，第二帧保留第一帧像素', () => {
+    const s = new Uint8Array(8)
+    rngBlitDelta(new Uint8Array([0x06, 0xaa, 0xbb]), s)
+    rngBlitDelta(new Uint8Array([0x02, 0x06, 0xcc, 0xdd]), s)
+    expect(Array.from(s.slice(0, 4))).toEqual([0xaa, 0xbb, 0xcc, 0xdd])
+  })
+})
+
 describe('rngBlitDelta skip 族（未触字节精确保持）', () => {
   it('0x03 + n：dst += (n+1)*2，其后写入落点精确', () => {
     const s = surface()

@@ -293,3 +293,9 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 发现 `parseHms` 对超长十进制段只拒绝 `NaN`，可把总毫秒算成 `Infinity`；工具面板会将其送入 `setSpeedrunBest`，持久化时被 JSON 静默写成 `null`。先加入 `${'9'.repeat(308)}:59:59` 失败反例，再让段值和总毫秒都必须 finite；合法格式、小时无固定上界和 UI 形态保持不变。未发现 schema/save、迁移、资产、公共游戏接口或第一阶段机制边界，未扩大到无 caller 证据的非 finite 格式化输入。
 
 定向四文件 `15 passed`，相邻 overlay/timer/tools-panel 六文件 `43 passed`，`pnpm --filter @type-pal/game run typecheck` 通过且无诊断。覆盖率、official ratchet、protected fast 和全仓 `pnpm check` 按用户明确的成本规则留到完整大模块收口；本片不把历史 3j done 或本切片证据升为整卡 accept。3j 其余工具文件与 3i/后续 pre-94 卡仍 pending；94–102 继续后置。
+
+### 2026-10-17 CODE1/CODE2 boundary carry-over
+
+本片接收工作树中已完成的两个窄测试合同：`packages/shared/src/rle.boundaries.test.ts` 新增“相邻 offset 截断前一帧帧头即拒绝”反例；`packages/shared/src/rng.boundaries.test.ts` 新增同一 surface 连续 delta 累加并保留首帧像素的 ownership 合同。两项都只改测试，不改 RLE/RNG/YJ2 实现、公共出口、资源或格式策略；RLE 高位 literal 风险继续留在 `QUALITY-RLE-COMMAND-TRUTH-1` draft。
+
+验证：shared 定向 `3 files / 30 tests passed`，shared 全包 `16 files / 128 tests passed`，shared typecheck 通过；本片不运行 coverage、official ratchet、protected fast 或全仓 `pnpm check`。两测试从历史 ledger `已验证` 重开为 `review`，不增加 closed；CODE1/CODE2 整卡仍 partial，未把测试绿灯推成格式或全仓验收。

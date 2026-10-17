@@ -91,6 +91,16 @@ describe('R01 严格拒绝单轴与相邻正控', () => {
     ).toThrow('指令流截断')
     expect(() => parseSpriteChunkStrict(strictChunk([new Uint8Array(4)]))).toThrow('尺寸非法')
   })
+  test('相邻 offset 截断前一帧帧头时拒绝，不把下一帧当作当前帧内容', () => {
+    const bytes = new Uint8Array(10)
+    const view = new DataView(bytes.buffer)
+    view.setUint16(0, 2, true) // 两个 frame slot；frame0 offset=4
+    view.setUint16(2, 3, true) // frame1 offset=6，只够截断 frame0 的两字节
+    view.setUint16(6, 1, true)
+    view.setUint16(8, 1, true)
+
+    expect(() => parseSpriteChunkStrict(bytes)).toThrow('sprite chunk frame 0 offset 越界')
+  })
   test('canonical 拒坏尾；同输入 legacy-migrated 跳 1 槽并精确报告', () => {
     // 帧0 合法 + 坏尾槽：offset 指向 chunk 内但 width=0xFFFF 不可解
     const good = frameBytes(1, 1, [0x01, 0x07])
