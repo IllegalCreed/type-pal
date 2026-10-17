@@ -1,19 +1,16 @@
 /**
- * TEST-GLM-PHASE1-LEAVES-3 L20（time-format.ts）— 去重表：
- *  - time-format.test（formatClock 厘秒/formatHms 到秒/parseHms 两三种/formatDiff 符号）→ 不重复
- *  - time-format.boundaries.test（59.995 进位/负数归 0/formatDiff 截断/parseHms 拒绝集）→ 不重复
- *  - 新差异：小时位进位（≥1h 的 formatClock/formatHms 手算预期）、formatHms 负数归 0。
+ * 小时格式与负数归零已归主测试和 boundaries，本文件不重复数字变体。
+ * 只核文本解析的独立拒绝合同：小时不接受科学计数法；分钟越界不能靠秒守卫挡住。
  */
 import { describe, expect, it } from 'vitest'
-import { formatClock, formatHms } from './time-format.js'
+import { parseHms } from './time-format.js'
 
-describe('L20 time-format 小时位', () => {
-  it('formatClock 1h01m01s.23：3661234ms → "1:01:01.23"（手算 3600s+60s+1s+230ms）', () => {
-    expect(formatClock(3_661_234)).toBe('1:01:01.23')
+describe('L20 time-format 解析拒绝边界', () => {
+  it('小时字段拒绝科学计数法，即便 Number 能转换它', () => {
+    expect(parseHms('1e2:00:05')).toBeNull()
   })
 
-  it('formatHms 小时进位与负数归 0', () => {
-    expect(formatHms(3_661_000)).toBe('1:01:01')
-    expect(formatHms(-5)).toBe('0:00:00')
+  it('分钟为 60 且秒合法时仍拒绝', () => {
+    expect(parseHms('1:60:00')).toBeNull()
   })
 })

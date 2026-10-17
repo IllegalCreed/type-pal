@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,311。
-当前已闭合核验：282；已读但待审：44；尚未逐文件核验：2,985；合计未闭合：3,029。
+当前已闭合核验：285；已读但待审：44；尚未逐文件核验：2,982；合计未闭合：3,026。
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
@@ -176,6 +176,9 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts` | test | 已验证 | [CODE-QUALITY-100 Codex当前独立复核](../evidence/CODE-QUALITY-100/codex-current-review.md)；公开工厂同步合同与 sdlpal defaultSlot oracle | 非顺序 id、越界 defaultSlot、空表 Up/Down 反例；与 IO/dispatcher 测试排重 |
 | `packages/game/src/tools/map-names.ts` | product | 已验证 | [pre-94 CODE3j toast/map/checkpoints复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-toast-map-checkpoints/README.md)；shared authored map-name caller 与 known/fallback tests | 缺名保持 `地图N` 回退，不改 authored table |
 | `packages/game/src/tools/speedrun/time-format.ts` | product | review | [pre-94 CODE3j time-format 当前复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-time-format/README.md)；store/overlay/tools-panel caller、三份直接测试 | 发现超长数字可形成 Infinity 并在 JSON 持久化时静默变 null；已补 finite 反例与解析守卫，整卡/统一门仍待 |
+| `packages/game/src/tools/speedrun/time-format.test.ts` | test | 已验证 | [CODE69 time-format复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/69-time-format-tests/README.md)；overlay/tool文本caller、毫秒/固定字符串oracle | 正常四函数职责明确；GLM精确厘秒小时oracle归回主测试；相邻20files108tests、game typecheck通过；新统一门未运行 |
+| `packages/game/src/tools/speedrun/time-format.boundaries.test.ts` | test | 已验证 | [CODE69 time-format复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/69-time-format-tests/README.md)；截断/进位、负数、diff与文本拒绝/finite总量 | 纠正错误进位标题、拆开不同函数合同；旧GLM负数oracle保留；生产非finite显示政策仍review |
+| `packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts` | test | 已验证 | [CODE69 time-format复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/69-time-format-tests/README.md)；科学计数法文本/分钟60且秒0两个独立oracle | 两原重复用例转回主/边界；两枚各旧10绿→新13绿1个指定AssertionError；正式源未改、临时副本已清 |
 | `packages/game/src/tools/speedrun/store.ts` | product | 已验证 | [pre-94 CODE61 speedrun store复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/61-speedrun-store/README.md)；speedrun/index/overlay/tools-panel caller、localStorage 边界 | 58 行完整核验设置 1/0、bests defaults 骨架、坏 JSON/未知 key/非法数值 fail-closed 与小数毫秒；直接2 files/9、相邻3 files/30通过 |
 | `packages/game/src/tools/speedrun/store.test.ts` | test | 已验证 | [pre-94 CODE61 speedrun store复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/61-speedrun-store/README.md)；默认/往返/真实 timer 小数 PB oracle | 51 行完整核验合法 localStorage 与真实 SpeedrunTimer caller；直接2 files/9 tests通过 |
 | `packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts` | test | 已验证 | [pre-94 CODE61 speedrun store复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/61-speedrun-store/README.md)；坏 JSON/ghost key/非法值/数组标量反控 | 64 行完整核验逐键回退、defaults ownership 和 setting 合同；直接2 files/9 tests通过 |

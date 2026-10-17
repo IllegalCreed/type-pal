@@ -1,0 +1,63 @@
+{
+  "base": "d49de5240",
+  "files": [
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.ts",
+      "sha256": "03cd01e6ed78b3acf1979f5a20ed65eefd4a0afa0397c91d49d2cddf9cfcb275",
+      "lines": 36,
+      "scope": "full file read; time-format slice only"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.test.ts",
+      "sha256": "61046994eb6a6dd74a1fc16df10f6411aa470565fe30d94bbd34fbb174a9be75",
+      "lines": 23,
+      "scope": "full file read; time-format slice only"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+      "sha256": "ce31751bf2f91e1707bea710ae157e7bd15094d802c3757f9c896c1f60d9051f",
+      "lines": 49,
+      "scope": "full file read; time-format slice only"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
+      "sha256": "79411da90343bc7a2346df5e4743c3ab47146df823e15d160e9f20d7ecab5076",
+      "lines": 16,
+      "scope": "full file read; time-format slice only"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.ts",
+      "sha256": "60c44dec89eeb0acf88719ff4cd86c81ff58f00932b3dc15f87ec77e737b9fdc",
+      "lines": 120,
+      "scope": "full file read; time-format slice only"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.ts",
+      "sha256": "a888866e9555bc9fa58fed28d9e035fcb41d3d90c9fdc6d9eb79ddee0aef5d7a",
+      "lines": 58,
+      "scope": "full file read; time-format slice only"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.test.ts",
+      "sha256": "a00d04bea44135667710c73f8b0fe84a813e4792ed4c4464012dd00cc2014364",
+      "lines": 51,
+      "scope": "full file read; time-format slice only"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "1690410dfda8b125cecf8f650c3f91f4efcc3ee79200ff74795b49647f68e8e1",
+      "scope": "820-910 best-time inputs and parseHms/change handler; not a whole-file review"
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-18-speedrun-timer.md",
+      "sha256": "5e649bf286aa6f72814a4b2dae4212dbd1c78f70a2976f5af099114e53445298",
+      "scope": "Task 1 time-format contract only; historical implementation is not current finite-guard truth"
+    }
+  ],
+  "notClaimed": [
+    "whole tools-panel review",
+    "non-finite formatting policy",
+    "new runtime behavior",
+    "full repository or coverage acceptance"
+  ]
+}
