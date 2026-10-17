@@ -1,5 +1,7 @@
 # CODE62 speedrun timer 当前复审切片
 
+> 2026-10-18 波次门勘误：本页引用的 [47–52统一门回执](../53-wave-gates/README.md) 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据。本页原逐文件/定向结果按各自证据保留，旧计数不改写为0。
+
 基点：`c69d69300`；分支：`codex/code-quality-3y`。本片重新核验 timer 状态机；不改变 checkpoint 数据、speedrun API 或工具 UI。当前卡复审为 `partial`。
 
 完整读取 `speedrun/timer.ts`、`timer.test.ts`、`timer.glm-phase1-leaves.test.ts`、`timer.boundaries.test.ts`，并读取 `speedrun/index.ts`、`snapshot.ts`、`store.ts`、`overlay.ts` caller。工具层没有 SDLPal 同形态 timer primary，行为以当前 PalTimer/checkpoint 设计和真实 caller 为 oracle。

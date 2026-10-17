@@ -1025,7 +1025,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "8628f70b9b4e2021694848b4c592aa0d0746c25085edd927035904f2605b87cc",
+      "afterSha256": "24499c4421bcc7d86fabb0d83654c9e071164ffc993a6d7dba5aec91c38f564d",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1049,8 +1049,17 @@
       },
       "revision": {
         "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "implementationSha": "8628f70b9b4e2021694848b4c592aa0d0746c25085edd927035904f2605b87cc",
+        "implementationSha": "24499c4421bcc7d86fabb0d83654c9e071164ffc993a6d7dba5aec91c38f564d",
         "history": [
+          {
+            "revision": "cee6cee6945ffac3bbf2196af449dee6dd724339",
+            "date": "2026-10-18",
+            "action": "Revoke unsupported 47-52 unified gate credit; approved boot task admission only",
+            "previousAfterSha256": "8628f70b9b4e2021694848b4c592aa0d0746c25085edd927035904f2605b87cc",
+            "scope": "Only the named reviewed record delta and SHA link; no new global semantic, runtime or coverage acceptance. Only current board/index projection delta: restore zero-diagnostic acceptance boundary and mirror already granted finite boot-fix build admission. Other card history and original native outcomes are unchanged.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/receipt-audit/audit.json",
+            "notRun": ["new whole-repository check", "official coverage ratchet", "protected fast"]
+          },
           {
             "revision": "0587d8714",
             "date": "2026-10-18",
@@ -1148,7 +1157,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "8628f70b9b4e2021694848b4c592aa0d0746c25085edd927035904f2605b87cc",
+        "afterSha256": "24499c4421bcc7d86fabb0d83654c9e071164ffc993a6d7dba5aec91c38f564d",
         "lineCount": 1987,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1183,7 +1192,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-2251",
+      "reviewedLines": "1-2269",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

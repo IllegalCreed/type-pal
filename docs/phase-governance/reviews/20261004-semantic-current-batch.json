@@ -407,7 +407,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "cb23ba6973be49e701d9f6acb1a28f4a0510bd9438c3383b9a610e1025c3bb3a",
+      "afterSha256": "f61d7dc862621923c7a9d96c80ab2777e6645df68bd84cdc5f47c8e1d22c0237",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -438,10 +438,19 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "cb23ba6973be49e701d9f6acb1a28f4a0510bd9438c3383b9a610e1025c3bb3a",
+        "implementationSha": "f61d7dc862621923c7a9d96c80ab2777e6645df68bd84cdc5f47c8e1d22c0237",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "cee6cee6945ffac3bbf2196af449dee6dd724339",
+            "date": "2026-10-18",
+            "action": "Revoke unsupported 47-52 unified gate credit; approved boot task admission only",
+            "previousAfterSha256": "cb23ba6973be49e701d9f6acb1a28f4a0510bd9438c3383b9a610e1025c3bb3a",
+            "scope": "Only current board/index projection delta: restore zero-diagnostic acceptance boundary and mirror already granted finite boot-fix build admission. Other card history and original native outcomes are unchanged.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/receipt-audit/audit.json",
+            "notRun": ["new whole-repository check", "official coverage ratchet", "protected fast"]
+          },
           {
             "revision": "0587d8714",
             "date": "2026-10-18",
@@ -737,7 +746,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "cb23ba6973be49e701d9f6acb1a28f4a0510bd9438c3383b9a610e1025c3bb3a",
+        "afterSha256": "f61d7dc862621923c7a9d96c80ab2777e6645df68bd84cdc5f47c8e1d22c0237",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
@@ -1186,7 +1195,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "00610c9c9e00fb7ccbc56f87e44e618fa80a90bda896031053e53594d267e376",
+      "afterSha256": "7cbaab01d07b889ba5f5ac94bab291d041c9c79e1ac63530b4a349126efbad18",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -1207,10 +1216,19 @@
       },
       "revision": {
         "currentSha": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
-        "implementationSha": "00610c9c9e00fb7ccbc56f87e44e618fa80a90bda896031053e53594d267e376",
+        "implementationSha": "7cbaab01d07b889ba5f5ac94bab291d041c9c79e1ac63530b4a349126efbad18",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "cee6cee6945ffac3bbf2196af449dee6dd724339",
+            "date": "2026-10-18",
+            "action": "Revoke unsupported 47-52 unified gate credit; approved boot task admission only",
+            "previousAfterSha256": "00610c9c9e00fb7ccbc56f87e44e618fa80a90bda896031053e53594d267e376",
+            "scope": "Only current board/index projection delta: restore zero-diagnostic acceptance boundary and mirror already granted finite boot-fix build admission. Other card history and original native outcomes are unchanged.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/receipt-audit/audit.json",
+            "notRun": ["new whole-repository check", "official coverage ratchet", "protected fast"]
+          },
           {
             "revision": "0587d8714",
             "date": "2026-10-18",
@@ -1439,7 +1457,7 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "00610c9c9e00fb7ccbc56f87e44e618fa80a90bda896031053e53594d267e376",
+        "afterSha256": "7cbaab01d07b889ba5f5ac94bab291d041c9c79e1ac63530b4a349126efbad18",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",

@@ -1,5 +1,7 @@
 # CODE64 speedrun detectors 当前复审切片
 
+> 2026-10-18 波次门勘误：本页引用的 [47–52统一门回执](../53-wave-gates/README.md) 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据。本页原逐文件/定向结果按各自证据保留，旧计数不改写为0。
+
 基点：`5dd341657`；分支：`codex/code-quality-3y`。本片只复核检测器的 prev/mem ownership、边界和真实消费方，不改变 checkpoint 数据、公共接口或产品行为；CODE-QUALITY-64 当前复审为 `partial`。
 
 ## 实际读取与依据

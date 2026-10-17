@@ -1,5 +1,7 @@
 # CODE56 minimap 当前复审切片
 
+> 2026-10-18 波次门勘误：本页引用的 [47–52统一门回执](../53-wave-gates/README.md) 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据。本页原逐文件/定向结果按各自证据保留，旧计数不改写为0。
+
 基点：`f6c440eab`；分支：`codex/code-quality-3y`。本片重新核验历史 CODE-QUALITY-56 的小地图加载 ownership；不触碰 CODE-QUALITY-57 的 bootstrap seam repair、地图 schema、碰撞、存档或 `MinimapController` 公共接口。当前卡复审为 `partial`。
 
 ## 读取与事实边界

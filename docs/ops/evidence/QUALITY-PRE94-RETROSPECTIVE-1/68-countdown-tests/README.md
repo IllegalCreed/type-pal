@@ -1,5 +1,7 @@
 # CODE68 countdown 测试复审与去重
 
+> 2026-10-18 波次门勘误：本页引用的 [47–52统一门回执](../53-wave-gates/README.md) 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据。本页原逐文件/定向结果按各自证据保留，旧计数不改写为0。
+
 基点 `4121531c7`，唯一分支 `codex/code-quality-3y`。修改白名单为两份 countdown 测试与本批治理记录；生产 `countdown.ts`、UI、公共 API、schema/save、资产管线均未修改。本片不作整卡 accept，CODE68 当前为 partial。
 
 ## 实际读取、caller 与 oracle

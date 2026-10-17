@@ -1,0 +1,132 @@
+{
+  "auditedCommit": "f544b9b9438797821f92a4a1e30ded736ae9f293",
+  "originalReadmeSha256": "cdbb504a7935010afb0837df121c44ca1785ef8221975453b59e6bdcfdc19636",
+  "trackedAttachmentsAtCommit": ["README.md"],
+  "currentVerdict": "REWORK: unified quality-gate acceptance revoked; do not integrate on this receipt",
+  "knownC10": {
+    "receipt": "docs/ops/evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/editor-full.json",
+    "rawSha256": "a4b6c7e0312fff7e733a199b69d8027ad3f6ffbbad674635d985ab8d3b738d9a",
+    "actWarnings": 624,
+    "environmentWarnings": 243,
+    "stderrBlocks": 321,
+    "zeroDiagnosticAcceptance": false,
+    "notEquivalentToAuditedRun": true
+  },
+  "recoveredExecutions": [
+    {
+      "name": "check",
+      "timestamp": "2026-10-17T15:46:54.878Z",
+      "sourceRolloutBasename": "rollout-2026-10-12T11-37-01-01a12966-f470-7ab0-87ed-ea4a7694f1e8_01a12df8-7a47-7790-b116-34676f30f396.jsonl",
+      "sourceJsonlLine": 75214,
+      "command": ["/bin/zsh", "-lc", "VITEST_MAX_WORKERS=1 pnpm check"],
+      "cwd": "file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "executionId": "exec-ed10ddf7-25d2-42ef-929a-336cf81bf3e8",
+      "processId": "41605",
+      "exit": 0,
+      "duration": {
+        "secs": 1124,
+        "nanos": 420214291
+      },
+      "persistedOutputSha256": "78e502afb40b6572d99ffca744e8c92e42b837305a771c54d67a4ce657222f31",
+      "nativeExecutionSha256": "bf53679f25440024efe70e910072df7ac4826e8ddac61180b266ecdc6484720e",
+      "hasExplicitPersistenceTruncation": true,
+      "fullUncutOriginalAvailable": false,
+      "diagnosticCounts": {
+        "act": null,
+        "environment": null,
+        "stderrBlocks": null
+      },
+      "zeroDiagnosticAcceptance": false,
+      "limit": "Recovered app persistence only; output completeness/diagnostic capture was not certified. Zero occurrences in a fragment do not mean zero diagnostics."
+    },
+    {
+      "name": "ratchet-rejected",
+      "timestamp": "2026-10-17T16:07:16.183Z",
+      "sourceRolloutBasename": "rollout-2026-10-12T11-37-01-01a12966-f470-7ab0-87ed-ea4a7694f1e8_01a12df8-7a47-7790-b116-34676f30f396.jsonl",
+      "sourceJsonlLine": 75446,
+      "command": ["/bin/zsh", "-lc", "VITEST_MAX_WORKERS=1 pnpm coverage:ratchet"],
+      "cwd": "file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "executionId": "exec-95c0e15a-6fa3-4ac8-a237-dac568a594d6",
+      "processId": "17091",
+      "exit": 1,
+      "duration": {
+        "secs": 1211,
+        "nanos": 361236291
+      },
+      "persistedOutputSha256": "d566620185796440e1c509fa118ba8e9f34730dadf3cf1bd290999398641261d",
+      "nativeExecutionSha256": "576b9a6c5a9c410986f4b8268d81c4d8596a2e470622f14e510bda69d5667f6c",
+      "hasExplicitPersistenceTruncation": false,
+      "fullUncutOriginalAvailable": null,
+      "diagnosticCounts": {
+        "act": null,
+        "environment": null,
+        "stderrBlocks": null
+      },
+      "zeroDiagnosticAcceptance": false,
+      "limit": "Recovered app persistence only; output completeness/diagnostic capture was not certified. Zero occurrences in a fragment do not mean zero diagnostics."
+    },
+    {
+      "name": "ratchet-scope-approved",
+      "timestamp": "2026-10-17T16:28:24.668Z",
+      "sourceRolloutBasename": "rollout-2026-10-12T11-37-01-01a12966-f470-7ab0-87ed-ea4a7694f1e8_01a12df8-7a47-7790-b116-34676f30f396.jsonl",
+      "sourceJsonlLine": 75710,
+      "command": [
+        "/bin/zsh",
+        "-lc",
+        "VITEST_MAX_WORKERS=1 node scripts/coverage/run.mjs fast --ratchet --allow-scope-removal"
+      ],
+      "cwd": "file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "executionId": "exec-2e3b7a6b-9d84-44ed-8f4b-12048f4db12c",
+      "processId": "94109",
+      "exit": 0,
+      "duration": {
+        "secs": 1210,
+        "nanos": 457378083
+      },
+      "persistedOutputSha256": "9d8ada48bd15924e6969b6fb0971ca90679f78759130e50c2474929920cf039a",
+      "nativeExecutionSha256": "51cdfe5284fd7f4bd2ae1a600a56af2ae0df5eddfe182dce72a582af3ecee88f",
+      "hasExplicitPersistenceTruncation": false,
+      "fullUncutOriginalAvailable": null,
+      "diagnosticCounts": {
+        "act": null,
+        "environment": null,
+        "stderrBlocks": null
+      },
+      "zeroDiagnosticAcceptance": false,
+      "limit": "Recovered app persistence only; output completeness/diagnostic capture was not certified. Zero occurrences in a fragment do not mean zero diagnostics."
+    },
+    {
+      "name": "protected-fast",
+      "timestamp": "2026-10-17T16:49:04.420Z",
+      "sourceRolloutBasename": "rollout-2026-10-12T11-37-01-01a12966-f470-7ab0-87ed-ea4a7694f1e8_01a12df8-7a47-7790-b116-34676f30f396.jsonl",
+      "sourceJsonlLine": 75937,
+      "command": [
+        "/bin/zsh",
+        "-lc",
+        "TYPE_PAL_COVERAGE_BASE_REF=origin/main VITEST_MAX_WORKERS=1 pnpm coverage:fast"
+      ],
+      "cwd": "file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "executionId": "exec-caa1998b-2a63-4aac-b9d7-1e55ee09d083",
+      "processId": "44665",
+      "exit": 0,
+      "duration": {
+        "secs": 1233,
+        "nanos": 712299459
+      },
+      "persistedOutputSha256": "7fdd74225339ef4dc852f6b8619b2a30e03c038691c4ddbb1f4d2735f2f0a658",
+      "nativeExecutionSha256": "f57ce8d5d476e3c0296215f90a0c76a6a0b14c4439231a770e224f1287317810",
+      "hasExplicitPersistenceTruncation": false,
+      "fullUncutOriginalAvailable": null,
+      "diagnosticCounts": {
+        "act": null,
+        "environment": null,
+        "stderrBlocks": null
+      },
+      "zeroDiagnosticAcceptance": false,
+      "limit": "Recovered app persistence only; output completeness/diagnostic capture was not certified. Zero occurrences in a fragment do not mean zero diagnostics."
+    }
+  ],
+  "baselineDecision": "Preserve generated baseline and numeric history; this audit grants no zero-diagnostic/integration credit and does not rerun or edit baseline.",
+  "notRun": ["pnpm check", "official coverage ratchet", "protected fast", "product tests"],
+  "claimCorrection": "Only original process exits/summaries recoverable; exact diagnostics for this wave remain unknown. Earlier C10 counts are not assigned to this wave."
+}

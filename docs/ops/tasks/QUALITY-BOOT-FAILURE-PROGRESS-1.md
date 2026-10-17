@@ -1,20 +1,28 @@
 # QUALITY-BOOT-FAILURE-PROGRESS-1 — 启动失败后的进度所有权
 
-Status: draft
+Status: build
 Owner: Codex
 Phase: phase1 game / boot lifecycle
 Capability: PROD boot failure progress ownership
-Coding Owner: Unassigned（生产实现冻结）
+Coding Owner: Codex（单一写入 Owner）
 Generation Owner: N/A（无资源生成）
 Reviewer: Codex（源码与真实公开模块组合复核，不冒充浏览器验收）
 Visual Verification Owner: Codex
 Visual Verification Timing: dev-functional
-Contributor: Codex（只读取证）
+Contributor: Codex
 Branch: codex/code-quality-3y
 
 ## 目标
 
-核定并修复第一阶段 PROD+SW 必要资源阶段失败后的进度所有权：启动失败提示不能被迟到的资源进度覆盖，计数包装和回调应按本轮 ownership 释放。当前只登记直接反例，未授权修改生产，不改变进入游戏门、重试策略、资源请求取消、UI形态或公共API。
+修复第一阶段 PROD+SW 必要资源阶段失败后的进度所有权：启动失败提示不能被迟到的资源进度覆盖，计数包装和回调应按本轮 ownership 释放。用户已批准本卡窄修，不改变进入游戏门、重试策略、资源请求取消、UI形态或公共API。
+
+## 当前准入（2026-10-18）
+
+- 用户对“失败提示保持，同时停止本轮 fetch 计数和进度回调；正常启动、进入游戏和其它网络请求保持原行为”回复“批准按此修复（推荐）”。此前 draft/冻结记录仅为历史状态。
+- Codex 核前提与真实 caller 后记 `build allowed`；Coding Owner 为 Codex，沿用 `codex/code-quality-3y` 隔离树，基点 `308f517e6e4bbcb637659bc45b28240ec25238d1`，同步后落后 origin/main 为0。
+- 实现白名单：`main.ts` 失败分支清理、`shell/precache-ui.ts` 失败进度终态、`shell/boot-loading.ts` 本轮计数/包装释放；测试白名单为相邻 boot-loading/precache-ui 测试。源码改前先落失败反例；任务卡、72证据、账本和看板同批写回。
+- 验收：真实模块与 typed fetch 的旧红新绿、其它 fetch 层所有权与在途请求、正常进入/widget 正控；定向/相邻测试、game typecheck、文档与 lint 零诊断。全仓 check、官方 coverage ratchet、protected fast 留到大任务收尾，不在本次小修中重复执行。
+- 真实 PROD 入口故障注入的功能/视觉结果单独登记；逻辑测试不能冒充该项通过。
 
 ## 范围
 
@@ -35,7 +43,7 @@ Branch: codex/code-quality-3y
 | 原版 / primary | 这是项目自有浏览器启动能力，SDLPal无同形UI；当前公开UI接口将 fail 定义为覆盖层改显启动错误 | `shell/precache-ui.ts:39-42,126-131,178-187`；真实模块组合 [红例](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/failure-repro.json) |
 | 第一阶段 | PROD init 把计数交给UI；成功onPlayable释放计数；PROD catch只有ui.fail，fallback catch另调failBootLoading | `main.ts:40,58-70,73-80`；`shell/bootstrap.ts:245-249,1882-1883`；`shell/bootstrap-resources.ts:56-65`；`assets/loader.ts:162-182` |
 | 当前二阶段 | N/A；不涉及Reforge、editor或content合同 | 本卡范围只含phase1 game |
-| 本任务目标 | 失败后错误文案保持；只释放本轮拥有的包装/回调，成功/未进入/进入后状态分别保留 | 目标待build准入；不能用本卡draft直接实施 |
+| 本任务目标 | 失败后错误文案保持；只释放本轮拥有的包装/回调，成功/未进入/进入后状态分别保留 | 用户已批准；按当前准入白名单实现 |
 
 ### 反证与替代解释
 
@@ -48,7 +56,7 @@ Branch: codex/code-quality-3y
 - 预期保持既有失败提示合同，不增加产品形态；但属于用户可见错误路径，依用户停止线先开高风险卡。
 - before → after候选：失败文案被迟到必要进度覆盖 → 错误状态保持、计数回调停止。是否同时取消网络不属于本卡默认方案。
 - 代表场景：首次PROD资源并行加载，一项失败而另一项稍后完成。
-- 用户裁决与生产build准入：pending；当前不得直接实现。
+- 用户裁决与生产build准入：已批准，见当前准入；范围外变化重新停线。
 
 ## 上下文锚点
 
@@ -61,7 +69,7 @@ Branch: codex/code-quality-3y
 - 文档：本卡、72复审、账本与看板一致；全仓零诊断和模块收尾门后才能集成。
 - 视觉：后续需真实PROD入口故障注入，确认错误提示稳定；当前无浏览器、真实SW/网络或视觉信用。
 
-## 当前模式推进记录
+## 初次取证记录（历史 draft）
 
 - Codex范围：只读取证；单一治理worktree，生产三文件冻结。
 - 前提：公开模块组合红例已证；完整main/HTTP现场仍待核。
@@ -82,4 +90,4 @@ Branch: codex/code-quality-3y
 
 ## 下一位 Agent 提示词
 
-无；Codex单Agent继续，当前产品实现冻结，不把本卡当生产授权。
+无下一位 Agent 提示词；Codex单Agent按当前准入继续，旧冻结描述不覆盖本轮明确批准。
