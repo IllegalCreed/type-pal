@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,307。
-当前已闭合核验：231；已读但待审：21；尚未逐文件核验：3,055；合计未闭合：3,076。
+当前已闭合核验：231；已读但待审：28；尚未逐文件核验：3,048；合计未闭合：3,076。
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
@@ -276,11 +276,25 @@ Template: governance-index-v1 / 1.0.0
 | `packages/editor/src/ui/ItemUseEffectEditor.glm-m.test.tsx` | test | review | [CODE-QUALITY-104 Codex act 生命周期复核](../evidence/CODE-QUALITY-104/codex-current-review.md)；真实 ItemEffectChainEditor/EditSession caller、效果 schema/undo oracle | 原生 click/undo/redo 已包 act；定向/相邻/全仓 check 零诊断，coverage ratchet/protected 仍受既有 baseline 回退阻塞 |
 | `packages/reforge/src/menu/menu-box.residual.glm.test.ts` | test | review | CODE-QUALITY-105；Codex 当前逐文件复核 MenuBox.render 公开 caller、R1/R2/S1/S2/S3 合同与 K1–K5 反控 | 25/25 定向通过；menu 相邻 118/118 但 reward-gain 未 await 诊断；coverage/unified 门仍阻塞，保持 review |
 | `packages/reforge/src/menu/reward-gain-queue.boundaries.test.ts` | test | review | CODE-QUALITY-106；真实 RewardGainQueue.present/handleRewardGainInput caller、Promise resolve/AbortError oracle | 定向5/5、相邻21/118零 stderr；全仓 coverage 仍待批次收口，保持 review |
+| `packages/game/src/core/menu/primitives.ts` | product | review | CODE-QUALITY-107；SDLPal ui.c:510-572 cursor、真实 menu/battle/inventory caller、E-4 test-only page API | 纯状态 helper 已完整读取；定向/相邻证据待批次收口，E-4 不删公共出口 |
+| `packages/game/src/core/menu/item-select.ts` | product | review | CODE-QUALITY-107；SDLPal itemmenu/play/uigame filter caller、typed Item/Inventory oracle、E-5 无生产 caller | filter/建表合同已完整读取；important 为工程近似，E-5 不删公共出口 |
+| `packages/game/src/core/menu/__tests__/primitives.test.ts` | test | review | CODE-QUALITY-107；Selection/Confirm/Triple/Switch 主干与公开 helper oracle | 7 文件定向 78 tests；相邻有 2 条白名单外预期 stderr，保持 review |
+| `packages/game/src/core/menu/primitives.boundaries.test.ts` | test | review | CODE-QUALITY-107；空表/单项/跨页视窗/输入不改写 oracle | 7 文件定向 78 tests；未将 test-only page API 当产品真值 |
+| `packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-107；pageUp/down 现状、全 disabled、负 cursor、identity oracle | 7 文件定向 78 tests；E-4 保留待另卡 |
+| `packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-107；filter 真值、目录外 id、缺名、空库存、奇数卖价 oracle | 7 文件定向 78 tests；important 近似显式披露 |
+| `packages/game/src/core/menu/__tests__/item-magic-select.test.ts` | test | review | CODE-QUALITY-107；真实 item/magic selection caller、MP disabled/排序/rightText oracle | 7 文件定向 78 tests；相邻 magic-script 诊断保持开放 |
 
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 CanonicalScriptBodyEditor→EntityAddressEditor caller、合法 EntityAddress 与自动改绑 oracle | 1合同/4定向测试通过；相邻测试有22条 React act诊断，保持 review，不标已验证 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 ItemTab/loader/EditSession/save-gate caller、R1/R3/R5 oracle | 3合同/4定向测试通过；相邻测试有22条 React act诊断，P1 puppet/battleOnly仍是产品裁决，保持 review |
 | `packages/reforge/src/menu/menu-box.residual.glm.test.ts` | test | review | CODE-QUALITY-105；Codex 当前逐文件复核 MenuBox.render 公开 caller、R1/R2/S1/S2/S3 合同与 K1–K5 反控 | 25/25 定向通过；menu 相邻 118/118 但 reward-gain 未 await 诊断；coverage/unified 门仍阻塞，保持 review |
 | `packages/reforge/src/menu/reward-gain-queue.boundaries.test.ts` | test | review | CODE-QUALITY-106；真实 RewardGainQueue.present/handleRewardGainInput caller、Promise resolve/AbortError oracle | 定向5/5、相邻21/118零 stderr；全仓 coverage 仍待批次收口，保持 review |
+| `packages/game/src/core/menu/primitives.ts` | product | review | CODE-QUALITY-107；SDLPal ui.c:510-572 cursor、真实 menu/battle/inventory caller、E-4 test-only page API | 纯状态 helper 已完整读取；定向/相邻证据待批次收口，E-4 不删公共出口 |
+| `packages/game/src/core/menu/item-select.ts` | product | review | CODE-QUALITY-107；SDLPal itemmenu/play/uigame filter caller、typed Item/Inventory oracle、E-5 无生产 caller | filter/建表合同已完整读取；important 为工程近似，E-5 不删公共出口 |
+| `packages/game/src/core/menu/__tests__/primitives.test.ts` | test | review | CODE-QUALITY-107；Selection/Confirm/Triple/Switch 主干与公开 helper oracle | 7 文件定向 78 tests；相邻有 2 条白名单外预期 stderr，保持 review |
+| `packages/game/src/core/menu/primitives.boundaries.test.ts` | test | review | CODE-QUALITY-107；空表/单项/跨页视窗/输入不改写 oracle | 7 文件定向 78 tests；未将 test-only page API 当产品真值 |
+| `packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-107；pageUp/down 现状、全 disabled、负 cursor、identity oracle | 7 文件定向 78 tests；E-4 保留待另卡 |
+| `packages/game/src/core/menu/item-select.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-107；filter 真值、目录外 id、缺名、空库存、奇数卖价 oracle | 7 文件定向 78 tests；important 近似显式披露 |
+| `packages/game/src/core/menu/__tests__/item-magic-select.test.ts` | test | review | CODE-QUALITY-107；真实 item/magic selection caller、MP disabled/排序/rightText oracle | 7 文件定向 78 tests；相邻 magic-script 诊断保持开放 |
 | `scripts/docs/check-document-model.mjs` | tool | 待核 | DOCS-FULL-TEMPLATE-1；本治理新增tracked工具/测试，仅库存登记 | 后继CODE-QUALITY专项语义核验；文档工具测试通过不自动闭合 |
 | `scripts/docs/document-model.mjs` | tool | 待核 | DOCS-FULL-TEMPLATE-1；本治理新增tracked工具/测试，仅库存登记 | 后继CODE-QUALITY专项语义核验；文档工具测试通过不自动闭合 |
 | `scripts/docs/document-model.test.mjs` | test | 待核 | DOCS-FULL-TEMPLATE-1；本治理新增tracked工具/测试，仅库存登记 | 后继CODE-QUALITY专项语义核验；文档工具测试通过不自动闭合 |
