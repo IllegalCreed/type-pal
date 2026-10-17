@@ -1,5 +1,7 @@
 # CODE56 minimap 当前复审切片
 
+> 2026-10-18 当前更正：旧“手算像素/合法核心夹具/完整隔离/坏zoom已核”信用撤回：L18使用被测变换与颜色常量生成oracle、重复primitive几何且未清rAF/window/DOM；主测原有缺字段核心强转。本片L18用独立精确RGBA/crop与自有宿主补强；同模块已补正式主测夹具并精确迁移原点六位/X320断言，两测保持review，20绿不作整文件证据。详见[当前有限返工](../core-comment-audit/tools-thumbnail-hotkeys/README.md)。旧原件保留，历史门不恢复。
+
 > 2026-10-18 波次门勘误：本页引用的 [47–52统一门回执](../53-wave-gates/README.md) 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据。本页原逐文件/定向结果按各自证据保留，旧计数不改写为0。
 
 基点：`f6c440eab`；分支：`codex/code-quality-3y`。本片重新核验历史 CODE-QUALITY-56 的小地图加载 ownership；不触碰 CODE-QUALITY-57 的 bootstrap seam repair、地图 schema、碰撞、存档或 `MinimapController` 公共接口。当前卡复审为 `partial`。

@@ -11,7 +11,7 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
 ## 当前用户要求、范围与准入
 
-用户2026-10-16重申“复审94号之前的所有卡的成果”，本卡当前覆盖全部83张CODE-QUALITY编号小于94的卡，包含字母后缀，不是抽样。77张历史done、1张build、4张review、1张draft仅是原卡状态；本轮重新accept为0。当前复审队列已推进为50张partial、33张pending；partial只表示有限证据切片，不是验收。按当前Git tracked路径收集，大小写敏感编号规则排除行政卡CODE-QUALITY-3Y-CLOSEOUT-1；不按编号空缺虚构卡。完整83行清单与卡SHA见[复审队列](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)。原36卡结构/8卡全文抽查是历史部分证据，不能替代任何整卡成果复验。3y的58差异卡矩阵也不是全部83卡。
+用户2026-10-16重申“复审94号之前的所有卡的成果”，本卡当前覆盖全部83张CODE-QUALITY编号小于94的卡，包含字母后缀，不是抽样。77张历史done、1张build、4张review、1张draft仅是原卡状态；本轮重新accept为0。当前复审队列已推进为51张partial、32张pending；partial只表示有限证据切片，不是验收。按当前Git tracked路径收集，大小写敏感编号规则排除行政卡CODE-QUALITY-3Y-CLOSEOUT-1；不按编号空缺虚构卡。完整83行清单与卡SHA见[复审队列](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)。原36卡结构/8卡全文抽查是历史部分证据，不能替代任何整卡成果复验。3y的58差异卡矩阵也不是全部83卡。
 
 唯一工作树/分支codex/code-quality-3y；主树和其它Owner只读，不再新建治理分支。94–102及editor既有返工继续保留；C10未完成检查点bea19f80c已提交推送，当前先推进本卡。工程→模块→功能→文件；先6a的账本/清单四文件，再核92的受保护门证据，继而逐卡回到shared/extract/game等模块。活跃53/57/79/80/81/90只读协调，未核前不抢写其实现。
 
@@ -21,7 +21,7 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 
 ## 当前推进
 
-83卡当前全量accept=0、50partial/33pending；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3b SSS/MSG、3c动画清理、3d PNG、3g CLI、3h assets/shell、CODE71 fetch取消与测试、CODE3/3f切分与标注已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
+83卡当前全量accept=0、51partial/32pending；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3b SSS/MSG、3c动画清理、3d PNG、3g CLI、3h assets/shell、CODE71 fetch取消与测试、CODE3/3f切分与标注已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
 
 无下一位Agent提示词，Codex单Agent继续全量复审，不把本卡交回GLM。
 
@@ -706,3 +706,15 @@ formulas源/测两旧关闭转review，magic-damage原review保持；267closed/7
 第八组错注修正：连续lerp/任意8位等价/视觉1:1、夜色“未提取”与错误GetPalette99–104锚撤回，收尾SceneFade63/64例外说清。原17例保持，black行/新快照独立、ColorFade非网格/上升下降/同时间重绘不累积补强；最大RGB255测试撤销“能辨clamp删除”夸大标题。四反控各完整旧17绿→新16绿1指定业务AssertionError；恢复17、相邻3文件86和typecheck零诊断。控制后仅修一处source引用，控制基点gzip及两轮parsedTS/JS同一证明保留，未重跑无关测试。
 
 两旧关闭转review、0新增closed；265closed/77review/2973pending（提交前机器核），83卡50partial/33pending/0accept不变。全部逐文件/primary/caller/oracle及原始日志见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/palette-approach-tests/README.md)；未授全色域/视觉/原盘/完整机制信用。docs/lint看最终回执，全仓check、官方coverage/protected仍留大任务收尾，不合main。下一范围尺寸/快捷键；其它数值/毒列表/两UI风险继续，法术160/161裁决仍pending。无下一位Agent提示词。
+
+### 2026-10-18 工具缩略图尺寸/快捷键与L18测试返工
+
+有限模块切片：三实现minimap/tools-panel/bootstrap仅事实注释，两测试minimap主测/leaves补oracle/夹具/排重/隔离。Codex发现旧L18具体断言未完整迁移后，准入追加同模块主测以保原谓词，不跨机制/接口/产品行为。原487/1106/1944/189行全文；main→bootstrap→tools→minimap、相机/drawTilemap/parseMap与C维度、speedrun/index实际F8/F4/F2接线已核。旧96/256小地图、各档皆降采样、95%分类率、标签缓存不变、AVI stub与DOS结局音乐/叠加/等待未做等注释纠正；三源parsedTS及去注释JS相同。父卡准入只覆盖注释/测试，不解锁CODE57 seam/色板/完整启动产品实现。
+
+L18保持6例：移除按被测worldToThumb/DOT_COLORS生成oracle的自证，手算固定RGBA中心点；NPC/宝物开关独立反证；重复primitive例换成真实底图crop。自有宿主保留实际canvas与控制器，call-through监听精确移除、自有rAF自然停止后断言0，再恢复偏好/地图号/全局/DOM；Image等待可观察实例代替六次盲microtask。三反控各完整旧6绿→新5绿1指定AssertionError，精确source/spec/mutant/raw/nativeJSON/finally恢复；6恢复/50相邻/typecheck零诊断。
+
+主minimap.test.ts旧“合法GameState/NPC”声明与缺字段核心强转矛盾，撤回关闭；同模块已改公开工厂与完整NPC必需字段，移除多余Command强转。原L18的原点六位精度与(320,0)>origin三谓词逐项迁入主几何合同，并增加X320精确值；14例保持，y=0横移失效变异旧14绿→新13绿1指定AssertionError，不能仅按主题重复宣称等价。另三旧关闭转review；bootstrap原pending列入review。机器计数待提交前复核为261closed/82review/2972pending，0新增closed。CODE57已全文核范围与两公开helper测试，但未驱动thumbnail闭包，仅pending→partial；83卡51partial/32pending/0accept，scopeConfirmed仍false，不把读文件或helper绿当像素验收。
+
+证据见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/README.md)，原56/58过度信用已在当前报告撤回，旧原件/卡历史保留。docs/lint看最终回执；全仓check、官方coverage/protected、完整boot与视觉/E2E本批未跑。已列十组注释纠正不等于专项完成；数值160/161等裁决、毒列表与两UI、CODE57等继续。重复DOM构建/640接线的抽象候选未证统一owner与生命周期，不强提公共模块。无下一位Agent提示词，Codex继续pre94 minimap分类/缩放及剩余模块。
+
+本片最终补证：同一minimap模块切片为3注释源+2测试，合计20直接/36相邻（9文件56绿），game typecheck-final零诊断；新增主测修改使先前6/50/早期lint仅保留其时点，不当最终候选门。早期pnpm check:docs的125工具测试原件保留；工具源码未变，最终只重放五个真实文档消费者，不重复125。此范围变化不更改0新closed、261/82/2972与83卡51/32/0accept。

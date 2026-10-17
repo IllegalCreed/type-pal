@@ -1,0 +1,22 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/tools/minimap.test.ts",
+    "--reporter=verbose"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T22:16:53.231713+00:00",
+  "completedAt": "2026-10-17T22:16:54.422226+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "main-current.raw.gz",
+  "rawBytes": 1742,
+  "rawSha256": "54f35503bd4f68b3b7fa1540d3694da48dcc81b3341f4e0bef971f3f769ca6bc",
+  "fullUncutMergedStdoutStderr": true
+}

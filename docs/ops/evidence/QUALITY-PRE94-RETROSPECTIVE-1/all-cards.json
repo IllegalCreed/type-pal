@@ -2176,7 +2176,7 @@
       "sha256": "f27f2d45832a0d84efb36c0d279425099143e4e19c7435a21a9c729daab724e9",
       "lines": 64,
       "historicalStatus": "review",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -2200,7 +2200,8 @@
           "text": "- Codex 范围/前提核验: counter（已证主 gameplay seam repair 与 bootstrap thumbnail 直绘存在边界，但缺真实 thumbnail 像素 oracle，不能安全改行为）"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/README.md"
     },
     {
       "id": "58",
@@ -3868,7 +3869,7 @@
   ],
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
-    "partial": 50,
-    "pending": 33
+    "partial": 51,
+    "pending": 32
   }
 }

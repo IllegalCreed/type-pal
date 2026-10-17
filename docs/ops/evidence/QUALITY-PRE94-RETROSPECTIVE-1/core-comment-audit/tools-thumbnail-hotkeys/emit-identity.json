@@ -1,0 +1,30 @@
+{
+  "typescript": "6.0.3",
+  "scope": "Only the three selected minimap/panel/bootstrap implementations, same transpile options; not native/gameplay/whole-file acceptance",
+  "rows": [
+    {
+      "path": "packages/game/src/tools/minimap.ts",
+      "beforeSha256": "e6db123378836bff7ae83405dfabbeb641659843405ccd10768b33ad47c8b890",
+      "currentSha256": "aaf2d4b03ac2f83e54f7c9fdf85312d04f2864261577eebaa95a872978ef418e",
+      "removeCommentsJavaScriptSha256": "02d412b0d8d84282f7eae5e1e89c3c7d2b1a3aaff935dcbcba887ed825bf849f",
+      "byteIdentical": true,
+      "parsedTypeScriptWithoutCommentsIdentical": true
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "beforeSha256": "1690410dfda8b125cecf8f650c3f91f4efcc3ee79200ff74795b49647f68e8e1",
+      "currentSha256": "34258414e93e9be05db2866105cb7f0d4af35d91812a1968225c2355f5dde7a7",
+      "removeCommentsJavaScriptSha256": "e747f14c1eab31a6bb2df23527d3f960e02b1db50a06164bf29ec7cc980d9767",
+      "byteIdentical": true,
+      "parsedTypeScriptWithoutCommentsIdentical": true
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "beforeSha256": "6c02f5c426c7bf4fb8ef096117c23dd79ee10a2d642e70c1d4d51119b2026298",
+      "currentSha256": "0dd4a19a44a92e16cebf95c931bdc33b71b1bf8bcc2e9ba22a8ca89cbc86906c",
+      "removeCommentsJavaScriptSha256": "22c380d0402a65473395d82d34320bebd60b4586b6f14a0f6f9dce1428d8822b",
+      "byteIdentical": true,
+      "parsedTypeScriptWithoutCommentsIdentical": true
+    }
+  ]
+}

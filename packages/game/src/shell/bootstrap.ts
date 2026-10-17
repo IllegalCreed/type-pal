@@ -131,9 +131,9 @@ import { playTrademarkFallback } from './trademark-fallback.js'
 
 // JSON 静态 import 的 TS 类型推断会把每条 fixture 推成具体 key 集合(eg. fixture-zh1
 // 没 "1" → 推 "1": undefined),与 BattleFixturesData 的 Record<string, ...> 不严格匹配。
-// 这里显式 cast —— dev/fixtures/battle-fixtures.json 的 schema 由 BattleFixture 定义,运行时合法。
+// 这里仅提供静态类型视图,cast本身不校验JSON的运行时合法性。
 const battleFixtures = battleFixturesRaw as unknown as BattleFixturesData
-// 同模式 cast —— scene-jumps.json schema 由 SceneJump 定义。
+// scene-jumps使用同一静态视图方式,不在此增加运行时校验。
 const sceneJumps = sceneJumpsRaw as unknown as SceneJumpsData
 // dev 场景名表(scene-names.json,人工补全;`_doc` 字段 runtime 忽略)。
 const sceneNames = sceneNamesRaw as unknown as SceneNamesData
@@ -159,7 +159,7 @@ const SCENE_ID = Number.isInteger(devSceneBoot) ? devSceneBoot : skipIntroBoot ?
  * - win95:trademark / splash 走 mp4 视频(playAvi 1/2.avi)— sdlpal `gConfig.fIsWIN95=TRUE`
  *   真值同口径
  * - dos:走 sdlpal DOS fallback 真做(playTrademarkFallback RNG.MKF chunk 6 +
- *   playSplashFallback FBP chunk 3/4 + 仙鹤 + 标题 RLE + palette 渐变 200 行 port)
+ *   playSplashFallback FBP chunk 0x26/0x27 + 仙鹤 + 标题 RLE + palette渐变)
  * `?skip-intro=1` 优先短路全部(同前)。
  */
 const buildFlag: 'win95' | 'dos' =
@@ -342,7 +342,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   // OpeningMenu 选 new-game / ?skip-intro=1 路径都调它。
   // (helper 定义在下面 setStartGameHandler 之前;此处仅保留注释占位。)
   // skipIntro 行为见 ?skip-intro=1 路径分支(SCENE_ID=1 + runEnterScript 同步只取 setPartyPos)。
-  // 正常启动:OpeningMenu 选 new-game → playOpeningAvi() stub → startNewGameFromPrimary 装载完整
+  // 正常启动:OpeningMenu选new-game → playOpeningAvi(Win95播3.mp4,DOS直接返回) → 装载完整
   // onEnter(对话由 tickEventSystem 步进)。
 
   // sprite 装配 — sdlpal `scene.c:750-755`:站立帧 = wDirection * walkFrames,
@@ -527,17 +527,9 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     },
   }
 
-  // M3.5 T17:per-scene lazy fetcher(D33)。dev jump 时按需 fetch 新 scene 的
-  // scene-N.json + tilemap-N.json + 新 scene NPC sprite(missing 才补 fetch)+
-  // 新 scene tile PNG(cache miss 才 fetch,写进 tileImagesBySceneId)。
-  // 简版接合点(palette 留 M5):
-  //  - palette:跨 scene 切真色板要 setPalette opcode runtime 触发,留 M5;此处用首屏 palette。
-  //    新 scene 渲染时仍用首屏 palette,visual color 可能不对(已知)。
-  //  - npcSprites:**真有跨 scene 差异**(scene 1 有 11 个 sprite,scene 16 有 7 个不同 sprite)。
-  //    closure 持的 `npcSprites` 是 SpriteImage(带 anchor)装好的;新 scene 缺的 sprite,
-  //    在 sceneFetcher 里按需 fetch sprite-N.json + 各 frame PNG,塞回 closure 的 npcSprites。
-  //  - tileset blob:loader.loadAll 只 fetch 首屏 scene 的 tileset blob。sceneFetcher 内
-  //    fetchSceneTileImages 复刻同模式,写进 by-sceneId map(cache,首屏 / 已 fetch 跳过)。
+  // 按scene懒载scene/events/tilemap,并行补该场景的tileset RLE blob与缺失sprite RLE blob。
+  // tileImagesBySceneId随SceneAssetsCache淘汰;NPC帧存closure map,由presentCtx共享。
+  // SceneAssets.palette当前复用启动palette,不是按scene另取;屏幕色表由palette/fade脚本管理。
   const BASE = '/extracted'
 
   async function fetchMissingSprite(id: number): Promise<void> {
@@ -656,7 +648,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
    *    tile bitmap map(sceneFetcher 已 fetch 进 tileImagesBySceneId)。
    * 3. setSceneContext 重置:scene-system tick 用新 tilemap.width/height 做 walkability + camera clamp
    * 4. npcSprites:closure 同一引用,sceneFetcher 里已补 fetch missing sprite,无需再动
-   * 5. palette / eventCommands:首屏保留(留 M5)
+   * 5. 此处同步scene-system的commands/labelMap;屏幕palette不覆盖,basePalette由loadSceneCommon更新
    */
   function applySceneAssetsToPresent(sceneAssets: SceneAssets): void {
     presentCtx.tilemap = sceneAssets.tilemap
@@ -670,11 +662,10 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     })
   }
 
-  // ── dev 场景缩略图(setupDevPanel.renderSceneThumbnail)─────────────────────────
-  // 把整张 map tilemap(≤64×128 → ~2080×2080 px)渲染到离屏大 framebuffer,再降采样成 96px PNG dataURL。
-  // **按 mapNum 缓存**(同 map 多场景共享缩略图);解码的 tile 位图渲染完即弃(只留 dataURL),不写
-  // gameplay 的 tileImagesBySceneId / sceneAssetsCache(LRU 16),避免污染正在玩的场景缓存。
-  // 并发限 2 + 同 map dedup —— 防 IntersectionObserver 一次滚入多卡片时 N×数百 tile PNG 同时 fetch。
+  // ── dev picker与生产小地图共用的离屏缩略图──────────────────────────────────
+  // 标准64×128地图先画2080×2080 framebuffer;picker默认输出宽96,小地图caller传640。
+  // 按mapNum/outW缓存和dedup,并发上限2;本地解码tileset blob,成功后只留dataURL。
+  // 不写gameplay的tileImagesBySceneId/sceneAssetsCache,不在此接入seam repair。
   const THUMB_TILE_W = 32
   const THUMB_TILE_H = 16
   const THUMB_OUT_W = 96
@@ -715,7 +706,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     const tiles = { get: (i: number): IndexedImage | undefined => tileImgs.get(i) }
     drawTilemap(tfb, tilemapJson, tiles, camera, 0)
     drawTilemap(tfb, tilemapJson, tiles, camera, 1)
-    // 大 canvas(putImageData 全分辨率)→ 降采样小 canvas → dataURL。用首屏 palette(与 dev jump 渲染同源)。
+    // full canvas→按outW等比缩放→dataURL。显式override优先,否则用启动palette,不读取实时gs.palette。
     const full = document.createElement('canvas')
     full.width = bufW
     full.height = bufH
@@ -737,7 +728,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   const renderSceneThumbnail = async (
     sceneId: number,
     mapNum?: number,
-    outW: number = THUMB_OUT_W, // dev picker 用默认 96;小地图传 256(高清)
+    outW: number = THUMB_OUT_W, // dev picker默认96;生产小地图caller传640
   ): Promise<string | null> => {
     let map = mapNum
     if (map === undefined) {
@@ -748,7 +739,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
       map = sj?.mapNum
     }
     if (map === undefined) return null
-    const cacheKey = `${map}_${outW}` // 不同分辨率分开缓存(dev 96 / 小地图 256 不串)
+    const cacheKey = `${map}_${outW}` // 同地图按输出宽度分开缓存(picker96/小地图640)
     const cached = thumbCache.get(cacheKey)
     if (cached) return cached
     const inflight = thumbInflight.get(cacheKey)
@@ -1114,8 +1105,8 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     videoVolume,
     saveSlot: (slot, g) => Save.saveSlot(slot, g),
     loadSlot: (slot) => Save.loadSlot(slot),
-    // 小地图底图:复用 renderSceneThumbnail,出 640px 高清(= minimap BASE_PX;各缩放档皆降采样=清晰)。
-    //   "地图发黑" 真因是 getCurrentMapNum stale 停在 map 0 梦境(已修),非 palette。
+    // 小地图输出宽640,与minimap BASE_PX一致;标准地图高也为640。
+    // 显示缩放由minimap的DPR/裁剪决定;色表与seam边界仍以CODE57为准。
     getMapThumbnail: (mapNum) => renderSceneThumbnail(0, mapNum, 640),
   })
   setupQuickSave({
@@ -1128,7 +1119,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
       return true
     },
   })
-  setupSpeedrunHotkeys() // 速通计时器快捷键(F10 重置 / F8 切覆盖层),仅启用时生效
+  setupSpeedrunHotkeys() // 启用计时器后:F8暂停/恢复,F4重置本局,F2切覆盖层
 
   // M3.5 T19:dev gate 暴露 GameState + assets 供 L2 Playwright helper 用 page.evaluate 探针。
   // 生产构建 dead-code(Vite tree-shake import.meta.env.DEV 分支)。
@@ -1349,7 +1340,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   })
 
   // 结局动画 handler(opcode 0x96 PAL_EndingAnimation)。fetch FBP 61/62(battleBgs)+ MGO 571/572 妖兽/女孩
-  //   sprite(非预载,按需 fetch sprite/{id}.json + 帧 PNG)→ 跑 400 帧 cutscene。modal,suspendRaf。
+  //   sprite(非预载,按需加载sprite/{id}.rle blob)→跑400帧cutscene。modal,suspendRaf。
   const fetchMgoSprite = (id: number): Promise<IndexedImage[]> =>
     loadSpriteFramesBlob(`${BASE}/data/sprite/${id}.rle`)
   setEndingAnimationHandler(({ gs }) => {
@@ -1383,8 +1374,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
    * 一个 suspendRaf 闭包顺序跑全部视觉 beat(RNG/FadeOut-In/ShowFBP/ScrollFBP/ColorFade/EndingAnimation),
    * fade 用阻塞 palette-scale(全程 suspendRaf,不能走 present 驱动)。caller 包 suspendRaf + finally。
    * iCurPlayingRNG=9(追真值:游戏 0xA0 结局前 ip 35576 setRNG chunk 9)。
-   * **未做(非视觉/已记)**:音乐(M6 音频系统)、ShowFBP(76) 的 MGO effectSprite 0x27b 叠加(Phase 留)、
-   *   WaitForKey(原版等键,这里连续观看用短延时)。
+   * 下方已接setMus配乐、effectSprite 0x27b叠加与waitForKey;这不代替完整原版演出/视觉验收。
    */
   async function playDosEnding(): Promise<void> {
     const ctx = canvasCtx!
@@ -1532,7 +1522,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   // sdlpal main.c:545-546 真值:`PAL_TrademarkScreen → PAL_SplashScreen → PAL_OpeningMenu`,
   // OpeningMenu 选 new-game 返回 0 → `PAL_PlayAVI("3.avi")` → loop 进 scene。
   //
-  // ts 端:T18/T19 trademark + splash + 3.avi 留后续 task;T17 只接 OpeningMenu 本体 + AVI hook stub。
+  // 当前启动序列见showTrademarkAndSplash;new-game的Win95路径由playOpeningAvi实播3.mp4。
   //
   // ?skip-intro=1 URL flag(M3.5 commit a9a87ac)— 之前跳 scene 0 梦境直接 scene 1,
   // T17 扩为同时跳过 OpeningMenu(dev / e2e 用)。

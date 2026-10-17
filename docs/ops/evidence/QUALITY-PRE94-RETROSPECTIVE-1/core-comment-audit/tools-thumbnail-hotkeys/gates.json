@@ -1,0 +1,212 @@
+{
+  "base": "5d55e2c49a1eb517d4bd51b2814df840dd49052a",
+  "status": "recorded: final20 direct/36 adjacent, game typecheck, five docs consumers, lint-zero and ledger pass; no unified closeout or merge",
+  "rows": [
+    {
+      "label": "baseline",
+      "receipt": "baseline.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "stdoutBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      }
+    },
+    {
+      "label": "current",
+      "receipt": "current.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "stdoutBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      }
+    },
+    {
+      "label": "restored",
+      "receipt": "restored.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "stdoutBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      }
+    },
+    {
+      "label": "adjacent",
+      "receipt": "adjacent.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "stdoutBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      }
+    },
+    {
+      "label": "typecheck",
+      "receipt": "typecheck.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "stdoutBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      }
+    },
+    {
+      "label": "ledger",
+      "receipt": "ledger.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "stdoutBlocks": 0,
+        "reactAct": 0,
+        "environmentWarning": 0,
+        "unhandledErrors": 0,
+        "unhandledRejection": 0
+      }
+    },
+    {
+      "label": "docs",
+      "receipt": "docs.json",
+      "exit": 0,
+      "tests": {
+        "passed": 125,
+        "failed": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "info": 0
+      },
+      "consumers": [
+        "docs links/index",
+        "document model",
+        "testing docs",
+        "phase/lore",
+        "content review"
+      ],
+      "scope": "Static docs structure/metadata only, not runtime/visual/coverage."
+    },
+    {
+      "label": "main-current",
+      "receipt": "main-current.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "reactAct": 0,
+        "unhandled": 0
+      }
+    },
+    {
+      "label": "module-final",
+      "receipt": "module-final.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "reactAct": 0,
+        "unhandled": 0
+      },
+      "files": 9,
+      "passed": 56,
+      "direct": 20,
+      "adjacent": 36,
+      "nativeReport": "module-final.vitest.json.gz",
+      "nativeReportSha256": "2575c5cc47239757cad5b711e909e3fe42f78c3f510bc07af8e9275998b0e98e",
+      "temporaryNativeReportRemoved": true
+    },
+    {
+      "label": "typecheck-final",
+      "receipt": "typecheck-final.json",
+      "exit": 0,
+      "diagnostics": {
+        "stderrBlocks": 0,
+        "reactAct": 0,
+        "unhandled": 0
+      }
+    },
+    {
+      "label": "docs-consumers-final",
+      "receipt": "docs-consumers-final.json",
+      "exit": 0,
+      "consumers": 5,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "info": 0
+      },
+      "scope": "Final five actual docs consumers passed; unchanged 125 docs-tool tests reuse earlier docs.json run, not a new pnpm check:docs execution."
+    },
+    {
+      "label": "lint-final",
+      "receipt": "lint-final.json",
+      "exit": 0,
+      "files": 5294,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "info": 0
+      }
+    },
+    {
+      "label": "ledger-final",
+      "receipt": "ledger-final.json",
+      "exit": 0,
+      "tracked": 3315,
+      "closed": 261,
+      "review": 82,
+      "pending": 2972
+    },
+    {
+      "label": "fetch-final",
+      "receipt": "fetch-final.json",
+      "exit": 0
+    },
+    {
+      "label": "divergence-final",
+      "receipt": "divergence-final.json",
+      "exit": 0,
+      "behind": 0,
+      "ahead": 250,
+      "scope": "Before this batch commit; no main merge"
+    }
+  ],
+  "notRun": [
+    "whole repository pnpm check",
+    "official coverage ratchet",
+    "protected fast",
+    "complete bootstrap/thumbnail runtime",
+    "visual",
+    "E2E"
+  ],
+  "tracked": 3315,
+  "closed": 261,
+  "review": 82,
+  "pending": 2972,
+  "newClosed": 0,
+  "cards": {
+    "partial": 51,
+    "pending": 32,
+    "accept": 0
+  },
+  "mergeAllowed": false,
+  "productExecutionChanged": false,
+  "priorRowsScope": "baseline/current/restored/adjacent/typecheck/docs/lint are earlier stages; final module/typecheck/consumers/lint govern amended candidate.125 unchanged docs-tool tests are reused, not relabelled as a later pnpm check:docs run."
+}

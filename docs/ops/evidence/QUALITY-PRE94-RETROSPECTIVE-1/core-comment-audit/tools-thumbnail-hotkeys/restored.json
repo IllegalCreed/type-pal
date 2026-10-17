@@ -1,0 +1,22 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/tools/minimap.glm-phase1-leaves.test.ts",
+    "--reporter=verbose"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T22:06:48.109380+00:00",
+  "completedAt": "2026-10-17T22:06:49.250087+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "restored.raw.gz",
+  "rawBytes": 1242,
+  "rawSha256": "8e52f50b1c1ee546c1900fbcbd2d8f8ad1e0e8b25679efdebdf9e13c86fe032c",
+  "fullUncutMergedStdoutStderr": true
+}

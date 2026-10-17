@@ -1,6 +1,6 @@
 # 94前全部83卡复审队列
 
-2026-10-18，结构基点bea19f80c；当前检查点7fc92e98及本批72批准窄修；47–52统一门信用撤回。77历史done/1build/4review/1draft。本轮accept=0，partial=50，pending=33。pending表示本轮语义复审未完成；partial只表示有限证据，不能作整卡验收。当前计数由all-cards.json逐行核对，旧卡done和旧全仓门不自动继承。
+2026-10-18，结构基点bea19f80c；当前检查点7fc92e98及本批72批准窄修；47–52统一门信用撤回。77历史done/1build/4review/1draft。本轮accept=0，partial=51，pending=32。pending表示本轮语义复审未完成；partial只表示有限证据，不能作整卡验收。当前计数由all-cards.json逐行核对，旧卡done和旧全仓门不自动继承。
 
 | 卡 | 原卡状态 | 当前复审 | 范围/证据 |
 |---|---|---|---|
@@ -50,7 +50,7 @@
 | [CODE-QUALITY-54](../../archive/tasks/done/CODE-QUALITY-54-game-draw-tilemap.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-55](../../archive/tasks/done/CODE-QUALITY-55-game-draw-menu-wave-member.md) | done | partial | [draw-menu 复审](55-draw-menu/README.md)：3 文件/SDL primary/caller，15 直接 + 197 相邻通过；清掉历史无效 lint 伪用法，仍留视觉/E2E 与统一整卡边界 |
 | [CODE-QUALITY-56](../../archive/tasks/done/CODE-QUALITY-56-game-minimap-thumbnail-lifecycle.md) | done | partial | [minimap lifecycle 复审](56-minimap/README.md)：2 文件/20 直接，tools/dev 51 + picker 5 相邻；loading ownership 变异1红5绿，seam repair 留 CODE-QUALITY-57 |
-| [CODE-QUALITY-57](../../tasks/CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | review | pending | 待全文核定真实交付文件及当前caller/oracle |
+| [CODE-QUALITY-57](../../tasks/CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | review | partial | [工具/thumbnail有限切片](core-comment-audit/tools-thumbnail-hotkeys/README.md)：1944行宿主与两helper测试全文，注释/接线已核；未驱动thumbnail，seam/色板/视觉仍review |
 | [CODE-QUALITY-58](../../archive/tasks/done/CODE-QUALITY-58-game-tools-panel-audit.md) | done | partial | [夹具/隔离勘误](58-tools-panel-fixtures/README.md)：更正核心强转/窗口监听跨例，正式19绿/相邻199绿；无新统一门，save边界不认证 |
 | [CODE-QUALITY-59](../../archive/tasks/done/CODE-QUALITY-59-game-save-import-version-boundary.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-60](../../archive/tasks/done/CODE-QUALITY-60-game-quick-save-lifecycle.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |

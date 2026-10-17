@@ -1,6 +1,6 @@
 import type { Command } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import type { GameState, NpcState } from '../core/game-state.js'
+import { createInitialGameState } from '../core/game-state.js'
 import type { EventKind } from './minimap.js'
 import {
   BASE_PX,
@@ -11,18 +11,22 @@ import {
   worldToThumb,
 } from './minimap.js'
 
-// 变换常量(与 minimap.ts):SCALE=BASE_PX/2080,CAM_OFF=16。
-const SCALE = BASE_PX / 2080
+// 独立取bootstrap的640输出/2080世界宽;不从被测BASE_PX反推oracle。
+const SCALE = 640 / 2080
 
 describe('worldToThumb', () => {
   it('世界像素 → 底图像素((wx+16)*SCALE)', () => {
     const [x0, y0] = worldToThumb(0, 0)
-    expect(x0).toBeCloseTo(16 * SCALE, 4)
-    expect(y0).toBeCloseTo(16 * SCALE, 4)
+    expect(x0).toBeCloseTo(16 * SCALE, 6)
+    expect(y0).toBeCloseTo(16 * SCALE, 6)
     const [x1, y1] = worldToThumb(2032, 2032)
     expect(x1).toBeCloseTo(2048 * SCALE, 4)
     expect(y1).toBeCloseTo(2048 * SCALE, 4)
     expect(x1).toBeLessThanOrEqual(BASE_PX)
+    // 原L18几何例的(320,0)/单调与原点六位精度逐断言迁入此主合同。
+    const [x320] = worldToThumb(320, 0)
+    expect(x320).toBeGreaterThan(x0)
+    expect(x320).toBeCloseTo(336 * SCALE, 6)
   })
 })
 
@@ -46,13 +50,20 @@ describe('computeView', () => {
 })
 
 const cmds = (...c: Command[]): Command[] => c
-const give = (count: number, name?: string): Command =>
-  ({ op: 'giveItem', itemId: 10, count, _item: name }) as Command
-const end = (): Command => ({ op: 'end' }) as Command
-const dialog = (): Command => ({ op: 'showDialog', messageIndex: 0, text: '' }) as Command
-const teleport = (): Command => ({ op: 'loadScene', sceneId: 5 }) as Command
-const raw = (opcode: number, ...ops: number[]): Command =>
-  ({ op: 'raw', opcode, operands: [ops[0] ?? 0, ops[1] ?? 0, ops[2] ?? 0] }) as Command
+const give = (count: number, name?: string): Command => ({
+  op: 'giveItem',
+  itemId: 10,
+  count,
+  _item: name,
+})
+const end = (): Command => ({ op: 'end' })
+const dialog = (): Command => ({ op: 'showDialog', messageIndex: 0, text: '' })
+const teleport = (): Command => ({ op: 'loadScene', sceneId: 5 })
+const raw = (opcode: number, ...ops: number[]): Command => ({
+  op: 'raw',
+  opcode,
+  operands: [ops[0] ?? 0, ops[1] ?? 0, ops[2] ?? 0],
+})
 
 describe('classifyTrigger', () => {
   it('giveItem(count>0) → item + 物品名', () => {
@@ -96,13 +107,12 @@ describe('classifyTrigger', () => {
 
 describe('collectEventKinds', () => {
   it('扫全 npc → id → 类别(item/teleport/other)', () => {
-    const gs = {
-      npcs: [
-        { id: 1, triggerLabel: 'L_0' },
-        { id: 2, triggerLabel: 'L_2' },
-        { id: 3, triggerLabel: 'L_4' },
-      ] as NpcState[],
-    } as GameState
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.npcs = [
+      { id: 1, x: 0, y: 0, spriteNum: 0, triggerLabel: 'L_0' },
+      { id: 2, x: 0, y: 0, spriteNum: 0, triggerLabel: 'L_2' },
+      { id: 3, x: 0, y: 0, spriteNum: 0, triggerLabel: 'L_4' },
+    ]
     const commands = cmds(give(1, '金蚕王'), end(), teleport(), end(), dialog(), end())
     const kinds = collectEventKinds(gs, commands, { L_0: 0, L_2: 2, L_4: 4 })
     expect(kinds.get(1)).toEqual({ kind: 'item', name: '金蚕王' })
@@ -113,17 +123,15 @@ describe('collectEventKinds', () => {
 
 describe('collectMinimapData', () => {
   it('teleport 不标 / item / NPC 分类 + 主角镜头', () => {
-    const gs = {
-      party: { x: 512, y: 256 },
-      camera: { x: 100, y: 80 },
-      npcs: [
-        { id: 1, x: 200, y: 200, spriteNum: 5, sState: 1 }, // NPC(other + 有 sprite)
-        { id: 2, x: 0, y: 0, spriteNum: 0, sState: 1 }, // other 但无 sprite → skip
-        { id: 3, x: 0, y: 0, spriteNum: 3, sState: 0 }, // 隐藏 → skip
-        { id: 5, x: 300, y: 300, spriteNum: 1, sState: 1 }, // 宝物
-        { id: 6, x: 400, y: 400, spriteNum: 7, sState: 1 }, // 传送门 → skip
-      ] as NpcState[],
-    } as GameState
+    const gs = createInitialGameState({ x: 512, y: 256, facing: 'down' })
+    gs.camera = { x: 100, y: 80 }
+    gs.npcs = [
+      { id: 1, x: 200, y: 200, spriteNum: 5, sState: 1 }, // NPC(other + 有 sprite)
+      { id: 2, x: 0, y: 0, spriteNum: 0, sState: 1 }, // other 但无 sprite → skip
+      { id: 3, x: 0, y: 0, spriteNum: 3, sState: 0 }, // 隐藏 → skip
+      { id: 5, x: 300, y: 300, spriteNum: 1, sState: 1 }, // 宝物
+      { id: 6, x: 400, y: 400, spriteNum: 7, sState: 1 }, // 传送门 → skip
+    ]
     const kinds = new Map<number, { kind: EventKind; name?: string }>([
       [1, { kind: 'other' }],
       [2, { kind: 'other' }],

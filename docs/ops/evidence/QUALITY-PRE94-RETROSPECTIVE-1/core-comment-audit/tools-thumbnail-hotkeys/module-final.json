@@ -1,0 +1,32 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/tools/minimap.test.ts",
+    "src/tools/minimap.glm-phase1-leaves.test.ts",
+    "src/tools/tools-panel.test.ts",
+    "src/tools/tools-panel.glm-phase1-leaves.test.ts",
+    "src/shell/bootstrap-load.test.ts",
+    "src/shell/bootstrap.glm-next-wave.test.ts",
+    "src/shell/bootstrap-audio.test.ts",
+    "src/tools/speedrun/index.test.ts",
+    "src/tools/speedrun/index.glm-phase1-leaves.test.ts",
+    "--reporter=verbose",
+    "--reporter=json",
+    "--outputFile.json=/tmp/type-pal-tools-module-final-20261018.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T22:18:21.851005+00:00",
+  "completedAt": "2026-10-17T22:18:24.840998+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "module-final.raw.gz",
+  "rawBytes": 7533,
+  "rawSha256": "b9cc45418e2a854fa75d8e300961c7b894196504d38f67e486e54fb25e0106be",
+  "fullUncutMergedStdoutStderr": true
+}

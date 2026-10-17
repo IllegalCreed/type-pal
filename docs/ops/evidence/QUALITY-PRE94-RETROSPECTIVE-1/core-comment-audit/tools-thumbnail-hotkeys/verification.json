@@ -1,0 +1,159 @@
+{
+  "base": "5d55e2c49a1eb517d4bd51b2814df840dd49052a",
+  "scope": "Finite tools/source/read/raw/control/ledger/one-card metadata delta; no whole-file/native/UI/unified acceptance",
+  "rawPairs": [
+    {
+      "receipt": "adjacent.json",
+      "raw": "adjacent.raw.gz",
+      "sha256": "01fa89d7d3e61896e5614355f33df13e41285c68748c402fc5fa23c8e020648a"
+    },
+    {
+      "receipt": "baseline.json",
+      "raw": "baseline.raw.gz",
+      "sha256": "2761c21722254b6887374ea7ded782294302a6737655716f8262b4782f4539d0"
+    },
+    {
+      "receipt": "current.json",
+      "raw": "current.raw.gz",
+      "sha256": "4b63a9e7e211135b966fb22f44f266c4db88e453a772910e25d8f97c58223d18"
+    },
+    {
+      "receipt": "divergence-final.json",
+      "raw": "divergence-final.raw.gz",
+      "sha256": "ffa1382f5213698f2866719f86f37b643d9d506dd05b23cfe640d5c122dfdd08"
+    },
+    {
+      "receipt": "docs-consumers-final.json",
+      "raw": "docs-consumers-final.raw.gz",
+      "sha256": "c47a6fa2a94ce5bd741778e3b1ba39ae1bbda8a1b2d3cce265cbdb040e46095d"
+    },
+    {
+      "receipt": "docs.json",
+      "raw": "docs.raw.gz",
+      "sha256": "cdba834c6a288a5978578f2ad5809d372b13f998d87ca49c903440226dd26005"
+    },
+    {
+      "receipt": "fetch-final.json",
+      "raw": "fetch-final.raw.gz",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "receipt": "ledger-final.json",
+      "raw": "ledger-final.raw.gz",
+      "sha256": "937f8ef834cd400927832aff6748a935d2938278f61b3b7c6de89023b9027cd1"
+    },
+    {
+      "receipt": "ledger.json",
+      "raw": "ledger.raw.gz",
+      "sha256": "937f8ef834cd400927832aff6748a935d2938278f61b3b7c6de89023b9027cd1"
+    },
+    {
+      "receipt": "lint-final.json",
+      "raw": "lint-final.raw.gz",
+      "sha256": "18d3239cd4cdfb834934a0224e4610780e360590509958f2a798752cace8b1bc"
+    },
+    {
+      "receipt": "lint.json",
+      "raw": "lint.raw.gz",
+      "sha256": "99739768c5edba004ee4834fa6cc273cd49018893429d81b5da7ec74225ecd85"
+    },
+    {
+      "receipt": "main-current.json",
+      "raw": "main-current.raw.gz",
+      "sha256": "54f35503bd4f68b3b7fa1540d3694da48dcc81b3341f4e0bef971f3f769ca6bc"
+    },
+    {
+      "receipt": "module-final.json",
+      "raw": "module-final.raw.gz",
+      "sha256": "b9cc45418e2a854fa75d8e300961c7b894196504d38f67e486e54fb25e0106be"
+    },
+    {
+      "receipt": "restored.json",
+      "raw": "restored.raw.gz",
+      "sha256": "8e52f50b1c1ee546c1900fbcbd2d8f8ad1e0e8b25679efdebdf9e13c86fe032c"
+    },
+    {
+      "receipt": "typecheck-final.json",
+      "raw": "typecheck-final.raw.gz",
+      "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+    },
+    {
+      "receipt": "typecheck.json",
+      "raw": "typecheck.raw.gz",
+      "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+    }
+  ],
+  "controls": [
+    {
+      "id": "player-color-oracle-follows-source",
+      "oldPassed": 6,
+      "currentPassed": 5,
+      "currentSpecifiedBusinessAssertionError": 1,
+      "sourceAndSpecRestored": true
+    },
+    {
+      "id": "base-crop-ignored",
+      "oldPassed": 6,
+      "currentPassed": 5,
+      "currentSpecifiedBusinessAssertionError": 1,
+      "sourceAndSpecRestored": true
+    },
+    {
+      "id": "npc-toggle-ignored",
+      "oldPassed": 6,
+      "currentPassed": 5,
+      "currentSpecifiedBusinessAssertionError": 1,
+      "sourceAndSpecRestored": true
+    },
+    {
+      "id": "horizontal-geometry-transfer",
+      "oldPassed": 14,
+      "currentPassed": 13,
+      "currentSpecifiedBusinessAssertionError": 1,
+      "sourceAndSpecRestored": true
+    }
+  ],
+  "readBoundariesAndShaExact": true,
+  "threeImplementationsCommentOnly": true,
+  "ledgerStatusDelta": {
+    "`packages/game/src/tools/minimap.ts`": ["已验证", "review"],
+    "`packages/game/src/tools/minimap.test.ts`": ["已验证", "review"],
+    "`packages/game/src/tools/minimap.glm-phase1-leaves.test.ts`": ["已验证", "review"],
+    "`packages/game/src/tools/tools-panel.ts`": ["已验证", "review"]
+  },
+  "newLiveReviewRecord": ["`packages/game/src/shell/bootstrap.ts`"],
+  "historicalLedgerFenceExact": true,
+  "queueDelta": {
+    "onlyCard": "57",
+    "before": "pending",
+    "after": "partial",
+    "allOther82ObjectsExact": true,
+    "scopeConfirmed": false,
+    "historicalHashesAndPayloadsExact": true,
+    "partial": 51,
+    "pending": 32,
+    "accept": 0
+  },
+  "oldReportsExact": true,
+  "noBaselineRetirementOrCatalogChanges": true,
+  "allowedTrackedChanges": [
+    "docs/ops/audits/code-quality-file-ledger.md",
+    "docs/ops/board.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/56-minimap/README.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel/README.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/README.md",
+    "docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md",
+    "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+    "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+    "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+    "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+    "packages/game/src/shell/bootstrap.ts",
+    "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+    "packages/game/src/tools/minimap.test.ts",
+    "packages/game/src/tools/minimap.ts",
+    "packages/game/src/tools/tools-panel.ts"
+  ],
+  "newClosed": 0
+}

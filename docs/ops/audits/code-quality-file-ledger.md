@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,315。
-当前已闭合核验：265；已读但待审：77；尚未逐文件核验：2,973；合计未闭合：3,050。
+当前已闭合核验：261；已读但待审：82；尚未逐文件核验：2,972；合计未闭合：3,054。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -154,6 +154,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/assets/png.ts` | product | 已验证 | CODE-QUALITY-3h；createImageBitmap/canvas/alpha mask caller 与 PNG failure/close tests | 解码失败保留 cause，bitmap finally close；未发现直接缺陷 |
 | `packages/game/src/assets/rle-decode.ts` | product | 已验证 | CODE-QUALITY-3h；shared codec re-export、dialog-assets base64 caller、identity tests | 无重复 codec；base64 非法输入继续 fail-loud |
 | `packages/game/src/shell/fetch-retry.ts` | product | rework | [CODE71/C1取消生命周期反例](../evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md)；main.ts唯一生产安装caller、audio-midi signal caller、Fetch Request/Abort primary | 旧实现退避不可取消、Request自定义reason会重复attempt；当前私有waitForRetry已修，最新main同步后待复跑；不关闭文件 |
+| `packages/game/src/shell/bootstrap.ts` | product | review | [工具缩略图/快捷键返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/README.md)；1944行原源全文/两公开helper测试/真实main与tools caller；尺寸/F8-F4-F2/过时stub说明修正 | 原未列pending转review；AST/JS不变，CODE57 seam/色板/完整启动生命周期仍review，不授关闭 |
 | `packages/game/src/shell/bootstrap-resources.ts` | product | 已验证 | CODE-QUALITY-3h；bootstrap.ts 真实 soundfont/resourcesReady caller、并发屏障和 rejection/degradation tests | soundfont 原始 rejection 与 settle barrier 分离；glyph 仅显式 tofu 降级；未发现直接缺陷 |
 | `packages/game/src/shell/fetch-retry.boundaries.test.ts` | test | review | [CODE71/C1取消生命周期反例](../evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md)；不同attempt Error/Response身份、Request/init signal与timer/listener oracle | 旧关闭撤回；当前修复待最新main同步后复跑，过期网关“拒绝”注释已校正 |
 | `packages/game/src/shell/fetch-retry.cancellation.test.ts` | test | review | [C1取消生命周期反控](../evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md)；真实Request/AbortController、typed transport、原生构造错误与listener/timer oracle | 新增7例覆盖已取消Request、退避取消、显式signal/null覆盖；最新main同步后待复跑 |
@@ -172,10 +173,10 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/tools/display-scale.ts` | product | 已验证 | [pre-94 CODE3j display-scale/fps复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-scale-fps/README.md)；canvas/localStorage/fullscreen callers、scale tests；NaN negative control | 修复 NaN 百分比写入 NaN CSS/storage；有限百分比 clamp/居中形态不变；本片未发现新缺陷 |
 | `packages/game/src/tools/fps-overlay.ts` | product | 已验证 | [pre-94 CODE3j display-scale/fps复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-scale-fps/README.md)；tools-panel/rAF caller、启停/采样/DOM tests | module sampling state 在停用时清零；非法持久值仅 `'1'` 开启；本片未发现新缺陷 |
 | `packages/game/src/tools/toast.ts` | product | 已验证 | [pre-94 CODE3j toast/map/checkpoints复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-toast-map-checkpoints/README.md)；save/tool callers、success/error/info/stack lifecycle tests | DOM 单例/多 toast 到期自删合同完整；本片未发现直接缺陷 |
-| `packages/game/src/tools/minimap.ts` | product | 已验证 | [pre-94 CODE56 minimap lifecycle复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/56-minimap/README.md)；bootstrap renderMapThumbnail、tools/dev/scene/draw-tilemap callers；Image onload/onerror ownership oracle | 487 行完整核验 world→thumbnail、分类/缩放/toggle、map cache、rAF 与异步 Image 生命周期；直接2 files/20、相邻tools/dev51+picker5；loading ownership 变异1红5绿，未改 seam repair/API |
-| `packages/game/src/tools/minimap.test.ts` | test | 已验证 | [pre-94 CODE56 minimap lifecycle复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/56-minimap/README.md)；变换/zoom/classification/collect data 合同 | 140 行全文核验合法 GameState/NPC/Command 输入与独立几何 oracle；直接2 files/20 tests通过 |
-| `packages/game/src/tools/minimap.glm-phase1-leaves.test.ts` | test | 已验证 | [pre-94 CODE56 minimap lifecycle复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/56-minimap/README.md)；真实 canvas、toggle/localStorage、延迟 Image/onerror 反控 | 189 行全文核验像素/toggle/持久化与异步 ownership；临时提前释放 loading 的变异1 failed/5 passed，原实现6/6通过 |
-| `packages/game/src/tools/tools-panel.ts` | product | 已验证 | [pre-94 CODE58 tools-panel复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel/README.md)；bootstrap setup caller、minimap/save-io/quick-save/battle-inspect依赖 | 1106 行完整核验 DOM/样式幂等、六 tab、Backquote/键盘传播、战斗签名刷新、音量/缩放/FPS/fullscreen 委托与 timer；直接2 files/18 tests通过；save-io VERSION 留 CODE59 |
+| `packages/game/src/tools/minimap.ts` | product | review | [工具缩略图/快捷键返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/README.md)；487行原源全文；640底图/96 picker、相机与DPR/crop事实纠正 | 只改注释，AST/JS相同；撤销95%覆盖率/各档降采样与标签缓存不变夸大；旧关闭转review |
+| `packages/game/src/tools/minimap.test.ts` | test | review | [工具缩略图/快捷键返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/README.md)；原140行全文及改动核读；正式GameState工厂、完整必需NPC字段与typed Command；L18原三谓词迁入 | 四种核心强转/多余Command强转移除；原点6位与X320完整迁移，旧14绿新13绿1指定反控；分类/极端域仍review |
+| `packages/game/src/tools/minimap.glm-phase1-leaves.test.ts` | test | review | [工具缩略图/快捷键返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/README.md)；189行原测全文；独立手算RGBA、底图crop、NPC/宝物分开反证与自有宿主清理 | 6例保持；三枚各旧6绿→新5绿1指定AssertionError，精确恢复；旧手算/隔离/坏zoom声明撤回review |
+| `packages/game/src/tools/tools-panel.ts` | product | review | [工具缩略图/快捷键返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/README.md)；1106行原源全文/真实bootstrap与minimap/index caller | 640接线与battleSig仅选定字段说明修正；保存/文件IO/完整UI仍未验，旧关闭转review |
 | `packages/game/src/tools/tools-panel.test.ts` | test | 已验证 | [CODE58夹具/隔离勘误](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel-fixtures/README.md)；310行全文、正式GameState/BattleState/hydrate、真实DOM | 更正旧合法fixture声明；HP/turn分别观测、精确目标HP；跨例旧单红新绿，相邻34files199tests；未认证save/计时器编辑 |
 | `packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts` | test | 已验证 | [CODE58夹具/隔离勘误](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel-fixtures/README.md)；70行全文、真实缩放/全屏/FPS输入 | 全屏/FPS拆职责；共用宿主恢复监听/音源/偏好与单例，正式合计19tests；新统一门未运行 |
 | `packages/game/src/tools/tools-panel.test-fixtures.ts` | fixture | 已验证 | [CODE58共用宿主](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel-fixtures/README.md)；89行全文、两公开test caller、跨例旧19绿1AssertionError→新21绿 | 稳定合法初态/typed依赖；call-through监听精确解绑、timer/rAF/controller/DOM/storage/singleton清理；不改生产API |

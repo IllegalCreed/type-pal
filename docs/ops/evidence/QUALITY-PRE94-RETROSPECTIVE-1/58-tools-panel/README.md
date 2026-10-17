@@ -1,5 +1,7 @@
 # CODE58 tools-panel 当前复审切片
 
+> 2026-10-18 当前更正：头注仍把小地图写成96，bootstrap实际传640；battleSig只拼选定字段，不能当完整实时checksum。源事实注释已修并保持AST/JS相同，旧源关闭转review；已有58测试宿主修复保留原范围，不新授save/完整UI信用。详见[当前有限返工](../core-comment-audit/tools-thumbnail-hotkeys/README.md)。旧原件保留，历史门不恢复。
+
 > 2026-10-18 波次门勘误：本页引用的 [47–52统一门回执](../53-wave-gates/README.md) 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据。本页原逐文件/定向结果按各自证据保留，旧计数不改写为0。
 
 基点：`e03c191d6`；分支：`codex/code-quality-3y`。本片重新核验历史 CODE-QUALITY-58 的生产工具面板；不改变 DOM 形态、公共接口、存档 schema 或 save-io 版本边界（后者由 CODE-QUALITY-59 独立拥有）。当前卡复审为 `partial`。

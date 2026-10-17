@@ -53,7 +53,7 @@ export interface ToolsPanelDeps {
   saveSlot: (slot: number, gs: GameState) => Promise<void>
   /** 读存档位(导出用);该位无存档 → null。 */
   loadSlot: (slot: number) => Promise<GameState | null>
-  /** 小地图底图:mapNum → 96×96 PNG dataURL(复用 bootstrap renderMapThumbnail 缓存);省略 → 无底图。 */
+  /** 小地图底图:标准地图640×640 PNG dataURL,经bootstrap renderSceneThumbnail缓存;省略则无底图。 */
   getMapThumbnail?: (mapNum: number) => Promise<string | null>
 }
 
@@ -960,7 +960,8 @@ function renderActiveTab(
 }
 
 /**
- * 战斗态轻量签名:进/出战斗(mode)、每回合 HP/MP/状态/中毒/敌死亡 变化即变。
+ * 战斗态轻量签名:只拼接下方选定字段,不是完整状态checksum。
+ * HP/MP读持久runtime、毒读数量;同数量换毒或其它未拼接字段不保证立即刷新。
  * 驱动战斗 tab 自动重渲染(面板常开时也实时跟上,无需手动开关一次)。
  */
 function battleSig(gs: GameState): string {

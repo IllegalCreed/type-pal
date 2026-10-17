@@ -1040,7 +1040,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "1b4f841a17f3c52651614a6e276a130b9ed7b0a62871b3b43268ce5a5a8ffb7f",
+      "afterSha256": "856c3109d99d928081be3b9d46b94cb223867f01e5db19998fb858604843b88a",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1064,8 +1064,23 @@
       },
       "revision": {
         "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "implementationSha": "1b4f841a17f3c52651614a6e276a130b9ed7b0a62871b3b43268ce5a5a8ffb7f",
+        "implementationSha": "856c3109d99d928081be3b9d46b94cb223867f01e5db19998fb858604843b88a",
         "history": [
+          {
+            "revision": "5d55e2c49a1eb517d4bd51b2814df840dd49052a",
+            "date": "2026-10-18",
+            "action": "Correct pre94 thumbnail/hotkey comments and L18 independent canvas and host ownership oracles",
+            "previousAfterSha256": "1b4f841a17f3c52651614a6e276a130b9ed7b0a62871b3b43268ce5a5a8ffb7f",
+            "scope": "Bounded minimap tools module slice: three implementations comments-only, two tests; preserve exact oldL18 geometry predicates in typed main fixture. Four old closures revoked, bootstrap pending->review, no new closed. Four exact old-green/new-single-red probes; final20 direct/36 adjacent, no full boot/thumbnail/seam/native/visual/unified acceptance. CODE57 finite partial only51/32/0accept, scopeConfirmed=false. Other historical objects retained; no baseline/retirement edits.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "9cc4b3fd4f4c6754cf2f727890c7f228b0b8e4f2",
             "date": "2026-10-18",
@@ -1346,7 +1361,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "1b4f841a17f3c52651614a6e276a130b9ed7b0a62871b3b43268ce5a5a8ffb7f",
+        "afterSha256": "856c3109d99d928081be3b9d46b94cb223867f01e5db19998fb858604843b88a",
         "lineCount": 1987,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1381,7 +1396,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-2512",
+      "reviewedLines": "1-2527",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -5100,7 +5115,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "f3a60d1c82669765d585c4881e91a099bd1b266b099cc09d72d756094f33e3af",
+      "afterSha256": "a6326b761518135bf16caa0c91dc3cdfe612c09c0a055bc66d2213325d80bdf2",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5124,8 +5139,23 @@
       },
       "revision": {
         "currentSha": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "implementationSha": "f3a60d1c82669765d585c4881e91a099bd1b266b099cc09d72d756094f33e3af",
+        "implementationSha": "a6326b761518135bf16caa0c91dc3cdfe612c09c0a055bc66d2213325d80bdf2",
         "history": [
+          {
+            "revision": "5d55e2c49a1eb517d4bd51b2814df840dd49052a",
+            "date": "2026-10-18",
+            "action": "Correct pre94 thumbnail/hotkey comments and L18 independent canvas and host ownership oracles",
+            "previousAfterSha256": "f3a60d1c82669765d585c4881e91a099bd1b266b099cc09d72d756094f33e3af",
+            "scope": "Bounded minimap tools module slice: three implementations comments-only, two tests; preserve exact oldL18 geometry predicates in typed main fixture. Four old closures revoked, bootstrap pending->review, no new closed. Four exact old-green/new-single-red probes; final20 direct/36 adjacent, no full boot/thumbnail/seam/native/visual/unified acceptance. CODE57 finite partial only51/32/0accept, scopeConfirmed=false. Other historical objects retained; no baseline/retirement edits.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "9cc4b3fd4f4c6754cf2f727890c7f228b0b8e4f2",
             "date": "2026-10-18",
@@ -5397,7 +5427,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "f3a60d1c82669765d585c4881e91a099bd1b266b099cc09d72d756094f33e3af",
+        "afterSha256": "a6326b761518135bf16caa0c91dc3cdfe612c09c0a055bc66d2213325d80bdf2",
         "lineCount": 5074,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -5432,7 +5462,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-5455",
+      "reviewedLines": "1-5470",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

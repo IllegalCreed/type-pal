@@ -1,0 +1,439 @@
+{
+  "base": "5d55e2c49a1eb517d4bd51b2814df840dd49052a",
+  "owner": "Codex single agent",
+  "scope": "Each mutant runs one whole unfiltered old/current file. This is source mutation discrimination, not native game or UI acceptance.",
+  "controls": [
+    {
+      "id": "player-color-oracle-follows-source",
+      "source": "packages/game/src/tools/minimap.ts",
+      "spec": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+      "sourceSha256": "aaf2d4b03ac2f83e54f7c9fdf85312d04f2864261577eebaa95a872978ef418e",
+      "mutantSha256": "3a9a9b9223b7e3f0eeee0f7e033895ad26cebf2883a9caf9d9308b6b87a66b50",
+      "expectedNewFailureNameContains": "暗底占位 + 玩家白点",
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/tools/minimap.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-tools-controls-lmm77adr/player-color-oracle-follows-source.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:06:41.363076+00:00",
+          "completedAt": "2026-10-17T22:06:42.571293+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "player-color-oracle-follows-source.old.raw.gz",
+          "rawBytes": 1445,
+          "rawSha256": "d66dd58d6c77b104b3f8d6f5065a2a8f1d69379fd57b01aa39d4437510c4322f",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "5583b8ddcf18f3da57a80f6fc84fa71f6e7ea74aeaa2444de4d485c1cf9a59f8",
+          "nativeReport": "player-color-oracle-follows-source.old.vitest.json.gz",
+          "passed": 6,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 drawMinimap 真实 canvas 暗底占位 + 玩家白点落在 worldToThumb 手算坐标 + 宝物/NPC 点按 toggle 显隐",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 drawMinimap 真实 canvas worldToThumb (wx+16)*SCALE 单调且原点偏移一个相机半格",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 默认 NPC/宝物显、widget 关；setShowNpc(false) 立即生效并持久化；非法持久值回默认",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 底图 URL 已 resolve 但 Image 尚未 onload 时，不重复请求同一 map",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 Image 解码失败后标记 map failed，不在后续帧反复请求",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "aaf2d4b03ac2f83e54f7c9fdf85312d04f2864261577eebaa95a872978ef418e",
+          "specRestoredSha256": "e3ece264dcccd7f09c38f775b2ba91adbbcb3a86e46a80ec30b77808341fa2a0",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/tools/minimap.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-tools-controls-lmm77adr/player-color-oracle-follows-source.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:06:42.571700+00:00",
+          "completedAt": "2026-10-17T22:06:43.710425+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "player-color-oracle-follows-source.current.raw.gz",
+          "rawBytes": 2806,
+          "rawSha256": "e81bdd6bed82e5c76fcb7c118ad3441f3ca0d5db5707f4aad9ed1cf9b0615a37",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "e3ece264dcccd7f09c38f775b2ba91adbbcb3a86e46a80ec30b77808341fa2a0",
+          "nativeReport": "player-color-oracle-follows-source.current.vitest.json.gz",
+          "passed": 5,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 drawMinimap 真实 canvas 暗底占位 + 玩家白点落在 worldToThumb 手算坐标 + 宝物/NPC 点按 toggle 显隐",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 drawMinimap 真实 canvas 非全图 view 使用指定底图裁剪区域",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 默认开关、setShowNpc写存储；按保存值重建控制器读回",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 底图 URL 已 resolve 但 Image 尚未 onload 时，不重复请求同一 map",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 Image 解码失败后标记 map failed，不在后续帧反复请求",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected [ 255, +0, 255, 255 ] to deeply equal [ 255, 255, 255, 255 ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts:92:34\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "aaf2d4b03ac2f83e54f7c9fdf85312d04f2864261577eebaa95a872978ef418e",
+          "specRestoredSha256": "e3ece264dcccd7f09c38f775b2ba91adbbcb3a86e46a80ec30b77808341fa2a0",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "base-crop-ignored",
+      "source": "packages/game/src/tools/minimap.ts",
+      "spec": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+      "sourceSha256": "aaf2d4b03ac2f83e54f7c9fdf85312d04f2864261577eebaa95a872978ef418e",
+      "mutantSha256": "6fbe5e0211d782c9eeb482d1e07ff0058d6fc21b057c751eacc69ba6adc3f82a",
+      "expectedNewFailureNameContains": "非全图 view",
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/tools/minimap.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-tools-controls-lmm77adr/base-crop-ignored.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:06:43.711506+00:00",
+          "completedAt": "2026-10-17T22:06:44.705922+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "base-crop-ignored.old.raw.gz",
+          "rawBytes": 1428,
+          "rawSha256": "e25fd1af81e52e8e58c7d6ab5be9a304c21651e8eaa905cbee7c555d0cf3442e",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "5583b8ddcf18f3da57a80f6fc84fa71f6e7ea74aeaa2444de4d485c1cf9a59f8",
+          "nativeReport": "base-crop-ignored.old.vitest.json.gz",
+          "passed": 6,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 drawMinimap 真实 canvas 暗底占位 + 玩家白点落在 worldToThumb 手算坐标 + 宝物/NPC 点按 toggle 显隐",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 drawMinimap 真实 canvas worldToThumb (wx+16)*SCALE 单调且原点偏移一个相机半格",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 默认 NPC/宝物显、widget 关；setShowNpc(false) 立即生效并持久化；非法持久值回默认",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 底图 URL 已 resolve 但 Image 尚未 onload 时，不重复请求同一 map",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 Image 解码失败后标记 map failed，不在后续帧反复请求",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "aaf2d4b03ac2f83e54f7c9fdf85312d04f2864261577eebaa95a872978ef418e",
+          "specRestoredSha256": "e3ece264dcccd7f09c38f775b2ba91adbbcb3a86e46a80ec30b77808341fa2a0",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/tools/minimap.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-tools-controls-lmm77adr/base-crop-ignored.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:06:44.706307+00:00",
+          "completedAt": "2026-10-17T22:06:45.890353+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "base-crop-ignored.current.raw.gz",
+          "rawBytes": 2633,
+          "rawSha256": "415fadb067fd03598fc3f7fcf99cd052f192f24837e662abe2aac58606f96c45",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "e3ece264dcccd7f09c38f775b2ba91adbbcb3a86e46a80ec30b77808341fa2a0",
+          "nativeReport": "base-crop-ignored.current.vitest.json.gz",
+          "passed": 5,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 drawMinimap 真实 canvas 暗底占位 + 玩家白点落在 worldToThumb 手算坐标 + 宝物/NPC 点按 toggle 显隐",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 drawMinimap 真实 canvas 非全图 view 使用指定底图裁剪区域",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 默认开关、setShowNpc写存储；按保存值重建控制器读回",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 底图 URL 已 resolve 但 Image 尚未 onload 时，不重复请求同一 map",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 Image 解码失败后标记 map failed，不在后续帧反复请求",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected [ 16, 32, 48, 255 ] to deeply equal [ 18, 58, 188, 255 ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts:122:51\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "aaf2d4b03ac2f83e54f7c9fdf85312d04f2864261577eebaa95a872978ef418e",
+          "specRestoredSha256": "e3ece264dcccd7f09c38f775b2ba91adbbcb3a86e46a80ec30b77808341fa2a0",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "npc-toggle-ignored",
+      "source": "packages/game/src/tools/minimap.ts",
+      "spec": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+      "sourceSha256": "aaf2d4b03ac2f83e54f7c9fdf85312d04f2864261577eebaa95a872978ef418e",
+      "mutantSha256": "7a513f9edb771590d6fbe1471c01b0eebe0235c6132132ed46f179bb5e614ab0",
+      "expectedNewFailureNameContains": "暗底占位 + 玩家白点",
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/tools/minimap.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-tools-controls-lmm77adr/npc-toggle-ignored.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:06:45.892939+00:00",
+          "completedAt": "2026-10-17T22:06:46.883930+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "npc-toggle-ignored.old.raw.gz",
+          "rawBytes": 1428,
+          "rawSha256": "8d655c3f8fadc47d8bed1ae3b454ef38e3e5ff9100ed494ea1dbf8d2d063a3b3",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "5583b8ddcf18f3da57a80f6fc84fa71f6e7ea74aeaa2444de4d485c1cf9a59f8",
+          "nativeReport": "npc-toggle-ignored.old.vitest.json.gz",
+          "passed": 6,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 drawMinimap 真实 canvas 暗底占位 + 玩家白点落在 worldToThumb 手算坐标 + 宝物/NPC 点按 toggle 显隐",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 drawMinimap 真实 canvas worldToThumb (wx+16)*SCALE 单调且原点偏移一个相机半格",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 默认 NPC/宝物显、widget 关；setShowNpc(false) 立即生效并持久化；非法持久值回默认",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 底图 URL 已 resolve 但 Image 尚未 onload 时，不重复请求同一 map",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 Image 解码失败后标记 map failed，不在后续帧反复请求",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "aaf2d4b03ac2f83e54f7c9fdf85312d04f2864261577eebaa95a872978ef418e",
+          "specRestoredSha256": "e3ece264dcccd7f09c38f775b2ba91adbbcb3a86e46a80ec30b77808341fa2a0",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/tools/minimap.glm-phase1-leaves.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-tools-controls-lmm77adr/npc-toggle-ignored.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T22:06:46.884309+00:00",
+          "completedAt": "2026-10-17T22:06:48.023116+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "npc-toggle-ignored.current.raw.gz",
+          "rawBytes": 2738,
+          "rawSha256": "95babecf9903262e29fdaeb2fa5fd59616db57ccebf8090f91df91a776512f8a",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "e3ece264dcccd7f09c38f775b2ba91adbbcb3a86e46a80ec30b77808341fa2a0",
+          "nativeReport": "npc-toggle-ignored.current.vitest.json.gz",
+          "passed": 5,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 drawMinimap 真实 canvas 暗底占位 + 玩家白点落在 worldToThumb 手算坐标 + 宝物/NPC 点按 toggle 显隐",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 drawMinimap 真实 canvas 非全图 view 使用指定底图裁剪区域",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 默认开关、setShowNpc写存储；按保存值重建控制器读回",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 持久值非 '0' 非法串 → 视为默认开；widget 非 '1' → 关",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 底图 URL 已 resolve 但 Image 尚未 onload 时，不重复请求同一 map",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+              "fullName": "L18 setupMinimap 控制器持久化 Image 解码失败后标记 map failed，不在后续帧反复请求",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected [ 95, 208, 224, 255 ] to deeply equal [ 13, 11, 8, 255 ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/minimap.glm-phase1-leaves.test.ts:99:35\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "aaf2d4b03ac2f83e54f7c9fdf85312d04f2864261577eebaa95a872978ef418e",
+          "specRestoredSha256": "e3ece264dcccd7f09c38f775b2ba91adbbcb3a86e46a80ec30b77808341fa2a0",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    }
+  ],
+  "tempDirectory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-tools-controls-lmm77adr",
+  "tempDirectoryRemoved": true,
+  "restored": true
+}

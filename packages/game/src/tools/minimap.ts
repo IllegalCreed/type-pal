@@ -1,5 +1,5 @@
 // 小地图(场景 tab 主视图 + 右下角常驻 widget)。canvas 外纯前端,生产保留。
-//   底图复用 renderMapThumbnail(64×128 地图 → 96×96 缩略图,见 bootstrap);叠加主角/NPC/宝物
+//   底图经 bootstrap renderSceneThumbnail 取640×640图(标准64×128地图),另叠加主角/NPC/宝物
 //   定位点 + 可视区白框。坐标:实体世界像素 → 缩略图像素,与缩略图同一 camera(-16,-16)/降采样变换。
 import type { Command } from '@type-pal/shared'
 import {
@@ -14,19 +14,19 @@ import { getCurrentMapNum } from '../core/scene-system.js'
 
 // ── 世界像素 → 底图像素 变换(与 bootstrap.renderMapThumbnail 1:1) ──────────────
 //   地图恒 64×128 tile(map.c 硬编码),tile 32×16 → 世界 2048×2048;缩略图 framebuffer
-//   bufW=(64+1)*32=2080,camera=(-16,-16),降采样到 BASE_PX 宽。BASE_PX 用较高分辨率
-//   (高于 dev 96)→ 场景 tab 近 1:1 不糊、widget 放大裁剪也清晰。
+//   bufW=(64+1)*32=2080,camera=(-16,-16),输出 BASE_PX 宽;开发picker另用96px。
+//   场景tab/widget的显示尺寸、DPR与视野裁剪共同决定最终缩放,不保证每档都是降采样。
 const TILE_W = 32
 const TILE_H = 16
 const BUF_W = (64 + 1) * TILE_W // 2080
-export const BASE_PX = 640 // 底图渲染分辨率(px;= worldToThumb 值域 + bootstrap getMapThumbnail outW)。高→各缩放档皆降采样=清晰
+export const BASE_PX = 640 // 底图坐标基准(px),与bootstrap getMapThumbnail的输出宽度一致
 const SCALE = BASE_PX / BUF_W // 底图像素 / 世界像素
 const CAM_OFF_X = TILE_W / 2 // 16(缩略图 camera.x = -16)
 const CAM_OFF_Y = TILE_H // 16(缩略图 camera.y = -16)
 const VIEW_W = 320 // viewport 世界像素宽(framebuffer.ts SCREEN_W)
 const VIEW_H = 200 // viewport 世界像素高(SCREEN_H)
 
-/** 世界像素 → 底图像素(0..BASE_PX)。 */
+/** 世界像素按缩略图相机偏移/比例映射;出界输入不钳到图内。 */
 export function worldToThumb(wx: number, wy: number): [number, number] {
   return [(wx + CAM_OFF_X) * SCALE, (wy + CAM_OFF_Y) * SCALE]
 }
@@ -79,7 +79,7 @@ function resolveLabelIp(
  * 线性扫 label 起的 trigger 脚本到 'end' 判类别:
  *   含「给予」opcode → 'item'(宝物):giveItem/0x1F 道具、0x1E 加钱(正额)、0x55 学法术(都是地图可拾宝物,
  *   sdlpal script.c:952/970/1816);否则含 loadScene(0x59 传送) → 'teleport'(不标);否则 'other'。
- * item 优先(先命中即返回)。仅线性流(不跟 goto/call),~95% 覆盖。
+ * item 优先(先命中即返回)。仅线性扫最多400条,不跟 goto/call;是工具标记启发式,没有覆盖率保证。
  */
 export function classifyTrigger(
   commands: readonly Command[],
@@ -121,7 +121,7 @@ export function collectEventKinds(
 }
 
 // ── 数据采集 ───────────────────────────────────────────────────────────────
-/** present.ts:456 绘制可见性:sState 隐藏(0/负)或 sVanishTime>0 → 不在图上。 */
+/** 本图可见性:sState为0/负或sVanishTime>0时过滤;缺省sState按可见处理。 */
 function npcVisible(npc: NpcState): boolean {
   return (npc.sState === undefined || npc.sState > 0) && (npc.sVanishTime ?? 0) <= 0
 }
@@ -312,7 +312,7 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
 
   // event object 类别缓存。**按 gs.npcs 数组引用**判失效(非 wNumScene):切场景时 wNumScene 比 gs.npcs
   //   先更新,若按 wNumScene 重算会抓到旧场景的 npc → 标错位置(user 2026-06-15 报);loadScene 换新
-  //   npcs 数组时引用变,正好在新 npcs 就绪时重算。scene 内 npc 移动不换数组引用 → kinds(按 triggerLabel)不变,不必重算。
+  //   npcs数组时引用变即重算;同数组内移动不重算。该缓存也不监听原地triggerLabel/脚本表变化,不是实时脚本解释器。
   let kindsNpcs: readonly NpcState[] | null = null
   let kindsMap = new Map<number, { kind: EventKind; name?: string }>()
   const currentKinds = (gs: GameState): Map<number, { kind: EventKind; name?: string }> => {
@@ -447,7 +447,7 @@ export function setupMinimap(deps: MinimapDeps): MinimapController {
   return {
     mountSceneView(container, sizePx, onTick) {
       const canvas = document.createElement('canvas')
-      // backing 按 DPR 放大(retina 清晰;640 底图够用),CSS 仍 sizePx;drawMinimap 用 canvas.width=backing。
+      // backing按DPR(上限2)配置,CSS仍sizePx;drawMinimap按backing绘制,不保证裁剪区只缩不放。
       const dpr = Math.min(typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1, 2)
       canvas.width = Math.round(sizePx * dpr)
       canvas.height = Math.round(sizePx * dpr)

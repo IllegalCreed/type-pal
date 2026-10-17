@@ -1,0 +1,177 @@
+{
+  "base": "5d55e2c49a1eb517d4bd51b2814df840dd49052a",
+  "fullReads": [
+    {
+      "path": "packages/game/src/tools/minimap.ts",
+      "sha256": "aaf2d4b03ac2f83e54f7c9fdf85312d04f2864261577eebaa95a872978ef418e",
+      "lines": 487,
+      "ranges": [[1, 487]],
+      "scope": "Full base read plus own delta; only finite conclusions below, no whole-file acceptance inferred.",
+      "snapshot": "aaf2d4b03ac2-minimap.ts.current.gz"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "34258414e93e9be05db2866105cb7f0d4af35d91812a1968225c2355f5dde7a7",
+      "lines": 1107,
+      "ranges": [[1, 1107]],
+      "scope": "Full base read plus own delta; only finite conclusions below, no whole-file acceptance inferred.",
+      "snapshot": "34258414e93e-tools-panel.ts.current.gz"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "0dd4a19a44a92e16cebf95c931bdc33b71b1bf8bcc2e9ba22a8ca89cbc86906c",
+      "lines": 1934,
+      "ranges": [[1, 1934]],
+      "scope": "Full base read plus own delta; only finite conclusions below, no whole-file acceptance inferred.",
+      "snapshot": "0dd4a19a44a9-bootstrap.ts.current.gz"
+    },
+    {
+      "path": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+      "sha256": "e3ece264dcccd7f09c38f775b2ba91adbbcb3a86e46a80ec30b77808341fa2a0",
+      "lines": 200,
+      "ranges": [[1, 200]],
+      "scope": "Full base read plus own delta; only finite conclusions below, no whole-file acceptance inferred.",
+      "snapshot": "e3ece264dccc-minimap.glm-phase1-leaves.test.ts.current.gz"
+    },
+    {
+      "path": "packages/game/src/tools/minimap.test.ts",
+      "sha256": "48bdf9825f85ce99c3070dcde996dccddbc61ca664451d4ecf578445ae9aaff1",
+      "lines": 148,
+      "ranges": [[1, 148]],
+      "scope": "Original140 lines full-read and whole own typed-fixture/geometry-transfer delta; remains review.",
+      "snapshot": "48bdf9825f85-minimap.test.ts.current.gz"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.test-fixtures.ts",
+      "sha256": "e8509d85b2fd1b9f51b3ed59029d736aefd20f6e6e35d784517b897334cac083",
+      "lines": 89,
+      "ranges": [[1, 89]],
+      "scope": "Full base read plus own delta; only finite conclusions below, no whole-file acceptance inferred."
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.ts",
+      "sha256": "6dc10a66fe524d8c77c53cd65ad0cd07b58b2904e7b4ec5ba9ecaf1d2f8ecddd",
+      "lines": 116,
+      "ranges": [[1, 116]],
+      "scope": "Full base read plus own delta; only finite conclusions below, no whole-file acceptance inferred."
+    },
+    {
+      "path": "packages/game/src/core/scene-identity.ts",
+      "sha256": "8e47a8b7ff7e1d3b360f5984f819b207e480581b4c2042f98ef1abe0681b89ef",
+      "lines": 13,
+      "ranges": [[1, 13]],
+      "scope": "Full base read plus own delta; only finite conclusions below, no whole-file acceptance inferred."
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-load.test.ts",
+      "sha256": "2a20bb9788d49be84cae0fa24a0a9ea653be64a1e1b5e3046b14cd843b72d1b6",
+      "lines": 33,
+      "ranges": [[1, 33]],
+      "scope": "Full base read plus own delta; only finite conclusions below, no whole-file acceptance inferred."
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.glm-next-wave.test.ts",
+      "sha256": "a76b470dd1a16ff46d61def2787f756c15f94b35c9dbbd7fcd2f2317b94f372e",
+      "lines": 79,
+      "ranges": [[1, 79]],
+      "scope": "Full base read plus own delta; only finite conclusions below, no whole-file acceptance inferred."
+    },
+    {
+      "path": "packages/pal-extract/src/resources/map.ts",
+      "sha256": "5695f47064b4c2d83d1cbd7f624450feda2b98fe335a6170d6147e5338d4e678",
+      "lines": 70,
+      "ranges": [[1, 70]],
+      "scope": "Full base read plus own delta; only finite conclusions below, no whole-file acceptance inferred."
+    },
+    {
+      "path": "docs/ops/tasks/CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md",
+      "sha256": "f27f2d45832a0d84efb36c0d279425099143e4e19c7435a21a9c729daab724e9",
+      "lines": 64,
+      "ranges": [[1, 64]],
+      "scope": "Full base read plus own delta; only finite conclusions below, no whole-file acceptance inferred."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-56-game-minimap-thumbnail-lifecycle.md",
+      "sha256": "3d760c42ad5c52570e7458a0c41c15cd095c98c8b575f8fa626a21340bdc30ce",
+      "lines": 80,
+      "ranges": [[1, 80]],
+      "scope": "Full base read plus own delta; only finite conclusions below, no whole-file acceptance inferred."
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-58-game-tools-panel-audit.md",
+      "sha256": "848a2428e5bcb8a5168477ee6c706df167a47ef69cb435e6e76ed9294d3f16f8",
+      "lines": 68,
+      "ranges": [[1, 68]],
+      "scope": "Full base read plus own delta; only finite conclusions below, no whole-file acceptance inferred."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "reference/sdlpal/map.c",
+      "sha256": "0b707730f6e89b2d99f7a8564382c226381c3cec2f13867ad54c816805b1357f",
+      "lines": 418,
+      "ranges": [[102, 130]],
+      "scope": "Only listed caller/primary/policy ranges, not whole-file audit."
+    },
+    {
+      "path": "reference/sdlpal/main.c",
+      "sha256": "f54b46771515966bb76e9fca64496202395b3a3267b00f23b695141805995f0c",
+      "lines": 562,
+      "ranges": [[35, 47]],
+      "scope": "Only listed caller/primary/policy ranges, not whole-file audit."
+    },
+    {
+      "path": "packages/game/src/main.ts",
+      "sha256": "2c2632eb6015f250cf31157769a569aa419dec8e7060f3e17cd0e096498b9c91",
+      "lines": 84,
+      "ranges": [[35, 84]],
+      "scope": "Only listed caller/primary/policy ranges, not whole-file audit."
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.ts",
+      "sha256": "42b97e13874649122b736f29e639bc60339fcc7a6d7f2c50510f7e66edd82269",
+      "lines": 382,
+      "ranges": [[14, 16], [87, 145]],
+      "scope": "Only listed caller/primary/policy ranges, not whole-file audit."
+    },
+    {
+      "path": "docs/phase1/engineering-notes.md",
+      "sha256": "e37d7232b6aff955f4aa8b50e33f87b15377a3707c0c548d5d6cc7ddffb2e89f",
+      "lines": 279,
+      "ranges": [[93, 118], [137, 145]],
+      "scope": "Only listed caller/primary/policy ranges, not whole-file audit."
+    },
+    {
+      "path": "packages/game/src/core/scene-system.ts",
+      "sha256": "9b11dd7e866210a15dc7e57087fa230a2ab22593f64cc6b5eb4d441948ef2f64",
+      "lines": 662,
+      "ranges": [[1, 34], [56, 75]],
+      "scope": "Only listed caller/primary/policy ranges, not whole-file audit."
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "6b20017dc7c7ca79c413fdb690cd65a5cdaa38e33d8227d009f1b19ce23fe7ea",
+      "lines": 2105,
+      "ranges": [[75, 235]],
+      "scope": "Only mandatory NPC fields/type contract used for current tests; not whole-file acceptance."
+    },
+    {
+      "path": "packages/shared/src/events.ts",
+      "sha256": "973a52b68ef6f5c3ea1dd9701e3987703d8400794ae1c73b55148160debc8f3a",
+      "lines": 192,
+      "ranges": [[1, 89]],
+      "scope": "Only mandatory NPC fields/type contract used for current tests; not whole-file acceptance."
+    }
+  ],
+  "newClosed": 0,
+  "limits": [
+    "SDLPal has no matching minimap/tool-panel UI. C only anchors map dimensions and splash constants; project bootstrap/index supply feature contract.",
+    "Three implementations are comments-only. No thumbnail closure/real tileset pixels/seam repair or original-EXE/visual acceptance.",
+    "bootstrap public-helper tests do not drive full bootstrap/thumbnail. CODE57 remains review and scopeConfirmed=false.",
+    "npcs reference cache does not observe in-place labels/global script replacement; classifier is a bounded heuristic, not a full script interpreter.",
+    "Save/import errors/schema, full bootstrap async/modal lifecycle and interface refactors remain outside this batch.",
+    "Repeated DOM code and duplicated640 wiring are future refactor candidates; no automatic common abstraction or asset/public API change.",
+    "Title mapping and six test slots retained; official protected identity/coverage reconciliation deferred.",
+    "Main minimap cast fixtures now replaced with public GS factory/full required NPC fields. Exact priorL18 origin six-decimal/X320 predicates migrated before dedup acceptance; broader classification/raw item/catalog semantics still review."
+  ]
+}
