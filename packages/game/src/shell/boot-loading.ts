@@ -3,19 +3,19 @@
  *
  * 视图骨架在 index.html 静态内联(#boot-loading)——JS bundle 还在下载时就已可见;
  * 本模块只负责三件事:
- *   1. initBootLoading():包一层 window.fetch 计数(启动期 ~3000 个 /extracted 资源请求),
- *      rAF 节流刷新进度条与计数文本。总数未知 → 进度 = 完成/已发起(分波加载时会
- *      小幅回退,诚实且零侵入,不用把 progress 回调穿透 loader 全链)。
+ *   1. initBootLoading():包一层 window.fetch 计数(当前启动预估 810 个请求),
+ *      rAF 节流刷新。fallback 按 max(已发起,预估)算进度,条宽单调且封顶 99%;
+ *      PROD 把完成比例交给统一 UI,不用把 progress 回调穿透 loader 全链。
  *   2. finishBootLoading():bootstrap 启动 rAF 主循环(首帧可见)时调——还原 fetch、
  *      淡出并移除节点。
  *   3. failBootLoading(msg):bootstrap 抛错时调——还原 fetch,overlay 留在原地改显错误
  *      (此前启动失败只有 canvas 一行小字 + console,黑屏无反馈)。
  *
- * 所有入口对"无 overlay 节点"(单测 jsdom 默认 DOM / SSR)安全 no-op。
+ * 无 overlay 时 init 不安装包装;收尾入口仍释放计数所有权,DOM 操作安全跳过。
  */
 
 /**
- * 冷启动请求总量预估(2026-06-12 生产实测 ~3237 个;loader 分波 fetch,启动期发起数
+ * 冷启动请求总量预估(历史 2026-06-12 生产实测 ~3237 个;loader 分波 fetch,启动期发起数
  * 逐波增长)。进度条分母取 max(已发起, 预估) + 显示值单调不回退:
  *   - 纯 done/started 会在每波新请求发起时分母跳涨 → 条回退(用户 2026-06-12 实测反馈);
  *   - 预估垫底让前几波不虚高,实际总量超预估后自然切回真实分数,clamp 兜底不回退;
@@ -71,7 +71,7 @@ function render(): void {
 
 /**
  * 在计数文本后追加说明(如尾段只剩 soundfont 32MB 单请求在下,计数停走 → 注明在等什么)。
- * 传空串清除。无 overlay 时 no-op。
+ * 传空串清除;下一帧按当前计数模式渲染,未激活时不写 DOM。
  */
 export function setBootLoadingNote(note: string): void {
   _note = note
@@ -93,7 +93,7 @@ function restoreFetch(): void {
 }
 
 /**
- * PROD 两段进度:必要资源就绪(onPlayable)后还原 fetch、停止计数与回调,但**不**移除覆盖层
+ * PROD 两段进度:必要资源就绪(onPlayable)或启动失败时释放本轮 fetch 计数与回调,不移除覆盖层
  * (等用户点「进入游戏」由 UI 收尾)。fallback(SW 不可用)走 finishBootLoading 自动收尾移除。
  */
 export function restoreBootFetch(): void {
