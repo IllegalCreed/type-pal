@@ -37,6 +37,12 @@ Visual Verification Timing: N/A（localStorage 纯逻辑）
 
 - 2026-10-13 Codex：完整读取 store/index/tools-panel/overlay caller；修复 localStorage bests fail-closed，接受真实计时器产生的小数毫秒，未知 key/坏 JSON/非法容器均回退 defaults。账本收口为 `3266 / 298 closed / 8 review / 2960 pending`。
 
+## 2026-10-18 Codex 当前独立复审
+
+- **范围与读取**：完整读取 `speedrun/store.ts`、`store.test.ts`、`store.glm-phase1-leaves.test.ts`；读取 `speedrun/index.ts`、`overlay.ts`、`tools-panel.ts:723-805` 与 timer/checkpoint caller。
+- **结论**：localStorage 输入按 fail-closed 处理：设置只识别 `'1'/'0'`，bests 只接受当前 defaults 已有 key 的 `null` 或有限非负 number；坏 JSON、未知 key、数组/标量、负数、Infinity、字符串/对象均回退且不污染 defaults。合法小数毫秒 PB 保留。
+- **验证**：直接 2 files/9 tests、相邻 index/overlay/tools-panel 3 files/30 tests通过；game typecheck 通过；coverage 等沿用 [`53-wave-gates`](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)。当前复审为 `partial`，不是整卡 `accept/done`。
+
 ## 下一位 Agent 提示词
 
 ```text

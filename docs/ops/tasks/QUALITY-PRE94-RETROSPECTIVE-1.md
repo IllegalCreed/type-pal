@@ -530,3 +530,9 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 - 范围：完整读取 `tools-panel.ts`、两份专属测试、bootstrap setup caller、minimap/save-io/quick-save/battle-inspect 依赖；核 DOM/键盘传播、tab 投影、战斗刷新签名、音频/缩放/FPS/fullscreen 委托与 timer lifecycle。
 - 结论：面板根节点与样式幂等、Backquote 放行/其它键阻断、真实依赖委托和战斗 250ms 刷新均有 caller/oracle；未发现本卡直接缺陷。不改 save-io VERSION/payload 或公共接口。
 - 验证：定向 2 files/18 tests、game typecheck通过；coverage 等沿用 [`53-wave-gates`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)。58 从 pending 提升为 `partial`，save/import 版本风险继续由 CODE-QUALITY-59 独立处理。
+
+### 2026-10-18 CODE-QUALITY-61 speedrun store 当前复审
+
+- 范围：完整读取 `speedrun/store.ts`、两份专属测试、`speedrun/index.ts`/`overlay.ts`/`tools-panel.ts:723-805` caller 与 timer/checkpoint 设计边界。
+- 结论：设置仅识别 1/0；bests 以 defaults 为骨架，拒绝坏 JSON、未知 key、数组/标量、负数、Infinity、字符串/对象并保留合法小数毫秒；未发现直接缺陷。
+- 验证：直接 2 files/9 tests、相邻 3 files/30 tests通过；coverage 等沿用 [`53-wave-gates`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)。61 从 pending 提升为 `partial`，不作整卡 accept/done。

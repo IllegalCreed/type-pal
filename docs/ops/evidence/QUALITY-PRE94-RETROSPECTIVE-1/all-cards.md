@@ -54,7 +54,7 @@
 | [CODE-QUALITY-58](../../archive/tasks/done/CODE-QUALITY-58-game-tools-panel-audit.md) | done | partial | [tools-panel 复审](58-tools-panel/README.md)：2 文件/18 定向通过；DOM/键盘/委托/lifecycle 核清，save-io VERSION 留 CODE-QUALITY-59 |
 | [CODE-QUALITY-59](../../archive/tasks/done/CODE-QUALITY-59-game-save-import-version-boundary.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-60](../../archive/tasks/done/CODE-QUALITY-60-game-quick-save-lifecycle.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
-| [CODE-QUALITY-61](../../archive/tasks/done/CODE-QUALITY-61-game-speedrun-store-boundary.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
+| [CODE-QUALITY-61](../../archive/tasks/done/CODE-QUALITY-61-game-speedrun-store-boundary.md) | done | partial | [speedrun store 复审](61-speedrun-store/README.md)：2 文件/9 直接，index/overlay/tools-panel 30 相邻；非法 localStorage 与小数毫秒 PB 合同已核 |
 | [CODE-QUALITY-62](../../archive/tasks/done/CODE-QUALITY-62-game-speedrun-timer-boundary.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-63](../../archive/tasks/done/CODE-QUALITY-63-game-speedrun-snapshot-boundary.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-64](../../archive/tasks/done/CODE-QUALITY-64-game-speedrun-detectors-boundary.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |

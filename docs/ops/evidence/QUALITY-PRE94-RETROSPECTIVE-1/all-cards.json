@@ -2360,10 +2360,10 @@
       "number": 61,
       "suffix": "",
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-61-game-speedrun-store-boundary.md",
-      "sha256": "693d39a5e0d615c8d3d10fbdf285761e0ca4d1dde4b91d38c77285a5cecc19c5",
-      "lines": 49,
+      "sha256": "95e19cf030c073cfb3243bd94c0ad5b469c0548d18acbe40a0d26666fe1ee5e5",
+      "lines": 55,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -3923,8 +3923,8 @@
   ],
   "reviewCheckpointBase": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
   "currentReviewCounts": {
-    "partial": 38,
-    "pending": 45,
+    "partial": 39,
+    "pending": 44,
     "accept": 0
   }
 }
