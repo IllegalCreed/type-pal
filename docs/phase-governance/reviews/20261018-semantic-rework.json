@@ -421,6 +421,12 @@
             "action": "S02 real whole-runbook candidate after record-credit withdrawal",
             "previousAfterSha256": "ea9d0fa69ea00a903c1628f2674636925e126e3d9b19baac07e0bd3e8955a653",
             "afterSha256": "356567e207aa13cf77c8ff8e2ac360dfafe0b6e76b975fbef17e28bacf87fdfa"
+          },
+          {
+            "date": "2026-10-18",
+            "revision": "0bac72c231cfe52d07359aa26bc2764b4b55df64",
+            "action": "Document staged/full-range diff boundary after real raw transport failure; no gate waiver",
+            "afterSha256": "dbd68ac55137df0edaa38efebcb3591f4ea826bbdbb5357b9914c6ff684926f9"
           }
         ]
       },
@@ -480,7 +486,7 @@
       ],
       "stopLine": "No reviewed/template-compliant before non-author acceptance of new bytes; no bulk restoration or product/old-test/coverage edits; global gate failures remain failures.",
       "sourceSha256": "ea9d0fa69ea00a903c1628f2674636925e126e3d9b19baac07e0bd3e8955a653",
-      "afterSha256": "356567e207aa13cf77c8ff8e2ac360dfafe0b6e76b975fbef17e28bacf87fdfa",
+      "afterSha256": "dbd68ac55137df0edaa38efebcb3591f4ea826bbdbb5357b9914c6ff684926f9",
       "sourceGitRevision": "8ef07ca702a50a0ca8edd08e7db4cf1b8255a9e6",
       "reviewedLines": "1-83 current;1-108 before;original73; dependency ranges explicit",
       "historyOverlay": false,

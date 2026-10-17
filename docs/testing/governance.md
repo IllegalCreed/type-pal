@@ -65,7 +65,7 @@ Template: guide-runbook-v1 / 1.0.0
 ### 6. 同提交验证与留存
 
 1. 更新唯一canonical/report、配对evidence、catalog、任务和相关引用；用`node scripts/docs/generate-testing-index.mjs`重建stage/status/tag/owner/domain/module/phase/engine及legacy-domain九个视图，生成器不授reviewed。
-2. 运行`pnpm check:testing-docs`、`pnpm check:docs`、`pnpm lint`、`git diff --check`；保留实际命令、cwd、候选/输入、时间、exit与全部诊断，任何error/warning/info均不算通过。当前全量门失败就如实保留失败。
+2. 运行`pnpm check:testing-docs`、`pnpm check:docs`、`pnpm lint`、`git diff --check`；保留实际命令、cwd、候选/输入、时间、exit与全部诊断，任何error/warning/info均不算通过。暂存后另核`git diff --cached --check`，冻结候选核`git diff --check <受审基点>..HEAD`，不能用空的未暂存diff替代完整交付检查。当前全量门失败就如实保留失败。
 3. 持久证据明确产生者、Owner、caller、任务、时间/版本、SHA、保留理由与退出条件。新临时截图/trace可留`artifacts/`并由回执定位；既有已承载验收的Git/raw不因“临时”标签删除或改写。只保留/tmp路径而未保全的旧输出不能继续授信。
 4. 非作者从实际正文、source/after、consumer和反例独立复核；作者自验、静态绿或历史报告的independent字段不代签。完成状态仅按任务硬验收条件变更。
 

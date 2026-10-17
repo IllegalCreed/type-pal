@@ -53,3 +53,6 @@ rework。完整 check:docs 与 require-complete 的失败必须保留；结构�
 ## S01 真正逐篇重审的独立结论
 
 [READ-FIRST固定正文独立报告](independent-review-S01-8ef07ca7.json)逐项核11规则/5停止线，首候选counter后只在8ef07ca7正文SHA70a835e7…闭合sLayer/cover勘误，限定接受该正文与模板。报告SHA288a330b…及45证据原字节接入，路径对应见[独立接入映射](independent-intake-S01-8ef07ca7.json)。原counter不抹掉，原55行quote不改；不授其余R33、依赖整篇或1896撤回绑定、全量门及运行信用。
+
+
+S01接入的6份编号源码摘录含原有行尾空格，0bac72c2完整范围diff真实失败已另捕获；目前仅将这6个payload以gzip无损承载。[接入映射](independent-intake-S01-8ef07ca7.json)同时列原payload SHA/bytes、存储SHA/bytes、from→to和解码规则。45/45解码后均匹配审查者原pin；原报告、原counter和0bac Git字节不改。不是trim原证据、排除文件或降低diff检查。

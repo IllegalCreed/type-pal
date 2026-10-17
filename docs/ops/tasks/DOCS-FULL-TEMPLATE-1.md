@@ -1619,3 +1619,8 @@ Template: task-card-v1 / 1.0.0
 - Reviewer `/root/receipt_integrity_independent`逐条核十一条规则/五类停止线及来源反例，首个0ec6候选rework与sLayer原counter保留，仅在8ef0正文SHA70a835e7a8cab70fe2c62618791e8fba4b124f385a8e8f95817560a41bc244be闭合并接受本篇语义/模板。
 - 冻结报告SHA288a330b872a18d1db6ca765b04005910e89384f2de49d1a361b7123c0d48303和45项原证据按原字节接入返工证据目录，独立intake map保原路径与SHA。本篇恢复唯一binding信用；不是R33全批复审或1896批量恢复。
 - 当前S02测试治理作者候选仍partial/needs-migration；统一门和整卡均未过，main不变、整卡rework。S01只恢复此前被本轮单篇counter暂停的1份，不将继承437视为本轮重认证437份。
+
+
+### 独立证据的无损存储迁移（0bac72c2反控）
+
+原样接入的编号源码摘录包含有意义的行尾空格，staged diff检查真实失败后仍提交候选检查点；未合main。当前设计仅将该检查列出的6份原payload用确定性gzip承载，原source SHA/bytes不变，新增stored SHA/bytes/encoding/from→to映射。原报告不改，Git源0bac与临时原件继续保留；接入索引为唯一仓库路径映射。先按计划核原SHA，压缩后解压逐字节复核，再重算索引pin和完整范围diff；不改规则、ignore/gitattributes、原文空格或审查verdict。此为附件存储容器迁移，不授模板/语义新信用。

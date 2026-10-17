@@ -5255,7 +5255,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "bef3d83d9cfd7cd32a17b1c8cc90d6cb1e7207f6588c0408bfe2d63c3501d3c7",
+      "afterSha256": "33c61ba062d7a14d59d4502f6175c42db0440325225d1df46173096a0c5d8959",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -5384,8 +5384,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "5d17a53de4c6b5ed8ecf26e46890c0ebfcbc2d6b0654337536c6ed68396eebf2",
-        "afterSha256": "bef3d83d9cfd7cd32a17b1c8cc90d6cb1e7207f6588c0408bfe2d63c3501d3c7",
+        "previousAfterSha256": "bef3d83d9cfd7cd32a17b1c8cc90d6cb1e7207f6588c0408bfe2d63c3501d3c7",
+        "afterSha256": "33c61ba062d7a14d59d4502f6175c42db0440325225d1df46173096a0c5d8959",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"

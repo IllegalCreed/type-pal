@@ -156,27 +156,48 @@
     },
     {
       "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-01.txt",
-      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-01.txt.log",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-01.txt.log.gz",
       "sha256": "adc4701bc8de2ff7eda6b50895c20b135f96aa18cbf365632badf31721f5ab99",
       "bytes": 6199,
       "originalFormat": ".txt",
-      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+      "ownership": "Independent reviewer original bytes; no fresh root command execution",
+      "encoding": "gzip",
+      "storedSha256": "2126b1f8bc850e72ecf0c238d94cf017551a03ee6c48532e4bfb86658591de84",
+      "storedBytes": 3385,
+      "payloadSha256": "adc4701bc8de2ff7eda6b50895c20b135f96aa18cbf365632badf31721f5ab99",
+      "payloadBytes": 6199,
+      "migrationSourceCommit": "0bac72c231cfe52d07359aa26bc2764b4b55df64",
+      "migrationSourcePath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-01.txt.log"
     },
     {
       "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-02.txt",
-      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-02.txt.log",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-02.txt.log.gz",
       "sha256": "3bf6dadfbc6a4f9bbf3f6b0972b56e06590eacae603bfa9fd7e04a8a01d5157d",
       "bytes": 9915,
       "originalFormat": ".txt",
-      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+      "ownership": "Independent reviewer original bytes; no fresh root command execution",
+      "encoding": "gzip",
+      "storedSha256": "cf3af3ac6a967a73a37bc93c8317b94ecf1ed4afc8fcae8838763dcc6b806205",
+      "storedBytes": 5474,
+      "payloadSha256": "3bf6dadfbc6a4f9bbf3f6b0972b56e06590eacae603bfa9fd7e04a8a01d5157d",
+      "payloadBytes": 9915,
+      "migrationSourceCommit": "0bac72c231cfe52d07359aa26bc2764b4b55df64",
+      "migrationSourcePath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-02.txt.log"
     },
     {
       "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-03.txt",
-      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-03.txt.log",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-03.txt.log.gz",
       "sha256": "e418db1cb7cfd0796f1f416b4743707cabf0c44c68d4e24bcf880c2585d03174",
       "bytes": 4061,
       "originalFormat": ".txt",
-      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+      "ownership": "Independent reviewer original bytes; no fresh root command execution",
+      "encoding": "gzip",
+      "storedSha256": "9b895fcfae78757d304ecfa0ea914532792504c86484192eaabc449556237d2f",
+      "storedBytes": 2345,
+      "payloadSha256": "e418db1cb7cfd0796f1f416b4743707cabf0c44c68d4e24bcf880c2585d03174",
+      "payloadBytes": 4061,
+      "migrationSourceCommit": "0bac72c231cfe52d07359aa26bc2764b4b55df64",
+      "migrationSourcePath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-03.txt.log"
     },
     {
       "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-04.txt",
@@ -204,27 +225,48 @@
     },
     {
       "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-07.txt",
-      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-07.txt.log",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-07.txt.log.gz",
       "sha256": "6142850d8ab6f7c53912e57ad641a042187dd594653ca2787dfb3a1055a82b58",
       "bytes": 1972,
       "originalFormat": ".txt",
-      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+      "ownership": "Independent reviewer original bytes; no fresh root command execution",
+      "encoding": "gzip",
+      "storedSha256": "ccff76e7873d55218a23451198276673e3f58d9af8ed4180e46ed3841d21a5e4",
+      "storedBytes": 1208,
+      "payloadSha256": "6142850d8ab6f7c53912e57ad641a042187dd594653ca2787dfb3a1055a82b58",
+      "payloadBytes": 1972,
+      "migrationSourceCommit": "0bac72c231cfe52d07359aa26bc2764b4b55df64",
+      "migrationSourcePath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-07.txt.log"
     },
     {
       "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-08.txt",
-      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-08.txt.log",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-08.txt.log.gz",
       "sha256": "4b0b6fb8d3a8abeeb838994de544c2c50e72319a3ce61d0efd5e267aecddf9f1",
       "bytes": 1800,
       "originalFormat": ".txt",
-      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+      "ownership": "Independent reviewer original bytes; no fresh root command execution",
+      "encoding": "gzip",
+      "storedSha256": "091e50592dfc43172f17bd55f6804facb9fc8e5eb1cfeb866a0f934e187bef98",
+      "storedBytes": 1113,
+      "payloadSha256": "4b0b6fb8d3a8abeeb838994de544c2c50e72319a3ce61d0efd5e267aecddf9f1",
+      "payloadBytes": 1800,
+      "migrationSourceCommit": "0bac72c231cfe52d07359aa26bc2764b4b55df64",
+      "migrationSourcePath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-08.txt.log"
     },
     {
       "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-09.txt",
-      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-09.txt.log",
+      "retainedPath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-09.txt.log.gz",
       "sha256": "ce9720fe0424f37993e568939252bd6ff5ac73ca16987277b232782778ab6f4a",
       "bytes": 1273,
       "originalFormat": ".txt",
-      "ownership": "Independent reviewer original bytes; no fresh root command execution"
+      "ownership": "Independent reviewer original bytes; no fresh root command execution",
+      "encoding": "gzip",
+      "storedSha256": "315ae6d409a0a21d129d63726b150a8a352d80c1cc5cd5d15b3961a31f1051bd",
+      "storedBytes": 693,
+      "payloadSha256": "ce9720fe0424f37993e568939252bd6ff5ac73ca16987277b232782778ab6f4a",
+      "payloadBytes": 1273,
+      "migrationSourceCommit": "0bac72c231cfe52d07359aa26bc2764b4b55df64",
+      "migrationSourcePath": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-09.txt.log"
     },
     {
       "originalPath": "/tmp/type-pal-s01-independent-20261018-0ec6b296/primary-scope-10.txt",
@@ -371,5 +413,88 @@
       "ownership": "Independent reviewer original bytes; no fresh root command execution"
     }
   ],
-  "policy": "Original report names/absolute references retained verbatim; this path map resolves originals after temp cleanup; no independent judgment is reauthored."
+  "policy": "Original report names/absolute references retained verbatim; this path map resolves originals after temp cleanup; no independent judgment is reauthored.",
+  "storageMigration": {
+    "reason": "6 numbered excerpt artifacts carry trailing-space payload; transport binary gzip without editing original bytes or gate rules.",
+    "sourceRevision": "0bac72c231cfe52d07359aa26bc2764b4b55df64",
+    "entries": [
+      {
+        "from": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-01.txt.log",
+        "to": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-01.txt.log.gz",
+        "sourceRevision": "0bac72c231cfe52d07359aa26bc2764b4b55df64",
+        "sourceSha256": "adc4701bc8de2ff7eda6b50895c20b135f96aa18cbf365632badf31721f5ab99",
+        "sourceBytes": 6199,
+        "storedSha256": "2126b1f8bc850e72ecf0c238d94cf017551a03ee6c48532e4bfb86658591de84",
+        "storedBytes": 3385,
+        "decodedExact": true,
+        "linkRecomputation": "Only explicit intake-map retainedPath resolves report original absolute path; report bytes and original source names are unchanged.",
+        "consumerVerification": "gzip.decompress(stored)==original bytes and source SHA; all45 independent payload descriptors rechecked"
+      },
+      {
+        "from": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-02.txt.log",
+        "to": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-02.txt.log.gz",
+        "sourceRevision": "0bac72c231cfe52d07359aa26bc2764b4b55df64",
+        "sourceSha256": "3bf6dadfbc6a4f9bbf3f6b0972b56e06590eacae603bfa9fd7e04a8a01d5157d",
+        "sourceBytes": 9915,
+        "storedSha256": "cf3af3ac6a967a73a37bc93c8317b94ecf1ed4afc8fcae8838763dcc6b806205",
+        "storedBytes": 5474,
+        "decodedExact": true,
+        "linkRecomputation": "Only explicit intake-map retainedPath resolves report original absolute path; report bytes and original source names are unchanged.",
+        "consumerVerification": "gzip.decompress(stored)==original bytes and source SHA; all45 independent payload descriptors rechecked"
+      },
+      {
+        "from": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-03.txt.log",
+        "to": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-03.txt.log.gz",
+        "sourceRevision": "0bac72c231cfe52d07359aa26bc2764b4b55df64",
+        "sourceSha256": "e418db1cb7cfd0796f1f416b4743707cabf0c44c68d4e24bcf880c2585d03174",
+        "sourceBytes": 4061,
+        "storedSha256": "9b895fcfae78757d304ecfa0ea914532792504c86484192eaabc449556237d2f",
+        "storedBytes": 2345,
+        "decodedExact": true,
+        "linkRecomputation": "Only explicit intake-map retainedPath resolves report original absolute path; report bytes and original source names are unchanged.",
+        "consumerVerification": "gzip.decompress(stored)==original bytes and source SHA; all45 independent payload descriptors rechecked"
+      },
+      {
+        "from": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-07.txt.log",
+        "to": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-07.txt.log.gz",
+        "sourceRevision": "0bac72c231cfe52d07359aa26bc2764b4b55df64",
+        "sourceSha256": "6142850d8ab6f7c53912e57ad641a042187dd594653ca2787dfb3a1055a82b58",
+        "sourceBytes": 1972,
+        "storedSha256": "ccff76e7873d55218a23451198276673e3f58d9af8ed4180e46ed3841d21a5e4",
+        "storedBytes": 1208,
+        "decodedExact": true,
+        "linkRecomputation": "Only explicit intake-map retainedPath resolves report original absolute path; report bytes and original source names are unchanged.",
+        "consumerVerification": "gzip.decompress(stored)==original bytes and source SHA; all45 independent payload descriptors rechecked"
+      },
+      {
+        "from": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-08.txt.log",
+        "to": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-08.txt.log.gz",
+        "sourceRevision": "0bac72c231cfe52d07359aa26bc2764b4b55df64",
+        "sourceSha256": "4b0b6fb8d3a8abeeb838994de544c2c50e72319a3ce61d0efd5e267aecddf9f1",
+        "sourceBytes": 1800,
+        "storedSha256": "091e50592dfc43172f17bd55f6804facb9fc8e5eb1cfeb866a0f934e187bef98",
+        "storedBytes": 1113,
+        "decodedExact": true,
+        "linkRecomputation": "Only explicit intake-map retainedPath resolves report original absolute path; report bytes and original source names are unchanged.",
+        "consumerVerification": "gzip.decompress(stored)==original bytes and source SHA; all45 independent payload descriptors rechecked"
+      },
+      {
+        "from": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-09.txt.log",
+        "to": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/independent-s01-8ef0/primary-scope-09.txt.log.gz",
+        "sourceRevision": "0bac72c231cfe52d07359aa26bc2764b4b55df64",
+        "sourceSha256": "ce9720fe0424f37993e568939252bd6ff5ac73ca16987277b232782778ab6f4a",
+        "sourceBytes": 1273,
+        "storedSha256": "315ae6d409a0a21d129d63726b150a8a352d80c1cc5cd5d15b3961a31f1051bd",
+        "storedBytes": 693,
+        "decodedExact": true,
+        "linkRecomputation": "Only explicit intake-map retainedPath resolves report original absolute path; report bytes and original source names are unchanged.",
+        "consumerVerification": "gzip.decompress(stored)==original bytes and source SHA; all45 independent payload descriptors rechecked"
+      }
+    ],
+    "policy": "sha256/bytes remain original payload fields for compatibility; encoding/storedSha256/storedBytes describe actual file. Decode gzip before checking original payload pins. Original Git blob remains reachable; no receipt stream or verdict rewritten.",
+    "failureReceipt": {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/raw/raw-transport-diff-2fec5b59-bf1c-49b3-a59b-76d99d5fe58c.receipt.log",
+      "sha256": "d610dac6d8efca043eec72155d3e0d456e6e5ecd4dca582b098a2f6d1dcdcc0b"
+    }
+  }
 }
