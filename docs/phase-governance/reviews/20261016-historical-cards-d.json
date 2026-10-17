@@ -3212,10 +3212,10 @@
       "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "5298af5132b5a8e775e231bd7300e645b69582d1c016899523952fdd9ef703a9",
+      "afterSha256": "00ac9683a1e096b7d142bd4ba06c26422d5d54f4e31a84528ef2dd5f05311aa9",
       "revision": {
         "currentSha": "addcb44c52fd00ab0fd3397e61ae316bf98d02e2aeef1d5533ed23a2c1e5845a",
-        "implementationSha": "5298af5132b5a8e775e231bd7300e645b69582d1c016899523952fdd9ef703a9",
+        "implementationSha": "00ac9683a1e096b7d142bd4ba06c26422d5d54f4e31a84528ef2dd5f05311aa9",
         "history": [
           {
             "date": "2026-10-16",
@@ -3309,7 +3309,7 @@
         "kind": "A8-six-pending-inventory-real-producer-maintenance",
         "path": "docs/ops/audits/code-quality-file-ledger.md",
         "sourceSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
-        "afterSha256": "5298af5132b5a8e775e231bd7300e645b69582d1c016899523952fdd9ef703a9",
+        "afterSha256": "00ac9683a1e096b7d142bd4ba06c26422d5d54f4e31a84528ef2dd5f05311aa9",
         "lineCount": 592,
         "sourceScope": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "completePrior": {

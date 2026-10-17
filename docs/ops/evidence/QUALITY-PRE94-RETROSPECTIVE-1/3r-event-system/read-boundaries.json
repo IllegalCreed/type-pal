@@ -1,0 +1,147 @@
+{
+  "base": "8dfffb1b880429b6d4caf55aaa36020f49ec4ddf",
+  "fullReads": [
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "34eaad97dd35a62a273596efecd9a5cfbf6e00360ac923fc6e64e2b76e622242",
+      "lines": 5117,
+      "boundary": "Full implementation read in small sequential ranges: exports/injection, autoScript, event loop, dialog/wait/fade/modal, runScript, poison/item lifecycle, applyRawOpcode, object resolution, movement/chase and runEnterScript."
+    },
+    {
+      "path": "packages/game/src/core/event-system.test.ts",
+      "sha256": "b7fdaf473dce29e1b2b4f714eb40a7b455e344eefdf3f338801d344e233abab0",
+      "lines": 5974,
+      "boundary": "Full main oracle read: trigger/auto/event/runScript/runEnterScript, dialog/wait/confirm/end, item/poison/object/state, movement/camera, fade/RNG/FBP, scene/battle/menu lifecycle."
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-k01.test.ts",
+      "sha256": "b0041924aa2dd9c5e6462b31aa42ed5cf6b3739efea11fb41d400b559735cdf3",
+      "lines": 120,
+      "boundary": "Trigger reset end, owner idle counter and resume persistence contracts."
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-k02.test.ts",
+      "sha256": "5600a604f469f091bfaa7a6e630b687275b51a96845d233e96b51e26ee816da4",
+      "lines": 149,
+      "boundary": "Auto reset/onEnter reset persistence and wait gesture-reset contracts."
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-k03.test.ts",
+      "sha256": "eebfbcca6821f1fbbdc22fbf35b058e0ea78518651e817538845ef4bf4955cfe",
+      "lines": 95,
+      "boundary": "Buy/sell handler ownership and no-handler fail-safe contracts."
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-control-flow.test.ts",
+      "sha256": "e0a27f42b8924910e1a5a386449a6c250ddfcd9092f4117ec8255651b676acb0",
+      "lines": 121,
+      "boundary": "Confirm-goto fail-closed and camera-return control-flow contracts."
+    },
+    {
+      "path": "packages/game/src/core/event-system.glm-event-state-opcodes.test.ts",
+      "sha256": "e4c8427f7d4ebeb8f3cd741593fe8c47f28efaf395f7770b145632f834517444",
+      "lines": 203,
+      "boundary": "State/object opcode caller contracts and runEnter/event fail-stop boundaries."
+    },
+    {
+      "path": "packages/game/src/core/event-dialogue-pagination.glm-contracts.test.ts",
+      "sha256": "82eeeee36bcf11d9a08cfcb103719238470a771886484f71de728b7418c26adb4",
+      "lines": 189,
+      "boundary": "Dialog pagination, clear, style and wall-clock continuation contracts."
+    },
+    {
+      "path": "packages/game/src/core/cross-module-boundaries.test.ts",
+      "sha256": "9359f945fb2d77563326ccaca7f140250d747a0972aef46e15e91c2106a077e4",
+      "lines": 137,
+      "boundary": "Cross-module event/scene/equipment/battle ownership contracts."
+    },
+    {
+      "path": "packages/game/src/core/mode.test.ts",
+      "sha256": "d217442b8f62df651d8f828171085efd2c1330dbfcc90ae28411baf836739609",
+      "lines": 283,
+      "boundary": "Mode dispatch, autoScript gates and event fade caller contracts."
+    },
+    {
+      "path": "packages/game/src/core/scene-system-search.test.ts",
+      "sha256": "835fc232dacb2c639e7958ca4e55783fb3d128f3bf4c122d8e049a70bd1e9f50",
+      "lines": 88,
+      "boundary": "Search cells, facing, trigger mode and first-hit oracle."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/core/mode.ts",
+      "sha256": "96128a2ee924f28d49b4383e6cd521c34b9382d7f353d3b2dd21277a58cdaf15",
+      "lines": 93,
+      "ranges": ["1-93"],
+      "boundary": "Full mode caller read for tick order, autoScript gate and same-tick event re-drive."
+    },
+    {
+      "path": "packages/game/src/core/scene-system.ts",
+      "sha256": "9b11dd7e866210a15dc7e57087fa230a2ab22593f64cc6b5eb4d441948ef2f64",
+      "lines": 662,
+      "ranges": ["1-40", "430-490", "620-675"],
+      "boundary": "Event trigger, autoScript and onEnter caller ranges; full file evidence belongs to 3q."
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "6c02f5c426c7bf4fb8ef096117c23dd79ee10a2d642e70c1d4d51119b2026298",
+      "lines": 1944,
+      "ranges": ["880-950", "1160-1215", "1560-1600"],
+      "boundary": "Scene/map/obstacle/equipment/startBattle injection and onEnter caller ranges."
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "f6df365e29c4039cd3bf6ac0b0113883fe6aa20ca0814c637a575407ee485546",
+      "lines": 1054,
+      "ranges": ["700-750"],
+      "boundary": "Item use caller and menu/event mode ownership."
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "lines": 3652,
+      "ranges": [
+        "30-307",
+        "608-750",
+        "1140-1410",
+        "1600-1815",
+        "1850-1990",
+        "2050-2145",
+        "2290-2385",
+        "2385-2555",
+        "2570-2775",
+        "2970-3070",
+        "3130-3670"
+      ],
+      "boundary": "PAL_NPCWalkTo/PAL_PartyWalkTo/PAL_PartyRideEventObject; PAL_InterpretInstruction opcode families; PAL_RunTriggerScript/PAL_RunAutoScript lifecycle."
+    },
+    {
+      "path": "reference/sdlpal/play.c",
+      "sha256": "f13ba4e3a9c86c494390ea1eda121be1ae4c7fa5110f5e51cf4680321c742ef8",
+      "lines": 682,
+      "ranges": ["56-238"],
+      "boundary": "Scene entry, trigger/autoscript ordering, vanish/trigger ownership and chase timer."
+    },
+    {
+      "path": "reference/sdlpal/scene.c",
+      "sha256": "bc4efef7cad3b83ddac5e3338423e3c5d9660bdbaae1d8e974e8841022e3bc8b",
+      "lines": 903,
+      "ranges": ["779-930"],
+      "boundary": "Party update, NPC movement, animation frame and trail semantics."
+    },
+    {
+      "path": "reference/sdlpal/global.h",
+      "sha256": "07f307f91af62291fba50a345075c54adf170a33d1eba1f389852abf9c44d28c",
+      "lines": 757,
+      "ranges": ["75-121", "512-531"],
+      "boundary": "Event object/scene/global mode fields and ownership."
+    }
+  ],
+  "notClaimed": [
+    "Current full-repository check/coverage/ratchet/protected-fast acceptance",
+    "Battle-opcodes full-file acceptance",
+    "Save/schema/migration/generated-asset/E2E/visual acceptance",
+    "Product behavior or public-interface change"
+  ]
+}

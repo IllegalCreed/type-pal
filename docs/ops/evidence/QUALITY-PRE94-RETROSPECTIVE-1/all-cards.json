@@ -1019,7 +1019,7 @@
       "sha256": "4d1c4ba4105a4af2acd1cf300791a447a270f6eb0fb2705625dfc8653fb0f915",
       "lines": 132,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -1079,7 +1079,8 @@
           "text": "你的角色：Codex 先完成前提真值与独立证据核验。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3r-event-system/README.md"
     },
     {
       "id": "3s",
