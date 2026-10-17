@@ -1,7 +1,13 @@
 {
   "schemaVersion": 1,
   "kind": "current-rerun-index-not-historical-execution-proof",
-  "status": "pending-capture",
-  "sessions": [],
+  "status": "rework-real-failures-retained",
+  "sessions": [
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-a1622b45-a149-4288-9f17-7799d1236ed9.json",
+      "sha256": "70a59e69c2ebc4b3cdd8f4c577f9cf65c7ef3b8c325bdd2bdd93b21e2405919d",
+      "role": "current-input-candidate-execution; not retrospective historical proof"
+    }
+  ],
   "lossDisclosure": "Earlier uncommitted managed worktree disappeared during execution. Raw captures in that directory are unavailable and are not accepted as retained evidence. Recovered command construction from this chat was re-executed in this checkout; current receipts will identify the new execution."
 }

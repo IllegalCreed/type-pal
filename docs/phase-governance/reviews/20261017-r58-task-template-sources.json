@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "r58-task-template-sources-20261017",
-  "reviewer": "Codex root full-text canonical template-source review",
+  "reviewer": "Codex corrective mechanical maintenance; author self-check only",
   "reviewDate": "2026-10-17",
-  "policy": "R58: reusable task templates remain copyable canonical sources. They are governed as reference-canon template-source artifacts with byte-stable preservation rather than wrapped Markdown bodies; registry/review/consumer links provide governance without changing template syntax.",
+  "policy": "Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalReviewIdentity; no full-text re-review is asserted.",
   "entries": [
     {
       "path": "docs/ops/templates/TASK-template.md",
@@ -29,14 +29,10 @@
       "capability": "full-task-card-template",
       "owner": "Codex（文档治理）",
       "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r58_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "ba60e9dccc2833b30be349213b86593260f4f66c"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
       "afterSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
@@ -105,7 +101,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -119,12 +116,20 @@
           "action": "R58 template source artifact envelope",
           "reviewer": "r58_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": ["governed-legacy presentation; reusable template source retained byte-stably"],
       "stopLine": "do not wrap, delete or rewrite reusable template source without registry/consumer review; do not treat a template source as a task card or execution acceptance",
       "userVisibleBeforeAfter": "原始可复制任务模板保持 → registry/review 增加 reference-canon template-source artifact envelope、SHA、consumer 和版本边界；复制行为与任务状态不变。",
-      "reviewedLines": "1-198",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -195,14 +200,10 @@
       "capability": "light-task-card-template",
       "owner": "Codex（文档治理）",
       "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r58_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "ba60e9dccc2833b30be349213b86593260f4f66c"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
       "afterSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
@@ -271,7 +272,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -285,12 +287,20 @@
           "action": "R58 template source artifact envelope",
           "reviewer": "r58_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": ["governed-legacy presentation; reusable template source retained byte-stably"],
       "stopLine": "do not wrap, delete or rewrite reusable template source without registry/consumer review; do not treat a template source as a task card or execution acceptance",
       "userVisibleBeforeAfter": "原始可复制任务模板保持 → registry/review 增加 reference-canon template-source artifact envelope、SHA、consumer 和版本边界；复制行为与任务状态不变。",
-      "reviewedLines": "1-61",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -343,5 +353,10 @@
     "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
     "task": "DOCS-RECORD-INTEGRITY-1",
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  },
+  "historicalReviewIdentity": {
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+    "recordPath": "docs/phase-governance/reviews/20261017-r58-task-template-sources.json",
+    "meaning": "Original reviewer/policy/migration summary are historical claims at this revision; current correction supersedes their semantic and independence credit."
   }
 }

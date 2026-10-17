@@ -1821,7 +1821,99 @@
   },
   "independence": {
     "finding": "same-actor verification cannot claim non-author acceptance; filenames and old reviewer strings alone are not identity evidence",
-    "currentRun": "Codex author self-check; no independent credit"
+    "currentRun": "Codex author self-check; no independent credit",
+    "declaredCandidateRelationships": [
+      {
+        "record": "docs/phase-governance/reviews/20261017-phase2-designs-r24.json",
+        "nonAuthorReviewer": "not-declared",
+        "historicalVerdict": "accept",
+        "currentVerdict": "accept"
+      },
+      {
+        "record": "docs/phase-governance/reviews/20261017-phase2-plans-r25.json",
+        "nonAuthorReviewer": "not-declared",
+        "historicalVerdict": "accept",
+        "currentVerdict": "accept"
+      },
+      {
+        "record": "docs/phase-governance/reviews/20261017-ops-audits-r23.json",
+        "nonAuthorReviewer": "not-declared",
+        "historicalVerdict": "accept",
+        "currentVerdict": "accept"
+      },
+      {
+        "record": "docs/phase-governance/reviews/20261017-r27-phase1-plans.json",
+        "nonAuthorReviewer": false,
+        "historicalVerdict": "accept",
+        "currentVerdict": "withdrawn-independent-credit"
+      },
+      {
+        "record": "docs/phase-governance/reviews/20261017-r37-ops-json-evidence.json",
+        "nonAuthorReviewer": false,
+        "historicalVerdict": "accept",
+        "currentVerdict": "withdrawn-independent-credit"
+      },
+      {
+        "record": "docs/phase-governance/reviews/20261017-r32-ops-cancelled-tasks.json",
+        "nonAuthorReviewer": false,
+        "historicalVerdict": "accept",
+        "currentVerdict": "withdrawn-independent-credit"
+      },
+      {
+        "record": "docs/phase-governance/reviews/20261017-r26-indoor-slices.json",
+        "nonAuthorReviewer": false,
+        "historicalVerdict": "accept",
+        "currentVerdict": "withdrawn-independent-credit"
+      },
+      {
+        "record": "docs/phase-governance/reviews/20261017-r31-ops-archive-records.json",
+        "nonAuthorReviewer": false,
+        "historicalVerdict": "accept",
+        "currentVerdict": "withdrawn-independent-credit"
+      },
+      {
+        "record": "docs/phase-governance/reviews/20261017-r34-ops-pre-e2e.json",
+        "nonAuthorReviewer": false,
+        "historicalVerdict": "accept",
+        "currentVerdict": "withdrawn-independent-credit"
+      },
+      {
+        "record": "docs/phase-governance/reviews/20261017-r36-ops-evidence.json",
+        "nonAuthorReviewer": false,
+        "historicalVerdict": "accept",
+        "currentVerdict": "withdrawn-independent-credit"
+      },
+      {
+        "record": "docs/phase-governance/reviews/20261017-r35-ops-guides.json",
+        "nonAuthorReviewer": false,
+        "historicalVerdict": "accept",
+        "currentVerdict": "withdrawn-independent-credit"
+      },
+      {
+        "record": "docs/phase-governance/reviews/20261017-r30-phase1-foundation.json",
+        "nonAuthorReviewer": false,
+        "historicalVerdict": "accept",
+        "currentVerdict": "withdrawn-independent-credit"
+      },
+      {
+        "record": "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+        "nonAuthorReviewer": false,
+        "historicalVerdict": "accept",
+        "currentVerdict": "withdrawn-independent-credit"
+      },
+      {
+        "record": "docs/phase-governance/reviews/20261017-r29-phase1-status.json",
+        "nonAuthorReviewer": false,
+        "historicalVerdict": "accept",
+        "currentVerdict": "withdrawn-independent-credit"
+      },
+      {
+        "record": "docs/phase-governance/reviews/20261017-r33-phase2-lore.json",
+        "nonAuthorReviewer": false,
+        "historicalVerdict": "accept",
+        "currentVerdict": "withdrawn-independent-credit"
+      }
+    ]
   },
   "r27": {
     "originalSummary": "sourceQuoteInverse:20/20",
@@ -1990,7 +2082,21 @@
     "candidates": 16,
     "confirmedR65": 1,
     "otherCandidatesPending": 15,
-    "decision": "Other candidates are a mechanical screen, not proof of fabricated execution; primary raw-run verification remains pending. This is not a clean audit declaration."
+    "decision": "Other candidates are a mechanical screen, not proof of fabricated execution; primary raw-run verification remains pending. This is not a clean audit declaration.",
+    "existingValueChanges": [
+      {
+        "commit": "183ec0bf0",
+        "finding": "confirmed summary-only rewrite 8080→7970; credit withdrawn"
+      },
+      {
+        "commit": "d03cba2c23",
+        "finding": "lint summary count 2787→2791 with unchanged command/exit; broader candidate rework also adds commands. Raw-run authentication pending, not declared valid."
+      },
+      {
+        "commit": "d056af0e65",
+        "finding": "array-index comparison includes record reorder and new labels; generated timestamp changes. Exit differences alone do not establish rewriting the same execution; raw-run authentication pending."
+      }
+    ]
   },
   "workspaceLoss": {
     "event": "Uncommitted managed worktree disappeared during capture; main unchanged.",
@@ -1998,5 +2104,18 @@
     "retention": "No lost raw captures accepted. All current receipts will describe fresh execution.",
     "priorFailureDisclosure": "Before loss, self-check introduced missing module in isolated docs-tool fixture; fixture dependency list fixed. New full suite will rerun; no lost failure capture is presented as retained raw evidence.",
     "unsupportedAttributionWithdrawn": "No evidence establishes that another task Git process caused the earlier failure."
+  },
+  "currentExecutionObserved": {
+    "session": "a1622b45-a149-4288-9f17-7799d1236ed9",
+    "docsToolTests": {
+      "passed": 128,
+      "failed": 0
+    },
+    "contentIntegrity": "PASS (mechanical/structure only)",
+    "strictContent": "FAIL (withdrawn records pending semantic re-review)",
+    "progress": "FAIL require-complete; 437/1838 baseline +5 incremental; 0 integrity issues; inherited credit not new certification",
+    "lint": "PASS zero diagnostics",
+    "diff": "PASS",
+    "historicalExecutionCredit": false
   }
 }

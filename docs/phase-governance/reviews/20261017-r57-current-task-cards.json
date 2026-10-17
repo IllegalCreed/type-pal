@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "r57-current-task-cards-20261017",
-  "reviewer": "Codex root full-text current task-card migration",
+  "reviewer": "Codex corrective mechanical maintenance; author self-check only",
   "reviewDate": "2026-10-17",
-  "policy": "R57: current task cards keep their exact status and owner boundaries while adopting task-card-v1. Source quote and SHA preserve history; migration does not advance status or grant product/runtime/E2E/visual/coverage credit.",
+  "policy": "Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalReviewIdentity; no full-text re-review is asserted.",
   "entries": [
     {
       "path": "docs/ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md",
@@ -31,13 +31,9 @@
       "owner": "Codex（文档治理；原任务 Owner/贡献者保留于原文）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r57_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "66586cf9d9f601cdc16f252a504126706b32ffe8b3093e0ccc2c7948bae0edb5",
       "afterSha256": "19ebd114a523dccaceb63bdd3a2775d9c66d6806184cdcb9571441c15779b938",
@@ -104,7 +100,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "66586cf9d9f601cdc16f252a504126706b32ffe8b3093e0ccc2c7948bae0edb5",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -118,6 +115,14 @@
           "action": "R57 task-card migration",
           "reviewer": "r57_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -125,7 +130,7 @@
       ],
       "stopLine": "do not advance draft/build/review/rework or promote task-card claims to current product/runtime/E2E/visual/coverage acceptance by documentation migration alone",
       "userVisibleBeforeAfter": "原始 current task card 保持 → 接入 task-card 模板、状态/owner/前提/验收/交接边界、可逆 quote 和 SHA；任务状态与产品事实不变。",
-      "reviewedLines": "1-242",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "documentStatus": "review",
@@ -197,13 +202,9 @@
       "owner": "Codex（文档治理；原任务 Owner/贡献者保留于原文）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r57_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "7a3b6250e159edb6dbe82342b70c03379bab9d0cc7f9b3bcffbc7d49fd9c04e4",
       "afterSha256": "41142491aa9389b6a5b9f7d13f6ef38cf1b66add5b94f7c9b6bc2c9d454c7363",
@@ -272,7 +273,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "7a3b6250e159edb6dbe82342b70c03379bab9d0cc7f9b3bcffbc7d49fd9c04e4",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -286,6 +288,14 @@
           "action": "R57 task-card migration",
           "reviewer": "r57_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -293,7 +303,7 @@
       ],
       "stopLine": "do not advance draft/build/review/rework or promote task-card claims to current product/runtime/E2E/visual/coverage acceptance by documentation migration alone",
       "userVisibleBeforeAfter": "原始 current task card 保持 → 接入 task-card 模板、状态/owner/前提/验收/交接边界、可逆 quote 和 SHA；任务状态与产品事实不变。",
-      "reviewedLines": "1-134",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "documentStatus": "rework",
@@ -365,13 +375,9 @@
       "owner": "Codex（文档治理；原任务 Owner/贡献者保留于原文）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r57_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "2880d6b8ba976b74e52d607e2ff806894d73214634a132e2c54f54ee8f386aec",
       "afterSha256": "5cc09fd6636533b5b06f10b38e0e114373cfc7f204ac300a45cb9c6317295d87",
@@ -440,7 +446,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "2880d6b8ba976b74e52d607e2ff806894d73214634a132e2c54f54ee8f386aec",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -454,6 +461,14 @@
           "action": "R57 task-card migration",
           "reviewer": "r57_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -461,7 +476,7 @@
       ],
       "stopLine": "do not advance draft/build/review/rework or promote task-card claims to current product/runtime/E2E/visual/coverage acceptance by documentation migration alone",
       "userVisibleBeforeAfter": "原始 current task card 保持 → 接入 task-card 模板、状态/owner/前提/验收/交接边界、可逆 quote 和 SHA；任务状态与产品事实不变。",
-      "reviewedLines": "1-394",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "documentStatus": "build",
@@ -533,13 +548,9 @@
       "owner": "Codex（文档治理；原任务 Owner/贡献者保留于原文）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r57_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "855f682c2c45c3e30e2defd575b922aa3e4b406486739b8584c6569e41d22e20",
       "afterSha256": "9cafd52c8f9c40ae9c4b449be28160a05f33db3c77c0fc64ccdc7d719d03f238",
@@ -606,7 +617,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "855f682c2c45c3e30e2defd575b922aa3e4b406486739b8584c6569e41d22e20",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -620,6 +632,14 @@
           "action": "R57 task-card migration",
           "reviewer": "r57_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -627,7 +647,7 @@
       ],
       "stopLine": "do not advance draft/build/review/rework or promote task-card claims to current product/runtime/E2E/visual/coverage acceptance by documentation migration alone",
       "userVisibleBeforeAfter": "原始 current task card 保持 → 接入 task-card 模板、状态/owner/前提/验收/交接边界、可逆 quote 和 SHA；任务状态与产品事实不变。",
-      "reviewedLines": "1-77",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "documentStatus": "draft",
@@ -699,13 +719,9 @@
       "owner": "Codex（文档治理；原任务 Owner/贡献者保留于原文）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r57_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "2f3d92bf28906e1356da9e1e820e3af06545690870385032d6be90fa43d4ecfb",
       "afterSha256": "62911f6bef1a87b84ff2533af26c8883d721997460c24b874060a162dc3ad3ef",
@@ -774,7 +790,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "2f3d92bf28906e1356da9e1e820e3af06545690870385032d6be90fa43d4ecfb",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -788,6 +805,14 @@
           "action": "R57 task-card migration",
           "reviewer": "r57_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -795,7 +820,7 @@
       ],
       "stopLine": "do not advance draft/build/review/rework or promote task-card claims to current product/runtime/E2E/visual/coverage acceptance by documentation migration alone",
       "userVisibleBeforeAfter": "原始 current task card 保持 → 接入 task-card 模板、状态/owner/前提/验收/交接边界、可逆 quote 和 SHA；任务状态与产品事实不变。",
-      "reviewedLines": "1-274",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "documentStatus": "build",
@@ -867,13 +892,9 @@
       "owner": "Codex（文档治理；原任务 Owner/贡献者保留于原文）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r57_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "fb83030c29ad9599c4135950d552d7c75ab3009f"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "ff3eb7a171435855a6ffc593500195332d54e0dd3b172692c55de29f23776a7c",
       "afterSha256": "8f954681a045d32c48ab93d3bc22c5a2a8f6566cfe485c394373ec6f6523b40d",
@@ -942,7 +963,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "ff3eb7a171435855a6ffc593500195332d54e0dd3b172692c55de29f23776a7c",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -956,6 +978,14 @@
           "action": "R57 task-card migration",
           "reviewer": "r57_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -963,7 +993,7 @@
       ],
       "stopLine": "do not advance draft/build/review/rework or promote task-card claims to current product/runtime/E2E/visual/coverage acceptance by documentation migration alone",
       "userVisibleBeforeAfter": "原始 current task card 保持 → 接入 task-card 模板、状态/owner/前提/验收/交接边界、可逆 quote 和 SHA；任务状态与产品事实不变。",
-      "reviewedLines": "1-209",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "documentStatus": "rework",
@@ -1015,5 +1045,10 @@
     "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
     "task": "DOCS-RECORD-INTEGRITY-1",
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  },
+  "historicalReviewIdentity": {
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+    "recordPath": "docs/phase-governance/reviews/20261017-r57-current-task-cards.json",
+    "meaning": "Original reviewer/policy/migration summary are historical claims at this revision; current correction supersedes their semantic and independence credit."
   }
 }

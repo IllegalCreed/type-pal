@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "r92-testing-archive",
-  "reviewer": "Codex root full phase-governance artifact migration",
+  "reviewer": "Codex corrective mechanical maintenance; author self-check only",
   "reviewDate": "2026-10-17",
-  "policy": "R92: historical phase-governance artifact Markdown uses archive-record-v1 plus quote inverse; JSON remains byte-stable machine artifact under the same history envelope. Preserve source bytes/fields and execution boundaries; no execution credit.",
+  "policy": "Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalReviewIdentity; no full-text re-review is asserted.",
   "entries": [
     {
       "path": "docs/phase-governance/reviews/20261017-r69-ops-evidence-readmes.json",
@@ -27,16 +27,12 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r92_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "8e0f5d50a1fb44837487e3a79c67f4b66f8e3c63a4cd80f0b05c8046e4bdfb7d",
-      "afterSha256": "fb9eb55b4647a0967f73ac1a5f057374aad90fc05c12c60ee08190cd32b82967",
+      "afterSha256": "99746060e18e74fa305e943544dab3c157405e882ef090c8beeeb81cf46f45cf",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -98,7 +94,8 @@
           "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
           "entryCount": 10,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -112,6 +109,14 @@
           "action": "R92 phase-governance artifact governance",
           "reviewer": "r92_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -119,7 +124,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-1383",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -168,8 +173,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "8e0f5d50a1fb44837487e3a79c67f4b66f8e3c63a4cd80f0b05c8046e4bdfb7d",
-        "afterSha256": "fb9eb55b4647a0967f73ac1a5f057374aad90fc05c12c60ee08190cd32b82967",
+        "previousAfterSha256": "fb9eb55b4647a0967f73ac1a5f057374aad90fc05c12c60ee08190cd32b82967",
+        "afterSha256": "99746060e18e74fa305e943544dab3c157405e882ef090c8beeeb81cf46f45cf",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -197,16 +202,12 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r92_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "fab811e823661f7f6392c2757edc3bef740e29818e8dd73c5df2ad1e7ba0c983",
-      "afterSha256": "a669eb8c2cde7611b3dd00e5f325ce215ddfd5a96ed25d3b9d13d9735d8d6a66",
+      "afterSha256": "3830bdb3e2be7519881964aea4c04afe68ee14b353cd5d95d764435ab68c19da",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -268,7 +269,8 @@
           "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
           "entryCount": 5,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -282,6 +284,14 @@
           "action": "R92 phase-governance artifact governance",
           "reviewer": "r92_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -289,7 +299,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-684",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -338,8 +348,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "fab811e823661f7f6392c2757edc3bef740e29818e8dd73c5df2ad1e7ba0c983",
-        "afterSha256": "a669eb8c2cde7611b3dd00e5f325ce215ddfd5a96ed25d3b9d13d9735d8d6a66",
+        "previousAfterSha256": "a669eb8c2cde7611b3dd00e5f325ce215ddfd5a96ed25d3b9d13d9735d8d6a66",
+        "afterSha256": "3830bdb3e2be7519881964aea4c04afe68ee14b353cd5d95d764435ab68c19da",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -367,16 +377,12 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r92_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "3982f8ff2322387c2b2c7e2ec1b08be916e75c4b7c28800bf2e5220216199afe",
-      "afterSha256": "e5963165e2e4d227037807d2d4c232c6e2d84f933ce9e76c388f7bce95a3c064",
+      "afterSha256": "fcf355dbd8af0b40fe4fe6db903f1ac13011eae4fe35940f22e4d449fbfb1bd3",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -438,7 +444,8 @@
           "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
           "entryCount": 50,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -452,6 +459,14 @@
           "action": "R92 phase-governance artifact governance",
           "reviewer": "r92_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -459,7 +474,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-7883",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -508,8 +523,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "3982f8ff2322387c2b2c7e2ec1b08be916e75c4b7c28800bf2e5220216199afe",
-        "afterSha256": "e5963165e2e4d227037807d2d4c232c6e2d84f933ce9e76c388f7bce95a3c064",
+        "previousAfterSha256": "e5963165e2e4d227037807d2d4c232c6e2d84f933ce9e76c388f7bce95a3c064",
+        "afterSha256": "fcf355dbd8af0b40fe4fe6db903f1ac13011eae4fe35940f22e4d449fbfb1bd3",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -537,16 +552,12 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r92_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "63a4d599ec97057f39aac26a610b688eb283d1b1770936f62cfa4cdb92bf0634",
-      "afterSha256": "d6617209e6ff250bb85e01ef9de1d95f80f674bc3c6a2d084192dd63d2655dc3",
+      "afterSha256": "05c6e2b0187970cfd8bf5bd5685a25e23739aba0511895c0acd7b9eec9fdba94",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -608,7 +619,8 @@
           "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
           "entryCount": 50,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -622,6 +634,14 @@
           "action": "R92 phase-governance artifact governance",
           "reviewer": "r92_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -629,7 +649,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-8009",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -678,8 +698,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "63a4d599ec97057f39aac26a610b688eb283d1b1770936f62cfa4cdb92bf0634",
-        "afterSha256": "d6617209e6ff250bb85e01ef9de1d95f80f674bc3c6a2d084192dd63d2655dc3",
+        "previousAfterSha256": "d6617209e6ff250bb85e01ef9de1d95f80f674bc3c6a2d084192dd63d2655dc3",
+        "afterSha256": "05c6e2b0187970cfd8bf5bd5685a25e23739aba0511895c0acd7b9eec9fdba94",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -707,16 +727,12 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r92_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "0b7c72d91739cc2f0868fa6ff1b572c423bd914de918a48921b3d27130007ac4",
-      "afterSha256": "3604ebbb83ec044ac87e300f70a05a3769623facc866221094d133c31c66a740",
+      "afterSha256": "f07fc07c50517ef76d585105b1bb65211e867330e16f697c007ccd672ee78b5c",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -778,7 +794,8 @@
           "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
           "entryCount": 50,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -792,6 +809,14 @@
           "action": "R92 phase-governance artifact governance",
           "reviewer": "r92_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -799,7 +824,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-7705",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -848,8 +873,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "0b7c72d91739cc2f0868fa6ff1b572c423bd914de918a48921b3d27130007ac4",
-        "afterSha256": "3604ebbb83ec044ac87e300f70a05a3769623facc866221094d133c31c66a740",
+        "previousAfterSha256": "3604ebbb83ec044ac87e300f70a05a3769623facc866221094d133c31c66a740",
+        "afterSha256": "f07fc07c50517ef76d585105b1bb65211e867330e16f697c007ccd672ee78b5c",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -877,16 +902,12 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r92_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "fdb09d4eeadeb403004a483e055442f000ca25eda388723d9086ff8d40440b7b",
-      "afterSha256": "63fcec1928402687dfed62ae2a768b78a30dfa3027f9ee0fc9a5bd9219562114",
+      "afterSha256": "b78edd35d29a2530723d0eb3494ba3b138b1c717e7f96980e6d64bb6e61e0a81",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -948,7 +969,8 @@
           "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
           "entryCount": 50,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -962,6 +984,14 @@
           "action": "R92 phase-governance artifact governance",
           "reviewer": "r92_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -969,7 +999,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-7698",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -1018,8 +1048,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "fdb09d4eeadeb403004a483e055442f000ca25eda388723d9086ff8d40440b7b",
-        "afterSha256": "63fcec1928402687dfed62ae2a768b78a30dfa3027f9ee0fc9a5bd9219562114",
+        "previousAfterSha256": "63fcec1928402687dfed62ae2a768b78a30dfa3027f9ee0fc9a5bd9219562114",
+        "afterSha256": "b78edd35d29a2530723d0eb3494ba3b138b1c717e7f96980e6d64bb6e61e0a81",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -1047,16 +1077,12 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r92_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e932fca7ede288213a73c3b55dc94367dfba6bcd83c26fc9b28401fb6f10ab55",
-      "afterSha256": "222afeb822ebc1f88a12f5cc5fe9da437a146f6553e8916c1618bc46b0abf1c4",
+      "afterSha256": "e59df709562c21430ced27dbae57a3cb948ed81edc189c4f7b0bfe6dc39e44b4",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1118,7 +1144,8 @@
           "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
           "entryCount": 50,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1132,6 +1159,14 @@
           "action": "R92 phase-governance artifact governance",
           "reviewer": "r92_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -1139,7 +1174,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-7765",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -1188,8 +1223,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "e932fca7ede288213a73c3b55dc94367dfba6bcd83c26fc9b28401fb6f10ab55",
-        "afterSha256": "222afeb822ebc1f88a12f5cc5fe9da437a146f6553e8916c1618bc46b0abf1c4",
+        "previousAfterSha256": "222afeb822ebc1f88a12f5cc5fe9da437a146f6553e8916c1618bc46b0abf1c4",
+        "afterSha256": "e59df709562c21430ced27dbae57a3cb948ed81edc189c4f7b0bfe6dc39e44b4",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -1217,16 +1252,12 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r92_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "99eac885b172edaa05f182fa734e7e6b51b4f3fc85b673eb7b0d9649b1bcc56f",
-      "afterSha256": "b52b91f33437de876198d8e4ddbebd080eb13a4494e08072ee26e1d31fbbe0cb",
+      "afterSha256": "6806337bc9a00291543d92c60eabc7ae2677c1563fcf82409a2b9fe21a171d94",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1288,7 +1319,8 @@
           "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
           "entryCount": 50,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1302,6 +1334,14 @@
           "action": "R92 phase-governance artifact governance",
           "reviewer": "r92_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -1309,7 +1349,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-7743",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -1358,8 +1398,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "99eac885b172edaa05f182fa734e7e6b51b4f3fc85b673eb7b0d9649b1bcc56f",
-        "afterSha256": "b52b91f33437de876198d8e4ddbebd080eb13a4494e08072ee26e1d31fbbe0cb",
+        "previousAfterSha256": "b52b91f33437de876198d8e4ddbebd080eb13a4494e08072ee26e1d31fbbe0cb",
+        "afterSha256": "6806337bc9a00291543d92c60eabc7ae2677c1563fcf82409a2b9fe21a171d94",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -1387,16 +1427,12 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r92_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a907292200be026214de05c3312015b0f1d7175c303b163ca0fc1d95585a6688",
-      "afterSha256": "07b96bbc4f242435b960a73fc07ff1bec8f9be1b5023cbb794e249d8f0565061",
+      "afterSha256": "b6a185321e7f6e486e7d7ed316ead8e59cc7d3c3d9caf89240a0cdafb7541717",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1458,7 +1494,8 @@
           "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
           "entryCount": 50,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1472,6 +1509,14 @@
           "action": "R92 phase-governance artifact governance",
           "reviewer": "r92_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -1479,7 +1524,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-7761",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -1528,8 +1573,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "a907292200be026214de05c3312015b0f1d7175c303b163ca0fc1d95585a6688",
-        "afterSha256": "07b96bbc4f242435b960a73fc07ff1bec8f9be1b5023cbb794e249d8f0565061",
+        "previousAfterSha256": "07b96bbc4f242435b960a73fc07ff1bec8f9be1b5023cbb794e249d8f0565061",
+        "afterSha256": "b6a185321e7f6e486e7d7ed316ead8e59cc7d3c3d9caf89240a0cdafb7541717",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -1557,16 +1602,12 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r92_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e6babd2a47f586dbe16a2ea49bdbf1bb42d329c21481e47d47f1b8acb300e7a8",
-      "afterSha256": "061dd28efd149a9a463969e2c212c7792f2e8cedbb04a1641b51b3cfeac9c2be",
+      "afterSha256": "bdb46a88d9965a1ba714bb8bf4a832bb625ff12c8417cb5cc7f67c75e979f407",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1628,7 +1669,8 @@
           "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
           "entryCount": 50,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1642,6 +1684,14 @@
           "action": "R92 phase-governance artifact governance",
           "reviewer": "r92_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -1649,7 +1699,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-7921",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -1698,8 +1748,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "e6babd2a47f586dbe16a2ea49bdbf1bb42d329c21481e47d47f1b8acb300e7a8",
-        "afterSha256": "061dd28efd149a9a463969e2c212c7792f2e8cedbb04a1641b51b3cfeac9c2be",
+        "previousAfterSha256": "061dd28efd149a9a463969e2c212c7792f2e8cedbb04a1641b51b3cfeac9c2be",
+        "afterSha256": "bdb46a88d9965a1ba714bb8bf4a832bb625ff12c8417cb5cc7f67c75e979f407",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -1727,16 +1777,12 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r92_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "9222029236d8cd4cf41ab26272b8d94ef470185118f4d958d69cbb2bc74dcbd5",
-      "afterSha256": "183bd20c340b24e2bef68b24989b041053aead209030fb397a609b9e337dab49",
+      "afterSha256": "aea4bd49b0badfd9f259cd5846f2dc5368d4127f759cbec714eb53319bdd7848",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1798,7 +1844,8 @@
           "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
           "entryCount": 50,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1812,6 +1859,14 @@
           "action": "R92 phase-governance artifact governance",
           "reviewer": "r92_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -1819,7 +1874,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-7882",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -1868,8 +1923,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "9222029236d8cd4cf41ab26272b8d94ef470185118f4d958d69cbb2bc74dcbd5",
-        "afterSha256": "183bd20c340b24e2bef68b24989b041053aead209030fb397a609b9e337dab49",
+        "previousAfterSha256": "183bd20c340b24e2bef68b24989b041053aead209030fb397a609b9e337dab49",
+        "afterSha256": "aea4bd49b0badfd9f259cd5846f2dc5368d4127f759cbec714eb53319bdd7848",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -1897,16 +1952,12 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r92_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "b9f829b53949ebe4b97ec5b08304e561305c1fc2a90e323d7de937d2000838f4",
-      "afterSha256": "17c1aa4bc63ff0bc2e6fcee6de2919b6e119fdec4cc36c7c78b9745ebd220351",
+      "afterSha256": "be878bfb97f7a9b6130778c7335656a1c7d7a046ed058c949942187dca0e939a",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1968,7 +2019,8 @@
           "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
           "entryCount": 33,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1982,6 +2034,14 @@
           "action": "R92 phase-governance artifact governance",
           "reviewer": "r92_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -1989,7 +2049,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-5076",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -2038,8 +2098,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "b9f829b53949ebe4b97ec5b08304e561305c1fc2a90e323d7de937d2000838f4",
-        "afterSha256": "17c1aa4bc63ff0bc2e6fcee6de2919b6e119fdec4cc36c7c78b9745ebd220351",
+        "previousAfterSha256": "17c1aa4bc63ff0bc2e6fcee6de2919b6e119fdec4cc36c7c78b9745ebd220351",
+        "afterSha256": "be878bfb97f7a9b6130778c7335656a1c7d7a046ed058c949942187dca0e939a",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -2067,16 +2127,12 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r92_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "7ec9d1a89fa3334a445b84aafbe49cc6dcd982a488529e3cc1eecdcaefd3130b",
-      "afterSha256": "21debf88bfb0558609598cd589c391cf7e1fdddbc7c0f2a772c3c3a5b42b2e62",
+      "afterSha256": "69c117fdf8965f13ec25ffd226bb33d88042f303f94bbd16c1172363616ef889",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -2138,7 +2194,8 @@
           "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
           "entryCount": 50,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -2152,6 +2209,14 @@
           "action": "R92 phase-governance artifact governance",
           "reviewer": "r92_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -2159,7 +2224,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-7946",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -2208,8 +2273,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "7ec9d1a89fa3334a445b84aafbe49cc6dcd982a488529e3cc1eecdcaefd3130b",
-        "afterSha256": "21debf88bfb0558609598cd589c391cf7e1fdddbc7c0f2a772c3c3a5b42b2e62",
+        "previousAfterSha256": "21debf88bfb0558609598cd589c391cf7e1fdddbc7c0f2a772c3c3a5b42b2e62",
+        "afterSha256": "69c117fdf8965f13ec25ffd226bb33d88042f303f94bbd16c1172363616ef889",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -2237,16 +2302,12 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r92_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "57bfe8c55e581db6c9d50873e3adab854f3692e4c4a7aaafa1cc5668eeef7b0a",
-      "afterSha256": "181a621c14d6532abba1617e4fe3d31e151a1aa1aa0f2f0e734e47e60cca40af",
+      "afterSha256": "0560f3a23c210deebc04cf3f3524b6d52a0ac00d1e9831ce1c911b66574b7eb8",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -2308,7 +2369,8 @@
           "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
           "entryCount": 50,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -2322,6 +2384,14 @@
           "action": "R92 phase-governance artifact governance",
           "reviewer": "r92_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -2329,7 +2399,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-7929",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -2378,8 +2448,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "57bfe8c55e581db6c9d50873e3adab854f3692e4c4a7aaafa1cc5668eeef7b0a",
-        "afterSha256": "181a621c14d6532abba1617e4fe3d31e151a1aa1aa0f2f0e734e47e60cca40af",
+        "previousAfterSha256": "181a621c14d6532abba1617e4fe3d31e151a1aa1aa0f2f0e734e47e60cca40af",
+        "afterSha256": "0560f3a23c210deebc04cf3f3524b6d52a0ac00d1e9831ce1c911b66574b7eb8",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -2407,16 +2477,12 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r92_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "2ccc9e897b116c467fa5d720f32719d81bacd3050d9d7bd2c91959292d292be4",
-      "afterSha256": "391cc31f50732b57b8e3eb3fc35ca6398b6716ea0726ade248634e0f554447d1",
+      "afterSha256": "39980baccbf7b7c838224c28bcff03dc2be4ca8df8c22609ad3908768182a01f",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -2478,7 +2544,8 @@
           "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
           "entryCount": 4,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -2492,6 +2559,14 @@
           "action": "R92 phase-governance artifact governance",
           "reviewer": "r92_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -2499,7 +2574,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-555",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -2548,8 +2623,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "2ccc9e897b116c467fa5d720f32719d81bacd3050d9d7bd2c91959292d292be4",
-        "afterSha256": "391cc31f50732b57b8e3eb3fc35ca6398b6716ea0726ade248634e0f554447d1",
+        "previousAfterSha256": "391cc31f50732b57b8e3eb3fc35ca6398b6716ea0726ade248634e0f554447d1",
+        "afterSha256": "39980baccbf7b7c838224c28bcff03dc2be4ca8df8c22609ad3908768182a01f",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -2577,16 +2652,12 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r92_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "25d2c93e055d812a55bc9236fb3a2f5e9885e97225423abf200a2fd16dc853cc",
-      "afterSha256": "3d959bed9b4f8838fb1785e267d427a49cd77672dde1cb048a4def57453dc066",
+      "afterSha256": "1dfff39b27f0d32f6c9c890f771441878519908d1ecb8e5128e7cc167e95985f",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -2648,7 +2719,8 @@
           "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
           "entryCount": 1,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -2662,6 +2734,14 @@
           "action": "R92 phase-governance artifact governance",
           "reviewer": "r92_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -2669,7 +2749,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-141",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -2718,8 +2798,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "25d2c93e055d812a55bc9236fb3a2f5e9885e97225423abf200a2fd16dc853cc",
-        "afterSha256": "3d959bed9b4f8838fb1785e267d427a49cd77672dde1cb048a4def57453dc066",
+        "previousAfterSha256": "3d959bed9b4f8838fb1785e267d427a49cd77672dde1cb048a4def57453dc066",
+        "afterSha256": "1dfff39b27f0d32f6c9c890f771441878519908d1ecb8e5128e7cc167e95985f",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -2747,16 +2827,12 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r92_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4388f8b6c8fd5724a71649e2b8092bdd4fb74026fb843b7e8433636aeb19cfda",
-      "afterSha256": "bde1d7a8fc753e31b99897df4337b0af510256e95c340681d37354890e5dda0b",
+      "afterSha256": "3407f119ab8b8ded5d8fc40ef4eef808d4487885c1353e89ed420ea0b087f051",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -2818,7 +2894,8 @@
           "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
           "entryCount": 100,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -2832,6 +2909,14 @@
           "action": "R92 phase-governance artifact governance",
           "reviewer": "r92_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -2839,7 +2924,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-17092",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -2888,8 +2973,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "4388f8b6c8fd5724a71649e2b8092bdd4fb74026fb843b7e8433636aeb19cfda",
-        "afterSha256": "bde1d7a8fc753e31b99897df4337b0af510256e95c340681d37354890e5dda0b",
+        "previousAfterSha256": "bde1d7a8fc753e31b99897df4337b0af510256e95c340681d37354890e5dda0b",
+        "afterSha256": "3407f119ab8b8ded5d8fc40ef4eef808d4487885c1353e89ed420ea0b087f051",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -2917,16 +3002,12 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r92_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a7192286f68e6f85b32ce1e3379272d12bb7e46bc6e7a6c690cddd24f97206bd",
-      "afterSha256": "d8736439dfccf6fedc384762c768552a7927e6c8a0a4bd5fe7dc451db5b6e627",
+      "afterSha256": "31d980ff2dec1b95e7149d305f2da12bdedb560fc74ed4829cca9c073234e840",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -2988,7 +3069,8 @@
           "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
           "entryCount": 100,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -3002,6 +3084,14 @@
           "action": "R92 phase-governance artifact governance",
           "reviewer": "r92_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -3009,7 +3099,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-16667",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -3058,8 +3148,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "a7192286f68e6f85b32ce1e3379272d12bb7e46bc6e7a6c690cddd24f97206bd",
-        "afterSha256": "d8736439dfccf6fedc384762c768552a7927e6c8a0a4bd5fe7dc451db5b6e627",
+        "previousAfterSha256": "d8736439dfccf6fedc384762c768552a7927e6c8a0a4bd5fe7dc451db5b6e627",
+        "afterSha256": "31d980ff2dec1b95e7149d305f2da12bdedb560fc74ed4829cca9c073234e840",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -3087,16 +3177,12 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r92_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4d542cdf011e44405f837e1a1339eca3393e957d756ab3e704d7f64e21f1484f",
-      "afterSha256": "9b5903c7926a281fbf7c102ad416b6363821401f7567bc84bd8c537c5da7d4b0",
+      "afterSha256": "93611619df0d8f8f83719adeb7f8e553266c40709f36495dbba549f451550eb7",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -3158,7 +3244,8 @@
           "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
           "entryCount": 100,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -3172,6 +3259,14 @@
           "action": "R92 phase-governance artifact governance",
           "reviewer": "r92_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -3179,7 +3274,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-17223",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -3228,8 +3323,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "4d542cdf011e44405f837e1a1339eca3393e957d756ab3e704d7f64e21f1484f",
-        "afterSha256": "9b5903c7926a281fbf7c102ad416b6363821401f7567bc84bd8c537c5da7d4b0",
+        "previousAfterSha256": "9b5903c7926a281fbf7c102ad416b6363821401f7567bc84bd8c537c5da7d4b0",
+        "afterSha256": "93611619df0d8f8f83719adeb7f8e553266c40709f36495dbba549f451550eb7",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -3257,16 +3352,12 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r92_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "5af6f7d0ceb7b0ab77214b09f33163ff9bdcd6e7f522c85f042c48f09526cbc1",
-      "afterSha256": "96377ec2228b1d39d69cf10e4044f57973d95fd183b8ca393e12dd4f86698498",
+      "afterSha256": "abc51c664cbf2db32056e5ae6b52764a19772d09bcb10beb2db8c54885d477c7",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -3328,7 +3419,8 @@
           "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
           "entryCount": 99,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -3342,6 +3434,14 @@
           "action": "R92 phase-governance artifact governance",
           "reviewer": "r92_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -3349,7 +3449,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-16887",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -3398,8 +3498,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "5af6f7d0ceb7b0ab77214b09f33163ff9bdcd6e7f522c85f042c48f09526cbc1",
-        "afterSha256": "96377ec2228b1d39d69cf10e4044f57973d95fd183b8ca393e12dd4f86698498",
+        "previousAfterSha256": "96377ec2228b1d39d69cf10e4044f57973d95fd183b8ca393e12dd4f86698498",
+        "afterSha256": "abc51c664cbf2db32056e5ae6b52764a19772d09bcb10beb2db8c54885d477c7",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -3427,16 +3527,12 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r92_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "fd99fc9eba6fbff81f2639cce03e5fc293a35ccd83eff185eb7b35305bbb93d3",
-      "afterSha256": "3d8ee7c3932e2f328815d9a1535db752e43ca215206b14fc0de25a78087e4143",
+      "afterSha256": "5b6e9bbab582e6d2394c2f956d44dd0f72e8016743458ece67865ea4e5d4ad14",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -3498,7 +3594,8 @@
           "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
           "entryCount": 100,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -3512,6 +3609,14 @@
           "action": "R92 phase-governance artifact governance",
           "reviewer": "r92_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -3519,7 +3624,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-17036",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -3568,8 +3673,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "fd99fc9eba6fbff81f2639cce03e5fc293a35ccd83eff185eb7b35305bbb93d3",
-        "afterSha256": "3d8ee7c3932e2f328815d9a1535db752e43ca215206b14fc0de25a78087e4143",
+        "previousAfterSha256": "3d8ee7c3932e2f328815d9a1535db752e43ca215206b14fc0de25a78087e4143",
+        "afterSha256": "5b6e9bbab582e6d2394c2f956d44dd0f72e8016743458ece67865ea4e5d4ad14",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -3597,16 +3702,12 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r92_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "97912888ab9dc9ddf045760fc9c4b085ff71cd3c968a631a748fdea95ed7a02a",
-      "afterSha256": "999c3d1528ecfdad8461bf293d567813384be3319112449ef4c2836dc0940ce0",
+      "afterSha256": "1a25844581630e8ca6337edb9d6caaae3a22d6a0b05a9b1c853e8e952f35b8de",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -3668,7 +3769,8 @@
           "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
           "entryCount": 100,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -3682,6 +3784,14 @@
           "action": "R92 phase-governance artifact governance",
           "reviewer": "r92_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -3689,7 +3799,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-16436",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -3738,8 +3848,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "97912888ab9dc9ddf045760fc9c4b085ff71cd3c968a631a748fdea95ed7a02a",
-        "afterSha256": "999c3d1528ecfdad8461bf293d567813384be3319112449ef4c2836dc0940ce0",
+        "previousAfterSha256": "999c3d1528ecfdad8461bf293d567813384be3319112449ef4c2836dc0940ce0",
+        "afterSha256": "1a25844581630e8ca6337edb9d6caaae3a22d6a0b05a9b1c853e8e952f35b8de",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -3767,16 +3877,12 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r92_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "87b393dbcc5883d7e7ff556ddcb1dd72cc4d171d8ea2fae784b0393b858a919d",
-      "afterSha256": "eecc5b81ec7e9e9c579afd7d98068bc1e5f365273892bdfcde9eb1d99a4b0532",
+      "afterSha256": "41d702dea6763a36e1b8f04212321a375199f85cd6cafb9d797e85055da0e4dd",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -3838,7 +3944,8 @@
           "topLevelKeys": ["schemaVersion", "id", "reviewer", "reviewDate", "policy", "entries"],
           "entryCount": 99,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -3852,6 +3959,14 @@
           "action": "R92 phase-governance artifact governance",
           "reviewer": "r92_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -3859,7 +3974,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-16621",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -3908,8 +4023,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "87b393dbcc5883d7e7ff556ddcb1dd72cc4d171d8ea2fae784b0393b858a919d",
-        "afterSha256": "eecc5b81ec7e9e9c579afd7d98068bc1e5f365273892bdfcde9eb1d99a4b0532",
+        "previousAfterSha256": "eecc5b81ec7e9e9c579afd7d98068bc1e5f365273892bdfcde9eb1d99a4b0532",
+        "afterSha256": "41d702dea6763a36e1b8f04212321a375199f85cd6cafb9d797e85055da0e4dd",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -3937,13 +4052,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r92_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "26211ddd76d51e6782ff42e971075f719b58c3b407f86b1b2bc7118d7b5f8def",
       "afterSha256": "6f07fdc168c175fc136592d03dd10725c14c3c3aecc48666bbc9d42032b1fecc",
@@ -4007,7 +4118,8 @@
           "title": "内容深审记录",
           "sourceLines": 54,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -4021,6 +4133,14 @@
           "action": "R92 phase-governance artifact governance",
           "reviewer": "r92_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -4028,7 +4148,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-94",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -4081,5 +4201,10 @@
     "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
     "task": "DOCS-RECORD-INTEGRITY-1",
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  },
+  "historicalReviewIdentity": {
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+    "recordPath": "docs/phase-governance/reviews/20261017-r92-phase-governance-artifacts.json",
+    "meaning": "Original reviewer/policy/migration summary are historical claims at this revision; current correction supersedes their semantic and independence credit."
   }
 }

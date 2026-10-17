@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "20261017-r41-ops-archive-task",
-  "reviewer": "Codex root",
+  "reviewer": "Codex corrective mechanical maintenance; author self-check only",
   "reviewDate": "2026-10-17",
-  "policy": "R41 migration of 10 ops archive task/index Markdown documents; preserve source/history; no execution credit.",
+  "policy": "Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalReviewIdentity; no full-text re-review is asserted.",
   "entries": [
     {
       "path": "docs/ops/archive/tasks/done/README.md",
@@ -27,13 +27,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r41_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "ebe989d4500ded8bde1a3ed6e989136b71892e530b4c51640104d7ec8ebd276d",
       "afterSha256": "2b816a9611098ffad7537cec568224958631f1d32a61982ea5653311204765d0",
@@ -89,7 +85,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "ebe989d4500ded8bde1a3ed6e989136b71892e530b4c51640104d7ec8ebd276d",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -103,12 +100,20 @@
           "action": "R41 archive task template migration",
           "reviewer": "r41_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
       "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
-      "reviewedLines": "1-60",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "documentStatus": "current-index",
@@ -171,13 +176,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r41_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "9ea8bfd6be0b18e230315ea77305b9405d14914478f86f5b07a19154f092d590",
       "afterSha256": "fab9411d84f94350cadb921500457958247346901562f0842d614c4f9dbc55e8",
@@ -230,7 +231,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "9ea8bfd6be0b18e230315ea77305b9405d14914478f86f5b07a19154f092d590",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -244,12 +246,20 @@
           "action": "R41 archive task template migration",
           "reviewer": "r41_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
       "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
-      "reviewedLines": "1-63",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "documentStatus": "current-index",
@@ -314,13 +324,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r41_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "d0c6ef27ea94da78cd637946f4c9beb178979f95e9b89494f8a0a73af07a8cc1",
       "afterSha256": "5eca773a5d5f5b56759c1a22d9bfcd9ee43b6a880e2c4a657e50c25733849545",
@@ -379,7 +385,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "d0c6ef27ea94da78cd637946f4c9beb178979f95e9b89494f8a0a73af07a8cc1",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -393,12 +400,20 @@
           "action": "R41 archive task template migration",
           "reviewer": "r41_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
       "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
-      "reviewedLines": "1-85",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "documentStatus": "historical-done",
@@ -463,13 +478,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r41_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a35e154472bc36e7eb0d1056ea841b0f963b5ec7367821e653d1963932212e19",
       "afterSha256": "339fc90e5367121c45057213f478bdcc0794ba41eda204509315b221d6118633",
@@ -528,7 +539,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "a35e154472bc36e7eb0d1056ea841b0f963b5ec7367821e653d1963932212e19",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -542,12 +554,20 @@
           "action": "R41 archive task template migration",
           "reviewer": "r41_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
       "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
-      "reviewedLines": "1-85",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "documentStatus": "historical-done",
@@ -612,13 +632,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r41_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "9a18297801768d3345b163751b3f10720d95d80dab2198aee56e2319c7edd900",
       "afterSha256": "f8be7ac0e7d46e734cb4af3014961cc00fb904f90b8324078566f2b8ab80b409",
@@ -677,7 +693,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "9a18297801768d3345b163751b3f10720d95d80dab2198aee56e2319c7edd900",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -691,12 +708,20 @@
           "action": "R41 archive task template migration",
           "reviewer": "r41_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
       "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
-      "reviewedLines": "1-86",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "documentStatus": "historical-done",
@@ -759,13 +784,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r41_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "94e9abeecf99cf52a76db6bc2cb63be7534f548afa9e7203be68ea3cb94ee472",
       "afterSha256": "f774c2c4a0aff5c1b2ea745679e368d4a94b198eef8bb6cd47f2d819f7049d1a",
@@ -824,7 +845,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "94e9abeecf99cf52a76db6bc2cb63be7534f548afa9e7203be68ea3cb94ee472",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -838,12 +860,20 @@
           "action": "R41 archive task template migration",
           "reviewer": "r41_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
       "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
-      "reviewedLines": "1-88",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "documentStatus": "historical-done",
@@ -908,13 +938,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r41_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "50e044a0c92713dd1908aeb9e34b7e081ee8ca74c3370cf789cd2a0e6c57cb5c",
       "afterSha256": "1f3921f8a24d71aeb381c1822b44fbb37208b10a0ec4c663e413d5a407ff97f9",
@@ -973,7 +999,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "50e044a0c92713dd1908aeb9e34b7e081ee8ca74c3370cf789cd2a0e6c57cb5c",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -987,12 +1014,20 @@
           "action": "R41 archive task template migration",
           "reviewer": "r41_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
       "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
-      "reviewedLines": "1-89",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "documentStatus": "historical-done",
@@ -1055,13 +1090,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r41_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "baf69349bd48a3abd9a96eb1c55f10255d334f624a8e87f9ed79b7f0c7bc9bd9",
       "afterSha256": "9fd614d3521a389c056aa97f92806007977083f9de34e3938bf66a99e3017c3c",
@@ -1120,7 +1151,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "baf69349bd48a3abd9a96eb1c55f10255d334f624a8e87f9ed79b7f0c7bc9bd9",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1134,12 +1166,20 @@
           "action": "R41 archive task template migration",
           "reviewer": "r41_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
       "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
-      "reviewedLines": "1-89",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "documentStatus": "historical-done",
@@ -1202,13 +1242,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r41_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cbee188f31d42785557a6e612523abd55117043bc3571d429f6b379c8f78621a",
       "afterSha256": "184c864e722a7ffd027387f1070997e8e441c5c3a20701feb5f0ae34d31c0653",
@@ -1267,7 +1303,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "cbee188f31d42785557a6e612523abd55117043bc3571d429f6b379c8f78621a",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1281,12 +1318,20 @@
           "action": "R41 archive task template migration",
           "reviewer": "r41_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
       "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
-      "reviewedLines": "1-91",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "documentStatus": "historical-done",
@@ -1349,13 +1394,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r41_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "c582ed6065cd167e52ad0d85d9949452c47b5c142407d1665f80a384beaf5504",
       "afterSha256": "b7110dc09ec1336a4111b585317ef64d4b6d6f30c4ad2019636c34334a2f6abb",
@@ -1414,7 +1455,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "c582ed6065cd167e52ad0d85d9949452c47b5c142407d1665f80a384beaf5504",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1428,12 +1470,20 @@
           "action": "R41 archive task template migration",
           "reviewer": "r41_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
       "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
-      "reviewedLines": "1-91",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "documentStatus": "historical-done",
@@ -1480,5 +1530,10 @@
     "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
     "task": "DOCS-RECORD-INTEGRITY-1",
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  },
+  "historicalReviewIdentity": {
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+    "recordPath": "docs/phase-governance/reviews/20261017-r41-ops-archive-task.json",
+    "meaning": "Original reviewer/policy/migration summary are historical claims at this revision; current correction supersedes their semantic and independence credit."
   }
 }

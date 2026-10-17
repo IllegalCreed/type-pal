@@ -24,9 +24,9 @@
     }
   ],
   "summary": {
-    "total": 2357,
+    "total": 2358,
     "byPhase": {
-      "ops": 1263,
+      "ops": 1264,
       "lore": 14,
       "phase1": 60,
       "phase2": 109,
@@ -37,7 +37,7 @@
     "byType": {
       "task-card": 364,
       "guide-runbook": 17,
-      "archive-record": 1486,
+      "archive-record": 1487,
       "audit-report": 59,
       "governance-index": 107,
       "evidence-receipt": 100,
@@ -54,11 +54,11 @@
       "test-catalog": 4
     },
     "reviewStatus": {
-      "partial-review-unknown": 1909,
+      "partial-review-unknown": 1910,
       "content-reviewed": 448
     },
     "templateCompliance": {
-      "needs-migration": 1909,
+      "needs-migration": 1910,
       "template-compliant": 448
     }
   },
@@ -27321,6 +27321,18 @@
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",
       "reviewRecord": "20261018-record-integrity-rework.json"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-a1622b45-a149-4288-9f17-7799d1236ed9.json",
+      "phase": "ops",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "templateVersion": "1.0.0",
+      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "needs-migration",
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "artifactOnly": true,
+      "artifactFormat": "json"
     }
   ],
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."

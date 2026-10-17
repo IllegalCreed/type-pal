@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "semantic-current-document-review-20261004",
-  "reviewer": "Codex",
+  "reviewer": "Codex corrective mechanical maintenance; author self-check only",
   "reviewDate": "2026-10-04",
-  "policy": "Full-text semantic review for current governance and author-facing documents; historical/large ledger documents remain structured-content review and are not silently promoted.",
+  "policy": "Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalReviewIdentity; no full-text re-review is asserted.",
   "entries": [
     {
       "path": "docs/ops/agent-workflow.md",
@@ -407,7 +407,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "92408414764bc3e99d561b5b8f688bcdbce24559517d1cb05b8fa01baf90920b",
+      "afterSha256": "86271845d1365d95605f544f99f452f3fcff4a8fcf54f7b6f5e3088008182c24",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -871,8 +871,8 @@
       "historyOverlay": false,
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "afterSha256": "92408414764bc3e99d561b5b8f688bcdbce24559517d1cb05b8fa01baf90920b",
+        "previousAfterSha256": "92408414764bc3e99d561b5b8f688bcdbce24559517d1cb05b8fa01baf90920b",
+        "afterSha256": "86271845d1365d95605f544f99f452f3fcff4a8fcf54f7b6f5e3088008182c24",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -1110,7 +1110,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "8758462ab37a39a7ef821f2e19bdbc81e7310ec485f96b8bee8eabc1890efc47",
+      "afterSha256": "b72083dfb2dedf727d7d7d63a1326ce8b9fb2527848f5dbff12dc3595b62e083",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -1616,8 +1616,8 @@
       "historyOverlay": false,
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
-        "afterSha256": "8758462ab37a39a7ef821f2e19bdbc81e7310ec485f96b8bee8eabc1890efc47",
+        "previousAfterSha256": "8758462ab37a39a7ef821f2e19bdbc81e7310ec485f96b8bee8eabc1890efc47",
+        "afterSha256": "b72083dfb2dedf727d7d7d63a1326ce8b9fb2527848f5dbff12dc3595b62e083",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -2069,8 +2069,9 @@
       "owner": "Codex",
       "provenance": [
         "source-document",
-        "full-text-design-review",
-        "user-authorized-structural-decision"
+        "repository-history",
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e34cf74483a3a92246ee2a9d97fa96749f02829afc2e8f29e59ea67134657f7f",
       "afterSha256": "c76ded487bd9015a8b5691e5e0e1e1927593a364b5655406651d2661bf05aef0",
@@ -2138,7 +2139,8 @@
           "sha256": "7ebc1e3b02ae37c8f9069b17e890fd4a2074fbf4d1bdb42ca29dfc2da80c6334",
           "scope": "DOCS-CATALOG-SPLIT-1 记录实际分片、loader、consumer 和 pin 级联验收",
           "method": "full-text-read-plus-current-delta"
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -2154,12 +2156,20 @@
           "previousAfterSha256": "e34cf74483a3a92246ee2a9d97fa96749f02829afc2e8f29e59ea67134657f7f",
           "afterSha256": "7ebc1e3b02ae37c8f9069b17e890fd4a2074fbf4d1bdb42ca29dfc2da80c6334",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": ["byte-level catalog compression rescue as a long-term architecture"],
       "stopLine": "Do not change Biome maxSize, add ignore/exclude, or claim migration complete before loader pilot, exact-set consumer validation, SHA mapping and independent review.",
       "userVisibleBeforeAfter": "近 1 MiB 的单一 phase/lore machine catalog → 小 manifest、四个 phase shards 和一个确定性 loader；正文结论与机器字段不变。",
-      "reviewedLines": "1-237",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "reviewNotes": "DOCS-CATALOG-SPLIT-1 记录实际分片、loader、consumer 和 pin 级联验收；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。",
       "documentStatus": "current",
       "templateVersion": "1.0.0",
@@ -2185,5 +2195,10 @@
     "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
     "task": "DOCS-RECORD-INTEGRITY-1",
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  },
+  "historicalReviewIdentity": {
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+    "recordPath": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+    "meaning": "Original reviewer/policy/migration summary are historical claims at this revision; current correction supersedes their semantic and independence credit."
   }
 }

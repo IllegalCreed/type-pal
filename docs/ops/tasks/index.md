@@ -34,7 +34,7 @@ Template: governance-index-v1 / 1.0.0
 |---|---|---|
 | [DOCS-CATALOG-SPLIT-1 — phase/lore catalog 分片与统一 loader 迁移](DOCS-CATALOG-SPLIT-1.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写](DOCS-FULL-TEMPLATE-1.md) | rework | 以任务卡当前准入与看板分工为准。 |
-| [DOCS-RECORD-INTEGRITY-1 — R 波记录可信度撤回与补救](DOCS-RECORD-INTEGRITY-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [DOCS-RECORD-INTEGRITY-1 — R 波记录可信度撤回与补救](DOCS-RECORD-INTEGRITY-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-005-1 买虾出门与香兰报信](E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [E2E-006-1 — 回客栈求药与张四出海上仙灵岛](E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | 以任务卡当前准入与看板分工为准。 |
 | [E2E-R4-1 — 路线驱动与合法检查点薄基线](E2E-R4-1-route-and-checkpoint-foundation.md) | build | 以任务卡当前准入与看板分工为准。 |

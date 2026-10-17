@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "r80-testing-archive",
-  "reviewer": "Codex root full testing archive migration",
+  "reviewer": "Codex corrective mechanical maintenance; author self-check only",
   "reviewDate": "2026-10-17",
-  "policy": "R80: historical testing archive Markdown uses archive-record-v1 plus quote inverse; JSON remains byte-stable machine artifact under the same history envelope. Preserve source bytes/fields and execution boundaries; no execution credit.",
+  "policy": "Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalReviewIdentity; no full-text re-review is asserted.",
   "entries": [
     {
       "path": "docs/testing/archive/legacy/migration/supply-and-import/import-codec-acceptance.md",
@@ -29,13 +29,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cdc158e54718c7d91c7edb4d6462aade28d0de3991244e16893a41cda1d9a339",
       "afterSha256": "c450e0bd4d4681cccc345e48f3782c366977eb412fc573e1613cacd3fa598f89",
@@ -100,7 +96,8 @@
           "title": "TB-03 导入/编码合同补测：独立接收与集成",
           "sourceLines": 74,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -114,6 +111,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -121,7 +126,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-114",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -192,13 +197,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "dc786feb81db1bfac7ac295a9cc8fa47fa1f956647525ddc6df5dd456c4e05d6",
       "afterSha256": "dc786feb81db1bfac7ac295a9cc8fa47fa1f956647525ddc6df5dd456c4e05d6",
@@ -281,7 +282,8 @@
           ],
           "entryCount": null,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -295,6 +297,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -302,7 +312,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-119",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -374,13 +384,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "ad635c1b9ed13dc030b68bc319e2dd45293f1acdd767212219497a7b14020959",
       "afterSha256": "fd368bddba583557e8bcc8f42fdb70ca0ba8a77fc614425b934bec6dfd48e755",
@@ -445,7 +451,8 @@
           "title": "E1 迁移阶段所有权候选",
           "sourceLines": 51,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -459,6 +466,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -466,7 +481,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-91",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -537,13 +552,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "0040132ae8592688f33257b1d7e686903bf32c819c89f9e17e1847a6e23127d5",
       "afterSha256": "292f606a6457028c961fb7635606084871668c18cc368a6ef0a9d88e002bf469",
@@ -608,7 +619,8 @@
           "title": "MIGRATION-WRITE-GUARD-1 · 实施与验证",
           "sourceLines": 84,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -622,6 +634,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -629,7 +649,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-124",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -700,13 +720,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "730d4483051979a1122e89561e111856379c67b0db03a035db8eedb554cc3c80",
       "afterSha256": "0581beb674e8bf8968d986cde1cd68e85d22ca90b8d50743f770314c5facee2b",
@@ -771,7 +787,8 @@
           "title": "第一阶段资源对拍测试输入合同 · E-01",
           "sourceLines": 95,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -785,6 +802,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -792,7 +817,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-135",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -861,13 +886,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "7f0b2aca14997b24ebfd875333735ea0e14cf16f910d7bfba522a88416dc54db",
       "afterSha256": "16bf6234345e3c262d693a04cafc93ece8f8f77453041a1ef580cdac9b03f907",
@@ -927,7 +948,8 @@
           "title": "Legacy 历史归档：migration/testing-records",
           "sourceLines": 6,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -941,6 +963,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -948,7 +978,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-46",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -1019,13 +1049,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "5309260dea84bf51b20700725bce481818b110112ccb2fee90b7baae19bf0643",
       "afterSha256": "2b33211cc713686ef7684d3f5f7354235381541c0709c24e8f7ec453a261aacb",
@@ -1086,7 +1112,8 @@
           "title": "DOC-CURSOR-1 — Codex独立接收复核",
           "sourceLines": 121,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1100,6 +1127,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -1107,7 +1142,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-161",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -1176,13 +1211,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "f41c497188a47ebf5ba12b434e89acd590cebcbff0726fb12d761e99c763a515",
       "afterSha256": "02b52c8178dccf28501144c569158478cbb7d08198da2b3d2e571daddbf12583",
@@ -1242,7 +1273,8 @@
           "title": "Legacy 历史归档：ops",
           "sourceLines": 6,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1256,6 +1288,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -1263,7 +1303,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-46",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -1332,13 +1372,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "260b588ad7dea3412cb25b0aa51268f0fc4df192aec0f3b338eb8aaf91473c64",
       "afterSha256": "3f854013d812347a9a9c34d3b430d39cfaf092ca721fa38e7c12a58748e9e0d4",
@@ -1401,7 +1437,8 @@
           "title": "Legacy 历史归档：ops/testing-records",
           "sourceLines": 24,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1415,6 +1452,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -1422,7 +1467,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-64",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -1493,13 +1538,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "3963adf5ccc270db23a06924308a10fdf9f12ee3c0ad020c5573772b4a52e1f7",
       "afterSha256": "07dad9e98c170bbe9b89344e3f2780b8e61d43852dbadecac45adbeed22b5ea3",
@@ -1563,7 +1604,8 @@
           "title": "ARCH-F2-DS-LABELS-1 — DsTag / DsReadonlyValue 迁出候选",
           "sourceLines": 54,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1577,6 +1619,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -1584,7 +1634,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-94",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -1655,13 +1705,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6ecce117529a98799dbfc97a07a3094dae20e959f099a676c0b446c7515de86b",
       "afterSha256": "e98907ac3e10e4a443c03a17c7832c9648cc2837e62d60c943ae4d390294ee55",
@@ -1725,7 +1771,8 @@
           "title": "ARCH-F2-CURSOR-BATCH-1 · Codex 首轮独立接收",
           "sourceLines": 60,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1739,6 +1786,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -1746,7 +1801,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-100",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -1817,13 +1872,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "ab2f6f9a5e14542844d72c93c2da3a2698a0db7fd5a20eb3451acec1f14a905f",
       "afterSha256": "7bc87ea1ebfb5956dff88315668e68d0bb719af49d3e35e00d4afea790d34566",
@@ -1887,7 +1938,8 @@
           "title": "ARCH-F2-CURSOR-BATCH-1 — 24组命令族与设计系统模块整理",
           "sourceLines": 142,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1901,6 +1953,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -1908,7 +1968,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-182",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -1977,13 +2037,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "8db596c12bc8f9c432f0cdd5da4200989884d82e5e87dd6a4875b7a1936cc503",
       "afterSha256": "8b3779c0b83cca2b780771efc88ce9d41a36fe60ae4ce35c2f0c5395872c6a1c",
@@ -2047,7 +2103,8 @@
           "title": "Cursor现行文档轻量核对回执",
           "sourceLines": 53,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -2061,6 +2118,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -2068,7 +2133,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-93",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -2139,13 +2204,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e9554feea1f8effa4a0b919b2754e76a594a4baf025c4cee8e0bb91f9004c0e8",
       "afterSha256": "98f6bab77814064de711c07ba3fe3b9e9024da606dbc7ac870051f0f6ef27b2c",
@@ -2209,7 +2270,8 @@
           "title": "CURSOR-WAVE-2-1 · Codex 二轮独立接收",
           "sourceLines": 17,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -2223,6 +2285,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -2230,7 +2300,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-57",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -2301,13 +2371,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "9cf84ee1181a1e93757e7f21cee614c9994e909f71355e85c9f632f81bd4a5ca",
       "afterSha256": "8f68a8a707cfffd36fe64c0b8c04dc5abc97ef97b467d3a3cf7781da45c3cf21",
@@ -2371,7 +2437,8 @@
           "title": "CURSOR-WAVE-2-1 · Codex 三轮独立接收与整卡收口",
           "sourceLines": 12,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -2385,6 +2452,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -2392,7 +2467,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-52",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -2461,13 +2536,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6c0272c9a00fb62f762ee3c530d4310e4765308c270bf7af551d8e21710c05a9",
       "afterSha256": "73db8f28ec81796a5995a4e17e7d1336c4e065c931a1dde804101cfa3e994e07",
@@ -2531,7 +2602,8 @@
           "title": "CURSOR-WAVE-2-1 · Codex 首轮独立接收",
           "sourceLines": 21,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -2545,6 +2617,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -2552,7 +2632,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-61",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -2623,13 +2703,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4b85e83f2407966cd59b4cf72c73e98de7678202cfe3a6e99be108fd14633960",
       "afterSha256": "cb01534592d0645d92a47024b3c6086a0a585cd505a442bb63210a90f8f6df15",
@@ -2693,7 +2769,8 @@
           "title": "GLM 交付前自检清单（强制）",
           "sourceLines": 50,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -2707,6 +2784,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -2714,7 +2799,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-90",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -2785,13 +2870,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e486a6a595b4672ea6f41e7da807e1f8e89875efb44647a4b60f8767704dba72",
       "afterSha256": "e486a6a595b4672ea6f41e7da807e1f8e89875efb44647a4b60f8767704dba72",
@@ -2870,7 +2951,8 @@
           ],
           "entryCount": null,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -2884,6 +2966,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -2891,7 +2981,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-218",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -2963,13 +3053,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "3a025dd17da895e11f777fae011498bb1a33ce0cc7259c1a8596b145824f6eae",
       "afterSha256": "a065291d1d24fe9926a7d4250d6ec281da4afe061587809a90561078d03b4dc7",
@@ -3033,7 +3119,8 @@
           "title": "GLM TB-02～TB-10：Codex统一接收复核",
           "sourceLines": 253,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -3047,6 +3134,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -3054,7 +3149,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-293",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -3125,13 +3220,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "01199cc5f4c1469df6abf7c627c9b69107fb98f895ec55503bacdb23f66001e7",
       "afterSha256": "2d90147520df32981cc2ca3d27a28e7cd87fc51a2952961f4492f925340b4ee7",
@@ -3195,7 +3286,8 @@
           "title": "GLM TB-02～TB-10：返工后的独立接收复核",
           "sourceLines": 165,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -3209,6 +3301,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -3216,7 +3316,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-205",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -3287,13 +3387,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "572e7ebb63c0127ff02639e567465a64ec103d75fcc34cc9eb88b329bbb5f9c2",
       "afterSha256": "572e7ebb63c0127ff02639e567465a64ec103d75fcc34cc9eb88b329bbb5f9c2",
@@ -3372,7 +3468,8 @@
           ],
           "entryCount": null,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -3386,6 +3483,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -3393,7 +3498,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-219",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -3465,13 +3570,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4c1fe9e3b4e59b496cdc78f28c2bac68882f0e0d36e16a6d5e75970a8b46598f",
       "afterSha256": "a431dfc2178127de329d9f7980aa1eb9ce0251eced9cdc2f5b587ea6eb052fc3",
@@ -3535,7 +3636,8 @@
           "title": "GLM A–J 测试 wave 并集集成回执（2026-09-29）",
           "sourceLines": 77,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -3549,6 +3651,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -3556,7 +3666,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-117",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -3627,13 +3737,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "63a731244f4376770de59c1e0ca11f44b6cb46260fb6573ba3b18368c1f87d34",
       "afterSha256": "3ffa984b1727220710269158c2ba26b52e9c6a1f10a20f0562fbc6fa060692ee",
@@ -3697,7 +3803,8 @@
           "title": "ARCH-F2-DS-OVERFLOW-1 — DsOverflowText 迁出候选",
           "sourceLines": 46,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -3711,6 +3818,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -3718,7 +3833,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-86",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -3789,13 +3904,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "af04288497b2fb5bfc70971a9bf4c523e14fea10205dc87a3f1c010198a4857c",
       "afterSha256": "cddadf08db4fb35bb9164560c069ee531d02f6302ac5b6e34cd631a3ec38a4f2",
@@ -3859,7 +3970,8 @@
           "title": "一阶段菜单与索引渲染补测 — 正式接入",
           "sourceLines": 25,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -3873,6 +3985,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -3880,7 +4000,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-65",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -3949,13 +4069,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "189d0800d8527652840d929e2e6d3ec251ca95b68cb26749be7a6e683cf2013c",
       "afterSha256": "0e90a7550c838aafa59f1cd0651599ad64a74d435140af3bc97af43e3fa91a22",
@@ -4019,7 +4135,8 @@
           "title": "TEST-GROK-PRESENT-1 — Codex 独立候选复核",
           "sourceLines": 68,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -4033,6 +4150,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -4040,7 +4165,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-108",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -4111,13 +4236,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "38d68bb946f3abd910074c923f6caf050a3089e5fc239e25da1f10432499844a",
       "afterSha256": "38d68bb946f3abd910074c923f6caf050a3089e5fc239e25da1f10432499844a",
@@ -4198,7 +4319,8 @@
           ],
           "entryCount": null,
           "byteStable": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -4212,6 +4334,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -4219,7 +4349,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线；机器字段不变。",
-      "reviewedLines": "1-492",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -4289,13 +4419,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "b23e53c827ae0b2b54d0f7ac25b0bf443da7019eefbe2f13943f78ac5d86f38e",
       "afterSha256": "8928beca97046890e863974c7d43f41135fe2a6c89e0342eaf111e8c2a4c8284",
@@ -4359,7 +4485,8 @@
           "title": "TB00/TB01 窄返工接手与集成",
           "sourceLines": 88,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -4373,6 +4500,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -4380,7 +4515,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-128",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -4449,13 +4584,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "eaf30e0dfd2ee8a24f5cfa18bb95e892874a11df459f379638391268e31afc4b",
       "afterSha256": "14ddd8236e9e4494af12656344fa186843f5a0083deee3a86ac14888a6f60a07",
@@ -4515,7 +4646,8 @@
           "title": "Legacy 历史归档：persistence",
           "sourceLines": 6,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -4529,6 +4661,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -4536,7 +4676,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-46",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -4605,13 +4745,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a4fbba26c3a75059ab08070edc13f5e8941e4862f437788dcc0d3c9b3894ce12",
       "afterSha256": "68889503225288120c85e2b061921e74e6ad565327acb6d1b894c1ea7db32978",
@@ -4671,7 +4807,8 @@
           "title": "Legacy 历史归档：persistence/save-and-recovery",
           "sourceLines": 7,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -4685,6 +4822,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -4692,7 +4837,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-47",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -4763,13 +4908,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "dfcef3f18e3b105f935aad45b6b449e00ed0c98fc50161a6a1bd87e6177853be",
       "afterSha256": "58b4deca9dc1a635c630e775dd05f780c17ae282bfabc5ae49dffc0c054e6759",
@@ -4830,7 +4971,8 @@
           "title": "作者保存恢复：GLM 大批测试回执",
           "sourceLines": 890,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -4844,6 +4986,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -4851,7 +5001,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-930",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -4922,13 +5072,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "2f0a3a41a64f0a1c483e4ddd65e6617c3b130bbba2769e3ebbbdc038e6307602",
       "afterSha256": "60e420510cc7cbb0246288cd4ec1cf9f4cdac93b8728bc6df2319f8a04f8bd92",
@@ -4989,7 +5135,8 @@
           "title": "SAVE-BARRIER-LINEAGE-1 · 实现与验证记录",
           "sourceLines": 92,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -5003,6 +5150,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -5010,7 +5165,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-132",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -5079,13 +5234,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "9aba4918799afc74ca8e3c82d5261b0d43b2afe838ed2862d500cc588ee776fd",
       "afterSha256": "980f06eaf5f0311f9ec4058b2d2d2bed5cec695b6910c2d253cdca549f0092b0",
@@ -5145,7 +5296,8 @@
           "title": "Legacy 历史归档：phase1-runtime",
           "sourceLines": 8,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -5159,6 +5311,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -5166,7 +5326,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-48",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -5235,13 +5395,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r80_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "e0ddc80b28ab45394aa560855d51de65ecd568e1"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "ce2991cf1ab03cb5135c97f4a50d6ebf1fd806e068674546df7b26964d878d6e",
       "afterSha256": "a2c51a35f741085305b7a59453be16bd58eda7826ae59e48581ec62e17a7d5be",
@@ -5301,7 +5457,8 @@
           "title": "Legacy 历史归档：phase1-runtime/editor-workflows",
           "sourceLines": 7,
           "quoteInverse": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -5315,6 +5472,14 @@
           "action": "R80 testing archive governance",
           "reviewer": "r80_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -5322,7 +5487,7 @@
       ],
       "stopLine": "do not promote historical testing archive to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing archive 正文保持 → 增加 archive-record wrapper、quote、SHA 和历史停止线；原始结论不变。",
-      "reviewedLines": "1-47",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -5375,5 +5540,10 @@
     "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
     "task": "DOCS-RECORD-INTEGRITY-1",
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  },
+  "historicalReviewIdentity": {
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+    "recordPath": "docs/phase-governance/reviews/20261017-r80-testing-archive.json",
+    "meaning": "Original reviewer/policy/migration summary are historical claims at this revision; current correction supersedes their semantic and independence credit."
   }
 }

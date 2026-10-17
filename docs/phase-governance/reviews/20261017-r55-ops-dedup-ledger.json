@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "r55-ops-dedup-ledger-20261017",
-  "reviewer": "Codex root full-text semantic migration",
+  "reviewer": "Codex corrective mechanical maintenance; author self-check only",
   "reviewDate": "2026-10-17",
-  "policy": "R55: historical test dedup ledgers use evidence-receipt-v1 with archive-record-v1 overlay; preserve source/caller/legal-input/oracle/fullName and original quote. Migration grants no execution credit.",
+  "policy": "Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalReviewIdentity; no full-text re-review is asserted.",
   "entries": [
     {
       "path": "docs/ops/evidence/TEST-GLM-GAME-EVENT-CONTRACTS-1/dedup-ledger.md",
@@ -31,13 +31,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r55_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7ea529ab5a3f2be583ae02909066824913eee66a"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "2211da92651d699d844a5d4868ad73cb27729008263094f4c0cca8a7c186e161",
       "afterSha256": "4f392ef1f7b1e54450baacee10283228e72a71edf4a660dc1f873e8c831f1f69",
@@ -101,7 +97,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "2211da92651d699d844a5d4868ad73cb27729008263094f4c0cca8a7c186e161",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -115,6 +112,14 @@
           "action": "R55 template migration",
           "reviewer": "r55_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -122,7 +127,7 @@
       ],
       "stopLine": "do not promote historical test ledger, NEW/REG labels, counts or mutation summaries to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始测试排重账保持 → 接入 evidence-receipt + archive overlay、可逆 quote、SHA、caller/oracle/合法输入和 rework 边界；测试与产品事实不变。",
-      "reviewedLines": "1-159",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "documentStatus": "historical",
@@ -190,13 +195,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r55_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7ea529ab5a3f2be583ae02909066824913eee66a"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "aea05aa37c1fed9e041a1ee264bccf71641498e664e70014e9f71875549b932b",
       "afterSha256": "d511fb9bed42cf45874118261f11e088107d68762f3baa8f69be114dc4dc278c",
@@ -260,7 +261,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "aea05aa37c1fed9e041a1ee264bccf71641498e664e70014e9f71875549b932b",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -274,6 +276,14 @@
           "action": "R55 template migration",
           "reviewer": "r55_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -281,7 +291,7 @@
       ],
       "stopLine": "do not promote historical test ledger, NEW/REG labels, counts or mutation summaries to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始测试排重账保持 → 接入 evidence-receipt + archive overlay、可逆 quote、SHA、caller/oracle/合法输入和 rework 边界；测试与产品事实不变。",
-      "reviewedLines": "1-131",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "documentStatus": "historical",
@@ -328,5 +338,10 @@
     "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
     "task": "DOCS-RECORD-INTEGRITY-1",
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  },
+  "historicalReviewIdentity": {
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+    "recordPath": "docs/phase-governance/reviews/20261017-r55-ops-dedup-ledger.json",
+    "meaning": "Original reviewer/policy/migration summary are historical claims at this revision; current correction supersedes their semantic and independence credit."
   }
 }

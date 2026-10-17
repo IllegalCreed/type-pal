@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "r84-ops-evidence-index",
-  "reviewer": "Codex root current evidence index migration",
+  "reviewer": "Codex corrective mechanical maintenance; author self-check only",
   "reviewDate": "2026-10-17",
-  "policy": "R84: DOCS-FULL-TEMPLATE-1 README uses governance-index-v1 as the current evidence navigation entry; batch receipts remain historical/static and retain no execution credit.",
+  "policy": "Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalReviewIdentity; no full-text re-review is asserted.",
   "entries": [
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
@@ -27,13 +27,9 @@
       "owner": "Codex",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r84_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "0c0b21363803bb500676bd6fbdd62d3558e6515e"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "bc7d43d8999639596c3a72153ccf9e190761729652ea8ad5b04bae55f692eac8",
       "afterSha256": "749806c0967340b3b0ee8fadd32a59e3905b3d0fee5cf97c5bc3b6957e73e41c",
@@ -85,7 +81,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "bc7d43d8999639596c3a72153ccf9e190761729652ea8ad5b04bae55f692eac8",
           "exactRoundTrip": false
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -99,12 +96,20 @@
           "action": "R84 current evidence index migration",
           "reviewer": "r84_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": ["unstructured evidence index presentation; batch receipts remain historical"],
       "stopLine": "do not promote governance index or receipts to runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始全量证据索引保持 → 增加 governance-index 元数据、必填章节和当前停止线；批次事实不变。",
-      "reviewedLines": "1-462",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": false,
@@ -160,5 +165,10 @@
     "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
     "task": "DOCS-RECORD-INTEGRITY-1",
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  },
+  "historicalReviewIdentity": {
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+    "recordPath": "docs/phase-governance/reviews/20261017-r84-ops-evidence-index.json",
+    "meaning": "Original reviewer/policy/migration summary are historical claims at this revision; current correction supersedes their semantic and independence credit."
   }
 }

@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "r83-testing-current-20261017",
-  "reviewer": "Codex root current testing migration",
+  "reviewer": "Codex corrective mechanical maintenance; author self-check only",
   "reviewDate": "2026-10-17",
-  "policy": "R83: current testing README/governance use current templates; legacy-flat JSON ledgers retain native machine schema under test-catalog-v1 artifact envelope. No execution credit.",
+  "policy": "Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalReviewIdentity; no full-text re-review is asserted.",
   "entries": [
     {
       "path": "docs/testing/README.md",
@@ -27,13 +27,9 @@
       "owner": "Codex",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r83_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "97af63389174bbb35629d98d90c9c4de460a729a"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "567504a0730e5e6c4a8a1296ff0d66825d04141ec71512b0f59ecd055e81b3db",
       "afterSha256": "df74838471296c9f5dfb248a7dbeb044638e8e9d9fdd5b99a448d1634b413bad",
@@ -82,7 +78,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "567504a0730e5e6c4a8a1296ff0d66825d04141ec71512b0f59ecd055e81b3db",
           "exactRoundTrip": false
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -96,6 +93,14 @@
           "action": "R83 current testing governance migration",
           "reviewer": "r83_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -103,7 +108,7 @@
       ],
       "stopLine": "do not promote catalog/index/governance text to runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing 当前文档保持 → 增加统一模板元数据与必填章节；原始导航/治理正文不变。",
-      "reviewedLines": "1-340",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": false,
@@ -167,13 +172,9 @@
       "owner": "Codex",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r83_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "97af63389174bbb35629d98d90c9c4de460a729a"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "ce72a508eaa5693be8cdcb8be9d0da6536c4418a8f88cb7ee584f6c2f5edd995",
       "afterSha256": "ea9d0fa69ea00a903c1628f2674636925e126e3d9b19baac07e0bd3e8955a653",
@@ -222,7 +223,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "ce72a508eaa5693be8cdcb8be9d0da6536c4418a8f88cb7ee584f6c2f5edd995",
           "exactRoundTrip": false
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -236,6 +238,14 @@
           "action": "R83 current testing governance migration",
           "reviewer": "r83_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -243,7 +253,7 @@
       ],
       "stopLine": "do not promote catalog/index/governance text to runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing 当前文档保持 → 增加统一模板元数据与必填章节；原始导航/治理正文不变。",
-      "reviewedLines": "1-108",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": false,
@@ -307,13 +317,9 @@
       "owner": "Codex",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r83_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "97af63389174bbb35629d98d90c9c4de460a729a"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "826bd9f08881fc6e52aea848c889084de9b509df730ef08b036b550fc909164e",
       "afterSha256": "826bd9f08881fc6e52aea848c889084de9b509df730ef08b036b550fc909164e",
@@ -378,7 +384,8 @@
           ],
           "entryCount": 359,
           "retiredCount": null
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -392,6 +399,14 @@
           "action": "R83 current testing governance migration",
           "reviewer": "r83_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -399,7 +414,7 @@
       ],
       "stopLine": "do not promote catalog/index/governance text to runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing JSON 保持 → 接入 test-catalog artifact envelope、SHA 和 governance fields；机器字段不变。",
-      "reviewedLines": "1-12708",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -463,13 +478,9 @@
       "owner": "Codex",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r83_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "97af63389174bbb35629d98d90c9c4de460a729a"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "104f659cc1408120b75f6e6f40061295645937307321d95747a32a1204e6a7c8",
       "afterSha256": "104f659cc1408120b75f6e6f40061295645937307321d95747a32a1204e6a7c8",
@@ -524,7 +535,8 @@
           "topLevelKeys": ["schemaVersion", "frozenCensus", "policy", "entries", "retired"],
           "entryCount": 0,
           "retiredCount": 359
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -538,6 +550,14 @@
           "action": "R83 current testing governance migration",
           "reviewer": "r83_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -545,7 +565,7 @@
       ],
       "stopLine": "do not promote catalog/index/governance text to runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 testing JSON 保持 → 接入 test-catalog artifact envelope、SHA 和 governance fields；机器字段不变。",
-      "reviewedLines": "1-3574",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -593,5 +613,10 @@
     "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
     "task": "DOCS-RECORD-INTEGRITY-1",
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  },
+  "historicalReviewIdentity": {
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+    "recordPath": "docs/phase-governance/reviews/20261017-r83-testing-current.json",
+    "meaning": "Original reviewer/policy/migration summary are historical claims at this revision; current correction supersedes their semantic and independence credit."
   }
 }

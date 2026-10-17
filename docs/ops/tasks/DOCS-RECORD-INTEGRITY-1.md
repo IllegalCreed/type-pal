@@ -1,6 +1,6 @@
 # DOCS-RECORD-INTEGRITY-1 — R 波记录可信度撤回与补救
 
-Status: build
+Status: review
 Phase: ops
 Capability: documentation evidence integrity
 Coding Owner: Codex
@@ -99,3 +99,12 @@ Template: task-card-v1 / 1.0.0
 ## 工作区异常与证据保全
 
 2026-10-18：未提交的 managed worktree 在命令执行中消失；未发现可恢复的新 Git snapshot，主树未变。构造脚本从本 chat 工具记录恢复后在新的隔离目录重新执行；消失目录内的 raw capture 不作为留存证据。新的 command receipt 只代表新执行，不补造旧输出。本卡先提交本地检查点，后追加真实执行证据。
+
+## 当前交付与真实自验（2026-10-18）
+
+- 已完成本轮纠错实现：1896条批次绑定降档，113份生成封套修复，artifactOnly完成捷径回退；R22/R24/R27/R38勘误与R65/R66新执行捕获落盘。原quote不改。
+- 首个保全的新capture a1622b45-a149-4288-9f17-7799d1236ed9：docs工具128/128、R65/R66 source inverse与after pin 20/20、链接/模板结构/testing/phase-lore/内容结构完整性均通过；lint零诊断、diff通过。严格内容门和全量check:docs因撤回状态失败，require-complete也失败，均保留原始输出，不是统一门通过。
+- 进度投影437/1838 baseline +5 incremental，仅为未撤回的继承信用，不是本轮重新认证。原全量卡与catalog拆分卡保持rework。
+- JSON历史变动筛查：1805组修改、1784组成功解析、16个候选。R65确认摘要手改；其余15项待原始执行证据核验，不声明全仓清白。Git无历史mtime，因此未伪造生成时间和mtime比对。
+- 所有明确nonAuthorReviewer=false的candidate acceptance撤回独立信用；旧reviewer/policy/provenance当前标记被撤回，历史原声明在sourceRevision保留。
+- 本卡review，非作者复核、逐篇语义重审及其余候选真实性调查未完成；不得done或把此分支合为全量治理完成。

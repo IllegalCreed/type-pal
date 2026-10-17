@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "r56-ops-machine-evidence-20261017",
-  "reviewer": "Codex root full JSON structured migration",
+  "reviewer": "Codex corrective mechanical maintenance; author self-check only",
   "reviewDate": "2026-10-17",
-  "policy": "R56: task evidence JSON remains byte-stable and machine-readable; registry/review add test-machine-evidence artifact envelope without wrapping or rewriting payload. Historical execution data grants no current runtime/E2E/visual/coverage credit.",
+  "policy": "Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalReviewIdentity; no full-text re-review is asserted.",
   "entries": [
     {
       "path": "docs/ops/tasks/evidence/coverage85-glm-editor-r1/branch-census.json",
@@ -27,14 +27,10 @@
       "capability": "branch-census",
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
-        "source-machine-artifact",
-        "full-json-structured-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r56_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "c8854234deb63c16669413e29335929e6fff5232"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6d543e157c215c4afc1e7b34ff60303fbec13efdfee45bc73d0a4420dd074cd5",
       "afterSha256": "6d543e157c215c4afc1e7b34ff60303fbec13efdfee45bc73d0a4420dd074cd5",
@@ -100,7 +96,8 @@
           "exactRoundTrip": true,
           "topLevelShape": "object",
           "topLevelFields": ["note", "total", "loclessTotal", "perFile"]
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -114,6 +111,14 @@
           "action": "R56 byte-stable artifact envelope",
           "reviewer": "r56_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -121,7 +126,7 @@
       ],
       "stopLine": "do not promote historical machine evidence to current runtime/E2E/visual/coverage acceptance; do not delete while task/consumer references remain",
       "userVisibleBeforeAfter": "原始 machine JSON 字段、顶层 shape 和字节保持 → registry/review 增加 test-machine-evidence artifact envelope、字段清单、consumer 与历史边界。",
-      "reviewedLines": "1-2743",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.5.0",
       "historyOverlay": false,
       "documentStatus": "historical-artifact",
@@ -184,14 +189,10 @@
       "capability": "coverage-summary",
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
-        "source-machine-artifact",
-        "full-json-structured-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r56_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "c8854234deb63c16669413e29335929e6fff5232"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "1f8e9d4dbe62a6b7c60cfd004b0d80496b4df78370437cdda80f03003b37f8a3",
       "afterSha256": "1f8e9d4dbe62a6b7c60cfd004b0d80496b4df78370437cdda80f03003b37f8a3",
@@ -551,7 +552,8 @@
             "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/text-inputs.tsx",
             "/Users/zhangxu/illegal/type-pal-cov85-editor/packages/editor/src/ui/design-system/virtual-list.tsx"
           ]
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -565,6 +567,14 @@
           "action": "R56 byte-stable artifact envelope",
           "reviewer": "r56_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -572,7 +582,7 @@
       ],
       "stopLine": "do not promote historical machine evidence to current runtime/E2E/visual/coverage acceptance; do not delete while task/consumer references remain",
       "userVisibleBeforeAfter": "原始 machine JSON 字段、顶层 shape 和字节保持 → registry/review 增加 test-machine-evidence artifact envelope、字段清单、consumer 与历史边界。",
-      "reviewedLines": "1-7626",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.5.0",
       "historyOverlay": false,
       "documentStatus": "historical-artifact",
@@ -635,14 +645,10 @@
       "capability": "mutation-evidence",
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
-        "source-machine-artifact",
-        "full-json-structured-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r56_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "c8854234deb63c16669413e29335929e6fff5232"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a9db8c3d9ffd440e51ffd1b97406ce5ed6ccf7a7e9aac0962fb5c64855da535e",
       "afterSha256": "a9db8c3d9ffd440e51ffd1b97406ce5ed6ccf7a7e9aac0962fb5c64855da535e",
@@ -708,7 +714,8 @@
           "exactRoundTrip": true,
           "topLevelShape": "array",
           "topLevelFields": []
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -722,6 +729,14 @@
           "action": "R56 byte-stable artifact envelope",
           "reviewer": "r56_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -729,7 +744,7 @@
       ],
       "stopLine": "do not promote historical machine evidence to current runtime/E2E/visual/coverage acceptance; do not delete while task/consumer references remain",
       "userVisibleBeforeAfter": "原始 machine JSON 字段、顶层 shape 和字节保持 → registry/review 增加 test-machine-evidence artifact envelope、字段清单、consumer 与历史边界。",
-      "reviewedLines": "1-794",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.5.0",
       "historyOverlay": false,
       "documentStatus": "historical-artifact",
@@ -792,14 +807,10 @@
       "capability": "vitest-fresh",
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
-        "source-machine-artifact",
-        "full-json-structured-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r56_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "c8854234deb63c16669413e29335929e6fff5232"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "b269d60bcbbe195944b77cd80fdca2230d0e024fc03c89228e3ef29370a76ec1",
       "afterSha256": "b269d60bcbbe195944b77cd80fdca2230d0e024fc03c89228e3ef29370a76ec1",
@@ -876,7 +887,8 @@
             "sha256",
             "cases"
           ]
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -890,6 +902,14 @@
           "action": "R56 byte-stable artifact envelope",
           "reviewer": "r56_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -897,7 +917,7 @@
       ],
       "stopLine": "do not promote historical machine evidence to current runtime/E2E/visual/coverage acceptance; do not delete while task/consumer references remain",
       "userVisibleBeforeAfter": "原始 machine JSON 字段、顶层 shape 和字节保持 → registry/review 增加 test-machine-evidence artifact envelope、字段清单、consumer 与历史边界。",
-      "reviewedLines": "1-483",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.5.0",
       "historyOverlay": false,
       "documentStatus": "historical-artifact",
@@ -962,14 +982,10 @@
       "capability": "counterproof",
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
-        "source-machine-artifact",
-        "full-json-structured-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r56_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "c8854234deb63c16669413e29335929e6fff5232"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6f6ec72ab414b377cc27493ebdec794a38753aaaa491962c6f63f028cbc6ae6c",
       "afterSha256": "6f6ec72ab414b377cc27493ebdec794a38753aaaa491962c6f63f028cbc6ae6c",
@@ -1045,7 +1061,8 @@
             "executionSet",
             "r2"
           ]
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1059,6 +1076,14 @@
           "action": "R56 byte-stable artifact envelope",
           "reviewer": "r56_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -1066,7 +1091,7 @@
       ],
       "stopLine": "do not promote historical machine evidence to current runtime/E2E/visual/coverage acceptance; do not delete while task/consumer references remain",
       "userVisibleBeforeAfter": "原始 machine JSON 字段、顶层 shape 和字节保持 → registry/review 增加 test-machine-evidence artifact envelope、字段清单、consumer 与历史边界。",
-      "reviewedLines": "1-169",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.5.0",
       "historyOverlay": false,
       "documentStatus": "historical-artifact",
@@ -1131,14 +1156,10 @@
       "capability": "mutation-evidence",
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
-        "source-machine-artifact",
-        "full-json-structured-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r56_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "c8854234deb63c16669413e29335929e6fff5232"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "d00cd6ecf80ed977d188dc6d97829cb2a1bc3f5e46d347ce903e513748f7b548",
       "afterSha256": "d00cd6ecf80ed977d188dc6d97829cb2a1bc3f5e46d347ce903e513748f7b548",
@@ -1214,7 +1235,8 @@
             "allMutantPhasesOk",
             "productFilesAllClean"
           ]
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1228,6 +1250,14 @@
           "action": "R56 byte-stable artifact envelope",
           "reviewer": "r56_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -1235,7 +1265,7 @@
       ],
       "stopLine": "do not promote historical machine evidence to current runtime/E2E/visual/coverage acceptance; do not delete while task/consumer references remain",
       "userVisibleBeforeAfter": "原始 machine JSON 字段、顶层 shape 和字节保持 → registry/review 增加 test-machine-evidence artifact envelope、字段清单、consumer 与历史边界。",
-      "reviewedLines": "1-844",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.5.0",
       "historyOverlay": false,
       "documentStatus": "historical-artifact",
@@ -1282,5 +1312,10 @@
     "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
     "task": "DOCS-RECORD-INTEGRITY-1",
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  },
+  "historicalReviewIdentity": {
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+    "recordPath": "docs/phase-governance/reviews/20261017-r56-ops-machine-evidence.json",
+    "meaning": "Original reviewer/policy/migration summary are historical claims at this revision; current correction supersedes their semantic and independence credit."
   }
 }

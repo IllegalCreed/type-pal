@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "r68-ops-evidence-readmes-20261017",
-  "reviewer": "Codex root full-text ops evidence migration",
+  "reviewer": "Codex corrective mechanical maintenance; author self-check only",
   "reviewDate": "2026-10-17",
-  "policy": "R68: historical ops evidence/review Markdown uses evidence-receipt-v1 plus archive-record-v1 overlay; preserve source bytes, task/consumer links and execution boundaries. No execution credit.",
+  "policy": "Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalReviewIdentity; no full-text re-review is asserted.",
   "entries": [
     {
       "path": "docs/ops/evidence/TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1/README.md",
@@ -27,13 +27,9 @@
       "owner": "Codex",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r68_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "9e72e90307af540a28efaed4c235d3aef8672e6a"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "7c336d9ce85e688f068b710c0c071462590756cae458374fd33b1105ac0a64af",
       "afterSha256": "5b44f6c36983ca24f507eb50049b630853a6c7cdd55309eeee92263daf4918f5",
@@ -88,7 +84,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "7c336d9ce85e688f068b710c0c071462590756cae458374fd33b1105ac0a64af",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -102,12 +99,20 @@
           "action": "R68 ops evidence receipt migration",
           "reviewer": "r68_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": ["governed-legacy evidence presentation; original source retained"],
       "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
-      "reviewedLines": "1-111",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -173,13 +178,9 @@
       "owner": "Codex",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r68_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "9e72e90307af540a28efaed4c235d3aef8672e6a"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "3d50e0d7a1bf56f7d29a76bb4037183b1e9f77a0bbf82a64448af85943c0d460",
       "afterSha256": "336b56f2d5ba245dce3b079c42fa1ff65c6870d60187571db4c7b3bfb3e2bb2c",
@@ -234,7 +235,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "3d50e0d7a1bf56f7d29a76bb4037183b1e9f77a0bbf82a64448af85943c0d460",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -248,12 +250,20 @@
           "action": "R68 ops evidence receipt migration",
           "reviewer": "r68_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": ["governed-legacy evidence presentation; original source retained"],
       "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
-      "reviewedLines": "1-121",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -317,13 +327,9 @@
       "owner": "Codex",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r68_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "9e72e90307af540a28efaed4c235d3aef8672e6a"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "59c30452f6a2ed34b35762d07b7d7557250e5525d394e0930686eb9b8a23bf2f",
       "afterSha256": "11736f545f8603c8905101d7d448f33ede9c6ac90eb1df3bba35ec15aca2b6aa",
@@ -378,7 +384,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "59c30452f6a2ed34b35762d07b7d7557250e5525d394e0930686eb9b8a23bf2f",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -392,12 +399,20 @@
           "action": "R68 ops evidence receipt migration",
           "reviewer": "r68_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": ["governed-legacy evidence presentation; original source retained"],
       "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
-      "reviewedLines": "1-87",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -461,13 +476,9 @@
       "owner": "Codex",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r68_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "9e72e90307af540a28efaed4c235d3aef8672e6a"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "fbe422d528dfaf1731aec2c5346734634e95b685d0eb89f56724c9cdaa4f07d1",
       "afterSha256": "dc46cf32c5d06a98c2ba492bcb5ac2243289ae5fe52165a37dbb55889a276396",
@@ -522,7 +533,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "fbe422d528dfaf1731aec2c5346734634e95b685d0eb89f56724c9cdaa4f07d1",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -536,12 +548,20 @@
           "action": "R68 ops evidence receipt migration",
           "reviewer": "r68_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": ["governed-legacy evidence presentation; original source retained"],
       "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
-      "reviewedLines": "1-135",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -605,13 +625,9 @@
       "owner": "Codex",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r68_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "9e72e90307af540a28efaed4c235d3aef8672e6a"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "99643333e77f17ca4080daf38d73280c4ec80d94fa20d0fdc82ce2383caad4e5",
       "afterSha256": "1e7281ad2101a93afdec42c9771895ad3c5ec26b7af9f7fdbcc65fbcc61399fd",
@@ -666,7 +682,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "99643333e77f17ca4080daf38d73280c4ec80d94fa20d0fdc82ce2383caad4e5",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -680,12 +697,20 @@
           "action": "R68 ops evidence receipt migration",
           "reviewer": "r68_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": ["governed-legacy evidence presentation; original source retained"],
       "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
-      "reviewedLines": "1-93",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -751,13 +776,9 @@
       "owner": "Codex",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r68_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "9e72e90307af540a28efaed4c235d3aef8672e6a"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "5f90bc4fe0342726cf5317ac3e27fd859da225891470b4603f5c72ff8f6e45dd",
       "afterSha256": "aaa8bba9f4c1e69d8387d71cd9571a4a7e863fe260520db0d1e4bea3a251c78b",
@@ -814,7 +835,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "5f90bc4fe0342726cf5317ac3e27fd859da225891470b4603f5c72ff8f6e45dd",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -828,12 +850,20 @@
           "action": "R68 ops evidence receipt migration",
           "reviewer": "r68_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": ["governed-legacy evidence presentation; original source retained"],
       "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
-      "reviewedLines": "1-117",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -897,13 +927,9 @@
       "owner": "Codex",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r68_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "9e72e90307af540a28efaed4c235d3aef8672e6a"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "10673f6718ce01ebbf32094a1596c78137861aa9136a9e62651859ee8d7b8448",
       "afterSha256": "08e18cfcace69988ddade6b82b3b91b781d26a085c5ef1d398e8ddf6ca542382",
@@ -958,7 +984,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "10673f6718ce01ebbf32094a1596c78137861aa9136a9e62651859ee8d7b8448",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -972,12 +999,20 @@
           "action": "R68 ops evidence receipt migration",
           "reviewer": "r68_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": ["governed-legacy evidence presentation; original source retained"],
       "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
-      "reviewedLines": "1-95",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -1041,13 +1076,9 @@
       "owner": "Codex",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r68_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "9e72e90307af540a28efaed4c235d3aef8672e6a"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "df34991d7969fa8e5a91cc126d5f39ccd23febd84e194944c9111097501d30e0",
       "afterSha256": "4feb02d4a1fc47887133fa700b69f39b0769e8936ba9e0121943abcd14384344",
@@ -1102,7 +1133,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "df34991d7969fa8e5a91cc126d5f39ccd23febd84e194944c9111097501d30e0",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1116,12 +1148,20 @@
           "action": "R68 ops evidence receipt migration",
           "reviewer": "r68_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": ["governed-legacy evidence presentation; original source retained"],
       "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
-      "reviewedLines": "1-107",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -1185,13 +1225,9 @@
       "owner": "Codex",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r68_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "9e72e90307af540a28efaed4c235d3aef8672e6a"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "9c68dff103ca02d737155df210975affef71a35e77be4a2d63fdd0933fda6017",
       "afterSha256": "f6a3b5e746143a80624775a2ea653514fa53371edb1d258e7a04c52d517dcf85",
@@ -1246,7 +1282,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "9c68dff103ca02d737155df210975affef71a35e77be4a2d63fdd0933fda6017",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1260,12 +1297,20 @@
           "action": "R68 ops evidence receipt migration",
           "reviewer": "r68_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": ["governed-legacy evidence presentation; original source retained"],
       "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
-      "reviewedLines": "1-237",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -1329,13 +1374,9 @@
       "owner": "Codex",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r68_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "9e72e90307af540a28efaed4c235d3aef8672e6a"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "0bff274fd10f01068c3b83a973653f9122b16571882aadcc299f608a6a5ffe1b",
       "afterSha256": "0008fc04bd995f0ff19fb4366f1f445199491992cb9c09768b4e6f5e67aa6425",
@@ -1390,7 +1431,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "0bff274fd10f01068c3b83a973653f9122b16571882aadcc299f608a6a5ffe1b",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1404,12 +1446,20 @@
           "action": "R68 ops evidence receipt migration",
           "reviewer": "r68_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": ["governed-legacy evidence presentation; original source retained"],
       "stopLine": "do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 ops evidence/review 保持 → 接入 evidence-receipt + archive overlay、SHA、consumer 和停止线；执行事实不变。",
-      "reviewedLines": "1-94",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": false,
@@ -1457,5 +1507,10 @@
     "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
     "task": "DOCS-RECORD-INTEGRITY-1",
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  },
+  "historicalReviewIdentity": {
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+    "recordPath": "docs/phase-governance/reviews/20261017-r68-ops-evidence-readmes.json",
+    "meaning": "Original reviewer/policy/migration summary are historical claims at this revision; current correction supersedes their semantic and independence credit."
   }
 }

@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "r62-template-sources-20261017",
-  "reviewer": "Codex root canonical template-source review",
+  "reviewer": "Codex corrective mechanical maintenance; author self-check only",
   "reviewDate": "2026-10-17",
-  "policy": "R62: reusable template and registry sources stay byte-stable and copyable; governance is recorded in registry/review artifacts without wrapping source syntax.",
+  "policy": "Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalReviewIdentity; no full-text re-review is asserted.",
   "entries": [
     {
       "path": "docs/phase-governance/templates/archive-record.md",
@@ -26,14 +26,10 @@
       "capability": "archive-record.md",
       "owner": "Codex",
       "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r62_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "c9dbd9555e7103f4d31acb46fd5c1160c34e351ea52dbcc98d3a60d9e4541d33",
       "afterSha256": "c9dbd9555e7103f4d31acb46fd5c1160c34e351ea52dbcc98d3a60d9e4541d33",
@@ -97,7 +93,8 @@
           "inverseSha256": "c9dbd9555e7103f4d31acb46fd5c1160c34e351ea52dbcc98d3a60d9e4541d33",
           "exactRoundTrip": true,
           "topLevelShape": "markdown"
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -111,6 +108,14 @@
           "action": "R62 template source artifact envelope",
           "reviewer": "r62_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -118,7 +123,7 @@
       ],
       "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
       "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
-      "reviewedLines": "1-20",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -181,14 +186,10 @@
       "capability": "audit-report.md",
       "owner": "Codex",
       "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r62_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "edbedd0493ce964473a70a7d4e40278d2ed367e479a50e52418c38cbda92ac0a",
       "afterSha256": "edbedd0493ce964473a70a7d4e40278d2ed367e479a50e52418c38cbda92ac0a",
@@ -252,7 +253,8 @@
           "inverseSha256": "edbedd0493ce964473a70a7d4e40278d2ed367e479a50e52418c38cbda92ac0a",
           "exactRoundTrip": true,
           "topLevelShape": "markdown"
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -266,6 +268,14 @@
           "action": "R62 template source artifact envelope",
           "reviewer": "r62_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -273,7 +283,7 @@
       ],
       "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
       "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
-      "reviewedLines": "1-23",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -336,14 +346,10 @@
       "capability": "design-spec.md",
       "owner": "Codex",
       "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r62_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "fc2671156e74512e2367511ff2e3f7dd81ed4a7921a63d574a4c636d5a577ee3",
       "afterSha256": "fc2671156e74512e2367511ff2e3f7dd81ed4a7921a63d574a4c636d5a577ee3",
@@ -407,7 +413,8 @@
           "inverseSha256": "fc2671156e74512e2367511ff2e3f7dd81ed4a7921a63d574a4c636d5a577ee3",
           "exactRoundTrip": true,
           "topLevelShape": "markdown"
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -421,6 +428,14 @@
           "action": "R62 template source artifact envelope",
           "reviewer": "r62_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -428,7 +443,7 @@
       ],
       "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
       "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
-      "reviewedLines": "1-26",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -491,14 +506,10 @@
       "capability": "evidence-receipt.md",
       "owner": "Codex",
       "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r62_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "5ad90121ffe8ceaf3b40f8787f354872fb1e1650e1418b21c02b5d8c08526a60",
       "afterSha256": "5ad90121ffe8ceaf3b40f8787f354872fb1e1650e1418b21c02b5d8c08526a60",
@@ -562,7 +573,8 @@
           "inverseSha256": "5ad90121ffe8ceaf3b40f8787f354872fb1e1650e1418b21c02b5d8c08526a60",
           "exactRoundTrip": true,
           "topLevelShape": "markdown"
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -576,6 +588,14 @@
           "action": "R62 template source artifact envelope",
           "reviewer": "r62_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -583,7 +603,7 @@
       ],
       "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
       "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
-      "reviewedLines": "1-26",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -646,14 +666,10 @@
       "capability": "governance-index.md",
       "owner": "Codex",
       "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r62_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "2509abf408cc5a3c0569183e53e96fdb60424626274ccc95f0b7d523a9eb032c",
       "afterSha256": "2509abf408cc5a3c0569183e53e96fdb60424626274ccc95f0b7d523a9eb032c",
@@ -717,7 +733,8 @@
           "inverseSha256": "2509abf408cc5a3c0569183e53e96fdb60424626274ccc95f0b7d523a9eb032c",
           "exactRoundTrip": true,
           "topLevelShape": "markdown"
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -731,6 +748,14 @@
           "action": "R62 template source artifact envelope",
           "reviewer": "r62_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -738,7 +763,7 @@
       ],
       "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
       "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
-      "reviewedLines": "1-22",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -801,14 +826,10 @@
       "capability": "guide-runbook.md",
       "owner": "Codex",
       "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r62_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "19a28276c117e3744cf17544f580b4e2db44f525b5cd252efee678ab6e21f29b",
       "afterSha256": "19a28276c117e3744cf17544f580b4e2db44f525b5cd252efee678ab6e21f29b",
@@ -872,7 +893,8 @@
           "inverseSha256": "19a28276c117e3744cf17544f580b4e2db44f525b5cd252efee678ab6e21f29b",
           "exactRoundTrip": true,
           "topLevelShape": "markdown"
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -886,6 +908,14 @@
           "action": "R62 template source artifact envelope",
           "reviewer": "r62_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -893,7 +923,7 @@
       ],
       "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
       "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
-      "reviewedLines": "1-19",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -956,14 +986,10 @@
       "capability": "narrative-idea.md",
       "owner": "Codex",
       "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r62_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "504cf147b0fa2559ed5851c43c649273beab5a628c54370d2dab47089cc52d92",
       "afterSha256": "504cf147b0fa2559ed5851c43c649273beab5a628c54370d2dab47089cc52d92",
@@ -1027,7 +1053,8 @@
           "inverseSha256": "504cf147b0fa2559ed5851c43c649273beab5a628c54370d2dab47089cc52d92",
           "exactRoundTrip": true,
           "topLevelShape": "markdown"
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1041,6 +1068,14 @@
           "action": "R62 template source artifact envelope",
           "reviewer": "r62_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -1048,7 +1083,7 @@
       ],
       "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
       "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
-      "reviewedLines": "1-19",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -1111,14 +1146,10 @@
       "capability": "plan-status.md",
       "owner": "Codex",
       "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r62_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "05bbb946201694a20d5e527d783de285f0b061520505d7e17e3e5aa5de703d6f",
       "afterSha256": "05bbb946201694a20d5e527d783de285f0b061520505d7e17e3e5aa5de703d6f",
@@ -1182,7 +1213,8 @@
           "inverseSha256": "05bbb946201694a20d5e527d783de285f0b061520505d7e17e3e5aa5de703d6f",
           "exactRoundTrip": true,
           "topLevelShape": "markdown"
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1196,6 +1228,14 @@
           "action": "R62 template source artifact envelope",
           "reviewer": "r62_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -1203,7 +1243,7 @@
       ],
       "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
       "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
-      "reviewedLines": "1-23",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -1266,14 +1306,10 @@
       "capability": "reference-canon.md",
       "owner": "Codex",
       "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r62_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "0e3483d961cb333dfe615005c3e37f5b92861dfd9c382d723327014bb5b68edd",
       "afterSha256": "0e3483d961cb333dfe615005c3e37f5b92861dfd9c382d723327014bb5b68edd",
@@ -1337,7 +1373,8 @@
           "inverseSha256": "0e3483d961cb333dfe615005c3e37f5b92861dfd9c382d723327014bb5b68edd",
           "exactRoundTrip": true,
           "topLevelShape": "markdown"
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1351,6 +1388,14 @@
           "action": "R62 template source artifact envelope",
           "reviewer": "r62_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -1358,7 +1403,7 @@
       ],
       "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
       "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
-      "reviewedLines": "1-21",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -1421,14 +1466,10 @@
       "capability": "registry-proposal-20261011.md",
       "owner": "Codex",
       "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r62_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
       "afterSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
@@ -1492,7 +1533,8 @@
           "inverseSha256": "b13a61298516837ba0a2c552d13f2232c79f2068301e70f6d654658a78ad3e9d",
           "exactRoundTrip": true,
           "topLevelShape": "markdown"
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1506,6 +1548,14 @@
           "action": "R62 template source artifact envelope",
           "reviewer": "r62_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -1513,7 +1563,7 @@
       ],
       "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
       "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
-      "reviewedLines": "1-304",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -1576,14 +1626,10 @@
       "capability": "registry.json",
       "owner": "Codex",
       "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r62_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
       "afterSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
@@ -1644,7 +1690,8 @@
           "inverseSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
           "exactRoundTrip": true,
           "topLevelShape": "json"
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1658,6 +1705,14 @@
           "action": "R62 template source artifact envelope",
           "reviewer": "r62_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -1665,7 +1720,7 @@
       ],
       "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
       "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
-      "reviewedLines": "1-824",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -1728,14 +1783,10 @@
       "capability": "task-card.md",
       "owner": "Codex",
       "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r62_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
       "afterSha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
@@ -1796,7 +1847,8 @@
           "inverseSha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
           "exactRoundTrip": true,
           "topLevelShape": "markdown"
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1810,6 +1862,14 @@
           "action": "R62 template source artifact envelope",
           "reviewer": "r62_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -1817,7 +1877,7 @@
       ],
       "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
       "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
-      "reviewedLines": "1-25",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -1880,14 +1940,10 @@
       "capability": "e2e-report.md",
       "owner": "Codex",
       "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r62_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "2f9437856eda7cf46ca716b732bdf41b9c94ae3e68418677dc8e2d96485c2c0e",
       "afterSha256": "2f9437856eda7cf46ca716b732bdf41b9c94ae3e68418677dc8e2d96485c2c0e",
@@ -1948,7 +2004,8 @@
           "inverseSha256": "2f9437856eda7cf46ca716b732bdf41b9c94ae3e68418677dc8e2d96485c2c0e",
           "exactRoundTrip": true,
           "topLevelShape": "markdown"
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -1962,6 +2019,14 @@
           "action": "R62 template source artifact envelope",
           "reviewer": "r62_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -1969,7 +2034,7 @@
       ],
       "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
       "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
-      "reviewedLines": "1-43",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -2032,14 +2097,10 @@
       "capability": "e2e-stage-README.md",
       "owner": "Codex",
       "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r62_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "d2ff52e23c26644d72a0bb938c4b6de582550ee88d3d464adeeb2c82c7112527",
       "afterSha256": "d2ff52e23c26644d72a0bb938c4b6de582550ee88d3d464adeeb2c82c7112527",
@@ -2100,7 +2161,8 @@
           "inverseSha256": "d2ff52e23c26644d72a0bb938c4b6de582550ee88d3d464adeeb2c82c7112527",
           "exactRoundTrip": true,
           "topLevelShape": "markdown"
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -2114,6 +2176,14 @@
           "action": "R62 template source artifact envelope",
           "reviewer": "r62_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -2121,7 +2191,7 @@
       ],
       "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
       "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
-      "reviewedLines": "1-31",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -2184,14 +2254,10 @@
       "capability": "evidence.json",
       "owner": "Codex",
       "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r62_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4faa0c4249a1ca670c7e9d055de943a736911dbc142eea7dcf80a0426757f213",
       "afterSha256": "4faa0c4249a1ca670c7e9d055de943a736911dbc142eea7dcf80a0426757f213",
@@ -2252,7 +2318,8 @@
           "inverseSha256": "4faa0c4249a1ca670c7e9d055de943a736911dbc142eea7dcf80a0426757f213",
           "exactRoundTrip": true,
           "topLevelShape": "json"
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -2266,6 +2333,14 @@
           "action": "R62 template source artifact envelope",
           "reviewer": "r62_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -2273,7 +2348,7 @@
       ],
       "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
       "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
-      "reviewedLines": "1-29",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -2336,14 +2411,10 @@
       "capability": "quality-gate.md",
       "owner": "Codex",
       "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r62_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "75dbb966043b3c3d6281ac31d4932d7faaac36b7e89d708e6693d31b7017ed89",
       "afterSha256": "75dbb966043b3c3d6281ac31d4932d7faaac36b7e89d708e6693d31b7017ed89",
@@ -2404,7 +2475,8 @@
           "inverseSha256": "75dbb966043b3c3d6281ac31d4932d7faaac36b7e89d708e6693d31b7017ed89",
           "exactRoundTrip": true,
           "topLevelShape": "markdown"
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -2418,6 +2490,14 @@
           "action": "R62 template source artifact envelope",
           "reviewer": "r62_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -2425,7 +2505,7 @@
       ],
       "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
       "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
-      "reviewedLines": "1-18",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -2488,14 +2568,10 @@
       "capability": "test-catalog.json",
       "owner": "Codex",
       "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r62_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cd02c15206d2e90eb3be35e1383d1e962539149551ef29022a636619dcd4a650",
       "afterSha256": "cd02c15206d2e90eb3be35e1383d1e962539149551ef29022a636619dcd4a650",
@@ -2556,7 +2632,8 @@
           "inverseSha256": "cd02c15206d2e90eb3be35e1383d1e962539149551ef29022a636619dcd4a650",
           "exactRoundTrip": true,
           "topLevelShape": "json"
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -2570,6 +2647,14 @@
           "action": "R62 template source artifact envelope",
           "reviewer": "r62_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -2577,7 +2662,7 @@
       ],
       "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
       "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
-      "reviewedLines": "1-25",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -2640,14 +2725,10 @@
       "capability": "test-catalog.md",
       "owner": "Codex",
       "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r62_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "031e005e11f444d0fe4bd32215a71369b42193eeda5a6c7a647df13053d8f854",
       "afterSha256": "031e005e11f444d0fe4bd32215a71369b42193eeda5a6c7a647df13053d8f854",
@@ -2708,7 +2789,8 @@
           "inverseSha256": "031e005e11f444d0fe4bd32215a71369b42193eeda5a6c7a647df13053d8f854",
           "exactRoundTrip": true,
           "topLevelShape": "markdown"
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -2722,6 +2804,14 @@
           "action": "R62 template source artifact envelope",
           "reviewer": "r62_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -2729,7 +2819,7 @@
       ],
       "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
       "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
-      "reviewedLines": "1-38",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -2792,14 +2882,10 @@
       "capability": "test-contract.md",
       "owner": "Codex",
       "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r62_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e8abd04b1f0f59bb193b82bdb395f90d2bc22b84e347bb86c2407a2a3e7eb182",
       "afterSha256": "e8abd04b1f0f59bb193b82bdb395f90d2bc22b84e347bb86c2407a2a3e7eb182",
@@ -2860,7 +2946,8 @@
           "inverseSha256": "e8abd04b1f0f59bb193b82bdb395f90d2bc22b84e347bb86c2407a2a3e7eb182",
           "exactRoundTrip": true,
           "topLevelShape": "markdown"
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -2874,6 +2961,14 @@
           "action": "R62 template source artifact envelope",
           "reviewer": "r62_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -2881,7 +2976,7 @@
       ],
       "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
       "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
-      "reviewedLines": "1-20",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -2944,14 +3039,10 @@
       "capability": "test-domain-report.md",
       "owner": "Codex",
       "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r62_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "1c8223c38a1a58c5c614a993f8cc11b29599f88d5d74e5cf3d9a917fb8953964",
       "afterSha256": "1c8223c38a1a58c5c614a993f8cc11b29599f88d5d74e5cf3d9a917fb8953964",
@@ -3012,7 +3103,8 @@
           "inverseSha256": "1c8223c38a1a58c5c614a993f8cc11b29599f88d5d74e5cf3d9a917fb8953964",
           "exactRoundTrip": true,
           "topLevelShape": "markdown"
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -3026,6 +3118,14 @@
           "action": "R62 template source artifact envelope",
           "reviewer": "r62_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -3033,7 +3133,7 @@
       ],
       "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
       "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
-      "reviewedLines": "1-25",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -3096,14 +3196,10 @@
       "capability": "test-e2e-stage.md",
       "owner": "Codex",
       "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r62_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4bf659f7778f82b02ed2d4a5d1dfbd632e5278bc9e07ac993d043d136bcc036c",
       "afterSha256": "4bf659f7778f82b02ed2d4a5d1dfbd632e5278bc9e07ac993d043d136bcc036c",
@@ -3164,7 +3260,8 @@
           "inverseSha256": "4bf659f7778f82b02ed2d4a5d1dfbd632e5278bc9e07ac993d043d136bcc036c",
           "exactRoundTrip": true,
           "topLevelShape": "markdown"
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -3178,6 +3275,14 @@
           "action": "R62 template source artifact envelope",
           "reviewer": "r62_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -3185,7 +3290,7 @@
       ],
       "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
       "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
-      "reviewedLines": "1-26",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -3248,14 +3353,10 @@
       "capability": "test-machine-evidence.json",
       "owner": "Codex",
       "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r62_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
       "afterSha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
@@ -3319,7 +3420,8 @@
           "inverseSha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
           "exactRoundTrip": true,
           "topLevelShape": "json"
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -3333,6 +3435,14 @@
           "action": "R62 template source artifact envelope",
           "reviewer": "r62_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -3340,7 +3450,7 @@
       ],
       "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
       "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
-      "reviewedLines": "1-46",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -3403,14 +3513,10 @@
       "capability": "test-run-report.md",
       "owner": "Codex",
       "provenance": [
-        "canonical-template-source",
-        "full-text-semantic-review",
+        "source-document",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r62_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4640b29826024148285afd9890dcb2d994e3c0cf3c9f3d288ca9d6472d17e456",
       "afterSha256": "4640b29826024148285afd9890dcb2d994e3c0cf3c9f3d288ca9d6472d17e456",
@@ -3471,7 +3577,8 @@
           "inverseSha256": "4640b29826024148285afd9890dcb2d994e3c0cf3c9f3d288ca9d6472d17e456",
           "exactRoundTrip": true,
           "topLevelShape": "markdown"
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -3485,6 +3592,14 @@
           "action": "R62 template source artifact envelope",
           "reviewer": "r62_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -3492,7 +3607,7 @@
       ],
       "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
       "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
-      "reviewedLines": "1-21",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -3540,5 +3655,10 @@
     "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
     "task": "DOCS-RECORD-INTEGRITY-1",
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  },
+  "historicalReviewIdentity": {
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+    "recordPath": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+    "meaning": "Original reviewer/policy/migration summary are historical claims at this revision; current correction supersedes their semantic and independence credit."
   }
 }

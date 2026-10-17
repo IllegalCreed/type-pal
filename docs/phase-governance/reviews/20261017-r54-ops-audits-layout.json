@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "r54-ops-audits-layout-20261017",
-  "reviewer": "Codex root full-text semantic migration",
+  "reviewer": "Codex corrective mechanical maintenance; author self-check only",
   "reviewDate": "2026-10-17",
-  "policy": "R54: audit/index Markdown uses governed templates with reversible source quote; layout JSON remains byte-stable artifact-only. Static migration grants no runtime/E2E/visual/coverage credit and deletion remains gated by consumer/successor/SHA audit.",
+  "policy": "Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalReviewIdentity; no full-text re-review is asserted.",
   "entries": [
     {
       "path": "docs/ops/audits/architecture-debt.md",
@@ -31,13 +31,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r54_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "f6f1367262370db06b22ba1dbf0202754e29ff264a14564ba73fe1c3b692f478",
       "afterSha256": "cacdce801fa7e1a5a39c7f28eacaa5bb1437e4c747540b4e38c4223bef70de72",
@@ -96,7 +92,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "f6f1367262370db06b22ba1dbf0202754e29ff264a14564ba73fe1c3b692f478",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -110,6 +107,14 @@
           "action": "R54 template migration",
           "reviewer": "r54_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -117,7 +122,7 @@
       ],
       "stopLine": "do not promote static audit conclusions to runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 ops audit 保持 → 接入统一模板、可逆 quote、SHA 和 consumer/状态边界；产品事实不变。",
-      "reviewedLines": "1-132",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "documentStatus": "open",
@@ -180,13 +185,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-text-semantic-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r54_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275",
       "afterSha256": "b49cd9f0802faab7dbe9af608b63670cb32b56fddcf5f74edac928f7475847d3",
@@ -245,7 +246,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "12754695f9e2c901c3ddaeec69522a47bb0e3dae2dbf12607f6f62d4f2b2e275",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -259,6 +261,14 @@
           "action": "R54 template migration",
           "reviewer": "r54_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -266,7 +276,7 @@
       ],
       "stopLine": "do not treat navigation index or linked historical reports as current execution acceptance",
       "userVisibleBeforeAfter": "原始 ops index 保持 → 接入统一模板、可逆 quote、SHA 和 consumer/状态边界；产品事实不变。",
-      "reviewedLines": "1-54",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "documentStatus": "current",
@@ -332,13 +342,9 @@
       "owner": "Codex（文档治理；不代签原执行）",
       "provenance": [
         "source-document",
-        "full-json-structured-review",
         "repository-history",
-        {
-          "nonAuthorReviewer": "r54_readonly_review",
-          "verdict": "accept-readonly-proposal",
-          "sourceRevision": "516872a827ed0f6321aa18162aa8a522edbab3c4"
-        }
+        "structured-mechanical-envelope-only",
+        "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
       "afterSha256": "9a78b3c772d82032ace0a5e6e897f55911777f55cebfd4e060fa13ba3140aeb4",
@@ -415,7 +421,8 @@
             "appliedRevision",
             "policy"
           ]
-        }
+        },
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
       "history": [
         {
@@ -429,6 +436,14 @@
           "action": "R54 template migration",
           "reviewer": "r54_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "withdraw-unsupported-semantic-and-independent-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
         }
       ],
       "supersedes": [
@@ -436,7 +451,7 @@
       ],
       "stopLine": "do not delete or reinterpret historical layout JSON until all consumers, successor links, retention and SHA are independently closed",
       "userVisibleBeforeAfter": "原始 layout JSON 字段和字节保持 → registry/review 增加 archive-record artifact envelope、SHA、字段清单和清理边界。",
-      "reviewedLines": "1-3170",
+      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "documentStatus": "historical-artifact",
@@ -483,5 +498,10 @@
     "decision": "semantic/template and independent acceptance withdrawn; mechanical preservation only",
     "task": "DOCS-RECORD-INTEGRITY-1",
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  },
+  "historicalReviewIdentity": {
+    "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+    "recordPath": "docs/phase-governance/reviews/20261017-r54-ops-audits-layout.json",
+    "meaning": "Original reviewer/policy/migration summary are historical claims at this revision; current correction supersedes their semantic and independence credit."
   }
 }
