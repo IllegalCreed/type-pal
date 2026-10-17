@@ -310,6 +310,14 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 - 未修/保留：`dither-fade`、`draw-number`、`follower-pos` 未读，真实视觉/E2E 与整卡统一质量门保持 pending/partial；未触碰 battle/menu/dialog/save/schema 或 UI 形态。
 - 验证：定向 7 files/35 tests passed，`pnpm --filter @type-pal/game typecheck` passed，无测试 stderr。覆盖率、official ratchet、protected fast、全仓 `pnpm check` 按用户成本规则留到完整大模块收口；已读清单与 SHA 见 [`3k-present-primitives`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-present-primitives/README.md)。3k 整卡保持 `partial`。
 
+### 2026-10-17 CODE-QUALITY-3k dither / number / follower 三文件切片
+
+- 范围：`packages/game/src/present/{dither-fade,draw-number,follower-pos}.ts` 与六份直接测试；读取 `present.ts` 的 dither/follower caller、battle present intro/summon/数字弹幕区间、menu/dialog/battle 的 `drawNumber` caller。
+- primary/caller/oracle：`reference/sdlpal/video.c`、`battle.c`、`ui.c:640-732`、`scene.c:658-780`；真实 framebuffer/opaque mask、dither phase/backup、方向轴/障碍/冻结 oracle。
+- 逐文件结论：dither 的 72-step/RG_INDEX/backup ownership 和 follower 的 walking/静止冻结/障碍回退/朝向/trail fallback 均与 primary/caller 一致；draw-number 的合法颜色/对齐/R-to-L/truncate/mask/缺帧合同一致，但正 Infinity 会在长度循环中无限循环，生产可达性未证，已将实现行置 `review`，不在本批擅改公共绘制合同。
+- 未修/保留：非有限数字输入的产品边界与安全反例待后续独立裁决；没有运行可能卡死的直接反例，也未触碰 UI 形态、save/schema 或 battle 行为。3k 整卡保持 `partial`。
+- 验证：定向 6 files/42 tests passed，`pnpm --filter @type-pal/game typecheck` passed，无测试 stderr；覆盖率、official ratchet、protected fast、全仓 `pnpm check` 按用户成本规则留到完整大模块收口。已读清单与 SHA 见 [`3k-dither-number-follower`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-dither-number-follower/README.md)。
+
 ### 2026-10-17 CODE1/CODE2 boundary carry-over
 
 本片接收工作树中已完成的两个窄测试合同：`packages/shared/src/rle.boundaries.test.ts` 新增“相邻 offset 截断前一帧帧头即拒绝”反例；`packages/shared/src/rng.boundaries.test.ts` 新增同一 surface 连续 delta 累加并保留首帧像素的 ownership 合同。两项都只改测试，不改 RLE/RNG/YJ2 实现、公共出口、资源或格式策略；RLE 高位 literal 风险继续留在 `QUALITY-RLE-COMMAND-TRUTH-1` draft。

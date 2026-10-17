@@ -1,0 +1,151 @@
+{
+  "base": "6aa56ea80",
+  "fullReads": [
+    {
+      "path": "packages/game/src/present/dither-fade.ts",
+      "sha256": "42009a8ec5c5d53b2b0fae61d37a985395fa787eafde86fae1ef96afa87fbb12",
+      "lines": 44,
+      "boundary": "Full implementation read; phase order, nibble update and backup ownership."
+    },
+    {
+      "path": "packages/game/src/present/dither-fade.test.ts",
+      "sha256": "68a0f63b5d4ef2045595ab37af377b26ce22247a346f7911fa544b43142ccfae",
+      "lines": 32,
+      "boundary": "Full base nibble/step/convergence oracle read."
+    },
+    {
+      "path": "packages/game/src/present/dither-fade-nibble.grok-r1.test.ts",
+      "sha256": "d7537ef3bfe821968b9687b785f12c3389087652866a178412168fbdf669d06d",
+      "lines": 62,
+      "boundary": "Full phase/neighbor/fade-only negative-control read."
+    },
+    {
+      "path": "packages/game/src/present/draw-number.ts",
+      "sha256": "29b6f5dbc54d3ec0587de2380cf48e97c1744d3e503e0ec56587ae229a73aebd",
+      "lines": 109,
+      "boundary": "Full implementation read; color bases, alignment, truncation, mask and finite-input candidate."
+    },
+    {
+      "path": "packages/game/src/present/draw-number.test.ts",
+      "sha256": "74162daa2bc5b6cb27796c250b2c7288ef060d91417e78c6b5f116a9e313007d",
+      "lines": 87,
+      "boundary": "Full direct ui number oracle read."
+    },
+    {
+      "path": "packages/game/src/present/draw-number-slots.grok-r1.test.ts",
+      "sha256": "25303de1be6aa2319cc6bd3cbd7843153bf9ab12ca97a5c974f08c0b95e1df49",
+      "lines": 83,
+      "boundary": "Full opaque/slot/missing/nLength boundary read."
+    },
+    {
+      "path": "packages/game/src/present/follower-pos.ts",
+      "sha256": "88886dfc55aeb11ab443dd68d9a31a7fd8f921a8222576ddc877797bc13ed5cf",
+      "lines": 84,
+      "boundary": "Full walking/static/frozen/trail fallback implementation read."
+    },
+    {
+      "path": "packages/game/src/present/follower-pos.test.ts",
+      "sha256": "00a5b0bc5c846350a1de1d7692a35e46721bf54aa9948718898954685901f6bc",
+      "lines": 139,
+      "boundary": "Full lifecycle, 0x46, ride and dialogue regression oracle read."
+    },
+    {
+      "path": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
+      "sha256": "6d838ab74b66081af05cbda9c33641cbed9493d88113940c8698f9081177f7b7",
+      "lines": 104,
+      "boundary": "Full direction-axis/obstacle/short-trail/caller isolation read."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab",
+      "lines": 805,
+      "ranges": ["393-475", "650-680"],
+      "boundary": "Follower and world dither caller ranges only."
+    },
+    {
+      "path": "packages/game/src/present/battle/present-battle.ts",
+      "sha256": "7ca203c4de814c295b4e70ca414e3d62b31e22da1af980a52119bd83590fae2e",
+      "lines": 449,
+      "ranges": ["280-330"],
+      "boundary": "Intro/summon fade and floating number caller range only."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-magic.ts",
+      "sha256": "76059179edbbfceaa0e66401f311b334834724ae9c6f7622b7219035ea1ab49c",
+      "lines": 359,
+      "ranges": ["130-150", "225-245"],
+      "boundary": "Representative menu drawNumber callers."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.ts",
+      "sha256": "8aab3f1f2292dc1a8d610be94825847d5b2c9459197ea1260db94f9f581fd1c3",
+      "lines": 390,
+      "ranges": ["200-230", "265-280"],
+      "boundary": "Inventory/stat number caller ranges."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-equip.ts",
+      "sha256": "1a848a399adc95b4be61a767e63c8e08ff4343851566fc21ec7355c66aeb55db",
+      "lines": 279,
+      "ranges": ["160-215", "260-275"],
+      "boundary": "Equipment number caller ranges."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "sha256": "10c96d95b287c9b5c94ffa65a283cf8d6ab7dab2a6a2b138ef678ae87154c09c",
+      "lines": 452,
+      "ranges": ["370-430"],
+      "boundary": "Cash/menu number caller ranges."
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.ts",
+      "sha256": "36edf232f7587a414fb5a3e85b864fbcdd8c396ddc21dbdf335d890e070a6b85",
+      "lines": 958,
+      "ranges": ["860-885"],
+      "boundary": "Dialogue number caller range."
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-ui.ts",
+      "sha256": "3b914002b9b26b277ce579630ac15d08bebf984d5d6f54d9b8adfc0b19a76330",
+      "lines": 825,
+      "ranges": ["410-430", "600-620", "735-755"],
+      "boundary": "Battle HP/MP/damage number caller ranges."
+    },
+    {
+      "path": "reference/sdlpal/video.c",
+      "sha256": "1ccfff8e985db13ab596c852c68c15b290fa33c4ca51415ec10452f8c3a67033",
+      "lines": 1484,
+      "ranges": ["1130-1210"],
+      "boundary": "VIDEO_FadeScreen primary range."
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33",
+      "lines": 1858,
+      "ranges": ["609-680"],
+      "boundary": "PAL_BattleFadeScene primary range."
+    },
+    {
+      "path": "reference/sdlpal/ui.c",
+      "sha256": "15a03e60ebe4c51ae45d479740b8dfdf8029805cc6bf8ca8fc39926d62cf2242",
+      "lines": 994,
+      "ranges": ["640-732"],
+      "boundary": "PAL_DrawNumber primary range."
+    },
+    {
+      "path": "reference/sdlpal/scene.c",
+      "sha256": "bc4efef7cad3b83ddac5e3338423e3c5d9660bdbaae1d8e974e8841022e3bc8b",
+      "lines": 903,
+      "ranges": ["650-780"],
+      "boundary": "PAL_UpdatePartyGestures follower primary range."
+    }
+  ],
+  "notClaimed": [
+    "Complete CODE-QUALITY-3k acceptance",
+    "drawNumber non-finite input product boundary resolution or implementation",
+    "Browser visual/E2E verification",
+    "Coverage, official ratchet, protected fast or whole-repository acceptance"
+  ]
+}
