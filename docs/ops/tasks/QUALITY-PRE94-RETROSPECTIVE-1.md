@@ -518,3 +518,9 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 - 范围：`draw-menu.ts`、两份专属测试；完整读取 `present.ts:679-705`、`menu-driver.ts`/`menu-mode.ts`/`menu-stack.ts`、menu state owners 与 SDLPal `uigame.c`/`ui.c:458` primary。
 - 结论：stack 顺序、cash/主菜单/system/confirm/switch/save-slot/inventory-action/shop-sell 坐标和 extra ownership 与 primary/caller 一致，未发现产品行为或公共接口缺陷。删除无实际用途的 `SelectionMenuState` lint 伪用法，纯重构不改输出。
 - 验证：直接 3 files/15 tests、相邻 11 files/197 tests、game typecheck、lint-zero 5002 files 0/0/0、diff-check 均通过；coverage 等沿用已收口的 [`53-wave-gates`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)。55 从 pending 提升为 `partial`，不作整卡 accept/done。
+
+### 2026-10-18 CODE-QUALITY-56 minimap thumbnail 生命周期当前复审
+
+- 范围：`minimap.ts`、两份专属测试；完整读取 bootstrap thumbnail renderer、tools-panel/dev-panel caller、scene-system、draw-tilemap 两层绘制与 phase1 相机边界。
+- 结论：`baseLoading` 直到 `Image.onload/onerror` 才释放，成功/失败缓存与 map/outW dedup ownership 均成立；未发现新产品缺陷。临时提前释放 loading 的变异使专属测试 1 failed / 5 passed，证明反例有判别力；变异已恢复，未留下实现改动。
+- 验证：直接 2 files/20 tests、相邻 tools/dev 4 files/51 tests + picker lifecycle 5 tests、game typecheck通过；coverage 等沿用 [`53-wave-gates`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)。56 从 pending 提升为 `partial`，seam repair/视觉差异留 CODE-QUALITY-57。

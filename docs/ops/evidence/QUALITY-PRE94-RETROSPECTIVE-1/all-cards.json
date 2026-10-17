@@ -2194,10 +2194,10 @@
       "number": 56,
       "suffix": "",
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-56-game-minimap-thumbnail-lifecycle.md",
-      "sha256": "3cc5da1fb37d42352cfe89f33072863bc1f6f41a897826090cb6f109b72b07ad",
-      "lines": 71,
+      "sha256": "8ed460bf3f261f8bc8f02463fabc4b92e79fe36cbaba18fbcc8f7c2b7a4527a6",
+      "lines": 78,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -3923,8 +3923,8 @@
   ],
   "reviewCheckpointBase": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
   "currentReviewCounts": {
-    "partial": 36,
-    "pending": 47,
+    "partial": 37,
+    "pending": 46,
     "accept": 0
   }
 }

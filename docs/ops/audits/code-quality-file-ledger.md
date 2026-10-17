@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,311。
-当前已闭合核验：255；已读但待审：44；尚未逐文件核验：3,012；合计未闭合：3,056。
+当前已闭合核验：258；已读但待审：44；尚未逐文件核验：3,009；合计未闭合：3,053。
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
@@ -160,6 +160,9 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/tools/display-scale.ts` | product | 已验证 | [pre-94 CODE3j display-scale/fps复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-scale-fps/README.md)；canvas/localStorage/fullscreen callers、scale tests；NaN negative control | 修复 NaN 百分比写入 NaN CSS/storage；有限百分比 clamp/居中形态不变；本片未发现新缺陷 |
 | `packages/game/src/tools/fps-overlay.ts` | product | 已验证 | [pre-94 CODE3j display-scale/fps复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-scale-fps/README.md)；tools-panel/rAF caller、启停/采样/DOM tests | module sampling state 在停用时清零；非法持久值仅 `'1'` 开启；本片未发现新缺陷 |
 | `packages/game/src/tools/toast.ts` | product | 已验证 | [pre-94 CODE3j toast/map/checkpoints复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-toast-map-checkpoints/README.md)；save/tool callers、success/error/info/stack lifecycle tests | DOM 单例/多 toast 到期自删合同完整；本片未发现直接缺陷 |
+| `packages/game/src/tools/minimap.ts` | product | 已验证 | [pre-94 CODE56 minimap lifecycle复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/56-minimap/README.md)；bootstrap renderMapThumbnail、tools/dev/scene/draw-tilemap callers；Image onload/onerror ownership oracle | 487 行完整核验 world→thumbnail、分类/缩放/toggle、map cache、rAF 与异步 Image 生命周期；直接2 files/20、相邻tools/dev51+picker5；loading ownership 变异1红5绿，未改 seam repair/API |
+| `packages/game/src/tools/minimap.test.ts` | test | 已验证 | [pre-94 CODE56 minimap lifecycle复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/56-minimap/README.md)；变换/zoom/classification/collect data 合同 | 140 行全文核验合法 GameState/NPC/Command 输入与独立几何 oracle；直接2 files/20 tests通过 |
+| `packages/game/src/tools/minimap.glm-phase1-leaves.test.ts` | test | 已验证 | [pre-94 CODE56 minimap lifecycle复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/56-minimap/README.md)；真实 canvas、toggle/localStorage、延迟 Image/onerror 反控 | 189 行全文核验像素/toggle/持久化与异步 ownership；临时提前释放 loading 的变异1 failed/5 passed，原实现6/6通过 |
 | `packages/game/src/tools/quick-save.ts` | product | 已验证 | [CODE-QUALITY-102 Codex独立复核](../evidence/CODE-QUALITY-102/codex-current-review.md)；bootstrap setupQuickSave真实注入、Save API/IDB caller、quick-save/toast tests | F5/F9 时机门、preventDefault、错误反馈、SSR no-op、disposer 与依赖 ownership 逐文件核验；无直接缺陷 |
 | `packages/game/src/tools/quick-save.test.ts` | test | 已验证 | [CODE-QUALITY-102 Codex独立复核](../evidence/CODE-QUALITY-102/codex-current-review.md)；真实 GameState/KeyboardEvent、save/load/toast oracle 与 finally 清理 | 8 tests；E-13 `as never` 夹具已移除，异步失败/空槽/解绑/计时器和 DOM 隔离均有判别力；无重复 toast 原语断言 |
 | `packages/game/src/core/save/api.ts` | product | review | [CODE-QUALITY-101 Codex当前逐文件复核](../evidence/CODE-QUALITY-101/codex-current-review.md)；Save API 双路径 caller、MAX_SAVE_SLOTS=5、内存/IndexedDB 边界 | 已完整读取；NaN/无穷/小数只通过范围守卫，双路径输入合同未裁决；见 GAME-SAVE-INPUT-DOMAIN-1，禁止实现或标已验证 |

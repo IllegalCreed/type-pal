@@ -58,6 +58,13 @@ Visual Verification Timing: functional-ui（本批核 canvas 坐标、底图加�
 
 - 2026-10-13 Codex：旧实现的 `baseLoading` 在 thumbnail URL promise resolve 时提前释放；延迟 `Image.onload` 的反例确认第二次 draw 会重复请求同一 map。修复后 loading ownership 由 `onload/onerror` 释放，空 URL/promise reject fail-closed；定向 20、相邻 tools/dev 68、game 全包 3521、全仓 check、ratchet、protected fast、lint-zero、docs/content review、ledger 全部通过。bootstrap thumbnail 未调用 `repairTilemapSeams` 的差异仍留后续独立审计；账本收口为 `3266 / 284 closed / 5 review / 2977 pending`。
 
+## 2026-10-18 Codex 当前独立复审
+
+- **范围与读取**：完整读取 `minimap.ts`、`minimap.test.ts`、`minimap.glm-phase1-leaves.test.ts`；读取 bootstrap `renderMapThumbnail`/`setupToolsPanel` 注入、tools-panel/dev-panel 缩略图 caller、scene-system current map、draw-tilemap 两层绘制与 phase1 相机文档。SDLPal 没有同形态 minimap UI，本片 primary 是当前 bootstrap/draw-tilemap 合同。
+- **逐文件结论**：`getBase` 按 map 维护成功/失败/loading 状态，URL resolve 后的 `Image` 直到 `onload/onerror` 才释放 loading ownership；rAF 重绘、场景 tab/widget、map/outW dataURL 缓存和 picker 异步生命周期均无新直接缺陷。未改变 seam repair、地图 schema、碰撞、存档或 `MinimapController`。
+- **判别力**：直接 2 files/20 tests；相邻 tools/dev 4 files/51 tests，另 picker lifecycle 5 tests。临时提前释放 `baseLoading` 的变异使专属 GLM 测试 `1 failed / 5 passed`（第二次 draw 重复调用 `getMapThumbnail`），随后立即恢复原文件，工作树无 minimap 变更。
+- **验证**：`pnpm --filter @type-pal/game typecheck` passed；波次级全仓门沿用 [`53-wave-gates`](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)，不重复运行昂贵 coverage。当前复审结论为 `partial`；bootstrap seam repair 视觉差异继续由 CODE-QUALITY-57 独立处理。
+
 ## 下一位 Agent 提示词
 
 ```text
