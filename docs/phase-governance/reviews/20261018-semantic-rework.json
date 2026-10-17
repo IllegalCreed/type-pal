@@ -1958,7 +1958,7 @@
         "scripts/e2e/inn-contract.mjs:488"
       ],
       "unresolved": [
-        "Fixed67 unique S06 data binding/old native/history/pin/transport independently accepted; whole package navigation counter and later acknowledgment composition remain separately pending.",
+        "Fixed67 S06 data and fixed88 navigation repair independently accepted. Exact source-ID versus root-alias mapping is corrected here; this later composition still needs narrow independent review.",
         "Full canonical371/history, actorRecording/production hook completeness, actual raw and authentic producer/current execution were not reaccepted.",
         "Whole-docs hard gates, all other withdrawn bindings and five quarantines remain open."
       ],
@@ -2676,6 +2676,12 @@
           "action": "Acknowledge fixed67 actual central S06 data acceptance with original design navigation counter and fullhardFAIL retained.",
           "reportPayloadSha256": "af7435845492cc524ef5e1666b72114cc5d4dd8141ce2086d18eb6e5e4c79d04",
           "additionalBodyCredit": 0
+        },
+        {
+          "date": "2026-10-18",
+          "action": "Explicitly distinguish original C navigation counter ID from root helper alias after fixed88 provenance counter. Neither original report changed; no new body credit.",
+          "reportPayloadSha256": "dd0755778247672a78b4617d29c271ae0aa0e9fc07bf97e09144bf0847f8236b",
+          "additionalBodyCredit": 0
         }
       ],
       "historicalWithdrawal": {
@@ -2735,20 +2741,36 @@
           "retentionReason": "Immutable one-off independent command/review output under existing raw ownership; no existing candidate migration or new body credit.",
           "exitCondition": "Retain original for replay/audit; no automatic deletion."
         },
-        "originalNavigationCounter": "RECEIPT-DESIGN-MISSING-INDEX remains at fixed67; current one-link repair/newtool/acknowledgment require new scoped review.",
-        "additionalBodyCredit": 0
+        "originalNavigationCounter": "RECEIPT-DESIGN-NAVIGATION-MISSING (original C af743 report); fixed88 dd075 independently closes only navigation. Root helper alias remains separately identified below.",
+        "additionalBodyCredit": 0,
+        "navigationCounterProvenance": {
+          "independentOriginal": {
+            "id": "RECEIPT-DESIGN-NAVIGATION-MISSING",
+            "reportPayloadSha256": "af7435845492cc524ef5e1666b72114cc5d4dd8141ce2086d18eb6e5e4c79d04"
+          },
+          "rootHelperAlias": {
+            "id": "RECEIPT-DESIGN-MISSING-INDEX",
+            "reportPayloadSha256": "159e674199306c5940657cd0d3622141798ef78ccf2f86ea2952c1aa637cd8f5"
+          },
+          "sameUnderlyingPath": "docs/phase-governance/reviews/README.md",
+          "originalReportsUnmodified": true,
+          "navigationClosedByFixed88ReportPayloadSha256": "dd0755778247672a78b4617d29c271ae0aa0e9fc07bf97e09144bf0847f8236b",
+          "newMetadataCounter": "RECEIPT-COUNTER-ID-PROVENANCE-MISMATCH",
+          "mappingCorrectionActualIndependentAcceptancePending": true,
+          "additionalBodyCredit": 0
+        }
       }
     },
     {
       "path": "docs/phase-governance/reviews/20261018-governance-receipt-storage-design.md",
-      "contentReviewStatus": "partial-review-unknown",
+      "contentReviewStatus": "content-reviewed",
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "templateVersion": "1.0.0",
-      "templateCompliance": "needs-migration",
-      "reviewDepth": "partial-semantic",
-      "readMethod": "Root authored a substantive five-section proposed design. Distinct receipt_integrity_independent read full69-line draft, verified exact stable version-line-only delta, judged each complete chapter and strongest alternatives against bounded fixed4ddd primary sources, ran real template and native plain→gzip rejection→restore consumers. Acceptance is design-body/template only, no implementation/adoption/pilot/whole-docs credit.",
-      "coreConclusion": "Five unchanged proposed-design chapters inherit exact93a6/d632 judgment. Actual missing-date full consumer counter is repaired at0d16 and independently accepted by6c43; central template regrant remains withheld. Fixed67 honest downgrade accepted but missing README navigation blocks whole closure. Current one-link repair and future gzip implementation/adoption/pilot require separate acceptance; no cohort shrinking.",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "Root authored a substantive five-section proposed design. Distinct receipt_integrity_independent read full69-line draft, verified exact stable version-line-only delta, judged each complete chapter and strongest alternatives against bounded fixed4ddd primary sources, ran real template and native plain→gzip rejection→restore consumers. Acceptance is design-body/template only, no implementation/adoption/pilot/whole-docs credit. Later C read exact70-line 0d16 dated body, inherited B unchanged five-chapter semantics, and ran full checkMigratedDocument with missing/fenced/wrong-format date and template-version controls; no new full primary-corpus read claimed. Actual central binding acceptance remains separate.",
+      "coreConclusion": "Proposed receipt-storage design1.0.0: unchanged five chapters inherit exact93a6/d632 independent judgment; exact0d16 date/full migrated consumer repair separately accepted by6c43. This one incremental design body/template binding is regranted with both original sources, not adoption. B independently accepts only exact private v5 raw consumer/tuples; sole S07 actual central pilot still pending. Existing1838/native candidates remain at original paths; no denominator, ignore, structural-root or runtime/global credit change.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261018-governance-receipt-storage-design.md:9",
         "docs/phase-governance/reviews/20261018-governance-receipt-storage-design.md:15",
@@ -2758,12 +2780,11 @@
         "docs/ops/guides/documentation-model.md:70"
       ],
       "unresolved": [
-        "RECEIPT-META-REVIEW-DATE: full migration check, beyond checkTemplateBody, rejected absent date; dated new body is not yet independently accepted.",
-        "Implementation, real gzip receipt ingestion, adoption and actual machine-evidence body/central pilot are unaccepted.",
-        "Current new registration/central binding/routing and later bytes need their own non-author review.",
-        "No existing1838/current candidate reclassification or pending removal is authorized; full hard gate remains failed."
+        "Actual sole S07 central pilot/binding/transport requires independent acceptance before gzip route reuse; proposed design status stays proposed.",
+        "All existing native candidates/1838 and pending report candidates remain at original paths and keep separate document-review obligations.",
+        "No runtime/E2E/visual/coverage or full hard gate/main/done acceptance."
       ],
-      "nextStep": "Independently accept exact private raw consumer and actual central date-body binding if regranted; first real machine evidence and actual central pilot must pass before reuse. No implementation/adoption from date/body acceptance.",
+      "nextStep": "Obtain independent actual S07 central pilot acceptance, then reuse only exact independently accepted report tuples; no migration/exemption of existing documents.",
       "phase": "phase-governance",
       "module": "governance-receipt-storage-design",
       "capability": "nonrecursive-review-and-immutable-evidence-identity",
@@ -2851,6 +2872,13 @@
           "sha256": "96743250d7e3a20c9bc348ff7f86c3728cf9f05a48e81dd65496333ca2a4047a",
           "scopeActuallyRead": "1-128 and actual public loader; not full storage re-review",
           "reviewer": "/root/receipt_integrity_independent"
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261018-governance-receipt-storage-design.md",
+          "revision": "67c9c840fb4056573f9d039ed020330d2f50c577",
+          "sha256": "0d16ea29db5ce12037b4b6d94c0fbe282afbdf37a89856e517bdf22ba525ce60",
+          "scopeActuallyRead": "C full dated70-line body; exact one Last reviewed addition; unchanged chapter corpus inherits B d632, no new full dependency reread",
+          "reviewer": "/root/central_intake_guard_review"
         }
       ],
       "phaseAnchors": {
@@ -3029,7 +3057,7 @@
         },
         {
           "id": "RECEIPT-META-REVIEW-DATE",
-          "status": "rework-date-only-body-pending",
+          "status": "fixed-exact-body-full-consumer-independently-accepted",
           "statement": "Actual first combined gates reported review date missing twice; old93a6 chapter-only acceptance cannot satisfy full migrated-body metadata contract.",
           "priorBodySha256": "93a6b8765f03bde606574a325004393156260557c97988dc5c4ea651ef7ea892",
           "pendingDatedBodySha256": "0d16ea29db5ce12037b4b6d94c0fbe282afbdf37a89856e517bdf22ba525ce60"
@@ -3047,15 +3075,43 @@
         ]
       },
       "evidence": {
-        "kind": "actual-per-document-nonauthor-design-semantic-review",
-        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-governance-receipt-design-review-4ddd17e4.json",
-        "reportSha256": "d632fabe7f8162f3eb09a03d321786559c2f0e62bb3c24c963d7d6550b64c8fe",
-        "reviewer": "/root/receipt_integrity_independent",
-        "author": "/root",
+        "kind": "actual-per-document-nonauthor-design-date-review-original-raw-reference",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/6c43dc3be54c785196f40961eb1ba648090c01fee1f24794264d63b3d184480a.gz",
+        "reportSha256": "6c43dc3be54c785196f40961eb1ba648090c01fee1f24794264d63b3d184480a",
+        "storedSha256": "343dfed5d699381507c642a63159d7d48eb41473e776980ce0658cb4f3334106",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/6c43dc3be54c785196f40961eb1ba648090c01fee1f24794264d63b3d184480a.gz",
+          "encoding": "gzip",
+          "payloadSha256": "6c43dc3be54c785196f40961eb1ba648090c01fee1f24794264d63b3d184480a",
+          "payloadBytes": 12615,
+          "storedSha256": "343dfed5d699381507c642a63159d7d48eb41473e776980ce0658cb4f3334106",
+          "storedBytes": 4683,
+          "producerTask": "/root/central_intake_guard_review",
+          "authorTask": "/root",
+          "reviewerTask": "/root/central_intake_guard_review",
+          "sourceRevision": "9885491a47e81f30300c3744853556d1e4e0f663",
+          "scope": "Only exact0d16 date/full-document repair, inherited immutable d632 five-chapter basis; no central/adoption/implementation/pilot acceptance.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 exact per-document semantic review entry and private explicit intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original one-off governance review output, exact fields and failed commands retained; not a canonical product/test document or a migrated existing candidate.",
+          "exitCondition": "Retain for audit/replay; no automatic deletion or existing candidate exemption."
+        },
         "nonAuthorReviewer": true,
-        "acceptance": "Original d632 supports exact93a6 proposed design chapters only; dated new body/full metadata and central completion not accepted.",
-        "intakeMap": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-receipt-design-4ddd.json",
-        "scope": "accept only the concrete five-section proposal at the two exact subject SHAs; no root d90 registration or later adoption reviewed"
+        "reviewer": "/root/central_intake_guard_review",
+        "author": "/root",
+        "acceptance": "Only exact0d16 required-date/full migrated-body repair, inheriting immutable d632 five-chapter judgment. No actual central/gzip route adoption or global acceptance.",
+        "inheritedChapterEvidence": {
+          "kind": "actual-per-document-nonauthor-design-semantic-review",
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-governance-receipt-design-review-4ddd17e4.json",
+          "reportSha256": "d632fabe7f8162f3eb09a03d321786559c2f0e62bb3c24c963d7d6550b64c8fe",
+          "reviewer": "/root/receipt_integrity_independent",
+          "author": "/root",
+          "nonAuthorReviewer": true,
+          "acceptance": "Original d632 supports exact93a6 proposed design chapters only; dated new body/full metadata and central completion not accepted.",
+          "intakeMap": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-receipt-design-4ddd.json",
+          "scope": "accept only the concrete five-section proposal at the two exact subject SHAs; no root d90 registration or later adoption reviewed"
+        }
       },
       "history": [
         {
@@ -3086,6 +3142,12 @@
           "action": "Record distinct exact0d16 date/full consumer acceptance and fixed67 honest downgrade; maintain partial/needs and original failures, no extra credit.",
           "reportPayloadSha256": "6c43dc3be54c785196f40961eb1ba648090c01fee1f24794264d63b3d184480a",
           "additionalBodyCredit": 0
+        },
+        {
+          "date": "2026-10-18",
+          "action": "Regrant only exact0d16 proposed design body/template after distinct full metadata/date acceptance plus inherited d632 chapter judgment. Global/actual central pilot not accepted.",
+          "reportPayloadSha256": "6c43dc3be54c785196f40961eb1ba648090c01fee1f24794264d63b3d184480a",
+          "outside1896WithdrawalSet": true
         }
       ],
       "supersedes": [
@@ -3099,15 +3161,15 @@
       "sourceSha256": "eada2ad69a273073a677727857d95f845473c1ac71c31bd2396b7facf5b6fe7e",
       "afterSha256": "0d16ea29db5ce12037b4b6d94c0fbe282afbdf37a89856e517bdf22ba525ce60",
       "sourceGitRevision": "d90c8a15436e8babf9f2687dde94737c020acef7",
-      "reviewedLines": "full draft1-69 and exact stable69 via one-line version delta; bounded first-party ranges in primarySource",
+      "reviewedLines": "B full69 draft and inherited stable69 exact version-line delta; C full dated70/one-line date delta and actual full per-document consumer/negative controls. Shared primary corpus inherited at bounded B source pins.",
       "historyOverlay": false,
       "documentStatus": "proposed",
       "beforeAfter": {
         "before": "No proposal at4ddd; substantive five-section draft first authored as new incremental document atd90, then registeredpending.",
-        "after": "Stable proposed1.0.0 preserves full content with only explicit version-line delta; five chapters actually reviewed and template accepted, implementation/adoption/pilot stillunaccepted."
+        "after": "Proposed1.0.0 dated70-line body receives scoped body/template regrant using B chapter plus C full metadata/date evidence; old missing-date failure and withdrawal retained. Actual central pilot/adoption acceptance still pending."
       },
       "templateConformance": {
-        "status": "pending-dated-body-full-metadata-review",
+        "status": "template-compliant",
         "priorChapterAcceptance": {
           "status": "fixed93a6 design-spec1.0 body and template accepted by distinct reviewer",
           "assessment": {
@@ -3148,6 +3210,12 @@
               "reason": "要求真实 gzip 正反针、主体/授权/模板/版本/身份错配写前不变、唯一 binding/旧对象与历史和现有 plain 回归；真实机器证据 pilot 正文和中央分开非作者接收前不能复用。17 类模板和全局 FAIL/main/done 停止线明确。"
             }
           ]
+        },
+        "dateFullConsumer": {
+          "reportPayloadSha256": "6c43dc3be54c785196f40961eb1ba648090c01fee1f24794264d63b3d184480a",
+          "actualFullPerDocumentConsumerAccepted": true,
+          "bodySha256": "0d16ea29db5ce12037b4b6d94c0fbe282afbdf37a89856e517bdf22ba525ce60",
+          "centralCombinedAcceptancePending": true
         }
       },
       "dateRepairEvidence": {
@@ -3172,6 +3240,706 @@
         "bodySha256": "0d16ea29db5ce12037b4b6d94c0fbe282afbdf37a89856e517bdf22ba525ce60",
         "requiredDateAndFullConsumerAccepted": true,
         "centralTemplateRegrantAccepted": false
+      }
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-003.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.5.0",
+      "templateVariant": "document-audit-v2",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "Author changed_governance only after S07 admission. Distinct central_intake_guard_review fully read original110/before127/new595, independent655-line kitchen contract and503-line journey plus precise bounded24 scopes,16fields/7refs, actual public source/negative probes and real template/publication consumers. Root read new595 for intake, not all cited sources. Exact private v5/raw tuple consumer independently accepted by B f7a5; this is the sole actual central pilot, whose combined acceptance remains pending.",
+      "coreConclusion": "003原生16字段/5301B前缀、7sourceRef和历史日期全保；verified发布、dedupe历史、source-backed与performedfalse分轴。002前驱需route/core/choreography及真实字节/world/Canvas/handoff一致，40hex和sourceDifferences不认证HEAD或producer。楼梯12次真实交替位移还需每间隔实绘/步相/三帧，14行完整正文与speaker、153<菜启用<155和大娘路线/替身偏序分别核；126/127停点及ready后继cursorundefined不等于已取菜004。真实纯函数hidden→visible→hidden可过所读子谓词，正文未夸称全区间不再现；实际游戏/完整帧/preview仍未知。旧d02222/min11与现22/min12/RF12、异SHA两run与后续both批次分别保留。",
+      "truthAnchors": [
+        "docs/testing/e2e/evidence/e2e-003.json:1",
+        "docs/testing/e2e/evidence/e2e-003.json:128",
+        "docs/testing/e2e/evidence/e2e-003.json:317",
+        "docs/testing/e2e/evidence/e2e-003.json:398",
+        "scripts/e2e/kitchen-contract.mjs:534",
+        "scripts/e2e/kitchen-contract.mjs:595"
+      ],
+      "unresolved": [
+        "Exact v5/raw tuple consumer independently accepted; actual sole central pilot/binding/transport combination still requires distinct fixed-snapshot acceptance before route reuse.",
+        "No revalidation of old game raw, full canonical204, complete production bridge/actorRecording, whole NPC frames/dialogue-slot visibility or preview.",
+        "All other withdrawn bindings, five quarantines and full-docs strict/progress hard gates remain open."
+      ],
+      "nextStep": "After independently accepted exact raw consumer, apply this sole binding in an explicit plan and obtain distinct actual central pilot acceptance before reusing the route. Keep runtime/global/main/done uncredited.",
+      "phase": "testing",
+      "module": "e2e-003-native-audit",
+      "capability": "stairs-dialogue-kitchen-handoff-authority-and-source-obligations",
+      "owner": "Codex native evidence documentation maintenance",
+      "provenance": [
+        "body author /root/e2e_entry_semantic_author",
+        "distinct body reviewer /root/central_intake_guard_review",
+        "root owns only central/raw intake; report is one-off native governance output, not an existing canonical candidate migration"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/testing/e2e/evidence/e2e-003.json",
+          "revision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
+          "sha256": "3ebcaecf65063e6fa1d55dbc4ec8230fa27af79fd65a2bc4d97d430b3d90d2f7",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": "all",
+            "fullFileRead": true,
+            "limit": "Whole-file SHA outside stated range is identity only; no sibling document/runtime acceptance.",
+            "basis": "Actual distinct reviewer exact excerpt; root full current595 read separately, no root full-source attribution."
+          }
+        },
+        {
+          "path": "docs/testing/e2e/evidence/e2e-003.json",
+          "revision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+          "sha256": "54c0d3c49743addb04f93b7efc22fee133c609fd5863ca8b17bd9637d18ec2d6",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": "all",
+            "fullFileRead": true,
+            "limit": "Whole-file SHA outside stated range is identity only; no sibling document/runtime acceptance.",
+            "basis": "Actual distinct reviewer exact excerpt; root full current595 read separately, no root full-source attribution."
+          }
+        },
+        {
+          "path": "docs/testing/e2e/evidence/e2e-003.json",
+          "revision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+          "sha256": "1b93b839e24f288ea19d9993a5e349e4bcdcf583d98010cb680a23937a4ed9e0",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": "all",
+            "fullFileRead": true,
+            "limit": "Whole-file SHA outside stated range is identity only; no sibling document/runtime acceptance.",
+            "basis": "Actual distinct reviewer exact excerpt; root full current595 read separately, no root full-source attribution."
+          }
+        },
+        {
+          "path": "docs/testing/_templates/test-machine-evidence.json",
+          "revision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+          "sha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": "all",
+            "fullFileRead": true,
+            "limit": "Whole-file SHA outside stated range is identity only; no sibling document/runtime acceptance.",
+            "basis": "Actual distinct reviewer exact excerpt; root full current595 read separately, no root full-source attribution."
+          }
+        },
+        {
+          "path": "scripts/e2e/kitchen-contract.mjs",
+          "revision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+          "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": "all",
+            "fullFileRead": true,
+            "limit": "Whole-file SHA outside stated range is identity only; no sibling document/runtime acceptance.",
+            "basis": "Actual distinct reviewer exact excerpt; root full current595 read separately, no root full-source attribution."
+          }
+        },
+        {
+          "path": "scripts/e2e/kitchen-journey.mjs",
+          "revision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+          "sha256": "1fba1d579eed458e9204ad6dc63d519ac560b9d67883209e6b1cc4251720ded3",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": "all",
+            "fullFileRead": true,
+            "limit": "Whole-file SHA outside stated range is identity only; no sibling document/runtime acceptance.",
+            "basis": "Actual distinct reviewer exact excerpt; root full current595 read separately, no root full-source attribution."
+          }
+        },
+        {
+          "path": "scripts/e2e/kitchen-game.mjs",
+          "revision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+          "sha256": "9fd175ba2e681513f78359a122dc9dad6bd1bf4266766ac24ebf45476663a142",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": "all",
+            "fullFileRead": true,
+            "limit": "Whole-file SHA outside stated range is identity only; no sibling document/runtime acceptance.",
+            "basis": "Actual distinct reviewer exact excerpt; root full current595 read separately, no root full-source attribution."
+          }
+        },
+        {
+          "path": "scripts/e2e/kitchen-reforge.mjs",
+          "revision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+          "sha256": "5d90460221e58842879fc3d0da09a49f4575a65f0e609a63d9d5a6c4f5c23b67",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": "all",
+            "fullFileRead": true,
+            "limit": "Whole-file SHA outside stated range is identity only; no sibling document/runtime acceptance.",
+            "basis": "Actual distinct reviewer exact excerpt; root full current595 read separately, no root full-source attribution."
+          }
+        },
+        {
+          "path": "scripts/e2e/kitchen-both.mjs",
+          "revision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+          "sha256": "1a64a8af4098290c38e01b0a873c61616abc1d134fa0312c6e06a840a05c140e",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": "all",
+            "fullFileRead": true,
+            "limit": "Whole-file SHA outside stated range is identity only; no sibling document/runtime acceptance.",
+            "basis": "Actual distinct reviewer exact excerpt; root full current595 read separately, no root full-source attribution."
+          }
+        },
+        {
+          "path": "docs/phase-governance/templates/registry.json",
+          "revision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+          "sha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [
+              ["test-machine-evidence-v1 base except unrelated variants", "document-audit-v2 full"]
+            ],
+            "fullFileRead": false,
+            "limit": "Whole-file SHA outside stated range is identity only; no sibling document/runtime acceptance.",
+            "basis": "Actual distinct reviewer exact excerpt; root full current595 read separately, no root full-source attribution."
+          }
+        },
+        {
+          "path": "scripts/e2e/kitchen-observer.mjs",
+          "revision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+          "sha256": "583e846bae766bf04ceb63edd91c1d7bdeb818b10f2b12e7f5904d195454cdca",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[1, 280]],
+            "fullFileRead": false,
+            "limit": "Whole-file SHA outside stated range is identity only; no sibling document/runtime acceptance.",
+            "basis": "Actual distinct reviewer exact excerpt; root full current595 read separately, no root full-source attribution."
+          }
+        },
+        {
+          "path": "scripts/e2e/inn-contract.mjs",
+          "revision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+          "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[122, 228]],
+            "fullFileRead": false,
+            "limit": "Whole-file SHA outside stated range is identity only; no sibling document/runtime acceptance.",
+            "basis": "Actual distinct reviewer exact excerpt; root full current595 read separately, no root full-source attribution."
+          }
+        },
+        {
+          "path": "scripts/e2e/opening-frame.mjs",
+          "revision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+          "sha256": "d0e092a5d5b24650ff5edb704a71966bbba147ec0e30c4ff855f971af82c43e6",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[20, 49]],
+            "fullFileRead": false,
+            "limit": "Whole-file SHA outside stated range is identity only; no sibling document/runtime acceptance.",
+            "basis": "Actual distinct reviewer exact excerpt; root full current595 read separately, no root full-source attribution."
+          }
+        },
+        {
+          "path": "scripts/e2e/reforge-opening-policy.mjs",
+          "revision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+          "sha256": "eac9c3dc8ccec1b8b4f8699c26c40eff85ad62632b32d58899280cfaba7be9e8",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[75, 91]],
+            "fullFileRead": false,
+            "limit": "Whole-file SHA outside stated range is identity only; no sibling document/runtime acceptance.",
+            "basis": "Actual distinct reviewer exact excerpt; root full current595 read separately, no root full-source attribution."
+          }
+        },
+        {
+          "path": "scripts/e2e/browser-journey.mjs",
+          "revision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+          "sha256": "659926f4cf627c36470515adfe5aab0ec7d33fcf8b8153113e9a78c33ca201a1",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[175, 224], [289, 300]],
+            "fullFileRead": false,
+            "limit": "Whole-file SHA outside stated range is identity only; no sibling document/runtime acceptance.",
+            "basis": "Actual distinct reviewer exact excerpt; root full current595 read separately, no root full-source attribution."
+          }
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "revision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[168, 170]],
+            "fullFileRead": false,
+            "limit": "Whole-file SHA outside stated range is identity only; no sibling document/runtime acceptance.",
+            "basis": "Actual distinct reviewer exact excerpt; root full current595 read separately, no root full-source attribution."
+          }
+        },
+        {
+          "path": "packages/reforge/src/save/types.ts",
+          "revision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+          "sha256": "b40e418803af9585d944f2a5f3c0229ea26494003f0aa08b12493ddb42605bc2",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[1, 16]],
+            "fullFileRead": false,
+            "limit": "Whole-file SHA outside stated range is identity only; no sibling document/runtime acceptance.",
+            "basis": "Actual distinct reviewer exact excerpt; root full current595 read separately, no root full-source attribution."
+          }
+        },
+        {
+          "path": "docs/testing/catalog.json",
+          "revision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+          "sha256": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [
+              [
+                "full e2e-003 record",
+                "e2e-002/e2e-004/e2e-contract id canonical status evidence dependsOn only"
+              ]
+            ],
+            "fullFileRead": false,
+            "limit": "Whole-file SHA outside stated range is identity only; no sibling document/runtime acceptance.",
+            "basis": "Actual distinct reviewer exact excerpt; root full current595 read separately, no root full-source attribution."
+          }
+        },
+        {
+          "path": "docs/testing/e2e/stages/003-kitchen/report.md",
+          "revision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+          "sha256": "9ff07f4aa0470a8949e39313657ee85922abf0e59e2170cae78709603cc1aac8",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[1, 9], [18, 65], [103, 130]],
+            "fullFileRead": false,
+            "limit": "Whole-file SHA outside stated range is identity only; no sibling document/runtime acceptance.",
+            "basis": "Actual distinct reviewer exact excerpt; root full current595 read separately, no root full-source attribution."
+          }
+        },
+        {
+          "path": "docs/testing/e2e/contract.md",
+          "revision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+          "sha256": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[98, 149], [239, 284]],
+            "fullFileRead": false,
+            "limit": "Whole-file SHA outside stated range is identity only; no sibling document/runtime acceptance.",
+            "basis": "Actual distinct reviewer exact excerpt; root full current595 read separately, no root full-source attribution."
+          }
+        },
+        {
+          "path": "package.json",
+          "revision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+          "sha256": "259820fcdc312e11ce297a83074ce168e5a9612f2016ae6d2acb5a308dd62224",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[12, 21]],
+            "fullFileRead": false,
+            "limit": "Whole-file SHA outside stated range is identity only; no sibling document/runtime acceptance.",
+            "basis": "Actual distinct reviewer exact excerpt; root full current595 read separately, no root full-source attribution."
+          }
+        },
+        {
+          "path": "scripts/docs/document-model.mjs",
+          "revision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+          "sha256": "2c7ed0419c90332dd27e866629f06fd7670112cb924084f8162f84ee74c4f64b",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[108, 214]],
+            "fullFileRead": false,
+            "limit": "Whole-file SHA outside stated range is identity only; no sibling document/runtime acceptance.",
+            "basis": "Actual distinct reviewer exact excerpt; root full current595 read separately, no root full-source attribution."
+          }
+        },
+        {
+          "path": "scripts/docs/check-testing.mjs",
+          "revision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+          "sha256": "15aa96323821b771107b7b372880af8469a9310bc545bfd56c852c95e449a166",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[187, 335]],
+            "fullFileRead": false,
+            "limit": "Whole-file SHA outside stated range is identity only; no sibling document/runtime acceptance.",
+            "basis": "Actual distinct reviewer exact excerpt; root full current595 read separately, no root full-source attribution."
+          }
+        },
+        {
+          "path": "docs/lore/timeline.md",
+          "revision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+          "sha256": "67c549f74563aa7fa09ee5c1eaf67c33154c420dc2299e41a80b0e149b7be5c7",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[1, 42], [147, 162]],
+            "fullFileRead": false,
+            "limit": "Whole-file SHA outside stated range is identity only; no sibling document/runtime acceptance.",
+            "basis": "Actual distinct reviewer exact excerpt; root full current595 read separately, no root full-source attribution."
+          }
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing across phase1/phase2",
+        "scope": "Source/publication native audit; separate authentic runtime, complete animation and preview obligations."
+      },
+      "dependencies": [
+        "docs/testing/_templates/test-machine-evidence.json",
+        "scripts/e2e/kitchen-contract.mjs",
+        "scripts/e2e/kitchen-journey.mjs",
+        "scripts/e2e/kitchen-game.mjs",
+        "scripts/e2e/kitchen-reforge.mjs",
+        "scripts/e2e/kitchen-both.mjs",
+        "docs/phase-governance/templates/registry.json",
+        "scripts/e2e/kitchen-observer.mjs",
+        "scripts/e2e/inn-contract.mjs",
+        "scripts/e2e/opening-frame.mjs",
+        "scripts/e2e/reforge-opening-policy.mjs",
+        "scripts/e2e/browser-journey.mjs",
+        "packages/content/src/character.ts",
+        "packages/reforge/src/save/types.ts",
+        "docs/testing/catalog.json",
+        "docs/testing/e2e/stages/003-kitchen/report.md",
+        "docs/testing/e2e/contract.md",
+        "package.json",
+        "scripts/docs/document-model.mjs",
+        "scripts/docs/check-testing.mjs",
+        "docs/lore/timeline.md"
+      ],
+      "versionScope": {
+        "candidateCommit": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+        "bodySha256": "1b93b839e24f288ea19d9993a5e349e4bcdcf583d98010cb680a23937a4ed9e0",
+        "nativeHistoricalCandidate": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "nativeHistoricalVersions": {
+          "content": 22,
+          "minimumSave": 11
+        },
+        "currentSourceVersions": {
+          "content": 22,
+          "minimumSave": 12,
+          "reforgeSave": 12
+        },
+        "gameSave": "native type-pal-save/gs, not RF SAVE12",
+        "notRun": [
+          "product runtime",
+          "public E2E runner",
+          "browser",
+          "preview",
+          "visual/audio/capture",
+          "game raw/save content audit",
+          "product tests/coverage"
+        ]
+      },
+      "publicCallers": [
+        "docs/testing/catalog.json existing unique e2e-003 identity",
+        "docs/testing/e2e/stages/003-kitchen/report.md existing testing-meta pair",
+        "scripts/docs/check-testing.mjs actual native evidence/publication consumer"
+      ],
+      "legalInputs": [
+        "Preserve all16native values/key and array order/dates/7refs and exact5301B current native prefix.",
+        "Source positive/negative synthetic public predicates only test documented contracts; they are not complete legal gameplay/current authentic producer proof.",
+        "Actual run needs same-engine002 real report/save and version/source-difference evaluation, not just40hex or internally consistent hashes."
+      ],
+      "businessOracle": {
+        "type": "native-003-field-meaning-and-specific-source-oracle",
+        "assertions": [
+          "Exact twelve authored commits plus alternation, intervening drawn location/walking/stepFrame/mod4/right/layer/frameIndex/three distinct animation frames.",
+          "Complete14 row text/speaker/order, split partial driver progress from finalcomplete default; readiness for004 does not execute004.",
+          "Food-enable153/155 and aunt after58 route/counterpart activation/first-hidden endpoints are distinct bounded predicates, not full nonreappearance or all frames.",
+          "Actual publication/template/native-version mutations and source/speaker/draw/step/activation/identity negative controls reject; actor visibility temporary reappearance probe demonstrates predicate limit without altering product."
+        ],
+        "fieldReadings": {
+          "originalReportPayloadSha256": "bd0520775873201a7e57a296cf5bc043f5b2bc3da9639de218b19a81baadc441",
+          "field": "fieldReadings",
+          "scope": "Exact original one-off reviewer output retained; this is a locator, not a new review or current runtime grant."
+        },
+        "sourceRefReadings": {
+          "originalReportPayloadSha256": "bd0520775873201a7e57a296cf5bc043f5b2bc3da9639de218b19a81baadc441",
+          "field": "sevenSourceRefReadings",
+          "scope": "Exact original one-off reviewer output retained; this is a locator, not a new review or current runtime grant."
+        },
+        "oracleAssessment": {
+          "originalReportPayloadSha256": "bd0520775873201a7e57a296cf5bc043f5b2bc3da9639de218b19a81baadc441",
+          "field": "oracleAssessment",
+          "scope": "Exact original one-off reviewer output retained; this is a locator, not a new review or current runtime grant."
+        },
+        "actualPublicConsumers": {
+          "originalReportPayloadSha256": "bd0520775873201a7e57a296cf5bc043f5b2bc3da9639de218b19a81baadc441",
+          "field": "actualPublicConsumers",
+          "scope": "Exact original one-off reviewer output retained; this is a locator, not a new review or current runtime grant."
+        }
+      },
+      "dedupe": {
+        "result": "One existing e2e-003 document identity; source-only004 ready body and adjacent002 do not add runtime/tests/coverage or imply their whole-document review.",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+          "docs/testing/e2e/stages/003-kitchen/report.md",
+          "e2e-002",
+          "e2e-004"
+        ]
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "S07-PREDICATE-VERSUS-FULL-PERFORMANCE",
+          "status": "body-wording-accurate",
+          "scope": "Actual synthetic hidden→visible→hidden accepted by both source predicates; candidate already limits first/last endpoints, no real product defect claim."
+        },
+        {
+          "id": "S07-NATIVE-PRESERVATION",
+          "status": "fixed-body-independently-accepted",
+          "proof": {
+            "candidateSha256": "1b93b839e24f288ea19d9993a5e349e4bcdcf583d98010cb680a23937a4ed9e0",
+            "source": {
+              "bytes": 5294,
+              "lines": 110,
+              "sha256": "3ebcaecf65063e6fa1d55dbc4ec8230fa27af79fd65a2bc4d97d430b3d90d2f7",
+              "gitObject": "ed0692f2794b072431743e3a15cd4e08e9e3d59b"
+            },
+            "before": {
+              "bytes": 6273,
+              "lines": 127,
+              "sha256": "54c0d3c49743addb04f93b7efc22fee133c609fd5863ca8b17bd9637d18ec2d6"
+            },
+            "after": {
+              "bytes": 36391,
+              "lines": 595,
+              "sha256": "1b93b839e24f288ea19d9993a5e349e4bcdcf583d98010cb680a23937a4ed9e0"
+            },
+            "nativeKeys": [
+              "schemaVersion",
+              "id",
+              "kind",
+              "status",
+              "candidateSha",
+              "versions",
+              "sourceRefs",
+              "publicCallers",
+              "legalInputs",
+              "businessOracle",
+              "dedupe",
+              "claims",
+              "runtimeExecution",
+              "findings",
+              "artifacts",
+              "history"
+            ],
+            "nativeValuesKeyAndArrayOrderPreserved": true,
+            "nativeBytesEqualToOriginal": false,
+            "beforePrefixBytes": 5301,
+            "beforePrefixSha256": "00ed42ae233338691538403222ccce3356d19b1db977eecdbd1b6dda18a08c55",
+            "prefixExact": true,
+            "oldGovernanceObjectCompleteAndOrdered": true,
+            "nativeFindingsDatesHistoryAnd7RefsUnchanged": true,
+            "fieldReadingsExactly16InNativeOrder": true,
+            "completeProof": {
+              "originalReportPayloadSha256": "bd0520775873201a7e57a296cf5bc043f5b2bc3da9639de218b19a81baadc441",
+              "field": "nativePreservation",
+              "scope": "Exact original one-off reviewer output retained; this is a locator, not a new review or current runtime grant."
+            }
+          }
+        },
+        {
+          "id": "S07-GZIP-AND-ACTUAL-CENTRAL-PILOT",
+          "status": "pending",
+          "scope": "Prepared per-document entry is not published until implementation and actual sole-binding acceptance; raw transfer alone cannot grant completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "Distinct fixed S07 body/template receipt; exact raw reference and central pilot prepared separately",
+            "rootPreparedAtRevision": "67c9c840fb4056573f9d039ed020330d2f50c577",
+            "previousAfterSha256": "54c0d3c49743addb04f93b7efc22fee133c609fd5863ca8b17bd9637d18ec2d6",
+            "afterSha256": "1b93b839e24f288ea19d9993a5e349e4bcdcf583d98010cb680a23937a4ed9e0"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "actual-per-document-nonauthor-semantic-review-original-raw-reference",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/bd0520775873201a7e57a296cf5bc043f5b2bc3da9639de218b19a81baadc441.gz",
+        "reportSha256": "bd0520775873201a7e57a296cf5bc043f5b2bc3da9639de218b19a81baadc441",
+        "storedSha256": "4108f3bb87803a750bf090822da86f7af5b04b7e6dbb530039f353eecbebc58e",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/bd0520775873201a7e57a296cf5bc043f5b2bc3da9639de218b19a81baadc441.gz",
+          "encoding": "gzip",
+          "payloadSha256": "bd0520775873201a7e57a296cf5bc043f5b2bc3da9639de218b19a81baadc441",
+          "payloadBytes": 81497,
+          "storedSha256": "4108f3bb87803a750bf090822da86f7af5b04b7e6dbb530039f353eecbebc58e",
+          "storedBytes": 17278,
+          "producerTask": "/root/central_intake_guard_review",
+          "authorTask": "/root/e2e_entry_semantic_author",
+          "reviewerTask": "/root/central_intake_guard_review",
+          "sourceRevision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+          "scope": "Only fixeda233/1b93 native003/document-audit1.5 content and template; no actual central/gzip pilot/global/product credit.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 exact per-document semantic review entry and private explicit intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original one-off governance review output, exact fields and failed commands retained; not a canonical product/test document or a migrated existing candidate.",
+          "exitCondition": "Retain for audit/replay; no automatic deletion or existing candidate exemption."
+        },
+        "sourceRevision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+        "reviewer": "/root/central_intake_guard_review",
+        "author": "/root/e2e_entry_semantic_author",
+        "nonAuthorReviewer": true,
+        "acceptance": "Only fixeda233/1b93 native003 body and frozen1.5/document-audit-v2 template; no actual central/global/product/adoption acceptance from this body receipt.",
+        "nativePreservation": {
+          "candidateSha256": "1b93b839e24f288ea19d9993a5e349e4bcdcf583d98010cb680a23937a4ed9e0",
+          "source": {
+            "bytes": 5294,
+            "lines": 110,
+            "sha256": "3ebcaecf65063e6fa1d55dbc4ec8230fa27af79fd65a2bc4d97d430b3d90d2f7",
+            "gitObject": "ed0692f2794b072431743e3a15cd4e08e9e3d59b"
+          },
+          "before": {
+            "bytes": 6273,
+            "lines": 127,
+            "sha256": "54c0d3c49743addb04f93b7efc22fee133c609fd5863ca8b17bd9637d18ec2d6"
+          },
+          "after": {
+            "bytes": 36391,
+            "lines": 595,
+            "sha256": "1b93b839e24f288ea19d9993a5e349e4bcdcf583d98010cb680a23937a4ed9e0"
+          },
+          "nativeKeys": [
+            "schemaVersion",
+            "id",
+            "kind",
+            "status",
+            "candidateSha",
+            "versions",
+            "sourceRefs",
+            "publicCallers",
+            "legalInputs",
+            "businessOracle",
+            "dedupe",
+            "claims",
+            "runtimeExecution",
+            "findings",
+            "artifacts",
+            "history"
+          ],
+          "nativeValuesKeyAndArrayOrderPreserved": true,
+          "nativeBytesEqualToOriginal": false,
+          "beforePrefixBytes": 5301,
+          "beforePrefixSha256": "00ed42ae233338691538403222ccce3356d19b1db977eecdbd1b6dda18a08c55",
+          "prefixExact": true,
+          "oldGovernanceObjectCompleteAndOrdered": true,
+          "nativeFindingsDatesHistoryAnd7RefsUnchanged": true,
+          "fieldReadingsExactly16InNativeOrder": true,
+          "completeProof": {
+            "originalReportPayloadSha256": "bd0520775873201a7e57a296cf5bc043f5b2bc3da9639de218b19a81baadc441",
+            "field": "nativePreservation",
+            "scope": "Exact original one-off reviewer output retained; this is a locator, not a new review or current runtime grant."
+          }
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "Old R60 artifact/mechanical envelope completion stays withdrawn; actual independently reviewed new S07 body has its own future unique binding.",
+          "priorRecord": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+          "priorRecordRevision": "67c9c840fb4056573f9d039ed020330d2f50c577",
+          "priorRecordSha256": "7d21eb99942c49248f7b732225b48da205445834a2c0c6a9b1331d095badafad",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "priorMechanicalEvidence": {
+            "kind": "json-artifact-envelope",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r60-testing-e2e-entry-20261017.json",
+            "sourceSha256": "3ebcaecf65063e6fa1d55dbc4ec8230fa27af79fd65a2bc4d97d430b3d90d2f7",
+            "candidateSha256": "54c0d3c49743addb04f93b7efc22fee133c609fd5863ca8b17bd9637d18ec2d6",
+            "afterSha256": "54c0d3c49743addb04f93b7efc22fee133c609fd5863ca8b17bd9637d18ec2d6",
+            "lineCount": 127,
+            "artifactPreserved": false,
+            "originalPreservation": {
+              "method": "non-overwriting _governance envelope",
+              "sourceBytes": 5294,
+              "sourceLines": 110,
+              "sourceFinalNewline": true,
+              "inverseSha256": "3ebcaecf65063e6fa1d55dbc4ec8230fa27af79fd65a2bc4d97d430b3d90d2f7",
+              "exactRoundTrip": false,
+              "topLevelShape": "object",
+              "topLevelFields": [
+                "schemaVersion",
+                "id",
+                "kind",
+                "status",
+                "candidateSha",
+                "versions",
+                "sourceRefs",
+                "publicCallers",
+                "legalInputs",
+                "businessOracle",
+                "dedupe",
+                "claims",
+                "runtimeExecution",
+                "findings",
+                "artifacts",
+                "history"
+              ]
+            },
+            "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+          },
+          "oldArtifactOnlyDoesNotCarryForward": false
+        },
+        {
+          "date": "2026-10-18",
+          "action": "Apply sole explicit S07 fixed-body binding with frozen original gzip reference after independent exact-consumer acceptance; actual central pilot acceptance remains separate.",
+          "sourceRevision": "1dfd0b7f9bc5a8b7896c381ca82e846ef658aa9f",
+          "consumerReportPayloadSha256": "f7a5c4d41057aac31237c46ec975e4399b45776abf2d4429c28cf835d9e50b59",
+          "actualCentralPilotAccepted": false
+        }
+      ],
+      "historicalWithdrawal": {
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "scope": "Immutable1896/five quarantines unchanged; no bulk/historical credit restored."
+      },
+      "supersedes": [
+        {
+          "record": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+          "revision": "67c9c840fb4056573f9d039ed020330d2f50c577",
+          "scope": "This path only; remaining3donor entries/order and original metadata/history remain unchanged."
+        }
+      ],
+      "stopLine": "No native status/version/runtime rewrite, adjacent-body/bulk credit, raw eligibility bypass, complete production/pixels/preview/capture/coverage/global/main/done grant.",
+      "sourceSha256": "54c0d3c49743addb04f93b7efc22fee133c609fd5863ca8b17bd9637d18ec2d6",
+      "afterSha256": "1b93b839e24f288ea19d9993a5e349e4bcdcf583d98010cb680a23937a4ed9e0",
+      "sourceGitRevision": "67c9c840fb4056573f9d039ed020330d2f50c577",
+      "reviewedLines": "Distinct nonauthor complete original1-110/before1-127/new1-595 plus24 explicitly full or bounded source ranges. Root new595 only; identity hashing is not full semantic reading.",
+      "historyOverlay": false,
+      "documentStatus": "verified",
+      "beforeAfter": {
+        "before": "Generic governance retained native audit values but unsupported whole-text/independent credit was withdrawn; specific source obligations and history axes not sufficiently explained.",
+        "after": "16business field meanings/7short-ref limits/real source read scopes,003-specific12-step/14-row/enable/aunt/predecessor/restore/capture contracts and counter boundaries; old governance/date/history and5301B prefix preserved."
+      },
+      "templateConformance": {
+        "status": "fixed-body-independent-template-accepted",
+        "reportVerdict": {
+          "decision": "accept-fixed-S07-document-body-and-template-limited",
+          "contentSemanticReview": "accepted only this fixed native document and governance interpretation",
+          "templateCompliance": "template-compliant",
+          "templateId": "test-machine-evidence-v1",
+          "templateVersion": "1.5.0",
+          "variant": "document-audit-v2",
+          "nativeDocumentStatus": "verified on catalog-publication axis",
+          "currentAuditNativeNonAuthorReviewerRemains": false,
+          "currentAuthorAcceptanceRemains": "pending non-author review at time of authorship; external acceptance is this distinct receipt",
+          "actualCentralIntakeAccepted": false,
+          "newTemplateOrPolicyApprovalGranted": false,
+          "counterFoundInCandidate": false,
+          "globalHardGatePassed": false,
+          "fullDocsAcceptance": false,
+          "mergeToMainAllowed": false,
+          "cardDoneAllowed": false
+        },
+        "actualPublicConsumers": {
+          "originalReportPayloadSha256": "bd0520775873201a7e57a296cf5bc043f5b2bc3da9639de218b19a81baadc441",
+          "field": "actualPublicConsumers",
+          "scope": "Exact original one-off reviewer output retained; this is a locator, not a new review or current runtime grant."
+        },
+        "scope": "1.5/document-audit-v2 actual field-bearing body; raw evidence reference/central unique binding still separately pending."
       }
     }
   ]

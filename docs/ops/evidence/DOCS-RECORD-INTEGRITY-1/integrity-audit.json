@@ -2227,8 +2227,8 @@
   },
   "semanticReacceptance": {
     "withdrawalSnapshotBindings": 1896,
-    "currentReacceptedAffectedBindings": 5,
-    "remainingAffectedBindingsWithoutReacceptance": 1891,
+    "currentReacceptedAffectedBindings": 6,
+    "remainingAffectedBindingsWithoutReacceptance": 1890,
     "entries": [
       {
         "path": "docs/testing/governance.md",
@@ -2264,6 +2264,32 @@
         "bodySha256": "91f53b623c9ce39cd534d9141d825d5b69de84464ab694e1c224cb2499766448",
         "report": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S06-71d74b4d.json",
         "reportSha256": "1318ecf75bc3b1a9e4ed205b8d420392b4521dc245780f06d8cc2c4c75c95e9f"
+      },
+      {
+        "path": "docs/testing/e2e/evidence/e2e-003.json",
+        "acceptedCommit": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+        "bodySha256": "1b93b839e24f288ea19d9993a5e349e4bcdcf583d98010cb680a23937a4ed9e0",
+        "report": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/bd0520775873201a7e57a296cf5bc043f5b2bc3da9639de218b19a81baadc441.gz",
+        "reportSha256": "bd0520775873201a7e57a296cf5bc043f5b2bc3da9639de218b19a81baadc441",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/bd0520775873201a7e57a296cf5bc043f5b2bc3da9639de218b19a81baadc441.gz",
+          "encoding": "gzip",
+          "payloadSha256": "bd0520775873201a7e57a296cf5bc043f5b2bc3da9639de218b19a81baadc441",
+          "payloadBytes": 81497,
+          "storedSha256": "4108f3bb87803a750bf090822da86f7af5b04b7e6dbb530039f353eecbebc58e",
+          "storedBytes": 17278,
+          "producerTask": "/root/central_intake_guard_review",
+          "authorTask": "/root/e2e_entry_semantic_author",
+          "reviewerTask": "/root/central_intake_guard_review",
+          "sourceRevision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+          "scope": "Only fixeda233/1b93 native003/document-audit1.5 content and template; no actual central/gzip pilot/global/product credit.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 exact per-document semantic review entry and private explicit intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original one-off governance review output, exact fields and failed commands retained; not a canonical product/test document or a migrated existing candidate.",
+          "exitCondition": "Retain for audit/replay; no automatic deletion or existing candidate exemption."
+        },
+        "actualCentralPilotAccepted": false
       }
     ],
     "boundary": "S01 was a separately discovered R33 authority counter outside the1896 cohort. Historical correction-scope and original withdrawals remain immutable; no batch credit restoration.",

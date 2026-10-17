@@ -62,12 +62,12 @@
       "test-catalog": 11
     },
     "reviewStatus": {
-      "partial-review-unknown": 1978,
-      "content-reviewed": 453
+      "partial-review-unknown": 1976,
+      "content-reviewed": 455
     },
     "templateCompliance": {
-      "needs-migration": 1984,
-      "template-compliant": 447
+      "needs-migration": 1982,
+      "template-compliant": 449
     }
   },
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta.",
@@ -120,14 +120,14 @@
       "phase": "phase-governance",
       "path": "document-registry.phase-governance.json",
       "total": 156,
-      "sha256": "10337844a78c6737a035ff502a5c753058c8fcf1334998a0ed55d40f305a7b40"
+      "sha256": "a6dae35f307d4be60a26b8d8930e359a459ef37c1ef6b16fb65b8a1d2d7b931b"
     },
     {
       "key": "testing",
       "phase": "testing",
       "path": "document-registry.testing.json",
       "total": 759,
-      "sha256": "86a1bcfe7b7725171315b6afb66c4f38edcce6e7890c45e000b7e8065172847c"
+      "sha256": "24f348641d67908d2f0db512d8642845a0cfa5bc90e09e67a4ba7ad806552d94"
     }
   ]
 }

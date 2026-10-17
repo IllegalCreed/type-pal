@@ -1404,7 +1404,7 @@
         "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-58e899bf-20261018.json"
       ],
       "unresolved": [
-        "1896 bindings were withdrawn. 5 fixed new affected bodies have separate non-author acceptance; 1891 remain without reacceptance. S01 and new incremental design are outside this set; five quarantines remain.",
+        "1896 bindings were withdrawn. 6 fixed new affected bodies have separate non-author body/template acceptance; 1890 remain without reacceptance. S01 and incremental design are outside this set; actual S07 central pilot pending and five quarantines remain.",
         "58e899bf纠错包获非作者限定接收；全量语义及统一零诊断门未完成，五项隔离不解除。"
       ],
       "stopLine": "Do not infer all-docs completion, user decisions, runtime/E2E/visual/coverage or semantic approval from shape/hash checks."
@@ -1536,7 +1536,7 @@
         "docs/phase-governance/reviews/20261018-semantic-rework.json"
       ],
       "unresolved": [
-        "Fixed67 S06 central data independently accepted; original proposal navigation counter and later acknowledgment/newtool composition remain pending; fullhardFAIL.",
+        "Fixed67 S06 data and fixed88 navigation repair independently accepted. Exact source-ID versus root-alias mapping is corrected here; this later composition still needs narrow independent review.",
         "Other affected documents, full hard gates and execution remain separate; five quarantines retained."
       ],
       "stopLine": "No other R60/1896 restoration, raw eligibility bypass, native status/version rewrite or product/runtime/E2E/preview/visual/capture/coverage/global/main/done credit.",
@@ -1544,24 +1544,60 @@
         "sourceRevision": "67c9c840fb4056573f9d039ed020330d2f50c577",
         "reportPayloadSha256": "af7435845492cc524ef5e1666b72114cc5d4dd8141ce2086d18eb6e5e4c79d04",
         "additionalBodyCredit": 0
+      },
+      "counterAliasCorrection": {
+        "independentOriginal": {
+          "id": "RECEIPT-DESIGN-NAVIGATION-MISSING",
+          "reportPayloadSha256": "af7435845492cc524ef5e1666b72114cc5d4dd8141ce2086d18eb6e5e4c79d04"
+        },
+        "rootHelperAlias": {
+          "id": "RECEIPT-DESIGN-MISSING-INDEX",
+          "reportPayloadSha256": "159e674199306c5940657cd0d3622141798ef78ccf2f86ea2952c1aa637cd8f5"
+        },
+        "sameUnderlyingPath": "docs/phase-governance/reviews/README.md",
+        "originalReportsUnmodified": true,
+        "navigationClosedByFixed88ReportPayloadSha256": "dd0755778247672a78b4617d29c271ae0aa0e9fc07bf97e09144bf0847f8236b",
+        "newMetadataCounter": "RECEIPT-COUNTER-ID-PROVENANCE-MISMATCH",
+        "mappingCorrectionActualIndependentAcceptancePending": true,
+        "additionalBodyCredit": 0
       }
     },
     {
       "id": "governance-receipt-design-v1-20261018",
       "from": ["docs/phase-governance/reviews/20261018-governance-receipt-storage-design.md"],
       "to": ["docs/ops/guides/documentation-model.md", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
-      "relationship": "Exact proposed1.0 design is accepted; existing candidates/native consumers/pending are not reclassified, implementation/gzip consumer/adoption/pilot are still unaccepted.",
+      "relationship": "Exact dated proposed1.0 design body/template accepted via inherited B chapters plus C full date/body consumer; exact v5 raw consumer independently accepted separately. Sole S07 actual central pilot still unaccepted; existing candidates unchanged.",
       "status": "guarded",
       "evidence": [
         "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-governance-receipt-design-review-4ddd17e4.json",
         "docs/phase-governance/reviews/20261018-semantic-rework.json"
       ],
       "unresolved": [
-        "Proposal completion withdrawn after actual full migration metadata check found missing review date. Factual date-only repair awaits distinct acceptance; old chapter judgment remains limited.",
-        "Fixed body/template only; actual combined central binding/byte/transport intake pending.",
-        "Other affected documents, full hard gates and execution remain separate; five quarantines retained."
+        "Original missing-date failure and withdrawal retained; exact0d16 body/template now regranted on separate evidence, not retrospective pass.",
+        "Actual S07 sole central binding/byte/transport pilot still pending distinct acceptance before route reuse.",
+        "Other affected documents, global hard gates and all execution remain separate; five quarantines retained."
       ],
       "stopLine": "Do not compress/reclassify existing candidates, adopt an unverified gzip consumer/pilot, self-review the report or claim runtime/global/main/done from design freeze."
+    },
+    {
+      "id": "native-e2e003-s07-20261018",
+      "from": ["docs/testing/e2e/evidence/e2e-003.json"],
+      "to": [
+        "docs/testing/catalog.json",
+        "scripts/e2e/kitchen-contract.mjs",
+        "scripts/e2e/kitchen-journey.mjs"
+      ],
+      "relationship": "Native16/7refs/5301B prefix unchanged; actual 12 stair movements and interval draw/step/frame,14 dialogue rows,speakers,enablement and handoff partial orders are distinct source obligations. First/last hidden subpredicate does not establish whole-interval nonreappearance.",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261018-semantic-rework.json",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/bd0520775873201a7e57a296cf5bc043f5b2bc3da9639de218b19a81baadc441.gz"
+      ],
+      "unresolved": [
+        "Fixeda233 body/template accepted by distinct C; actual sole central gzip pilot still pending, no route reuse yet.",
+        "Source-backed/performedfalse/history and old/current versions remain distinct; authentic raw/full frames/preview/runtime not accepted."
+      ],
+      "stopLine": "No automatic other R60/1896 regrant, old-report mutation, native-path migration, denominator shrink, runtime/global/main/done credit."
     }
   ],
   "acceptance": {

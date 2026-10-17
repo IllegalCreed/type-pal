@@ -1783,3 +1783,11 @@ root非作者实际核固定de423正文SHA1e50d535c2b16aa466207da22e698768bd5abb
 - 正文实质解释16字段、3短ref能力、95行含四落地收尾/真实前驱/只消费报告的both、有限helper与terminal/rider/资源的不同职责、doctor当前state2与旧state3、旧偏移/朝向冲突和各历史日期；公共规则引用权威入口，避免重复复制005长段。原历史true和旧治理完整保留，不把旧C2/expired提示当今日下一步。
 - 明确blocked结论：原1513/1516/1517数据实际缺席，95行原版内容/terminal原意等价、真实slot/rider原件、完整SAVE12船链和视觉等不能因函数或author小片段变已核。旧偏移两组冲突缺原raw/修正时序不裁一组为真；保带日期原声明并列unknown/blocked，不重建raw或擅跑产品/离线E2E。harvest16 shell exit0但stderr FileNotFoundError与两次exit2真实诊断失败保留。
 - 这只准治理候选写入，不预授006 semantic/template完成、原版事实/历史运行真实性或当前E2E接收。作者自验nonAuthor=false，冻结后由非作者逐项核实际正文/来源/反例/保全/consumer；前提不足者继续blocked，中央信用与全量硬门均不授。产品/旧测试/coverage/canonical/catalog/中央不在作者写域，全卡rework，不合main/done。
+
+### S07唯一实际中央试点、日期重授与counter来源纠正
+
+- 原15回执逐项裁定已完成，仅10项已解释/5项隔离，不是15项历史重跑通过；全卡仍rework。现在只将固定a233/1b93的003正文接入：原16native/7refs/5301B前缀与旧治理原样，C实际全文110/127/595及合同/旅程与逐域来源审查获限定接收；R60仅移出003，另3不变。受影响1896仅6篇有新正文非作者接受、1890未重授；S01及新设计在该集合之外，不重写冻结correction-scope六部分。
+- exact v5消费者SHA7b33f129由另一Owner B实际验证两raw正针、旧plain正针、12写前拒绝及真实删除guard反控，原报告f7a5完整保留；夹具只有3review根，不冒充真实114DAG。此为第一篇实际中央gzip回执pilot，必须再获非作者固定树中央复验后才能复用到S08/S09；其已接收隔离正文仍未导入中央。设计0d16日期/full consumer修复与旧d632章节分源，恢复的仅proposed设计正文/模板，不授采用或全量完成。
+- fixed88非作者dd075确认唯一导航链接修复、2431native/114根维护pin与原运输/门输出边界，但发现RECEIPT-COUNTER-ID-PROVENANCE-MISMATCH。本次明记C af743原ID RECEIPT-DESIGN-NAVIGATION-MISSING，root159 helper别名RECEIPT-DESIGN-MISSING-INDEX，指向同README缺入口；两原件不改。导航已修与别名元数据纠正待本次窄复验分开，零额外正文信用。
+- 原件运输纠正：root误将S07可重建fixed-a233 Git副本递归带入，原11624文件运输payload b8bc39a31accfba522c2aed49c956681ede0aa463f13e7abdaa10179c45eeaff已在任何门/登记/消费前完整移到自有/tmp隔离，原审查源未改。按原96清单加manifest本身运输97原件，transport payload21a78b8fa17cb17ae40c7a7accf1040daf6e03443d73871b9874938496a2d577；不是删除既有候选/报告或改变1838义务。C88原38manifest之外manifest/pycache/实跑残留共41另运输，后继不冒称原清单覆盖。
+- 所有新一次性执行输出仅既有raw ownership附件，full逐篇结论仍在现有semantic root；不迁走既有正文/report候选，不加structural root/ignore/maxSize豁免。实际dry/apply/格式后哈希与全真实硬门、114根/2431唯一binding保全均独立记录。未过全量硬验收不合main、不done；静态不授runtime/E2E/视觉/coverage。
