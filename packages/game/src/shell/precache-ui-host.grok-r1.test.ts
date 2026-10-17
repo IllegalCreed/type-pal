@@ -55,6 +55,14 @@ describe('G09-D 预缓存宿主', () => {
     expect(document.getElementById('precache-widget')?.textContent).toBe('后台缓存资源 50% (1/1MB)')
   })
 
+  it('G09-D02a 小组件忽略非有限字节，不把 NaN 写入 DOM', () => {
+    const widget = createPrecacheWidget()
+    widget.update({ done: 0, total: 0, bytes: Number.NaN, totalBytes: 1024 })
+    expect(document.getElementById('precache-widget')?.textContent).toBe('后台缓存中…')
+    widget.update({ done: 0, total: 0, bytes: 1024, totalBytes: 2048 })
+    expect(document.getElementById('precache-widget')?.textContent).toContain('50%')
+  })
+
   it('G09-D03 playableFraction 0.25 把虚线放在 25%，必要资源满格也停在 25%', () => {
     fullBoot()
     const ui = createUnifiedProgressUi({ playableFraction: 0.25 })
@@ -78,6 +86,17 @@ describe('G09-D 预缓存宿主', () => {
     ui.setNecessaryProgress(1.5)
     expect(fillWidth()).toBe('12%')
     expect(statusText()).toBe('加载必要资源 100%')
+  })
+
+  it('G09-D05a 非有限必要进度不污染单调状态，后续合法进度仍可更新', () => {
+    fullBoot()
+    const ui = createUnifiedProgressUi()
+    ui.setNecessaryProgress(Number.NaN)
+    expect(fillWidth()).toBe('')
+    expect(statusText()).toBe('')
+    ui.setNecessaryProgress(0.5)
+    expect(fillWidth()).toBe('6%')
+    expect(statusText()).toBe('加载必要资源 50%')
   })
 
   it('G09-D06 过了虚线之后 setNecessaryProgress 不再改文案', () => {
@@ -150,6 +169,18 @@ describe('G09-D 预缓存宿主', () => {
     ui.setFullProgress(0, 0)
     expect(fillWidth()).toBe('12%')
     expect(statusText()).toBe('已缓存 0/0MB')
+  })
+
+  it('G09-D10a 非有限全量字节被忽略，后续合法进度仍可更新', () => {
+    fullBoot()
+    const ui = createUnifiedProgressUi()
+    ui.markPlayable(() => {})
+    ui.setFullProgress(Number.NaN, 100)
+    expect(fillWidth()).toBe('12%')
+    expect(statusText()).toBe('必要资源就绪 — 可进入')
+    ui.setFullProgress(50 * 1024 * 1024, 100 * 1024 * 1024)
+    expect(fillWidth()).toBe('50%')
+    expect(statusText()).toBe('已缓存 50/100MB')
   })
 
   it('G09-D11 第二次 enterGame 不再多挂一个小组件', () => {

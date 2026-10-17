@@ -6,6 +6,21 @@ export interface PrecacheWidget {
   done: () => void
 }
 
+function isFiniteNonNegative(value: number): boolean {
+  return Number.isFinite(value) && value >= 0
+}
+
+function normalizeByteProgress(
+  bytes: number,
+  totalBytes: number,
+): { bytes: number; totalBytes: number } | undefined {
+  if (!isFiniteNonNegative(bytes) || !isFiniteNonNegative(totalBytes)) return undefined
+  return {
+    bytes: totalBytes > 0 ? Math.min(bytes, totalBytes) : 0,
+    totalBytes,
+  }
+}
+
 /**
  * 统一进度控制器(2026-06-15 两段进度)。一条进度条视觉连续、语义两段:
  *   虚线前(0→虚线)= 必要资源加载进度(前台 fetch);虚线后(虚线→100%)= SW 全量预缓存进度。
@@ -61,9 +76,12 @@ export function createPrecacheWidget(): PrecacheWidget {
   const mb = (b: number): string => (b / 1024 / 1024).toFixed(0)
   return {
     update(p) {
+      const progress = normalizeByteProgress(p.bytes, p.totalBytes)
+      if (!progress) return
       // 态3 只有字节进度(SW 统一数据源)→ 百分比按 bytes/totalBytes 算,与态1 大条同口径。
-      const pct = p.totalBytes > 0 ? Math.floor((p.bytes / p.totalBytes) * 100) : 0
-      text.textContent = `后台缓存资源 ${pct}% (${mb(p.bytes)}/${mb(p.totalBytes)}MB)`
+      const pct =
+        progress.totalBytes > 0 ? Math.floor((progress.bytes / progress.totalBytes) * 100) : 0
+      text.textContent = `后台缓存资源 ${pct}% (${mb(progress.bytes)}/${mb(progress.totalBytes)}MB)`
       fill.style.width = `${pct}%`
     },
     done() {
@@ -82,7 +100,10 @@ export function createUnifiedProgressUi(opts?: { playableFraction?: number }): U
   const mb = (b: number): string => (b / 1024 / 1024).toFixed(0)
   // 虚线位置 = 必要资源占全量的预估比例(默认 12%)。虚线前段映射必要资源进度、虚线后段是 SW 全量
   // 真实进度(bytes/total);两段在虚线附近自然衔接(必要资源 ≈ playableFraction × total)。
-  const playableFraction = opts?.playableFraction ?? 0.12
+  const requestedPlayableFraction = opts?.playableFraction ?? 0.12
+  const playableFraction = isFiniteNonNegative(requestedPlayableFraction)
+    ? Math.min(1, requestedPlayableFraction)
+    : 0.12
   const mark = byId('boot-loading-mark')
   if (mark) mark.style.left = `${Math.round(playableFraction * 100)}%`
 
@@ -104,6 +125,7 @@ export function createUnifiedProgressUi(opts?: { playableFraction?: number }): U
   return {
     setNecessaryProgress(fraction) {
       if (phase !== 'necessary') return // 已过虚线 → SW 全量接管
+      if (!Number.isFinite(fraction)) return
       const frac = Math.max(0, Math.min(1, fraction))
       paint(frac * playableFraction * 100, `加载必要资源 ${Math.floor(frac * 100)}%`)
     },
@@ -121,14 +143,16 @@ export function createUnifiedProgressUi(opts?: { playableFraction?: number }): U
       btn.addEventListener('click', () => onEnter(), { once: true })
     },
     setFullProgress(cachedBytes, totalBytes) {
-      lastBytes = cachedBytes
-      lastTotal = totalBytes
+      const progress = normalizeByteProgress(cachedBytes, totalBytes)
+      if (!progress) return
+      lastBytes = progress.bytes
+      lastTotal = progress.totalBytes
       if (phase === 'entered') {
-        widget?.update({ done: 0, total: 0, bytes: cachedBytes, totalBytes })
+        widget?.update({ done: 0, total: 0, ...progress })
       } else if (phase === 'full') {
         // 虚线后 = SW 真实进度 bytes/total(单调不回退,起步 < 虚线时 clamp 在虚线不退)。
-        const pct = totalBytes > 0 ? (cachedBytes / totalBytes) * 100 : 0
-        paint(pct, `已缓存 ${mb(cachedBytes)}/${mb(totalBytes)}MB`)
+        const pct = progress.totalBytes > 0 ? (progress.bytes / progress.totalBytes) * 100 : 0
+        paint(pct, `已缓存 ${mb(progress.bytes)}/${mb(progress.totalBytes)}MB`)
       }
       // phase 'necessary'(SW 还没启动)→ 忽略
     },

@@ -67,6 +67,7 @@ describe('registerPrecache', () => {
   })
 
   it('register 抛错 → onUnavailable 触发,不向上抛', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => {})
     const sw = { register: vi.fn().mockRejectedValue(new Error('boom')), addEventListener: vi.fn() }
     Object.defineProperty(navigator, 'serviceWorker', { value: sw, configurable: true })
     const onUnavailable = vi.fn()

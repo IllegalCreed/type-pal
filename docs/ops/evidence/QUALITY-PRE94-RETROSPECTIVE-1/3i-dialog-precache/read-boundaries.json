@@ -1,0 +1,167 @@
+{
+  "base": "f2ebb196f",
+  "fullReads": [
+    {
+      "path": "packages/game/src/assets/dialog-assets.ts",
+      "sha256": "eecebbe3c11de70e361762ba4184cce17a61a19c30da306d36d426706d1e6fe5",
+      "lines": 118,
+      "boundary": "Full implementation read; manifest/PNG/RLE failure ownership and empty-map degradation."
+    },
+    {
+      "path": "packages/game/src/shell/precache-client.ts",
+      "sha256": "aec9894d9c6422d0f6d1f7dbf97c757e6b805c518203a87726cb56e56648d7c2",
+      "lines": 90,
+      "boundary": "Full implementation read; SW registration, message routing, ready barrier and start/pause/resume protocol."
+    },
+    {
+      "path": "packages/game/src/shell/precache-ui.ts",
+      "sha256": "ba6cc9ee369dd852552ca797d0f689d501f2ddd37afcb833ab575052686f43a9",
+      "lines": 187,
+      "boundary": "Full implementation read; added finite byte/fraction guard without changing normal phase semantics."
+    },
+    {
+      "path": "packages/game/src/shell/audio-volume.ts",
+      "sha256": "3a1e7ba69c8c60366211365fae35cb5e41ab78791e59cac9f486974dd6d92e50",
+      "lines": 55,
+      "boundary": "Full implementation read; storage, clamp, mute and sink ownership."
+    },
+    {
+      "path": "packages/game/src/shell/trademark-fallback.ts",
+      "sha256": "6f6a77f3af75fafe3e36b81a65019de7cecd2230b70da6a577e3aef23d603df0",
+      "lines": 112,
+      "boundary": "Full implementation read; sdlpal DOS timing, RNG caller and palette fade."
+    },
+    {
+      "path": "packages/game/src/assets/dialog-assets.glm-phase1-leaves.test.ts",
+      "sha256": "64c1a23f5a2bdae192e9734caa010c5ef7a7664de9baa38a6b0c6d924392e9c0",
+      "lines": 79,
+      "boundary": "Full direct asset failure/degradation contract read."
+    },
+    {
+      "path": "packages/game/src/assets/dialog-icons.grok-r1.test.ts",
+      "sha256": "d629d646370479db986f9359e6e9352654c04c17ba604c7c2eb012ac4c91d623",
+      "lines": 310,
+      "boundary": "Full direct icon/portrait PNG/RLE oracle read."
+    },
+    {
+      "path": "packages/game/src/shell/precache-client.test.ts",
+      "sha256": "930f185c3d0d48d55896f472efedecafb42bc751851fcfade84e3d5da9aba427",
+      "lines": 100,
+      "boundary": "Full registration, fallback, ready-race and command protocol read."
+    },
+    {
+      "path": "packages/game/src/shell/precache-client.glm-phase1-leaves.test.ts",
+      "sha256": "0350683ba4a51207077e7173e1bf5cb132fc59afc358780fd9343996aa769fd4",
+      "lines": 72,
+      "boundary": "Full early pause/resume and direct postMessage contract read."
+    },
+    {
+      "path": "packages/game/src/shell/precache-ui.test.ts",
+      "sha256": "37f66dafb662db38dd20d1d64891c320346aede9acfe7cc133d88c09d8a2d4bf",
+      "lines": 116,
+      "boundary": "Full direct unified phase/widget lifecycle read."
+    },
+    {
+      "path": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "sha256": "6a2823884d75b451b62ca0f5738622e742e91bfcc9269f9e29ed4fdd10c42675",
+      "lines": 293,
+      "boundary": "Full host boundary read; added finite-progress counterexamples."
+    },
+    {
+      "path": "packages/game/src/shell/audio-volume.test.ts",
+      "sha256": "4a7824f73e66db86522a11a492fa2bfb622b70d46df2fed4528cf2d99baf9d11",
+      "lines": 37,
+      "boundary": "Full direct storage/clamp/mute contract read."
+    },
+    {
+      "path": "packages/game/src/shell/audio-volume.boundaries.test.ts",
+      "sha256": "3edb12a582f63ff8265468f5247a8a253eb1df4dee85cd25934d9f8ba8fae47a",
+      "lines": 72,
+      "boundary": "Full NaN/zero/default/three-channel negative-control read."
+    },
+    {
+      "path": "packages/game/src/shell/trademark-fallback.test.ts",
+      "sha256": "b48cd572af41ea4028028409e51ae32a70d7f2201192dfc45be56d06830178b7",
+      "lines": 59,
+      "boundary": "Full fallback completion and skip-key contract read."
+    },
+    {
+      "path": "packages/game/src/shell/trademark-splash.grok-r1.test.ts",
+      "sha256": "7599c2960f8d799b5acfd13550ede6d96934f1dcac8ec9853a25fba5d0bc09c0",
+      "lines": 186,
+      "boundary": "Full timing, palette, framebuffer and splash neighbor read."
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.ts",
+      "sha256": "7298c33038868dd9f514b04940f5f9f8dbcf29a5592201a6e83509d4b04ed6aa",
+      "lines": 67,
+      "boundary": "Full resource barrier implementation read."
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "sha256": "a24ecd452ca31eb32eb012dc3d7517524ab323066549ce746541c6a8236d62f3",
+      "lines": 365,
+      "boundary": "Full resource rejection/settle/default-port isolation read."
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-audio.test.ts",
+      "sha256": "3f4e3962934dd6cd2c7f242a2fe2b79efe2b44cef9f623396469dc88a3e2565c",
+      "lines": 42,
+      "boundary": "Full audio sync caller oracle read."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/main.ts",
+      "sha256": "f4add3675f3d1b5e9205058d4403face28e0d068a9fb5ec584b1a41b0aa30e64",
+      "lines": 83,
+      "ranges": ["1-83"],
+      "boundary": "Full short entrypoint read; SW/playable gate caller."
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "6c02f5c426c7bf4fb8ef096117c23dd79ee10a2d642e70c1d4d51119b2026298",
+      "lines": 1944,
+      "ranges": [
+        "1-130",
+        "229-249",
+        "370-450",
+        "491-520",
+        "950-990",
+        "1020-1060",
+        "1080-1123",
+        "1270-1300",
+        "1795-1830",
+        "1875-1890"
+      ],
+      "boundary": "Caller ranges only; not a whole bootstrap acceptance."
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "9d200f52b336d7f96abc33b337a9b909d7fee28fbf32af4c72447d9fd84d0eab",
+      "lines": 805,
+      "ranges": ["50-60", "130-145", "690-705"],
+      "boundary": "Dialog asset injection/consumption ranges only."
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "1690410dfda8b125cecf8f650c3f91f4efcc3ee79200ff74795b49647f68e8e1",
+      "lines": 1106,
+      "ranges": ["1-60", "640-700"],
+      "boundary": "Audio controller injection and mute/slider caller ranges only."
+    },
+    {
+      "path": "packages/game/public/sw.js",
+      "sha256": "645f21945975fad08b36d3733990eb342f0c0751cf93a50e1ea631f8d5f8200c",
+      "lines": 163,
+      "ranges": ["112-151", "158-170"],
+      "boundary": "Precache progress producer and message protocol ranges only."
+    }
+  ],
+  "notClaimed": [
+    "Complete CODE-QUALITY-3i acceptance",
+    "Whole bootstrap, present or tools-panel semantic review",
+    "Browser visual/E2E verification of the loading widget or DOS opening",
+    "Coverage, official ratchet, protected fast or whole-repository acceptance"
+  ]
+}

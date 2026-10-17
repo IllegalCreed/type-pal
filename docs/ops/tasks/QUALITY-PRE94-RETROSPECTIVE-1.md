@@ -294,6 +294,14 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 
 定向四文件 `15 passed`，相邻 overlay/timer/tools-panel 六文件 `43 passed`，`pnpm --filter @type-pal/game run typecheck` 通过且无诊断。覆盖率、official ratchet、protected fast 和全仓 `pnpm check` 按用户明确的成本规则留到完整大模块收口；本片不把历史 3j done 或本切片证据升为整卡 accept。3j 其余工具文件与 3i/后续 pre-94 卡仍 pending；94–102 继续后置。
 
+### 2026-10-17 CODE-QUALITY-3i 对话资源 / 预缓存 / 音量 / 商标切片
+
+- 范围：`packages/game/src/assets/dialog-assets.ts`、`packages/game/src/shell/{precache-client,precache-ui,audio-volume,trademark-fallback}.ts` 与直接测试；另读 `main.ts`、`bootstrap.ts` 相关资源/可玩门/三路音量/RNG caller，`present.ts`、`tools-panel.ts`、`public/sw.js` 相关区间。
+- primary/caller/oracle：`reference/sdlpal/main.c:197-203`；extracted portraits/icon manifest、shared PNG/RLE 解码器；`main.ts` 的 onPlayable/startPrecache、`bootstrap.ts` 的 resource barrier/PresentContext/BattleAssets/onPresent、`sw.js:112-151` 进度消息生产；直接测试的真实 DOM/canvas、storage/sink、MessageEvent/ready 和 framebuffer oracle。
+- 直接发现：`precache-ui.ts` 的 `setNecessaryProgress`/`setFullProgress` 对 `NaN` 未拒绝，旧实现会写入 `NaN` 状态并污染后续合法进度。先行红测 2 例确认，随后加入有限/非负边界与总量上限归一；正常阶段、零总量和生命周期合同保持。
+- 未修/保留：dialog 资源按单资产失败隔离；precache-client 的 onPlayable/ready race/SW 协议保留，模块级 worker 状态在多次 bootstrap/HMR 下缺生产 caller 证据，仍为 review 候选；音量与商标流程未发现新的直接缺陷。没有触碰 schema/save、生成物、公共接口或用户可见形态。
+- 验证：先行 `precache-ui-host.grok-r1.test.ts` 22 例中 2 例失败；修复后定向 12 files/79 tests passed，`pnpm --filter @type-pal/game typecheck` passed。覆盖率、official ratchet、protected fast、全仓 `pnpm check` 按用户成本规则留到完整大模块收口；本片已读清单与 SHA 见 [`3i-dialog-precache`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3i-dialog-precache/README.md)。3i 整卡保持 `partial`，不据此宣布全仓完成。
+
 ### 2026-10-17 CODE1/CODE2 boundary carry-over
 
 本片接收工作树中已完成的两个窄测试合同：`packages/shared/src/rle.boundaries.test.ts` 新增“相邻 offset 截断前一帧帧头即拒绝”反例；`packages/shared/src/rng.boundaries.test.ts` 新增同一 surface 连续 delta 累加并保留首帧像素的 ownership 合同。两项都只改测试，不改 RLE/RNG/YJ2 实现、公共出口、资源或格式策略；RLE 高位 literal 风险继续留在 `QUALITY-RLE-COMMAND-TRUTH-1` draft。
