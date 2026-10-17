@@ -123,9 +123,9 @@ Template: governance-index-v1 / 1.0.0
 | `scripts/quality/code-quality-inventory.mjs` | tool | 已验证 | scoped git inventory/caller propagation、quality inventory tests | machine snapshot 不冒充 verdict |
 | `scripts/quality/code-quality-ledger.mjs` | tool | 已验证 | CODE-QUALITY-6a；真实 inventory/ledger uniqueness/status/count verifier、37 quality-tool tests | 只校验记录完整性，不把机器 PASS 当语义审查 verdict；fail-closed |
 | `scripts/quality/code-quality-ledger.test.mjs` | test | 已验证 | CODE-QUALITY-6a；9 个独立反例/真实仓库调用：重复、未知路径、计数漂移、表形状/状态/证据缺失、inventory 变更 | 真实 Node quality runner 纳入；不修改 ledger |
-| `packages/game/src/core/battle/battle-progression.ts` | product | 已验证 | CODE-QUALITY-3x；battle.c:991-1373,1226-1328；global.c:2347-2454；settlement/battle-system callers | 306 行逐段核验主升级、隐藏经验池顺序/整数截断/99 边界、主升级 cap、HP/MP 时机、法术学习去重与 snapshot 有效值；205 定向/相邻 tests、完整 check、official ratchet、protected fast、Biome 零诊断均通过；未发现直接缺陷 |
-| `packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-3x；139 行全文、CHECK_HIDDEN_EXP/主升级边界与 205 定向/相邻 tests | wLevel>99、隐藏无999 cap、池 RNG 顺序、无主升级不回满/主升级含隐藏回满反例 |
-| `packages/game/src/core/battle/__tests__/battle-levelup.test.ts` | test | 已验证 | CODE-QUALITY-3x；340 行全文、主升级/法术/投影 oracle 与 205 定向/相邻 tests | 活人 gate、阈值/余数/连升/满级、STAT_LIMIT、法术去重/level gate、runtime→battle projection 反例 |
+| `packages/game/src/core/battle/battle-progression.ts` | product | 已验证 | CODE-QUALITY-3x 当前复审；3x-battle-progression；battle.c:991-1373,1226-1328；global.c:2347-2454；settlement/battle-system callers | 306 行实现全文核验主升级、隐藏经验池顺序/整数截断/99 边界、主升级 cap、HP/MP 时机、法术学习去重与 snapshot 有效值；定向4 files/207 tests通过，未发现 direct defect；coverage/全仓门未在本小批运行 |
+| `packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-3x 当前复审；3x-battle-progression；142 行全文、CHECK_HIDDEN_EXP/主升级边界与定向4 files/207 tests | wLevel>99、隐藏无999 cap、池 RNG 顺序、无主升级不回满/主升级含隐藏回满反例；无重复或弱断言 |
+| `packages/game/src/core/battle/__tests__/battle-levelup.test.ts` | test | 已验证 | CODE-QUALITY-3x 当前复审；3x-battle-progression；303 行全文、主升级/法术/投影 oracle 与定向4 files/207 tests | 活人 gate、阈值/余数/连升/满级、STAT_LIMIT、法术去重/level gate、runtime→battle projection 反例；无重复或弱断言 |
 | `scripts/docs/check.mjs` | tool | 已验证 | Markdown link/task/board/index verifier；docs check runs | fail-closed task state |
 | `scripts/docs/check-testing.mjs` | tool | 已验证 | testing catalog/index/legacy flat verifier；testing docs runs | 独立测试文档门 |
 | `scripts/docs/config.mjs` | tool | 已验证 | current docs versions/sections/exceptions source | 不改历史格式 |
@@ -495,9 +495,9 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `scripts/quality/code-quality-inventory.mjs` | tool | 已验证 | scoped git inventory/caller propagation、quality inventory tests | machine snapshot 不冒充 verdict |
 | `scripts/quality/code-quality-ledger.mjs` | tool | 已验证 | CODE-QUALITY-6a；真实 inventory/ledger uniqueness/status/count verifier、37 quality-tool tests | 只校验记录完整性，不把机器 PASS 当语义审查 verdict；fail-closed |
 | `scripts/quality/code-quality-ledger.test.mjs` | test | 已验证 | CODE-QUALITY-6a；9 个独立反例/真实仓库调用：重复、未知路径、计数漂移、表形状/状态/证据缺失、inventory 变更 | 真实 Node quality runner 纳入；不修改 ledger |
-| `packages/game/src/core/battle/battle-progression.ts` | product | 已验证 | CODE-QUALITY-3x；battle.c:991-1373,1226-1328；global.c:2347-2454；settlement/battle-system callers | 306 行逐段核验主升级、隐藏经验池顺序/整数截断/99 边界、主升级 cap、HP/MP 时机、法术学习去重与 snapshot 有效值；205 定向/相邻 tests、完整 check、official ratchet、protected fast、Biome 零诊断均通过；未发现直接缺陷 |
-| `packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-3x；139 行全文、CHECK_HIDDEN_EXP/主升级边界与 205 定向/相邻 tests | wLevel>99、隐藏无999 cap、池 RNG 顺序、无主升级不回满/主升级含隐藏回满反例 |
-| `packages/game/src/core/battle/__tests__/battle-levelup.test.ts` | test | 已验证 | CODE-QUALITY-3x；340 行全文、主升级/法术/投影 oracle 与 205 定向/相邻 tests | 活人 gate、阈值/余数/连升/满级、STAT_LIMIT、法术去重/level gate、runtime→battle projection 反例 |
+| `packages/game/src/core/battle/battle-progression.ts` | product | 已验证 | CODE-QUALITY-3x 当前复审；3x-battle-progression；battle.c:991-1373,1226-1328；global.c:2347-2454；settlement/battle-system callers | 306 行实现全文核验主升级、隐藏经验池顺序/整数截断/99 边界、主升级 cap、HP/MP 时机、法术学习去重与 snapshot 有效值；定向4 files/207 tests通过，未发现 direct defect；coverage/全仓门未在本小批运行 |
+| `packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-3x 当前复审；3x-battle-progression；142 行全文、CHECK_HIDDEN_EXP/主升级边界与定向4 files/207 tests | wLevel>99、隐藏无999 cap、池 RNG 顺序、无主升级不回满/主升级含隐藏回满反例；无重复或弱断言 |
+| `packages/game/src/core/battle/__tests__/battle-levelup.test.ts` | test | 已验证 | CODE-QUALITY-3x 当前复审；3x-battle-progression；303 行全文、主升级/法术/投影 oracle 与定向4 files/207 tests | 活人 gate、阈值/余数/连升/满级、STAT_LIMIT、法术去重/level gate、runtime→battle projection 反例；无重复或弱断言 |
 | `scripts/docs/check.mjs` | tool | 已验证 | Markdown link/task/board/index verifier；docs check runs | fail-closed task state |
 | `scripts/docs/check-testing.mjs` | tool | 已验证 | testing catalog/index/legacy flat verifier；testing docs runs | 独立测试文档门 |
 | `scripts/docs/config.mjs` | tool | 已验证 | current docs versions/sections/exceptions source | 不改历史格式 |

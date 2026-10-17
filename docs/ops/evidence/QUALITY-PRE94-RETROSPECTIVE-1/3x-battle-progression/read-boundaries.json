@@ -1,0 +1,61 @@
+{
+  "base": "8038fb167",
+  "fullReads": [
+    {
+      "path": "packages/game/src/core/battle/battle-progression.ts",
+      "sha256": "6ad9607369e7c2bb619184d2e6bf189e4695094e4ac02c3d92885338a3fe93e1",
+      "lines": 306,
+      "boundary": "Full main/hidden experience, stat growth, level cap, HP/MP refill, magic learning and snapshot implementation read."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "sha256": "431898deab2b078912d2acdfcbb6cf3bdd0b84bece7bea09d2bdf2e081bbc05a",
+      "lines": 142,
+      "boundary": "Full hidden-exp >99, no-cap, pool-order RNG, no-main-level-up refill and main-level-up refill contracts."
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-levelup.test.ts",
+      "sha256": "9026d071d5fcaf7fdaed9630c59a679388f4e6716f62ddbd1975b3d0e861b615",
+      "lines": 303,
+      "boundary": "Full primary level-up, alive gate, thresholds/overflow, max level, stat cap, magic learning/dedup and runtime projection contracts."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "sha256": "881a38eccfb088452cffdf1eccb71414612730a6138bae4e7ab4890a342b55c6",
+      "lines": 246,
+      "boundary": "Full progression caller/settlement screen ordering and Phase E boundary read; settlement implementation remains its own scope."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "c286881a1d1d5932333a9fcd084376e42d8871c5abc2a052573a6dbc9267b11c",
+      "lines": 3141,
+      "ranges": ["88-90", "526-530", "3140-3141"],
+      "boundary": "Progression exports and settlement invocation ranges; full implementation was reviewed separately in 3s."
+    },
+    {
+      "path": "packages/game/src/core/rng.ts",
+      "sha256": "a1b685dd3851cdda39012481c7dd0ddda1cffa5761c15a82a045060e56b9fd4c",
+      "lines": 51,
+      "boundary": "Seedable RNG contract used by progression; full RNG governance is 3m scope."
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "ranges": ["991-1373"],
+      "boundary": "Battle win exp/cash, primary level-up, hidden pools, magic learning and half-heal primary."
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "ranges": ["2347-2454"],
+      "boundary": "PAL_PlayerLevelUp stat increments, cap and primary exp reset primary."
+    }
+  ],
+  "notClaimed": [
+    "Battle settlement/finalization full-file acceptance",
+    "Battle-system full-file acceptance",
+    "Formula/status/actions/magic/item/coop acceptance",
+    "Save/schema/migration/generated-asset/E2E/visual acceptance",
+    "Product behavior or public-interface change"
+  ]
+}

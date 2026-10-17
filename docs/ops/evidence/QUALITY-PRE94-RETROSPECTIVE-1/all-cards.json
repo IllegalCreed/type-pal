@@ -1398,7 +1398,7 @@
       "sha256": "5e13a953a15a5f1e6a21abcb56d35fcdace461ec771f8830840a16cef2bd31dd",
       "lines": 99,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -1458,7 +1458,8 @@
           "text": "输出：无下一位 Agent 提示词；若发现新反例，另开不重叠返工卡，不回写已核验行为。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3x-battle-progression/README.md"
     },
     {
       "id": "3y",
