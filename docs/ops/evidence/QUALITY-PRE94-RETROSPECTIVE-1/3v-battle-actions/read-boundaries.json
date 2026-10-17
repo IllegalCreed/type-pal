@@ -1,0 +1,109 @@
+{
+  "base": "f412c7dce",
+  "fullReads": [
+    {
+      "path": "packages/game/src/core/battle/actions/attack.ts",
+      "sha256": "35e9f6089a323ab7764b5ec9a364cb1092106e4480ee885179d796edc0e0ede6",
+      "lines": 614,
+      "boundary": "Full player/enemy physical attack, confused enemy attack, target/cover/auto-defend, equivalent poison and timeline delegation read."
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/attack-mate.ts",
+      "sha256": "217f36879c652d015b3dc26302d6b67db7dcc3c380f8bfa030d4094999458591",
+      "lines": 111,
+      "boundary": "Full confused player attack-mate target, damage, protect/defend, clamp, weapon sound and animation ownership read."
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/defend.ts",
+      "sha256": "b2240acf6d933b2345cf290adfb58bf7ee3602d9d5b1e3099d843109aae88f60",
+      "lines": 20,
+      "boundary": "Full defending flag ownership and invalid index no-op read."
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/flee.ts",
+      "sha256": "5995eba743a3a36f8344a0b7bb7ca69408b7783c31b3595e4718ff4a79ef6ae0",
+      "lines": 81,
+      "boundary": "Full flee rate/equipment, enemy resistance, boss/RNG, success/failure animation and hidden-exp ownership read."
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/attack-mate.test.ts",
+      "sha256": "698dbe32359e487c5668cb05b823e8bcdf9e597b2a80ff3c5f37583970bc772e",
+      "lines": 148,
+      "boundary": "Full seven-case attack-mate oracle read: legal target, sound, protect, defend, self/dead retry, no ally and HP clamp."
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts",
+      "sha256": "46bc9913fd1ae91d03ed6f923920614bab64aab11a3c1e2e4db24962fa244995",
+      "lines": 64,
+      "boundary": "Full battleEffectIndex flat lookup and missing-table negative oracle read."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/core/battle/__tests__/actions.test.ts",
+      "sha256": "8e41771ac1cb770a69cfee91ee40ebb01971ca2d7ebd02998f4d64ea64e844ae",
+      "lines": 2571,
+      "ranges": ["218-520", "920-1120"],
+      "boundary": "Related performAttack, confused-enemy, defend and flee contracts only; full actions test remains outside this slice and is not closed here."
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-anim-driver.test.ts",
+      "sha256": "b5fbc0bfa1c5d0d0da005ddc4d9c09c16801f0fb9602480a700cb40ccd9b398c",
+      "lines": 504,
+      "ranges": ["1-180"],
+      "boundary": "Animation frame/driver ownership oracle used for action timeline delegation; full file not claimed."
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-anim-integration.test.ts",
+      "sha256": "53a9f394d0f2a4273530f7c19499a8afdf73526f07710634528b45d83ee8b99e",
+      "lines": 300,
+      "ranges": ["1-260"],
+      "boundary": "Physical action timeline/currentActionIndex/instant action caller contracts; full file not claimed."
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/formulas.test.ts",
+      "sha256": "6c30875bcb6085e95c81d29040e934ec71e51a7290206b9311007a732408a14a",
+      "lines": 264,
+      "ranges": ["1-180"],
+      "boundary": "Physical damage helper oracle context; formula full-file acceptance remains outside this slice."
+    },
+    {
+      "path": "packages/game/src/core/mode.ts",
+      "sha256": "96128a2ee924f28d49b4383e6cd521c34b9382d7f353d3b2dd21277a58cdaf15",
+      "lines": 93,
+      "ranges": ["50-72"],
+      "boundary": "Battle mode dispatch caller range."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "ranges": ["2440-2860"],
+      "boundary": "perform action caller, target validation/reselection, degradation chain and action dispatch ranges; full implementation was closed separately in 3s."
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "ranges": ["3618-3854", "4110-4172", "4591-4654", "4910-5175"],
+      "boundary": "Player/enemy attack, attack-mate, defend, flee, confused and physical/cover/poison primary."
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "ranges": ["1397-1528"],
+      "boundary": "Enemy escape and player flee animation primary."
+    },
+    {
+      "path": "reference/sdlpal/battle.h",
+      "ranges": ["49-68"],
+      "boundary": "Battle action type/target contract."
+    },
+    {
+      "path": "docs/phase1/game-mechanics.md",
+      "ranges": ["808-855"],
+      "boundary": "Approved enemy flee resistance decision and action mechanics context."
+    }
+  ],
+  "notClaimed": [
+    "Full actions.test.ts, full animation/formula test-file acceptance",
+    "Magic/item/throw/coop actions and battle-opcodes full-file acceptance",
+    "Save/schema/migration/generated-asset/E2E/visual acceptance",
+    "Product behavior or public-interface change"
+  ]
+}

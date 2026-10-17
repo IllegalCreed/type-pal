@@ -9,7 +9,7 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
 ## 当前用户要求、范围与准入
 
-用户2026-10-16重申“复审94号之前的所有卡的成果”，本卡当前覆盖全部83张CODE-QUALITY编号小于94的卡，包含字母后缀，不是抽样。77张历史done、1张build、4张review、1张draft仅是原卡状态；本轮重新accept为0。当前复审队列已推进为25张partial、58张pending；partial只表示有限证据切片，不是验收。按当前Git tracked路径收集，大小写敏感编号规则排除行政卡CODE-QUALITY-3Y-CLOSEOUT-1；不按编号空缺虚构卡。完整83行清单与卡SHA见[复审队列](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)。原36卡结构/8卡全文抽查是历史部分证据，不能替代任何整卡成果复验。3y的58差异卡矩阵也不是全部83卡。
+用户2026-10-16重申“复审94号之前的所有卡的成果”，本卡当前覆盖全部83张CODE-QUALITY编号小于94的卡，包含字母后缀，不是抽样。77张历史done、1张build、4张review、1张draft仅是原卡状态；本轮重新accept为0。当前复审队列已推进为26张partial、57张pending；partial只表示有限证据切片，不是验收。按当前Git tracked路径收集，大小写敏感编号规则排除行政卡CODE-QUALITY-3Y-CLOSEOUT-1；不按编号空缺虚构卡。完整83行清单与卡SHA见[复审队列](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)。原36卡结构/8卡全文抽查是历史部分证据，不能替代任何整卡成果复验。3y的58差异卡矩阵也不是全部83卡。
 
 唯一工作树/分支codex/code-quality-3y；主树和其它Owner只读，不再新建治理分支。94–102及editor既有返工继续保留；C10未完成检查点bea19f80c已提交推送，当前先推进本卡。工程→模块→功能→文件；先6a的账本/清单四文件，再核92的受保护门证据，继而逐卡回到shared/extract/game等模块。活跃53/57/79/80/81/90只读协调，未核前不抢写其实现。
 
@@ -19,7 +19,7 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 
 ## 当前推进
 
-83卡当前全量accept=0、25partial/58pending；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3b SSS/MSG、3c动画清理、3d PNG、3g CLI、3h assets/shell、CODE71 fetch取消与测试、CODE3/3f切分与标注已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
+83卡当前全量accept=0、26partial/57pending；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3b SSS/MSG、3c动画清理、3d PNG、3g CLI、3h assets/shell、CODE71 fetch取消与测试、CODE3/3f切分与标注已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
 
 无下一位Agent提示词，Codex单Agent继续全量复审，不把本卡交回GLM。
 
@@ -37,6 +37,14 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 本片修复测试隔离：cov85 两个 `console.error` spy 使用 `try/finally` 恢复，主测试两个战斗集成 describe 的 `console.warn` spy 使用 `afterEach` 恢复；不改变产品行为或战斗机制。测试判别力核验保留合法输入、反例、业务 oracle 和相邻职责边界；部分直接摆 typed BattleState 的测试仅隔离 phase/guard，未扩张为完整生产路径验收。
 
 验证：定向 9 files / 242 tests passed；`pnpm --filter @type-pal/game typecheck` passed，无失败、跳过或测试 stderr。coverage ratchet、protected fast、全仓 `pnpm check`、官方 coverage 本小批未运行，不能宣称统一质量门通过。3s 当前 `partial`，证据见 [`3s-battle-system`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3s-battle-system/README.md)，下一批继续选择不重叠的 pre-94 pending 文件。
+
+### 2026-10-17 CODE-QUALITY-3v battle actions 当前复审
+
+完整读取 `actions/attack.ts`（614 行）、`attack-mate.ts`（111 行）、`defend.ts`（20 行）、`flee.ts`（81 行）、专属 `attack-mate.test.ts`（148 行）和 `attack.glm-next-wave.test.ts`（64 行）；读取 `actions.test.ts` 的 attack/confused/defend/flee 相关段与 animation/formula 相邻 oracle。对照 SDLPal `fight.c`/`battle.c`/`battle.h`、`battle-system.ts` action caller 和已批准的敌吉运修复，未发现可由 primary source + 真实 caller 证实的新实现 direct defect。
+
+本片无实现改动；测试判别力保留合法输入、死亡/空目标、RNG、cover/auto-defend、boss/装备、失败动画和资源缺失反例。`actions.test.ts`、完整 animation/formula 文件和其它 action family 仅作相邻部分证据，不在本片关闭。
+
+验证：定向 6 files / 154 tests passed；本片未改产品实现，因此不重复运行 game typecheck。coverage ratchet、protected fast、全仓 `pnpm check`、官方 coverage 本小批未运行，不能宣称统一质量门通过。3v 当前 `partial`，证据见 [`3v-battle-actions`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3v-battle-actions/README.md)，下一批继续选择不重叠的 pre-94 pending 文件。
 
 ## 历史：2026-10-15抽查准入原文（已被上方全量范围取代）
 
