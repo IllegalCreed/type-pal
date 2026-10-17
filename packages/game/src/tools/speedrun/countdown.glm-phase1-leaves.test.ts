@@ -1,37 +1,38 @@
 /**
- * TEST-GLM-PHASE1-LEAVES-3 L20（countdown.ts）— 去重表：
- *  - countdown.test（挂出/更新文本/null 移除）→ 不重复
- *  - 新差异：单例元素复用（连显不重复建、更新同一节点）、移除后再显重建、
- *    相同文本不重写 textContent（无副作用可观察 → 只锁节点数与文本）。
+ * countdown.test.ts 负责创建、更新时节点身份、移除/重建和 pointer-events。
+ * 本文件只核每帧相同文字不触发 DOM 变更，以及无 document 时的宿主边界。
+ * MutationObserver 可观察同文字的重复写入，节点数/文字相同不能替代此 oracle。
  */
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { showCountdown } from './countdown.js'
 
 const ID = 'tp-speedrun-countdown'
 
 afterEach(() => {
+  vi.unstubAllGlobals()
+  vi.restoreAllMocks()
   document.getElementById(ID)?.remove()
 })
 
-describe('L20 showCountdown 单例合同', () => {
-  it('连显 3→2：同一元素更新，不产生第二个节点', () => {
+describe('L20 showCountdown 宿主边界', () => {
+  it('相同文字逐帧刷新时不触发 DOM 变更', () => {
     showCountdown('3')
     const first = document.getElementById(ID)!
-    showCountdown('2')
-    const second = document.getElementById(ID)
-    expect(second).toBe(first) // 同一节点
-    expect(document.querySelectorAll(`#${ID}`)).toHaveLength(1)
-    expect(first.textContent).toBe('2')
-    expect(first.style.pointerEvents).toBe('none') // 不挡操作
+    const observer = new MutationObserver(() => {})
+    observer.observe(first, { childList: true, characterData: true, subtree: true })
+    try {
+      showCountdown('3')
+      expect(observer.takeRecords()).toHaveLength(0)
+    } finally {
+      observer.disconnect()
+    }
   })
 
-  it('null 移除后可重建；再 null 幂等', () => {
+  it('无 document 时字符串和 null 调用均不访问 DOM', () => {
+    const createElement = vi.spyOn(document, 'createElement')
+    vi.stubGlobal('document', undefined)
     showCountdown('3')
     showCountdown(null)
-    expect(document.getElementById(ID)).toBeNull()
-    showCountdown(null) // 幂等
-    expect(document.getElementById(ID)).toBeNull()
-    showCountdown('1')
-    expect(document.getElementById(ID)?.textContent).toBe('1')
+    expect(createElement).not.toHaveBeenCalled()
   })
 })

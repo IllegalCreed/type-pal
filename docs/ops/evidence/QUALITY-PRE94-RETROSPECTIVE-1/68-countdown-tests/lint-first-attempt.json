@@ -1,0 +1,9 @@
+{
+  "name": "lint",
+  "command": ["pnpm", "lint"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 1,
+  "signal": null,
+  "spawnError": null,
+  "rawSha256": "5198328ed15a22bd719201d8400aa17029963fc93c82ea23ef412fd1042bb26e"
+}

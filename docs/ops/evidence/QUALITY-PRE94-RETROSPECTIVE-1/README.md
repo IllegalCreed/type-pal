@@ -4,7 +4,7 @@
 
 ## 2026-10-17 当前范围与优先级
 
-用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10原检查点bea19f80c已推送，当前恢复见本片末尾；分支已同步最新origin/main，0behind，未合main。全83卡29partial/54pending/0accept；[6a](6a/README.md)、92、CODE1/2/2b/3/3b/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；[CODE3b](3b/README.md)两边界六oracle已补；[raw补证](3b/raw-tests/README.md)9→2/五新反控、完整extract428零stderr；全正文仍待，[3d PNG](3d/README.md)两height盲点已补，下一片3h assets/shell，再按模块逐文件推进；94–102/editor未完成项保留。
+用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10原检查点bea19f80c已推送，当前恢复见本片末尾；分支已同步最新origin/main，0behind，未合main。全83卡46partial/37pending/0accept（2026-10-18 CODE68；下文数字均按各片原时点）；[6a](6a/README.md)、92、CODE1/2/2b/3/3b/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；[CODE3b](3b/README.md)两边界六oracle已补；[raw补证](3b/raw-tests/README.md)9→2/五新反控、完整extract428零stderr；全正文仍待，[3d PNG](3d/README.md)两height盲点已补，下一片3h assets/shell，再按模块逐文件推进；94–102/editor未完成项保留。
 
 下文旧数字、探针与结论作为历史保存；不会把旧抽查、历史done或包全绿补签成当前验收。
 
@@ -180,3 +180,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 最新[66 speedrun overlay 复审切片](66-speedrun-overlay/README.md)：完整读取 overlay 实现/两测试与 index/timer/store/time-format caller，补齐差值/ETA 判别测试；5 文件 25 tests、game typecheck通过，未发现实现 direct defect；66 当前 partial，67–69 与统一门仍待。
 
 最新[67 speedrun checkpoint 测试复审切片](67-speedrun-checkpoint-tests/README.md)：完整读取 checkpoint/timer boundary 测试与实现、detector/index caller；9 个直接边界测试和相邻共 31 tests、game typecheck通过，坐标/BGM/香蕉运行时校准继续保持 unknown；67 当前 partial，68–69 与统一门仍待。
+
+最新 [68 countdown 测试](68-countdown-tests/README.md)：修正旧“不重复/同文字不可观察”的结论；生命周期oracle转移后补 MutationObserver/SSR，旧4绿新单红；相邻20文件104例、game typecheck通过。两测试新增闭合；新统一门未运行，69及其余37卡仍pending，46卡partial/0整卡accept。

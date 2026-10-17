@@ -1,0 +1,268 @@
+{
+  "phase": "before",
+  "base": "4121531c7c17b835cf2dcc4cc758669342218df3",
+  "formalSha256": {
+    "countdown.ts": "1496186d3dddd0c818aac769fec34fa4b98cf6b7aef06e8173618b3d65551a62",
+    "countdown.test.ts": "2ed9d55199cb26f0bbb71f408c6954eb96d325be9afe20165a581998b7cd0121",
+    "countdown.glm-phase1-leaves.test.ts": "98c0396fd7cfddabe2f8497b1f31c97b3d18d939a04523c8018a6caa3a86224a"
+  },
+  "variants": {
+    "control": null,
+    "same-text-write": [
+      "if (el.textContent !== text) el.textContent = text",
+      "el.textContent = text"
+    ],
+    "replace-root": ["  if (!el) {", "  el?.remove()\n  el = null\n  if (!el) {"],
+    "skip-remove": ["    el?.remove()", "    // mutation: retain the old countdown"]
+  },
+  "runs": [
+    {
+      "variant": "control",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/tools/speedrun/pre94-countdown68-before-control-countdown.test.ts",
+        "src/tools/speedrun/pre94-countdown68-before-control-countdown.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-countdown68-f8kcyfsh/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "3cd568db4ca0045ba81ef6b860d4440411be84497ebb999088ac01b53fa2aa8f",
+      "runnerSha256": "b339d46dd8604069aa5e539c608c36a0bb506fc49ab75885bf8f259d315a46e1",
+      "moduleSha256": "1496186d3dddd0c818aac769fec34fa4b98cf6b7aef06e8173618b3d65551a62",
+      "copiesSha256": {
+        "packages/game/src/tools/speedrun/pre94-countdown68-before-control-countdown.ts": "1496186d3dddd0c818aac769fec34fa4b98cf6b7aef06e8173618b3d65551a62",
+        "packages/game/src/tools/speedrun/pre94-countdown68-before-control-countdown.test.ts": "2df30f0c7f49ca0085664f3d65a0e494acb0ea1ddbac86bebb8b23e51dea1d2d",
+        "packages/game/src/tools/speedrun/pre94-countdown68-before-control-countdown.glm-phase1-leaves.test.ts": "a035242cb4321aca6cab1decda72046ffa305af25920618a273cf5fc7be2081e"
+      },
+      "passed": 4,
+      "failed": 0,
+      "pending": 0,
+      "errorNames": [],
+      "cases": [
+        {
+          "file": "countdown.glm-phase1-leaves.test.ts",
+          "fullName": "L20 showCountdown 单例合同 连显 3→2：同一元素更新，不产生第二个节点",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "countdown.glm-phase1-leaves.test.ts",
+          "fullName": "L20 showCountdown 单例合同 null 移除后可重建；再 null 幂等",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "countdown.test.ts",
+          "fullName": "showCountdown 传字符串挂出、更新文本",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "countdown.test.ts",
+          "fullName": "showCountdown 传 null 移除",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    },
+    {
+      "variant": "same-text-write",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/tools/speedrun/pre94-countdown68-before-same-text-write-countdown.test.ts",
+        "src/tools/speedrun/pre94-countdown68-before-same-text-write-countdown.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-countdown68-xh_uwns8/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "4df19e666bfc5c2b5e532ee5892944fbff6f6065cbd68da45090081853145d36",
+      "runnerSha256": "e7a8f7d9aeb741b4900e945881ef3e71f8573117b466111742db975b4cc7bc9f",
+      "moduleSha256": "c1cd7323ed0876da6d97f28850eb5ca7a091f363aa3d519e1cfa008bd3830f57",
+      "copiesSha256": {
+        "packages/game/src/tools/speedrun/pre94-countdown68-before-same-text-write-countdown.ts": "c1cd7323ed0876da6d97f28850eb5ca7a091f363aa3d519e1cfa008bd3830f57",
+        "packages/game/src/tools/speedrun/pre94-countdown68-before-same-text-write-countdown.test.ts": "882d5633305f02f9e224eb9c337f481e9f5c432eba13e849efc6a52fac94b9c9",
+        "packages/game/src/tools/speedrun/pre94-countdown68-before-same-text-write-countdown.glm-phase1-leaves.test.ts": "c00a41219754668dd2e660f0a24cb041a868c13201636f2f464ce8ad87ff9498"
+      },
+      "passed": 4,
+      "failed": 0,
+      "pending": 0,
+      "errorNames": [],
+      "cases": [
+        {
+          "file": "countdown.glm-phase1-leaves.test.ts",
+          "fullName": "L20 showCountdown 单例合同 连显 3→2：同一元素更新，不产生第二个节点",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "countdown.glm-phase1-leaves.test.ts",
+          "fullName": "L20 showCountdown 单例合同 null 移除后可重建；再 null 幂等",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "countdown.test.ts",
+          "fullName": "showCountdown 传字符串挂出、更新文本",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "countdown.test.ts",
+          "fullName": "showCountdown 传 null 移除",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    },
+    {
+      "variant": "replace-root",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/tools/speedrun/pre94-countdown68-before-replace-root-countdown.test.ts",
+        "src/tools/speedrun/pre94-countdown68-before-replace-root-countdown.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-countdown68-zlao051d/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "1a5bc02dfa02280076bd6c0dadf0b7d0dc21c8f6bc57468df60a7fa512514320",
+      "runnerSha256": "e468ca77e046228c7162c1f07fee289c7e040466427e32b6776b0e0c59964c3a",
+      "moduleSha256": "98819a1e05755f554d2b3edefcac06079cb7f4469cea22ae04411da756bff881",
+      "copiesSha256": {
+        "packages/game/src/tools/speedrun/pre94-countdown68-before-replace-root-countdown.ts": "98819a1e05755f554d2b3edefcac06079cb7f4469cea22ae04411da756bff881",
+        "packages/game/src/tools/speedrun/pre94-countdown68-before-replace-root-countdown.test.ts": "348c806ec0b8f76c05c96d475c3e84e4f2001ccd1e3d030e053b8187f53511d9",
+        "packages/game/src/tools/speedrun/pre94-countdown68-before-replace-root-countdown.glm-phase1-leaves.test.ts": "c8a4c2b33f644111ca330972dc1b2586f5ec0a77df66d67f1eb3785f383e3b61"
+      },
+      "passed": 3,
+      "failed": 1,
+      "pending": 0,
+      "errorNames": ["AssertionError"],
+      "cases": [
+        {
+          "file": "countdown.glm-phase1-leaves.test.ts",
+          "fullName": "L20 showCountdown 单例合同 连显 3→2：同一元素更新，不产生第二个节点",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected <div …(2)></div> to be <div …(2)></div> // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/speedrun/pre94-countdown68-before-replace-root-countdown.glm-phase1-leaves.test.ts:22:20\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "countdown.glm-phase1-leaves.test.ts",
+          "fullName": "L20 showCountdown 单例合同 null 移除后可重建；再 null 幂等",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "countdown.test.ts",
+          "fullName": "showCountdown 传字符串挂出、更新文本",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "countdown.test.ts",
+          "fullName": "showCountdown 传 null 移除",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    },
+    {
+      "variant": "skip-remove",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/tools/speedrun/pre94-countdown68-before-skip-remove-countdown.test.ts",
+        "src/tools/speedrun/pre94-countdown68-before-skip-remove-countdown.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-countdown68-dpw_xbhw/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "398f791843c475076172b3793038ef1dea49057534b3acf6b843c795301fe772",
+      "runnerSha256": "feb2842546be83e316d69345b2df66967a9d5a461a1479bf692d22edfcbb0a51",
+      "moduleSha256": "7b46debbce6dc194374a0d7f9a0c026e19e125d51847c7f6e3d2a5d34fd8aa9d",
+      "copiesSha256": {
+        "packages/game/src/tools/speedrun/pre94-countdown68-before-skip-remove-countdown.ts": "7b46debbce6dc194374a0d7f9a0c026e19e125d51847c7f6e3d2a5d34fd8aa9d",
+        "packages/game/src/tools/speedrun/pre94-countdown68-before-skip-remove-countdown.test.ts": "ddf629dd13b1a170743d3d4ef473fa0dfc40e9bf3f7973dfe2627ed636708ba3",
+        "packages/game/src/tools/speedrun/pre94-countdown68-before-skip-remove-countdown.glm-phase1-leaves.test.ts": "6d8c8692954c1ea61f3a2449ccc95e2296a60b325d1635a8c2e328cedb5f6665"
+      },
+      "passed": 2,
+      "failed": 2,
+      "pending": 0,
+      "errorNames": ["AssertionError", "AssertionError"],
+      "cases": [
+        {
+          "file": "countdown.glm-phase1-leaves.test.ts",
+          "fullName": "L20 showCountdown 单例合同 连显 3→2：同一元素更新，不产生第二个节点",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "countdown.glm-phase1-leaves.test.ts",
+          "fullName": "L20 showCountdown 单例合同 null 移除后可重建；再 null 幂等",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected <div …(2)></div> to be null\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/speedrun/pre94-countdown68-before-skip-remove-countdown.glm-phase1-leaves.test.ts:31:41\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "countdown.test.ts",
+          "fullName": "showCountdown 传字符串挂出、更新文本",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "countdown.test.ts",
+          "fullName": "showCountdown 传 null 移除",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected <div …(2)></div> to be null\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/speedrun/pre94-countdown68-before-skip-remove-countdown.test.ts:17:62\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ]
+    }
+  ],
+  "formalSourcesUnchanged": true,
+  "temporaryCopiesRemoved": true
+}

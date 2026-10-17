@@ -10,6 +10,6 @@
 
 ## 判别力与结论
 
-既有 `countdown.test.ts` 覆盖挂出、文本更新和移除；GLM leaves 覆盖同一节点复用、`pointer-events:none`、移除后重建和重复 `null`。未发现重复、恒真、核心 mock、非法输入或清理缺口；`document.body` 由真实主循环调用时存在，SSR/无 document 已有 no-op。没有第一阶段机制、schema/save、资产管线或公共接口边界，不改生产代码。
+既有 `countdown.test.ts` 覆盖挂出、文本更新和移除；GLM leaves 覆盖同一节点复用、`pointer-events:none`、移除后重建和重复 `null`。本片当时未识别生命周期重复，且“同文字无重写”没有直接 oracle；该结论由 [CODE68复审](../68-countdown-tests/README.md) 纠正。未发现核心 mock 或非法输入；`document.body` 由真实主循环调用时存在，SSR/无 document 已有 no-op。没有第一阶段机制、schema/save、资产管线或公共接口边界，不改生产代码。
 
 定向 `countdown.test.ts`、`countdown.glm-phase1-leaves.test.ts`、`index.test.ts`、`index.glm-phase1-leaves.test.ts`：`4 files / 17 tests passed`，0 failure/skip/stderr。覆盖率、official ratchet、protected fast 和全仓 `pnpm check` 未在本小片运行；按用户规则留到完整大模块收口。3j 整卡保持 `partial`，countdown 文件当前仅有本片直接证据，不把历史 done 重新升为本轮 accept。

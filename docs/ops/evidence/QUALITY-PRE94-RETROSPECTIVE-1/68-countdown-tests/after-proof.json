@@ -1,0 +1,268 @@
+{
+  "phase": "after",
+  "base": "4121531c7c17b835cf2dcc4cc758669342218df3",
+  "formalSha256": {
+    "countdown.ts": "1496186d3dddd0c818aac769fec34fa4b98cf6b7aef06e8173618b3d65551a62",
+    "countdown.test.ts": "a684c34ac598bf934caff399c0616b2f24cc5ce8e3fcaefaa07eb9c300219833",
+    "countdown.glm-phase1-leaves.test.ts": "2abb8449f9eb418542b978538b4709f6104478e211c51032faba7faa82a71eb2"
+  },
+  "variants": {
+    "control": null,
+    "same-text-write": [
+      "if (el.textContent !== text) el.textContent = text",
+      "el.textContent = text"
+    ],
+    "replace-root": ["  if (!el) {", "  el?.remove()\n  el = null\n  if (!el) {"],
+    "skip-remove": ["    el?.remove()", "    // mutation: retain the old countdown"]
+  },
+  "runs": [
+    {
+      "variant": "control",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/tools/speedrun/pre94-countdown68-after-control-countdown.test.ts",
+        "src/tools/speedrun/pre94-countdown68-after-control-countdown.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-countdown68-d3jhdlyk/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "9dbe44f21f73413fd0fc15b67b7e7c9268013166e1d7a0253a1d48078da33e02",
+      "runnerSha256": "b5b2fbcbe499b64d55d98aebf85386a9bc9cc4d84c01ff51b85bc710d0a8ef14",
+      "moduleSha256": "1496186d3dddd0c818aac769fec34fa4b98cf6b7aef06e8173618b3d65551a62",
+      "copiesSha256": {
+        "packages/game/src/tools/speedrun/pre94-countdown68-after-control-countdown.ts": "1496186d3dddd0c818aac769fec34fa4b98cf6b7aef06e8173618b3d65551a62",
+        "packages/game/src/tools/speedrun/pre94-countdown68-after-control-countdown.test.ts": "57c449ea110c00f459cdb1c52723148cd95ea159503fb665e0edd17e179cb604",
+        "packages/game/src/tools/speedrun/pre94-countdown68-after-control-countdown.glm-phase1-leaves.test.ts": "54f7c665fd8276b88e28545f6d60113efabc1b9d1e299a7e6a1985252934e107"
+      },
+      "passed": 4,
+      "failed": 0,
+      "pending": 0,
+      "errorNames": [],
+      "cases": [
+        {
+          "file": "countdown.glm-phase1-leaves.test.ts",
+          "fullName": "L20 showCountdown 宿主边界 相同文字逐帧刷新时不触发 DOM 变更",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "countdown.glm-phase1-leaves.test.ts",
+          "fullName": "L20 showCountdown 宿主边界 无 document 时字符串和 null 调用均不访问 DOM",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "countdown.test.ts",
+          "fullName": "showCountdown 传字符串挂出、更新文本",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "countdown.test.ts",
+          "fullName": "showCountdown 传 null 移除",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    },
+    {
+      "variant": "same-text-write",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/tools/speedrun/pre94-countdown68-after-same-text-write-countdown.test.ts",
+        "src/tools/speedrun/pre94-countdown68-after-same-text-write-countdown.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-countdown68-ea750ao0/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "cc78a12d5033dcb73f30a47b556decfe861067ef3986b641ec3e261b746a7bb2",
+      "runnerSha256": "f2f802ee6b045a612acbf06a4ca5f20c8038220a64d93191144f10d429fc7821",
+      "moduleSha256": "c1cd7323ed0876da6d97f28850eb5ca7a091f363aa3d519e1cfa008bd3830f57",
+      "copiesSha256": {
+        "packages/game/src/tools/speedrun/pre94-countdown68-after-same-text-write-countdown.ts": "c1cd7323ed0876da6d97f28850eb5ca7a091f363aa3d519e1cfa008bd3830f57",
+        "packages/game/src/tools/speedrun/pre94-countdown68-after-same-text-write-countdown.test.ts": "37f7ad2c31749b906b11393472a80ae0b93fc201c3673af25a5a935d7155e89b",
+        "packages/game/src/tools/speedrun/pre94-countdown68-after-same-text-write-countdown.glm-phase1-leaves.test.ts": "ad93aa256ac7ee38b7e6ac9601f8a5ea008eca2c35416591abb20fddb1b7950a"
+      },
+      "passed": 3,
+      "failed": 1,
+      "pending": 0,
+      "errorNames": ["AssertionError"],
+      "cases": [
+        {
+          "file": "countdown.glm-phase1-leaves.test.ts",
+          "fullName": "L20 showCountdown 宿主边界 相同文字逐帧刷新时不触发 DOM 变更",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected [ MutationRecord{ …(1) } ] to have a length of +0 but got 1\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1389:20)\n    at Proxy.<anonymous> (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+expect@4.1.7/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/chai@6.2.2/node_modules/chai/index.js:1700:25)\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/speedrun/pre94-countdown68-after-same-text-write-countdown.glm-phase1-leaves.test.ts:25:38\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20"
+          ]
+        },
+        {
+          "file": "countdown.glm-phase1-leaves.test.ts",
+          "fullName": "L20 showCountdown 宿主边界 无 document 时字符串和 null 调用均不访问 DOM",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "countdown.test.ts",
+          "fullName": "showCountdown 传字符串挂出、更新文本",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "countdown.test.ts",
+          "fullName": "showCountdown 传 null 移除",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    },
+    {
+      "variant": "replace-root",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/tools/speedrun/pre94-countdown68-after-replace-root-countdown.test.ts",
+        "src/tools/speedrun/pre94-countdown68-after-replace-root-countdown.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-countdown68-23r9vir4/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "96eae3c5cd1d1bbbb9e32f9fc03550d2f8f2752e66d0fc69ca6f52661724faf5",
+      "runnerSha256": "aa4b4e27777821d827d8376df84355012cd25527db0394fb57ffd6b61198f08c",
+      "moduleSha256": "98819a1e05755f554d2b3edefcac06079cb7f4469cea22ae04411da756bff881",
+      "copiesSha256": {
+        "packages/game/src/tools/speedrun/pre94-countdown68-after-replace-root-countdown.ts": "98819a1e05755f554d2b3edefcac06079cb7f4469cea22ae04411da756bff881",
+        "packages/game/src/tools/speedrun/pre94-countdown68-after-replace-root-countdown.test.ts": "9731aa89617ece9e7772c09e56ce0b671bbe462f35793f6bb30c16b38e974497",
+        "packages/game/src/tools/speedrun/pre94-countdown68-after-replace-root-countdown.glm-phase1-leaves.test.ts": "3a94a97af58128274cf35efa496738ded1e92a053e0314024b886b6f80de9440"
+      },
+      "passed": 3,
+      "failed": 1,
+      "pending": 0,
+      "errorNames": ["AssertionError"],
+      "cases": [
+        {
+          "file": "countdown.glm-phase1-leaves.test.ts",
+          "fullName": "L20 showCountdown 宿主边界 相同文字逐帧刷新时不触发 DOM 变更",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "countdown.glm-phase1-leaves.test.ts",
+          "fullName": "L20 showCountdown 宿主边界 无 document 时字符串和 null 调用均不访问 DOM",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "countdown.test.ts",
+          "fullName": "showCountdown 传字符串挂出、更新文本",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected <div …(2)></div> to be <div …(2)></div> // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/speedrun/pre94-countdown68-after-replace-root-countdown.test.ts:12:62\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        },
+        {
+          "file": "countdown.test.ts",
+          "fullName": "showCountdown 传 null 移除",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    },
+    {
+      "variant": "skip-remove",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/tools/speedrun/pre94-countdown68-after-skip-remove-countdown.test.ts",
+        "src/tools/speedrun/pre94-countdown68-after-skip-remove-countdown.glm-phase1-leaves.test.ts",
+        "--maxWorkers=1",
+        "--silent=false",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-countdown68-1a9b_dyz/runner.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "rawSha256": "c5d46d0a710535ae207703c79945a46484493e0242758c89b3227b0e03e1e802",
+      "runnerSha256": "dfe549393c3dca82076c06d6e37a6975686f9ffec29e058a8672952d300c5fb7",
+      "moduleSha256": "7b46debbce6dc194374a0d7f9a0c026e19e125d51847c7f6e3d2a5d34fd8aa9d",
+      "copiesSha256": {
+        "packages/game/src/tools/speedrun/pre94-countdown68-after-skip-remove-countdown.ts": "7b46debbce6dc194374a0d7f9a0c026e19e125d51847c7f6e3d2a5d34fd8aa9d",
+        "packages/game/src/tools/speedrun/pre94-countdown68-after-skip-remove-countdown.test.ts": "c13190df78413a47e0bdcec172499fa975e402aa1c7437b8b436a2293fdc8efc",
+        "packages/game/src/tools/speedrun/pre94-countdown68-after-skip-remove-countdown.glm-phase1-leaves.test.ts": "bda9f5dce1fc526f8f70385eb8d4be3b603d1345cf93552449490f782890f9d4"
+      },
+      "passed": 3,
+      "failed": 1,
+      "pending": 0,
+      "errorNames": ["AssertionError"],
+      "cases": [
+        {
+          "file": "countdown.glm-phase1-leaves.test.ts",
+          "fullName": "L20 showCountdown 宿主边界 相同文字逐帧刷新时不触发 DOM 变更",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "countdown.glm-phase1-leaves.test.ts",
+          "fullName": "L20 showCountdown 宿主边界 无 document 时字符串和 null 调用均不访问 DOM",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "countdown.test.ts",
+          "fullName": "showCountdown 传字符串挂出、更新文本",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "file": "countdown.test.ts",
+          "fullName": "showCountdown 传 null 移除",
+          "status": "failed",
+          "failureMessages": [
+            "AssertionError: expected <div …(2)></div> to be null\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/tools/speedrun/pre94-countdown68-after-skip-remove-countdown.test.ts:21:62\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ]
+        }
+      ]
+    }
+  ],
+  "formalSourcesUnchanged": true,
+  "temporaryCopiesRemoved": true
+}

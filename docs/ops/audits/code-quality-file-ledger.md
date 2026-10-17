@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,311。
-当前已闭合核验：280；已读但待审：44；尚未逐文件核验：2,987；合计未闭合：3,031。
+当前已闭合核验：282；已读但待审：44；尚未逐文件核验：2,985；合计未闭合：3,029。
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
@@ -196,6 +196,8 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/tools/speedrun/checkpoints.test.ts` | test | 已验证 | [pre-94 CODE67 speedrun checkpoint tests复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/67-speedrun-checkpoint-tests/README.md)；21-id/单调/首尾标签、BANANA 三格零容差 oracle | 27 行完整核验3 tests；运行时坐标/BGM仍明确 unknown，不冒充实跑 |
 | `packages/game/src/tools/speedrun/timer.boundaries.test.ts` | test | 已验证 | [pre-94 CODE67 speedrun checkpoint tests复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/67-speedrun-checkpoint-tests/README.md)；同 now/finished、暂停边界、一次性 flags、setStep/mem/实例隔离、detector反例 | 124 行完整核验6 tests；真实 SpeedrunTimer/detector caller，无弱重复断言 |
 | `packages/game/src/tools/speedrun/countdown.ts` | product | 已验证 | [pre-94 CODE3j countdown复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-countdown/README.md)；speedrun/index caller、singleton/update/remove DOM tests | 单节点复用、null 幂等移除、disabled 清理；本片未发现直接缺陷，3j 整卡仍 partial |
+| `packages/game/src/tools/speedrun/countdown.test.ts` | test | 已验证 | [CODE68 countdown测试复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/68-countdown-tests/README.md)；index字符串/null caller、真实DOM身份/文本/重建oracle | 合入原GLM生命周期断言；身份变异1红→1红，移除变异2红→1红；相邻20files/104tests与game typecheck通过；新统一门未运行 |
+| `packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts` | test | 已验证 | [CODE68 countdown测试复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/68-countdown-tests/README.md)；MutationObserver同文字无变更、无document合法宿主边界 | 纠正误导注释、去除重复生命周期；guard旧4绿/新3绿1指定AssertionError；observer/global/spy恢复完整；新统一门未运行 |
 | `packages/game/src/tools/speedrun/checkpoints.ts` | product | 已验证 | [pre-94 CODE3j toast/map/checkpoints复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-toast-map-checkpoints/README.md)；speedrun store/detectors caller、21-id/monotonic/BANANA tests 与 PalTimer 注释 | 只读核对坐标/物品/检测器；坐标实跑仍 unknown，不擅改速通数据 |
 | `packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-3j；NaN/round/fullscreen/FPS lifecycle 合同；删除 NaN guard 的 mutant 失败 | 合并现有 display-scale/FPS 合同，不堆弱断言 |
 | `packages/game/src/present/framebuffer.ts` | product | 已验证 | CODE-QUALITY-3k 当前复审；present/draw-tilemap/draw-sprite caller、framebuffer + leaves tests | 默认/离屏尺寸、边界静默写、palette 缺色 fallback 逐文件核验；未发现直接缺陷 |

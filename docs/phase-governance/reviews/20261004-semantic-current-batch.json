@@ -407,7 +407,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "caab114fe0e53c489e903e78fa5a54a8ab62502e2c64389a2e26e162f69806da",
+      "afterSha256": "e6ea71b57c3399aeb9d38303b58306592f220fe1c912188c7fcde3db93df4f35",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -438,10 +438,24 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "caab114fe0e53c489e903e78fa5a54a8ab62502e2c64389a2e26e162f69806da",
+        "implementationSha": "e6ea71b57c3399aeb9d38303b58306592f220fe1c912188c7fcde3db93df4f35",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "4121531c7",
+            "date": "2026-10-18",
+            "action": "CODE68 reviewed countdown delta",
+            "previousAfterSha256": "caab114fe0e53c489e903e78fa5a54a8ab62502e2c64389a2e26e162f69806da",
+            "scope": "Only CODE68 countdown test evidence: two new verified ledger rows and +2 closed, or matching active-board progress; no other file/card accepted.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/68-countdown-tests/README.md",
+            "notRun": [
+              "new whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual"
+            ]
+          },
           {
             "revision": "working-tree",
             "date": "2026-10-07",
@@ -653,7 +667,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "caab114fe0e53c489e903e78fa5a54a8ab62502e2c64389a2e26e162f69806da",
+        "afterSha256": "e6ea71b57c3399aeb9d38303b58306592f220fe1c912188c7fcde3db93df4f35",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
