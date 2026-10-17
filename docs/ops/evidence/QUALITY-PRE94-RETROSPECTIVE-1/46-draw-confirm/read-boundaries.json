@@ -1,0 +1,66 @@
+{
+  "base": "8e12c1293",
+  "fullReads": [
+    {
+      "path": "packages/game/src/present/menu/draw-confirm.ts",
+      "sha256": "ce7a06e9e4f4c9559c0979d797bf3b367cd6cd6add3c21901911bdd984ff8dcc",
+      "lines": 48,
+      "boundary": "Full confirm/switch two-box renderer, selected palette, labels, shadow and framebuffer ownership read."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+      "sha256": "a7d6c89af4abbf62a8b546d42ce6f313ef5483f30c1cc83e1d8f6e4da4c6cef3",
+      "lines": 67,
+      "boundary": "Full direct three-contract read: selected side, frame/shadow pixels and custom switch labels."
+    },
+    {
+      "path": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "sha256": "1f8640fe2c9d56359fb3161eb6a427061915b1bbd8366192d5b135d1e6c4ef4e",
+      "lines": 177,
+      "boundary": "Full direct opening/pixel read: background ownership, cursor bounds, state immutability, custom multi-label and empty-label cases."
+    },
+    {
+      "path": "reference/sdlpal/uigame.c",
+      "ranges": ["242-388"],
+      "boundary": "PAL_SelectionMenu, PAL_ConfirmMenu and PAL_SwitchMenu primary."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/present/present.ts",
+      "ranges": ["confirm caller"],
+      "boundary": "Event confirm rendering caller."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "ranges": ["confirm/switch caller"],
+      "boundary": "In-game menu confirm/switch callers."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-shop.ts",
+      "ranges": ["shop confirm caller"],
+      "boundary": "Shop confirm caller."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.ts",
+      "boundary": "Shared box renderer ownership."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.test.ts",
+      "boundary": "Adjacent draw-menu regression; direct test run."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+      "boundary": "Adjacent draw-menu regression; direct test run."
+    },
+    {
+      "path": "packages/game/src/present/present.test.ts",
+      "boundary": "Adjacent present regression; direct test run."
+    }
+  ],
+  "notClaimed": [
+    "Current full-repository check/coverage/ratchet/protected-fast acceptance",
+    "General PAL_SelectionMenu dynamic-width API expansion",
+    "Save/schema/migration/generated-asset/E2E/visual acceptance"
+  ]
+}

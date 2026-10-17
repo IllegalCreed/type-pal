@@ -4,7 +4,7 @@
 
 ## 2026-10-17 当前范围与优先级
 
-用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10原检查点bea19f80c已推送，当前恢复见本片末尾；分支已同步最新origin/main，0behind，未合main。全83卡28partial/55pending/0accept；[6a](6a/README.md)、92、CODE1/2/2b/3/3b/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；[CODE3b](3b/README.md)两边界六oracle已补；[raw补证](3b/raw-tests/README.md)9→2/五新反控、完整extract428零stderr；全正文仍待，[3d PNG](3d/README.md)两height盲点已补，下一片3h assets/shell，再按模块逐文件推进；94–102/editor未完成项保留。
+用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10原检查点bea19f80c已推送，当前恢复见本片末尾；分支已同步最新origin/main，0behind，未合main。全83卡29partial/54pending/0accept；[6a](6a/README.md)、92、CODE1/2/2b/3/3b/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；[CODE3b](3b/README.md)两边界六oracle已补；[raw补证](3b/raw-tests/README.md)9→2/五新反控、完整extract428零stderr；全正文仍待，[3d PNG](3d/README.md)两height盲点已补，下一片3h assets/shell，再按模块逐文件推进；94–102/editor未完成项保留。
 
 下文旧数字、探针与结论作为历史保存；不会把旧抽查、历史done或包全绿补签成当前验收。
 
@@ -63,6 +63,8 @@
 最新[3x battle progression 复审切片](3x-battle-progression/README.md)：完整读取 306 行 progression 实现、142 行隐藏经验合同和 303 行升级测试，核对 SDL battle/global、settlement caller 与 runtime/equipment projection；定向 4 files/207 tests 通过，未发现新实现 direct defect；3x 当前 partial，coverage/ratchet/protected/full check 未运行。
 
 最新[42 dialog-box 复审切片](42-dialog-box/README.md)：完整读取 958 行对话框实现、761 行主测试和 84 行边界测试；以 SDLPal text/uigame 与真实 event/present caller 核对分页、控制符、绘制和生命周期，先红后绿修复 narration `~NN` 不应等待的偏差。定向 2 files/83 tests、game typecheck 通过；相邻 4 files/97 tests通过，另有 1 条像素测试因无 `document` 环境失败，保持 review；42 当前 partial，coverage/ratchet/protected/full check 未运行。
+
+最新[46 draw-confirm 复审切片](46-draw-confirm/README.md)：完整读取 48 行确认框实现、67 行边界测试和 177 行像素测试，核对 SDLPal uigame、present/draw-menu/draw-shop caller、framebuffer/font ownership；定向 2 files/10 tests、相邻 3 files/69 tests和 game typecheck 通过，未发现 direct defect；46 当前 partial，coverage/ratchet/protected/full check 未运行。
 
 ## 统一候选后的范围更正
 

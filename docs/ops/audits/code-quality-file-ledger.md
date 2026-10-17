@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,311。
-当前已闭合核验：231；已读但待审：41；尚未逐文件核验：3,039；合计未闭合：3,080。
+当前已闭合核验：234；已读但待审：41；尚未逐文件核验：3,036；合计未闭合：3,077。
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
@@ -177,6 +177,9 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/present/screen-shake.ts` | product | 已验证 | CODE-QUALITY-3k 当前复审；present.ts:710-715 caller、sdlpal video.c:571-620、shake/bounds tests | 奇偶垂直搬移、level 越界、advance=false 补帧和 shakeTime 递减逐文件核验；未发现直接缺陷 |
 | `packages/game/src/present/screen-wave.ts` | product | 已验证 | CODE-QUALITY-3k 当前复审；present.ts:313-317 caller、sdlpal scene.c:365-430、global.h:379/538-539、wave/leaves/mirror tests | `<=0` guard、256 关断、相位/循环与 advance=false 逐文件核验；历史 raw/mutant 结果未在本片重跑 |
 | `packages/game/src/present/dither-fade.ts` | product | 已验证 | CODE-QUALITY-3k 当前复审；present.ts:658-673、battle fade caller、video.c/battle.c、dither/nibble tests | 72-step RG_INDEX/低位逼近与 backup ownership 逐文件核验；未发现直接缺陷 |
+| `packages/game/src/present/menu/draw-confirm.ts` | product | 已验证 | CODE-QUALITY-46 当前复审；46-draw-confirm；uigame.c:242-388；present/draw-menu/draw-shop callers；draw-box/font/framebuffer owners | 48 行实现全文核验双框坐标、selectedColor、标签/阴影、空标签与 framebuffer ownership；定向2 files/10 tests、相邻3 files/69 tests、game typecheck通过；未发现 direct defect |
+| `packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-46 当前复审；46-draw-confirm；真实 drawConfirmBox/framebuffer pixel oracle | 67 行全文核验选中侧、palette cycle、三影、custom switch labels；定向2 files/10 tests通过，无弱断言 |
+| `packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-46 当前复审；46-draw-confirm；opening/pixel caller与状态隔离 oracle | 177 行全文核验背景/光标/状态不可变、多字与空标签边界；定向2 files/10 tests通过，无弱断言 |
 | `packages/game/src/present/draw-number.ts` | product | review | CODE-QUALITY-3k 当前复审；battle/menu/dialog callers、sdlpal ui.c:640-732、draw-number/slots tests | 合法颜色/对齐/R-to-L/truncate/opaque mask/缺帧合同完整；正 Infinity 会卡在长度循环，生产可达性未证，留 review |
 | `packages/game/src/present/follower-pos.ts` | product | 已验证 | CODE-QUALITY-3k 当前复审；present.ts:393-417、sdlpal scene.c:658-780、follower tests | walking/静止冻结/障碍回退/朝向源/trail fallback 逐文件核验；未发现直接缺陷 |
 | `packages/game/src/present/framebuffer.test.ts` | test | 已验证 | CODE-QUALITY-3k；默认尺寸/write-clear/toImageData RGBA 合同 | 直接 framebuffer oracle |
@@ -543,6 +546,9 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/present/screen-shake.ts` | product | 已验证 | CODE-QUALITY-3k 当前复审；present.ts:710-715 caller、sdlpal video.c:571-620、shake/bounds tests | 奇偶垂直搬移、level 越界、advance=false 补帧和 shakeTime 递减逐文件核验；未发现直接缺陷 |
 | `packages/game/src/present/screen-wave.ts` | product | 已验证 | CODE-QUALITY-3k 当前复审；present.ts:313-317 caller、sdlpal scene.c:365-430、global.h:379/538-539、wave/leaves/mirror tests | `<=0` guard、256 关断、相位/循环与 advance=false 逐文件核验；历史 raw/mutant 结果未在本片重跑 |
 | `packages/game/src/present/dither-fade.ts` | product | 已验证 | CODE-QUALITY-3k 当前复审；present.ts:658-673、battle fade caller、video.c/battle.c、dither/nibble tests | 72-step RG_INDEX/低位逼近与 backup ownership 逐文件核验；未发现直接缺陷 |
+| `packages/game/src/present/menu/draw-confirm.ts` | product | 已验证 | CODE-QUALITY-46 当前复审；46-draw-confirm；uigame.c:242-388；present/draw-menu/draw-shop callers；draw-box/font/framebuffer owners | 48 行实现全文核验双框坐标、selectedColor、标签/阴影、空标签与 framebuffer ownership；定向2 files/10 tests、相邻3 files/69 tests、game typecheck通过；未发现 direct defect |
+| `packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-46 当前复审；46-draw-confirm；真实 drawConfirmBox/framebuffer pixel oracle | 67 行全文核验选中侧、palette cycle、三影、custom switch labels；定向2 files/10 tests通过，无弱断言 |
+| `packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-46 当前复审；46-draw-confirm；opening/pixel caller与状态隔离 oracle | 177 行全文核验背景/光标/状态不可变、多字与空标签边界；定向2 files/10 tests通过，无弱断言 |
 | `packages/game/src/present/draw-number.ts` | product | review | CODE-QUALITY-3k 当前复审；battle/menu/dialog callers、sdlpal ui.c:640-732、draw-number/slots tests | 合法颜色/对齐/R-to-L/truncate/opaque mask/缺帧合同完整；正 Infinity 会卡在长度循环，生产可达性未证，留 review |
 | `packages/game/src/present/follower-pos.ts` | product | 已验证 | CODE-QUALITY-3k 当前复审；present.ts:393-417、sdlpal scene.c:658-780、follower tests | walking/静止冻结/障碍回退/朝向源/trail fallback 逐文件核验；未发现直接缺陷 |
 | `packages/game/src/present/framebuffer.test.ts` | test | 已验证 | CODE-QUALITY-3k；默认尺寸/write-clear/toImageData RGBA 合同 | 直接 framebuffer oracle |
