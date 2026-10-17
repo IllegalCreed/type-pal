@@ -42,6 +42,8 @@
 
 最新[3m status 复审/最小修复切片](3m-status/README.md)：完整读取 status 实现、直接测试、battle-state seed、battle-system 回合末 caller 与 battle-finalization；以 `fight.c:1655-1661` 失败反例纠正“死敌不 tick”错误 oracle，改为全敌方槽位递减。定向六组战斗测试308例与 game typecheck通过；3m 整卡仍 partial，未运行 coverage 或全仓 check。
 
+最新[3m formulas / magic-damage 只读切片](3m-formulas-magic/README.md)：完整读取公式与共享伤害 helper、直接 oracle 测试及 magic/attack/coop/opcode callers，核对 SDLPal 的 SHORT/WORD、元素/毒抗、场效、各目标 RNG、auto-defend 与 simulate 下限；8 个定向文件222例和 game typecheck通过，未发现直接缺陷。3m RNG 与统一门仍待，未运行 coverage 或全仓 check。
+
 ## 统一候选后的范围更正
 
 以下role键探针和四项counter针对冻结f0cf0f7f主线系候选。用户要求先收3y后，已发现其未合入的CODE53包含party-slot mapper/离队guard与对应测试；现统一候选已有该实现，不能继续宣称“当前helper仍按role键”。CODE53仍待端到端/整文件/视觉与统一门复审，原probe不被改写为当前失败。重复GAME-PLAYER-POISON-KEY-DOMAIN-1取消、归CODE53；YJ2过期注释与cleanup fixture待核仍保留。

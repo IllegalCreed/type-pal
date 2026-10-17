@@ -367,6 +367,12 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 - 结论：玩家/敌方全部 status counter 仍统一 `>0` 后减一；战末/复活 `<=999` 清理和 `>999` 装备授予保留由现有 owner 负责。死槽递减合同已由直接测试固定；3m 公式、magic-damage、RNG 与统一质量门仍未完成，整卡保持 `partial`。
 - 验证：status/actions/battle-system/state-machine/finalization/state 六组定向共 `308 passed`，无测试 stderr；`pnpm --filter @type-pal/game typecheck` 通过；coverage、official ratchet、protected fast、全仓 `pnpm check` 留待完整大模块收口。已读清单与 SHA 见 [`3m-status`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3m-status/README.md)。
 
+### 2026-10-17 CODE-QUALITY-3m formulas / magic-damage 只读切片
+
+- 范围：完整读取 `packages/game/src/core/battle/formulas.ts`、`magic-damage.ts` 及两份直接测试；读取 `actions/magic.ts`、`actions/attack.ts`、`actions/coop-magic.ts`、`battle-opcodes.ts`、`battle-system.ts` 与 runtime→battle 投影 caller；primary 为 `fight.c:131-389,4012-4017,4245-4330,4673-4853,5300-5400`、`global.c:1736-1975`、`util.c:251-275` 和机制文档对应公式段。
+- 结论：SHORT/WORD 与三段 base damage、元素/毒抗、场效、玩家/敌人两套 multiplier、各目标 RNG、auto-defend 前置抽样、inline/simulate 下限、死队员/空槽跳过和 object-magic 解析均与 primary/caller 一致，未发现直接缺陷；测试 fixture 的窄 `as any` 仅用于大型共享类型补齐，不改变真实 oracle。
+- 验证：公式、magic-damage、battle actions、coop magic、敌法术 E2、battle opcode、throw-item 共 `8 files / 222 passed`，无测试 stderr；`pnpm --filter @type-pal/game typecheck` 通过。coverage、official ratchet、protected fast、全仓 `pnpm check` 留待完整大模块收口。已读清单与 SHA 见 [`3m-formulas-magic`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3m-formulas-magic/README.md)。3m 整卡保持 `partial`。
+
 ### 2026-10-17 CODE1/CODE2 boundary carry-over
 
 本片接收工作树中已完成的两个窄测试合同：`packages/shared/src/rle.boundaries.test.ts` 新增“相邻 offset 截断前一帧帧头即拒绝”反例；`packages/shared/src/rng.boundaries.test.ts` 新增同一 surface 连续 delta 累加并保留首帧像素的 ownership 合同。两项都只改测试，不改 RLE/RNG/YJ2 实现、公共出口、资源或格式策略；RLE 高位 literal 风险继续留在 `QUALITY-RLE-COMMAND-TRUTH-1` draft。

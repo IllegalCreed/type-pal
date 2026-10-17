@@ -1,0 +1,107 @@
+{
+  "base": "369c5596a",
+  "fullReads": [
+    {
+      "path": "packages/game/src/core/battle/formulas.ts",
+      "sha256": "fa5d007e9131d344f2e7f90c10e7b67afe7ae42fe2478398adc8f6ffd6259ce8",
+      "lines": 218,
+      "boundary": "Full formula implementation read; SHORT casting, base/physical/magic damage and CLASSIC dexterity helpers."
+    },
+    {
+      "path": "packages/game/src/core/battle/magic-damage.ts",
+      "sha256": "fc31dc5db6ff0cd65a53971cd70261ad01bf1b78eebdea40d3ec056dea2a63b5",
+      "lines": 344,
+      "boundary": "Full shared player/enemy/simulate damage implementation read; target routing, RNG ownership, clamps, auto-defend and object magic resolution."
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/formulas.test.ts",
+      "sha256": "6c30875bcb6085e95c81d29040e934ec71e51a7290206b9311007a732408a14a",
+      "lines": 264,
+      "boundary": "Full direct formula oracle read; hand-calculated branches, SHORT edges, element/field and dex contracts."
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/magic-damage.test.ts",
+      "sha256": "0e26bd9efdc1acde4fa61a86a48c1c3b101f8ce2fc64a71b0b1cae4cc6f269b9",
+      "lines": 596,
+      "boundary": "Full direct shared-core oracle read; player/enemy/simulate paths, target/health/RNG/auto-defend/guard behavior."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/core/battle/actions/magic.ts",
+      "sha256": "d357c8c3982e027cb2b61509c1d158691bb4f3b4da44265f93da2bae77ddc7c3",
+      "lines": 1074,
+      "ranges": ["1-130", "220-410", "410-495"],
+      "boundary": "Perform-magic resolution, script guard, pre-roll and damage caller ranges."
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/attack.ts",
+      "sha256": "35e9f6089a323ab7764b5ec9a364cb1092106e4480ee885179d796edc0e0ede6",
+      "lines": 614,
+      "ranges": ["1-120", "170-290", "360-410"],
+      "boundary": "Physical formula caller and battle action damage ranges."
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/coop-magic.ts",
+      "sha256": "b1eebb8643ab4106a3916f4338726778831976fb87411b33b74fef52a901295a",
+      "lines": 387,
+      "ranges": ["175-215"],
+      "boundary": "Coop magic shared damage caller range."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.ts",
+      "sha256": "0025dd6fe905ccd19aced025fff9abd980b47891abb1536a2afdc2c5f3b560c6",
+      "lines": 1530,
+      "ranges": ["390-485"],
+      "boundary": "0x42 SimulateMagic and 0x66 ThrowWeapon operand-to-helper mapping."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "c286881a1d1d5932333a9fcd084376e42d8871c5abc2a052573a6dbc9267b11c",
+      "lines": 3141,
+      "ranges": ["680-770", "1030-1110"],
+      "boundary": "Dexterity helper consumption, action multipliers and spell-selection caller ranges."
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "fdfe520283d6975bd93573f153ee51f620c3ec424433b2672ff447ba20a2831b",
+      "lines": 2104,
+      "ranges": ["1577-1680"],
+      "boundary": "Runtime-to-battle role projection, equipment stat accumulation and resistance clamp."
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "lines": 5400,
+      "ranges": ["131-389", "4012-4017", "4245-4330", "4673-4853", "5300-5400"],
+      "boundary": "Formula, player/enemy magic, auto-defend and SimulateMagic primary ranges."
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "lines": 2409,
+      "ranges": ["1736-1975"],
+      "boundary": "Player stat/defense/resistance getter primary ranges."
+    },
+    {
+      "path": "reference/sdlpal/util.c",
+      "sha256": "e8f70ab5b01a21f0a2f40c9ae3fb2c05a38dd3b13bb4fc28d8603af8f54deac7",
+      "lines": 1003,
+      "ranges": ["251-275"],
+      "boundary": "RandomFloat range and endpoint semantics."
+    },
+    {
+      "path": "docs/phase1/game-mechanics.md",
+      "sha256": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
+      "lines": 1673,
+      "ranges": ["259-350", "400-445", "745-805", "855-890"],
+      "boundary": "First-phase formula, projectile, resistance, field and dexterity truth notes."
+    }
+  ],
+  "notClaimed": [
+    "Complete CODE-QUALITY-3m acceptance",
+    "RNG helper review",
+    "Second-phase reforge or product behavior changes",
+    "Coverage, official ratchet, protected fast or whole-repository acceptance"
+  ]
+}
