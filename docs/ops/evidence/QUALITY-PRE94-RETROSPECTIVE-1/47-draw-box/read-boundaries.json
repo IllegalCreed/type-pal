@@ -1,0 +1,101 @@
+{
+  "base": "d6bd5caad",
+  "fullReads": [
+    {
+      "path": "packages/game/src/present/menu/draw-box.ts",
+      "sha256": "7f0509e12428217023464c69a20abdb7aca49569cb504b0e4a3ea917c6ce715e",
+      "lines": 191,
+      "boundary": "Full implementation read: menuTextMaxCols, 9-slice, shadow mask, opaque blit, single-line box, frame validation and input/ownership boundaries."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.test.ts",
+      "sha256": "6562812ae85ffd489108204391ab704b5ee6e3c9f201ab4c17087aa548588b35",
+      "lines": 101,
+      "boundary": "Full direct test read: 9-slice geometry, style selection, shadow palette oracle and missing-frame contract."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+      "sha256": "f7227e0590bde8d638cc6954967d79115b23385f096732eaf394c51a7d250399",
+      "lines": 79,
+      "boundary": "Full direct leaves read: single-line missing frames, zero shadow, framebuffer clipping, empty/ASCII/CJK width and fixture contract."
+    },
+    {
+      "path": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "sha256": "97f87093a1e7f513759ab02ba5e2dcb7eb829b6dca1f061f8755d0692c3d86f3",
+      "lines": 232,
+      "boundary": "Full pixel test read: transparent holes, shadow pixels, single-line repetition, zero rows/cols, palette zero, style and width boundaries."
+    },
+    {
+      "path": "reference/sdlpal/ui.c",
+      "sha256": "15a03e60ebe4c51ae45d479740b8dfdf8029805cc6bf8ca8fc39926d62cf2242",
+      "lines": 994,
+      "ranges": ["131-340", "762-833"],
+      "boundary": "PAL_CreateBoxWithShadow, PAL_CreateSingleLineBoxWithShadow, PAL_MenuTextMaxWidth and PAL_WordMaxWidth primary."
+    },
+    {
+      "path": "reference/sdlpal/ui.h",
+      "sha256": "a62d0df9fb689afe5636cc1578e67185c5f2d0900838d72b9808dc5052df19ce",
+      "lines": 284,
+      "ranges": ["195-254"],
+      "boundary": "Public box and text-width declarations/constants used by the primary implementation."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "ranges": ["full"],
+      "boundary": "Framebuffer dimensions, writePixel clipping, palette fallback and ownership."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "ranges": ["box callers"],
+      "boundary": "In-game/system/action/save menu box and single-line caller coordinates and lengths."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-confirm.ts",
+      "ranges": ["box callers"],
+      "boundary": "Confirm/switch single-line box caller."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-shop.ts",
+      "ranges": ["box callers"],
+      "boundary": "Shop box and cash/sell overlay callers."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-magic.ts",
+      "ranges": ["box callers"],
+      "boundary": "Caster/spell menu box and MP single-line callers."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.ts",
+      "ranges": ["box callers"],
+      "boundary": "Inventory action/description box callers."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-equip.ts",
+      "ranges": ["box caller"],
+      "boundary": "Equip role list box caller."
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-ui.ts",
+      "ranges": ["box callers"],
+      "boundary": "Battle misc/magic/item box callers."
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.ts",
+      "ranges": ["box callers"],
+      "boundary": "Dialog item/narration single-line box callers."
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-settlement.ts",
+      "ranges": ["box callers"],
+      "boundary": "Battle settlement single-line and level-up 9-slice callers."
+    }
+  ],
+  "notClaimed": [
+    "Current full-repository check/coverage/ratchet/protected-fast acceptance",
+    "Negative/non-finite arbitrary caller inputs outside the observed production domain",
+    "Save/schema/migration/generated-asset/E2E/visual acceptance",
+    "General PAL_SelectionMenu dynamic-width API expansion"
+  ]
+}

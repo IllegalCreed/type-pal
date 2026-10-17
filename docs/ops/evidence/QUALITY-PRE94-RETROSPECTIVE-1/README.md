@@ -66,6 +66,8 @@
 
 最新[46 draw-confirm 复审切片](46-draw-confirm/README.md)：完整读取 48 行确认框实现、67 行边界测试和 177 行像素测试，核对 SDLPal uigame、present/draw-menu/draw-shop caller、framebuffer/font ownership；定向 2 files/10 tests、相邻 3 files/69 tests和 game typecheck 通过，未发现 direct defect；46 当前 partial，coverage/ratchet/protected/full check 未运行。
 
+最新[47 draw-box 复审切片](47-draw-box/README.md)：完整读取 191 行框体实现与三份直接测试，核对 framebuffer owner、九个菜单/战斗/对话 caller 和 SDLPal ui.c/ui.h；定向 3 files/22 tests、相邻 10 files/127 tests和 game typecheck 通过，未发现 direct defect；47 当前 partial，coverage/ratchet/protected/full check 未运行。
+
 ## 统一候选后的范围更正
 
 以下role键探针和四项counter针对冻结f0cf0f7f主线系候选。用户要求先收3y后，已发现其未合入的CODE53包含party-slot mapper/离队guard与对应测试；现统一候选已有该实现，不能继续宣称“当前helper仍按role键”。CODE53仍待端到端/整文件/视觉与统一门复审，原probe不被改写为当前失败。重复GAME-PLAYER-POISON-KEY-DOMAIN-1取消、归CODE53；YJ2过期注释与cleanup fixture待核仍保留。

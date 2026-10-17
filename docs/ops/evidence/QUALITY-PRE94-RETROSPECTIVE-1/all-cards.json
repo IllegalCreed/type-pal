@@ -1800,10 +1800,10 @@
       "number": 47,
       "suffix": "",
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-47-game-draw-box.md",
-      "sha256": "a18712b7dc799df7414337ae27d3f72f103a53d065c5575f3ee3d94c03f0c704",
-      "lines": 28,
+      "sha256": "580dae2b1368d399fd204f44a78b29ecd1dc42474422fd729706408373808de4",
+      "lines": 34,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -1823,7 +1823,7 @@
           "text": "无下一位 Agent；Codex继续完成本批审计，未完成准入前不得扩大范围或标记 done。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true
     },
     {
       "id": "48",
@@ -3923,8 +3923,8 @@
   ],
   "reviewCheckpointBase": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
   "currentReviewCounts": {
-    "partial": 29,
-    "pending": 54,
+    "partial": 30,
+    "pending": 53,
     "accept": 0
   }
 }

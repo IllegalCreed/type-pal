@@ -26,3 +26,9 @@ Visual Verification Timing: e2e-deferred（菜单框体观感留集中 E2E；本
 ## 下一位 Agent 提示词
 
 无下一位 Agent；Codex继续完成本批审计，未完成准入前不得扩大范围或标记 done。
+
+## Codex 当前复审（2026-10-18）
+
+历史 `done` 不等于本轮验收。本轮在 `codex/code-quality-3y` 上完整读取四个范围文件、framebuffer owner、九个真实 callers 和 SDLPal `ui.c:131-340,762-833` / `ui.h:195-254`；核对 9-slice/single-line frame、几何、shadow/opaque 顺序、屏外裁剪、缺帧、文本宽度和测试排重，未发现可由 primary + caller 证实的新 direct defect。复审状态为 `partial`，不标 `accept`。
+
+验证：直接 3 files / 22 tests passed；相邻 10 files / 127 tests passed；`pnpm --filter @type-pal/game typecheck` passed。lint-zero、文档静态门、ledger 和 diff-check 通过；coverage ratchet、protected fast、全仓 `pnpm check`、official coverage 本小批未运行，统一门仍留待完整 game/present 模块收口。证据见 [`47-draw-box`](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/47-draw-box/README.md)。
