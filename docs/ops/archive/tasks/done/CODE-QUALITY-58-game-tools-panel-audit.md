@@ -48,6 +48,12 @@ Visual Verification Timing: functional-ui（DOM/委托/生命周期；不做剧�
 - **逐文件结论**：tools-panel 只读投影 GameState，动作通过注入依赖委托；setup 根节点幂等且 bootstrap 只安装一次。未发现本卡直接缺陷；save-io FORMAT/VERSION/payload 仍由 CODE-QUALITY-59 独立负责，不改公共接口或存档格式。
 - **验证**：2 files / 18 tests passed；`pnpm --filter @type-pal/game typecheck` passed；coverage 等沿用 [`53-wave-gates`](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)，不重复运行昂贵 coverage。当前复审为 `partial`，不是整卡 `accept/done`。
 
+## 2026-10-18 测试夹具与跨例隔离勘误
+
+Codex单一Owner，build allowed仅两测试、共用测试宿主和治理证据。前次417行主测试“合法fixture、fake timer隔离”的结论不足，精确更正：多个`as never`藏掉核心缺字段/错误status结构；清body/timer没有移除window监听器。旧18绿不证明这些合同。隔离副本跨例探针旧19绿1个指定AssertionError，新21绿。
+
+已改用正式GameState/BattleState构造器与显式runtime hydrate，复用typed角色/敌人；共用宿主清监听器、timer/rAF、音源订阅/controller、DOM/style、偏好和单例。敌HP/turn分轴观察且HP精确到目标单元；全屏/FPS拆职责，正式19例。生产源/UI/API/save未改，未扩大高风险边界。逐文件读取、19例oracle/排重、raw/native/hash/清理和34文件199例相邻、typecheck见 [58夹具勘误证据](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel-fixtures/README.md)。静态门另记，本批无新全仓check/ratchet/protected；旧53波次不认证本候选。当前partial不变，不把相邻全绿当整卡accept。
+
 ## 下一位 Agent 提示词
 
 ```text

@@ -16,3 +16,7 @@
 - `pnpm --filter @type-pal/game typecheck`：passed。波次级全仓质量门沿用 [`53-wave-gates`](../53-wave-gates/README.md)，本片不重复运行昂贵 coverage。
 
 未关闭：save/import version 与 payload 合同继续由 CODE-QUALITY-59 处理；tools panel 没有独立 disposer，生产 bootstrap 只安装一次且 setup 有根节点幂等门，本片不扩张生命周期 API。58 当前 `partial`，不是整卡 `accept/done`。
+
+## 2026-10-18 夹具/隔离结论勘误
+
+本页18绿和“测试只验证真实注入依赖”的陈述不足以认证主测试合法性或隔离：后续发现核心`as never`伪造不完整状态、body/timer清理遗漏window监听器。上述两项精确由[58夹具勘误](../58-tools-panel-fixtures/README.md)替代，旧raw和当时结论保留。新片已改正式构造器/hydrate与共用宿主；跨例旧单红新绿、正式19例和相邻199例通过。新片无全仓/coverage/protected门，不能用本页53波次认证新候选；整卡仍partial。

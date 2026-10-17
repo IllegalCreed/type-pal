@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "ce6f7cd9656434a31fdf35534b0c73697d4191f0d2b7ff682769b9c880e109f4",
+      "afterSha256": "840a769a4b328425c7775c505057b2438790a245400f8671a11dd7eb18a6227f",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,8 +1066,22 @@
       },
       "revision": {
         "currentSha": "a2101ce8ffeb73642521f0b489d17642f27bbd3fcdc581d0e9c354dedbc05778",
-        "implementationSha": "ce6f7cd9656434a31fdf35534b0c73697d4191f0d2b7ff682769b9c880e109f4",
+        "implementationSha": "840a769a4b328425c7775c505057b2438790a245400f8671a11dd7eb18a6227f",
         "history": [
+          {
+            "revision": "ba45329cc",
+            "date": "2026-10-18",
+            "action": "CODE58 fixture legality and listener isolation correction",
+            "previousAfterSha256": "ce6f7cd9656434a31fdf35534b0c73697d4191f0d2b7ff682769b9c880e109f4",
+            "scope": "Only two corrected test rows plus one directly verified shared fixture and matching board delta, or their metadata references; no new whole-card/product acceptance. Historical raw/native verdicts preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel-fixtures/README.md",
+            "notRun": [
+              "new whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual"
+            ]
+          },
           {
             "revision": "d49de5240",
             "date": "2026-10-18",
@@ -1109,7 +1123,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "ce6f7cd9656434a31fdf35534b0c73697d4191f0d2b7ff682769b9c880e109f4",
+        "afterSha256": "840a769a4b328425c7775c505057b2438790a245400f8671a11dd7eb18a6227f",
         "lineCount": 13734,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1140,7 +1154,7 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "1-14352",
+      "reviewedLines": "1-14380",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

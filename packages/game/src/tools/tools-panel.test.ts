@@ -1,45 +1,17 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import type { AudioVolumeController } from '../shell/audio-volume.js'
+import { describe, expect, it, vi } from 'vitest'
+import {
+  makeEnemy,
+  makePlayerRole,
+  makePlayerRoles,
+} from '../core/__tests__/stats/stats-test-fixtures.js'
+import { createBattleState } from '../core/battle/battle-state.js'
+import { createInitialGameState, hydratePlayerRolesRuntime } from '../core/game-state.js'
+import { createSeedableRng } from '../core/rng.js'
 import { createMusicSourceController } from '../shell/music-source.js'
-import { __resetSpeedrunForTest } from './speedrun/index.js'
-import { setupToolsPanel, type ToolsPanelDeps } from './tools-panel.js'
+import { setupToolsPanel } from './tools-panel.js'
+import { mkVol, useToolsPanelTestHost } from './tools-panel.test-fixtures.js'
 
-/** stateful 音量 controller stub:isMuted 跟随 setMuted,供主静音 toggle 测试。 */
-function mkVol(initialMuted = false): AudioVolumeController {
-  let m = initialMuted
-  return {
-    getVolume: () => 0.8,
-    setVolume: vi.fn(),
-    isMuted: () => m,
-    setMuted: vi.fn((v: boolean) => {
-      m = v
-    }),
-  }
-}
-
-function mkDeps(over: Partial<ToolsPanelDeps> = {}): ToolsPanelDeps {
-  return {
-    getGs: () =>
-      ({
-        mode: 'explore',
-        wNumScene: 1,
-        party: { x: 0, y: 0, facing: 'down' },
-        camera: { x: 0, y: 0 },
-        partyMembers: [0],
-        menuStack: [],
-        dialogHistory: [],
-      }) as never,
-    getResources: () => ({ playerRoles: { roles: [] }, objectPoisons: [], items: [] }) as never,
-    displayScale: { getPercent: () => 100, setPercent: () => {}, toggleFullscreen: () => {} },
-    musicSource: createMusicSourceController(() => ({ play() {}, stop() {} }), 'midi'),
-    audioVolume: mkVol(),
-    sfxVolume: mkVol(),
-    videoVolume: mkVol(),
-    saveSlot: async () => {},
-    loadSlot: async () => null,
-    ...over,
-  }
-}
+const mkDeps = useToolsPanelTestHost()
 
 /** 打开面板并切到「系统」tab。 */
 function openSystemTab(): void {
@@ -50,17 +22,6 @@ function openSystemTab(): void {
 }
 
 describe('tools-panel 框架', () => {
-  beforeEach(() => {
-    vi.useFakeTimers()
-    document.body.innerHTML = ''
-    document.getElementById('tp-tools-style')?.remove()
-    __resetSpeedrunForTest()
-  })
-  afterEach(() => {
-    vi.clearAllTimers()
-    vi.useRealTimers()
-  })
-
   it('战斗页250ms轮询由受控时间推进：变化刷新、相同签名和关闭时不重绘', () => {
     setupToolsPanel(mkDeps())
     window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))
@@ -81,7 +42,7 @@ describe('tools-panel 框架', () => {
     expect(body.firstChild).toBe(polled)
   })
 
-  it('setup 挂根节点(默认隐藏) + 唤出印钮 + 6 个左竖 tab + 注入样式', () => {
+  it('setup 挂根节点(默认隐藏) + 唤出按钮 + 6 个左竖 tab + 注入样式', () => {
     setupToolsPanel(mkDeps())
     const root = document.getElementById('tp-tools-panel')
     expect(root).not.toBeNull()
@@ -133,21 +94,10 @@ describe('tools-panel 框架', () => {
     expect(document.querySelectorAll('#tp-tools-panel').length).toBe(1)
   })
 
-  it('场景 tab:显示场景名 + 主角坐标', () => {
-    setupToolsPanel(
-      mkDeps({
-        getGs: () =>
-          ({
-            mode: 'explore',
-            wNumScene: 1,
-            party: { x: 512, y: 256, facing: 'right' },
-            camera: { x: 0, y: 0 },
-            partyMembers: [0],
-            menuStack: [],
-            dialogHistory: [],
-          }) as never,
-      }),
-    )
+  it('场景 tab:显示场景号 + 主角坐标', () => {
+    const gs = createInitialGameState({ x: 512, y: 256, facing: 'right' })
+    gs.wNumScene = 1
+    setupToolsPanel(mkDeps({ getGs: () => gs }))
     window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' })) // 开;默认 scene tab
     const txt = document.getElementById('tp-tools-panel')!.textContent ?? ''
     expect(txt).toContain('512')
@@ -175,24 +125,14 @@ describe('tools-panel 框架', () => {
   })
 
   it('对话 tab:按场景分组(场景名标题) + 倒序(新在上、旧在下) + 搜索过滤', () => {
-    setupToolsPanel(
-      mkDeps({
-        getGs: () =>
-          ({
-            mode: 'explore',
-            wNumScene: 1,
-            party: { x: 0, y: 0, facing: 'down' },
-            camera: { x: 0, y: 0 },
-            partyMembers: [0],
-            menuStack: [],
-            dialogHistory: [
-              { map: 1, text: '你好' },
-              { map: 1, text: '再会' },
-              { map: 23, text: '城门见' },
-            ],
-          }) as never,
-      }),
-    )
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.wNumScene = 1
+    gs.dialogHistory = [
+      { map: 1, text: '你好' },
+      { map: 1, text: '再会' },
+      { map: 23, text: '城门见' },
+    ]
+    setupToolsPanel(mkDeps({ getGs: () => gs }))
     window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))
     ;[...document.querySelectorAll('.tp-tab')]
       .find((b) => b.textContent === '对话')!
@@ -245,8 +185,6 @@ describe('tools-panel 框架', () => {
     await Promise.resolve()
     expect(document.querySelector('#tp-music-source-status')?.textContent).toBe('')
     expect(document.querySelector<HTMLElement>('#tp-music-source-retry')?.hidden).toBe(true)
-    musicSource.dispose?.()
-    localStorage.removeItem('tp-music-source')
   })
 
   it('系统 tab:视频滑块 input → videoVolume.setVolume(0..1)', () => {
@@ -312,86 +250,34 @@ describe('tools-panel 框架', () => {
   })
 
   it('战斗 tab 敌方:每敌显示灵葫值(>0 显数字、=0 显「无」)', () => {
-    const mkEnemy = (id: number, name: string, collectValue: number) => ({
-      e: {
-        id,
-        _name: name,
-        health: 100,
-        level: 1,
-        attackStrength: 1,
-        magicStrength: 0,
-        defense: 0,
-        dexterity: 1,
-        fleeRate: 0,
-        magic: 0,
-        magicRate: 0,
-        dualMove: 0,
-        exp: 0,
-        cash: 0,
-        collectValue,
-        elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-        physicalResistance: 0,
-        poisonResistance: 0,
-        stealItem: 0,
-        stealItemCount: 0,
+    const battleGs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    battleGs.wNumScene = 1
+    battleGs.partyMembers = [0]
+    const playerRoles = makePlayerRoles([
+      makePlayerRole({ level: 1, hp: 10, maxHP: 10, mp: 0, maxMP: 0 }),
+    ])
+    hydratePlayerRolesRuntime(battleGs.PlayerRolesRuntime, playerRoles)
+    const state = createBattleState({
+      gs: battleGs,
+      playerRoles,
+      enemies: [
+        makeEnemy({ id: 144, _name: '火神龙', health: 100, collectValue: 7 }),
+        makeEnemy({ id: 1, _name: '史莱姆', health: 100, collectValue: 0 }),
+      ],
+      field: {
+        id: 0,
+        screenWave: 0,
+        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
       },
-      defeated: false,
-      maxHealth: 100,
-      prevHp: 100,
-      status: {},
-      poisons: [],
-      resistanceToSorcery: 0,
+      isBoss: false,
+      rng: createSeedableRng(1),
     })
-    const battleGs = {
-      // 战斗态仍保留 explore 字段(面板打开时默认先渲染「场景」tab,会读 party/camera/wNumScene)
-      mode: 'battle',
-      partyMembers: [0],
-      wCollectValue: 0,
-      rgPlayerStatus: {},
-      rgPoisonStatus: {},
-      wNumScene: 1,
-      party: { x: 0, y: 0, facing: 'down' },
-      camera: { x: 0, y: 0 },
-      menuStack: [],
-      dialogHistory: [],
-      rgEquipmentEffect: [],
-      Exp: { rgPrimaryExp: [{ wExp: 0 }] },
-      PlayerRolesRuntime: {
-        rgwLevel: [1],
-        rgwHP: [10],
-        rgwMaxHP: [10],
-        rgwMP: [0],
-        rgwMaxMP: [0],
-        rgwElementalResistance: [[0], [0], [0], [0], [0]],
-        rgwPoisonResistance: [0],
-        rgwAttackStrength: [1],
-        rgwMagicStrength: [0],
-        rgwDefense: [0],
-        rgwDexterity: [1],
-        rgwFleeRate: [0],
-      },
-      battleState: {
-        isBoss: false,
-        turn: 0,
-        players: [{ roleId: 0, status: {} }],
-        enemies: [mkEnemy(144, '火神龙', 7), mkEnemy(1, '史莱姆', 0)],
-        field: {
-          id: 0,
-          screenWave: 0,
-          magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-        },
-      },
-    }
+    battleGs.mode = 'battle'
+    battleGs.battleState = state
     setupToolsPanel(
       mkDeps({
-        getGs: () => battleGs as never,
-        getResources: () =>
-          ({
-            playerRoles: { roles: [{ id: 0, _name: '李逍遥' }] },
-            objectPoisons: [],
-            items: [],
-            levelUpExp: [],
-          }) as never,
+        getGs: () => battleGs,
+        getResources: () => ({ playerRoles, objectPoisons: [], items: [], levelUpExp: [] }),
       }),
     )
     window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))
@@ -405,11 +291,18 @@ describe('tools-panel 框架', () => {
     vi.advanceTimersByTime(250)
     const body = document.querySelector('.tp-body')!
     const previous = body.firstChild
-    battleGs.battleState.turn += 1
-    battleGs.battleState.enemies[0]!.e.health = 77
+    state.enemies[0]!.e.health = 77
     vi.advanceTimersByTime(250)
     expect(body.firstChild).not.toBe(previous)
-    expect(body.textContent).toContain('77')
+    const enemyUnit = [...body.querySelectorAll('.tp-unit')].find(
+      (unit) => unit.querySelector('.tp-unit-name')?.textContent === '火神龙',
+    )!
+    expect(enemyUnit.querySelector('.tp-unit-hp')?.textContent).toBe('HP 77/100')
+    const hpRefreshed = body.firstChild
+    state.turn += 1
+    vi.advanceTimersByTime(250)
+    expect(body.firstChild).not.toBe(hpRefreshed)
+    expect(body.textContent).toContain('第 2 回合')
     const refreshed = body.firstChild
     vi.advanceTimersByTime(250)
     expect(body.firstChild).toBe(refreshed)

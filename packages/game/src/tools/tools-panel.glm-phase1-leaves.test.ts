@@ -7,40 +7,11 @@
  *    （经 localStorage 持久值可观察）。
  * 只证公开动作到注入依赖的参数（不触真实缩放/全屏/存档写盘）。
  */
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { createInitialGameState } from '../core/game-state.js'
-import type { AudioVolumeController } from '../shell/audio-volume.js'
-import { createMusicSourceController } from '../shell/music-source.js'
-import { __resetSpeedrunForTest } from './speedrun/index.js'
-import { setupToolsPanel, type ToolsPanelDeps } from './tools-panel.js'
+import { describe, expect, it, vi } from 'vitest'
+import { setupToolsPanel } from './tools-panel.js'
+import { useToolsPanelTestHost } from './tools-panel.test-fixtures.js'
 
-function mkVol(): AudioVolumeController {
-  return {
-    getVolume: () => 0.8,
-    setVolume: vi.fn(),
-    isMuted: () => false,
-    setMuted: vi.fn(),
-  }
-}
-
-function mkDeps(over: Partial<ToolsPanelDeps> = {}): ToolsPanelDeps {
-  return {
-    getGs: () => createInitialGameState({ x: 0, y: 0, facing: 'down' }),
-    getResources: () => ({ playerRoles: { roles: [] }, objectPoisons: [], items: [] }),
-    displayScale: {
-      getPercent: () => 100,
-      setPercent: vi.fn(),
-      toggleFullscreen: vi.fn(),
-    },
-    musicSource: createMusicSourceController(() => ({ play() {}, stop() {} }), 'midi'),
-    audioVolume: mkVol(),
-    sfxVolume: mkVol(),
-    videoVolume: mkVol(),
-    saveSlot: async () => {},
-    loadSlot: async () => null,
-    ...over,
-  }
-}
+const mkDeps = useToolsPanelTestHost()
 
 function openSystemTab(): void {
   window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Backquote' }))
@@ -48,21 +19,6 @@ function openSystemTab(): void {
     .find((b) => b.textContent === '系统')!
     .dispatchEvent(new MouseEvent('click', { bubbles: true }))
 }
-
-beforeEach(() => {
-  vi.useFakeTimers()
-  document.body.innerHTML = ''
-  document.getElementById('tp-tools-style')?.remove()
-  document.getElementById('tp-fps-style')?.remove()
-  localStorage.removeItem('tp-fps-show')
-  __resetSpeedrunForTest()
-})
-
-afterEach(() => {
-  vi.clearAllTimers()
-  vi.useRealTimers()
-  localStorage.removeItem('tp-fps-show')
-})
 
 describe('L17 tools-panel 显示区委托', () => {
   it('缩放滑块 input → setPercent(posToPct(v))（对数刻度 0.75→316%）并同步 % 文案', () => {
@@ -82,7 +38,7 @@ describe('L17 tools-panel 显示区委托', () => {
     expect(scale.closest('div')?.textContent).toContain('316%')
   })
 
-  it('全屏按钮 → toggleFullscreen；FPS 开关 → setFpsEnabled(true) 持久化 tp-fps-show=1', () => {
+  it('全屏按钮委托 toggleFullscreen 一次', () => {
     const toggleFullscreen = vi.fn()
     setupToolsPanel(
       mkDeps({
@@ -94,6 +50,11 @@ describe('L17 tools-panel 显示区委托', () => {
       .find((b) => b.textContent === '全屏')!
       .dispatchEvent(new MouseEvent('click', { bubbles: true }))
     expect(toggleFullscreen).toHaveBeenCalledTimes(1)
+  })
+
+  it('FPS 开关将开启/关闭持久化为 tp-fps-show=1/0', () => {
+    setupToolsPanel(mkDeps())
+    openSystemTab()
     // FPS toggle：默认关 → 勾选即委派 setFpsEnabled(true)（经持久化可观察）
     const fpsCheckbox = document.querySelector<HTMLInputElement>(
       '.tp-toggle input[type="checkbox"]',

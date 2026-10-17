@@ -580,3 +580,7 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 ### 2026-10-18 CODE69 time-format 测试精度
 
 全文核实现/三测试及 overlay/store/真实文本入口。去除重复小时/负数 oracle，纠正59.995s进位标题并拆开不同函数边界；两枚词法/分钟守卫变异均旧10绿→新13绿1个指定AssertionError，恢复14绿。相邻20文件108例、game typecheck通过；源未改，三测试闭合，285closed/44review/2982pending。证据见 [69](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/69-time-format-tests/README.md)；本轮47partial/36pending/0整卡accept，新统一门未运行。先回核相邻fixture强转，随后70；94–102/editor保持原后续顺序。
+
+### 2026-10-18 CODE58 夹具与隔离勘误
+
+回核发现前次“合法fixture、fake timer隔离”证据不足：核心as never隐藏缺字段/status错型，旧监听器跨例回读前态。只修两测试与共用宿主，正式构造器/hydrate、分轴HP/turn、全屏/FPS拆职责；跨例旧19绿1指定AssertionError→新21绿，正式19绿。相邻34文件199例、game typecheck通过；原源/API/save未改。证据见 [58夹具勘误](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel-fixtures/README.md)。新增宿主1项验证，3312/286closed/44review/2982pending；47partial/36pending/0整卡accept不变。新全仓/coverage/protected未跑；后续先核63/65夹具再续70，避免继承前次过度表述。

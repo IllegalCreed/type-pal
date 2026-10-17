@@ -184,3 +184,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 最新 [68 countdown 测试](68-countdown-tests/README.md)：修正旧“不重复/同文字不可观察”的结论；生命周期oracle转移后补 MutationObserver/SSR，旧4绿新单红；相邻20文件104例、game typecheck通过。两测试新增闭合；新统一门未运行，69及其余37卡仍pending，46卡partial/0整卡accept。
 
 最新 [69 time-format测试](69-time-format-tests/README.md)：归并重复小时/负数oracle，纠正标题、拆合同；科学计数法/独立分钟守卫两枚旧绿新单红；相邻20文件108例、game typecheck通过。三测试新增闭合，生产源仍review，新统一门未运行；47卡partial/36pending/0整卡accept。下一步回核相邻fixture。
+
+最新[58夹具勘误](58-tools-panel-fixtures/README.md)：更正旧合法性/隔离声明；正式构造器/hydrate替换核心强转，共用宿主清监听器/音源/偏好/单例。跨例探针旧单红新绿，正式19绿、相邻199绿；新增fixture1项有直接证据，3312/286closed/44review/2982pending。47partial/36pending/0accept不变，新统一门未跑；下一步63/65夹具。
