@@ -2935,9 +2935,9 @@
       "sourceSha256": "fb5db80aa4aae2110413d916a1cf46e4ec5ae6743bb7728ec3c7f353f1747336",
       "sourceGitRevision": "22eead43a6c825e1345feb92441e09d340d22c18",
       "sourceGitObject": "2cd85b53f57292d8f8373ee5633eaeecef199938",
-      "afterSha256": "b3e59b3a3c580ee47e63c5a6d4d4262b9149cd802415860cef1436f501c56311",
+      "afterSha256": "baf7fed32f4abd07b8ba4f7cdeb66e0f12e9d1c9eda8391ae4fce01be37913a1",
       "revision": {
-        "currentSha": "22eead43a6c825e1345feb92441e09d340d22c18",
+        "currentSha": "baf7fed32f4abd07b8ba4f7cdeb66e0f12e9d1c9eda8391ae4fce01be37913a1",
         "implementationSha": "b3e59b3a3c580ee47e63c5a6d4d4262b9149cd802415860cef1436f501c56311",
         "history": [
           {
@@ -2958,7 +2958,7 @@
         "kind": "independent-full-source-and-real-record-consumer-review",
         "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
         "sourceSha256": "fb5db80aa4aae2110413d916a1cf46e4ec5ae6743bb7728ec3c7f353f1747336",
-        "afterSha256": "b3e59b3a3c580ee47e63c5a6d4d4262b9149cd802415860cef1436f501c56311",
+        "afterSha256": "997650c03cbdddcb5d6b491548506d3a994867b72de44f35f9374b8d6799f8e6",
         "lineCount": 350,
         "originalPreservation": {
           "originalPreserved": true,
@@ -2988,6 +2988,24 @@
             "runtime/E2E/browser/visual",
             "main merge/push"
           ]
+        },
+        {
+          "date": "2026-10-17",
+          "revision": "89bf84e16",
+          "action": "sync-latest-main-and-code-quality-navigation",
+          "previousAfterSha256": "b3e59b3a3c580ee47e63c5a6d4d4262b9149cd802415860cef1436f501c56311",
+          "afterSha256": "997650c03cbdddcb5d6b491548506d3a994867b72de44f35f9374b8d6799f8e6",
+          "scope": "Current main merge and code-quality navigation only; no runtime or product acceptance.",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-17",
+          "revision": "89bf84e16",
+          "action": "refresh-after-sha-after-gate-receipt",
+          "previousAfterSha256": "997650c03cbdddcb5d6b491548506d3a994867b72de44f35f9374b8d6799f8e6",
+          "afterSha256": "baf7fed32f4abd07b8ba4f7cdeb66e0f12e9d1c9eda8391ae4fce01be37913a1",
+          "scope": "Record only; no runtime or product acceptance.",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [
@@ -3177,9 +3195,9 @@
       "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "f6064f47db6a4f0aa6610f340109b873121de1333df0879a0686c3a4f0d9771d",
+      "afterSha256": "8de2bbfb77dacd18bc0c2f14876a4b097eeb8a298c54e999b5012acb02ab557e",
       "revision": {
-        "currentSha": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
+        "currentSha": "8de2bbfb77dacd18bc0c2f14876a4b097eeb8a298c54e999b5012acb02ab557e",
         "implementationSha": "f6064f47db6a4f0aa6610f340109b873121de1333df0879a0686c3a4f0d9771d",
         "history": [
           {
@@ -3266,7 +3284,7 @@
         "kind": "A8-six-pending-inventory-real-producer-maintenance",
         "path": "docs/ops/audits/code-quality-file-ledger.md",
         "sourceSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
-        "afterSha256": "f6064f47db6a4f0aa6610f340109b873121de1333df0879a0686c3a4f0d9771d",
+        "afterSha256": "8de2bbfb77dacd18bc0c2f14876a4b097eeb8a298c54e999b5012acb02ab557e",
         "lineCount": 592,
         "sourceScope": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "completePrior": {
@@ -3446,6 +3464,15 @@
             },
             "completePriorObjectRetrievedAndCompared": true
           }
+        },
+        {
+          "date": "2026-10-17",
+          "revision": "89bf84e16",
+          "action": "sync-latest-main-and-code-quality-navigation",
+          "previousAfterSha256": "f6064f47db6a4f0aa6610f340109b873121de1333df0879a0686c3a4f0d9771d",
+          "afterSha256": "8de2bbfb77dacd18bc0c2f14876a4b097eeb8a298c54e999b5012acb02ab557e",
+          "scope": "Current main merge and code-quality navigation only; no runtime or product acceptance.",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [

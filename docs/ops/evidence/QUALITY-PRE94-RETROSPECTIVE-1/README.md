@@ -90,3 +90,7 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 2026-10-16 [CODE3d PNG复审](3d/README.md)：四源全文/真实caller/SDL与PNG运输合同已核，两height旧绿新单例AssertionError；输入混轴2→6独立，错误primary与排重注释校正，算法不变。47相邻/extract432/game8/typecheck零stderr；四文件review、0关闭，机器已确认3289/204/237/2848。全83卡11partial/72pending/0整卡accept；下一片3g，94–102/editor原目标保留，统一门未清不合main。
 
 2026-10-16 [CODE3g CLI IO复审](3g/README.md)：901行总装、五CLI测试/共享输入与真实caller已读，四次自有临时树观察证实根/父链接清理另一树；高风险输出卡draft等裁决，产品未改。仅窄修字形码点注释，41定向相邻/typecheck零诊断；CLI旧关闭撤回rework、三测试review，0新关闭。机器3289/203closed/241review/2845pending；全83卡12partial/71pending/0整卡accept，续3h及原94–102/editor，统一门未清不合main。
+
+## 2026-10-17 C1 更新
+
+取消生命周期已按 CODE71 真实反例修复并在最新 main 合并后复跑：四文件26例、game typecheck、全仓 `pnpm check` 与 lint 通过。ratchet/protected fast 均因 shared/pal-extract baseline 回退失败，game完整17块stderr与editor运行时诊断继续保留；全部83卡仍14 partial / 69 pending / 0整卡accept。下一批按用户已批准的输出边界方案A继续，未知不关闭。

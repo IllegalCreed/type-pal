@@ -1,5 +1,5 @@
 {
-  "base": "8f5a9af5d314fa7eb148f40b3a2d8a3243efd081",
+  "base": "89bf84e16e6f14650b7abcdecf0b6e55534a3840",
   "command": [
     "pnpm",
     "--filter",
@@ -15,20 +15,20 @@
     "--silent=false",
     "--reporter=default",
     "--reporter=json",
-    "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cancel-c1-3bypvswk/runner.json"
+    "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-cancel-c1-wnrdcxwq/runner.json"
   ],
   "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
   "exit": 0,
   "signal": null,
   "spawnError": null,
-  "seconds": 2.227,
+  "seconds": 2.028,
   "sourceSha256": {
     "packages/game/src/shell/fetch-retry.ts": "6a583e9a53cf4a3b2a80993c7ef792877dfc4c60a3628fbde94ca58f967fefdc",
     "packages/game/src/shell/fetch-retry.cancellation.test.ts": "aea9be5e75e3e603404361aa64a3e253d6398482486efa5831d092b8420bdb71",
     "packages/game/src/shell/fetch-retry.boundaries.test.ts": "945e37e57b2901898d7ed94ec0291d8cc1b949a8a5248e66c7d68d93d89816fa"
   },
-  "rawSha256": "cfa98b91f8412667a92ed0f03c4632ef04efa2facef6db8a7479a8b53351cb99",
-  "runnerSha256": "2c5b17710aa4bc3e6779bb2c88c616381669d4e31d964d3a610a8b62dc620114",
+  "rawSha256": "3ec270e0030b32921be37f227c727ae876545f3ec590dc48c3ed3dec98717c1a",
+  "runnerSha256": "e6ed9b35ef69d105e1d3a05cce152bdfdb1ab25de899f5e1de8d453953d4cf07",
   "files": 4,
   "passed": 26,
   "failed": 0,

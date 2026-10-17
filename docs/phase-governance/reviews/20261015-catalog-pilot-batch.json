@@ -101,7 +101,7 @@
       "reviewedSourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "05b2319a738e2f780abb160226b9d31f2946c6b2",
-      "afterSha256": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0",
+      "afterSha256": "00b898d3a5b82246a664d388fd2dc2515d9f3f4044495b91416bf5830977c4c0",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -128,7 +128,7 @@
         "notes": "Existing unique current record; original pilotCandidate remains immutable historical authored snapshot. New baseline current entry in F1 control is a different nonmember document, eligible incremental1 only."
       },
       "revision": {
-        "currentSha": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
+        "currentSha": "00b898d3a5b82246a664d388fd2dc2515d9f3f4044495b91416bf5830977c4c0",
         "implementationSha": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0",
         "contentVersion": "N/A-doc-publication; original candidate versions retained",
         "minimumSaveVersion": "N/A-doc-publication; original candidate versions retained",
@@ -160,7 +160,7 @@
         "kind": "F1-author-source-preservation-default-contract-and-maintenance-review",
         "path": "docs/phase-governance/reviews/20261016-binding-baseline-contract.json",
         "sourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
-        "afterSha256": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0",
+        "afterSha256": "00b898d3a5b82246a664d388fd2dc2515d9f3f4044495b91416bf5830977c4c0",
         "lineCount": 2003,
         "sourceScope": "Existing canonical publication catalog only_governance.templateVersion1.1→1.2; all18 native entry objects and all other governance values/old dates/status/lastVerified remain exact. New resolver preserves ordered16/default literal/entryreading behavior; generatedBy value/null remain accepted. No new publication or migration credit.",
         "completePrior": {
@@ -306,6 +306,15 @@
             "completePriorObjectRetrievedAndCompared": true
           },
           "runtimeExecutionPerformed": false
+        },
+        {
+          "date": "2026-10-17",
+          "revision": "89bf84e16",
+          "action": "sync-latest-main-and-code-quality-navigation",
+          "previousAfterSha256": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0",
+          "afterSha256": "00b898d3a5b82246a664d388fd2dc2515d9f3f4044495b91416bf5830977c4c0",
+          "scope": "Current main merge and code-quality navigation only; no runtime or product acceptance.",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [],
@@ -3127,7 +3136,7 @@
       "sourceSha256": "6a37d3bf0382da26be36b64a3dedaeb18879ff0ae7b16738b94c63718bab101f",
       "sourceGitRevision": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
       "sourceGitObject": "c7beac7a8cab95856c0025c33cd8d42478274968",
-      "afterSha256": "d0336a8ba931fd260f62ac41ea3be30632c7f7fb14f86ed51da6857c55298c00",
+      "afterSha256": "51bfd7946d46e708cdfa9596464f2dceba56de43f3b0d32017e2c771c8e0a805",
       "publicCallers": [
         "game event/scene/equipment/battle/menu consumers → single lower owner modules",
         "dependency-ownership and cross-module boundary tests",
@@ -3157,7 +3166,7 @@
         "notes": "保留原phase1-dependency-ownership scope，与phase/engine、相邻owner和历史refactor报告分开；不加runtime测试数或覆盖率。"
       },
       "revision": {
-        "currentSha": "58d2456c2730f9f35f38f52ca110d49d2fe0317f",
+        "currentSha": "51bfd7946d46e708cdfa9596464f2dceba56de43f3b0d32017e2c771c8e0a805",
         "implementationSha": "d0336a8ba931fd260f62ac41ea3be30632c7f7fb14f86ed51da6857c55298c00",
         "originalPublicationRevision": {
           "currentSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
@@ -3184,7 +3193,7 @@
         "kind": "original-body-and-metadata-preservation-with-real-static-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/catalog-pilot-consumer-20261015.json",
         "sourceSha256": "6a37d3bf0382da26be36b64a3dedaeb18879ff0ae7b16738b94c63718bab101f",
-        "afterSha256": "d0336a8ba931fd260f62ac41ea3be30632c7f7fb14f86ed51da6857c55298c00",
+        "afterSha256": "51bfd7946d46e708cdfa9596464f2dceba56de43f3b0d32017e2c771c8e0a805",
         "lineCount": 85
       },
       "history": [
@@ -3203,6 +3212,15 @@
           "templateVersionBefore": "1.0.0",
           "templateVersionAfter": "1.1.0",
           "beforeAfter": "Freeze publication axis; preserve catalog and original JSON status; update template declaration.",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-17",
+          "revision": "89bf84e16",
+          "action": "sync-latest-main-and-code-quality-navigation",
+          "previousAfterSha256": "d0336a8ba931fd260f62ac41ea3be30632c7f7fb14f86ed51da6857c55298c00",
+          "afterSha256": "51bfd7946d46e708cdfa9596464f2dceba56de43f3b0d32017e2c771c8e0a805",
+          "scope": "Current main merge and code-quality navigation only; no runtime or product acceptance.",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],

@@ -33,6 +33,12 @@ Template: plan-status-v1 / 1.0.0
 
 生成器实际纳入所有Git tracked的 `packages/` 或 `scripts/` 路径中 `.js/.mjs/.mts/.ts/.tsx/.json` 文件；代码中的七包集合用于domain标记，不是过滤硬门。机器 `scope` 文案与旧总纲七包说法只能作概述，精确输入以该filter为准；输出每项默认待核，不能据此重置账本既有状态。只从显式记录及真实调用证据增量更新，不把机器快照提交成产品源。
 
+## 2026-10-17 94前复审与最新治理分支
+
+当前唯一治理分支为 `codex/code-quality-3y`，已合并 `origin/main=36caec0251b48f94fa5b9d5c4c786571037f9869`，相对 main 为0 behind。机器账本当前为3307 tracked、227 closed、8 review、3072 pending；这些是逐路径登记计数，不是94前83卡的整卡接受数。
+
+94前编号卡复审仍覆盖全部83张，当前14 partial / 69 pending / 0整卡accept；[逐卡证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md)与[fetch取消证据](../evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md)保持未知项待审。取消批次已修复退避期间 signal 取消并通过合并后26例定向、全仓check和lint；official ratchet/protected fast因shared与pal-extract baseline回退失败，game完整包17块stderr、editor运行时诊断仍未清零，因此不合main。
+
 ## 阻塞与决策
 
 历史计数冲突分开记载：Q2b原131/129差异未解释；Q3k的原ledger“3 fail”与卡/总纲“3 passed/1 failed”相反，现行账本只纠正该摘要并保留完整旧稿；Q3t/u均写215且u又写新增5，统计时点仍unknown；u/w排重按明确新增5/3，不凭相邻总数补出执行顺序。原末尾“YJ2/resources/tables待核”与前部及后继收口不一致，作为旧残句保留，不恢复今天待实施或默认删YJ2合同。

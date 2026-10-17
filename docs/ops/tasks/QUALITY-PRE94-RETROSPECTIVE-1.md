@@ -273,3 +273,9 @@ main耗尽弱例的消息/默认次数oracle转入boundary不同错误身份例�
 最终25文件156例、game typecheck、75工具均零运行时诊断通过。完整game按三片合跑一次：初始候选320文件3605 passed/0pending，但17块stderr涉及14测试，包质量不通过；输出/源SHA见[诊断](QUALITY-GAME-RUNTIME-DIAGNOSTICS-1.md)，未全文核14文件、不静音、不改写旧日志。生产取消两个真实IO counter归[生命周期卡](QUALITY-FETCH-ABORT-LIFECYCLE-1.md)draft；旧71已有“不等退避”策略，需失败反例/独立实现准入，不重复让用户选既定策略。
 
 fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保持review，0新关闭。全83卡14partial/69pending/0整卡accept；机器与静态门以本片gates实际回执为准。统一check/official ratchet/protected未新跑，game与editor诊断未清，不合main。下一片取消生命周期反例与准入，随后game17块/editor余诊断稳定窗口；全部83卡/94–102/editor原目标保留。已知boundary“网关耗尽拒绝”过期注释留待取消实现片校正，未声称整文件注释清零。无下一位Agent提示词，单Agent继续。
+
+### 2026-10-17 C1 取消生命周期与最新main收口
+
+当前治理分支已合并 `origin/main=36caec0251b48f94fa5b9d5c4c786571037f9869`，0 behind/157 ahead。`QUALITY-FETCH-ABORT-LIFECYCLE-1` 已从失败反例进入 build：`fetch-retry.ts` 增加可取消退避与 Request.signal 归属，合并后四文件26例、game typecheck 和全仓 `pnpm check` 通过；docs 1466 Markdown / 8693 local links / content review 2340、lint 4956 文件0/0/0、ledger 3307/227/8/3072。
+
+官方 `pnpm coverage:ratchet` 与 `TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast` 均因 baseline 回退失败：shared statements 447/466、branches 203/218；pal-extract statements 1068/1535、branches 461/584、lines 943/1357。未改 baseline、未新增弱测试。完整 game 仍有17块stderr，editor全包运行时诊断仍在；不合main、不关闭任何ledger文件。下一批是已获批准的 `QUALITY-EXTRACT-OUTPUT-BOUNDARY-1` 方案A失败反例与准入，同时继续game/editor诊断和83卡逐文件复审。

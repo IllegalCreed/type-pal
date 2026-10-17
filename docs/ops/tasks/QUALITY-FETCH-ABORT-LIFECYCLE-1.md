@@ -9,7 +9,7 @@ Visual Verification Timing: N/A（Promise/计时与请求生命周期，不改�
 
 ## 直接事实与当前停止线
 
-基点dfd03a811，唯一codex/code-quality-3y，main=f98d0ddd8。全文读取fetch-retry.ts、三测试、main.ts、boot-loading.ts、audio-midi.ts及[历史CODE71](../archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md)。现实现只在底层reject后核init.signal.aborted或错误名AbortError；backoff的setTimeout不监听signal，也未读Request.signal。未修改生产代码。
+历史基点dfd03a811、main=f98d0ddd8仅用于旧反证；当前治理分支已合并最新 `origin/main=36caec0251b48f94fa5b9d5c4c786571037f9869`，唯一写入分支仍 `codex/code-quality-3y`。全文读取fetch-retry.ts、三测试、main.ts、boot-loading.ts、audio-midi.ts及[历史CODE71](../archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md)。旧实现只在底层reject后核init.signal.aborted或错误名AbortError；本批已补可取消退避和Request.signal。
 
 [真实HTTP/原生fetch原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/real-abort-proof.json)与raw/命令回执确认：Node22.23.2本机HTTP返回503，独立观测仅拦截本任务独有的314159ms退避timer并由观察者显式放行，不使用fake transport、核心mock或wall-clock等待。source SHA/全局恢复、timer归零与server关闭均记录。
 
@@ -54,12 +54,19 @@ Codex直接核源码、真实HTTP、Fetch/DOM primary与有效红例后签 premi
 
 当前仍未关闭：生产源/三既有测试/新增取消测试必须在最新 origin/main 同步后重跑；全仓 check、official ratchet、protected fast、editor/game runtime diagnostics 仍未清零。
 
+## 合并最新 main 后质量门（2026-10-17）
+
+- 定向取消族：4 文件 / 26 tests，0 failed / 0 pending / 0 runtime diagnostics；game typecheck 通过。
+- 全仓 `pnpm check`：通过。docs 1466 Markdown / 8693 local links / content review 2340 全通过；工具、7 包 typecheck/test 通过（game 321 files/3612 tests，editor 631/4943，pal-extract 72/432，reforge 359/8964），lint 4956 files，0 errors/0 warnings/0 infos。
+- `pnpm coverage:ratchet` 与 `TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast`：均失败于既有 baseline 回退，shared statements 447/466、branches 203/218；pal-extract statements 1068/1535、branches 461/584、lines 943/1357。未改 baseline、未堆测试。
+- `git diff --check` 与 ledger：通过，3307 / 227 closed / 8 review / 3072 pending；main 差异为0 behind/157 ahead。game 完整包17块stderr、editor运行时诊断仍是统一收口阻塞。
+
 ## 交接
 
 fetch-retry.ts旧整文件关闭因直接counter撤回rework；旧CODE71的done只保留历史，不重写旧门回执或预签当前通过。全仓门/editor诊断未清，不合main；全部83卡与94–102/editor原目标继续。无下一位Agent提示词，Codex单Agent继续。
 
 ## 2026-10-16 C1 失败反例准入（8f5a9af5d）
 
-当前main仍f98d0ddd8、0behind；看板未有其它Owner占用fetch-retry实现。Codex单Owner。先仅允许新增`packages/game/src/shell/fetch-retry.cancellation.test.ts`，从公开install/fetch入口验证已有71取消合同，生产继续冻结到真实先红记录完成。只读三既有测试、main/boot-loading/audio-midi，已全文复核。
+准入时main为f98d0ddd8；之后已在提交 `89bf84e16` 合并最新main，当前相对main为0 behind。看板未有其它Owner占用fetch-retry实现，Codex单Owner。先仅允许新增`packages/game/src/shell/fetch-retry.cancellation.test.ts`，从公开install/fetch入口验证已有71取消合同；只读三既有测试、main/boot-loading/audio-midi，已全文复核。
 
 补核Fetch Request构造步骤26/29/30：init.signal存在时覆盖Request.signal，显式null表示脱离原signal，不能用空值回退重新绑定已取消Request。六个输入场景分别核已取消Request（自定义Error/默认原因且零重试）、退避中init/Request取消、显式signal/null覆盖与正常恢复释放。Node原生fetch已取消正控不发网络，退避IO用typed fetch替身；timer与真实AbortSignal监听器独立检查。先红可有多项合同失败，不冒充恰一AssertionError的精确反控。

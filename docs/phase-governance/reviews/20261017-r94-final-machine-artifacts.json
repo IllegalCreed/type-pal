@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+      "afterSha256": "4797b22edbc5cde5811fd49b0570ca31c467649d51816c711712c0f240667c6b",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1065,7 +1065,7 @@
         "against": ["docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"]
       },
       "revision": {
-        "currentSha": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+        "currentSha": "4797b22edbc5cde5811fd49b0570ca31c467649d51816c711712c0f240667c6b",
         "implementationSha": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "history": [
           {
@@ -1081,7 +1081,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-        "afterSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+        "afterSha256": "44a4e0264fc72e1138c8606ec7a729a17bb3e47a5ea273a7fddb8222b0f04882",
         "lineCount": 13734,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1105,6 +1105,51 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-17",
+          "revision": "89bf84e16",
+          "action": "sync-review-record-after-sha",
+          "previousAfterSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+          "afterSha256": "44a4e0264fc72e1138c8606ec7a729a17bb3e47a5ea273a7fddb8222b0f04882",
+          "scope": "Record only; no runtime or product acceptance.",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-17",
+          "revision": "89bf84e16",
+          "action": "refresh-r93-after-sha",
+          "previousAfterSha256": "44a4e0264fc72e1138c8606ec7a729a17bb3e47a5ea273a7fddb8222b0f04882",
+          "afterSha256": "9bee00ded7c1f8fa801cbb70803decd705689389c5358b5de7b6486dacd3794f",
+          "scope": "Record only; no runtime or product acceptance.",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-17",
+          "revision": "89bf84e16",
+          "action": "refresh-after-sha-after-gate-receipt",
+          "previousAfterSha256": "9bee00ded7c1f8fa801cbb70803decd705689389c5358b5de7b6486dacd3794f",
+          "afterSha256": "453b0ab846b1722642c61ed1654b3401b1d2414946cc59f3dd95189bcb5c9bf5",
+          "scope": "Record only; no runtime or product acceptance.",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-17",
+          "revision": "89bf84e16",
+          "action": "refresh-after-sha-final",
+          "previousAfterSha256": "453b0ab846b1722642c61ed1654b3401b1d2414946cc59f3dd95189bcb5c9bf5",
+          "afterSha256": "093064195457e09a28e368166f31f286a45e024269fcabde549f87347cbcb82b",
+          "scope": "Record only; no runtime or product acceptance.",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-17",
+          "revision": "89bf84e16",
+          "action": "refresh-r93-format-after-sha",
+          "previousAfterSha256": "093064195457e09a28e368166f31f286a45e024269fcabde549f87347cbcb82b",
+          "afterSha256": "4797b22edbc5cde5811fd49b0570ca31c467649d51816c711712c0f240667c6b",
+          "scope": "Record only; no runtime or product acceptance.",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
       ],
       "supersedes": [

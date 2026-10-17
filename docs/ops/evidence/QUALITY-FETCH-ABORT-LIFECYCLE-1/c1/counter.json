@@ -16,17 +16,9 @@
         "const timer = setTimeout(() => {\n"
       ]
     ],
-    "null-falls-back": [
-      [
-        "init?.signal !== undefined",
-        "init?.signal != null"
-      ]
-    ],
+    "null-falls-back": [["init?.signal !== undefined", "init?.signal != null"]],
     "masks-initial-validation": [
-      [
-        "\n      try {\n",
-        "\n      if (signal?.aborted) throw signal.reason\n      try {\n"
-      ]
+      ["\n      try {\n", "\n      if (signal?.aborted) throw signal.reason\n      try {\n"]
     ]
   },
   "runs": [
