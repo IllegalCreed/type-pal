@@ -1,4 +1,3 @@
-import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
@@ -8,6 +7,7 @@ import { loadDocumentRegistry } from './document-registry.mjs'
 import { frozenDocumentBaseline, inspectFrozenDocumentBaseline } from './frozen-document-source.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { readGitDocumentSource } from './git-document-source.mjs'
+import { gitInventory } from './git-inventory.mjs'
 
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const readBuffer = (path) => {
@@ -27,13 +27,7 @@ const sourceOptions = {
 }
 const baseline = inspectFrozenDocumentBaseline(read, sourceOptions.readSource, sourceOptions)
 const cohort = new Set(baseline.entries.map((entry) => entry.path))
-const candidates = execFileSync(
-  'git',
-  ['ls-files', '--cached', '--others', '--exclude-standard', '-z', 'docs'],
-  { cwd: root, encoding: 'utf8' },
-)
-  .split('\0')
-  .filter((path) => /\.(md|json|html)$/.test(path))
+const candidates = gitInventory(root, ['docs']).filter((path) => /\.(md|json|html)$/.test(path))
 const { registry } = loadDocumentRegistry({
   manifestPath: resolve(root, 'docs/phase-governance/document-registry.json'),
 })

@@ -1,14 +1,4 @@
-import { execFileSync } from 'node:child_process'
-import {
-  closeSync,
-  existsSync,
-  mkdtempSync,
-  openSync,
-  readFileSync,
-  realpathSync,
-  rmSync,
-} from 'node:fs'
-import { tmpdir } from 'node:os'
+import { existsSync, readFileSync, realpathSync } from 'node:fs'
 import { basename, dirname, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import {
@@ -18,6 +8,7 @@ import {
   linkExceptions,
 } from './config.mjs'
 import { generatedTextIssues } from './document-integrity.mjs'
+import { gitInventory } from './git-inventory.mjs'
 import { markdownLinks } from './markdown.mjs'
 import { inspectTerminalNamespace } from './terminal-namespace.mjs'
 
@@ -29,29 +20,9 @@ const statuses = new Set(['draft', 'build', 'review', 'done', 'blocked', 'rework
 const terminal = new Set(['done', 'cancelled'])
 
 export function checkoutFiles(root) {
-  const spool = mkdtempSync(resolve(tmpdir(), 'type-pal-docs-files-'))
-  const output = resolve(spool, 'stdout')
-  let descriptor
-  let text
-  try {
-    descriptor = openSync(output, 'wx', 0o600)
-    // Git writes directly to disk; its complete census must not be capped by
-    // execFileSync's stdout buffer. Parse only after a successful child exit.
-    execFileSync('git', ['ls-files', '--cached', '--others', '--exclude-standard', '-z'], {
-      cwd: root,
-      stdio: ['pipe', descriptor, 'pipe'],
-    })
-    text = readFileSync(output, 'utf8')
-  } finally {
-    try {
-      if (descriptor !== undefined) closeSync(descriptor)
-    } finally {
-      rmSync(spool, { recursive: true, force: true })
-    }
-  }
   // Apply the original existence filter after cleanup, including when TMPDIR
   // happens to be inside the checkout and Git observed our temporary file.
-  return text.split('\0').filter((file) => file && existsSync(resolve(root, file)))
+  return gitInventory(root).filter((file) => existsSync(resolve(root, file)))
 }
 
 export function isTaskDocument(file) {
