@@ -2460,10 +2460,10 @@
       "number": 65,
       "suffix": "",
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-65-game-speedrun-index-orchestration.md",
-      "sha256": "88a60f78a7b26adc16781b5b9d7a51665a9b5a323ed8f25cc1079cbafb4e8307",
-      "lines": 40,
+      "sha256": "843154ed33049937d1cf7d10c500e6e44292ad41621368f14d74f69d494b5faa",
+      "lines": 48,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -3923,8 +3923,8 @@
   ],
   "reviewCheckpointBase": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
   "currentReviewCounts": {
-    "partial": 42,
-    "pending": 41,
+    "partial": 43,
+    "pending": 40,
     "accept": 0
   }
 }

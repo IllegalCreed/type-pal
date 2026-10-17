@@ -28,6 +28,14 @@ Visual Verification Timing: functional-ui（overlay/countdown 委托；不做剧
 
 - 2026-10-13 Codex：完整读取 index 116 行、测试和 main-loop/tools-panel caller；disabled/tick/overlay/F4/F8/F2/paused/banana/解绑合同全部有 oracle，未发现直接缺陷。账本收口为 `3266 / 309 closed / 8 review / 2949 pending`。
 
+## 2026-10-18 Codex 当前独立复审
+
+- **范围与读取**：完整读取 `index.ts`（116 行）、`index.test.ts`（126 行）、`index.glm-phase1-leaves.test.ts`（47 行）；读取 `shell/main-loop.ts` 的 rAF 调用、`tools-panel.ts` 计时器控制、`snapshot.ts`、`timer.ts`、`store.ts`、`overlay.ts`、`countdown.ts` 真实委托边界。
+- **Primary/caller/oracle**：`startRafLoop` 每帧先按 `isSpeedrunPaused()` 冻结游戏世界，再调用 `tickSpeedrunTimer`；index 只构造/驱动 `SpeedrunTimer`，通过 store 持久化设置/PB，通过 overlay/countdown/toast 更新 UI，不直接写 `GameState`。
+- **结论**：未启用时 DOM/计时器短路；启用后用注入的 wall-clock tick；show/banana 设置、F4/F8/F2 快捷键、暂停门、香蕉不冻结世界、SSR 无 window no-op 和解绑均与真实 caller 一致。单例 reset 只清本局 timer，默认 PB 从 CHECKPOINTS 播种；未发现可由 caller/primary 直接证明的实现缺陷，也未改变公共接口或产品行为。
+- **测试判别力**：直接两份 index 测试共 13 tests，覆盖 disabled、tick/overlay、show=0、默认 PB、F4/F8/F2、manual/banana pause、未启用短路、解绑及幂等；相邻 snapshot/timer/overlay/countdown 四文件共 39 tests 通过，无新增弱重复测试。
+- **验证**：六文件 39 tests passed；`pnpm --filter @type-pal/game typecheck` passed。coverage、protected fast、全仓 check 沿用 47–52 波次证据，本小批不重复运行昂贵门。当前复审为 `partial`，不是整卡 `accept/done`。
+
 ## 下一位 Agent 提示词
 
 ```text
