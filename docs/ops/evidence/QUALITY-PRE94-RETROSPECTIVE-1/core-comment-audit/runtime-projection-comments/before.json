@@ -1,0 +1,34 @@
+{
+  "base": "bcec7f0fe1ecac8612c8d83374e4882f2c8f8f0a",
+  "files": [
+    {
+      "path": "packages/game/src/core/battle/actions/attack.ts",
+      "sha256": "35e9f6089a323ab7764b5ec9a364cb1092106e4480ee885179d796edc0e0ede6",
+      "lines": 614,
+      "readRanges": [[1, 614]],
+      "snapshot": "attack.ts.before.gz"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "c286881a1d1d5932333a9fcd084376e42d8871c5abc2a052573a6dbc9267b11c",
+      "lines": 3141,
+      "readRanges": [[1, 3141]],
+      "snapshot": "battle-system.ts.before.gz"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "fdfe520283d6975bd93573f153ee51f620c3ec424433b2672ff447ba20a2831b",
+      "lines": 2111,
+      "readRanges": [[1, 2111]],
+      "snapshot": "game-state.ts.before.gz"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "ac0b7567b9cc93f0713debc36d37d40cf0fde926e71891b1c77c35b4bf542cca",
+      "lines": 918,
+      "readRanges": [[1, 918]],
+      "snapshot": "battle-state.ts.before.gz"
+    }
+  ],
+  "scope": "Full implementation read; no full-file acceptance. All edits limited to comments."
+}

@@ -1,5 +1,7 @@
 # CODE3s battle-system 当前复审切片
 
+> 2026-10-18 当前注释counter：本轮全文补审发现宿主的投影、状态或生命周期说明与实际caller不符；原整文件关闭信用转review。原有限数值结果不据此否定，也不扩成“全部注释/测试合法/全生命周期等价”。仅事实错注已修、执行代码不变；详见[投影/宿主返工](../core-comment-audit/runtime-projection-comments/README.md)。
+
 > 2026-10-18 当前counter：H01单敌fixture误造敌人101，显式reporter产生1块stderr；撤回下文对应“无stderr”当前信用，历史原文保留。roster单红后改用0xffff终止符，主测与H01登记review；结果见[相邻返工](../../QUALITY-BATTLE-MAGIC-PARITY-1/README.md)，不扩大为整卡重验。
 
 基点：`d2c5ca463`；分支：`codex/code-quality-3y`。本片重新复审历史 3s 的战斗宿主，不把历史 done、旧行数、旧测试数量或旧全仓门当作当前验收。3s 当前复审提升为 `partial`，未标 accept/done。

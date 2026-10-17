@@ -103,13 +103,13 @@ const PHASE_STALL_TICKS_LIMIT = 1500
  */
 const BATTLE_DT = BATTLE_FRAME_TIME
 /**
- * D19 入场揭示 gate 时长(tick)。对齐 sdlpal `PAL_StartBattle` 入场真值 = `VIDEO_SwitchScreen(5)`
- * (video.c:1089-1126:wSpeed=5→6→×10=60,外层 6 band × UTIL_Delay(60) = 360ms),≈ 360ms / 40ms-per-tick
- * (FRAME_MS_BATTLE)= 9 tick。
+ * D19 入场揭示 gate 时长(tick)。参考 PAL_StartBattle → PAL_BattleMain 中的 VIDEO_SwitchScreen(5):
+ * wSpeed=5→6→×10=60,6 band × UTIL_Delay(60) = 360ms,按 40ms 逻辑 tick 取 9 tick。
+ * 这里只对应换屏一段;PAL_BattleMain 此前还有 200ms delay,不表示完整入场或视觉时序已等价。
  *
  * 注(2026-06-04 修 user 报"进战斗到菜单过渡偏长"):入场揭示出处是 video.c VIDEO_SwitchScreen(5)=360ms,
  * **不是** PAL_BattleFadeScene(battle.c:608-682,72×16ms≈1152ms)—— 后者是战斗内动作刷新/法术效果用,
- * PAL_StartBattle 入场 callpath(battle.c:706-737)根本不调它。旧值 29(≈1160ms)对标错了函数,过渡比真值长约 3 倍。
+ * PAL_BattleMain 换屏处不调它。旧值 29(≈1160ms)对标了错误函数。
  */
 export const INTRO_FADE_TICKS = 9
 
@@ -198,10 +198,10 @@ export interface StartBattleInput {
 /**
  * 启动一场战斗。
  *
- * 1. 找 EnemyTeam → 展开活槽位(过滤 0 / 0xFFFF) → 解引用成 Enemy[]
+ * 1. 找 EnemyTeam → 跳过 0xFFFF,保留 0 空占位槽 → 解引用成 (Enemy | null)[]
  * 2. 找 BattleField
  * 3. 构 RNG + BattleState
- * 4. 切 mode = 'battle',缓存资源到 __battleResources
+ * 4. 切 mode = 'battle',由 setBattleResources 管理隐藏资源 stash(__battleResources)
  *
  * 找不到 enemyTeam / battleField → 抛错(防 fixture 错配,而非静默失败)。
  */
@@ -312,7 +312,7 @@ export function startBattle(input: StartBattleInput): void {
   // E04:sdlpal PAL_StartBattle(battle.c:1565-1586)战前清 7 隐藏经验池 wCount(per-battle 计数)。
   clearHiddenExpCounts(input.gs)
 
-  // D19:入场 dither fade-in(PAL_BattleFadeScene,battle.c:609)。**显式 opt-in**(生产 tryStartBattle 传
+  // D19:入场揭示 gate(参考 PAL_BattleMain → VIDEO_SwitchScreen)。**显式 opt-in**(bootstrap 入口传
   //   introFadeTicks=INTRO_FADE_TICKS;单测/dev 不传 → 无 fade、无 gate,行为不变)。preBattle 期间 gate 输入,
   //   present-battle 把战斗场景从入场前大世界帧 dither 揭示。
   if (input.introFadeTicks && input.introFadeTicks > 0) {
@@ -742,7 +742,7 @@ function tickSelectAction(
     }
     // baseDex = PAL_GetPlayerDexterity(global.c:1849-1864)= rgwDexterity + Σ装备,**无 level 项**
     //   (等级项是**敌方** PAL_GetEnemyDexterity 才有,且乘数 *3 非 *4,fight.c:311-312)。
-    //   role.dexterity 已 = base+装备(projectRuntimeToBattleRoles game-state.ts:1282)→ 直接用,
+    //   role.dexterity 已由 projectRuntimeToBattleRoles 合入 runtime base + 装备效果→ 直接用,
     //   绝不再加 (level+6)*4(M3 误套敌方公式 + 连乘数都对不上的 bug,2026-06-02 审计核源订正)。
     const baseDex = role.dexterity
     let dex = getPlayerActualDexterity(baseDex, {
@@ -788,20 +788,14 @@ function isPlayerDying(role: { hp: number; maxHP: number }): boolean {
 }
 
 /**
- * M6 玩家濒死/阵亡音 —— port sdlpal `PAL_BattlePostActionCheck` dying-sweep(fight.c:834-850)
- *   + enemy 攻击致死内联 deathSound(fight.c:4816/4851/5110)。每回合后处理调一次,比对本回合初
- *   prevHp:① hp===0 且 prevHp>0(本回合阵亡)→ rgwDeathSound;② hp>0 且跌入濒死(hp<min(100,maxHP/5))且
- *   回合初尚在阈值上(prevHp>=min(100,maxHP/5),即刚跨入)→ rgwDyingSound。判完把 prevHp 快照为当前 hp 供下回合。
+ * 玩家濒死/阵亡音 sweep。比对上次调用留下的 prevHp,判完更新快照。
+ * tickPerformAction 在伤亡脚本触发后的动作收尾调用;tickPostAction 还会在毒结算后调用,
+ * 因此不能把快照固定描述为“回合初”,也不能声称只在每回合末播放。
  *
- * **阵亡音仅敌攻致死播,毒杀不播**(2026-06-03 音效审计确认:sdlpal rgwDeathSound 只在 3 个 enemy
- *   攻击分支内联 fight.c:4816/4851/5110,毒 tick 1657-1700 / PostActionCheck 都不播玩家 deathSound)。
- *   ts 集中 sweep 在毒 tick **后**跑,无法区分死因 → 传 prePoisonHp(毒 tick 前 hp):仅 prePoisonHp===0
- *   (本回合死于动作/敌攻,在毒前已死)才播 deathSound;毒杀(毒前 hp>0,毒后→0)不播。
- *   濒死音 dyingSound 不门控死因(sdlpal PostActionCheck 在毒后也调 fight.c:1664,毒致濒死同样播)。
- *
- * sdlpal 死亡音内联在 enemy 攻击(即时)、濒死音在 PostActionCheck;ts 集中此一处近似(死亡音时序差
- * 不超过一回合,音色 + 死因门控正确)。玩家 prevHp 此前未维护(只敌方用),由本函数建立回合粒度快照。
- * 声经 bus {op:'playSound'} 发 → bootstrap 战斗 drain 播(>0 守卫;0 = 无音,跳过)。
+ * 濒死判定用当前 hp < min(100,floor(maxHP/5)),前态门用未钳的 floor(maxHP/5)。
+ * 回合末 caller 传 prePoisonHp,区分毒前已死与毒杀;动作收尾 caller 不传,采用无死因门控的分支。
+ * guardianOk 也由 caller 选择传入。这里仅描述当前 TS 调用合同,不承诺与 C 的音效时序完全等价。
+ * 声经 bus {op:'playSound'} 发出;音效号 >0 才 emit。
  */
 export function emitPlayerCasualtySounds(
   players: ReadonlyArray<{ roleId: number; prevHp: number }>,
@@ -1358,8 +1352,8 @@ function confirmMainAction(state: BattleState, res: BattleResources): void {
 
 /**
  * Force(F 键):pickAutoMagic → 物理/法术自动 commit(uibattle.c:1171-1204)。
- * threshold:pickAutoMagic 选法术的 MP 阈值 —— Force 键 60(uibattle.c:1173);
- *   fAutoBattle(0x8A 整场自动)9999(uibattle.c:854,几乎必选可用法术)。
+ * threshold 是法术评分随机加数的上界(0..threshold),Force 键传 60,fAutoBattle 传 9999。
+ * 是否够 MP 由 pickAutoMagic 的 costMP > role.mp 独立过滤,不是此参数的含义。
  */
 function commitForceAction(
   state: BattleState,
@@ -1489,7 +1483,7 @@ function backupRepeatActions(state: BattleState, gs: GameState): void {
 
 /**
  * fAutoAttack / Force 物理:自动 commit 攻击(自动目标)。port sdlpal uibattle.c:977-992 / 1171-1187。
- *   群攻武器(canAttackAll)→ target=-1(全体);否则 selectAutoTargetFrom 选首个活敌。
+ *   群攻武器(canAttackAll)→ target=-1(全体);否则优先上次确认的活敌,再从首槽找活敌。
  */
 function commitAutoAttack(
   state: BattleState,
@@ -1924,20 +1918,8 @@ function handlePlayerTargetSelect(
 }
 
 /**
- * performAction:逐项消费 actionQueue。
- *
- * 每 tick 执行一个 queue item(给 Present 层留出动画时间)。
- * - 队员 item:从 pendingActions 取
- * - 敌人 item:enemy-ai.decideEnemyAction 决策
- *
- * **flee 早退**:performFlee 成功会把 state.phase 设为 'fleed';本 handler 检测到
- * 后立即退出 queue(剩余 action 不执行),交给下一 tick 的 finalizeBattle。
- *
- * queue 跑完 → 转 postAction。
- */
-/**
  * port sdlpal `PAL_BattleSelectAutoTargetFrom`(fight.c:86-128):自动挑一个**活**敌人 index。
- * 先用 prevTarget(UI 上次悬停目标,若活);否则从 begin 起循环找第一个活敌(环绕);全死 → -1。
+ * 先用 prevTarget(TS 敌方目标 UI 上次 Confirm 的目标,若活);否则从 begin 起环绕找活敌;全死 → -1。
  */
 export function selectAutoTargetFrom(
   enemies: BattleState['enemies'],
@@ -1969,7 +1951,8 @@ const DEATH_FADE_STEP_MS = 16
  * 开始淡出并 emit 死亡音效命令。
  * 本次有任何新死敌 → 开启 state.battleFade hold(忠实 sdlpal fFade → PAL_BattleFadeScene)。
  *
- * @returns 本次是否开启了新淡出(true 时调用方应交给 fade 分支推进,不立即 currentActionIndex++)。
+ * @returns 本次是否发现新死敌。动作完成后的 caller 照常推进 currentActionIndex;
+ * 后续 tick 的顶层 fade hold 负责暂停下一动作,本函数不管理游标。
  */
 function checkEnemyDeaths(state: BattleState, bus: CommandBus): boolean {
   let fade = false
@@ -2400,6 +2383,11 @@ function feedNextBattleDialogLine(state: BattleState, gs: GameState): void {
   state.battleDialogNarrationFrames = 0
 }
 
+/**
+ * 逐项消费 actionQueue;一次 tick 至多起一个新动作,动画可能跨多 tick,顶层对话/淡出也可 hold。
+ * 玩家动作取 pendingActions,敌人经 decideEnemyAction 决策。完成动作才推进 currentActionIndex,
+ * 队列结束转 postAction;phase 已离开 performAction 时不再消费剩余动作。
+ */
 function tickPerformAction(
   state: BattleState,
   gs: GameState,
@@ -2465,7 +2453,8 @@ function tickPerformAction(
   }
 
   // sdlpal `PAL_BattleStartFrame`(fight.c:1116-1152):每帧**先**检 fEnemyCleared(全敌死→won)
-  //   / fEnded(全队员死 puppet 除外→lost),命中即 return,**不再处理剩余 action queue**。
+  //   / fEnded(全队员 HP 为 0→lost),命中即 return,不再消费剩余队列。
+  //   C 的 puppet 分支只改 fOnlyPuppet,未清 fEnded;不能把傀儡算成存活来豁免全灭。
   //   ts 对齐(修 user 实测:本轮第一个角色打死最后敌人后,后续我方角色仍继续攻击)——
   //   放在 battleAnim hold 之后(杀敌动画播完)+ tickBattleFade 死亡淡出 hold 在 tickBattle 顶层
   //   已先于本函数(淡出完才到此)→ 此处判全死并中止队列,转 postAction 由其定 won/lost。

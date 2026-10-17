@@ -1,0 +1,13 @@
+{
+  "command": ["/bin/zsh", "/tmp/type-pal-projection-docs-consumers.sh"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T21:06:52.589966+00:00",
+  "completedAt": "2026-10-17T21:06:55.465021+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "docs-final-consumers.raw.gz",
+  "rawBytes": 442,
+  "rawSha256": "3727b0df70ee02d71c794d5dd5d20f034b35e91b51b4bcba999ccca57439afe9",
+  "fullUncutMergedStdoutStderr": true
+}

@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,315。
-当前已闭合核验：275；已读但待审：66；尚未逐文件核验：2,974；合计未闭合：3,040。
+当前已闭合核验：272；已读但待审：70；尚未逐文件核验：2,973；合计未闭合：3,043。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -321,12 +321,13 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/battle/battle-opcodes.cov85.test.ts` | test | 已验证 | CODE-QUALITY-3t；1189 行全文、dispatch family branch contracts、470 定向/相邻 tests | 真实 state/ctx caller 合同、非法/缺资源/满槽/无目标反例；不以 coverage 数量单独验收 |
 | `packages/game/src/core/battle/battle-opcodes.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-3t；70 行全文、0x05/0x8E dialog clear 与 0x6B signed blow-away primary contract | 清框只影响下一段对白、SHORT 负值边界与 negative control |
 | `packages/game/src/battle-summon-slot-reuse.glm-q.test.ts` | test | 已验证 | CODE-QUALITY-3t；203 行全文、0x9E 战中死亡空槽复用/对象身份/阵型重算 oracle | 活槽不复用、毒/身份清理与阵型锚点反例 |
-| `packages/game/src/core/battle/battle-state.ts` | product | 已验证 | CODE-QUALITY-3u；battle.h:49-119,158-206；global.h:395-404,441-444；battle.c:900-943,1531-1775；fight.c:117-127,2173-2190,3209-3245；battle-system/finalization/anim callers | 918 行逐段核验 BattleState 字段、phase/UI/queue、玩家/敌人快照、null 空槽、对象身份、脚本/毒/动画/结算 ownership；55 定向/相邻 tests、game typecheck、完整 check、official ratchet、protected fast、Biome 零诊断均通过；未发现直接缺陷 |
+| `packages/game/src/core/game-state.ts` | product | review | [投影与宿主错注](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/runtime-projection-comments/README.md)；2111行全文及公开投影/HPMP回写、实际caller/原C | 裸基础值/effect快照/状态ownership错注更正，无执行或schema变化；其余场景/存档/异步字段与旧测试强转继续待核 |
+| `packages/game/src/core/battle/battle-state.ts` | product | review | [投影与宿主错注](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/runtime-projection-comments/README.md)；918行全文；rgPlayerStatus真实写入/seed/cleanup与原C | 状态不限装备、Confirm记忆、顶层fade不推进游标错注已修；14例只回归，旧整文件关闭转review |
 | `packages/game/src/core/battle/battle-runtime-context.ts` | product | 已验证 | CODE-QUALITY-3u；battle.c:1741-1754,1838-1857；battle-system:324-344；battle-finalization:63；runtime/finalization callers | 98 行逐段核验资源表与 runner stash、live-role identity、override 优先级和 finalize release；未发现跨战斗残留或清理缺口 |
 | `packages/game/src/core/battle/__tests__/battle-state.test.ts` | test | 已验证 | CODE-QUALITY-3u；BattleState 工厂/位置/状态 seed oracle，定向/相邻 55 tests | 383 行逐段读取；未知 role、>3 player、状态 seed、快照、EnemyPos/fallback/y offset 和独立坐标对象反例 |
 | `packages/game/src/core/battle/battle-state.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-3u；null 空槽、maxHealth/object identity、autoBattle/scriptPrevHp oracle，定向/相邻 55 tests | 81 行逐段读取；0 占位槽不压缩、真实槽浅拷贝、开战 seed 反例 |
 | `packages/game/src/core/battle/battle-finalization.test.ts` | test | 已验证 | CODE-QUALITY-3u；finalization cleanup/resume caller oracle，定向/相邻 55 tests | 80 行逐段读取；状态/波场/模式/资源释放顺序与 0x07 resume 反例 |
-| `packages/game/src/core/battle/actions/attack.ts` | product | 已验证 | CODE-QUALITY-3v 当前复审；3v-battle-actions；fight.c:3618-3754,4910-5148,4591-4654；battle-system action caller；action/anim/formula callers | 614 行实现全文核验玩家/敌方物攻、群攻/DualAttack、auto-defend/cover/protect、equiv poison、混乱友敌与 timeline 委托；定向6 files/154 tests通过，未发现 direct defect；coverage/全仓门未在本小批运行 |
+| `packages/game/src/core/battle/actions/attack.ts` | product | review | [投影与宿主错注](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/runtime-projection-comments/README.md)；614行全文；真实投影/原Cgetter，撤销失效行号 | 只更正投影ownership注释，JS/TS语法不变；数值极端、整个action测试/统一门仍待，旧源关闭转review |
 | `packages/game/src/core/battle/actions/attack-mate.ts` | product | 已验证 | CODE-QUALITY-3v 当前复审；3v-battle-actions；fight.c:3760-3853；battle-system attack-mate dispatch；attack-mate/action tests | 111 行实现全文核验随机活友军、目标防御/protect、HP clamp、武器声、动画与无目标 Pass；定向6 files/154 tests通过，未发现 direct defect；coverage/全仓门未在本小批运行 |
 | `packages/game/src/core/battle/actions/defend.ts` | product | 已验证 | CODE-QUALITY-3v 当前复审；3v-battle-actions；fight.c:4110-4117,4924-4929；battle-system dispatch；actions tests | 20 行实现全文核验；只写 defending，减伤由 enemy attack owner 消费，越界 no-op 合同闭合；定向6 files/154 tests通过 |
 | `packages/game/src/core/battle/actions/flee.ts` | product | 已验证 | CODE-QUALITY-3v 当前复审；3v-battle-actions；fight.c:4119-4172；battle.c:1455-1528；battle-system dispatch；actions tests | 81 行实现全文核验 flee rate/装备、已批准敌吉运修复、boss RNG、空槽/SHORT 溢出、失败动画与 exp；未发现 direct defect；定向6 files/154 tests通过 |
@@ -340,7 +341,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/scene-system-search.test.ts` | test | review | [本片直接证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/README.md)；完整源码/专测、生产caller与原C | 旧normal/far/first-hit声明不实；现12例及六旧绿新单红，保持review不以通过数恢复整文件 |
 | `packages/game/src/core/scene-system.test.ts` | test | 已验证 | CODE-QUALITY-3q 3q-scene-system；真实 tickSceneSystem/tickEventSystem/SceneAssetsCache/setGlobalEvents caller，play.c/scene.c/map.c oracle | 2064行全文重读；方向/顺序、4..8 trigger、vanish/revive、blocker push、tile h/bit13、trail/步态、loadScene/cache/onEnter、TouchFar 死锁和 invalid-label 反例均有高判别力合同；相邻warning仍待统一清零 |
 | `packages/game/src/core/event-system.test.ts` | test | 已验证 | CODE-QUALITY-3r 当前复审；3r-event-system；真实 tickEventSystem/tickAutoScripts/runScript/runEnterScript callers，script.c/play.c/scene.c/text.c oracle | 5,974 行主测试全文核验；dialog/wait/confirm/end、battle fallback、global ip/call、移动/镜头/fade、scene/item/poison/object 条件与特效生命周期合同完整；当前 package test 321 files/3,619 tests通过，未以覆盖率或旧全仓回执替代本轮证据 |
-| `packages/game/src/core/battle/battle-system.ts` | product | 已验证 | CODE-QUALITY-3s 当前复审；3s-battle-system；`mode.ts`、`bootstrap.ts`、battle-finalization/settlement/actions callers；`battle.c`/`fight.c`/`script.c`/`global.h` primary | 3,141 行实现全文核验；startBattle 资源/敌槽/对象脚本/复活与装备播种、tickBattle phase/hold/stall、行动队列/RNG、dialog/animation/flee/escape、毒/status、结算/cleanup/resume owner 与真实 caller 对齐；未发现 direct defect；本片仅修测试隔离 |
+| `packages/game/src/core/battle/battle-system.ts` | product | review | [投影与宿主错注](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/runtime-projection-comments/README.md)；3141行全文及bootstrap/effect/状态/cleanup caller；自动评分/选靶/入场/队列错注已修 | 删除虚假快照/音效时序等价信用，186例只回归；生命周期其余轴/视觉/统一门仍待，旧源关闭转review |
 | `packages/game/src/core/battle/__tests__/battle-system.test.ts` | test | review | [pre-94机制返工](../evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md)；SDL fight.c/script.c、真实runScript/action caller、手算oracle | 3s本会话全文读取后SHA未变；本次补读caller/投掷场景并补裸runtime，未重新认证全4248行 |
 | `packages/game/src/core/battle/battle-system.cov85.test.ts` | test | 已验证 | CODE-QUALITY-3s 当前复审；3s-battle-system；公开 startBattle/tickBattle/tickEnemyIdleGestures callers，battle.c/fight.c oracle | 330 行 branch guard/phase/idle/资源缺失/settlement contracts；两个 console.error spy 已用 try/finally 恢复；定向9 files/242 tests通过，coverage/全仓门未在本小批运行 |
 | `packages/game/src/core/battle/battle-system.glm-next-wave.test.ts` | test | review | [pre-94机制返工相邻诊断](../evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md)；全文重读、公开startBattle/caller与真实敌队终止符 | 单敌夹具误造缺失101并产生warning；单红反例后改用0xffff终止符，保留对话/终态oracle；统一门仍待 |
@@ -441,6 +442,7 @@ live机器字段属于持续维护输入，历史原文属于不可升格的出�
 [路线](code-quality-governance.md)与[当前协作](../agent-workflow.md)控制新批准入。G原7、K0与L各1、F1两项及A8六项docs工具/测试只有库存待核信用；全量专项仍待实际逐文件阅读/合法输入与caller/oracle、反控和独立验收。
 
 固定原稿来自revision `22eead43a6c825e1345feb92441e09d340d22c18`，Git blob `8195bf08cf7193b1dffc0c5676629e6692e50b92`；保留所有原日期、结论和证据边界。
+
 
 
 <!-- original-source-fenced:start -->

@@ -1,5 +1,7 @@
 # CODE3v battle actions 当前复审切片
 
+> 2026-10-18 当前注释counter：本轮全文补审发现attack的投影、状态或生命周期说明与实际caller不符；原整文件关闭信用转review。原有限数值结果不据此否定，也不扩成“全部注释/测试合法/全生命周期等价”。仅事实错注已修、执行代码不变；详见[投影/宿主返工](../core-comment-audit/runtime-projection-comments/README.md)。
+
 基点：`f412c7dce`；分支：`codex/code-quality-3y`。本片重新复审历史 3v 的基础战斗 action，不把历史 done、旧测试数量或旧全仓门当作当前整卡验收。3v 当前复审提升为 `partial`，未标 accept/done。
 
 完整读取 4 个实现文件：`packages/game/src/core/battle/actions/attack.ts`（614 行）、`attack-mate.ts`（111 行）、`defend.ts`（20 行）和 `flee.ts`（81 行）。完整读取专属 `attack-mate.test.ts`（148 行）与 `actions/attack.glm-next-wave.test.ts`（64 行）；读取 `actions.test.ts` 的基础 attack / confused-enemy / defend / flee 相关段（218–520、920–1120），以及 battle animation/formula 相邻 oracle 的直接区间。生产 caller 核对 `battle-system.ts` 的 `performBattleAction`、目标重选、行动前合法性/降级链和 `mode.ts` 战斗分派；动画所有权留在 `anim-timeline.ts` / `battle-anim-driver.ts`，不在 action 中重复实现。

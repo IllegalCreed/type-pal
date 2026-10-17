@@ -1,0 +1,26 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/battle/__tests__/battle-system.test.ts",
+    "src/core/battle/actions/attack.glm-next-wave.test.ts",
+    "src/core/dependency-ownership.test.ts",
+    "--reporter=verbose",
+    "--reporter=json",
+    "--outputFile.json=/tmp/type-pal-projection-adjacent.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T21:01:05.200092+00:00",
+  "completedAt": "2026-10-17T21:01:08.017239+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "adjacent.raw.gz",
+  "rawBytes": 36293,
+  "rawSha256": "549c8f7377794ff500e9661d8852dd01e9653d68e772223e8ddc49614dad6f08",
+  "fullUncutMergedStdoutStderr": true
+}

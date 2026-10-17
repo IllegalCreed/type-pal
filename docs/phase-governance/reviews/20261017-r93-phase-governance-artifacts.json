@@ -1040,7 +1040,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "96ea3044b50b6a947f44609a3172a50ea9753fad7f76b571ede6a4c63807e2a3",
+      "afterSha256": "9e3f538ce0ded1d209fa732c81149e441f1e7548376cc1959558e10d8dbfaf3e",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1064,8 +1064,23 @@
       },
       "revision": {
         "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "implementationSha": "96ea3044b50b6a947f44609a3172a50ea9753fad7f76b571ede6a4c63807e2a3",
+        "implementationSha": "9e3f538ce0ded1d209fa732c81149e441f1e7548376cc1959558e10d8dbfaf3e",
         "history": [
+          {
+            "revision": "bcec7f0fe1ecac8612c8d83374e4882f2c8f8f0a",
+            "date": "2026-10-18",
+            "action": "Correct four pre94 runtime/projection source comments and revoke three unsupported closure claims",
+            "previousAfterSha256": "96ea3044b50b6a947f44609a3172a50ea9753fad7f76b571ede6a4c63807e2a3",
+            "scope": "Only one board progress row, three current ledger rows plus newly read GameState review row and incoming bindings. Four implementation comments only, parsed TS/JS unchanged. Three old closures to review and GameState pending to review; no new closure or product/whole-document acceptance. Original native verdict/history preserved; no rule/baseline/retirement acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/runtime-projection-comments/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "27358f9d9e3ab65d777b7864fcc936638ed9373a",
             "date": "2026-10-18",
@@ -1286,7 +1301,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "96ea3044b50b6a947f44609a3172a50ea9753fad7f76b571ede6a4c63807e2a3",
+        "afterSha256": "9e3f538ce0ded1d209fa732c81149e441f1e7548376cc1959558e10d8dbfaf3e",
         "lineCount": 1987,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1321,7 +1336,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-2437",
+      "reviewedLines": "1-2452",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -5040,7 +5055,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "3ab681e958b314448c2008ab5c07049942c99cae51de4c4af8402082a84ce786",
+      "afterSha256": "63069d6bbe1e972f168f05b3860ec2204c661b79e028deae9353747c15a6af28",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5064,8 +5079,23 @@
       },
       "revision": {
         "currentSha": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "implementationSha": "3ab681e958b314448c2008ab5c07049942c99cae51de4c4af8402082a84ce786",
+        "implementationSha": "63069d6bbe1e972f168f05b3860ec2204c661b79e028deae9353747c15a6af28",
         "history": [
+          {
+            "revision": "bcec7f0fe1ecac8612c8d83374e4882f2c8f8f0a",
+            "date": "2026-10-18",
+            "action": "Correct four pre94 runtime/projection source comments and revoke three unsupported closure claims",
+            "previousAfterSha256": "3ab681e958b314448c2008ab5c07049942c99cae51de4c4af8402082a84ce786",
+            "scope": "Only one board progress row, three current ledger rows plus newly read GameState review row and incoming bindings. Four implementation comments only, parsed TS/JS unchanged. Three old closures to review and GameState pending to review; no new closure or product/whole-document acceptance. Original native verdict/history preserved; no rule/baseline/retirement acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/runtime-projection-comments/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "27358f9d9e3ab65d777b7864fcc936638ed9373a",
             "date": "2026-10-18",
@@ -5277,7 +5307,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "3ab681e958b314448c2008ab5c07049942c99cae51de4c4af8402082a84ce786",
+        "afterSha256": "63069d6bbe1e972f168f05b3860ec2204c661b79e028deae9353747c15a6af28",
         "lineCount": 5074,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -5312,7 +5342,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-5395",
+      "reviewedLines": "1-5410",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

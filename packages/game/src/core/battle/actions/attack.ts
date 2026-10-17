@@ -139,8 +139,8 @@ export function performAttack(
   } else {
     const role = playerRoles.roles[state.players[actor.idx]!.roleId]!
     // str = PAL_GetPlayerAttackStrength(global.c:1757-1764)= rgwAttackStrength + Σ装备,**无 level 项**
-    //   (等级项是敌方专属,fight.c:4917)。role.attackStrength 已 = base+装备(projectRuntimeToBattleRoles
-    //   game-state.ts:1279)→ 直接用,绝不再加 (level+6)*6(M3 误套敌方公式的 bug,2026-06-02 审计核源订正)。
+    //   (等级项是敌方专属,fight.c:4917)。role.attackStrength 已由 projectRuntimeToBattleRoles
+    //   合入 runtime base + 装备效果,直接用,不再加 (level+6)*6(2026-06-02 审计核源订正)。
     str = asShort(role.attackStrength)
     casterLevel = role.level
   }

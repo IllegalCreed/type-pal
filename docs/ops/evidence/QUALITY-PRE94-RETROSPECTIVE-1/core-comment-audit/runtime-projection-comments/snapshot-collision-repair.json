@@ -1,0 +1,21 @@
+{
+  "failedReceipt": "metadata.json",
+  "producer": "docs-producer.py.gz",
+  "reason": "Full-read producer used basename for snapshot: the two README files collided. SHA/ranges and source bytes were correct; snapshot identity was not.",
+  "fixedRows": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3s-battle-system/README.md",
+      "previousCollidingSnapshot": "README.md.current.gz",
+      "snapshot": "3s-battle-system.README.current.gz"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3v-battle-actions/README.md",
+      "previousCollidingSnapshot": "README.md.current.gz",
+      "snapshot": "3v-battle-actions.README.current.gz"
+    }
+  ],
+  "priorBoundary": "read-boundaries.initial.json.gz",
+  "retainedInvalidCollision": "README.md.current.gz",
+  "newRawVerification": "metadata-final.json",
+  "scope": "Metadata repair only, not a runtime/business counter or file acceptance."
+}

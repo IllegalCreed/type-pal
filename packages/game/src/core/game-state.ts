@@ -544,8 +544,9 @@ export interface AllExperience {
 /**
  * sdlpal global.h `PLAYERROLES` 中运行时可变部分(mutable fields)。
  *
- * 静态基础值(avatar / attackAll / walkFrames / sounds 等)保留在 player-roles.json;
- * rgwSpriteNum 是 sdlpal 可变字段(0x65 SetPlayerSprite 会写),必须进入 runtime。
+ * hydratePlayerRolesRuntime 从 player-roles.json 初始化这些行;属性、装备、已学法术和
+ * 造型可被脚本改写。音效等未建 runtime 行的字段仍由静态角色表提供。
+ * 属性行保存裸基础值,装备/Extra 的加成另存 rgEquipmentEffect,由 getter 或投影合入。
  *
  * 数组长度 = MAX_PLAYER_ROLES (6),index = roleId。
  */
@@ -558,7 +559,7 @@ export interface PlayerRolesRuntime {
   rgwHP: number[] // 当前 HP
   rgwMP: number[] // 当前 MP
   rgwEquipment: number[][] // [slotIdx][roleId] 装备 item id;MAX_PLAYER_EQUIPMENTS(6) × MAX_PLAYER_ROLES(6)
-  rgwAttackStrength: number[] // 当前攻击力(含装备加成后)
+  rgwAttackStrength: number[] // 当前基础攻击力(不含 rgEquipmentEffect 加成)
   rgwMagicStrength: number[] // 当前法力攻击力
   rgwDefense: number[] // 当前防御
   rgwDexterity: number[] // 当前速度
@@ -591,16 +592,16 @@ export interface PoisonStatus {
  * scriptOnEquip 跑 opcode 0x17 时写入(script.c:752-766 真值 HACK):
  *   i = operand[0] - 0xB; p = (WORD*)&rgEquipmentEffect[i];
  *   p[operand[1] * MAX_PLAYER_ROLES + role] = SHORT(operand[2])
- * → 解析:把 `rgEquipmentEffect[i]` 当 byte 数组 cast 成 WORD*,
+ * → 解析:把 `rgEquipmentEffect[i]` 按 WORD 行寻址,
  *   operand[1] = sdlpal global.h tagPLAYERROLES 内 row index(0=Avatar..70+ 各字段)。
  *
- * 装备 effect 永远只写 stat 类字段(AttackStrength 等),所以 ts 只保留 stat 行
- * 节省内存;非 stat row(eg avatar/name)的 0x17 写入 → log skip。
+ * TS 保留数值行以及战斗精灵、群攻、合击覆盖行;支持的写入行见 equipment-state.ts
+ * 的 writeEquipmentEffectField。未建模的行(如 avatar/name)不会写入此结构。
  *
  * effective stat = base PlayerRolesRuntime.rgwXxx[role]
  *                + Σ rgEquipmentEffect[i].rgwXxx[role]  // i = 0..6
  *
- * 见 [equip-effect.ts](./equip-effect.ts) 6 个 getter(`getPlayerAttackStrength` 等)。
+ * 数值 getter 由 equipment-state.ts 实现,经 equip-effect.ts 导出;覆盖类字段不作累加。
  */
 export interface EquipmentEffectRoles {
   rgwSpriteNumInBattle: number[] // sdlpal global.h:302 row 1(装备换战斗精灵;长鞭 0x1A[1,6,0])
@@ -1079,10 +1080,9 @@ export interface GameState {
    * `[role][status]`,9 status(CLASSIC 序:0 Confused/1 Paralyzed/2 Sleep/3 Silence/
    * 4 Puppet/5 Bravery/6 Protect/7 Haste/8 DualAttack)。
    *
-   * **D14 用途**:装备 scriptOnEquip 0x2D(PAL_SetPlayerStatus)把装备授的状态(如仙女剑
-   * 的 DualAttack=32760)写这里;开战 createBattleState 把本表 seed 进 BattleState.players[].status。
-   * 战斗局部状态仍 battle-local(B1 决策不回退),本表只承载**装备授**的持久状态(value>999
-   * 免被 ClearAllPlayerStatus 清,唯一清除点 = removeEquipmentEffect 卸对应装备)。
+   * 大世界脚本 0x2D 和装备 scriptOnEquip 都可写入,包括普通回合状态与 >999 的装备授状态。
+   * createBattleState 按 roleId 复制到战斗局部 status,并非只 seed 装备 buff;战斗状态不回写本表。
+   * finalizeBattleCleanup 清本表 <=999 的状态;>999 保留,卸装由 removeEquipmentEffect 处理。
    */
   rgPlayerStatus: number[][]
 
@@ -1553,25 +1553,19 @@ export function resetSceneRuntimeForNewGame(
 }
 
 /**
- * 投影 PlayerRolesRuntime(运行时 SoA array)→ 战斗用 PlayerRoles(object)—— hydratePlayerRolesRuntime 的逆。
+ * PlayerRolesRuntime(SoA)→ PlayerRoles 对象快照,供战斗和菜单消费,不是 hydrate 的严格逆操作。
+ * 角色全集和未覆盖字段(如音效)取 staticRoles;属性、装备、法术与造型从 runtime 投影,
+ * 具体缺值/零值回退见各字段。返回新角色对象,不与静态角色表共用可变 HP/MP。
  *
- * **架构边界**:战斗原直接用 `assets.playerRoles` 静态 1 级基线,**升级/大世界 stat 改动战斗里全不生效**
- * (battle 用 base / explore+menu 用 runtime,两者新游戏后即分叉)。本投影在 startBattle 入口用 runtime
- * **当前**属性(等级/HP/MP/攻防/速度/逃跑/抗性/名字)+ staticRoles 的不可变字段(精灵/音效/avatar/
- * walkFrames/attackAll/装备槽 等)建战斗 roles,使战斗吃上升级后属性。
- *
- * **D14 修(2026-05-31)**:传入 `equipmentEffect`(gs.rgEquipmentEffect)后,把战斗 stat 投影成
- * **effective = base + Σ rgEquipmentEffect[0..6]**,1:1 mirror sdlpal `PAL_GetPlayerAttackStrength` 等
- * getter(global.c:1736-1975,PAL_CLASSIC i=0..MAX_PLAYER_EQUIPMENTS 含 Extra 槽)。这样战斗吃上装备
- * 攻/防/魔/速/逃/毒抗/元素抗加成 + per-battle Extra 槽(0x30 临时 buff)。装备在战斗中不变 → 投影时
- * 烤入即等价 sdlpal 每次 live 读;0x30 战内写 Extra 后由 battle-opcodes 经 getter recompute snapshot。
- * 省略 `equipmentEffect`(旧 caller / 不关心装备的测试)→ 退回纯 base 投影(向后兼容)。
- *
- * 注:maxHP/maxMP/level **不**并入装备 effect —— sdlpal 无对应 getter(rgwMaxHP 等无 PAL_GetPlayerMaxHP),
- * battle 直读 g.PlayerRoles.rgwMaxHP base,故此处也只投影 runtime base。
+ * bootstrap 开战时传 equipmentEffect:攻/防/魔/速/逃/抗性合入 0..6 槽(含 Extra),
+ * 战斗精灵/合击取末个非零覆盖、群攻取任一非零效果。参考 SDLPal global.c 的
+ * PAL_GetPlayer* / PAL_PlayerCanAttackAll;这里的数值是快照,不是 C 每次读取全局表。
+ * 战内 0x30 写 Extra 后重新算受影响属性,0x19/0x1A 通过 resyncBattleRoleStatsFromRuntime 刷新。
+ * 不传 equipmentEffect 的 caller(如 menuRoles)只读 runtime 基础值;不得假定所有调用都含装备。
+ * maxHP/maxMP/level 直接取 runtime 基础值,不累加装备效果;抗性在本投影钳到 [0,100]。
  *
  * @param runtime gs.PlayerRolesRuntime —— 可变属性源
- * @param staticRoles assets.playerRoles —— 不可变字段源 + 角色全集(id 顺序)
+ * @param staticRoles assets.playerRoles —— 静态回退值与未覆盖字段 + 角色全集
  * @param equipmentEffect gs.rgEquipmentEffect —— 装备 + Extra effect 槽(0..6);省略 → 纯 base 投影
  */
 export function projectRuntimeToBattleRoles(
@@ -1599,7 +1593,7 @@ export function projectRuntimeToBattleRoles(
     }
     return s
   }
-  const clamp100 = (v: number): number => Math.max(0, Math.min(100, v)) // sdlpal 抗性 clamp(>100→100)
+  const clamp100 = (v: number): number => Math.max(0, Math.min(100, v)) // 本投影的抗性上下界
   // sdlpal override 类 getter:某槽非 0 即覆盖(非累加)。
   //   PAL_PlayerCanAttackAll(global.c:2047):任一槽 rgwAttackAll!=0 → 群攻。
   //   PAL_GetPlayerBattleSprite(2009)/ PAL_GetPlayerCooperativeMagic(2044):末个非 0 槽 override base。
@@ -1631,7 +1625,7 @@ export function projectRuntimeToBattleRoles(
       earth: runtime.rgwElementalResistance[4]?.[i] ?? base.elemResistance.earth,
     }
     return {
-      ...base, // 不可变:_name/sounds/equipment 等(avatar/walkFrames/attackAll/battleSprite 下方 runtime 覆盖)
+      ...base, // 先取静态角色;下方覆盖 runtime/effect 字段,音效等未覆盖字段保留
       spriteNum: runtime.rgwSpriteNum[i] || base.spriteNum,
       name: runtime.rgwName[i] ?? base.name,
       level: runtime.rgwLevel[i] ?? base.level,
@@ -1643,7 +1637,7 @@ export function projectRuntimeToBattleRoles(
       avatar: runtime.rgwAvatar[i] || base.avatar,
       walkFrames: runtime.rgwWalkFrames[i] || base.walkFrames,
       // 装备 override(sdlpal getter):长鞭 attackAll/sprite、圣灵珠 coopMagic。装备授群攻 → role.attackAll=1
-      //   (battle-system 读此判全体攻);sprite/coopMagic 末非 0 槽 override base(coopMagic 执行待 P2)。
+      //   (battle-system 读此判全体攻);sprite/coopMagic 末非 0 槽 override base,合击交 performCoopMagic。
       attackAll: anyEquip('rgwAttackAll', i) ? 1 : runtime.rgwAttackAll[i] || base.attackAll,
       spriteNumInBattle:
         lastNonzeroEquip('rgwSpriteNumInBattle', i) ||
@@ -1759,10 +1753,10 @@ export function resumePostBattleScript(gs: GameState, outcome: BattleOutcome): v
 }
 
 /**
- * 战斗结束把战斗 roles 的可变战果回写 PlayerRolesRuntime —— 投影的逆向收尾,使战斗伤害/治疗**持久化**
+ * 战斗边界仅将 roles 的 HP/MP 回写 PlayerRolesRuntime,不是完整逆投影,使伤害/治疗**持久化**
  * 进大世界 + 存档对齐(原 finalizeBattle 只回写 exp/cash,hp/mp 战果丢失,打完血量复原)。
  *
- * 战斗只改 HP/MP(伤害/治疗)→ 回写这两项;等级/属性升级(D11)由升级 loop 在回写后直接写 runtime;
+ * 本函数仅回写 HP/MP;脚本与升级各有 runtime 写入路径,升级 loop 在回写后直接更新等级/属性。
  * 临时增益(0x30 Extra slot)不回写(sdlpal 战末清 Extra)。仅回写在场 party 成员。
  *
  * @param battleRoles res.playerRoles —— 战斗结束态(hp/mp 已被伤害/治疗改)

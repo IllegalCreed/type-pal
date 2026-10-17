@@ -658,3 +658,17 @@ Codex premise verified / design agree / build allowed：基点27358f9d9、3y隔�
 完整原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md)。官方coverage/protected与全仓check按用户成本要求留大任务收尾，本片未跑，不合main；无下一位Agent提示词，Codex单Agent继续。
 
 本片收尾另同步phase1-dependency-ownership唯一catalog entry及report/evidence的注释sourceRef/history；其它17对象/出版日期状态/历史版本运行字段不变，不借此重验D1。首文档门漏父导航1issue、首consumer回放sourceRef2issues均保留原件；修后所有consumer零issue、初125工具测试保持绿，不重复未变工具测试。具体命令与边界见本片gates。
+
+## 2026-10-18 runtime投影注释有限准入
+
+Codex premise verified / design agree / build allowed：bcec7f0fe基点，同一3y树单Owner，完整读取attack.ts 614行、battle-system.ts 3141行、game-state.ts 2111行、battle-state.ts 918行。白名单仅这四源的事实注释；生产bootstrap投影、装备effective getter/0x30刷新、outside-battle 0x2D、开战seed与终态cleanup均已按实际边界核读，SDLPal getter/选靶/自动选法术/入场函数/状态设置清除逐项对照。纠正runtime裸值、快照与HP/MP回写边界，状态表不限装备，自动目标Confirm记忆、随机评分与动作游标hold错注。
+
+不改变可执行逻辑、schema/save/UI/公开类型接口，不借此处理装备重建时序等未有反例的假设。all-HP0+Puppet不是新机制counter：C仅改fOnlyPuppet未清fEnded，照样判负；hidden runtime stash仍在，不能宣称已迁到WeakMap。原假设明确排除。计划四源removeComments编译字节对照、已有定向/相邻回归与game typecheck；全仓check/official ratchet/protected仍留大任务收尾。注释信用与整文件验收分开，未知继续review，不扩大103+或94–102优先级。
+
+### 2026-10-18 runtime投影注释当前结果
+
+四源事实错注已修：runtime裸值与装备effect分开，投影是快照、HPMP单向回写不叫严格逆；普通大世界状态同样seed。宿主纠正自动法术随机评分、Confirm记忆、0槽保留、入场VIDEO_SwitchScreen和动作/fade游标归属，音效只描述当前caller、不再超卖时序等价；错贴performAction头移回所属函数。去注释后的parsed TypeScript和JS字节均与bcec7f0fe一致，零产品行为变化。
+
+75定向+199相邻恢复绿、game typecheck通过，完整raw零stderr/act/环境/unhandled；未改任何测试。裸scanner不理解模板重扫导致一次验证器假报，改用TS parser/printer后两种输出一致，原失败保留，不计业务反控。game-state.test旧双强转/造型静态错注本次只登记后续，绿色不换整文件验收。
+
+三旧源码关闭转review，GameState从pending转review；0新增closed，账本实测3315 /272closed /70review /2973pending。83卡仍50partial/33pending/0accept；五组审计注释已修，余draw-shop/formulas/尺寸/快捷键/ColorFade、冗余算术与两UI差异继续。完整[原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/runtime-projection-comments/README.md)。全仓check/official coverage ratchet/protected按用户大窗口成本要求未跑，统一门rework，未合main，94–102/editor仍在pre94之后。

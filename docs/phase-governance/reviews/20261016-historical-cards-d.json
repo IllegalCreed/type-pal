@@ -3265,11 +3265,26 @@
       "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "28fa6d2f98b8325bd9e8be5fd526a427d803dccd6a61df0c3f38b52dd8202bea",
+      "afterSha256": "b9ef8be7a79af7aa5c624882312f846bf44de6596a9780a467c5da749b45db44",
       "revision": {
         "currentSha": "addcb44c52fd00ab0fd3397e61ae316bf98d02e2aeef1d5533ed23a2c1e5845a",
-        "implementationSha": "28fa6d2f98b8325bd9e8be5fd526a427d803dccd6a61df0c3f38b52dd8202bea",
+        "implementationSha": "b9ef8be7a79af7aa5c624882312f846bf44de6596a9780a467c5da749b45db44",
         "history": [
+          {
+            "revision": "bcec7f0fe1ecac8612c8d83374e4882f2c8f8f0a",
+            "date": "2026-10-18",
+            "action": "Correct four pre94 runtime/projection source comments and revoke three unsupported closure claims",
+            "previousAfterSha256": "28fa6d2f98b8325bd9e8be5fd526a427d803dccd6a61df0c3f38b52dd8202bea",
+            "scope": "Only one board progress row, three current ledger rows plus newly read GameState review row and incoming bindings. Four implementation comments only, parsed TS/JS unchanged. Three old closures to review and GameState pending to review; no new closure or product/whole-document acceptance. Original native verdict/history preserved; no rule/baseline/retirement acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/runtime-projection-comments/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "27358f9d9e3ab65d777b7864fcc936638ed9373a",
             "date": "2026-10-18",
@@ -3560,7 +3575,7 @@
         "kind": "A8-six-pending-inventory-real-producer-maintenance",
         "path": "docs/ops/audits/code-quality-file-ledger.md",
         "sourceSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
-        "afterSha256": "28fa6d2f98b8325bd9e8be5fd526a427d803dccd6a61df0c3f38b52dd8202bea",
+        "afterSha256": "b9ef8be7a79af7aa5c624882312f846bf44de6596a9780a467c5da749b45db44",
         "lineCount": 592,
         "sourceScope": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "completePrior": {
@@ -3783,7 +3798,7 @@
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "1-729",
+      "reviewedLines": "1-731",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {

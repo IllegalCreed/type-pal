@@ -1,0 +1,8 @@
+{
+  "failureReceipt": "emit-preflight.json",
+  "failedProducer": "emit-preflight.reconstructed.cjs.gz",
+  "provenance": "Reconstructed from the exact original construction recipe after failure; no contemporaneous producer checksum claimed.",
+  "cause": "Bare scanner does not use parser-context template rescanning. First differing token #569 in battle-system.ts is FirstTemplateToken and erroneously includes source comments.",
+  "replacement": "Parsed TypeScript printer removeComments identity plus independently transpiled JavaScript removeComments identity",
+  "validBusinessCounter": false
+}

@@ -1,0 +1,13 @@
+{
+  "command": ["node", "/tmp/type-pal-projection-emit.cjs"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T21:00:24.914047+00:00",
+  "completedAt": "2026-10-17T21:00:25.097602+00:00",
+  "exit": 1,
+  "signal": null,
+  "spawnError": null,
+  "raw": "emit-preflight.raw.gz",
+  "rawBytes": 930,
+  "rawSha256": "23754757ab9d249979df38aff8c380b89095edc24c3bda160123309e11c2ce00",
+  "fullUncutMergedStdoutStderr": true
+}
