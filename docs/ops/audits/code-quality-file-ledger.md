@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,315。
-当前已闭合核验：267；已读但待审：75；尚未逐文件核验：2,973；合计未闭合：3,048。
+当前已闭合核验：265；已读但待审：77；尚未逐文件核验：2,973；合计未闭合：3,050。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -299,11 +299,11 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/battle/__tests__/status.test.ts` | test | 已验证 | CODE-QUALITY-3m 3m-status；all status tick、死敌槽位反例、canAct/canCast、相邻 battle lifecycle contracts | counter lifecycle oracle；旧“死敌不 tick”弱 oracle 已改为 primary 全槽位语义 |
 | `packages/game/src/core/battle/__tests__/turn-queue.test.ts` | test | review | [本片直接证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/README.md)；完整源码/专测、生产caller与原C | 保留9原oracle，过强稳定性标题勘误；新parity承接置换/WORD/真实caller，旧整文件信用不自动恢复 |
 | `packages/game/src/core/rng.test.ts` | test | 已验证 | CODE-QUALITY-3m 3m-rng；same seed/different seed/half-open/inclusive/float/state/invalid-bound contracts | deterministic RNG oracle；边界反例验证无额外抽样 |
-| `packages/game/src/core/palette-fade.ts` | product | 已验证 | CODE-QUALITY-3n 3n-fade-identity-catalog；palette.c:123-666、event-system/present callers、palette/direct boundary tests | fade60/fade63/PaletteFade `/31` integer truncation/approach/freeze/nightColors contracts；已修复 Math.round 差异 |
+| `packages/game/src/core/palette-fade.ts` | product | review | [ColorFade输入域/测试返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/palette-approach-tests/README.md)；328行原源全文、C正常4网格/实际提取器8位展开、event/present所有权分段 | 任意8位等价与视觉1:1错注撤回；C有限64步再补终值，原C人工非网格往返不当正常域缺陷；仅注释变化，旧关闭转review |
 | `packages/game/src/core/scene-identity.ts` | product | 已验证 | CODE-QUALITY-3n 3n-fade-identity-catalog；bootstrap/scene-system load/restore callers、history/map-name readers | single current map identity setter/getter；caller ownership explicit |
 | `packages/game/src/core/word-lookup.ts` | product | 已验证 | CODE-QUALITY-3n 3n-fade-identity-catalog；bootstrap setWordTable、menu/settlement/event callers、word tests | table-first/fallback/empty/out-of-range contract；未改 WORD schema |
 | `packages/game/src/core/script-catalog.ts` | product | 已验证 | CODE-QUALITY-3n 3n-fade-identity-catalog；bootstrap setGlobalEvents、event-system resolveLabel/getCmds callers、dependency ownership tests；prototype label negative controls | inherited label 防护与 own-property/null-prototype、zero-item fixup 边界逐文件核对；未发现新缺陷 |
-| `packages/game/src/core/palette-fade.test.ts` | test | 已验证 | CODE-QUALITY-3n 3n-fade-identity-catalog；fade60/fade63/PaletteFade `/31`/approach/finalize/bounds contracts | primary palette oracle；0→1 截断反例 |
+| `packages/game/src/core/palette-fade.test.ts` | test | review | [ColorFade输入域/测试返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/palette-approach-tests/README.md)；235行原测全文；17例保持、行/快照独立、非网格钳制与正反通道/重复重绘 | 四枚各旧17绿→新16绿1指定AssertionError；恢复17/相邻86绿，精确输入域与C/TS分开；不授整文件关闭 |
 | `packages/game/src/core/word-lookup.test.ts` | test | 已验证 | CODE-QUALITY-3n 3n-fade-identity-catalog；unloaded/fallback/table priority/out-of-range contracts | direct WORD caller oracle |
 | `packages/game/src/core/dependency-ownership.test.ts` | test | 已验证 | CODE-QUALITY-3n 3n-fade-identity-catalog；catalog/scene identity ownership、prototype label negative controls、cross-entrypoint identity | 真实公开 entrypoint oracle |
 | `packages/game/src/core/cross-module-boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3n 3n-fade-identity-catalog；scene/event/equipment/battle cross-module caller contracts | 相邻模块回归证据 |

@@ -68,7 +68,7 @@ Template: governance-index-v1 / 1.0.0
 | QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1 | [大世界精灵真实宿主](tasks/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1.md) | build | Codex / 待下一稳定窗口 | 9定向/121相邻零诊断，两枚旧绿新红；0关闭 |
 | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 | [C03查看器宿主与迟到读取](tasks/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md) | build | Codex / 续Wizard与Uploader | C09五例0诊断；editor全包仍759act/243环境及1表单告警，0关闭 |
 | QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 | [C03向导真实异步等待](tasks/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | build | Codex / 保存C10恢复，余诊断待稳定窗口 | Wizard28零诊断/两业务反控；相邻6act、editor624act/243环境，0关闭不合main |
-| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex / 先完成独立审计机制、注释与证据返工 | 83卡50partial/33pending/0accept；队列/三机制窄修已测；七组注释已修，余三组/数值风险/两UI差异继续；旧门rework，未合main |
+| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex / 先完成独立审计机制、注释与证据返工 | 83卡50partial/33pending/0accept；队列/三机制窄修已测；八组注释已修，余两组/数值风险/两UI差异继续；旧门rework，未合main |
 | GAME-ACTION-QUEUE-TIE-ORDER-1 | [第一阶段同速队列](tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | Codex / 批准窄修已测，统一门/视觉待续 | 先7红后绿、真实Confirm/RNG、38/942与六单红反控；整文件不关闭 |
 | GAME-PLAYER-POISON-SLOT-COMPACTION-1 | [卸装备毒列表压缩](tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md) | draft | Codex / 只读完整生命周期，无产品build allowed | C前移幸存毒、TS原地清零，角色身份不变；因果待核 |
 | GAME-MAGIC-NUMERIC-ASSIGNMENT-1 | [第一阶段法术数值赋值](tasks/GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) | draft | Codex / 已复现160/161，等裁决再改数值 | 原C O0/O2与真实TS/PRNG/caller；不改随机算法、次数或接口 |

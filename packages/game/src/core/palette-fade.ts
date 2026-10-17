@@ -10,16 +10,15 @@
  *   / PAL_ColorFade(0x8C) / PAL_FadeToRed(0x4F)。
  * (0x9B 是 VIDEO_FadeScreen(dither),复用 gs.fadeState,不在本模块。)
  *
- * 两种 ramp 数学(对应 sdlpal 两类循环):
- *   - 'lerp':每帧按 elapsed/totalMs 在 start↔target 间线性插值。覆盖 FadeOut/FadeIn/SceneFade
- *     (sdlpal `pal[i]*factor>>6` 比例缩放 = lerp(start, target))+ PaletteFade(sdlpal
- *     `(cur*(31-i)+new*i)/31` = lerp(cur, new))。scale-independent,与色值位宽无关。
- *   - 'approach':每帧每通道朝 target 移动至多 `increment*stepN`(sdlpal ColorFade ±4 / FadeToRed ±8
- *     的逐步收敛)。`moveToward(start, target, increment*stepN)` == sdlpal 迭代 stepN 步后的值。
+ * 两类 ramp:
+ *   - 'lerp':FadeIn/Out 与 SceneFade 按整数亮度系数量化;PaletteFade 用32步/31整数截断。
+ *     时间进度只负责选步骤,不是逐帧连续浮点插值。
+ *   - 'approach':TS 每通道饱和移动至多 increment*stepN。FadeToRed 的原 C 也显式钳制;
+ *     ColorFade 的原 C 直接 ±4,仅在起终值差为4倍数时可用同样的饱和直算。
  *
- * 色值说明:pal-extract `(v6<<2)|(v6>>4)` 升 8-bit(0-255 全幅,≈×255/63)。sdlpal 运行时用
- * `v6<<2`(0-252)。lerp 类比例缩放对位宽无关;approach 类 ±4/±8 在 63-scale 是 ±1/±2 单位,
- * 映射到我们 0-255 scale ≈ ±4.05/±8.1 → 直接用 4/8 视觉 1:1。
+ * PAL_GetPalette 用 v6<<2,ColorFade 正常输入位于4的倍数网格;其64步后还会补终值。
+ * pal-extract 用 (v6<<2)|(v6>>4) 展开到0..255,可出现非4倍数;TS 对它们饱和收敛,
+ * 不能宣称任意8位输入逐步等价或视觉1:1,也不能把原 C 人工非网格输入的往返当作正常域缺陷。
  */
 
 import type { Palette } from '@type-pal/shared'
@@ -80,16 +79,16 @@ export function blackColors(): RGB[] {
   return Array.from({ length: 256 }, () => [0, 0, 0] as RGB)
 }
 
-/** 深拷 256 色(快照 start/target,避免别名 gs.basePalette / gs.palette)。 */
+/** 深拷调用方色表(生产 fade 为256色),避免快照别名 gs.basePalette / gs.palette。 */
 export function cloneColors(colors: readonly RGB[]): RGB[] {
   return colors.map((c) => [c[0]!, c[1]!, c[2]!] as RGB)
 }
 
 /**
  * 按 fNight flag 选调色板色组 —— port sdlpal palette.c PAL_GetPalette
- * `buf[(fNight ? 256*3 : 0) + i*3]`(palette.c:99-104)。
- * night 且该 palette 有 nightColors(实测 PAT.MKF 仅 #0/#5 含夜间半,见 pal-extract decodePalette)
- * → 用 nightColors;否则白天 colors。fade target 用它选淡入目标(夜场淡入到夜色)。
+ * `buf[(fNight ? 256*3 : 0) + i*3]`(PAL_GetPalette 的颜色解码循环)。
+ * night 且提供 nightColors 时采用夜色,否则采用 colors;缺 palette 时造全黑色表。
+ * fade caller 用它选目标,数据是否带夜色由 pal-extract decodePalette 解析。
  */
 export function resolveNightColors(
   pal: { colors: RGB[]; nightColors?: RGB[] } | undefined,
@@ -104,7 +103,7 @@ function solidColors(c: RGB): RGB[] {
   return Array.from({ length: 256 }, () => [c[0], c[1], c[2]] as RGB)
 }
 
-/** approach 单通道:朝 target 移动至多 maxDelta(sdlpal ±step 收敛,达 target 停)。 */
+/** TS 饱和单通道移动;ColorFade 原 C 无钳制,等价范围见模块说明。 */
 function moveToward(cur: number, target: number, maxDelta: number): number {
   if (cur < target) return Math.min(cur + maxDelta, target)
   if (cur > target) return Math.max(cur - maxDelta, target)
@@ -176,7 +175,7 @@ export function buildSceneFade(
 
 /**
  * 0x80 PaletteFade:cur → target(sdlpal palette.c:432-437 `lerp(cur, new, i/31)`,32 步)。
- * target 由调用方算(PAL_GetPalette(numPalette, newNight);夜间色值未提取 → 暂 = 白天 base)。
+ * target 由调用方在切换 night 后经 resolveNightColors 选取;有夜色用夜色,缺失才回白天。
  */
 export function buildPaletteFade(
   curColors: readonly RGB[],
@@ -196,7 +195,8 @@ export function buildPaletteFade(
 }
 
 /**
- * 0x8C ColorFade:approach ±4,64 步(sdlpal palette.c:507-541 / 549-583)。
+ * 0x8C ColorFade:TS 饱和 approach ±4,64 步;原 C 无钳制(palette.c:507-541 / 549-583)。
+ * 原 C 的正常 palette 来自4倍数网格;本项目展开色值的逐步差异见模块说明。
  *   fFrom=TRUE:纯色 base[color] → 场景 base(从纯色淡回场景)。
  *   fFrom=FALSE:场景 base → 纯色 base[color](场景淡成纯色)。
  */
@@ -304,7 +304,7 @@ export function stepPaletteFade(colors: RGB[], pf: PaletteFadeState, nowMs: numb
   }
 }
 
-/** fade 完成:把 `colors` 精确设为 target(skipIndex 不动)。waiting handler 结束 fade 时调。 */
+/** 收尾:一般补精确 target,SceneFade-in保留63/64量化终值;skipIndex不动。宿主或waiting handler调用。 */
 export function finalizePaletteFade(colors: RGB[], pf: PaletteFadeState): void {
   for (let j = 0; j < 256; j++) {
     if (j === pf.skipIndex) continue

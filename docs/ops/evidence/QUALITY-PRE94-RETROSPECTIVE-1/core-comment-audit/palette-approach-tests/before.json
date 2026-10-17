@@ -1,0 +1,20 @@
+{
+  "base": "9cc4b3fd4f4c6754cf2f727890c7f228b0b8e4f2",
+  "owner": "Codex single agent",
+  "files": [
+    {
+      "path": "packages/game/src/core/palette-fade.ts",
+      "lines": 328,
+      "sha256": "f01138f7b86018a085cf9715ddcffb0f8c5ca47dc6a901efe15f3bee09c0fff4",
+      "snapshot": "f01138f7b860-palette-fade.ts.before.gz",
+      "readRanges": [[1, 328]]
+    },
+    {
+      "path": "packages/game/src/core/palette-fade.test.ts",
+      "lines": 235,
+      "sha256": "a9584a58951886feee79e63b9149f950c5972075ff80e945dadde5f3dae82c5f",
+      "snapshot": "a9584a589518-palette-fade.test.ts.before.gz",
+      "readRanges": [[1, 235]]
+    }
+  ]
+}

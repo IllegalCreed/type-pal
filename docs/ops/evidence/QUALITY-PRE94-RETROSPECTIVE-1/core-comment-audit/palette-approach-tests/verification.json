@@ -1,0 +1,155 @@
+{
+  "base": "9cc4b3fd4f4c6754cf2f727890c7f228b0b8e4f2",
+  "scope": "Only selected palette/read/raw/control/ledger delta; not unified/whole-file/native asset or visual acceptance",
+  "rawPairs": [
+    {
+      "receipt": "adjacent.json",
+      "raw": "adjacent.raw.gz",
+      "sha256": "eb6b1e794e038413ea8d67244a6445eb2944a4c9dcf0a5203f74810f80ea39fd"
+    },
+    {
+      "receipt": "baseline.json",
+      "raw": "baseline.raw.gz",
+      "sha256": "c3b1af734a67516496c8860585d225b3d22db3af2995c0405f069038cfdbfb63"
+    },
+    {
+      "receipt": "current.json",
+      "raw": "current.raw.gz",
+      "sha256": "5356d1627995b3357e84828a118d106c589fe951bf562b7d5f32a5dcf9928a2d"
+    },
+    {
+      "receipt": "divergence-final.json",
+      "raw": "divergence-final.raw.gz",
+      "sha256": "ad58ee88eea87904451b44e31fc17dc99c9e1f3df8941b74c4e462fbbae85f56"
+    },
+    {
+      "receipt": "docs.json",
+      "raw": "docs.raw.gz",
+      "sha256": "7a37e9788ee9a46f1eb1b3153c66eb9a868519551d5df88b7ef47c9412f4bb7f"
+    },
+    {
+      "receipt": "fetch-final.json",
+      "raw": "fetch-final.raw.gz",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "receipt": "ledger.json",
+      "raw": "ledger.raw.gz",
+      "sha256": "4205fd4c53ec10b7d2f4e8269753f1758052e914f9fa3847fee204bbb1c8231e"
+    },
+    {
+      "receipt": "lint.json",
+      "raw": "lint.raw.gz",
+      "sha256": "608dfa30c52019500fbe09fab3799d60dd4cd831560c9e2ff60a1477e6adfa01"
+    },
+    {
+      "receipt": "native-oracle.json",
+      "raw": "native-compile-O0.raw.gz",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "receipt": "native-oracle.json",
+      "raw": "native-O0.raw.gz",
+      "sha256": "17eeec4be28f5249eaa01a5381343f6ceae7fc70ba225512a4ed26a6ea3f5676"
+    },
+    {
+      "receipt": "native-oracle.json",
+      "raw": "native-compile-O2.raw.gz",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "receipt": "native-oracle.json",
+      "raw": "native-O2.raw.gz",
+      "sha256": "17eeec4be28f5249eaa01a5381343f6ceae7fc70ba225512a4ed26a6ea3f5676"
+    },
+    {
+      "receipt": "native-oracle.json",
+      "raw": "typescript.raw.gz",
+      "sha256": "95a6915db0edf348572b6ee12369cb6fed7439e59abd625f7627ff291f74976b"
+    },
+    {
+      "receipt": "restored.json",
+      "raw": "restored.raw.gz",
+      "sha256": "a18e853dde61a0950e19ff4b6c8e1dbf49f64655ebafd36dc21446388062b0fc"
+    },
+    {
+      "receipt": "typecheck.json",
+      "raw": "typecheck.raw.gz",
+      "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+    }
+  ],
+  "controls": [
+    {
+      "id": "black-row-alias",
+      "old": {
+        "passed": 17,
+        "failed": 0
+      },
+      "current": {
+        "passed": 16,
+        "specifiedBusinessAssertionError": 1
+      },
+      "restoredControlBaseSha256": "f53b3c77b12a438524ba69066ddf04139210c1cb0d61d0d0904a87115ee556c8"
+    },
+    {
+      "id": "colorfade-nongrid-unclamped-loop",
+      "old": {
+        "passed": 17,
+        "failed": 0
+      },
+      "current": {
+        "passed": 16,
+        "specifiedBusinessAssertionError": 1
+      },
+      "restoredControlBaseSha256": "f53b3c77b12a438524ba69066ddf04139210c1cb0d61d0d0904a87115ee556c8"
+    },
+    {
+      "id": "colorfade-rising-red-frozen",
+      "old": {
+        "passed": 17,
+        "failed": 0
+      },
+      "current": {
+        "passed": 16,
+        "specifiedBusinessAssertionError": 1
+      },
+      "restoredControlBaseSha256": "f53b3c77b12a438524ba69066ddf04139210c1cb0d61d0d0904a87115ee556c8"
+    },
+    {
+      "id": "approach-accumulates-working-colors",
+      "old": {
+        "passed": 17,
+        "failed": 0
+      },
+      "current": {
+        "passed": 16,
+        "specifiedBusinessAssertionError": 1
+      },
+      "restoredControlBaseSha256": "f53b3c77b12a438524ba69066ddf04139210c1cb0d61d0d0904a87115ee556c8"
+    }
+  ],
+  "readBoundariesAndShaExact": true,
+  "twoCommentOnlyBaselinesProved": true,
+  "controlAfterDelta": "Only staleGetPalette99-104 anchor removed; frozen control base and current AST identity retained",
+  "ledgerStatusDelta": {
+    "`packages/game/src/core/palette-fade.ts`": ["已验证", "review"],
+    "`packages/game/src/core/palette-fade.test.ts`": ["已验证", "review"]
+  },
+  "historicalLedgerFenceExact": true,
+  "oldReportExact": true,
+  "allowedTrackedChanges": [
+    "docs/ops/audits/code-quality-file-ledger.md",
+    "docs/ops/board.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3n-fade-identity-catalog/README.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/README.md",
+    "docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md",
+    "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+    "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+    "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+    "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+    "packages/game/src/core/palette-fade.test.ts",
+    "packages/game/src/core/palette-fade.ts"
+  ],
+  "noBaselineRetirementEdits": true,
+  "newClosed": 0
+}

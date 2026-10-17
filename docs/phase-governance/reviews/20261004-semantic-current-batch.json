@@ -407,7 +407,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "25ab6543b91a8c64f0de1b9333fab5cadcf58dbc795fa8dbbb827c6f2cefd56e",
+      "afterSha256": "6bf54867c4b96c77782c804d5ebf40315213f2b94b3e29ba0c46852d909cb6e3",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -438,10 +438,25 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "25ab6543b91a8c64f0de1b9333fab5cadcf58dbc795fa8dbbb827c6f2cefd56e",
+        "implementationSha": "6bf54867c4b96c77782c804d5ebf40315213f2b94b3e29ba0c46852d909cb6e3",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "9cc4b3fd4f4c6754cf2f727890c7f228b0b8e4f2",
+            "date": "2026-10-18",
+            "action": "Correct pre94 ColorFade domain comments and strengthen existing palette test discrimination",
+            "previousAfterSha256": "25ab6543b91a8c64f0de1b9333fab5cadcf58dbc795fa8dbbb827c6f2cefd56e",
+            "scope": "Only one board progress row, two selected live ledger rows and incoming bindings. One implementation comments-only and one existing17-case test file; two old closures to review, no new closure. Four old-green/new-specified-single-red controls and17/86 regressions do not grant whole-file/native/UI/coverage acceptance. C normal4-grid vs TS expanded color distinction documented; no numerical or asset behavior change. Original native verdict/history retained; no baseline/retirement edits.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/palette-approach-tests/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "8dabfd49976f818364d451635f155af08a41b9a9",
             "date": "2026-10-18",
@@ -905,7 +920,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "25ab6543b91a8c64f0de1b9333fab5cadcf58dbc795fa8dbbb827c6f2cefd56e",
+        "afterSha256": "6bf54867c4b96c77782c804d5ebf40315213f2b94b3e29ba0c46852d909cb6e3",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",

@@ -1,0 +1,22 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/palette-fade.test.ts",
+    "--reporter=verbose"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T21:50:39.560677+00:00",
+  "completedAt": "2026-10-17T21:50:40.475788+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "current.raw.gz",
+  "rawBytes": 2399,
+  "rawSha256": "5356d1627995b3357e84828a118d106c589fe951bf562b7d5f32a5dcf9928a2d",
+  "fullUncutMergedStdoutStderr": true
+}

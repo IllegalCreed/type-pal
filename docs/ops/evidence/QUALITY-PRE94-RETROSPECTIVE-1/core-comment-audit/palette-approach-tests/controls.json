@@ -1,0 +1,1022 @@
+{
+  "base": "9cc4b3fd4f4c6754cf2f727890c7f228b0b8e4f2",
+  "owner": "Codex single agent",
+  "scope": "Each mutant runs one whole unfiltered old/current file. This is source mutation discrimination, not native game or UI acceptance.",
+  "controls": [
+    {
+      "id": "black-row-alias",
+      "source": "packages/game/src/core/palette-fade.ts",
+      "spec": "packages/game/src/core/palette-fade.test.ts",
+      "sourceSha256": "f53b3c77b12a438524ba69066ddf04139210c1cb0d61d0d0904a87115ee556c8",
+      "mutantSha256": "10c23ac326f47d07a13b6073a5c43f3b981fd970f409fde62f15260cebafbc81",
+      "expectedNewFailureNameContains": "blackColors:256",
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/palette-fade.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-palette-controls-cfjrh9xx/black-row-alias.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:51:09.731800+00:00",
+          "completedAt": "2026-10-17T21:51:11.923916+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "black-row-alias.old.raw.gz",
+          "rawBytes": 2485,
+          "rawSha256": "bd99a5590cd573ff2b2007f4a1b99edfdd2b60048985411865b1f6198823300e",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "a9584a58951886feee79e63b9149f950c5972075ff80e945dadde5f3dae82c5f",
+          "nativeReport": "black-row-alias.old.vitest.json.gz",
+          "passed": 17,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers blackColors:256 个 [0,0,0]",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers cloneColors:深拷,改副本不影响源",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers makeWorkingPalette:colors 深拷(与源不别名),cycles 沿用",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers makeWorkingPalette:保留 nightColors(夜色淡入目标,resolveNightColors 读 basePalette.nightColors)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeOut(0x50) cur → 全黑,sdlpal j>>6 量化(palette.c:170-180):首帧即降到 93.75%,精确 0% 由 finalize 补",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeOut(0x50) snapshot 独立 — 后续改 cur 不影响 pf.startColors",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeIn(0x51) 全黑 → base,sdlpal j>>6 量化(palette.c:238-250):循环封顶 93.75%,精确 100% 由 finalize 补",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildSceneFade(0x93) fadeIn:全黑 → base,i∈0..63 量化,封顶 63/64≈98.4%(SceneFade 函数末尾无补满)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildSceneFade(0x93) fadeOut:cur → 全黑,i 63→0 量化,终值 i=0=全黑",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildPaletteFade(0x80) cur → target crossfade(lerp)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildPaletteFade(0x80) 每通道按 SDLPal /31 整数截断，不使用四舍五入",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildColorFade(0x8C) !fFrom:场景 base → 纯色 base[color](approach ±4)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildColorFade(0x8C) fFrom:纯色 base[color] → 场景 base",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeToRed(0x4F) target=(r+g+b)/4+64 / 0 / 0;skip idx 0x4F;带 remap",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeToRed(0x4F) lum 上限 clamp 255",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "finalizePaletteFade 精确套 target,skipIndex 不动",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "stepPaletteFade 边界 progress clamp 到 [0,1](负 elapsed → 0,超时 → 1)",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "f53b3c77b12a438524ba69066ddf04139210c1cb0d61d0d0904a87115ee556c8",
+          "specRestoredSha256": "642e9df4c92b433e1589d734e2483a2c60c5c27d8e648ce121aaaef734b31a7d",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/palette-fade.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-palette-controls-cfjrh9xx/black-row-alias.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:51:11.925770+00:00",
+          "completedAt": "2026-10-17T21:51:12.935735+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "black-row-alias.current.raw.gz",
+          "rawBytes": 3655,
+          "rawSha256": "4f4f6828c47109dca8bdd5465c9bd65cb94bec46c4a4f7b0e576d4c5a8f1b998",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "642e9df4c92b433e1589d734e2483a2c60c5c27d8e648ce121aaaef734b31a7d",
+          "nativeReport": "black-row-alias.current.vitest.json.gz",
+          "passed": 16,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers blackColors:256 个 [0,0,0]",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers cloneColors:深拷,改副本不影响源",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers makeWorkingPalette:colors 深拷(与源不别名),cycles 沿用",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers makeWorkingPalette:保留 nightColors(夜色淡入目标,resolveNightColors 读 basePalette.nightColors)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeOut(0x50) cur → 全黑,sdlpal j>>6 量化(palette.c:170-180):首帧即降到 93.75%,精确 0% 由 finalize 补",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeOut(0x50) snapshot 独立 — 后续改 cur 不影响 pf.startColors",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeIn(0x51) 全黑 → base,sdlpal j>>6 量化(palette.c:238-250):循环封顶 93.75%,精确 100% 由 finalize 补",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildSceneFade(0x93) fadeIn:全黑 → base,i∈0..63 量化,封顶 63/64≈98.4%(SceneFade 函数末尾无补满)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildSceneFade(0x93) fadeOut:cur → 全黑,i 63→0 量化,终值 i=0=全黑",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildPaletteFade(0x80) cur → target crossfade(lerp)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildPaletteFade(0x80) 每通道按 SDLPal /31 整数截断，不使用四舍五入",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildColorFade(0x8C) !fFrom:场景 base → 纯色 base[color](approach ±4)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildColorFade(0x8C) fFrom:纯色 base[color] → 场景 base",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeToRed(0x4F) target=(r+g+b)/4+64 / 0 / 0;skip idx 0x4F;带 remap",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeToRed(0x4F) 最大合法8位RGB计算目标255,不据此声称可辨删除clamp",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "finalizePaletteFade 精确套 target,skipIndex 不动",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "stepPaletteFade 边界 progress clamp 到 [0,1](负 elapsed → 0,超时 → 1)",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected [ 99, +0, +0 ] to deeply equal [ +0, +0, +0 ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts:30:20\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "f53b3c77b12a438524ba69066ddf04139210c1cb0d61d0d0904a87115ee556c8",
+          "specRestoredSha256": "642e9df4c92b433e1589d734e2483a2c60c5c27d8e648ce121aaaef734b31a7d",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "colorfade-nongrid-unclamped-loop",
+      "source": "packages/game/src/core/palette-fade.ts",
+      "spec": "packages/game/src/core/palette-fade.test.ts",
+      "sourceSha256": "f53b3c77b12a438524ba69066ddf04139210c1cb0d61d0d0904a87115ee556c8",
+      "mutantSha256": "f4f6ac69269f82916790ef53a045c08b0415e27dc894a3e07840d56071973db1",
+      "expectedNewFailureNameContains": "!fFrom:",
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/palette-fade.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-palette-controls-cfjrh9xx/colorfade-nongrid-unclamped-loop.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:51:12.936710+00:00",
+          "completedAt": "2026-10-17T21:51:13.812531+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "colorfade-nongrid-unclamped-loop.old.raw.gz",
+          "rawBytes": 2501,
+          "rawSha256": "3044097b1e1cfea0d40fa4443c93111aca78a5481699a5455fb7a0555f55ae58",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "a9584a58951886feee79e63b9149f950c5972075ff80e945dadde5f3dae82c5f",
+          "nativeReport": "colorfade-nongrid-unclamped-loop.old.vitest.json.gz",
+          "passed": 17,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers blackColors:256 个 [0,0,0]",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers cloneColors:深拷,改副本不影响源",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers makeWorkingPalette:colors 深拷(与源不别名),cycles 沿用",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers makeWorkingPalette:保留 nightColors(夜色淡入目标,resolveNightColors 读 basePalette.nightColors)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeOut(0x50) cur → 全黑,sdlpal j>>6 量化(palette.c:170-180):首帧即降到 93.75%,精确 0% 由 finalize 补",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeOut(0x50) snapshot 独立 — 后续改 cur 不影响 pf.startColors",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeIn(0x51) 全黑 → base,sdlpal j>>6 量化(palette.c:238-250):循环封顶 93.75%,精确 100% 由 finalize 补",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildSceneFade(0x93) fadeIn:全黑 → base,i∈0..63 量化,封顶 63/64≈98.4%(SceneFade 函数末尾无补满)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildSceneFade(0x93) fadeOut:cur → 全黑,i 63→0 量化,终值 i=0=全黑",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildPaletteFade(0x80) cur → target crossfade(lerp)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildPaletteFade(0x80) 每通道按 SDLPal /31 整数截断，不使用四舍五入",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildColorFade(0x8C) !fFrom:场景 base → 纯色 base[color](approach ±4)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildColorFade(0x8C) fFrom:纯色 base[color] → 场景 base",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeToRed(0x4F) target=(r+g+b)/4+64 / 0 / 0;skip idx 0x4F;带 remap",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeToRed(0x4F) lum 上限 clamp 255",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "finalizePaletteFade 精确套 target,skipIndex 不动",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "stepPaletteFade 边界 progress clamp 到 [0,1](负 elapsed → 0,超时 → 1)",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "f53b3c77b12a438524ba69066ddf04139210c1cb0d61d0d0904a87115ee556c8",
+          "specRestoredSha256": "642e9df4c92b433e1589d734e2483a2c60c5c27d8e648ce121aaaef734b31a7d",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/palette-fade.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-palette-controls-cfjrh9xx/colorfade-nongrid-unclamped-loop.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:51:13.813114+00:00",
+          "completedAt": "2026-10-17T21:51:14.685261+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "colorfade-nongrid-unclamped-loop.current.raw.gz",
+          "rawBytes": 3814,
+          "rawSha256": "6ed06cfc79b189c9137acff1756a093214c3635fb2561a360ac7348ce5d7c6b7",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "642e9df4c92b433e1589d734e2483a2c60c5c27d8e648ce121aaaef734b31a7d",
+          "nativeReport": "colorfade-nongrid-unclamped-loop.current.vitest.json.gz",
+          "passed": 16,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers blackColors:256 个 [0,0,0]",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers cloneColors:深拷,改副本不影响源",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers makeWorkingPalette:colors 深拷(与源不别名),cycles 沿用",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers makeWorkingPalette:保留 nightColors(夜色淡入目标,resolveNightColors 读 basePalette.nightColors)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeOut(0x50) cur → 全黑,sdlpal j>>6 量化(palette.c:170-180):首帧即降到 93.75%,精确 0% 由 finalize 补",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeOut(0x50) snapshot 独立 — 后续改 cur 不影响 pf.startColors",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeIn(0x51) 全黑 → base,sdlpal j>>6 量化(palette.c:238-250):循环封顶 93.75%,精确 100% 由 finalize 补",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildSceneFade(0x93) fadeIn:全黑 → base,i∈0..63 量化,封顶 63/64≈98.4%(SceneFade 函数末尾无补满)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildSceneFade(0x93) fadeOut:cur → 全黑,i 63→0 量化,终值 i=0=全黑",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildPaletteFade(0x80) cur → target crossfade(lerp)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildPaletteFade(0x80) 每通道按 SDLPal /31 整数截断，不使用四舍五入",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildColorFade(0x8C) !fFrom:场景 base → 纯色 base[color](approach ±4)",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildColorFade(0x8C) fFrom:纯色 base[color] → 场景 base",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeToRed(0x4F) target=(r+g+b)/4+64 / 0 / 0;skip idx 0x4F;带 remap",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeToRed(0x4F) 最大合法8位RGB计算目标255,不据此声称可辨删除clamp",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "finalizePaletteFade 精确套 target,skipIndex 不动",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "stepPaletteFade 边界 progress clamp 到 [0,1](负 elapsed → 0,超时 → 1)",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected [ 37, 101, 40 ] to deeply equal [ 40, 101, 40 ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts:172:23\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "f53b3c77b12a438524ba69066ddf04139210c1cb0d61d0d0904a87115ee556c8",
+          "specRestoredSha256": "642e9df4c92b433e1589d734e2483a2c60c5c27d8e648ce121aaaef734b31a7d",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "colorfade-rising-red-frozen",
+      "source": "packages/game/src/core/palette-fade.ts",
+      "spec": "packages/game/src/core/palette-fade.test.ts",
+      "sourceSha256": "f53b3c77b12a438524ba69066ddf04139210c1cb0d61d0d0904a87115ee556c8",
+      "mutantSha256": "026c04fd17562e98e89ea78cabfd0b5b9525e2a40f5f10eb83b9f6baed4b5efe",
+      "expectedNewFailureNameContains": "fFrom:纯色",
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/palette-fade.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-palette-controls-cfjrh9xx/colorfade-rising-red-frozen.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:51:14.686286+00:00",
+          "completedAt": "2026-10-17T21:51:15.541207+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "colorfade-rising-red-frozen.old.raw.gz",
+          "rawBytes": 2496,
+          "rawSha256": "b40e15021bca448754c699bda9af77b6286baf3052661efc74a30f9c9cf6222d",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "a9584a58951886feee79e63b9149f950c5972075ff80e945dadde5f3dae82c5f",
+          "nativeReport": "colorfade-rising-red-frozen.old.vitest.json.gz",
+          "passed": 17,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers blackColors:256 个 [0,0,0]",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers cloneColors:深拷,改副本不影响源",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers makeWorkingPalette:colors 深拷(与源不别名),cycles 沿用",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers makeWorkingPalette:保留 nightColors(夜色淡入目标,resolveNightColors 读 basePalette.nightColors)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeOut(0x50) cur → 全黑,sdlpal j>>6 量化(palette.c:170-180):首帧即降到 93.75%,精确 0% 由 finalize 补",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeOut(0x50) snapshot 独立 — 后续改 cur 不影响 pf.startColors",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeIn(0x51) 全黑 → base,sdlpal j>>6 量化(palette.c:238-250):循环封顶 93.75%,精确 100% 由 finalize 补",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildSceneFade(0x93) fadeIn:全黑 → base,i∈0..63 量化,封顶 63/64≈98.4%(SceneFade 函数末尾无补满)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildSceneFade(0x93) fadeOut:cur → 全黑,i 63→0 量化,终值 i=0=全黑",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildPaletteFade(0x80) cur → target crossfade(lerp)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildPaletteFade(0x80) 每通道按 SDLPal /31 整数截断，不使用四舍五入",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildColorFade(0x8C) !fFrom:场景 base → 纯色 base[color](approach ±4)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildColorFade(0x8C) fFrom:纯色 base[color] → 场景 base",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeToRed(0x4F) target=(r+g+b)/4+64 / 0 / 0;skip idx 0x4F;带 remap",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeToRed(0x4F) lum 上限 clamp 255",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "finalizePaletteFade 精确套 target,skipIndex 不动",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "stepPaletteFade 边界 progress clamp 到 [0,1](负 elapsed → 0,超时 → 1)",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "f53b3c77b12a438524ba69066ddf04139210c1cb0d61d0d0904a87115ee556c8",
+          "specRestoredSha256": "642e9df4c92b433e1589d734e2483a2c60c5c27d8e648ce121aaaef734b31a7d",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/palette-fade.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-palette-controls-cfjrh9xx/colorfade-rising-red-frozen.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:51:15.541743+00:00",
+          "completedAt": "2026-10-17T21:51:16.411272+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "colorfade-rising-red-frozen.current.raw.gz",
+          "rawBytes": 3826,
+          "rawSha256": "c0b5a87ff6cac81ed337b724932acce459a748d74d9f741bec21a0b3bca34a6c",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "642e9df4c92b433e1589d734e2483a2c60c5c27d8e648ce121aaaef734b31a7d",
+          "nativeReport": "colorfade-rising-red-frozen.current.vitest.json.gz",
+          "passed": 16,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers blackColors:256 个 [0,0,0]",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers cloneColors:深拷,改副本不影响源",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers makeWorkingPalette:colors 深拷(与源不别名),cycles 沿用",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers makeWorkingPalette:保留 nightColors(夜色淡入目标,resolveNightColors 读 basePalette.nightColors)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeOut(0x50) cur → 全黑,sdlpal j>>6 量化(palette.c:170-180):首帧即降到 93.75%,精确 0% 由 finalize 补",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeOut(0x50) snapshot 独立 — 后续改 cur 不影响 pf.startColors",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeIn(0x51) 全黑 → base,sdlpal j>>6 量化(palette.c:238-250):循环封顶 93.75%,精确 100% 由 finalize 补",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildSceneFade(0x93) fadeIn:全黑 → base,i∈0..63 量化,封顶 63/64≈98.4%(SceneFade 函数末尾无补满)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildSceneFade(0x93) fadeOut:cur → 全黑,i 63→0 量化,终值 i=0=全黑",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildPaletteFade(0x80) cur → target crossfade(lerp)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildPaletteFade(0x80) 每通道按 SDLPal /31 整数截断，不使用四舍五入",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildColorFade(0x8C) !fFrom:场景 base → 纯色 base[color](approach ±4)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildColorFade(0x8C) fFrom:纯色 base[color] → 场景 base",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeToRed(0x4F) target=(r+g+b)/4+64 / 0 / 0;skip idx 0x4F;带 remap",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeToRed(0x4F) 最大合法8位RGB计算目标255,不据此声称可辨删除clamp",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "finalizePaletteFade 精确套 target,skipIndex 不动",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "stepPaletteFade 边界 progress clamp 到 [0,1](负 elapsed → 0,超时 → 1)",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected [ 20, 80, 40 ] to deeply equal [ 40, 80, 40 ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts:187:23\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "f53b3c77b12a438524ba69066ddf04139210c1cb0d61d0d0904a87115ee556c8",
+          "specRestoredSha256": "642e9df4c92b433e1589d734e2483a2c60c5c27d8e648ce121aaaef734b31a7d",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    },
+    {
+      "id": "approach-accumulates-working-colors",
+      "source": "packages/game/src/core/palette-fade.ts",
+      "spec": "packages/game/src/core/palette-fade.test.ts",
+      "sourceSha256": "f53b3c77b12a438524ba69066ddf04139210c1cb0d61d0d0904a87115ee556c8",
+      "mutantSha256": "6a63be2fdcd0bfdc8222c32f3700775b2e306e0fb5f95a8e1ac3b2926749ccc1",
+      "expectedNewFailureNameContains": "fFrom:纯色",
+      "runs": {
+        "old": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/palette-fade.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-palette-controls-cfjrh9xx/approach-accumulates-working-colors.old.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:51:16.412326+00:00",
+          "completedAt": "2026-10-17T21:51:17.265349+00:00",
+          "exit": 0,
+          "signal": null,
+          "spawnError": null,
+          "raw": "approach-accumulates-working-colors.old.raw.gz",
+          "rawBytes": 2504,
+          "rawSha256": "05ea9a37fc32de8fdbbd881ae11dfee0e867af021a6bd699f5edbd3f09f72f8a",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "a9584a58951886feee79e63b9149f950c5972075ff80e945dadde5f3dae82c5f",
+          "nativeReport": "approach-accumulates-working-colors.old.vitest.json.gz",
+          "passed": 17,
+          "failed": 0,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers blackColors:256 个 [0,0,0]",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers cloneColors:深拷,改副本不影响源",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers makeWorkingPalette:colors 深拷(与源不别名),cycles 沿用",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers makeWorkingPalette:保留 nightColors(夜色淡入目标,resolveNightColors 读 basePalette.nightColors)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeOut(0x50) cur → 全黑,sdlpal j>>6 量化(palette.c:170-180):首帧即降到 93.75%,精确 0% 由 finalize 补",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeOut(0x50) snapshot 独立 — 后续改 cur 不影响 pf.startColors",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeIn(0x51) 全黑 → base,sdlpal j>>6 量化(palette.c:238-250):循环封顶 93.75%,精确 100% 由 finalize 补",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildSceneFade(0x93) fadeIn:全黑 → base,i∈0..63 量化,封顶 63/64≈98.4%(SceneFade 函数末尾无补满)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildSceneFade(0x93) fadeOut:cur → 全黑,i 63→0 量化,终值 i=0=全黑",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildPaletteFade(0x80) cur → target crossfade(lerp)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildPaletteFade(0x80) 每通道按 SDLPal /31 整数截断，不使用四舍五入",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildColorFade(0x8C) !fFrom:场景 base → 纯色 base[color](approach ±4)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildColorFade(0x8C) fFrom:纯色 base[color] → 场景 base",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeToRed(0x4F) target=(r+g+b)/4+64 / 0 / 0;skip idx 0x4F;带 remap",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeToRed(0x4F) lum 上限 clamp 255",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "finalizePaletteFade 精确套 target,skipIndex 不动",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "stepPaletteFade 边界 progress clamp 到 [0,1](负 elapsed → 0,超时 → 1)",
+              "status": "passed"
+            }
+          ],
+          "sourceRestoredSha256": "f53b3c77b12a438524ba69066ddf04139210c1cb0d61d0d0904a87115ee556c8",
+          "specRestoredSha256": "642e9df4c92b433e1589d734e2483a2c60c5c27d8e648ce121aaaef734b31a7d",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        },
+        "current": {
+          "command": [
+            "pnpm",
+            "--filter",
+            "@type-pal/game",
+            "exec",
+            "vitest",
+            "run",
+            "src/core/palette-fade.test.ts",
+            "--reporter=verbose",
+            "--reporter=json",
+            "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-palette-controls-cfjrh9xx/approach-accumulates-working-colors.current.json"
+          ],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-17T21:51:17.265856+00:00",
+          "completedAt": "2026-10-17T21:51:18.115410+00:00",
+          "exit": 1,
+          "signal": null,
+          "spawnError": null,
+          "raw": "approach-accumulates-working-colors.current.raw.gz",
+          "rawBytes": 3858,
+          "rawSha256": "2a1cb244c335d31b5bd6fdfdb062d217bc4117660ed1b4acc11000f139795715",
+          "fullUncutMergedStdoutStderr": true,
+          "specSha256": "642e9df4c92b433e1589d734e2483a2c60c5c27d8e648ce121aaaef734b31a7d",
+          "nativeReport": "approach-accumulates-working-colors.current.vitest.json.gz",
+          "passed": 16,
+          "failed": 1,
+          "pending": 0,
+          "cases": [
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers blackColors:256 个 [0,0,0]",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers cloneColors:深拷,改副本不影响源",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers makeWorkingPalette:colors 深拷(与源不别名),cycles 沿用",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "palette-fade helpers makeWorkingPalette:保留 nightColors(夜色淡入目标,resolveNightColors 读 basePalette.nightColors)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeOut(0x50) cur → 全黑,sdlpal j>>6 量化(palette.c:170-180):首帧即降到 93.75%,精确 0% 由 finalize 补",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeOut(0x50) snapshot 独立 — 后续改 cur 不影响 pf.startColors",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeIn(0x51) 全黑 → base,sdlpal j>>6 量化(palette.c:238-250):循环封顶 93.75%,精确 100% 由 finalize 补",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildSceneFade(0x93) fadeIn:全黑 → base,i∈0..63 量化,封顶 63/64≈98.4%(SceneFade 函数末尾无补满)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildSceneFade(0x93) fadeOut:cur → 全黑,i 63→0 量化,终值 i=0=全黑",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildPaletteFade(0x80) cur → target crossfade(lerp)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildPaletteFade(0x80) 每通道按 SDLPal /31 整数截断，不使用四舍五入",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildColorFade(0x8C) !fFrom:场景 base → 纯色 base[color](approach ±4)",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildColorFade(0x8C) fFrom:纯色 base[color] → 场景 base",
+              "status": "failed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeToRed(0x4F) target=(r+g+b)/4+64 / 0 / 0;skip idx 0x4F;带 remap",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "buildFadeToRed(0x4F) 最大合法8位RGB计算目标255,不据此声称可辨删除clamp",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "finalizePaletteFade 精确套 target,skipIndex 不动",
+              "status": "passed"
+            },
+            {
+              "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts",
+              "fullName": "stepPaletteFade 边界 progress clamp 到 [0,1](负 elapsed → 0,超时 → 1)",
+              "status": "passed"
+            }
+          ],
+          "failureMessages": [
+            "AssertionError: expected [ 20, 20, 20 ] to deeply equal [ 40, 80, 40 ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/palette-fade.test.ts:187:23\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+          ],
+          "sourceRestoredSha256": "f53b3c77b12a438524ba69066ddf04139210c1cb0d61d0d0904a87115ee556c8",
+          "specRestoredSha256": "642e9df4c92b433e1589d734e2483a2c60c5c27d8e648ce121aaaef734b31a7d",
+          "sourceRestoredByteForByte": true,
+          "specRestoredByteForByte": true
+        }
+      }
+    }
+  ],
+  "tempDirectory": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-palette-controls-cfjrh9xx",
+  "tempDirectoryRemoved": true,
+  "restored": true
+}

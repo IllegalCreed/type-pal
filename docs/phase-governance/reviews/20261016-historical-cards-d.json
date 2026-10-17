@@ -3265,11 +3265,26 @@
       "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "e3c8497ed147c1f7b35978f297bc9cbd0e666e093133eebe33c653990c120e6f",
+      "afterSha256": "33daf87188a00f9b472a0b252a629995661f704dc484b720a8750a516f4482ef",
       "revision": {
         "currentSha": "addcb44c52fd00ab0fd3397e61ae316bf98d02e2aeef1d5533ed23a2c1e5845a",
-        "implementationSha": "e3c8497ed147c1f7b35978f297bc9cbd0e666e093133eebe33c653990c120e6f",
+        "implementationSha": "33daf87188a00f9b472a0b252a629995661f704dc484b720a8750a516f4482ef",
         "history": [
+          {
+            "revision": "9cc4b3fd4f4c6754cf2f727890c7f228b0b8e4f2",
+            "date": "2026-10-18",
+            "action": "Correct pre94 ColorFade domain comments and strengthen existing palette test discrimination",
+            "previousAfterSha256": "e3c8497ed147c1f7b35978f297bc9cbd0e666e093133eebe33c653990c120e6f",
+            "scope": "Only one board progress row, two selected live ledger rows and incoming bindings. One implementation comments-only and one existing17-case test file; two old closures to review, no new closure. Four old-green/new-specified-single-red controls and17/86 regressions do not grant whole-file/native/UI/coverage acceptance. C normal4-grid vs TS expanded color distinction documented; no numerical or asset behavior change. Original native verdict/history retained; no baseline/retirement edits.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/palette-approach-tests/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "8dabfd49976f818364d451635f155af08a41b9a9",
             "date": "2026-10-18",
@@ -3605,7 +3620,7 @@
         "kind": "A8-six-pending-inventory-real-producer-maintenance",
         "path": "docs/ops/audits/code-quality-file-ledger.md",
         "sourceSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
-        "afterSha256": "e3c8497ed147c1f7b35978f297bc9cbd0e666e093133eebe33c653990c120e6f",
+        "afterSha256": "33daf87188a00f9b472a0b252a629995661f704dc484b720a8750a516f4482ef",
         "lineCount": 592,
         "sourceScope": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "completePrior": {

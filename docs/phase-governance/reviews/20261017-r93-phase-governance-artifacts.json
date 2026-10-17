@@ -1040,7 +1040,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "1b5822744320e78e9c14001b603a400b26bd56036e5b4a58fd4206723e0de141",
+      "afterSha256": "1b4f841a17f3c52651614a6e276a130b9ed7b0a62871b3b43268ce5a5a8ffb7f",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1064,8 +1064,23 @@
       },
       "revision": {
         "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "implementationSha": "1b5822744320e78e9c14001b603a400b26bd56036e5b4a58fd4206723e0de141",
+        "implementationSha": "1b4f841a17f3c52651614a6e276a130b9ed7b0a62871b3b43268ce5a5a8ffb7f",
         "history": [
+          {
+            "revision": "9cc4b3fd4f4c6754cf2f727890c7f228b0b8e4f2",
+            "date": "2026-10-18",
+            "action": "Correct pre94 ColorFade domain comments and strengthen existing palette test discrimination",
+            "previousAfterSha256": "1b5822744320e78e9c14001b603a400b26bd56036e5b4a58fd4206723e0de141",
+            "scope": "Only one board progress row, two selected live ledger rows and incoming bindings. One implementation comments-only and one existing17-case test file; two old closures to review, no new closure. Four old-green/new-specified-single-red controls and17/86 regressions do not grant whole-file/native/UI/coverage acceptance. C normal4-grid vs TS expanded color distinction documented; no numerical or asset behavior change. Original native verdict/history retained; no baseline/retirement edits.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/palette-approach-tests/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "8dabfd49976f818364d451635f155af08a41b9a9",
             "date": "2026-10-18",
@@ -1331,7 +1346,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "1b5822744320e78e9c14001b603a400b26bd56036e5b4a58fd4206723e0de141",
+        "afterSha256": "1b4f841a17f3c52651614a6e276a130b9ed7b0a62871b3b43268ce5a5a8ffb7f",
         "lineCount": 1987,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1366,7 +1381,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-2497",
+      "reviewedLines": "1-2512",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -5085,7 +5100,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "45eb45b31f30204879e7ad8b19795be0047af91049967a714d26ad97c32326a7",
+      "afterSha256": "f3a60d1c82669765d585c4881e91a099bd1b266b099cc09d72d756094f33e3af",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5109,8 +5124,23 @@
       },
       "revision": {
         "currentSha": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "implementationSha": "45eb45b31f30204879e7ad8b19795be0047af91049967a714d26ad97c32326a7",
+        "implementationSha": "f3a60d1c82669765d585c4881e91a099bd1b266b099cc09d72d756094f33e3af",
         "history": [
+          {
+            "revision": "9cc4b3fd4f4c6754cf2f727890c7f228b0b8e4f2",
+            "date": "2026-10-18",
+            "action": "Correct pre94 ColorFade domain comments and strengthen existing palette test discrimination",
+            "previousAfterSha256": "45eb45b31f30204879e7ad8b19795be0047af91049967a714d26ad97c32326a7",
+            "scope": "Only one board progress row, two selected live ledger rows and incoming bindings. One implementation comments-only and one existing17-case test file; two old closures to review, no new closure. Four old-green/new-specified-single-red controls and17/86 regressions do not grant whole-file/native/UI/coverage acceptance. C normal4-grid vs TS expanded color distinction documented; no numerical or asset behavior change. Original native verdict/history retained; no baseline/retirement edits.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/palette-approach-tests/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "8dabfd49976f818364d451635f155af08a41b9a9",
             "date": "2026-10-18",
@@ -5367,7 +5397,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "45eb45b31f30204879e7ad8b19795be0047af91049967a714d26ad97c32326a7",
+        "afterSha256": "f3a60d1c82669765d585c4881e91a099bd1b266b099cc09d72d756094f33e3af",
         "lineCount": 5074,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -5402,7 +5432,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-5440",
+      "reviewedLines": "1-5455",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

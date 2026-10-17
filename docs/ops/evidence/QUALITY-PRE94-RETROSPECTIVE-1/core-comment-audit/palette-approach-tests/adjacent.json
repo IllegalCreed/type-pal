@@ -1,0 +1,24 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/present/present.test.ts",
+    "src/present/battle/__tests__/present-battle.test.ts",
+    "src/core/event-system.glm-event-k05.test.ts",
+    "--reporter=verbose"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T21:51:19.312708+00:00",
+  "completedAt": "2026-10-17T21:51:20.727164+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "adjacent.raw.gz",
+  "rawBytes": 14918,
+  "rawSha256": "eb6b1e794e038413ea8d67244a6445eb2944a4c9dcf0a5203f74810f80ea39fd",
+  "fullUncutMergedStdoutStderr": true
+}

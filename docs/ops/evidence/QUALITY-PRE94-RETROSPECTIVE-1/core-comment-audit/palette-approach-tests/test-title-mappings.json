@@ -1,0 +1,15 @@
+{
+  "file": "packages/game/src/core/palette-fade.test.ts",
+  "base": "9cc4b3fd4f4c6754cf2f727890c7f228b0b8e4f2",
+  "before": 17,
+  "current": 17,
+  "mappings": [
+    {
+      "old": "buildFadeToRed(0x4F) lum 上限 clamp 255",
+      "current": "buildFadeToRed(0x4F) 最大合法8位RGB计算目标255,不据此声称可辨删除clamp",
+      "reason": "Maximum valid RGB boundary is not evidence that removing an unreachable clamp changes behavior."
+    }
+  ],
+  "baselineEdited": false,
+  "officialProtectedIdentityGate": "not run; exact mapping retained for large-task reconciliation"
+}

@@ -46,3 +46,5 @@ Search的primary是play.c PAL_GetSearchTriggerRange/PAL_Search，真实caller为
 当前[商店布局与宿主测试返工](shop-layout-tests/README.md)更正卖出全屏装配事实，四文件有限核验、八枚旧绿新单红；22例数量保持，0新增关闭。六组审计注释已修、余四组/算术/两UI继续；共享blit与旧fixture合法性仍待。
 
 当前[公式数值/注释与测试返工](formula-numeric-audit/README.md)补第七组注释，仍余尺寸/快捷键/ColorFade及两UI与毒列表风险。正常法术TS160/C161另开draft风险卡并请求用户裁决；只修注释、加强既有28例，两旧关闭撤回review，数值实现冻结。
+
+当前[ColorFade输入域与测试返工](palette-approach-tests/README.md)补第八组注释，余尺寸/快捷键两组。原C完整函数正反同网格65次提交与TS一致；人工非网格仅64步往返后补终值，不能登记原版正常域缺陷。两旧关闭转review，17例保持、四旧绿新单红；数值风险与两UI差异继续。

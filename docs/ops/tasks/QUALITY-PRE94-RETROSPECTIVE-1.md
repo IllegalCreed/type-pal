@@ -698,3 +698,11 @@ Codex premise verified / design agree / build allowed：206b18563基点，3y同�
 第七组错注已修：玩家身法无level、抗性除数1/20、TS半开与C含端点、抗性倍率[0,5]及投影前提；parsedTS/去注释JS均同字节。原测试28例保持，五灵五个独立值与非零毒抗、合法1.05倍率；删除被精确值蕴含的finite/单调两断言。两反控各旧28绿→新27绿1指定AssertionError，源/测finally字节恢复；C原函数给相同矩阵/毒抗/中点oracle。51定向/293相邻与game typecheck零诊断，文档与lint以本片原件为准。
 
 formulas源/测两旧关闭转review，magic-damage原review保持；267closed/75review/2973pending（提交前机器复核），83卡50partial/33pending/0accept不变。尚余三组注释、毒列表/新数值/两UI风险、极端WORD与其它FLOAT系数等，不能因小值绿关闭。rng.ts的rangeFloat“对齐SDL”端点说明及asShort复用仅只读登记，未扩写实现/公开出口。4个测试标题映射保留，protected身份/coverage基准待大任务统一收尾。证据见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/formula-numeric-audit/README.md)；不跑昂贵全仓check/official coverage/protected，不合main。无下一位Agent提示词，Codex继续pre94。
+
+### 2026-10-18 CODE3n ColorFade输入域与原17例返工
+
+本有限白名单为palette-fade.ts事实注释及palette-fade.test.ts原例补强，由父卡低风险准入推进。全文核两文件与真实palette提取器，读event cursor/cursorless构造、waiting与present收尾caller、原C GetPalette/ColorFade/FadeToRed。原C完整ColorFade以typed最小上下文O0/O2捕获65次完整256色提交，两个同网格正反palette与真实TS步骤一致；C正常getPalette v<<2保持4倍数，人工非网格输入才往返且64步后补终值，不把它当真实原版“永久振荡”缺陷。真实decodePalette的合法6位合成768字节给101/81/40等展开值，TS饱和合同与C字节域分清；未改提取器、生成物、时间/色值执行或公开接口。
+
+第八组错注修正：连续lerp/任意8位等价/视觉1:1、夜色“未提取”与错误GetPalette99–104锚撤回，收尾SceneFade63/64例外说清。原17例保持，black行/新快照独立、ColorFade非网格/上升下降/同时间重绘不累积补强；最大RGB255测试撤销“能辨clamp删除”夸大标题。四反控各完整旧17绿→新16绿1指定业务AssertionError；恢复17、相邻3文件86和typecheck零诊断。控制后仅修一处source引用，控制基点gzip及两轮parsedTS/JS同一证明保留，未重跑无关测试。
+
+两旧关闭转review、0新增closed；265closed/77review/2973pending（提交前机器核），83卡50partial/33pending/0accept不变。全部逐文件/primary/caller/oracle及原始日志见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/palette-approach-tests/README.md)；未授全色域/视觉/原盘/完整机制信用。docs/lint看最终回执，全仓check、官方coverage/protected仍留大任务收尾，不合main。下一范围尺寸/快捷键；其它数值/毒列表/两UI风险继续，法术160/161裁决仍pending。无下一位Agent提示词。
