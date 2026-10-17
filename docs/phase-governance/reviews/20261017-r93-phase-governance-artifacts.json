@@ -999,7 +999,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "2636bf1fc99644e6a185d555b87ff7386a4a4c808880898abcedebd2dded0bf4",
+      "afterSha256": "68923c924764e0af3281efa9e3f90bb39eab5f7bcb320383cde56ac49c11a8c4",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1022,7 +1022,7 @@
         "against": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json"]
       },
       "revision": {
-        "currentSha": "2636bf1fc99644e6a185d555b87ff7386a4a4c808880898abcedebd2dded0bf4",
+        "currentSha": "68923c924764e0af3281efa9e3f90bb39eab5f7bcb320383cde56ac49c11a8c4",
         "implementationSha": "9d91cc393991fdef070673b1a593edce1a78a5d51b016e63ce3fd2727195ad9b",
         "history": [
           {
@@ -1091,6 +1091,24 @@
           "action": "refresh-after-sha-after-gate-receipt",
           "previousAfterSha256": "7e2615f962219d333a35d126562604e71f7f4f0ac086de750cb6f440ef689a04",
           "afterSha256": "2636bf1fc99644e6a185d555b87ff7386a4a4c808880898abcedebd2dded0bf4",
+          "scope": "Record only; no runtime or product acceptance.",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-17",
+          "revision": "e195b5464",
+          "action": "refresh-semantic-current-after-extract-boundary-build",
+          "previousAfterSha256": "2636bf1fc99644e6a185d555b87ff7386a4a4c808880898abcedebd2dded0bf4",
+          "afterSha256": "2de4a6ecade0edb7157355c9d0f7c0dbc293821334bbe027f9f160d6713657ad",
+          "scope": "Record only; no runtime or product acceptance.",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-17",
+          "revision": "e195b5464",
+          "action": "refresh-semantic-current-after-task-index-build",
+          "previousAfterSha256": "2de4a6ecade0edb7157355c9d0f7c0dbc293821334bbe027f9f160d6713657ad",
+          "afterSha256": "68923c924764e0af3281efa9e3f90bb39eab5f7bcb320383cde56ac49c11a8c4",
           "scope": "Record only; no runtime or product acceptance.",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
         }
@@ -4805,7 +4823,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "f37ca4ade0d2f5e917acfeb16f7c761e665d2514c931cc995f8f6ec1485b1dab",
+      "afterSha256": "f138dbb0fa9f29ddf196653320676936e3d1c4914f22d674079e3e1225f62e44",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -4828,7 +4846,7 @@
         "against": ["docs/phase-governance/reviews/20261016-historical-cards-d.json"]
       },
       "revision": {
-        "currentSha": "f37ca4ade0d2f5e917acfeb16f7c761e665d2514c931cc995f8f6ec1485b1dab",
+        "currentSha": "f138dbb0fa9f29ddf196653320676936e3d1c4914f22d674079e3e1225f62e44",
         "implementationSha": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "history": [
           {
@@ -4836,6 +4854,13 @@
             "date": "2026-10-17",
             "action": "byte-stable phase-governance artifact review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-17",
+            "action": "C1 current governance ledger writeback consumer refresh",
+            "sourceSha256": "64c70590d147e9de96ad8fe428b7a8af307ab82fd74b4efa2218e601b5913dd7",
+            "afterSha256": "234456984a6df9d8df63327aaeb8ef25afe7526d2af91e0ebbe18583441f18b3",
+            "runtimeExecutionPerformed": true
           }
         ]
       },
@@ -4888,6 +4913,15 @@
           "action": "refresh-after-sha-final",
           "previousAfterSha256": "26e91e2e8d6dfa10304d6a41f5baa675a7a0311fa577566b31bdef622b1821be",
           "afterSha256": "f37ca4ade0d2f5e917acfeb16f7c761e665d2514c931cc995f8f6ec1485b1dab",
+          "scope": "Record only; no runtime or product acceptance.",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-17",
+          "revision": "e195b5464",
+          "action": "refresh-historical-cards-d-format-after-ledger-update",
+          "previousAfterSha256": "f37ca4ade0d2f5e917acfeb16f7c761e665d2514c931cc995f8f6ec1485b1dab",
+          "afterSha256": "64c70590d147e9de96ad8fe428b7a8af307ab82fd74b4efa2218e601b5913dd7",
           "scope": "Record only; no runtime or product acceptance.",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
         }

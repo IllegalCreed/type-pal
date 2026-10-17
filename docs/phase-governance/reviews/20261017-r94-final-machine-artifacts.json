@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "4797b22edbc5cde5811fd49b0570ca31c467649d51816c711712c0f240667c6b",
+      "afterSha256": "8aed22ab09f051963f33c26fc4166dfded2beb09835a7e1f6825d56f4dfc1dd8",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1065,7 +1065,7 @@
         "against": ["docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"]
       },
       "revision": {
-        "currentSha": "4797b22edbc5cde5811fd49b0570ca31c467649d51816c711712c0f240667c6b",
+        "currentSha": "2bcff1a87034f9472f213ebc5132223c0fa25c8f8689f0f31b36713ab80652b4",
         "implementationSha": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "history": [
           {
@@ -1073,6 +1073,13 @@
             "date": "2026-10-17",
             "action": "byte-stable final machine artifact review",
             "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-17",
+            "action": "C1 phase-governance review consumer refresh",
+            "sourceSha256": "dc346737d9f30c05b5a674295d231b5063f5fe4e9bd63238f0898774a933c1d2",
+            "afterSha256": "aad777439e698acd6b4629e90ce7c495a68addee0552ecabbd913f49610bf1a3",
+            "runtimeExecutionPerformed": true
           }
         ]
       },
@@ -1148,6 +1155,33 @@
           "action": "refresh-r93-format-after-sha",
           "previousAfterSha256": "093064195457e09a28e368166f31f286a45e024269fcabde549f87347cbcb82b",
           "afterSha256": "4797b22edbc5cde5811fd49b0570ca31c467649d51816c711712c0f240667c6b",
+          "scope": "Record only; no runtime or product acceptance.",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-17",
+          "revision": "e195b5464",
+          "action": "refresh-r93-after-extract-boundary-build",
+          "previousAfterSha256": "4797b22edbc5cde5811fd49b0570ca31c467649d51816c711712c0f240667c6b",
+          "afterSha256": "931b097071f4f087878b2640e85d0932b84dc8d55abc3ad096411757f800d150",
+          "scope": "Record only; no runtime or product acceptance.",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-17",
+          "revision": "e195b5464",
+          "action": "refresh-r93-after-task-index-build",
+          "previousAfterSha256": "931b097071f4f087878b2640e85d0932b84dc8d55abc3ad096411757f800d150",
+          "afterSha256": "3e8f37c31efe16788cb45af3d41ce52137bdd9a519bd49bcbe0b8f38ba24ab5d",
+          "scope": "Record only; no runtime or product acceptance.",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-17",
+          "revision": "e195b5464",
+          "action": "refresh-r93-after-ledger-format",
+          "previousAfterSha256": "3e8f37c31efe16788cb45af3d41ce52137bdd9a519bd49bcbe0b8f38ba24ab5d",
+          "afterSha256": "dc346737d9f30c05b5a674295d231b5063f5fe4e9bd63238f0898774a933c1d2",
           "scope": "Record only; no runtime or product acceptance.",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
         }

@@ -1,0 +1,77 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/pal-extract",
+    "exec",
+    "vitest",
+    "run",
+    "src/cli-error-exits.kimi-r1.test.ts",
+    "--maxWorkers=1",
+    "--silent=false",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile.json=/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-extract-c1-green-11ysyysm/runner.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "seconds": 10.13,
+  "sourceSha256": "830424d216ff6b52041088d34f37e42c38af04fd367ba3bee5168a2ae2f0e071",
+  "testSha256": "ecd7e946598e91beba2c9b1bd91443d0fcc2186ad0a5d5ee627dad024a861595",
+  "rawSha256": "27a03c6df0a7d15400fe49ea02efa698076b6a6d88255f9698ab23bb19f3bb51",
+  "runnerSha256": "f44c291afa0dbf5fef31aedd096444dbcc8dacff35b22f1fd31fcfc2b9152165",
+  "files": 1,
+  "passed": 9,
+  "failed": 0,
+  "pending": 0,
+  "stderrBlocks": 0,
+  "cases": [
+    {
+      "fullName": "KIMI-R1 CLI：ROUND-TRIP FAILED 精确诊断 + exit 2（setPalette 非 0 尾 operand）",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "fullName": "KIMI-R1 CLI：M.MSG 缺失 → ENOENT + exit 1",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "fullName": "KIMI-R1 CLI：WORD.DAT 缺失 → ENOENT + exit 1",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "fullName": "KIMI-R1 CLI：SSS.MKF 头部过短 → MKF 精确诊断 + exit 1",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "fullName": "KIMI-R1 CLI：SSS.MKF 首偏移非 4 对齐 → MKF 精确诊断 + exit 1",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "fullName": "KIMI-R1 CLI：输出目录覆盖策略——陈旧产物清除、videos/ PRESERVE 保留",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "fullName": "KIMI-R1 CLI：命令面真值——不消费 argv，多余参数被忽略",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "fullName": "KIMI-R1 CLI：OUT 根是共享 symlink 时，清理前拒绝且保留目标 marker",
+      "status": "passed",
+      "failureMessages": []
+    },
+    {
+      "fullName": "KIMI-R1 CLI：data 父目录是共享 symlink 时，清理前拒绝且保留目标 marker",
+      "status": "passed",
+      "failureMessages": []
+    }
+  ]
+}

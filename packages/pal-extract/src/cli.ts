@@ -23,7 +23,15 @@
  *     rng-frames.json                              (RNG.MKF 逐帧 PNG manifest;RGM/BALL 已改 PNG 解码,不再 raw dump)
  *     fire-sprites.json                            (FIRE.MKF sprite manifest, M4 P2 T4)
  */
-import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import {
+  existsSync,
+  lstatSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs'
 import { dirname, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { gzipSync } from 'node:zlib'
@@ -74,8 +82,24 @@ import {
 const HERE = dirname(fileURLToPath(import.meta.url))
 const REPO_ROOT = resolve(HERE, '../../..')
 const RAW = resolve(REPO_ROOT, 'data/raw')
-const OUT = resolve(REPO_ROOT, 'data/extracted')
+const DATA_ROOT = resolve(REPO_ROOT, 'data')
+const OUT = resolve(DATA_ROOT, 'extracted')
 const SYMBOLS_PATH = resolve(REPO_ROOT, 'data/symbols.json')
+
+function assertOwnedOutputRoot(): void {
+  const dataStat = lstatSync(DATA_ROOT)
+  if (dataStat.isSymbolicLink()) {
+    throw new Error(`[pal-extract] refuse shared output: data is symlink (${DATA_ROOT})`)
+  }
+  try {
+    if (lstatSync(OUT).isSymbolicLink()) {
+      throw new Error(`[pal-extract] refuse shared output: data/extracted is symlink (${OUT})`)
+    }
+  } catch (error) {
+    if (error instanceof Error && 'code' in error && error.code === 'ENOENT') return
+    throw error
+  }
+}
 
 function writeJson(path: string, data: unknown): void {
   mkdirSync(dirname(path), { recursive: true })
@@ -187,6 +211,7 @@ async function main(): Promise<void> {
   // ⚠️ 但**只清 cli 自己产出的**:`videos/` 由 `extract:videos`(scripts/extract-videos.ts,ffmpeg
   // avi→mp4)单独生成,pnpm extract 不重建它 —— 一并清掉会让开场视频 404,rsync --delete 还会删到线上。
   // 故保留 PRESERVE 列表里的非 cli 产物;其余全清。OUT 是固定常量,清前再 guard 一道。
+  assertOwnedOutputRoot()
   if (!OUT.endsWith(`${sep}data${sep}extracted`)) {
     throw new Error(`[pal-extract] refuse to clean unexpected OUT: ${OUT}`)
   }

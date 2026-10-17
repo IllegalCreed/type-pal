@@ -218,3 +218,35 @@ test('KIMI-R1 CLI：命令面真值——不消费 argv，多余参数被忽略'
   expect(result.stderr).toContain('SSS.MKF')
   expect(result.stderr).not.toContain('Usage')
 })
+
+test('KIMI-R1 CLI：OUT 根是共享 symlink 时，清理前拒绝且保留目标 marker', async () => {
+  const tree = makeTree({})
+  const extracted = join(tree, 'data', 'extracted')
+  const sharedOut = join(tree, 'shared-extracted')
+  mkdirSync(sharedOut, { recursive: true })
+  writeFileSync(join(sharedOut, 'owned-by-other-tree'), 'KEEP')
+  rmSync(extracted, { recursive: true, force: true })
+  symlinkSync(sharedOut, extracted, 'dir')
+
+  const result = await runCli(tree)
+  expect(result.exitCode).toBe(1)
+  expect(existsSync(join(sharedOut, 'owned-by-other-tree'))).toBe(true)
+  expect(readFileSync(join(sharedOut, 'owned-by-other-tree'), 'utf8')).toBe('KEEP')
+  expect(result.stderr).toContain('shared output')
+})
+
+test('KIMI-R1 CLI：data 父目录是共享 symlink 时，清理前拒绝且保留目标 marker', async () => {
+  const tree = makeTree({})
+  const data = join(tree, 'data')
+  const sharedData = join(tree, 'shared-data')
+  mkdirSync(join(sharedData, 'extracted'), { recursive: true })
+  writeFileSync(join(sharedData, 'extracted', 'owned-by-other-tree'), 'KEEP')
+  rmSync(data, { recursive: true, force: true })
+  symlinkSync(sharedData, data, 'dir')
+
+  const result = await runCli(tree)
+  expect(result.exitCode).toBe(1)
+  expect(existsSync(join(sharedData, 'extracted', 'owned-by-other-tree'))).toBe(true)
+  expect(readFileSync(join(sharedData, 'extracted', 'owned-by-other-tree'), 'utf8')).toBe('KEEP')
+  expect(result.stderr).toContain('shared output')
+})
