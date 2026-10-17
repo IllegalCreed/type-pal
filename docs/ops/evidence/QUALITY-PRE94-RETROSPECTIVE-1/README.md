@@ -2,9 +2,9 @@
 
 任务：[QUALITY-PRE94-RETROSPECTIVE-1](../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。当前要求是全部83卡逐卡逐文件复审，未全部完成。下文原f0cf0f7f抽查是历史快照；当前唯一3y分支、主工作树只读。
 
-## 2026-10-16 当前范围与优先级
+## 2026-10-17 当前范围与优先级
 
-用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10原检查点bea19f80c已推送，当前恢复见本片末尾；主线f98d0ddd8，0behind，未合main。全83卡14partial/69pending/0accept；[6a](6a/README.md)、92、CODE1/2/2b/3/3b/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；[CODE3b](3b/README.md)两边界六oracle已补；[raw补证](3b/raw-tests/README.md)9→2/五新反控、完整extract428零stderr；全正文仍待，[3d PNG](3d/README.md)两height盲点已补，下一片3h assets/shell，再按模块逐文件推进；94–102/editor未完成项保留。
+用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10原检查点bea19f80c已推送，当前恢复见本片末尾；分支已同步最新origin/main，0behind，未合main。全83卡15partial/68pending/0accept；[6a](6a/README.md)、92、CODE1/2/2b/3/3b/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；[CODE3b](3b/README.md)两边界六oracle已补；[raw补证](3b/raw-tests/README.md)9→2/五新反控、完整extract428零stderr；全正文仍待，[3d PNG](3d/README.md)两height盲点已补，下一片3h assets/shell，再按模块逐文件推进；94–102/editor未完成项保留。
 
 下文旧数字、探针与结论作为历史保存；不会把旧抽查、历史done或包全绿补签成当前验收。
 
@@ -13,6 +13,8 @@
 最新[3h启动屏障切片](3h/bootstrap/README.md)：两个旧13绿新单例红、弱重复精简13→12，真实默认fetch正常/失败收尾均结局；相邻129零诊断。三文件仅review，0新关闭，下一片fetch-retry三测试。
 
 最新[fetch-retry/旧71切片](3h/fetch-retry/README.md)：三旧18绿新单例红、正常族19/相邻156；真实取消域counter转draft，完整game初始候选3605 passed仍17块stderr，包门未过。全83卡14partial/69pending/0accept，game/editor诊断与原目标继续。
+
+最新[3j time-format 切片](3j-time-format/README.md)：完整读取实现、三份直接测试和 store/overlay/timer/index caller，补齐超长输入形成 `Infinity` 的失败反例并修复 finite 守卫；定向15、相邻43、game typecheck通过。3j 其余工具文件仍待核，当前全83卡15partial/68pending/0accept；本片未运行 coverage 或全仓 check。
 
 ## 统一候选后的范围更正
 

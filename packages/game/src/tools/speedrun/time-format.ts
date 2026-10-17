@@ -20,11 +20,12 @@ export function parseHms(s: string): number | null {
   const parts = s.split(':').map((p) => p.trim())
   if (parts.length < 2 || parts.length > 3) return null
   const nums = parts.map((p) => (/^\d+$/.test(p) ? Number(p) : Number.NaN))
-  if (nums.some((n) => Number.isNaN(n))) return null
+  if (nums.some((n) => !Number.isFinite(n))) return null
   const [h, m, sec] = parts.length === 3 ? nums : [0, ...nums]
   if (h === undefined || m === undefined || sec === undefined) return null
   if (m > 59 || sec > 59) return null
-  return ((h * 60 + m) * 60 + sec) * 1000
+  const totalMs = ((h * 60 + m) * 60 + sec) * 1000
+  return Number.isFinite(totalMs) ? totalMs : null
 }
 
 /** 差值 ms → "±M:SS"(0 显示 "0:00")。 */

@@ -36,4 +36,7 @@ describe('H08 进位与符号边界', () => {
     expect(parseHms('5')).toBeNull() // 单段
     expect(parseHms('1:2:3:4')).toBeNull() // 四段
   })
+  it('parseHms：总毫秒溢出时拒绝，避免工具面板把 Infinity 持久化成 null', () => {
+    expect(parseHms(`${'9'.repeat(308)}:59:59`)).toBeNull()
+  })
 })

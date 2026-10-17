@@ -557,7 +557,7 @@
       "sha256": "f900312c604c58bdbfdd439c88e1af49ac0293ca17258a8865725db4460e18cf",
       "lines": 73,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -613,7 +613,9 @@
           "text": "当前状态：build；只能在七个白名单生产文件及对应测试内工作。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "currentReviewDepth": "selected full reads: time-format implementation, three direct tests, store/overlay/timer/index callers; tools-panel parseHms caller range",
+      "currentReviewEvidence": "3j-time-format/README.md"
     },
     {
       "id": "3k",

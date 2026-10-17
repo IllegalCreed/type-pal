@@ -17,8 +17,8 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-起始基点机器清单：2,962。当前 tracked 清单：3,307。
-当前已闭合核验：231；已读但待审：35；尚未逐文件核验：3,041；合计未闭合：3,076。
+起始基点机器清单：2,962。当前 tracked 清单：3,309。
+当前已闭合核验：230；已读但待审：36；尚未逐文件核验：3,043；合计未闭合：3,079。
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
@@ -167,7 +167,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/menu/save-slot-menu.test.ts` | test | 已验证 | [CODE-QUALITY-100 Codex当前独立复核](../evidence/CODE-QUALITY-100/codex-current-review.md)；真实 Save.listSlots caller、menu-save-chain/menu-driver oracle | 58 定向测试中的菜单/真链合同；移除三条重复 Save API roundtrip，补首项环绕、reject warning、异步 resolve/刷新 id 与 afterEach spy 隔离；无弱断言遗留 |
 | `packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts` | test | 已验证 | [CODE-QUALITY-100 Codex当前独立复核](../evidence/CODE-QUALITY-100/codex-current-review.md)；公开工厂同步合同与 sdlpal defaultSlot oracle | 非顺序 id、越界 defaultSlot、空表 Up/Down 反例；与 IO/dispatcher 测试排重 |
 | `packages/game/src/tools/map-names.ts` | product | 已验证 | CODE-QUALITY-3j；shared authored map-name caller 与 known/fallback tests | 缺名保持 `地图N` 回退，不改 authored table |
-| `packages/game/src/tools/speedrun/time-format.ts` | product | 已验证 | CODE-QUALITY-3j；speedrun store/overlay callers、format/parse boundary + leaves tests | 合法时钟/解析/符号/负数合同完整，未发现直接缺陷 |
+| `packages/game/src/tools/speedrun/time-format.ts` | product | review | [pre-94 CODE3j time-format 当前复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-time-format/README.md)；store/overlay/tools-panel caller、三份直接测试 | 发现超长数字可形成 Infinity 并在 JSON 持久化时静默变 null；已补 finite 反例与解析守卫，整卡/统一门仍待 |
 | `packages/game/src/tools/speedrun/countdown.ts` | product | 已验证 | CODE-QUALITY-3j；speedrun store caller、singleton/update/remove DOM tests | 单节点复用、null 幂等移除；未发现直接缺陷 |
 | `packages/game/src/tools/speedrun/checkpoints.ts` | product | 已验证 | CODE-QUALITY-3j；speedrun store/detectors caller、21-id/monotonic/BANANA tests 与 PalTimer 注释 | 只读核对坐标/物品/检测器；不擅改速通数据 |
 | `packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-3j；NaN/round/fullscreen/FPS lifecycle 合同；删除 NaN guard 的 mutant 失败 | 合并现有 display-scale/FPS 合同，不堆弱断言 |
@@ -529,7 +529,7 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/tools/fps-overlay.ts` | product | 已验证 | CODE-QUALITY-3j；tools-panel/rAF caller、启停/采样/DOM tests | module sampling state 在停用时清零；非法持久值仅 `'1'` 开启 |
 | `packages/game/src/tools/toast.ts` | product | 已验证 | CODE-QUALITY-3j；save/tool callers、success/error/info/stack lifecycle tests | DOM 单例/多 toast 到期自删合同完整，未发现直接缺陷 |
 | `packages/game/src/tools/map-names.ts` | product | 已验证 | CODE-QUALITY-3j；shared authored map-name caller 与 known/fallback tests | 缺名保持 `地图N` 回退，不改 authored table |
-| `packages/game/src/tools/speedrun/time-format.ts` | product | 已验证 | CODE-QUALITY-3j；speedrun store/overlay callers、format/parse boundary + leaves tests | 合法时钟/解析/符号/负数合同完整，未发现直接缺陷 |
+| `packages/game/src/tools/speedrun/time-format.ts` | product | review | [pre-94 CODE3j time-format 当前复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-time-format/README.md)；store/overlay/tools-panel caller、三份直接测试 | 发现超长数字可形成 Infinity 并在 JSON 持久化时静默变 null；已补 finite 反例与解析守卫，整卡/统一门仍待 |
 | `packages/game/src/tools/speedrun/countdown.ts` | product | 已验证 | CODE-QUALITY-3j；speedrun store caller、singleton/update/remove DOM tests | 单节点复用、null 幂等移除；未发现直接缺陷 |
 | `packages/game/src/tools/speedrun/checkpoints.ts` | product | 已验证 | CODE-QUALITY-3j；speedrun store/detectors caller、21-id/monotonic/BANANA tests 与 PalTimer 注释 | 只读核对坐标/物品/检测器；不擅改速通数据 |
 | `packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-3j；NaN/round/fullscreen/FPS lifecycle 合同；删除 NaN guard 的 mutant 失败 | 合并现有 display-scale/FPS 合同，不堆弱断言 |
