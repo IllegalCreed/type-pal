@@ -58,6 +58,7 @@ Template: governance-index-v1 / 1.0.0
 | CODE-QUALITY-108 | [game magic-script warning ownership](tasks/CODE-QUALITY-108-game-magic-script-warning-diagnostic.md) | review | Codex / coverage baseline 收口后复验 | 缺失 label 两项 warning 已捕获；定向37/37、相邻377/377、全仓 check 零 stderr；coverage baseline 仍阻塞 |
 | GAME-MENU-HELPER-API-1 | [menu helper 公共出口删除准入](tasks/GAME-MENU-HELPER-API-1.md) | draft | Codex / 等公共接口准入裁决 | E-4/E-5 caller census 完成；只登记，不删除、不改公共接口 |
 | CODE-QUALITY-109 | [game analytics 安装器生命周期复核](tasks/CODE-QUALITY-109-game-analytics-install-review.md) | review | Codex / 完整门后复验 | 补 test teardown ownership；analytics 6/23 定向、game typecheck 通过，待全仓门 |
+| CODE-QUALITY-110 | [game present draw-sprite 逐文件复核](tasks/CODE-QUALITY-110-game-draw-sprite-review.md) | review | Codex / 完整门后复验 | 3文件/17定向、game typecheck 通过；未发现直接缺陷，待全仓门 |
 | QUALITY-EDITOR-DIAGNOSTICS-1 | [editor测试诊断清理](tasks/QUALITY-EDITOR-DIAGNOSTICS-1.md) | review | Codex / 后续诊断切片待核 | 67定向0诊断；完整门仍非零诊断，未合main |
 | QUALITY-EDITOR-DIAGNOSTICS-2 | [C02宿主与删除生命周期](tasks/QUALITY-EDITOR-DIAGNOSTICS-2.md) | review | Codex / 续C02剩余用例 | 九例0诊断、两反控；完整门仍非零，不合main |
 | QUALITY-EDITOR-DIAGNOSTICS-3 | [C02导入与历史回流](tasks/QUALITY-EDITOR-DIAGNOSTICS-3.md) | review | Codex / 续Kimi工作流 | 29定向/77相邻0诊断；完整门带其它诊断，未合main |

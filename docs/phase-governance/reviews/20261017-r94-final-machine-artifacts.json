@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "8e42a1d0a1a878cc38f5f17f9e2ffdd58856425b29e7aa61487c97915fbcb82d",
+      "afterSha256": "6228fe3d53b2e3f96e80fe5ac83963a167aa63fd09d2e4bde42c9d82cbc677ac",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1065,7 +1065,7 @@
         "against": ["docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"]
       },
       "revision": {
-        "currentSha": "8e42a1d0a1a878cc38f5f17f9e2ffdd58856425b29e7aa61487c97915fbcb82d",
+        "currentSha": "6228fe3d53b2e3f96e80fe5ac83963a167aa63fd09d2e4bde42c9d82cbc677ac",
         "implementationSha": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "history": [
           {
@@ -1088,7 +1088,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-        "afterSha256": "8e42a1d0a1a878cc38f5f17f9e2ffdd58856425b29e7aa61487c97915fbcb82d",
+        "afterSha256": "6228fe3d53b2e3f96e80fe5ac83963a167aa63fd09d2e4bde42c9d82cbc677ac",
         "lineCount": 13734,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1118,7 +1118,7 @@
           "revision": "89bf84e16",
           "action": "sync-review-record-after-sha",
           "previousAfterSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-          "afterSha256": "8e42a1d0a1a878cc38f5f17f9e2ffdd58856425b29e7aa61487c97915fbcb82d",
+          "afterSha256": "6228fe3d53b2e3f96e80fe5ac83963a167aa63fd09d2e4bde42c9d82cbc677ac",
           "scope": "Record only; no runtime or product acceptance.",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
         },
@@ -1126,7 +1126,7 @@
           "date": "2026-10-17",
           "revision": "89bf84e16",
           "action": "refresh-r93-after-sha",
-          "previousAfterSha256": "8e42a1d0a1a878cc38f5f17f9e2ffdd58856425b29e7aa61487c97915fbcb82d",
+          "previousAfterSha256": "6228fe3d53b2e3f96e80fe5ac83963a167aa63fd09d2e4bde42c9d82cbc677ac",
           "afterSha256": "9bee00ded7c1f8fa801cbb70803decd705689389c5358b5de7b6486dacd3794f",
           "scope": "Record only; no runtime or product acceptance.",
           "notRun": ["runtime", "E2E", "visual", "coverage"]

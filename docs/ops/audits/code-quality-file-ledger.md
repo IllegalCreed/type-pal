@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,307。
-当前已闭合核验：231；已读但待审：32；尚未逐文件核验：3,044；合计未闭合：3,076。
+当前已闭合核验：231；已读但待审：35；尚未逐文件核验：3,041；合计未闭合：3,076。
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
@@ -287,6 +287,9 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/menu/magic-script.test.ts` | test | review | CODE-QUALITY-108；真实 castOverworldMagic caller、typed global command fixture、warning/HP/return oracle | 37 tests；缺失 label 两项 warning 已精确捕获并恢复 spy，定向与 menu 相邻 0 stderr；整卡等统一门 |
 | `packages/game/src/analytics/install-analytics.ts` | product | review | CODE-QUALITY-109；main.ts 唯一生产 caller、consent UI/Google Analytics lifecycle、DNT/GPC 与 dataLayer oracle | 57 行完整读取；安装/销毁 ownership 与生产 gate 对齐；本批未改生产，整卡等统一门 |
 | `packages/game/src/analytics/install-analytics.test.ts` | test | review | CODE-QUALITY-109；真实 installation return、DOM/storage/dataLayer oracle | 2 tests；补 afterEach destroy，修复第二例 listener/UI 跨用例泄漏；game analytics 6/23 通过，整卡等统一门 |
+| `packages/game/src/present/draw-sprite.ts` | product | review | CODE-QUALITY-110；SDLPal palcommon.c:36-130/scene.c:210-316；present/FBP/ending/dialog callers | 49 行完整读取；逐帧 anchor、opaque mask、palette-0 和 Framebuffer clipping 对齐；无直接缺陷 |
+| `packages/game/src/present/draw-sprite.test.ts` | test | review | CODE-QUALITY-110；Framebuffer pixel oracle、present sprite contract | 3 合同/定向 17 tests；帧高、脚底、透明孔、palette-0、屏外均有判别力 |
+| `packages/game/src/present/draw-sprite-clip.grok-r1.test.ts` | test | review | CODE-QUALITY-110；真实 drawSprite/Framebuffer caller、G03-B clip oracle | 8 边界；奇数宽、左右/上下裁剪、identity、透明孔；与主干排重 |
 
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 CanonicalScriptBodyEditor→EntityAddressEditor caller、合法 EntityAddress 与自动改绑 oracle | 1合同/4定向测试通过；相邻测试有22条 React act诊断，保持 review，不标已验证 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 ItemTab/loader/EditSession/save-gate caller、R1/R3/R5 oracle | 3合同/4定向测试通过；相邻测试有22条 React act诊断，P1 puppet/battleOnly仍是产品裁决，保持 review |
@@ -303,6 +306,9 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/menu/magic-script.test.ts` | test | review | CODE-QUALITY-108；真实 castOverworldMagic caller、typed global command fixture、warning/HP/return oracle | 37 tests；缺失 label 两项 warning 已精确捕获并恢复 spy，定向与 menu 相邻 0 stderr；整卡等统一门 |
 | `packages/game/src/analytics/install-analytics.ts` | product | review | CODE-QUALITY-109；main.ts 唯一生产 caller、consent UI/Google Analytics lifecycle、DNT/GPC 与 dataLayer oracle | 57 行完整读取；安装/销毁 ownership 与生产 gate 对齐；本批未改生产，整卡等统一门 |
 | `packages/game/src/analytics/install-analytics.test.ts` | test | review | CODE-QUALITY-109；真实 installation return、DOM/storage/dataLayer oracle | 2 tests；补 afterEach destroy，修复第二例 listener/UI 跨用例泄漏；game analytics 6/23 通过，整卡等统一门 |
+| `packages/game/src/present/draw-sprite.ts` | product | review | CODE-QUALITY-110；SDLPal palcommon.c:36-130/scene.c:210-316；present/FBP/ending/dialog callers | 49 行完整读取；逐帧 anchor、opaque mask、palette-0 和 Framebuffer clipping 对齐；无直接缺陷 |
+| `packages/game/src/present/draw-sprite.test.ts` | test | review | CODE-QUALITY-110；Framebuffer pixel oracle、present sprite contract | 3 合同/定向 17 tests；帧高、脚底、透明孔、palette-0、屏外均有判别力 |
+| `packages/game/src/present/draw-sprite-clip.grok-r1.test.ts` | test | review | CODE-QUALITY-110；真实 drawSprite/Framebuffer caller、G03-B clip oracle | 8 边界；奇数宽、左右/上下裁剪、identity、透明孔；与主干排重 |
 | `scripts/docs/check-document-model.mjs` | tool | 待核 | DOCS-FULL-TEMPLATE-1；本治理新增tracked工具/测试，仅库存登记 | 后继CODE-QUALITY专项语义核验；文档工具测试通过不自动闭合 |
 | `scripts/docs/document-model.mjs` | tool | 待核 | DOCS-FULL-TEMPLATE-1；本治理新增tracked工具/测试，仅库存登记 | 后继CODE-QUALITY专项语义核验；文档工具测试通过不自动闭合 |
 | `scripts/docs/document-model.test.mjs` | test | 待核 | DOCS-FULL-TEMPLATE-1；本治理新增tracked工具/测试，仅库存登记 | 后继CODE-QUALITY专项语义核验；文档工具测试通过不自动闭合 |
