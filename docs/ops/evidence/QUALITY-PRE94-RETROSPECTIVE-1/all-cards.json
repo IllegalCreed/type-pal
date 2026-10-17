@@ -2482,10 +2482,10 @@
       "number": 66,
       "suffix": "",
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-66-game-speedrun-overlay-boundary.md",
-      "sha256": "e6192ed09f052f2b0dd267fc7574168b263628c79cf3fd0677c8331d954efd09",
-      "lines": 40,
+      "sha256": "76c13da27d9027255655b849013fe02086d6b09d70296abbccaacc333571d0dd",
+      "lines": 48,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -3923,8 +3923,8 @@
   ],
   "reviewCheckpointBase": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
   "currentReviewCounts": {
-    "partial": 43,
-    "pending": 40,
+    "partial": 44,
+    "pending": 39,
     "accept": 0
   }
 }

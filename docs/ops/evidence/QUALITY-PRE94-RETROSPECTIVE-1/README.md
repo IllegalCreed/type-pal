@@ -176,3 +176,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 最新[64 speedrun detectors 复审切片](64-speedrun-detectors/README.md)：完整读取 detectors 两份测试与 timer/snapshot/checkpoints caller，核清 prev/mem、场景集合/容差、boss/item/music 和彩依两阶段；六文件 42 tests、game typecheck通过，未发现 direct defect；64 当前 partial，65–69 与统一门仍待。
 
 最新[65 speedrun index 复审切片](65-speedrun-index/README.md)：完整读取 index 两份测试与 main-loop/tools-panel/snapshot/timer/store/overlay/countdown caller，核清 disabled/tick/快捷键/暂停/解绑和 persistence；六文件 39 tests、game typecheck通过，未发现 direct defect；65 当前 partial，66–69 与统一门仍待。
+
+最新[66 speedrun overlay 复审切片](66-speedrun-overlay/README.md)：完整读取 overlay 实现/两测试与 index/timer/store/time-format caller，补齐差值/ETA 判别测试；5 文件 25 tests、game typecheck通过，未发现实现 direct defect；66 当前 partial，67–69 与统一门仍待。

@@ -28,6 +28,14 @@ Visual Verification Timing: functional-ui（DOM layout/data mapping；不做剧�
 
 - 2026-10-13 Codex：完整读取 overlay 120 行、测试与 index/timer/time-format caller；row/ETA/diff/clock/pause/style singleton/DOM remove 合同均有 oracle，未发现直接缺陷。账本收口为 `3266 / 309 closed / 8 review / 2949 pending`。
 
+## 2026-10-18 Codex 当前独立复审
+
+- **范围与读取**：完整读取 `overlay.ts`（120 行）、`overlay.test.ts`（现 49 行）、`overlay.glm-phase1-leaves.test.ts`（59 行）；读取 `index.ts` 的 overlay 委托、`timer.ts` 的 `RunState`、`time-format.ts`、`store.ts` 的 `BestTimes` 与 tools-panel 设置 caller。
+- **Primary/caller/oracle**：`tickSpeedrunTimer` 只在启用且 show=true 时调用 `renderOverlay`，否则调用 `hideOverlay`；overlay 自己拥有 DOM 根节点与 style 节点，timer/store 只提供只读投影。功能 UI 合同以当前 speedrun design、format helpers 与真实 index caller 为 oracle。
+- **结论**：style 注入幂等、单根 replaceChildren 更新、checkpoint 行/最佳/当前/差值列、fast/slow/even 分色、最近已完成节点 ETA、暂停前缀和 hide/remove 清理均符合 caller 合同；SSR `document` guard 保持。未发现可由 caller/primary 直接证明的实现缺陷，未改变 UI 形态或 timer API。
+- **测试判别力**：原直接测试缺少差值/ETA 行 oracle；补充一条使用真实 `CHECKPOINTS` 的最小测试，钉住最佳值、`-0:02` fast class 和 `预计通关 0:00:18`。直接两文件现 6 tests，覆盖行数/格式、暂停、差值/ETA、原位更新、style/hide 幂等；没有堆重复断言。
+- **验证**：overlay 两文件与 time-format 两文件、index 主测试共 5 files / 25 tests passed；`pnpm --filter @type-pal/game typecheck` passed。coverage、protected fast、全仓 check 沿用 47–52 波次证据，本小批不重复运行昂贵门。当前复审为 `partial`，不是整卡 `accept/done`。
+
 ## 下一位 Agent 提示词
 
 ```text

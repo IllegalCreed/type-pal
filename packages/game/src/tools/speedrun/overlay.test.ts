@@ -30,6 +30,22 @@ describe('overlay', () => {
     renderOverlay(run({ bananaPaused: true, elapsedMs: 1000 }), CHECKPOINTS, bests)
     expect(document.querySelector('.tp-sr-clock')?.textContent).toBe('*0:00:01.00')
   })
+  it('已完成节点显示最佳/差值，并用该差值推算预计通关', () => {
+    const bests = Object.fromEntries(CHECKPOINTS.map((c) => [c.id, c.defaultBestMs]))
+    bests.stele = 10_000
+    bests.clear = 20_000
+    renderOverlay(
+      run({ stepIndex: 1, splits: [8_000, ...CHECKPOINTS.slice(1).map(() => null)] }),
+      CHECKPOINTS,
+      bests,
+    )
+
+    const first = document.querySelector('.tp-sr-row')
+    expect(first?.querySelector('.tp-sr-best')?.textContent).toBe('0:00:10')
+    expect(first?.querySelector('.tp-sr-diff')?.textContent).toBe('-0:02')
+    expect(first?.querySelector('.tp-sr-diff')?.className).toContain('fast')
+    expect(document.querySelector('.tp-sr-eta')?.textContent).toBe('预计通关 0:00:18')
+  })
   it('hideOverlay 移除', () => {
     renderOverlay(run({}), CHECKPOINTS, {})
     hideOverlay()

@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,311。
-当前已闭合核验：275；已读但待审：44；尚未逐文件核验：2,992；合计未闭合：3,036。
+当前已闭合核验：278；已读但待审：44；尚未逐文件核验：2,989；合计未闭合：3,033。
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
@@ -190,6 +190,9 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/tools/speedrun/index.ts` | product | 已验证 | [pre-94 CODE65 speedrun index复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/65-speedrun-index/README.md)；main-loop/tools-panel、snapshot/timer/store/overlay/countdown callers | 116 行完整核验单例、disabled/tick、persistence、快捷键、暂停门、SSR/解绑；六文件39 tests、game typecheck通过；未发现 direct defect |
 | `packages/game/src/tools/speedrun/index.test.ts` | test | 已验证 | [pre-94 CODE65 speedrun index复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/65-speedrun-index/README.md)；disabled/tick/overlay/show、默认PB、F4/F8/F2、manual/banana pause oracle | 126 行完整核验 11 tests；真实 DOM/键盘和 timer caller，无弱恒真断言 |
 | `packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts` | test | 已验证 | [pre-94 CODE65 speedrun index复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/65-speedrun-index/README.md)；解绑后无 toast、未启用短路、解绑幂等反例 | 47 行完整核验 2 tests；与主测试排重 |
+| `packages/game/src/tools/speedrun/overlay.ts` | product | 已验证 | [pre-94 CODE66 speedrun overlay复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/66-speedrun-overlay/README.md)；index/timer/store/time-format/tools-panel callers | 120 行完整核验 DOM/style ownership、21 行、diff/ETA/clock、SSR/hide cleanup；5 files/25 tests、game typecheck通过；未发现 direct defect |
+| `packages/game/src/tools/speedrun/overlay.test.ts` | test | 已验证 | [pre-94 CODE66 speedrun overlay复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/66-speedrun-overlay/README.md)；21 行/主计时、pause、diff/ETA、hide DOM oracle | 49 行完整核验 4 tests；补齐差值/ETA 判别力，无重复断言 |
+| `packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts` | test | 已验证 | [pre-94 CODE66 speedrun overlay复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/66-speedrun-overlay/README.md)；原位更新、style 注入幂等、hide 幂等反例 | 59 行完整核验 2 tests；与主测试排重 |
 | `packages/game/src/tools/speedrun/countdown.ts` | product | 已验证 | [pre-94 CODE3j countdown复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-countdown/README.md)；speedrun/index caller、singleton/update/remove DOM tests | 单节点复用、null 幂等移除、disabled 清理；本片未发现直接缺陷，3j 整卡仍 partial |
 | `packages/game/src/tools/speedrun/checkpoints.ts` | product | 已验证 | [pre-94 CODE3j toast/map/checkpoints复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-toast-map-checkpoints/README.md)；speedrun store/detectors caller、21-id/monotonic/BANANA tests 与 PalTimer 注释 | 只读核对坐标/物品/检测器；坐标实跑仍 unknown，不擅改速通数据 |
 | `packages/game/src/tools/display-scale.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-3j；NaN/round/fullscreen/FPS lifecycle 合同；删除 NaN guard 的 mutant 失败 | 合并现有 display-scale/FPS 合同，不堆弱断言 |

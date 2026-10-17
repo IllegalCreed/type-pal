@@ -560,3 +560,9 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 - 范围：完整读取 `speedrun/index.ts`、两份 index 测试，及 `shell/main-loop.ts`、`tools-panel.ts`、snapshot/timer/store/overlay/countdown caller。
 - 结论：disabled/tick/overlay、设置/PB persistence、F4/F8/F2、manual/banana pause、SSR/解绑与单例 ownership 均与真实 caller 一致，未发现 direct defect。
 - 验证：六文件 39 tests、game typecheck通过；coverage 等沿用 [`53-wave-gates`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)。65 从 pending 提升为 `partial`，不作整卡 accept/done。
+
+### 2026-10-18 CODE-QUALITY-66 speedrun overlay 当前复审
+
+- 范围：完整读取 `speedrun/overlay.ts`、两份测试及 index/timer/store/time-format/tools-panel caller。
+- 结论：DOM/style ownership、checkpoint 行映射、差值分色、ETA、暂停前缀、SSR/hide 清理与 caller 一致；补充一条差值/ETA oracle 测试，未发现实现 direct defect。
+- 验证：5 文件 25 tests、game typecheck通过；coverage 等沿用 [`53-wave-gates`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)。66 从 pending 提升为 `partial`，不作整卡 accept/done。
