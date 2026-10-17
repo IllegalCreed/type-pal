@@ -566,3 +566,9 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 - 范围：完整读取 `speedrun/overlay.ts`、两份测试及 index/timer/store/time-format/tools-panel caller。
 - 结论：DOM/style ownership、checkpoint 行映射、差值分色、ETA、暂停前缀、SSR/hide 清理与 caller 一致；补充一条差值/ETA oracle 测试，未发现实现 direct defect。
 - 验证：5 文件 25 tests、game typecheck通过；coverage 等沿用 [`53-wave-gates`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)。66 从 pending 提升为 `partial`，不作整卡 accept/done。
+
+### 2026-10-18 CODE-QUALITY-67 speedrun checkpoint tests 当前复审
+
+- 范围：完整读取 `checkpoints.test.ts`、`timer.boundaries.test.ts` 与 `checkpoints.ts`、`timer.ts`、`detectors.ts`、`index.ts` caller，核对 speedrun design §4.4。
+- 结论：21-id/单调/香蕉静态合同、同 now/finished/暂停/step/mem 和 detector 边界均有真实 oracle；运行时坐标/BGM/香蕉校准未实跑，保持 unknown，不改数据。
+- 验证：四文件 31 tests、game typecheck通过；coverage 等沿用 [`53-wave-gates`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md)。67 从 pending 提升为 `partial`，不作整卡 accept/done。

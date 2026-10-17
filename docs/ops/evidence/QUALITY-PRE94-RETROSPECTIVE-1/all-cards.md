@@ -60,7 +60,7 @@
 | [CODE-QUALITY-64](../../archive/tasks/done/CODE-QUALITY-64-game-speedrun-detectors-boundary.md) | done | partial | [speedrun detectors 复审](64-speedrun-detectors/README.md)：实现/两测试与 timer/snapshot/checkpoints caller 已核；六文件/42 tests、game typecheck通过 |
 | [CODE-QUALITY-65](../../archive/tasks/done/CODE-QUALITY-65-game-speedrun-index-orchestration.md) | done | partial | [speedrun index 复审](65-speedrun-index/README.md)：实现/两测试与 main-loop/tools-panel 及 speedrun caller 已核；六文件/39 tests、game typecheck通过 |
 | [CODE-QUALITY-66](../../archive/tasks/done/CODE-QUALITY-66-game-speedrun-overlay-boundary.md) | done | partial | [speedrun overlay 复审](66-speedrun-overlay/README.md)：实现/两测试与 index/timer/store/time-format caller 已核；补差值/ETA oracle，5文件/25 tests、game typecheck通过 |
-| [CODE-QUALITY-67](../../archive/tasks/done/CODE-QUALITY-67-game-speedrun-checkpoint-boundary-tests.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
+| [CODE-QUALITY-67](../../archive/tasks/done/CODE-QUALITY-67-game-speedrun-checkpoint-boundary-tests.md) | done | partial | [speedrun checkpoint tests 复审](67-speedrun-checkpoint-tests/README.md)：checkpoint/timer boundary 与 detector/index caller 已核；四文件/31 tests、game typecheck通过，运行时校准仍 unknown |
 | [CODE-QUALITY-68](../../archive/tasks/done/CODE-QUALITY-68-game-speedrun-countdown-tests.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-69](../../archive/tasks/done/CODE-QUALITY-69-game-speedrun-time-format-tests.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-70](../../archive/tasks/done/CODE-QUALITY-70-game-audio-volume-boundary.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
