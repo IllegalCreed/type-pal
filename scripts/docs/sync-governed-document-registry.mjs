@@ -1,9 +1,10 @@
-import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { loadDocumentRegistry, writeDocumentRegistry } from './document-registry.mjs'
 
 const root = resolve(new URL('../..', import.meta.url).pathname)
 const registryPath = resolve(root, 'docs/phase-governance/document-registry.json')
-const registry = JSON.parse(readFileSync(registryPath, 'utf8'))
+const { registry, loadedSource } = loadDocumentRegistry({ manifestPath: registryPath })
 const reviews = new Map()
 const reviewDir = resolve(root, 'docs/phase-governance/reviews')
 for (const file of readdirSync(reviewDir).filter((name) => name.endsWith('.json'))) {
@@ -33,7 +34,7 @@ registry.summary.templateCompliance = Object.fromEntries(
       registry.entries.filter((entry) => entry.templateCompliance === status).length,
     ]),
 )
-writeFileSync(registryPath, `${JSON.stringify(registry, null, 2)}\n`)
+writeDocumentRegistry({ registry, loadedSource })
 console.log(
   JSON.stringify(
     {

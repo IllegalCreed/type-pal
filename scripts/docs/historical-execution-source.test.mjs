@@ -7,6 +7,8 @@ import { dirname, join } from 'node:path'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
 import { checkMigratedDocument } from './document-model.mjs'
+import { loadDocumentRegistry } from './document-registry.mjs'
+import { saveDocumentRegistryFixture } from './document-registry.test-support.mjs'
 import { frozenDocumentBaseline } from './frozen-document-source.mjs'
 import { readGitDocumentSource } from './git-document-source.mjs'
 
@@ -114,16 +116,17 @@ function fixture(t, target) {
   json('docs/phase-governance/routing.json', routing)
   const publishCandidate = (value = candidate) => {
     json(path, value)
-    json('docs/phase-governance/document-registry.json', {
-      entries: [
-        {
-          ...document,
-          templateVariant: document.variant,
-          templateCompliance: 'template-compliant',
-          reviewRecord: 'fixture.json',
-        },
-      ],
-    })
+    saveDocumentRegistryFixture(directory, [
+      {
+        ...document,
+        phase: 'testing',
+        docType: 'test-machine-evidence',
+        reviewStatus: 'content-reviewed',
+        templateVariant: document.variant,
+        templateCompliance: 'template-compliant',
+        reviewRecord: 'fixture.json',
+      },
+    ])
     json('docs/phase-governance/reviews/fixture.json', {
       entries: [
         {
@@ -325,7 +328,7 @@ test('actual progress CLI refuses a compliant review with its route removed or r
     assert(result.report.issues.some((issue) => issue.includes('one matching migrated route')))
   }
   f.json('docs/phase-governance/routing.json', { ...f.routing, migratedDocuments: [] })
-  f.json('docs/phase-governance/document-registry.json', { entries: [] })
+  saveDocumentRegistryFixture(f.directory, [])
   f.json(baselinePath, { entries: [] })
   result = runProgress(f)
   assert.equal(result.code, 1)
@@ -452,7 +455,9 @@ test('publication cannot bypass its old contract by jointly retagging the route,
   Object.assign(value._governance, { variant: nativeVariant, lifecycle: 'historical' })
   f.publishCandidate(value)
   const assertJointIdentity = () => {
-    const entry = JSON.parse(f.read('docs/phase-governance/document-registry.json')).entries[0]
+    const entry = loadDocumentRegistry({
+      manifestPath: join(f.directory, 'docs/phase-governance/document-registry.json'),
+    }).registry.entries[0]
     const route = JSON.parse(f.read('docs/phase-governance/routing.json')).migratedDocuments[0]
     const current = JSON.parse(f.read(path))
     const review = JSON.parse(f.read('docs/phase-governance/reviews/fixture.json')).entries[0]
@@ -667,7 +672,9 @@ test('each integration contract rejects a jointly retagged publication, with a c
 
     Object.assign(value, native)
     f.publishCandidate(value)
-    const entry = JSON.parse(f.read('docs/phase-governance/document-registry.json')).entries[0]
+    const entry = loadDocumentRegistry({
+      manifestPath: join(f.directory, 'docs/phase-governance/document-registry.json'),
+    }).registry.entries[0]
     const route = JSON.parse(f.read('docs/phase-governance/routing.json')).migratedDocuments[0]
     const review = JSON.parse(f.read('docs/phase-governance/reviews/fixture.json')).entries[0]
     assert.equal(entry.templateVariant, target.variant)

@@ -8,6 +8,7 @@ import { test } from 'node:test'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { validateCatalog } from './check-testing.mjs'
 import { checkMigratedDocument } from './document-model.mjs'
+import { saveDocumentRegistryFixture } from './document-registry.test-support.mjs'
 import {
   frozenBindingTemplate,
   frozenDocumentBaseline,
@@ -100,17 +101,18 @@ function fixture(t) {
     write(route.path, bytes)
     save(registryPath, registry)
     save('docs/phase-governance/routing.json', routing)
-    save('docs/phase-governance/document-registry.json', {
-      entries: [
-        {
-          path: route.path,
-          templateId: route.templateId,
-          templateVariant: route.variant,
-          templateCompliance: 'template-compliant',
-          reviewRecord: 'fixture.json',
-        },
-      ],
-    })
+    saveDocumentRegistryFixture(directory, [
+      {
+        path: route.path,
+        phase: 'ops',
+        docType: 'test-catalog',
+        reviewStatus: 'content-reviewed',
+        templateId: route.templateId,
+        templateVariant: route.variant,
+        templateCompliance: 'template-compliant',
+        reviewRecord: 'fixture.json',
+      },
+    ])
     save('docs/phase-governance/reviews/fixture.json', {
       entries: [
         {

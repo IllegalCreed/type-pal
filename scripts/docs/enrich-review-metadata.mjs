@@ -1,30 +1,7 @@
-import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { resolve } from 'node:path'
-
-const repoRoot = resolve(new URL('../..', import.meta.url).pathname)
-const registry = JSON.parse(
-  readFileSync(resolve(repoRoot, 'docs/phase-governance/document-registry.json'), 'utf8'),
+// Historical implementation: 911ac4dcbb3ea2288ae215769ae9acd6e333d763 (blob c0b09ec5cb2c4689a62a2001bc403fbe8ce4f874).
+console.error(
+  'Retired documentation writer: enrich-review-metadata.mjs. ' +
+    'Current documents require task-owned review and the validated registry storage writer. ' +
+    'Historical source: 911ac4dcbb3ea2288ae215769ae9acd6e333d763 (blob c0b09ec5cb2c4689a62a2001bc403fbe8ce4f874).',
 )
-const byPath = new Map(registry.entries.map((entry) => [entry.path, entry]))
-const reviewDir = resolve(repoRoot, 'docs/phase-governance/reviews')
-for (const file of readdirSync(reviewDir).filter((name) => name.endsWith('.json'))) {
-  const path = resolve(reviewDir, file)
-  const review = JSON.parse(readFileSync(path, 'utf8'))
-  for (const entry of review.entries ?? []) {
-    const classified = byPath.get(entry.path)
-    if (!classified) continue
-    entry.docType = classified.docType
-    entry.templateId = classified.templateId
-    entry.template = classified.template
-    entry.templateCompliance =
-      entry.templateCompliance === 'needs-migration' ||
-      entry.templateCompliance === 'legacy-canonical'
-        ? 'governed-legacy'
-        : (entry.templateCompliance ?? 'governed-legacy')
-    entry.readMethod = entry.readMethod ?? 'full-text-read'
-    entry.reviewDepth =
-      entry.reviewDepth ??
-      (entry.contentReviewStatus === 'content-reviewed' ? 'deep-semantic' : 'partial-semantic')
-  }
-  writeFileSync(path, `${JSON.stringify(review, null, 2)}\n`)
-}
+process.exitCode = 1

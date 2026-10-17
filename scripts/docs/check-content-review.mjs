@@ -2,12 +2,13 @@ import { createHash } from 'node:crypto'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { reviewCreditIssues } from './document-integrity.mjs'
+import { loadDocumentRegistry } from './document-registry.mjs'
 
 const repoRoot = resolve(new URL('../..', import.meta.url).pathname)
 const registryPath = resolve(repoRoot, 'docs/phase-governance/document-registry.json')
 const templateRegistryPath = resolve(repoRoot, 'docs/phase-governance/templates/registry.json')
 const strict = process.argv.includes('--strict')
-const registry = JSON.parse(readFileSync(registryPath, 'utf8'))
+const { registry } = loadDocumentRegistry({ manifestPath: registryPath })
 const templates = JSON.parse(readFileSync(templateRegistryPath, 'utf8'))
 const templateMap = new Map(templates.types.map((entry) => [entry.docType, entry]))
 const digest = (path) => createHash('sha256').update(readFileSync(path)).digest('hex')

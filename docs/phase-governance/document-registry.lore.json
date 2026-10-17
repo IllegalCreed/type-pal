@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "phase": "lore",
+  "positions": [118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131],
+  "entries": [
+    {
+      "path": "docs/lore/characters.md",
+      "phase": "lore",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261016-lore-remaining-l4.json",
+      "templateVersion": "1.0.0"
+    },
+    {
+      "path": "docs/lore/dlc-ideas.md",
+      "phase": "lore",
+      "docType": "narrative-idea",
+      "templateId": "narrative-idea-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261004-lore-phase3-batch1.json",
+      "templateVersion": "1.0.0"
+    },
+    {
+      "path": "docs/lore/factions.md",
+      "phase": "lore",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261016-lore-reference-n.json",
+      "templateVersion": "1.0.0"
+    },
+    {
+      "path": "docs/lore/ideas/guijie/beat-sheet.md",
+      "phase": "lore",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261017-r33-phase2-lore.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/lore/ideas/guijie/brainstorm.md",
+      "phase": "lore",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261017-r33-phase2-lore.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/lore/ideas/guijie/README.md",
+      "phase": "lore",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261016-lore-reference-n.json",
+      "templateVersion": "1.0.0"
+    },
+    {
+      "path": "docs/lore/ideas/README.md",
+      "phase": "lore",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261016-lore-reference-n.json",
+      "templateVersion": "1.0.0"
+    },
+    {
+      "path": "docs/lore/narrative-workflow.md",
+      "phase": "lore",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261016-lore-reference-n.json",
+      "templateVersion": "1.0.0"
+    },
+    {
+      "path": "docs/lore/README.md",
+      "phase": "lore",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261016-lore-reference-n.json",
+      "templateVersion": "1.0.0"
+    },
+    {
+      "path": "docs/lore/taboos.md",
+      "phase": "lore",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261016-lore-reference-n.json",
+      "templateVersion": "1.0.0"
+    },
+    {
+      "path": "docs/lore/timeline.md",
+      "phase": "lore",
+      "docType": "plan-status",
+      "templateId": "plan-status-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261017-r33-phase2-lore.json",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true
+    },
+    {
+      "path": "docs/lore/versions.md",
+      "phase": "lore",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261016-lore-reference-n.json",
+      "templateVersion": "1.0.0"
+    },
+    {
+      "path": "docs/lore/world-rules-ghost-realm.md",
+      "phase": "lore",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261016-lore-reference-n.json",
+      "templateVersion": "1.0.0"
+    },
+    {
+      "path": "docs/lore/world-rules.md",
+      "phase": "lore",
+      "docType": "reference-canon",
+      "templateId": "reference-canon-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261016-lore-reference-n.json",
+      "templateVersion": "1.0.0"
+    }
+  ]
+}

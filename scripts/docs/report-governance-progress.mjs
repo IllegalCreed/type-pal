@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { checkDocumentModel, checkMigratedDocument } from './document-model.mjs'
+import { loadDocumentRegistry } from './document-registry.mjs'
 import { frozenDocumentBaseline, inspectFrozenDocumentBaseline } from './frozen-document-source.mjs'
 import { readGitDocumentSnapshot } from './git-document-snapshot.mjs'
 import { readGitDocumentSource } from './git-document-source.mjs'
@@ -33,7 +34,9 @@ const candidates = execFileSync(
 )
   .split('\0')
   .filter((path) => /\.(md|json|html)$/.test(path))
-const registry = json('docs/phase-governance/document-registry.json')
+const { registry } = loadDocumentRegistry({
+  manifestPath: resolve(root, 'docs/phase-governance/document-registry.json'),
+})
 const structuralRoots = new Set(
   (registry.structuralRoots ?? []).map((entry) => entry.path).filter(Boolean),
 )
