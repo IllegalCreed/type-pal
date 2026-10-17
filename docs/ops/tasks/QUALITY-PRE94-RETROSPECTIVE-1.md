@@ -387,6 +387,12 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 - 结论：scene identity 单一 map ownership、WORD 表优先/fallback、script catalog own-property/null-prototype、已批准 zero-item overlay 与 fade freeze/quantization/remap 均与 caller/primary 一致，未发现其它直接缺陷。3n 当前 `partial`，不标 accept/done。
 - 验证：直接/跨模块四文件 `34 passed`、无测试 stderr；相邻 event/scene/present 八文件 `554 passed`，但有既有 fixture 的预期 `console.warn`（未知 label、无当前对象、越界 scene object），因此运行时诊断未清零。game typecheck通过；coverage、official ratchet、protected fast、全仓 `pnpm check` 留待完整大模块收口。已读清单与 SHA 见 [`3n-fade-identity-catalog`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3n-fade-identity-catalog/README.md)。
 
+### 2026-10-17 CODE-QUALITY-3o mode / history / poison / search 当前复审切片
+
+- 范围：完整读取 `dialog-history.ts`、`mode.ts`、`player-poison-state.ts`、`scene-system-search.ts` 及直接测试；读取 menu/scene/event/bootstrap caller；primary 为 `play.c:25-215,362-510,534-610`、`global.c:1420-1685`、`scene.c:503-507`。
+- 结论：history trim/dedup/map/CAP/老档恢复、mode autoScript gate/同 tick event resume、party-slot poison dedup/runner/level99/cure、Search 13-cell/grid/h/trigger threshold/first-hit 均与 primary/caller 一致；未发现直接缺陷。反直觉 Search 阈值和 party-slot ownership 保持原合同，不凭直觉改写。
+- 验证：直接 helper/ownership 五文件 `45 passed`（mode fixture有一条预期 ip 越界 warning）；相邻 event/scene/battle 八文件 `667 passed`，另有既有 fixture warnings。game typecheck通过；运行时诊断未清零，coverage、official ratchet、protected fast、全仓 `pnpm check` 留待完整大模块收口。已读清单与 SHA 见 [`3o-mode-history-poison-search`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3o-mode-history-poison-search/README.md)。3o 整卡保持 `partial`。
+
 ### 2026-10-17 CODE1/CODE2 boundary carry-over
 
 本片接收工作树中已完成的两个窄测试合同：`packages/shared/src/rle.boundaries.test.ts` 新增“相邻 offset 截断前一帧帧头即拒绝”反例；`packages/shared/src/rng.boundaries.test.ts` 新增同一 surface 连续 delta 累加并保留首帧像素的 ownership 合同。两项都只改测试，不改 RLE/RNG/YJ2 实现、公共出口、资源或格式策略；RLE 高位 literal 风险继续留在 `QUALITY-RLE-COMMAND-TRUTH-1` draft。

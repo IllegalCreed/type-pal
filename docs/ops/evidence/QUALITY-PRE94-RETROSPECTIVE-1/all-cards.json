@@ -854,7 +854,7 @@
       "sha256": "f088dbd940c25bb947b843681195ab483a7a2ed37130251fd378d9188d003e7d",
       "lines": 67,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -898,7 +898,8 @@
           "text": "当前状态：build；只能在四个白名单生产文件及对应 tests/callers 内工作。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3o-mode-history-poison-search/README.md"
     },
     {
       "id": "3p",
@@ -3914,8 +3915,8 @@
   ],
   "reviewCheckpointBase": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
   "currentReviewCounts": {
-    "partial": 20,
-    "pending": 63,
+    "partial": 21,
+    "pending": 62,
     "accept": 0
   }
 }
