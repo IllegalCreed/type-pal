@@ -35,6 +35,12 @@ Visual Verification Timing: N/A（纯快照投影）
 - **测试判别力**：直接 `snapshot.test.ts` 7 tests 覆盖合法投影、count=0 排除、战斗 id/总血和五个 canMove 反例；相邻 detectors/index 测试 5 files / 32 tests 通过。没有新增弱重复测试。
 - **验证**：`pnpm --filter @type-pal/game exec vitest run src/tools/speedrun/snapshot.test.ts` 通过；相邻 speedrun snapshot/detectors/index 五文件 32 tests 通过；`pnpm --filter @type-pal/game typecheck` 通过。coverage、protected fast、全仓 check 沿用 47–52 波次证据，本小批不重复运行昂贵门。当前复审为 `partial`，不是整卡 `accept/done`。
 
+## 2026-10-18 合法输入与解绑证据勘误
+
+Codex单一Owner，build allowed仅snapshot/index三测试和治理记录。旧“合法fixture”结论不足：双重强转隐藏facing0、残缺battle/空paletteFade；已改完整公开构造器与初始化。index原解绑只看toast不足以证明计时不重置，现实际起表/重置/再起表500后解绑，确认F4保持500/running；afterEach回收监听/timer/DOM/偏好/单例。现有20例数量不变，PB默认精确9452000ms，未扩大产品行为/API/save边界。
+
+只在隔离副本模拟解绑后静默重置，旧20绿→新19绿1个指定AssertionError，正式恢复20绿；源码/测试/hash/native/raw与定向相邻/typecheck/静态门见 [63/65勘误](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/63-65-speedrun-fixtures/README.md)。当前partial不变，无新全仓check/ratchet/protected，旧波次不认证本候选。
+
 ## 下一位 Agent 提示词
 
 ```text

@@ -3212,11 +3212,25 @@
       "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "22b13038a58ac9e310df994ebb622042fa6afcc01e6d010e5252bb4938dc61a3",
+      "afterSha256": "c424468c3acd7075df467aea2b67a9d36e7158d8afcec5fc48634ba81b753eec",
       "revision": {
         "currentSha": "addcb44c52fd00ab0fd3397e61ae316bf98d02e2aeef1d5533ed23a2c1e5845a",
-        "implementationSha": "22b13038a58ac9e310df994ebb622042fa6afcc01e6d010e5252bb4938dc61a3",
+        "implementationSha": "c424468c3acd7075df467aea2b67a9d36e7158d8afcec5fc48634ba81b753eec",
         "history": [
+          {
+            "revision": "a2ee3650c",
+            "date": "2026-10-18",
+            "action": "CODE63/65 legal fixture and post-unbind timer oracle correction",
+            "previousAfterSha256": "22b13038a58ac9e310df994ebb622042fa6afcc01e6d010e5252bb4938dc61a3",
+            "scope": "Only three corrected test rows with unchanged totals and matching current-board delta, or their metadata references; no new whole-card/product acceptance. Historical raw/native verdicts preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/63-65-speedrun-fixtures/README.md",
+            "notRun": [
+              "new whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual"
+            ]
+          },
           {
             "revision": "ba45329cc",
             "date": "2026-10-18",
@@ -3351,7 +3365,7 @@
         "kind": "A8-six-pending-inventory-real-producer-maintenance",
         "path": "docs/ops/audits/code-quality-file-ledger.md",
         "sourceSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
-        "afterSha256": "22b13038a58ac9e310df994ebb622042fa6afcc01e6d010e5252bb4938dc61a3",
+        "afterSha256": "c424468c3acd7075df467aea2b67a9d36e7158d8afcec5fc48634ba81b753eec",
         "lineCount": 592,
         "sourceScope": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "completePrior": {

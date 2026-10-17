@@ -21,3 +21,7 @@
 - 覆盖率、protected fast、全仓 `pnpm check`：沿用 [`53-wave-gates`](../53-wave-gates/README.md) 稳定波次证据，本小批不重复运行昂贵门。
 
 未关闭 overlay、checkpoint 实跑或其它 pre‑94 卡；未知保持 pending/partial。
+
+## 2026-10-18 合法输入/判别力勘误
+
+本页旧测试合法性/解绑结论不足，已发现核心双重强转隐藏非法Facing和不完整状态；解绑toast观察不能独立证明计时保持。相应当前声明由[63/65勘误](../63-65-speedrun-fixtures/README.md)精确替代，旧raw/数字保留。正式构造器、实际计时oracle与失败清理已补；当前仍partial。旧波次不能认证新候选，无新全仓/coverage/protected门。

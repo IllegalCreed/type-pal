@@ -1,0 +1,102 @@
+{
+  "base": "a2ee3650c",
+  "files": [
+    {
+      "path": "packages/game/src/tools/speedrun/snapshot.test.ts",
+      "sha256": "2c1476150e74be767259383e6818a8bc5a1780e3efb76ea076b9d40c3afdc838",
+      "lines": 72,
+      "scope": "full file; legal-input/oracle/dedupe/isolation review"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.test.ts",
+      "sha256": "82881cf80a251e55152535e8a68cc1b73fdda063306e2734f01d969cf83a8252",
+      "lines": 135,
+      "scope": "full file; legal-input/oracle/dedupe/isolation review"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts",
+      "sha256": "bb7e306e566363573d007bb680f00e07dfec6519c246e263c515ab21c4302d05",
+      "lines": 70,
+      "scope": "full file; legal-input/oracle/dedupe/isolation review"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/snapshot.ts",
+      "sha256": "d637515cd160e117de898fa472704bb169338f6d9ba9517136aed0aec58ad982",
+      "lines": 58,
+      "scope": "full file; owned projection and canMove gates"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.ts",
+      "sha256": "6dc10a66fe524d8c77c53cd65ad0cd07b58b2904e7b4ec5ba9ecaf1d2f8ecddd",
+      "lines": 116,
+      "scope": "full file; public orchestration, hotkeys, unbind and singleton"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "fdfe520283d6975bd93573f153ee51f620c3ec424433b2672ff447ba20a2831b",
+      "lines": 2111,
+      "scope": "12 Facing type; 1340-1495 runtime/experience initialization; 1881-1960 complete initial factory"
+    },
+    {
+      "path": "packages/game/src/core/__tests__/stats/stats-test-fixtures.ts",
+      "sha256": "270f953dd0c5843f95319b208c4990c7ab86bd232a236dedd13bf6dc8cded652",
+      "lines": 249,
+      "scope": "full file; typed enemy/role and attachBattleState inputs only, no new whole-file closure"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "ac0b7567b9cc93f0713debc36d37d40cf0fde926e71891b1c77c35b4bf542cca",
+      "lines": 918,
+      "scope": "698-932 complete public battle constructor; reused from preceding58 read"
+    },
+    {
+      "path": "packages/game/src/core/palette-fade.ts",
+      "sha256": "f01138f7b86018a085cf9715ddcffb0f8c5ca47dc6a901efe15f3bee09c0fff4",
+      "lines": 328,
+      "scope": "1-180 PaletteFadeState, blackColors/buildFadeIn constructors; no algorithm acceptance"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/checkpoints.ts",
+      "sha256": "1b299e0b42266c762c792254892f122a6d1318e70fc9c0383fd34f2ebec79378",
+      "lines": 110,
+      "scope": "full file; current clear default2:37:32 and banana cells; no new gameplay calibration"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.ts",
+      "sha256": "fd8335bcaf0aa8a0cc5461d075e2c5f72b2344b108d523e323117d84b8e1315a",
+      "lines": 218,
+      "scope": "1-75 public state/getRun, reset and countdown ownership; remainder from prior62, no new whole-file claim"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.ts",
+      "sha256": "a888866e9555bc9fa58fed28d9e035fcb41d3d90c9fdc6d9eb79ddee0aef5d7a",
+      "lines": 58,
+      "scope": "full file; current settings/default loading and preference keys"
+    },
+    {
+      "path": "packages/game/src/tools/toast.ts",
+      "sha256": "fe6ab0697ded3905c0bbbb1635f5bb5e2363da860e2f717427dce899553bebfa",
+      "lines": 81,
+      "scope": "full file; real DOM and timeout ownership"
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.ts",
+      "sha256": "0ebe896af21c903697f011cfebe65b7140daa547d84de2759c8726dd1a66c6a8",
+      "lines": 181,
+      "scope": "110-188 real rAF public caller and freeze/tick order"
+    },
+    {
+      "path": "docs/phase1/plans/2026-06-18-speedrun-timer.md",
+      "sha256": "5e649bf286aa6f72814a4b2dae4212dbd1c78f70a2976f5af099114e53445298",
+      "lines": 1728,
+      "scope": "1-105 historical boundary, 190-235 snapshot contract; unsafe historical fixture code is superseded by current typed caller"
+    }
+  ],
+  "notClaimed": [
+    "new product/API behavior",
+    "save/schema/phase2",
+    "complete palette/battle/core-helper reacceptance",
+    "new whole-repository/coverage/protected gate",
+    "runtime gameplay calibration/visual/E2E"
+  ]
+}

@@ -584,3 +584,7 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 ### 2026-10-18 CODE58 夹具与隔离勘误
 
 回核发现前次“合法fixture、fake timer隔离”证据不足：核心as never隐藏缺字段/status错型，旧监听器跨例回读前态。只修两测试与共用宿主，正式构造器/hydrate、分轴HP/turn、全屏/FPS拆职责；跨例旧19绿1指定AssertionError→新21绿，正式19绿。相邻34文件199例、game typecheck通过；原源/API/save未改。证据见 [58夹具勘误](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel-fixtures/README.md)。新增宿主1项验证，3312/286closed/44review/2982pending；47partial/36pending/0整卡accept不变。新全仓/coverage/protected未跑；后续先核63/65夹具再续70，避免继承前次过度表述。
+
+### 2026-10-18 CODE63/65 核心夹具与解绑勘误
+
+三测试移除双重强转/非法Facing/空淡入态，改公开初态/战斗/淡入构造器。实际计时验证解绑后不再重置，反控静默重置旧20绿→新19绿1个指定AssertionError，恢复20绿；PB默认精确值和afterEach资源清理补齐，数量不变。原源/API/save未改，账本3312/286closed/44review/2982pending不变；47partial/36pending/0accept。证据与相邻/typecheck/静态门见[63/65](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/63-65-speedrun-fixtures/README.md)，新统一门未跑。下一批70及剩余36卡。

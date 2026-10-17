@@ -36,6 +36,12 @@ Visual Verification Timing: functional-ui（overlay/countdown 委托；不做剧
 - **测试判别力**：直接两份 index 测试共 13 tests，覆盖 disabled、tick/overlay、show=0、默认 PB、F4/F8/F2、manual/banana pause、未启用短路、解绑及幂等；相邻 snapshot/timer/overlay/countdown 四文件共 39 tests 通过，无新增弱重复测试。
 - **验证**：六文件 39 tests passed；`pnpm --filter @type-pal/game typecheck` passed。coverage、protected fast、全仓 check 沿用 47–52 波次证据，本小批不重复运行昂贵门。当前复审为 `partial`，不是整卡 `accept/done`。
 
+## 2026-10-18 合法输入与解绑证据勘误
+
+Codex单一Owner，build allowed仅snapshot/index三测试和治理记录。旧“合法fixture”结论不足：双重强转隐藏facing0、残缺battle/空paletteFade；已改完整公开构造器与初始化。index原解绑只看toast不足以证明计时不重置，现实际起表/重置/再起表500后解绑，确认F4保持500/running；afterEach回收监听/timer/DOM/偏好/单例。现有20例数量不变，PB默认精确9452000ms，未扩大产品行为/API/save边界。
+
+只在隔离副本模拟解绑后静默重置，旧20绿→新19绿1个指定AssertionError，正式恢复20绿；源码/测试/hash/native/raw与定向相邻/typecheck/静态门见 [63/65勘误](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/63-65-speedrun-fixtures/README.md)。当前partial不变，无新全仓check/ratchet/protected，旧波次不认证本候选。
+
 ## 下一位 Agent 提示词
 
 ```text
