@@ -36,6 +36,7 @@ Template: governance-index-v1 / 1.0.0
 | [CODE-QUALITY-101 — Save API 存档域本体审核（api / indexed-db）](CODE-QUALITY-101-save-api-review.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-102 — 快存快读工具审核（quick-save）](CODE-QUALITY-102-quick-save-review.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-103 — editor 残余测试逐文件复核（ControlCommandForm / ItemUseEffectEditor）](CODE-QUALITY-103-editor-residual-tests-review.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [CODE-QUALITY-104 — editor M02 测试 act 生命周期诊断](CODE-QUALITY-104-editor-act-diagnostics.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-3Y-CLOSEOUT-1 — 统一治理分支与3y复审集成](CODE-QUALITY-3Y-CLOSEOUT-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-53 — game player status runtime-zero ownership conflict](CODE-QUALITY-53-player-status-runtime-zero.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-57 — game bootstrap thumbnail seam boundary](CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | review | 以任务卡当前准入与看板分工为准。 |

@@ -35,7 +35,7 @@ Template: plan-status-v1 / 1.0.0
 
 ## 2026-10-17 94前复审与最新治理分支
 
-当前唯一治理分支为 `codex/code-quality-3y`，已合并 `origin/main=36caec0251b48f94fa5b9d5c4c786571037f9869`，相对 main 为0 behind。机器账本当前为3307 tracked、231 closed、17 review、3059 pending；这些是逐路径登记计数，不是94前83卡或94–102卡的整卡接受数。
+当前唯一治理分支为 `codex/code-quality-3y`，已合并 `origin/main=36caec0251b48f94fa5b9d5c4c786571037f9869`，相对 main 为0 behind。机器账本当前为3307 tracked、231 closed、19 review、3057 pending；这些是逐路径登记计数，不是94前83卡或94–102卡的整卡接受数。
 
 94前编号卡复审仍覆盖全部83张，当前14 partial / 69 pending / 0整卡accept；[逐卡证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md)与[fetch取消证据](../evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md)保持未知项待审。取消批次已修复退避期间 signal 取消并通过合并后26例定向、全仓check和lint；official ratchet/protected fast因shared与pal-extract baseline回退失败，game完整包17块stderr、editor运行时诊断仍未清零，因此不合main。
 

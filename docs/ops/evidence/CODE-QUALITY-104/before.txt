@@ -1,0 +1,246 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/editor
+
+stderr | src/ui/ItemUseEffectEditor.glm-m.test.tsx > M02 ItemUseEffectEditor 未触达效果分支 > 永久成长：改类落默认 maxHP+5，属性/增量逐字段提交，undo/redo 对称且过保存门
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/ui/ItemUseEffectEditor.glm-m.test.tsx > M02 ItemUseEffectEditor 未触达效果分支 > 永久成长：改类落默认 maxHP+5，属性/增量逐字段提交，undo/redo 对称且过保存门
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to DsDraftNumberControl inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/ui/ItemUseEffectEditor.glm-m.test.tsx > M02 ItemUseEffectEditor 未触达效果分支 > 明雷感知：改类落默认停止追逐 60 秒，扩 3 倍与持续毫秒逐字段提交
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ ✓ src/ui/ItemUseEffectEditor.glm-m.test.tsx > M02 ItemUseEffectEditor 未触达效果分支 > 永久成长：改类落默认 maxHP+5，属性/增量逐字段提交，undo/redo 对称且过保存门 85ms
+stderr | src/ui/ItemUseEffectEditor.glm-m.test.tsx > M02 ItemUseEffectEditor 未触达效果分支 > 明雷感知：改类落默认停止追逐 60 秒，扩 3 倍与持续毫秒逐字段提交
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to DsDraftNumberControl inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ ✓ src/ui/ItemUseEffectEditor.glm-m.test.tsx > M02 ItemUseEffectEditor 未触达效果分支 > 明雷感知：改类落默认停止追逐 60 秒，扩 3 倍与持续毫秒逐字段提交 36ms
+stderr | src/ui/ItemTab.glm-m.test.tsx > M02 ItemTab 交易/说明字段当前合同 > 买价/卖价 blur 各提交一次精确值，商店可收购开关键入账，undo 逐步还原
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to DsDraftTextInput inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to DsDraftNumberControl inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to DsDraftNumberControl inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to DsDraftTextArea inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/ui/ItemTab.glm-m.test.tsx > M02 ItemTab 交易/说明字段当前合同 > 介绍按换行拆分并剥离空行，blur 一次提交；undo 恢复空说明
+An update to Harness inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+stderr | src/ui/ItemTab.glm-m.test.tsx > M02 ItemTab 交易/说明字段当前合同 > 介绍按换行拆分并剥离空行，blur 一次提交；undo 恢复空说明
+An update to DsDraftTextInput inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to DsDraftNumberControl inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to DsDraftNumberControl inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to DsDraftTextArea inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ ✓ src/ui/ItemTab.glm-m.test.tsx > M02 ItemTab 交易/说明字段当前合同 > 买价/卖价 blur 各提交一次精确值，商店可收购开关键入账，undo 逐步还原 80ms
+ ✓ src/ui/ItemTab.glm-m.test.tsx > M02 ItemTab 交易/说明字段当前合同 > 介绍按换行拆分并剥离空行，blur 一次提交；undo 恢复空说明 26ms
+
+ Test Files  2 passed (2)
+      Tests  4 passed (4)
+   Start at  13:36:10
+   Duration  2.73s (transform 1.21s, setup 0ms, import 1.65s, tests 228ms, environment 719ms)

@@ -1,0 +1,12 @@
+
+ RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/editor
+
+ ✓ src/ui/ItemUseEffectEditor.glm-m.test.tsx > M02 ItemUseEffectEditor 未触达效果分支 > 永久成长：改类落默认 maxHP+5，属性/增量逐字段提交，undo/redo 对称且过保存门 96ms
+ ✓ src/ui/ItemUseEffectEditor.glm-m.test.tsx > M02 ItemUseEffectEditor 未触达效果分支 > 明雷感知：改类落默认停止追逐 60 秒，扩 3 倍与持续毫秒逐字段提交 39ms
+ ✓ src/ui/ItemTab.glm-m.test.tsx > M02 ItemTab 交易/说明字段当前合同 > 买价/卖价 blur 各提交一次精确值，商店可收购开关键入账，undo 逐步还原 93ms
+ ✓ src/ui/ItemTab.glm-m.test.tsx > M02 ItemTab 交易/说明字段当前合同 > 介绍按换行拆分并剥离空行，blur 一次提交；undo 恢复空说明 28ms
+
+ Test Files  2 passed (2)
+      Tests  4 passed (4)
+   Start at  13:36:56
+   Duration  2.56s (transform 1.17s, setup 0ms, import 1.59s, tests 257ms, environment 584ms)

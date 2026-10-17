@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,307。
-当前已闭合核验：231；已读但待审：17；尚未逐文件核验：3,059；合计未闭合：3,076。
+当前已闭合核验：231；已读但待审：19；尚未逐文件核验：3,057；合计未闭合：3,076。
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
@@ -272,6 +272,8 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/__tests__/stats/e4-run-equip-script.test.ts` | test | review | [QUALITY-GAME-RUNTIME-DIAGNOSTICS-1/C2](../evidence/QUALITY-GAME-RUNTIME-DIAGNOSTICS-1/c2/README.md)；公开 `runEquipScript` 入口、全局 label map、`equip-effect.ts` runner 与 typed command fixture | 8 tests；未注册 `L_99999`、goto/end/signExtend/tick limit；warning 已显式捕获并断言，保留 review 等剩余诊断与统一门 |
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 CanonicalScriptBodyEditor→EntityAddressEditor caller、合法 EntityAddress 与自动改绑 oracle | 1合同/4定向测试通过；相邻测试有22条 React act诊断，保持 review，不标已验证 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 ItemTab/loader/EditSession/save-gate caller、R1/R3/R5 oracle | 3合同/4定向测试通过；相邻测试有22条 React act诊断，P1 puppet/battleOnly仍是产品裁决，保持 review |
+| `packages/editor/src/ui/ItemTab.glm-m.test.tsx` | test | review | [CODE-QUALITY-104 Codex act 生命周期复核](../evidence/CODE-QUALITY-104/codex-current-review.md)；真实 ItemTab/EditSession caller、交易/说明 oracle | 原生 undo 事件已包 act；定向/相邻/全仓 check 零诊断，coverage ratchet/protected 仍受既有 baseline 回退阻塞 |
+| `packages/editor/src/ui/ItemUseEffectEditor.glm-m.test.tsx` | test | review | [CODE-QUALITY-104 Codex act 生命周期复核](../evidence/CODE-QUALITY-104/codex-current-review.md)；真实 ItemEffectChainEditor/EditSession caller、效果 schema/undo oracle | 原生 click/undo/redo 已包 act；定向/相邻/全仓 check 零诊断，coverage ratchet/protected 仍受既有 baseline 回退阻塞 |
 
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 CanonicalScriptBodyEditor→EntityAddressEditor caller、合法 EntityAddress 与自动改绑 oracle | 1合同/4定向测试通过；相邻测试有22条 React act诊断，保持 review，不标已验证 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 ItemTab/loader/EditSession/save-gate caller、R1/R3/R5 oracle | 3合同/4定向测试通过；相邻测试有22条 React act诊断，P1 puppet/battleOnly仍是产品裁决，保持 review |

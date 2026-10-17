@@ -51,6 +51,7 @@ Template: governance-index-v1 / 1.0.0
 | CODE-QUALITY-101 | [Save API/IDB](tasks/CODE-QUALITY-101-save-api-review.md) | review | Codex / 输入域另开高风险卡 | 事务提交/失败传播已测；NaN/小数双路径合同未裁决 |
 | CODE-QUALITY-102 | [快存快读](tasks/CODE-QUALITY-102-quick-save-review.md) | review | Codex / 两文件已独立核验 | quick-save.ts 与 quick-save.test.ts 已登记已验证；任务卡仍等统一诊断与 coverage 收口 |
 | CODE-QUALITY-103 | [editor残余测试逐文件复核](tasks/CODE-QUALITY-103-editor-residual-tests-review.md) | review | Codex / 相邻诊断清零后复验 | 两文件定向4/4；相邻224/224但22条React act诊断，未关闭 |
+| CODE-QUALITY-104 | [editor M02 测试 act 生命周期诊断](tasks/CODE-QUALITY-104-editor-act-diagnostics.md) | review | Codex / coverage baseline 收口后复验 | 两文件/24相邻测试零诊断；coverage ratchet/protected 仍受 shared/pal-extract baseline 阻塞 |
 | QUALITY-EDITOR-DIAGNOSTICS-1 | [editor测试诊断清理](tasks/QUALITY-EDITOR-DIAGNOSTICS-1.md) | review | Codex / 后续诊断切片待核 | 67定向0诊断；完整门仍非零诊断，未合main |
 | QUALITY-EDITOR-DIAGNOSTICS-2 | [C02宿主与删除生命周期](tasks/QUALITY-EDITOR-DIAGNOSTICS-2.md) | review | Codex / 续C02剩余用例 | 九例0诊断、两反控；完整门仍非零，不合main |
 | QUALITY-EDITOR-DIAGNOSTICS-3 | [C02导入与历史回流](tasks/QUALITY-EDITOR-DIAGNOSTICS-3.md) | review | Codex / 续Kimi工作流 | 29定向/77相邻0诊断；完整门带其它诊断，未合main |
