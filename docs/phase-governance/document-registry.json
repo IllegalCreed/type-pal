@@ -24,9 +24,9 @@
     }
   ],
   "summary": {
-    "total": 2364,
+    "total": 2366,
     "byPhase": {
-      "ops": 1270,
+      "ops": 1272,
       "lore": 14,
       "phase1": 60,
       "phase2": 109,
@@ -40,7 +40,7 @@
       "archive-record": 1490,
       "audit-report": 60,
       "governance-index": 107,
-      "evidence-receipt": 102,
+      "evidence-receipt": 104,
       "design-spec": 37,
       "quality-gate": 1,
       "test-machine-evidence": 49,
@@ -54,11 +54,11 @@
       "test-catalog": 4
     },
     "reviewStatus": {
-      "partial-review-unknown": 1916,
+      "partial-review-unknown": 1918,
       "content-reviewed": 448
     },
     "templateCompliance": {
-      "needs-migration": 1922,
+      "needs-migration": 1924,
       "template-compliant": 442
     }
   },
@@ -27397,6 +27397,30 @@
       "phase": "ops",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
+      "templateVersion": "1.0.0",
+      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "needs-migration",
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "artifactOnly": true,
+      "artifactFormat": "json"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-58e899bf-20261018.json",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "needs-migration",
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "artifactOnly": true,
+      "artifactFormat": "json"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-58e899bf-20261018.json",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
       "templateVersion": "1.0.0",
       "reviewStatus": "partial-review-unknown",
       "templateCompliance": "needs-migration",

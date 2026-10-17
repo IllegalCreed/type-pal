@@ -1,0 +1,112 @@
+[
+  {
+    "name": "mechanical-audit",
+    "argv": [
+      "python3",
+      "/tmp/type-pal-receipt-independent-20261018-58e899bf/independent-audit-v3.py"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+    "startedAt": "2026-10-17T20:19:04.577516+00:00",
+    "finishedAt": "2026-10-17T20:19:09.179635+00:00",
+    "exitCode": 0,
+    "signal": null,
+    "spawnError": null,
+    "raw": [
+      {
+        "path": "/tmp/type-pal-receipt-independent-20261018-58e899bf/mechanical-audit.stdout.raw",
+        "stream": "stdout",
+        "sha256": "980efe9ed8f4a7337ae78c044055c3eda3a43db9aba229f1d4be60713721515a",
+        "bytes": 621
+      },
+      {
+        "path": "/tmp/type-pal-receipt-independent-20261018-58e899bf/mechanical-audit.stderr.raw",
+        "stream": "stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    ]
+  },
+  {
+    "name": "supplemental-audit",
+    "argv": [
+      "python3",
+      "/tmp/type-pal-receipt-independent-20261018-58e899bf/supplemental-audit-v2.py"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+    "startedAt": "2026-10-17T20:19:09.179656+00:00",
+    "finishedAt": "2026-10-17T20:19:09.717728+00:00",
+    "exitCode": 0,
+    "signal": null,
+    "spawnError": null,
+    "raw": [
+      {
+        "path": "/tmp/type-pal-receipt-independent-20261018-58e899bf/supplemental-audit.stdout.raw",
+        "stream": "stdout",
+        "sha256": "d24d6a38f438ef55fc0b70048705e83f3133f12f817e96f8a99d225a72e3b40d",
+        "bytes": 93
+      },
+      {
+        "path": "/tmp/type-pal-receipt-independent-20261018-58e899bf/supplemental-audit.stderr.raw",
+        "stream": "stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    ]
+  },
+  {
+    "name": "python-syntax",
+    "argv": [
+      "python3",
+      "-c",
+      "import ast,pathlib; paths=['scripts/docs/audit-receipt-history.py','scripts/docs/inspect-receipt-candidates.py']; [ast.parse(pathlib.Path(p).read_bytes(),filename=p) for p in paths]; print('Python syntax: 2/2 parsed; no source execution')"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+    "startedAt": "2026-10-17T20:19:09.717746+00:00",
+    "finishedAt": "2026-10-17T20:19:09.743253+00:00",
+    "exitCode": 0,
+    "signal": null,
+    "spawnError": null,
+    "raw": [
+      {
+        "path": "/tmp/type-pal-receipt-independent-20261018-58e899bf/python-syntax.stdout.raw",
+        "stream": "stdout",
+        "sha256": "349caa23b51ece82ee21adb23133ebdece5a8c76df142abafcf211e5ff40dc9f",
+        "bytes": 47
+      },
+      {
+        "path": "/tmp/type-pal-receipt-independent-20261018-58e899bf/python-syntax.stderr.raw",
+        "stream": "stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    ]
+  },
+  {
+    "name": "capture-syntax",
+    "argv": [
+      "node",
+      "--check",
+      "scripts/docs/capture-governance-rerun.mjs"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+    "startedAt": "2026-10-17T20:19:09.743269+00:00",
+    "finishedAt": "2026-10-17T20:19:09.764108+00:00",
+    "exitCode": 0,
+    "signal": null,
+    "spawnError": null,
+    "raw": [
+      {
+        "path": "/tmp/type-pal-receipt-independent-20261018-58e899bf/capture-syntax.stdout.raw",
+        "stream": "stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/tmp/type-pal-receipt-independent-20261018-58e899bf/capture-syntax.stderr.raw",
+        "stream": "stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    ]
+  }
+]

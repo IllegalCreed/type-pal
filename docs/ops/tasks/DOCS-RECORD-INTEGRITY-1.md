@@ -5,7 +5,7 @@ Phase: ops
 Capability: documentation evidence integrity
 Coding Owner: Codex
 Contributor: Codex
-Reviewer: 待非作者复核；本卡自验不称独立审
+Reviewer: /root/receipt_integrity_independent（58e899bf 纠错包限定接收；全量语义待审）
 Branch: codex/docs-audit-rework
 Last reviewed: 2026-10-18
 Template: task-card-v1 / 1.0.0
@@ -120,3 +120,12 @@ Template: task-card-v1 / 1.0.0
 - 旧“其余15待核”为首轮历史状态，当前清单见receipt-candidate-adjudication-20261018.md及配对观察。原始筛查/receipt/raw不覆写；当前隔离裁定绑定sourceRevision与JSON pointer，不靠文件名推断。
 - 新非作者Reviewer尚未分派；只读审查完整纠错候选，须实际核原blob/raw、撤回与保真、工具和失败捕获，独立给counter或限定接收。root自验不代签；完整硬门未过，review与rework不改done、不合main。
 - 后续语义队列优先READ-FIRST等准入入口：已发现其被机械历史化与当前AGENTS路由冲突。现在只排期，不在非作者纠错验收前改写或授新语义信用。
+
+## 2026-10-18 非作者纠错验收接入
+
+- 受审候选：`58e899bf000e0d3bbeafb5c4a7ecb478b07ac656`；Reviewer为新分派的`/root/receipt_integrity_independent`，作者为`/root`。这是不同逻辑任务的非作者复核，同属Codex平台，不伪称不同组织或供应商。
+- [冻结独立报告](../evidence/DOCS-RECORD-INTEGRITY-1/independent-review-58e899bf-20261018.json)SHA256：`06c482cda4cd56705a72d15e36a763c5ccc62ca609e83a744878000083b6dacf`。原报告和39项证据按原字节保存；临时路径到仓库raw的映射见[接入索引](../evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-58e899bf-20261018.json)。接入本身不制造新执行。
+- 结论：限定接收纠错包，无新增阻塞counter；15项裁定核实，10项变动解释、5个限定scope隔离继续。1896条撤回、113份quote保全、6份原生模板完成撤回均独立核实。
+- 实跑：128/128文档工具、lint零诊断；损坏识别反控0→指定AssertionError的1→恢复0。strict、check:docs与require-complete均真实exit1；只读树还打印缺本地node_modules的pnpm warning，原输出保留，不能称统一门零诊断。
+- `globalHardGatePassed=false`、`fullSemanticAcceptance=false`、`cardDoneAllowed=false`、`mergeToMainAllowed=false`。本卡保持review、父卡rework、main不变。旧“非作者待分派”段落保留为前一快照，不是当前交接状态。
+- 当前下一步：按用户已授权顺序进入逐篇语义重审。首先READ-FIRST的当前准入权与历史封套冲突；单篇重审须独立来源、实际before→after与非作者验收，不能批量恢复1896条信用。

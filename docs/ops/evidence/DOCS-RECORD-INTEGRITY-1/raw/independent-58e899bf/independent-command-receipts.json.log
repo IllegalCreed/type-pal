@@ -1,0 +1,282 @@
+[
+  {
+    "name": "docs-tools",
+    "argv": [
+      "node",
+      "--test",
+      "scripts/docs/check-testing.test.mjs",
+      "scripts/docs/check.test.mjs",
+      "scripts/docs/classify-testing-legacy.test.mjs",
+      "scripts/docs/cursor-current-section.test.mjs",
+      "scripts/docs/cursor-markdown.test.mjs",
+      "scripts/docs/cursor-parent-mapping.test.mjs",
+      "scripts/docs/cursor-path-rewrite.test.mjs",
+      "scripts/docs/cursor-security-boundary.test.mjs",
+      "scripts/docs/cursor-targets.test.mjs",
+      "scripts/docs/cursor-task-index.test.mjs",
+      "scripts/docs/document-integrity.test.mjs",
+      "scripts/docs/document-model.test.mjs",
+      "scripts/docs/frozen-binding-baseline.test.mjs",
+      "scripts/docs/historical-execution-source.test.mjs",
+      "scripts/docs/phase-lore-catalog.test.mjs",
+      "scripts/docs/relocate.test.mjs",
+      "scripts/docs/retired-document-writers.test.mjs",
+      "scripts/docs/terminal-codec.test.mjs",
+      "scripts/docs/testing-index-governance.test.mjs"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+    "environment": {
+      "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+    },
+    "startedAt": "2026-10-17T20:15:45.255644+00:00",
+    "finishedAt": "2026-10-17T20:16:20.381387+00:00",
+    "elapsedSeconds": 35.125575583,
+    "exitCode": 0,
+    "signal": null,
+    "spawnError": null,
+    "timeout": false,
+    "raw": [
+      {
+        "stream": "stdout",
+        "path": "/tmp/type-pal-receipt-independent-20261018-58e899bf/docs-tools.stdout.raw",
+        "sha256": "934379b009e270a142fbb56c103af598f570e80bb212856ca447dd48a62c3abf",
+        "bytes": 30292
+      },
+      {
+        "stream": "stderr",
+        "path": "/tmp/type-pal-receipt-independent-20261018-58e899bf/docs-tools.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    ]
+  },
+  {
+    "name": "r65-r66",
+    "argv": [
+      "node",
+      "scripts/docs/verify-r65-r66-preservation.mjs"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+    "environment": {
+      "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+    },
+    "startedAt": "2026-10-17T20:16:20.381731+00:00",
+    "finishedAt": "2026-10-17T20:16:20.422758+00:00",
+    "elapsedSeconds": 0.04103387500000366,
+    "exitCode": 0,
+    "signal": null,
+    "spawnError": null,
+    "timeout": false,
+    "raw": [
+      {
+        "stream": "stdout",
+        "path": "/tmp/type-pal-receipt-independent-20261018-58e899bf/r65-r66.stdout.raw",
+        "sha256": "9c72a32c3ec105d2c345cb0229b682365db3d736d457eeb02a55a94414699659",
+        "bytes": 11101
+      },
+      {
+        "stream": "stderr",
+        "path": "/tmp/type-pal-receipt-independent-20261018-58e899bf/r65-r66.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    ]
+  },
+  {
+    "name": "content-integrity",
+    "argv": [
+      "node",
+      "scripts/docs/check-content-review.mjs"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+    "environment": {
+      "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+    },
+    "startedAt": "2026-10-17T20:16:20.422998+00:00",
+    "finishedAt": "2026-10-17T20:16:21.011329+00:00",
+    "elapsedSeconds": 0.5883468330000028,
+    "exitCode": 0,
+    "signal": null,
+    "spawnError": null,
+    "timeout": false,
+    "raw": [
+      {
+        "stream": "stdout",
+        "path": "/tmp/type-pal-receipt-independent-20261018-58e899bf/content-integrity.stdout.raw",
+        "sha256": "2a1d248760e349e02011dbc09a390dec474e5dbe637ffd73e3e4c9261efeaa1c",
+        "bytes": 94
+      },
+      {
+        "stream": "stderr",
+        "path": "/tmp/type-pal-receipt-independent-20261018-58e899bf/content-integrity.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    ]
+  },
+  {
+    "name": "content-strict",
+    "argv": [
+      "node",
+      "scripts/docs/check-content-review.mjs",
+      "--strict"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+    "environment": {
+      "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+    },
+    "startedAt": "2026-10-17T20:16:21.011630+00:00",
+    "finishedAt": "2026-10-17T20:16:21.313804+00:00",
+    "elapsedSeconds": 0.3021839170000007,
+    "exitCode": 1,
+    "signal": null,
+    "spawnError": null,
+    "timeout": false,
+    "raw": [
+      {
+        "stream": "stdout",
+        "path": "/tmp/type-pal-receipt-independent-20261018-58e899bf/content-strict.stdout.raw",
+        "sha256": "010b353aff33a72bacec43e5d987a4370ad1a94df10a01c7c0ccc20508071f40",
+        "bytes": 94
+      },
+      {
+        "stream": "stderr",
+        "path": "/tmp/type-pal-receipt-independent-20261018-58e899bf/content-strict.stderr.raw",
+        "sha256": "577e6e77be3545da03e83985ce475d5fca0288a907d4b95c5f61b3fdbbf86dc9",
+        "bytes": 477084
+      }
+    ]
+  },
+  {
+    "name": "require-complete",
+    "argv": [
+      "node",
+      "scripts/docs/report-governance-progress.mjs",
+      "--json",
+      "--require-complete"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+    "environment": {
+      "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+    },
+    "startedAt": "2026-10-17T20:16:21.314140+00:00",
+    "finishedAt": "2026-10-17T20:16:23.469354+00:00",
+    "elapsedSeconds": 2.155225250000001,
+    "exitCode": 1,
+    "signal": null,
+    "spawnError": null,
+    "timeout": false,
+    "raw": [
+      {
+        "stream": "stdout",
+        "path": "/tmp/type-pal-receipt-independent-20261018-58e899bf/require-complete.stdout.raw",
+        "sha256": "873882606b847ea08732f7bdabe8ddafff085b717a2d8c634e82d151a3564c51",
+        "bytes": 137638
+      },
+      {
+        "stream": "stderr",
+        "path": "/tmp/type-pal-receipt-independent-20261018-58e899bf/require-complete.stderr.raw",
+        "sha256": "464c356152392bb35f5535c6bddb27b81425b1a2a4e075ba2dc3c35e60773917",
+        "bytes": 89
+      }
+    ]
+  },
+  {
+    "name": "check-docs",
+    "argv": [
+      "pnpm",
+      "check:docs"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+    "environment": {
+      "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+    },
+    "startedAt": "2026-10-17T20:16:23.469701+00:00",
+    "finishedAt": "2026-10-17T20:17:03.734167+00:00",
+    "elapsedSeconds": 40.264405292000006,
+    "exitCode": 1,
+    "signal": null,
+    "spawnError": null,
+    "timeout": false,
+    "raw": [
+      {
+        "stream": "stdout",
+        "path": "/tmp/type-pal-receipt-independent-20261018-58e899bf/check-docs.stdout.raw",
+        "sha256": "b6d84345dcd4a9a3488214c935e27497a3798fbb6e0b58b21ff41323f4157ad1",
+        "bytes": 31371
+      },
+      {
+        "stream": "stderr",
+        "path": "/tmp/type-pal-receipt-independent-20261018-58e899bf/check-docs.stderr.raw",
+        "sha256": "577e6e77be3545da03e83985ce475d5fca0288a907d4b95c5f61b3fdbbf86dc9",
+        "bytes": 477084
+      }
+    ]
+  },
+  {
+    "name": "lint",
+    "argv": [
+      "pnpm",
+      "lint"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+    "environment": {
+      "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+    },
+    "startedAt": "2026-10-17T20:17:03.734607+00:00",
+    "finishedAt": "2026-10-17T20:17:06.289496+00:00",
+    "elapsedSeconds": 2.5548939999999902,
+    "exitCode": 0,
+    "signal": null,
+    "spawnError": null,
+    "timeout": false,
+    "raw": [
+      {
+        "stream": "stdout",
+        "path": "/tmp/type-pal-receipt-independent-20261018-58e899bf/lint.stdout.raw",
+        "sha256": "c69a36d4d79a7e2cf7212eee38e29d0249efb673c64b4d4d1d6878b9fe82298c",
+        "bytes": 197
+      },
+      {
+        "stream": "stderr",
+        "path": "/tmp/type-pal-receipt-independent-20261018-58e899bf/lint.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    ]
+  },
+  {
+    "name": "diff-base-head",
+    "argv": [
+      "git",
+      "diff",
+      "--check",
+      "28fd9013e09e8792decbff2fa117aae14c36b196..HEAD"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal",
+    "environment": {
+      "NODE_PATH": "/Users/zhangxu/illegal/type-pal/node_modules"
+    },
+    "startedAt": "2026-10-17T20:17:06.289821+00:00",
+    "finishedAt": "2026-10-17T20:17:06.478216+00:00",
+    "elapsedSeconds": 0.18840412500000525,
+    "exitCode": 0,
+    "signal": null,
+    "spawnError": null,
+    "timeout": false,
+    "raw": [
+      {
+        "stream": "stdout",
+        "path": "/tmp/type-pal-receipt-independent-20261018-58e899bf/diff-base-head.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "stream": "stderr",
+        "path": "/tmp/type-pal-receipt-independent-20261018-58e899bf/diff-base-head.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    ]
+  }
+]

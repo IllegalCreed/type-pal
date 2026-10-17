@@ -1,0 +1,146 @@
+import collections, datetime, gzip, hashlib, json, pathlib, re, subprocess
+
+ROOT = pathlib.Path('/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal')
+OUT = pathlib.Path(__file__).parent
+EV = ROOT / 'docs/ops/evidence/DOCS-RECORD-INTEGRITY-1'
+BASE = '28fd9013e09e8792decbff2fa117aae14c36b196'
+HEAD = '58e899bf000e0d3bbeafb5c4a7ecb478b07ac656'
+def sha(b): return hashlib.sha256(b).hexdigest()
+def read(p): return (ROOT / p).read_bytes()
+def load(p): return json.loads(read(p))
+def git(*a): return subprocess.check_output(['git', *a], cwd=ROOT, timeout=30)
+def blob(rev, p): return git('show', rev + ':' + p)
+def lookup(x, p):
+    try:
+        for k in p.lstrip('/').split('/'):
+            k = k.replace('~1', '/').replace('~0', '~')
+            x = x[int(k)] if isinstance(x, list) else x[k]
+        return {'present': True, 'value': x}
+    except (KeyError, IndexError, ValueError, TypeError): return {'present': False}
+def test(name, condition, details=None):
+    checks.append({'name': name, 'passed': bool(condition), 'details': details})
+def reporter(b):
+    s=b.decode(); dec=json.JSONDecoder()
+    for m in re.finditer(r'(?m)^\{',s):
+        try: v,_=dec.raw_decode(s[m.start():])
+        except ValueError: continue
+        if isinstance(v,dict) and 'testResults' in v and 'numTotalTests' in v: return v
+    raise ValueError('reporter absent')
+checks=[]; cases=[]
+test('frozen HEAD',git('rev-parse','HEAD').decode().strip()==HEAD)
+test('frozen clean',git('status','--porcelain')==b'')
+obs=load('docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-candidate-observations-20261018.json')
+screen=load('docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-history-scan.json')
+test('screen original immutable',read('docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-history-scan.json')==blob('a781c0552b93cab7477fab946f72696a5af0301e','docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-history-scan.json'))
+test('fifteen fixed screen cases',len(obs['cases'])==15 and {x['commit'] for x in obs['cases']}=={x['commit'] for x in screen['candidates'] if not x['commit'].startswith('183ec0bf0')})
+for c in obs['cases']:
+    rev=c['commit']; p=c['sourcePath']; a=blob(rev+'^',p); b=blob(rev,p); old=json.loads(a);new=json.loads(b)
+    checks0=len(checks)
+    test(c['id']+' source hashes',sha(a)==c['beforeSha256'] and sha(b)==c['afterSha256'])
+    test(c['id']+' Git object pins',git('rev-parse',rev+'^:'+p).decode().strip()==c['beforeGitObject'] and git('rev-parse',rev+':'+p).decode().strip()==c['afterGitObject'])
+    for d in c['changedObservations']:
+        test(c['id']+' field '+d['pointer'],lookup(old,d['pointer'])==d['before'] and lookup(new,d['pointer'])==d['after'])
+    artifacts=[]
+    for art in c['artifacts']:
+        test(c['id']+' declared artifact '+art['pointer'],lookup(new,art['pointer']).get('value')==art['declaredPath'])
+        for loc in art['locations']:
+            data=blob(rev,loc['path']) if loc['kind']=='fixed-git-blob' else read(loc['retainedPath'])
+            ok=sha(data)==loc['sha256'] and len(data)==loc['bytes']
+            test(c['id']+' artifact location bytes/hash',ok,loc.get('path',loc.get('retainedPath')))
+            if art['expectedSha256']:
+                test(c['id']+' artifact claimed SHA',sha(data)==art['expectedSha256'])
+            if loc['kind']=='retained-local-original-bytes' and pathlib.Path(loc['originalPath']).is_file():
+                test(c['id']+' retained equals available designated original',pathlib.Path(loc['originalPath']).read_bytes()==data)
+            artifacts.append({'pointer':art['pointer'],'path':loc.get('path',loc.get('retainedPath')),'sha256':sha(data),'bytes':len(data),'declaredBytes':art['expectedBytes']})
+    detail={}
+    if c['id']=='C01':
+        test('C01 old proof whole object retained',old['actualPhaseProjections']['execution']['proof']==new['rootC1Repair']['actualProjectionRegeneration'])
+        for label,obj,version in [('before',old,rev+'^'),('after',new,rev)]:
+            test('C01 '+label+' catalog pin',sha(blob(version,'docs/phase-governance/catalog.json'))==obj['actualPhaseProjections']['execution']['proof']['catalogSha256'])
+    if c['id']=='C05':
+        test('C05 whole old consumer deleted',lookup(old,'/entries/13/evidence/actualInventoryConsumer')['present'] and not lookup(new,'/entries/13/evidence/actualInventoryConsumer')['present'])
+        detail={'oldConsumer':old['entries'][13]['evidence']['actualInventoryConsumer']}
+    if c['id']=='C06':
+        test('C06 whole old failure retained',old['integration']['additionalQualityLedgerFailure']==new['integration']['additionalQualityLedgerFailure']['originalRecordedFailure'])
+        detail={'oldFailure':old['integration']['additionalQualityLedgerFailure']}
+    if c['id']=='C10':
+        cov=new['coverage']; gz=blob(rev,str(pathlib.Path(p).parent/cov['log']));raw=gzip.decompress(gz)
+        detail={'coverage':cov,'compressedSha256':sha(gz),'uncompressedSha256':sha(raw),'TOTAL':[l for l in raw.decode().splitlines() if l.startswith('TOTAL')],'tail':raw.decode().splitlines()[-8:]}
+    if c['id']=='C11':
+        phases=[new['baseline'],new['finalReplay']['phase']]+[inj[k]['phase'] for inj in new['injections'] for k in ['mutant','restored']]
+        rows=[]
+        for phase in phases:
+            desc=phase['identity']['artifact']; data=blob(rev,str(pathlib.Path(p).parent/desc['path'])); lines=data.decode().splitlines(); statuses=collections.Counter(l.rsplit('\t',1)[-1] for l in lines)
+            test('C11 identity '+phase['label'],sha(data)==desc['sha256'] and len(data)==desc['bytes'] and len(lines)==phase['identity']['rows'])
+            rows.append({'label':phase['label'],'statuses':dict(statuses),'rows':len(lines)})
+        detail={'generatedBefore':old['generatedAt'],'generatedAfter':new['generatedAt'],'identityRows':rows}
+    if c['id']=='C12':
+        rawpairs=[];counts={}
+        for version,obj,label in [(rev+'^',old,'before'),(rev,new,'after')]:
+            mismatches=0;descriptors=0
+            for i,row in enumerate(obj['results']):
+                for phase in ['greenBefore','red','greenAfter']:
+                    for stream in ['stdout','stderr']:
+                        desc=row['execution'][phase][stream]; rel='docs/'+desc['file'].split('/docs/',1)[1]; data=blob(version,rel);descriptors+=1
+                        test('C12 '+label+' raw SHA '+str(i)+phase+stream,sha(data)==desc['sha256'])
+                        if len(data)!=desc['bytes']:
+                            mismatches+=1;test('C12 mismatch UTF16',len(data.decode().encode('utf-16-le'))//2==desc['bytes'])
+                    if i<6:
+                        raw=row['execution'][phase]['stdout'];data=blob(version,'docs/'+raw['file'].split('/docs/',1)[1]);rep=reporter(data)
+                        rawpairs.append({'version':label,'id':row['id'],'phase':phase,'startTime':rep['startTime'],'numTotalTests':rep['numTotalTests']})
+            counts[label]={'descriptors':descriptors,'mismatchedBytes':mismatches}
+        oldtimes={(x['id'],x['phase']):x['startTime'] for x in rawpairs if x['version']=='before'}
+        test('C12 all 18 phase starts distinct',all(x['startTime']!=oldtimes[(x['id'],x['phase'])] for x in rawpairs if x['version']=='after'))
+        detail={'resultCounts':[len(old['results']),len(new['results'])],'byteCounts':counts,'phaseIdentities':rawpairs}
+    if c['id']=='C13': detail={'oldLint':old['gates']['lint'],'newLint':new['gates']['lint'],'packageTest':new['gates']['packageTest']}
+    if c['id']=='C14':
+        detail={'generatedBefore':old['generated'],'generatedAfter':new['generated'],'batches':[]}
+        for batch in old['batches']:
+            aa={x['label']:x for x in old['batches'][batch]['counterControl']['records']};bb={x['label']:x for x in new['batches'][batch]['counterControl']['records']}
+            test('C14 '+batch+' all common labels identical',all(aa[x]==bb[x] for x in aa.keys()&bb.keys()))
+            detail['batches'].append({'batch':batch,'counts':[len(aa),len(bb)],'removed':sorted(aa.keys()-bb.keys()),'added':sorted(bb.keys()-aa.keys())})
+    if c['id']=='C15':
+        test('C15 implementation absent before',not lookup(old,'/implementation')['present'])
+        detail={'gates':new['implementation']['gates'],'designatedTempRawMissing':all(not pathlib.Path(x['declaredPath']).exists() for x in c['artifacts'])}
+    cases.append({'id':c['id'],'commit':rev,'path':p,'beforeSha256':sha(a),'afterSha256':sha(b),'changedFieldsIndependentlyCompared':len(c['changedObservations']),'artifacts':artifacts,'details':detail,'passed':all(x['passed'] for x in checks[checks0:])})
+
+audit=load('docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json');scope=load('docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json');bindings=[]
+registry=load('docs/phase-governance/document-registry.json'); reg={x['path']:x for x in registry['entries']}
+record_cache={};old_record_cache={}
+for part in scope['parts']:
+    b=read(part['path']);items=json.loads(b)['entries'];test('scope shard hash/count',sha(b)==part['sha256'] and len(items)==part['count']);bindings+=items
+test('1896 unique bindings',len(bindings)==1896 and len({x['path'] for x in bindings})==1896)
+test('cohort binding split',collections.Counter(x['cohort'] for x in bindings)=={'approved-baseline':1395,'incremental':501})
+for r in scope['records']:
+    old=blob(BASE,r['record']);test('scope original record SHA '+r['record'],sha(old)==r['sourceSha256']);record_cache[r['record']]=load(r['record']);old_record_cache[r['record']]={x['path']:x for x in json.loads(old)['entries']}
+    test('scope record exact membership '+r['record'],{x['path'] for x in json.loads(old)['entries']}=={x['path'] for x in bindings if x['record']==pathlib.Path(r['record']).name})
+for x in bindings:
+    p=x['path'];rp='docs/phase-governance/reviews/'+x['record'];rr=next(v for v in record_cache[rp]['entries'] if v['path']==p);old=old_record_cache[rp][p]
+    test('withdrawn binding '+p,reg[p]['reviewRecord']==x['record'] and reg[p]['reviewStatus']==rr['contentReviewStatus']=='partial-review-unknown' and reg[p]['templateCompliance']==rr['templateCompliance']=='needs-migration' and rr.get('claimCorrection',{}).get('sourceRevision')==BASE)
+    test('binding historical fields '+p,x['previousStatus']==old['contentReviewStatus'] and x['previousDepth']==old['reviewDepth'] and x['previousReadMethod']==old['readMethod'] and x['previousCompliance']==old['templateCompliance'] and x['previousAfterSha256']==old['afterSha256'])
+quotes=re.compile(rb'<!-- original-source-quote:start -->[\s\S]*?<!-- original-source-quote:end -->')
+for r in audit['repairs']:
+    old=blob(BASE,r['path']);new=read(r['path']);test('repair source pin '+r['path'],sha(old)==r['sourceSha256']);test('repair quote exact '+r['path'],quotes.findall(old)==quotes.findall(new) and len(quotes.findall(old))>0)
+    # The correction may later append an explicit withdrawal, so compare the actual declared line edits independently.
+    oldlines=old.decode().splitlines();newlines=new.decode().splitlines()
+    for edit in r['edits']: test('repair declared edit '+r['path'],any(edit['before'] in line for line in oldlines) and any(edit['after'] in line for line in newlines) and edit['before'].replace('；','')==edit['after'])
+for r in audit['nativeArtifactCompletionCorrection']:
+    p=r['path']; rr=next(x for x in load('docs/phase-governance/reviews/'+r['record'])['entries'] if x['path']==p)
+    test('native only completion withdrawn '+p,reg[p]['reviewStatus']==rr['contentReviewStatus']=='content-reviewed' and reg[p]['templateCompliance']==rr['templateCompliance']=='needs-migration' and read(p)==blob(BASE,p))
+byte=load('docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-byte-count-counters-20261018.json');source=read(byte['sourcePath']);test('byte sidecar current source SHA',sha(source)==byte['sourceSha256'])
+for r in byte['records']:
+    data=read(r['path']);test('byte sidecar actual '+r['pointer'],sha(data)==r['actualSha256']==r['sourceSha256'] and len(data)==r['actualUtf8Bytes'] and len(data.decode().encode('utf-16-le'))//2==r['actualUtf16CodeUnits'] and (len(data)==r['declaredBytes'])==r['bytesMatch'])
+test('byte current all72/50 UTF16',len(byte['records'])==72 and sum(not x['bytesMatch'] for x in byte['records'])==50 and all(x['declaredBytes']==x['actualUtf16CodeUnits'] for x in byte['records'] if not x['bytesMatch']))
+sessions=[]
+for item in load('docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun.json')['sessions']:
+    raw=read(item['path']);r=json.loads(raw);test('session index SHA '+r['sessionId'],sha(raw)==item['sha256']);snap=(EV/r['inputSnapshot']).read_bytes();test('session manifest SHA '+r['sessionId'],sha(snap)==item['inputSnapshotSha256ObservedAtClosure'] and (r.get('inputSnapshotSha256') is None or sha(snap)==r['inputSnapshotSha256']))
+    for ex in r['executions']:
+        test('capture fields '+ex['executionId'],all(k in ex for k in ['binary','args','cwd','startedAt','finishedAt','exitCode','signal','sourceHead','inputSnapshot','spawnError']) and ex['reviewerRelationship']=='author self-check; not independent acceptance')
+        for stream in ex['files']:
+            data=(EV/stream['path']).read_bytes();test('captured raw '+stream['path'],sha(data)==stream['sha256'] and len(data)==stream['bytes'])
+    for j in r.get('executionJournals',[]):
+        data=(EV/j['path']).read_bytes();test('journal hash '+j['path'],sha(data)==j['sha256'] and len(data)==j['bytes']);ex=json.loads(data);test('journal equals indexed execution '+j['path'],ex in r['executions'])
+    sessions.append({'session':r['sessionId'],'sourceHead':r['sourceHead'],'commands':[{'argv':[e['binary'],*e['args']],'exitCode':e['exitCode'],'signal':e['signal'],'spawnError':e['spawnError']} for e in r['executions']]})
+result={'reviewerTask':'/root/receipt_integrity_independent','authorTask':'/root','head':HEAD,'checks':checks,'candidateCases':cases,'mechanicalScope':{'withdrawnBindings':len(bindings),'repairs':len(audit['repairs']),'nativeCompletionOnly':len(audit['nativeArtifactCompletionCorrection']),'byteDescriptors':len(byte['records'])},'sessions':sessions,'failed':[x for x in checks if not x['passed']]}
+(OUT/'independent-mechanical-audit-v3.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
+print(json.dumps({'checks':len(checks),'failed':result['failed'],'cases':[{'id':c['id'],'passed':c['passed']} for c in cases],'mechanicalScope':result['mechanicalScope']},ensure_ascii=False))

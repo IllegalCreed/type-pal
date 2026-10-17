@@ -2210,5 +2210,19 @@
       "newTemplateCompliance": "needs-migration",
       "reason": "GLM accepted content conclusions remain; native-format body/consumer contract is not established by artifactOnly metadata, so no template migration completion credit."
     }
-  ]
+  ],
+  "independentCorrectiveAcceptance": {
+    "reviewedCommit": "58e899bf000e0d3bbeafb5c4a7ecb478b07ac656",
+    "reviewerTask": "/root/receipt_integrity_independent",
+    "authorTask": "/root",
+    "nonAuthorReviewer": true,
+    "report": "independent-review-58e899bf-20261018.json",
+    "reportSha256": "06c482cda4cd56705a72d15e36a763c5ccc62ca609e83a744878000083b6dacf",
+    "intakeMap": "independent-intake-58e899bf-20261018.json",
+    "verdict": "accept-limited-corrective-package-with-preserved-quarantines",
+    "globalHardGatePassed": false,
+    "fullSemanticAcceptance": false,
+    "cardDoneAllowed": false,
+    "mergeToMainAllowed": false
+  }
 }

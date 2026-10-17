@@ -1,0 +1,15 @@
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: live separator damage must be rejected by real auditDocuments caller
+    at file:///private/tmp/type-pal-receipt-independent-20261018-58e899bf/counterprobe-fixture/assertion.mjs:5:1 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v22.23.2
