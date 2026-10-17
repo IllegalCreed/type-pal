@@ -25,6 +25,7 @@ historical。历史测试结论必须带日期和 source revision，并由当前
 
 ## 继任文档
 
+- [2026-10-18 registry storage v2 设计](20261018-document-registry-storage-v2-design.md)：当前候选存储设计；不授历史深审或执行信用。
 - 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
 - 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
 
