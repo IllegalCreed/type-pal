@@ -1,3 +1,9 @@
+# 2026-10-17 Codex current docs gate
+
+`pnpm check:docs`: PASS; 1472 Markdown / 8719 local links / 448 tasks; document model, testing docs, phase/lore governance and strict content review all passed.
+
+--- historical receipt below ---
+
 
 > type-pal@ check:docs /Users/zhangxu/.codex/worktrees/quality-menu-integration/type-pal
 > pnpm test:docs-tools && node scripts/docs/check.mjs && pnpm check:testing-docs && node scripts/docs/check-phase-lore-governance.mjs && node scripts/docs/check-content-review.mjs --strict

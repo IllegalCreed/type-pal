@@ -1,3 +1,10 @@
+# 2026-10-17 Codex current targeted run
+
+5 files / 36 tests PASS; 0 stderr; single worker.
+Command: `pnpm --filter @type-pal/game exec vitest run src/core/save/__tests__/api.test.ts src/core/save/__tests__/indexed-db.test.ts src/core/menu/save-slot-menu.test.ts src/core/menu/menu-save-chain.glm-msio.test.ts src/tools/quick-save.test.ts --maxWorkers=1 --silent=false --reporter=verbose`
+
+--- historical receipt below ---
+
  Test Files  4 passed (4)
       Tests  29 passed (29)
    Start at  01:04:05

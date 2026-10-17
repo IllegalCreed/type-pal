@@ -1,6 +1,8 @@
-# CODE-QUALITY-101 evidence — save api review
+# CODE-QUALITY-101 evidence — Save API / IndexedDB review
 
-Review-only 批次（save/api.ts + indexed-db.ts + api.test.ts），零代码改动，含 schema/save 高风险边界核验（零触碰；E-10 注释过时/E-12 IDB 驱动无 game 内直接测试登记；U-1 引用既有卡）。逐文件四维结论见 [任务卡](../../tasks/CODE-QUALITY-101-save-api-review.md)。
+本目录记录 Codex 对 Save API、IndexedDB 驱动及专属测试的逐文件复核。当前是 review-only；发现的公共槽位输入域不一致已转入 [GAME-SAVE-INPUT-DOMAIN-1](../../tasks/GAME-SAVE-INPUT-DOMAIN-1.md)，不在未裁决时改 API。
 
-- `targeted.txt`：save api + 相邻 save-slot-menu/menu-save-chain/quick-save = 4 files / 29 tests PASS（VITEST_MAX_WORKERS=1，2026-10-15）。
-- 全门与 CODE94/95 批共用 `5cb6b9d22` 树完整门禁（回执见 [../CODE-QUALITY-94/](../CODE-QUALITY-94/)）；本批追加文档后 docs/lint/ledger 复验记录于本目录。
+- [`codex-current-review.md`](codex-current-review.md)：完整读取清单、caller/oracle、逐文件结论、反例和门状态。
+- [`targeted.txt`](targeted.txt)：当前 5 files / 36 tests 定向回归。
+- [`docs-gate.txt`](docs-gate.txt)、[`lint-gate.txt`](lint-gate.txt)、[`ledger-gate.txt`](ledger-gate.txt)：本批文档门、lint 和账本证据。
+- 历史作者与事务提交证据仍在同目录及 CODE-QUALITY-94；历史数字不覆盖当前逐文件结论。

@@ -7,6 +7,21 @@ Phase: phase1
 Capability: Q3 save domain governance（schema/IndexedDB 高风险域）
 Visual Verification Timing: N/A（纯 IO/数据层，无产品/UI行为修改）
 
+## 2026-10-17 Codex 当前逐文件复核
+
+完整读取并核对：
+
+- `packages/game/src/core/save/api.ts`
+- `packages/game/src/core/save/indexed-db.ts`
+- `packages/game/src/core/save/__tests__/api.test.ts`
+- 相邻 caller/oracle：`menu-driver.ts`、`save-slot-menu.ts`、`shell/bootstrap.ts`、`tools/quick-save.ts`、`core/save/__tests__/indexed-db.test.ts`、菜单保存链与快存测试。
+
+当前定向回归为 5 files / 36 tests PASS（api、indexed-db、save-slot-menu、menu-save-chain、quick-save；单 worker，0 stderr），game typecheck 沿用同一源码树已通过。逐文件核验没有把包级绿灯当作关闭依据：`api.ts` 的公开槽位输入只比较上下界，`NaN`/小数会通过内存路径，IndexedDB 路径可能因 key 编码抛错；这是公共 Save/schema 边界，按停止线开立 [GAME-SAVE-INPUT-DOMAIN-1](GAME-SAVE-INPUT-DOMAIN-1.md)，本卡不实现、不关闭 3 个 ledger 路径。
+
+`indexed-db.ts` 的事务提交语义由 [GAME-SAVE-IDB-COMMIT-1](GAME-SAVE-IDB-COMMIT-1.md) 独立记录；openDb 失败缓存、连接 close/重置和 game 包 IDB 直接测试仍是未闭合风险。`api.test.ts` 的内存合同有真实状态/排序/克隆 oracle，但尚未覆盖两条路径一致的非法数值输入。
+
+完整门不因本次文档批次重跑；最近同一源码树的 `pnpm check`、lint-zero、docs、protected fast 与官方 coverage 记录在 CODE-QUALITY-100/CODE-QUALITY-101 evidence 中，coverage ratchet/fast 仍因 shared 与 pal-extract baseline 回退失败，不能宣称统一门通过。
+
 ## 2026-10-15 最终模块窗口（当前）
 
 稳定源码候选bb94ad8e2，完整check/official ratchet/protected fast均exit0，

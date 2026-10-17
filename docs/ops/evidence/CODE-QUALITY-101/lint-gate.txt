@@ -1,3 +1,10 @@
+# 2026-10-17 Codex current lint/typecheck gate
+
+`pnpm lint`: PASS — 4962 files; 0 errors / 0 warnings / 0 infos.
+`pnpm --filter @type-pal/game typecheck`: PASS (`tsc --noEmit`).
+
+--- historical receipt below ---
+
 
 > type-pal@ lint /Users/zhangxu/.codex/worktrees/quality-menu-integration/type-pal
 > node scripts/quality/lint-zero.mjs

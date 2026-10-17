@@ -48,7 +48,7 @@ Template: governance-index-v1 / 1.0.0
 | CODE-QUALITY-98 | [opening/player-status](tasks/CODE-QUALITY-98-menu-opening-player-status.md) | review | Codex / 已修注释与排重 | 取消链产品风险另卡，未关闭文件 |
 | CODE-QUALITY-99 | [menu输入路由](tasks/CODE-QUALITY-99-menu-driver-review.md) | review | Codex / 已修标题取消 | 单测先红后绿、实际浏览器回新游戏高亮 |
 | CODE-QUALITY-100 | [存档槽菜单](tasks/CODE-QUALITY-100-save-slot-menu-review.md) | review | Codex / 三文件逐文件复核；测试与 game baseline 已同步 | 3文件已登记已验证；58定向测试、移除重复 Save API roundtrip；整卡仍等统一诊断/coverage 收口 |
-| CODE-QUALITY-101 | [Save API/IDB](tasks/CODE-QUALITY-101-save-api-review.md) | review | Codex / 已修事务提交 | commit后才报成功；失败传播/旧槽保留已测 |
+| CODE-QUALITY-101 | [Save API/IDB](tasks/CODE-QUALITY-101-save-api-review.md) | review | Codex / 输入域另开高风险卡 | 事务提交/失败传播已测；NaN/小数双路径合同未裁决 |
 | CODE-QUALITY-102 | [快存快读](tasks/CODE-QUALITY-102-quick-save-review.md) | review | Codex / 两文件已独立核验 | quick-save.ts 与 quick-save.test.ts 已登记已验证；任务卡仍等统一诊断与 coverage 收口 |
 | QUALITY-EDITOR-DIAGNOSTICS-1 | [editor测试诊断清理](tasks/QUALITY-EDITOR-DIAGNOSTICS-1.md) | review | Codex / 后续诊断切片待核 | 67定向0诊断；完整门仍非零诊断，未合main |
 | QUALITY-EDITOR-DIAGNOSTICS-2 | [C02宿主与删除生命周期](tasks/QUALITY-EDITOR-DIAGNOSTICS-2.md) | review | Codex / 续C02剩余用例 | 九例0诊断、两反控；完整门仍非零，不合main |
@@ -67,6 +67,7 @@ Template: governance-index-v1 / 1.0.0
 | QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 | [事件切分控制流与元数据](tasks/QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md) | draft | Codex / 算法冻结，核真实影响域 | 更名伪边/计数goto分歧；raw17站点，默认全局runtime，不冒称游戏故障 |
 | QUALITY-RLE-COMMAND-TRUTH-1 | [RLE高位literal格式真值](tasks/QUALITY-RLE-COMMAND-TRUTH-1.md) | draft | Codex / 只读取证，算法冻结 | SDL native与TS分歧已证；GOP未见分类差异，canonical域/其它资源待核 |
 | GAME-SAVE-IDB-COMMIT-1 | [存档事务提交与失败传播](tasks/GAME-SAVE-IDB-COMMIT-1.md) | review | Codex / 统一门诊断未清零 | ①已修、三条真实IDB回归通过，不改版本/清档/schema |
+| GAME-SAVE-INPUT-DOMAIN-1 | [Save槽位输入域与双路径一致性](tasks/GAME-SAVE-INPUT-DOMAIN-1.md) | draft | Codex / 等用户裁决，禁止实现 | NaN/小数通过内存范围守卫，IndexedDB路径可能不同；不改API/schema |
 | GAME-OPENING-CANCEL-CURSOR-1 | [标题取消光标](tasks/GAME-OPENING-CANCEL-CURSOR-1.md) | review | Codex / 统一门诊断未清零 | ②已修、真实标题浏览器链与截图已核 |
 | GAME-OUTSIDE-MAGIC-DISABLED-1 | [大世界法术显示与禁用](tasks/GAME-OUTSIDE-MAGIC-DISABLED-1.md) | draft | Codex / 核前提、Owner与白名单 | 仅①②获批；③未批准，7项可用范围与显示真值分开核 |
 
