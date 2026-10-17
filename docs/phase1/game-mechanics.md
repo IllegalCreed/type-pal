@@ -331,7 +331,7 @@ historical。do not promote historical claims to current truth without a current
 > - **灵力**:先随机浮动 ×1.0~1.1,再以 `CalcBaseDamage(灵力, 防)/4` 贡献伤害。注意 **/4**,灵力-vs-防御 这部分权重不大。
 > - **防御**:目标防御只作用在 `CalcBaseDamage(灵力, 防)` 这一段,且整段 /4 → 防御对仙术的减伤**远弱于**对物理。而且 **`法术.wBaseDamage`(仙术固定威力)完全不吃目标防御** —— 高级仙术主伤害来自固定威力 × 元素系数,所以"防御再高也扛不住强力仙术"。
 > - **元素抗 / 毒抗**:只对带属性仙术起作用,按 `(10 - 抗性/倍率)/5` 缩放;玩家被仙术击中用 `PAL_GetPlayerElementalResistance/PoisonResistance`(均 100 基准)。
-> - **战场环境**:`lprgBattleField[...].rgsMagicEffect[elem]` 给某元素 ±加成(`×(10+加成)/10`)——不同战斗场地对某系仙术有增减。
+> - **战场环境**:`lprgBattleField[...].rgsMagicEffect[elem]` 给某元素 ±加成(`×(10+加成)/10`)——不同战斗场地对某系仙术有增减。**场效对称作用于敌我双方**:结算只看法术自身属性与当前场地(两个方向的 `PAL_CalcMagicDamage` 调用都传同一 `rgsMagicEffect`,只以 `wElem` 索引),与施法者是谁无关——火增伤场地里敌我火系仙术同样 +加成;毒系不参与。该乘数与目标抗性乘数**串联复利**(先抗性步后场效步,见下方百分比口径表)。
 > - 玩家被仙术击中减伤:`sDamage /= ((主动防御?2:1) × (护体?2:1)) + (法术自动防御?1:0)`([fight.c:4801-4803](../../reference/sdlpal/fight.c#L4801-L4803))。
 >
 > ### 伤害公式的百分比口径与属性收益

@@ -2347,7 +2347,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
-      "afterSha256": "620a158ab727d0cf750904d31fada8abf5009f1fe1093d2028f0a9924f594634",
+      "afterSha256": "0ae1d6ee752ab7a0ed54b94baf2600cca34ae3d2b7015a1b8645ac8fa5d11a5c",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/battle/battle-system.ts",
@@ -2514,12 +2514,17 @@
           "revision": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
           "action": "catalogued",
           "status": "current"
+        },
+        {
+          "revision": "0ae1d6ee752ab7a0ed54b94baf2600cca34ae3d2b7015a1b8645ac8fa5d11a5c",
+          "action": "glm field-symmetry clarification (field effect symmetric to both sides + multiplicative chaining)",
+          "status": "current"
         }
       ],
       "supersedes": [],
       "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-17"
     },
     {
       "id": "docs-phase1-plans-2026-05-23-m0-project-skeleton",

@@ -307,7 +307,7 @@
         }
       ],
       "sourceSha256": "687a9e3d69088bfbb387346fbbb3e58f83db6afedf7141fd7f9067dcdc276560",
-      "afterSha256": "687a9e3d69088bfbb387346fbbb3e58f83db6afedf7141fd7f9067dcdc276560",
+      "afterSha256": "cc803ac4f72509f669efc672906e8391456445c591c032f1a209014bca6633ab",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -327,8 +327,8 @@
         "against": ["docs/phase-governance/catalog.json"]
       },
       "revision": {
-        "currentSha": "687a9e3d69088bfbb387346fbbb3e58f83db6afedf7141fd7f9067dcdc276560",
-        "implementationSha": "687a9e3d69088bfbb387346fbbb3e58f83db6afedf7141fd7f9067dcdc276560",
+        "currentSha": "cc803ac4f72509f669efc672906e8391456445c591c032f1a209014bca6633ab",
+        "implementationSha": "cc803ac4f72509f669efc672906e8391456445c591c032f1a209014bca6633ab",
         "history": [
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
@@ -342,8 +342,8 @@
         "kind": "machine-artifact-envelope",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "687a9e3d69088bfbb387346fbbb3e58f83db6afedf7141fd7f9067dcdc276560",
-        "candidateSha256": "687a9e3d69088bfbb387346fbbb3e58f83db6afedf7141fd7f9067dcdc276560",
-        "afterSha256": "687a9e3d69088bfbb387346fbbb3e58f83db6afedf7141fd7f9067dcdc276560",
+        "candidateSha256": "cc803ac4f72509f669efc672906e8391456445c591c032f1a209014bca6633ab",
+        "afterSha256": "cc803ac4f72509f669efc672906e8391456445c591c032f1a209014bca6633ab",
         "lineCount": 22987,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -385,7 +385,7 @@
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "687a9e3d69088bfbb387346fbbb3e58f83db6afedf7141fd7f9067dcdc276560",
+      "candidateSha256": "cc803ac4f72509f669efc672906e8391456445c591c032f1a209014bca6633ab",
       "primarySource": [
         {
           "path": "docs/phase-governance/catalog.json",
@@ -8478,7 +8478,7 @@
         }
       ],
       "sourceSha256": "cd96f7c35d7e448441dcd8059d34ba305b11d308341569f554e9e39484ff7dad",
-      "afterSha256": "cd96f7c35d7e448441dcd8059d34ba305b11d308341569f554e9e39484ff7dad",
+      "afterSha256": "405fab90e19e65c1d6a9405a28cd7bc6f63eca4abc1fade0a57f5ad0467490e5",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -8501,8 +8501,8 @@
         "against": ["docs/phase-governance/reviews/20261017-r30-phase1-foundation.json"]
       },
       "revision": {
-        "currentSha": "cd96f7c35d7e448441dcd8059d34ba305b11d308341569f554e9e39484ff7dad",
-        "implementationSha": "cd96f7c35d7e448441dcd8059d34ba305b11d308341569f554e9e39484ff7dad",
+        "currentSha": "405fab90e19e65c1d6a9405a28cd7bc6f63eca4abc1fade0a57f5ad0467490e5",
+        "implementationSha": "405fab90e19e65c1d6a9405a28cd7bc6f63eca4abc1fade0a57f5ad0467490e5",
         "history": [
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
@@ -8516,8 +8516,8 @@
         "kind": "machine-artifact-envelope",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "cd96f7c35d7e448441dcd8059d34ba305b11d308341569f554e9e39484ff7dad",
-        "candidateSha256": "cd96f7c35d7e448441dcd8059d34ba305b11d308341569f554e9e39484ff7dad",
-        "afterSha256": "cd96f7c35d7e448441dcd8059d34ba305b11d308341569f554e9e39484ff7dad",
+        "candidateSha256": "405fab90e19e65c1d6a9405a28cd7bc6f63eca4abc1fade0a57f5ad0467490e5",
+        "afterSha256": "405fab90e19e65c1d6a9405a28cd7bc6f63eca4abc1fade0a57f5ad0467490e5",
         "lineCount": 1384,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -8559,7 +8559,7 @@
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "cd96f7c35d7e448441dcd8059d34ba305b11d308341569f554e9e39484ff7dad",
+      "candidateSha256": "405fab90e19e65c1d6a9405a28cd7bc6f63eca4abc1fade0a57f5ad0467490e5",
       "primarySource": [
         {
           "path": "docs/phase-governance/reviews/20261017-r30-phase1-foundation.json",
