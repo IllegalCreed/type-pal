@@ -4,8 +4,8 @@
  * applyHiddenExpGrowth 在 battle-system.test.ts 只有 3 条基础直测(单池/total=0/占比);
  * battle-levelup.test.ts 只测主升级。本文件按 CHECK_HIDDEN_EXP 宏(battle.c:1238-1293)一手真值补:
  *  - wLevel > 99 先钳 99(battle.c:1248-1252);99 级上 while 继续扣 exp 涨属性、wLevel 停 99
- *  - 隐藏涨点**无 STAT_LIMIT 999 钳**(宏内无 cap —— 与主升级 global.c:2440 明确不同)
- *  - 七池严格 Health→…→Flee 序消费 RandomLong(1,2)(battle.c:1276-1282 顺序)
+ *  - 隐藏涨点**无 STAT_LIMIT 999 钳**(宏内无 cap,主升级宏见global.c:2393-2401)
+ *  - Health→Magic两池按此顺序消费RandomLong(1,2);其余五池次序不由本文件证明
  *  - battleWonLevelUp:隐藏经验抬了 maxHP 但**无主升级** → 不回满(battle.c:1287-1292 if(fLevelUp))
  */
 import { describe, expect, it } from 'vitest'
@@ -79,7 +79,7 @@ describe('applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1
       exp: gs.Exp,
       rt: gs.PlayerRolesRuntime,
       roleId: 0,
-      expGained: 100, // 每池 dwExp=200 → 各涨 1 级
+      expGained: 100, // 每池trunc(100*1/2)*2=100 → 各涨1级
       levelUpExp: Array(100).fill(100),
       rng: orderRng,
     })
@@ -124,13 +124,14 @@ describe('battleWonLevelUp:隐藏经验抬 maxHP 与回满的先后(battle.c:128
     gs.PlayerRolesRuntime.rgwMaxMP[0] = 40
     gs.Exp.rgPrimaryExp[0] = { wExp: 50, wLevel: 1, wCount: 0 }
     gs.Exp.rgHealthExp[0] = { wExp: 0, wLevel: 0, wCount: 1 }
+    const rng = recordingRng([1, 1, 1, 1, 1, 1, 1, 1]) // 主升级6抽、隐藏2抽;不依赖耗尽回退
     const results = battleWonLevelUp({
       gs,
       partyMembers: [0],
       expGained: 100, // dwExp=150 ≥ 100 → 主升级 1→2
       levelUpExp: Array(100).fill(100),
       levelUpMagic: [],
-      rng: recordingRng([1, 1, 1, 1, 1, 1, 1]), // 主升级 6 掷 + 隐藏 1 掷,全取下界
+      rng,
     })
     expect(results.length).toBe(1)
     expect(results[0]!.snapshot).toBeDefined() // 主升级 → 有升级 box
@@ -138,5 +139,15 @@ describe('battleWonLevelUp:隐藏经验抬 maxHP 与回满的先后(battle.c:128
     expect(curMax).toBe(100 + 10 + 1 + 2) // 主升级 +10+R(0,7)=1;隐藏 dwExp=200 → 2 级 × R(1,2)=1
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(curMax) // 回满到新 max(含隐藏抬升)
     expect(gs.PlayerRolesRuntime.rgwMP[0]).toBe(gs.PlayerRolesRuntime.rgwMaxMP[0])
+    expect(rng.calls).toEqual([
+      'rangeInclusive(0,7)',
+      'rangeInclusive(0,5)',
+      'rangeInclusive(0,1)',
+      'rangeInclusive(0,1)',
+      'rangeInclusive(0,1)',
+      'rangeInclusive(0,1)',
+      'rangeInclusive(1,2)',
+      'rangeInclusive(1,2)',
+    ])
   })
 })

@@ -4696,10 +4696,10 @@
       "reviewedSourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "1b24a52a5b0145462e6a7e8aba3e0b521778d10a",
-      "afterSha256": "c0cb14c67ee09f8b9a57cf2a91803b8adaef06a9d9a4ac4eb53a9936608ced9c",
+      "afterSha256": "4b69b0964a7bdf17d1bd8a8860d47ce4904fa444ce9f85e0d95672600dc675f7",
       "revision": {
         "currentSha": "c0cb14c67ee09f8b9a57cf2a91803b8adaef06a9d9a4ac4eb53a9936608ced9c",
-        "implementationSha": "4da0afeb3315f3596dd8318d5a726a86af0a3107e6f1d6edee70c0983744c9c6",
+        "implementationSha": "4b69b0964a7bdf17d1bd8a8860d47ce4904fa444ce9f85e0d95672600dc675f7",
         "originalPublicationRevision": {
           "candidateSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
           "versions": {
@@ -4716,6 +4716,22 @@
           ]
         },
         "history": [
+          {
+            "revision": "27358f9d9e3ab65d777b7864fcc936638ed9373a",
+            "date": "2026-10-18",
+            "action": "Finite poison/progression comment/test repair and dependent sourceRef maintenance",
+            "previousAfterSha256": "c0cb14c67ee09f8b9a57cf2a91803b8adaef06a9d9a4ac4eb53a9936608ced9c",
+            "scope": "Only the named current source/document delta and incoming bindings. Catalog maintenance selects phase1-dependency-ownership only; other17 entry objects, lastVerified/status/versions/candidate and old D1 runtime/needle fields unchanged. Poison implementation JS unchanged; current11 ownership tests are only finite regression. Three old file closures reopened; no new product/native/SCC/browser/coverage or whole-document acceptance. Original native verdicts/history preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md",
+            "notRun": [
+              "original D1 audit/needles",
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "date": "2026-10-15",
             "action": "actual-full-text-domain-pair-semantic-migration",
@@ -4737,7 +4753,7 @@
         "kind": "full-source-preservation-and-real-domain-publication-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
-        "afterSha256": "c0cb14c67ee09f8b9a57cf2a91803b8adaef06a9d9a4ac4eb53a9936608ced9c",
+        "afterSha256": "4b69b0964a7bdf17d1bd8a8860d47ce4904fa444ce9f85e0d95672600dc675f7",
         "lineCount": 177
       },
       "history": [
@@ -4814,7 +4830,7 @@
       "supersedes": [],
       "stopLine": "No new dynamic/test-quality/canon/compatibility acceptance follows from historical claims, source-backed publication, JSON parse/envelope or template/static checks.",
       "userVisibleBeforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
-      "reviewedLines": "1-177",
+      "reviewedLines": "1-196",
       "phase": "testing",
       "module": "phase1-dependency-ownership",
       "templateConformity": {

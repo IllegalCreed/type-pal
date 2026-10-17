@@ -642,3 +642,19 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 搜索注释批c3d943dde已先提交推送；本批分离实现第一阶段队列排序：原C13槽/SHORT交换/速度0xffff前缀，真实按键caller和dualMove标记已核。正式初红7；最终敌方WORD边界spec对仅旧queue源重放7红，当前7绿、旧9绿，38/942相邻零stderr后仅复跑最终改动7例；六指定单红反控恢复SHA一致。初版高WORD队员边界不记生产caller信用，实际原件全部保留。
 
 源/旧测仍review，新增parity与H fixture review，0新增closed；83卡仍50partial/33pending/0accept。两项审计注释（Search/turn-queue）已处理，剩余8组、formulas冗余算式和两UI差异继续；phase1毒列表卡只读。证据见[批准队列修复](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/queue-approved-fix/README.md)。昂贵统一门/coverage/protected未运行，未合main，不扩大新103+范围。
+
+## 2026-10-18 毒/升级注释与合法夹具准入
+
+Codex premise verified / design agree / build allowed：基点27358f9d9、3y隔离树单一Owner，只改player-poison-state.ts、battle-progression.ts的事实注释，以及battle-progression.glm-next-wave.test.ts、battle-levelup.test.ts的错注/不完整核心夹具和直接RNG oracle。两实现全文及global.c真实函数、PAL_BattleWon/caller已核。poison首空槽/全槽去重、Wear压缩差异归已有draft卡，只记录不实现；STAT_LIMIT/EOF/MAX_LEVELS错锚与主升级余exp写回、seeded RNG和SDL算法信用分开。
+
+旧levelup投影例用as any as PlayerRole且未实际开下一场战斗；改复用完整typed角色工厂，标题收窄为实际投影合同。H02只判Health→Magic两池，不能声称全七池；回满例实际主6抽+隐藏2抽，旧7值回退描述须更正并精确断言真实抽样。计划隔离额外RNG消费变异：先证旧例存活，再补oracle恰一业务红、恢复定向与相邻。无产品执行改动；全部质量门仅按本片和用户大窗口成本纪律记录，不重跑全仓check/coverage/protected，未执行不闭合文件。
+
+### 2026-10-18 毒/升级注释与夹具当前结果
+
+四文件有限批：CureKind、Wear/首空槽与升级MAX_LEVELS/STAT_LIMIT/EOF/余exp/RNG说明已更正，两实现removeComments JS字节与27358基点一致。旧投影例改完整typed工厂，标题仅写实际公开投影；H02纠正“七池”、dwExp200与“主6+隐藏1/7值”错注，主6+隐藏2的8抽逐参数核验。相同多耗一抽变异旧5绿→新4绿1指定AssertionError、0skip/runtime额外失败，源finally恢复；恢复27定向+16相邻绿、无stderr，game typecheck通过。
+
+不因少量绿恢复整文件信用：升级源/两测试旧closed→review，poison保持review；3315 tracked/275closed/66review/2974pending，0新closed，83卡50partial/33pending/0accept。毒全槽去重/首空槽差异补回原draft卡，只读不实现；原盘表重算、全部七池测试、C WORD数值极端、真正开战/视觉和统一门待续。四组审计注释现已处理，余六组/冗余算术/两UI继续，94–102/editor在后。
+
+完整原件见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md)。官方coverage/protected与全仓check按用户成本要求留大任务收尾，本片未跑，不合main；无下一位Agent提示词，Codex单Agent继续。
+
+本片收尾另同步phase1-dependency-ownership唯一catalog entry及report/evidence的注释sourceRef/history；其它17对象/出版日期状态/历史版本运行字段不变，不借此重验D1。首文档门漏父导航1issue、首consumer回放sourceRef2issues均保留原件；修后所有consumer零issue、初125工具测试保持绿，不重复未变工具测试。具体命令与边界见本片gates。

@@ -1,0 +1,13 @@
+{
+  "command": ["node", "/tmp/type-pal-poison-progression-emit.cjs"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T20:37:08.015625+00:00",
+  "completedAt": "2026-10-17T20:37:08.182023+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "emit-identity-run.raw.gz",
+  "rawBytes": 33,
+  "rawSha256": "8d37b5b2458ea18e76514eb1dff4dfa83cdad17d536bb83d7b71ecce566a9882",
+  "fullUncutMergedStdoutStderr": true
+}

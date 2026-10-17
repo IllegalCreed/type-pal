@@ -26,14 +26,14 @@ export function setObjectPoisons(
   )
 }
 
-/** SDLPal global.c:1483-1493：离队角色没有毒槽，不以 roleId 代替队伍位置。 */
+/** SDLPal玩家毒函数先把role映射队伍位置;离队角色返回,不以roleId代替槽位。 */
 export function partySlotForRole(gs: GameState, roleId: number): number {
   return gs.partyMembers.indexOf(roleId)
 }
 
 /**
- * role 是否中毒(sdlpal PAL_IsPlayerPoisonedByKind / ByLevel(role,0) 等价)。
- * poisonKind 给定 → 只看该种毒(ByKind,不看等级);省略 → ByLevel(role,0):
+ * role是否中毒:有效非零毒ID查ByKind,省略毒ID查ByLevel(role,0)。
+ * poisonKind给定只看该种非零毒ID,不看等级;省略时:
  *   忽略 level>=99 的装备伪毒(寿葫芦 HP/MP 回补等),对齐 sdlpal global.c:1669-1675。
  *   否则装寿葫芦时这些伪毒会被当"中毒",令毒龙胆/九阴散的 0x61"没中毒就秒杀"误判为有毒 →
  *   白嫖解毒+回满血(原版早期 bug,后期已修)。rgPoisonStatus 16 槽/party slot。
@@ -56,7 +56,7 @@ export function isPlayerPoisoned(gs: GameState, roleId: number, poisonKind?: num
   return false
 }
 
-/** sdlpal PAL_CurePoisonByKind(global.c:1936-1955)— roleId × poisonId 清 0。 */
+/** SDLPal PAL_CurePoisonByKind(global.c:1520-1564):roleId 映射队伍位置后,清指定毒的 ID/script。 */
 export function curePlayerPoisonByKind(gs: GameState, roleId: number, poisonId: number): void {
   const partySlot = partySlotForRole(gs, roleId)
   if (partySlot < 0) return
@@ -70,10 +70,12 @@ export function curePlayerPoisonByKind(gs: GameState, roleId: number, poisonId: 
 }
 
 /**
- * sdlpal `PAL_AddPoisonForPlayer`(global.c:1459-1505):去重(已有同毒 skip)+ 首空槽加,
+ * 参考SDLPal `PAL_AddPoisonForPlayer`(global.c:1459-1517):首空槽加毒,
  * wPoisonScript = PAL_RunTriggerScript(obj.wPlayerScript, role) 的返回值;caller 注入 runner 时
  * 施毒当下跑一次入口脚本。**不含**抗性 gate —— gate 在调用方(0x29 / 敌普攻 attackEquivItem),
- * sdlpal 真值同此分工。战斗内(0x29 battle ctx)与大世界 / 装备 scriptOnEquip(寿葫芦)共用。
+ * SDLPal同此分工。战斗内(0x29 battle ctx)与大世界 / 装备 scriptOnEquip(寿葫芦)共用。
+ * 本实现先遍历全部16槽去重;C只查首空槽之前的重复项,有孔洞时不保证等价。
+ * 此差异与Wear压缩一并待GAME-PLAYER-POISON-SLOT-COMPACTION-1裁决,不在此改变既有行为。
  */
 export function addPoisonForPlayer(
   gs: GameState,
@@ -104,8 +106,9 @@ export function addPoisonForPlayer(
 }
 
 /**
- * sdlpal `PAL_RemoveEquipmentEffect` Wear 分支(global.c:1413-1454):清该 role 的 level≥99 毒
- * (level<99 保留)。卸 Wear 装备(如寿葫芦)时调 —— 装备授的常驻"毒"(回血/诅咒)随卸下消失。
+ * 卸Wear时清该role的level≥99毒,保留其它毒的原槽位。
+ * SDLPal PAL_RemoveEquipmentEffect(global.c:1413-1454)会在首空槽前筛选低级毒并前移、清尾;
+ * 本实现遍历全部16槽且不压缩。GAME-PLAYER-POISON-SLOT-COMPACTION-1待裁决此差异。
  */
 export function removePoisonLevel99(gs: GameState, roleId: number): void {
   const partySlot = partySlotForRole(gs, roleId)
@@ -119,11 +122,11 @@ export function removePoisonLevel99(gs: GameState, roleId: number): void {
   }
 }
 
-/** sdlpal PAL_CurePoisonByLevel(global.c:1567-1614)— 该毒 wPoisonLevel <= maxLevel 就清 0(**无** level==99 例外)。
- *  用注入的 _objectPoisons 取真 level(2026-05-31 plumb;此前简版全清)。装备毒(level 99)靠 cure 物品 maxLevel
- *  都是 1-3(九节菖蒲 2 / 鬼枯藤 2 / 毒龙胆 3)< 99 自然不被清;装备毒由 removePoisonLevel99(卸装备)清。
- *  2026-06-02 review:旧 `level!==99` 守卫 + 注释("sdlpal 跳过 level 99")偏离 sdlpal —— 那是
- *  PAL_RemoveEquipmentEffect(global.c:1440)的行为,不是本函数;已删守卫对齐真值(行为对真物品不变)。 */
+/**
+ * SDLPal PAL_CurePoisonByLevel(global.c:1567-1614):用注入的毒等级判断level<=maxLevel并清ID/script。
+ * 没有level==99例外;阈值低于99才自然保留装备毒。复活/战后清理caller传3,
+ * 卸Wear的level≥99清理由removePoisonLevel99负责,不能把两种清理条件混用。
+ */
 export function curePlayerPoisonByLevel(gs: GameState, roleId: number, maxLevel: number): void {
   const partySlot = partySlotForRole(gs, roleId)
   if (partySlot < 0) return

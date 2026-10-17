@@ -10,9 +10,9 @@ import type { AllExperience, GameState, PlayerRolesRuntime } from '../game-state
 import type { SeedableRng } from '../rng.js'
 import type { LevelUpScreenData } from './battle-settlement.js'
 
-/** sdlpal `MAX_LEVELS`(global.h)。 */
+/** SDLPal MAX_LEVELS(palcommon.h:82)。 */
 const LEVELUP_MAX_LEVELS = 99
-/** sdlpal `STAT_LIMIT` cap(global.c:2440 宏,值上限 999)。 */
+/** SDLPal PAL_PlayerLevelUp的STAT_LIMIT(global.c:2393-2401),上限999。 */
 const LEVELUP_STAT_CAP = 999
 
 /** D11 升级演出结果(单个升级队员)—— 供 present 升级 box(level/HP/MP/属性 增长 + 学得法术)。 */
@@ -126,7 +126,7 @@ export function applyHiddenExpGrowth(input: {
 
 /**
  * 战斗胜利升级 —— 对照 sdlpal `PAL_BattleWon`(battle.c:1088-1120 升级 loop + 1300-1321 学法术)
- * + `PAL_PlayerLevelUp`(global.c:2347-2454 stat 成长)。写 gs.PlayerRolesRuntime(统一源,边界回写后跑)。
+ * + `PAL_PlayerLevelUp`(global.c:2347-2409 stat 成长)。写 gs.PlayerRolesRuntime(统一源,边界回写后跑)。
  *
  * 对每个活着的 party 成员(post-battle runtime hp>0):
  *   dwExp = rgPrimaryExp.wExp + expGained;
@@ -136,8 +136,8 @@ export function applyHiddenExpGrowth(input: {
  *   rgPrimaryExp = { wExp: dwExp 余, wLevel: level };
  *   升级了 → 学新法术(level-up-magic[j][roleId],level<=新等级 + magic!=0 + 未学 → AddMagic)。
  *
- * stat 成长用 state.rng(种子,**确定性 + 忠实 RandomLong**;区别于 opcode 0x8D playerLevelUp 的
- * Math.random 版 —— 战斗胜利在确定 rng 流里,可复现/可测)。
+ * stat成长消费同一state.rng流的闭区间整数抽样,保持SDLPal调用范围/顺序;
+ * 不声称本项目PRNG与SDLPal算法同种子同序。opcode 0x8D的playerLevelUp另用Math.random。
  */
 export function battleWonLevelUp(input: {
   gs: GameState
@@ -180,7 +180,7 @@ export function battleWonLevelUp(input: {
       leveled = true
       level++
       rt.rgwLevel[roleId] = level
-      // PAL_PlayerLevelUp stat 成长(global.c:2347-2454)
+      // PAL_PlayerLevelUp逐级成长(global.c:2379-2391),随后STAT_LIMIT钳999。
       rt.rgwMaxHP[roleId] = (rt.rgwMaxHP[roleId] ?? 0) + 10 + rng.rangeInclusive(0, 7)
       rt.rgwMaxMP[roleId] = (rt.rgwMaxMP[roleId] ?? 0) + 8 + rng.rangeInclusive(0, 5)
       rt.rgwAttackStrength[roleId] =
@@ -206,7 +206,8 @@ export function battleWonLevelUp(input: {
       rt.rgwMP[roleId] = rt.rgwMaxMP[roleId]!
     }
 
-    // 写回余 exp + level(battle.c:1120 / global.c:2450-2452)
+    // PAL_BattleWon写回余exp(battle.c:1120);level与升级结果同步。
+    // PAL_PlayerLevelUp自身会清exp/同步level(global.c:2406-2408),不能把该清零当战后余数。
     const exp = gs.Exp.rgPrimaryExp[roleId]
     if (exp) {
       exp.wExp = dwExp

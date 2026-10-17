@@ -1,0 +1,13 @@
+{
+  "command": ["node", "scripts/docs/check.mjs"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T20:47:20.201451+00:00",
+  "completedAt": "2026-10-17T20:47:20.881428+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "docs-text-final.raw.gz",
+  "rawBytes": 92,
+  "rawSha256": "04c53ba7716c26349908a9b3850e46e1e12754d6d4a3fb01bb01b20107d8a0cd",
+  "fullUncutMergedStdoutStderr": true
+}

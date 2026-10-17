@@ -1,0 +1,13 @@
+{
+  "command": ["python3", "/tmp/type-pal-poison-progression-verify.py"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T20:45:49.364526+00:00",
+  "completedAt": "2026-10-17T20:45:49.448004+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "verification.raw.gz",
+  "rawBytes": 544,
+  "rawSha256": "c83ba63d0f69ba4ad503b893c58d07ae0633ad21d0b80af4a5c3839623c8fd47",
+  "fullUncutMergedStdoutStderr": true
+}

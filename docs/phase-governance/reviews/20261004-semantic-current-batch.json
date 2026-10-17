@@ -407,7 +407,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "a143fcd9f85d439d696d249473895bedd424fa76a20a6bcf244a1bf60fee456d",
+      "afterSha256": "6d3137d24fd12077f8b5cf4c16882f6ca09fd1f4aee1ba782deb4f4fe0e8a750",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -438,10 +438,25 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "a143fcd9f85d439d696d249473895bedd424fa76a20a6bcf244a1bf60fee456d",
+        "implementationSha": "6d3137d24fd12077f8b5cf4c16882f6ca09fd1f4aee1ba782deb4f4fe0e8a750",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "27358f9d9e3ab65d777b7864fcc936638ed9373a",
+            "date": "2026-10-18",
+            "action": "Correct four pre94 poison/progression source/test files and revoke three unsupported closure claims",
+            "previousAfterSha256": "a143fcd9f85d439d696d249473895bedd424fa76a20a6bcf244a1bf60fee456d",
+            "scope": "Only one board progress row, four current ledger rows and their incoming bindings: two implementation comments, legal typed projection fixture and exact eight-draw oracle. Three old closures to review; no new closures or product execution change. Original native verdicts/history preserved; no rule/baseline/retirement acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "c3d943ddeba9c05d01a752c0c22f8d3e78d724a8",
             "date": "2026-10-18",
@@ -845,7 +860,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "a143fcd9f85d439d696d249473895bedd424fa76a20a6bcf244a1bf60fee456d",
+        "afterSha256": "6d3137d24fd12077f8b5cf4c16882f6ca09fd1f4aee1ba782deb4f4fe0e8a750",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",

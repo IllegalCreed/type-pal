@@ -1,0 +1,13 @@
+{
+  "command": ["python3", "/tmp/type-pal-poison-progression-pair-bindings.py"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T20:44:28.332128+00:00",
+  "completedAt": "2026-10-17T20:44:29.141222+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "paired-review-bindings.raw.gz",
+  "rawBytes": 121,
+  "rawSha256": "9ff0d1ff3545ac57b4d17fa9657e2c3bf55e43b78819e05cf7aaef989f532733",
+  "fullUncutMergedStdoutStderr": true
+}

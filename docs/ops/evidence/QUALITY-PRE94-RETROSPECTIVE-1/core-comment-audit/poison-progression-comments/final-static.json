@@ -1,0 +1,19 @@
+{
+  "command": [
+    "pnpm",
+    "exec",
+    "biome",
+    "check",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T20:47:53.067853+00:00",
+  "completedAt": "2026-10-17T20:47:53.275573+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "final-static.raw.gz",
+  "rawBytes": 44,
+  "rawSha256": "98c7de96796e000f4126dd4960e483f582728ff96cd75e6b144ca401418ed824",
+  "fullUncutMergedStdoutStderr": true
+}

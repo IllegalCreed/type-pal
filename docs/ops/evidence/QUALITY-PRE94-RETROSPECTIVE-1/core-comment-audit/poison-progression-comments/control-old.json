@@ -1,0 +1,62 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/battle/battle-progression.glm-next-wave.test.ts",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile=/tmp/type-pal-progression-control-old.vitest.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T20:34:15.734590+00:00",
+  "completedAt": "2026-10-17T20:34:16.911766+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "control-old.raw.gz",
+  "rawBytes": 408,
+  "rawSha256": "6108da03dd690f38bfda45a4723754119200b1fe4d1ec98135de38721a8f00a6",
+  "fullUncutMergedStdoutStderr": true,
+  "sourceSha256": "6ad9607369e7c2bb619184d2e6bf189e4695094e4ac02c3d92885338a3fe93e1",
+  "mutantSha256": "e5f29e4cca849cb7caccbebf8279c5f298c4cdf73a4c9e22c4a2e6fefada7abe",
+  "specSha256": "431898deab2b078912d2acdfcbb6cf3bdd0b84bece7bea09d2bdf2e081bbc05a",
+  "restoredSourceSha256": "6ad9607369e7c2bb619184d2e6bf189e4695094e4ac02c3d92885338a3fe93e1",
+  "sourceRestoredByteForByte": true,
+  "passed": 5,
+  "failed": 0,
+  "pending": 0,
+  "execution": [
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "name": "applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1293) wLevel=120 先钳 99;99 级上继续扣阈值涨属性,wLevel 停 99 不再 ++",
+      "status": "passed"
+    },
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "name": "applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1293) 隐藏涨点无 STAT_LIMIT 999 钳:base 998 再涨 → 突破 999(与主升级 cap 明确不同)",
+      "status": "passed"
+    },
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "name": "applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1293) 多池同涨:R(1,2) 按 Health→Magic 严格序消费(rng 调用序可证)",
+      "status": "passed"
+    },
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "name": "battleWonLevelUp:隐藏经验抬 maxHP 与回满的先后(battle.c:1287-1292) 无主升级但隐藏涨 maxHP → HP 保持战后值不回满(if(fLevelUp) 才回满)",
+      "status": "passed"
+    },
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "name": "battleWonLevelUp:隐藏经验抬 maxHP 与回满的先后(battle.c:1287-1292) 主升级成立 → 隐藏涨点后 HP/MP 回满到(可能更高的)新 max(battle.c:1289-1292)",
+      "status": "passed"
+    }
+  ],
+  "failureMessages": [],
+  "runtimeCheck": "Require five actual assertion results, no pending; exact new failed target and only AssertionError; raw retained, no missing runtime-count field treated as numeric zero."
+}

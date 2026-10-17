@@ -35,7 +35,7 @@
       "lines": "12-19",
       "anchor": "export function setObjectPoisons",
       "role": "owner",
-      "sha256": "da880e6fd6a4c6dad2ac689fd6d940ede92010474b725bf68559dcb6c103d10c"
+      "sha256": "3c7ed5879374144001595a6bc1c6d1ef1a71ab63a6407c55fd94bd89ec7bfa5a"
     },
     {
       "path": "packages/game/src/core/scene-identity.ts",
@@ -122,10 +122,29 @@
   },
   "findings": [
     "Historical D1 receipt records 161 function token checks, 8 ownership tests, 3 needles and a minimum browser check. Current source audit does not rerun PAL or reclassify the old warnings.",
-    "2026-10-11 E2E 合入核读：sourceRefs 绑定当前 content22 / minimumSave12 源文件；candidateSha、versions、history、runtimeExecution 和历史计数保持原批次含义，不晋升为 SAVE12 运行时或 E2E 通过。"
+    "2026-10-11 E2E 合入核读：sourceRefs 绑定当前 content22 / minimumSave12 源文件；candidateSha、versions、history、runtimeExecution 和历史计数保持原批次含义，不晋升为 SAVE12 运行时或 E2E 通过。",
+    "2026-10-18 only poison comment sourceRef rebound; executable JS and owner export unchanged. Existing publication/runtimeExecution fields remain historical; current11 ownership tests are finite regression only. See pre94 poison-progression-comments receipt."
   ],
   "artifacts": [],
   "history": [
+    {
+      "revision": "27358f9d9e3ab65d777b7864fcc936638ed9373a",
+      "date": "2026-10-18",
+      "action": "poison-comment-sourceRef-binding-only",
+      "sourceRef": "packages/game/src/core/player-poison-state.ts",
+      "previousSourceSha256": "da880e6fd6a4c6dad2ac689fd6d940ede92010474b725bf68559dcb6c103d10c",
+      "sourceSha256": "3c7ed5879374144001595a6bc1c6d1ef1a71ab63a6407c55fd94bd89ec7bfa5a",
+      "scope": "Only comments changed; removeComments JavaScript bytes identical. Existing setObjectPoisons signature/owner binding unchanged. Preserve catalog status/lastVerified/reviewBy, historical candidate/versions/runtimeExecution; no rerun of old D1 SCC/token/browser/needles or new architecture acceptance. Current11 ownership tests are only finite regression at the linked slice.",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md",
+      "notRun": [
+        "original D1 audit/needles",
+        "whole-repository check",
+        "official coverage ratchet",
+        "protected fast",
+        "browser visual",
+        "E2E"
+      ]
+    },
     {
       "revision": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
       "date": "2026-10-04",

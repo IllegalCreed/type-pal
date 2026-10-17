@@ -78,3 +78,9 @@ Codex/3y单一Owner，仅只读核证已准入；物理差异verified、行为�
 ## 下一位Agent提示词
 
 无；Codex单Agent继续核证，未批准不得实现。
+
+## 2026-10-18 只读补充：首空槽与现有测试的证据边界
+
+全文重读玩家毒helper，核PAL_AddPoisonForPlayer/两类Cure与装备/opcode生产caller：C施毒只在首空槽之前检查同毒，TS先扫全部16槽去重；CureByKind本身只清零可留下孔洞，因此不能把稀疏域差异只归于Wear。当前只按源码记录这两个控制流，不把它称作已跑通的真实物品/毒tick/存读链。helper注释已显式分开TS行为与C；正ID/原盘catalog/孔洞后的入口脚本与tick顺序仍待完整核证。
+
+现有dependency-ownership专测直接断言卸Wear后低毒仍在slot1，验证的是当前TS跨入口ownership，不能据其全绿认证SDL压缩等价。本批保持该测试与产品行为；0新批准，不实现压缩、去重策略、队伍键或save/upgrader。有限注释/夹具返工证据见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md)。

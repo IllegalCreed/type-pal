@@ -1,0 +1,13 @@
+{
+  "command": ["/bin/zsh", "/tmp/type-pal-poison-progression-docs-consumers.sh"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T20:41:31.010729+00:00",
+  "completedAt": "2026-10-17T20:41:33.290179+00:00",
+  "exit": 1,
+  "signal": null,
+  "spawnError": null,
+  "raw": "docs-current.raw.gz",
+  "rawBytes": 594,
+  "rawSha256": "d5c07634eba9986cff8473c24a4959ecb30966cf10675396b8c8481f1ff18894",
+  "fullUncutMergedStdoutStderr": true
+}

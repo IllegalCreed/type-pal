@@ -1,0 +1,27 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/battle/battle-progression.glm-next-wave.test.ts",
+    "src/core/battle/__tests__/battle-levelup.test.ts",
+    "src/core/dependency-ownership.test.ts",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile=/tmp/type-pal-poison-progression-direct.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T20:35:54.668388+00:00",
+  "completedAt": "2026-10-17T20:35:57.323938+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "direct.raw.gz",
+  "rawBytes": 533,
+  "rawSha256": "ec17b45bf2cf80e91ed7c06e5e9ee23dc102f2d5a2981c040f4fb0ad94e53cf3",
+  "fullUncutMergedStdoutStderr": true
+}

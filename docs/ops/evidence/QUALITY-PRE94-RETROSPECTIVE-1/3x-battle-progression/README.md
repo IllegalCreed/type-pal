@@ -1,13 +1,9 @@
 # CODE3x battle progression 当前复审切片
 
-基点：`8038fb167`；分支：`codex/code-quality-3y`。本片重新复审历史 3x 的战斗升级、隐藏经验和法术学习，不把历史 done、旧行数、旧测试数量或旧全仓门当作当前整卡验收。3x 当前复审提升为 `partial`，未标 accept/done。
+2026-10-18 当前结论：3x仍partial，整文件信用撤回review。前轮“未发现direct实现defect”只保留已核普通数值路径；“无弱断言/所有夹具合法/完整开战闭环”不能成立：levelup投影夹具缺字段而用as any as隐藏，H02额外RNG消费变异旧5例仍绿。旧报告完整字节保存在[本次附件](../core-comment-audit/poison-progression-comments/3x-README.before.gz)，旧207绿仅是当时回归观察，不认证当前语义或统一门。
 
-完整读取 `packages/game/src/core/battle/battle-progression.ts`（306 行）、`battle-progression.glm-next-wave.test.ts`（142 行）和 `__tests__/battle-levelup.test.ts`（303 行）。核对 `battle-settlement.ts` 的真实升级/屏序 caller（完整 246 行）与 `battle-system.ts` 的公开导出/settlement 边界；不把结算 owner 或 battle-system 全文件重复关闭。对照 SDLPal `reference/sdlpal/battle.c:991-1373`、`reference/sdlpal/global.c:2347-2409`，并结合 progression/levelup 的 runtime projection、装备有效值和隐藏经验池所有权。
+本次重新全文核battle-progression、H02、levelup，按PAL_BattleWon/PAL_PlayerLevelUp/真实settlement caller核主升级999 cap、隐藏不套此cap、主6抽/隐藏2抽和HP/MP回满顺序。修正STAT_LIMIT2393–2401、MAX_LEVELS/palcommon.h与global.c真实EOF2409；写回余exp与PAL_PlayerLevelUp自身清零不同，PRNG算法也不同于SDLPal，不能声称同种子同序。
 
-核对轴包括活人经验 gate、主经验余数与满级扣除、主升级 RNG/stat cap/HP-MP 回满、隐藏池严格顺序与整数截断、隐藏池不套主升级 999 cap、隐藏涨点后的回满时机、法术等级门/去重/槽满和 snapshot 的 raw runtime 与有效装备值分离。当前实现与 primary/caller 一致，未发现能由直接证据证实的新实现 defect；没有修改数值、schema/save、公共接口、生成物、结算 UI 或用户可见行为。
+生产仅注释，removeComments编译JS字节与27358f9d9基点一致。levelup复用完整typed角色工厂，只执行公开投影，不声称真实开下一场；H02头注只保留Health→Magic两池信用，主升级回满例明确8个合法抽样并核完整调用参数序列。额外一抽的同一变异旧5绿→新4绿1指定业务AssertionError，恢复SHA一致；两文件仍5/11例，无新增弱测试或退役。
 
-测试判别力：定向 4 files / 207 tests 全绿；专属 progression/levelup 测试包含 >99 level、隐藏无 cap、多池 RNG 顺序、死队员、阈值/连升/满级、法术去重/等级门、runtime→battle projection 和主升级/隐藏经验回满反例。settlement 与主 battle-system 测试只作为相邻 caller/oracle，不扩张为本片新关闭；未发现本片可直接证实的恒真或重复合同。
-
-验证：定向 `4 files / 207 tests passed`；本片未改产品实现，因此不重复运行 game typecheck。coverage ratchet、protected fast、全仓 `pnpm check` 和官方 coverage 按用户成本边界未运行。后续文档/lint/ledger 门只验证治理记录完整性，不替代这些高成本门。
-
-2026-10-18 源区间勘误：旧上界越过实际EOF，现按[直接源码核对](../53-wave-gates/receipt-audit/anchor-corrections.json)更正；原read-boundaries字节在审计附件保留，不据此补签未运行的产品/全仓/coverage门。
+本片27定向（含11所有权相邻）与16真实结算/装备/opcode相邻全绿无stderr，game typecheck通过。完整原件/读边界、当前门、身份映射与限制见[毒/升级有限返工](../core-comment-audit/poison-progression-comments/README.md)。C WORD极端数值、全部七池判别力、原盘表重算、真正开战/演出与统一check/coverage/protected仍未验，不关闭文件；前轮C源越界原件也继续保留于53 receipt-audit。

@@ -1,0 +1,177 @@
+{
+  "base": "27358f9d9e3ab65d777b7864fcc936638ed9373a",
+  "fullReads": [
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "sha256": "3c7ed5879374144001595a6bc1c6d1ef1a71ab63a6407c55fd94bd89ec7bfa5a",
+      "lines": 142,
+      "scope": "Full base text plus own delta where modified; no whole-file semantic closure."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.ts",
+      "sha256": "fc687b0757b88bc0a9c287e6d80fb000ce177575bebe769728e55585896ba0ba",
+      "lines": 307,
+      "scope": "Full base text plus own delta where modified; no whole-file semantic closure."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "sha256": "e6ed3f211c88243f8f7cc536d97cdcb448f3a81c344d83c9d74eef14f0338389",
+      "lines": 153,
+      "scope": "Full base text plus own delta where modified; no whole-file semantic closure."
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-levelup.test.ts",
+      "sha256": "0590f0197bbe19f04fa9b4a5fc0aa520d686f5d3b9f60c495d5211c7b4d2d168",
+      "lines": 303,
+      "scope": "Full base text plus own delta where modified; no whole-file semantic closure."
+    },
+    {
+      "path": "packages/game/src/core/dependency-ownership.test.ts",
+      "sha256": "d483cc817fa920d93c453fef65dd1c6a5dcc59615667ceeeca7b10bafdd186c9",
+      "lines": 178,
+      "scope": "Full base text plus own delta where modified; no whole-file semantic closure."
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-next-wave/H/harness.ts",
+      "sha256": "41bc231d86581da71cea2224ad2b66831cd9b0dd1b8b75bb4f2c84c71eed739e",
+      "lines": 222,
+      "scope": "Full base text plus own delta where modified; no whole-file semantic closure."
+    },
+    {
+      "path": "packages/game/src/core/rng.ts",
+      "sha256": "a1b685dd3851cdda39012481c7dd0ddda1cffa5761c15a82a045060e56b9fd4c",
+      "lines": 51,
+      "scope": "Full base text plus own delta where modified; no whole-file semantic closure."
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "eebb89f531c5ae56b8b3e2b0971605f22d4739feba33f8008b5178fff0897d43",
+      "lines": 11,
+      "scope": "Full base text plus own delta where modified; no whole-file semantic closure."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "reference/sdlpal/global.c",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "ranges": [[1330, 1745], [2080, 2145], [2330, 2409]],
+      "scope": "Only actual primary/type/caller/lifecycle lines, including combined contiguous reads; requests past EOF have no credit beyond the physical last line. No full-file or original-game execution claim."
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f",
+      "ranges": [[1055, 1190], [1220, 1335]],
+      "scope": "Only actual primary/type/caller/lifecycle lines, including combined contiguous reads; requests past EOF have no credit beyond the physical last line. No full-file or original-game execution claim."
+    },
+    {
+      "path": "reference/sdlpal/palcommon.h",
+      "sha256": "92ca376598778230c7433449ede5e597cc23ef91ea246b2720b10da045ff86ba",
+      "ranges": [[70, 90]],
+      "scope": "Only actual primary/type/caller/lifecycle lines, including combined contiguous reads; requests past EOF have no credit beyond the physical last line. No full-file or original-game execution claim."
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "fdfe520283d6975bd93573f153ee51f620c3ec424433b2672ff447ba20a2831b",
+      "ranges": [[520, 595], [1060, 1080], [1394, 1453], [1555, 1695]],
+      "scope": "Only actual primary/type/caller/lifecycle lines, including combined contiguous reads; requests past EOF have no credit beyond the physical last line. No full-file or original-game execution claim."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "sha256": "881a38eccfb088452cffdf1eccb71414612730a6138bae4e7ab4890a342b55c6",
+      "ranges": [[100, 175]],
+      "scope": "Only actual primary/type/caller/lifecycle lines, including combined contiguous reads; requests past EOF have no credit beyond the physical last line. No full-file or original-game execution claim."
+    },
+    {
+      "path": "packages/game/src/core/equipment-state.ts",
+      "sha256": "5ebe8ee7d1c0ad76f6867253aaaa9875ea473a776afb27a00edca9c21999ed5c",
+      "ranges": [[370, 392]],
+      "scope": "Only actual primary/type/caller/lifecycle lines, including combined contiguous reads; requests past EOF have no credit beyond the physical last line. No full-file or original-game execution claim.",
+      "requestedRanges": [[370, 395]],
+      "actualEof": 392
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.ts",
+      "sha256": "aaa871cb7a4a2ee1ff86dc9ccfea798c4ec9a8c7f42b577af593e21cc114354d",
+      "ranges": [[195, 265], [360, 427]],
+      "scope": "Only actual primary/type/caller/lifecycle lines, including combined contiguous reads; requests past EOF have no credit beyond the physical last line. No full-file or original-game execution claim.",
+      "requestedRanges": [[195, 265], [360, 430]],
+      "actualEof": 427
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.ts",
+      "sha256": "c613002b06e83ccc6a4805c1fc0a3ace2d7107068d2305689ab3e456fe3f2c0c",
+      "ranges": [[1, 65]],
+      "scope": "Only actual primary/type/caller/lifecycle lines, including combined contiguous reads; requests past EOF have no credit beyond the physical last line. No full-file or original-game execution claim."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.ts",
+      "sha256": "799c6795b9f106300d412249244af86816dc305966a19b509dbd8011ea771f66",
+      "ranges": [[550, 640]],
+      "scope": "Only actual primary/type/caller/lifecycle lines, including combined contiguous reads; requests past EOF have no credit beyond the physical last line. No full-file or original-game execution claim."
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "34eaad97dd35a62a273596efecd9a5cfbf6e00360ac923fc6e64e2b76e622242",
+      "ranges": [[4288, 4320]],
+      "scope": "Only actual primary/type/caller/lifecycle lines, including combined contiguous reads; requests past EOF have no credit beyond the physical last line. No full-file or original-game execution claim."
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "6c02f5c426c7bf4fb8ef096117c23dd79ee10a2d642e70c1d4d51119b2026298",
+      "ranges": [[1248, 1275]],
+      "scope": "Only actual primary/type/caller/lifecycle lines, including combined contiguous reads; requests past EOF have no credit beyond the physical last line. No full-file or original-game execution claim."
+    },
+    {
+      "path": "packages/shared/src/tables.ts",
+      "sha256": "c6e4f9cea1f009d74b292198bb706b25f98d5e4de6b651a3d6be99ad4f514a7a",
+      "ranges": [[465, 625]],
+      "scope": "Only actual primary/type/caller/lifecycle lines, including combined contiguous reads; requests past EOF have no credit beyond the physical last line. No full-file or original-game execution claim."
+    },
+    {
+      "path": "docs/phase1/game-mechanics.md",
+      "sha256": "a81d17a63ff80031ab257eb38dd4db03320f33eb8e33b74d1df401a10eba6c89",
+      "ranges": [[106, 235], [1255, 1304], [1333, 1364], [1486, 1501], [1529, 1566]],
+      "scope": "Only actual primary/type/caller/lifecycle lines, including combined contiguous reads; requests past EOF have no credit beyond the physical last line. No full-file or original-game execution claim."
+    },
+    {
+      "path": "docs/phase1/engineering-notes.md",
+      "sha256": "e37d7232b6aff955f4aa8b50e33f87b15377a3707c0c548d5d6cc7ddffb2e89f",
+      "ranges": [[107, 125]],
+      "scope": "Only actual primary/type/caller/lifecycle lines, including combined contiguous reads; requests past EOF have no credit beyond the physical last line. No full-file or original-game execution claim."
+    }
+  ],
+  "newClosed": 0,
+  "limitations": [
+    "Primary C/phase1 documentation, not full SDLPal/native/original asset gameplay.",
+    "Adjacent tests are execution regression only, no new semantic review/closure credit.",
+    "Poison holes/compaction only recorded; no product build allowed."
+  ],
+  "documentReads": [
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
+      "sha256": "2d6b803354efd22aafd962efbebc19dccacd3ea8510733d445f5eb280191350c",
+      "scope": "Full paired current document, including own narrow delta where modified; old publication/runtime evidence not reexecuted."
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/evidence.json",
+      "sha256": "4b69b0964a7bdf17d1bd8a8860d47ce4904fa444ce9f85e0d95672600dc675f7",
+      "scope": "Full paired current document, including own narrow delta where modified; old publication/runtime evidence not reexecuted."
+    },
+    {
+      "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/README.md",
+      "sha256": "d2595134c449d47fa189561d132f8bc4c85a1a7cf8c8a1ab8873351c11e06b06",
+      "scope": "Full paired current document, including own narrow delta where modified; old publication/runtime evidence not reexecuted."
+    }
+  ],
+  "selectedJsonReads": [
+    {
+      "path": "docs/testing/catalog.json",
+      "selector": "entries[id=phase1-dependency-ownership]",
+      "scope": "Only this entry full-read; other17 objects machine-equal, no new full-catalog semantic review."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json",
+      "scope": "Machine count83/50partial/33pending/0accept only; not83 semantic card reviews."
+    }
+  ]
+}

@@ -7,8 +7,9 @@
  * stat 成长用可控 rng(rangeInclusive:()=>0 → 增长取确定下界 base),核对精确值。
  */
 
-import type { LevelUpMagicEntry, PlayerRole } from '@type-pal/shared'
+import type { LevelUpMagicEntry, PlayerRoles } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
+import { makeHRole } from '../../../__tests__/glm-next-wave/H/harness.js'
 import {
   createInitialGameState,
   type GameState,
@@ -237,7 +238,7 @@ describe('battleWonLevelUp —— D11 战斗胜利升级', () => {
     expect(gs.Exp.rgPrimaryExp[0]!.wExp).toBe(5010) // 10+5000
   })
 
-  it('D11×M5:升级写 runtime → 投影 → 下一场战斗吃升级后属性(整链闭环)', () => {
+  it('D11×M5:升级写runtime → 公开battle roles投影读取升级结果', () => {
     const gs = makeGs({ level: 1, hp: 50, maxHP: 100, attackStrength: 20, magicStrength: 15 })
     battleWonLevelUp({
       gs,
@@ -250,11 +251,10 @@ describe('battleWonLevelUp —— D11 战斗胜利升级', () => {
     // 升级后 runtime(攻击 20→24,等级 1→2)
     expect(gs.PlayerRolesRuntime.rgwAttackStrength[0]).toBe(24)
     expect(gs.PlayerRolesRuntime.rgwLevel[0]).toBe(2)
-    // 投影到战斗 roles —— 下一场战斗用的是升级后属性(原架构裂缝:战斗永远用 1 级基线)
-    const staticRoles = {
+    // 调用公开投影;此处不启动下一场战斗,不赋予完整开战链的执行信用。
+    const staticRoles: PlayerRoles = {
       roles: [
-        {
-          id: 0,
+        makeHRole(0, {
           _name: 'r0',
           level: 1,
           attackStrength: 20,
@@ -268,7 +268,7 @@ describe('battleWonLevelUp —— D11 战斗胜利升级', () => {
           fleeRate: 0,
           poisonResistance: 0,
           elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-        } as any as PlayerRole,
+        }),
       ],
     }
     const battleRoles = projectRuntimeToBattleRoles(gs.PlayerRolesRuntime, staticRoles)

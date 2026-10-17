@@ -1,0 +1,106 @@
+{
+  "base": "27358f9d9e3ab65d777b7864fcc936638ed9373a",
+  "scope": "Two comment-only implementations and two focused tests; no executable product change",
+  "direct": {
+    "files": 3,
+    "passed": 27,
+    "diagnostics": 0,
+    "receipt": "direct.json",
+    "scope": "Modified16 plus11 existing ownership regression; unchanged ownership source only read, no new semantic acceptance."
+  },
+  "adjacent": {
+    "files": 3,
+    "passed": 16,
+    "diagnostics": 0,
+    "receipt": "adjacent.json",
+    "scope": "Regression only, not new full-file review."
+  },
+  "control": {
+    "oldPassed": 5,
+    "currentPassed": 4,
+    "currentBusinessAssertionErrors": 1,
+    "pending": 0,
+    "sourceRestoredByteForByte": true,
+    "receipts": ["control-old.json", "control-current.json"],
+    "scope": "One extra RNG consumption at hidden-refill, same executable production algorithm before/current comments. Not a new product bug."
+  },
+  "emitIdentity": {
+    "files": 2,
+    "byteIdentical": true,
+    "receipts": ["emit-identity.json", "emit-identity-run.json"]
+  },
+  "typecheck": {
+    "exit": 0,
+    "diagnostics": 0,
+    "receipt": "typecheck.json"
+  },
+  "docs": {
+    "initialExit": 1,
+    "initialIssues": 1,
+    "toolTestsPassed": 125,
+    "initialReceipt": "docs.json",
+    "failure": "New child evidence directory missing from core-comment-audit parent navigation; link added.",
+    "currentConsumersReceipt": "docs-final.json",
+    "currentConsumersStatus": "passed",
+    "retryScope": "Only remaining text/model/testing/phase-lore/content consumers replayed; unchanged125 docs-tool tests not rerun.",
+    "currentConsumersExit": 0,
+    "currentConsumersIssues": 0,
+    "firstConsumersReplay": {
+      "exit": 1,
+      "issues": 2,
+      "receipt": "docs-current.json",
+      "reason": "Poison sourceRef comment hash drift in one catalog entry and paired evidence; scoped sourceRef/history/report maintenance applied."
+    },
+    "allComponentsSatisfied": true,
+    "literalFullPnpmRerun": false,
+    "finalTextReceipt": "docs-text-final.json"
+  },
+  "lint": {
+    "exit": 0,
+    "files": 5178,
+    "errors": 0,
+    "warnings": 0,
+    "infos": 0,
+    "receipt": "lint.json"
+  },
+  "ledger": {
+    "exit": 0,
+    "tracked": 3315,
+    "closed": 275,
+    "review": 66,
+    "pending": 2974,
+    "receipt": "ledger.json",
+    "semanticReviewStillRequired": true
+  },
+  "diff": {
+    "exit": 0,
+    "diagnostics": 0,
+    "receipt": "diff.json",
+    "scope": "Owned staged paths; final receipt updates restaged and checked again before commit."
+  },
+  "newClosed": 0,
+  "reopened": 3,
+  "notRun": [
+    "whole-repository check",
+    "official coverage ratchet",
+    "protected fast",
+    "native SDLPal execution",
+    "original-asset gameplay",
+    "browser visual",
+    "E2E"
+  ],
+  "notRunReason": "User batches expensive whole-repo/coverage gates at large closeout; this finite slice makes no product behavior change. No baseline/retirement payload/rule changes.",
+  "remaining": [
+    "Six annotation groups and formulas arithmetic proof",
+    "Poison sparse-list/compaction product decision and actual catalog/tick lifecycle",
+    "Unverified original-table and extreme numeric domains",
+    "Remaining seven-pool discrimination",
+    "One test-title protected identity migration at actual closeout",
+    "Unified zero diagnostics and merge"
+  ],
+  "metadataVerification": {
+    "exit": 0,
+    "receipt": "verification.json",
+    "scope": "Current raw/hash/read ranges, exact before Git sources, test execution sets, one-entry catalog/paired deltas and untouched ledger history; no extra semantic acceptance."
+  }
+}

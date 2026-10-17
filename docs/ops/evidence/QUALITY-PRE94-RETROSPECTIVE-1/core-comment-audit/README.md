@@ -38,3 +38,5 @@ Search的primary是play.c PAL_GetSearchTriggerRange/PAL_Search，真实caller为
 5旧closed转review（搜索源/测、队列源/测、毒实现），0新closed；83卡仍50partial/33pending/0accept。搜索注释项已修，其余9注释、formulas算式风险和两UI差异待续；progression本轮虽全文读过，但锚纠正留下一有限批，不重签。全仓check、官方coverage ratchet、protected fast仍按用户要求大任务收尾；未合main，不宣布专项完成。
 
 后续[用户批准的队列修复](queue-approved-fix/README.md)在独立行为提交中先红后绿；本页上述“未改队列”只适用于c3d943dde搜索批候选，原C对照和历史原件保持。毒列表压缩未实现。
+
+当前[毒/升级注释与夹具返工](poison-progression-comments/README.md)修CureKind/STAT_LIMIT等事实注释，移除不完整投影夹具并钉主6+隐藏2抽；两生产JS不变，四组注释已处理、余六组和两UI继续。毒压缩/去重差异只读，不据本片恢复旧整文件信用。

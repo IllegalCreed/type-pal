@@ -1,0 +1,64 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/battle/battle-progression.glm-next-wave.test.ts",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile=/tmp/type-pal-progression-control-current.vitest.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T20:35:00.284257+00:00",
+  "completedAt": "2026-10-17T20:35:01.417729+00:00",
+  "exit": 1,
+  "signal": null,
+  "spawnError": null,
+  "raw": "control-current.raw.gz",
+  "rawBytes": 2377,
+  "rawSha256": "f6d43b4412a23b810412543644ad0754a07ae2a84e5b8776d7ec51b6b89f5475",
+  "fullUncutMergedStdoutStderr": true,
+  "sourceSha256": "fc687b0757b88bc0a9c287e6d80fb000ce177575bebe769728e55585896ba0ba",
+  "mutantSha256": "4b18440a87fd552300726e3e7b3439966f4f40f8a6179cb265c8b131502d8882",
+  "specSha256": "e6ed3f211c88243f8f7cc536d97cdcb448f3a81c344d83c9d74eef14f0338389",
+  "restoredSourceSha256": "fc687b0757b88bc0a9c287e6d80fb000ce177575bebe769728e55585896ba0ba",
+  "sourceRestoredByteForByte": true,
+  "passed": 4,
+  "failed": 1,
+  "pending": 0,
+  "execution": [
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "name": "applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1293) wLevel=120 先钳 99;99 级上继续扣阈值涨属性,wLevel 停 99 不再 ++",
+      "status": "passed"
+    },
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "name": "applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1293) 隐藏涨点无 STAT_LIMIT 999 钳:base 998 再涨 → 突破 999(与主升级 cap 明确不同)",
+      "status": "passed"
+    },
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "name": "applyHiddenExpGrowth —— CHECK_HIDDEN_EXP 宏边角(battle.c:1238-1293) 多池同涨:R(1,2) 按 Health→Magic 严格序消费(rng 调用序可证)",
+      "status": "passed"
+    },
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "name": "battleWonLevelUp:隐藏经验抬 maxHP 与回满的先后(battle.c:1287-1292) 无主升级但隐藏涨 maxHP → HP 保持战后值不回满(if(fLevelUp) 才回满)",
+      "status": "passed"
+    },
+    {
+      "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts",
+      "name": "battleWonLevelUp:隐藏经验抬 maxHP 与回满的先后(battle.c:1287-1292) 主升级成立 → 隐藏涨点后 HP/MP 回满到(可能更高的)新 max(battle.c:1289-1292)",
+      "status": "failed"
+    }
+  ],
+  "failureMessages": [
+    "AssertionError: expected [ 'rangeInclusive(0,7)', …(8) ] to deeply equal [ 'rangeInclusive(0,7)', …(7) ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts:142:23\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+  ],
+  "runtimeCheck": "Require five actual assertion results, no pending; exact new failed target and only AssertionError; raw retained, no missing runtime-count field treated as numeric zero."
+}

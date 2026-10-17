@@ -1040,7 +1040,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "3652e9acf982ff0219a2b75966fe912403e7d1aa435096558595934d4b8215af",
+      "afterSha256": "96ea3044b50b6a947f44609a3172a50ea9753fad7f76b571ede6a4c63807e2a3",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1064,8 +1064,23 @@
       },
       "revision": {
         "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "implementationSha": "3652e9acf982ff0219a2b75966fe912403e7d1aa435096558595934d4b8215af",
+        "implementationSha": "96ea3044b50b6a947f44609a3172a50ea9753fad7f76b571ede6a4c63807e2a3",
         "history": [
+          {
+            "revision": "27358f9d9e3ab65d777b7864fcc936638ed9373a",
+            "date": "2026-10-18",
+            "action": "Correct four pre94 poison/progression source/test files and revoke three unsupported closure claims",
+            "previousAfterSha256": "3652e9acf982ff0219a2b75966fe912403e7d1aa435096558595934d4b8215af",
+            "scope": "Only one board progress row, four current ledger rows and their incoming bindings: two implementation comments, legal typed projection fixture and exact eight-draw oracle. Three old closures to review; no new closures or product execution change. Original native verdicts/history preserved; no rule/baseline/retirement acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "c3d943ddeba9c05d01a752c0c22f8d3e78d724a8",
             "date": "2026-10-18",
@@ -1271,7 +1286,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "3652e9acf982ff0219a2b75966fe912403e7d1aa435096558595934d4b8215af",
+        "afterSha256": "96ea3044b50b6a947f44609a3172a50ea9753fad7f76b571ede6a4c63807e2a3",
         "lineCount": 1987,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1306,7 +1321,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-2422",
+      "reviewedLines": "1-2437",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -2767,7 +2782,7 @@
         }
       ],
       "sourceSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-      "afterSha256": "f7dbdca574f3e52ee3f1da6e9152f82536d00732489fb3a34597d70f530dc7b7",
+      "afterSha256": "05f9690e54d5d0d614b733795f7a2b352cab11c6b4bdff55d284feb38ebde6da",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -2791,8 +2806,24 @@
       },
       "revision": {
         "currentSha": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-        "implementationSha": "f7dbdca574f3e52ee3f1da6e9152f82536d00732489fb3a34597d70f530dc7b7",
+        "implementationSha": "05f9690e54d5d0d614b733795f7a2b352cab11c6b4bdff55d284feb38ebde6da",
         "history": [
+          {
+            "revision": "27358f9d9e3ab65d777b7864fcc936638ed9373a",
+            "date": "2026-10-18",
+            "action": "Finite poison/progression comment/test repair and dependent sourceRef maintenance",
+            "previousAfterSha256": "f7dbdca574f3e52ee3f1da6e9152f82536d00732489fb3a34597d70f530dc7b7",
+            "scope": "Only the named current source/document delta and incoming bindings. Catalog maintenance selects phase1-dependency-ownership only; other17 entry objects, lastVerified/status/versions/candidate and old D1 runtime/needle fields unchanged. Poison implementation JS unchanged; current11 ownership tests are only finite regression. Three old file closures reopened; no new product/native/SCC/browser/coverage or whole-document acceptance. Original native verdicts/history preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md",
+            "notRun": [
+              "original D1 audit/needles",
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
             "date": "2026-10-17",
@@ -2806,7 +2837,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
         "candidateSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-        "afterSha256": "f7dbdca574f3e52ee3f1da6e9152f82536d00732489fb3a34597d70f530dc7b7",
+        "afterSha256": "05f9690e54d5d0d614b733795f7a2b352cab11c6b4bdff55d284feb38ebde6da",
         "lineCount": 3229,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -2841,7 +2872,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-3247",
+      "reviewedLines": "1-3279",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -3049,7 +3080,7 @@
         }
       ],
       "sourceSha256": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
-      "afterSha256": "1644785e1f0868d1813efaeab56890b1eaba4cfc7ea6275ad721cfa93b15bf11",
+      "afterSha256": "4d2af92a60fec56b97d6bf07c63501e74fc6ff024011cb5d4fa42abe29a2cdd2",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -3073,8 +3104,24 @@
       },
       "revision": {
         "currentSha": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
-        "implementationSha": "1644785e1f0868d1813efaeab56890b1eaba4cfc7ea6275ad721cfa93b15bf11",
+        "implementationSha": "4d2af92a60fec56b97d6bf07c63501e74fc6ff024011cb5d4fa42abe29a2cdd2",
         "history": [
+          {
+            "revision": "27358f9d9e3ab65d777b7864fcc936638ed9373a",
+            "date": "2026-10-18",
+            "action": "Finite poison/progression comment/test repair and dependent sourceRef maintenance",
+            "previousAfterSha256": "1644785e1f0868d1813efaeab56890b1eaba4cfc7ea6275ad721cfa93b15bf11",
+            "scope": "Only the named current source/document delta and incoming bindings. Catalog maintenance selects phase1-dependency-ownership only; other17 entry objects, lastVerified/status/versions/candidate and old D1 runtime/needle fields unchanged. Poison implementation JS unchanged; current11 ownership tests are only finite regression. Three old file closures reopened; no new product/native/SCC/browser/coverage or whole-document acceptance. Original native verdicts/history preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md",
+            "notRun": [
+              "original D1 audit/needles",
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
             "date": "2026-10-17",
@@ -3088,7 +3135,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
         "candidateSha256": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
-        "afterSha256": "1644785e1f0868d1813efaeab56890b1eaba4cfc7ea6275ad721cfa93b15bf11",
+        "afterSha256": "4d2af92a60fec56b97d6bf07c63501e74fc6ff024011cb5d4fa42abe29a2cdd2",
         "lineCount": 7872,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -3123,7 +3170,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-7881",
+      "reviewedLines": "1-7897",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -4993,7 +5040,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "eb6d17b648ed22f3bca8f6a7e9222bf5649007c42c8c1c5ae53accffdc271466",
+      "afterSha256": "3ab681e958b314448c2008ab5c07049942c99cae51de4c4af8402082a84ce786",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5017,8 +5064,23 @@
       },
       "revision": {
         "currentSha": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "implementationSha": "eb6d17b648ed22f3bca8f6a7e9222bf5649007c42c8c1c5ae53accffdc271466",
+        "implementationSha": "3ab681e958b314448c2008ab5c07049942c99cae51de4c4af8402082a84ce786",
         "history": [
+          {
+            "revision": "27358f9d9e3ab65d777b7864fcc936638ed9373a",
+            "date": "2026-10-18",
+            "action": "Correct four pre94 poison/progression source/test files and revoke three unsupported closure claims",
+            "previousAfterSha256": "eb6d17b648ed22f3bca8f6a7e9222bf5649007c42c8c1c5ae53accffdc271466",
+            "scope": "Only one board progress row, four current ledger rows and their incoming bindings: two implementation comments, legal typed projection fixture and exact eight-draw oracle. Three old closures to review; no new closures or product execution change. Original native verdicts/history preserved; no rule/baseline/retirement acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "c3d943ddeba9c05d01a752c0c22f8d3e78d724a8",
             "date": "2026-10-18",
@@ -5215,7 +5277,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "eb6d17b648ed22f3bca8f6a7e9222bf5649007c42c8c1c5ae53accffdc271466",
+        "afterSha256": "3ab681e958b314448c2008ab5c07049942c99cae51de4c4af8402082a84ce786",
         "lineCount": 5074,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -5250,7 +5312,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-5380",
+      "reviewedLines": "1-5395",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
