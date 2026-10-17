@@ -65,3 +65,8 @@ Visual Verification Timing: e2e-deferred（商店观感留集中 E2E；本批核
 不要做：不得改变产品形态、schema/save、资源格式或公共接口；不得用单包全绿关闭文件
 输出：证据、测试结果、counter/返工项，或 wave 收口待办
 ```
+
+
+## Codex 当前复审（2026-10-18）
+
+历史 `done` 不等于本轮验收。本轮完整读取实现、两份直接测试、P04 caller/oracle、shop/menu 生命周期与 SDLPal `uigame.c:1503-1777`；实现、ownedCount、价格/半价、确认/overlay 和资源边界与 primary/caller 一致。直接范围 3 files 中 18 tests passed，`shop-preview-pixels.grok-r1.test.ts` 另有 1 条 `document is not defined` 环境诊断；相邻 6 files / 117 tests 和 game typecheck 通过。该测试文件保持 `review`，52 当前复审为 `partial`，不标 `accept`。证据见 [`52-draw-shop`](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/52-draw-shop/README.md)。

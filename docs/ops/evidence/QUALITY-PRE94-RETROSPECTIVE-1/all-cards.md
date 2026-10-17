@@ -1,6 +1,6 @@
 # 94前全部83卡复审队列
 
-2026-10-17，结构基点bea19f80c、当前检查点基点7057dddd9；77历史done/1build/4review/1draft。本轮accept=0，partial=34，pending=49。pending表示本轮成果语义复审未完成；partial只表示已开展局部证据，不是验收。卡的读取边界和具体源文件另记切片报告，结构文本提取不计全文语义阅读。
+2026-10-17，结构基点bea19f80c、当前检查点基点7057dddd9；77历史done/1build/4review/1draft。本轮accept=0，partial=35，pending=48。pending表示本轮成果语义复审未完成；partial只表示已开展局部证据，不是验收。卡的读取边界和具体源文件另记切片报告，结构文本提取不计全文语义阅读。
 
 | 卡 | 原卡状态 | 当前复审 | 范围/证据 |
 |---|---|---|---|
@@ -45,7 +45,7 @@
 | [CODE-QUALITY-49](../../archive/tasks/done/CODE-QUALITY-49-game-draw-inventory.md) | done | partial | [draw-inventory 复审](49-draw-inventory/README.md)：实现/三测试、P01/P02、menu caller/SDL primary 已核；live-zero 已对齐；像素测试 1 条 node DOM 诊断保留 review，统一门仍待 |
 | [CODE-QUALITY-50](../../archive/tasks/done/CODE-QUALITY-50-game-draw-magic.md) | done | partial | [draw-magic 复审](50-draw-magic/README.md)：四文件/P06/SDL primary、25 直接 + 136 相邻通过；PlayerInfoBox 状态/毒色缺口开高风险卡，统一门仍待 |
 | [CODE-QUALITY-51](../../archive/tasks/done/CODE-QUALITY-51-game-draw-opening-menu.md) | done | partial | [draw-opening-menu 复审](51-draw-opening-menu/README.md)：三文件/SDL primary/P06相邻、17 直接 + 107 相邻通过；未发现 direct defect，wave 统一门仍待 |
-| [CODE-QUALITY-52](../../archive/tasks/done/CODE-QUALITY-52-game-draw-shop-wave-member.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
+| [CODE-QUALITY-52](../../archive/tasks/done/CODE-QUALITY-52-game-draw-shop-wave-member.md) | done | partial | [draw-shop 复审](52-draw-shop/README.md)：实现/三测试/P04/SDL primary，18/19 直接 + 117 相邻通过；shop-preview 保留 1 条 node DOM 诊断，wave 统一门仍待 |
 | [CODE-QUALITY-53](../../tasks/CODE-QUALITY-53-player-status-runtime-zero.md) | build | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-54](../../archive/tasks/done/CODE-QUALITY-54-game-draw-tilemap.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-55](../../archive/tasks/done/CODE-QUALITY-55-game-draw-menu-wave-member.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |

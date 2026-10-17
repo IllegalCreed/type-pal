@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,311。
-当前已闭合核验：250；已读但待审：43；尚未逐文件核验：3,018；合计未闭合：3,061。
+当前已闭合核验：252；已读但待审：44；尚未逐文件核验：3,015；合计未闭合：3,059。
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
@@ -180,6 +180,9 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/present/menu/draw-confirm.ts` | product | 已验证 | CODE-QUALITY-46 当前复审；46-draw-confirm；uigame.c:242-388；present/draw-menu/draw-shop callers；draw-box/font/framebuffer owners | 48 行实现全文核验双框坐标、selectedColor、标签/阴影、空标签与 framebuffer ownership；定向2 files/10 tests、相邻3 files/69 tests、game typecheck通过；未发现 direct defect |
 | `packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-46 当前复审；46-draw-confirm；真实 drawConfirmBox/framebuffer pixel oracle | 67 行全文核验选中侧、palette cycle、三影、custom switch labels；定向2 files/10 tests通过，无弱断言 |
 | `packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-46 当前复审；46-draw-confirm；opening/pixel caller与状态隔离 oracle | 177 行全文核验背景/光标/状态不可变、多字与空标签边界；定向2 files/10 tests通过，无弱断言 |
+| `packages/game/src/present/menu/draw-shop.ts` | product | 已验证 | CODE-QUALITY-52 当前复审；52-draw-shop；SDLPal `uigame.c:1503-1777`；P04/draw-menu/present/shop-menu/menu-driver callers | 实现全文核验买/卖布局、ownedCount库存+装备、价格/半价、确认/overlay、缺资源和无副作用；直接范围18/19、相邻6 files/117、game typecheck通过；未发现 direct defect |
+| `packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-52；52-draw-shop；owned/空店/非sellable/缺cursor framebuffer oracle | 全文核验剩余分支；直接18/19测试通过；与P04/像素职责不重复 |
+| `packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts` | test | review | CODE-QUALITY-52；52-draw-shop；价格/阴影/缺帧/半价/live owned/canvas pixel oracle | 全文核验13 tests；12通过，G07-B13 `document is not defined` node环境诊断；未改环境/未静音，保留 review |
 | `packages/game/src/present/menu/draw-opening-menu.ts` | product | 已验证 | CODE-QUALITY-51 当前复审；51-draw-opening-menu；SDLPal `uigame.c:42-167`/`ui.c:458`；draw-menu/present/opening-menu/menu-driver callers | 94 行全文核验背景、两项文案、长文案 x 公式、selected/normal 色、三影、缺背景和 framebuffer ownership；直接3 files/17 tests、相邻4 files/107 tests、game typecheck通过；未发现 direct defect |
 | `packages/game/src/present/menu/draw-opening-menu.test.ts` | test | 已验证 | CODE-QUALITY-51；51-draw-opening-menu；openingItemX/background/cursor framebuffer oracle | 101 行全文核验公式、背景/缺背景、两行坐标、cursor差异；直接3 files/17 tests通过 |
 | `packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-51；51-draw-opening-menu；精确色值/词表/阴影反例 | 79 行全文核验 0xF9/0x4F、三影、词表同步和无 frames；直接3 files/17 tests通过；职责不重复 |

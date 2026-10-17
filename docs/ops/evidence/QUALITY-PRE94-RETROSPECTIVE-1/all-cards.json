@@ -2006,10 +2006,10 @@
       "number": 52,
       "suffix": "",
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-52-game-draw-shop-wave-member.md",
-      "sha256": "e03ec268f9b9fb67a1821e0b69a6a86678e8e6db4c490aa7aea0e3ec68350810",
-      "lines": 67,
+      "sha256": "5ca146c771198d6fc356d50b5870d3bb26a943e6d2438479a4a287a8eacce5de",
+      "lines": 72,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -2037,7 +2037,7 @@
           "text": "不要做：不得改变产品形态、schema/save、资源格式或公共接口；不得用单包全绿关闭文件"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true
     },
     {
       "id": "53",
@@ -3923,8 +3923,8 @@
   ],
   "reviewCheckpointBase": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
   "currentReviewCounts": {
-    "partial": 34,
-    "pending": 49,
+    "partial": 35,
+    "pending": 48,
     "accept": 0
   }
 }
