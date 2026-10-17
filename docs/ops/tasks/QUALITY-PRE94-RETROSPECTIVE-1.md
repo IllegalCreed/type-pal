@@ -373,6 +373,13 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 - 结论：SHORT/WORD 与三段 base damage、元素/毒抗、场效、玩家/敌人两套 multiplier、各目标 RNG、auto-defend 前置抽样、inline/simulate 下限、死队员/空槽跳过和 object-magic 解析均与 primary/caller 一致，未发现直接缺陷；测试 fixture 的窄 `as any` 仅用于大型共享类型补齐，不改变真实 oracle。
 - 验证：公式、magic-damage、battle actions、coop magic、敌法术 E2、battle opcode、throw-item 共 `8 files / 222 passed`，无测试 stderr；`pnpm --filter @type-pal/game typecheck` 通过。coverage、official ratchet、protected fast、全仓 `pnpm check` 留待完整大模块收口。已读清单与 SHA 见 [`3m-formulas-magic`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3m-formulas-magic/README.md)。3m 整卡保持 `partial`。
 
+### 2026-10-17 CODE-QUALITY-3m RNG 复审/边界修复切片
+
+- 范围：完整读取 `packages/game/src/core/rng.ts`、`rng.test.ts`、`enemy-ai.ts`、`actions/flee.ts`、`battle-progression.ts`；读取 `battle-system.ts` 的队列 jitter、自动选法术、混乱目标、隐藏经验/升级 caller；primary 为 `util.c:169-275` 和 `fight.c:1474-1563,3637-3658,4143,4540-4658`。
+- 发现并修复：SDLPal `RandomLong/RandomFloat` 在 `to <= from` 时直接返回 `from` 且不消费状态；TS 三个 range API 原先会额外 `next()`，倒序区间还返回错误值。先行反例 `1 failed / 7 passed`，再加前置分支；合法区间分布不变。
+- 测试修正：单人队 `RandomLong(0,0)` 的 battle-system 回归显式固定后续伤害掷骰，解除对旧错误抽样副作用的隐式依赖；仍验证目标越界不崩溃且玩家受击。
+- 验证：rng/enemy-ai/actions/battle-system/progression/state-machine/event-system 共 `7 files / 638 passed`；无新增测试诊断。coverage、official ratchet、protected fast、全仓 `pnpm check` 留待完整大模块收口。已读清单与 SHA 见 [`3m-rng`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3m-rng/README.md)。3m 整卡保持 `partial`。
+
 ### 2026-10-17 CODE1/CODE2 boundary carry-over
 
 本片接收工作树中已完成的两个窄测试合同：`packages/shared/src/rle.boundaries.test.ts` 新增“相邻 offset 截断前一帧帧头即拒绝”反例；`packages/shared/src/rng.boundaries.test.ts` 新增同一 surface 连续 delta 累加并保留首帧像素的 ownership 合同。两项都只改测试，不改 RLE/RNG/YJ2 实现、公共出口、资源或格式策略；RLE 高位 literal 风险继续留在 `QUALITY-RLE-COMMAND-TRUTH-1` draft。

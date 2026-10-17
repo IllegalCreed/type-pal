@@ -1,0 +1,71 @@
+{
+  "base": "f6a88d3c4",
+  "fullReads": [
+    {
+      "path": "packages/game/src/core/rng.ts",
+      "sha256": "a1b685dd3851cdda39012481c7dd0ddda1cffa5761c15a82a045060e56b9fd4c",
+      "lines": 51,
+      "boundary": "Full PRNG implementation read; seed normalization, mulberry32 next, all range APIs and state ownership."
+    },
+    {
+      "path": "packages/game/src/core/rng.test.ts",
+      "sha256": "7b11636b1dd2d1bbb8e44d28a2ee6778ea05546b8c960417c1e7514a099599d0",
+      "lines": 83,
+      "boundary": "Full direct RNG oracle read; deterministic sequence, half-open/inclusive/float ranges, state and invalid-boundary contracts."
+    },
+    {
+      "path": "packages/game/src/core/battle/enemy-ai.ts",
+      "sha256": "32582a364d7022b415bc74e5c7094f3a504388da71cfaf6c2e3a5beeee4dc912",
+      "lines": 129,
+      "boundary": "Full RNG caller read; target selection, rejected dead slots, magic-rate draw and confused target draws."
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/flee.ts",
+      "sha256": "5995eba743a3a36f8344a0b7bb7ca69408b7783c31b3595e4718ff4a79ef6ae0",
+      "lines": 81,
+      "boundary": "Full RandomLong(0,def) caller read; boss short-circuit ordering and flee-exp ownership."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.ts",
+      "sha256": "6ad9607369e7c2bb619184d2e6bf189e4695094e4ac02c3d92885338a3fe93e1",
+      "lines": 306,
+      "boundary": "Full level-up/hidden-exp RNG caller read; stat growth order and per-pool consumption."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-system.test.ts",
+      "sha256": "c015253dc5e05502e4ba193e42fd8e15b0296e88998d1432dce3946274f2dc84",
+      "lines": 4248,
+      "ranges": ["1725-1760"],
+      "boundary": "Adjacent target-index regression; fixture now isolates RNG after equal-bound RandomLong."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "c286881a1d1d5932333a9fcd084376e42d8871c5abc2a052573a6dbc9267b11c",
+      "lines": 3141,
+      "ranges": ["680-770", "1040-1080", "2720-2880"],
+      "boundary": "Queue jitter, auto-magic, confused target and battle progression RNG callers."
+    },
+    {
+      "path": "reference/sdlpal/util.c",
+      "sha256": "e8f70ab5b01a21f0a2f40c9ae3fb2c05a38dd3b13bb4fc28d8603af8f54deac7",
+      "lines": 1003,
+      "ranges": ["169-275"],
+      "boundary": "LCG state and RandomLong/RandomFloat lower-bound behavior primary range."
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "lines": 5400,
+      "ranges": ["1474-1563", "3637-3658", "4143-4143", "4540-4658"],
+      "boundary": "Battle RNG call order and RandomLong range caller semantics."
+    }
+  ],
+  "notClaimed": [
+    "Complete CODE-QUALITY-3m acceptance",
+    "mulberry32-to-SDLPal algorithm equivalence",
+    "Seed/save schema or public API changes",
+    "Coverage, official ratchet, protected fast or whole-repository acceptance"
+  ]
+}

@@ -33,12 +33,15 @@ export function createSeedableRng(seed: number): SeedableRng {
   return {
     next,
     range(lo, hi) {
+      if (hi <= lo) return lo
       return lo + Math.floor(next() * (hi - lo))
     },
     rangeInclusive(lo, hi) {
+      if (hi <= lo) return lo
       return lo + Math.floor(next() * (hi - lo + 1))
     },
     rangeFloat(lo, hi) {
+      if (hi <= lo) return lo
       return lo + next() * (hi - lo)
     },
     getState() {

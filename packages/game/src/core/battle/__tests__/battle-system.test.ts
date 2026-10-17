@@ -1745,6 +1745,8 @@ describe('B1 失能玩家行为(D8,fight.c:1398-1404/1505-1527/1731-1747/3760-38
     const st = gs.battleState!
     st.enemies[0]!.e.health = 0
     st.enemies[1]!.e.health = 0
+    // 单人队的 SDLPal RandomLong(0,0) 不消耗 RNG；固定后续伤害掷骰，隔离本测试的越界目标回归。
+    st.rng.rangeInclusive = (lo) => lo
     // 手工 perform:只放 enemy2 入队 → 它 attack player0;若 re-target 块误判 enemies[0] 死 → 重选敌索引 2 → 崩
     st.phase = 'performAction'
     st.actionQueue = [{ isEnemy: true, idx: 2, dex: 100, fIsSecond: false }]

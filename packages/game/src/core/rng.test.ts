@@ -67,4 +67,17 @@ describe('SeedableRng (mulberry32)', () => {
     expect(typeof state).toBe('number')
     expect(state).toBeGreaterThan(0)
   })
+
+  it('to<=from 时三个 range API 返回 from 且不消耗 RNG（对齐 util.c RandomLong/RandomFloat）', () => {
+    const r = createSeedableRng(987)
+    const before = r.getState()
+
+    expect(r.range(5, 5)).toBe(5)
+    expect(r.range(5, 4)).toBe(5)
+    expect(r.rangeInclusive(7, 7)).toBe(7)
+    expect(r.rangeInclusive(7, 6)).toBe(7)
+    expect(r.rangeFloat(9, 9)).toBe(9)
+    expect(r.rangeFloat(9, 8)).toBe(9)
+    expect(r.getState()).toBe(before)
+  })
 })
