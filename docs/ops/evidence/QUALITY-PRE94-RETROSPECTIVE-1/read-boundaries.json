@@ -131,7 +131,9 @@
     },
     {
       "path": "reference/sdlpal/battle.c",
-      "ranges": ["1810-1865"]
+      "ranges": ["1810-1858"],
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f",
+      "lines": 1858
     },
     {
       "path": "reference/sdlpal/script.c",
@@ -153,5 +155,13 @@
   "structuredCardCount": 36,
   "fullCardCount": 8,
   "noClaimOfAllFilesOrAllHistoryRead": true,
-  "noNewClosures": true
+  "noNewClosures": true,
+  "corrections": [
+    {
+      "date": "2026-10-18",
+      "previousRange": "1810-1865",
+      "currentRange": "1810-1858",
+      "scope": "Actual EOF1858 tail reread; old introductory snapshot still only36 structured/8 full cards, not the current83-card review scope."
+    }
+  ]
 }

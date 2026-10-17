@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "2521a11a1841afaa473477dadab65228cecb8294fc58e781b619d054e313be8b",
+      "afterSha256": "5ddb42150488a05ce34f20a9aa53493b674be38d45eace7e1af58e56a488f7ba",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,8 +1066,23 @@
       },
       "revision": {
         "currentSha": "a2101ce8ffeb73642521f0b489d17642f27bbd3fcdc581d0e9c354dedbc05778",
-        "implementationSha": "2521a11a1841afaa473477dadab65228cecb8294fc58e781b619d054e313be8b",
+        "implementationSha": "5ddb42150488a05ce34f20a9aa53493b674be38d45eace7e1af58e56a488f7ba",
         "history": [
+          {
+            "revision": "770f9168e3422aea1d98bac2a3bd447a1c6f2216",
+            "date": "2026-10-18",
+            "action": "Correct six audited pre-94 evidence bookkeeping issues",
+            "previousAfterSha256": "2521a11a1841afaa473477dadab65228cecb8294fc58e781b619d054e313be8b",
+            "scope": "Only named current board/ledger bookkeeping notice or incoming review SHA linkage. Existing before images preserved;55 is fresh supplementary reading, not a recovered past original. No product/test change or new whole-file acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
             "date": "2026-10-18",
@@ -1213,7 +1228,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "2521a11a1841afaa473477dadab65228cecb8294fc58e781b619d054e313be8b",
+        "afterSha256": "5ddb42150488a05ce34f20a9aa53493b674be38d45eace7e1af58e56a488f7ba",
         "lineCount": 13734,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1244,7 +1259,7 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "1-14656",
+      "reviewedLines": "1-14686",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

@@ -4,7 +4,7 @@
     {
       "path": "packages/game/src/present/dialog-box.ts",
       "sha256": "f0a4f858eb4304180664d3f8b89f41792593fe7c6df0be4e7ef184a9d9b1c6c9",
-      "lines": 958,
+      "lines": 961,
       "boundary": "Full parser/state/timing/pagination/confirm/drawing/narration/item-box implementation read; narration ~NN fix is the only product change."
     },
     {
@@ -16,7 +16,7 @@
     {
       "path": "packages/game/src/present/dialog-box.glm-next-wave.test.ts",
       "sha256": "8575e34c33c9e763af64cd11a383c9ee3037ca3b9786771c16ec35e871ff9c28",
-      "lines": 84,
+      "lines": 96,
       "boundary": "Full direct boundary read, including the narration ~NN counterexample and title/reset contracts."
     }
   ],
@@ -67,5 +67,26 @@
     "Visual/E2E acceptance beyond framebuffer contracts",
     "Save/schema/migration/generated-asset acceptance",
     "Environment repair for the unrelated document diagnostic"
+  ],
+  "corrections": [
+    {
+      "date": "2026-10-18",
+      "scope": "Line counts now identify the same exact already-stored post-fix SHA, not pre-fix line totals. No historical test outcome or whole-file acceptance renewed.",
+      "originalReceipt": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/42-dialog-box__read-boundaries.json.before.gz",
+      "changes": [
+        {
+          "source": "packages/game/src/present/dialog-box.ts",
+          "sha256": "f0a4f858eb4304180664d3f8b89f41792593fe7c6df0be4e7ef184a9d9b1c6c9",
+          "beforeLines": 958,
+          "afterLines": 961
+        },
+        {
+          "source": "packages/game/src/present/dialog-box.glm-next-wave.test.ts",
+          "sha256": "8575e34c33c9e763af64cd11a383c9ee3037ca3b9786771c16ec35e871ff9c28",
+          "beforeLines": 84,
+          "afterLines": 96
+        }
+      ]
+    }
   ]
 }

@@ -96,8 +96,11 @@
     },
     {
       "path": "docs/phase1/game-mechanics.md",
-      "ranges": ["808-855"],
-      "boundary": "Approved enemy flee resistance decision and action mechanics context."
+      "ranges": ["933-945"],
+      "boundary": "Current canonical flee-resistance decision only; source before this correction is pinned to revision/SHA. Prior808-855 was the wrong section.",
+      "sha256": "a81d17a63ff80031ab257eb38dd4db03320f33eb8e33b74d1df401a10eba6c89",
+      "lines": 1675,
+      "sourceRevision": "770f9168e3422aea1d98bac2a3bd447a1c6f2216"
     }
   ],
   "notClaimed": [
@@ -105,5 +108,13 @@
     "Magic/item/throw/coop actions and battle-opcodes full-file acceptance",
     "Save/schema/migration/generated-asset/E2E/visual acceptance",
     "Product behavior or public-interface change"
+  ],
+  "corrections": [
+    {
+      "date": "2026-10-18",
+      "previousRange": "808-855",
+      "correctedRange": "933-945",
+      "scope": "Current document has the two added0x66 progress lines; user-supplied931-943 referred to the earlier document. No flee product behavior or approval change."
+    }
   ]
 }

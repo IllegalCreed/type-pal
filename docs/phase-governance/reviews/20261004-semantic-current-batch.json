@@ -407,7 +407,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "0af9a71c6b44c846aca3324d7234b93a74d3990cd1cb82056ea977e0327b3ce1",
+      "afterSha256": "da014b516b11edfdbfbf4236bd3abcc185c655b1f53a39aa727c0baf48cb14c6",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -438,10 +438,25 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "0af9a71c6b44c846aca3324d7234b93a74d3990cd1cb82056ea977e0327b3ce1",
+        "implementationSha": "da014b516b11edfdbfbf4236bd3abcc185c655b1f53a39aa727c0baf48cb14c6",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "770f9168e3422aea1d98bac2a3bd447a1c6f2216",
+            "date": "2026-10-18",
+            "action": "Correct six audited pre-94 evidence bookkeeping issues",
+            "previousAfterSha256": "0af9a71c6b44c846aca3324d7234b93a74d3990cd1cb82056ea977e0327b3ce1",
+            "scope": "Only named current board/ledger bookkeeping notice or incoming review SHA linkage. Existing before images preserved;55 is fresh supplementary reading, not a recovered past original. No product/test change or new whole-file acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
             "date": "2026-10-18",
@@ -785,7 +800,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "0af9a71c6b44c846aca3324d7234b93a74d3990cd1cb82056ea977e0327b3ce1",
+        "afterSha256": "da014b516b11edfdbfbf4236bd3abcc185c655b1f53a39aa727c0baf48cb14c6",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",

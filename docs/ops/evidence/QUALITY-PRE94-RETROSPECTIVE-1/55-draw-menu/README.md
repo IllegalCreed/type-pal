@@ -32,3 +32,5 @@
 - 波次级 `pnpm check`、审计退役后的官方 ratchet、`TYPE_PAL_COVERAGE_BASE_REF=origin/main` protected fast：见 [`53-wave-gates`](../53-wave-gates/README.md)，已通过，本片不重复运行昂贵 coverage
 
 未关闭：超长 word table 标签的 SDLPal `dx` 分支与异步 slot metadata 的更宽输入域仍只保留 caller 证据；视觉/E2E 延后。CODE-QUALITY-53、GAME-MAGIC-PLAYERINFO-STATUS-1 及其它 pending/review 不在本片范围。
+
+2026-10-18 补证：[read-boundaries.json](read-boundaries.json)是当前770f9168e候选的实际后补全文核读，明确区分历史f544报告，不能冒充当时缺失原件；三个draw-menu文件及menu mode/stack已补读，caller边界单列。旧15/197摘要保留，不为补元数据重跑产品/coverage。上文“已通过”仅原错误回执的历史表述，53统一门当前仍rework，不能用于本片收口。

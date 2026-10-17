@@ -54,7 +54,7 @@
     },
     {
       "path": "reference/sdlpal/battle.c",
-      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f",
       "lines": 1858,
       "ranges": ["50-90", "565-620", "970-990"],
       "boundary": "Background shift, scene ordering and FBP source ranges."
@@ -87,6 +87,14 @@
       "currentReadRange": "1740-1808",
       "reason": "Old upper bound exceeded the actual source EOF; source content and prior product/test outcomes are unchanged.",
       "evidence": "../53-wave-gates/receipt-audit/anchor-corrections.json"
+    },
+    {
+      "date": "2026-10-18",
+      "previousSha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33",
+      "correctedSha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f",
+      "source": "reference/sdlpal/battle.c",
+      "sourceLines": 1858,
+      "scope": "Complete one missing trailing hex digit, verified against identical immutable C bytes; no new semantic reading or gate credit."
     }
   ]
 }

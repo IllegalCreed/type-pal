@@ -1040,7 +1040,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "ae5a9a13134cf15998bdc3fb576376baa53e79801645170f083e3f0a32dabf6b",
+      "afterSha256": "b96d9fb4fe732407abf7524d76e8399f031374a7caee4e87d58566db6050ef8a",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1064,8 +1064,23 @@
       },
       "revision": {
         "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "implementationSha": "ae5a9a13134cf15998bdc3fb576376baa53e79801645170f083e3f0a32dabf6b",
+        "implementationSha": "b96d9fb4fe732407abf7524d76e8399f031374a7caee4e87d58566db6050ef8a",
         "history": [
+          {
+            "revision": "770f9168e3422aea1d98bac2a3bd447a1c6f2216",
+            "date": "2026-10-18",
+            "action": "Correct six audited pre-94 evidence bookkeeping issues",
+            "previousAfterSha256": "ae5a9a13134cf15998bdc3fb576376baa53e79801645170f083e3f0a32dabf6b",
+            "scope": "Only named current board/ledger bookkeeping notice or incoming review SHA linkage. Existing before images preserved;55 is fresh supplementary reading, not a recovered past original. No product/test change or new whole-file acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
             "date": "2026-10-18",
@@ -1211,7 +1226,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "ae5a9a13134cf15998bdc3fb576376baa53e79801645170f083e3f0a32dabf6b",
+        "afterSha256": "b96d9fb4fe732407abf7524d76e8399f031374a7caee4e87d58566db6050ef8a",
         "lineCount": 1987,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1246,7 +1261,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-2332",
+      "reviewedLines": "1-2347",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -4933,7 +4948,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "e265f8dcd3ca88d2c1056b3fd8d00f8eb7360b06c0750e8b63fac9c1f9640289",
+      "afterSha256": "adafac3ce02e23e7734c31fe2499c8ddca47c82be6d43f12d147920190a52496",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -4957,8 +4972,23 @@
       },
       "revision": {
         "currentSha": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "implementationSha": "e265f8dcd3ca88d2c1056b3fd8d00f8eb7360b06c0750e8b63fac9c1f9640289",
+        "implementationSha": "adafac3ce02e23e7734c31fe2499c8ddca47c82be6d43f12d147920190a52496",
         "history": [
+          {
+            "revision": "770f9168e3422aea1d98bac2a3bd447a1c6f2216",
+            "date": "2026-10-18",
+            "action": "Correct six audited pre-94 evidence bookkeeping issues",
+            "previousAfterSha256": "e265f8dcd3ca88d2c1056b3fd8d00f8eb7360b06c0750e8b63fac9c1f9640289",
+            "scope": "Only named current board/ledger bookkeeping notice or incoming review SHA linkage. Existing before images preserved;55 is fresh supplementary reading, not a recovered past original. No product/test change or new whole-file acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
             "date": "2026-10-18",
@@ -5095,7 +5125,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "e265f8dcd3ca88d2c1056b3fd8d00f8eb7360b06c0750e8b63fac9c1f9640289",
+        "afterSha256": "adafac3ce02e23e7734c31fe2499c8ddca47c82be6d43f12d147920190a52496",
         "lineCount": 5074,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -5130,7 +5160,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-5320",
+      "reviewedLines": "1-5335",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

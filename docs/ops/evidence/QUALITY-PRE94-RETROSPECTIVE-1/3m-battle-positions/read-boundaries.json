@@ -20,7 +20,7 @@
       "path": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
       "sha256": "93bf49d15b76014878b8893d47548837be8cd44509e16bb9ffc01185d62d8712",
       "lines": 383,
-      "ranges": ["210-390"],
+      "ranges": ["210-383"],
       "boundary": "Position table/EnemyPos fixture and fallback test ranges."
     },
     {
@@ -39,7 +39,7 @@
     },
     {
       "path": "reference/sdlpal/battle.c",
-      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f",
       "lines": 1858,
       "ranges": ["27-35", "895-945"],
       "boundary": "Player table and EnemyPos anchor primary ranges."
@@ -57,5 +57,21 @@
     "Formula/status/queue/RNG semantic review",
     "Any coordinate/product behavior change",
     "Coverage, official ratchet, protected fast or whole-repository acceptance"
+  ],
+  "corrections": [
+    {
+      "date": "2026-10-18",
+      "previousSha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33",
+      "correctedSha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f",
+      "source": "reference/sdlpal/battle.c",
+      "sourceLines": 1858,
+      "scope": "Complete one missing trailing hex digit, verified against identical immutable C bytes; no new semantic reading or gate credit.",
+      "additionalBoundCorrection": {
+        "path": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+        "previous": "210-390",
+        "current": "210-383",
+        "reason": "Source ends at383; actual tail reread to EOF, no new full-file claim."
+      }
+    }
   ]
 }

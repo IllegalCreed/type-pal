@@ -200,3 +200,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 最新[独立审计四项返工](53-wave-gates/receipt-audit/README.md)：当前两锚上界按实际EOF/函数尾更正，六退役逐条追到human通用测试规则/本次治理范围与Codex执行提交；旧OPQ五文件特批不外推。没有改产品/测试body/退役payload/matcher/baseline或新增关闭。原47–52回执完整raw仍缺/诊断unknown，保持rework；后续UI测试与73继续。
 
 最新[战斗三机制返工](../QUALITY-BATTLE-MAGIC-PARITY-1/README.md)：用户独立审计counter已直接核实并先红后修；15定向、935相邻与五精确反控，不恢复53旧波次门信用。十注释/其余证据和两UI差异仍列父卡pending，未合main。
+
+最新[审计证据簿记返工](audit-metadata-repair/README.md)：六项修正、实际五短SHA与两额外EOF界；工作树恢复后旧字节附件逐一匹配Git770，55仅当前后补核读，0新增closed，不恢复旧波次门信用。

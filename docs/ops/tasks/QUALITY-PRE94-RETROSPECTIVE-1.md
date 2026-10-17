@@ -617,6 +617,10 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 
 注释返工十项均保持pending：scene-system-search方向及3o说明；turn-queue源函数；attack/battle-system投影锚；draw-shop全屏说明；CurePoisonByKind锚；STAT_LIMIT锚；formulas半开区间和冗余算式；minimap/tools/bootstrap尺寸；bootstrap快捷键；palette ColorFade等价性及removePoisonLevel99非压缩差异。纯注释另提交；formulas冗余算式先核浮点/取整影响，不冒充纯注释。draw-equip单人rows和draw-inventory阴影两行为差异只读核证、保持pending，不借本卡直接改UI。
 
-证据返工：53-wave-gates已撤回零诊断通过，旧完整raw确实缺失；已补四执行持久化片段、两锚真实EOF与六退役实际用户指令来源（不冒充六条逐项用户签字），见53 receipt-audit。其余六项仍pending：42 SHA/行数混代、四份battle.c短SHA、51/49陈旧行数、55缺read-boundaries、3j pause caller、3v逃跑机制锚。历史原件不改写成新结果；下一批先收这些证据与注释，再续UI/73及其它pre-94。
+证据返工：53-wave-gates已撤回零诊断通过，旧完整raw确实缺失；已补四执行持久化片段、两锚真实EOF与六退役实际用户指令来源（不冒充六条逐项用户签字），见53 receipt-audit。其余六项已在第二批按字节修正：42行数、实际五份battle.c短SHA、51/49读取计数、55当前后补boundary、3j真实pause caller、3v当前源范围。55历史原件不宣称找回；53完整raw/历史诊断仍缺、门仍rework。历史原件不改写成新结果；下一批先收这些证据与注释，再续UI/73及其它pre-94。
 
 相邻追加：H01单敌fixture多造101，显式reporter 1块stderr；单红后修终止符，该测试旧closed转review。原3s“无stderr”当前信用已加counter，不以隐式摘要无展示声称0诊断。
+
+## 2026-10-18 审计证据第二批
+
+[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)修正上述六项，另纠正EOF383/1858两处范围；5份短SHA按64位实际C字节核定。工作树意外消失后已在原路径/同分支恢复，旧字节附件由Git770精确恢复并验证；55明确是当前全文后补，不回填历史日期。无产品/测试改动、0新增closed，3314/284/55/2975及83卡50partial/33pending/0accept不变。下一步十项注释/两UI差异；53原波次完整raw仍缺、rework。

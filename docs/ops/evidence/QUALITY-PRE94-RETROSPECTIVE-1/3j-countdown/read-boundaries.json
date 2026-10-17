@@ -42,7 +42,7 @@
     {
       "path": "packages/game/src/tools/tools-panel.ts",
       "ranges": ["1-260", "820-930"],
-      "boundary": "Only pause/control imports and timer-tab caller; whole panel remains outside this slice."
+      "boundary": "Control imports and timer-tab settings/reset/best/step actions only; pause is triggered by F8 in speedrun/index.ts, not the panel. Whole panel remains outside this slice."
     },
     {
       "path": "packages/game/src/tools/toast.ts",
@@ -60,5 +60,11 @@
     "Whole tools-panel semantic review",
     "Runtime/browser visual verification or gameplay E2E",
     "Coverage, official ratchet, protected fast or whole-repository acceptance"
+  ],
+  "corrections": [
+    {
+      "date": "2026-10-18",
+      "scope": "Correct pause caller attribution only; original reading ranges retained, no full-panel acceptance."
+    }
   ]
 }

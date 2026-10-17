@@ -1,0 +1,48 @@
+{
+  "base": "770f9168e3422aea1d98bac2a3bd447a1c6f2216",
+  "scope": "Six metadata/caller bookkeeping repairs only; no product/test or current whole-file acceptance",
+  "verification": {
+    "exit": 0,
+    "receipt": "verification.json",
+    "restoredOriginals": 13,
+    "shortShaFixed": 5,
+    "fresh55Boundary": true
+  },
+  "docs": {
+    "fiveConsumers": "PASS, 0 issues",
+    "receipt": "docs-consumers.json",
+    "fullPnpmCheckDocsRerun": false,
+    "reusedSameWindowToolTests": 125,
+    "reusedReceipt": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/docs.json",
+    "toolTestRawSha256": "0b6383240a365d93fa0d1df6c4280425a3c6516e3560352c3258f0af4a7a602f",
+    "toolTestCodeConfigUnchangedVerified": true
+  },
+  "lint": {
+    "result": "PASS, error/warning/info0/0/0",
+    "receipt": "lint.json"
+  },
+  "ledger": {
+    "tracked": 3314,
+    "closed": 284,
+    "review": 55,
+    "pending": 2975,
+    "newClosed": 0,
+    "receipt": "ledger.json"
+  },
+  "diff": {
+    "exit": 0,
+    "receipt": "diff.json"
+  },
+  "productTestsAndTypecheck": "N/A: no package/script code or product contract changed; same source bytes as770f9168e",
+  "notRun": [
+    "whole-repository check",
+    "official coverage ratchet",
+    "protected fast",
+    "browser visual",
+    "E2E"
+  ],
+  "notRunReason": "User batches expensive gates at large-task closeout; metadata-only changes do not rerun unchanged product suites.",
+  "old53FullRawRecovered": false,
+  "old53GateStatus": "rework",
+  "merged": false
+}

@@ -6,7 +6,7 @@
 
 完整读取清单、SHA、行数和边界见 [`read-boundaries.json`](read-boundaries.json)。`showCountdown` 只在存在 `document` 时工作；字符串路径复用单一 `#tp-speedrun-countdown` 元素、仅在文本变化时写入、`null` 移除并对重复 `null` 幂等。元素使用 `pointer-events:none`，不会阻塞游戏输入。
 
-真实 caller 是 `speedrun/index.ts:23-43`：计时器未启用时强制 `showCountdown(null)`；启用时只把 `getCountdownRemainingSec()` 的正整数转换成文本，否则传 `null`。`toggleManualPause`/`SpeedrunTimer` 负责状态和倒计时生命周期，countdown 模块不拥有 timer、toast 或游戏状态。工具面板只触发 pause，不直接管理 DOM。`toast.ts` 只作为相邻的同类 DOM 生命周期参照，不被本片接受。
+真实 caller 是 `speedrun/index.ts:23-43`：计时器未启用时强制 `showCountdown(null)`；启用时只把 `getCountdownRemainingSec()` 的正整数转换成文本，否则传 `null`。`toggleManualPause`/`SpeedrunTimer` 负责状态和倒计时生命周期，countdown 模块不拥有 timer、toast 或游戏状态。F8 的 `setupSpeedrunHotkeys` 分支调用 `toggleSpeedrunPause`；工具面板计时器页管理设置/重置/最佳成绩/节点跳转，并不触发 pause。`toast.ts` 只作为相邻的同类 DOM 生命周期参照，不被本片接受。
 
 ## 判别力与结论
 

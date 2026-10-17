@@ -1,8 +1,10 @@
 # CODE49 draw-inventory 当前复审切片
 
+> 2026-10-18 簿记勘误：本页读取行数按原boundary已绑定的同SHA字节纠正；原始旧文保留在audit-metadata-repair附件。没有重写当时测试结果、重跑产品测试或新增整文件验收。
+
 基点：`421ee54b`；分支：`codex/code-quality-3y`。本片重新复审历史 49 的物品列表/目标层 live-zero 行为，不把历史 `done`、旧全仓回执或用户裁决文字直接当作当前验收。用户已于 2026-10-12 裁决：范围限定大世界使用物品目标层，数量归零时按 SDLPal 隐藏物品内容并结束目标层。49 当前复审提升为 `partial`，未标 accept/done。
 
-完整读取 `packages/game/src/present/menu/draw-inventory.ts`（390 行）、`draw-inventory.glm-phase1-leaves.test.ts`（124 行）、`inventory-list-pixels.grok-r1.test.ts`（约 400 行）和 `inventory-desc-filter.grok-r1.test.ts`（约 300 行）；读取 P01/P02 真实 caller/oracle、`inventory-menu.ts`、`menu-driver.ts`、`draw-menu.ts`/`present.ts` 出口，以及 SDLPal `uigame.c:1289-1473`、`itemmenu.c:28-310`、`play.c:268-323`。
+完整读取 `packages/game/src/present/menu/draw-inventory.ts`（390 行）、`draw-inventory.glm-phase1-leaves.test.ts`（95 行）、`inventory-list-pixels.grok-r1.test.ts`（405 行）和 `inventory-desc-filter.grok-r1.test.ts`（316 行）；读取 P01/P02 真实 caller/oracle、`inventory-menu.ts`、`menu-driver.ts`、`draw-menu.ts`/`present.ts` 出口，以及 SDLPal `uigame.c:1289-1473`、`itemmenu.c:28-310`、`play.c:268-323`。
 
 实现复核结论：`drawItemUseMenu` 每帧从 `gs.inventory` 读取 live count；先画目标框/角色属性/角色名/ITEMBOX，再仅在 `amount > 0` 时画 BALL 图标、物品名和数量，和 SDLPal `i > 0` 分支一致。`menu-driver.ts` 每帧刷新 inventory snapshot，并在 `use-target` 的 live count `<=0` 时调用既有 `cancelInventoryMenu` 回 list，和 SDLPal `PAL_ItemUseMenu` 返回 cancelled 的生命周期一致。未发现新的实现缺陷；本片没有改产品代码。
 
