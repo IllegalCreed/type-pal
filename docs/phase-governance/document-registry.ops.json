@@ -78,7 +78,7 @@
     2362, 2363, 2364, 2365, 2366, 2367, 2368, 2369, 2370, 2371, 2372, 2373, 2374, 2383, 2384, 2385,
     2386, 2387, 2388, 2389, 2390, 2391, 2392, 2393, 2394, 2395, 2396, 2397, 2398, 2399, 2400, 2401,
     2402, 2403, 2404, 2405, 2406, 2407, 2408, 2409, 2410, 2411, 2412, 2413, 2414, 2415, 2416, 2417,
-    2418, 2419, 2420, 2421, 2422, 2423, 2425, 2426, 2427, 2428
+    2418, 2419, 2420, 2421, 2422, 2423, 2425, 2426, 2427, 2428, 2429, 2430
   ],
   "entries": [
     {
@@ -15778,6 +15778,26 @@
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-receipt-design-4ddd.json",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261018-record-integrity-rework.json"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S06-71d74b4d.json",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261018-record-integrity-rework.json"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S06-71d74b4d.json",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",

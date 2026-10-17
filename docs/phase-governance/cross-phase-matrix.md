@@ -79,3 +79,6 @@ Template: governance-index-v1 / 1.0.0
 - S04：[docs/testing/e2e/cross-stage/README.md](../testing/e2e/cross-stage/README.md)的固定正文已非作者限定接收；实际catalog/合同/卡/原始执行各守事实权，固定65ee30ad组合已获非作者限定接收；后继中央变更另验，不授运行或全量完成。
 
 - S05：[路线方案](../testing/e2e/route-proposal.md)固定新正文/设计模板已获非作者接受；七用户规则、双轨原生真档、版本与覆盖/用途分轴，设计仍proposed，固定4ddd中央组合已限定接收、后继另验、未运行。
+
+- S06：[002原生审计](../testing/e2e/evidence/e2e-002.json)固定71的16字段/真实source反例修正已获非作者接受；只证首次hidden/末观察hidden，完整帧/游戏运行另验，中央组合待验。
+- [回执设计1.0](reviews/20261018-governance-receipt-storage-design.md)原93a6章节语义获限定接受；完整迁移门发现缺审阅日期，当前仅补真实日期且模板完成撤回待复验，既有候选零迁移，实施/采用/pilot待验。

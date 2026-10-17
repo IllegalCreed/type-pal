@@ -116,6 +116,10 @@
       {
         "path": "S05 author /root/e2e_entry_semantic_author and non-author /root/central_intake_guard_review",
         "scope": "independent-intake-S05-b87a2397.json lists236 exact original payload/stored identities; flat raw gzip containers live under DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads, no new execution credit."
+      },
+      {
+        "path": "S06 /root/e2e_entry_semantic_author, /root/receipt_integrity_independent and root preflight",
+        "scope": "independent-intake-S06-71d74b4d.json lists480 exact original/stored identities under existing raw ownership. Original880 rework/source counter, author52 and root explicit delimiter-error replay remain separate and do not grant runtime. Final body receipt stays plain under legacy route."
       }
     ]
   },

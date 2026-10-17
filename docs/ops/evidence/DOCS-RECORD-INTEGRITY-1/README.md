@@ -83,3 +83,7 @@ S01接入的6份编号源码摘录含原有行尾空格，0bac72c2完整范围di
 ## S05固定中央组合的独立闭合
 
 [4ddd独立报告阅读投影](../DOCS-REGISTRY-SPLIT-1/independent-S05-central-review-4ddd17e4.json)及[62项原件映射](../DOCS-REGISTRY-SPLIT-1/intake-independent-central-s05-4ddd.json)限定接受S05唯一绑定、原2417旧对象与2424 pin保全。原payload SHA fb5ea36b…以gzip原字节保存；投影只改格式，map区分payload/stored/view身份。原harness失败和三项硬门FAIL保留；仅关闭固定4ddd待项，当前1896中4篇重授/1892待审不变，后继S06/S07/设计/本次接入另验。
+
+## S06原生002审计的具体语义接收
+
+[固定71非作者报告](independent-review-S06-71d74b4d.json)与[480项原件运输](independent-intake-S06-71d74b4d.json)保16native/5421B前缀、旧880 rework和71唯一句修正、实际source/consumer反例及全部失败。原20行/奖励偏序/三人生命周期/正式恢复按实际源码边界解释；false→true→false反例仅限读过的predicate，不能推游戏重现或全程不再现。仅固定本文/机器模板1.5接受，实际中央组合待验；1896中5篇重授/1891待审、五隔离不变。最终报告保持plain旧路由，新gzip授信路线未采用。

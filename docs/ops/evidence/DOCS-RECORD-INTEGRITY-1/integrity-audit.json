@@ -2227,8 +2227,8 @@
   },
   "semanticReacceptance": {
     "withdrawalSnapshotBindings": 1896,
-    "currentReacceptedAffectedBindings": 4,
-    "remainingAffectedBindingsWithoutReacceptance": 1892,
+    "currentReacceptedAffectedBindings": 5,
+    "remainingAffectedBindingsWithoutReacceptance": 1891,
     "entries": [
       {
         "path": "docs/testing/governance.md",
@@ -2257,6 +2257,13 @@
         "bodySha256": "7311da4e0920a21b2df42091e7f547fcc8687aa4c51f207c66e8717555bd45b6",
         "report": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S05-b87a2397.json",
         "reportSha256": "4fd5060bd3c78f64ccbd7c34729acd2a733967168b17b08279e1af9b54c0c302"
+      },
+      {
+        "path": "docs/testing/e2e/evidence/e2e-002.json",
+        "acceptedCommit": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+        "bodySha256": "91f53b623c9ce39cd534d9141d825d5b69de84464ab694e1c224cb2499766448",
+        "report": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S06-71d74b4d.json",
+        "reportSha256": "1318ecf75bc3b1a9e4ed205b8d420392b4521dc245780f06d8cc2c4c75c95e9f"
       }
     ],
     "boundary": "S01 was a separately discovered R33 authority counter outside the1896 cohort. Historical correction-scope and original withdrawals remain immutable; no batch credit restoration.",

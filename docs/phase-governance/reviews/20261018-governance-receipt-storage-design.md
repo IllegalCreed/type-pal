@@ -2,6 +2,7 @@
 
 Status: proposed
 Owner: Codex
+Last reviewed: 2026-10-18
 Template: design-spec-v1 / 1.0.0
 Design version: 1.0.0
 Source snapshot: 4ddd17e401115c8f2ce128bbd2af0ab0349de8db

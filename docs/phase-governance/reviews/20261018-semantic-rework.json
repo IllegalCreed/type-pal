@@ -1937,6 +1937,1180 @@
         "scope": "Only fixed4ddd actual S05 central binding/data/history/transport accepted; later acknowledgment, design, S06/S07 and new records separate.",
         "additionalBodyCredit": 0
       }
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-002.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.5.0",
+      "templateVariant": "document-audit-v2",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "Distinct contributor authored_governance only. Non-author receipt_integrity_independent read original107/before124/old539, full or exact bounded listed primary scopes,16field meanings and public consumers; found one real predicate-overclaim counter, then verified exact71 single-pointer fix, all unchanged leaves and replayed actual source positive/negative controls. Root transports/intakes separately; no borrowed whole sibling or product review.",
+      "coreConclusion": "002是schema2的source/publication document-audit；原verified、旧dedupe.reviewed、source-backed和performedfalse分轴，d022/22/min11不因现源22/min12或RF12倒签。只改治理解释，16native/5421B前缀保全；20行/说话人与现金[0,500]的dlg50<commit<dlg51、三人真实位移与替身生命周期、正式同步恢复均按实际源码义务说明。first-hidden端点与last-hidden不能推出全程不再现；真实false→true→false source反例促成唯一句修正，旧rework有效保留，非游戏复现或产品oracle修改。原raw/canonical历史与当前未执行/完整帧/preview等未知分别保留。",
+      "truthAnchors": [
+        "docs/testing/e2e/evidence/e2e-002.json:114",
+        "docs/testing/e2e/evidence/e2e-002.json:294",
+        "docs/testing/e2e/evidence/e2e-002.json:328",
+        "docs/testing/e2e/evidence/e2e-002.json:405",
+        "scripts/e2e/inn-contract.mjs:473",
+        "scripts/e2e/inn-contract.mjs:488"
+      ],
+      "unresolved": [
+        "Fixed body/template accepted only; actual combined central binding/transport/history intake needs separate non-author acceptance.",
+        "Full canonical371/history, actorRecording/production hook completeness, actual raw and authentic producer/current execution were not reaccepted.",
+        "Whole-docs hard gates, all other withdrawn bindings and five quarantines remain open."
+      ],
+      "nextStep": "Verify exact sole central binding and native/old-history preservation independently; continue genuine per-document review without global/main/done or runtime credit.",
+      "phase": "testing",
+      "module": "e2e-002-native-audit",
+      "capability": "source-publication-and-execution-authority-boundary",
+      "owner": "Codex native evidence documentation maintenance",
+      "provenance": [
+        "body author /root/e2e_entry_semantic_author",
+        "distinct body reviewer /root/receipt_integrity_independent",
+        "root owns transport and central intake only",
+        "880 rework and71 fixed independent reports both immutable"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/testing/e2e/evidence/e2e-002.json",
+          "revision": "88043307ff04fe9989c7f6637482c773f196c803",
+          "sha256": "011c9e9c9f9d4562b352def50784ee2b0ba6d2f9e1e50eb4f5f1ba5095623be5",
+          "scopeActuallyRead": {
+            "reviewer": "/root/receipt_integrity_independent",
+            "ranges": ["original107 complete", "before124 complete", "after539 complete"],
+            "basis": "Frozen880 actual full or bounded reading, unchanged sources verified by original and71 delta report; no root full-read attribution."
+          }
+        },
+        {
+          "path": "scripts/e2e/inn-contract.mjs",
+          "revision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+          "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+          "scopeActuallyRead": {
+            "reviewer": "/root/receipt_integrity_independent",
+            "ranges": [
+              "1-653 complete; readInnContract body not invoked; its data files not opened"
+            ],
+            "basis": "Frozen880 actual full or bounded reading, unchanged sources verified by original and71 delta report; no root full-read attribution."
+          }
+        },
+        {
+          "path": "scripts/e2e/inn-journey.mjs",
+          "revision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+          "sha256": "2f7235dd6d6e74338bf49ca714e0ba3f8e7f8af2e640ab358540fee0fc587d62",
+          "scopeActuallyRead": {
+            "reviewer": "/root/receipt_integrity_independent",
+            "ranges": ["1-115", "132-329", "401-596"],
+            "basis": "Frozen880 actual full or bounded reading, unchanged sources verified by original and71 delta report; no root full-read attribution."
+          }
+        },
+        {
+          "path": "scripts/e2e/inn-observer.mjs",
+          "revision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+          "sha256": "34151d490e64013ce147fc415ea4478b6444350c0f14a63fef6073cbec5ec0f7",
+          "scopeActuallyRead": {
+            "reviewer": "/root/receipt_integrity_independent",
+            "ranges": ["1-292", "395-435"],
+            "basis": "Frozen880 actual full or bounded reading, unchanged sources verified by original and71 delta report; no root full-read attribution."
+          }
+        },
+        {
+          "path": "scripts/e2e/inn-both.mjs",
+          "revision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+          "sha256": "298e14373f0cc6aaf0a41bc25b800a7af7881ad5db7f2fe1e03375967ed6fb39",
+          "scopeActuallyRead": {
+            "reviewer": "/root/receipt_integrity_independent",
+            "ranges": ["1-94 complete; not launched"],
+            "basis": "Frozen880 actual full or bounded reading, unchanged sources verified by original and71 delta report; no root full-read attribution."
+          }
+        },
+        {
+          "path": "scripts/e2e/game-inn.mjs",
+          "revision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+          "sha256": "aac23811c42ceeccdc95543fe84fd6f9e8252db27248316c6d6286ccd95714e2",
+          "scopeActuallyRead": {
+            "reviewer": "/root/receipt_integrity_independent",
+            "ranges": ["1-3 complete; not launched"],
+            "basis": "Frozen880 actual full or bounded reading, unchanged sources verified by original and71 delta report; no root full-read attribution."
+          }
+        },
+        {
+          "path": "scripts/e2e/reforge-inn.mjs",
+          "revision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+          "sha256": "0be7bde714fb0036b33cbcc50b753194d73cbf982341336afb1f0757c9ba28e4",
+          "scopeActuallyRead": {
+            "reviewer": "/root/receipt_integrity_independent",
+            "ranges": ["1-3 complete; not launched"],
+            "basis": "Frozen880 actual full or bounded reading, unchanged sources verified by original and71 delta report; no root full-read attribution."
+          }
+        },
+        {
+          "path": "scripts/e2e/browser-journey.mjs",
+          "revision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+          "sha256": "659926f4cf627c36470515adfe5aab0ec7d33fcf8b8153113e9a78c33ca201a1",
+          "scopeActuallyRead": {
+            "reviewer": "/root/receipt_integrity_independent",
+            "ranges": ["175-224", "250-280"],
+            "basis": "Frozen880 actual full or bounded reading, unchanged sources verified by original and71 delta report; no root full-read attribution."
+          }
+        },
+        {
+          "path": "scripts/e2e/reforge-opening-policy.mjs",
+          "revision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+          "sha256": "eac9c3dc8ccec1b8b4f8699c26c40eff85ad62632b32d58899280cfaba7be9e8",
+          "scopeActuallyRead": {
+            "reviewer": "/root/receipt_integrity_independent",
+            "ranges": ["75-91 complete openingSaveView"],
+            "basis": "Frozen880 actual full or bounded reading, unchanged sources verified by original and71 delta report; no root full-read attribution."
+          }
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "revision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+          "scopeActuallyRead": {
+            "reviewer": "/root/receipt_integrity_independent",
+            "ranges": ["168-170"],
+            "basis": "Frozen880 actual full or bounded reading, unchanged sources verified by original and71 delta report; no root full-read attribution."
+          }
+        },
+        {
+          "path": "packages/reforge/src/save/types.ts",
+          "revision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+          "sha256": "b40e418803af9585d944f2a5f3c0229ea26494003f0aa08b12493ddb42605bc2",
+          "scopeActuallyRead": {
+            "reviewer": "/root/receipt_integrity_independent",
+            "ranges": ["1-16"],
+            "basis": "Frozen880 actual full or bounded reading, unchanged sources verified by original and71 delta report; no root full-read attribution."
+          }
+        },
+        {
+          "path": "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md",
+          "revision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+          "sha256": "a309227364ad10087b47b45de39f956faa1005d77555cdd6c9aec231388185e3",
+          "scopeActuallyRead": {
+            "reviewer": "/root/receipt_integrity_independent",
+            "ranges": ["1-9", "18-57; no full371/history/raw review"],
+            "basis": "Frozen880 actual full or bounded reading, unchanged sources verified by original and71 delta report; no root full-read attribution."
+          }
+        },
+        {
+          "path": "docs/testing/catalog.json",
+          "revision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+          "sha256": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0",
+          "scopeActuallyRead": {
+            "reviewer": "/root/receipt_integrity_independent",
+            "ranges": [
+              "complete e2e-002 entry only; other entries mechanically checked by public consumer"
+            ],
+            "basis": "Frozen880 actual full or bounded reading, unchanged sources verified by original and71 delta report; no root full-read attribution."
+          }
+        },
+        {
+          "path": "docs/testing/_templates/test-machine-evidence.json",
+          "revision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+          "sha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
+          "scopeActuallyRead": {
+            "reviewer": "/root/receipt_integrity_independent",
+            "ranges": ["1-46 complete"],
+            "basis": "Frozen880 actual full or bounded reading, unchanged sources verified by original and71 delta report; no root full-read attribution."
+          }
+        },
+        {
+          "path": "docs/phase-governance/templates/registry.json",
+          "revision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+          "sha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+          "scopeActuallyRead": {
+            "reviewer": "/root/receipt_integrity_independent",
+            "ranges": [
+              "complete test-machine-evidence-v1 entry,existing variants; not whole824line semantic review"
+            ],
+            "basis": "Frozen880 actual full or bounded reading, unchanged sources verified by original and71 delta report; no root full-read attribution."
+          }
+        },
+        {
+          "path": "docs/testing/e2e/contract.md",
+          "revision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+          "sha256": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f",
+          "scopeActuallyRead": {
+            "reviewer": "/root/receipt_integrity_independent",
+            "ranges": ["98-149", "239-284"],
+            "basis": "Frozen880 actual full or bounded reading, unchanged sources verified by original and71 delta report; no root full-read attribution."
+          }
+        },
+        {
+          "path": "docs/testing/governance.md",
+          "revision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+          "sha256": "dbd68ac55137df0edaa38efebcb3591f4ea826bbdbb5357b9914c6ff684926f9",
+          "scopeActuallyRead": {
+            "reviewer": "/root/receipt_integrity_independent",
+            "ranges": ["complete83line current runbook"],
+            "basis": "Frozen880 actual full or bounded reading, unchanged sources verified by original and71 delta report; no root full-read attribution."
+          }
+        },
+        {
+          "path": "scripts/docs/check-testing.mjs",
+          "revision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+          "sha256": "15aa96323821b771107b7b372880af8469a9310bc545bfd56c852c95e449a166",
+          "scopeActuallyRead": {
+            "reviewer": "/root/receipt_integrity_independent",
+            "ranges": [
+              "187-336 exact canonical/evidence/claim consumer; prior scopes inherited for catalog/index; not full616re-review"
+            ],
+            "basis": "Frozen880 actual full or bounded reading, unchanged sources verified by original and71 delta report; no root full-read attribution."
+          }
+        },
+        {
+          "path": "scripts/docs/document-model.mjs",
+          "revision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+          "sha256": "2c7ed0419c90332dd27e866629f06fd7670112cb924084f8162f84ee74c4f64b",
+          "scopeActuallyRead": {
+            "reviewer": "/root/receipt_integrity_independent",
+            "ranges": [
+              "108-210 exact template/json consumer and preservation start; not full335re-review"
+            ],
+            "basis": "Frozen880 actual full or bounded reading, unchanged sources verified by original and71 delta report; no root full-read attribution."
+          }
+        },
+        {
+          "path": "scripts/e2e/inn-contract.test.mjs",
+          "revision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+          "sha256": "4e9267b8c0195f4b8150c9c1d06637bada3696c55a8bee74f43e48042410b4a8",
+          "scopeActuallyRead": {
+            "reviewer": "/root/receipt_integrity_independent",
+            "ranges": [
+              "1-210 inspected contract fixtures/tests",
+              "678-808 fixtureContract/evidenceFixture/reindex extracted into owned probe; suite not launched"
+            ],
+            "basis": "Frozen880 actual full or bounded reading, unchanged sources verified by original and71 delta report; no root full-read attribution."
+          }
+        },
+        {
+          "path": "package.json",
+          "revision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+          "sha256": "259820fcdc312e11ce297a83074ce168e5a9612f2016ae6d2acb5a308dd62224",
+          "scopeActuallyRead": {
+            "reviewer": "/root/receipt_integrity_independent",
+            "ranges": ["12-37 script mapping; other stages inventory only"],
+            "basis": "Frozen880 actual full or bounded reading, unchanged sources verified by original and71 delta report; no root full-read attribution."
+          }
+        },
+        {
+          "path": "docs/testing/e2e/evidence/e2e-002.json",
+          "revision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
+          "sha256": "bb5fcb9b9046ecfea91b42dcaaf2b8b1e92ca59454e3d913884bfb77aab59517",
+          "scopeActuallyRead": "complete original107; distinct reviewer source/delta chain documented in original reports"
+        },
+        {
+          "path": "docs/testing/e2e/evidence/e2e-002.json",
+          "revision": "b10afe35d27364b31a5be85ed3d642fc0637a53f",
+          "sha256": "25fdd7d621e0f618b4676e6d777c0c44802033bc257f0f0ebea107b5f8d7138a",
+          "scopeActuallyRead": "complete before124; distinct reviewer source/delta chain documented in original reports"
+        },
+        {
+          "path": "docs/testing/e2e/evidence/e2e-002.json",
+          "revision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+          "sha256": "91f53b623c9ce39cd534d9141d825d5b69de84464ab694e1c224cb2499766448",
+          "scopeActuallyRead": "complete fixed539 with explicit one-pointer delta; distinct reviewer source/delta chain documented in original reports"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing across phase1/phase2",
+        "scope": "Native source/publication audit preserved; historical execution and present runtime are separate authorities."
+      },
+      "dependencies": [
+        "scripts/e2e/inn-contract.mjs",
+        "scripts/e2e/inn-journey.mjs",
+        "scripts/e2e/inn-observer.mjs",
+        "scripts/e2e/inn-both.mjs",
+        "scripts/e2e/game-inn.mjs",
+        "scripts/e2e/reforge-inn.mjs",
+        "scripts/e2e/browser-journey.mjs",
+        "scripts/e2e/reforge-opening-policy.mjs",
+        "packages/content/src/character.ts",
+        "packages/reforge/src/save/types.ts",
+        "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md",
+        "docs/testing/catalog.json",
+        "docs/testing/_templates/test-machine-evidence.json",
+        "docs/phase-governance/templates/registry.json",
+        "docs/testing/e2e/contract.md",
+        "docs/testing/governance.md",
+        "scripts/docs/check-testing.mjs",
+        "scripts/docs/document-model.mjs",
+        "scripts/e2e/inn-contract.test.mjs",
+        "package.json"
+      ],
+      "versionScope": {
+        "candidateCommit": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+        "bodySha256": "91f53b623c9ce39cd534d9141d825d5b69de84464ab694e1c224cb2499766448",
+        "nativeHistoricalCandidate": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "nativeHistoricalVersions": {
+          "content": 22,
+          "minimumSave": 11
+        },
+        "currentSourceVersions": {
+          "content": 22,
+          "minimumSave": 12,
+          "reforgeSave": 12
+        },
+        "gameSave": "native Game format, not RF SAVE12 envelope",
+        "notRun": [
+          "product runtime",
+          "public E2E runner",
+          "preview",
+          "visual",
+          "audio/capture",
+          "game raw/save revalidation",
+          "product tests/coverage"
+        ]
+      },
+      "publicCallers": [
+        "docs/testing/catalog.json existing e2e-002 evidence identity",
+        "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md existing live testing-meta pair",
+        "scripts/docs/check-testing.mjs actual native publication consumer"
+      ],
+      "legalInputs": [
+        "Original16 native fields/values/order/dates and current5421B prefix unchanged; no nativeversion backfill or performedfalse→true rewrite.",
+        "Same-engine passed001 and fixed checkpoint bytes/hash/shape under actual public parser;40hex syntax is not HEAD/authenticity proof.",
+        "Source-predicate synthetic traces are parser/oracle tests only, not legal gameplay or actual product behavior evidence."
+      ],
+      "businessOracle": {
+        "type": "native-evidence-field-meaning-and-source-predicate-accuracy",
+        "assertions": [
+          "16 field-specific fact owner/time scopes and six sourceRef bounds must match actual source and historical publication.",
+          "Twenty fixed rows/speaker/page/order, exact cash transition order, trio commit/counterpart lifecycle and synchronous formal restore have separate source obligations.",
+          "Actual two-engine false→true→false visibility trace passes unchanged read predicates; only first-hidden endpoint/last-hidden is established, not every intermediate hidden.",
+          "Native source/version/runtime publication mutations and wrong speaker/cash/counterpart negative controls reject via actual public consumers; no product runtime acceptance."
+        ],
+        "fieldFindings": [
+          {
+            "field": "schemaVersion",
+            "verdict": "verified",
+            "independentConclusion": "Native schema2 document-audit fits existing1.5.0/document-audit-v2. Generic execution schema1 example is not imposed.",
+            "basis": "Inherited actual source read and field judgment from immutable880 review e782d8a5, with native object/key/array order and all other governance leaves independently reverified unchanged at71."
+          },
+          {
+            "field": "id",
+            "verdict": "verified",
+            "independentConclusion": "Stable e2e-002 maps canonical/catalog/testing-meta/evidence exactly; it is not a current run identity.",
+            "basis": "Inherited actual source read and field judgment from immutable880 review e782d8a5, with native object/key/array order and all other governance leaves independently reverified unchanged at71."
+          },
+          {
+            "field": "kind",
+            "verdict": "verified",
+            "independentConclusion": "document-audit describes source/publication audit. No runtime-execution replacement or added fake execution envelope.",
+            "basis": "Inherited actual source read and field judgment from immutable880 review e782d8a5, with native object/key/array order and all other governance leaves independently reverified unchanged at71."
+          },
+          {
+            "field": "status",
+            "verdict": "verified-with-publication-limit",
+            "independentConclusion": "verified remains catalog-publication status and original review dates; it does not prove current SAVE12/game/preview/capture execution.",
+            "basis": "Inherited actual source read and field judgment from immutable880 review e782d8a5, with native object/key/array order and all other governance leaves independently reverified unchanged at71."
+          },
+          {
+            "field": "candidateSha",
+            "verdict": "verified-historical",
+            "independentConclusion": "d022 is the original2026-10-04 source-and-publication audit, not author880orcurrent run. Matching source hashes cannot authenticate historical execution.",
+            "basis": "Inherited actual source read and field judgment from immutable880 review e782d8a5, with native object/key/array order and all other governance leaves independently reverified unchanged at71."
+          },
+          {
+            "field": "versions",
+            "verdict": "verified-with-engine-boundary",
+            "independentConclusion": "Original22/min11 immutable and paired. Current constants are22/min12andRF12; Game uses native format/gs. Actual version-backfill consumer control rejects replacing historical11with12.",
+            "basis": "Inherited actual source read and field judgment from immutable880 review e782d8a5, with native object/key/array order and all other governance leaves independently reverified unchanged at71."
+          },
+          {
+            "field": "sourceRefs",
+            "verdict": "verified-source-only",
+            "independentConclusion": "All six fileSHA/declared numeric ranges/anchors match. Short340-388covers only function start/order,473-488cash and trio start; complete actual semantics were read separately. Observer1-115ends during append and does not cover full production wiring.",
+            "basis": "Inherited actual source read and field judgment from immutable880 review e782d8a5, with native object/key/array order and all other governance leaves independently reverified unchanged at71."
+          },
+          {
+            "field": "publicCallers",
+            "verdict": "verified-source-only",
+            "independentConclusion": "Actual package scripts/three bridges and both dispatcher match flags; single --from and distinct both reports, bothcapture rejected. No entry was launched.",
+            "basis": "Inherited actual source read and field judgment from immutable880 review e782d8a5, with native object/key/array order and all other governance leaves independently reverified unchanged at71."
+          },
+          {
+            "field": "legalInputs",
+            "verdict": "verified-with-trust-limit",
+            "independentConclusion": "Same-engine passed001 and fixed checkpoint bytes/hash/current engine shape, normal route and isolated restore. Actual pure unknownIOprobe shows40zerohex syntactically accepted: no HEAD/authenticity guarantee. Capture and wrong-engine negative controls specifically reject.",
+            "basis": "Inherited actual source read and field judgment from immutable880 review e782d8a5, with native object/key/array order and all other governance leaves independently reverified unchanged at71."
+          },
+          {
+            "field": "businessOracle",
+            "verdict": "verified-source-limited-after-counter-correction",
+            "independentConclusion": "20fixedrows/page-instance/cumulative order/normalized speaker,exactmoney[0,500]anddlg50<cash<dlg51,actual movement/engine endpoints/counterpart[0,2]/control remain supported within the read predicates. Source phrase now accurately says first hidden endpoint and last observed hidden; all-interval non-reappearance/full-frame/actorRecording are separately unverified. Actual old false→true→false counter still passes both public predicates, which this narrowed wording correctly permits as a source-interface observation, without authorizing game reappearance.",
+            "basis": "New71 single-leaf semantic read plus true replay of original counter and three specific negative controls. Remaining businessOracle prose, source scopes and native field remain unchanged from880."
+          },
+          {
+            "field": "dedupe",
+            "verdict": "verified-historical-limit",
+            "independentConclusion": "Old reviewed/against001and003 is preserved historical naming/comparison statement; no renewed neighboring body/product-test dedupe or coverage credit.",
+            "basis": "Inherited actual source read and field judgment from immutable880 review e782d8a5, with native object/key/array order and all other governance leaves independently reverified unchanged at71."
+          },
+          {
+            "field": "claims",
+            "verdict": "verified-source-only",
+            "independentConclusion": "Single source-backed claim has six locators matching declared sourceRefs. Runtime-backed claim mutation really rejects without execution/artifacts; source binding is not a new execution pass.",
+            "basis": "Inherited actual source read and field judgment from immutable880 review e782d8a5, with native object/key/array order and all other governance leaves independently reverified unchanged at71."
+          },
+          {
+            "field": "runtimeExecution",
+            "verdict": "verified-historical-limit",
+            "independentConclusion": "performedfalse and not-present-in-isolated-checkout remain historical per-checkout availability statements; no claim whole repository never ran. Reviewer/author did not open game raw.",
+            "basis": "Inherited actual source read and field judgment from immutable880 review e782d8a5, with native object/key/array order and all other governance leaves independently reverified unchanged at71."
+          },
+          {
+            "field": "findings",
+            "verdict": "verified-historical-limit",
+            "independentConclusion": "Six original ordered dated strings preserved. October6/8/10 source updates and old pending sentences do not become present全链state; no source revision, old count or failure rewritten.",
+            "basis": "Inherited actual source read and field judgment from immutable880 review e782d8a5, with native object/key/array order and all other governance leaves independently reverified unchanged at71."
+          },
+          {
+            "field": "artifacts",
+            "verdict": "verified-no-new-runtime",
+            "independentConclusion": "Original[]not filled with docs consumer logs and not used to deny canonical historical artifacts. Current game raw availability/retention/Owner remains unknown.",
+            "basis": "Inherited actual source read and field judgment from immutable880 review e782d8a5, with native object/key/array order and all other governance leaves independently reverified unchanged at71."
+          },
+          {
+            "field": "history",
+            "verdict": "verified-native-immutable",
+            "independentConclusion": "Original one d022/2026-10-04 audit and notRunorder retained. Old governance object is exactly preserved under new governancehistory; nested formatting not claimed byte-identical.",
+            "basis": "Inherited actual source read and field judgment from immutable880 review e782d8a5, with native object/key/array order and all other governance leaves independently reverified unchanged at71."
+          }
+        ],
+        "actualControls": {
+          "sourcePredicatePositiveBaseline": "Both tracks20 rows + choreography passed on original existing fixture, then augmented hidden/visible/hidden stayed accepted",
+          "specificNegativeAssertions": [
+            {
+              "name": "wrong-speaker",
+              "error": {
+                "name": "AssertionError",
+                "code": "ERR_ASSERTION",
+                "message": "wrong speaker for dlg.25\n+ actual - expected\n\n+ 'different'\n- '苗人头领'\n"
+              }
+            },
+            {
+              "name": "cash-after-reward",
+              "error": {
+                "name": "AssertionError",
+                "code": "ERR_ASSERTION",
+                "message": "money not committed between thanks and reward display"
+              }
+            },
+            {
+              "name": "room-counterpart-missing",
+              "error": {
+                "name": "AssertionError",
+                "code": "ERR_ASSERTION",
+                "message": "wrong room counterpart lifecycle e24\n+ actual - expected\n\n  [\n    0,\n+   1\n-   2\n  ]\n"
+              }
+            }
+          ],
+          "bothCaptureParserRejects": true,
+          "publicNativeTemplateConsumers": {
+            "template": [],
+            "pair": [],
+            "catalog": [],
+            "indexes": []
+          },
+          "nativeConsumerNegativeControls": {
+            "documentAuditPerformedTrue": ["machine field mismatch: runtimeExecution.performed"],
+            "historical11ReplacedWithCurrent12": ["e2e-002: evidence/catalog version mismatch"],
+            "sourceClaimChangedToRuntime": [
+              "e2e-002 evidence: runtime claim lacks actual execution/artifacts e2e-002-source-contract"
+            ],
+            "restoredPairIssues": []
+          },
+          "scope": "Actual exported source-interface/unknown IO and publication/template controls only; not product E2E, formal save/load, runtime test-quality certification or history execution authentication."
+        }
+      },
+      "dedupe": {
+        "result": "One existing native document-audit identity; no new test or runtime coverage and no adjacent001/003 full dedupe acceptance",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+          "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md",
+          "e2e-001",
+          "e2e-003"
+        ]
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "S06-TRIO-REAPPEAR-SCOPE",
+          "status": "closed-fixed71-documentary-wording-only",
+          "actualClosure": {
+            "id": "S06-TRIO-REAPPEAR-SCOPE",
+            "closedFor": "71 fixed documentary source-predicate wording only",
+            "original880CounterStillValid": true,
+            "source": "scripts/e2e/inn-contract.mjs484-507; changes.find first hidden489 and changes.at(-1) hidden491",
+            "actualReplay": [
+              {
+                "engine": "game",
+                "baselineRows": 20,
+                "extraObservedVisibility": [false, true, false],
+                "afterReappearanceCore": "passed",
+                "afterReappearanceChoreography": "passed",
+                "scope": "Current public functions only; no actorRecording/full public journey or game was run. It refutes a stronger claim about these read predicates, not actual product behavior."
+              },
+              {
+                "engine": "reforge",
+                "baselineRows": 20,
+                "extraObservedVisibility": [false, true, false],
+                "afterReappearanceCore": "passed",
+                "afterReappearanceChoreography": "passed",
+                "scope": "Current public functions only; no actorRecording/full public journey or game was run. It refutes a stronger claim about these read predicates, not actual product behavior."
+              }
+            ],
+            "replayRaw": {
+              "path": "/tmp/type-pal-s06-delta-independent-20261018-71d74b4d/raw/source-counter-replay.stdout",
+              "bytes": 2645,
+              "sha256": "38462053c1894202e5929a2cc5c7bf50a31f5e87dcbbe800f79f26bc39f0d9fd"
+            },
+            "actualCodeAndFixtureUnchanged": {
+              "module": {
+                "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/scripts/e2e/inn-contract.mjs",
+                "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+              },
+              "fixture": {
+                "path": "/Users/zhangxu/.codex/worktrees/docs-integrity-readonly/type-pal/scripts/e2e/inn-contract.test.mjs",
+                "sha256": "4e9267b8c0195f4b8150c9c1d06637bada3696c55a8bee74f43e48042410b4a8",
+                "range": "677-808 existing fixtureContract/evidenceFixture/reindex only",
+                "snippetSha256": "93a2e74949c77c2f761491c8cf4f074ce5cae6c04a8890416d0848b08a1bb9a2"
+              }
+            },
+            "judgment": "The new phrase no longer claims every intermediate observation remains hidden. Actual false→true→false still passes both exported predicates for each engine, exactly illustrating why first-hidden/last-hidden is the supported bound. No source/game oracle was changed.",
+            "strongestAlternative": "An authentic journey, complete actorRecording, production observer or recompare could independently prevent/reject a reappearance; none is proven by this synthetic predicate trace. The candidate explicitly retains that separate unverified obligation.",
+            "notAProductFinding": "Not evidence that real game characters reappeared; not permission for narrative reappearance; not full actorRecording or legal product-input mutation quality acceptance."
+          },
+          "original880ReworkRetained": true
+        },
+        {
+          "id": "S06-NATIVE-PRESERVATION",
+          "status": "fixed-body-non-author-accepted",
+          "nativeProof": {
+            "original107Before124New539Identities": {
+              "original": {
+                "revision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
+                "bytes": 5414,
+                "lines": 107,
+                "sha256": "bb5fcb9b9046ecfea91b42dcaaf2b8b1e92ca59454e3d913884bfb77aab59517"
+              },
+              "before": {
+                "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+                "bytes": 6393,
+                "lines": 124,
+                "sha256": "25fdd7d621e0f618b4676e6d777c0c44802033bc257f0f0ebea107b5f8d7138a"
+              },
+              "oldRework": {
+                "revision": "88043307ff04fe9989c7f6637482c773f196c803",
+                "bytes": 32796,
+                "lines": 539,
+                "sha256": "011c9e9c9f9d4562b352def50784ee2b0ba6d2f9e1e50eb4f5f1ba5095623be5"
+              },
+              "fixed": {
+                "revision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+                "bytes": 32951,
+                "lines": 539,
+                "sha256": "91f53b623c9ce39cd534d9141d825d5b69de84464ab694e1c224cb2499766448"
+              }
+            },
+            "nativeFieldCount": 16,
+            "nativeFieldsOriginalKeysValuesAndArrayOrderPreserved": true,
+            "nativeOrderedCompactSerializationEqualsOriginal": true,
+            "currentPrefix": {
+              "bytes": 5421,
+              "sha256": "1e73dcab2d09e57e4432dd0712256d23d619faa2460a99815060348213f21edb",
+              "exact": true
+            },
+            "prefixMeaning": "Exactly current b87/880/71 first5421 bytes preserved. Original107 source has its own formatting and5414 bytes; do not claim original-source byte roundtrip.",
+            "allGovernanceOtherThanSinglePointer": true,
+            "oldGovernanceObjectRetained": true,
+            "artifactOnlyAdded": false,
+            "authorNonAuthorReviewer": false
+          }
+        },
+        {
+          "id": "S06-RAW-AND-EXECUTION",
+          "status": "outside-acceptance",
+          "statement": "No game raw, fullactorRecording, current preview/render/capture or historic execution revalidation."
+        }
+      ],
+      "revision": {
+        "currentSha": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "Actual S06 non-author fixed-body/template acceptance after one source-predicate counter",
+            "rootPreparedAtRevision": "b10afe35d27364b31a5be85ed3d642fc0637a53f",
+            "previousAfterSha256": "25fdd7d621e0f618b4676e6d777c0c44802033bc257f0f0ebea107b5f8d7138a",
+            "afterSha256": "91f53b623c9ce39cd534d9141d825d5b69de84464ab694e1c224cb2499766448"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "actual-per-document-nonauthor-semantic-review",
+        "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S06-71d74b4d.json",
+        "reportSha256": "1318ecf75bc3b1a9e4ed205b8d420392b4521dc245780f06d8cc2c4c75c95e9f",
+        "sourceRevision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+        "reviewer": "/root/receipt_integrity_independent",
+        "author": "/root/e2e_entry_semantic_author",
+        "nonAuthorReviewer": true,
+        "acceptance": "fixed71 body/machine-evidence1.5 document-audit-v2 only; central/global separate",
+        "intakeMap": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S06-71d74b4d.json",
+        "legacyPlainReportRoute": true,
+        "nativePreservation": {
+          "original107Before124New539Identities": {
+            "original": {
+              "revision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
+              "bytes": 5414,
+              "lines": 107,
+              "sha256": "bb5fcb9b9046ecfea91b42dcaaf2b8b1e92ca59454e3d913884bfb77aab59517"
+            },
+            "before": {
+              "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+              "bytes": 6393,
+              "lines": 124,
+              "sha256": "25fdd7d621e0f618b4676e6d777c0c44802033bc257f0f0ebea107b5f8d7138a"
+            },
+            "oldRework": {
+              "revision": "88043307ff04fe9989c7f6637482c773f196c803",
+              "bytes": 32796,
+              "lines": 539,
+              "sha256": "011c9e9c9f9d4562b352def50784ee2b0ba6d2f9e1e50eb4f5f1ba5095623be5"
+            },
+            "fixed": {
+              "revision": "71d74b4d5de8355e2e5eb15af358cbddfa47d0c8",
+              "bytes": 32951,
+              "lines": 539,
+              "sha256": "91f53b623c9ce39cd534d9141d825d5b69de84464ab694e1c224cb2499766448"
+            }
+          },
+          "nativeFieldCount": 16,
+          "nativeFieldsOriginalKeysValuesAndArrayOrderPreserved": true,
+          "nativeOrderedCompactSerializationEqualsOriginal": true,
+          "currentPrefix": {
+            "bytes": 5421,
+            "sha256": "1e73dcab2d09e57e4432dd0712256d23d619faa2460a99815060348213f21edb",
+            "exact": true
+          },
+          "prefixMeaning": "Exactly current b87/880/71 first5421 bytes preserved. Original107 source has its own formatting and5414 bytes; do not claim original-source byte roundtrip.",
+          "allGovernanceOtherThanSinglePointer": true,
+          "oldGovernanceObjectRetained": true,
+          "artifactOnlyAdded": false,
+          "authorNonAuthorReviewer": false
+        },
+        "priorImmutableReview": {
+          "report": "/tmp/type-pal-s06-independent-20261018-88043307/independent-S06-review-88043307-rework.json",
+          "reportSHA256": "e782d8a51f453e05b65eac0cc3edf07e62bd84aab0bd29d3d3ad256064ae5382",
+          "manifestSHA256": "8f30e90a0b8517c892bcc218c30514fbbe7574db362338c68045a216b78d5e8b",
+          "counterSHA256": "a54b923b8b95dbac28ccce63e8749f1500211e547f9716cce08ac42544e1b99c",
+          "oldVerdict": "rework retained, not overwritten into pass"
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "Old R60 semantic/template/artifact-only shortcut credit remains withdrawn; actual new fixed S06 body is separately accepted.",
+          "priorRecord": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+          "priorRecordRevision": "b10afe35d27364b31a5be85ed3d642fc0637a53f",
+          "priorRecordSha256": "c46eed4e596e3ca8502b462b8de5d387342c66903dfd27a0f1a157fe610ec340",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "priorMechanicalEvidence": {
+            "kind": "json-artifact-envelope",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r60-testing-e2e-entry-20261017.json",
+            "sourceSha256": "bb5fcb9b9046ecfea91b42dcaaf2b8b1e92ca59454e3d913884bfb77aab59517",
+            "candidateSha256": "25fdd7d621e0f618b4676e6d777c0c44802033bc257f0f0ebea107b5f8d7138a",
+            "afterSha256": "25fdd7d621e0f618b4676e6d777c0c44802033bc257f0f0ebea107b5f8d7138a",
+            "lineCount": 124,
+            "artifactPreserved": false,
+            "originalPreservation": {
+              "method": "non-overwriting _governance envelope",
+              "sourceBytes": 5414,
+              "sourceLines": 107,
+              "sourceFinalNewline": true,
+              "inverseSha256": "bb5fcb9b9046ecfea91b42dcaaf2b8b1e92ca59454e3d913884bfb77aab59517",
+              "exactRoundTrip": false,
+              "topLevelShape": "object",
+              "topLevelFields": [
+                "schemaVersion",
+                "id",
+                "kind",
+                "status",
+                "candidateSha",
+                "versions",
+                "sourceRefs",
+                "publicCallers",
+                "legalInputs",
+                "businessOracle",
+                "dedupe",
+                "claims",
+                "runtimeExecution",
+                "findings",
+                "artifacts",
+                "history"
+              ]
+            },
+            "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+          },
+          "oldArtifactOnlyDoesNotCarryForward": false
+        },
+        {
+          "date": "2026-10-18",
+          "action": "explicit sole binding intake planned against exact frozen donor; actual combined central acceptance separate",
+          "sourceRevision": "9885491a47e81f30300c3744853556d1e4e0f663",
+          "sourceRecordSha256": "c46eed4e596e3ca8502b462b8de5d387342c66903dfd27a0f1a157fe610ec340",
+          "otherDonorEntriesPreserved": 4
+        }
+      ],
+      "historicalWithdrawal": {
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "scope": "Immutable1896 snapshot and five quarantines retained; no bulk or oldR60 credit restoration."
+      },
+      "supersedes": [
+        {
+          "record": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+          "revision": "b10afe35d27364b31a5be85ed3d642fc0637a53f",
+          "scope": "This path current binding only; all other donor entries/order and history stay unchanged."
+        }
+      ],
+      "stopLine": "No other R60/1896 restoration, raw eligibility bypass, native status/version rewrite or product/runtime/E2E/preview/visual/capture/coverage/global/main/done credit.",
+      "sourceSha256": "25fdd7d621e0f618b4676e6d777c0c44802033bc257f0f0ebea107b5f8d7138a",
+      "afterSha256": "91f53b623c9ce39cd534d9141d825d5b69de84464ab694e1c224cb2499766448",
+      "sourceGitRevision": "b10afe35d27364b31a5be85ed3d642fc0637a53f",
+      "reviewedLines": "non-author original1-107/before1-124/old1-539 and fixed71 exact one-pointer delta; all dependency read ranges explicitly bounded",
+      "historyOverlay": false,
+      "documentStatus": "verified",
+      "beforeAfter": {
+        "before": "Generic R60 envelope retained native data but unsupported semantic/independent credit was withdrawn; old880 new prose overstated hidden predicate.",
+        "after": "16 native meanings/fact owners/time scopes, six exactsource obligations and bounded primary reads, source-onlycurrent audit, concrete counter-driven predicate precision and immutable historical governance; all original native data preserved."
+      },
+      "templateConformance": {
+        "templateId": "test-machine-evidence-v1",
+        "templateVersion": "1.5.0",
+        "variant": "document-audit-v2",
+        "structuralIssues": 0,
+        "substantiveContent": "16 specific field meanings, fact owners/time scopes and source limitations, history/stop lines remain substantive; current source-predicate statement is corrected. Not just a date/wrapper/hash equality acceptance.",
+        "verdict": "accept only this fixed71 body/template scope",
+        "authorSelfAcceptanceGranted": false,
+        "nativeSchemaOrCatalogChanged": false
+      }
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261018-governance-receipt-storage-design.md",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "design-spec",
+      "templateId": "design-spec-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "partial-semantic",
+      "readMethod": "Root authored a substantive five-section proposed design. Distinct receipt_integrity_independent read full69-line draft, verified exact stable version-line-only delta, judged each complete chapter and strongest alternatives against bounded fixed4ddd primary sources, ran real template and native plain→gzip rejection→restore consumers. Acceptance is design-body/template only, no implementation/adoption/pilot/whole-docs credit.",
+      "coreConclusion": "Prior exact93a6 five-section proposal semantics and template chapters were independently accepted, but actual full migration consumer then found missing review date. Root adds factual2026-10-18 date only; this new body remains partial/needs pending distinct full-metadata review. Design implementation/adoption/gzip consumer/pilot remain unaccepted; no existing cohort/pending reduction.",
+      "truthAnchors": [
+        "docs/phase-governance/reviews/20261018-governance-receipt-storage-design.md:9",
+        "docs/phase-governance/reviews/20261018-governance-receipt-storage-design.md:15",
+        "docs/phase-governance/reviews/20261018-governance-receipt-storage-design.md:23",
+        "docs/phase-governance/reviews/20261018-governance-receipt-storage-design.md:55",
+        "docs/phase-governance/reviews/20261018-governance-receipt-storage-design.md:63",
+        "docs/ops/guides/documentation-model.md:70"
+      ],
+      "unresolved": [
+        "RECEIPT-META-REVIEW-DATE: full migration check, beyond checkTemplateBody, rejected absent date; dated new body is not yet independently accepted.",
+        "Implementation, real gzip receipt ingestion, adoption and actual machine-evidence body/central pilot are unaccepted.",
+        "Current new registration/central binding/routing and later bytes need their own non-author review.",
+        "No existing1838/current candidate reclassification or pending removal is authorized; full hard gate remains failed."
+      ],
+      "nextStep": "Obtain distinct exact date-only body/full migration consumer acceptance and separately reviewed fixed tuple extension before regranting proposal completion; S06 is separate.",
+      "phase": "phase-governance",
+      "module": "governance-receipt-storage-design",
+      "capability": "nonrecursive-review-and-immutable-evidence-identity",
+      "owner": "Codex root (proposal author/maintenance)",
+      "provenance": [
+        "root authored proposal; no root self-review credit",
+        "distinct non-author /root/receipt_integrity_independent",
+        "exact eada draft and93a6 stable original bytes",
+        "fixed4ddd primary-source and native consumer observations only"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261018-governance-receipt-storage-design.md",
+          "revision": "d90c8a15436e8babf9f2687dde94737c020acef7",
+          "sha256": "eada2ad69a273073a677727857d95f845473c1ac71c31bd2396b7facf5b6fe7e",
+          "scopeActuallyRead": "complete69-line draft five-section proposal",
+          "reviewer": "/root/receipt_integrity_independent"
+        },
+        {
+          "path": "docs/phase-governance/reviews/20261018-governance-receipt-storage-design.md",
+          "revision": "b10afe35d27364b31a5be85ed3d642fc0637a53f",
+          "sha256": "93a6b8765f03bde606574a325004393156260557c97988dc5c4ea651ef7ea892",
+          "scopeActuallyRead": "complete stable69 lines inherited after exact single Design version line delta",
+          "reviewer": "/root/receipt_integrity_independent"
+        },
+        {
+          "path": "docs/ops/guides/documentation-model.md",
+          "revision": "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+          "sha256": "3a087aec18bd1e3a5918f7ba01fd440696c43411f743cbd5c185a93b9f1fae50",
+          "scopeActuallyRead": "55-111; full native/raw/no-recursion/cohort/pilot/completion limits",
+          "reviewer": "/root/receipt_integrity_independent"
+        },
+        {
+          "path": "scripts/docs/check-content-review.mjs",
+          "revision": "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+          "sha256": "e7041f5deae5bee28a5931a3b6f8dcc2833ef72fd81f91bc5ed6ff95431a96e3",
+          "scopeActuallyRead": "complete167 lines",
+          "reviewer": "/root/receipt_integrity_independent"
+        },
+        {
+          "path": "scripts/docs/document-integrity.mjs",
+          "revision": "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+          "sha256": "5b9f905c67b568cb7862ae86b81194937a3eda32f08a95550ad2fa953c02edd8",
+          "scopeActuallyRead": "complete25 lines",
+          "reviewer": "/root/receipt_integrity_independent"
+        },
+        {
+          "path": "scripts/docs/document-model.mjs",
+          "revision": "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+          "sha256": "2c7ed0419c90332dd27e866629f06fd7670112cb924084f8162f84ee74c4f64b",
+          "scopeActuallyRead": "1-230; actual public checkTemplateBody",
+          "reviewer": "/root/receipt_integrity_independent"
+        },
+        {
+          "path": "scripts/docs/check-testing.mjs",
+          "revision": "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+          "sha256": "15aa96323821b771107b7b372880af8469a9310bc545bfd56c852c95e449a166",
+          "scopeActuallyRead": "1-105,187-335 and CLI guard; actual validateCanonicalEvidence",
+          "reviewer": "/root/receipt_integrity_independent"
+        },
+        {
+          "path": "scripts/docs/report-governance-progress.mjs",
+          "revision": "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+          "sha256": "f4fb211024b66edd2b490b4138345c142a2e514e4aa6a36a959ccb3b17488c98",
+          "scopeActuallyRead": "complete155 lines",
+          "reviewer": "/root/receipt_integrity_independent"
+        },
+        {
+          "path": "docs/phase-governance/templates/design-spec.md",
+          "revision": "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+          "sha256": "fc2671156e74512e2367511ff2e3f7dd81ed4a7921a63d574a4c636d5a577ee3",
+          "scopeActuallyRead": "complete template",
+          "reviewer": "/root/receipt_integrity_independent"
+        },
+        {
+          "path": "docs/phase-governance/templates/registry.json",
+          "revision": "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+          "sha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+          "scopeActuallyRead": "17 identities and complete design-spec entry; not entire registry semantic review",
+          "reviewer": "/root/receipt_integrity_independent"
+        },
+        {
+          "path": "scripts/docs/document-registry.mjs",
+          "revision": "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+          "sha256": "96743250d7e3a20c9bc348ff7f86c3728cf9f05a48e81dd65496333ca2a4047a",
+          "scopeActuallyRead": "1-128 and actual public loader; not full storage re-review",
+          "reviewer": "/root/receipt_integrity_independent"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "documentation governance across ops/testing/lore/phase1/phase2/phase3",
+        "scope": "Proposed artifact storage contract only; no product or runtime admission."
+      },
+      "dependencies": [
+        "docs/ops/guides/documentation-model.md",
+        "scripts/docs/check-content-review.mjs",
+        "scripts/docs/document-integrity.mjs",
+        "scripts/docs/document-model.mjs",
+        "scripts/docs/check-testing.mjs",
+        "scripts/docs/report-governance-progress.mjs",
+        "docs/phase-governance/templates/design-spec.md",
+        "docs/phase-governance/templates/registry.json",
+        "scripts/docs/document-registry.mjs"
+      ],
+      "versionScope": {
+        "designVersion": "1.0.0",
+        "documentStatus": "proposed",
+        "bodySha256": "93a6b8765f03bde606574a325004393156260557c97988dc5c4ea651ef7ea892",
+        "sourceSnapshot": "4ddd17e401115c8f2ce128bbd2af0ab0349de8db",
+        "frozenInventoryAtSource": {
+          "approvedCohort": 1838,
+          "currentRegistryEntries": 2424,
+          "uniquePaths": 2424,
+          "reviewStatus": {
+            "partial-review-unknown": 1972,
+            "content-reviewed": 452
+          },
+          "templateCompliance": {
+            "needs-migration": 1978,
+            "template-compliant": 446
+          },
+          "templateTypes": 17,
+          "structuralRoots": 3,
+          "meaning": "Mechanical loader/count/shape observation, not a re-review of 2424 bodies or a new completion claim."
+        },
+        "laterInventoryNotClaimedByThisBody": true,
+        "pendingDatedBodySha256": "0d16ea29db5ce12037b4b6d94c0fbe282afbdf37a89856e517bdf22ba525ce60"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md formal proposal/freeze/build scope",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md design-only acceptance navigation"
+      ],
+      "legalInputs": [
+        "Future content-reviewed one-off governance tool outputs with no preexisting canonical direct-reading duty; not arbitrary JSON/path/generated/size classification.",
+        "Exact stored gzip and decoded original report bytes with distinct SHA/length/producer/owner/caller/time/scope identities; original failed and incomplete output immutable.",
+        "Separate non-author fixed body/template report and explicit source-approved tuple; true booleans or storage greens alone do not authorize any semantic grant."
+      ],
+      "businessOracle": {
+        "type": "proposed-artifact-contract-preserving-existing-candidates-and-native-consumers",
+        "assertions": [
+          "All original1838/current2424 source identities and pending remain; no ignore/maxSize/structuralRoot exemptions.",
+          "Actual native plain canonical evidence accepts, gzip-at-same-path rejects invalid JSON, restored plain accepts; proposed protocol explicitly forbids this existing-canonical migration.",
+          "Five proposal chapters express concrete scope/preservation/consumer/counter/pilot stops; template structure0 alone is not the semantic judgment.",
+          "No report/transport success can grant implementation, actual execution, full-docs or main/done credit."
+        ],
+        "chapterJudgments": [
+          {
+            "section": "问题与目标",
+            "lines": "9-13",
+            "verdict": "support",
+            "reason": "把递归报告问题限定为未来执行回执存储；完整 1838 基线、2424 已登记/current pending 与原路径不因此消失。避免再造 canonical 文件并不取消逐篇可区分的实审 entry。"
+          },
+          {
+            "section": "真值与约束",
+            "lines": "15-21",
+            "verdict": "support",
+            "reason": "准确承接模型70-76的 native/公开 consumer 与 immutable raw 合同。资格须全文内容核定且无既有 canonical 直接读取义务；明确排除 suffix/generated/size/artifactOnly 分类捷径和作者自验。"
+          },
+          {
+            "section": "方案",
+            "lines": "23-53",
+            "verdict": "support-design-only",
+            "reason": "原始未格式化 payload 与 gzip stored 身份独立；owner/caller/时间/版本/退出条件保留。现有 semantic root 存逐篇完整结论、报告只作证据附件；精确授权 tuple 及所有写入前校验后再发布。旧 plain 不改意义，零迁移既有候选。协议未假装跨文件事务。"
+          },
+          {
+            "section": "边界与风险",
+            "lines": "55-61",
+            "verdict": "support",
+            "reason": "明确 gzip 与普通 JSON reader 不兼容，projection 另身份/另候选；未知归属 pending。真实 native consumer 反例支持此限制。当前 S06 纯函数 counter 未升格成游戏复现，产品/历史不被补造。"
+          },
+          {
+            "section": "验收",
+            "lines": "63-69",
+            "verdict": "support-with-unmet-implementation-gates",
+            "reason": "要求真实 gzip 正反针、主体/授权/模板/版本/身份错配写前不变、唯一 binding/旧对象与历史和现有 plain 回归；真实机器证据 pilot 正文和中央分开非作者接收前不能复用。17 类模板和全局 FAIL/main/done 停止线明确。"
+          }
+        ],
+        "strongestAlternatives": [
+          {
+            "alternative": "把 fixed1838 换成较小的 gzip 后分母，或把当前2424说成新的全部必审基线",
+            "source": "model80,109; frozen-document-source.mjs4-12,181-315; registry.summary and scopeNote",
+            "judgment": "reject this interpretation: design13,21,53,69 preserve fixed cohort and all current candidates separately. Public frozen-root/current-view consumer actually accepted 1838; live v2 loader reconstructs 2424 unique paths, without treating their summaries as source semantic review."
+          },
+          {
+            "alternative": "文件名带 independent/generated 或 artifactOnly 为 true 就可移入 raw、洗掉当前 pending",
+            "source": "registry native entries and report-governance-progress.mjs59-65; design19,21,53,59",
+            "judgment": "reject: current retained artifactOnly metadata is not completion. 1972 partial / 1978 needs remain; selected 243 path-pattern matches are mechanical example selection only, not a content-based raw-eligibility decision. Existing registered reports are expressly zero migration, no waiver."
+          },
+          {
+            "alternative": "将 e2e-002 之类 canonical native JSON gzip 一下仍算兼容",
+            "source": "model72; check-testing.mjs31,187-335; document-model.mjs108-173",
+            "judgment": "reject with actual public consumer counterfactual: baseline [], same native path replaced by its true gzip bytes -> [e2e-002: evidence is invalid JSON], restored []. This is why design18/53/57 excludes it; no actual product execution or new gzip consumer is proven."
+          },
+          {
+            "alternative": "gzip SHA 与原报告 SHA 相同意义，解压后 JSON 值相等即可替代原件",
+            "source": "design27-31,37,45,51",
+            "judgment": "reject: explicit stored/payload bytes+SHA, exact gunzip byte equality, projections and original identity separately retained. Actual native fixture payload and stored hashes differ while gunzip equality is exact; implementation still must reject swapped/mismatched/truncated identities before any write."
+          },
+          {
+            "alternative": "一个 nonAuthorReviewer=true 或 report exit0 就足以更新 content-reviewed",
+            "source": "document-integrity.mjs14-25; check-content-review.mjs72-167; design20,35-45",
+            "judgment": "reject: report identity and substantive verdict must be independently authorized against exact body/docType/templateId/templateVersion tuple. The real credit helper rejects withdrawn/mechanical promotion. Existing general check-content-review validates records but is not itself a new trusted gzip intake authorization mechanism."
+          },
+          {
+            "alternative": "semantic root 的 structural exemption 自动覆盖任意新 report 或同 root 里所有条目",
+            "source": "registry.structuralRoots exact three records; design21,35,59",
+            "judgment": "reject: existing semantic root is only ledger traceability, no self-certified body acceptance; design adds no structural root/ignore. Each body retains full independent, source-bound review fields. Reading five root entry identities here did not re-review their complete business claims or root d90 future registration."
+          },
+          {
+            "alternative": "可信 writer 可以跳过 preflight，失败后刷新 pin 算成功，或声称 gzip 改动实现事务",
+            "source": "design43-47,67",
+            "judgment": "reject: all-input/identity/output preflight and reject-before-registry/review-write are explicit. No cross-file transaction is claimed; external drift/postpublish failure must be preserved, not repaired by blind pin refresh. No writer/rollback implementation was executed or accepted in this design review."
+          },
+          {
+            "alternative": "稳定版本号1.0.0就表示 current/采用/模板自动通过",
+            "source": "actual draft-to-stable byte diff, design3-7; template registry design-spec-v1",
+            "judgment": "reject: only line6 changes, Status is still proposed. Five chapters were independently read and current structural consumer returns [] on each exact body; semantic body acceptance here is narrow and separate from adoption, central registration and implementation pilot."
+          },
+          {
+            "alternative": "一次标准 gzip 或模板结构 green 就能代替独立机器证据 pilot、E2E/visual/coverage 或所有 pending的语义完成",
+            "source": "model82-84; design20,47,67-69",
+            "judgment": "reject: actual future gzip intake consumer and one real machine-evidence body/central pilot are unmet gates. No game, browser, runtime, E2E, preview/capture, coverage or all-candidate semantics were accepted."
+          }
+        ],
+        "actualConsumerChecks": [
+          {
+            "command": "audit-design-scope",
+            "meaning": "actual frozen v2 load + count/unique/summary checks; actual plain/gzip/restored public native consumer; real mechanical promotion helper rejects",
+            "exit": 0,
+            "runtimeOrBusinessTestCredit": false
+          },
+          {
+            "command": "audit-template-and-baseline",
+            "meaning": "actual current checkTemplateBody both proposal SHAs [] and real readFrozenBaselineRoot/inspectFrozenBaselineView against original Git Buffer and current view: no issues, governed1838",
+            "exit": 0,
+            "limitation": "Structural body and provenance check only; five-section semantic judgment is independently written above."
+          },
+          {
+            "command": "audit-design-version",
+            "meaning": "stable93a6 verified full original bytes with exact only line6 delta from eada",
+            "exit": 0
+          }
+        ]
+      },
+      "dedupe": {
+        "result": "One specific proposed storage contract adapting existing model70-76; no parallel task/catalog truth or extra template type",
+        "against": [
+          "docs/ops/guides/documentation-model.md",
+          "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+          "docs/phase-governance/templates/registry.json"
+        ]
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "RECEIPT-NATIVE-GZIP-INCOMPATIBLE",
+          "status": "design-limitation-explicit",
+          "statement": "Real public native consumer rejects gzip in existing canonical path; no migration of such files is authorized."
+        },
+        {
+          "id": "RECEIPT-IMPLEMENTATION-PILOT",
+          "status": "pending",
+          "statement": "Design-only acceptance cannot substitute real exact-identity consumer and actual body+central pilot."
+        },
+        {
+          "id": "RECEIPT-META-REVIEW-DATE",
+          "status": "rework-date-only-body-pending",
+          "statement": "Actual first combined gates reported review date missing twice; old93a6 chapter-only acceptance cannot satisfy full migrated-body metadata contract.",
+          "priorBodySha256": "93a6b8765f03bde606574a325004393156260557c97988dc5c4ea651ef7ea892",
+          "pendingDatedBodySha256": "0d16ea29db5ce12037b4b6d94c0fbe282afbdf37a89856e517bdf22ba525ce60"
+        }
+      ],
+      "revision": {
+        "currentSha": "9885491a47e81f30300c3744853556d1e4e0f663",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "authored substantive proposed design and froze exact stable version after distinct full semantic/template review",
+            "draftSha256": "eada2ad69a273073a677727857d95f845473c1ac71c31bd2396b7facf5b6fe7e",
+            "afterSha256": "93a6b8765f03bde606574a325004393156260557c97988dc5c4ea651ef7ea892"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "actual-per-document-nonauthor-design-semantic-review",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-governance-receipt-design-review-4ddd17e4.json",
+        "reportSha256": "d632fabe7f8162f3eb09a03d321786559c2f0e62bb3c24c963d7d6550b64c8fe",
+        "reviewer": "/root/receipt_integrity_independent",
+        "author": "/root",
+        "nonAuthorReviewer": true,
+        "acceptance": "Original d632 supports exact93a6 proposed design chapters only; dated new body/full metadata and central completion not accepted.",
+        "intakeMap": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-receipt-design-4ddd.json",
+        "scope": "accept only the concrete five-section proposal at the two exact subject SHAs; no root d90 registration or later adoption reviewed"
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "Pending explicit registration did not grant completion; now fixed proposal-body acceptance is separately evidenced",
+          "priorRecord": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "priorRecordRevision": "9885491a47e81f30300c3744853556d1e4e0f663",
+          "priorRecordSha256": "db4ca20bd0d806e768702ddba10e62a29ae8736887b19e2cb82d6946d4ffb419",
+          "priorEntryStatus": "partial-review-unknown",
+          "sourceDraftRemainsInGit": "d90c8a15436e8babf9f2687dde94737c020acef7"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "explicit sole binding intake planned against exact frozen donor; actual combined central acceptance separate",
+          "sourceRevision": "9885491a47e81f30300c3744853556d1e4e0f663",
+          "sourceRecordSha256": "db4ca20bd0d806e768702ddba10e62a29ae8736887b19e2cb82d6946d4ffb419",
+          "otherDonorEntriesPreserved": 83
+        },
+        {
+          "date": "2026-10-18",
+          "action": "Full migration gate caught missing review date; withdraw only proposal template completion while preserving prior exact chapter judgment and original evidence. Root date-only repair pending distinct acceptance.",
+          "previousAfterSha256": "93a6b8765f03bde606574a325004393156260557c97988dc5c4ea651ef7ea892",
+          "afterSha256": "0d16ea29db5ce12037b4b6d94c0fbe282afbdf37a89856e517bdf22ba525ce60",
+          "additionalSemanticCredit": 0
+        }
+      ],
+      "supersedes": [
+        {
+          "record": "docs/phase-governance/reviews/20261018-record-integrity-rework.json",
+          "revision": "9885491a47e81f30300c3744853556d1e4e0f663",
+          "scope": "Only this new incremental proposal current review binding; no existing body/template or artifact-policy adoption superseded."
+        }
+      ],
+      "stopLine": "Do not compress/reclassify existing candidates, adopt an unverified gzip consumer/pilot, self-review the report or claim runtime/global/main/done from design freeze.",
+      "sourceSha256": "eada2ad69a273073a677727857d95f845473c1ac71c31bd2396b7facf5b6fe7e",
+      "afterSha256": "0d16ea29db5ce12037b4b6d94c0fbe282afbdf37a89856e517bdf22ba525ce60",
+      "sourceGitRevision": "d90c8a15436e8babf9f2687dde94737c020acef7",
+      "reviewedLines": "full draft1-69 and exact stable69 via one-line version delta; bounded first-party ranges in primarySource",
+      "historyOverlay": false,
+      "documentStatus": "proposed",
+      "beforeAfter": {
+        "before": "No proposal at4ddd; substantive five-section draft first authored as new incremental document atd90, then registeredpending.",
+        "after": "Stable proposed1.0.0 preserves full content with only explicit version-line delta; five chapters actually reviewed and template accepted, implementation/adoption/pilot stillunaccepted."
+      },
+      "templateConformance": {
+        "status": "pending-dated-body-full-metadata-review",
+        "priorChapterAcceptance": {
+          "status": "fixed93a6 design-spec1.0 body and template accepted by distinct reviewer",
+          "assessment": {
+            "verdict": "accept limited design-spec-v1 / 1.0.0 body semantics and actual structural consumer at these exact SHAs",
+            "consumer": "fixed4ddd checkTemplateBody",
+            "issues": 0,
+            "limitation": "Does not update any registry/binding/routing/pin or declare this independent report template-compliant. Current reader has no statusPolicy on this template; structural success alone did not establish semantic acceptance."
+          },
+          "chapters": [
+            {
+              "section": "问题与目标",
+              "lines": "9-13",
+              "verdict": "support",
+              "reason": "把递归报告问题限定为未来执行回执存储；完整 1838 基线、2424 已登记/current pending 与原路径不因此消失。避免再造 canonical 文件并不取消逐篇可区分的实审 entry。"
+            },
+            {
+              "section": "真值与约束",
+              "lines": "15-21",
+              "verdict": "support",
+              "reason": "准确承接模型70-76的 native/公开 consumer 与 immutable raw 合同。资格须全文内容核定且无既有 canonical 直接读取义务；明确排除 suffix/generated/size/artifactOnly 分类捷径和作者自验。"
+            },
+            {
+              "section": "方案",
+              "lines": "23-53",
+              "verdict": "support-design-only",
+              "reason": "原始未格式化 payload 与 gzip stored 身份独立；owner/caller/时间/版本/退出条件保留。现有 semantic root 存逐篇完整结论、报告只作证据附件；精确授权 tuple 及所有写入前校验后再发布。旧 plain 不改意义，零迁移既有候选。协议未假装跨文件事务。"
+            },
+            {
+              "section": "边界与风险",
+              "lines": "55-61",
+              "verdict": "support",
+              "reason": "明确 gzip 与普通 JSON reader 不兼容，projection 另身份/另候选；未知归属 pending。真实 native consumer 反例支持此限制。当前 S06 纯函数 counter 未升格成游戏复现，产品/历史不被补造。"
+            },
+            {
+              "section": "验收",
+              "lines": "63-69",
+              "verdict": "support-with-unmet-implementation-gates",
+              "reason": "要求真实 gzip 正反针、主体/授权/模板/版本/身份错配写前不变、唯一 binding/旧对象与历史和现有 plain 回归；真实机器证据 pilot 正文和中央分开非作者接收前不能复用。17 类模板和全局 FAIL/main/done 停止线明确。"
+            }
+          ]
+        }
+      }
     }
   ]
 }

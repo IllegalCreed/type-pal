@@ -1413,10 +1413,12 @@
       "phase": "testing",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r60-testing-e2e-entry.json",
-      "templateVariant": "document-audit-v2"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261018-semantic-rework.json",
+      "templateVariant": "document-audit-v2",
+      "templateVersion": "1.5.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-003.json",

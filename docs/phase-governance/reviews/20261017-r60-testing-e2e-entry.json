@@ -162,177 +162,6 @@
       }
     },
     {
-      "path": "docs/testing/e2e/evidence/e2e-002.json",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "test-machine-evidence",
-      "templateId": "test-machine-evidence-v1",
-      "templateVariant": "document-audit-v2",
-      "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/testing/e2e/evidence/e2e-002.json:1"],
-      "unresolved": [
-        "Historical/source publication remains bounded by catalog and paired stage report; no new runtime/E2E/visual/coverage credit.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "testing",
-      "module": "e2e/evidence",
-      "capability": "e2e-002",
-      "owner": "Codex",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "bb5fcb9b9046ecfea91b42dcaaf2b8b1e92ca59454e3d913884bfb77aab59517",
-      "afterSha256": "25fdd7d621e0f618b4676e6d777c0c44802033bc257f0f0ebea107b5f8d7138a",
-      "publicCallers": ["pnpm e2e:002", "pnpm e2e:002:reforge", "pnpm e2e:002:both"],
-      "legalInputs": [
-        "same-engine current 001 end save",
-        "normal movement into s003/e56",
-        "isolated fresh restore context"
-      ],
-      "businessOracle": {
-        "type": "inn-guest-reward-and-restore",
-        "assertions": [
-          "20行正文/说话人完整",
-          "cash 0→500且三苗人真实进房",
-          "结束档在新上下文恢复并保留房内状态"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed",
-        "against": ["e2e-001", "e2e-003", "docs/testing/e2e/stages/002-inn-guests-and-reward"],
-        "notes": "e56/s003 是 sourceRefs 与稳定实体 ID，不再出现在 canonical 路径/标题。"
-      },
-      "revision": {
-        "currentSha": "25fdd7d621e0f618b4676e6d777c0c44802033bc257f0f0ebea107b5f8d7138a",
-        "implementationSha": "25fdd7d621e0f618b4676e6d777c0c44802033bc257f0f0ebea107b5f8d7138a",
-        "history": [
-          {
-            "revision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
-            "date": "2026-10-17",
-            "action": "full JSON parse and structured review",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "structured-content"
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R60 E2E machine governance envelope",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "json-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r60-testing-e2e-entry-20261017.json",
-        "sourceSha256": "bb5fcb9b9046ecfea91b42dcaaf2b8b1e92ca59454e3d913884bfb77aab59517",
-        "candidateSha256": "25fdd7d621e0f618b4676e6d777c0c44802033bc257f0f0ebea107b5f8d7138a",
-        "afterSha256": "25fdd7d621e0f618b4676e6d777c0c44802033bc257f0f0ebea107b5f8d7138a",
-        "lineCount": 124,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "non-overwriting _governance envelope",
-          "sourceBytes": 5414,
-          "sourceLines": 107,
-          "sourceFinalNewline": true,
-          "inverseSha256": "bb5fcb9b9046ecfea91b42dcaaf2b8b1e92ca59454e3d913884bfb77aab59517",
-          "exactRoundTrip": false,
-          "topLevelShape": "object",
-          "topLevelFields": [
-            "schemaVersion",
-            "id",
-            "kind",
-            "status",
-            "candidateSha",
-            "versions",
-            "sourceRefs",
-            "publicCallers",
-            "legalInputs",
-            "businessOracle",
-            "dedupe",
-            "claims",
-            "runtimeExecution",
-            "findings",
-            "artifacts",
-            "history"
-          ]
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
-      },
-      "history": [
-        {
-          "revision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "structured-content"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R60 E2E machine governance envelope",
-          "reviewer": "r60_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
-        }
-      ],
-      "supersedes": ["governed-legacy machine evidence presentation; original fields retained"],
-      "stopLine": "do not promote historical document-audit publication to current runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 E2E machine fields 保持 → 增加非覆盖式 _governance envelope、template variant、SHA 和 consumer 边界；执行结果不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
-      "templateVersion": "1.5.0",
-      "historyOverlay": false,
-      "artifactOnly": false,
-      "documentStatus": "verified",
-      "sourceGitRevision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
-      "candidateSha256": "25fdd7d621e0f618b4676e6d777c0c44802033bc257f0f0ebea107b5f8d7138a",
-      "primarySource": [
-        {
-          "path": "docs/testing/e2e/evidence/e2e-002.json",
-          "revision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
-          "sha256": "bb5fcb9b9046ecfea91b42dcaaf2b8b1e92ca59454e3d913884bfb77aab59517",
-          "scope": "full JSON artifact plus non-overwriting governance envelope"
-        }
-      ],
-      "phaseAnchors": {
-        "phase": "testing",
-        "module": "e2e/evidence",
-        "currentBoundary": "catalog, paired stage report and fresh execution own truth"
-      },
-      "dependencies": "pnpm e2e:002; pnpm e2e:002:reforge; pnpm e2e:002:both; paired stage report.",
-      "versionScope": {
-        "sourceRevision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
-        "date": "2026-10-17",
-        "validity": "verified"
-      },
-      "counterReworkBlocked": [
-        {
-          "id": "R60-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No new runtime/E2E/visual/coverage credit."
-        }
-      ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
-    },
-    {
       "path": "docs/testing/e2e/evidence/e2e-003.json",
       "contentReviewStatus": "partial-review-unknown",
       "docType": "test-machine-evidence",
@@ -874,6 +703,13 @@
       "sourceRecordSha256": "251ef9fdb82b0b6bfb3593fb9dc983f53de2e570b988068308b7f21068121dd4",
       "successor": "20261018-semantic-rework.json",
       "reason": "S05 fixed new body/design template accepted by a distinct non-author; only this binding moved, historical withdrawal retained."
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-002.json",
+      "sourceRevision": "9885491a47e81f30300c3744853556d1e4e0f663",
+      "sourceRecordSha256": "c46eed4e596e3ca8502b462b8de5d387342c66903dfd27a0f1a157fe610ec340",
+      "successor": "20261018-semantic-rework.json",
+      "reason": "Only this exact independently accepted new body/template binding moved; other entries/order and original withdrawal/history retained."
     }
   ]
 }

@@ -278,7 +278,7 @@
       "reviewedSourceSha256": "522c958d325afaf4a92845d9dbb89a00d72bce72e3396aad4b890920b39c01f2",
       "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
       "sourceGitObject": "906868289a9187830360dedaf4f28ab048318445",
-      "afterSha256": "81a0c0226c5a31aab07985ded81deab34f6bb5885ed7077efe4461f835b06c3a",
+      "afterSha256": "e21324d19dc041e1cd1fb9651ea5d54375999eec4b8d9ce5289adaf2d59df5fd",
       "publicCallers": [
         "docs/phase-governance/README.md",
         "node scripts/docs/check-content-review.mjs --strict"
@@ -6817,6 +6817,24 @@
           "previousAfterSha256": "8d9dcd3107c07b8f9bb92a9a04eaaf69cc3ba5bda6b72eaaa3e8a0a0d72c84d5",
           "afterSha256": "81a0c0226c5a31aab07985ded81deab34f6bb5885ed7077efe4461f835b06c3a",
           "method": "S05 exact frozen4ddd central closure; future changes remain separate.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "9885491a47e81f30300c3744853556d1e4e0f663",
+          "previousAfterSha256": "81a0c0226c5a31aab07985ded81deab34f6bb5885ed7077efe4461f835b06c3a",
+          "afterSha256": "1d2df7ecce34447c491762630610ce77b87f367c1f73b577e6493e482ea85822",
+          "method": "Readable projection of two new guarded relationships.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "9885491a47e81f30300c3744853556d1e4e0f663",
+          "previousAfterSha256": "1d2df7ecce34447c491762630610ce77b87f367c1f73b577e6493e482ea85822",
+          "afterSha256": "e21324d19dc041e1cd1fb9651ea5d54375999eec4b8d9ce5289adaf2d59df5fd",
+          "method": "Readable proposal date-counter and pending template completion only.",
           "grantsNewSemanticAcceptance": false
         }
       ]

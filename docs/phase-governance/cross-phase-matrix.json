@@ -1404,7 +1404,7 @@
         "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-58e899bf-20261018.json"
       ],
       "unresolved": [
-        "1896 bindings were withdrawn. 4 fixed new affected bodies have separate non-author acceptance; 1892 remain without reacceptance. S01 is outside this set; five quarantines remain.",
+        "1896 bindings were withdrawn. 5 fixed new affected bodies have separate non-author acceptance; 1891 remain without reacceptance. S01 and new incremental design are outside this set; five quarantines remain.",
         "58e899bf纠错包获非作者限定接收；全量语义及统一零诊断门未完成，五项隔离不解除。"
       ],
       "stopLine": "Do not infer all-docs completion, user decisions, runtime/E2E/visual/coverage or semantic approval from shape/hash checks."
@@ -1520,6 +1520,43 @@
         "No authentic game raw, full route/sibling/preview/capture/coverage acceptance; two cold CLI probes failed before capture guard."
       ],
       "stopLine": "No bulk R60/1896 restoration, source→runtime credit, historical version/status renewal, or full hard/main/done credit."
+    },
+    {
+      "id": "native-e2e002-s06-20261018",
+      "from": ["docs/testing/e2e/evidence/e2e-002.json"],
+      "to": [
+        "docs/testing/catalog.json",
+        "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md",
+        "scripts/e2e/inn-contract.mjs"
+      ],
+      "relationship": "Native16/prefix and source/publication/historical versions remain unchanged; source first-hidden/last-hidden predicate is narrower than all-frame nonreappearance, with real counter-driven correction.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S06-71d74b4d.json",
+        "docs/phase-governance/reviews/20261018-semantic-rework.json"
+      ],
+      "unresolved": [
+        "Fixed body/template only; actual combined central binding/byte/transport intake pending.",
+        "Other affected documents, full hard gates and execution remain separate; five quarantines retained."
+      ],
+      "stopLine": "No other R60/1896 restoration, raw eligibility bypass, native status/version rewrite or product/runtime/E2E/preview/visual/capture/coverage/global/main/done credit."
+    },
+    {
+      "id": "governance-receipt-design-v1-20261018",
+      "from": ["docs/phase-governance/reviews/20261018-governance-receipt-storage-design.md"],
+      "to": ["docs/ops/guides/documentation-model.md", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
+      "relationship": "Exact proposed1.0 design is accepted; existing candidates/native consumers/pending are not reclassified, implementation/gzip consumer/adoption/pilot are still unaccepted.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-governance-receipt-design-review-4ddd17e4.json",
+        "docs/phase-governance/reviews/20261018-semantic-rework.json"
+      ],
+      "unresolved": [
+        "Proposal completion withdrawn after actual full migration metadata check found missing review date. Factual date-only repair awaits distinct acceptance; old chapter judgment remains limited.",
+        "Fixed body/template only; actual combined central binding/byte/transport intake pending.",
+        "Other affected documents, full hard gates and execution remain separate; five quarantines retained."
+      ],
+      "stopLine": "Do not compress/reclassify existing candidates, adopt an unverified gzip consumer/pilot, self-review the report or claim runtime/global/main/done from design freeze."
     }
   ],
   "acceptance": {

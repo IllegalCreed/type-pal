@@ -1722,3 +1722,42 @@ Template: task-card-v1 / 1.0.0
 - [设计独立报告](../evidence/DOCS-REGISTRY-SPLIT-1/independent-governance-receipt-design-review-4ddd17e4.json)SHA `d632fabe7f8162f3eb09a03d321786559c2f0e62bb3c24c963d7d6550b64c8fe`全文核两稿、五章具体语义/真实template consumer及fixed4ddd基线，限定接受稳定设计93a6；唯一改动为Design version行。原eada不删，正式冻结proposed1.0.0，不授实施/采用/pilot/中央或报告本文完成。210项运输含208原项、manifest及外部seal；原自身setup失败保留。
 - root build allowed仅准备私有工具新版本与owned/tmp正反针，Owner root；实施白名单为新的/tmp runner与夹具、原件显式运输及本卡中央登记，旧344623/765094/builder/公共storage API冻结，不动产品/旧测试/coverage/ignore/structuralRoots。须非作者核真实gzip consumer、精确body/template版本/报告双身份、旧plain回归及写前拒绝，再做一篇实际机器证据正文和中央分别独立pilot，之前不能复用新路由。
 - 1838/全部既有候选和pending无缩分母；当前仍仅1896中4篇重授/1892待审，S01另列，五隔离不解除。新四份回执/映射pending；提案仅冻结字节，不自授其binding完成，后继单篇记录须真实非作者凭据。S06新71只修过强“不再现”一句，仍待非作者闭合；S07隔离写入不授中央信用。完整硬门仍FAIL，不合main或done。
+
+## 2026-10-18 S08：原生004机器证据的逐字段治理准入
+
+- Codex build allowed，仅隔离`docs/testing/e2e/evidence/e2e-004.json`的`_governance`，唯一Owner `/root/e2e_entry_semantic_author`在干净a233后新分支实施。S07仍独立审中、S06仅固定71正文接收且中央待验，本准入不续其信用。其余native、canonical/catalog、产品、旧测试、coverage及中央账不可写。
+- root全文读当前132行及harvest16字段/17发现/迁移方案，另有原先canonical1–78/meal-contract280–340,395–482的窄读；没有读作者全部927/1082/895等源码，不借hash/harvest当root全文或本篇接受。只读报告`/tmp/type-pal-e2e004-readonly-harvest-20261018-7pf2_gnd/harvest-report.json` SHA `d4627932b932a915c00a80cba8fbc173ff438761d974de5a541cc8249ad8fd3a`，102项清单SHA `841e991c46baa4e249b8b8a0248723d6deb98d6fea2781337b87f65f04ddf7ef`。
+- 内容核定schema2/document-audit适用现test-machine-evidence1.5/document-audit-v2，无新变体或artifactOnly。保原115行5679B语义/当前132行6658B的全部16native/键序/数组序/日期/7refs及5686B prefix SHA `bc0eafb4eaf7829edb4497586e68ac109dfcc9375a4903b4237dfde2dcf0c630`，原治理完整留限定history；只换日期或泛封套不算迁移，作者false/非作者待验。
+- 按004自身source展开：每引擎story/items/saves、完整both精确6；40行=2+13+25而非赠酒单段40，story40/1context无保存专项，items15/1核取消0dispatch/错误1、真实提示与库存绑定，saves40/3含慢读/208中档/终档fresh恢复，唯saves可005前驱。真实赠酒唯一正文/扣酒/隐藏喊话/控制和正式save/restore各有独立义务，不从首次hidden/终态推全程不再现或全帧通过。
+- 四个短contract sourceRef只含目标函数开头须另按完整函数实读；40hex不是HEAD/producer真实，Game前驱源码路径差异拒与RF仅记录分开。共享Canvas谓词对缺nonBlack/SHA对象可true的纯helper反例，只限字段假设；真实pixelproducer另核，不抄003更强形状保证或造产品缺陷。collector本篇64MiB/768MiB/32MiB与分流计数按实际读域说明，未审recorder/causal接线不授像素完整性。
+- 9a488 Git声明21/min10/RF10、d02222/min11/RF11、现22/min12/RF12分时点，原字段不倒填，Game格式独立。原failed comparison/receipt-only再验证/非零警告保留，旧待做不作今天进度；15位置本checkout metadata absent不等于原六份精确路径已找到或全仓未运行。原raw/Producer/Owner/retention未知，未开游戏raw不填docs日志进native artifacts。实际storyEndControl不因旧source字符串/movement恢复已删尾部走位。
+- 冻结新正文后独立全文/来源/反例/consumer及保全验收，再由root显式中央接入；作者自验、结构绿或本准入均不授reviewed/template-compliant/全局信用。全卡rework、硬门未过不合main或done。
+
+### S06与稳定设计的唯一中央绑定接入
+
+- S06固定71正文SHA `91f53b623c9ce39cd534d9141d825d5b69de84464ab694e1c224cb2499766448`，原非作者报告SHA `1318ecf75bc3b1a9e4ed205b8d420392b4521dc245780f06d8cc2c4c75c95e9f`，R60只移该篇5→4，其余4条与旧semantic5条保全；16native/5421B前缀不变。原880 rework与first-hidden反例不改，71只闭合治理措辞，不改产品oracle或授游戏实跑。480项运输保作者/harvest/原rework/修正/独立输出与原失败，最终报告仍plain旧读取路径；未采用新gzip报告授信路由。
+- 稳定设计93a6/d632仅移原pending该篇到semantic根，增量不计1896恢复；新增唯一design-spec路由，其他迁移路由保全。设计仍proposed，实施/gzip consumer/采用/pilot未过。两新报告/映射仍partial/needs，不自授报告本文完成。
+- 1896撤回中仅5篇重新授信、剩1891；S01及新设计另列，五隔离不解除。本次实际中央组合仍须非作者验唯一binding/旧对象及SHA、原件和输入范围；全卡rework、不合main或done。S07只是固定正文接受、中央未入账，S08隔离作者中不授信用。
+
+### v4 plain接入护栏与首次计划拒绝
+
+固定root私有runner SHA `7069132efe1f21393eeb5938ec65a24174fc48375a3a2c8229a6b67aa1b2196b`已获非作者限定IO护栏接受，原报告SHA `5682ec52a53b1d8e1aec5001dc6e4074cbc37e56d909827b030eef4797903fb7`；7有效正针/31有效拒绝不抹掉其68次真实执行中的fixture失败。仅3完整review根，不声称已验114根真实中央DAG；最终报告仍用plain既有路径，无新gzip consumer或pilot信用。
+
+root首份真实dry-run计划漏列未变化的设计独立报告作为expectedFiles静态输入，v4正确在输出预留/发布前拒绝“non-author report not pinned in plan”。原计划、exit1/stdout/stderr保留；核全部已声明输入/HEAD与registry/review未变化后，另建新计划补精确d632只读pin，不加宽allowedPinDeltas、不手改原失败回执、不把这次拒绝说成成功或产品counter。
+
+### RECEIPT-META-REVIEW-DATE：完整正文门补充counter
+
+首轮实际组合门发现设计提案缺Last reviewed（两条同根诊断），不能把先前checkTemplateBody章节通过当完整迁移元数据通过。保全部失败日志与原93a6/d632章节接受；仅该提案reviewStatus/templateCompliance降为partial/needs，1896的S06第五重授/1891待审不变。root只插入实际非作者审阅日2026-10-18，新的固定字节须另获非作者full migrated-body消费和精确授权tuple复核后才可重授；不改原报告或伪造旧门通过。整卡仍rework、新gzip采用/pilot未验、不合main/done。
+
+## 2026-10-18 S09：原生005审计的隔离正文准入
+
+- Codex build allowed，唯一Owner `/root/e2e_entry_semantic_author` 在干净2de6新分支，仅改 `docs/testing/e2e/evidence/e2e-005.json` 的_governance；原16字段/8refs/key与数组顺序/日期及6015B prefix SHA `41aa6c3e7815c96d1832cb7c192637fdee6214ef6a4da1a7b0652534530a236a`全部保留。现有test-machine-evidence-v1/1.5.0/document-audit-v2适用，不新增schema或artifactOnly。S07已固定正文限定接受未中央接入、S08非作者仍封报告，不借本准入授信用。
+- root全文读当前140行和harvest的18发现/10替代/迁移方案，另窄读errand-contract350–470和observer245–305；未读其508/541/668源码全文，未把harvest当root完整审查。只读报告SHA `74c385f581f9e3d14ccb022daaf1413d68e550673f0a69e371e786c6fdd5371f`、77项manifest SHA `c4d9bf60faa8e8d389ee904a3c3f20642e49d3807ccce4849c845a029b7f0fc9`，精确读域及13份固定SHA继承位于/tmp/type-pal-e2e005-readonly-harvest-20261018-xmle6gcc；作者不可把继承读域写fresh全文。
+- 实质展开16字段/8引用及本篇业务：story/guards/saves每引擎40/49/40行、1/1/2contexts；004 saves运行准入不同于offline通用checkpoint消费。唯一500→550晚于215，不虚构下一对白上界；布防/approach与news原子clear/draw/control偏序逐项按真实源码表述。后台仅恢复后实际位移和末观察可控，不授全五目标/全程控制；最小DTO纯谓词probe不是合法游戏反例。005不要求跨时刻整个Canvas相等，正式持久state/非黑/续走各有职责。
+- collector只seq/global order、不补atMs或完整actorRecording；物理snapshot-graph384MiB/池128MiB与展开DTO/各recorder预算区分。98a21/min10、d02222/min11、现22/min12和RF格式分时点；wrapper失败、后补case/receipt-only再验证及warnings不追溯改写。26 metadata absent不等于旧运行不存在，raw/producer/retention未知。原治理完整保留限定history；作者nonAuthor=false/独立待验。冻结后另获非作者正文/模板/consumer和中央验收，整卡rework、不合main/done。
+
+### DOCS-CHECK-INVENTORY-BUFFER：实际全量文件清单消费counter与修复准入
+
+第二轮中央check:docs真实触发scripts/docs/check.mjs:329的spawnSync git ENOBUFS；Git已输出超过默认1MiB的完整候选路径清单。原失败会话/tmp/type-pal-central-s06-design-date-pending-_69lky7w完整保全；不能将178工具通过或progress零integrity冒称check:docs通过。此时lint4508零诊断、完整diff零、strict/require-complete仍FAIL，缺口不豁免。
+
+Codex build allowed，仅文档工具结构修复。唯一实现Owner `/root/receipt_integrity_independent` 在其已冻结S08只读输入之后独立干净新分支，白名单scripts/docs/check.mjs与新增/必要文档工具测试；root只负责本卡和中央。采用真正分块读取或stdout磁盘spool，保Git原argv/根/cached+others+exclude-standard/-z集合、NUL/Unicode路径、存在性过滤、导航/链接判定、错误fail closed和清理；不抬maxBuffer、不新增ignore/exclude、不缩分母、不改产品/旧产品测试/coverage。至少一个真实Git输出大于1MiB的回归，验证末尾路径/特殊路径及Git失败不会变空成功；冻结后由不同主体核实现/实际消费/原失败与新输出、执行必要门。此准入不是修复接受或统一门通过。
