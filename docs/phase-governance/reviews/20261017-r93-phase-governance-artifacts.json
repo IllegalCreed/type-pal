@@ -1136,7 +1136,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "ed085526bec89ec97181a4b023011eddc409c12b2fbf467b2658dd4b549a7fe4",
+      "afterSha256": "444aa7c6adff0bd9f93f7d3ca5582542da12debba0eb925b53b6337910f8cf18",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1268,7 +1268,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-REGISTRY-SPLIT-1",
+          "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "previousAfterSha256": "ed085526bec89ec97181a4b023011eddc409c12b2fbf467b2658dd4b549a7fe4",
+          "afterSha256": "444aa7c6adff0bd9f93f7d3ca5582542da12debba0eb925b53b6337910f8cf18",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261004-structured-content-new-01.json",
@@ -10723,7 +10734,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
-      "afterSha256": "629fefc146931f729f387eeb85877e5aab813dc1a13ee695f014e86fee6b4f19",
+      "afterSha256": "e87a3b59dc254f642948494843d827bd1f35715c70e245a1c25c787a0da42db3",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -10855,7 +10866,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-REGISTRY-SPLIT-1",
+          "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "previousAfterSha256": "629fefc146931f729f387eeb85877e5aab813dc1a13ee695f014e86fee6b4f19",
+          "afterSha256": "e87a3b59dc254f642948494843d827bd1f35715c70e245a1c25c787a0da42db3",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r40-ops-machine-json.json",

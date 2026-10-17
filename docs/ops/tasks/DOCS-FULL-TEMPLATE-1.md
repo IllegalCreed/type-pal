@@ -1653,3 +1653,11 @@ Template: task-card-v1 / 1.0.0
 - Codex build allowed，仅单篇文档候选。Owner继续为`e2e_entry_semantic_author`，在其干净S03冻结候选之后复用隔离worktree；新增唯一写域`docs/testing/e2e/cross-stage/README.md`，中央ledger、catalog、任务/看板、产品/旧产品测试/coverage均由原Owner保护。
 - root已全文核现行40行及其中原始短导航：它仍承担现行横向材料导航，采用既有governance-index-v1/1.0.0。作者必须自行全文核固定源/当前正文与必要common-issues入口、catalog发布/配对字段和R4准入窄域后，写出可用的当前入口、issue-family回链职责与真实停止线；不得把common-issues所有历史业务结论或001–005执行当作本次已审。
 - 原quote/source字节及日期保留；有分隔LF、旧状态或原counter须逐项记录。只准真实所读/所跑范围，作者自验不能授reviewed/template-compliant。root随后独立实读原/新/来源与反例，再决定单篇接收；registry分片未独立接收前不批量中央入账，整卡保持rework。
+
+## 2026-10-18 S05：路线方案的真实语义重审准入
+
+- Codex build allowed，仅隔离单篇 `docs/testing/e2e/route-proposal.md`。唯一正文 Owner 为 `/root/e2e_entry_semantic_author`，基于其干净 S04 候选新分支实施；root 保护中央卡/registry/review/pin/矩阵，配对 catalog/evidence、产品、旧产品测试和 coverage 不在写域。存储候选未独立接收前不得中央批量入账。
+- 已接收只读 harvest 的排期输入，不授正文完成：报告 SHA `315e8118249124d183a15b5d2e1ea1de0692cb2dcef6d6c4d9daf3064c1feb90`，54项清单 SHA `d44d860ad86423f1d5549fb3f5a02ae85e61bd594cec277b8416c522c7fb056f`；原174行/现219行、两处 sourceRef 及明确依赖窄域实际核读范围保存在 `/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v`。root核了13项发现、七条用户规则矩阵与五章方案；未把仅hash的依赖称全文审。
+- 使用现行 design-spec-v1/1.0.0，具体恢复七项用户裁决、两轨原生真档、精确位置/完整NPC帧/对白消费/预览门；分开 Q1/Q2/editor 覆盖方向与 verify/visual/capture 用途。现有001/002入口及source-only前驱验证按真实能力写，历史无runner、工具会话不可用和旧容差不升为今天事实；版本/sourceRefs与原配对机器字段不追溯改写。
+- `validatePredecessor` 的40位revision语法检查不是当前HEAD或真实执行证明；`:both`拒capture，capture不能作verify前驱。只允许已核当前合同下最小重算/补采/重跑，未知能力继续unknown，不把旧连续卡的时点接受概括为今天全E2E通过。
+- 原quote整个块必须保留；直接inverse多一个LF，只能按已核恰一个分隔LF及固定source SHA说明条件保全，不恢复R60旧无条件exactRoundTrip信用。固定新正文后由非作者逐篇验原/前/新及必要来源、反例、真实consumer和质量门；作者自验不授reviewed/template-compliant。整卡rework，硬验收未过不合main或done。

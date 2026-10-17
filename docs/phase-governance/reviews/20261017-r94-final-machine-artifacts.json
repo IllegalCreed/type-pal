@@ -994,7 +994,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "50aa0c90de769ebf8c426e93c8bc83635d86e4c84e91d2711d73ceaf9bb0fd54",
-      "afterSha256": "2c9e0b1b38838f832ee63e4f2cdec375b399834124fd38f24494038cf20d7f3f",
+      "afterSha256": "a18e013bdc1150d2474b4934ff158ce7f2dcf7a97c67a8a20c91b6a61f5b6538",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1118,7 +1118,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-REGISTRY-SPLIT-1",
+          "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "previousAfterSha256": "2c9e0b1b38838f832ee63e4f2cdec375b399834124fd38f24494038cf20d7f3f",
+          "afterSha256": "a18e013bdc1150d2474b4934ff158ce7f2dcf7a97c67a8a20c91b6a61f5b6538",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
@@ -1149,7 +1160,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "0683575ccdb0f87fb0155a8ad03955dd015db1432534c8c673fd97b328f7fb02",
+      "afterSha256": "3594e501e29347f1a809a7f5194fc53bc7bced86787f5f90ab59778f9fa48ca8",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1273,7 +1284,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-REGISTRY-SPLIT-1",
+          "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "previousAfterSha256": "0683575ccdb0f87fb0155a8ad03955dd015db1432534c8c673fd97b328f7fb02",
+          "afterSha256": "3594e501e29347f1a809a7f5194fc53bc7bced86787f5f90ab59778f9fa48ca8",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r88-ops-evidence-artifacts-20261017.json",
@@ -5255,7 +5277,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "5bff1b0e7ba901c807f05d27c4b6ebadb23ec81247ca8bd1357c315e7a8811f1",
+      "afterSha256": "762505f24eecd1c88dee341eb470ac019c679d7c4d03c9f7288ff27d725afd7f",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -5389,7 +5411,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-REGISTRY-SPLIT-1",
+          "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "previousAfterSha256": "5bff1b0e7ba901c807f05d27c4b6ebadb23ec81247ca8bd1357c315e7a8811f1",
+          "afterSha256": "762505f24eecd1c88dee341eb470ac019c679d7c4d03c9f7288ff27d725afd7f",
+          "method": "Root actually authored/read S03 fixed-body limited acceptance, S04/S05 isolated author admission appended since3fae; task remainsrework and no central S03/S04 credit yet.",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md",
@@ -5555,7 +5588,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "921eaef61673fdf83c69763e1f2e9a72e55b08afaf67bc8b5930dbd08331ae33",
+      "afterSha256": "83431dd65e939aca7fbdfee5ae08c7e728e69286d10838516775a1280a9993cd",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -5692,7 +5725,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-REGISTRY-SPLIT-1",
+          "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "previousAfterSha256": "921eaef61673fdf83c69763e1f2e9a72e55b08afaf67bc8b5930dbd08331ae33",
+          "afterSha256": "83431dd65e939aca7fbdfee5ae08c7e728e69286d10838516775a1280a9993cd",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/routing.json",

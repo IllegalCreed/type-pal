@@ -1,0 +1,422 @@
+{
+  "schemaVersion": 1,
+  "kind": "author-implementation-delivery",
+  "task": "DOCS-REGISTRY-SPLIT-1",
+  "producedAt": "2026-10-17T21:24:14.664202+00:00",
+  "author": "/root/registry_storage_author",
+  "nonAuthorReviewer": false,
+  "fullAcceptance": false,
+  "scope": "Fixed-source registry storage migration, public v2 I/O, three adapters, three retired bulk writers and docs-only fixtures/tests; no product, old product tests, coverage or shared ledger changes.",
+  "candidate": {
+    "revision": "37adc410db6c5151e8ce52c09e429505e8b552bf",
+    "baseRevision": "911ac4dcbb3ea2288ae215769ae9acd6e333d763",
+    "branch": "codex/docs-registry-storage-v2",
+    "worktree": "/Users/zhangxu/.codex/worktrees/docs-registry-storage-v2/type-pal",
+    "clean": true
+  },
+  "frozenSource": {
+    "revision": "3fae68aec8f448bf83d1d85e61da35c94d5200ae",
+    "path": "docs/phase-governance/document-registry.json",
+    "bytes": 1047444,
+    "sha256": "921eaef61673fdf83c69763e1f2e9a72e55b08afaf67bc8b5930dbd08331ae33",
+    "entries": 2374
+  },
+  "nativeOracle": {
+    "entriesSerializedIncludingKeyOrderEqual": true,
+    "nativeMetadataFields": [
+      "id",
+      "generatedBy",
+      "policy",
+      "roots",
+      "extensions",
+      "structuralRoots",
+      "summary",
+      "scopeNote"
+    ],
+    "metadataEachSerializedEqual": true,
+    "optionalTemplateVersionAbsentPreserved": 1632,
+    "originalPhaseExceptionsPreserved": [
+      "docs/README.md -> phase-governance",
+      "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md -> phase2"
+    ],
+    "newEntries": 0,
+    "statusOrCreditPromotions": 0,
+    "summary": {
+      "total": 2374,
+      "byPhase": {
+        "ops": 1280,
+        "lore": 14,
+        "phase1": 60,
+        "phase2": 109,
+        "phase3": 5,
+        "phase-governance": 147,
+        "testing": 759
+      },
+      "byType": {
+        "task-card": 364,
+        "guide-runbook": 17,
+        "archive-record": 1494,
+        "audit-report": 60,
+        "governance-index": 107,
+        "evidence-receipt": 108,
+        "design-spec": 37,
+        "quality-gate": 1,
+        "test-machine-evidence": 49,
+        "reference-canon": 38,
+        "narrative-idea": 2,
+        "plan-status": 70,
+        "test-e2e-stage": 6,
+        "test-run-report": 6,
+        "test-domain-report": 10,
+        "test-contract": 1,
+        "test-catalog": 4
+      },
+      "reviewStatus": {
+        "partial-review-unknown": 1925,
+        "content-reviewed": 449
+      },
+      "templateCompliance": {
+        "needs-migration": 1931,
+        "template-compliant": 443
+      }
+    },
+    "evidenceRuns": [73, 74, 1024, 1033]
+  },
+  "publicAPI": {
+    "module": "scripts/docs/document-registry.mjs",
+    "load": "loadDocumentRegistry({manifestPath?}) -> {registry,loadedSource}",
+    "write": "writeDocumentRegistry({registry,loadedSource}) -> {registry,loadedSource}; token must be retained in same process",
+    "snapshotProtection": "Private WeakMap with unexposed Buffer map and structuredClone of logical source; exposed snapshot/files/items frozen.",
+    "migration": "migrateFrozenDocumentRegistry({manifestPath?}); only fixed v1 SHA accepted, never live v1 fallback. CLI reserves exclusive writable /tmp mapping output first."
+  },
+  "files": [
+    {
+      "path": "docs/phase-governance/document-registry.json",
+      "bytes": 4745,
+      "sha256": "be2b3540835468c1be306e4981f6460f547f953d3b786b68b544a53504cc7d4a"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.lore.json",
+      "bytes": 4980,
+      "sha256": "a5f6d4f5a2930528d651fdf1559aab701a9090e828b1ff0ca6545d7250185af5"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.ops.json",
+      "bytes": 590511,
+      "sha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.phase-governance.json",
+      "bytes": 70224,
+      "sha256": "24376e367ae40c34e81cd041323521ce35fadbc92e6cec8f661d551b2d02653e"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.phase1.json",
+      "bytes": 23584,
+      "sha256": "9ccb32a113f5d757ef646b496b186bd3049b2d9ea4272444cb40d7810f77e92e"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.phase2.json",
+      "bytes": 42462,
+      "sha256": "ef532d88a2b094a7b17c3c65b32afaf42f87dbf0efbf3796c31071b4cd2e5cc4"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.phase3.json",
+      "bytes": 1860,
+      "sha256": "d4c7fb0b3ea28e355159b24fd6cf2911fe5b7258aae8002af4a2871788bd93b7"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.testing.json",
+      "bytes": 325266,
+      "sha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932"
+    },
+    {
+      "path": "scripts/docs/check-content-review.mjs",
+      "bytes": 7429,
+      "sha256": "e7041f5deae5bee28a5931a3b6f8dcc2833ef72fd81f91bc5ed6ff95431a96e3"
+    },
+    {
+      "path": "scripts/docs/classify-governed-documents.mjs",
+      "bytes": 440,
+      "sha256": "f4deb0575de65b315792559a48b8c0989e408d33b98c5b5b443ec1d005fbb219"
+    },
+    {
+      "path": "scripts/docs/document-registry.mjs",
+      "bytes": 16965,
+      "sha256": "8eb43ac3f9b4174e664f69a76a89255d7136152ef73fb35ea0385572425bb365"
+    },
+    {
+      "path": "scripts/docs/document-registry.test-support.mjs",
+      "bytes": 1365,
+      "sha256": "b4095b5de7b4875142e43e1fac74e54974113acaee5d814b088cfe9674f60665"
+    },
+    {
+      "path": "scripts/docs/document-registry.test.mjs",
+      "bytes": 22632,
+      "sha256": "7350b72307b137006af8ab22d8ffe464db4e9b1f69ab7b895aaf63d2ca283320"
+    },
+    {
+      "path": "scripts/docs/enrich-review-metadata.mjs",
+      "bytes": 435,
+      "sha256": "ba5d3bc621693b6712a14c276ba6a0725969d2fae84d5aaa1da5a4d8316ee9ff"
+    },
+    {
+      "path": "scripts/docs/frozen-binding-baseline.test.mjs",
+      "bytes": 22027,
+      "sha256": "1767ea0e103d589d25faee41b2d219921a97ddca777a353f8c92dca37993763b"
+    },
+    {
+      "path": "scripts/docs/generate-structured-content-reviews.mjs",
+      "bytes": 448,
+      "sha256": "f0202aa119aa4b82f099f79ea5e6b9eaf1f0591a85ee26d5ee46e338fba869fc"
+    },
+    {
+      "path": "scripts/docs/historical-execution-source.test.mjs",
+      "bytes": 28280,
+      "sha256": "95c4c43039df1b16406eee7443d5cc06db7179fe76908de85f460cf84074c964"
+    },
+    {
+      "path": "scripts/docs/migrate-document-registry.mjs",
+      "bytes": 1437,
+      "sha256": "34ae1218733b05da04c4c97f416df4dd0ae90797da8a2246f58169bfff60ea0b"
+    },
+    {
+      "path": "scripts/docs/report-governance-progress.mjs",
+      "bytes": 6671,
+      "sha256": "f4fb211024b66edd2b490b4138345c142a2e514e4aa6a36a959ccb3b17488c98"
+    },
+    {
+      "path": "scripts/docs/sync-governed-document-registry.mjs",
+      "bytes": 1884,
+      "sha256": "354888190c019ec5dfff68102c3d6bf11cc02927ded28af136d50ab70afadd35"
+    }
+  ],
+  "mapping": {
+    "finalPath": "/tmp/docs-registry-storage-v2-author-h8epcwph/final-migration-mapping.json",
+    "finalSha256": "40399f4dd454c7edc01714d4ae0c6109c68db176d2426482f55249cd047b9b7f",
+    "finalProducerRun": 1024,
+    "initialMappingPath": "/tmp/docs-registry-storage-v2-author-h8epcwph/migration-mapping.json",
+    "initialMappingSha256": "85c9bba92951fea2f7a30fec4cea1d0162c5f228773418e8127406e3dfbac948",
+    "initialMappingPreserved": true,
+    "note": "Final code reproduced the fixed source into owned /tmp files; all eight reproduced files were compared byte-for-byte with committed candidate. Targets in final mapping identify those generated replicas; canonical paths and equal hashes are paired in verification-summary.json.",
+    "candidateComparisons": [
+      {
+        "canonical": "docs/phase-governance/document-registry.json",
+        "reproducedPath": "/tmp/docs-registry-storage-v2-author-h8epcwph/final-migration/document-registry.json",
+        "sha256": "be2b3540835468c1be306e4981f6460f547f953d3b786b68b544a53504cc7d4a",
+        "sameActualCandidateBytes": true
+      },
+      {
+        "canonical": "docs/phase-governance/document-registry.ops.json",
+        "reproducedPath": "/tmp/docs-registry-storage-v2-author-h8epcwph/final-migration/document-registry.ops.json",
+        "sha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
+        "sameActualCandidateBytes": true
+      },
+      {
+        "canonical": "docs/phase-governance/document-registry.lore.json",
+        "reproducedPath": "/tmp/docs-registry-storage-v2-author-h8epcwph/final-migration/document-registry.lore.json",
+        "sha256": "a5f6d4f5a2930528d651fdf1559aab701a9090e828b1ff0ca6545d7250185af5",
+        "sameActualCandidateBytes": true
+      },
+      {
+        "canonical": "docs/phase-governance/document-registry.phase1.json",
+        "reproducedPath": "/tmp/docs-registry-storage-v2-author-h8epcwph/final-migration/document-registry.phase1.json",
+        "sha256": "9ccb32a113f5d757ef646b496b186bd3049b2d9ea4272444cb40d7810f77e92e",
+        "sameActualCandidateBytes": true
+      },
+      {
+        "canonical": "docs/phase-governance/document-registry.phase2.json",
+        "reproducedPath": "/tmp/docs-registry-storage-v2-author-h8epcwph/final-migration/document-registry.phase2.json",
+        "sha256": "ef532d88a2b094a7b17c3c65b32afaf42f87dbf0efbf3796c31071b4cd2e5cc4",
+        "sameActualCandidateBytes": true
+      },
+      {
+        "canonical": "docs/phase-governance/document-registry.phase3.json",
+        "reproducedPath": "/tmp/docs-registry-storage-v2-author-h8epcwph/final-migration/document-registry.phase3.json",
+        "sha256": "d4c7fb0b3ea28e355159b24fd6cf2911fe5b7258aae8002af4a2871788bd93b7",
+        "sameActualCandidateBytes": true
+      },
+      {
+        "canonical": "docs/phase-governance/document-registry.phase-governance.json",
+        "reproducedPath": "/tmp/docs-registry-storage-v2-author-h8epcwph/final-migration/document-registry.phase-governance.json",
+        "sha256": "24376e367ae40c34e81cd041323521ce35fadbc92e6cec8f661d551b2d02653e",
+        "sameActualCandidateBytes": true
+      },
+      {
+        "canonical": "docs/phase-governance/document-registry.testing.json",
+        "reproducedPath": "/tmp/docs-registry-storage-v2-author-h8epcwph/final-migration/document-registry.testing.json",
+        "sha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
+        "sameActualCandidateBytes": true
+      }
+    ]
+  },
+  "gates": {
+    "checkDocs": {
+      "run": 1026,
+      "exit": 1,
+      "docsTests": 161,
+      "passed": 161,
+      "skipped": 0,
+      "todo": 0,
+      "strictDiagnosticLines": 3861,
+      "summaryLines": [
+        "# tests 161",
+        "# pass 161",
+        "# fail 0",
+        "# skipped 0",
+        "# todo 0",
+        "docs: PASS (0 issues)",
+        "document model: PASS (7 routes; 1263 body contracts; 0 issues; structure only)",
+        "testing docs: PASS (0 issues)",
+        "phase/lore governance: PASS (184 documents)",
+        "content review: FAIL (2374 documents; {\"partial-review-unknown\":1925,\"content-reviewed\":449})"
+      ],
+      "interpretation": "Strict governance remains failed; no full acceptance. pnpm also prints its missing-local-node_modules warning on failed scripts; dependencies were only supplied via NODE_PATH as authorized."
+    },
+    "lint": {
+      "run": 1031,
+      "exit": 0,
+      "files": 4461,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0
+    },
+    "requireComplete": {
+      "run": 1032,
+      "exit": 1,
+      "projection": {
+        "schemaVersion": 1,
+        "kind": "derived-migration-progress",
+        "policy": "Read-only projection of explicit reviewed migrations, SHA and body contracts. Progress is not full acceptance or runtime/E2E/visual/coverage proof. require-complete also demands every current candidate; final semantic audit remains mandatory.",
+        "approvedCohort": 1838,
+        "cohortMigrated": 436,
+        "cohortPending": 1402,
+        "currentCandidates": 2383,
+        "currentPending": 1942,
+        "incrementalMigrated": 5,
+        "exercisedTemplates": [
+          "archive-record-v1",
+          "audit-report-v1",
+          "design-spec-v1",
+          "evidence-receipt-v1",
+          "governance-index-v1",
+          "guide-runbook-v1",
+          "narrative-idea-v1",
+          "plan-status-v1",
+          "quality-gate-v1",
+          "reference-canon-v1",
+          "task-card-v1",
+          "test-catalog-v1",
+          "test-contract-v1",
+          "test-domain-report-v1",
+          "test-e2e-stage-v1",
+          "test-machine-evidence-v1",
+          "test-run-report-v1"
+        ],
+        "pendingTemplates": [],
+        "issues": [
+          "docs/ops/board.md: completed review SHA drift",
+          "docs/ops/tasks/index.md: completed review SHA drift"
+        ]
+      },
+      "interpretation": "Existing machine projection only; not new semantic credit."
+    },
+    "diff": {
+      "stagedRun": 1036,
+      "wholeBaseRun": 1037,
+      "committedWholeBaseRun": 1040,
+      "allExit": 0
+    },
+    "fixtures": {
+      "historicalAssertionsBeforeAfter": [108, 108],
+      "frozenBindingAssertionsBeforeAfter": [60, 60],
+      "allOriginalAssertionsPreserved": true
+    }
+  },
+  "mappingTOCTOUControl": {
+    "sameFileAndFullNames": true,
+    "tests": 33,
+    "failedTests": [
+      "migration mapping stays bound to its published snapshot when a second real writer publishes after release"
+    ],
+    "assertionErrorCount": 1,
+    "skipped": ["0"],
+    "cleanSha256": "93314e9282fc44a63700aa65cf8710a4dc607ec9f381897085c1a8c85b11f9a1",
+    "mutantSha256": "2a060283bf9a64116666afc26803c9e301353daeeb77f2b05f1b27060e0d85fa",
+    "baselineRun": 1025,
+    "mutantRun": 1028,
+    "restoredRun": 1030,
+    "testSha256": "957912383c85bca438f97df9fb1c70b7b0276d2066d0d6bcc046b979f08047bb",
+    "adaptation": "Copied docs-only module/test/support and terminal parser; repoRoot/test root fixed to actual source/dependencies, module path set to copied module. No production or product files mutated. One mutant replaces private published snapshot reads with live filesystem reads after release.",
+    "cleanup": {
+      "mappingControlTree": "/tmp/docs-registry-storage-v2-author-h8epcwph/mapping-control",
+      "restoredSourceSha256BeforeRemoval": "93314e9282fc44a63700aa65cf8710a4dc607ec9f381897085c1a8c85b11f9a1",
+      "treeExistsAfterRemoval": false,
+      "policy": "Only this exact owned control tree removed; immutable command/stdout/stderr/hashes and final migration evidence retained."
+    }
+  },
+  "counterFixes": [
+    {
+      "id": "REGISTRY-MIGRATION-OUTPUT-PREFLIGHT",
+      "rootObservation": "/tmp/type-pal-registry-root-output-parent-6f53q847/observation.json",
+      "fix": "realpath parent confinement and open exclusive writable output FD before migrate; existing target and absent parent reject without source/shard changes.",
+      "authorFinalProofRun": 1022
+    },
+    {
+      "id": "mapping-after-release-TOCTOU",
+      "fix": "locations built from this publication private validated Buffer snapshot, not live shards",
+      "proof": "Real second public writer after first release reverses entry order; mapping remains bound to original publication; calibrated green/red/green control."
+    },
+    {
+      "id": "summary-inherited-names",
+      "fix": "Map/Object.fromEntries numeric counts; untrusted inherited names tested without granting docType validity."
+    },
+    {
+      "id": "interrupted-mixture-test",
+      "fix": "Interrupt worker adds legal optional templateVersion while partial/needs remain. Assert changed first shard, unchanged old manifest, retained recovery bytes/hashes; actual consumers reject both retained-lock package and independent no-lock mixed replica."
+    }
+  ],
+  "interruptedVerificationRuns": [
+    {
+      "run": 87,
+      "exit": 1,
+      "durationSeconds": 166.7,
+      "facts": "Historical docs fixture stalled in git hash-object --stdin. Verified child86461 then fixture83830 SIGTERM only; raw1005/1006. This run is failed/interrupted, not acceptance. Exact remaining fixture cleanup outside repo was not established."
+    },
+    {
+      "run": 1010,
+      "exit": 1,
+      "durationSeconds": 114.5,
+      "facts": "Mapping race formatter stdin stalled; verified own native Biome child29083 SIGTERM at1019. 32pass/1fail retained. No root-cause claim for OS/Node pipe behavior.",
+      "subsequentChange": "Formatter uses locked ordinary input files as read-only stdin FD, preserves original --stdin-file-path and enforces 30s failure boundary; final1022/1026 succeeded."
+    }
+  ],
+  "remainingUnregisteredCandidates": [
+    "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+    "docs/phase-governance/document-registry.lore.json",
+    "docs/phase-governance/document-registry.ops.json",
+    "docs/phase-governance/document-registry.phase-governance.json",
+    "docs/phase-governance/document-registry.phase1.json",
+    "docs/phase-governance/document-registry.phase2.json",
+    "docs/phase-governance/document-registry.phase3.json",
+    "docs/phase-governance/document-registry.testing.json",
+    "docs/phase-governance/reviews/20261018-document-registry-storage-v2-design.md"
+  ],
+  "limitations": [
+    "Multi-file publication is not a filesystem transaction. Cooperative writers serialize by shared exclusive lock and recheck complete source; arbitrary bypass edits remain outside protocol guarantee.",
+    "Publication failure retains lock, old bytes and recovery hashes for explicit Owner recovery. Later writers never auto-steal or replay.",
+    "Mapping output reservation prevents known bad output paths before publication; unavoidable later mapping I/O failure can still leave a complete registry and incomplete reserved mapping.",
+    "New shards, card and design remain explicitly unregistered. Root must independently inspect and register separate pending entries; structuralRoots unchanged.",
+    "Central review/pins/card/board/index/matrix remain root-owned. Full semantic governance remains rework; no main merge, push, done, runtime/E2E/visual/coverage credit."
+  ],
+  "notRun": [
+    "product runtime",
+    "product E2E",
+    "visual acceptance",
+    "coverage",
+    "product package typechecks (no product TypeScript changes)"
+  ],
+  "rawLogDirectory": "/tmp/docs-registry-storage-v2-author-h8epcwph",
+  "rawLogIndex": "/tmp/docs-registry-storage-v2-author-h8epcwph/commands.jsonl",
+  "nextAction": "Root independently reviews fixed commit, migration and real controls; only root decides rework/integration and central registration."
+}

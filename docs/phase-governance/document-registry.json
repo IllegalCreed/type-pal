@@ -32,24 +32,24 @@
     }
   ],
   "summary": {
-    "total": 2374,
+    "total": 2407,
     "byPhase": {
-      "ops": 1280,
+      "ops": 1305,
       "lore": 14,
       "phase1": 60,
       "phase2": 109,
       "phase3": 5,
-      "phase-governance": 147,
+      "phase-governance": 155,
       "testing": 759
     },
     "byType": {
-      "task-card": 364,
+      "task-card": 365,
       "guide-runbook": 17,
       "archive-record": 1494,
       "audit-report": 60,
-      "governance-index": 107,
-      "evidence-receipt": 108,
-      "design-spec": 37,
+      "governance-index": 108,
+      "evidence-receipt": 131,
+      "design-spec": 38,
       "quality-gate": 1,
       "test-machine-evidence": 49,
       "reference-canon": 38,
@@ -59,14 +59,14 @@
       "test-run-report": 6,
       "test-domain-report": 10,
       "test-contract": 1,
-      "test-catalog": 4
+      "test-catalog": 11
     },
     "reviewStatus": {
-      "partial-review-unknown": 1925,
+      "partial-review-unknown": 1958,
       "content-reviewed": 449
     },
     "templateCompliance": {
-      "needs-migration": 1931,
+      "needs-migration": 1964,
       "template-compliant": 443
     }
   },
@@ -84,8 +84,8 @@
       "key": "ops",
       "phase": "ops",
       "path": "document-registry.ops.json",
-      "total": 1280,
-      "sha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6"
+      "total": 1305,
+      "sha256": "c94f0548748763c010fd5fdfac36badc3e3f55f6e04ffd503c944d602397951d"
     },
     {
       "key": "lore",
@@ -119,8 +119,8 @@
       "key": "phase-governance",
       "phase": "phase-governance",
       "path": "document-registry.phase-governance.json",
-      "total": 147,
-      "sha256": "24376e367ae40c34e81cd041323521ce35fadbc92e6cec8f661d551b2d02653e"
+      "total": 155,
+      "sha256": "0888ba9d004a25eca6265dccee21814eea9f4e980ed959374667d1fe53fe30a6"
     },
     {
       "key": "testing",

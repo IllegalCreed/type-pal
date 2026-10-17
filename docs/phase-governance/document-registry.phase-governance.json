@@ -11,7 +11,7 @@
     2263, 2264, 2265, 2266, 2267, 2268, 2269, 2270, 2271, 2272, 2273, 2274, 2275, 2276, 2277, 2278,
     2279, 2280, 2281, 2282, 2283, 2284, 2285, 2286, 2287, 2288, 2289, 2290, 2291, 2292, 2293, 2294,
     2295, 2296, 2297, 2298, 2299, 2300, 2301, 2302, 2303, 2304, 2305, 2306, 2307, 2314, 2315, 2343,
-    2344
+    2344, 2375, 2376, 2377, 2378, 2379, 2380, 2381, 2382
   ],
   "entries": [
     {
@@ -1840,6 +1840,86 @@
       "artifactOnly": true,
       "artifactEnvelope": true,
       "artifactFormat": "json"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261018-document-registry-storage-v2-design.md",
+      "phase": "phase-governance",
+      "docType": "design-spec",
+      "templateId": "design-spec-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261018-record-integrity-rework.json"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.ops.json",
+      "phase": "phase-governance",
+      "docType": "test-catalog",
+      "templateId": "test-catalog-v1",
+      "templateVersion": "1.2.0",
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261018-record-integrity-rework.json"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.lore.json",
+      "phase": "phase-governance",
+      "docType": "test-catalog",
+      "templateId": "test-catalog-v1",
+      "templateVersion": "1.2.0",
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261018-record-integrity-rework.json"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.phase1.json",
+      "phase": "phase-governance",
+      "docType": "test-catalog",
+      "templateId": "test-catalog-v1",
+      "templateVersion": "1.2.0",
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261018-record-integrity-rework.json"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.phase2.json",
+      "phase": "phase-governance",
+      "docType": "test-catalog",
+      "templateId": "test-catalog-v1",
+      "templateVersion": "1.2.0",
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261018-record-integrity-rework.json"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.phase3.json",
+      "phase": "phase-governance",
+      "docType": "test-catalog",
+      "templateId": "test-catalog-v1",
+      "templateVersion": "1.2.0",
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261018-record-integrity-rework.json"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.phase-governance.json",
+      "phase": "phase-governance",
+      "docType": "test-catalog",
+      "templateId": "test-catalog-v1",
+      "templateVersion": "1.2.0",
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261018-record-integrity-rework.json"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.testing.json",
+      "phase": "phase-governance",
+      "docType": "test-catalog",
+      "templateId": "test-catalog-v1",
+      "templateVersion": "1.2.0",
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261018-record-integrity-rework.json"
     }
   ]
 }

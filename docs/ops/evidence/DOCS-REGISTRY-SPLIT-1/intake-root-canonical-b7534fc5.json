@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "kind": "lossless-frozen-evidence-transport-not-acceptance",
+  "capturedAt": "2026-10-17T21:46:17.326793+00:00",
+  "sourceRoot": "/tmp/type-pal-root-native-intake-a4eyghm_",
+  "owner": "/root",
+  "scope": "Actual root isolated canonical storage mechanical verification: original2374, eight native metadata and eight fixed95 files/mapping translations; no semantic grant.",
+  "sourceManifest": null,
+  "files": [
+    {
+      "originalPath": "/tmp/type-pal-root-native-intake-a4eyghm_/canonical-receipt.json",
+      "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/canonical-intake-b7534fc5.json",
+      "sha256": "bb469792e9250a39f836f78353334098e077a4261cb265cf899b93242dc9c7f7",
+      "bytes": 4644,
+      "encoding": "identity",
+      "storedSha256": "bb469792e9250a39f836f78353334098e077a4261cb265cf899b93242dc9c7f7",
+      "storedBytes": 4644,
+      "owner": "/root",
+      "producerScope": "Actual root isolated canonical storage mechanical verification: original2374, eight native metadata and eight fixed95 files/mapping translations; no semantic grant."
+    },
+    {
+      "originalPath": "/tmp/type-pal-root-native-intake-a4eyghm_/execution.json",
+      "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/cb884052329ae7a56d6a26c3302091d451dccea4db6beda02a04e5ce41f96c03.gz",
+      "sha256": "cb884052329ae7a56d6a26c3302091d451dccea4db6beda02a04e5ce41f96c03",
+      "bytes": 654,
+      "encoding": "gzip",
+      "storedSha256": "20b9bf26f25182ac50f3872bd2e6e8f1801edf67e79a5a271ba82e83d8620ba6",
+      "storedBytes": 423,
+      "owner": "/root",
+      "producerScope": "Actual root isolated canonical storage mechanical verification: original2374, eight native metadata and eight fixed95 files/mapping translations; no semantic grant."
+    },
+    {
+      "originalPath": "/tmp/type-pal-root-native-intake-a4eyghm_/verify-root-registry-canonical-intake.mjs",
+      "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/4d4a02a4c665a5b52c14d0303e284ba4fbef0ebc328887ad5546b6d4be7b8d30.gz",
+      "sha256": "4d4a02a4c665a5b52c14d0303e284ba4fbef0ebc328887ad5546b6d4be7b8d30",
+      "bytes": 4195,
+      "encoding": "gzip",
+      "storedSha256": "9e3e65184be13fe4166a588156d90b3f2634239e70a745fb4d805fa5536e5f6e",
+      "storedBytes": 1937,
+      "owner": "/root",
+      "producerScope": "Actual root isolated canonical storage mechanical verification: original2374, eight native metadata and eight fixed95 files/mapping translations; no semantic grant."
+    },
+    {
+      "originalPath": "/tmp/type-pal-root-native-intake-a4eyghm_/verify.stderr",
+      "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.gz",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "encoding": "gzip",
+      "storedSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "storedBytes": 20,
+      "owner": "/root",
+      "producerScope": "Actual root isolated canonical storage mechanical verification: original2374, eight native metadata and eight fixed95 files/mapping translations; no semantic grant."
+    },
+    {
+      "originalPath": "/tmp/type-pal-root-native-intake-a4eyghm_/verify.stdout",
+      "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/5ba2980fc56c466dbe3eae1514929a135dd260d7c0eb0a03f89d2036448264d7.gz",
+      "sha256": "5ba2980fc56c466dbe3eae1514929a135dd260d7c0eb0a03f89d2036448264d7",
+      "bytes": 200,
+      "encoding": "gzip",
+      "storedSha256": "050e660ef212bf7bf56d68dba816894bff09009af5c8a359997d019ca758637a",
+      "storedBytes": 182,
+      "owner": "/root",
+      "producerScope": "Actual root isolated canonical storage mechanical verification: original2374, eight native metadata and eight fixed95 files/mapping translations; no semantic grant."
+    }
+  ],
+  "fileCount": 5,
+  "policy": "Original reports, command output and fixture bytes unchanged. Payload SHA naming avoids creating .git paths inside this repository and deduplicates only byte-identical payloads. Gzip decoding must equal the original bytes; both stored/payload identities are pinned. This transport grants no historical execution, body semantic or global acceptance.",
+  "centralRegistrationApplied": false,
+  "creditGrantedByTransport": false,
+  "globalHardGatePassed": false,
+  "limitations": [
+    "Fixed report scope only; actual central combined bytes and global hard gates are separate."
+  ]
+}

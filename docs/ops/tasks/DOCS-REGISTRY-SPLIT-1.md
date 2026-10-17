@@ -53,13 +53,22 @@ Codex build allowed，仅隔离文档存储候选。`receipt_integrity_independe
 
 ## Review: 审查与返工
 
-待设计与实现分别核验；不将设计复核误称实现验收。全量 strict / require-complete 仍应真实失败。
+设计与固定实现分别获得限定接收；中央真实接入待核，任务仍build，不将存储验收误称正文或全量验收。全量strict/require-complete仍真实失败。
 
-设计原报告与110项产物已按原 SHA/无损 gzip 映射接入[本卡证据](../evidence/DOCS-REGISTRY-SPLIT-1/README.md)，旧 flat 未添条目，新增待登记范围由该入口公开。实现审查新增以下待验项，不以作者专项全绿闭合：
+设计原报告与110项产物已按原SHA/无损gzip映射接入[本卡证据](../evidence/DOCS-REGISTRY-SPLIT-1/README.md)。以下保留拆分前的初轮待验观察；固定95的逐项闭合见下节，旧反例本身不重写成通过：
 
 - REGISTRY-MIGRATION-OUTPUT-PREFLIGHT：root在owned/tmp真实运行缺mapping父目录的CLI，exit1但源已由v1转v2并写七片，mapping缺失。原完整输出与限制见[独立反例](../evidence/DOCS-REGISTRY-SPLIT-1/implementation-output-counter.json)；作者已修前置排他输出fd，仍待固定候选独立重跑。
 - 映射TOCTOU：源码观察到publish解锁后重新读live分片，可能与返回snapshot错批；作者已改私有验证bytes并报告双writer反例，待root固定源码与实跑复核。此观察不虚称原路径已有race实跑。
 - 半发布判别力：原SIGKILL用例只改manifest scopeNote，首片字节未实际变化。作者正增强为真实首片delta/旧manifest混包，核锁拒绝、SHA拒绝及全部旧bytes恢复凭证。
+
+### 固定95def601的非作者限定存储接收
+
+- 37原实现因首段`./..`与空段别名counter退回；db814e补丁再因孤立UTF16代理项被Node编码到同一文件退回。两份原rework报告与全部失败保留，95def601仅拒非法scalar，合法中文/内部空格/emoji及补充平面字符继续通过。
+- 非作者报告SHA `6753b624bd867d706db48cf5e110c960b3c28e4ed97fd001b676183dda7b1d0d`，228项清单逐项核对。50专项与178工具测试实跑通过、lint4462文件零诊断，完整治理门仍FAIL；不是228个不同测试，亦不授产品或历史执行信用。
+- root将三笔作者提交同字节接入候选，固定canonical快照为`b7534fc5b2d9d9c640f311d548cf64d96f51d92d`。root实际逐项重核原2374对象/顺序/键、八metadata、每个sourceIndex/objectSHA/shard/localIndex/globalPosition及八目标文件的原mapping↔canonical字节；[机械回执](../evidence/DOCS-REGISTRY-SPLIT-1/canonical-intake-b7534fc5.json)不冒称非作者或正文审阅。
+- root中央接入脚本首版在owned/tmp被独立检出输出前置、引用环、伪独立布尔升档和并发自动pin四类counter；首版从未用于仓库。固定344623版先核DAG/输出排他FD，升档仅许S03/S04固定body+report SHA，所有target绑定精确已核bytes。独立合法pending/S03与完整七条donor的S04正反针通过，真实中央计划和结果仍须另验。发布后竞态并非事务回滚，原始捕获与空输出区别保留。
+- 新报告、无损映射、设计/本卡、七片等逐项登记partial/needs；原2374继承条目不因扩容升档。行政board/index仅核原新增registry任务行与producer字节，不借此称全索引或全部卡语义重审。
+- 首轮中央入账33项后，实际178工具通过、文档结构零问题，但lint因四份原始报告格式不合规则失败，完整raw保留。原始报告移入已指明的无损容器，同名文件只作JSON值相等的格式化阅读投影；配对表分别钉原件与展示SHA，未篡改命令数字、exit或原报告。修正后须重跑，不把首次失败改成通过。
 
 ## 用户验收
 

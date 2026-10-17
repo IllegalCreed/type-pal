@@ -1803,6 +1803,3537 @@
       "sourceSha256": "af84d2340f368b60efd099fceb387cfd57d50e5a8c285a03a091009799a64e35",
       "afterSha256": "03c93c7f8ea426bb1e6db33c97995e7ba48d39d264e28f1d7f8b4d41d8e0dd2b",
       "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only"
+    },
+    {
+      "path": "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Root actual full card and own new implementation/guard history delta; pending-document registration only; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "存储拆分卡记录2.0.2准入、唯一实现Owner、三次候选/两类路径counter与限定接收；中央登记仍需独立验收，任务保持build。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "0bc86f0a4c0273fffcd393a922aa029e079223283574a8b8698941e7283ec1e8",
+          "scopeActuallyRead": "Root actual full card and own new implementation/guard history delta; pending-document registration only",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "0bc86f0a4c0273fffcd393a922aa029e079223283574a8b8698941e7283ec1e8"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "0bc86f0a4c0273fffcd393a922aa029e079223283574a8b8698941e7283ec1e8",
+      "afterSha256": "6d25ff996945a9bcd3f6b7050d76f6ec8a2489265a14d7b33659e6214744a90d",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Root actual full card and own new implementation/guard history delta; pending-document registration only; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-REGISTRY-SPLIT-1",
+          "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "previousAfterSha256": "0bc86f0a4c0273fffcd393a922aa029e079223283574a8b8698941e7283ec1e8",
+          "afterSha256": "6d25ff996945a9bcd3f6b7050d76f6ec8a2489265a14d7b33659e6214744a90d",
+          "method": "Root explicitly appended initial four-format-error failure, lossless original versus readable projection handling and pending rerun; status staysbuild.",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261018-document-registry-storage-v2-design.md",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "design-spec",
+      "templateId": "design-spec-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Root authored full73-line design; distinct frozen design report accepted design only; pending template registration; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "固定2.0.2设计约束薄manifest/七片、原生字段缺省/全序保全、共同锁和显式映射；设计接收与实现/全量正文分开。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "phase-governance",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/reviews/20261018-document-registry-storage-v2-design.md",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "830e81119d2936f6cc714bcb75a1fd6f66b7d15663656fa0cf7d4bc888c4a75c",
+          "scopeActuallyRead": "Root authored full73-line design; distinct frozen design report accepted design only; pending template registration",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "830e81119d2936f6cc714bcb75a1fd6f66b7d15663656fa0cf7d4bc888c4a75c"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/phase-governance/reviews/20261018-document-registry-storage-v2-design.md",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "830e81119d2936f6cc714bcb75a1fd6f66b7d15663656fa0cf7d4bc888c4a75c",
+      "afterSha256": "830e81119d2936f6cc714bcb75a1fd6f66b7d15663656fa0cf7d4bc888c4a75c",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Root authored full73-line design; distinct frozen design report accepted design only; pending template registration; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      }
+    },
+    {
+      "path": "docs/phase-governance/document-registry.ops.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "test-catalog",
+      "templateId": "test-catalog-v1",
+      "templateVersion": "1.2.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "原2374账本按原生phase分片中的ops片；positions重建全序，原可选字段/状态不升档。后续新增注册必须经同一公开writer，机器对象不转散文。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "phase-governance",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/document-registry.ops.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
+          "scopeActuallyRead": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/phase-governance/document-registry.ops.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
+      "afterSha256": "c94f0548748763c010fd5fdfac36badc3e3f55f6e04ffd503c944d602397951d",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Provisional machine-catalog family binding only. Native schema1 shard lacks default test-catalog envelope; suitable native storage variant still needs design/freeze and semantic review. Do not modify native fields or mark compliant for shape."
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-REGISTRY-SPLIT-1",
+          "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "previousAfterSha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
+          "afterSha256": "c94f0548748763c010fd5fdfac36badc3e3f55f6e04ffd503c944d602397951d",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/document-registry.lore.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "test-catalog",
+      "templateId": "test-catalog-v1",
+      "templateVersion": "1.2.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "原2374账本按原生phase分片中的lore片；positions重建全序，原可选字段/状态不升档。后续新增注册必须经同一公开writer，机器对象不转散文。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "phase-governance",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/document-registry.lore.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "a5f6d4f5a2930528d651fdf1559aab701a9090e828b1ff0ca6545d7250185af5",
+          "scopeActuallyRead": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "a5f6d4f5a2930528d651fdf1559aab701a9090e828b1ff0ca6545d7250185af5"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/phase-governance/document-registry.lore.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "a5f6d4f5a2930528d651fdf1559aab701a9090e828b1ff0ca6545d7250185af5",
+      "afterSha256": "a5f6d4f5a2930528d651fdf1559aab701a9090e828b1ff0ca6545d7250185af5",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Provisional machine-catalog family binding only. Native schema1 shard lacks default test-catalog envelope; suitable native storage variant still needs design/freeze and semantic review. Do not modify native fields or mark compliant for shape."
+      }
+    },
+    {
+      "path": "docs/phase-governance/document-registry.phase1.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "test-catalog",
+      "templateId": "test-catalog-v1",
+      "templateVersion": "1.2.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "原2374账本按原生phase分片中的phase1片；positions重建全序，原可选字段/状态不升档。后续新增注册必须经同一公开writer，机器对象不转散文。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "phase-governance",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/document-registry.phase1.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "9ccb32a113f5d757ef646b496b186bd3049b2d9ea4272444cb40d7810f77e92e",
+          "scopeActuallyRead": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "9ccb32a113f5d757ef646b496b186bd3049b2d9ea4272444cb40d7810f77e92e"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/phase-governance/document-registry.phase1.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "9ccb32a113f5d757ef646b496b186bd3049b2d9ea4272444cb40d7810f77e92e",
+      "afterSha256": "9ccb32a113f5d757ef646b496b186bd3049b2d9ea4272444cb40d7810f77e92e",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Provisional machine-catalog family binding only. Native schema1 shard lacks default test-catalog envelope; suitable native storage variant still needs design/freeze and semantic review. Do not modify native fields or mark compliant for shape."
+      }
+    },
+    {
+      "path": "docs/phase-governance/document-registry.phase2.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "test-catalog",
+      "templateId": "test-catalog-v1",
+      "templateVersion": "1.2.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "原2374账本按原生phase分片中的phase2片；positions重建全序，原可选字段/状态不升档。后续新增注册必须经同一公开writer，机器对象不转散文。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "phase-governance",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/document-registry.phase2.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "ef532d88a2b094a7b17c3c65b32afaf42f87dbf0efbf3796c31071b4cd2e5cc4",
+          "scopeActuallyRead": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "ef532d88a2b094a7b17c3c65b32afaf42f87dbf0efbf3796c31071b4cd2e5cc4"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/phase-governance/document-registry.phase2.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "ef532d88a2b094a7b17c3c65b32afaf42f87dbf0efbf3796c31071b4cd2e5cc4",
+      "afterSha256": "ef532d88a2b094a7b17c3c65b32afaf42f87dbf0efbf3796c31071b4cd2e5cc4",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Provisional machine-catalog family binding only. Native schema1 shard lacks default test-catalog envelope; suitable native storage variant still needs design/freeze and semantic review. Do not modify native fields or mark compliant for shape."
+      }
+    },
+    {
+      "path": "docs/phase-governance/document-registry.phase3.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "test-catalog",
+      "templateId": "test-catalog-v1",
+      "templateVersion": "1.2.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "原2374账本按原生phase分片中的phase3片；positions重建全序，原可选字段/状态不升档。后续新增注册必须经同一公开writer，机器对象不转散文。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "phase-governance",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/document-registry.phase3.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "d4c7fb0b3ea28e355159b24fd6cf2911fe5b7258aae8002af4a2871788bd93b7",
+          "scopeActuallyRead": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "d4c7fb0b3ea28e355159b24fd6cf2911fe5b7258aae8002af4a2871788bd93b7"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/phase-governance/document-registry.phase3.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "d4c7fb0b3ea28e355159b24fd6cf2911fe5b7258aae8002af4a2871788bd93b7",
+      "afterSha256": "d4c7fb0b3ea28e355159b24fd6cf2911fe5b7258aae8002af4a2871788bd93b7",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Provisional machine-catalog family binding only. Native schema1 shard lacks default test-catalog envelope; suitable native storage variant still needs design/freeze and semantic review. Do not modify native fields or mark compliant for shape."
+      }
+    },
+    {
+      "path": "docs/phase-governance/document-registry.phase-governance.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "test-catalog",
+      "templateId": "test-catalog-v1",
+      "templateVersion": "1.2.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "原2374账本按原生phase分片中的phase-governance片；positions重建全序，原可选字段/状态不升档。后续新增注册必须经同一公开writer，机器对象不转散文。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "phase-governance",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/document-registry.phase-governance.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "24376e367ae40c34e81cd041323521ce35fadbc92e6cec8f661d551b2d02653e",
+          "scopeActuallyRead": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "24376e367ae40c34e81cd041323521ce35fadbc92e6cec8f661d551b2d02653e"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/phase-governance/document-registry.phase-governance.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "24376e367ae40c34e81cd041323521ce35fadbc92e6cec8f661d551b2d02653e",
+      "afterSha256": "0888ba9d004a25eca6265dccee21814eea9f4e980ed959374667d1fe53fe30a6",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Provisional machine-catalog family binding only. Native schema1 shard lacks default test-catalog envelope; suitable native storage variant still needs design/freeze and semantic review. Do not modify native fields or mark compliant for shape."
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-REGISTRY-SPLIT-1",
+          "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "previousAfterSha256": "24376e367ae40c34e81cd041323521ce35fadbc92e6cec8f661d551b2d02653e",
+          "afterSha256": "0888ba9d004a25eca6265dccee21814eea9f4e980ed959374667d1fe53fe30a6",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
+    },
+    {
+      "path": "docs/phase-governance/document-registry.testing.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "test-catalog",
+      "templateId": "test-catalog-v1",
+      "templateVersion": "1.2.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "原2374账本按原生phase分片中的testing片；positions重建全序，原可选字段/状态不升档。后续新增注册必须经同一公开writer，机器对象不转散文。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "phase-governance",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/phase-governance/document-registry.testing.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
+          "scopeActuallyRead": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase-governance",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/phase-governance/document-registry.testing.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
+      "afterSha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Provisional machine-catalog family binding only. Native schema1 shard lacks default test-catalog envelope; suitable native storage variant still needs design/freeze and semantic review. Do not modify native fields or mark compliant for shape."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Root full current index and actual cited report scopes; no renewed downstream semantic credit; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "存储证据入口分别路由设计、37/db原返工、95限定接收、root canonical映射和中央脚本护栏；所有未来中央/全量范围继续待验。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "49f62dd2284b98364d55573609e0a961d61980fc2b7a1ad71526277e9c7457a6",
+          "scopeActuallyRead": "Root full current index and actual cited report scopes; no renewed downstream semantic credit",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "49f62dd2284b98364d55573609e0a961d61980fc2b7a1ad71526277e9c7457a6"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "49f62dd2284b98364d55573609e0a961d61980fc2b7a1ad71526277e9c7457a6",
+      "afterSha256": "178d25a21f7ea531e83d63c0ac24c630aa82867c0ce2fdbaab3104a90a86d367",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Root full current index and actual cited report scopes; no renewed downstream semantic credit; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-REGISTRY-SPLIT-1",
+          "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "previousAfterSha256": "49f62dd2284b98364d55573609e0a961d61980fc2b7a1ad71526277e9c7457a6",
+          "afterSha256": "178d25a21f7ea531e83d63c0ac24c630aa82867c0ce2fdbaab3104a90a86d367",
+          "method": "Root current navigation now distinguishes original/raw versus formatted reader SHA and declares fixed central-session artifact ownership; no new document completion.",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-native-path-db814e3c.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "原生author-native-document-path-correction-addendum记录，限定verdict=producer-specific scope；原producer/候选/失败/raw边界保持，尚未对该文件本身授语义/模板完成。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-native-path-db814e3c.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "5042f58e15e60ebb7c8bc3db5735b3b4d05701f6dec1d22f6a00100b74904993",
+          "scopeActuallyRead": "Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "5042f58e15e60ebb7c8bc3db5735b3b4d05701f6dec1d22f6a00100b74904993"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-native-path-db814e3c.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "5042f58e15e60ebb7c8bc3db5735b3b4d05701f6dec1d22f6a00100b74904993",
+      "afterSha256": "f24ae48faff9d49e627b380c5b0c1d98d5853406945e473fc21e2c85a62107b8",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-REGISTRY-SPLIT-1",
+          "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "previousAfterSha256": "5042f58e15e60ebb7c8bc3db5735b3b4d05701f6dec1d22f6a00100b74904993",
+          "afterSha256": "f24ae48faff9d49e627b380c5b0c1d98d5853406945e473fc21e2c85a62107b8",
+          "method": "Original raw report retained byte-exact in gzip; this same-name reader projection is project-Biome formatted and JSON-value-equal. Dual original/view identities and actual first lint failure are explicit in intake map; no semantic grant.",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-storage-37adc410.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "原生author-implementation-delivery记录，限定verdict=producer-specific scope；原producer/候选/失败/raw边界保持，尚未对该文件本身授语义/模板完成。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-storage-37adc410.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "30c498b298458dfaf5ab5ebc25adf46bae2372a15b313cc0df45f71880df953c",
+          "scopeActuallyRead": "Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "30c498b298458dfaf5ab5ebc25adf46bae2372a15b313cc0df45f71880df953c"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-storage-37adc410.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "30c498b298458dfaf5ab5ebc25adf46bae2372a15b313cc0df45f71880df953c",
+      "afterSha256": "7b6fa9d3f63acf1ede968ca8a67f0dc58d3c586d6c2e6735612774c7a2cca6a1",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-REGISTRY-SPLIT-1",
+          "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "previousAfterSha256": "30c498b298458dfaf5ab5ebc25adf46bae2372a15b313cc0df45f71880df953c",
+          "afterSha256": "7b6fa9d3f63acf1ede968ca8a67f0dc58d3c586d6c2e6735612774c7a2cca6a1",
+          "method": "Original raw report retained byte-exact in gzip; this same-name reader projection is project-Biome formatted and JSON-value-equal. Dual original/view identities and actual first lint failure are explicit in intake map; no semantic grant.",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-unicode-95def601.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "原生author-unicode-scalar-path-correction-addendum记录，限定verdict=producer-specific scope；原producer/候选/失败/raw边界保持，尚未对该文件本身授语义/模板完成。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-unicode-95def601.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "1321a9bb69782e3c9084498b5f8e159fbd1fb10fe3768e7e9ccf7c2e0231f46a",
+          "scopeActuallyRead": "Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "1321a9bb69782e3c9084498b5f8e159fbd1fb10fe3768e7e9ccf7c2e0231f46a"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/author-unicode-95def601.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "1321a9bb69782e3c9084498b5f8e159fbd1fb10fe3768e7e9ccf7c2e0231f46a",
+      "afterSha256": "118ba377563ed1ae742fadc5a76c14bad0222ed00c5af8b068dd602d53e7c1a2",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-REGISTRY-SPLIT-1",
+          "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "previousAfterSha256": "1321a9bb69782e3c9084498b5f8e159fbd1fb10fe3768e7e9ccf7c2e0231f46a",
+          "afterSha256": "118ba377563ed1ae742fadc5a76c14bad0222ed00c5af8b068dd602d53e7c1a2",
+          "method": "Original raw report retained byte-exact in gzip; this same-name reader projection is project-Biome formatted and JSON-value-equal. Dual original/view identities and actual first lint failure are explicit in intake map; no semantic grant.",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/canonical-intake-b7534fc5.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "原生root-canonical-storage-intake-mechanical-verification记录，限定verdict=producer-specific scope；原producer/候选/失败/raw边界保持，尚未对该文件本身授语义/模板完成。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/canonical-intake-b7534fc5.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "bb469792e9250a39f836f78353334098e077a4261cb265cf899b93242dc9c7f7",
+          "scopeActuallyRead": "Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "bb469792e9250a39f836f78353334098e077a4261cb265cf899b93242dc9c7f7"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/canonical-intake-b7534fc5.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "bb469792e9250a39f836f78353334098e077a4261cb265cf899b93242dc9c7f7",
+      "afterSha256": "bb469792e9250a39f836f78353334098e077a4261cb265cf899b93242dc9c7f7",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/design-intake-38f18ff9.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Original design transport scope and payload manifest byte verification; not semantic acceptance of this map; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "固定38f设计非作者报告与110项原artifact的精确无损运输映射，原超时/失败保留，运输本身不授设计以外完成。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/design-intake-38f18ff9.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "f89304ab24ba5726e6a83dcd50114834957716aa2b2edb5957b541754efe5e2e",
+          "scopeActuallyRead": "Original design transport scope and payload manifest byte verification; not semantic acceptance of this map",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "f89304ab24ba5726e6a83dcd50114834957716aa2b2edb5957b541754efe5e2e"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/design-intake-38f18ff9.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "f89304ab24ba5726e6a83dcd50114834957716aa2b2edb5957b541754efe5e2e",
+      "afterSha256": "f89304ab24ba5726e6a83dcd50114834957716aa2b2edb5957b541754efe5e2e",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Original design transport scope and payload manifest byte verification; not semantic acceptance of this map; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/implementation-output-counter.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Root actual original observation and exact subsequent transport, existing-output control and source-retention limitation; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "记录旧CLI缺mapping父目录时exit1却先发布的真实反例，及现有输出拒绝的通过对照；完整原模块未冻结限制保留，不能补造历史输入。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/implementation-output-counter.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "1ec544659c876ea6f3bebcc1fa9c621f3eab8344ca03c6daec1086745fcd7044",
+          "scopeActuallyRead": "Root actual original observation and exact subsequent transport, existing-output control and source-retention limitation",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "1ec544659c876ea6f3bebcc1fa9c621f3eab8344ca03c6daec1086745fcd7044"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/implementation-output-counter.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "1ec544659c876ea6f3bebcc1fa9c621f3eab8344ca03c6daec1086745fcd7044",
+      "afterSha256": "1ec544659c876ea6f3bebcc1fa9c621f3eab8344ca03c6daec1086745fcd7044",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Root actual original observation and exact subsequent transport, existing-output control and source-retention limitation; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-central-guard-followup-34462316.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "原生non-author-central-intake-guard-followup记录，限定verdict=Limited acceptance of fixes for the tested IO/authority/pin guard counters. Real central intake plan and resulting byte/status/pin changes still require separate non-author verification.；原producer/候选/失败/raw边界保持，尚未对该文件本身授语义/模板完成。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-central-guard-followup-34462316.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "fbd237c8e0230181a0435b6e202c3f37f0c414e9dcd61479db9b220720531685",
+          "scopeActuallyRead": "Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "fbd237c8e0230181a0435b6e202c3f37f0c414e9dcd61479db9b220720531685"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-central-guard-followup-34462316.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "fbd237c8e0230181a0435b6e202c3f37f0c414e9dcd61479db9b220720531685",
+      "afterSha256": "fbd237c8e0230181a0435b6e202c3f37f0c414e9dcd61479db9b220720531685",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-central-guard-review-v1.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "原生non-author-central-intake-guard-review记录，限定verdict=counter; do not execute frozen first revision against a repository；原producer/候选/失败/raw边界保持，尚未对该文件本身授语义/模板完成。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-central-guard-review-v1.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "643f9f68f28f79499cfd843a9180e97028087d01bdff471f5c93fb2c06f8ca4f",
+          "scopeActuallyRead": "Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "643f9f68f28f79499cfd843a9180e97028087d01bdff471f5c93fb2c06f8ca4f"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-central-guard-review-v1.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "643f9f68f28f79499cfd843a9180e97028087d01bdff471f5c93fb2c06f8ca4f",
+      "afterSha256": "b907624989dbb7b9c45cc1e9931f16e52437e27b0913503d95a79d7085433c14",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-REGISTRY-SPLIT-1",
+          "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "previousAfterSha256": "643f9f68f28f79499cfd843a9180e97028087d01bdff471f5c93fb2c06f8ca4f",
+          "afterSha256": "b907624989dbb7b9c45cc1e9931f16e52437e27b0913503d95a79d7085433c14",
+          "method": "Original raw report retained byte-exact in gzip; this same-name reader projection is project-Biome formatted and JSON-value-equal. Dual original/view identities and actual first lint failure are explicit in intake map; no semantic grant.",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-design-review-38f18ff9.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Whole report identity/design verdict/counter/command-limit fields, all manifest bytes; source business scope only as explicitly reported; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "非作者固定设计2.0.2报告只接收设计，保留独立完整门超时、strict/progress失败和行政pin待接入，不冒称实现验收。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-design-review-38f18ff9.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "992fac9597ff974dc6a3d5d26ee447d2409173f9fd6f341b1d2cfe1099130870",
+          "scopeActuallyRead": "Whole report identity/design verdict/counter/command-limit fields, all manifest bytes; source business scope only as explicitly reported",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "992fac9597ff974dc6a3d5d26ee447d2409173f9fd6f341b1d2cfe1099130870"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-design-review-38f18ff9.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "992fac9597ff974dc6a3d5d26ee447d2409173f9fd6f341b1d2cfe1099130870",
+      "afterSha256": "992fac9597ff974dc6a3d5d26ee447d2409173f9fd6f341b1d2cfe1099130870",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Whole report identity/design verdict/counter/command-limit fields, all manifest bytes; source business scope only as explicitly reported; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-implementation-review-37adc410-rework.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "原生non-author-registry-storage-implementation-rework-review记录，限定verdict=rework-REGISTRY-NATIVE-DOCUMENT-PATH；原producer/候选/失败/raw边界保持，尚未对该文件本身授语义/模板完成。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-implementation-review-37adc410-rework.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "3c9af2fac53ab494c1df83416d5e19431e753f7236353cbb7e819a38086ffdda",
+          "scopeActuallyRead": "Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "3c9af2fac53ab494c1df83416d5e19431e753f7236353cbb7e819a38086ffdda"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-implementation-review-37adc410-rework.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "3c9af2fac53ab494c1df83416d5e19431e753f7236353cbb7e819a38086ffdda",
+      "afterSha256": "3c9af2fac53ab494c1df83416d5e19431e753f7236353cbb7e819a38086ffdda",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-s04-guard-addendum-34462316.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "原生non-author-S04-central-intake-guard-addendum记录，限定verdict=S04 fixed-body/report positive and exact-identity negative guards accepted in owned temporary fixture only.；原producer/候选/失败/raw边界保持，尚未对该文件本身授语义/模板完成。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-s04-guard-addendum-34462316.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "6eaa056f1e7bf16dd398040242ed5db03dee388493a263c89ed2974ad9b4b358",
+          "scopeActuallyRead": "Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "6eaa056f1e7bf16dd398040242ed5db03dee388493a263c89ed2974ad9b4b358"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-s04-guard-addendum-34462316.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "6eaa056f1e7bf16dd398040242ed5db03dee388493a263c89ed2974ad9b4b358",
+      "afterSha256": "6eaa056f1e7bf16dd398040242ed5db03dee388493a263c89ed2974ad9b4b358",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-storage-path-review-db814e3c-rework.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "原生independent-frozen-storage-path-correction-review记录，限定verdict=rework；原producer/候选/失败/raw边界保持，尚未对该文件本身授语义/模板完成。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-storage-path-review-db814e3c-rework.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "7c4929eec1b9e15bb2b826f1582a60e8844f8870a45a72e443220647b35b8d7d",
+          "scopeActuallyRead": "Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "7c4929eec1b9e15bb2b826f1582a60e8844f8870a45a72e443220647b35b8d7d"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-storage-path-review-db814e3c-rework.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "7c4929eec1b9e15bb2b826f1582a60e8844f8870a45a72e443220647b35b8d7d",
+      "afterSha256": "7c4929eec1b9e15bb2b826f1582a60e8844f8870a45a72e443220647b35b8d7d",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-storage-review-95def601-scoped-accept.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "原生independent-frozen-registry-storage-implementation-and-scalar-correction-review记录，限定verdict=accept；原producer/候选/失败/raw边界保持，尚未对该文件本身授语义/模板完成。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-storage-review-95def601-scoped-accept.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "6753b624bd867d706db48cf5e110c960b3c28e4ed97fd001b676183dda7b1d0d",
+          "scopeActuallyRead": "Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "6753b624bd867d706db48cf5e110c960b3c28e4ed97fd001b676183dda7b1d0d"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-storage-review-95def601-scoped-accept.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "6753b624bd867d706db48cf5e110c960b3c28e4ed97fd001b676183dda7b1d0d",
+      "afterSha256": "6753b624bd867d706db48cf5e110c960b3c28e4ed97fd001b676183dda7b1d0d",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Native report identity, stated verdict/scope/counters/gate limitations and original producer pins read; registration only, no wholesale subject-body review; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-37-late-snapshot.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Complete transport field/row shape and all590source/stored payload byte checks; no body semantic review of transported files; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "无损运输映射：Author storage37 self-checks plus actual later append-only command-index snapshot captured now; original37 report/mapping dates and claims unchanged. This snapshot is not reconstructed original37 complete runtime output. 逐项列590个源路径及payload/stored双SHA、字节数和解码方式；运输不授信用。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-37-late-snapshot.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "8c4c7243f20e3f23e5d4a8ea44be79a8fbfc94dfdfff45fc207578c26a0e028c",
+          "scopeActuallyRead": "Complete transport field/row shape and all590source/stored payload byte checks; no body semantic review of transported files",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "8c4c7243f20e3f23e5d4a8ea44be79a8fbfc94dfdfff45fc207578c26a0e028c"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-37-late-snapshot.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "8c4c7243f20e3f23e5d4a8ea44be79a8fbfc94dfdfff45fc207578c26a0e028c",
+      "afterSha256": "f81b4f86720bf79071da92191e8e6aa9503dd0487efa20e64b2b56020e5240e1",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Complete transport field/row shape and all590source/stored payload byte checks; no body semantic review of transported files; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-REGISTRY-SPLIT-1",
+          "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "previousAfterSha256": "8c4c7243f20e3f23e5d4a8ea44be79a8fbfc94dfdfff45fc207578c26a0e028c",
+          "afterSha256": "f81b4f86720bf79071da92191e8e6aa9503dd0487efa20e64b2b56020e5240e1",
+          "method": "Actual transport correction: immutable original now resolves to gzip, distinct formattedReaderViews provide display SHA/bytes and native JSON equality; no original payload or command result edited.",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-native-path-db814e3c.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Complete transport field/row shape and all85source/stored payload byte checks; no body semantic review of transported files; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "无损运输映射：Frozen author path patch self-check; distinct non-author closure required. 逐项列85个源路径及payload/stored双SHA、字节数和解码方式；运输不授信用。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-native-path-db814e3c.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "f4d6a4685e3b999bc1ac6586ce89c75881e897d3831fa22327336424422987ad",
+          "scopeActuallyRead": "Complete transport field/row shape and all85source/stored payload byte checks; no body semantic review of transported files",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "f4d6a4685e3b999bc1ac6586ce89c75881e897d3831fa22327336424422987ad"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-native-path-db814e3c.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "f4d6a4685e3b999bc1ac6586ce89c75881e897d3831fa22327336424422987ad",
+      "afterSha256": "cc2bc8ec7a2d5d0a31ec8b40cc8b27088778ef8d71673be983809ae3d3cf07ef",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Complete transport field/row shape and all85source/stored payload byte checks; no body semantic review of transported files; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-REGISTRY-SPLIT-1",
+          "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "previousAfterSha256": "f4d6a4685e3b999bc1ac6586ce89c75881e897d3831fa22327336424422987ad",
+          "afterSha256": "cc2bc8ec7a2d5d0a31ec8b40cc8b27088778ef8d71673be983809ae3d3cf07ef",
+          "method": "Actual transport correction: immutable original now resolves to gzip, distinct formattedReaderViews provide display SHA/bytes and native JSON equality; no original payload or command result edited.",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-unicode-95def601.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Complete transport field/row shape and all79source/stored payload byte checks; no body semantic review of transported files; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "无损运输映射：Frozen author path patch self-check; distinct non-author closure required. 逐项列79个源路径及payload/stored双SHA、字节数和解码方式；运输不授信用。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-unicode-95def601.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "d6d302bf32b6a7cec35937146f2689b62e1c607eb870fa9d4de283971083545d",
+          "scopeActuallyRead": "Complete transport field/row shape and all79source/stored payload byte checks; no body semantic review of transported files",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "d6d302bf32b6a7cec35937146f2689b62e1c607eb870fa9d4de283971083545d"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-author-unicode-95def601.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "d6d302bf32b6a7cec35937146f2689b62e1c607eb870fa9d4de283971083545d",
+      "afterSha256": "b7020bb0cc88e67297f777960064642d1a031a91c435bd45dddf7299194782f8",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Complete transport field/row shape and all79source/stored payload byte checks; no body semantic review of transported files; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-REGISTRY-SPLIT-1",
+          "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "previousAfterSha256": "d6d302bf32b6a7cec35937146f2689b62e1c607eb870fa9d4de283971083545d",
+          "afterSha256": "b7020bb0cc88e67297f777960064642d1a031a91c435bd45dddf7299194782f8",
+          "method": "Actual transport correction: immutable original now resolves to gzip, distinct formattedReaderViews provide display SHA/bytes and native JSON equality; no original payload or command result edited.",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-central-guard-s04-subset.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Complete transport field/row shape and all108source/stored payload byte checks; no body semantic review of transported files; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "无损运输映射：Fixed344623 runner legal S04 full-R60-seven-entry subset fixture positive and wrong-body/report refusal only; not actual central. 逐项列108个源路径及payload/stored双SHA、字节数和解码方式；运输不授信用。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-central-guard-s04-subset.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "56f2f13502b163016d112ec8781a3f7f6a61f6585131aed2541afe5157195910",
+          "scopeActuallyRead": "Complete transport field/row shape and all108source/stored payload byte checks; no body semantic review of transported files",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "56f2f13502b163016d112ec8781a3f7f6a61f6585131aed2541afe5157195910"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-central-guard-s04-subset.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "56f2f13502b163016d112ec8781a3f7f6a61f6585131aed2541afe5157195910",
+      "afterSha256": "56f2f13502b163016d112ec8781a3f7f6a61f6585131aed2541afe5157195910",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Complete transport field/row shape and all108source/stored payload byte checks; no body semantic review of transported files; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-central-guard-v1-rework.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Complete transport field/row shape and all110source/stored payload byte checks; no body semantic review of transported files; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "无损运输映射：Never-applied root maintenance runner v1 real IO/authority/DAG/concurrent-target failures in owned fixtures only. 逐项列110个源路径及payload/stored双SHA、字节数和解码方式；运输不授信用。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-central-guard-v1-rework.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "7a17009ef1e1369bf83e875e7cb41bf51f068db830480d5912b699727e412e88",
+          "scopeActuallyRead": "Complete transport field/row shape and all110source/stored payload byte checks; no body semantic review of transported files",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "7a17009ef1e1369bf83e875e7cb41bf51f068db830480d5912b699727e412e88"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-central-guard-v1-rework.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "7a17009ef1e1369bf83e875e7cb41bf51f068db830480d5912b699727e412e88",
+      "afterSha256": "c68aa3a3c9fda0289c3fb425fb85f5ec2c06669113061948e4bc4efb28ebc62d",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Complete transport field/row shape and all110source/stored payload byte checks; no body semantic review of transported files; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-REGISTRY-SPLIT-1",
+          "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "previousAfterSha256": "7a17009ef1e1369bf83e875e7cb41bf51f068db830480d5912b699727e412e88",
+          "afterSha256": "c68aa3a3c9fda0289c3fb425fb85f5ec2c06669113061948e4bc4efb28ebc62d",
+          "method": "Actual transport correction: immutable original now resolves to gzip, distinct formattedReaderViews provide display SHA/bytes and native JSON equality; no original payload or command result edited.",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-central-guard-v2-followup.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Complete transport field/row shape and all201source/stored payload byte checks; no body semantic review of transported files; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "无损运输映射：Frozen344623 runner tested guard fixes and legal pending/S03-subset migration only. Actual central intake and S04 positive case not covered by this report. 逐项列201个源路径及payload/stored双SHA、字节数和解码方式；运输不授信用。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-central-guard-v2-followup.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "84717337c9db1d7599bd877ed8d7b0c63a07acf7d95919d69b4d5f4ada9d8681",
+          "scopeActuallyRead": "Complete transport field/row shape and all201source/stored payload byte checks; no body semantic review of transported files",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "84717337c9db1d7599bd877ed8d7b0c63a07acf7d95919d69b4d5f4ada9d8681"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-central-guard-v2-followup.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "84717337c9db1d7599bd877ed8d7b0c63a07acf7d95919d69b4d5f4ada9d8681",
+      "afterSha256": "84717337c9db1d7599bd877ed8d7b0c63a07acf7d95919d69b4d5f4ada9d8681",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Complete transport field/row shape and all201source/stored payload byte checks; no body semantic review of transported files; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-37-rework.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Complete transport field/row shape and all202source/stored payload byte checks; no body semantic review of transported files; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "无损运输映射：37 rework due actual first-dot traversal/alias; supported preservation/locking/mapping/admin delta scopes remain bounded. 逐项列202个源路径及payload/stored双SHA、字节数和解码方式；运输不授信用。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-37-rework.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "05b2939d1d5955562806e1fc8048760bc239914bf6b092d344445a6200fa5598",
+          "scopeActuallyRead": "Complete transport field/row shape and all202source/stored payload byte checks; no body semantic review of transported files",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "05b2939d1d5955562806e1fc8048760bc239914bf6b092d344445a6200fa5598"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-37-rework.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "05b2939d1d5955562806e1fc8048760bc239914bf6b092d344445a6200fa5598",
+      "afterSha256": "05b2939d1d5955562806e1fc8048760bc239914bf6b092d344445a6200fa5598",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Complete transport field/row shape and all202source/stored payload byte checks; no body semantic review of transported files; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-95-scoped-accept.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Complete transport field/row shape and all229source/stored payload byte checks; no body semantic review of transported files; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "无损运输映射：Fixed95 native-path/scalar counter closure and original2374 storage acceptance only; prior37/db rework preserved. 逐项列229个源路径及payload/stored双SHA、字节数和解码方式；运输不授信用。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-95-scoped-accept.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "d25461ade0c9828bcd1192b4379873ec947acc7f0456b0da83187ee108748526",
+          "scopeActuallyRead": "Complete transport field/row shape and all229source/stored payload byte checks; no body semantic review of transported files",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "d25461ade0c9828bcd1192b4379873ec947acc7f0456b0da83187ee108748526"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-95-scoped-accept.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "d25461ade0c9828bcd1192b4379873ec947acc7f0456b0da83187ee108748526",
+      "afterSha256": "d25461ade0c9828bcd1192b4379873ec947acc7f0456b0da83187ee108748526",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Complete transport field/row shape and all229source/stored payload byte checks; no body semantic review of transported files; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-db-rework.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Complete transport field/row shape and all250source/stored payload byte checks; no body semantic review of transported files; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "无损运输映射：db original dot/empty closure; escaped surrogate same-native-file counter remains rework. Old37 package preserved. 逐项列250个源路径及payload/stored双SHA、字节数和解码方式；运输不授信用。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-db-rework.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "01a47907496a52885d2650f50ed81d88b6459d1d920d6f5eff6fb5e923cbb478",
+          "scopeActuallyRead": "Complete transport field/row shape and all250source/stored payload byte checks; no body semantic review of transported files",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "01a47907496a52885d2650f50ed81d88b6459d1d920d6f5eff6fb5e923cbb478"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-db-rework.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "01a47907496a52885d2650f50ed81d88b6459d1d920d6f5eff6fb5e923cbb478",
+      "afterSha256": "01a47907496a52885d2650f50ed81d88b6459d1d920d6f5eff6fb5e923cbb478",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Complete transport field/row shape and all250source/stored payload byte checks; no body semantic review of transported files; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      }
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-root-canonical-b7534fc5.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: Complete transport field/row shape and all5source/stored payload byte checks; no body semantic review of transported files; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "无损运输映射：Actual root isolated canonical storage mechanical verification: original2374, eight native metadata and eight fixed95 files/mapping translations; no semantic grant. 逐项列5个源路径及payload/stored双SHA、字节数和解码方式；运输不授信用。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md:1",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md:1"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-root-canonical-b7534fc5.json",
+          "revision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "sha256": "2d24fb8198cd34bc9940a3b16416716d1dd018f0f592a5bd120e5597b73cf264",
+          "scopeActuallyRead": "Complete transport field/row shape and all5source/stored payload byte checks; no body semantic review of transported files",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/README.md"
+      ],
+      "legalInputs": [
+        "The pinned original source/candidate/report/transport or explicit native partition named by this file; no reconstructed historical command output."
+      ],
+      "businessOracle": {
+        "type": "explicit-native-storage-and-evidence-registration",
+        "assertions": [
+          "Original native fields and failed reports remain unchanged.",
+          "One pending binding only; byte/hash or storage acceptance grants no semantic/template completion.",
+          "Original1838 baseline and1896 withdrawals remain separate from new registration."
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["DOCS-REGISTRY-SPLIT-1", "DOCS-FULL-TEMPLATE-1"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "2d24fb8198cd34bc9940a3b16416716d1dd018f0f592a5bd120e5597b73cf264"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-root-canonical-b7534fc5.json",
+        "producer": "Explicit root pending intake of fixed95 storage and associated actual reports; distinct original producer fields retained."
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "2d24fb8198cd34bc9940a3b16416716d1dd018f0f592a5bd120e5597b73cf264",
+      "afterSha256": "2d24fb8198cd34bc9940a3b16416716d1dd018f0f592a5bd120e5597b73cf264",
+      "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+      "reviewedLines": "Complete transport field/row shape and all5source/stored payload byte checks; no body semantic review of transported files; registration only",
+      "beforeAfter": {
+        "before": "New unregistered candidate explicitly deferred while old flat registry approached1MiB.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      }
     }
   ]
 }

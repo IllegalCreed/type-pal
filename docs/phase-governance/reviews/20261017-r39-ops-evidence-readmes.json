@@ -35,7 +35,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
-      "afterSha256": "029dcd97a76701d55113e3c5dfd54e0bcd589667f59e13cf7dd751179aec9b3e",
+      "afterSha256": "4fddc5b071a22e29f024b291c602d2683fbec0ae48c5aeaef1b1eb3873faba8c",
       "publicCallers": [
         "docs/ops/evidence/README.md → docs/ops/evidence/README.md navigation",
         "task card / evidence consumer references"
@@ -163,7 +163,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-REGISTRY-SPLIT-1",
+          "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
+          "previousAfterSha256": "029dcd97a76701d55113e3c5dfd54e0bcd589667f59e13cf7dd751179aec9b3e",
+          "afterSha256": "4fddc5b071a22e29f024b291c602d2683fbec0ae48c5aeaef1b1eb3873faba8c",
+          "method": "Root actually read sole new registry evidence navigation link relative3fae; target exists, other body inherited; no new semantic acceptance.",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/ops/evidence/coverage85-kimi-extract-migrate-r1/README.md",
