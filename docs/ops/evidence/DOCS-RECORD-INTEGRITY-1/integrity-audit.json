@@ -2081,8 +2081,8 @@
     "unavailablePairs": 0,
     "candidates": 16,
     "confirmedR65": 1,
-    "otherCandidatesPending": 15,
-    "decision": "Other candidates are a mechanical screen, not proof of fabricated execution; primary raw-run verification remains pending. This is not a clean audit declaration.",
+    "otherCandidatesPending": 0,
+    "decision": "Fifteen mutations adjudicated in paired report; ten explained, five scoped claim quarantines. This is neither fifteen accepted executions nor a clean global audit.",
     "existingValueChanges": [
       {
         "commit": "183ec0bf0",
@@ -2095,6 +2095,49 @@
       {
         "commit": "d056af0e65",
         "finding": "array-index comparison includes record reorder and new labels; generated timestamp changes. Exit differences alone do not establish rewriting the same execution; raw-run authentication pending."
+      }
+    ],
+    "adjudicationsCompleted": 15,
+    "explainedMutationCases": 10,
+    "quarantinedScopes": 5,
+    "adjudicationReport": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-candidate-adjudication-20261018.md",
+    "mechanicalObservations": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-candidate-observations-20261018.json",
+    "byteCountCounter": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-byte-count-counters-20261018.json",
+    "quarantinedClaims": [
+      {
+        "case": "C08",
+        "sourceRevision": "28ea701cc56dd20fa66f1e1ff65db97c8a605c9d",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+        "pointer": "/acceptedContributorCardsB/integratedGates",
+        "reason": "Additive summary without authenticated raw execution; no current static acceptance credit."
+      },
+      {
+        "case": "C09",
+        "sourceRevision": "c1c4ba289b44ad060cb4c5f3ab881a5412f229cd",
+        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+        "pointer": "/followupMachineAudits/staticGates",
+        "reason": "Additive summary without authenticated raw execution; no current static acceptance credit."
+      },
+      {
+        "case": "C12",
+        "sourceRevision": "431c5f70ca5dd40980c13cc1e3f4fb1c549672cc",
+        "path": "docs/ops/evidence/TEST-COVERAGE85-GLM-GAME-1/mutation-results.json",
+        "pointer": "/results/*/execution/*/{stdout,stderr}/bytes",
+        "reason": "Historical 48 and current 50 byte-size values count UTF-16 units. Original raw/payload unchanged; SHA-bound sidecar supplies observed bytes. No new test/coverage execution credit."
+      },
+      {
+        "case": "C13",
+        "sourceRevision": "d03cba2c23c858526bc514a5389347177794861c",
+        "path": "docs/testing/medium-triple-20261002/grok/receipt.json",
+        "pointer": "/gates/lint",
+        "reason": "Existing summary changed2787→2791 without authenticated new lint execution; this mutable snapshot credit withdrawn."
+      },
+      {
+        "case": "C15",
+        "sourceRevision": "525c40cd086fa743cf0f16d39f078a8a40eeb5e7",
+        "path": "docs/testing/coverage-initializer-evidence.json",
+        "pointer": "/implementation",
+        "reason": "Added historical execution claims; designated raw missing. Retain47warnings/6infos; no current zero-diagnostic acceptance."
       }
     ]
   },

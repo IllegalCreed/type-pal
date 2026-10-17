@@ -1403,8 +1403,8 @@
         "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json"
       ],
       "unresolved": [
-        "1896 affected current bindings require actual per-document semantic review before credit can be regranted.",
-        "Other receipt history mutation candidates require primary raw-run review; same-actor checks give no independent acceptance."
+        "1896 affected bindings still require actual semantic review; five receipt execution/byte-size scopes are explicitly quarantined after fifteen-case adjudication.",
+        "Non-author corrective review and full zero-diagnostic gates are not complete."
       ],
       "stopLine": "Do not infer all-docs completion, user decisions, runtime/E2E/visual/coverage or semantic approval from shape/hash checks."
     }

@@ -94,7 +94,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 下一位 Agent 提示词
 
-无新委派。后续复核须读取本卡和 correction-scope、原 receipt 与 raw 重跑输出；不得把 Codex 本轮自验改写为独立接受。
+本轮下一位为尚未分派的非作者只读Reviewer。按序读AGENTS/文档模型、本卡、十五项裁定和机械观察、原Git receipt与raw、correction-scope及工具delta；只将自己的审查结果写到独立临时产物，root接收后原字节接入。不得改产品/旧测试/coverage或候选实现，不得把本卡自验改写为独立接受。
 
 ## 工作区异常与证据保全
 
@@ -112,3 +112,11 @@ Template: task-card-v1 / 1.0.0
 ### R33/R37 原生格式边界补记
 
 另有6份此前获GLM内容层通过的HTML/JSON：不改正文、不撤回具体语义结论，仅将依赖artifactOnly捷径的template-compliant改为needs-migration。content-reviewed保留，待补实际原生格式合同与consumer pilot后才能计迁移完成。逐篇列表见integrity-audit.nativeArtifactCompletionCorrection；不混入R39–R94的1896条语义信用撤回计数。
+
+## 2026-10-18 续办：十五项裁定 → 非作者验收 → 语义重审
+
+- 用户继续授权上述顺序；Codex build allowed，当前单一写入Owner仍为root。新白名单：本卡/evidence、派生board/index/registry/review/matrix与scripts/docs/inspect-receipt-candidates.py；不改产品、旧测试runner或coverage。
+- 十五项已按固定Git blob逐项裁定，10项变动可解释，C08/C09/C12/C13/C15五个限定scope隔离；不是15次执行通过。C13真实改过既有lint摘要但新执行缺证；C12存在SHA吻合而UTF-8 byte计数字段错误的独立counter。
+- 旧“其余15待核”为首轮历史状态，当前清单见receipt-candidate-adjudication-20261018.md及配对观察。原始筛查/receipt/raw不覆写；当前隔离裁定绑定sourceRevision与JSON pointer，不靠文件名推断。
+- 新非作者Reviewer尚未分派；只读审查完整纠错候选，须实际核原blob/raw、撤回与保真、工具和失败捕获，独立给counter或限定接收。root自验不代签；完整硬门未过，review与rework不改done、不合main。
+- 后续语义队列优先READ-FIRST等准入入口：已发现其被机械历史化与当前AGENTS路由冲突。现在只排期，不在非作者纠错验收前改写或授新语义信用。

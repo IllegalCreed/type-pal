@@ -516,7 +516,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "45d3ac468efc7d54f0e357b11afbc15fbb9f6473a373f47172d3f0bb692832a8",
-      "afterSha256": "c10b37f70e8e77938789768f31746d7455d4e8cb6847f974eb67ae3c06b10dd1",
+      "afterSha256": "f77baf466431ca638b301e5d353eaca8bb053de999ef6eb3f0e985b96b972cf6",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -643,8 +643,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "d9d6fb8900e526b8361b3594c81b39597833ba003b095e3ba85c3906c2acbc25",
-        "afterSha256": "c10b37f70e8e77938789768f31746d7455d4e8cb6847f974eb67ae3c06b10dd1",
+        "previousAfterSha256": "c10b37f70e8e77938789768f31746d7455d4e8cb6847f974eb67ae3c06b10dd1",
+        "afterSha256": "f77baf466431ca638b301e5d353eaca8bb053de999ef6eb3f0e985b96b972cf6",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
@@ -1136,7 +1136,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "d7ce0a1a7476d83f2b61a8fbf42423d1435653877a1e1bbee4285fd35013114e",
+      "afterSha256": "9d72e219817eeb33c62573aad49e726432f5fc3e0b7c47dd083af3d314dc8b2f",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1263,8 +1263,8 @@
       },
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "ddb07ddf08fcc4529df73852a2887cb52f481d2fee114b2e8696a9adac97b8ec",
-        "afterSha256": "d7ce0a1a7476d83f2b61a8fbf42423d1435653877a1e1bbee4285fd35013114e",
+        "previousAfterSha256": "d7ce0a1a7476d83f2b61a8fbf42423d1435653877a1e1bbee4285fd35013114e",
+        "afterSha256": "9d72e219817eeb33c62573aad49e726432f5fc3e0b7c47dd083af3d314dc8b2f",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"

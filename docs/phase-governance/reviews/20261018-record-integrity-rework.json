@@ -65,7 +65,7 @@
       "supersedes": [],
       "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
       "sourceSha256": "add111f0dadbb9f6bd171af655a780120b193e06ac9610b53c6296019cd99ce0",
-      "afterSha256": "90eb61f4f076964b350bc5df0e27208eb0ddd5e9f6941cbb0d8fea797b0ae24c",
+      "afterSha256": "4ffe11dfaaa8165e380b0c47952608b155a6f8d86722fd5014f8d0ebdc8e543c",
       "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only"
     },
     {
@@ -561,7 +561,193 @@
       "supersedes": [],
       "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
       "sourceSha256": "01d22347bffa1427428dbb863df59493c6cbe923a48cd885a23473e94c595295",
-      "afterSha256": "5d43e5385a2c2a1d82c4d1f4b45386bb151be68c06eaefdcd69694912e92f1d6",
+      "afterSha256": "b0cec050875e4a6e3798c40c0f1e27b17f08ec4b73fc05d9dbc8c574212fedc3",
+      "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-byte-count-counters-20261018.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "mechanical corrective registration; no full semantic or independent acceptance",
+      "coreConclusion": "记录可信度返工的控制/证据输入；仅登记所执行的撤回、修复或命令捕获，内容语义与非作者验收仍待完成。",
+      "truthAnchors": ["docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md:1"],
+      "unresolved": ["Full semantic review and non-author acceptance have not been performed."],
+      "nextStep": "Use actual captured output and correction scope; leave rework until independent semantic review.",
+      "owner": "Codex",
+      "provenance": [
+        "corrective-maintenance",
+        "same-actor-self-check",
+        "source-revision-28fd9013e09e8792decbff2fa117aae14c36b196"
+      ],
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md",
+        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md"
+      ],
+      "legalInputs": [
+        "Current correction scope and explicit Git/command evidence; no reconstructed historical stdout."
+      ],
+      "businessOracle": {
+        "type": "mechanical-evidence-integrity",
+        "assertions": [
+          "No status upgrade from byte/shape checks",
+          "Raw command output remains append-only",
+          "Historical source and current correction remain distinct"
+        ]
+      },
+      "dedupe": {
+        "result": "new-corrective-control-not-new-semantic-acceptance",
+        "against": ["DOCS-FULL-TEMPLATE-1", "DOCS-CATALOG-SPLIT-1"]
+      },
+      "revision": {
+        "currentSha": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "corrective-registration-not-semantic-review"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "corrective-registration",
+        "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-byte-count-counters-20261018.json"
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "registered-without-completion-credit"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
+      "sourceSha256": "de63f7dfe8214917c30b77fd58227168dc4236146f0a11e458d693006f656d9b",
+      "afterSha256": "de63f7dfe8214917c30b77fd58227168dc4236146f0a11e458d693006f656d9b",
+      "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-candidate-adjudication-20261018.md",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "mechanical corrective registration; no full semantic or independent acceptance",
+      "coreConclusion": "记录可信度返工的控制/证据输入；仅登记所执行的撤回、修复或命令捕获，内容语义与非作者验收仍待完成。",
+      "truthAnchors": ["docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md:1"],
+      "unresolved": ["Full semantic review and non-author acceptance have not been performed."],
+      "nextStep": "Use actual captured output and correction scope; leave rework until independent semantic review.",
+      "owner": "Codex",
+      "provenance": [
+        "corrective-maintenance",
+        "same-actor-self-check",
+        "source-revision-28fd9013e09e8792decbff2fa117aae14c36b196"
+      ],
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md",
+        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md"
+      ],
+      "legalInputs": [
+        "Current correction scope and explicit Git/command evidence; no reconstructed historical stdout."
+      ],
+      "businessOracle": {
+        "type": "mechanical-evidence-integrity",
+        "assertions": [
+          "No status upgrade from byte/shape checks",
+          "Raw command output remains append-only",
+          "Historical source and current correction remain distinct"
+        ]
+      },
+      "dedupe": {
+        "result": "new-corrective-control-not-new-semantic-acceptance",
+        "against": ["DOCS-FULL-TEMPLATE-1", "DOCS-CATALOG-SPLIT-1"]
+      },
+      "revision": {
+        "currentSha": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "corrective-registration-not-semantic-review"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "corrective-registration",
+        "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-candidate-adjudication-20261018.md"
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "registered-without-completion-credit"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
+      "sourceSha256": "db994414d23c87ae3681aed707fb0355a88c554021e5577a4192cf9a4d24ab9d",
+      "afterSha256": "db994414d23c87ae3681aed707fb0355a88c554021e5577a4192cf9a4d24ab9d",
+      "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-candidate-observations-20261018.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "mechanical corrective registration; no full semantic or independent acceptance",
+      "coreConclusion": "记录可信度返工的控制/证据输入；仅登记所执行的撤回、修复或命令捕获，内容语义与非作者验收仍待完成。",
+      "truthAnchors": ["docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md:1"],
+      "unresolved": ["Full semantic review and non-author acceptance have not been performed."],
+      "nextStep": "Use actual captured output and correction scope; leave rework until independent semantic review.",
+      "owner": "Codex",
+      "provenance": [
+        "corrective-maintenance",
+        "same-actor-self-check",
+        "source-revision-28fd9013e09e8792decbff2fa117aae14c36b196"
+      ],
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md",
+        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md"
+      ],
+      "legalInputs": [
+        "Current correction scope and explicit Git/command evidence; no reconstructed historical stdout."
+      ],
+      "businessOracle": {
+        "type": "mechanical-evidence-integrity",
+        "assertions": [
+          "No status upgrade from byte/shape checks",
+          "Raw command output remains append-only",
+          "Historical source and current correction remain distinct"
+        ]
+      },
+      "dedupe": {
+        "result": "new-corrective-control-not-new-semantic-acceptance",
+        "against": ["DOCS-FULL-TEMPLATE-1", "DOCS-CATALOG-SPLIT-1"]
+      },
+      "revision": {
+        "currentSha": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "corrective-registration-not-semantic-review"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "corrective-registration",
+        "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-candidate-observations-20261018.json"
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "registered-without-completion-credit"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
+      "sourceSha256": "b2fc15798b162281e4fb6d01f1476edd21c52fe047b4d620ed6bdffab7b88f15",
+      "afterSha256": "b2fc15798b162281e4fb6d01f1476edd21c52fe047b4d620ed6bdffab7b88f15",
       "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only"
     },
     {
@@ -813,6 +999,68 @@
       "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only"
     },
     {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-fd83a69c-01ee-4c5f-b773-a181419a4979.json",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "mechanical corrective registration; no full semantic or independent acceptance",
+      "coreConclusion": "记录可信度返工的控制/证据输入；仅登记所执行的撤回、修复或命令捕获，内容语义与非作者验收仍待完成。",
+      "truthAnchors": ["docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md:1"],
+      "unresolved": ["Full semantic review and non-author acceptance have not been performed."],
+      "nextStep": "Use actual captured output and correction scope; leave rework until independent semantic review.",
+      "owner": "Codex",
+      "provenance": [
+        "corrective-maintenance",
+        "same-actor-self-check",
+        "source-revision-28fd9013e09e8792decbff2fa117aae14c36b196"
+      ],
+      "publicCallers": [
+        "docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md",
+        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md"
+      ],
+      "legalInputs": [
+        "Current correction scope and explicit Git/command evidence; no reconstructed historical stdout."
+      ],
+      "businessOracle": {
+        "type": "mechanical-evidence-integrity",
+        "assertions": [
+          "No status upgrade from byte/shape checks",
+          "Raw command output remains append-only",
+          "Historical source and current correction remain distinct"
+        ]
+      },
+      "dedupe": {
+        "result": "new-corrective-control-not-new-semantic-acceptance",
+        "against": ["DOCS-FULL-TEMPLATE-1", "DOCS-CATALOG-SPLIT-1"]
+      },
+      "revision": {
+        "currentSha": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "corrective-registration-not-semantic-review"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "corrective-registration",
+        "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-fd83a69c-01ee-4c5f-b773-a181419a4979.json"
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "registered-without-completion-credit"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
+      "sourceSha256": "d1ff0092f4eade52f92bb2fa44088023ade2cd8358b7e6a43064138c8d494abd",
+      "afterSha256": "d1ff0092f4eade52f92bb2fa44088023ade2cd8358b7e6a43064138c8d494abd",
+      "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only"
+    },
+    {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun.json",
       "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
@@ -871,7 +1119,7 @@
       "supersedes": [],
       "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
       "sourceSha256": "3d93be9a4e7f382b23f244b571a3417a1574276fa87a7e20c6d7d223baae90ba",
-      "afterSha256": "8c7ddbc15923533a384a08a6ebe6f3f7f73f03911daad332ff80f13a6298abd0",
+      "afterSha256": "d8f2255d25b09e69f74928fbc681db8151c3fc4ca88a370111d1e39c1e6fb485",
       "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only"
     },
     {
@@ -933,7 +1181,7 @@
       "supersedes": [],
       "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
       "sourceSha256": "af84d2340f368b60efd099fceb387cfd57d50e5a8c285a03a091009799a64e35",
-      "afterSha256": "2e27422038096be26192078c3b62121dfec8ff222fc0af31b71afb89e60c51e7",
+      "afterSha256": "0288ae3b9423917c5a2a3c26332b3e545ea0ffe61eb6b8385ba95ac729dbee96",
       "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only"
     }
   ]

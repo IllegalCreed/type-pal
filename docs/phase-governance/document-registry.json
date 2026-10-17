@@ -24,9 +24,9 @@
     }
   ],
   "summary": {
-    "total": 2360,
+    "total": 2364,
     "byPhase": {
-      "ops": 1266,
+      "ops": 1270,
       "lore": 14,
       "phase1": 60,
       "phase2": 109,
@@ -37,10 +37,10 @@
     "byType": {
       "task-card": 364,
       "guide-runbook": 17,
-      "archive-record": 1489,
-      "audit-report": 59,
+      "archive-record": 1490,
+      "audit-report": 60,
       "governance-index": 107,
-      "evidence-receipt": 100,
+      "evidence-receipt": 102,
       "design-spec": 37,
       "quality-gate": 1,
       "test-machine-evidence": 49,
@@ -54,11 +54,11 @@
       "test-catalog": 4
     },
     "reviewStatus": {
-      "partial-review-unknown": 1912,
+      "partial-review-unknown": 1916,
       "content-reviewed": 448
     },
     "templateCompliance": {
-      "needs-migration": 1918,
+      "needs-migration": 1922,
       "template-compliant": 442
     }
   },
@@ -27348,6 +27348,52 @@
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-5924dca5-da86-45dc-a6a7-397e9a1759de.json",
+      "phase": "ops",
+      "docType": "archive-record",
+      "templateId": "archive-record-v1",
+      "templateVersion": "1.0.0",
+      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "needs-migration",
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "artifactOnly": true,
+      "artifactFormat": "json"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-byte-count-counters-20261018.json",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "needs-migration",
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "artifactOnly": true,
+      "artifactFormat": "json"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-candidate-adjudication-20261018.md",
+      "phase": "ops",
+      "docType": "audit-report",
+      "templateId": "audit-report-v1",
+      "templateVersion": "1.0.0",
+      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "needs-migration",
+      "reviewRecord": "20261018-record-integrity-rework.json"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/receipt-candidate-observations-20261018.json",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "reviewStatus": "partial-review-unknown",
+      "templateCompliance": "needs-migration",
+      "reviewRecord": "20261018-record-integrity-rework.json",
+      "artifactOnly": true,
+      "artifactFormat": "json"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-fd83a69c-01ee-4c5f-b773-a181419a4979.json",
       "phase": "ops",
       "docType": "archive-record",
       "templateId": "archive-record-v1",

@@ -34,7 +34,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 状态与交接
 - 当前 Owner：Codex。
-- 阻塞/决策：受影响绑定逐篇语义重审、非作者复核及15项receipt真实性候选待核；R94结构根仅索引，不授完成。
+- 阻塞/决策：受影响绑定逐篇语义重审和非作者纠错复核待完成；十五项已裁定，五个receipt执行/byte metadata scope隔离；R94结构根仅索引，不授完成。
 - 下一步与交接提示词：从 DOCS-RECORD-INTEGRITY-1 和 correction-scope 精确清单继续重审；禁止批量恢复reviewed，不能等待新任务而宣称完成。
 
 ## 前提真值门

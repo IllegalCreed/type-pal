@@ -407,7 +407,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "86271845d1365d95605f544f99f452f3fcff4a8fcf54f7b6f5e3088008182c24",
+      "afterSha256": "0687e2a96c458d400c73929e41b3c3e023133c75e0abf6a82d1a8f042ac0acb4",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -871,8 +871,8 @@
       "historyOverlay": false,
       "correctiveDelta": {
         "date": "2026-10-18",
-        "previousAfterSha256": "92408414764bc3e99d561b5b8f688bcdbce24559517d1cb05b8fa01baf90920b",
-        "afterSha256": "86271845d1365d95605f544f99f452f3fcff4a8fcf54f7b6f5e3088008182c24",
+        "previousAfterSha256": "86271845d1365d95605f544f99f452f3fcff4a8fcf54f7b6f5e3088008182c24",
+        "afterSha256": "0687e2a96c458d400c73929e41b3c3e023133c75e0abf6a82d1a8f042ac0acb4",
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"

@@ -9,7 +9,7 @@
       "startedAt": "2026-10-17T19:41:03.190Z",
       "inputSnapshot": "raw/a1622b45-a149-4288-9f17-7799d1236ed9.inputs.log",
       "inputSnapshotSha256ObservedAtClosure": "975516c7cc0d190fed282c6a881ea352a7c60e1e203da2e6396c542813ffdba9",
-      "role": "current-input-candidate-execution; not retrospective historical proof"
+      "role": "current-input-candidate execution, never retrospective historical proof"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-baac39b4-8b40-4c0f-88b3-f09acf03372c.json",
@@ -17,7 +17,7 @@
       "startedAt": "2026-10-17T19:43:49.608Z",
       "inputSnapshot": "raw/baac39b4-8b40-4c0f-88b3-f09acf03372c.inputs.log",
       "inputSnapshotSha256ObservedAtClosure": "3a35289bc2190b4185cc412d0dcbeaf80e5f1a3ac5d2c8a05ea28a70ae83b137",
-      "role": "current-input-candidate-execution; not retrospective historical proof"
+      "role": "current-input-candidate execution, never retrospective historical proof"
     },
     {
       "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-5924dca5-da86-45dc-a6a7-397e9a1759de.json",
@@ -25,22 +25,39 @@
       "startedAt": "2026-10-17T19:46:35.304Z",
       "inputSnapshot": "raw/5924dca5-da86-45dc-a6a7-397e9a1759de.inputs.log",
       "inputSnapshotSha256ObservedAtClosure": "dfe6e0d842d411853b77ecd5d6051e2f348aa1bf2b2f93236370f47a18ac5c68",
-      "role": "current-input-candidate-execution; not retrospective historical proof"
+      "role": "current-input-candidate execution, never retrospective historical proof"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-fd83a69c-01ee-4c5f-b773-a181419a4979.json",
+      "sha256": "d1ff0092f4eade52f92bb2fa44088023ade2cd8358b7e6a43064138c8d494abd",
+      "startedAt": "2026-10-17T20:10:45.666Z",
+      "inputSnapshot": "raw/fd83a69c-01ee-4c5f-b773-a181419a4979.inputs.log",
+      "inputSnapshotSha256ObservedAtClosure": "52058c1f76b79f471037df7f22c4afa231db23c4cdd821bc9594ce715eb9d327",
+      "role": "current-input-candidate execution, never retrospective historical proof"
     }
   ],
   "lossDisclosure": "Earlier uncommitted managed worktree disappeared during execution. Raw captures in that directory are unavailable and are not accepted as retained evidence. Recovered command construction from this chat was re-executed in this checkout; current receipts will identify the new execution.",
   "artifactOwnership": {
-    "scope": "Every file in raw/ is owned by this task and produced by capture-governance-rerun.mjs; streams, input snapshots and execution journals are execution artifacts, not prose candidates.",
+    "scope": "Every raw/ file is owned by this task. UUID streams/input snapshots/journals come from the execution capturer; retained-SHA.log files are exact old artifact copies, not new execution.",
     "owner": "Codex",
     "task": "DOCS-RECORD-INTEGRITY-1",
-    "producer": "scripts/docs/capture-governance-rerun.mjs",
     "callers": [
       "docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md",
       "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/README.md"
     ],
-    "timeAndVersion": "Per execution/session startedAt/finishedAt, sourceHead and captured input hashes; applies only to those inputs.",
+    "timeAndVersion": "Each UUID execution has its own time/sourceHead/input hashes. Retained artifacts use fixed Git receipt source and observedAt/mtime caveat; no new command execution is inferred.",
     "retention": "Git-tracked raw bytes are immutable; re-execution creates a new UUID, never overwrites.",
-    "exitCondition": "No automatic deletion during rework; any retirement requires an explicit reviewed replacement and provenance mapping."
+    "exitCondition": "No automatic deletion during rework; any retirement requires an explicit reviewed replacement and provenance mapping.",
+    "producers": [
+      {
+        "path": "scripts/docs/capture-governance-rerun.mjs",
+        "scope": "UUID command streams, journals and input hash manifests"
+      },
+      {
+        "path": "scripts/docs/inspect-receipt-candidates.py",
+        "scope": "retained-SHA.log copies only; declared original paths/SHA/observed mtime in receipt-candidate-observations-20261018.json"
+      }
+    ]
   },
-  "latestRetainedSession": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-5924dca5-da86-45dc-a6a7-397e9a1759de.json"
+  "latestRetainedSession": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/rerun-fd83a69c-01ee-4c5f-b773-a181419a4979.json"
 }
