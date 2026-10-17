@@ -598,3 +598,9 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 ### 2026-10-18 CODE72 真实fetch合同与失败态counter
 
 149行实现、两测试、main/UI/并行资源caller完整相关核验。20例数量不变，排弱重复、加Request/init/Response透传、reject身份、分母与清理；三枚旧20绿→新19绿1AssertionError，正式20绿、相邻54绿/typecheck通过。另以真实模块组合证失败文本被迟到进度覆写，生产未改，开[高风险卡](QUALITY-BOOT-FAILURE-PROGRESS-1.md)冻结源；UI旧关闭撤回rework，main/boot review。原件[72](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md)，3312/288closed/47review/2977pending，49partial/34pending/0accept；新统一门未跑，下一批73。
+
+### 2026-10-18 CODE72批准修复与47–52回执勘误
+
+用户批准后完成失败终态、入口清理及本轮fetch ownership；4条旧指定单红→新相邻58绿，原组合反例重放1绿，game typecheck通过。真实PROD旧错误被覆盖→新保持、fetch已释放，正常按钮进场与三张实际截图完成。boot-loading.ts新增闭合，main/UI与UI主测试仍review；3312/289closed/47review/2976pending，83卡49partial/34pending/0accept不变。证据见[72批准修复](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md)。
+
+另核f544b9b94只附28行README，会话执行记录存在持久化截断，无法认证当轮act/环境诊断计数；已撤回47–52统一门通过/收口及18份后续沿用声明，保留原文、4份执行片段、未知计数和旧C10实测范围。见[回执审计](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/receipt-audit/audit.json)。本次没有重跑全仓/coverage/protected或调整baseline；下一步同片UI测试合同/隔离，再续73及剩余pre-94，94–102/editor优先级不提前。

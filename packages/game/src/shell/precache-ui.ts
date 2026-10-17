@@ -108,7 +108,7 @@ export function createUnifiedProgressUi(opts?: { playableFraction?: number }): U
   if (mark) mark.style.left = `${Math.round(playableFraction * 100)}%`
 
   let shownPct = 0 // 单调不回退,贯穿两段
-  let phase: 'necessary' | 'full' | 'entered' = 'necessary'
+  let phase: 'necessary' | 'full' | 'entered' | 'failed' = 'necessary'
   let doneReceived = false
   let lastBytes = 0
   let lastTotal = 0
@@ -143,6 +143,7 @@ export function createUnifiedProgressUi(opts?: { playableFraction?: number }): U
       btn.addEventListener('click', () => onEnter(), { once: true })
     },
     setFullProgress(cachedBytes, totalBytes) {
+      if (phase === 'failed') return
       const progress = normalizeByteProgress(cachedBytes, totalBytes)
       if (!progress) return
       lastBytes = progress.bytes
@@ -177,6 +178,7 @@ export function createUnifiedProgressUi(opts?: { playableFraction?: number }): U
     },
     fail(msg) {
       if (phase === 'entered') return // 已进游戏 → 覆盖层已移除,错误另由 canvas 显示
+      phase = 'failed' // 迟到的必要资源/SW 进度不能覆盖失败提示
       const root = byId('boot-loading')
       if (!root) return
       root.classList.add('boot-loading-error')

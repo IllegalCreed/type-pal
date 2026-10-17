@@ -65,7 +65,7 @@ Template: governance-index-v1 / 1.0.0
 | [GAME-OUTSIDE-MAGIC-DISABLED-1 — 大世界已学法术的显示与禁用](GAME-OUTSIDE-MAGIC-DISABLED-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [GAME-SAVE-IDB-COMMIT-1 — 第一阶段存档事务提交与失败传播](GAME-SAVE-IDB-COMMIT-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-SAVE-INPUT-DOMAIN-1 — Save 槽位输入域与双路径一致性](GAME-SAVE-INPUT-DOMAIN-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
-| [QUALITY-BOOT-FAILURE-PROGRESS-1 — 启动失败后的进度所有权](QUALITY-BOOT-FAILURE-PROGRESS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-BOOT-FAILURE-PROGRESS-1 — 启动失败后的进度所有权](QUALITY-BOOT-FAILURE-PROGRESS-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-1 — editor 测试异步生命周期诊断清理](QUALITY-EDITOR-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-2 — C02 宿主与删除生命周期](QUALITY-EDITOR-DIAGNOSTICS-2.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-EDITOR-DIAGNOSTICS-3 — C02 导入、迟到操作者与历史回流](QUALITY-EDITOR-DIAGNOSTICS-3.md) | review | 以任务卡当前准入与看板分工为准。 |

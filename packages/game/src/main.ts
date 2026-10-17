@@ -65,6 +65,7 @@ if (typeof document !== 'undefined') {
       }).catch((err: unknown) => {
         const msg = err instanceof Error ? err.message : String(err)
         console.error('bootstrap failed:', err)
+        restoreBootFetch() // 失败后停止本轮计数/回调,在途请求仍交给原网络层完成
         ui.fail(msg) // 覆盖层在(未进入)则改显错误;已进入则只 canvas 显示
         showError(canvas, msg)
       })

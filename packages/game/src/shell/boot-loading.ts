@@ -30,6 +30,7 @@
 const EXPECTED_BOOT_REQUESTS = 810
 
 let _origFetch: typeof globalThis.fetch | null = null
+let _wrappedFetch: typeof globalThis.fetch | null = null
 let _started = 0
 let _done = 0
 let _expected = EXPECTED_BOOT_REQUESTS
@@ -87,9 +88,12 @@ function scheduleRender(): void {
 
 function restoreFetch(): void {
   if (_origFetch) {
-    globalThis.fetch = _origFetch
+    // 只撤下自己仍占有的全局槽,不覆盖后来安装的网络层。
+    if (globalThis.fetch === _wrappedFetch) globalThis.fetch = _origFetch
     _origFetch = null
+    _wrappedFetch = null
   }
+  _onProgress = null
 }
 
 /**
@@ -98,7 +102,6 @@ function restoreFetch(): void {
  */
 export function restoreBootFetch(): void {
   restoreFetch()
-  _onProgress = null
 }
 
 export function initBootLoading(
@@ -115,16 +118,23 @@ export function initBootLoading(
   _onProgress = onProgress ?? null
   const orig = globalThis.fetch.bind(globalThis)
   _origFetch = orig
-  globalThis.fetch = (async (...args: Parameters<typeof fetch>) => {
-    _started++
-    scheduleRender()
+  const wrapped: typeof fetch = async (...args) => {
+    // 被后装网络层保留的旧包装与迟到响应都不得污染新一轮计数。
+    if (_origFetch === orig) {
+      _started++
+      scheduleRender()
+    }
     try {
       return await orig(...args)
     } finally {
-      _done++
-      scheduleRender()
+      if (_origFetch === orig) {
+        _done++
+        scheduleRender()
+      }
     }
-  }) as typeof fetch
+  }
+  _wrappedFetch = wrapped
+  globalThis.fetch = wrapped
 }
 
 export function finishBootLoading(): void {

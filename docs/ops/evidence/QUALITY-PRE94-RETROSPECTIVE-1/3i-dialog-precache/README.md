@@ -24,3 +24,7 @@ primary source 为 `reference/sdlpal/main.c:197-203` 的 DOS 商标顺序，资�
 ## 2026-10-18 当前counter
 
 原NaN窄修与当轮测试保持；当前[72反例](../72-boot-loading/README.md)证真实boot/UI组合的失败文案被迟到进度覆盖，precache-ui整文件旧已验证精确撤回rework。生产未修，按[高风险卡](../../../tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md)继续；本页旧“阶段/失败生命周期保持”不得扩张成当前失败终态accept。
+
+## 2026-10-18 用户批准后的窄修
+
+[批准修复证据](../72-boot-loading/approved-fix/README.md)替代上述“未修/冻结”的当前状态：三个生产文件按批准修复失败进度与计数ownership，四条先红后绿、相邻58绿/原红精确重放1绿、game typecheck及实际PROD失败/正常进场与看图完成。boot-loading.ts新增闭合，main/UI仍review，UI主测试新增review；289closed/47review/2976pending。旧counter和原NaN/测试历史原件保留，不把整卡升格accept。全仓check/ratchet/protected未运行，47–52旧门信用已撤回；下一步同片UI测试合同/隔离，再续73。

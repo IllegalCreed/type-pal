@@ -34,3 +34,7 @@ Codex单一Owner，build allowed仅两测试与治理证据；完整读取149行
 任务卡：docs/ops/archive/tasks/done/CODE-QUALITY-72-game-boot-loading-lifecycle.md
 当前状态：done，已归档；当前结论 accept/done，无实现改动
 ```
+
+## 2026-10-18 用户批准后的窄修
+
+[批准修复证据](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md)替代上述“未修/冻结”的当前状态：三个生产文件按批准修复失败进度与计数ownership，四条先红后绿、相邻58绿/原红精确重放1绿、game typecheck及实际PROD失败/正常进场与看图完成。boot-loading.ts新增闭合，main/UI仍review，UI主测试新增review；289closed/47review/2976pending。旧counter和原NaN/测试历史原件保留，不把整卡升格accept。全仓check/ratchet/protected未运行，47–52旧门信用已撤回；下一步同片UI测试合同/隔离，再续73。

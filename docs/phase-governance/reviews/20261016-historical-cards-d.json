@@ -2108,11 +2108,20 @@
       "sourceGitRevision": "bb90428668808368e816bd8e2ddeb5da57e4b166",
       "sourceGitObject": "b7dbc731f4063e28e68bcd6d981d3c7a26be66c1",
       "candidateSha256": "5a63ab71e7d5d46bd6ec52270389ab779a60801714c82b04e3ab8891b9beb54c",
-      "afterSha256": "83fbd07f262bd173bbcac4cb7ed8551c77730ef20ef5676949755c85ba46e404",
+      "afterSha256": "bdadf3cbedcc61784039ba872cde60bdab1331aa47b938e10c781de7c0028f37",
       "revision": {
         "currentSha": "bb90428668808368e816bd8e2ddeb5da57e4b166",
-        "implementationSha": "83fbd07f262bd173bbcac4cb7ed8551c77730ef20ef5676949755c85ba46e404",
+        "implementationSha": "bdadf3cbedcc61784039ba872cde60bdab1331aa47b938e10c781de7c0028f37",
         "history": [
+          {
+            "revision": "7fc92e98cb38ba790859948c343aa1a17b94c4e3",
+            "date": "2026-10-18",
+            "action": "Record user-approved boot failure progress fix and narrow current evidence",
+            "previousAfterSha256": "83fbd07f262bd173bbcac4cb7ed8551c77730ef20ef5676949755c85ba46e404",
+            "scope": "Only new boot-failure correction/current ledger and board/index delta: real module regressions and actual production failure/normal-entry observations. Earlier historical quotes/native records and other card verdicts retained. Unified gate remains unaccepted.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md",
+            "notRun": ["new whole-repository check", "official coverage ratchet", "protected fast"]
+          },
           {
             "revision": "0587d8714",
             "date": "2026-10-18",
@@ -2141,7 +2150,7 @@
         "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
         "sourceSha256": "c04b75d6bfc46d99cfccb9997b7dc6f35698b2cfff8bbf58785b4128f49d1982",
         "candidateSha256": "5a63ab71e7d5d46bd6ec52270389ab779a60801714c82b04e3ab8891b9beb54c",
-        "afterSha256": "83fbd07f262bd173bbcac4cb7ed8551c77730ef20ef5676949755c85ba46e404",
+        "afterSha256": "bdadf3cbedcc61784039ba872cde60bdab1331aa47b938e10c781de7c0028f37",
         "lineCount": 162,
         "exactOriginalBytes": 5788,
         "originalPreservation": {
@@ -2180,7 +2189,7 @@
         "after": "historical。DOM功能状态、typed合同与原NaN修复不等于新浏览器视觉、商标演出或E2E通过；不把修正skipKeys注释写成行为改变。原已验证只按当时范围，guard候选不得扩张。",
         "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
       },
-      "reviewedLines": "1-166",
+      "reviewedLines": "1-170",
       "phase": "ops",
       "module": "historical-quality-contracts",
       "templateConformity": {
@@ -3226,11 +3235,20 @@
       "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "6c5c74c087dc105768e599752d09f958c89c969b6e39426ca29a98445b4a4aaf",
+      "afterSha256": "7f81881ae19bcfe07b353aab1cf4e0c5e3456ad2820e653dba01cf085de2b61e",
       "revision": {
         "currentSha": "addcb44c52fd00ab0fd3397e61ae316bf98d02e2aeef1d5533ed23a2c1e5845a",
-        "implementationSha": "6c5c74c087dc105768e599752d09f958c89c969b6e39426ca29a98445b4a4aaf",
+        "implementationSha": "7f81881ae19bcfe07b353aab1cf4e0c5e3456ad2820e653dba01cf085de2b61e",
         "history": [
+          {
+            "revision": "7fc92e98cb38ba790859948c343aa1a17b94c4e3",
+            "date": "2026-10-18",
+            "action": "Record user-approved boot failure progress fix and narrow current evidence",
+            "previousAfterSha256": "6c5c74c087dc105768e599752d09f958c89c969b6e39426ca29a98445b4a4aaf",
+            "scope": "Only new boot-failure correction/current ledger and board/index delta: real module regressions and actual production failure/normal-entry observations. Earlier historical quotes/native records and other card verdicts retained. Unified gate remains unaccepted.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md",
+            "notRun": ["new whole-repository check", "official coverage ratchet", "protected fast"]
+          },
           {
             "revision": "0587d8714",
             "date": "2026-10-18",
@@ -3407,7 +3425,7 @@
         "kind": "A8-six-pending-inventory-real-producer-maintenance",
         "path": "docs/ops/audits/code-quality-file-ledger.md",
         "sourceSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
-        "afterSha256": "6c5c74c087dc105768e599752d09f958c89c969b6e39426ca29a98445b4a4aaf",
+        "afterSha256": "7f81881ae19bcfe07b353aab1cf4e0c5e3456ad2820e653dba01cf085de2b61e",
         "lineCount": 592,
         "sourceScope": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "completePrior": {
@@ -3630,7 +3648,7 @@
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "1-716",
+      "reviewedLines": "1-717",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {

@@ -136,6 +136,51 @@ describe('boot-loading(启动加载覆盖层)', () => {
     expect(globalThis.fetch).toBe(once)
   })
 
+  it('释放计数时保留后来安装的 fetch 层及其请求透传', async () => {
+    mountOverlay()
+    const onProgress = vi.fn<(fraction: number) => void>()
+    initBootLoading(2, onProgress)
+    const bootFetch = globalThis.fetch
+    const laterFetch: typeof fetch = (...args) => bootFetch(...args)
+    vi.stubGlobal('fetch', laterFetch)
+
+    restoreBootFetch()
+
+    expect(globalThis.fetch).toBe(laterFetch)
+    await fetch('/unrelated')
+    await flushRender()
+    expect(transport).toHaveBeenCalledExactlyOnceWith('/unrelated')
+    expect(onProgress).not.toHaveBeenCalled()
+  })
+
+  it('释放后在途请求照常完成，不计入随后新建的启动轮次', async () => {
+    mountOverlay()
+    let resolveResponse!: (response: Response) => void
+    transport.mockImplementationOnce(
+      () => new Promise<Response>((resolve) => (resolveResponse = resolve)),
+    )
+    initBootLoading(2)
+    const inFlight = fetch('/old-round')
+    const response = new Response('late asset')
+    try {
+      await flushRender()
+      restoreBootFetch()
+      const fractions: number[] = []
+      initBootLoading(2, (fraction) => fractions.push(fraction))
+      await fetch('/new-round')
+      await flushRender()
+      expect(fractions).toEqual([0.5])
+
+      resolveResponse(response)
+      expect(await inFlight).toBe(response)
+      await flushRender()
+      expect(fractions).toEqual([0.5])
+    } finally {
+      resolveResponse(response)
+      await inFlight
+    }
+  })
+
   it('未 init(PROD 走 SW 统一进度)时 render 不抢写 #boot-loading-status/fill', async () => {
     mountOverlay()
     const status = document.getElementById('boot-loading-status')!

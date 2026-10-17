@@ -49,6 +49,27 @@ describe('createUnifiedProgressUi', () => {
     expect(fill.style.width).toBe('6%')
   })
 
+  it.each(['necessary', 'full'])('%s 阶段失败后迟到进度保留错误文本和条宽', (phase) => {
+    mountBootLoading()
+    const ui = createUnifiedProgressUi()
+    if (phase === 'full') ui.markPlayable(() => {})
+    else ui.setNecessaryProgress(0.5)
+    const fill = document.getElementById('boot-loading-fill')!
+    const widthAtFailure = fill.style.width
+    ui.fail('主资源加载失败')
+
+    ui.setNecessaryProgress(1)
+    ui.setFullProgress(10 * 1024 * 1024, 20 * 1024 * 1024)
+
+    expect(document.getElementById('boot-loading-status')!.textContent).toBe(
+      '启动失败:主资源加载失败',
+    )
+    expect(fill.style.width).toBe(widthAtFailure)
+    expect(document.getElementById('boot-loading')!.classList.contains('boot-loading-error')).toBe(
+      true,
+    )
+  })
+
   it('markPlayable:进度到虚线(12%)+ 显示按钮,click 同步触发 onEnter', () => {
     mountBootLoading()
     const ui = createUnifiedProgressUi()

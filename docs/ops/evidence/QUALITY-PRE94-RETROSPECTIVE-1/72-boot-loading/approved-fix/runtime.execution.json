@@ -1,0 +1,11 @@
+{
+  "command": ["node", "/tmp/boot-runtime-probe.mjs"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "specSha256": "3bb0952e5d8f536662a61766af0df78d967ea6385345ebf95f57685393731c81",
+  "rawSha256": "fbea4f01af6f10a0424fb63fec8402786081c5375206b177b086edf5b99ee2c0",
+  "scope": "Exact executed probe source/raw; scripts contain pre-move screenshot paths. runtime metadata correction is explicit, not a rerun.",
+  "browser": "installed Chrome 155.0.8059.85; bundled Playwright browser absent"
+}

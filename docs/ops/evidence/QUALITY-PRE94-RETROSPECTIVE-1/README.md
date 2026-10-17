@@ -194,3 +194,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 最新[70音量两测试](70-audio-volume/README.md)：精确sink/state/storage、排重/拆职责、修正共享键注释，keyMute旧6绿新单红；相邻36绿/typecheck通过。287closed/44review/2981pending，48partial/35pending/0accept，新统一门未跑；下一批72。
 
 最新[72启动加载](72-boot-loading/README.md)：20例精简/透传/拒绝/分母与隔离，三旧绿新单红，相邻54绿/typecheck通过。真实错误文案被迟到进度覆盖已另卡，UI旧关闭撤回rework，生产未动；288closed/47review/2977pending，49partial/34pending/0accept，无新统一门；下一批73。
+
+最新[72批准窄修](72-boot-loading/approved-fix/README.md)：失败进度终态/入口释放/本轮ownership已修，四旧单红新绿、相邻58绿/原红重放1绿、game typecheck和真实PROD失败/正常进场看图通过。boot源+1closed，UI主测试新增review，其余main/UI保留review，3312/289closed/47review/2976pending；49partial/34pending/0accept不变。47–52统一门信用已撤回，新全仓/coverage/protected未跑。下一步先同片UI测试合同/隔离，再续73。

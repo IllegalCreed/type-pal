@@ -1,0 +1,53 @@
+[
+  {
+    "name": "adjacent",
+    "command": [
+      "pnpm",
+      "--filter",
+      "@type-pal/game",
+      "exec",
+      "vitest",
+      "run",
+      "src/shell/boot-loading.test.ts",
+      "src/shell/boot-loading-host.grok-r1.test.ts",
+      "src/shell/precache-ui.test.ts",
+      "src/shell/precache-ui-host.grok-r1.test.ts",
+      "src/shell/bootstrap-load.test.ts",
+      "src/shell/bootstrap-resources.test.ts",
+      "--maxWorkers=1",
+      "--silent=false",
+      "--reporter=default",
+      "--reporter=json",
+      "--outputFile.json=/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/adjacent.runner.json"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "80cbab1523595b1849a94489069d73f183daf5231fec0d22064bfea7472e89aa",
+    "numTotalTests": 58,
+    "numPassedTests": 58,
+    "numFailedTests": 0,
+    "numPendingTests": 0,
+    "files": 6,
+    "diagnostics": {
+      "stderrBlocks": 0,
+      "unhandled": 0,
+      "warningLines": 0
+    }
+  },
+  {
+    "name": "typecheck",
+    "command": ["pnpm", "--filter", "@type-pal/game", "typecheck"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80",
+    "diagnostics": {
+      "stderrBlocks": 0,
+      "unhandled": 0,
+      "warningLines": 0
+    }
+  }
+]

@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,312。
-当前已闭合核验：288；已读但待审：47；尚未逐文件核验：2,977；合计未闭合：3,024。
+当前已闭合核验：289；已读但待审：47；尚未逐文件核验：2,976；合计未闭合：3,023。
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
@@ -153,11 +153,12 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/shell/fetch-retry.cancellation.test.ts` | test | review | [C1取消生命周期反控](../evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md)；真实Request/AbortController、typed transport、原生构造错误与listener/timer oracle | 新增7例覆盖已取消Request、退避取消、显式signal/null覆盖；最新main同步后待复跑 |
 | `packages/game/src/assets/dialog-assets.ts` | product | 已验证 | CODE-QUALITY-3i；portrait/icon manifest callers、PNG/RLE adapters、dialog-assets/host tests 与 game typecheck | 资产缺失按现行空 map 降级；不伪造 manifest 帧，不改资源格式 |
 | `packages/game/src/shell/precache-client.ts` | product | 已验证 | CODE-QUALITY-3i；main/bootstrap SW caller、ready/start/pause/resume/unavailable tests | onPlayable 前不启动 precache，ready race 仅缓冲 start；现行 SW 协议保留 |
-| `packages/game/src/shell/precache-ui.ts` | product | rework | [CODE72启动错误态counter](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md)；187行全文、main/loader真实caller与boot/UI组合1指定AssertionError | fail后迟到进度覆盖错误文本，旧整文件关闭撤回；原NaN窄修保留；高风险专卡、未改生产 |
-| `packages/game/src/main.ts` | product | review | [CODE72真实启动caller](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md)；83行全文、PROD/fallback、resourcesReady/onPlayable边界 | PROD catch只ui.fail而回调仍活跃，组合反例已证；高风险卡冻结，非完整main浏览器验收 |
-| `packages/game/src/shell/boot-loading.ts` | product | review | [CODE72实现/所有权](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md)；149行全文、真实main/bootstrap/UI/HTML caller | 计数/finally/单调/回调/还原已核；错误态组合风险另卡，头注释仍待纠正，未闭合生产文件 |
-| `packages/game/src/shell/boot-loading.test.ts` | test | 已验证 | [CODE72测试合同](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md)；164行全文、合法typed IO/真实DOM、20例排重 | Request/init/Response、错误身份、分母、缺节点/定时与隔离；三枚旧绿新单红、相邻54绿/typecheck；无新统一门 |
+| `packages/game/src/shell/precache-ui.ts` | product | review | [CODE72批准窄修](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md)；全文及真实main/boot caller，necessary/full旧单红新绿、PROD故障实证 | 失败进度终态已修；原NaN窄修保留；整文件按钮/无DOM/widget全生命周期当前验收仍待，不自动恢复旧关闭 |
+| `packages/game/src/main.ts` | product | review | [CODE72真实入口修复](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md)；全文、实际PROD404/迟到200与正常按钮/进场 | catch释放计数已实证；其它analytics/noSW/正常intro入口合同仍待，未把短路径升格全main关闭 |
+| `packages/game/src/shell/boot-loading.ts` | product | 已验证 | [CODE72实现/ownership](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md)；全文/真实caller，22直接合同与相邻58绿，真实PROD释放实证 | 810/单调/无overlay注释纠正；只释放自己包装/回调，旧响应不污染新轮次；2旧单红新绿/原红重放1绿/typecheck；无统一门信用 |
+| `packages/game/src/shell/boot-loading.test.ts` | test | 已验证 | [CODE72测试与补强](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md)；全文/合法typed IO/真实DOM，保留9合同并加2独立ownership时序 | 原三枚反控原件保留；后装fetch身份/旧Response跨轮两旧单红新绿，finally settle/drain，22直接/58相邻绿，未扩大整卡验收 |
 | `packages/game/src/shell/boot-loading-host.grok-r1.test.ts` | test | 已验证 | [CODE72测试合同](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md)；235行全文、合法typed IO/真实DOM、20例排重 | Request/init/Response、错误身份、分母、缺节点/定时与隔离；三枚旧绿新单红、相邻54绿/typecheck；无新统一门 |
+| `packages/game/src/shell/precache-ui.test.ts` | test | review | [CODE72失败进度反例](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md)；全文/公开typed UI，necessary/full各指定单红→新绿 | 新两例有直接判别力；既有复合用例、真实timer清理及与host排重继续待核，不因58绿闭合 |
 | `packages/game/src/shell/audio-volume.ts` | product | 已验证 | CODE-QUALITY-3i；bootstrap 三通道 caller、storage/key tests、NaN negative control | 修复 NaN 音量进入 sink/localStorage；有限/0..1 合法行为不变 |
 | `packages/game/src/shell/trademark-fallback.ts` | product | 已验证 | CODE-QUALITY-3i；reference/sdlpal main.c:197-203、rng-player caller、trademark/splash framebuffer/timing tests | 只纠正过时 skipKeys 注释；DOS chunk 6/1000ms/600ms 行为未改 |
 | `packages/game/src/shell/audio-volume.test.ts` | test | 已验证 | [CODE70音量测试](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/70-audio-volume/README.md)；49行全文、真实bootstrap/tools-panel caller、sink/state/storage oracle | clamp各输出/持久值、静音中改目标归main、取消恢复与启动回读；前后清理；相邻36绿/typecheck通过，无新统一门 |

@@ -1,0 +1,88 @@
+{
+  "base": "308f517e6e4bbcb637659bc45b28240ec25238d1",
+  "pureCommentCommit": "cee6cee69",
+  "scope": "phase1 approved boot-failure-only behavior change; no schema/assets/save/interface/gate/network cancellation change",
+  "files": [
+    {
+      "path": "packages/game/src/main.ts",
+      "sha256": "2c2632eb6015f250cf31157769a569aa419dec8e7060f3e17cd0e096498b9c91",
+      "lines": 84,
+      "scope": "full file: PROD/fallback, analytics isolation, fetch install, gate/onPlayable/failure; this fix validated, broader entry remains review"
+    },
+    {
+      "path": "packages/game/src/shell/boot-loading.ts",
+      "sha256": "8cb9c100c9650736b86d8b07294926669037b73b1d15ec89dc78b73ec001d973",
+      "lines": 159,
+      "scope": "full implementation: expected/max denominator, callback/fallback, coalescing, notes, owned fetch cleanup, old wrapper/late-result generation, finish/fail DOM lifecycle"
+    },
+    {
+      "path": "packages/game/src/shell/precache-ui.ts",
+      "sha256": "1b6fc5d603b8f5e52f98c1ae82ee6eab378f1d8c8be47347000b898ea4754a2c",
+      "lines": 189,
+      "scope": "full implementation: normalize, widget and phase lifecycle; approved failure-progress defect closed, whole-file review retained"
+    },
+    {
+      "path": "packages/game/src/shell/boot-loading.test.ts",
+      "sha256": "ea42585dca3ed74721e7c2e8c09a3812dbe935882efd8a88e3437a0d07379a0a",
+      "lines": 209,
+      "scope": "full test file: original9 plus2 ownership/generation oracles, legal typed transport, finally settle/drain; retains verified status"
+    },
+    {
+      "path": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+      "sha256": "b9a8943cbdff28b47187317230a46145fa73f4408149c08d973caeb1180d2650",
+      "lines": 235,
+      "scope": "full unchanged 11 host contracts, timer/RAF/fetch restoration, exact rejection identity; regression only, no new closure"
+    },
+    {
+      "path": "packages/game/src/shell/precache-ui.test.ts",
+      "sha256": "79d7178e5321821ff9da1e282b2989b3e57f6c96211e8c513728d7e23019f29f",
+      "lines": 137,
+      "scope": "full original7 plus2 stage-failure cases; original composite widget/lifecycle test dedupe/isolation review still open"
+    },
+    {
+      "path": "packages/game/src/shell/precache-ui-host.grok-r1.test.ts",
+      "sha256": "6a2823884d75b451b62ca0f5738622e742e91bfcc9269f9e29ed4fdd10c42675",
+      "lines": 293,
+      "scope": "full unchanged host cases: byte validation, button/missing-node, entered fail and widget lifecycle; no new file closure"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.ts",
+      "sha256": "7298c33038868dd9f514b04940f5f9f8dbcf29a5592201a6e83509d4b04ed6aa",
+      "lines": 67,
+      "scope": "full resource barriers and typed default ports"
+    },
+    {
+      "path": "packages/game/src/shell/precache-client.ts",
+      "sha256": "aec9894d9c6422d0f6d1f7dbf97c757e6b805c518203a87726cb56e56648d7c2",
+      "lines": 90,
+      "scope": "full real onProgress/onDone/ready/start/unavailable message caller; no new closure"
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.ts",
+      "sha256": "6a583e9a53cf4a3b2a80993c7ef792877dfc4c60a3628fbde94ca58f967fefdc",
+      "lines": 97,
+      "scope": "full real install order and forwarding/cancellation owner; no new closure"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "ranges": [[225, 264], [1860, 1897], [1926, 1948]],
+      "scope": "actual start, onPlayable, enterGate, finish caller; partial file only"
+    },
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "ranges": [[35, 41], [135, 190]],
+      "scope": "real fetchJson error and parallel resource caller; partial file only"
+    },
+    {
+      "path": "packages/game/index.html",
+      "ranges": [[108, 122]],
+      "scope": "real overlay skeleton"
+    },
+    {
+      "path": "docs/phase1/engineering-notes.md",
+      "ranges": [[214, 224]],
+      "scope": "project-owned two-stage progress primary; no same SDLPal UI"
+    }
+  ],
+  "testCandidateNote": "58-regression and runtime build preceded the comment-only cee6cee69 text correction; executable source/tests are unchanged since those runs."
+}

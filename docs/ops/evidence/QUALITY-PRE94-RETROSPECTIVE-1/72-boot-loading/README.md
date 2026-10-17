@@ -29,3 +29,7 @@
 账本3312 tracked / 288 closed / 47 review / 2977 pending：两测试首次有直接证据+2closed，UI旧关闭撤回1，main/boot待审；83卡49partial/34pending/0accept。没有把54相邻例所涉其它文件关闭。下一批73 input四文件；本风险由专卡继续，94–102/editor优先顺序保持。
 
 静态首轮：125文档工具测试和docs/model/testing/phase均通过；content-review因新增3i勘误的after SHA遗漏而失败。已保留失败raw，全文旧卡/四行新勘误核读后只更新该条记录和既有引用链；不以宽泛hash刷新冒充新验收。最终文档/lint复验见static-gates中的后续回执。
+
+## 2026-10-18 用户批准后的窄修
+
+[批准修复证据](approved-fix/README.md)替代上述“未修/冻结”的当前状态：三个生产文件按批准修复失败进度与计数ownership，四条先红后绿、相邻58绿/原红精确重放1绿、game typecheck及实际PROD失败/正常进场与看图完成。boot-loading.ts新增闭合，main/UI仍review，UI主测试新增review；289closed/47review/2976pending。旧counter和原NaN/测试历史原件保留，不把整卡升格accept。全仓check/ratchet/protected未运行，47–52旧门信用已撤回；下一步同片UI测试合同/隔离，再续73。

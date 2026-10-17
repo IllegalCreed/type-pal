@@ -164,3 +164,7 @@ historical。DOM功能状态、typed合同与原NaN修复不等于新浏览器�
 > 不要做：不得修改 sw.ts、audio backend、剧情 E2E、生成资源、schema/save/migration 或 coverage runner。
 > 输出要求：每个文件给 verified/review/blocked 结论；运行定向、game typecheck、pnpm check、support-mode ratchet、protected fast、lint；更新账本和卡，提交推送后才能标记 done。
 > ```
+
+## 2026-10-18 用户批准后的窄修
+
+[批准修复证据](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md)替代上述“未修/冻结”的当前状态：三个生产文件按批准修复失败进度与计数ownership，四条先红后绿、相邻58绿/原红精确重放1绿、game typecheck及实际PROD失败/正常进场与看图完成。boot-loading.ts新增闭合，main/UI仍review，UI主测试新增review；289closed/47review/2976pending。旧counter和原NaN/测试历史原件保留，不把整卡升格accept。全仓check/ratchet/protected未运行，47–52旧门信用已撤回；下一步同片UI测试合同/隔离，再续73。

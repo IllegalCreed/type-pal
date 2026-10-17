@@ -1,6 +1,6 @@
 # 94前全部83卡复审队列
 
-2026-10-18，结构基点bea19f80c；当前检查点0587d8714及本批72。77历史done/1build/4review/1draft。本轮accept=0，partial=49，pending=34。pending表示本轮语义复审未完成；partial只表示有限证据，不能作整卡验收。当前计数由all-cards.json逐行核对，旧卡done和旧全仓门不自动继承。
+2026-10-18，结构基点bea19f80c；当前检查点7fc92e98及本批72批准窄修；47–52统一门信用撤回。77历史done/1build/4review/1draft。本轮accept=0，partial=49，pending=34。pending表示本轮语义复审未完成；partial只表示有限证据，不能作整卡验收。当前计数由all-cards.json逐行核对，旧卡done和旧全仓门不自动继承。
 
 | 卡 | 原卡状态 | 当前复审 | 范围/证据 |
 |---|---|---|---|

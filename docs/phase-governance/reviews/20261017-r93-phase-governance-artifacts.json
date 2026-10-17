@@ -1025,7 +1025,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "24499c4421bcc7d86fabb0d83654c9e071164ffc993a6d7dba5aec91c38f564d",
+      "afterSha256": "8b0b9b4e903a3420d81118fa3a9e9d62ef5576c89532af9385faa51d87d14d06",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1049,8 +1049,17 @@
       },
       "revision": {
         "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "implementationSha": "24499c4421bcc7d86fabb0d83654c9e071164ffc993a6d7dba5aec91c38f564d",
+        "implementationSha": "8b0b9b4e903a3420d81118fa3a9e9d62ef5576c89532af9385faa51d87d14d06",
         "history": [
+          {
+            "revision": "7fc92e98cb38ba790859948c343aa1a17b94c4e3",
+            "date": "2026-10-18",
+            "action": "Record user-approved boot failure progress fix and narrow current evidence",
+            "previousAfterSha256": "24499c4421bcc7d86fabb0d83654c9e071164ffc993a6d7dba5aec91c38f564d",
+            "scope": "Only the named reviewed record delta and SHA link; no new global semantic, runtime or coverage acceptance. Only new boot-failure correction/current ledger and board/index delta: real module regressions and actual production failure/normal-entry observations. Earlier historical quotes/native records and other card verdicts retained. Unified gate remains unaccepted.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md",
+            "notRun": ["new whole-repository check", "official coverage ratchet", "protected fast"]
+          },
           {
             "revision": "cee6cee6945ffac3bbf2196af449dee6dd724339",
             "date": "2026-10-18",
@@ -1157,7 +1166,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "24499c4421bcc7d86fabb0d83654c9e071164ffc993a6d7dba5aec91c38f564d",
+        "afterSha256": "8b0b9b4e903a3420d81118fa3a9e9d62ef5576c89532af9385faa51d87d14d06",
         "lineCount": 1987,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1192,7 +1201,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-2269",
+      "reviewedLines": "1-2287",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -4879,7 +4888,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "3f1b55dce94681649af599475738714035c59c1a4955c1517fbcf0096951fd4a",
+      "afterSha256": "f6ffd19002c5fcf4384487e84e286a39966c5949c4f501394d9c20302608cc13",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -4903,8 +4912,17 @@
       },
       "revision": {
         "currentSha": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "implementationSha": "3f1b55dce94681649af599475738714035c59c1a4955c1517fbcf0096951fd4a",
+        "implementationSha": "f6ffd19002c5fcf4384487e84e286a39966c5949c4f501394d9c20302608cc13",
         "history": [
+          {
+            "revision": "7fc92e98cb38ba790859948c343aa1a17b94c4e3",
+            "date": "2026-10-18",
+            "action": "Record user-approved boot failure progress fix and narrow current evidence",
+            "previousAfterSha256": "3f1b55dce94681649af599475738714035c59c1a4955c1517fbcf0096951fd4a",
+            "scope": "Only the named reviewed record delta and SHA link; no new global semantic, runtime or coverage acceptance. Only new boot-failure correction/current ledger and board/index delta: real module regressions and actual production failure/normal-entry observations. Earlier historical quotes/native records and other card verdicts retained. Unified gate remains unaccepted.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md",
+            "notRun": ["new whole-repository check", "official coverage ratchet", "protected fast"]
+          },
           {
             "revision": "0587d8714",
             "date": "2026-10-18",
@@ -5002,7 +5020,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "3f1b55dce94681649af599475738714035c59c1a4955c1517fbcf0096951fd4a",
+        "afterSha256": "f6ffd19002c5fcf4384487e84e286a39966c5949c4f501394d9c20302608cc13",
         "lineCount": 5074,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -5037,7 +5055,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-5242",
+      "reviewedLines": "1-5260",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

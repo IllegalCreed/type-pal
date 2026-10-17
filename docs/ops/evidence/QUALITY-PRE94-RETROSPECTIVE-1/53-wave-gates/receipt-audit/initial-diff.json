@@ -1,9 +1,5 @@
 {
-  "command": [
-    "git",
-    "diff",
-    "--check"
-  ],
+  "command": ["git", "diff", "--check"],
   "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
   "exit": 2,
   "rawSha256": "e4fe7756009c5e8d57b1bbb1d4ec5e613c83dc8ca297600a74073eaf576779be",
