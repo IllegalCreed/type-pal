@@ -39,7 +39,7 @@ Template: task-card-v1 / 1.0.0
 
 ## 当前模式推进记录
 
-设计已提出，待非作者复核后冻结并记 build allowed。暂未实施，也未改动旧 registry。
+设计已提出，待非作者复核后冻结并记 build allowed。暂未实施，也未改动旧 registry。09ec 草案收到 REGISTRY-WRITER-RACE，2.0.1 又收到 REGISTRY-NATIVE-METADATA counter；storage 设计 2.0.2 补排他锁、持锁重验、失败恢复与完整顶层来源保全，尚待复核，不能先实施。
 
 ## Draft: 设计与风险
 
