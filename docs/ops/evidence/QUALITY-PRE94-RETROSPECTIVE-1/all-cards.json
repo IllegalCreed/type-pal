@@ -1150,70 +1150,15 @@
       "number": 3,
       "suffix": "t",
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-3t-game-battle-opcodes.md",
-      "sha256": "900ac659d96d6a40fc9b53bb30bce275f9cb1714edacd480e56a265b138650f9",
-      "lines": 123,
+      "sha256": "06265c22e8d7ded676a652fc8eeeb136badb3e7f4dc5bc9dd950515c3693163e",
+      "lines": 245,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
-      "scopeTextCandidates": [
-        {
-          "line": 20,
-          "text": "## 范围"
-        },
-        {
-          "line": 22,
-          "text": "- 范围内：`battle-opcodes.ts` 全文件、`dispatchBattleOpcode` 公开 caller 与对应 battle opcode tests/anim/action callers。"
-        },
-        {
-          "line": 23,
-          "text": "- 范围外：`battle-system.ts`（CODE-QUALITY-3s 已关闭）、公式/magic/status/queue/positions（Q3m 已关闭）、event-system 全文件、save/schema/migration、生成物、剧情 E2E、UI 形态和 coverage runner。"
-        },
-        {
-          "line": 60,
-          "text": "- 相关测试：`battle-opcodes.cov85.test.ts`、`battle-opcodes.glm-next-wave.test.ts`、`battle-opcodes.test.ts`、battle-system/action/magic/throw/coop/anim tests；4 个 battle-opcodes 专属测试已逐文件全文核验。"
-        },
-        {
-          "line": 77,
-          "text": "定向/相邻实测：10 个 test files、470 tests 全绿；4 个专属测试文件已全文核验，包含合法输入、目标缺失/非法输入、资源缺失、边界值和 `consumed:false` 反控；未以数量或覆盖率单独判定。"
-        },
-        {
-          "line": 79,
-          "text": "本次只读核验未发现直接缺陷；实现文件保持不变。`0x2E` 的 SDL 与原版后期差异已按现有 `game-mechanics.md` 产品裁决保留，不能把“SDL 文本不同”误报成 TS 缺陷。"
-        },
-        {
-          "line": 92,
-          "text": "- Coding Owner / 隔离工作树 / 修改白名单：Codex / `codex/code-quality-governance` / 仅 `battle-opcodes.ts` 与专属回归（若 direct evidence）。"
-        },
-        {
-          "line": 93,
-          "text": "- 前提核验：`premise verified`（已直接读取 primary source、第一阶段 caller/ctx、相关测试；上表保留最强替代解释与可证伪观察）"
-        },
-        {
-          "line": 94,
-          "text": "- 范围、设计和验收条件：`design agree`（只读审计无实现变更；若后续发现反例，先回到 rework/blocked，不扩张范围）"
-        },
-        {
-          "line": 96,
-          "text": "- build 准入结论：`build allowed`（本批无实现改动；仅允许按卡范围执行验证和文档/账本收口）"
-        },
-        {
-          "line": 100,
-          "text": "- 贡献者交付与自验：`accept`（生产实现逐段读证、4 个专属测试全文核验与 470 个定向/相邻测试完成）。"
-        },
-        {
-          "line": 112,
-          "text": "- 当前结论：`battle-opcodes.ts` 全 1528 行生产实现与 4 个专属测试文件完成逐文件核验，未发现直接缺陷；本卡关闭 5 条记录。"
-        },
-        {
-          "line": 116,
-          "text": "- 2026-10-05 Codex：Q3s 已归档；建立 battle-opcodes 高风险卡，先完成 1528 行实现、真实 runScript caller、battle opcode tests 与 script/fight/battle primary source 逐段核验；未获 build 准入前不得修改实现。"
-        },
-        {
-          "line": 122,
-          "text": "无下一位 Agent 提示词，Q3t 已由 Codex 独立验收；本卡 5 条记录均有逐文件证据，继续治理从账本 pending 范围开下一张不重叠卡。"
-        }
-      ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "evidence": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md",
+      "scopeLimitation": "Implementation and main test fully read for current three counters; other dedicated tests/full card acceptance still pending.",
+      "priorUnverifiedDiscoveryRecord": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/3t-discovery-before.json.gz"
     },
     {
       "id": "3u",
@@ -3921,10 +3866,9 @@
       "scopeConfirmed": false
     }
   ],
-  "reviewCheckpointBase": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
+  "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
-    "partial": 49,
-    "pending": 34,
-    "accept": 0
+    "partial": 50,
+    "pending": 33
   }
 }

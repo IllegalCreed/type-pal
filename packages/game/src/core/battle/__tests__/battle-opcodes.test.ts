@@ -423,7 +423,10 @@ function throwWeaponCtx(
   objectMagics: ObjectMagicView[],
   magics: Magic[],
 ): BattleCtx {
+  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+  gs.PlayerRolesRuntime.rgwAttackStrength[0] = attackStrength
   return {
+    gs,
     state: {
       enemies,
       players: [
@@ -1745,10 +1748,10 @@ describe('0x66 throw weapon (E2)', () => {
     expect(enemies[1]!.e.health).toBe(77) // 223
   })
 
-  it('无 playerRoles 注入 → attackStr=0 → w=op1*5(防御)', () => {
+  it('无 gs runtime 注入 → attackStr=0 → w=op1*5(防御，不回退 effective 投影)', () => {
     const enemies = [richEnemy({ health: 300, defense: 30, level: 5 })]
     const ctx = throwWeaponCtx(enemies, 0, 30, 2, [objMagic(344, 53)], [magicStat(53, 198, 0)])
-    ctx.playerRoles = undefined
+    ctx.gs = undefined
     dispatchBattleOpcode(0x66, [344, 10, 0], ctx)
     // w = 50 → 同上 199
     expect(enemies[0]!.e.health).toBe(101)

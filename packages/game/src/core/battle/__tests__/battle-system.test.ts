@@ -3485,6 +3485,9 @@ describe('throw-item action 派发(E2)', () => {
       inventory: [{ itemId: 163, count: 1 }],
     })
 
+    // 这条公式读运行时裸武术；静态/投影 roles 不能代替尚未 hydrate 的 runtime。
+    gs.PlayerRolesRuntime.rgwAttackStrength[0] = 30
+
     tickBattle(gs, emptyInput, bus) // preBattle → selectAction
     // 固定 rng:rangeInclusive→2(RandomLong 项)、next→0(rngFactor 1.0)
     gs.battleState!.rng = {

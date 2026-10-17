@@ -307,7 +307,7 @@
         }
       ],
       "sourceSha256": "687a9e3d69088bfbb387346fbbb3e58f83db6afedf7141fd7f9067dcdc276560",
-      "afterSha256": "6a1be4b834767cc61839e96d5c05274b16fa00ed78a3a4417aae919c8d6aa3a0",
+      "afterSha256": "821c206ffdcd80212b27989d3d6c82581a0a5b7aaa21835b93068dc03c25fb77",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -328,8 +328,23 @@
       },
       "revision": {
         "currentSha": "6a1be4b834767cc61839e96d5c05274b16fa00ed78a3a4417aae919c8d6aa3a0",
-        "implementationSha": "6a1be4b834767cc61839e96d5c05274b16fa00ed78a3a4417aae919c8d6aa3a0",
+        "implementationSha": "821c206ffdcd80212b27989d3d6c82581a0a5b7aaa21835b93068dc03c25fb77",
         "history": [
+          {
+            "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
+            "date": "2026-10-18",
+            "action": "Record three user-directed pre-94 battle-magic counters and finite regression repair",
+            "previousAfterSha256": "6a1be4b834767cc61839e96d5c05274b16fa00ed78a3a4417aae919c8d6aa3a0",
+            "scope": "Only the named document delta: current counter/review/queue/index/ledger, the 0x66 runtime ownership progress paragraph, or incoming review SHA linkage. Original historical quote, native coreConclusion and other verdicts remain unchanged. No renewed whole-file/product/coverage acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
             "date": "2026-10-17",
@@ -351,7 +366,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "687a9e3d69088bfbb387346fbbb3e58f83db6afedf7141fd7f9067dcdc276560",
         "candidateSha256": "77daa5edc7b28ae5a85d96f9a1542aad4bd169a5c101d4f68ef429ba27496dcb",
-        "afterSha256": "77daa5edc7b28ae5a85d96f9a1542aad4bd169a5c101d4f68ef429ba27496dcb",
+        "afterSha256": "821c206ffdcd80212b27989d3d6c82581a0a5b7aaa21835b93068dc03c25fb77",
         "lineCount": 52,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1025,7 +1040,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "0fce2d71f450e1654962a6dcc6b44f60580465e579f49f00871ebe1019d25a72",
+      "afterSha256": "ae5a9a13134cf15998bdc3fb576376baa53e79801645170f083e3f0a32dabf6b",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1049,8 +1064,23 @@
       },
       "revision": {
         "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "implementationSha": "0fce2d71f450e1654962a6dcc6b44f60580465e579f49f00871ebe1019d25a72",
+        "implementationSha": "ae5a9a13134cf15998bdc3fb576376baa53e79801645170f083e3f0a32dabf6b",
         "history": [
+          {
+            "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
+            "date": "2026-10-18",
+            "action": "Record three user-directed pre-94 battle-magic counters and finite regression repair",
+            "previousAfterSha256": "0fce2d71f450e1654962a6dcc6b44f60580465e579f49f00871ebe1019d25a72",
+            "scope": "Only the named document delta: current counter/review/queue/index/ledger, the 0x66 runtime ownership progress paragraph, or incoming review SHA linkage. Original historical quote, native coreConclusion and other verdicts remain unchanged. No renewed whole-file/product/coverage acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "291b7b59d4296650afb468a761ac269caba997b4",
             "date": "2026-10-18",
@@ -1181,7 +1211,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "0fce2d71f450e1654962a6dcc6b44f60580465e579f49f00871ebe1019d25a72",
+        "afterSha256": "ae5a9a13134cf15998bdc3fb576376baa53e79801645170f083e3f0a32dabf6b",
         "lineCount": 1987,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1216,7 +1246,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-2302",
+      "reviewedLines": "1-2332",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -4903,7 +4933,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "1bc7a53acfb6ced586e7d3647e92934abc4fef50e2203b5c5d5f1036f3280f9a",
+      "afterSha256": "e265f8dcd3ca88d2c1056b3fd8d00f8eb7360b06c0750e8b63fac9c1f9640289",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -4927,8 +4957,23 @@
       },
       "revision": {
         "currentSha": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "implementationSha": "1bc7a53acfb6ced586e7d3647e92934abc4fef50e2203b5c5d5f1036f3280f9a",
+        "implementationSha": "e265f8dcd3ca88d2c1056b3fd8d00f8eb7360b06c0750e8b63fac9c1f9640289",
         "history": [
+          {
+            "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
+            "date": "2026-10-18",
+            "action": "Record three user-directed pre-94 battle-magic counters and finite regression repair",
+            "previousAfterSha256": "1bc7a53acfb6ced586e7d3647e92934abc4fef50e2203b5c5d5f1036f3280f9a",
+            "scope": "Only the named document delta: current counter/review/queue/index/ledger, the 0x66 runtime ownership progress paragraph, or incoming review SHA linkage. Original historical quote, native coreConclusion and other verdicts remain unchanged. No renewed whole-file/product/coverage acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "291b7b59d4296650afb468a761ac269caba997b4",
             "date": "2026-10-18",
@@ -5050,7 +5095,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "1bc7a53acfb6ced586e7d3647e92934abc4fef50e2203b5c5d5f1036f3280f9a",
+        "afterSha256": "e265f8dcd3ca88d2c1056b3fd8d00f8eb7360b06c0750e8b63fac9c1f9640289",
         "lineCount": 5074,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -5085,7 +5130,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-5290",
+      "reviewedLines": "1-5320",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -5150,7 +5195,7 @@
         }
       ],
       "sourceSha256": "fce6defafd30a7eeda2f7011da2634228f43d28840b74ce523e18c6e6f5929b8",
-      "afterSha256": "8f81cd5db75496e6e45e07cf6504f8cbae8bd1a26479f485977fcfed8d4b2f7f",
+      "afterSha256": "4ba60dc35e70ea1c282924be9783699ef40fd28fa05b6730e900bdaf875804fc",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5174,8 +5219,23 @@
       },
       "revision": {
         "currentSha": "fce6defafd30a7eeda2f7011da2634228f43d28840b74ce523e18c6e6f5929b8",
-        "implementationSha": "8f81cd5db75496e6e45e07cf6504f8cbae8bd1a26479f485977fcfed8d4b2f7f",
+        "implementationSha": "4ba60dc35e70ea1c282924be9783699ef40fd28fa05b6730e900bdaf875804fc",
         "history": [
+          {
+            "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
+            "date": "2026-10-18",
+            "action": "Record three user-directed pre-94 battle-magic counters and finite regression repair",
+            "previousAfterSha256": "8f81cd5db75496e6e45e07cf6504f8cbae8bd1a26479f485977fcfed8d4b2f7f",
+            "scope": "Only the named document delta: current counter/review/queue/index/ledger, the 0x66 runtime ownership progress paragraph, or incoming review SHA linkage. Original historical quote, native coreConclusion and other verdicts remain unchanged. No renewed whole-file/product/coverage acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "291b7b59d4296650afb468a761ac269caba997b4",
             "date": "2026-10-18",
@@ -5204,7 +5264,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "fce6defafd30a7eeda2f7011da2634228f43d28840b74ce523e18c6e6f5929b8",
         "candidateSha256": "fce6defafd30a7eeda2f7011da2634228f43d28840b74ce523e18c6e6f5929b8",
-        "afterSha256": "8f81cd5db75496e6e45e07cf6504f8cbae8bd1a26479f485977fcfed8d4b2f7f",
+        "afterSha256": "4ba60dc35e70ea1c282924be9783699ef40fd28fa05b6730e900bdaf875804fc",
         "lineCount": 2692,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -5239,7 +5299,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-2707",
+      "reviewedLines": "1-2722",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -8759,7 +8819,7 @@
         }
       ],
       "sourceSha256": "cd96f7c35d7e448441dcd8059d34ba305b11d308341569f554e9e39484ff7dad",
-      "afterSha256": "c16869eb6414b318363ee4a69ca26f7de60cd2c745727c0925c8648345359b43",
+      "afterSha256": "d84145c929f002faf38e959cd38dfe817db89659681276917123a4a030818019",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -8783,8 +8843,23 @@
       },
       "revision": {
         "currentSha": "c16869eb6414b318363ee4a69ca26f7de60cd2c745727c0925c8648345359b43",
-        "implementationSha": "c16869eb6414b318363ee4a69ca26f7de60cd2c745727c0925c8648345359b43",
+        "implementationSha": "d84145c929f002faf38e959cd38dfe817db89659681276917123a4a030818019",
         "history": [
+          {
+            "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
+            "date": "2026-10-18",
+            "action": "Record three user-directed pre-94 battle-magic counters and finite regression repair",
+            "previousAfterSha256": "c16869eb6414b318363ee4a69ca26f7de60cd2c745727c0925c8648345359b43",
+            "scope": "Only the named document delta: current counter/review/queue/index/ledger, the 0x66 runtime ownership progress paragraph, or incoming review SHA linkage. Original historical quote, native coreConclusion and other verdicts remain unchanged. No renewed whole-file/product/coverage acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
             "date": "2026-10-17",
@@ -8798,7 +8873,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "cd96f7c35d7e448441dcd8059d34ba305b11d308341569f554e9e39484ff7dad",
         "candidateSha256": "6a58b257ce5a455e62dbe724f5862f736801fee11ce9ccfabf9c3957efeff1d7",
-        "afterSha256": "6a58b257ce5a455e62dbe724f5862f736801fee11ce9ccfabf9c3957efeff1d7",
+        "afterSha256": "d84145c929f002faf38e959cd38dfe817db89659681276917123a4a030818019",
         "lineCount": 1384,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -8833,7 +8908,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-1384",
+      "reviewedLines": "1-1432",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -9871,7 +9946,7 @@
         }
       ],
       "sourceSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
-      "afterSha256": "9085cf17c92a76160fd1bfd39a20edda19b5b24d46fb5b97a87e1a48ce3c78d9",
+      "afterSha256": "72a3459930920fd295ac2c6b86c88acdab13f105c81eaaa8c4f9def807e84b1d",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -9895,8 +9970,23 @@
       },
       "revision": {
         "currentSha": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
-        "implementationSha": "9085cf17c92a76160fd1bfd39a20edda19b5b24d46fb5b97a87e1a48ce3c78d9",
+        "implementationSha": "72a3459930920fd295ac2c6b86c88acdab13f105c81eaaa8c4f9def807e84b1d",
         "history": [
+          {
+            "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
+            "date": "2026-10-18",
+            "action": "Record three user-directed pre-94 battle-magic counters and finite regression repair",
+            "previousAfterSha256": "9085cf17c92a76160fd1bfd39a20edda19b5b24d46fb5b97a87e1a48ce3c78d9",
+            "scope": "Only the named document delta: current counter/review/queue/index/ledger, the 0x66 runtime ownership progress paragraph, or incoming review SHA linkage. Original historical quote, native coreConclusion and other verdicts remain unchanged. No renewed whole-file/product/coverage acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
             "date": "2026-10-17",
@@ -9910,7 +10000,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
         "candidateSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
-        "afterSha256": "9085cf17c92a76160fd1bfd39a20edda19b5b24d46fb5b97a87e1a48ce3c78d9",
+        "afterSha256": "72a3459930920fd295ac2c6b86c88acdab13f105c81eaaa8c4f9def807e84b1d",
         "lineCount": 993,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -9945,7 +10035,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-1002",
+      "reviewedLines": "1-1017",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -14167,7 +14257,7 @@
       "owner": "Codex",
       "provenance": ["generated-shard", "full-json-byte-read", "loader-consumer-review"],
       "sourceSha256": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
-      "afterSha256": "7144194a364c004429e9eefaba2e548e593c498141983e5ec88333d5f64e40d3",
+      "afterSha256": "cd149ff17923e07f88844cd5b419d2464050e4d43b83722700ace4c39f67a2f5",
       "publicCallers": [
         "scripts/docs/check-phase-lore-governance.mjs",
         "scripts/docs/build-phase-lore-governance.mjs",
@@ -14191,10 +14281,25 @@
       },
       "revision": {
         "currentSha": "7144194a364c004429e9eefaba2e548e593c498141983e5ec88333d5f64e40d3",
-        "implementationSha": "7144194a364c004429e9eefaba2e548e593c498141983e5ec88333d5f64e40d3",
+        "implementationSha": "cd149ff17923e07f88844cd5b419d2464050e4d43b83722700ace4c39f67a2f5",
         "contentVersion": "N/A-document-migration",
         "minimumSaveVersion": "N/A-document-migration",
         "history": [
+          {
+            "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
+            "date": "2026-10-18",
+            "action": "Record three user-directed pre-94 battle-magic counters and finite regression repair",
+            "previousAfterSha256": "7144194a364c004429e9eefaba2e548e593c498141983e5ec88333d5f64e40d3",
+            "scope": "Only the named document delta: current counter/review/queue/index/ledger, the 0x66 runtime ownership progress paragraph, or incoming review SHA linkage. Original historical quote, native coreConclusion and other verdicts remain unchanged. No renewed whole-file/product/coverage acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "working-tree",
             "date": "2026-10-17",
@@ -14209,7 +14314,7 @@
         "path": "docs/phase-governance/catalog.phase1.json",
         "sourceSha256": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
         "candidateSha256": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
-        "afterSha256": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
+        "afterSha256": "cd149ff17923e07f88844cd5b419d2464050e4d43b83722700ace4c39f67a2f5",
         "lineCount": 9249,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -14243,7 +14348,7 @@
       "supersedes": [],
       "stopLine": "Do not edit a shard without recomputing its manifest SHA; do not treat catalog structure as runtime/E2E/visual/coverage evidence.",
       "userVisibleBeforeAfter": "pre-split phase1 entries → phase1 shard with native entry objects preserved",
-      "reviewedLines": "1-9249",
+      "reviewedLines": "1-8396",
       "reviewNotes": "Full JSON object read and loader/consumer preservation verified; this is structural catalog evidence only.",
       "templateVersion": "1.0.0",
       "historyOverlay": false,

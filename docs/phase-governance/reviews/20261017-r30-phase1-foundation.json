@@ -960,7 +960,7 @@
         }
       ],
       "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
-      "afterSha256": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
+      "afterSha256": "a81d17a63ff80031ab257eb38dd4db03320f33eb8e33b74d1df401a10eba6c89",
       "publicCallers": ["docs navigation"],
       "legalInputs": ["current repository documentation", "docs/phase1/game-mechanics.md"],
       "businessOracle": {
@@ -978,8 +978,23 @@
       },
       "revision": {
         "currentSha": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
-        "implementationSha": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
+        "implementationSha": "a81d17a63ff80031ab257eb38dd4db03320f33eb8e33b74d1df401a10eba6c89",
         "history": [
+          {
+            "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
+            "date": "2026-10-18",
+            "action": "Record three user-directed pre-94 battle-magic counters and finite regression repair",
+            "previousAfterSha256": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
+            "scope": "Only the named document delta: current counter/review/queue/index/ledger, the 0x66 runtime ownership progress paragraph, or incoming review SHA linkage. Original historical quote, native coreConclusion and other verdicts remain unchanged. No renewed whole-file/product/coverage acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "6a5675efade246f0332fa9333b0729532a5545d8",
             "date": "2026-10-04",
@@ -999,7 +1014,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r30-phase1-foundation-20261017.json",
         "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
         "candidateSha256": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
-        "afterSha256": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
+        "afterSha256": "a81d17a63ff80031ab257eb38dd4db03320f33eb8e33b74d1df401a10eba6c89",
         "lineCount": 1655,
         "originalPreservation": {
           "method": "line-by-line blockquote quote",
@@ -1030,7 +1045,7 @@
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
       "stopLine": "do not promote historical claims to current truth without a current source or user decision",
       "userVisibleBeforeAfter": "原始 phase1 状态/计划保持 → 增加具体模板章节、SHA、历史 overlay 和继任入口；产品事实不变。",
-      "reviewedLines": "1-1655",
+      "reviewedLines": "1-1675",
       "docType": "reference-canon",
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",

@@ -1,0 +1,81 @@
+{
+  "base": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
+  "scope": "Finite phase1 counter repair; not unified/whole-file acceptance",
+  "behavior": {
+    "oldProductionFinalLegalSpec": {
+      "failed": 9,
+      "passed": 6,
+      "runtimeErrors": 0,
+      "receipt": "red-legal.json"
+    },
+    "currentDirect": {
+      "passed": 15,
+      "receipt": "adjacent-clean.json"
+    },
+    "adjacent": {
+      "files": 37,
+      "passed": 935,
+      "diagnostics": 0,
+      "receipt": "adjacent-clean.json",
+      "laterDelta": "H01 oracle strengthened from end to real dialog; reran affected3 only, h01-final.json, 0 diagnostics"
+    },
+    "preciseControls": {
+      "businessOneFailureEach": 5,
+      "receipt": "controls.json"
+    },
+    "h01Oracle": {
+      "oldGreen": 1,
+      "newRed": 1,
+      "productionRestored": true,
+      "receipt": "h01-control.json"
+    }
+  },
+  "typecheck": {
+    "result": "PASS, 0 diagnostics",
+    "receipt": "types-current.json"
+  },
+  "docs": {
+    "initialFullCommand": "pnpm check:docs",
+    "initialFullExit": 1,
+    "docsToolsPassed": 125,
+    "initialFailure": "mechanics after-SHA catalog binding; next consumer failed missing updated shard SHA in manifest",
+    "initialReceipts": ["docs.json", "docs-consumers.json"],
+    "repair": "Updated only phase1 mechanics catalog row/revision and its manifest shard hash plus named incoming review bindings. No review-status, rule or broad source refresh.",
+    "finalResult": "Five actual consumers passed, 0 issues; original125 tool tests were not repeated",
+    "finalReceipt": "docs-consumers-final.json",
+    "unchangedToolTestsReused": true
+  },
+  "lint": {
+    "command": ["pnpm", "lint"],
+    "exit": 0,
+    "files": 5092,
+    "errors": 0,
+    "warnings": 0,
+    "infos": 0,
+    "raw": "lint-final.raw.gz",
+    "rawBytes": 193,
+    "rawSha256": "b9f8b068a13789a0f7640b63fa697ccb574690e3eae8aafc43da63dcf9b450a5"
+  },
+  "ledger": {
+    "tracked": 3314,
+    "closed": 284,
+    "review": 55,
+    "pending": 2975,
+    "receipt": "ledger.json",
+    "newClosedFiles": 0,
+    "reopenedOldClosedFiles": 5
+  },
+  "diff": {
+    "exit": 0,
+    "receipt": "diff.json"
+  },
+  "notRun": [
+    "whole-repository pnpm check",
+    "official coverage ratchet",
+    "protected fast",
+    "browser visual",
+    "E2E"
+  ],
+  "notRunReason": "User requires expensive whole-repository and coverage gates at large-task closeout; unified editor diagnostics and pre-94 review are still incomplete.",
+  "merge": false
+}

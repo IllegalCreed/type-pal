@@ -6,7 +6,7 @@
 
 ## 2026-10-17 当前范围与优先级
 
-用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10原检查点bea19f80c已推送，当前恢复见本片末尾；分支已同步最新origin/main，0behind，未合main。全83卡49partial/34pending/0accept（2026-10-18 CODE72；下文数字均按各片原时点）；[6a](6a/README.md)、92、CODE1/2/2b/3/3b/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；[CODE3b](3b/README.md)两边界六oracle已补；[raw补证](3b/raw-tests/README.md)9→2/五新反控、完整extract428零stderr；全正文仍待，[3d PNG](3d/README.md)两height盲点已补，下一片3h assets/shell，再按模块逐文件推进；94–102/editor未完成项保留。
+用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10原检查点bea19f80c已推送，当前恢复见本片末尾；分支已同步最新origin/main，0behind，未合main。全83卡50partial/33pending/0accept（2026-10-18 机制counter返工；下文数字均按各片原时点）；[6a](6a/README.md)、92、CODE1/2/2b/3/3b/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；[CODE3b](3b/README.md)两边界六oracle已补；[raw补证](3b/raw-tests/README.md)9→2/五新反控、完整extract428零stderr；全正文仍待，[3d PNG](3d/README.md)两height盲点已补，下一片3h assets/shell，再按模块逐文件推进；94–102/editor未完成项保留。
 
 下文旧数字、探针与结论作为历史保存；不会把旧抽查、历史done或包全绿补签成当前验收。
 
@@ -198,3 +198,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 最新[72批准窄修](72-boot-loading/approved-fix/README.md)：失败进度终态/入口释放/本轮ownership已修，四旧单红新绿、相邻58绿/原红重放1绿、game typecheck和真实PROD失败/正常进场看图通过。boot源+1closed，UI主测试新增review，其余main/UI保留review，3312/289closed/47review/2976pending；49partial/34pending/0accept不变。47–52统一门信用已撤回，新全仓/coverage/protected未跑。下一步先同片UI测试合同/隔离，再续73。
 
 最新[独立审计四项返工](53-wave-gates/receipt-audit/README.md)：当前两锚上界按实际EOF/函数尾更正，六退役逐条追到human通用测试规则/本次治理范围与Codex执行提交；旧OPQ五文件特批不外推。没有改产品/测试body/退役payload/matcher/baseline或新增关闭。原47–52回执完整raw仍缺/诊断unknown，保持rework；后续UI测试与73继续。
+
+最新[战斗三机制返工](../QUALITY-BATTLE-MAGIC-PARITY-1/README.md)：用户独立审计counter已直接核实并先红后修；15定向、935相邻与五精确反控，不恢复53旧波次门信用。十注释/其余证据和两UI差异仍列父卡pending，未合main。

@@ -463,7 +463,9 @@ historical。do not promote historical claims to current truth without a current
 > **不执行该法术的scriptOnUse**，所以投掷模拟铜钱镖不等于也执行其扣500文脚本。
 > 普通铜钱镖扣钱入口为原始脚本43062；投掷则按投掷流程消耗武器。
 >
-> **当前实现差异（只记录，尚未修复）**：
+> **2026-10-18 修复进展**：用户要求本项开卡先红后修后，0x66 已改读当前角色的 runtime 裸武术；基础武术50/0、只改变装备和Extra的双场手算回归均保持263/213伤害，原始失败与当前定向见[机制返工证据](../ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md)。这是隔离治理候选，未通过统一集成门、未合main，未实测原版游戏。
+>
+> **修前实现差异（历史取证，原说明保留）**：
 >
 > 一阶段 [battle-opcodes.ts:439-453](../../packages/game/src/core/battle/battle-opcodes.ts#L439)
 > 的0x66注释把SDL取值误写成effective getter，实际也读取已投影、含装备加成的`ctx.playerRoles.roles[roleId].attackStrength`；

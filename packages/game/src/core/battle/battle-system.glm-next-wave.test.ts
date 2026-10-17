@@ -36,7 +36,7 @@ function boot(opts: { commands: Command[]; enemyIds?: number[] }): {
     enemyTeams: [
       {
         id: 0,
-        enemies: [enemyIds[0] ?? 100, enemyIds[1] ?? 101, 0xffff, 0xffff, 0xffff],
+        enemies: [enemyIds[0] ?? 0xffff, enemyIds[1] ?? 0xffff, 0xffff, 0xffff, 0xffff],
       },
     ],
     battleFields: [makeHField()],
@@ -66,6 +66,7 @@ describe('scriptOnTurnStart 与 battleDialogPendingClear(battle-opcodes 0x05/0x8
     })
     tickBattle(gs, NO_KEY, bus) // preBattle → selectAction
     const state = gs.battleState!
+    expect(state.enemies.map((enemy) => enemy.e.id)).toEqual([100])
     state.enemies[0]!.scriptOnTurnStart = 1
     tickBattle(gs, NO_KEY, bus) // selectAction 起手 → runEnemyTurnStartScripts
     const queue = state.battleDialogQueue ?? []
@@ -113,7 +114,7 @@ describe('DL23:turn-start 置终态 → break(battle.c:747-750 BattleResult != P
     tickBattle(gs, NO_KEY, bus)
     const state = gs.battleState!
     state.enemies[0]!.scriptOnTurnStart = 1
-    state.enemies[1]!.scriptOnTurnStart = 2
+    state.enemies[1]!.scriptOnTurnStart = 3 // 真正指向对话；指向 ip2=end 无法检出漏 break
     tickBattle(gs, NO_KEY, bus)
     expect(state.terminatedByEnemyEscape ?? false).toBe(false) // 非 0x69 terminated 变体
     expect(state.phase).toBe('won')

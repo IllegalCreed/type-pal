@@ -241,11 +241,11 @@ export function performMagic(input: PerformMagicInput): void {
   }
   // sdlpal PAL_RunTriggerScript 入口设 g_fScriptSuccess=TRUE(script.c:3187)。runScript(battle)
   // 不重置,故此处显式置真,再按 scriptOnUse 结果 gate scriptOnSuccess(fight.c:4217)。
-  // DM6:敌攻击法术 autoDefend 资格在 scriptOnUse **之前**预掷(fight.c:4723-4757 在 :4761
+  // DM6:所有敌方法术（含非伤害法术）的 autoDefend 资格在 scriptOnUse **之前**预掷(fight.c:4723-4757 在 :4761
   //   scriptOnUse/:4768 scriptOnSuccess 之前;伤害除数 :4801/:4836 用该预判)——"施状态+伤害"
   //   复合法术先把玩家催眠再结算时,不剥夺 1/3 概率减伤资格,RNG 抽取序也对齐 C。
   let preRolledAutoDefend: Map<number, boolean> | undefined
-  if (input.casterIsEnemy && asShort(magic.baseDamage) > 0) {
+  if (input.casterIsEnemy) {
     const adTarget: number | 'all' =
       magic.type === 'normal' ? (typeof input.targetIdx === 'number' ? input.targetIdx : 0) : 'all'
     const adIdxs: number[] = adTarget === 'all' ? input.state.players.map((_, i) => i) : [adTarget]
@@ -316,7 +316,10 @@ export function performMagic(input: PerformMagicInput): void {
   //   未建链(旧 fixture / 无 sprite)→ 立即 emit。
   // 敌方法术受伤的队员 idx(受击动画 fight.c:4861-4899 用;E2 填)。
   const hitPlayerIdxs: number[] = []
-  const autoDefendIdxs: number[] = [] // L16:被动格挡的队员(敌魔法特效期间摆防御姿 frame3)
+  // 防御姿来自脚本前预掷，独立于是否结算伤害；不能从 enemyDmg 反推。
+  const autoDefendIdxs = preRolledAutoDefend
+    ? [...preRolledAutoDefend].filter(([, defended]) => defended).map(([idx]) => idx)
+    : []
   let dmgResults: ReadonlyArray<{
     enemyIdx: number
     hpBefore: number
@@ -386,7 +389,6 @@ export function performMagic(input: PerformMagicInput): void {
         })
         hitPlayerIdxs.push(r.playerIdx) // 受伤队员 → 受击动画(fight.c:4861-4899)
       }
-      if (r.autoDefend) autoDefendIdxs.push(r.playerIdx) // L16:被动格挡 → 防御姿 frame3
     }
   }
 

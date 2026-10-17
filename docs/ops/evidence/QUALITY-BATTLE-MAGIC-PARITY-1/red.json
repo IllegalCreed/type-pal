@@ -1,0 +1,23 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "test",
+    "src/core/battle/__tests__/magic-parity.test.ts"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "time": "2026-10-17T19:11:27.377104+00:00",
+  "base": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
+  "exit": 1,
+  "raw": "red.raw.gz",
+  "rawSha256": "a78acba76b460984601916fbe142680952a782d7e34366f010b992d5aa2db782",
+  "rawBytes": 6969,
+  "sources": {
+    "packages/game/src/core/battle/magic-damage.ts": "fc31dc5db6ff0cd65a53971cd70261ad01bf1b78eebdea40d3ec056dea2a63b5",
+    "packages/game/src/core/battle/battle-opcodes.ts": "0025dd6fe905ccd19aced025fff9abd980b47891abb1536a2afdc2c5f3b560c6",
+    "packages/game/src/core/battle/actions/magic.ts": "d357c8c3982e027cb2b61509c1d158691bb4f3b4da44265f93da2bae77ddc7c3",
+    "packages/game/src/core/battle/__tests__/magic-parity.test.ts": "7bfbdbc147ab1d6b3dcf59770e3fde98ef84b8caf7d5e6a4aab482d08bcfcc11"
+  },
+  "scope": "Pre-fix regression, original full merged stdout/stderr; not a passing gate"
+}

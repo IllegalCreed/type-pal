@@ -1,0 +1,170 @@
+{
+  "producer": "Codex deterministic controls; not third-party review",
+  "results": [
+    {
+      "name": "prefer-previous",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/battle/__tests__/magic-parity.test.ts",
+        "-t",
+        "base=198,\\ hp=9000",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/type-pal-prefer-previous.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "source": "packages/game/src/core/battle/simulated-magic-target.ts",
+      "originalSha256": "db7bc7ed824786ea2b6faf2450b77682b2e45ff5e2dba0205fc7fa16d5d065a6",
+      "mutantSha256": "3ab3d0b08fb9441f1ca730d3d31f5e98d0072f4e0995ef1d1f4d7c49fa3c1388",
+      "selection": "base=198, hp=9000",
+      "failedTests": 1,
+      "passedTests": 0,
+      "runtimeErrorSuites": 0,
+      "businessFailureNames": [
+        "SDLPal simulated magic target (fight.c:87-128, 5330-5405) 0x42 uses the previous living target for damage and FIRE landing (base=198, hp=9000)"
+      ],
+      "exactOneBusinessAssertion": true,
+      "raw": "prefer-previous.raw.gz",
+      "rawSha256": "47df187c584964d5685ee88c7759053bd559592cab2961a46228868e12c3c275",
+      "restoredSha256": "db7bc7ed824786ea2b6faf2450b77682b2e45ff5e2dba0205fc7fa16d5d065a6"
+    },
+    {
+      "name": "raw-runtime",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/battle/__tests__/magic-parity.test.ts",
+        "-t",
+        "raw\\ attack=50",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/type-pal-raw-runtime.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "source": "packages/game/src/core/battle/battle-opcodes.ts",
+      "originalSha256": "799c6795b9f106300d412249244af86816dc305966a19b509dbd8011ea771f66",
+      "mutantSha256": "b5cd27de7ad4e8b0eddf392116d82ef045e0a105b966de70ee677bc5c715ba6a",
+      "selection": "raw attack=50",
+      "failedTests": 1,
+      "passedTests": 0,
+      "runtimeErrorSuites": 0,
+      "businessFailureNames": [
+        "SDLPal 0x66 raw runtime attack (script.c:2007-2014) changing equipment/Extra leaves the throw unchanged (raw attack=50)"
+      ],
+      "exactOneBusinessAssertion": true,
+      "raw": "raw-runtime.raw.gz",
+      "rawSha256": "fb2afd8df616b3f18a82dca4d27ec7b7e26ab8616b740a601da244be61572b1c",
+      "restoredSha256": "799c6795b9f106300d412249244af86816dc305966a19b509dbd8011ea771f66"
+    },
+    {
+      "name": "non-damage-preroll",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/battle/__tests__/magic-parity.test.ts",
+        "-t",
+        "normal\\ pre\\-roll",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/type-pal-non-damage-preroll.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "source": "packages/game/src/core/battle/actions/magic.ts",
+      "originalSha256": "f9b0f72ad5ead271fc69e30ab28a665e8d6f6a9ef76358c56662e6a458add5f4",
+      "mutantSha256": "08a95d7e5d5280a4456a32120961a89a906c9624afb74ee20bca994f1197d33c",
+      "selection": "normal pre-roll",
+      "failedTests": 1,
+      "passedTests": 0,
+      "runtimeErrorSuites": 0,
+      "businessFailureNames": [
+        "SDLPal non-damaging enemy magic auto-defend (fight.c:4719-4768) normal pre-roll precedes real sleep script and reaches frame3 without damage"
+      ],
+      "exactOneBusinessAssertion": true,
+      "raw": "non-damage-preroll.raw.gz",
+      "rawSha256": "bf8e96a5a918bb799562d6e6a80dec48f1f177da67a7a4a9f031a2f8bed6d808",
+      "restoredSha256": "f9b0f72ad5ead271fc69e30ab28a665e8d6f6a9ef76358c56662e6a458add5f4"
+    },
+    {
+      "name": "pose-independent-of-damage",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/battle/__tests__/magic-parity.test.ts",
+        "-t",
+        "normal\\ pre\\-roll",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/type-pal-pose-independent-of-damage.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "source": "packages/game/src/core/battle/actions/magic.ts",
+      "originalSha256": "f9b0f72ad5ead271fc69e30ab28a665e8d6f6a9ef76358c56662e6a458add5f4",
+      "mutantSha256": "bd5ee9670e461e236fe2453eb74ad9f3d02410a6033581dbce56d0e6042d4c9e",
+      "selection": "normal pre-roll",
+      "failedTests": 1,
+      "passedTests": 0,
+      "runtimeErrorSuites": 0,
+      "businessFailureNames": [
+        "SDLPal non-damaging enemy magic auto-defend (fight.c:4719-4768) normal pre-roll precedes real sleep script and reaches frame3 without damage"
+      ],
+      "exactOneBusinessAssertion": true,
+      "raw": "pose-independent-of-damage.raw.gz",
+      "rawSha256": "3382bb3913ffff102d758d667547504e8597aaee674fb63bd1927436c8a6ad07",
+      "restoredSha256": "f9b0f72ad5ead271fc69e30ab28a665e8d6f6a9ef76358c56662e6a458add5f4"
+    },
+    {
+      "name": "freeze-lethal-target",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/battle/__tests__/magic-parity.test.ts",
+        "-t",
+        "base=198,\\ hp=100",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/type-pal-freeze-lethal-target.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "exit": 1,
+      "source": "packages/game/src/core/battle/battle-opcodes.ts",
+      "originalSha256": "799c6795b9f106300d412249244af86816dc305966a19b509dbd8011ea771f66",
+      "mutantSha256": "9884c18c9f6a5f2c07dedea18225d94d9ab2847873a21f88f0d3b6c8b1376b27",
+      "selection": "base=198, hp=100",
+      "failedTests": 1,
+      "passedTests": 0,
+      "runtimeErrorSuites": 0,
+      "businessFailureNames": [
+        "SDLPal simulated magic target (fight.c:87-128, 5330-5405) 0x42 uses the previous living target for damage and FIRE landing (base=198, hp=100)"
+      ],
+      "exactOneBusinessAssertion": true,
+      "raw": "freeze-lethal-target.raw.gz",
+      "rawSha256": "98f3b044b75cf4dd5354d9473ba7518318698acf8dd6b3f365bfe70cb2d1ca8f",
+      "restoredSha256": "799c6795b9f106300d412249244af86816dc305966a19b509dbd8011ea771f66"
+    }
+  ]
+}

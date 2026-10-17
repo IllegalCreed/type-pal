@@ -1999,11 +1999,26 @@
       "sourceGitRevision": "83750d8425709257a609c1b9f62b8c6686d53987",
       "sourceGitObject": "5537347dacb07dd2f9944a0000fb77ed1b1c0e79",
       "candidateSha256": "594b808a12fc2203c141e89fc4e9518a06706587d9197d4ad1eaabd86e48a05b",
-      "afterSha256": "c6fa5fb51511285c03c498418988c6551c651a7cbe2d2c831fc59f04ed3c505f",
+      "afterSha256": "06265c22e8d7ded676a652fc8eeeb136badb3e7f4dc5bc9dd950515c3693163e",
       "revision": {
         "currentSha": "83750d8425709257a609c1b9f62b8c6686d53987",
-        "implementationSha": "c6fa5fb51511285c03c498418988c6551c651a7cbe2d2c831fc59f04ed3c505f",
+        "implementationSha": "06265c22e8d7ded676a652fc8eeeb136badb3e7f4dc5bc9dd950515c3693163e",
         "history": [
+          {
+            "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
+            "date": "2026-10-18",
+            "action": "Record three user-directed pre-94 battle-magic counters and finite regression repair",
+            "previousAfterSha256": "c6fa5fb51511285c03c498418988c6551c651a7cbe2d2c831fc59f04ed3c505f",
+            "scope": "Only the named document delta: current counter/review/queue/index/ledger, the 0x66 runtime ownership progress paragraph, or incoming review SHA linkage. Original historical quote, native coreConclusion and other verdicts remain unchanged. No renewed whole-file/product/coverage acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "date": "2026-10-16",
             "action": "full-semantic-task-and-history-migration",
@@ -2018,7 +2033,7 @@
         "path": "docs/phase-governance/reviews/20261016-historical-cards-f.json",
         "sourceSha256": "900ac659d96d6a40fc9b53bb30bce275f9cb1714edacd480e56a265b138650f9",
         "candidateSha256": "594b808a12fc2203c141e89fc4e9518a06706587d9197d4ad1eaabd86e48a05b",
-        "afterSha256": "c6fa5fb51511285c03c498418988c6551c651a7cbe2d2c831fc59f04ed3c505f",
+        "afterSha256": "06265c22e8d7ded676a652fc8eeeb136badb3e7f4dc5bc9dd950515c3693163e",
         "lineCount": 243,
         "exactOriginalBytes": 11798,
         "originalPreservation": {
@@ -2057,7 +2072,7 @@
         "after": "historical，canon1075旧90cap guarded。保留现有>=产品边界，不因C旧文本回改；其它固定命中率和脚本组合未核，不能宣称整招100%。原四测试全文是旧主张，不给本轮470测试或coverage信用。",
         "semanticChange": "按本卡实际目标/白名单/前提/反例/验收/交接重组；完整原文可逆；未改原产品结论、计数或日期。"
       },
-      "reviewedLines": "1-243",
+      "reviewedLines": "1-245",
       "phase": "ops",
       "module": "historical-quality-contracts",
       "templateConformity": {

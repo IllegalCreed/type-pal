@@ -407,7 +407,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "27a96a022cd2fcbf1b472effd7e79d818dfd07e0c60b59f488c25bbe4d26c143",
+      "afterSha256": "0af9a71c6b44c846aca3324d7234b93a74d3990cd1cb82056ea977e0327b3ce1",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -438,10 +438,25 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "27a96a022cd2fcbf1b472effd7e79d818dfd07e0c60b59f488c25bbe4d26c143",
+        "implementationSha": "0af9a71c6b44c846aca3324d7234b93a74d3990cd1cb82056ea977e0327b3ce1",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
+            "date": "2026-10-18",
+            "action": "Record three user-directed pre-94 battle-magic counters and finite regression repair",
+            "previousAfterSha256": "27a96a022cd2fcbf1b472effd7e79d818dfd07e0c60b59f488c25bbe4d26c143",
+            "scope": "Only the named document delta: current counter/review/queue/index/ledger, the 0x66 runtime ownership progress paragraph, or incoming review SHA linkage. Original historical quote, native coreConclusion and other verdicts remain unchanged. No renewed whole-file/product/coverage acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "291b7b59d4296650afb468a761ac269caba997b4",
             "date": "2026-10-18",
@@ -770,7 +785,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "27a96a022cd2fcbf1b472effd7e79d818dfd07e0c60b59f488c25bbe4d26c143",
+        "afterSha256": "0af9a71c6b44c846aca3324d7234b93a74d3990cd1cb82056ea977e0327b3ce1",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
@@ -964,7 +979,7 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "1-90",
+      "reviewedLines": "1-91",
       "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。",
       "integrationReview": {
         "reviewer": "Codex",
@@ -1219,7 +1234,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "565170590439173268218d80cae525fa9f40a4108e1d0f409770cff65160d1e6",
+      "afterSha256": "626c9aebeefebb47c9fa92905294c2418e2e2542365c73a78de030cddcad3d72",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -1240,10 +1255,25 @@
       },
       "revision": {
         "currentSha": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
-        "implementationSha": "565170590439173268218d80cae525fa9f40a4108e1d0f409770cff65160d1e6",
+        "implementationSha": "626c9aebeefebb47c9fa92905294c2418e2e2542365c73a78de030cddcad3d72",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
+            "date": "2026-10-18",
+            "action": "Record three user-directed pre-94 battle-magic counters and finite regression repair",
+            "previousAfterSha256": "565170590439173268218d80cae525fa9f40a4108e1d0f409770cff65160d1e6",
+            "scope": "Only the named document delta: current counter/review/queue/index/ledger, the 0x66 runtime ownership progress paragraph, or incoming review SHA linkage. Original historical quote, native coreConclusion and other verdicts remain unchanged. No renewed whole-file/product/coverage acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "7fc92e98cb38ba790859948c343aa1a17b94c4e3",
             "date": "2026-10-18",
@@ -1490,7 +1520,7 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "565170590439173268218d80cae525fa9f40a4108e1d0f409770cff65160d1e6",
+        "afterSha256": "626c9aebeefebb47c9fa92905294c2418e2e2542365c73a78de030cddcad3d72",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
@@ -1735,7 +1765,7 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "1-504",
+      "reviewedLines": "1-505",
       "reviewNotes": "任务索引将 DOCS-CATALOG-SPLIT-1 投影到 historical done；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。",
       "integrationReview": {
         "reviewer": "Codex",

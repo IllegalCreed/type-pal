@@ -1,5 +1,7 @@
 # CODE3s battle-system 当前复审切片
 
+> 2026-10-18 当前counter：H01单敌fixture误造敌人101，显式reporter产生1块stderr；撤回下文对应“无stderr”当前信用，历史原文保留。roster单红后改用0xffff终止符，主测与H01登记review；结果见[相邻返工](../../QUALITY-BATTLE-MAGIC-PARITY-1/README.md)，不扩大为整卡重验。
+
 基点：`d2c5ca463`；分支：`codex/code-quality-3y`。本片重新复审历史 3s 的战斗宿主，不把历史 done、旧行数、旧测试数量或旧全仓门当作当前验收。3s 当前复审提升为 `partial`，未标 accept/done。
 
 完整读取 `packages/game/src/core/battle/battle-system.ts`（3,141 行）和 `packages/game/src/core/battle/__tests__/battle-system.test.ts`（4,248 行）。完整读取相邻生命周期合同：`battle-system.cov85.test.ts`（330 行）、`battle-system.glm-next-wave.test.ts`（122 行）、`battle-runtime-context.test.ts`（75 行）、`battle-finalization.test.ts`（80 行）、`battle-settlement.glm-next-wave.test.ts`（259 行）、`battle-state.glm-next-wave.test.ts`（81 行）、`battle-state-machine.glm-battle.test.ts`（464 行）和 `battle-turn-boundaries.glm-turn.test.ts`（504 行）。测试核验真实 `startBattle`/`tickBattle`/`tickEnemyIdleGestures` caller、typed BattleState 生命周期、结算/清理 owner、输入/动作/队列和异常资源边界；未以包级全绿替代逐文件判别力检查。

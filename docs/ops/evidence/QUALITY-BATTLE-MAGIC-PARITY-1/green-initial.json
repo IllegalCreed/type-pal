@@ -1,0 +1,14 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "test",
+    "src/core/battle/__tests__/magic-parity.test.ts"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "exit": 0,
+  "raw": "green-initial.raw.gz",
+  "rawSha256": "4793a5d25d6a640bb6e31cbe14bf02e2557e70ed8fd2dea1034368fe356b6412",
+  "rawBytes": 445
+}

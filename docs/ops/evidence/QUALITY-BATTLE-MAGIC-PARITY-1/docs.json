@@ -1,0 +1,13 @@
+{
+  "command": ["pnpm", "check:docs"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T19:23:50.604037+00:00",
+  "completedAt": "2026-10-17T19:24:32.753161+00:00",
+  "exit": 1,
+  "signal": null,
+  "spawnError": null,
+  "raw": "docs.raw.gz",
+  "rawBytes": 30549,
+  "rawSha256": "0b6383240a365d93fa0d1df6c4280425a3c6516e3560352c3258f0af4a7a602f",
+  "fullUncutMergedStdoutStderr": true
+}

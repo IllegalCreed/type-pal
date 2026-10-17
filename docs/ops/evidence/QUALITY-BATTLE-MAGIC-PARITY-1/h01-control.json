@@ -1,0 +1,59 @@
+{
+  "scope": "Remove only terminal-result break; old ip2=end oracle remains green, corrected ip3=dialog oracle fails once. Production source restored byte-for-byte.",
+  "originalSourceSha256": "c286881a1d1d5932333a9fcd084376e42d8871c5abc2a052573a6dbc9267b11c",
+  "restoredSourceSha256": "c286881a1d1d5932333a9fcd084376e42d8871c5abc2a052573a6dbc9267b11c",
+  "rows": [
+    {
+      "label": "h01-old-green",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/battle/battle-system.glm-next-wave.test.ts",
+        "-t",
+        "敌 A turnStart",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/h01-old-green.json"
+      ],
+      "exit": 0,
+      "failed": 0,
+      "passed": 1,
+      "runtimeErrorSuites": 0,
+      "testSha256": "0663047d3113842d7fa4937d6c478a69ad6428c12671c843a61ace9e3a9b0fd1",
+      "failureNames": [],
+      "raw": "h01-old-green.raw.gz",
+      "rawSha256": "d97563f335c3c8b5e9505a49cc31121d934f40d4ff1abf2aa15a74633716ef03"
+    },
+    {
+      "label": "h01-new-red",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/battle/battle-system.glm-next-wave.test.ts",
+        "-t",
+        "敌 A turnStart",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/h01-new-red.json"
+      ],
+      "exit": 1,
+      "failed": 1,
+      "passed": 0,
+      "runtimeErrorSuites": 0,
+      "testSha256": "62a5f3757bfbf1b3f0427c258bdf1f1233d09a154d6c256b1c687b9edd343cec",
+      "failureNames": [
+        "DL23:turn-start 置终态 → break(battle.c:747-750 BattleResult != PreBattle) 敌 A turnStart 0x89 [3] won → 敌 B turnStart 不跑、无对话;phase 进 won"
+      ],
+      "raw": "h01-new-red.raw.gz",
+      "rawSha256": "cd8ef44869eb9fc3cc4456e296db7b8bfd2cdf246b9355bfffb120835861330c"
+    }
+  ]
+}

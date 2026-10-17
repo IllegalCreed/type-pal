@@ -41,6 +41,7 @@ import { playerRestFrame, startBattleAnim } from './battle-anim-driver.js'
 import { getEnemyBasePos } from './battle-positions.js'
 import type { BattleStatus } from './battle-state.js'
 import { resolveObjectMagic, simulateMagic } from './magic-damage.js'
+import { resolveSimulatedMagicTarget } from './simulated-magic-target.js'
 
 /** SHORT cast(同 formulas.ts 私函)。 */
 function asShort(n: number): number {
@@ -137,11 +138,7 @@ function emitDamageNum(
  * (casterIdx=-1,无 caster 帧切换;magic.sound 已挂特效起手帧)push 进缓冲,performThrowItem 接挥臂后一起播。
  * 否则(无投掷动画上下文 / 无 sprite 帧数)→ 把 magic.sound 即时 push pendingSounds(向后兼容,旧行为)。
  */
-function pushThrowOffMagicAnim(
-  ctx: BattleCtx,
-  magicObjId: number,
-  targetIdx: number | undefined,
-): void {
+function pushThrowOffMagicAnim(ctx: BattleCtx, magicObjId: number, target: number | 'all'): void {
   const tables = ctx.magicTables
   if (!tables) return
   const om = resolveObjectMagic(magicObjId, tables.objectMagics)
@@ -150,8 +147,7 @@ function pushThrowOffMagicAnim(
   const n = ctx.magicSpriteFrameCounts?.get(mg.effect)
   if (ctx.pendingAnimFrames && n !== undefined && n > 0) {
     // OffMagic FIRE 特效帧(magic.sound 由 builder 挂特效起手帧 → 不再 push pendingSounds 防双响)。
-    const targetEnemyPos =
-      targetIdx !== undefined ? ctx.state.enemies[targetIdx]?.posOriginal : undefined
+    const targetEnemyPos = target !== 'all' ? ctx.state.enemies[target]?.posOriginal : undefined
     ctx.pendingAnimFrames.push(
       ...buildPlayerOffMagicTimeline({
         casterIdx: -1,
@@ -170,7 +166,7 @@ function pushThrowOffMagicAnim(
           sound: mg.sound,
         },
         n,
-        targetIdx: targetIdx ?? -1,
+        targetIdx: target === 'all' ? -1 : target,
         targetEnemyPos,
         baseScreenWave: ctx.state.field.screenWave, // L17:战场基础屏波 + magic.wWave 决定 keepEffect<9(battle.c:1563)
       }),
@@ -417,12 +413,16 @@ export function dispatchBattleOpcode(
       const i = asShort(op2) - 1
       // i>=0 → 显式目标 op2-1;否则 eventObjectID(simulateMagic 内再 <0 → 自动选敌)
       const targetIdx = i >= 0 ? i : ctx.target?.idx
+      const objectMagic = resolveObjectMagic(operands[0] ?? 0, tables.objectMagics)
+      if (!objectMagic) return { consumed: true }
+      // 在伤害改变 HP 前解析一次，特效不能因目标被本击打死而另选活敌。
+      const target = resolveSimulatedMagicTarget(state, objectMagic, targetIdx)
 
       const results = simulateMagic({
         state,
         magicObjId: operands[0] ?? 0,
         magStr: operands[1] ?? 0,
-        targetIdx,
+        targetIdx: target === 'all' ? -1 : target,
         objectMagics: tables.objectMagics,
         magics: tables.magics,
         // L18/L20:rngFactor 由 applyMagicDamage 循环内逐敌掷(sdlpal fight.c:215),不再 caller 预掷共用。
@@ -431,32 +431,35 @@ export function dispatchBattleOpcode(
         emitDamageNum(ctx, 'enemy', r.enemyIdx, r.hpBefore, r.hpAfter, r.damage) // 玩家方法术打敌:显示完整伤害
       // 投掷物 OffMagic FIRE 特效 + 效果音(sdlpal fight.c:5340 PAL_BattleShowPlayerOffMagicAnim;有投掷动画
       //   上下文 → 建特效帧进 pendingAnimFrames,否则音效即时)。
-      pushThrowOffMagicAnim(ctx, operands[0] ?? 0, targetIdx)
+      pushThrowOffMagicAnim(ctx, operands[0] ?? 0, target)
       return { consumed: true }
     }
 
     case OP_THROW_WEAPON: {
       // sdlpal `script.c:2007-2014`:
-      //   w = op1*5 + PAL_GetPlayerAttackStrength(movingPlayer) * RandomLong(0,3);
+      //   w = op1*5 + PlayerRoles.rgwAttackStrength[movingPlayerRole] * RandomLong(0,3);
       //   PAL_BattleSimulateMagic((SHORT)wEventObjectID, op0, w)。
       // 32 个可投掷武器(长鞭/木剑/铁剑/仙女剑/越女剑…)的 scriptOnThrow 用。
       const tables = ctx.magicTables
       if (!tables) return { consumed: true }
 
-      // attackStrength = PAL_GetPlayerAttackStrength(movingPlayer = caster);ctx.playerRoles 已是战斗入口投影后的 effective 值。
+      // 裸运行时武术不含装备/Extra；ctx.playerRoles 是 effective 投影，不能用于这条公式。
       let attackStr = 0
-      if (ctx.caster?.type === 'player' && ctx.playerRoles) {
+      if (ctx.caster?.type === 'player') {
         const roleId = state.players[ctx.caster.idx]?.roleId
-        const role = roleId !== undefined ? ctx.playerRoles.roles[roleId] : undefined
-        if (role) attackStr = asShort(role.attackStrength)
+        if (roleId !== undefined)
+          attackStr = ctx.gs?.PlayerRolesRuntime.rgwAttackStrength[roleId] ?? 0
       }
       const w = (operands[1] ?? 0) * 5 + attackStr * state.rng.rangeInclusive(0, 3)
+      const objectMagic = resolveObjectMagic(operands[0] ?? 0, tables.objectMagics)
+      if (!objectMagic) return { consumed: true }
+      const target = resolveSimulatedMagicTarget(state, objectMagic, ctx.target?.idx)
 
       const results = simulateMagic({
         state,
         magicObjId: operands[0] ?? 0,
         magStr: w,
-        targetIdx: ctx.target?.idx, // sdlpal:sTarget = (SHORT)wEventObjectID
+        targetIdx: target === 'all' ? -1 : target, // sdlpal:sTarget = (SHORT)wEventObjectID
         objectMagics: tables.objectMagics,
         magics: tables.magics,
         // L18/L20:rngFactor 由 applyMagicDamage 循环内逐敌掷,不再 caller 预掷共用。
@@ -464,7 +467,7 @@ export function dispatchBattleOpcode(
       for (const r of results)
         emitDamageNum(ctx, 'enemy', r.enemyIdx, r.hpBefore, r.hpAfter, r.damage) // 玩家方法术打敌:显示完整伤害
       // 投掷武器 OffMagic FIRE 特效 + 效果音(同 0x42,fight.c:5340)。
-      pushThrowOffMagicAnim(ctx, operands[0] ?? 0, ctx.target?.idx)
+      pushThrowOffMagicAnim(ctx, operands[0] ?? 0, target)
       return { consumed: true }
     }
 

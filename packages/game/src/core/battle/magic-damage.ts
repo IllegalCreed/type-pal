@@ -26,6 +26,7 @@
 import type { Magic, ObjectMagicView, PlayerRoles } from '@type-pal/shared'
 import type { BattleState } from './battle-state.js'
 import { calcMagicDamage } from './formulas.js'
+import { resolveSimulatedMagicTarget } from './simulated-magic-target.js'
 
 /** SHORT cast(同 formulas.ts 私函)。 */
 function asShort(n: number): number {
@@ -272,7 +273,7 @@ export interface SimulateMagicInput {
    */
   magStr: number
   /**
-   * 显式目标 enemy 索引;undefined → 自动选首活敌
+   * 显式目标 enemy 索引;undefined → 优先上次存活目标，再选首活敌。
    * (对齐 sdlpal `sTarget==-1 → PAL_BattleSelectAutoTargetFrom`)。
    */
   targetIdx: number | undefined
@@ -285,7 +286,7 @@ export interface SimulateMagicInput {
  * 0x66 throw weapon 共用核心**(sdlpal 两个 opcode 都调这一个函数,职责不拆分叉)。
  *
  * 流程:解析 op0 magic object → magic → guard(无符号 `magic.baseDamage>0 || magStr>0`)
- * → 目标(applyToAll flag 优先→全体;否则 targetIdx,undefined→首活敌)→
+ * → 目标(applyToAll 优先；显式目标；上次存活目标；首活敌；全灭保留全槽分支)→
  * applyMagicDamage(minDamage=0,SimulateMagic `if(sDamage<0)=0`)。
  *
  * caller 各自准备参数:
@@ -302,18 +303,7 @@ export function simulateMagic(input: SimulateMagicInput): MagicDamageResult[] {
   // sdlpal `if (lprgMagic[..].wBaseDamage > 0 || wBaseDamage > 0)` —— 无符号 WORD 比较
   if (!(magic.baseDamage > 0 || input.magStr > 0)) return []
 
-  let target: number | 'all'
-  if (objMagic.flags.applyToAll) {
-    target = 'all'
-  } else {
-    let i = input.targetIdx ?? -1
-    if (i < 0) {
-      // PAL_BattleSelectAutoTargetFrom:首个活敌
-      i = input.state.enemies.findIndex((e) => !e.defeated && e.e.health > 0)
-      if (i < 0) i = 0
-    }
-    target = i
-  }
+  const target = resolveSimulatedMagicTarget(input.state, objMagic, input.targetIdx)
 
   return applyMagicDamage({
     state: input.state,

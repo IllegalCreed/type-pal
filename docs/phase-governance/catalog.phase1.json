@@ -549,7 +549,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
-      "afterSha256": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
+      "afterSha256": "a81d17a63ff80031ab257eb38dd4db03320f33eb8e33b74d1df401a10eba6c89",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/battle/battle-system.ts",
@@ -694,7 +694,7 @@
       },
       "revision": {
         "currentSha": "45d890e4ce3862aeac9c54eef2d7d18a32032cee",
-        "implementationSha": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
+        "implementationSha": "a81d17a63ff80031ab257eb38dd4db03320f33eb8e33b74d1df401a10eba6c89",
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
@@ -703,6 +703,21 @@
             "date": "2026-10-04",
             "action": "phase-lore-governance-inventory",
             "notRun": ["runtime", "E2E", "coverage"]
+          },
+          {
+            "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
+            "date": "2026-10-18",
+            "action": "0x66 candidate runtime ownership repair progress paragraph only",
+            "previousAfterSha256": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
+            "scope": "Added finite current repair/evidence note above preserved historical difference. Other mechanic truth/sourceRefs and reviewStatus retained; no whole-document revalidation, browser, E2E or coverage credit.",
+            "evidence": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
           }
         ]
       },

@@ -1,5 +1,7 @@
 # CODE3m formulas / magic-damage 只读复审切片
 
+> 2026-10-18 当前 counter：本片漏报 simulateMagic 上次目标、0x66 裸武术与非伤害敌法术预掷三个 caller 分叉，撤回下文相应“未发现缺陷/接线已核”的当前信用。历史原文保留；新卡先红后修与原件见[机制返工](../../QUALITY-BATTLE-MAGIC-PARITY-1/README.md)。magic-damage 和 battle-opcodes 当前转 review，不据旧222绿数关闭。
+
 基点：`369c5596a`；分支：`codex/code-quality-3y`。本片完整复审 3m 的公式与伤害共享 helper；只读核验，没有改变公式、伤害下限、随机抽样、公共接口、存档或资源格式。3m 整卡保持 `partial`。
 
 完整读取：

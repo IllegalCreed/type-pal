@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "cb4266e04d00288bd05cc9b5dabc1149e86f27700486698a5524e0f080a57997",
+      "afterSha256": "2521a11a1841afaa473477dadab65228cecb8294fc58e781b619d054e313be8b",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,8 +1066,23 @@
       },
       "revision": {
         "currentSha": "a2101ce8ffeb73642521f0b489d17642f27bbd3fcdc581d0e9c354dedbc05778",
-        "implementationSha": "cb4266e04d00288bd05cc9b5dabc1149e86f27700486698a5524e0f080a57997",
+        "implementationSha": "2521a11a1841afaa473477dadab65228cecb8294fc58e781b619d054e313be8b",
         "history": [
+          {
+            "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
+            "date": "2026-10-18",
+            "action": "Record three user-directed pre-94 battle-magic counters and finite regression repair",
+            "previousAfterSha256": "cb4266e04d00288bd05cc9b5dabc1149e86f27700486698a5524e0f080a57997",
+            "scope": "Only the named document delta: current counter/review/queue/index/ledger, the 0x66 runtime ownership progress paragraph, or incoming review SHA linkage. Original historical quote, native coreConclusion and other verdicts remain unchanged. No renewed whole-file/product/coverage acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "291b7b59d4296650afb468a761ac269caba997b4",
             "date": "2026-10-18",
@@ -1198,7 +1213,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "cb4266e04d00288bd05cc9b5dabc1149e86f27700486698a5524e0f080a57997",
+        "afterSha256": "2521a11a1841afaa473477dadab65228cecb8294fc58e781b619d054e313be8b",
         "lineCount": 13734,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1229,7 +1244,7 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "1-14551",
+      "reviewedLines": "1-14656",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

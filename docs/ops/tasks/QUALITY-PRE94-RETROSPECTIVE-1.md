@@ -11,7 +11,7 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
 ## 当前用户要求、范围与准入
 
-用户2026-10-16重申“复审94号之前的所有卡的成果”，本卡当前覆盖全部83张CODE-QUALITY编号小于94的卡，包含字母后缀，不是抽样。77张历史done、1张build、4张review、1张draft仅是原卡状态；本轮重新accept为0。当前复审队列已推进为49张partial、34张pending；partial只表示有限证据切片，不是验收。按当前Git tracked路径收集，大小写敏感编号规则排除行政卡CODE-QUALITY-3Y-CLOSEOUT-1；不按编号空缺虚构卡。完整83行清单与卡SHA见[复审队列](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)。原36卡结构/8卡全文抽查是历史部分证据，不能替代任何整卡成果复验。3y的58差异卡矩阵也不是全部83卡。
+用户2026-10-16重申“复审94号之前的所有卡的成果”，本卡当前覆盖全部83张CODE-QUALITY编号小于94的卡，包含字母后缀，不是抽样。77张历史done、1张build、4张review、1张draft仅是原卡状态；本轮重新accept为0。当前复审队列已推进为50张partial、33张pending；partial只表示有限证据切片，不是验收。按当前Git tracked路径收集，大小写敏感编号规则排除行政卡CODE-QUALITY-3Y-CLOSEOUT-1；不按编号空缺虚构卡。完整83行清单与卡SHA见[复审队列](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)。原36卡结构/8卡全文抽查是历史部分证据，不能替代任何整卡成果复验。3y的58差异卡矩阵也不是全部83卡。
 
 唯一工作树/分支codex/code-quality-3y；主树和其它Owner只读，不再新建治理分支。94–102及editor既有返工继续保留；C10未完成检查点bea19f80c已提交推送，当前先推进本卡。工程→模块→功能→文件；先6a的账本/清单四文件，再核92的受保护门证据，继而逐卡回到shared/extract/game等模块。活跃53/57/79/80/81/90只读协调，未核前不抢写其实现。
 
@@ -21,7 +21,7 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 
 ## 当前推进
 
-83卡当前全量accept=0、49partial/34pending；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3b SSS/MSG、3c动画清理、3d PNG、3g CLI、3h assets/shell、CODE71 fetch取消与测试、CODE3/3f切分与标注已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
+83卡当前全量accept=0、50partial/33pending；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3b SSS/MSG、3c动画清理、3d PNG、3g CLI、3h assets/shell、CODE71 fetch取消与测试、CODE3/3f切分与标注已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
 
 无下一位Agent提示词，Codex单Agent继续全量复审，不把本卡交回GLM。
 
@@ -610,3 +610,13 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 用户转达GLM对7b8365195..f544b9b94相关波次的独立审计摘要：内容层通过、收口纪律四项返工。该摘要不是本轮Codex重验全部71锚/五产品修复的原始证据。Codex单一Owner `build allowed` 仅：两处SDLPal引用范围与本轮对应docs/账本的精确更正、六条退役实际授权来源和registry注释，以及任务/看板/证据绑定。产品、测试body、matcher/拒绝规则、退役payload、baseline和原历史quote不改；不重跑全仓/coverage补造旧原件。
 
 前两项已于7fc92e98撤回统一门通过/收口并公开四份会话持久化片段；当轮完整日志与act/环境精确计数仍缺，保持unknown/rework。现核primary：uibattle.c全长1808，飘字循环1746–1767、PAL_BattleUIShowNum 1770–1808；global.c全长2409，PAL_PlayerLevelUp 2347–2409。六退役的用户依据来自早于新增提交的本会话通用精简规则/全仓或editor范围指令，逐项执行裁定人为Codex，不登记为逐条用户签字，不援引OPQ旧五文件授权。源消息ID/时间/摘录、六实际快照与未运行项见[审计后续](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/receipt-audit/README.md)。
+
+## 2026-10-18 完整独立审计返工队列
+
+优先处理用户转交的三机制counter，另开[高风险卡](QUALITY-BATTLE-MAGIC-PARITY-1.md)，不推进新编号103+任务。三条经C/真实caller核实、先红后绿；本次15定向、37文件935相邻、五单红反控均已形成原件，统一门/视觉待续。CODE3t由pending转partial，当前83卡50partial/33pending/0accept；其余内容结论不因审计概述而批量重签。五条旧闭合记录直接counter后转review，本片无新增closed。
+
+注释返工十项均保持pending：scene-system-search方向及3o说明；turn-queue源函数；attack/battle-system投影锚；draw-shop全屏说明；CurePoisonByKind锚；STAT_LIMIT锚；formulas半开区间和冗余算式；minimap/tools/bootstrap尺寸；bootstrap快捷键；palette ColorFade等价性及removePoisonLevel99非压缩差异。纯注释另提交；formulas冗余算式先核浮点/取整影响，不冒充纯注释。draw-equip单人rows和draw-inventory阴影两行为差异只读核证、保持pending，不借本卡直接改UI。
+
+证据返工：53-wave-gates已撤回零诊断通过，旧完整raw确实缺失；已补四执行持久化片段、两锚真实EOF与六退役实际用户指令来源（不冒充六条逐项用户签字），见53 receipt-audit。其余六项仍pending：42 SHA/行数混代、四份battle.c短SHA、51/49陈旧行数、55缺read-boundaries、3j pause caller、3v逃跑机制锚。历史原件不改写成新结果；下一批先收这些证据与注释，再续UI/73及其它pre-94。
+
+相邻追加：H01单敌fixture多造101，显式reporter 1块stderr；单红后修终止符，该测试旧closed转review。原3s“无stderr”当前信用已加counter，不以隐式摘要无展示声称0诊断。

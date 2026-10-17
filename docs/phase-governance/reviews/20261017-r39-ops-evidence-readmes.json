@@ -38,7 +38,7 @@
         }
       ],
       "sourceSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
-      "afterSha256": "5b9929b61608a51db20c5478a58253c51e7f54bfe676e473ac526061080a11f0",
+      "afterSha256": "8ab6f82c698484f6d83dcabf9f68870d78a6c5342fb24b4e94ca96316d0cf627",
       "publicCallers": [
         "docs/ops/evidence/README.md → docs/ops/evidence/README.md navigation",
         "task card / evidence consumer references"
@@ -59,8 +59,23 @@
       },
       "revision": {
         "currentSha": "5b9929b61608a51db20c5478a58253c51e7f54bfe676e473ac526061080a11f0",
-        "implementationSha": "17a0f858b7a320a3c920b2de2cca77c4fe8fa3171b68b9b512e9f323ff002614",
+        "implementationSha": "8ab6f82c698484f6d83dcabf9f68870d78a6c5342fb24b4e94ca96316d0cf627",
         "history": [
+          {
+            "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
+            "date": "2026-10-18",
+            "action": "Record three user-directed pre-94 battle-magic counters and finite regression repair",
+            "previousAfterSha256": "5b9929b61608a51db20c5478a58253c51e7f54bfe676e473ac526061080a11f0",
+            "scope": "Only the named document delta: current counter/review/queue/index/ledger, the 0x66 runtime ownership progress paragraph, or incoming review SHA linkage. Original historical quote, native coreConclusion and other verdicts remain unchanged. No renewed whole-file/product/coverage acceptance.",
+            "evidence": "docs/ops/evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "a1ac53bbea78b58ee88e5a3a53894a2fcaf595eb",
             "date": "2026-10-17",
@@ -81,7 +96,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r39-ops-evidence-readmes-20261017.json",
         "sourceSha256": "a48cc1db49991fc489f07063c2bf635a9996771647f07e025aa735d5a58ff851",
         "candidateSha256": "17a0f858b7a320a3c920b2de2cca77c4fe8fa3171b68b9b512e9f323ff002614",
-        "afterSha256": "5b9929b61608a51db20c5478a58253c51e7f54bfe676e473ac526061080a11f0",
+        "afterSha256": "8ab6f82c698484f6d83dcabf9f68870d78a6c5342fb24b4e94ca96316d0cf627",
         "lineCount": 112,
         "artifactPreserved": false,
         "originalPreservation": {
@@ -119,7 +134,7 @@
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
       "stopLine": "do not promote evidence receipt or index claims to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 ops evidence README 保持 → 接入统一模板、历史 overlay、可逆 quote、SHA 和 consumer/执行边界；产品事实不变。",
-      "reviewedLines": "1-112",
+      "reviewedLines": "1-165",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "documentStatus": "current-index",

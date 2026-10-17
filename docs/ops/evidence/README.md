@@ -28,12 +28,15 @@ Template: governance-index-v1 / 1.0.0
 - 未决/阻塞：历史证据不能单独证明当前产品行为；重新运行时需生成新的 receipt。
 - 下一步：按 source/after SHA 和 consumer 复核继续清理 governed-legacy。
 
-## 2026-10-17 当前专项入口
+## 2026-10-17/18 当前专项入口
 
-- [94前全部治理成果复审](QUALITY-PRE94-RETROSPECTIVE-1/README.md)：全部83张编号卡仍14 partial / 69 pending / 0整卡accept；历史证据不自动升格。
+- [94前全部治理成果复审](QUALITY-PRE94-RETROSPECTIVE-1/README.md)：全部83张编号卡为50 partial / 33 pending / 0整卡accept；历史证据不自动升格。
 - [fetch取消生命周期 C1](QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md)：合并最新main后26例定向与game typecheck通过；全仓运行时诊断和统一质量门仍未清零。
 
 ## 当前证据目录（逐目录入口）
+
+- [QUALITY-BATTLE-MAGIC-PARITY-1](QUALITY-BATTLE-MAGIC-PARITY-1/README.md)
+
 
 - [CODE-QUALITY-100](CODE-QUALITY-100/README.md)
 - [CODE-QUALITY-101](CODE-QUALITY-101/README.md)
