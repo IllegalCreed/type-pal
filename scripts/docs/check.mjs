@@ -1,5 +1,14 @@
 import { execFileSync } from 'node:child_process'
-import { existsSync, readFileSync, realpathSync } from 'node:fs'
+import {
+  closeSync,
+  existsSync,
+  mkdtempSync,
+  openSync,
+  readFileSync,
+  realpathSync,
+  rmSync,
+} from 'node:fs'
+import { tmpdir } from 'node:os'
 import { basename, dirname, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import {
@@ -18,6 +27,32 @@ const archivedTaskDirectories = ['docs/ops/archive/tasks/done', 'docs/ops/archiv
 const taskIndex = `${taskDirectory}index.md`
 const statuses = new Set(['draft', 'build', 'review', 'done', 'blocked', 'rework', 'cancelled'])
 const terminal = new Set(['done', 'cancelled'])
+
+export function checkoutFiles(root) {
+  const spool = mkdtempSync(resolve(tmpdir(), 'type-pal-docs-files-'))
+  const output = resolve(spool, 'stdout')
+  let descriptor
+  let text
+  try {
+    descriptor = openSync(output, 'wx', 0o600)
+    // Git writes directly to disk; its complete census must not be capped by
+    // execFileSync's stdout buffer. Parse only after a successful child exit.
+    execFileSync('git', ['ls-files', '--cached', '--others', '--exclude-standard', '-z'], {
+      cwd: root,
+      stdio: ['pipe', descriptor, 'pipe'],
+    })
+    text = readFileSync(output, 'utf8')
+  } finally {
+    try {
+      if (descriptor !== undefined) closeSync(descriptor)
+    } finally {
+      rmSync(spool, { recursive: true, force: true })
+    }
+  }
+  // Apply the original existence filter after cleanup, including when TMPDIR
+  // happens to be inside the checkout and Git observed our temporary file.
+  return text.split('\0').filter((file) => file && existsSync(resolve(root, file)))
+}
 
 export function isTaskDocument(file) {
   return (
@@ -326,13 +361,7 @@ function main(args) {
     process.exitCode = 1
     return
   }
-  const files = execFileSync(
-    'git',
-    ['ls-files', '--cached', '--others', '--exclude-standard', '-z'],
-    { cwd: repoRoot, encoding: 'utf8' },
-  )
-    .split('\0')
-    .filter((file) => file && existsSync(resolve(repoRoot, file)))
+  const files = checkoutFiles(repoRoot)
   const available = checkoutTargets(files)
   const paths = files.filter((file) => /\.md$/i.test(file))
   const documents = new Map(
