@@ -1,0 +1,54 @@
+{
+  "base": "9cd270f26",
+  "files": [
+    {
+      "path": "packages/game/src/shell/audio-volume.test.ts",
+      "sha256": "e624806a16ef3353e5b1d40f780817e4d4ed1d9e89ee36bcc2cdbeeb0e1eb41a",
+      "lines": 49,
+      "scope": "full file; clamp/mute/restore/storage/sink and cleanup"
+    },
+    {
+      "path": "packages/game/src/shell/audio-volume.boundaries.test.ts",
+      "sha256": "6fe6bc00bc6687dd5b978755e08f5d93ecb8b49835e86ea4803b8c1b84049131",
+      "lines": 100,
+      "scope": "full file; NaN, stored/default0, independent keys and shared mute ownership"
+    },
+    {
+      "path": "packages/game/src/shell/audio-volume.ts",
+      "sha256": "3a1e7ba69c8c60366211365fae35cb5e41ab78791e59cac9f486974dd6d92e50",
+      "lines": 55,
+      "scope": "full file; synchronous typed controller, clamping/storage, immediate apply and per-instance state"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-audio.test.ts",
+      "sha256": "3f4e3962934dd6cd2c7f242a2fe2b79efe2b44cef9f623396469dc88a3e2565c",
+      "lines": 42,
+      "scope": "full file; adjacent real public sync caller, regression only"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "6c02f5c426c7bf4fb8ef096117c23dd79ee10a2d642e70c1d4d51119b2026298",
+      "lines": 1944,
+      "scope": "1075-1118 actual three-controller injection; not whole-bootstrap review"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "1690410dfda8b125cecf8f650c3f91f4efcc3ee79200ff74795b49647f68e8e1",
+      "lines": 1106,
+      "scope": "629-648 volume input; 680-699 explicit mute broadcast"
+    },
+    {
+      "path": "docs/phase1/engineering-notes.md",
+      "sha256": "e37d7232b6aff955f4aa8b50e33f87b15377a3707c0c548d5d6cc7ddffb2e89f",
+      "lines": 279,
+      "scope": "80 BGM source/amplitude troubleshooting only; no mechanism or source-amplitude change"
+    }
+  ],
+  "notClaimed": [
+    "new product or public-interface behavior",
+    "WebAudio/media playback/loudness verification",
+    "complete bootstrap/tools-panel acceptance",
+    "storage-denied startup policy",
+    "new whole-repository/coverage/protected gate"
+  ]
+}

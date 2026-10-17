@@ -407,7 +407,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "b21cc960e5f3ef726e5585c4a2c3db7d609ee9e28cbc10b2aab7840f0da57cdc",
+      "afterSha256": "9c6f0fe91c0c1829b071626f90ab2669a0ec808be3c639198b03e9b6e59231ec",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -438,10 +438,24 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "b21cc960e5f3ef726e5585c4a2c3db7d609ee9e28cbc10b2aab7840f0da57cdc",
+        "implementationSha": "9c6f0fe91c0c1829b071626f90ab2669a0ec808be3c639198b03e9b6e59231ec",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "9cd270f26",
+            "date": "2026-10-18",
+            "action": "CODE70 volume test contracts and shared-key ownership review",
+            "previousAfterSha256": "b21cc960e5f3ef726e5585c4a2c3db7d609ee9e28cbc10b2aab7840f0da57cdc",
+            "scope": "Only two reviewed volume test rows (+1 directly verified main test), matching counts/current board and their metadata references. No new product/whole-card acceptance; historical raw/native judgments preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/70-audio-volume/README.md",
+            "notRun": [
+              "new whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual"
+            ]
+          },
           {
             "revision": "a2ee3650c",
             "date": "2026-10-18",
@@ -709,7 +723,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "b21cc960e5f3ef726e5585c4a2c3db7d609ee9e28cbc10b2aab7840f0da57cdc",
+        "afterSha256": "9c6f0fe91c0c1829b071626f90ab2669a0ec808be3c639198b03e9b6e59231ec",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",

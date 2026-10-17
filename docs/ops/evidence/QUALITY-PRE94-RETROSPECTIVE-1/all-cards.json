@@ -2562,10 +2562,10 @@
       "number": 70,
       "suffix": "",
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-70-game-audio-volume-boundary.md",
-      "sha256": "e4f311bf6d40deda89b472fa26501fb9f9a8ef179bcf52f692cb61b81995efa1",
-      "lines": 30,
+      "sha256": "d9893a8d961deb4ab5e1a9b120b04722054d6efb85c52af86eba714c03f0c055",
+      "lines": 36,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -3923,8 +3923,8 @@
   ],
   "reviewCheckpointBase": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
   "currentReviewCounts": {
-    "partial": 47,
-    "pending": 36,
+    "partial": 48,
+    "pending": 35,
     "accept": 0
   }
 }

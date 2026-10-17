@@ -1,6 +1,6 @@
 # 94前全部83卡复审队列
 
-2026-10-18，结构基点bea19f80c；当前检查点d49de5240及本批69。77历史done/1build/4review/1draft。本轮accept=0，partial=47，pending=36。pending表示本轮语义复审未完成；partial只表示有限证据，不能作整卡验收。当前计数由all-cards.json逐行核对，旧卡done和旧全仓门不自动继承。
+2026-10-18，结构基点bea19f80c；当前检查点9cd270f26及本批70。77历史done/1build/4review/1draft。本轮accept=0，partial=48，pending=35。pending表示本轮语义复审未完成；partial只表示有限证据，不能作整卡验收。当前计数由all-cards.json逐行核对，旧卡done和旧全仓门不自动继承。
 
 | 卡 | 原卡状态 | 当前复审 | 范围/证据 |
 |---|---|---|---|
@@ -63,7 +63,7 @@
 | [CODE-QUALITY-67](../../archive/tasks/done/CODE-QUALITY-67-game-speedrun-checkpoint-boundary-tests.md) | done | partial | [speedrun checkpoint tests 复审](67-speedrun-checkpoint-tests/README.md)：checkpoint/timer boundary 与 detector/index caller 已核；四文件/31 tests、game typecheck通过，运行时校准仍 unknown |
 | [CODE-QUALITY-68](../../archive/tasks/done/CODE-QUALITY-68-game-speedrun-countdown-tests.md) | done | partial | [countdown 测试复审](68-countdown-tests/README.md)：合并重复生命周期oracle、补同文字DOM变更/SSR合同；旧绿新单红，20文件104例通过；新统一门未运行 |
 | [CODE-QUALITY-69](../../archive/tasks/done/CODE-QUALITY-69-game-speedrun-time-format-tests.md) | done | partial | [time-format复审](69-time-format-tests/README.md)：去重/纠错标题/拆合同；两枚旧10绿新单红；相邻20文件108例通过，生产源仍review，新统一门未跑 |
-| [CODE-QUALITY-70](../../archive/tasks/done/CODE-QUALITY-70-game-audio-volume-boundary.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
+| [CODE-QUALITY-70](../../archive/tasks/done/CODE-QUALITY-70-game-audio-volume-boundary.md) | done | partial | [音量两测试](70-audio-volume/README.md)：排重/拆合同、共享key注释与独立oracle；忽略key旧6绿新单红，相邻36绿，无新统一门 |
 | [CODE-QUALITY-71](../../archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md) | done | partial | [源/三测试与真实取消反证](3h/fetch-retry/README.md)：三旧绿新红、族19；取消生命周期draft/完整game17块未清 |
 | [CODE-QUALITY-72](../../archive/tasks/done/CODE-QUALITY-72-game-boot-loading-lifecycle.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-73](../../archive/tasks/done/CODE-QUALITY-73-game-input-lifecycle.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |

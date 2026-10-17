@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "c9555c0e17782acd8a997bf61ddca35a081a12c4a9fcea23628f1c48f3d7c804",
+      "afterSha256": "2ae7a2d95b7c8893c33666c91e1e83c962a2b6503043a289d41cd0ee7b20d153",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,8 +1066,22 @@
       },
       "revision": {
         "currentSha": "a2101ce8ffeb73642521f0b489d17642f27bbd3fcdc581d0e9c354dedbc05778",
-        "implementationSha": "c9555c0e17782acd8a997bf61ddca35a081a12c4a9fcea23628f1c48f3d7c804",
+        "implementationSha": "2ae7a2d95b7c8893c33666c91e1e83c962a2b6503043a289d41cd0ee7b20d153",
         "history": [
+          {
+            "revision": "9cd270f26",
+            "date": "2026-10-18",
+            "action": "CODE70 volume test contracts and shared-key ownership review",
+            "previousAfterSha256": "c9555c0e17782acd8a997bf61ddca35a081a12c4a9fcea23628f1c48f3d7c804",
+            "scope": "Only two reviewed volume test rows (+1 directly verified main test), matching counts/current board and their metadata references. No new product/whole-card acceptance; historical raw/native judgments preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/70-audio-volume/README.md",
+            "notRun": [
+              "new whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual"
+            ]
+          },
           {
             "revision": "a2ee3650c",
             "date": "2026-10-18",
@@ -1137,7 +1151,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "c9555c0e17782acd8a997bf61ddca35a081a12c4a9fcea23628f1c48f3d7c804",
+        "afterSha256": "2ae7a2d95b7c8893c33666c91e1e83c962a2b6503043a289d41cd0ee7b20d153",
         "lineCount": 13734,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1168,7 +1182,7 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "1-14408",
+      "reviewedLines": "1-14436",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

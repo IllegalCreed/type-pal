@@ -3212,11 +3212,25 @@
       "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "c424468c3acd7075df467aea2b67a9d36e7158d8afcec5fc48634ba81b753eec",
+      "afterSha256": "bb16e539fe02c96dba996b13762ee42e3157cd1ce1000c3a809e27b95b77ac2e",
       "revision": {
         "currentSha": "addcb44c52fd00ab0fd3397e61ae316bf98d02e2aeef1d5533ed23a2c1e5845a",
-        "implementationSha": "c424468c3acd7075df467aea2b67a9d36e7158d8afcec5fc48634ba81b753eec",
+        "implementationSha": "bb16e539fe02c96dba996b13762ee42e3157cd1ce1000c3a809e27b95b77ac2e",
         "history": [
+          {
+            "revision": "9cd270f26",
+            "date": "2026-10-18",
+            "action": "CODE70 volume test contracts and shared-key ownership review",
+            "previousAfterSha256": "c424468c3acd7075df467aea2b67a9d36e7158d8afcec5fc48634ba81b753eec",
+            "scope": "Only two reviewed volume test rows (+1 directly verified main test), matching counts/current board and their metadata references. No new product/whole-card acceptance; historical raw/native judgments preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/70-audio-volume/README.md",
+            "notRun": [
+              "new whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual"
+            ]
+          },
           {
             "revision": "a2ee3650c",
             "date": "2026-10-18",
@@ -3365,7 +3379,7 @@
         "kind": "A8-six-pending-inventory-real-producer-maintenance",
         "path": "docs/ops/audits/code-quality-file-ledger.md",
         "sourceSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
-        "afterSha256": "c424468c3acd7075df467aea2b67a9d36e7158d8afcec5fc48634ba81b753eec",
+        "afterSha256": "bb16e539fe02c96dba996b13762ee42e3157cd1ce1000c3a809e27b95b77ac2e",
         "lineCount": 592,
         "sourceScope": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "completePrior": {
@@ -3588,7 +3602,7 @@
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "1-711",
+      "reviewedLines": "1-712",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {

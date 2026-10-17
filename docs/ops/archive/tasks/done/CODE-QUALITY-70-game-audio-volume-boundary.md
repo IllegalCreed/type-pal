@@ -21,6 +21,12 @@ Visual Verification Timing: N/A（localStorage/音频 sink controller）
 
 2026-10-13 Codex：accept/done；补齐 `audio-volume.test.ts` 主合同记录，账本收口为 `3266 / 317 closed / 8 review / 2941 pending`。
 
+## 2026-10-18 当前复审
+
+Codex单一Owner，build allowed仅主/边界两测试与治理证据。完整读取实现/两测试，核bootstrap三通道注入和tools-panel广播/滑块caller。修前实际3+3共6例，旧3+5计数按历史保留；静音中改目标归入main，拆stored/default与音量键/静音键配置轴，补完整状态/sink/storage oracle和前后清理，纠正“setter读共享键”注释。修后3+5共8例，不以数量/包绿作验收。
+
+忽略keyMute隔离反控旧6绿→新7绿1个指定AssertionError，正式8绿；相邻6文件36例及game typecheck通过。源/API/UI/save与规则未改。实际读取/合法输入/primary/caller/oracle/排重/native/raw/hash见[70证据](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/70-audio-volume/README.md)。新全仓check/ratchet/protected未跑，旧波次不认证本候选，当前partial。新增main一项closed，287closed/44review/2981pending，48partial/35pending/0整卡accept；下一批72。
+
 ## 下一位 Agent 提示词
 
 ```text

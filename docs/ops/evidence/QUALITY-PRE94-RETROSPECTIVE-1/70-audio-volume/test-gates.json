@@ -1,0 +1,43 @@
+[
+  {
+    "name": "adjacent",
+    "command": [
+      "pnpm",
+      "--filter",
+      "@type-pal/game",
+      "exec",
+      "vitest",
+      "run",
+      "src/shell/audio-volume.test.ts",
+      "src/shell/audio-volume.boundaries.test.ts",
+      "src/tools/tools-panel.test.ts",
+      "src/tools/tools-panel.glm-phase1-leaves.test.ts",
+      "src/shell/bootstrap-audio.test.ts",
+      "src/shell/music-source.test.ts",
+      "--maxWorkers=1",
+      "--silent=false",
+      "--reporter=default",
+      "--reporter=json",
+      "--outputFile.json=/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/70-audio-volume/adjacent.runner.json"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "ab9d61bf7aff23f573019c501c417bf501d72914778292d3e2a8917829b94864",
+    "numTotalTests": 36,
+    "numPassedTests": 36,
+    "numFailedTests": 0,
+    "numPendingTests": 0,
+    "files": 6
+  },
+  {
+    "name": "typecheck",
+    "command": ["pnpm", "--filter", "@type-pal/game", "typecheck"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "exit": 0,
+    "signal": null,
+    "spawnError": null,
+    "rawSha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+  }
+]
