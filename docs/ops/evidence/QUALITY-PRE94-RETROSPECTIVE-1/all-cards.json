@@ -1830,10 +1830,10 @@
       "number": 48,
       "suffix": "",
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-48-game-draw-equip.md",
-      "sha256": "da8b2d2d412ee0af517f0f70d2b12f7804383a4bae266069e99fa22dfa1f987b",
-      "lines": 62,
+      "sha256": "dd7492a6560ead1ba911c9ebb77bf3ed3643f0278671a0110b57cf42b2482cc8",
+      "lines": 69,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -1869,7 +1869,7 @@
           "text": "- 2026-10-12 Codex：从最新 `origin/main` 同步后建立窄批。当前分支与 `origin/main` 为 ahead 14 / behind 0；基线 ledger 为 3266 files / 259 closed / 5 review / 3002 pending。已完整读取 3 个范围文件、`draw-menu.ts`、`present.ts`、`equip-menu.ts`、`menu-driver.ts`、P03 caller/oracle 与 `reference/sdlpal/uigame.c:1793-2055`、`itemmenu.c:28-224`、`play.c:350-357`。发现的问题：未发现直接缺陷；未修问题：无。定向 Vitest 3 files/16 tests、game typecheck、game 311 files/3519 tests、全仓 `pnpm check`（content149/1498、shared16/131、game311/3519、pal-extract70/423、reforge359/8964、editor631/4951、migrate96/739）均通过；coverage ratchet 通过且基线保持，protected fast 通过且 0 项下降；lint-zero 3994 files，error/warning/info 全 0；docs/content review、git diff --check、ledger 均通过。未触碰高风险边界；菜单观感登记集中 E2E 延后。账本更新为 3266 files / 262 closed / 5 review / 2999 pending。下一批候选：`packages/game/src/present/menu/draw-inventory.ts` 及其专属测试，或 `draw-tilemap.ts`（需另开卡并重新核 primary source）。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true
     },
     {
       "id": "49",
@@ -3923,8 +3923,8 @@
   ],
   "reviewCheckpointBase": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
   "currentReviewCounts": {
-    "partial": 30,
-    "pending": 53,
+    "partial": 31,
+    "pending": 52,
     "accept": 0
   }
 }

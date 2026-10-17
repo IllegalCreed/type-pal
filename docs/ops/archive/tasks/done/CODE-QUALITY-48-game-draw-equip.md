@@ -60,3 +60,10 @@ Visual Verification Timing: e2e-deferred（菜单观感留集中 E2E；本批核
 ```text
 无下一位 Agent；本批已完成并归档，下一批需另开卡、重新核对最新 origin/main 与账本。
 ```
+
+
+## Codex 当前复审（2026-10-18）
+
+历史 `done` 不等于本轮验收。本轮在 `codex/code-quality-3y` 上完整读取三个范围文件、P03 caller/oracle、equip/menu 生命周期与 SDLPal `uigame.c:1793-2055`、`itemmenu.c:28-224`、`play.c:328-359`、`global.c:1175-1225`；核对角色顺序/装备位、资源缺失、6 槽/5 stat、数量、颜色、边界和测试排重，未发现可直接证明的实现缺陷。零数量绘制差异因正常库存归零会删除条目且进入 pick-role 有正数量门，作为不可达防御输入保留，不改变 UI 行为。复审状态为 `partial`，不标 `accept`。
+
+验证：直接 3 files / 16 tests passed；相邻 9 files / 167 tests passed；`pnpm --filter @type-pal/game typecheck` passed。coverage ratchet、protected fast、全仓 `pnpm check`、official coverage 本小批未运行，统一门留待完整 game/present 模块收口。证据见 [`48-draw-equip`](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/48-draw-equip/README.md)。

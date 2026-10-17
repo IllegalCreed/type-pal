@@ -1,0 +1,91 @@
+{
+  "base": "499f2762",
+  "fullReads": [
+    {
+      "path": "packages/game/src/present/menu/draw-equip.ts",
+      "sha256": "1a848a399adc95b4be61a767e63c8e08ff4343851566fc21ec7355c66aeb55db",
+      "lines": 279,
+      "boundary": "Full implementation read: list/pick-role/done branches, resource fallback, role mapping, equipment/stat projection, colors, framebuffer ownership."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+      "sha256": "2772110f569c4d082a82fca6c2636dd52193f95bd4ae3f54830b6d17b1ff0c81",
+      "lines": 124,
+      "boundary": "Full direct leaves read: non-sequential party role mapping, unknown equipment, empty slots and missing role defensive paths."
+    },
+    {
+      "path": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "sha256": "03b46c33d1868763a634c8ad4607049f8f493c1ece65325db570e02853c5fa36",
+      "lines": 367,
+      "boundary": "Full direct pixel read: single-party box, done/undefined/unknown selection, cursor bounds, zero amount, stats and runtime count projection."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p03-equip.test.ts",
+      "sha256": "8287730a4edf95c5e822dec67c9aa074d498c7f47abe135f7c925739e716ea41",
+      "lines": 208,
+      "boundary": "Full adjacent caller/oracle read: list filter, pick-role layout, six-slot names, icon/background, attack preview, colors and input immutability."
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.ts",
+      "sha256": "c6e061d30a0aa7e4220ad90a37dc582245a84836cc4c249afd872aa8095fda69",
+      "lines": 111,
+      "boundary": "Full state lifecycle read: list/pick-role/done, count gate, role cursor, selected item ownership and cancellation."
+    },
+    {
+      "path": "reference/sdlpal/uigame.c",
+      "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1",
+      "lines": 2076,
+      "ranges": ["1793-2055"],
+      "boundary": "PAL_EquipItemMenu background, icon, role list, equipment names, stats, amount and colors primary."
+    },
+    {
+      "path": "reference/sdlpal/itemmenu.c",
+      "sha256": "7026d7875f79a57cf21fd80135d13022ff792698720ef6f56de864d208742a74",
+      "lines": 466,
+      "ranges": ["28-224"],
+      "boundary": "PAL_ItemSelectMenu update, selectable filter and inventory amount/cursor primary."
+    },
+    {
+      "path": "reference/sdlpal/play.c",
+      "sha256": "f13ba4e3a9c86c494390ea1eda121be1ae4c7fa5110f5e51cf4680321c742ef8",
+      "lines": 682,
+      "ranges": ["328-359"],
+      "boundary": "PAL_GameEquipItem outer list/pick-role lifecycle primary."
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "lines": 2409,
+      "ranges": ["1175-1225"],
+      "boundary": "PAL_GetItemAmount and inventory zero compression ownership primary."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "ranges": ["equip dispatch"],
+      "boundary": "Public drawMenuEntry equip caller and extra resource injection boundary."
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "ranges": ["680-705"],
+      "boundary": "Runtime playerRoles/items/equipBg/itemIcons projection into draw menu."
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "ranges": ["730-880"],
+      "boundary": "Equip dispatch, confirm/cancel, script/swap and inventory refresh caller."
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.ts",
+      "ranges": ["110-155", "220-240"],
+      "boundary": "Inventory entry removal/count and confirm legality boundary."
+    }
+  ],
+  "notClaimed": [
+    "Current full-repository check/coverage/ratchet/protected-fast acceptance",
+    "Runtime visual/E2E acceptance",
+    "Arbitrary malformed/non-finite role/item/catalog inputs beyond current typed caller domain",
+    "Any change to zero-quantity UI behavior"
+  ]
+}

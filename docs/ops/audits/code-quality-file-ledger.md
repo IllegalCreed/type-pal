@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,311。
-当前已闭合核验：238；已读但待审：41；尚未逐文件核验：3,032；合计未闭合：3,073。
+当前已闭合核验：241；已读但待审：41；尚未逐文件核验：3,029；合计未闭合：3,070。
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
@@ -180,6 +180,9 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/present/menu/draw-confirm.ts` | product | 已验证 | CODE-QUALITY-46 当前复审；46-draw-confirm；uigame.c:242-388；present/draw-menu/draw-shop callers；draw-box/font/framebuffer owners | 48 行实现全文核验双框坐标、selectedColor、标签/阴影、空标签与 framebuffer ownership；定向2 files/10 tests、相邻3 files/69 tests、game typecheck通过；未发现 direct defect |
 | `packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-46 当前复审；46-draw-confirm；真实 drawConfirmBox/framebuffer pixel oracle | 67 行全文核验选中侧、palette cycle、三影、custom switch labels；定向2 files/10 tests通过，无弱断言 |
 | `packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-46 当前复审；46-draw-confirm；opening/pixel caller与状态隔离 oracle | 177 行全文核验背景/光标/状态不可变、多字与空标签边界；定向2 files/10 tests通过，无弱断言 |
+| `packages/game/src/present/menu/draw-equip.ts` | product | 已验证 | CODE-QUALITY-48 当前复审；48-draw-equip；SDLPal `uigame.c:1793-2055`/`itemmenu.c:28-224`/`play.c:328-359`/`global.c:1175-1225`；draw-menu/present/equip-menu/menu-driver/inventory callers；P03 oracle | 279 行实现全文核验 list/pick-role/done ownership、equipable role 位、6 槽/5 stat、数量/颜色、资源缺失、party 顺序和 framebuffer 边界；直接3 files/16 tests、相邻9 files/167 tests、game typecheck通过；零数量差异只在不可达防御输入，未发现 direct defect |
+| `packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-48；48-draw-equip；drawEquipMenu role/party/catalog 反例 | 124 行全文核验非顺序 party、roleId equipable 位、未知已装备/空槽/缺 role；直接3 files/16 tests通过；与 P03/像素职责不重复 |
+| `packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-48；48-draw-equip；真实 framebuffer/typed role/equipment oracle | 367 行全文核验单人框、done/未选/未知 id、越界 cursor、数量 0、灵力/防御/身法/吉运与 runtime count；直接3 files/16 tests通过；未弱化断言 |
 | `packages/game/src/present/menu/draw-box.ts` | product | 已验证 | CODE-QUALITY-47 当前复审；47-draw-box；SDLPal `ui.c:131-340,762-833`/`ui.h:195-254`；draw-menu/confirm/shop/magic/inventory/equip/battle-ui/dialog/settlement callers；framebuffer owner | 191 行实现全文核验 9-slice/single-line frame identity、几何、shadow/opaque 顺序、palette-0/透明孔、屏外裁剪、缺帧与宽度 helper；直接3 files/22 tests、相邻10 files/127 tests、game typecheck通过；未发现 direct defect；统一门待模块收口 |
 | `packages/game/src/present/menu/draw-box.test.ts` | test | 已验证 | CODE-QUALITY-47；47-draw-box；drawBox 公开入口与 framebuffer pixel oracle | 101 行全文核验 style/网格/frame/shadow/缺帧合同；直接3 files/22 tests通过；无弱化断言 |
 | `packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-47；47-draw-box；drawSingleLineBox/menuTextMaxCols/Framebuffer 反例 | 79 行全文核验缺帧、无阴影、屏外裁剪、零 rows/cols、空/ASCII/CJK 宽度和 fixture 合同；直接3 files/22 tests通过；与主测试职责不重复 |
