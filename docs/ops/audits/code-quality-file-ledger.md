@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,311。
-当前已闭合核验：244；已读但待审：42；尚未逐文件核验：3,025；合计未闭合：3,067。
+当前已闭合核验：247；已读但待审：43；尚未逐文件核验：3,021；合计未闭合：3,064。
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
@@ -180,6 +180,10 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/present/menu/draw-confirm.ts` | product | 已验证 | CODE-QUALITY-46 当前复审；46-draw-confirm；uigame.c:242-388；present/draw-menu/draw-shop callers；draw-box/font/framebuffer owners | 48 行实现全文核验双框坐标、selectedColor、标签/阴影、空标签与 framebuffer ownership；定向2 files/10 tests、相邻3 files/69 tests、game typecheck通过；未发现 direct defect |
 | `packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-46 当前复审；46-draw-confirm；真实 drawConfirmBox/framebuffer pixel oracle | 67 行全文核验选中侧、palette cycle、三影、custom switch labels；定向2 files/10 tests通过，无弱断言 |
 | `packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-46 当前复审；46-draw-confirm；opening/pixel caller与状态隔离 oracle | 177 行全文核验背景/光标/状态不可变、多字与空标签边界；定向2 files/10 tests通过，无弱断言 |
+| `packages/game/src/present/menu/draw-magic.ts` | product | review | CODE-QUALITY-50 当前复审；50-draw-magic；SDLPal `magicmenu.c:1-484`/`uigame.c:653-875`/`uibattle.c:31-269`；P06/draw-menu/present/menu callers | 359 行实现全文核验三阶段、MP/说明/网格/目标/资源/运行时 ownership；25直接+136相邻/typecheck通过；发现 `PAL_PlayerInfoBox` 中毒头像染色与乱/定/眠/封状态字被明确省略，开 GAME-MAGIC-PLAYERINFO-STATUS-1，未擅自改实现 |
+| `packages/game/src/present/menu/draw-magic.test.ts` | test | 已验证 | CODE-QUALITY-50；50-draw-magic；description/WIN95 MP framebuffer oracle | 235 行全文核验合法 scriptDesc/MP布局与独立像素断言；直接4 files/25 tests通过 |
+| `packages/game/src/present/menu/draw-magic.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-50；50-draw-magic；disabled/empty/catalog fallback oracle | 267 行全文核验死亡/MP禁用/空表/未知目录与回退标签；直接4 files/25 tests通过；不以数量代替判别力 |
+| `packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-50；50-draw-magic；真实 framebuffer geometry/runtime/cursor oracle | 584 行全文核验单人框、说明、缺帧、运行时 HP/MP、分页/target cursor/透明孔；直接4 files/25 tests通过；未覆盖高风险状态字，故实现仍 review |
 | `packages/game/src/present/menu/draw-inventory.ts` | product | 已验证 | CODE-QUALITY-49 当前复审；49-draw-inventory；SDLPal `uigame.c:1289-1473`/`itemmenu.c:28-310`/`play.c:268-323`；P01/P02、inventory-menu/menu-driver callers | 390 行实现全文核验列表/目标层 live count、SDL zero branch、auto-cancel caller、过滤/描述/资源/状态 ownership；范围测试11通过+1 node DOM诊断、相邻10 files/190 tests、game typecheck通过；未发现新实现 defect |
 | `packages/game/src/present/menu/draw-inventory.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-49；49-draw-inventory；未知目录/filter/use-target 缺依赖反例 | 124 行全文核验三分支反例；范围执行通过；无弱化断言 |
 | `packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts` | test | review | CODE-QUALITY-49；49-draw-inventory；列表/live-zero/framebuffer/canvas pixel oracle | 全文核验约400行、12 tests；11通过，G06-A12 直接 `document.createElement` 在 node 环境 `ReferenceError: document is not defined`；未改环境/未静音，保留 review |

@@ -72,6 +72,8 @@
 
 最新[49 draw-inventory 复审切片](49-draw-inventory/README.md)：完整读取 live-zero 实现/三份范围测试、P01/P02 caller、inventory/menu 生命周期和 SDLPal uigame/itemmenu/play；实现已与用户裁决和 primary 对齐，范围测试保留 1 条 `document is not defined` 环境诊断，49 当前 partial，coverage/ratchet/protected/full check 未运行。
 
+最新[50 draw-magic 复审切片](50-draw-magic/README.md)：完整读取仙术绘制四文件、P06 caller、状态生命周期和 SDLPal magicmenu/uigame/uibattle；25 直接 + 136 相邻通过，但发现 PlayerInfoBox 状态字/毒色省略，已开高风险裁决卡，50 当前 partial，coverage/ratchet/protected/full check 未运行。
+
 ## 统一候选后的范围更正
 
 以下role键探针和四项counter针对冻结f0cf0f7f主线系候选。用户要求先收3y后，已发现其未合入的CODE53包含party-slot mapper/离队guard与对应测试；现统一候选已有该实现，不能继续宣称“当前helper仍按role键”。CODE53仍待端到端/整文件/视觉与统一门复审，原probe不被改写为当前失败。重复GAME-PLAYER-POISON-KEY-DOMAIN-1取消、归CODE53；YJ2过期注释与cleanup fixture待核仍保留。

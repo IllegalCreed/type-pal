@@ -79,6 +79,7 @@ Template: governance-index-v1 / 1.0.0
 | GAME-SAVE-INPUT-DOMAIN-1 | [Save槽位输入域与双路径一致性](tasks/GAME-SAVE-INPUT-DOMAIN-1.md) | draft | Codex / 等用户裁决，禁止实现 | NaN/小数通过内存范围守卫，IndexedDB路径可能不同；不改API/schema |
 | GAME-OPENING-CANCEL-CURSOR-1 | [标题取消光标](tasks/GAME-OPENING-CANCEL-CURSOR-1.md) | review | Codex / 统一门诊断未清零 | ②已修、真实标题浏览器链与截图已核 |
 | GAME-OUTSIDE-MAGIC-DISABLED-1 | [大世界法术显示与禁用](tasks/GAME-OUTSIDE-MAGIC-DISABLED-1.md) | draft | Codex / 核前提、Owner与白名单 | 仅①②获批；③未批准，7项可用范围与显示真值分开核 |
+| GAME-MAGIC-PLAYERINFO-STATUS-1 | [大世界仙术页 PlayerInfoBox 状态显示边界](tasks/GAME-MAGIC-PLAYERINFO-STATUS-1.md) | draft | Codex / 等用户裁决，禁止实现 | CODE-QUALITY-50 发现 SDLPal 状态字/毒色缺口；未改产品代码 |
 
 ## 看板规则
 

@@ -1,0 +1,85 @@
+{
+  "base": "9e9657bc",
+  "fullReads": [
+    {
+      "path": "packages/game/src/present/menu/draw-magic.ts",
+      "sha256": "76059179edbbfceaa0e66401f311b334834724ae9c6f7622b7219035ea1ab49c",
+      "lines": 359,
+      "boundary": "Full implementation read: all phases, PlayerInfoBox, MP/description/grid/target cursor, resource fallback and input ownership; identified omitted SDL status/poison branches."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-magic.test.ts",
+      "sha256": "c519e73ebdf32123da34b729e5c88d8a08ab424249dbbba62f4d3b9af5cdd672",
+      "lines": 235,
+      "boundary": "Full direct read: description and WIN95 MP layout contracts."
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-magic.glm-phase1-leaves.test.ts",
+      "sha256": "8e64764ea0ea5c633a7386380eba5eb92f24945a83ed15d97282bdd05d62da00",
+      "lines": 267,
+      "boundary": "Full direct leaves read: disabled colors, empty catalog, fallback labels and role names."
+    },
+    {
+      "path": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "sha256": "53f62ba005536b9017a6fe0f81e688827b42516ad0fcba542d57a665aa34adcc",
+      "lines": 584,
+      "boundary": "Full pixel read: geometry, missing frames, runtime stats, cursor, paging and framebuffer boundaries."
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p06-magic.test.ts",
+      "sha256": "70e1c6fc31bf75946395904e041ae67ce33097c5bc7d2b609b7bc27c2469ee8f",
+      "lines": 345,
+      "boundary": "Full caller/oracle read: runtime projection, caster/spell/target phases, MP availability, description, paging, target cursor and immutability."
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+      "sha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414",
+      "lines": 306,
+      "boundary": "Full state lifecycle read: phases, caster/spell/target ownership, disabled construction and cancel/refresh."
+    },
+    {
+      "path": "reference/sdlpal/magicmenu.c",
+      "sha256": "d3744426d40167d4130aeaa0fac686264df285e44d73cc3648dba56f3645d312",
+      "lines": 484,
+      "ranges": ["1-484"],
+      "boundary": "Magic selection grid, MP, description, pagination and PlayerInfoBox caller primary."
+    },
+    {
+      "path": "reference/sdlpal/uigame.c",
+      "sha256": "f981b6a698b6248107ec7934b60ca988055bbab458e516e9aa2b113f8b5419c1",
+      "lines": 2076,
+      "ranges": ["653-875"],
+      "boundary": "In-game caster/target flow, party info boxes and target cursor primary."
+    },
+    {
+      "path": "reference/sdlpal/uibattle.c",
+      "sha256": "b5bd5104def667c9ae134481c4843450ec1513feb61141f7196f9047dc7814d3",
+      "lines": 1808,
+      "ranges": ["31-269"],
+      "boundary": "PAL_PlayerInfoBox frame/face/poison/status/HP/MP primary; status omission is high-risk finding."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "ranges": ["in-game-magic dispatch"],
+      "boundary": "Public magic render entry and resource forwarding."
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "ranges": ["menu resource injection"],
+      "boundary": "Runtime role projection and UI asset injection."
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "ranges": ["in-game magic dispatch"],
+      "boundary": "Confirm/cancel/script/MP lifecycle caller."
+    }
+  ],
+  "notClaimed": [
+    "Current full-repository check/coverage/ratchet/protected-fast acceptance",
+    "PlayerInfoBox poison/status user-visible behavior pending GAME-MAGIC-PLAYERINFO-STATUS-1",
+    "Runtime visual/E2E acceptance",
+    "Any public input/API or UI-shape expansion before user裁决"
+  ]
+}

@@ -1918,10 +1918,10 @@
       "number": 50,
       "suffix": "",
       "path": "docs/ops/archive/tasks/done/CODE-QUALITY-50-game-draw-magic.md",
-      "sha256": "a24bad934bab68a571354b2ed1eca2e4cae0f934126ac1c58ad80c58bbe222f6",
-      "lines": 62,
+      "sha256": "f274c525cdbc83b4e0d66551ed0ec0b5924f3a7fd6dfd03205afe03d96dcb051",
+      "lines": 69,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -1961,7 +1961,7 @@
           "text": "无下一位 Agent；本批已完成并归档，下一批先累积相邻菜单只读核验再统一跑质量门。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true
     },
     {
       "id": "51",
@@ -3923,8 +3923,8 @@
   ],
   "reviewCheckpointBase": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
   "currentReviewCounts": {
-    "partial": 32,
-    "pending": 51,
+    "partial": 33,
+    "pending": 50,
     "accept": 0
   }
 }

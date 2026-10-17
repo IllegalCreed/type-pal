@@ -60,3 +60,10 @@ Visual Verification Timing: e2e-deferred（菜单观感留集中 E2E；本批核
 ```text
 无下一位 Agent；本批已完成并归档，下一批先累积相邻菜单只读核验再统一跑质量门。
 ```
+
+
+## Codex 当前复审（2026-10-18）
+
+历史 `done` 不等于本轮验收。本轮完整读取四个范围文件、P06 caller/oracle、menu/state 生命周期与 SDLPal `magicmenu.c:1-484`、`uigame.c:653-875`、`uibattle.c:31-269`；直接 25/25、相邻 5 files/136 tests 和 game typecheck 通过。
+
+发现高风险用户可见差异：SDLPal `PAL_PlayerInfoBox` 在仙术页复用的底部信息框中绘制中毒头像染色和乱/定/眠/封状态字，当前 `draw-magic.ts` 明确省略。已开 [`GAME-MAGIC-PLAYERINFO-STATUS-1`](../../../tasks/GAME-MAGIC-PLAYERINFO-STATUS-1.md) 等待用户裁决；本批未改实现或公共输入，draw-magic.ts 登记 `review`，三份测试按自身合同登记已验证。50 当前复审为 `partial`，不标 `accept`。
