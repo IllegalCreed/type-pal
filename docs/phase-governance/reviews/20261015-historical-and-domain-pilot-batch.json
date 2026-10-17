@@ -278,7 +278,7 @@
       "reviewedSourceSha256": "522c958d325afaf4a92845d9dbb89a00d72bce72e3396aad4b890920b39c01f2",
       "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
       "sourceGitObject": "906868289a9187830360dedaf4f28ab048318445",
-      "afterSha256": "0794e21009b796bdce235e364c8ed830d6d8da3a0a60a097385f43a6042fcdd4",
+      "afterSha256": "fe0685f190a06196c27c1ed07f063dc44677e73e9e8efe3c3f6bf1f381b07c39",
       "publicCallers": [
         "docs/phase-governance/README.md",
         "node scripts/docs/check-content-review.mjs --strict"
@@ -6772,7 +6772,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "f19e35c64ef1817150cf7e90dde8b4745219aa79",
+          "previousAfterSha256": "0794e21009b796bdce235e364c8ed830d6d8da3a0a60a097385f43a6042fcdd4",
+          "afterSha256": "fe0685f190a06196c27c1ed07f063dc44677e73e9e8efe3c3f6bf1f381b07c39",
+          "method": "S03 readable projection of new guarded matrix row.",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     }
   ]
 }

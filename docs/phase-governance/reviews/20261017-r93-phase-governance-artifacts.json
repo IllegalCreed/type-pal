@@ -516,7 +516,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "45d3ac468efc7d54f0e357b11afbc15fbb9f6473a373f47172d3f0bb692832a8",
-      "afterSha256": "c32f9668dd7f36f00b75cb6228f06e1d6326337c53d24c7cb4ab5ade297963c9",
+      "afterSha256": "a92fa677e800d86ecffdb4b9bc4a4f006d4b0aea40d14dfe35b85207618bed99",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -648,7 +648,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "f19e35c64ef1817150cf7e90dde8b4745219aa79",
+          "previousAfterSha256": "c32f9668dd7f36f00b75cb6228f06e1d6326337c53d24c7cb4ab5ade297963c9",
+          "afterSha256": "a92fa677e800d86ecffdb4b9bc4a4f006d4b0aea40d14dfe35b85207618bed99",
+          "method": "S03 specific authority/navigation row; guarded, no execution credit.",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261004-lore-guijie-batch2.json",
@@ -3317,7 +3328,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "c9674a22cfb8a77f1da1ca46167185882b9b51dca04edb09da5f8c19231f2668",
-      "afterSha256": "cd977ced41f006d97c9dbad9cf88c6e205eef64a599459fddff1eff717113127",
+      "afterSha256": "ae602c2f69009f3c243e7ff646f8234550fc982e504989ac35341e153ac4f9ea",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -3449,7 +3460,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "f19e35c64ef1817150cf7e90dde8b4745219aa79",
+          "previousAfterSha256": "cd977ced41f006d97c9dbad9cf88c6e205eef64a599459fddff1eff717113127",
+          "afterSha256": "ae602c2f69009f3c243e7ff646f8234550fc982e504989ac35341e153ac4f9ea",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261015-protocol-and-e2e-pilot-batch.json",
@@ -14126,7 +14148,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "7b7c026e81f1646ed4d910df1c34f7feea7690ae6511c913dac84b12ae971b6f",
-      "afterSha256": "a0e932f2aec25127dc7d16b8a8cf0e8ba3beb501b640b65120073e2bf0636aaf",
+      "afterSha256": "70c014fc012cbd7ca5aee02832255c66c72ef5c0ff5b0403662e1c9bb45e2cee",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -14258,7 +14280,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "f19e35c64ef1817150cf7e90dde8b4745219aa79",
+          "previousAfterSha256": "a0e932f2aec25127dc7d16b8a8cf0e8ba3beb501b640b65120073e2bf0636aaf",
+          "afterSha256": "70c014fc012cbd7ca5aee02832255c66c72ef5c0ff5b0403662e1c9bb45e2cee",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r61-testing-domain-history.json",

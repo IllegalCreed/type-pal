@@ -73,3 +73,5 @@ Template: governance-index-v1 / 1.0.0
 机器行逐项保存来源、未知和停止线；只说明已登记关系，不代表全 docs 关系已穷尽。相关入口：[文档模型](../ops/guides/documentation-model.md)、[现行协作](../ops/agent-workflow.md)、[测试治理](../testing/governance.md)、[SAVE12 合同](../phase2/specs/save-system.md)、[DLC 创意](../lore/dlc-ideas.md)、[第三阶段参考](../phase3/reference/art-pipeline.md)。
 
 当源证据推翻前提时先停受影响批次，更新关系和用户产品裁决，不将 guarded 擅改 resolved；全量审查仍由[任务卡](../ops/tasks/DOCS-FULL-TEMPLATE-1.md)推进。
+
+- S03：[docs/testing/e2e/README.md](../testing/e2e/README.md)的固定正文已非作者限定接收；实际catalog/合同/卡/原始执行各守事实权，中央复验待完成。

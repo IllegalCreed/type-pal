@@ -1661,3 +1661,10 @@ Template: task-card-v1 / 1.0.0
 - 使用现行 design-spec-v1/1.0.0，具体恢复七项用户裁决、两轨原生真档、精确位置/完整NPC帧/对白消费/预览门；分开 Q1/Q2/editor 覆盖方向与 verify/visual/capture 用途。现有001/002入口及source-only前驱验证按真实能力写，历史无runner、工具会话不可用和旧容差不升为今天事实；版本/sourceRefs与原配对机器字段不追溯改写。
 - `validatePredecessor` 的40位revision语法检查不是当前HEAD或真实执行证明；`:both`拒capture，capture不能作verify前驱。只允许已核当前合同下最小重算/补采/重跑，未知能力继续unknown，不把旧连续卡的时点接受概括为今天全E2E通过。
 - 原quote整个块必须保留；直接inverse多一个LF，只能按已核恰一个分隔LF及固定source SHA说明条件保全，不恢复R60旧无条件exactRoundTrip信用。固定新正文后由非作者逐篇验原/前/新及必要来源、反例、真实consumer和质量门；作者自验不授reviewed/template-compliant。整卡rework，硬验收未过不合main或done。
+
+
+### S03 固定正文与唯一中央绑定接入
+
+- 正文SHA `8ddfbda4c48af97ff8c33a229f8cb45f00b1d91e5952d635def86a946be7c9e9`，原非作者报告SHA `f1b24c7d962ef21135f033e5c5a01daa09da1290846ee26d78752a44f34bcf25`，实际原报告与运输映射见[本篇报告](../evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S03-f9fbf0c7.json)。此次只移R60本篇，另7条对象与原顺序保留；旧撤回与无条件inverse声明仅留历史，不恢复。
+- 仅本篇新正文/模板接受：Current six-stage index/canonical navigation and shared contract/checkpoint/preview/task entries remain distinct from publication and real execution. Historical SAVE11/verified and one-LF inverse claim do not renew present runtime or capture readiness.
+- 1896撤回中已逐篇重授2篇，余1894；S01另列，五隔离不解除。当前计划和结果须按固定组合字节独立复验；全量卡仍rework，硬门未过不合main或done。

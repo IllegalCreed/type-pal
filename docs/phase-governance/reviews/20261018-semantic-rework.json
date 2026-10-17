@@ -526,6 +526,305 @@
         "completion": "consumer zero diagnostics + non-author content review, no runtime inference",
         "status": "non-author accepted fixedfe546c7e body"
       }
+    },
+    {
+      "path": "docs/testing/e2e/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "Non-author root read original33/before68/first candidate90 and final preservation paragraph delta; full by-stage plus exact contract/checkpoint/task/producer/validator scopes recorded in immutable S03 report. Distinct contributor alone edited README. No all-stage/report or product execution claim.",
+      "coreConclusion": "现行E2E导航直接提供六阶段index/canonical与共同合同、逐入口预览、路线proposal、横向问题、检查点和当前原卡；catalog发布、卡面准入、配对原始执行与生成视图各守事实权。旧verified/SAVE11不能充当前版本、预览或capture-ready；原quote整块不变但直接逆回多一个分隔LF，明确条件恢复而非沿用R60旧exactRoundTrip信用。",
+      "truthAnchors": [
+        "docs/testing/e2e/README.md:18",
+        "docs/testing/e2e/contract.md:239",
+        "docs/testing/e2e/contract.md:267",
+        "scripts/docs/generate-testing-index.mjs:90",
+        "docs/testing/README.md:41"
+      ],
+      "unresolved": [
+        "Six stage/report bodies, historical execution results and actual editor preview were not reaccepted by this navigation review.",
+        "Full-docs hard gates and remaining historical withdrawals/quarantines remain incomplete.",
+        "Central intake was pending storage split at body acceptance; later central mutation needs actual input/hash/consumer verification."
+      ],
+      "nextStep": "Verify actual combined central byte/binding intake independently, retain all other withdrawals, then continue per-document semantic reviews. No global/main/done credit.",
+      "phase": "testing",
+      "module": "e2e-navigation",
+      "capability": "current-stage-and-cross-contract-entry",
+      "owner": "Codex navigation maintenance",
+      "provenance": [
+        "fixed original Git source",
+        "single contributor body author /root/e2e_entry_semantic_author",
+        "non-author semantic reviewer /root",
+        "immutable author/root evidence; root central maintenance separate"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/testing/e2e/README.md",
+          "revision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
+          "sha256": "310f5031be8e76964cbd1cf2d4e704c5bbfbd2cf4f6451d64a7109d93e67ca6f",
+          "scopeActuallyRead": "complete original33"
+        },
+        {
+          "path": "docs/testing/catalog.json",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0",
+          "scopeActuallyRead": "catalog nine selected navigation/revision records"
+        },
+        {
+          "path": "docs/testing/indexes/by-stage.md",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "457fc347f7d897c91b0821b46c21a5c01487f5a23e4ef2963f0892da1c2359ae",
+          "scopeActuallyRead": "by-stage complete"
+        },
+        {
+          "path": "docs/testing/e2e/contract.md",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f",
+          "scopeActuallyRead": ["18-54", "98-132", "239-284", "467-482"]
+        },
+        {
+          "path": "projects/pal/e2e-checkpoints/README.md",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "806135cee7ca2e0b8f560b8b21e4c9674ff09a4a4d3428f7b7e9306f89281212",
+          "scopeActuallyRead": ["1-90"]
+        },
+        {
+          "path": "docs/testing/governance.md",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "dbd68ac55137df0edaa38efebcb3591f4ea826bbdbb5357b9914c6ff684926f9",
+          "scopeActuallyRead": "identity or public-consumer scope only; not blanket body acceptance"
+        },
+        {
+          "path": "docs/phase-governance/templates/registry.json",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+          "scopeActuallyRead": "identity or public-consumer scope only; not blanket body acceptance"
+        },
+        {
+          "path": "scripts/docs/check-testing.mjs",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "15aa96323821b771107b7b372880af8469a9310bc545bfd56c852c95e449a166",
+          "scopeActuallyRead": ["414-566"]
+        },
+        {
+          "path": "scripts/docs/generate-testing-index.mjs",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "c1dd2577350b4b7298a3566f72b1c1d72fe0272a098f376af128843446dece42",
+          "scopeActuallyRead": ["1-130"]
+        },
+        {
+          "path": "scripts/docs/check.mjs",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "278ed0c125ab1d7a0c4e539be20aa0a278aace9ed5623a9eccd26d27fff31314",
+          "scopeActuallyRead": ["1-55", "110-180"]
+        },
+        {
+          "path": "scripts/docs/document-model.mjs",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "2c7ed0419c90332dd27e866629f06fd7670112cb924084f8162f84ee74c4f64b",
+          "scopeActuallyRead": ["98-145"]
+        },
+        {
+          "path": "scripts/docs/markdown.mjs",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "1427de079109a39fb03ce0b0251d80dc813f8f9758f71e3cf09099030eca5215",
+          "scopeActuallyRead": "identity or public-consumer scope only; not blanket body acceptance"
+        },
+        {
+          "path": "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "322ee8a2a7c1171cc6cceca5dd77d8419a973623312a0a8824d281982f74e897",
+          "scopeActuallyRead": ["1-45"]
+        },
+        {
+          "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "5cc09fd6636533b5b06f10b38e0e114373cfc7f204ac300a45cb9c6317295d87",
+          "scopeActuallyRead": ["1-34"]
+        },
+        {
+          "path": "docs/ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "19ebd114a523dccaceb63bdd3a2775d9c66d6806184cdcb9571441c15779b938",
+          "scopeActuallyRead": ["1-26"]
+        },
+        {
+          "path": "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
+          "revision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+          "sha256": "41142491aa9389b6a5b9f7d13f6ef38cf1b66add5b94f7c9b6bc2c9d454c7363",
+          "scopeActuallyRead": ["1-26"]
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing for phase1/phase2/editor",
+        "currentBoundary": "Navigation current; publication facts catalog; task admission original card; actual execution/preview within paired candidate/time/input scope."
+      },
+      "dependencies": [
+        "docs/testing/catalog.json",
+        "docs/testing/indexes/by-stage.md",
+        "docs/testing/e2e/contract.md",
+        "projects/pal/e2e-checkpoints/README.md",
+        "docs/testing/governance.md",
+        "docs/phase-governance/templates/registry.json",
+        "scripts/docs/check-testing.mjs",
+        "scripts/docs/generate-testing-index.mjs",
+        "scripts/docs/check.mjs",
+        "scripts/docs/document-model.mjs",
+        "scripts/docs/markdown.mjs",
+        "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md",
+        "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+        "docs/ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md",
+        "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md"
+      ],
+      "versionScope": {
+        "validity": "current navigation only",
+        "sourceRevision": "911ac4dcbb3ea2288ae215769ae9acd6e333d763",
+        "authorCandidate": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+        "historicalNativeBoundary": "catalog revision/minimumSave11 remains original history; current checkpoint source is consulted, not renumbered",
+        "notRun": ["product", "E2E", "editor UI/preview", "visual", "coverage"]
+      },
+      "publicCallers": [
+        "testing README canonical system -> E2E overview",
+        "catalog contract/route/common-issues index -> overview",
+        "human/Agent ID -> index -> canonical/evidence",
+        "public renderIndexes/check-testing and Markdown/localTarget/checkTemplateBody"
+      ],
+      "legalInputs": [
+        "fixed source Git bytes",
+        "real catalog stable IDs and testing-root-relative target paths",
+        "existing original task card admission",
+        "real contract preview/closure clauses"
+      ],
+      "businessOracle": {
+        "type": "actual-e2e-navigation-and-authority",
+        "assertions": [
+          "Six current catalog stage index/canonical pairs appear as current public links.",
+          "Generated by-stage remains exact renderIndexes projection; no parallel dynamic stage-status table.",
+          "Historical verified cannot satisfy current-version/checkpoint/preview/capture evidence.",
+          "Old archived board cannot authorize current implementation.",
+          "Whole quote preserved; direct inverse2213 differs from fixed source2212 and only exact0a separator removal validates its SHA."
+        ]
+      },
+      "dedupe": {
+        "result": "one current navigation rewrite, no parallel report/status authority",
+        "against": [
+          "generated by-stage",
+          "testing catalog",
+          "common E2E contract",
+          "original task cards",
+          "R60 prior generic wrapper"
+        ],
+        "notes": "No new parallel status table or product/mirror-string test. Root temporary probe checks source identity/navigation/producer contract only."
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "S03-QUOTE-SEPARATOR",
+          "status": "closed-on-f9fbf0c7-body-only",
+          "statement": {
+            "id": "S03-QUOTE-SEPARATOR",
+            "firstCandidate": "cafe0578acdde76405955102dd4d01427f18cffb",
+            "firstWording": "unqualified reversible quote statement could inherit old exactRoundTrip over-credit",
+            "authorFix": "f9fbf0c7 explicitly states entire quote unchanged, exactly one separator LF removal, fixed-source SHA, no direct equality/unconditional trim",
+            "closedAtThisFrozenBody": true,
+            "oldReportsFailuresRetained": true
+          }
+        },
+        {
+          "id": "S03-NO-DOWNSTREAM-EXECUTION-CREDIT",
+          "status": "guarded",
+          "statement": "No new stage execution, preview, visual, capture or whole-story acceptance."
+        }
+      ],
+      "revision": {
+        "currentSha": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "revision": "911ac4dcbb3ea2288ae215769ae9acd6e333d763",
+            "action": "single-document genuine semantic successor after historical withdrawal",
+            "previousAfterSha256": "1bf187a50a00eccb2478db0de7e8b6433dd6744218a3da2feb4b7a7832224b39",
+            "afterSha256": "8ddfbda4c48af97ff8c33a229f8cb45f00b1d91e5952d635def86a946be7c9e9"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "actual-per-document-nonauthor-semantic-review",
+        "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S03-f9fbf0c7.json",
+        "reportSha256": "f1b24c7d962ef21135f033e5c5a01daa09da1290846ee26d78752a44f34bcf25",
+        "sourceRevision": "f9fbf0c7c6e9b59df6c0cbe76b7b90852da76ece",
+        "reviewer": "/root",
+        "author": "/root/e2e_entry_semantic_author",
+        "nonAuthorReviewer": true,
+        "acceptance": "frozen body/template only; central intake and all global gates separate",
+        "rawManifest": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S03-f9fbf0c7.json",
+        "intakeMap": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S03-f9fbf0c7.json"
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "prior R60 unsupported credit remains withdrawn; new acceptance tied only to new body",
+          "priorRecord": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+          "priorRecordRevision": "911ac4dcbb3ea2288ae215769ae9acd6e333d763",
+          "priorRecordSha256": "a0e932f2aec25127dc7d16b8a8cf0e8ba3beb501b640b65120073e2bf0636aaf",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "previousAfterSha256": "1bf187a50a00eccb2478db0de7e8b6433dd6744218a3da2feb4b7a7832224b39",
+          "oldExactRoundTripStatement": "Historical source claims true; new root verification disproves direct equality and explicitly accounts one separator LF. No retroactive historical pass."
+        },
+        {
+          "date": "2026-10-18",
+          "action": "S03 explicit central binding migration planned against exact current donor",
+          "sourceRevision": "f19e35c64ef1817150cf7e90dde8b4745219aa79",
+          "sourceRecordSha256": "a0e932f2aec25127dc7d16b8a8cf0e8ba3beb501b640b65120073e2bf0636aaf",
+          "donorOtherEntriesPreserved": 7,
+          "acceptedBodySha256": "8ddfbda4c48af97ff8c33a229f8cb45f00b1d91e5952d635def86a946be7c9e9",
+          "nonAuthorReportSha256": "f1b24c7d962ef21135f033e5c5a01daa09da1290846ee26d78752a44f34bcf25"
+        }
+      ],
+      "historicalWithdrawal": {
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "scope": "Original R60 source/counter/raw/withdrawal remains historical; no batch restoration"
+      },
+      "supersedes": [
+        {
+          "record": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+          "revision": "911ac4dcbb3ea2288ae215769ae9acd6e333d763",
+          "scope": "only this current generic wrapper/binding; stage reports/contracts and original quote are not superseded"
+        }
+      ],
+      "sourceSha256": "1bf187a50a00eccb2478db0de7e8b6433dd6744218a3da2feb4b7a7832224b39",
+      "afterSha256": "8ddfbda4c48af97ff8c33a229f8cb45f00b1d91e5952d635def86a946be7c9e9",
+      "sourceGitRevision": "911ac4dcbb3ea2288ae215769ae9acd6e333d763",
+      "reviewedLines": "original1-33;before1-68;candidate1-90 with final one-paragraph counter fix; exact dependency scopes in frozen independent report",
+      "historyOverlay": false,
+      "documentStatus": "current",
+      "beforeAfter": {
+        "before": "navigation links trapped in historical quote, ambiguous shared status authority, archived board and unrelated Q next step",
+        "after": "usable current six-stage/common/task links, clear publication/admission/execution owners, concrete version/predecessor/preview stops and conditioned quote preservation"
+      },
+      "templateConformance": {
+        "templateId": "governance-index-v1",
+        "templateVersion": "1.0.0",
+        "purpose": "stable stage/report/shared contract lookup",
+        "scope": "001–006/common contract/route/cross-stage/checkpoint navigation only",
+        "currentState": "publication versus fresh execution/preview/capture",
+        "entryResponsibility": "actual stage links and unique fact owners",
+        "evidenceNextStep": "declared limited source reads and concrete stop/writeback flow",
+        "publicStructureIssues": 0,
+        "semanticAcceptanceReason": "Each required section contains the specific navigation duties and limits above; structure/hash checks alone did not grant acceptance.",
+        "status": "accepted at frozen body only; current central intake separately checked"
+      },
+      "stopLine": "No global hard-gate/main/done/runtime/preview/capture credit from this single-document acceptance; preserve five quarantines and all other withdrawn bindings."
     }
   ]
 }

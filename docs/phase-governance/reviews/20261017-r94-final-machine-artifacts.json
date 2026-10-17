@@ -1160,7 +1160,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "3594e501e29347f1a809a7f5194fc53bc7bced86787f5f90ab59778f9fa48ca8",
+      "afterSha256": "d962e3194e7b92e389547b8991b0220f9ee54137f7b8df3d8edd992d521753fa",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1292,6 +1292,15 @@
           "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
           "previousAfterSha256": "0683575ccdb0f87fb0155a8ad03955dd015db1432534c8c673fd97b328f7fb02",
           "afterSha256": "3594e501e29347f1a809a7f5194fc53bc7bced86787f5f90ab59778f9fa48ca8",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "f19e35c64ef1817150cf7e90dde8b4745219aa79",
+          "previousAfterSha256": "3594e501e29347f1a809a7f5194fc53bc7bced86787f5f90ab59778f9fa48ca8",
+          "afterSha256": "d962e3194e7b92e389547b8991b0220f9ee54137f7b8df3d8edd992d521753fa",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
@@ -5277,7 +5286,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "762505f24eecd1c88dee341eb470ac019c679d7c4d03c9f7288ff27d725afd7f",
+      "afterSha256": "871a0ccf3f849eeec34634899ca9361790d6a3ae7b6da07a2341d336837b6ff5",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -5420,6 +5429,15 @@
           "previousAfterSha256": "5bff1b0e7ba901c807f05d27c4b6ebadb23ec81247ca8bd1357c315e7a8811f1",
           "afterSha256": "762505f24eecd1c88dee341eb470ac019c679d7c4d03c9f7288ff27d725afd7f",
           "method": "Root actually authored/read S03 fixed-body limited acceptance, S04/S05 isolated author admission appended since3fae; task remainsrework and no central S03/S04 credit yet.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "f19e35c64ef1817150cf7e90dde8b4745219aa79",
+          "previousAfterSha256": "762505f24eecd1c88dee341eb470ac019c679d7c4d03c9f7288ff27d725afd7f",
+          "afterSha256": "871a0ccf3f849eeec34634899ca9361790d6a3ae7b6da07a2341d336837b6ff5",
+          "method": "S03 exact body/report/donor-preservation scope and pending central review; existing statusrework unchanged.",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -5588,7 +5606,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "83431dd65e939aca7fbdfee5ae08c7e728e69286d10838516775a1280a9993cd",
+      "afterSha256": "4313ed399b51a96589440db24f410ff96f838f1b944c8c7d3feba5524af9555d",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -5733,6 +5751,15 @@
           "sourceRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
           "previousAfterSha256": "921eaef61673fdf83c69763e1f2e9a72e55b08afaf67bc8b5930dbd08331ae33",
           "afterSha256": "83431dd65e939aca7fbdfee5ae08c7e728e69286d10838516775a1280a9993cd",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "f19e35c64ef1817150cf7e90dde8b4745219aa79",
+          "previousAfterSha256": "83431dd65e939aca7fbdfee5ae08c7e728e69286d10838516775a1280a9993cd",
+          "afterSha256": "4313ed399b51a96589440db24f410ff96f838f1b944c8c7d3feba5524af9555d",
           "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
           "grantsNewSemanticAcceptance": false
         }
