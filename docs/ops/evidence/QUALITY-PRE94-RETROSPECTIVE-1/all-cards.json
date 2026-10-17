@@ -693,7 +693,7 @@
       "sha256": "0160c627ac6053b0ee87e1130a0b415fe692cdb1dda5fb06a850af84ed118726",
       "lines": 66,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -733,7 +733,8 @@
           "text": "- 2026-10-05 Codex：七个 battle-present 生产文件与 `present-battle.ts` 真实 caller 逐段核验；未发现需修的直接证据问题。定向 179、game 全包 3400、全仓 check/ratchet/protected/lint 全通过。Next: 提交后归档，继续 battle/menu/dialog/core 未核文件。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3l-battle-present-primitives/README.md"
     },
     {
       "id": "3m",

@@ -318,6 +318,14 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 - 未修/保留：非有限数字输入的产品边界与安全反例待后续独立裁决；没有运行可能卡死的直接反例，也未触碰 UI 形态、save/schema 或 battle 行为。3k 整卡保持 `partial`。
 - 验证：定向 6 files/42 tests passed，`pnpm --filter @type-pal/game typecheck` passed，无测试 stderr；覆盖率、official ratchet、protected fast、全仓 `pnpm check` 按用户成本规则留到完整大模块收口。已读清单与 SHA 见 [`3k-dither-number-follower`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3k-dither-number-follower/README.md)。
 
+### 2026-10-17 CODE-QUALITY-3l battle-present 三文件切片
+
+- 范围：`packages/game/src/present/battle/{draw-battle-bg,draw-battle-effect,draw-battle-num}.ts` 与四份直接测试；读取 `present-battle.ts` 背景/keepEffect/波动/精灵/overlay/UI/飘字装配区间和 `battle.c`、`uibattle.c`、`fight.c` primary 区间。
+- primary/caller/oracle：`battle.c:50-90,565-620,982`、`uibattle.c:1746-1810`、`fight.c:600-720,2130-2200,2740-2770`；真实 framebuffer 像素、opaque mask、奇数宽 anchor、颜色基址、缺资源 no-op、寿命/位移 oracle。
+- 逐文件结论：背景索引0不透明/低 nibble染色/裁剪、effect/magic 底中 anchor/mask/缺帧降级、floating numbers 40ms age/0..10寿命/上移/5位对齐均与 caller/primary 一致，未发现新直接缺陷。drawNumber 的正 Infinity review 风险沿 3k 保持，未扩写为战斗可达 bug。
+- 未修/保留：`draw-battle-settlement`、`draw-battle-sprites`、`draw-battle-ui` 和整卡统一门/E2E 未核；未触碰 battle core、公式、schema/save 或 UI 形态。3l 整卡保持 `partial`。
+- 验证：定向 4 files/23 tests passed，`pnpm --filter @type-pal/game typecheck` passed；覆盖率、official ratchet、protected fast、全仓 `pnpm check` 按用户成本规则留到完整大模块收口。已读清单与 SHA 见 [`3l-battle-present-primitives`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3l-battle-present-primitives/README.md)。
+
 ### 2026-10-17 CODE1/CODE2 boundary carry-over
 
 本片接收工作树中已完成的两个窄测试合同：`packages/shared/src/rle.boundaries.test.ts` 新增“相邻 offset 截断前一帧帧头即拒绝”反例；`packages/shared/src/rng.boundaries.test.ts` 新增同一 surface 连续 delta 累加并保留首帧像素的 ownership 合同。两项都只改测试，不改 RLE/RNG/YJ2 实现、公共出口、资源或格式策略；RLE 高位 literal 风险继续留在 `QUALITY-RLE-COMMAND-TRUTH-1` draft。

@@ -1,0 +1,83 @@
+{
+  "base": "24b0451f6",
+  "fullReads": [
+    {
+      "path": "packages/game/src/present/battle/draw-battle-bg.ts",
+      "sha256": "03ea731ea200086d53eb7c9f95873c4b8fd5a9d9efc849f3d91aa30cb279b135",
+      "lines": 44,
+      "boundary": "Full implementation read; opaque background, crop and signed low-nibble shift."
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts",
+      "sha256": "e1bfee33b2c33f25717305f9ba9d9504e6a419b1e1aabe1fd40e87969e35b1c7",
+      "lines": 35,
+      "boundary": "Full direct background overwrite/zero/crop oracle read."
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-effect.ts",
+      "sha256": "d95ea64da7fc96fb29ea6af66e72148c05be8732d6cc6860c7c4ba7c5463a842",
+      "lines": 73,
+      "boundary": "Full effect/magic overlay implementation read; anchor, mask and missing-resource ownership."
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts",
+      "sha256": "1e33dd714f2106718facec7fc48755ae8b6d79bde7786968a968d6a07a4cbedc",
+      "lines": 138,
+      "boundary": "Full direct effect/magic anchor/mask/no-op oracle read."
+    },
+    {
+      "path": "packages/game/src/present/battle/battle-effect-num-pixels.grok-r1.test.ts",
+      "sha256": "1e5db81d8b831cc3f55f8a8f52d25dec26faa8f5e3cbb935769a47a029aed517",
+      "lines": 140,
+      "boundary": "Full host pixel/odd-width/number/lifetime oracle read."
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-num.ts",
+      "sha256": "189d73f94b9f6e92654aae29d2f26facc03104f38364c744266fc68b3dd562d5",
+      "lines": 71,
+      "boundary": "Full floating-number implementation read; lifetime, motion and clear ownership."
+    },
+    {
+      "path": "packages/game/src/present/battle/__tests__/draw-battle-num.test.ts",
+      "sha256": "2c16d296e8f5356e076fd463df8b1b661d846724cfea3200595d797b12eb6c0f",
+      "lines": 114,
+      "boundary": "Full direct floating-number state/color/motion/lifetime oracle read."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/present/battle/present-battle.ts",
+      "sha256": "7ca203c4de814c295b4e70ca414e3d62b31e22da1af980a52119bd83590fae2e",
+      "lines": 449,
+      "ranges": ["185-290", "325-345"],
+      "boundary": "Background/keepEffect/wave/sprite/overlay/UI/number装配 caller ranges only."
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33",
+      "lines": 1858,
+      "ranges": ["50-90", "565-620", "970-990"],
+      "boundary": "Background shift, scene ordering and FBP source ranges."
+    },
+    {
+      "path": "reference/sdlpal/uibattle.c",
+      "sha256": "b5bd5104def667c9ae134481c4843450ec1513feb61141f7196f9047dc7814d3",
+      "lines": 1808,
+      "ranges": ["1740-1810"],
+      "boundary": "Floating number lifetime/position/show entry ranges."
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "lines": 5400,
+      "ranges": ["600-720", "2130-2200", "2740-2770"],
+      "boundary": "Damage number and effect anchor caller ranges."
+    }
+  ],
+  "notClaimed": [
+    "Complete CODE-QUALITY-3l acceptance",
+    "draw-battle-settlement, draw-battle-sprites, draw-battle-ui or full present-battle review",
+    "Browser visual/E2E verification",
+    "Coverage, official ratchet, protected fast or whole-repository acceptance"
+  ]
+}

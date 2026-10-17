@@ -192,9 +192,9 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/present/draw-number-slots.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-3k；opaque mask/末行/缺位/nLength=0 合同 | 直接 framebuffer oracle |
 | `packages/game/src/present/follower-pos.test.ts` | test | 已验证 | CODE-QUALITY-3k；walking/frozenOffset/0x46/船/隐龙窟回归合同 | 一阶段行为回归 |
 | `packages/game/src/present/follower-pos-axis.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-3k；方向轴/障碍/短 trail/静止不调用 caller 合同 | 轴向反例 |
-| `packages/game/src/present/battle/draw-battle-bg.ts` | product | 已验证 | CODE-QUALITY-3l；present-battle caller、battle.c:982 FBP 320×200、draw-battle-bg tests | 背景索引 0 不透明；尺寸裁剪/召唤低 nibble 染色合同完整 |
-| `packages/game/src/present/battle/draw-battle-effect.ts` | product | 已验证 | CODE-QUALITY-3l；fight.c:2183/2188/2760 anchor、effect/magic overlay callers/tests | 底中 anchor、opaque mask、缺资源/坏 frame no-op 合同完整 |
-| `packages/game/src/present/battle/draw-battle-num.ts` | product | 已验证 | CODE-QUALITY-3l；uibattle.c:1746-1808、present-battle showDamageNum caller、num tests | 40ms age、0..10 寿命、y 上移、5 位 right align 合同完整 |
+| `packages/game/src/present/battle/draw-battle-bg.ts` | product | 已验证 | CODE-QUALITY-3l 当前复审；present-battle caller、battle.c:50-90/565-620/982、bg tests | 索引0不透明、尺寸裁剪、召唤低 nibble 染色逐文件核验；未发现直接缺陷 |
+| `packages/game/src/present/battle/draw-battle-effect.ts` | product | 已验证 | CODE-QUALITY-3l 当前复审；present-battle overlay caller、fight.c:2183/2188/2760、effect/pixel tests | 底中 anchor、opaque mask、缺资源/坏 frame no-op 逐文件核验；未发现直接缺陷 |
+| `packages/game/src/present/battle/draw-battle-num.ts` | product | 已验证 | CODE-QUALITY-3l 当前复审；present-battle showDamageNum caller、uibattle.c:1746-1810、num/pixel tests | 40ms age、0..10 寿命、y上移、5位 right align/颜色合同逐文件核验；未发现新直接缺陷 |
 | `packages/game/src/present/battle/draw-battle-settlement.ts` | product | 已验证 | CODE-QUALITY-3l；battle.c:1037-1321、word lookup/drawNumber/font callers、settlement pixel tests | exp/cash/level/hidden-exp/learn-magic screens 保持布局与 mask |
 | `packages/game/src/present/battle/draw-battle-sprites.ts` | product | 已验证 | CODE-QUALITY-3l；battle.c/fight.c/uibattle.c anchors、present-battle caller、sprite pixel/leaves tests | target highlight、idle/death/fade、color shift、Y-sort/opaque mask 合同完整 |
 | `packages/game/src/present/battle/draw-battle-ui.ts` | product | 已验证 | CODE-QUALITY-3l；uibattle.c UI state/early-return anchors、draw UI pixel/leaves tests | dialog/escape early return、menu/target/status layers 保持现行形态 |
@@ -554,9 +554,9 @@ Codex 直接读过源码、生产 caller/合同和验证证据的文件，不把
 | `packages/game/src/present/draw-number-slots.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-3k；opaque mask/末行/缺位/nLength=0 合同 | 直接 framebuffer oracle |
 | `packages/game/src/present/follower-pos.test.ts` | test | 已验证 | CODE-QUALITY-3k；walking/frozenOffset/0x46/船/隐龙窟回归合同 | 一阶段行为回归 |
 | `packages/game/src/present/follower-pos-axis.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-3k；方向轴/障碍/短 trail/静止不调用 caller 合同 | 轴向反例 |
-| `packages/game/src/present/battle/draw-battle-bg.ts` | product | 已验证 | CODE-QUALITY-3l；present-battle caller、battle.c:982 FBP 320×200、draw-battle-bg tests | 背景索引 0 不透明；尺寸裁剪/召唤低 nibble 染色合同完整 |
-| `packages/game/src/present/battle/draw-battle-effect.ts` | product | 已验证 | CODE-QUALITY-3l；fight.c:2183/2188/2760 anchor、effect/magic overlay callers/tests | 底中 anchor、opaque mask、缺资源/坏 frame no-op 合同完整 |
-| `packages/game/src/present/battle/draw-battle-num.ts` | product | 已验证 | CODE-QUALITY-3l；uibattle.c:1746-1808、present-battle showDamageNum caller、num tests | 40ms age、0..10 寿命、y 上移、5 位 right align 合同完整 |
+| `packages/game/src/present/battle/draw-battle-bg.ts` | product | 已验证 | CODE-QUALITY-3l 当前复审；present-battle caller、battle.c:50-90/565-620/982、bg tests | 索引0不透明、尺寸裁剪、召唤低 nibble 染色逐文件核验；未发现直接缺陷 |
+| `packages/game/src/present/battle/draw-battle-effect.ts` | product | 已验证 | CODE-QUALITY-3l 当前复审；present-battle overlay caller、fight.c:2183/2188/2760、effect/pixel tests | 底中 anchor、opaque mask、缺资源/坏 frame no-op 逐文件核验；未发现直接缺陷 |
+| `packages/game/src/present/battle/draw-battle-num.ts` | product | 已验证 | CODE-QUALITY-3l 当前复审；present-battle showDamageNum caller、uibattle.c:1746-1810、num/pixel tests | 40ms age、0..10 寿命、y上移、5位 right align/颜色合同逐文件核验；未发现新直接缺陷 |
 | `packages/game/src/present/battle/draw-battle-settlement.ts` | product | 已验证 | CODE-QUALITY-3l；battle.c:1037-1321、word lookup/drawNumber/font callers、settlement pixel tests | exp/cash/level/hidden-exp/learn-magic screens 保持布局与 mask |
 | `packages/game/src/present/battle/draw-battle-sprites.ts` | product | 已验证 | CODE-QUALITY-3l；battle.c/fight.c/uibattle.c anchors、present-battle caller、sprite pixel/leaves tests | target highlight、idle/death/fade、color shift、Y-sort/opaque mask 合同完整 |
 | `packages/game/src/present/battle/draw-battle-ui.ts` | product | 已验证 | CODE-QUALITY-3l；uibattle.c UI state/early-return anchors、draw UI pixel/leaves tests | dialog/escape early return、menu/target/status layers 保持现行形态 |

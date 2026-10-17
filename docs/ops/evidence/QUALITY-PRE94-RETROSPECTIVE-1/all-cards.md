@@ -1,6 +1,6 @@
 # 94前全部83卡复审队列
 
-2026-10-17，结构基点bea19f80c、当前检查点基点7057dddd9；77历史done/1build/4review/1draft。本轮accept=0，partial=17，pending=66。pending表示本轮成果语义复审未完成；partial只表示已开展局部证据，不是验收。卡的读取边界和具体源文件另记切片报告，结构文本提取不计全文语义阅读。
+2026-10-17，结构基点bea19f80c、当前检查点基点7057dddd9；77历史done/1build/4review/1draft。本轮accept=0，partial=18，pending=65。pending表示本轮成果语义复审未完成；partial只表示已开展局部证据，不是验收。卡的读取边界和具体源文件另记切片报告，结构文本提取不计全文语义阅读。
 
 | 卡 | 原卡状态 | 当前复审 | 范围/证据 |
 |---|---|---|---|
@@ -17,7 +17,7 @@
 | [CODE-QUALITY-3i](../../archive/tasks/done/CODE-QUALITY-3i-game-dialog-precache-ui.md) | done | partial | [对话资源/预缓存/音量/商标切片](3i-dialog-precache/README.md)：五个生产文件与直接caller已核读；补 `precache-ui` 非有限进度反例与修复，定向78例/typecheck通过；整卡仍待统一门与后续语义复核 |
 | [CODE-QUALITY-3j](../../archive/tasks/done/CODE-QUALITY-3j-game-tools-speedrun.md) | done | partial | [time-format 四文件切片](3j-time-format/README.md)：解析溢出反例与修复；3j 其余工具文件仍待核 |
 | [CODE-QUALITY-3k](../../archive/tasks/done/CODE-QUALITY-3k-game-present-primitives.md) | done | partial | [present primitives 三文件切片](3k-present-primitives/README.md)：framebuffer/shake/wave 与直接 caller/SDL primary 已核读，35 例/typecheck通过；dither/number/follower 与整卡统一门仍待 |
-| [CODE-QUALITY-3l](../../archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
+| [CODE-QUALITY-3l](../../archive/tasks/done/CODE-QUALITY-3l-game-battle-present.md) | done | partial | [battle-present 三文件切片](3l-battle-present-primitives/README.md)：背景/effect/飘字与装配 caller/SDL primary 已核读，23 例通过；结算/精灵/UI/整卡统一门仍待 |
 | [CODE-QUALITY-3m](../../archive/tasks/done/CODE-QUALITY-3m-game-battle-core-contracts.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-3n](../../archive/tasks/done/CODE-QUALITY-3n-game-core-fade-identity-catalog.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-3o](../../archive/tasks/done/CODE-QUALITY-3o-game-core-mode-history-poison-search.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
