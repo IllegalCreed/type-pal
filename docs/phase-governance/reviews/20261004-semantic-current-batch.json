@@ -389,7 +389,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "full-text-read-plus-template-migration-20261017",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "仅新增 DOCS-FULL-TEMPLATE-1 build 行，保留 main 实体状态 review、回合测试 rework 和全部其它分工；新增行不代表全量文档已完成。",
+      "coreConclusion": "仅新增 DOCS-FULL-TEMPLATE-1 build 行，保留 main 实体状态 review、回合测试 rework 和全部其它分工；新增行不代表全量文档已完成。 本次新增 DOCS-CATALOG-SPLIT-1 看板新增 catalog split draft 行；不代表 catalog 迁移或全量治理完成.",
       "truthAnchors": [
         "docs/ops/board.md",
         "docs/ops/archive/tasks/done/GAME-RNG-SCENE-RESTORE-1.md",
@@ -407,7 +407,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
+      "afterSha256": "6b9d75f16f7b61ac820787cb44fcf79ad2426fcb3e19580181576ba72dd40212",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -831,7 +831,7 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "1-21",
+      "reviewedLines": "1-45",
       "reviewNotes": "本次只核指定内容与差异，source SHA 与历史结论保留；不使用无条件 hash refresh。全量 template-compliant 仍待后续逐篇迁移。",
       "integrationReview": {
         "reviewer": "Codex",
@@ -1074,7 +1074,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "full-text-read-plus-template-migration-20261017",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "生成任务索引：保留官方生成器的活动/完成/取消任务分组，并补齐 governance-index-v1 元数据；生成索引不单独证明任何产品或测试通过。",
+      "coreConclusion": "生成任务索引：保留官方生成器的活动/完成/取消任务分组，并补齐 governance-index-v1 元数据；生成索引不单独证明任何产品或测试通过。 本次新增 DOCS-CATALOG-SPLIT-1 任务索引新增 catalog split draft 行；不代表 catalog 迁移或全量治理完成.",
       "truthAnchors": ["docs/ops/tasks/index.md:1", "scripts/docs/check.mjs:67"],
       "unresolved": [
         "当前未终态任务须按任务卡推进；历史验收、证据缺口和产品counter不因索引生成而消失。"
@@ -1086,7 +1086,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "b6d9a3d17513f92aef4289a1116fd09d9bfb2dbc800a056ba708fd5c297b21ee",
+      "afterSha256": "8cff3b3a651969563db1fb783d693e9f75ac82caab087887c285d9471b3723ae",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -1554,7 +1554,7 @@
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
-      "reviewedLines": "1-381",
+      "reviewedLines": "1-406",
       "reviewNotes": "生成器和输出同步迁移；任务行、顶部状态、历史分组和链接保留。",
       "integrationReview": {
         "reviewer": "Codex",
@@ -1993,6 +1993,113 @@
       "reviewedSourceSha256": "3976d2bbda8a770fb94520c76747a78a0706b136a05ff8e39e078da00ce88dcd",
       "sourceGitRevision": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
       "sourceState": "present"
+    },
+    {
+      "path": "docs/ops/tasks/DOCS-CATALOG-SPLIT-1.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "template": "docs/phase-governance/templates/task-card.md",
+      "templateCompliance": "template-compliant",
+      "readMethod": "full-text-read-plus-structured-design-review",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "DOCS-CATALOG-SPLIT-1 选择 manifest + phase shards + loader 的结构拆分方案，拒绝全局 maxSize/ignore 救急；卡为 draft，正式迁移在 pilot、consumer 验证与 pin 级联完成前保持 blocked。",
+      "truthAnchors": [
+        "docs/ops/tasks/DOCS-CATALOG-SPLIT-1.md:1",
+        "scripts/docs/check-phase-lore-governance.mjs:1",
+        "scripts/docs/build-phase-lore-governance.mjs:1",
+        "docs/ops/guides/documentation-model.md:1"
+      ],
+      "unresolved": [
+        "loader、shard schema 和真实 consumer 回归尚未实现；不能把设计准入当作迁移完成。",
+        "source/target SHA mapping、R93/R94 pin 级联和最终独立验收待正式 build。"
+      ],
+      "nextStep": "在 codex/docs-catalog-split worktree 先实现 loader contract 和真实 pilot；通过后再做四个 shard 的全量映射与 registry/review 同提交更新。",
+      "phase": "ops",
+      "module": "catalog-migration",
+      "capability": "docs-catalog-split",
+      "owner": "Codex",
+      "provenance": [
+        "source-document",
+        "full-text-design-review",
+        "user-authorized-structural-decision"
+      ],
+      "sourceSha256": "e34cf74483a3a92246ee2a9d97fa96749f02829afc2e8f29e59ea67134657f7f",
+      "afterSha256": "e34cf74483a3a92246ee2a9d97fa96749f02829afc2e8f29e59ea67134657f7f",
+      "publicCallers": [
+        "docs/ops/board.md",
+        "docs/ops/tasks/index.md",
+        "scripts/docs/check.mjs",
+        "scripts/docs/check-content-review.mjs"
+      ],
+      "legalInputs": [
+        "current repository documentation",
+        "docs/phase-governance/catalog.json",
+        "scripts/docs/check-phase-lore-governance.mjs",
+        "scripts/docs/build-phase-lore-governance.mjs"
+      ],
+      "businessOracle": {
+        "type": "design-and-consumer-preservation",
+        "assertions": [
+          "manifest + shards + loader preserve the 184-entry logical catalog and native entry fields",
+          "both phase/lore consumers read one loader view and keep the exact expected path set",
+          "design does not grant runtime/E2E/visual/coverage credit"
+        ]
+      },
+      "dedupe": {
+        "result": "reviewed",
+        "against": [
+          "docs/phase-governance/catalog.json",
+          "docs/ops/guides/documentation-model.md",
+          "DOCS-FULL-TEMPLATE-1"
+        ],
+        "notes": "这是针对生成 catalog schema 的独立高风险卡；不重复计为全量正文治理或 GLM phase1 注记。"
+      },
+      "revision": {
+        "currentSha": "e34cf74483a3a92246ee2a9d97fa96749f02829afc2e8f29e59ea67134657f7f",
+        "implementationSha": "e34cf74483a3a92246ee2a9d97fa96749f02829afc2e8f29e59ea67134657f7f",
+        "contentVersion": "N/A-document-design",
+        "minimumSaveVersion": "N/A-document-design",
+        "history": [
+          {
+            "revision": "working-tree",
+            "date": "2026-10-17",
+            "action": "full-text-read-plus-structural-proposal",
+            "sourceSha256": "e34cf74483a3a92246ee2a9d97fa96749f02829afc2e8f29e59ea67134657f7f",
+            "afterSha256": "e34cf74483a3a92246ee2a9d97fa96749f02829afc2e8f29e59ea67134657f7f",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "task-card-design-review",
+        "path": "docs/ops/tasks/DOCS-CATALOG-SPLIT-1.md",
+        "sourceSha256": "e34cf74483a3a92246ee2a9d97fa96749f02829afc2e8f29e59ea67134657f7f",
+        "afterSha256": "e34cf74483a3a92246ee2a9d97fa96749f02829afc2e8f29e59ea67134657f7f",
+        "lineCount": 244,
+        "currentReading": {
+          "date": "2026-10-17",
+          "sha256": "e34cf74483a3a92246ee2a9d97fa96749f02829afc2e8f29e59ea67134657f7f",
+          "scope": "manifest + phase shards + loader design; formal migration remains blocked until pilot and consumer checks",
+          "method": "full-text-read-plus-structured-design-review"
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-17",
+          "revision": "working-tree",
+          "action": "created-structural-catalog-split-card",
+          "notRun": ["runtime", "E2E", "visual", "coverage"]
+        }
+      ],
+      "supersedes": ["byte-level catalog compression rescue as a long-term architecture"],
+      "stopLine": "Do not change Biome maxSize, add ignore/exclude, or claim migration complete before loader pilot, exact-set consumer validation, SHA mapping and independent review.",
+      "userVisibleBeforeAfter": "近 1 MiB 的单一 phase/lore machine catalog → 小 manifest、四个 phase shards 和一个确定性 loader；正文结论与机器字段不变。",
+      "reviewedLines": "1-244",
+      "reviewNotes": "实际全文读取卡片和两个 consumer 设计约束；本记录证明设计审查，不证明 loader 实现或产品执行。",
+      "documentStatus": "current",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false
     }
   ]
 }

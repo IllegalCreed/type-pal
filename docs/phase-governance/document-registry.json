@@ -16,9 +16,9 @@
     }
   ],
   "summary": {
-    "total": 2340,
+    "total": 2341,
     "byPhase": {
-      "ops": 1250,
+      "ops": 1251,
       "lore": 14,
       "phase1": 60,
       "phase2": 109,
@@ -33,7 +33,7 @@
       "governance-index": 105,
       "evidence-receipt": 100,
       "design-spec": 37,
-      "task-card": 363,
+      "task-card": 364,
       "quality-gate": 1,
       "test-machine-evidence": 49,
       "reference-canon": 38,
@@ -46,14 +46,24 @@
       "test-catalog": 4
     },
     "reviewStatus": {
-      "content-reviewed": 2340
+      "content-reviewed": 2341
     },
     "templateCompliance": {
-      "template-compliant": 2340,
+      "template-compliant": 2341,
       "governed-legacy": 0
     }
   },
   "entries": [
+    {
+      "path": "docs/ops/tasks/DOCS-CATALOG-SPLIT-1.md",
+      "phase": "ops",
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261004-semantic-current-batch.json",
+      "templateVersion": "1.0.0"
+    },
     {
       "path": "docs/ops/agent-workflow.md",
       "phase": "ops",
