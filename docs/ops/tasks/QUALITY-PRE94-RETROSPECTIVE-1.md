@@ -399,6 +399,12 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 - 结论：role/slot/0xFFFF、SHORT/WORD、fScriptSuccess、HP/MP clamp、装备交换、复活/毒/状态/魔法的合法 no-op 与 owner 边界一致；未发现新直接缺陷，不改 event format、battle-opcodes 或 save/schema。
 - 验证：四份 event-opcode 直接测试 `61 passed`、无测试 stderr；加入 event-system/equip/ownership/magic-script 相邻回归后 `8 files / 471 passed`，有既有 fixture warning，因此运行时诊断未清零。game typecheck通过；coverage、official ratchet、protected fast、全仓 `pnpm check` 留待完整大模块收口。已读清单与 SHA 见 [`3p-event-opcode-player`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3p-event-opcode-player/README.md)。3p 整卡保持 `partial`。
 
+### 2026-10-17 CODE-QUALITY-3q scene-system 当前复审切片
+
+- 范围：完整读取 `scene-system.ts`（662行）与 `scene-system.test.ts`（2064行），另读 `scene-system-search.test.ts`、`mode.test.ts`；读取 mode/event/bootstrap caller；primary 为 `play.c:25-238,362-591`、`scene.c:512-847`、`map.c:277-299`、`res.c:229-301`、`global.h:75-121,512-531`。
+- 结论：方向优先、16×8半tile、菱形 bit13、fCheckRange、sState blocker、triggerMode 4..8、vanish/复活、13-cell search、NPC/party pose、camera/trail、scene/onEnter/resume、TouchFar 首帧移动均与 primary/caller 一致；未发现新直接缺陷，不改 scene 数据/坐标/公共接口。
+- 验证：scene-system/search/mode/dependency/event 五文件 `467 passed`，有既有 fixture warnings（未知 label、无当前对象、越界 scene object、脚本 IP 越界），故运行时诊断未清零；game typecheck通过。coverage、official ratchet、protected fast、全仓 `pnpm check` 留待完整大模块收口。已读清单与 SHA 见 [`3q-scene-system`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3q-scene-system/README.md)。3q 整卡保持 `partial`。
+
 ### 2026-10-17 CODE1/CODE2 boundary carry-over
 
 本片接收工作树中已完成的两个窄测试合同：`packages/shared/src/rle.boundaries.test.ts` 新增“相邻 offset 截断前一帧帧头即拒绝”反例；`packages/shared/src/rng.boundaries.test.ts` 新增同一 surface 连续 delta 累加并保留首帧像素的 ownership 合同。两项都只改测试，不改 RLE/RNG/YJ2 实现、公共出口、资源或格式策略；RLE 高位 literal 风险继续留在 `QUALITY-RLE-COMMAND-TRUTH-1` draft。

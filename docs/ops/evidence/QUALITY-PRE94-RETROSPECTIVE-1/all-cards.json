@@ -968,7 +968,7 @@
       "sha256": "bc28e14e0f1247c7f74a7b66f2b681ab3c6695a7ad28121a5be764914cedded2",
       "lines": 129,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -1008,7 +1008,8 @@
           "text": "你的角色：Codex 先完成前提真值与独立证据核验。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3q-scene-system/README.md"
     },
     {
       "id": "3r",
@@ -3916,8 +3917,8 @@
   ],
   "reviewCheckpointBase": "dfd03a811e3ed34d70b57b6fc31ab5861010a8a6",
   "currentReviewCounts": {
-    "partial": 22,
-    "pending": 61,
+    "partial": 23,
+    "pending": 60,
     "accept": 0
   }
 }

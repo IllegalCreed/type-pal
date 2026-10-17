@@ -1,0 +1,86 @@
+{
+  "base": "95b9eb88f",
+  "fullReads": [
+    {
+      "path": "packages/game/src/core/scene-system.ts",
+      "sha256": "9b11dd7e866210a15dc7e57087fa230a2ab22593f64cc6b5eb4d441948ef2f64",
+      "lines": 662,
+      "boundary": "Full scene implementation read; input order, triggers, movement, collision, camera/trail, scene load and onEnter."
+    },
+    {
+      "path": "packages/game/src/core/scene-system.test.ts",
+      "sha256": "81c48be848ff01b58060c7fe7e5f37c08b754c1ffa4277a5dd53c4ea5553231e",
+      "lines": 2064,
+      "boundary": "Full main scene oracle read; movement/collision/trigger/vanish/onEnter/load/search/deadlock/blocker/dev boundaries."
+    },
+    {
+      "path": "packages/game/src/core/scene-system-search.test.ts",
+      "sha256": "835fc232dacb2c639e7958ca4e55783fb3d128f3bf4c122d8e049a70bd1e9f50",
+      "lines": 88,
+      "boundary": "Full Confirm Search cell/facing/trigger threshold/first-hit oracle read."
+    },
+    {
+      "path": "packages/game/src/core/mode.test.ts",
+      "sha256": "d217442b8f62df651d8f828171085efd2c1330dbfcc90ae28411baf836739609",
+      "lines": 283,
+      "boundary": "Full mode ordering/scene gate/autoScript/scene fade caller oracle read."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "34eaad97dd35a62a273596efecd9a5cfbf6e00360ac923fc6e64e2b76e622242",
+      "lines": 5117,
+      "ranges": ["1200-1255", "1470-1580", "3270-3385", "3580-3620"],
+      "boundary": "Trigger load, event mode, scene loader, onEnter and movement opcode caller ranges."
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "6c02f5c426c7bf4fb8ef096117c23dd79ee10a2d642e70c1d4d51119b2026298",
+      "lines": 1944,
+      "ranges": ["770-890", "1540-1595"],
+      "boundary": "Scene asset/map context and initial scene/onEnter caller ranges."
+    },
+    {
+      "path": "reference/sdlpal/play.c",
+      "sha256": "f13ba4e3a9c86c494390ea1eda121be1ae4c7fa5110f5e51cf4680321c742ef8",
+      "lines": 682,
+      "ranges": ["25-238", "362-591"],
+      "boundary": "PAL_GameUpdate ordering, trigger/autoscript, Search and PAL_StartFrame primary ranges."
+    },
+    {
+      "path": "reference/sdlpal/scene.c",
+      "sha256": "bc4efef7cad3b83ddac5e3338423e3c5d9660bdbaae1d8e974e8841022e3bc8b",
+      "lines": 903,
+      "ranges": ["512-847"],
+      "boundary": "Obstacle diamond, party update, blocker push, trail/camera and frame ordering primary range."
+    },
+    {
+      "path": "reference/sdlpal/map.c",
+      "sha256": "0b707730f6e89b2d99f7a8564382c226381c3cec2f13867ad54c816805b1357f",
+      "lines": 418,
+      "ranges": ["277-299"],
+      "boundary": "Tile obstacle bit13 primary range."
+    },
+    {
+      "path": "reference/sdlpal/res.c",
+      "sha256": "5bec5dd52c950fe1a6cdafb7fab414f55cd5958adc7c9ddce4e7f6cbfe3ec9d9",
+      "lines": 439,
+      "ranges": ["229-301"],
+      "boundary": "Party offset and scene resource geometry primary range."
+    },
+    {
+      "path": "reference/sdlpal/global.h",
+      "sha256": "07f307f91af62291fba50a345075c54adf170a33d1eba1f389852abf9c44d28c",
+      "lines": 757,
+      "ranges": ["75-121", "512-531"],
+      "boundary": "Trigger mode constants, scene fields and global mode/party ownership primary ranges."
+    }
+  ],
+  "notClaimed": [
+    "Complete CODE-QUALITY-3q acceptance",
+    "Full event-system/battle-system/save/schema or E2E/visual acceptance",
+    "Scene data migration or coordinate/product changes",
+    "Coverage, official ratchet, protected fast or whole-repository acceptance"
+  ]
+}

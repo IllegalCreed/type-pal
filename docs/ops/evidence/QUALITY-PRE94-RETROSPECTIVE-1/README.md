@@ -4,7 +4,7 @@
 
 ## 2026-10-17 当前范围与优先级
 
-用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10原检查点bea19f80c已推送，当前恢复见本片末尾；分支已同步最新origin/main，0behind，未合main。全83卡22partial/61pending/0accept；[6a](6a/README.md)、92、CODE1/2/2b/3/3b/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；[CODE3b](3b/README.md)两边界六oracle已补；[raw补证](3b/raw-tests/README.md)9→2/五新反控、完整extract428零stderr；全正文仍待，[3d PNG](3d/README.md)两height盲点已补，下一片3h assets/shell，再按模块逐文件推进；94–102/editor未完成项保留。
+用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10原检查点bea19f80c已推送，当前恢复见本片末尾；分支已同步最新origin/main，0behind，未合main。全83卡23partial/60pending/0accept；[6a](6a/README.md)、92、CODE1/2/2b/3/3b/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；[CODE3b](3b/README.md)两边界六oracle已补；[raw补证](3b/raw-tests/README.md)9→2/五新反控、完整extract428零stderr；全正文仍待，[3d PNG](3d/README.md)两height盲点已补，下一片3h assets/shell，再按模块逐文件推进；94–102/editor未完成项保留。
 
 下文旧数字、探针与结论作为历史保存；不会把旧抽查、历史done或包全绿补签成当前验收。
 
@@ -51,6 +51,8 @@
 最新[3o mode / history / poison / search 复审切片](3o-mode-history-poison-search/README.md)：完整读取四个 core helper、menu/scene/event/bootstrap caller 与 SDLPal play/global primary；45 例直接/ownership 测试、667 例相邻回归通过，保留预期 warning 诊断，未发现新直接缺陷；3o 仍 partial，未运行 coverage 或全仓 check。
 
 最新[3p event-opcode-player 复审切片](3p-event-opcode-player/README.md)：完整读取玩家/装备/HPMP/复活/毒/状态/魔法 opcode helper、四份直接测试和 owner caller/SDL primary；直接61例、相邻471例通过，保留既有 warning 诊断，未发现新直接缺陷；3p 仍 partial，未运行 coverage 或全仓 check。
+
+最新[3q scene-system 复审切片](3q-scene-system/README.md)：完整读取 662 行 scene-system、2064 行主测试及 scene/mode/event/bootstrap caller、SDL play/scene/map/res primary；5 个定向文件467例通过，未发现新直接缺陷，保留既有 warning 诊断；3q 仍 partial，未运行 coverage 或全仓 check。
 
 ## 统一候选后的范围更正
 
