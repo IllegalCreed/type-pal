@@ -347,6 +347,13 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 - 未修/保留：未改变战斗 UI 形态、公共接口或 party-slot 语义；3l 整卡统一门/完整装配器仍按 `partial` 保持。
 - 验证：定向 3 files/51 tests passed，`pnpm --filter @type-pal/game typecheck` passed，无测试 stderr；coverage、official ratchet、protected fast、全仓 `pnpm check` 留到完整大模块收口。已读清单与 SHA 见 [`3l-battle-ui`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3l-battle-ui/README.md)。
 
+### 2026-10-17 CODE-QUALITY-3m battle positions 只读切片
+
+- 高风险边界：3m 涉及 battle core 坐标/公式/状态/RNG；本片只读 `battle-positions.ts`，不改机制、坐标、存档或公共接口。
+- primary/caller：`battle.c:27,903-939`、`global.h:401-404`；`battle-state.ts` 初始 pos、`battle-opcodes.ts` 动态阵型、present sprite/UI anchor caller，`battle-state.test.ts` 位置/fallback fixture。
+- 结论：1/2/3 人 SDL 表、4/5 fallback、EnemyPos 缺失 fallback 与 idx bounds 逐文件核验；未发现直接缺陷。3m 其余 formulas/magic-damage/status/turn-queue/rng 仍 pending，不作高风险取舍。
+- 验证：按关键词定向 `battle-state.test.ts` 为 `1 passed / 13 skipped`，game typecheck 无诊断；coverage、official ratchet、protected fast、全仓 `pnpm check` 留待完整大模块收口。已读清单与 SHA 见 [`3m-battle-positions`](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3m-battle-positions/README.md)。3m 整卡保持 `partial`。
+
 ### 2026-10-17 CODE1/CODE2 boundary carry-over
 
 本片接收工作树中已完成的两个窄测试合同：`packages/shared/src/rle.boundaries.test.ts` 新增“相邻 offset 截断前一帧帧头即拒绝”反例；`packages/shared/src/rng.boundaries.test.ts` 新增同一 surface 连续 delta 累加并保留首帧像素的 ownership 合同。两项都只改测试，不改 RLE/RNG/YJ2 实现、公共出口、资源或格式策略；RLE 高位 literal 风险继续留在 `QUALITY-RLE-COMMAND-TRUTH-1` draft。

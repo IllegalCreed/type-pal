@@ -1,0 +1,61 @@
+{
+  "base": "1ad2451d4",
+  "fullReads": [
+    {
+      "path": "packages/game/src/core/battle/battle-positions.ts",
+      "sha256": "47bf72791ffe6ea9e3d3bf061e5b0232351e44f938c24e3f049267ca063a1273",
+      "lines": 93,
+      "boundary": "Full position source read; player layouts, enemy fallback and index guards."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "ac0b7567b9cc93f0713debc36d37d40cf0fde926e71891b1c77c35b4bf542cca",
+      "lines": 918,
+      "ranges": ["800-880"],
+      "boundary": "Initial player/enemy anchor caller ranges only."
+    },
+    {
+      "path": "packages/game/src/core/battle/__tests__/battle-state.test.ts",
+      "sha256": "93bf49d15b76014878b8893d47548837be8cd44509e16bb9ffc01185d62d8712",
+      "lines": 383,
+      "ranges": ["210-390"],
+      "boundary": "Position table/EnemyPos fixture and fallback test ranges."
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-sprites.ts",
+      "sha256": "bf9d33201028c448361549c2c8d1971ba8193d7cd41b99abd6dd97348ca44d58",
+      "lines": 413,
+      "ranges": ["20-55", "300-330"],
+      "boundary": "Sprite anchor caller ranges only; full semantic review recorded in 3l-sprites."
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-ui.ts",
+      "sha256": "3b914002b9b26b277ce579630ac15d08bebf984d5d6f54d9b8adfc0b19a76330",
+      "lines": 825,
+      "ranges": ["780-825"],
+      "boundary": "Target arrow anchor caller range only; full semantic review recorded in 3l-battle-ui."
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33",
+      "lines": 1858,
+      "ranges": ["27-35", "895-945"],
+      "boundary": "Player table and EnemyPos anchor primary ranges."
+    },
+    {
+      "path": "reference/sdlpal/global.h",
+      "sha256": "07f307f91af62291fba50a345075c54adf170a33d1eba1f389852abf9c44d28c",
+      "lines": 757,
+      "ranges": ["401-404"],
+      "boundary": "ENEMYPOS struct primary range."
+    }
+  ],
+  "notClaimed": [
+    "Complete CODE-QUALITY-3m acceptance",
+    "Formula/status/queue/RNG semantic review",
+    "Any coordinate/product behavior change",
+    "Coverage, official ratchet, protected fast or whole-repository acceptance"
+  ]
+}

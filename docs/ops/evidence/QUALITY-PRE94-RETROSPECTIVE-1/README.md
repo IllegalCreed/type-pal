@@ -4,7 +4,7 @@
 
 ## 2026-10-17 当前范围与优先级
 
-用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10原检查点bea19f80c已推送，当前恢复见本片末尾；分支已同步最新origin/main，0behind，未合main。全83卡18partial/65pending/0accept；[6a](6a/README.md)、92、CODE1/2/2b/3/3b/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；[CODE3b](3b/README.md)两边界六oracle已补；[raw补证](3b/raw-tests/README.md)9→2/五新反控、完整extract428零stderr；全正文仍待，[3d PNG](3d/README.md)两height盲点已补，下一片3h assets/shell，再按模块逐文件推进；94–102/editor未完成项保留。
+用户要求94前所有卡成果复审，全部83卡（77历史done/1build/4review/1draft），本轮全量accept=0。逐卡队列见[all-cards.md](all-cards.md)，结构原件见[all-cards.json](all-cards.json)。36卡/8卡及下文旧分支位置是历史抽查快照，不是当前完整范围或分支真相。当前唯一codex/code-quality-3y，C10原检查点bea19f80c已推送，当前恢复见本片末尾；分支已同步最新origin/main，0behind，未合main。全83卡19partial/64pending/0accept；[6a](6a/README.md)、92、CODE1/2/2b/3/3b/3c/3f和75已有有限证据。最新[C2支持片](../QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md)实测extract431零stderr；[CODE3b](3b/README.md)两边界六oracle已补；[raw补证](3b/raw-tests/README.md)9→2/五新反控、完整extract428零stderr；全正文仍待，[3d PNG](3d/README.md)两height盲点已补，下一片3h assets/shell，再按模块逐文件推进；94–102/editor未完成项保留。
 
 下文旧数字、探针与结论作为历史保存；不会把旧抽查、历史done或包全绿补签成当前验收。
 
@@ -35,6 +35,8 @@
 最新[3l 战斗精灵切片](3l-sprites/README.md)：完整读取精灵实现、三份直接测试、present/position caller 与 battle/fight/uibattle/palcommon primary；定向3文件69例与 game typecheck通过，未发现直接缺陷。3l UI/完整装配器和整卡统一门仍待核，未运行 coverage 或全仓 check。
 
 最新[3l 战斗 UI 切片](3l-battle-ui/README.md)：完整读取 UI 实现、三份直接测试、present/party-slot caller 与 uibattle/magicmenu/itemmenu primary；定向3文件51例与 game typecheck通过，未发现直接缺陷。3l 整卡统一门仍待核，未运行 coverage 或全仓 check。
+
+最新[3m battle positions 只读切片](3m-battle-positions/README.md)：高风险 battle core 只核坐标表、fallback、core/present caller 与 SDL primary，未改机制；位置定向测试通过。3m 公式/status/queue/RNG 仍 pending，整卡不关闭，未运行 coverage 或全仓 check。
 
 ## 统一候选后的范围更正
 

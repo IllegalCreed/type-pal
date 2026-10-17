@@ -744,7 +744,7 @@
       "sha256": "9585f35717d4194979749d688a13b960c48b5b4c7e407328c85ee81daa75acf7",
       "lines": 68,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -788,7 +788,8 @@
           "text": "当前状态：build；只能在六个白名单生产文件及对应测试内工作。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true,
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3m-battle-positions/README.md"
     },
     {
       "id": "3n",
