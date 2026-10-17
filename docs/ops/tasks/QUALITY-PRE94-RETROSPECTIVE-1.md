@@ -276,6 +276,12 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 
 ### 2026-10-17 C1 取消生命周期与最新main收口
 
-当前治理分支已合并 `origin/main=36caec0251b48f94fa5b9d5c4c786571037f9869`，0 behind/158 ahead。`QUALITY-FETCH-ABORT-LIFECYCLE-1` 已从失败反例进入 build：`fetch-retry.ts` 增加可取消退避与 Request.signal 归属，合并后四文件26例、game typecheck 和全仓 `pnpm check` 通过；本批抽取输出边界C1另有定向9/9、pal-extract 72/434、全仓 `pnpm check` 通过，lint 4959 文件0/0/0，当前账本3307/226/12/3069。
+当前治理分支已合并 `origin/main=36caec0251b48f94fa5b9d5c4c786571037f9869`，0 behind/160 ahead。`QUALITY-FETCH-ABORT-LIFECYCLE-1` 已从失败反例进入 build：`fetch-retry.ts` 增加可取消退避与 Request.signal 归属，合并后四文件26例、game typecheck 和全仓 `pnpm check` 通过；本批抽取输出边界C1另有定向9/9、pal-extract 72/434、全仓 `pnpm check` 通过，lint 4959 文件0/0/0，当前账本3307/226/12/3069。
 
-官方 `pnpm coverage:ratchet` 与 `TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast` 均因 baseline 回退失败：shared statements 447/466、branches 203/218；pal-extract statements 1068/1546、branches 461/593、functions 111/140、lines 943/1367。未改 baseline、未新增弱测试。完整 game 仍有17块stderr，editor全包运行时诊断仍在；不合main、不关闭任何ledger文件。下一批继续game/editor诊断和83卡逐文件复审。
+官方 `pnpm coverage:ratchet` 与 `TYPE_PAL_COVERAGE_BASE_REF=origin/main pnpm coverage:fast` 均因 baseline 回退失败：shared statements 447/466、branches 203/218；pal-extract statements 1068/1546、branches 461/593、functions 111/140、lines 943/1367。未改 baseline、未新增弱测试。C2 已把 game 完整 verbose stderr 从17块降为15块，但剩余15块和 editor 全包运行时诊断仍未逐文件清零；不合main、不关闭任何ledger文件。下一批继续 game/editor 诊断和83卡逐文件复审。
+
+### 2026-10-17 C2 game 运行时诊断切片
+
+本批完整读取并核对 `e2-equipment-effects.test.ts`、`e4-run-equip-script.test.ts`、`equip-effect.ts`、`equipment-state.ts`、stats fixture 与相邻装备/跨模块 caller。未知 row 999 和未注册 `L_99999` 是合法负输入，测试现在在 finally 内捕获并精确断言生产 warning；未改生产日志、公共接口、状态 ownership 或资源。未改测试 8/8 但有2块 stderr，改后8/8且0 stderr；game typecheck、相邻6文件66 tests、根 `pnpm check` 和 docs/lint/ledger 门通过。
+
+本批两测试登记为 `review`，当前账本3307/226/12/3069；完整 game 321/3612 通过但仍15块 stderr。official ratchet/protected fast 的 coverage tools 各75/75通过，正式 coverage 门仍因 shared/pal-extract baseline 回退失败，未改 baseline。C2 已提交 `2f36cb0d2` 并推送治理分支，不合main；下一片继续剩余15块 game stderr 或切 editor，依旧不把全包绿替代逐文件验收。
