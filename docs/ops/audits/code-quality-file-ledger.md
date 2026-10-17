@@ -18,9 +18,11 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,314。
-当前已闭合核验：284；已读但待审：55；尚未逐文件核验：2,975；合计未闭合：3,030。
+当前已闭合核验：283；已读但待审：56；尚未逐文件核验：2,975；合计未闭合：3,031。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
+
+2026-10-18 九笔补审：六字段/读侧克隆漏迁已补API，1旧菜单测试关闭转review，0新增closed；提取三边界继续pending。见[补审返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)。
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
@@ -179,9 +181,9 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/tools/quick-save.test.ts` | test | 已验证 | [CODE-QUALITY-102 Codex独立复核](../evidence/CODE-QUALITY-102/codex-current-review.md)；真实 GameState/KeyboardEvent、save/load/toast oracle 与 finally 清理 | 8 tests；E-13 `as never` 夹具已移除，异步失败/空槽/解绑/计时器和 DOM 隔离均有判别力；无重复 toast 原语断言 |
 | `packages/game/src/core/save/api.ts` | product | review | [CODE-QUALITY-101 Codex当前逐文件复核](../evidence/CODE-QUALITY-101/codex-current-review.md)；Save API 双路径 caller、MAX_SAVE_SLOTS=5、内存/IndexedDB 边界 | 已完整读取；NaN/无穷/小数只通过范围守卫，双路径输入合同未裁决；见 GAME-SAVE-INPUT-DOMAIN-1，禁止实现或标已验证 |
 | `packages/game/src/core/save/indexed-db.ts` | product | review | [CODE-QUALITY-101 Codex当前逐文件复核](../evidence/CODE-QUALITY-101/codex-current-review.md)；真实事务测试、IndexedDB 生命周期与公共 Save caller | 事务 complete/abort 由 GAME-SAVE-IDB-COMMIT-1 维护；open 失败缓存与 db.close 生命周期仍缺主路径证据，保持 review |
-| `packages/game/src/core/save/__tests__/api.test.ts` | test | review | [CODE-QUALITY-101 Codex当前逐文件复核](../evidence/CODE-QUALITY-101/codex-current-review.md)；真实 GameState fixture、Save API oracle 与隔离 | 8 个内存路径合同有判别力，但 jsdom 无 IndexedDB；双路径非法数值反例待 GAME-SAVE-INPUT-DOMAIN-1 裁决 |
+| `packages/game/src/core/save/__tests__/api.test.ts` | test | review | [补审漏迁修复](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)；完整Save实现/9合同、真实caller及双向克隆oracle | 六类字段roundtrip、独立读侧深克隆、原存侧保留；显式内存环境/前后清理；双路径输入/IDB生命周期仍待 |
 | `packages/game/src/core/menu/save-slot-menu.ts` | product | 已验证 | [CODE-QUALITY-100 Codex当前独立复核](../evidence/CODE-QUALITY-100/codex-current-review.md)；menu-driver 标题/系统 save-load caller、draw-menu SlotMeta oracle、Save API/IDB 边界、sdlpal uigame.c:169-242 | 选择状态、1-based/defaultSlot、非顺序 id、空表与异步元数据 ownership 逐文件核验；无 schema/写路径或直接产品缺陷 |
-| `packages/game/src/core/menu/save-slot-menu.test.ts` | test | 已验证 | [CODE-QUALITY-100 Codex当前独立复核](../evidence/CODE-QUALITY-100/codex-current-review.md)；真实 Save.listSlots caller、menu-save-chain/menu-driver oracle | 58 定向测试中的菜单/真链合同；移除三条重复 Save API roundtrip，补首项环绕、reject warning、异步 resolve/刷新 id 与 afterEach spy 隔离；无弱断言遗留 |
+| `packages/game/src/core/menu/save-slot-menu.test.ts` | test | review | [补审排重勘误](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)；2daed1bb7删例与Save API合同逐项对照 | 原完全等价排重声明撤回；六字段/读侧克隆现移到API层，菜单15例仍在；等待再次独立整文件/统一门验收 |
 | `packages/game/src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts` | test | 已验证 | [CODE-QUALITY-100 Codex当前独立复核](../evidence/CODE-QUALITY-100/codex-current-review.md)；公开工厂同步合同与 sdlpal defaultSlot oracle | 非顺序 id、越界 defaultSlot、空表 Up/Down 反例；与 IO/dispatcher 测试排重 |
 | `packages/game/src/tools/map-names.ts` | product | 已验证 | [pre-94 CODE3j toast/map/checkpoints复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-toast-map-checkpoints/README.md)；shared authored map-name caller 与 known/fallback tests | 缺名保持 `地图N` 回退，不改 authored table |
 | `packages/game/src/tools/speedrun/time-format.ts` | product | review | [pre-94 CODE3j time-format 当前复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-time-format/README.md)；store/overlay/tools-panel caller、三份直接测试 | 发现超长数字可形成 Infinity 并在 JSON 持久化时静默变 null；已补 finite 反例与解析守卫，整卡/统一门仍待 |

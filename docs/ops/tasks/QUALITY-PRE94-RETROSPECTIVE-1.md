@@ -624,3 +624,7 @@ fetch-retry.ts旧关闭撤回rework、boundary旧关闭撤回review，主/GLM保
 ## 2026-10-18 审计证据第二批
 
 [簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)修正上述六项，另纠正EOF383/1858两处范围；5份短SHA按64位实际C字节核定。工作树意外消失后已在原路径/同分支恢复，旧字节附件由Git770精确恢复并验证；55明确是当前全文后补，不回填历史日期。无产品/测试改动、0新增closed，3314/284/55/2975及83卡50partial/33pending/0accept不变。下一步十项注释/两UI差异；53原波次完整raw仍缺、rework。
+
+## 2026-10-18 九笔代码补审有限返工
+
+用户转交的七笔通过结论保持，不重复改写。Save排重漏迁已由API单文件补测，提取dd341e5f3性质勘误/三个边界pending逐条写回原卡，770f9168e对应三机制、真实caller和先红后修原件已补交接。[完整记录](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)。只修已核counter，不恢复53旧门信用；1旧测试关闭撤回review，0新关闭，83卡仍50partial/33pending/0accept。pre94十项注释、formulas算术风险和两UI差异继续在前，94–102其它修复/editor在后；本支持片不开始新103+范围。另见GameState.runtime.rgwAttackStrength“含装备”旧注与已核裸基础ownership冲突，记录留注释波，不在本片改实现。昂贵全仓check/coverage/protected留大任务收尾，本次不合main。

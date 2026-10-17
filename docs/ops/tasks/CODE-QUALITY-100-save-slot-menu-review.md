@@ -131,3 +131,7 @@ menu 域收完后换域第一批：存档槽菜单切片（1 生产 + 2 专属�
 ## 下一步
 
 Codex 独立验收；E-1..E-9 仍等 94/95 验收。后续候选：Save API 存档域本体（save/api.ts，须先核 schema/IndexedDB 边界）或 game present 剩余 pending。无用户裁决需求。
+
+## 2026-10-18 排重勘误与交接
+
+2daed1bb7删除的三个Save API用例不能统称为“已有等价覆盖”：缺槽null确已覆盖，但六类字段往返只剩cash，且存侧克隆不等价于读侧克隆。Codex撤回该完全重复判断，菜单层保持不回填IO用例，在Save域补齐roundtrip的cash/scene/savedTimes/HP/Level/inventory及独立读侧深克隆。旧save-slot-menu.test已验证记录转review，0新增closed；不是发现菜单生产实现缺陷。精确反控、当前测试及限制见[补审返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)；原58例和旧门结论仅各自历史候选，本卡继续review。

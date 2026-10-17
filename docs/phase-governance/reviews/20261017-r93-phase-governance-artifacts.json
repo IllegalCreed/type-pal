@@ -1040,7 +1040,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "b96d9fb4fe732407abf7524d76e8399f031374a7caee4e87d58566db6050ef8a",
+      "afterSha256": "f739e30d9757e8119004a98259d35538e5c8e56194ba63d8d59bb4e5182e7f9d",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1064,8 +1064,23 @@
       },
       "revision": {
         "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "implementationSha": "b96d9fb4fe732407abf7524d76e8399f031374a7caee4e87d58566db6050ef8a",
+        "implementationSha": "f739e30d9757e8119004a98259d35538e5c8e56194ba63d8d59bb4e5182e7f9d",
         "history": [
+          {
+            "revision": "835bd059bb4ed815e844a153ee02d577d339af0f",
+            "date": "2026-10-18",
+            "action": "Record supplemental Save dedupe counter, test repair and truthful handoff",
+            "previousAfterSha256": "b96d9fb4fe732407abf7524d76e8399f031374a7caee4e87d58566db6050ef8a",
+            "scope": "Only named board/ledger delta or incoming review linkage. One old menu-test closure withdrawn; Save API restores omitted roundtrip/read-clone oracles. No production/schema/CLI behavior or new whole-file acceptance. Previous histories/native conclusions preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "770f9168e3422aea1d98bac2a3bd447a1c6f2216",
             "date": "2026-10-18",
@@ -1226,7 +1241,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "b96d9fb4fe732407abf7524d76e8399f031374a7caee4e87d58566db6050ef8a",
+        "afterSha256": "f739e30d9757e8119004a98259d35538e5c8e56194ba63d8d59bb4e5182e7f9d",
         "lineCount": 1987,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1261,7 +1276,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-2347",
+      "reviewedLines": "1-2362",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -4948,7 +4963,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "adafac3ce02e23e7734c31fe2499c8ddca47c82be6d43f12d147920190a52496",
+      "afterSha256": "beeac1c80b0d46fabc2698d37d07ca634b2c1826256ae31e9428b4f0681fad5f",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -4972,8 +4987,23 @@
       },
       "revision": {
         "currentSha": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "implementationSha": "adafac3ce02e23e7734c31fe2499c8ddca47c82be6d43f12d147920190a52496",
+        "implementationSha": "beeac1c80b0d46fabc2698d37d07ca634b2c1826256ae31e9428b4f0681fad5f",
         "history": [
+          {
+            "revision": "835bd059bb4ed815e844a153ee02d577d339af0f",
+            "date": "2026-10-18",
+            "action": "Record supplemental Save dedupe counter, test repair and truthful handoff",
+            "previousAfterSha256": "adafac3ce02e23e7734c31fe2499c8ddca47c82be6d43f12d147920190a52496",
+            "scope": "Only named board/ledger delta or incoming review linkage. One old menu-test closure withdrawn; Save API restores omitted roundtrip/read-clone oracles. No production/schema/CLI behavior or new whole-file acceptance. Previous histories/native conclusions preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "770f9168e3422aea1d98bac2a3bd447a1c6f2216",
             "date": "2026-10-18",
@@ -5125,7 +5155,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "adafac3ce02e23e7734c31fe2499c8ddca47c82be6d43f12d147920190a52496",
+        "afterSha256": "beeac1c80b0d46fabc2698d37d07ca634b2c1826256ae31e9428b4f0681fad5f",
         "lineCount": 5074,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -5160,7 +5190,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-5335",
+      "reviewedLines": "1-5350",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

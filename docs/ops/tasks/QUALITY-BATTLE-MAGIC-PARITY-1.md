@@ -116,3 +116,9 @@ magic-damage、battle-opcodes、actions/magic和新增内部helper已按本卡�
 H01测试判别力另修一行：敌B入口ip2=end→ip3=对话；漏终态break的同一精确变异下旧绿1/新红1，生产恢复SHA一致，当前3例绿零stderr。没有增加测试数量；三机制专属五反控及本条旧绿新红分别记账。
 
 静态收尾：game typecheck零诊断；docs工具125通过，初次完整命令因机制catalog SHA失败，补精确catalog/manifest绑定后五consumer全0 issue（不重复125工具tests）；lint5086文件0/0/0，ledger3314/284/55/2975、diff通过。完整失败/修后原件见gates.json，尚未合main。
+
+## 2026-10-18 交接：770f9168e对应审计发现
+
+770f9168e不是仅修三处之一，而是对应GLM完整审计第二节全部三条：①simulateMagic选靶偏好（含0x42伤害与FIRE共用同次目标、零伤/致死反例）；②真实performThrowItem→runScript 0x66读裸runtime攻击，装备/Extra不改变伤害、真实0不回退；③真实performMagic敌方非伤害法术也先预掷autoDefend，名单继续进入frame3及advanceBattleAnimFrames消费。直接caller三层均覆盖，未只测新helper。
+
+先红后修：改生产前保留初版反例日志，修正错误FIRE帧数oracle后为8红6绿；最终合法15例对原基点0e3的三份旧生产源精确回放为9红6绿、零runtime error suite，不冒称整个旧checkout。全灭场景限定attackWhole，normal无目标assert域仍pending。当前15定向/37文件935相邻通过，五枚指定业务AssertionError反控分别拦回三机制、漏防御姿与致死后重选靶；完整未裁剪raw、spec、恢复SHA与命令见[既有证据](../evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md)的red-legal.json、controls.json和gates.json。本次只是补交接映射，没有为说明重跑这些不变测试。统一门/浏览器视觉仍未执行，不恢复53波次收口信用、不宣布整文件完成。

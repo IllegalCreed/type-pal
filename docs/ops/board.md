@@ -47,8 +47,8 @@ Template: governance-index-v1 / 1.0.0
 | CODE-QUALITY-97 | [menu基础helper](tasks/CODE-QUALITY-97-menu-helper-primitives-item-select.md) | review | Codex / 已修注释 | 撤回伪原版锚；test-only合同仍待核 |
 | CODE-QUALITY-98 | [opening/player-status](tasks/CODE-QUALITY-98-menu-opening-player-status.md) | review | Codex / 已修注释与排重 | 取消链产品风险另卡，未关闭文件 |
 | CODE-QUALITY-99 | [menu输入路由](tasks/CODE-QUALITY-99-menu-driver-review.md) | review | Codex / 已修标题取消 | 单测先红后绿、实际浏览器回新游戏高亮 |
-| CODE-QUALITY-100 | [存档槽菜单](tasks/CODE-QUALITY-100-save-slot-menu-review.md) | review | Codex / 三文件逐文件复核；测试与 game baseline 已同步 | 3文件已登记已验证；58定向测试、移除重复 Save API roundtrip；整卡仍等统一诊断/coverage 收口 |
-| CODE-QUALITY-101 | [Save API/IDB](tasks/CODE-QUALITY-101-save-api-review.md) | review | Codex / 输入域另开高风险卡 | 事务提交/失败传播已测；NaN/小数双路径合同未裁决 |
+| CODE-QUALITY-100 | [存档槽菜单](tasks/CODE-QUALITY-100-save-slot-menu-review.md) | review | Codex / 排重漏迁勘误与API补证 | 原完全等价排重撤回，六字段/读侧克隆补回API；菜单主测重开review，统一门仍待 |
+| CODE-QUALITY-101 | [Save API/IDB](tasks/CODE-QUALITY-101-save-api-review.md) | review | Codex / 补审漏迁合同已补，输入域另卡 | 六字段与读侧克隆9例；事务主路径独立测试保留，输入/连接生命周期未闭合 |
 | CODE-QUALITY-102 | [快存快读](tasks/CODE-QUALITY-102-quick-save-review.md) | review | Codex / 两文件已独立核验 | quick-save.ts 与 quick-save.test.ts 已登记已验证；任务卡仍等统一诊断与 coverage 收口 |
 | CODE-QUALITY-103 | [editor残余测试逐文件复核](tasks/CODE-QUALITY-103-editor-residual-tests-review.md) | review | Codex / 相邻诊断清零后复验 | 两文件定向4/4；相邻224/224但22条React act诊断，未关闭 |
 | CODE-QUALITY-104 | [editor M02 测试 act 生命周期诊断](tasks/CODE-QUALITY-104-editor-act-diagnostics.md) | review | Codex / coverage baseline 收口后复验 | 两文件/24相邻测试零诊断；coverage ratchet/protected 仍受 shared/pal-extract baseline 阻塞 |

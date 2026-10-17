@@ -51,3 +51,15 @@ Codex完成四向真值与直接IO反例核验，单一Coding Owner，build allo
 实现白名单已落在 `packages/pal-extract/src/cli.ts`、`packages/pal-extract/src/output-boundary.ts` 与对应 `output-boundary.test.ts`；CLI 入口通过 `prepareOutputRoot` 调用共享所有权守卫，并保持直接执行时的错误退出。方案A行为不变：`data` 或 `data/extracted` 根节点为 symlink 时在任何清理/写出前拒绝；自有目录、缺失 output、`data/raw` 输入链接和 output 内部子项仍保留原边界。没有修改提取格式、生成物、argv、force 开关或公共游戏接口。
 
 直接回归：`output-boundary.test.ts` 与 `cli-error-exits.kimi-r1.test.ts` 为 2 files / 12 tests passed；pal-extract typecheck 通过；`check:docs`、`lint`（4971 files，0/0/0）、ledger 均通过。此批未运行 coverage、official ratchet、protected fast 或全仓 `pnpm check`，因为用户已明确要求把这些昂贵门集中到完整大任务收口；coverage baseline 未纳入本提交。CLI 旧 ledger 关闭仍保持 `rework`，新增实现/合同文件登记为 `review`，本卡继续 `build`，等待大窗口统一门与独立收口。
+
+## 2026-10-18 补审勘误与待核项
+
+交接勘误：dd341e5f3标题“reject shared extraction outputs”不表示首次引入拒绝策略；守卫已由cc8971760（2026-10-17 10:10 +0900）内联实现。dd341e5f3（21:35 +0900）实际是可测性重构：抽出同一lstat/错误传播守卫、增加prepareOutputRoot与直接执行入口判断，并补三条单测；拒绝文案/清理前位置保持。历史提交标题不改写，本卡明确其真实性质。
+
+单一Owner仍Codex。以下三项登记pending，不虚报直接测过，本次不改变资产管线行为：
+
+1. dataRoot本身不存在时，第一个lstat在try之外抛原生ENOENT；CLI统一catch会输出异常并exit1，但尚无友好缺目录信息或隔离直接反例。若要改提示/创建策略，先核真实首次提取调用域，不能把缺data与缺output混同。
+2. outputRoot lstat的非ENOENT重抛分支尚无精确单元反控；后续可在自有临时树构造ENOTDIR，核原错误code/对象和无清理副作用，不以权限不稳定的EACCES代替。
+3. prepareOutputRoot默认参数没有独立单元oracle；已有cli-error-exits.kimi-r1.test九个真实临时树子进程通过main→prepareOutputRoot()无参接线（源码已核），故不是生产caller完全无覆盖。默认路径推导若要单独认证，须在隔离副本导入，禁止为测试触碰主树data。
+
+output-boundary实现/三专测及252行CLI错误测试已全文重读；911行CLI本轮仅重读常量/入口/清理/异常出口和两历史diff，不重签整CLI。实现/测试字节未改，故不为登记重复跑pal-extract全包/coverage。[证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)；本卡build、CLI rework及helper/test review维持。

@@ -127,3 +127,13 @@ counter/P1：真实Save→IDB在request success后事务abort仍resolve，已开
 ## 下一步
 
 Codex 独立验收；E-10/E-12 并入 E-批；U-1（记录级版本）由既有卡跟踪。后续候选：quick-save 工具域、word-lookup 已闭合域复核、或 game present 剩余 pending。无用户裁决需求。
+
+## 2026-10-18 补审返工准入
+
+用户转交9笔代码补审后，Codex核实2daed1bb7排重时没有等价迁移全部合同：旧roundtrip的scene/savedTimes/HP/Level/inventory五类断言缺失，旧读侧克隆也不能由存侧克隆替代。纠正此前“完全重复”结论；本次只补`api.test.ts`，不改Save实现、schema、IDB或公共输入合同。单一Owner Codex，build allowed限恢复这些有效断言、显式内存环境与跨例清理，并保留旧弱spec/新spec的精确反控。CODE100/101继续review，不增加closed。
+
+## 2026-10-18 补审实施与交接
+
+api.test原8例中roundtrip补回六类字段，新增1条读侧克隆：修改load结果的现金、嵌套HP和库存数量，第二次读取仍为原值；原存侧克隆另留，不混称同向。明确stub indexedDB为undefined，每例前后清内存Map并恢复全局；fixture当前HP150/MaxHP200、库存正数，未伪造IDB主路径。当前9例；真实IDB事务三例仍由原独立文件承担。生产api/indexed-db、schema/DB_VERSION、异常输入合同、迁移均未修改。
+
+[完整补审证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)记录旧弱spec与新spec的同一精确变异对照、所有失败与当前原件、caller/read边界；初次typecheck指出测试数组下标未收窄，改用正常遍历，未加强转/ignore。输入域裁决与IDB连接生命周期仍pending，CODE100/101及api.test均保持review，不以局部绿恢复整文件闭合。

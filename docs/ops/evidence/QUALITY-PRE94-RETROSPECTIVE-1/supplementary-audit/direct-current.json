@@ -1,0 +1,30 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/save/__tests__/api.test.ts",
+    "src/core/save/__tests__/indexed-db.test.ts",
+    "src/core/menu/save-slot-menu.test.ts",
+    "src/core/menu/save-slot-menu.glm-phase1-leaves.test.ts",
+    "src/core/menu/menu-save-chain.glm-msio.test.ts",
+    "src/tools/quick-save.test.ts",
+    "--maxWorkers=1",
+    "--reporter=default",
+    "--reporter=json",
+    "--outputFile=/tmp/type-pal-supplementary-direct-current.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T19:49:31.748550+00:00",
+  "completedAt": "2026-10-17T19:49:35.102269+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "direct-current.raw.gz",
+  "rawBytes": 696,
+  "rawSha256": "e26b1f33318e402a02b2d1437085c5b9a24d4d18749dbe275adc4c921ff27bb4",
+  "fullUncutMergedStdoutStderr": true
+}

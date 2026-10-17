@@ -202,3 +202,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 最新[战斗三机制返工](../QUALITY-BATTLE-MAGIC-PARITY-1/README.md)：用户独立审计counter已直接核实并先红后修；15定向、935相邻与五精确反控，不恢复53旧波次门信用。十注释/其余证据和两UI差异仍列父卡pending，未合main。
 
 最新[审计证据簿记返工](audit-metadata-repair/README.md)：六项修正、实际五短SHA与两额外EOF界；工作树恢复后旧字节附件逐一匹配Git770，55仅当前后补核读，0新增closed，不恢复旧波次门信用。
+
+最新[九笔代码补审返工](supplementary-audit/README.md)：Save排重漏迁六字段/读侧克隆已在API测试补回，原存侧合同保留；提取提交性质及三边界pending写回原卡，770与三机制/先红后修/caller映射补交接。1旧测试重开review、0新closed；十注释/两UI差异及统一门仍待。

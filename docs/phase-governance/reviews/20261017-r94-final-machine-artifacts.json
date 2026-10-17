@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "5ddb42150488a05ce34f20a9aa53493b674be38d45eace7e1af58e56a488f7ba",
+      "afterSha256": "7f847174e36e6a950cf1e5de90422c9a6e437d1d5a98471b74266af9e5b5085c",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,8 +1066,23 @@
       },
       "revision": {
         "currentSha": "a2101ce8ffeb73642521f0b489d17642f27bbd3fcdc581d0e9c354dedbc05778",
-        "implementationSha": "5ddb42150488a05ce34f20a9aa53493b674be38d45eace7e1af58e56a488f7ba",
+        "implementationSha": "7f847174e36e6a950cf1e5de90422c9a6e437d1d5a98471b74266af9e5b5085c",
         "history": [
+          {
+            "revision": "835bd059bb4ed815e844a153ee02d577d339af0f",
+            "date": "2026-10-18",
+            "action": "Record supplemental Save dedupe counter, test repair and truthful handoff",
+            "previousAfterSha256": "5ddb42150488a05ce34f20a9aa53493b674be38d45eace7e1af58e56a488f7ba",
+            "scope": "Only named board/ledger delta or incoming review linkage. One old menu-test closure withdrawn; Save API restores omitted roundtrip/read-clone oracles. No production/schema/CLI behavior or new whole-file acceptance. Previous histories/native conclusions preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "770f9168e3422aea1d98bac2a3bd447a1c6f2216",
             "date": "2026-10-18",
@@ -1228,7 +1243,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "5ddb42150488a05ce34f20a9aa53493b674be38d45eace7e1af58e56a488f7ba",
+        "afterSha256": "7f847174e36e6a950cf1e5de90422c9a6e437d1d5a98471b74266af9e5b5085c",
         "lineCount": 13734,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1259,7 +1274,7 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "1-14686",
+      "reviewedLines": "1-14716",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

@@ -1,0 +1,1195 @@
+{
+  "base": "835bd059bb4ed815e844a153ee02d577d339af0f",
+  "scope": "Seven precise mutations: old eight-test spec remains green; new selected business contract fails exactly once. No production repair claimed. New filtered runs mark eight unselected tests pending; they receive no control credit.",
+  "sourceRestored": true,
+  "specRestored": true,
+  "originalSourceSha256": "6b34f35fece85ced760a4f16acd8c73e3b314fe52c91071a27f9da481127b0a0",
+  "restoredSourceSha256": "6b34f35fece85ced760a4f16acd8c73e3b314fe52c91071a27f9da481127b0a0",
+  "originalSpecSha256": "9c39f866c46fa297595dfc084ba8a3be969d4d51ae964279bc8d2349488676b4",
+  "restoredSpecSha256": "9c39f866c46fa297595dfc084ba8a3be969d4d51ae964279bc8d2349488676b4",
+  "rows": [
+    {
+      "id": "scene",
+      "version": "old",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/save/__tests__/api.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/control-scene-old.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T19:46:00.497710+00:00",
+      "completedAt": "2026-10-17T19:46:01.271578+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "sourceSha256": "6b34f35fece85ced760a4f16acd8c73e3b314fe52c91071a27f9da481127b0a0",
+      "mutantSha256": "be60623cea79918eb349ae57e3a2a8e3284d09b82054611fbc7801bad811cf54",
+      "specSha256": "d69cc1c9630d80ab5c2e5fe7f120737dd33da4eb989552a2f4a21c9a19a7f1b5",
+      "replace": {
+        "before": "return entry ? deepClone(entry.gs) : null",
+        "after": "if (!entry) return null\n    const loaded = deepClone(entry.gs)\n    loaded.wNumScene = 0\n    return loaded"
+      },
+      "passed": 8,
+      "failed": 0,
+      "runtimeErrorSuites": 0,
+      "fullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub saveSlot / loadSlot:基本 round-trip",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub saveSlot 是深拷贝(后续 mutate gs 不影响存档)",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub loadSlot 不存在的 slot → null",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub listSlots:返回已存槽位 + meta",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub deleteSlot:删后 load null + listSlots 少一条",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub slot < 1 或 > MAX_SAVE_SLOTS(5)→ 抛错",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub overwrite:同 slot saveSlot 二次覆盖",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub MAX_SAVE_SLOTS 暴露为 5",
+          "status": "passed"
+        }
+      ],
+      "failureMessages": [],
+      "raw": "control-scene-old.raw.gz",
+      "rawBytes": 363,
+      "rawSha256": "5fda3d259ef77d047e4b37179d9c3806042057bc03b18770623fed0620383e7e",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "id": "scene",
+      "version": "new",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/save/__tests__/api.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/control-scene-new.json",
+        "-t",
+        "round-trip preserves gameplay fields"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T19:46:01.271753+00:00",
+      "completedAt": "2026-10-17T19:46:02.095445+00:00",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "sourceSha256": "6b34f35fece85ced760a4f16acd8c73e3b314fe52c91071a27f9da481127b0a0",
+      "mutantSha256": "be60623cea79918eb349ae57e3a2a8e3284d09b82054611fbc7801bad811cf54",
+      "specSha256": "9c39f866c46fa297595dfc084ba8a3be969d4d51ae964279bc8d2349488676b4",
+      "replace": {
+        "before": "return entry ? deepClone(entry.gs) : null",
+        "after": "if (!entry) return null\n    const loaded = deepClone(entry.gs)\n    loaded.wNumScene = 0\n    return loaded"
+      },
+      "passed": 0,
+      "failed": 1,
+      "runtimeErrorSuites": 0,
+      "fullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback saveSlot / loadSlot: round-trip preserves gameplay fields",
+          "status": "failed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback saveSlot 是深拷贝(后续 mutate gs 不影响存档)",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback loadSlot returns an independent snapshot on every read",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback loadSlot 不存在的 slot → null",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback listSlots:返回已存槽位 + meta",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback deleteSlot:删后 load null + listSlots 少一条",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback slot < 1 或 > MAX_SAVE_SLOTS(5)→ 抛错",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback overwrite:同 slot saveSlot 二次覆盖",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback MAX_SAVE_SLOTS 暴露为 5",
+          "status": "skipped"
+        }
+      ],
+      "failureMessages": [
+        "AssertionError: expected +0 to be 12 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts:28:31\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+      ],
+      "raw": "control-scene-new.raw.gz",
+      "rawBytes": 1934,
+      "rawSha256": "ca9c6148baedcbf906668d69ad0a80229d0235ca782aa4847be28896a460c31f",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "id": "saved-times",
+      "version": "old",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/save/__tests__/api.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/control-saved-times-old.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T19:46:02.095706+00:00",
+      "completedAt": "2026-10-17T19:46:02.898252+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "sourceSha256": "6b34f35fece85ced760a4f16acd8c73e3b314fe52c91071a27f9da481127b0a0",
+      "mutantSha256": "bd470ae9d6c4de1dc7e3eb33ec40f357ad456cada0ecc7de7d0f10f9d2993700",
+      "specSha256": "d69cc1c9630d80ab5c2e5fe7f120737dd33da4eb989552a2f4a21c9a19a7f1b5",
+      "replace": {
+        "before": "return entry ? deepClone(entry.gs) : null",
+        "after": "if (!entry) return null\n    const loaded = deepClone(entry.gs)\n    loaded.wSavedTimes = 0\n    return loaded"
+      },
+      "passed": 8,
+      "failed": 0,
+      "runtimeErrorSuites": 0,
+      "fullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub saveSlot / loadSlot:基本 round-trip",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub saveSlot 是深拷贝(后续 mutate gs 不影响存档)",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub loadSlot 不存在的 slot → null",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub listSlots:返回已存槽位 + meta",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub deleteSlot:删后 load null + listSlots 少一条",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub slot < 1 或 > MAX_SAVE_SLOTS(5)→ 抛错",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub overwrite:同 slot saveSlot 二次覆盖",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub MAX_SAVE_SLOTS 暴露为 5",
+          "status": "passed"
+        }
+      ],
+      "failureMessages": [],
+      "raw": "control-saved-times-old.raw.gz",
+      "rawBytes": 369,
+      "rawSha256": "cbf85eaa1c7322bcde7300e8e8e2170ea66d213851a867a9086e56903ab7b190",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "id": "saved-times",
+      "version": "new",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/save/__tests__/api.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/control-saved-times-new.json",
+        "-t",
+        "round-trip preserves gameplay fields"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T19:46:02.898424+00:00",
+      "completedAt": "2026-10-17T19:46:03.696179+00:00",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "sourceSha256": "6b34f35fece85ced760a4f16acd8c73e3b314fe52c91071a27f9da481127b0a0",
+      "mutantSha256": "bd470ae9d6c4de1dc7e3eb33ec40f357ad456cada0ecc7de7d0f10f9d2993700",
+      "specSha256": "9c39f866c46fa297595dfc084ba8a3be969d4d51ae964279bc8d2349488676b4",
+      "replace": {
+        "before": "return entry ? deepClone(entry.gs) : null",
+        "after": "if (!entry) return null\n    const loaded = deepClone(entry.gs)\n    loaded.wSavedTimes = 0\n    return loaded"
+      },
+      "passed": 0,
+      "failed": 1,
+      "runtimeErrorSuites": 0,
+      "fullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback saveSlot / loadSlot: round-trip preserves gameplay fields",
+          "status": "failed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback saveSlot 是深拷贝(后续 mutate gs 不影响存档)",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback loadSlot returns an independent snapshot on every read",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback loadSlot 不存在的 slot → null",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback listSlots:返回已存槽位 + meta",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback deleteSlot:删后 load null + listSlots 少一条",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback slot < 1 或 > MAX_SAVE_SLOTS(5)→ 抛错",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback overwrite:同 slot saveSlot 二次覆盖",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback MAX_SAVE_SLOTS 暴露为 5",
+          "status": "skipped"
+        }
+      ],
+      "failureMessages": [
+        "AssertionError: expected +0 to be 7 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts:29:33\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+      ],
+      "raw": "control-saved-times-new.raw.gz",
+      "rawBytes": 1967,
+      "rawSha256": "d31f76f3da1571000327de777b41fca3b96eb46e46ade0a53ccba8b0368c0fcb",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "id": "hp",
+      "version": "old",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/save/__tests__/api.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/control-hp-old.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T19:46:03.696456+00:00",
+      "completedAt": "2026-10-17T19:46:04.507283+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "sourceSha256": "6b34f35fece85ced760a4f16acd8c73e3b314fe52c91071a27f9da481127b0a0",
+      "mutantSha256": "c2e89efd811d8bf15a4a32bc80ab0711e51e7f8a23466fba0004f21c6f16391d",
+      "specSha256": "d69cc1c9630d80ab5c2e5fe7f120737dd33da4eb989552a2f4a21c9a19a7f1b5",
+      "replace": {
+        "before": "return entry ? deepClone(entry.gs) : null",
+        "after": "if (!entry) return null\n    const loaded = deepClone(entry.gs)\n    loaded.PlayerRolesRuntime.rgwHP[0] = 0\n    return loaded"
+      },
+      "passed": 8,
+      "failed": 0,
+      "runtimeErrorSuites": 0,
+      "fullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub saveSlot / loadSlot:基本 round-trip",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub saveSlot 是深拷贝(后续 mutate gs 不影响存档)",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub loadSlot 不存在的 slot → null",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub listSlots:返回已存槽位 + meta",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub deleteSlot:删后 load null + listSlots 少一条",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub slot < 1 或 > MAX_SAVE_SLOTS(5)→ 抛错",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub overwrite:同 slot saveSlot 二次覆盖",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub MAX_SAVE_SLOTS 暴露为 5",
+          "status": "passed"
+        }
+      ],
+      "failureMessages": [],
+      "raw": "control-hp-old.raw.gz",
+      "rawBytes": 360,
+      "rawSha256": "c10945ec2923dae02af3d7010ca4b2a83363ed88d944922b7cada6f8bd8d7867",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "id": "hp",
+      "version": "new",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/save/__tests__/api.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/control-hp-new.json",
+        "-t",
+        "round-trip preserves gameplay fields"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T19:46:04.507453+00:00",
+      "completedAt": "2026-10-17T19:46:05.306460+00:00",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "sourceSha256": "6b34f35fece85ced760a4f16acd8c73e3b314fe52c91071a27f9da481127b0a0",
+      "mutantSha256": "c2e89efd811d8bf15a4a32bc80ab0711e51e7f8a23466fba0004f21c6f16391d",
+      "specSha256": "9c39f866c46fa297595dfc084ba8a3be969d4d51ae964279bc8d2349488676b4",
+      "replace": {
+        "before": "return entry ? deepClone(entry.gs) : null",
+        "after": "if (!entry) return null\n    const loaded = deepClone(entry.gs)\n    loaded.PlayerRolesRuntime.rgwHP[0] = 0\n    return loaded"
+      },
+      "passed": 0,
+      "failed": 1,
+      "runtimeErrorSuites": 0,
+      "fullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback saveSlot / loadSlot: round-trip preserves gameplay fields",
+          "status": "failed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback saveSlot 是深拷贝(后续 mutate gs 不影响存档)",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback loadSlot returns an independent snapshot on every read",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback loadSlot 不存在的 slot → null",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback listSlots:返回已存槽位 + meta",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback deleteSlot:删后 load null + listSlots 少一条",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback slot < 1 或 > MAX_SAVE_SLOTS(5)→ 抛错",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback overwrite:同 slot saveSlot 二次覆盖",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback MAX_SAVE_SLOTS 暴露为 5",
+          "status": "skipped"
+        }
+      ],
+      "failureMessages": [
+        "AssertionError: expected +0 to be 150 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts:30:49\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+      ],
+      "raw": "control-hp-new.raw.gz",
+      "rawBytes": 1999,
+      "rawSha256": "8186ba28da24b421a366fa5bee39c91faddf82a4a74007f5d9b20fd550fa8e11",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "id": "level",
+      "version": "old",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/save/__tests__/api.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/control-level-old.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T19:46:05.306721+00:00",
+      "completedAt": "2026-10-17T19:46:06.091551+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "sourceSha256": "6b34f35fece85ced760a4f16acd8c73e3b314fe52c91071a27f9da481127b0a0",
+      "mutantSha256": "9b1b65603307264d2c7c079cf65af38ec81253693f59d35470bc9dd1df80b5a0",
+      "specSha256": "d69cc1c9630d80ab5c2e5fe7f120737dd33da4eb989552a2f4a21c9a19a7f1b5",
+      "replace": {
+        "before": "return entry ? deepClone(entry.gs) : null",
+        "after": "if (!entry) return null\n    const loaded = deepClone(entry.gs)\n    loaded.PlayerRolesRuntime.rgwLevel[1] = 0\n    return loaded"
+      },
+      "passed": 8,
+      "failed": 0,
+      "runtimeErrorSuites": 0,
+      "fullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub saveSlot / loadSlot:基本 round-trip",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub saveSlot 是深拷贝(后续 mutate gs 不影响存档)",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub loadSlot 不存在的 slot → null",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub listSlots:返回已存槽位 + meta",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub deleteSlot:删后 load null + listSlots 少一条",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub slot < 1 或 > MAX_SAVE_SLOTS(5)→ 抛错",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub overwrite:同 slot saveSlot 二次覆盖",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub MAX_SAVE_SLOTS 暴露为 5",
+          "status": "passed"
+        }
+      ],
+      "failureMessages": [],
+      "raw": "control-level-old.raw.gz",
+      "rawBytes": 363,
+      "rawSha256": "795a47a3e5198d51ed5f10f407b53a0401920c3529ae76fc6c8967f42bb3d921",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "id": "level",
+      "version": "new",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/save/__tests__/api.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/control-level-new.json",
+        "-t",
+        "round-trip preserves gameplay fields"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T19:46:06.091730+00:00",
+      "completedAt": "2026-10-17T19:46:06.952659+00:00",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "sourceSha256": "6b34f35fece85ced760a4f16acd8c73e3b314fe52c91071a27f9da481127b0a0",
+      "mutantSha256": "9b1b65603307264d2c7c079cf65af38ec81253693f59d35470bc9dd1df80b5a0",
+      "specSha256": "9c39f866c46fa297595dfc084ba8a3be969d4d51ae964279bc8d2349488676b4",
+      "replace": {
+        "before": "return entry ? deepClone(entry.gs) : null",
+        "after": "if (!entry) return null\n    const loaded = deepClone(entry.gs)\n    loaded.PlayerRolesRuntime.rgwLevel[1] = 0\n    return loaded"
+      },
+      "passed": 0,
+      "failed": 1,
+      "runtimeErrorSuites": 0,
+      "fullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback saveSlot / loadSlot: round-trip preserves gameplay fields",
+          "status": "failed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback saveSlot 是深拷贝(后续 mutate gs 不影响存档)",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback loadSlot returns an independent snapshot on every read",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback loadSlot 不存在的 slot → null",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback listSlots:返回已存槽位 + meta",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback deleteSlot:删后 load null + listSlots 少一条",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback slot < 1 或 > MAX_SAVE_SLOTS(5)→ 抛错",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback overwrite:同 slot saveSlot 二次覆盖",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback MAX_SAVE_SLOTS 暴露为 5",
+          "status": "skipped"
+        }
+      ],
+      "failureMessages": [
+        "AssertionError: expected +0 to be 8 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts:31:52\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+      ],
+      "raw": "control-level-new.raw.gz",
+      "rawBytes": 1970,
+      "rawSha256": "44130c1c592984f9ad54ba832fb93b71ea74cbd3f02cc0c27185044955e833b8",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "id": "inventory",
+      "version": "old",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/save/__tests__/api.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/control-inventory-old.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T19:46:06.952906+00:00",
+      "completedAt": "2026-10-17T19:46:07.828355+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "sourceSha256": "6b34f35fece85ced760a4f16acd8c73e3b314fe52c91071a27f9da481127b0a0",
+      "mutantSha256": "2c2bf9d42b503b489c54ec1ac384dceff15a54f38ffb3008152c3107da07367a",
+      "specSha256": "d69cc1c9630d80ab5c2e5fe7f120737dd33da4eb989552a2f4a21c9a19a7f1b5",
+      "replace": {
+        "before": "return entry ? deepClone(entry.gs) : null",
+        "after": "if (!entry) return null\n    const loaded = deepClone(entry.gs)\n    loaded.inventory = []\n    return loaded"
+      },
+      "passed": 8,
+      "failed": 0,
+      "runtimeErrorSuites": 0,
+      "fullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub saveSlot / loadSlot:基本 round-trip",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub saveSlot 是深拷贝(后续 mutate gs 不影响存档)",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub loadSlot 不存在的 slot → null",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub listSlots:返回已存槽位 + meta",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub deleteSlot:删后 load null + listSlots 少一条",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub slot < 1 或 > MAX_SAVE_SLOTS(5)→ 抛错",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub overwrite:同 slot saveSlot 二次覆盖",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub MAX_SAVE_SLOTS 暴露为 5",
+          "status": "passed"
+        }
+      ],
+      "failureMessages": [],
+      "raw": "control-inventory-old.raw.gz",
+      "rawBytes": 369,
+      "rawSha256": "feb6e5cfada226eb49bb314ad6e59e5168a43097468c84fe2b46c7355251f7e8",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "id": "inventory",
+      "version": "new",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/save/__tests__/api.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/control-inventory-new.json",
+        "-t",
+        "round-trip preserves gameplay fields"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T19:46:07.828545+00:00",
+      "completedAt": "2026-10-17T19:46:08.602625+00:00",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "sourceSha256": "6b34f35fece85ced760a4f16acd8c73e3b314fe52c91071a27f9da481127b0a0",
+      "mutantSha256": "2c2bf9d42b503b489c54ec1ac384dceff15a54f38ffb3008152c3107da07367a",
+      "specSha256": "9c39f866c46fa297595dfc084ba8a3be969d4d51ae964279bc8d2349488676b4",
+      "replace": {
+        "before": "return entry ? deepClone(entry.gs) : null",
+        "after": "if (!entry) return null\n    const loaded = deepClone(entry.gs)\n    loaded.inventory = []\n    return loaded"
+      },
+      "passed": 0,
+      "failed": 1,
+      "runtimeErrorSuites": 0,
+      "fullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback saveSlot / loadSlot: round-trip preserves gameplay fields",
+          "status": "failed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback saveSlot 是深拷贝(后续 mutate gs 不影响存档)",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback loadSlot returns an independent snapshot on every read",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback loadSlot 不存在的 slot → null",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback listSlots:返回已存槽位 + meta",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback deleteSlot:删后 load null + listSlots 少一条",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback slot < 1 或 > MAX_SAVE_SLOTS(5)→ 抛错",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback overwrite:同 slot saveSlot 二次覆盖",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback MAX_SAVE_SLOTS 暴露为 5",
+          "status": "skipped"
+        }
+      ],
+      "failureMessages": [
+        "AssertionError: expected [] to deeply equal [ { itemId: 105, count: 3 } ]\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts:32:31\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+      ],
+      "raw": "control-inventory-new.raw.gz",
+      "rawBytes": 1990,
+      "rawSha256": "84804041c7ee42489a88da0affe12e8b38527df55fca5b1ed23a9196f614b118",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "id": "read-alias",
+      "version": "old",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/save/__tests__/api.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/control-read-alias-old.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T19:46:08.602878+00:00",
+      "completedAt": "2026-10-17T19:46:09.410490+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "sourceSha256": "6b34f35fece85ced760a4f16acd8c73e3b314fe52c91071a27f9da481127b0a0",
+      "mutantSha256": "9b0581230d1ad927ee41b58df4005bc8c12d8ffe7b0d300c344d2b13da8dfcc1",
+      "specSha256": "d69cc1c9630d80ab5c2e5fe7f120737dd33da4eb989552a2f4a21c9a19a7f1b5",
+      "replace": {
+        "before": "return entry ? deepClone(entry.gs) : null",
+        "after": "return entry ? entry.gs : null"
+      },
+      "passed": 8,
+      "failed": 0,
+      "runtimeErrorSuites": 0,
+      "fullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub saveSlot / loadSlot:基本 round-trip",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub saveSlot 是深拷贝(后续 mutate gs 不影响存档)",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub loadSlot 不存在的 slot → null",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub listSlots:返回已存槽位 + meta",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub deleteSlot:删后 load null + listSlots 少一条",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub slot < 1 或 > MAX_SAVE_SLOTS(5)→ 抛错",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub overwrite:同 slot saveSlot 二次覆盖",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub MAX_SAVE_SLOTS 暴露为 5",
+          "status": "passed"
+        }
+      ],
+      "failureMessages": [],
+      "raw": "control-read-alias-old.raw.gz",
+      "rawBytes": 368,
+      "rawSha256": "8c71d9527fb49b08fa98af4531ece948f4e770eabf895a04a28463561cf125d8",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "id": "read-alias",
+      "version": "new",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/save/__tests__/api.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/control-read-alias-new.json",
+        "-t",
+        "loadSlot returns an independent snapshot"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T19:46:09.410641+00:00",
+      "completedAt": "2026-10-17T19:46:10.212008+00:00",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "sourceSha256": "6b34f35fece85ced760a4f16acd8c73e3b314fe52c91071a27f9da481127b0a0",
+      "mutantSha256": "9b0581230d1ad927ee41b58df4005bc8c12d8ffe7b0d300c344d2b13da8dfcc1",
+      "specSha256": "9c39f866c46fa297595dfc084ba8a3be969d4d51ae964279bc8d2349488676b4",
+      "replace": {
+        "before": "return entry ? deepClone(entry.gs) : null",
+        "after": "return entry ? entry.gs : null"
+      },
+      "passed": 0,
+      "failed": 1,
+      "runtimeErrorSuites": 0,
+      "fullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback saveSlot / loadSlot: round-trip preserves gameplay fields",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback saveSlot 是深拷贝(后续 mutate gs 不影响存档)",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback loadSlot returns an independent snapshot on every read",
+          "status": "failed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback loadSlot 不存在的 slot → null",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback listSlots:返回已存槽位 + meta",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback deleteSlot:删后 load null + listSlots 少一条",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback slot < 1 或 > MAX_SAVE_SLOTS(5)→ 抛错",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback overwrite:同 slot saveSlot 二次覆盖",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback MAX_SAVE_SLOTS 暴露为 5",
+          "status": "skipped"
+        }
+      ],
+      "failureMessages": [
+        "AssertionError: expected 9999 to be 100 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts:57:30\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+      ],
+      "raw": "control-read-alias-new.raw.gz",
+      "rawBytes": 1951,
+      "rawSha256": "64786a10865758b605226655ca18399d2b00d6c6b257e693fda052ce95a3cfc5",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "id": "read-shallow",
+      "version": "old",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/save/__tests__/api.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/control-read-shallow-old.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T19:46:10.212264+00:00",
+      "completedAt": "2026-10-17T19:46:11.042923+00:00",
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "sourceSha256": "6b34f35fece85ced760a4f16acd8c73e3b314fe52c91071a27f9da481127b0a0",
+      "mutantSha256": "674021728a7ee0d85c23431c65278be47428162c5ed26c4f0e91502cc3f9f5f9",
+      "specSha256": "d69cc1c9630d80ab5c2e5fe7f120737dd33da4eb989552a2f4a21c9a19a7f1b5",
+      "replace": {
+        "before": "return entry ? deepClone(entry.gs) : null",
+        "after": "return entry ? { ...entry.gs } : null"
+      },
+      "passed": 8,
+      "failed": 0,
+      "runtimeErrorSuites": 0,
+      "fullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub saveSlot / loadSlot:基本 round-trip",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub saveSlot 是深拷贝(后续 mutate gs 不影响存档)",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub loadSlot 不存在的 slot → null",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub listSlots:返回已存槽位 + meta",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub deleteSlot:删后 load null + listSlots 少一条",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub slot < 1 或 > MAX_SAVE_SLOTS(5)→ 抛错",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub overwrite:同 slot saveSlot 二次覆盖",
+          "status": "passed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "S-w0.1 Save API stub MAX_SAVE_SLOTS 暴露为 5",
+          "status": "passed"
+        }
+      ],
+      "failureMessages": [],
+      "raw": "control-read-shallow-old.raw.gz",
+      "rawBytes": 370,
+      "rawSha256": "d9df453c0cec2eaf3e46a1973a0e9f07923b833009643b6e682c7a49d7d82cab",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "id": "read-shallow",
+      "version": "new",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@type-pal/game",
+        "exec",
+        "vitest",
+        "run",
+        "src/core/save/__tests__/api.test.ts",
+        "--maxWorkers=1",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile=/tmp/control-read-shallow-new.json",
+        "-t",
+        "loadSlot returns an independent snapshot"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-17T19:46:11.043090+00:00",
+      "completedAt": "2026-10-17T19:46:11.900297+00:00",
+      "exit": 1,
+      "signal": null,
+      "spawnError": null,
+      "sourceSha256": "6b34f35fece85ced760a4f16acd8c73e3b314fe52c91071a27f9da481127b0a0",
+      "mutantSha256": "674021728a7ee0d85c23431c65278be47428162c5ed26c4f0e91502cc3f9f5f9",
+      "specSha256": "9c39f866c46fa297595dfc084ba8a3be969d4d51ae964279bc8d2349488676b4",
+      "replace": {
+        "before": "return entry ? deepClone(entry.gs) : null",
+        "after": "return entry ? { ...entry.gs } : null"
+      },
+      "passed": 0,
+      "failed": 1,
+      "runtimeErrorSuites": 0,
+      "fullNames": [
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback saveSlot / loadSlot: round-trip preserves gameplay fields",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback saveSlot 是深拷贝(后续 mutate gs 不影响存档)",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback loadSlot returns an independent snapshot on every read",
+          "status": "failed"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback loadSlot 不存在的 slot → null",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback listSlots:返回已存槽位 + meta",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback deleteSlot:删后 load null + listSlots 少一条",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback slot < 1 或 > MAX_SAVE_SLOTS(5)→ 抛错",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback overwrite:同 slot saveSlot 二次覆盖",
+          "status": "skipped"
+        },
+        {
+          "file": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts",
+          "name": "Save API memory fallback MAX_SAVE_SLOTS 暴露为 5",
+          "status": "skipped"
+        }
+      ],
+      "failureMessages": [
+        "AssertionError: expected 1 to be 150 // Object.is equality\n    at /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/game/src/core/save/__tests__/api.test.ts:58:51\n    at processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.pnpm/@vitest+runner@4.1.7/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+      ],
+      "raw": "control-read-shallow-new.raw.gz",
+      "rawBytes": 1975,
+      "rawSha256": "ad7a5a01dc1617089d4d845b1d79ec1994fdb02eb779cc947884b1cb40ed5572",
+      "fullUncutMergedStdoutStderr": true
+    }
+  ]
+}

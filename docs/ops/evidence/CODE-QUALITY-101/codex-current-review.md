@@ -1,5 +1,7 @@
 # CODE-QUALITY-101 — Codex 当前逐文件复核（2026-10-17）
 
+2026-10-18 当前勘误：2daed1bb7的“完全重复/等价迁移”判断不成立；Save域旧roundtrip缺五类字段，读侧克隆也不能由存侧替代。现已在api.test补回六字段及独立读侧克隆，明确内存环境/清理；生产实现未变，文件保持review。原候选结果按历史保留；[当前补审原件与反控](../QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)才是本次范围，不以旧PASS描述声称当前全仓零诊断。
+
 本批是 review-only 的 Save 域复核，不修改生产代码、存档格式、DB_VERSION、迁移或公共接口。完整读取了以下实现与测试，并读取真实 caller、公共出口、相邻类型和生命周期：
 
 - `packages/game/src/core/save/api.ts`

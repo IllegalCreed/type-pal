@@ -1,19 +1,36 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createInitialGameState } from '../../game-state.js'
 import { MAX_SAVE_SLOTS, Save } from '../api.js'
 
-describe('S-w0.1 Save API stub', () => {
+describe('Save API memory fallback', () => {
   beforeEach(async () => {
+    vi.stubGlobal('indexedDB', undefined)
     await Save._clearAllForTest()
   })
 
-  it('saveSlot / loadSlot:基本 round-trip', async () => {
+  afterEach(async () => {
+    await Save._clearAllForTest()
+    vi.unstubAllGlobals()
+  })
+
+  it('saveSlot / loadSlot: round-trip preserves gameplay fields', async () => {
     const gs = createInitialGameState({ x: 100, y: 50, facing: 'right' })
     gs.dwCash = 999
-    await Save.saveSlot(1, gs)
-    const loaded = await Save.loadSlot(1)
+    gs.wNumScene = 12
+    gs.wSavedTimes = 7
+    gs.PlayerRolesRuntime.rgwMaxHP[0] = 200
+    gs.PlayerRolesRuntime.rgwHP[0] = 150
+    gs.PlayerRolesRuntime.rgwLevel[1] = 8
+    gs.inventory = [{ itemId: 105, count: 3 }]
+    await Save.saveSlot(4, gs)
+    const loaded = await Save.loadSlot(4)
     expect(loaded?.party.x).toBe(100)
     expect(loaded?.dwCash).toBe(999)
+    expect(loaded?.wNumScene).toBe(12)
+    expect(loaded?.wSavedTimes).toBe(7)
+    expect(loaded?.PlayerRolesRuntime.rgwHP[0]).toBe(150)
+    expect(loaded?.PlayerRolesRuntime.rgwLevel[1]).toBe(8)
+    expect(loaded?.inventory).toEqual([{ itemId: 105, count: 3 }])
   })
 
   it('saveSlot 是深拷贝(后续 mutate gs 不影响存档)', async () => {
@@ -23,6 +40,25 @@ describe('S-w0.1 Save API stub', () => {
     gs.dwCash = 999 // mutate after save
     const loaded = await Save.loadSlot(1)
     expect(loaded?.dwCash).toBe(100)
+  })
+
+  it('loadSlot returns an independent snapshot on every read', async () => {
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.dwCash = 100
+    gs.PlayerRolesRuntime.rgwMaxHP[0] = 200
+    gs.PlayerRolesRuntime.rgwHP[0] = 150
+    gs.inventory = [{ itemId: 105, count: 3 }]
+    await Save.saveSlot(1, gs)
+    const loaded = await Save.loadSlot(1)
+    if (loaded === null) throw new Error('Expected saved slot 1')
+    loaded.dwCash = 9999
+    loaded.PlayerRolesRuntime.rgwHP[0] = 1
+    for (const item of loaded.inventory) item.count = 1
+
+    const reloaded = await Save.loadSlot(1)
+    expect(reloaded?.dwCash).toBe(100)
+    expect(reloaded?.PlayerRolesRuntime.rgwHP[0]).toBe(150)
+    expect(reloaded?.inventory).toEqual([{ itemId: 105, count: 3 }])
   })
 
   it('loadSlot 不存在的 slot → null', async () => {
