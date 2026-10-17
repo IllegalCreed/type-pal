@@ -20,7 +20,7 @@
 
 发现实现末尾的 `SelectionMenuState` 类型导入和 `void (null as unknown as SelectionMenuState)` 是无实际用途的历史 lint 伪用法。已删除这两行，属于纯重构，不改变菜单分支、framebuffer 输出或公共接口。
 
-专属测试覆盖空栈、主/系统/confirm、两层 stack、save-slot 五框/数字、inventory-action 光标、system switch、shop-sell confirm、缺 extra 占位与输入快照；P05 通过公开 `drawMenuStack` 覆盖 items/icon/roles/equipBg/statusBg/poison 转发与 ownership。未发现重复、恒真或无业务执行测试。
+旧专属测试的shop-sell只把空grid强设confirm，三个转发缺失反控全存活；缺extra也混用不完整state，不能维持“fixture合法/叠层与资源合同完备”当前信用。现改可卖库存经公开确认，增加grid/icon/noDesc/overlay的必要像素oracle、正式状态工厂/hydrate与前后清理，GLM该文件旧关闭撤回review。原15/197只保留有限历史执行，未据新结果重签整文件。详见[当前商店/宿主返工](../core-comment-audit/shop-layout-tests/README.md)。
 
 ## 验证
 
@@ -34,3 +34,5 @@
 未关闭：超长 word table 标签的 SDLPal `dx` 分支与异步 slot metadata 的更宽输入域仍只保留 caller 证据；视觉/E2E 延后。CODE-QUALITY-53、GAME-MAGIC-PLAYERINFO-STATUS-1 及其它 pending/review 不在本片范围。
 
 2026-10-18 补证：[read-boundaries.json](read-boundaries.json)是当前770f9168e候选的实际后补全文核读，明确区分历史f544报告，不能冒充当时缺失原件；三个draw-menu文件及menu mode/stack已补读，caller边界单列。旧15/197摘要保留，不为补元数据重跑产品/coverage。上文“已通过”仅原错误回执的历史表述，53统一门当前仍rework，不能用于本片收口。
+
+2026-10-18 新反控：丢grid、丢图标、漏noDesc各旧5绿→新4绿1指定AssertionError；5例不增量。调用drawMenuStack时未真实按键路由，不冒称浏览器或完整交易链。旧README字节在本片55-report.before.gz保留，原55 source的448行数只精确修账，不授新增质量关闭信用。

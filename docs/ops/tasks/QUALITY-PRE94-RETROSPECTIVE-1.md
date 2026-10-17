@@ -672,3 +672,21 @@ Codex premise verified / design agree / build allowed：bcec7f0fe基点，同一
 75定向+199相邻恢复绿、game typecheck通过，完整raw零stderr/act/环境/unhandled；未改任何测试。裸scanner不理解模板重扫导致一次验证器假报，改用TS parser/printer后两种输出一致，原失败保留，不计业务反控。game-state.test旧双强转/造型静态错注本次只登记后续，绿色不换整文件验收。
 
 三旧源码关闭转review，GameState从pending转review；0新增closed，账本实测3315 /272closed /70review /2973pending。83卡仍50partial/33pending/0accept；五组审计注释已修，余draw-shop/formulas/尺寸/快捷键/ColorFade、冗余算术与两UI差异继续。完整[原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/runtime-projection-comments/README.md)。全仓check/official coverage ratchet/protected按用户大窗口成本要求未跑，统一门rework，未合main，94–102/editor仍在pre94之后。
+
+## 2026-10-18 商店布局与宿主测试有限准入
+
+Codex premise verified / design agree / build allowed：206b18563基点，3y同树单Owner；全文draw-shop.ts、draw-shop leaves、draw-menu leaves、shop-preview pixels四文件。只改买/卖布局事实注释及三测试的合法输入/必要oracle/排重，不改绘制逻辑、共享fixture、配置、baseline、交易或公开接口。draw-menu全文与present入口、menu-driver真实buy/sell、core买卖/栈/库存状态和SDLPal Buy/Sell/ItemSelect callback已核。
+
+当前counter：L12所谓跨队装备只给role0一件，不能区分只计首人；非卖品承诺无售价却未断言数字。L09空grid强造confirm，未证明全屏grid/图标/noDesc/overlay装配，缺catalog三菜单复用不完整state。G07-B06强造买不起confirm，B12同一物品同时占两部位且所有role equipableBy=false。改为公开构造与合法转换、party[4,1]同手部槽/非队员哨兵；保留库存缺省的独立边界。
+
+先记录原22例正式runner结果，再做旧绿新指定单红的隔离反控；正式恢复与相邻/typecheck、注释去除后JS/TS一致。四源/测试保持review，不因当前jsdom能跑canvas就恢复旧文件信用；历史node环境失败不擦除。全仓check/official ratchet/protected仅大窗口收尾。无产品/形态选择，故不新增用户审批或103+。
+
+### 2026-10-18 商店布局与宿主测试当前结果
+
+四文件：卖出实际是全屏grid→overlay→confirm，注释已纠正，去注释TS/JS与206b基点同字节。L12改party[4,1]与非队员哨兵，补空店目录/图标、非卖品数字负oracle；半价25移动到真实可卖库存经公开状态确认的栈装配。L09覆盖grid/icon/noDesc/金额/确认与输入不变，缺extra改正式工厂/hydrate，前后清理脚本/word单例。G07确认改公开入口、B12改允许装备的两队员手部，3条被精确值蕴含的否定删除，22例数量保持，三标题映射保留。
+
+8精确反控：五枚旧4绿→新3绿1指定AssertionError；三枚旧5绿→新4绿1指定AssertionError。完整source/spec/mutant/raw/native JSON与finally恢复保留。恢复22直接、35相邻与game typecheck通过，无stderr/act/环境/unhandled；既有jsdom下canvas13也绿，不反写历史node失败或声称改变了环境。
+
+三旧关闭转review，G07仍review，0新增closed；269closed/73review/2973pending（提交前实测），83卡50partial/33pending/0accept不变。共六组注释已修，余formulas、尺寸、快捷键、ColorFade及算术风险、两UI差异继续。P04装备资格与两共享role工厂mp99/maxMP40只读问题登记；blit可复用候选须核调用域，未在本片提取或伪称不存在重复。
+
+证据见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/shop-layout-tests/README.md)，源码与旧52/55过度结论已在当前正文收窄，旧原件保留。昂贵全仓check/official ratchet/protected/视觉/E2E未跑、不合main；无下一位Agent提示词，Codex单Agent继续pre94。

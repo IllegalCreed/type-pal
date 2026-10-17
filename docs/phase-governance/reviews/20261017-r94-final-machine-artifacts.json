@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "80fbf4493423a90bb3203474e82012c7d9e715cac795a10f818684aa005e285b",
+      "afterSha256": "4c6723cd8075488771c2d662bfe78e1d1986d5b80b896b00022b657081eafe85",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,8 +1066,23 @@
       },
       "revision": {
         "currentSha": "a2101ce8ffeb73642521f0b489d17642f27bbd3fcdc581d0e9c354dedbc05778",
-        "implementationSha": "80fbf4493423a90bb3203474e82012c7d9e715cac795a10f818684aa005e285b",
+        "implementationSha": "4c6723cd8075488771c2d662bfe78e1d1986d5b80b896b00022b657081eafe85",
         "history": [
+          {
+            "revision": "206b18563e07569414f4ec90f08597c5b8ac66de",
+            "date": "2026-10-18",
+            "action": "Correct pre94 shop comment and strengthen legal renderer/host test inputs and oracles",
+            "previousAfterSha256": "80fbf4493423a90bb3203474e82012c7d9e715cac795a10f818684aa005e285b",
+            "scope": "Only one board progress row, four selected live ledger rows plus an exact448 line-count correction, and incoming bindings. One implementation comment and three test files; three old closures to review, no new closure.8 old-green/new-specified-single-red controls and22/35 regressions do not grant whole-file/native/UI/coverage acceptance. Original native verdict/history retained; no baseline/retirement edits.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/shop-layout-tests/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "bcec7f0fe1ecac8612c8d83374e4882f2c8f8f0a",
             "date": "2026-10-18",
@@ -1304,7 +1319,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "80fbf4493423a90bb3203474e82012c7d9e715cac795a10f818684aa005e285b",
+        "afterSha256": "4c6723cd8075488771c2d662bfe78e1d1986d5b80b896b00022b657081eafe85",
         "lineCount": 13734,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1335,7 +1350,7 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "1-14868",
+      "reviewedLines": "1-14898",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

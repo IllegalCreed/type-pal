@@ -1,19 +1,9 @@
 # CODE52 draw-shop 当前复审切片
 
-基点：`80a562f4`；分支：`codex/code-quality-3y`。本片重新复审历史 52 的买/卖商店绘制，不把历史 `done`、旧 wave 全仓回执或测试全绿当作当前整卡验收。52 当前复审提升为 `partial`，未标 accept/done。
+2026-10-18 当前结论：52仍partial，无整卡accept。旧“实现/caller全轴一致、跨队和无数字oracle已齐”的信用撤回：draw-shop头注仍把卖出说成紧凑布局；L12只给role0一件装备，不能辨别只计首人，非卖品无售价也漏数字断言。G07-B06直接强造买不起的确认，B12同物品占两部位且eligibility全false，不当正常装备入口证据。
 
-完整读取 `packages/game/src/present/menu/draw-shop.ts`、`draw-shop.glm-phase1-leaves.test.ts`、`shop-preview-pixels.grok-r1.test.ts`，以及 P04 caller/oracle；读取 `draw-menu.ts`、`present.ts`、`shop-menu.ts`、`menu-driver.ts`；primary 为 SDLPal `reference/sdlpal/uigame.c:1503-1777`。
+[当前四文件返工](../core-comment-audit/shop-layout-tests/README.md)修事实注释和三测试合法输入/叠层判别力，0产品执行改动。L12保持4例；G07保持13例、B12改为无库存下两队员同手部槽，不能再冒称覆盖两部位。P04自身仍有装备资格夹具缺口，只作有限像素对照，不能继承“所有输入合法”。
 
-核对轴包括：买列表/价格 rightText、预览 ITEMBOX/图标、ownedCount 的 live inventory + 全队装备、金钱、半价卖出、确认框、空店/非 sellable/缺目录/缺帧/透明孔、framebuffer ownership 和绘制层无交易副作用。实现与 caller/primary 一致，未发现 direct defect；卖菜单 compact overlay 与全屏 picker 的装配关系沿用现有 `draw-menu.ts`，不在本片改变用户可见形态。
+本次未改runner/环境/config：正式package命令用既有jsdom，22直接与35相邻全绿且零runtime诊断，含G07-B13真实canvas/PNG读回。历史18通过/1个document未定义是当时摘要，原命令未保存，不能断言那是当前默认环境，也不能把新执行回填成旧成功。旧README完整字节另存52-report.before.gz。
 
-测试判别力：GLM 覆盖跨队装备 owned、空店、非 sellable/缺 cursor；像素测试覆盖菜单快照价格、阴影/ITEMBOX、缺帧/缺图标、确认层、半价向下取整、live owned 与 canvas flush；P04 覆盖真实买/卖 caller、输入隔离和交易不执行。`shop-preview-pixels.grok-r1.test.ts` 的 G07-B13 直接创建 canvas，当前 Vitest 默认 node 环境下 `ReferenceError: document is not defined`；该文件 13 tests 中 12 passed、1 failed，未改环境、未跳过、未静音，文件保留 `review`。
-
-验证：
-
-- 直接范围：3 files / 18 passed，1 个环境诊断失败（shop-preview-pixels G07-B13）。
-- 相邻：6 files / 117 tests passed（P04、shop/menu-driver、draw-menu/present）。
-- `pnpm --filter @type-pal/game typecheck` passed。
-- 本片未运行 coverage ratchet、official coverage、protected fast、全仓 `pnpm check`；按用户成本边界留到 present/menu wave 收口，不能据此宣称统一质量门通过。
-- 未触碰 schema/save/migration、生成物、资产格式、公共接口或交易行为。
-
-本片只更新复审证据、任务索引和逐文件账本；52 整卡仍为 `partial`，shop-preview 像素文件保持 `review`。
+原base80a562f4、历史读取和旧18/19及117测试仅保留其历史范围；当前源/GLM旧关闭转review，G07仍review。八枚旧绿新指定单红已完整留原件；未跑全仓check/official ratchet/protected、原版视觉/E2E，不合main。共享blit提取需另核各caller，未借注释修复改变形态、schema/save、公开API或交易。

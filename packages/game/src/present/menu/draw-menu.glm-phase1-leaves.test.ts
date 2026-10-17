@@ -7,31 +7,48 @@
  *    shop-sell 栈项 confirm 相叠 否/是 层、system switch 相 关/开 层。
  * 实际 Framebuffer 像素断言；输入深快照不变。
  */
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import {
   BOX_STYLE0,
+  BOX_STYLE1,
   fixtureGlyphs,
   freezeNow,
-  makeGs,
+  iconImage,
   makeUiFrames,
+  mkItem,
+  mkRole,
   newFb,
   pixel,
   rightDigitX,
   textDot,
   yellowDigit,
 } from '../../__tests__/glm-phase1-leaves/present-fixtures.js'
-import { createInitialGameState } from '../../core/game-state.js'
+import { setGlobalEvents } from '../../core/event-system.js'
+import {
+  type ActiveMenuEntry,
+  createInitialGameState,
+  hydratePlayerRolesRuntime,
+} from '../../core/game-state.js'
+import { createEquipMenu } from '../../core/menu/equip-menu.js'
+import { createInGameMagicMenu } from '../../core/menu/in-game-magic-menu.js'
 import { createSystemMenu, systemMenuEnterSwitch } from '../../core/menu/in-game-menu.js'
 import { createInventoryActionMenu } from '../../core/menu/inventory-action-menu.js'
 import { openMenu } from '../../core/menu/menu-mode.js'
+import { createPlayerStatus } from '../../core/menu/player-status.js'
 import { createSaveSlotMenu } from '../../core/menu/save-slot-menu.js'
-import { createSellMenu } from '../../core/menu/sell-menu.js'
+import { createSellMenu, sellMoveRight, sellSelectItem } from '../../core/menu/sell-menu.js'
 import { setWordTable } from '../../core/word-lookup.js'
 import { drawMenuStack } from './draw-menu.js'
 
 const glyphs = fixtureGlyphs
 
-afterEach(() => setWordTable([]))
+function resetCatalogs(): void {
+  setWordTable([])
+  setGlobalEvents([])
+}
+
+beforeEach(resetCatalogs)
+afterEach(resetCatalogs)
 
 describe('L09 drawMenuStack 剩余分支', () => {
   it('save-slot：5 个单行框 (195,7+38i)、标签字色、slotMetas.savedTimes 黄色数字（缺省 0）', () => {
@@ -88,7 +105,7 @@ describe('L09 drawMenuStack 剩余分支', () => {
     expect(pixel(fb, 40, 64)).toBe(BOX_STYLE0)
     expect(pixel(fb, equipDot.x, equipDot.y)).toBe(0xf9)
     expect(pixel(fb, useDot.x, useDot.y)).toBe(0x4f)
-    // Down 一次 → 使用 选中
+    // 可达的下一个光标快照:使用选中;这里不验按键路由
     const fb2 = newFb()
     state.selection.cursor = 1
     const restore2 = freezeNow(0)
@@ -120,18 +137,42 @@ describe('L09 drawMenuStack 剩余分支', () => {
   })
 
   it('shop-sell 栈项：confirm 相在 grid+overlay 之上叠 否/是 确认层', () => {
-    const gs = makeGs()
-    const state = createSellMenu(gs, [])
-    state.phase = 'confirm' // 直造 confirm 相（渲染分支）
-    state.confirmYes = true
+    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    gs.dwCash = 7
+    const item = mkItem(400, '甲', { price: 50, scriptDesc: 1, flags: { sellable: true } })
+    const items = [item]
+    gs.inventory = [{ itemId: item.id, count: 2 }]
+    const state = createSellMenu(gs, items)
+    expect(sellSelectItem(state, items)).toBe(true) // 同 dispatchSellMenu 的确认入口
+    sellMoveRight(state)
     openMenu(gs, { kind: 'shop-sell', state })
+    setGlobalEvents([
+      { op: 'end' },
+      { op: 'showDialog', label: 'L_1', messageIndex: 1, text: '乙' },
+      { op: 'end' },
+    ])
+    const frames = makeUiFrames()
+    const icons = new Map([[item.bitmap, iconImage(0x82)]])
+    const inputs = { gs, state, items, frames, icons }
+    const before = structuredClone(inputs)
     const fb = newFb()
     const restore = freezeNow(0)
     try {
-      drawMenuStack(fb, gs, makeUiFrames(), glyphs)
+      drawMenuStack(fb, gs, frames, glyphs, { items, itemIcons: icons })
     } finally {
       restore()
     }
+    expect(structuredClone(inputs)).toEqual(before)
+    expect(state.selectedItemId).toBe(item.id)
+    expect(pixel(fb, 2, 0)).toBe(BOX_STYLE1) // 全屏网格,不是紧凑买入列表
+    expect(pixel(fb, 19, 16)).toBe(0xf9) // 当前物品名
+    expect(pixel(fb, 8, 147)).toBe(0x82) // 网格预览图标
+    expect(pixel(fb, 75, 155)).toBe(0x5a) // noDesc:乙的描述亮点不得画出
+    expect(pixel(fb, rightDigitX(148, 6, 0), 165)).toBe(yellowDigit(7))
+    expect(pixel(fb, rightDigitX(272, 6, 0), 165)).toBe(yellowDigit(5))
+    expect(pixel(fb, rightDigitX(272, 6, 1), 165)).toBe(yellowDigit(2))
+    const priceLabel = textDot('售', 0, 234, 160)
+    expect(pixel(fb, priceLabel.x, priceLabel.y)).toBe(0)
     const shiDot = textDot('是', 0, 220, 110)
     const fouDot = textDot('否', 0, 145, 110)
     expect(pixel(fb, shiDot.x, shiDot.y)).toBe(0xf9) // confirmYes=true → 右「是」选中
@@ -140,9 +181,20 @@ describe('L09 drawMenuStack 剩余分支', () => {
 
   it('缺 extra：player-status / equip / in-game-magic 画占位框 (80,80)，不抛错', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    for (const kind of ['player-status', 'equip', 'in-game-magic'] as const) {
+    gs.partyMembers = [0]
+    const roles = { roles: [mkRole(0, '甲', { mp: 30 })] }
+    hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, roles)
+    const entries: ActiveMenuEntry[] = [
+      { kind: 'player-status', state: createPlayerStatus(gs.partyMembers) },
+      { kind: 'equip', state: createEquipMenu(gs, []) },
+      {
+        kind: 'in-game-magic',
+        state: createInGameMagicMenu(roles, gs.partyMembers, []),
+      },
+    ]
+    for (const entry of entries) {
       gs.menuStack.length = 0
-      openMenu(gs, { kind, state: { cursor: 0, partyMembers: [0], done: false } })
+      openMenu(gs, entry)
       const fb = newFb()
       drawMenuStack(fb, gs, makeUiFrames(), glyphs)
       expect(pixel(fb, 90, 90)).toBe(BOX_STYLE0) // 占位 box 1×14 内部

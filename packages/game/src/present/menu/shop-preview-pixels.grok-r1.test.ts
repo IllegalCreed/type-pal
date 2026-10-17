@@ -8,7 +8,7 @@ import { dumpFramebuffer } from '../../__tests__/grok-render-r1/dump-evidence.js
 import { legalPalette } from '../../__tests__/grok-render-r1/legal-host.js'
 import type { IndexedImage } from '../../assets/png.js'
 import { MENUITEM_COLOR, MENUITEM_COLOR_SELECTED_FIRST } from '../../core/menu/inventory-menu.js'
-import { createBuyMenu } from '../../core/menu/shop-menu.js'
+import { createBuyMenu, shopMoveDown, shopSelectItem } from '../../core/menu/shop-menu.js'
 import { fixtureGlyphs, textDot } from '../__tests__/grok-present/font.js'
 import {
   fillSentinel,
@@ -68,7 +68,6 @@ describe('G07-B 商店预览像素', () => {
     const name = textDot('甲', 0, 150, 21)
     expect(pixel(fb, rightDigitX(238, 6, 0), 26)).toBe(yellowDigit(5))
     expect(pixel(fb, rightDigitX(238, 6, 1), 26)).toBe(yellowDigit(1))
-    expect(pixel(fb, rightDigitX(238, 6, 0), 26)).not.toBe(yellowDigit(9))
     expect(pixel(fb, name.x, name.y)).toBe(MENUITEM_COLOR_SELECTED_FIRST)
     expect(cloneInputs({ gs, menu, items, frames })).toEqual(before)
   })
@@ -163,8 +162,9 @@ describe('G07-B 商店预览像素', () => {
     const bead = makeItem(36, '甲', { price: 10, flags: { sellable: true } })
     const items = [bead]
     const menu = createBuyMenu(items)
-    menu.phase = 'confirm'
-    menu.confirmYes = true
+    gs.dwCash = 10
+    expect(shopSelectItem(menu, items, gs.dwCash)).toBe(true)
+    shopMoveDown(menu) // dispatchShopMenu 的 Right/Down 都走此入口
     const frames = makeUiFrames()
     const fb = createFramebuffer()
     fillSentinel(fb)
@@ -220,7 +220,6 @@ describe('G07-B 商店预览像素', () => {
       restore()
     }
     expect(pixel(fb, rightDigitX(69, 6, 0), 115)).toBe(yellowDigit(5))
-    expect(pixel(fb, rightDigitX(69, 6, 0), 115)).not.toBe(yellowDigit(4))
     expect(gs.inventory[1]?.count).toBe(9)
     expect(cloneInputs({ gs, menu, items, frames })).toEqual(before)
   })
@@ -289,17 +288,23 @@ describe('G07-B 商店预览像素', () => {
     })
     expect(pixel(fb, rightDigitX(272, 6, 0), 165)).toBe(yellowDigit(0))
     expect(pixel(fb, rightDigitX(272, 6, 1), 165)).toBe(SENTINEL)
-    expect(pixel(fb, rightDigitX(272, 6, 0), 165)).not.toBe(yellowDigit(1))
   })
 
-  it('G07-B12 库存为 0 时两个装备槽仍把现有数画成黄 2', () => {
+  it('G07-B12 无库存时两位队员的手部装备仍把现有数画成黄2', () => {
     const gs = makeGs()
-    const bead = makeItem(43, '甲', { price: 10, flags: { sellable: true, equipable: true } })
+    const bead = makeItem(43, '甲', {
+      price: 10,
+      flags: {
+        sellable: true,
+        equipable: true,
+        equipableBy: [false, true, false, false, true, false],
+      },
+    })
     const items = [bead]
-    gs.partyMembers = [4]
+    gs.partyMembers = [4, 1]
     gs.inventory = []
-    gs.PlayerRolesRuntime.rgwEquipment[0]![4] = bead.id
-    gs.PlayerRolesRuntime.rgwEquipment[2]![4] = bead.id
+    gs.PlayerRolesRuntime.rgwEquipment[3]![4] = bead.id
+    gs.PlayerRolesRuntime.rgwEquipment[3]![1] = bead.id
     const menu = createBuyMenu(items)
     const frames = makeUiFrames()
     const fb = createFramebuffer()

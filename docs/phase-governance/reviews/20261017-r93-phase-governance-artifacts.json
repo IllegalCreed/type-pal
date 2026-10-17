@@ -1040,7 +1040,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "9e3f538ce0ded1d209fa732c81149e441f1e7548376cc1959558e10d8dbfaf3e",
+      "afterSha256": "391944d607ebabb93c9d5cfad80336159fabf9876fee35ef57aad6091472bc72",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1064,8 +1064,23 @@
       },
       "revision": {
         "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "implementationSha": "9e3f538ce0ded1d209fa732c81149e441f1e7548376cc1959558e10d8dbfaf3e",
+        "implementationSha": "391944d607ebabb93c9d5cfad80336159fabf9876fee35ef57aad6091472bc72",
         "history": [
+          {
+            "revision": "206b18563e07569414f4ec90f08597c5b8ac66de",
+            "date": "2026-10-18",
+            "action": "Correct pre94 shop comment and strengthen legal renderer/host test inputs and oracles",
+            "previousAfterSha256": "9e3f538ce0ded1d209fa732c81149e441f1e7548376cc1959558e10d8dbfaf3e",
+            "scope": "Only one board progress row, four selected live ledger rows plus an exact448 line-count correction, and incoming bindings. One implementation comment and three test files; three old closures to review, no new closure.8 old-green/new-specified-single-red controls and22/35 regressions do not grant whole-file/native/UI/coverage acceptance. Original native verdict/history retained; no baseline/retirement edits.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/shop-layout-tests/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "bcec7f0fe1ecac8612c8d83374e4882f2c8f8f0a",
             "date": "2026-10-18",
@@ -1301,7 +1316,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "9e3f538ce0ded1d209fa732c81149e441f1e7548376cc1959558e10d8dbfaf3e",
+        "afterSha256": "391944d607ebabb93c9d5cfad80336159fabf9876fee35ef57aad6091472bc72",
         "lineCount": 1987,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -1336,7 +1351,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-2452",
+      "reviewedLines": "1-2467",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -5055,7 +5070,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "63069d6bbe1e972f168f05b3860ec2204c661b79e028deae9353747c15a6af28",
+      "afterSha256": "c0e6d500deb03958e2c45128cb03a1fd0573d26692f673e824e70c15537600ed",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5079,8 +5094,23 @@
       },
       "revision": {
         "currentSha": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "implementationSha": "63069d6bbe1e972f168f05b3860ec2204c661b79e028deae9353747c15a6af28",
+        "implementationSha": "c0e6d500deb03958e2c45128cb03a1fd0573d26692f673e824e70c15537600ed",
         "history": [
+          {
+            "revision": "206b18563e07569414f4ec90f08597c5b8ac66de",
+            "date": "2026-10-18",
+            "action": "Correct pre94 shop comment and strengthen legal renderer/host test inputs and oracles",
+            "previousAfterSha256": "63069d6bbe1e972f168f05b3860ec2204c661b79e028deae9353747c15a6af28",
+            "scope": "Only one board progress row, four selected live ledger rows plus an exact448 line-count correction, and incoming bindings. One implementation comment and three test files; three old closures to review, no new closure.8 old-green/new-specified-single-red controls and22/35 regressions do not grant whole-file/native/UI/coverage acceptance. Original native verdict/history retained; no baseline/retirement edits.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/shop-layout-tests/README.md",
+            "notRun": [
+              "whole-repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "browser visual",
+              "E2E"
+            ]
+          },
           {
             "revision": "bcec7f0fe1ecac8612c8d83374e4882f2c8f8f0a",
             "date": "2026-10-18",
@@ -5307,7 +5337,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "63069d6bbe1e972f168f05b3860ec2204c661b79e028deae9353747c15a6af28",
+        "afterSha256": "c0e6d500deb03958e2c45128cb03a1fd0573d26692f673e824e70c15537600ed",
         "lineCount": 5074,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -5342,7 +5372,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-5410",
+      "reviewedLines": "1-5425",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

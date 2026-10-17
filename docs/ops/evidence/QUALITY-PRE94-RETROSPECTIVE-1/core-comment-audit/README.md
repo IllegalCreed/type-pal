@@ -42,3 +42,5 @@ Search的primary是play.c PAL_GetSearchTriggerRange/PAL_Search，真实caller为
 当前[毒/升级注释与夹具返工](poison-progression-comments/README.md)修CureKind/STAT_LIMIT等事实注释，移除不完整投影夹具并钉主6+隐藏2抽；两生产JS不变，四组注释已处理、余六组和两UI继续。毒压缩/去重差异只读，不据本片恢复旧整文件信用。
 
 后续[runtime投影与战斗宿主注释](runtime-projection-comments/README.md)核四源、真实写入/消费与原C，只更正事实注释；门与状态以该片回执为准，不恢复旧统一门信用。
+
+当前[商店布局与宿主测试返工](shop-layout-tests/README.md)更正卖出全屏装配事实，四文件有限核验、八枚旧绿新单红；22例数量保持，0新增关闭。六组审计注释已修、余四组/算术/两UI继续；共享blit与旧fixture合法性仍待。

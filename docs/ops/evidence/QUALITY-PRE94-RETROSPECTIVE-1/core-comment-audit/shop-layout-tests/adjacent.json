@@ -1,0 +1,29 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/menu/shop-menu.test.ts",
+    "src/core/menu/sell-menu.test.ts",
+    "src/core/menu/sell-menu.boundaries.test.ts",
+    "src/present/menu/draw-menu.test.ts",
+    "src/present/__tests__/grok-present/p04-shop.test.ts",
+    "src/present/__tests__/grok-present/p05-menu-stack.test.ts",
+    "--reporter=verbose",
+    "--reporter=json",
+    "--outputFile.json=/tmp/type-pal-shop-adjacent.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-17T21:17:50.220654+00:00",
+  "completedAt": "2026-10-17T21:17:52.228646+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "adjacent.raw.gz",
+  "rawBytes": 6343,
+  "rawSha256": "1805c78b8c0b53d23895734705eddb54d43df301209805c6711381c252ce84a8",
+  "fullUncutMergedStdoutStderr": true
+}

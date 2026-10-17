@@ -1,6 +1,6 @@
 /**
- * 商店买 / 卖菜单渲染 — sdlpal `uigame.c:1503 PAL_BuyMenu_OnItemChange` + `uigame.c:1615 PAL_BuyMenu`
- * 1:1 port。
+ * 商店买入绘制与卖出叠层。布局参考 SDLPal PAL_BuyMenu_OnItemChange / PAL_BuyMenu
+ * 和 PAL_SellMenu_OnItemChange;菜单状态转换、交易和完整叠层由各 caller 管理。
  *
  * sdlpal PAL_BuyMenu 真值布局:
  *  - 列表 box: PAL_CreateBox(PAL_XY(122, 8), 8, 8, 1, FALSE)
@@ -12,8 +12,9 @@
  *    - "现有" 单行框@(20,100) len5;label@(30,110) color0 无影;数@(69,115) yellow right 6
  *    - "金钱" 单行框@(20,141) len5;label@(30,151);dwCash@(69,156) yellow right 6
  *
- * 卖菜单(0x0027 PAL_SellMenu)sdlpal 真值复用 fullscreen PAL_ItemSelectMenu;此处用同一紧凑布局
- * 渲染(list=可卖物品,价=售价 price/2),功能等价 — 视觉非 sdlpal fullscreen picker(已向 user 说明)。
+ * 买入入口 drawShopMenu 使用上述紧凑布局。卖出由 drawMenuStack 先画全屏物品网格
+ * (drawInventoryMenu,noDesc=true),再叠 drawSellOverlay 的金钱/售价,最后按 phase 叠确认框。
+ * 卖出不复用买入列表;物品网格保留不可卖项并灰显,确认由 sellSelectItem 检查。
  */
 
 import type { Item } from '@type-pal/shared'
@@ -193,7 +194,7 @@ export interface DrawSellOverlayInput {
   glyphs?: GlyphTable
 }
 
-/** sdlpal `PAL_SellMenu_OnItemChange`(uigame.c:1709-1752)1:1 port。 */
+/** 全屏卖出网格之上的金额叠层,坐标/半价参考 PAL_SellMenu_OnItemChange;不执行交易。 */
 export function drawSellOverlay(input: DrawSellOverlayInput): void {
   const { fb, gs, items, cursorItemId, uiSpriteFrames, glyphs } = input
 

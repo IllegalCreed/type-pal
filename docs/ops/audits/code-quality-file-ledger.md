@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,315。
-当前已闭合核验：272；已读但待审：70；尚未逐文件核验：2,973；合计未闭合：3,043。
+当前已闭合核验：269；已读但待审：73；尚未逐文件核验：2,973；合计未闭合：3,046。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -223,12 +223,12 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/present/menu/draw-confirm.ts` | product | 已验证 | CODE-QUALITY-46 当前复审；46-draw-confirm；uigame.c:242-388；present/draw-menu/draw-shop callers；draw-box/font/framebuffer owners | 48 行实现全文核验双框坐标、selectedColor、标签/阴影、空标签与 framebuffer ownership；定向2 files/10 tests、相邻3 files/69 tests、game typecheck通过；未发现 direct defect |
 | `packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-46 当前复审；46-draw-confirm；真实 drawConfirmBox/framebuffer pixel oracle | 67 行全文核验选中侧、palette cycle、三影、custom switch labels；定向2 files/10 tests通过，无弱断言 |
 | `packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-46 当前复审；46-draw-confirm；opening/pixel caller与状态隔离 oracle | 177 行全文核验背景/光标/状态不可变、多字与空标签边界；定向2 files/10 tests通过，无弱断言 |
-| `packages/game/src/present/menu/draw-menu.ts` | product | 已验证 | [pre-94 CODE55 draw-menu复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/55-draw-menu/README.md)；SDLPal `uigame.c:42-242,430-620,878-919,990-1031,1051-1286,1503-1777`/`ui.c:458`；present/menu-driver/menu-stack callers | 452 行完整核验 stack 顺序、cash/主菜单/system/confirm/switch/save-slot/inventory-action/shop-sell、extra ownership 与 mode gate；删除历史无效 lint 伪用法，不改输出；直接3 files/15、相邻11 files/197、game typecheck通过 |
+| `packages/game/src/present/menu/draw-menu.ts` | product | 已验证 | [pre-94 CODE55 draw-menu复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/55-draw-menu/README.md)；SDLPal `uigame.c:42-242,430-620,878-919,990-1031,1051-1286,1503-1777`/`ui.c:458`；present/menu-driver/menu-stack callers | 448 行完整核验 stack 顺序、cash/主菜单/system/confirm/switch/save-slot/inventory-action/shop-sell、extra ownership 与 mode gate；删除历史无效 lint 伪用法，不改输出；直接3 files/15、相邻11 files/197、game typecheck通过 |
 | `packages/game/src/present/menu/draw-menu.test.ts` | test | 已验证 | [pre-94 CODE55 draw-menu复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/55-draw-menu/README.md)；空栈/主菜单/system/confirm/两层stack/缺帧 framebuffer oracle | 89 行完整核验合法 fixture、像素坐标、缺帧反例和输入无副作用；直接3 files/15 tests通过 |
-| `packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts` | test | 已验证 | [pre-94 CODE55 draw-menu复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/55-draw-menu/README.md)；save-slot/inventory-action/system switch/shop-sell/缺 extra 状态与 pixel oracle | 153 行完整核验剩余 dispatch 分支、冻结时间、savedTimes/extra ownership 和职责排重；直接3 files/15 tests通过 |
-| `packages/game/src/present/menu/draw-shop.ts` | product | 已验证 | CODE-QUALITY-52 当前复审；52-draw-shop；SDLPal `uigame.c:1503-1777`；P04/draw-menu/present/shop-menu/menu-driver callers | 实现全文核验买/卖布局、ownedCount库存+装备、价格/半价、确认/overlay、缺资源和无副作用；直接范围18/19、相邻6 files/117、game typecheck通过；未发现 direct defect |
-| `packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-52；52-draw-shop；owned/空店/非sellable/缺cursor framebuffer oracle | 全文核验剩余分支；直接18/19测试通过；与P04/像素职责不重复 |
-| `packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts` | test | review | CODE-QUALITY-52；52-draw-shop；价格/阴影/缺帧/半价/live owned/canvas pixel oracle | 全文核验13 tests；12通过，G07-B13 `document is not defined` node环境诊断；未改环境/未静音，保留 review |
+| `packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts` | test | review | [商店布局/宿主测试返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/shop-layout-tests/README.md)；205行全文；可卖库存经公开确认，grid/icon/noDesc/overlay完整相关oracle | 3枚各旧5绿→新4绿1指定AssertionError；缺catalog用正式状态工厂/hydrate；5例保持，旧信用撤回review |
+| `packages/game/src/present/menu/draw-shop.ts` | product | review | [商店布局/宿主测试返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/shop-layout-tests/README.md)；241行当前源全文；买紧凑/卖全屏装配错注修正，去注释TS/JS不变 | 旧源关闭撤回review；22/35有限回归不能验收全部绘制/资源/视觉/统一门 |
+| `packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts` | test | review | [商店布局/宿主测试返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/shop-layout-tests/README.md)；全文；非顺序party/非队员、非卖品数字、空店目录与图标反例 | 5枚各旧4绿→新3绿1指定AssertionError；4例保持，半价移至真实栈装配；旧整文件信用撤回review |
+| `packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts` | test | review | [商店布局/宿主测试返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/shop-layout-tests/README.md)；352行全文；B06真实可购买确认、B12合法两队员手部装备、删除3条被精确值蕴含的否定 | 13例正式package/jsdom全绿含canvas，历史12/13不改；共享fixture/六部位/视觉/身份统一门仍待，不恢复文件关闭 |
 | `packages/game/src/present/menu/draw-opening-menu.ts` | product | 已验证 | CODE-QUALITY-51 当前复审；51-draw-opening-menu；SDLPal `uigame.c:42-167`/`ui.c:458`；draw-menu/present/opening-menu/menu-driver callers | 94 行全文核验背景、两项文案、长文案 x 公式、selected/normal 色、三影、缺背景和 framebuffer ownership；直接3 files/17 tests、相邻4 files/107 tests、game typecheck通过；未发现 direct defect |
 | `packages/game/src/present/menu/draw-opening-menu.test.ts` | test | 已验证 | CODE-QUALITY-51；51-draw-opening-menu；openingItemX/background/cursor framebuffer oracle | 101 行全文核验公式、背景/缺背景、两行坐标、cursor差异；直接3 files/17 tests通过 |
 | `packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-51；51-draw-opening-menu；精确色值/词表/阴影反例 | 79 行全文核验 0xF9/0x4F、三影、词表同步和无 frames；直接3 files/17 tests通过；职责不重复 |
@@ -442,6 +442,7 @@ live机器字段属于持续维护输入，历史原文属于不可升格的出�
 [路线](code-quality-governance.md)与[当前协作](../agent-workflow.md)控制新批准入。G原7、K0与L各1、F1两项及A8六项docs工具/测试只有库存待核信用；全量专项仍待实际逐文件阅读/合法输入与caller/oracle、反控和独立验收。
 
 固定原稿来自revision `22eead43a6c825e1345feb92441e09d340d22c18`，Git blob `8195bf08cf7193b1dffc0c5676629e6692e50b92`；保留所有原日期、结论和证据边界。
+
 
 
 
