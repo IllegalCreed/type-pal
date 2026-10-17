@@ -1,0 +1,688 @@
+{
+  "kind": "S05-read-only-semantic-harvest",
+  "createdAt": "2026-10-17T21:36:03.449612+00:00",
+  "authorCanonicalTask": "/root/e2e_entry_semantic_author",
+  "nonAuthorReviewer": false,
+  "taskState": "harvest only; S05 repository-authoring admission not yet recorded",
+  "repositoryWrites": [],
+  "newBranchOrCommit": false,
+  "baselineCommit": "c8715c2c4ac1771a77127917812c87b53a30d676",
+  "worktree": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+  "temporaryEvidenceRoot": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v",
+  "documentIdentity": {
+    "path": "docs/testing/e2e/route-proposal.md",
+    "sourceRevision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
+    "sourceSha256": "12918d5fe6cf5fd0b2e862af8f97d33879a647f90419c212c57fc49002358901",
+    "sourceLines": 174,
+    "sourceBytes": 17692,
+    "currentSha256": "0a4c69cd404c5fd171fe9801080b18db3b17ed1ff00db49aa6cee10abd155376",
+    "currentLines": 219,
+    "currentBytes": 20712,
+    "template": "design-spec-v1/1.0.0",
+    "templateChangeNeeded": false
+  },
+  "preservation": {
+    "quoteBlockSha256": "a05ef907d0413df4ea25349207318d722dc3bf7e26d8d5b943f8113fbe9ae4f0",
+    "entireQuoteToRemainByteStable": true,
+    "directInverseBytes": 17693,
+    "directInverseSha256": "c5b7d1c19ec9d8cd4471d39ba9d7e7e00842bace8a9747c7c77c7e76ddc94c5b",
+    "directInverseEqualsSource": false,
+    "onlyExistingSeparatorSuffixHex": "0a",
+    "conditionedInverseBytes": 17692,
+    "conditionedInverseEqualsSource": true,
+    "conditionedInverseSha256": "12918d5fe6cf5fd0b2e862af8f97d33879a647f90419c212c57fc49002358901",
+    "noUnconditionalTrim": true,
+    "sourceFrontMatterMetadataDatesHistoryAllPreserved": "yes; current front matter/testing-meta must also retain paired identity/values unless separately authorized"
+  },
+  "readScope": {
+    "fullText": [
+      {
+        "path": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/source-route.md",
+        "sha256": "12918d5fe6cf5fd0b2e862af8f97d33879a647f90419c212c57fc49002358901",
+        "totalLines": 174,
+        "readScope": "all174 lines, fixed Git source",
+        "category": "full text"
+      },
+      {
+        "path": "docs/testing/e2e/route-proposal.md",
+        "sha256": "0a4c69cd404c5fd171fe9801080b18db3b17ed1ff00db49aa6cee10abd155376",
+        "totalLines": 219,
+        "readScope": "all219 current lines",
+        "category": "full text"
+      },
+      {
+        "path": "docs/phase-governance/templates/design-spec.md",
+        "sha256": "fc2671156e74512e2367511ff2e3f7dd81ed4a7921a63d574a4c636d5a577ee3",
+        "totalLines": 26,
+        "readScope": "entire five-section template",
+        "category": "full text"
+      },
+      {
+        "path": "scripts/e2e/opening-both.mjs",
+        "sha256": "91daab30239edee63c1bf5381bb77b8eb30c0082e2da3508cde4577fc695ba56",
+        "totalLines": 93,
+        "readScope": "all93 lines; not executed",
+        "category": "full text"
+      },
+      {
+        "path": "scripts/e2e/inn-both.mjs",
+        "sha256": "298e14373f0cc6aaf0a41bc25b800a7af7881ad5db7f2fe1e03375967ed6fb39",
+        "totalLines": 94,
+        "readScope": "all94 lines; not executed",
+        "category": "full text"
+      },
+      {
+        "path": "scripts/e2e/game-inn.mjs",
+        "sha256": "aac23811c42ceeccdc95543fe84fd6f9e8252db27248316c6d6286ccd95714e2",
+        "totalLines": 3,
+        "readScope": "all3 lines; not executed",
+        "category": "full text"
+      },
+      {
+        "path": "scripts/e2e/reforge-inn.mjs",
+        "sha256": "0be7bde714fb0036b33cbcc50b753194d73cbf982341336afb1f0757c9ba28e4",
+        "totalLines": 3,
+        "readScope": "all3 lines; not executed",
+        "category": "full text"
+      }
+    ],
+    "selectedScopes": [
+      {
+        "path": "scripts/e2e/inn-contract.mjs",
+        "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+        "totalLines": 653,
+        "readScope": "1-125 including full validatePredecessor67-111 and CLI parser; full653-file hash checked, remaining code unread",
+        "category": "selected lines"
+      },
+      {
+        "path": "packages/content/src/character.ts",
+        "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+        "totalLines": 351,
+        "readScope": "150-180 includes declared sourceRef168-170; full351-file hash checked, other bodies unread",
+        "category": "selected lines"
+      },
+      {
+        "path": "packages/reforge/src/save/types.ts",
+        "sha256": "b40e418803af9585d944f2a5f3c0229ea26494003f0aa08b12493ddb42605bc2",
+        "totalLines": 54,
+        "readScope": "1-16; SAVE_VERSION12 at9",
+        "category": "selected lines"
+      },
+      {
+        "path": "scripts/e2e/inn-journey.mjs",
+        "sha256": "2f7235dd6d6e74338bf49ca714e0ba3f8e7f8af2e640ab358540fee0fc587d62",
+        "totalLines": 596,
+        "readScope": "1-115 caller/input chain only; later capture branches found by rg but not full body reviewed",
+        "category": "selected lines"
+      },
+      {
+        "path": "scripts/e2e/game-opening.mjs",
+        "sha256": "248462e08bd41ef4a9de933d16a0cb316d9dcd18abffe738cc857797b4db5910",
+        "totalLines": 339,
+        "readScope": "74-92 and250-272 capture/verify split and pending labels; no complete journey read",
+        "category": "selected lines"
+      },
+      {
+        "path": "scripts/e2e/reforge-opening.mjs",
+        "sha256": "17e554250e52c3b48340599ac8edeba17684650bfc021f4645330d0001db3338",
+        "totalLines": 290,
+        "readScope": "82-95 and228-246 capture/verify split and pending labels; no complete journey read",
+        "category": "selected lines"
+      },
+      {
+        "path": "docs/testing/e2e/contract.md",
+        "sha256": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f",
+        "totalLines": 548,
+        "readScope": "18-192,239-284,357-422,449-482; not full contract;411-422/449-482 replayed untruncated",
+        "category": "selected lines"
+      },
+      {
+        "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+        "sha256": "5cc09fd6636533b5b06f10b38e0e114373cfc7f204ac300a45cb9c6317295d87",
+        "totalLines": 394,
+        "readScope": "1-66 top/current scope and dated priority; not entire394-line card",
+        "category": "selected lines"
+      },
+      {
+        "path": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "sha256": "bfda8b6623cd3d8a47bdcfe3af92cae71ab151544e9a9baed1cb77d724ed5b7c",
+        "totalLines": 3577,
+        "readScope": "1-72 historical wrapper/top and160-207 final acceptance scope only; rg headings/matched snippets are discovery, not full3577-line semantic read",
+        "category": "selected lines"
+      },
+      {
+        "path": "package.json",
+        "sha256": "259820fcdc312e11ce297a83074ce168e5a9612f2016ae6d2acb5a308dd62224",
+        "totalLines": 71,
+        "readScope": "E2E script keys001 through006 from lines12-37; exact001:both and002:both dispatch verified; no scripts executed",
+        "category": "selected fields"
+      },
+      {
+        "path": "docs/testing/catalog.json",
+        "sha256": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0",
+        "totalLines": 2003,
+        "readScope": "one complete e2e-route entry only",
+        "category": "selected entry"
+      },
+      {
+        "path": "docs/testing/e2e/evidence/e2e-route.json",
+        "sha256": "ff9a5f791dea83e8e11b89649c888742e0509c45995aeb6f0eb5e8539dd6821e",
+        "totalLines": 100,
+        "readScope": "schema/id/kind/status/candidateSha/versions/sourceRefs/publicCallers/legalInputs/businessOracle/dedupe/claims/runtimeExecution/history; not all findings/artifacts/governance",
+        "category": "selected fields"
+      },
+      {
+        "path": "docs/phase-governance/templates/registry.json",
+        "sha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+        "totalLines": 824,
+        "readScope": "design-spec-v1 entry only incl1.0.0 five required sections/status vocabulary/history rule",
+        "category": "selected entry"
+      }
+    ],
+    "hashOnlyOrPriorReadReuse": [
+      {
+        "path": "scripts/docs/check-testing.mjs",
+        "sha256": "15aa96323821b771107b7b372880af8469a9310bc545bfd56c852c95e449a166",
+        "totalLines": 616,
+        "readScope": "imported public validateCanonicalEvidence was run; source details were read in earlier S03, not re-read in S05",
+        "category": "hash only this harvest"
+      },
+      {
+        "path": "scripts/docs/document-model.mjs",
+        "sha256": "2c7ed0419c90332dd27e866629f06fd7670112cb924084f8162f84ee74c4f64b",
+        "totalLines": 335,
+        "readScope": "imported public checkTemplateBody was run; no fresh full implementation read",
+        "category": "hash only this harvest"
+      },
+      {
+        "path": "docs/testing/e2e/README.md",
+        "sha256": "8ddfbda4c48af97ff8c33a229f8cb45f00b1d91e5952d635def86a946be7c9e9",
+        "totalLines": 90,
+        "readScope": "protected S03 SHA only in this harvest; prior full text read not renewed",
+        "category": "hash only this harvest"
+      },
+      {
+        "path": "docs/testing/e2e/cross-stage/README.md",
+        "sha256": "1c345654a9f10a19455a8df696b48d9a2f1b86e6fc36bdfe050933a48a8f574c",
+        "totalLines": 54,
+        "readScope": "protected S04 SHA only in this harvest; prior full text read not renewed",
+        "category": "hash only this harvest"
+      }
+    ],
+    "notRead": [
+      "full sourceRef files653/351 beyond listed ranges",
+      "full inn-journey/opening engine/browser helpers",
+      "all contract sections or entire3577-line continuous task",
+      "any real current/historical execution raw/checkpoint bytes",
+      "battle fast-win host/late maze gameplay",
+      "current ContentStudio project/tool availability"
+    ],
+    "displayTruncationHandling": "04 stdout full saved; topcontinuous/capture contract/R4 replayed in05 and complete inn-journey1-115 appeared in04 tail. No source-wide read inferred from rg matches or hashes."
+  },
+  "catalogPublicationEntry": {
+    "id": "e2e-route",
+    "kind": "design",
+    "title": "双阶段快速通关路线方案",
+    "status": "proposal",
+    "phase": ["phase1", "phase2"],
+    "engines": ["game", "reforge"],
+    "owner": "Codex",
+    "provenance": ["Codex", "User"],
+    "domain": "e2e",
+    "module": "route-planning",
+    "canonical": "e2e/route-proposal.md",
+    "index": "e2e/README.md",
+    "evidence": "e2e/evidence/e2e-route.json",
+    "tags": ["e2e", "route", "checkpoint"],
+    "lastVerified": "2026-10-04",
+    "reviewBy": "2026-10-18",
+    "dependsOn": ["e2e-contract"],
+    "sourceRefs": [
+      {
+        "path": "scripts/e2e/inn-contract.mjs",
+        "lines": "67-111",
+        "anchor": "export function validatePredecessor(",
+        "role": "input",
+        "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+      },
+      {
+        "path": "packages/content/src/character.ts",
+        "lines": "168-170",
+        "anchor": "export const CONTENT_VERSION =",
+        "role": "version",
+        "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+      }
+    ],
+    "publicCallers": ["pnpm e2e:001:both", "pnpm e2e:002:both"],
+    "legalInputs": ["fresh current project", "current-version checkpoint only"],
+    "businessOracle": {
+      "type": "route-admission",
+      "assertions": ["每段有明确前驱/终止条件", "路线失败不能被跳场景隐藏"]
+    },
+    "dedupe": {
+      "result": "reviewed",
+      "against": ["e2e/stages/*/README.md"],
+      "notes": "方案不宣称任何阶段已运行通过。"
+    },
+    "revision": {
+      "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+      "contentVersion": 22,
+      "minimumSaveVersion": 11,
+      "history": [
+        {
+          "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+          "date": "2026-10-04",
+          "action": "source-and-publication-audit",
+          "notRun": ["runtime", "E2E", "coverage"]
+        }
+      ]
+    },
+    "reviewScope": "document-audit; historical execution claims retained with their original scope"
+  },
+  "pairedEvidenceRead": {
+    "schemaVersion": 2,
+    "id": "e2e-route",
+    "kind": "document-audit",
+    "status": "proposal",
+    "candidateSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+    "versions": {
+      "content": 22,
+      "minimumSave": 11
+    },
+    "sourceRefs": [
+      {
+        "path": "scripts/e2e/inn-contract.mjs",
+        "lines": "67-111",
+        "anchor": "export function validatePredecessor(",
+        "role": "input",
+        "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+      },
+      {
+        "path": "packages/content/src/character.ts",
+        "lines": "168-170",
+        "anchor": "export const CONTENT_VERSION =",
+        "role": "version",
+        "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+      }
+    ],
+    "publicCallers": ["pnpm e2e:001:both", "pnpm e2e:002:both"],
+    "legalInputs": ["fresh current project", "current-version checkpoint only"],
+    "businessOracle": {
+      "type": "route-admission",
+      "assertions": ["每段有明确前驱/终止条件", "路线失败不能被跳场景隐藏"]
+    },
+    "dedupe": {
+      "result": "reviewed",
+      "against": ["e2e/stages/*/README.md"],
+      "notes": "方案不宣称任何阶段已运行通过。"
+    },
+    "claims": [
+      {
+        "id": "e2e-route-source-contract",
+        "result": "source-backed",
+        "evidence": [
+          "scripts/e2e/inn-contract.mjs:67-111",
+          "packages/content/src/character.ts:168-170"
+        ]
+      }
+    ],
+    "runtimeExecution": {
+      "performed": false,
+      "rawArtifacts": "not-present-in-isolated-checkout",
+      "claimScope": "historical-publication-only"
+    },
+    "history": [
+      {
+        "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "date": "2026-10-04",
+        "action": "source-and-publication-audit",
+        "notRun": ["runtime", "E2E", "coverage"]
+      }
+    ]
+  },
+  "sourceRefChecks": [
+    {
+      "path": "scripts/e2e/inn-contract.mjs",
+      "range": "67-111",
+      "anchor": "export function validatePredecessor(",
+      "expectedSha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+      "actualSha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+      "anchorInDeclaredRange": true,
+      "scope": "range read and whole-file hash check only"
+    },
+    {
+      "path": "packages/content/src/character.ts",
+      "range": "168-170",
+      "anchor": "export const CONTENT_VERSION =",
+      "expectedSha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+      "actualSha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+      "anchorInDeclaredRange": true,
+      "scope": "range read and whole-file hash check only"
+    }
+  ],
+  "userAdditionRuleMatrix": [
+    {
+      "originalLines": "32-34",
+      "rule": "执行器独立无AI模型控制，未知状态有限失败；AI只开发/诊断",
+      "currentSupport": "contract24-30",
+      "implementationClaim": "not tested"
+    },
+    {
+      "originalLines": "35-36",
+      "rule": "双线、主线与大型支线、P1可先行但非无bug/不锁步",
+      "currentSupport": "contract58-74",
+      "implementationClaim": "scope requirement; no full completion"
+    },
+    {
+      "originalLines": "37-38",
+      "rule": "普通遇敌速胜仍正式结算，剧情Boss按必需条件逐场核",
+      "currentSupport": "contract377-396",
+      "implementationClaim": "no fast-win host run or ?win existence check"
+    },
+    {
+      "originalLines": "39-40",
+      "rule": "正常确认翻页/状态消费，不盲发；Codex负责路线校准",
+      "currentSupport": "contract377-396; input-contract caller source",
+      "implementationClaim": "no browser key consumption test"
+    },
+    {
+      "originalLines": "41",
+      "rule": "每轨继承真实结束档、不造等级装备道具旗标、不跨轨",
+      "currentSupport": "inn-contract67-118; contract405-422",
+      "implementationClaim": "source only, no real checkpoint inspected"
+    },
+    {
+      "originalLines": "42",
+      "rule": "可观看/暂停/失败现场/单段重跑是需求，未验证不称已实现",
+      "currentSupport": "R4 pending ranges; caller failure code source",
+      "implementationClaim": "pause/UI availability not reviewed"
+    },
+    {
+      "originalLines": "43",
+      "rule": "录制复用fragment语义、正常节奏、ContentStudio后续",
+      "currentSupport": "contract377-396/449-482",
+      "implementationClaim": "local capture branches read only; no audio/video/production pipeline run"
+    }
+  ],
+  "semanticFindingsAndRequiredCorrections": [
+    {
+      "id": "S05-H01",
+      "kind": "current wrapper lacks concrete valid obligations",
+      "source": "original32-43; current21-37",
+      "finding": "七项用户追加裁决仍仅完整存在quote，现行五章只概括输入/保存/分线，未把无人模型依赖、双线独立、速胜分类、正常对白、真档、不把需求称实现、正常录制节奏逐项落到现行方案。",
+      "neededBody": "以七项规则逐项写出现行设计约束及停止条件；不重问已定范围，不把需求列成已完成。"
+    },
+    {
+      "id": "S05-H02",
+      "kind": "historical capability statements",
+      "source": "original25,45-60,102,174; package.json12-37; both launchers full",
+      "finding": "“无runner/仅文字001002/入口待实现/适配器未实施”不能作为今天能力缺口；root已有001–006命令，001/002双轨脚本实在存在。命令存在和源码可读仍不证明完整主线或本次运行。",
+      "neededBody": "分开历史调查、当前已核窄入口、未核/待建能力与完成标准；不要复活全部未实施断语，也不要把命令表当全局验收。"
+    },
+    {
+      "id": "S05-H03",
+      "kind": "version/time axes",
+      "source": "original17-27; character168-170; inn-contract67-111; paired catalog/evidence",
+      "finding": "当前源码content22/minSave12、SAVE_VERSION12；配对元数据仍记录d02278dc/content22/minimumSave11的历史publication audit且performed=false。Game分支检查type-pal-save和原生场景/队伍；RF分支检查version12/content22/projectpal，不能给两个存档格式统一贴RF SAVE12。",
+      "neededBody": "把现行源码版本与原revision/versions/history/候选的历史轴并列说明，不改catalog/evidence旧11，明确本轨真实档和版本重建。"
+    },
+    {
+      "id": "S05-H04",
+      "kind": "concrete later rule supersedes old tolerance suggestion",
+      "source": "original131-132 versus contract98-132 especially114-116",
+      "finding": "旧记录协议建议按本引擎位置精度明确容差；现行共同演出标准要求既定位置/同步/剧情结果精确验证，不加坐标宽松容差。不能保留为现行容差准入。",
+      "neededBody": "现行正文明确精确位置与完整序列；旧句留quote并标历史建议已受后来共同标准约束，不改源字节。"
+    },
+    {
+      "id": "S05-H05",
+      "kind": "two independent classification axes",
+      "source": "original77-96,143-166; contract377-396",
+      "finding": "Q1剧情/Q2战斗/editor是业务覆盖方向；verify/visual sample/capture是验证/呈现用途，不能在重写中把两组三分法互换或暗示capture就是Q2通过。",
+      "neededBody": "分别说明覆盖地图和profile/验收层，普通遇敌速胜只限已分类verify，剧情Boss/必败/回合/hook逐场核，Q2和展示不能旁路。"
+    },
+    {
+      "id": "S05-H06",
+      "kind": "actual sourceRef cannot prove more than it checks",
+      "source": "inn-contract67-111 and113-118; inn-journey54-110",
+      "finding": "validatePredecessor拒capture、需passed、核001本引擎片段、固定文件名、40位revision语法、真实字节hash、Game/RF各自起态。它不比较report.revision==当前HEAD，也不独自证明报告确由真实执行产生。readPredecessor从报告同目录读原保存bytes。",
+      "neededBody": "准确列sourceRef窄合同，并将当前候选/来源/恢复/完整业务门归整体runner+正式报告/证据；不说这一个函数已证明全链current execution。"
+    },
+    {
+      "id": "S05-H07",
+      "kind": "capture predecessor and CLI boundary",
+      "source": "opening-both11; inn-contract38-65/67; inn-both9-24",
+      "finding": ":both入口明确拒capture；002双轨必需--game-report/--reforge-report，各传给本轨--from。单引擎story可有capture，capture输出不得进入verify前驱链。",
+      "neededBody": "给已核入口/合法参数的具体范围，不能建议:both --capture或把capture clip当正式verify donor。"
+    },
+    {
+      "id": "S05-H08",
+      "kind": "incomplete body about actual frame obligations",
+      "source": "original110-141; contract98-132/151-192/239-284",
+      "finding": "旧“不默认全世界逐帧dump”是成本/范围建议，与相关NPC必须完整记录位置/朝向/显隐/实际帧/等待/接管不冲突。当前wrapper只是说逐帧相等不等于新pass，仍未表达完整采集及意图归因义务。",
+      "neededBody": "保留全局dump预算边界，同时要求受声明相关对象完整draw/因果证据、不得只比端点或planned.to；不要求内部次数机械相等，不以不相等为免核理由。"
+    },
+    {
+      "id": "S05-H09",
+      "kind": "later minimal rerun rule",
+      "source": "original71-75; contract133-149",
+      "finding": "从最近可信上游重建的旧原则可保留，但现行规则进一步区分比较器错误只离线重算、缺字段才补采、产品行为改才重跑受影响片段；不能默认全001整链重录。",
+      "neededBody": "用现行最小重跑/immutable raw规则收窄方案，保留依赖分析与不受影响证明，结果另存。"
+    },
+    {
+      "id": "S05-H10",
+      "kind": "historical tool/session and roadmap snapshots",
+      "source": "original155-156,163; contract58-96",
+      "finding": "ContentStudio get_project_view当会话不可用、旧N6b/前10段/旧切版顺序均是时点事实；本轮未查询当前插件，不能宣称今天仍不可用或借旧排期恢复执行授权。",
+      "neededBody": "保留历史引述；当前对接只说明fragment映射/窄适配器/capture-ready规则，实际活动仍另按项目快照与原授权，当前排期回R4/现行卡。"
+    },
+    {
+      "id": "S05-H11",
+      "kind": "valid distinct statuses; not a vocabulary defect",
+      "source": "design-spec registry statuses versus catalog route entry",
+      "finding": "设计头Status:proposed在design-spec1.0词表合法；catalog publication:proposal是另一轴。差异不是需要机械统一的bug，更不能从proposed/proposal升级build/accept。",
+      "neededBody": "保持两轴合法语义，说明proposal是候选方案，实际实施准入来自原任务卡。"
+    },
+    {
+      "id": "S05-H12",
+      "kind": "preservation precision",
+      "source": "fixed source/current quote exact bytes",
+      "finding": "174行17692字节源；直接逆回17693字节且SHA不同，末尾quote分隔LF须恰去1字节才相等。当前“可逆回”缺条件，不能恢复R60旧exactRoundTrip信用。",
+      "neededBody": "整个quote保持原字节；正文明确已核恰一个分隔LF条件、source SHA验证、不是无条件trim或直接inverse相等。"
+    },
+    {
+      "id": "S05-H13",
+      "kind": "dependency scope must not be flattened",
+      "source": "contract151-166 versus archive continuous top1-72/final160-207",
+      "finding": "共同合同有其新准入范围描述，归档连续卡又保留10-11六段headed最终接受和较早失败；本次只读这些声明，未核全部raw/实现。不能把任何一处浓缩成今天“六段全未做”或“当前全E2E通过”。",
+      "neededBody": "当前进度路由回正式阶段/catalog/当前任务；将归档最终接受作为所列候选/日期的历史证据，不续期或重审全部依赖。"
+    }
+  ],
+  "requiredFiveChapterBodyPlan": [
+    {
+      "section": "问题与目标",
+      "needed": "具体写独立可重放路线设计目标；区分Q1/Q2/editor覆盖方向及verify/visual/capture用途；方案不报全流程已实现。"
+    },
+    {
+      "section": "真值与约束",
+      "needed": "七项用户规则逐条、当前canonical与两轨版本/真档、完整NPC/帧/接管/对白清除/预览义务；列实际caller/输入/静态oracle及历史metadata轴。"
+    },
+    {
+      "section": "方案",
+      "needed": "fragment语义→分引擎adapter/原生输入→前置/动作/消费/后置→本轨正式保存/恢复/回执；独立段与连续链分别验证；已核CLI和未来概念动作词表分开，002按已录真实路线不擅加自适应改路。"
+    },
+    {
+      "section": "边界与风险",
+      "needed": "未知状态/无进展/超时/错前驱/缺draw/未分类Boss停线；精确位置、原始记录不改、按影响最小重算/补采/复跑；旧无runner/工具不可用/排期仅历史；不造档/无compat/不授录制发布。"
+    },
+    {
+      "section": "验收",
+      "needed": "声明范围内无模型独立进程、真实输入消费/剧情结束/正式checkpoint、完整帧与逐入口编辑器预览五硬门；visual/captureReady另按共同合同；Owner/具体卡/剩余与非作者结论明确。"
+    }
+  ],
+  "callerAndOracleLimits": {
+    "actualCallers": [
+      "root e2e:001:both->opening-both->game/reforge-opening, both script full read, engine journeys partial",
+      "root e2e:002:both->inn-both CLI->game/reforge-inn3-line bridges->runInnJourney1-115->readPredecessor/validatePredecessor1-125"
+    ],
+    "legalInputs": "001 fresh current project/new game;002 two own-engine genuine001passed reports with exact local001.end.save.json bytes/hash and required start-state fields;RF12/content22/pal;capture excluded as donor; actual producer/raw origin not established by syntax alone",
+    "oracle": "route-admission requires explicit predecessor/end and no jump to hide failure; stage-specific real input/state/checkpoint and render/preview gates belong actual runner/report, not this source audit",
+    "nonClaims": [
+      "no runner launched",
+      "no code/product/tests/coverage/catalog/evidence edit",
+      "no real save or runtime/visual/capture evidence validated",
+      "no global strict/checkdocs/lint pass claimed for read-only harvest",
+      "structure and paired consumer0 are not content acceptance"
+    ]
+  },
+  "dedupeAndAuthority": "Proposed body must not repeat stage pass totals or become second catalog/state ledger. Reuse common contract, task card and formal reports; distinguish designproposed/catalogproposal/currenttaskbuild/rawexecution. OriginalR60 semantic credit remains withdrawn until new candidate/non-author review.",
+  "readOnlyConsumer": {
+    "validateCanonicalEvidenceIssues": [],
+    "existingCheckTemplateBodyIssues": [],
+    "credit": "publication/source shape and existing structure only; no semantic/runtime acceptance"
+  },
+  "productDecisions": "No new product choice identified as necessary for this prose rewrite. Latest precise/performance/preview/minimal-rerun rules already exist. Unread implementation capabilities stay unknown rather than being redesigned or newly approved.",
+  "executionRecords": [
+    {
+      "name": "01-protection-original-current-template",
+      "startedAt": "2026-10-17T21:32:27.190690+00:00",
+      "endedAt": "2026-10-17T21:32:27.268579+00:00",
+      "durationSeconds": 0.078007458,
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+      "script": "git status --short && git rev-parse HEAD && shasum -a 256 docs/testing/e2e/README.md docs/testing/e2e/cross-stage/README.md docs/testing/e2e/route-proposal.md\ngit show dc478db11c6b52c4e50a1d1135f8a4740796418c:docs/testing/e2e/route-proposal.md\ncat docs/phase-governance/templates/design-spec.md\nrg -n \"e2e:00[1-6]|e2e:continuous\" package.json\nsed -n \"1,125p\" scripts/e2e/inn-contract.mjs\nsed -n \"150,180p\" packages/content/src/character.ts",
+      "exit": 0,
+      "signal": null,
+      "stdoutSha256": "4af91b9b75888ab5f03a63d011df1a1d0b02966eb6d46cb87c89998aa165be3d",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receiptPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/01-protection-original-current-template.json",
+      "receiptSha256": "c5898ff7ef1a5e7501f9f78a31a92ee72c286328fb439858d1fc34026dfd0f79",
+      "spawnError": null,
+      "shPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/01-protection-original-current-template.sh",
+      "shSha256": "5699e7a97a868e9c9f15282a2fdcb86b2a5a9dee0e8d101b94fee558bb1437c0",
+      "stdoutPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/01-protection-original-current-template.stdout",
+      "stderrPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/01-protection-original-current-template.stderr"
+    },
+    {
+      "name": "02-current-body-and-preservation",
+      "startedAt": "2026-10-17T21:32:45.434368+00:00",
+      "endedAt": "2026-10-17T21:32:45.483010+00:00",
+      "durationSeconds": 0.048799541999999994,
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+      "script": "cat docs/testing/e2e/route-proposal.md\npython3 - <<'PY'\nfrom pathlib import Path\nimport hashlib,json,subprocess\np=Path('/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v')\ns=subprocess.check_output(['git','show','dc478db11c6b52c4e50a1d1135f8a4740796418c:docs/testing/e2e/route-proposal.md']);b=Path('docs/testing/e2e/route-proposal.md').read_bytes()\nq=b.split(b'<!-- original-source-quote:start -->\\n',1)[1].split(b'<!-- original-source-quote:end -->',1)[0]\nd=b''.join(l[2:] if l.startswith(b'> ') else l[1:] for l in q.splitlines(keepends=True))\nprint(json.dumps({'sourceSha256':hashlib.sha256(s).hexdigest(),'sourceBytes':len(s),'sourceLines':len(s.splitlines()),'currentSha256':hashlib.sha256(b).hexdigest(),'currentBytes':len(b),'currentLines':len(b.splitlines()),'directInverseBytes':len(d),'directInverseSha256':hashlib.sha256(d).hexdigest(),'directInverseEqualsSource':d==s,'conditionedInverseEqualsSource':d[:-1]==s,'extraSuffixHex':d[len(s):].hex()},ensure_ascii=False,indent=2))\nassert hashlib.sha256(s).hexdigest()=='12918d5fe6cf5fd0b2e862af8f97d33879a647f90419c212c57fc49002358901'\nassert d[:-1]==s and d[len(s):]==b'\\n'\n(p/'source-route.md').write_bytes(s);(p/'current-route.md').write_bytes(b)\nr=json.loads(Path('docs/phase-governance/templates/registry.json').read_text())\nprint(json.dumps(next(t for t in r['types'] if t['templateId']=='design-spec-v1'),ensure_ascii=False,indent=2))\nPY",
+      "exit": 0,
+      "signal": null,
+      "stdoutSha256": "b299f654e140dafc273af3d6112bfcae925fc51a2ad83cca223ccf033327cea2",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receiptPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/02-current-body-and-preservation.json",
+      "receiptSha256": "f0612503a67ba80e15815c27a4cda8d57d354312c4510a4be88b03a1732123b6",
+      "spawnError": null,
+      "shPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/02-current-body-and-preservation.sh",
+      "shSha256": "d1d655cae440e59d8607ff8edc93c80c1ea7f161417660948aa28c7d5f3ae928",
+      "stdoutPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/02-current-body-and-preservation.stdout",
+      "stderrPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/02-current-body-and-preservation.stderr"
+    },
+    {
+      "name": "03-real-public-caller-chain",
+      "startedAt": "2026-10-17T21:32:54.299695+00:00",
+      "endedAt": "2026-10-17T21:32:54.327260+00:00",
+      "durationSeconds": 0.027729040999999996,
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+      "script": "wc -l scripts/e2e/opening-both.mjs scripts/e2e/inn-both.mjs scripts/e2e/game-inn.mjs scripts/e2e/reforge-inn.mjs scripts/e2e/game-opening.mjs scripts/e2e/reforge-opening.mjs\ncat scripts/e2e/opening-both.mjs scripts/e2e/inn-both.mjs\nsed -n \"1,75p\" scripts/e2e/game-inn.mjs\nsed -n \"1,75p\" scripts/e2e/reforge-inn.mjs\nrg -n \"readPredecessor|validatePredecessor|innArguments|runInn|openingArguments|process.argv|capture\" scripts/e2e/game-inn.mjs scripts/e2e/reforge-inn.mjs scripts/e2e/inn-journey.mjs scripts/e2e/game-opening.mjs scripts/e2e/reforge-opening.mjs | head -75\nsed -n \"18,98p\" docs/testing/e2e/contract.md",
+      "exit": 0,
+      "signal": null,
+      "stdoutSha256": "264d2c66e6c32000d648b2cd46feca7b03f5c0aac8454d1590d65a6118393387",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receiptPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/03-real-public-caller-chain.json",
+      "receiptSha256": "4450eb9ef260819185b41de2a7c682649c326abed71fb1f238dfd1d9f5da10cc",
+      "spawnError": null,
+      "shPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/03-real-public-caller-chain.sh",
+      "shSha256": "bbf05223345d56614248fc11cfe1ce710cfec2418398b687ef56eeab38dcd9d5",
+      "stdoutPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/03-real-public-caller-chain.stdout",
+      "stderrPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/03-real-public-caller-chain.stderr"
+    },
+    {
+      "name": "04-contract-and-task-narrow-scopes",
+      "startedAt": "2026-10-17T21:33:10.960109+00:00",
+      "endedAt": "2026-10-17T21:33:10.980723+00:00",
+      "durationSeconds": 0.020883042,
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+      "script": "sed -n \"98,192p\" docs/testing/e2e/contract.md\nsed -n \"239,284p\" docs/testing/e2e/contract.md\nsed -n \"357,422p\" docs/testing/e2e/contract.md\nsed -n \"449,482p\" docs/testing/e2e/contract.md\nsed -n \"1,72p\" docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md\nsed -n \"1,66p\" docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md\nsed -n \"1,115p\" scripts/e2e/inn-journey.mjs\nrg -n \"^#{1,4} |最终|capture|record|删除|录像\" docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md | tail -30",
+      "exit": 0,
+      "signal": null,
+      "stdoutSha256": "d72f3ff5976238670dce2726f50ccc45ce8985a1061bda1ebe898fca6ae45040",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receiptPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/04-contract-and-task-narrow-scopes.json",
+      "receiptSha256": "f9adc62e6caf561e1ef1d0fc4ea3d4177d8c2f3f6ee96bc913f07f02578b3c75",
+      "spawnError": null,
+      "shPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/04-contract-and-task-narrow-scopes.sh",
+      "shSha256": "ee051e9d83b48fec9205e2af9d860aea8925017a3be05dec03b8bb832ec37dfc",
+      "stdoutPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/04-contract-and-task-narrow-scopes.stdout",
+      "stderrPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/04-contract-and-task-narrow-scopes.stderr"
+    },
+    {
+      "name": "05-task-entry-and-capture-contract-replay",
+      "startedAt": "2026-10-17T21:33:21.285395+00:00",
+      "endedAt": "2026-10-17T21:33:21.299848+00:00",
+      "durationSeconds": 0.014635,
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+      "script": "sed -n \"411,422p\" docs/testing/e2e/contract.md\nsed -n \"449,482p\" docs/testing/e2e/contract.md\nsed -n \"1,72p\" docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md\nrg -n \"最终重录与headed验收|录像.*删除|删除.*录像|视频.*删除|用户.*删除\" docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md\nsed -n \"1,66p\" docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+      "exit": 0,
+      "signal": null,
+      "stdoutSha256": "8a52de6edad5d64a2e3f85a99495e5afd9f2e41bf162cfe64d5f10f170e046d6",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receiptPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/05-task-entry-and-capture-contract-replay.json",
+      "receiptSha256": "f711330831f07823befc8b2534feaa6b3d15d65877fdea000bc19f3c4a90ba37",
+      "spawnError": null,
+      "shPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/05-task-entry-and-capture-contract-replay.sh",
+      "shSha256": "061bed416c8644475dc0e12b969b24c931ba2db34a502755eb671fe1bbcf169b",
+      "stdoutPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/05-task-entry-and-capture-contract-replay.stdout",
+      "stderrPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/05-task-entry-and-capture-contract-replay.stderr"
+    },
+    {
+      "name": "06-catalog-evidence-and-current-code-scopes",
+      "startedAt": "2026-10-17T21:33:39.440660+00:00",
+      "endedAt": "2026-10-17T21:33:39.523928+00:00",
+      "durationSeconds": 0.083451209,
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+      "script": "python3 - <<'PY'\nfrom pathlib import Path\nimport json,hashlib\nc=json.loads(Path('docs/testing/catalog.json').read_text());e=next(e for e in c['entries'] if e['id']=='e2e-route');print(json.dumps(e,ensure_ascii=False,indent=2))\na=json.loads((Path('docs/testing')/e['evidence']).read_text());keys=['schemaVersion','id','kind','status','candidateSha','versions','sourceRefs','publicCallers','legalInputs','businessOracle','dedupe','claims','runtimeExecution','history'];print(json.dumps({k:a.get(k) for k in keys},ensure_ascii=False,indent=2))\nfor r in e['sourceRefs']:\n b=Path(r['path']).read_bytes();lines=b.decode().splitlines();lo,hi=map(int,r['lines'].split('-'));print(json.dumps({'path':r['path'],'range':r['lines'],'expectedSha':r['sha256'],'actualSha':hashlib.sha256(b).hexdigest(),'anchorInDeclaredRange':r['anchor'] in '\\n'.join(lines[lo-1:hi]),'actualTotalLines':len(lines)},ensure_ascii=False))\n assert hashlib.sha256(b).hexdigest()==r['sha256'] and r['anchor'] in '\\n'.join(lines[lo-1:hi])\nPY\nrg -n \"^export const SAVE_VERSION|SAVE_VERSION =\" packages/reforge/src\nsed -n \"160,207p\" docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md\nsed -n \"74,92p\" scripts/e2e/game-opening.mjs\nsed -n \"250,272p\" scripts/e2e/game-opening.mjs\nsed -n \"82,95p\" scripts/e2e/reforge-opening.mjs\nsed -n \"228,246p\" scripts/e2e/reforge-opening.mjs",
+      "exit": 0,
+      "signal": null,
+      "stdoutSha256": "eaa557127a59aafca76ec0f1fcf8a11b3f79068b720cef7414f8911d542107d3",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receiptPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/06-catalog-evidence-and-current-code-scopes.json",
+      "receiptSha256": "1c134db3f98e00cdde500d08472abf03548a2d971b393e24da94f749afbada87",
+      "spawnError": null,
+      "shPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/06-catalog-evidence-and-current-code-scopes.sh",
+      "shSha256": "1e314b1f31388783f9b19c474500f88954931770396bd86a9e316dc155e4465f",
+      "stdoutPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/06-catalog-evidence-and-current-code-scopes.stdout",
+      "stderrPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/06-catalog-evidence-and-current-code-scopes.stderr"
+    },
+    {
+      "name": "07-focused-line-anchors-and-readonly-consumer",
+      "startedAt": "2026-10-17T21:34:04.396384+00:00",
+      "endedAt": "2026-10-17T21:34:04.572887+00:00",
+      "durationSeconds": 0.176644083,
+      "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+      "script": "nl -ba /tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/source-route.md | sed -n \"23,174p\"\nsed -n \"1,16p\" packages/reforge/src/save/types.ts\nNODE_PATH=/Users/zhangxu/illegal/type-pal/node_modules node --input-type=module - <<'JS'\nimport {readFileSync} from 'node:fs'\nimport {validateCanonicalEvidence} from './scripts/docs/check-testing.mjs'\nimport {checkTemplateBody} from './scripts/docs/document-model.mjs'\nconst c=JSON.parse(readFileSync('docs/testing/catalog.json'));const e=c.entries.find(e=>e.id==='e2e-route')\nconst r=JSON.parse(readFileSync('docs/phase-governance/templates/registry.json'));const t=r.types.find(t=>t.templateId==='design-spec-v1')\nconsole.log(JSON.stringify({pairedConsumerIssues:validateCanonicalEvidence(e),existingBodyStructureIssues:checkTemplateBody(readFileSync('docs/testing/e2e/route-proposal.md','utf8'),t),scope:'read-only publication/source and structure only; no semantic acceptance or runtime execution'}))\nJS\ngit diff --exit-code && git diff --cached --exit-code && git status --short",
+      "exit": 0,
+      "signal": null,
+      "stdoutSha256": "34e31debcf70565373aaf20d91762e772b14662fc0785c3176c5f36b411df215",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receiptPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/07-focused-line-anchors-and-readonly-consumer.json",
+      "receiptSha256": "5c6d4a32df6e8844ad8b6f0b0543ac924f62a1b5886e71eef95f9e582e13abfc",
+      "spawnError": null,
+      "shPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/07-focused-line-anchors-and-readonly-consumer.sh",
+      "shSha256": "b48c635a8ed1bcce81ab6d3931dad0aac45d52dbb8cf7c048a14ecc42e5764bc",
+      "stdoutPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/07-focused-line-anchors-and-readonly-consumer.stdout",
+      "stderrPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/07-focused-line-anchors-and-readonly-consumer.stderr"
+    }
+  ],
+  "stopLine": "Do not write S05 repository body or centralJSON until root records explicit single-ownerS05 admission. Do not change protectedS03/S04, metadata/catalog/evidence, product/oldtests/coverage. No reviewed/template-compliant/done credit from harvest.",
+  "nextStep": "Root assesses concrete findings/read scopes and freezesS05 admission; then assigns the singleREADME/body owner to implement this five-chapter design using preserved source quote and unchanged paired metadata, followed by actual gates and separate non-author acceptance.",
+  "draftCorrections": [
+    {
+      "originalDraftPath": "/tmp/type-pal-s05-readonly-harvest-20261018-qaqhoq_v/harvest-report.raw.json",
+      "originalDraftSha256": "00951a37209ce9c5bd3cd74dc0b28a345aaeb81712cd692623e5b6e938cafcc8",
+      "correction": "Two prose scope labels guessed3542-line for the continuous archive card; actual totalLines field from bytes was3577. Corrected prose to3577; read scope remains1-72/160-207, no broader reading claimed. Original raw draft retained."
+    }
+  ]
+}

@@ -112,6 +112,10 @@
       {
         "path": "/root/receipt_integrity_independent S04",
         "scope": "raw/semantic-s04 immutable author/independent payloads; independent-intake-S04-c8715c2c.json gives exact original/repository paths and dual hashes. No root new execution or unrelated semantic credit."
+      },
+      {
+        "path": "S05 author /root/e2e_entry_semantic_author and non-author /root/central_intake_guard_review",
+        "scope": "independent-intake-S05-b87a2397.json lists236 exact original payload/stored identities; flat raw gzip containers live under DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads, no new execution credit."
       }
     ]
   },

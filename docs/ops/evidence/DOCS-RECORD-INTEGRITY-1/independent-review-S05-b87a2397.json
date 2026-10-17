@@ -1,0 +1,1009 @@
+{
+  "schemaVersion": 1,
+  "kind": "single-document-independent-semantic-review",
+  "reviewerTask": "/root/central_intake_guard_review",
+  "authorTask": "/root/e2e_entry_semantic_author",
+  "nonAuthorReviewer": true,
+  "identityBoundary": "Distinct logical author and reviewer tasks on Codex; no different-provider or organization independence claim.",
+  "reviewDate": "2026-10-18",
+  "finishedAt": "2026-10-17T22:04:00.930822+00:00",
+  "admission": {
+    "task": "DOCS-FULL-TEMPLATE-1 S05",
+    "rootAdmissionCommit": "c4d00d3e",
+    "scope": "Fixed single-document semantic and design-spec template review; future central intake separately accepted."
+  },
+  "candidate": {
+    "commit": "b87a239769295a4a2549255adc3b91f0417324ca",
+    "parent": "c8715c2c4ac1771a77127917812c87b53a30d676",
+    "repository": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+    "path": "docs/testing/e2e/route-proposal.md",
+    "bodySha256": "7311da4e0920a21b2df42091e7f547fcc8687aa4c51f207c66e8717555bd45b6",
+    "source": {
+      "sha256": "12918d5fe6cf5fd0b2e862af8f97d33879a647f90419c212c57fc49002358901",
+      "bytes": 17692,
+      "lines": 174
+    },
+    "before": {
+      "sha256": "0a4c69cd404c5fd171fe9801080b18db3b17ed1ff00db49aa6cee10abd155376",
+      "bytes": 20712,
+      "lines": 219
+    },
+    "after": {
+      "bytes": 32006,
+      "lines": 274
+    },
+    "changedFiles": ["docs/testing/e2e/route-proposal.md"],
+    "cleanAtFinalRead": true
+  },
+  "verdict": {
+    "singleDocumentSemanticAcceptance": true,
+    "templateAccepted": true,
+    "templateId": "design-spec-v1",
+    "templateVersion": "1.0.0",
+    "documentStatus": "proposed",
+    "catalogStatus": "proposal",
+    "scope": "Only this frozen body and its five substantive design chapters; no new route implementation, stage execution, sibling review, central intake or global credit.",
+    "blockingBodyCounters": []
+  },
+  "coreConclusion": "把generic封套恢复为真实路线设计：七项已定用户规则、双轨原生真档与版本、正常输入/NPC完整呈现/精确位置/预览义务、已核001/002入口的有限能力、覆盖方向与用途双轴、最小重跑和具体停止线都有正文表达。原历史元数据与quote不变，旧运行/无runner/工具会话不升格当前事实；方案继续proposed。",
+  "userRulesMatrix": [
+    {
+      "rule": "无人在线智能依赖",
+      "sourceLines": "32-34,100-106",
+      "newLines": "28,79,87",
+      "independentConclusion": "开发查证与运行控制分离；确定程序可用，未知状态有限失败。最终完整已声明主/支线范围仍须无Agent独立跑通，设计不授实现完成。"
+    },
+    {
+      "rule": "两阶段独立双线与大型支线",
+      "sourceLines": "35-36,89-96,160-165",
+      "newLines": "29,32,42,50-54,79",
+      "independentConclusion": "共享fragment语义，各自地图/输入/真实存档与下游停止；一轨阻断不拖另一轨，也不能以局部fixture补连续进度。"
+    },
+    {
+      "rule": "普通遇敌与剧情战斗分类",
+      "sourceLines": "37-38,79-86",
+      "newLines": "30,71-75",
+      "independentConclusion": "正式入战/结算与必要剧情条件保持；未分类先停，Q2和战斗展示不使用Q1速胜旁路；未宣称当前速胜host已存在。"
+    },
+    {
+      "rule": "正常对话消费与开发责任",
+      "sourceLines": "39-40,58-60,145-147",
+      "newLines": "31,44,51",
+      "independentConclusion": "等待真实消费/状态变化、保尾停顿和选项；不靠固定Enter数、清dialog或游标跳转。对白消费与槽显隐分别取证，用户不用编坐标/按键攻略。"
+    },
+    {
+      "rule": "两条真实检查点链",
+      "sourceLines": "41,71-73,91-95",
+      "newLines": "32,38,53,63",
+      "independentConclusion": "同引擎真实结束档与版本字段分别适配；RF12不套Game；公共前驱仅核有限IO合同，不认证HEAD和真实执行。"
+    },
+    {
+      "rule": "独立可看窗口/暂停/失败现场",
+      "sourceLines": "42",
+      "newLines": "33,54,82",
+      "independentConclusion": "仍是需逐项验证的执行器要求，不能由所读001/002源码宣布交互全实现；旧设施/排期按原时点保留。"
+    },
+    {
+      "rule": "录制与Content Studio下游边界",
+      "sourceLines": "43,143-156",
+      "newLines": "34,75,91",
+      "independentConclusion": "verify/visual/capture与Q1/Q2/editor是不同轴；录制正常节奏和素材发布另门，片段身份和宣传活动身份显式映射。旧会话工具不可用不升格今天能力事实。"
+    }
+  ],
+  "templateChapterAssessment": [
+    {
+      "section": "问题与目标",
+      "newLines": "18-22",
+      "conclusion": "明确合法起点→正常输入→真实结束与独立完整声明范围的设计结果；proposed/proposal两轴不授build。"
+    },
+    {
+      "section": "真值与约束",
+      "newLines": "24-44",
+      "conclusion": "七用户规则、现行content/minimum/SAVE各轴、原发布历史、意图/完整NPC帧/精确位置/对白清除/编辑器预览均有可操作边界。"
+    },
+    {
+      "section": "方案",
+      "newLines": "46-75",
+      "conclusion": "五步路线交接、稳定fragment、有限失败、真实checkpoint和明确001/002参数/前驱能力；概念动作词不伪称已有公共API；覆盖与用途分别列。"
+    },
+    {
+      "section": "边界与风险",
+      "newLines": "77-83",
+      "conclusion": "具体未知/错档/日志/差异停止线；最小重算/补采/重跑由实际影响决定；旧runner/旧容量/旧N6b/工具会话和连续卡接受均有日期适用范围。"
+    },
+    {
+      "section": "验收",
+      "newLines": "85-93",
+      "conclusion": "独立进程、五项片段闭合、NPC/编排/预览、capture及Owner与用户边界；明确本次未执行产品/E2E/视觉/coverage，不能以静态或少段代全量。"
+    }
+  ],
+  "quotePreservation": {
+    "wholeBlockSha256": "a05ef907d0413df4ea25349207318d722dc3bf7e26d8d5b943f8113fbe9ae4f0",
+    "wholeBlockBytes": 18076,
+    "wholeBlockUnchanged": true,
+    "directInverseBytes": 17693,
+    "directInverseSha256": "c5b7d1c19ec9d8cd4471d39ba9d7e7e00842bace8a9747c7c77c7e76ddc94c5b",
+    "directEqualsSource": false,
+    "identifiedSeparatorHex": "0a",
+    "conditionalInverseBytes": 17692,
+    "conditionalInverseSha256": "12918d5fe6cf5fd0b2e862af8f97d33879a647f90419c212c57fc49002358901",
+    "conditionalEqualsSource": true,
+    "unconditionalTrimUsed": false,
+    "oldR60AcceptanceRestored": false
+  },
+  "nativeFieldPreservation": {
+    "metadataPrefix": {
+      "sha256": "3f6ac4003e1e3b8d761faf05eb5316cc37225863ef6a72372581e1b8e80bd419",
+      "unchanged": true
+    },
+    "testingMetaAndFrontMatterUnchanged": true,
+    "catalogAndPairedEvidenceUnchanged": true,
+    "historicalRevision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+    "historicalMinimumSaveVersion": 11,
+    "currentContentConstant": 22,
+    "currentMinimumSaveConstant": 12,
+    "currentReforgeSaveVersion": 12,
+    "pairedEvidenceRuntimePerformed": false,
+    "oldR60ExactRoundTripNotRestored": true
+  },
+  "actualReadScope": {
+    "scopes": [
+      {
+        "path": "docs/phase-governance/templates/design-spec.md",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "fc2671156e74512e2367511ff2e3f7dd81ed4a7921a63d574a4c636d5a577ee3",
+        "fileTotalLines": 26,
+        "actualReadRanges": ["all"],
+        "fullFileRead": true,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/00-design-spec.md.txt",
+        "excerptSha256": "5b048f2cb954689f85935d84058312aa3da69aefea0fbf25fd43fb9ce7c9b113",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "docs/phase-governance/templates/registry.json",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+        "fileTotalLines": 824,
+        "actualReadRanges": [[117, 138]],
+        "fullFileRead": false,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/01-registry.json.txt",
+        "excerptSha256": "cfde26c9f92b46d8dc59cdbd45409026bcd34695ee8183825b124a9e6359f858",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "package.json",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "259820fcdc312e11ce297a83074ce168e5a9612f2016ae6d2acb5a308dd62224",
+        "fileTotalLines": 71,
+        "actualReadRanges": ["all"],
+        "fullFileRead": true,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/02-package.json.txt",
+        "excerptSha256": "36d98ef07c5ed14edd8202fd97d7248f015ec683d33390cdd57e088b8045b859",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "scripts/e2e/opening-both.mjs",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "91daab30239edee63c1bf5381bb77b8eb30c0082e2da3508cde4577fc695ba56",
+        "fileTotalLines": 93,
+        "actualReadRanges": ["all"],
+        "fullFileRead": true,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/03-opening-both.mjs.txt",
+        "excerptSha256": "51cd6c8fa1a69c105b51b5ca73e608d27ce5c88576a55d6b8517d8cba384f875",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "scripts/e2e/inn-both.mjs",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "298e14373f0cc6aaf0a41bc25b800a7af7881ad5db7f2fe1e03375967ed6fb39",
+        "fileTotalLines": 94,
+        "actualReadRanges": ["all"],
+        "fullFileRead": true,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/04-inn-both.mjs.txt",
+        "excerptSha256": "fad18bef4074e52eccf3b09e84937f592d6427a9ec8ef599b19fcc034db42dd3",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "scripts/e2e/inn-contract.mjs",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+        "fileTotalLines": 653,
+        "actualReadRanges": [[1, 130]],
+        "fullFileRead": false,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/05-inn-contract.mjs.txt",
+        "excerptSha256": "57a609aa23d1fd49916dda799cbc2a3f7bd79b8570458914b1bfa81d90b356a8",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "packages/content/src/character.ts",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+        "fileTotalLines": 351,
+        "actualReadRanges": [[150, 180]],
+        "fullFileRead": false,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/06-character.ts.txt",
+        "excerptSha256": "34a42719633d50c795201f0b1134c06b5f547d0293fe48183bf2183d58fc7a0e",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "packages/reforge/src/save/types.ts",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "b40e418803af9585d944f2a5f3c0229ea26494003f0aa08b12493ddb42605bc2",
+        "fileTotalLines": 54,
+        "actualReadRanges": [[1, 16]],
+        "fullFileRead": false,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/07-types.ts.txt",
+        "excerptSha256": "e66d32441bd857e6f5ebc05339281ce1e520a20d0e399dee74c0ec46ac561e44",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "scripts/e2e/inn-journey.mjs",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "2f7235dd6d6e74338bf49ca714e0ba3f8e7f8af2e640ab358540fee0fc587d62",
+        "fileTotalLines": 596,
+        "actualReadRanges": [[1, 115]],
+        "fullFileRead": false,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/08-inn-journey.mjs.txt",
+        "excerptSha256": "8c20eea65d716c91e0e071d3e8e1e4de7462428e15361362c370c74ac7288aa9",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "scripts/e2e/game-inn.mjs",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "aac23811c42ceeccdc95543fe84fd6f9e8252db27248316c6d6286ccd95714e2",
+        "fileTotalLines": 3,
+        "actualReadRanges": ["all"],
+        "fullFileRead": true,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/09-game-inn.mjs.txt",
+        "excerptSha256": "f272bc0e5ab330c5cc0c041d31cd5cabc1eaf1001757c28150fd9d55f0a18193",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "scripts/e2e/reforge-inn.mjs",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "0be7bde714fb0036b33cbcc50b753194d73cbf982341336afb1f0757c9ba28e4",
+        "fileTotalLines": 3,
+        "actualReadRanges": ["all"],
+        "fullFileRead": true,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/10-reforge-inn.mjs.txt",
+        "excerptSha256": "46ed08bd333c891222253e927f3086b2db80b4132e9544a0260e183ac40a4681",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "scripts/e2e/game-opening.mjs",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "248462e08bd41ef4a9de933d16a0cb316d9dcd18abffe738cc857797b4db5910",
+        "fileTotalLines": 339,
+        "actualReadRanges": [[74, 92], [250, 272]],
+        "fullFileRead": false,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/11-game-opening.mjs.txt",
+        "excerptSha256": "e109a4723a189a50635d30f76a35f5e242e0e9576063cc2e0a316c380a1a3349",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "scripts/e2e/reforge-opening.mjs",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "17e554250e52c3b48340599ac8edeba17684650bfc021f4645330d0001db3338",
+        "fileTotalLines": 290,
+        "actualReadRanges": [[82, 95], [228, 246]],
+        "fullFileRead": false,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/12-reforge-opening.mjs.txt",
+        "excerptSha256": "e0c7950c9be30c1418ad1062ae082e674d98b0d0c43668142e498a362fc6fe5f",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "scripts/e2e/browser-journey.mjs",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "659926f4cf627c36470515adfe5aab0ec7d33fcf8b8153113e9a78c33ca201a1",
+        "fileTotalLines": 300,
+        "actualReadRanges": [[1, 75]],
+        "fullFileRead": false,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/13-browser-journey.mjs.txt",
+        "excerptSha256": "409d6bab64f2a197ebeb641a08e53bcf1614194962e40531d70dd4eddc620120",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "docs/testing/e2e/contract.md",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f",
+        "fileTotalLines": 548,
+        "actualReadRanges": [[18, 192], [239, 284], [357, 422], [449, 482]],
+        "fullFileRead": false,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/14-contract.md.txt",
+        "excerptSha256": "3fda717eb4b73ce8290a7e892572eba67064a18c7091a6c97e9b646d6f4c9929",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "5cc09fd6636533b5b06f10b38e0e114373cfc7f204ac300a45cb9c6317295d87",
+        "fileTotalLines": 394,
+        "actualReadRanges": [[1, 103]],
+        "fullFileRead": false,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/15-E2E-R4-1-route-and-checkpoint-foundation.md.txt",
+        "excerptSha256": "84f71e9448d1b95d3c869284f70fedbe7913ac98adcaa802c3fe46de3caed643",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "bfda8b6623cd3d8a47bdcfe3af92cae71ab151544e9a9baed1cb77d724ed5b7c",
+        "fileTotalLines": 3577,
+        "actualReadRanges": [[1, 72], [160, 207]],
+        "fullFileRead": false,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/16-E2E-CONTINUOUS-001-006.md.txt",
+        "excerptSha256": "b8235ff635598640d92917ab9043608f0b5e04407516fa9f3a60fa93bfa38810",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "docs/testing/e2e/cross-stage/common-issues.md",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "cdb892e3f02f59c1044599a59bb2c430032cb76406df64022fe8d07123784aec",
+        "fileTotalLines": 431,
+        "actualReadRanges": [[1, 43], [229, 285]],
+        "fullFileRead": false,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/17-common-issues.md.txt",
+        "excerptSha256": "20fae0288ae3051c2dd7dabcee14477ff32ded12077eadd7ddfe5f09790341ad",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "projects/pal/e2e-checkpoints/README.md",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "806135cee7ca2e0b8f560b8b21e4c9674ff09a4a4d3428f7b7e9306f89281212",
+        "fileTotalLines": 140,
+        "actualReadRanges": [[1, 90]],
+        "fullFileRead": false,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/18-README.md.txt",
+        "excerptSha256": "cc46214e148f77562929504c80acb9bea15cc098c7a6d2ceb3ae7870a691fb8a",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "docs/testing/governance.md",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "dbd68ac55137df0edaa38efebcb3591f4ea826bbdbb5357b9914c6ff684926f9",
+        "fileTotalLines": 83,
+        "actualReadRanges": ["all"],
+        "fullFileRead": true,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/19-governance.md.txt",
+        "excerptSha256": "72db5c23a687d0e0aba78bfe1c66c88925171f81598146ff33869b339660a90b",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "docs/phase2/READ-FIRST.md",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "70a835e7a8cab70fe2c62618791e8fba4b124f385a8e8f95817560a41bc244be",
+        "fileTotalLines": 120,
+        "actualReadRanges": [[1, 62]],
+        "fullFileRead": false,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/20-READ-FIRST.md.txt",
+        "excerptSha256": "f683532748a9f2fc1377e39b71a5614ef276bb40c6feb8036165d6d3d533fa40",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "docs/ops/board.md",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "38be765d96a0cb688bfab92965cf59791d42634a267075983ebfd6751304a651",
+        "fileTotalLines": 47,
+        "actualReadRanges": [[1, 47]],
+        "fullFileRead": false,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/21-board.md.txt",
+        "excerptSha256": "36bba72de5d6a67572763ebc340786590ee4d1d97c198a9136d5710ebf4425ed",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "scripts/docs/check-testing.mjs",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "15aa96323821b771107b7b372880af8469a9310bc545bfd56c852c95e449a166",
+        "fileTotalLines": 616,
+        "actualReadRanges": [[1, 100], [180, 335], [414, 566]],
+        "fullFileRead": false,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/22-check-testing.mjs.txt",
+        "excerptSha256": "52f10c68dca2c2f868b70cd332b8030fae9181ab786c025a094d0105aea80a75",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "scripts/docs/document-model.mjs",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "2c7ed0419c90332dd27e866629f06fd7670112cb924084f8162f84ee74c4f64b",
+        "fileTotalLines": 335,
+        "actualReadRanges": [[98, 213]],
+        "fullFileRead": false,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/23-document-model.mjs.txt",
+        "excerptSha256": "8547d1cf873d86200fdfcea85b8a23eb39fb79fdf027c83d08b524f0194decd2",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "scripts/docs/markdown.mjs",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "1427de079109a39fb03ce0b0251d80dc813f8f9758f71e3cf09099030eca5215",
+        "fileTotalLines": 154,
+        "actualReadRanges": [[89, 160]],
+        "fullFileRead": false,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/24-markdown.mjs.txt",
+        "excerptSha256": "a94039e9528496753d20e1200206aeba6cf4f3413554bc8df98f9d66311a4060",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "scripts/docs/check.mjs",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "278ed0c125ab1d7a0c4e539be20aa0a278aace9ed5623a9eccd26d27fff31314",
+        "fileTotalLines": 384,
+        "actualReadRanges": [[35, 55]],
+        "fullFileRead": false,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/25-check.mjs.txt",
+        "excerptSha256": "966d12d248500a7772307c5ac123405afa879762c03f2e15ff3c242bf2483b95",
+        "notAcceptanceOfSiblingDocument": true
+      },
+      {
+        "path": "docs/testing/e2e/evidence/e2e-route.json",
+        "candidateRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "fullFileSha256": "ff9a5f791dea83e8e11b89649c888742e0509c45995aeb6f0eb5e8539dd6821e",
+        "fileTotalLines": 100,
+        "actualReadRanges": ["all"],
+        "fullFileRead": true,
+        "excerpt": "/tmp/type-pal-s05-independent-_4zlmxx2/read-excerpts/26-e2e-route.json.txt",
+        "excerptSha256": "c116a2535f20c8d2424c9440ee56d932a4463366c3d5ae9f45a11769779380a4",
+        "notAcceptanceOfSiblingDocument": true
+      }
+    ],
+    "catalogRead": "One complete e2e-route entry only; full catalog was parsed by real consumer mechanically, not semantically read.",
+    "bodyRead": "Original174, before219 and candidate274 fully read in explicit untruncated pages.",
+    "reportRead": "Author and harvest reports are provenance/claimed scope input only; their findings do not substitute for independent primary-source reading."
+  },
+  "actualPrimarySourceAssertions": [
+    {
+      "claim": "sourceRefs",
+      "actual": "Both declared full-file SHA and within-range anchors independently matched; inn-contract67-111 and character168-170 actually read.",
+      "observation": "doc-consumer-observation.json"
+    },
+    {
+      "claim": "predecessor40SHA is syntax only",
+      "actual": "Actual public readPredecessor/validatePredecessor accepted explicitly synthetic known nonHEAD40SHA for each engine, while capture, badSHA, badhash and RF version11 were rejected with exact expected assertions. Minimal parser-domain fixtures do not prove genuine save validity or gameplay.",
+      "observation": "predecessor-io-observation.json"
+    },
+    {
+      "claim": "both capture",
+      "actual": "opening-both entire93 and inn-both94 plus innArguments1-64 read. Public innArguments both capture guard actually asserted. Both real CLI cold-start attempts failed at import of absent data/extracted/events/all.json before reaching their capture guard; neither is claimed as CLI capture-rejection success.",
+      "scope": "001 guard source-backed;002 parser API-backed; no current environment/story-run guarantee."
+    },
+    {
+      "claim": "NPC/frame/position/dialogue/preview/minimal rerun",
+      "actual": "Current contract18-192,239-284,357-422,449-482 directly read; body aligns with precise endpoints and complete related draws, distinct input consumption and slot clearing, every preview entry, evidence-based minimal reruns and full capture gates."
+    }
+  ],
+  "actualPublicConsumers": {
+    "docObservation": "doc-consumer-observation.json",
+    "templateRequiredSectionBaselineIssues": 0,
+    "templateRemoveAcceptanceSection": ["missing section: 验收"],
+    "templateRestoredIssues": 0,
+    "canonicalEvidenceBaselineIssues": 0,
+    "catalogBaselineIssues": 0,
+    "generatedNineViewsIssues": 0,
+    "nativeVersionMutation": ["e2e-route: evidence/catalog version mismatch"],
+    "nativeVersionRestoredIssues": 0,
+    "sourceRefChecks": [
+      {
+        "path": "scripts/e2e/inn-contract.mjs",
+        "lines": "67-111",
+        "anchor": "export function validatePredecessor(",
+        "role": "input",
+        "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+        "actualSha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+        "anchorInRange": true
+      },
+      {
+        "path": "packages/content/src/character.ts",
+        "lines": "168-170",
+        "anchor": "export const CONTENT_VERSION =",
+        "role": "version",
+        "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+        "actualSha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+        "anchorInRange": true
+      }
+    ],
+    "outgoingFileTargets": 19,
+    "renderedAnchorValidation": false,
+    "businessMeaning": "Structural/publication/schema IO only; substantive acceptance above comes from actual full body and bounded primary-source reading, not these counts."
+  },
+  "predecessorIoProbe": {
+    "observation": "predecessor-io-observation.json",
+    "sourceModuleSha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+    "dependencyBindings": [
+      {
+        "specifier": "playwright",
+        "target": "file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/playwright@1.63.0/node_modules/playwright/index.mjs"
+      },
+      {
+        "specifier": "typescript",
+        "target": "file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/typescript.js"
+      }
+    ],
+    "syntheticIoOnly": true,
+    "productRuntimeExecuted": false,
+    "meaning": "Synthetic unknown-domain parser/IO inputs only. Acceptance here proves limited validator behavior and inability to authenticate execution/current HEAD; it does not prove genuine save validity, project reachability or product success."
+  },
+  "testsAndGates": {
+    "capturedCommands": [
+      {
+        "name": "author-range-diff",
+        "path": "/tmp/type-pal-s05-independent-_4zlmxx2/author-range-diff.json",
+        "sha256": "aa1abc86f6388bc7c2836dd2ded3e586fc184bc61237524ba347afaad3689d1f",
+        "command": [
+          "git",
+          "diff",
+          "--check",
+          "c8715c2c4ac1771a77127917812c87b53a30d676..b87a239769295a4a2549255adc3b91f0417324ca"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+        "head": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "exitCode": 0,
+        "timedOut": false,
+        "spawnError": null,
+        "startedAt": "2026-10-17T21:59:59.618342+00:00",
+        "finishedAt": "2026-10-17T21:59:59.633210+00:00",
+        "stdout": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/author-range-diff.stdout.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderr": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/author-range-diff.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      },
+      {
+        "name": "both001-capture-rejection",
+        "path": "/tmp/type-pal-s05-independent-_4zlmxx2/both001-capture-rejection.json",
+        "sha256": "725b4aee95a6db36cb6cd41a67cf10348da7b8dff354139aa9e25fb43e74079b",
+        "command": [
+          "node",
+          "--import",
+          "/tmp/type-pal-s05-independent-_4zlmxx2/bind-shared-dependency.mjs",
+          "scripts/e2e/opening-both.mjs",
+          "--capture"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+        "head": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "exitCode": 1,
+        "timedOut": false,
+        "spawnError": null,
+        "startedAt": "2026-10-17T21:59:59.619263+00:00",
+        "finishedAt": "2026-10-17T21:59:59.957869+00:00",
+        "stdout": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/both001-capture-rejection.stdout.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderr": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/both001-capture-rejection.stderr.raw",
+          "sha256": "b9899d365263499834b36fad952d44f951a86810c0a81ab0b3b5daecaa6a0c37",
+          "bytes": 1258
+        }
+      },
+      {
+        "name": "both002-capture-rejection",
+        "path": "/tmp/type-pal-s05-independent-_4zlmxx2/both002-capture-rejection.json",
+        "sha256": "44811f920a5d65d11940b193c0b8280acd6df8e8f85eb3693243c7cfec3b0604",
+        "command": [
+          "node",
+          "--import",
+          "/tmp/type-pal-s05-independent-_4zlmxx2/bind-shared-dependency.mjs",
+          "scripts/e2e/inn-both.mjs",
+          "--capture"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+        "head": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "exitCode": 1,
+        "timedOut": false,
+        "spawnError": null,
+        "startedAt": "2026-10-17T21:59:59.620140+00:00",
+        "finishedAt": "2026-10-17T21:59:59.949818+00:00",
+        "stdout": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/both002-capture-rejection.stdout.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderr": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/both002-capture-rejection.stderr.raw",
+          "sha256": "b9899d365263499834b36fad952d44f951a86810c0a81ab0b3b5daecaa6a0c37",
+          "bytes": 1258
+        }
+      },
+      {
+        "name": "check-docs",
+        "path": "/tmp/type-pal-s05-independent-_4zlmxx2/check-docs.json",
+        "sha256": "5b38acad930542b621115ebb88100339b099049f9f0a03ffd5e2c7794403ce67",
+        "command": ["pnpm", "check:docs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+        "head": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "exitCode": 1,
+        "timedOut": false,
+        "spawnError": null,
+        "startedAt": "2026-10-17T21:55:40.980059+00:00",
+        "finishedAt": "2026-10-17T21:56:15.775852+00:00",
+        "stdout": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/check-docs.stdout.raw",
+          "sha256": "1cbf5b7f0572a31b74afd9cd4bcb1250a1d24b4bd82afcbedb8169a670601cf9",
+          "bytes": 31360
+        },
+        "stderr": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/check-docs.stderr.raw",
+          "sha256": "b2badf8cce44d56134ceb6b29c9afff58bee0df9ce5cc964dc908cb9fd2953bf",
+          "bytes": 479310
+        }
+      },
+      {
+        "name": "doc-consumers-v2",
+        "path": "/tmp/type-pal-s05-independent-_4zlmxx2/doc-consumers-v2.json",
+        "sha256": "bb760597917c13ea14f9ccbd698371911da9ecb05b982c388cb791ac98b81f7d",
+        "command": ["node", "/tmp/type-pal-s05-independent-_4zlmxx2/probe-doc-consumers.mjs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+        "head": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "exitCode": 0,
+        "timedOut": false,
+        "spawnError": null,
+        "startedAt": "2026-10-17T21:58:42.745526+00:00",
+        "finishedAt": "2026-10-17T21:58:42.815192+00:00",
+        "stdout": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/doc-consumers-v2.stdout.raw",
+          "sha256": "73049059a1b61c5e86ee113c62405d6a09c41d3217d43f29385158142f3d838e",
+          "bytes": 5890
+        },
+        "stderr": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/doc-consumers-v2.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      },
+      {
+        "name": "doc-consumers",
+        "path": "/tmp/type-pal-s05-independent-_4zlmxx2/doc-consumers.json",
+        "sha256": "77e33dc29aa70e600ac213a5ef83fc1383315a294212cb948421a22f26a43797",
+        "command": ["node", "/tmp/type-pal-s05-independent-_4zlmxx2/probe-doc-consumers.mjs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+        "head": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "exitCode": 1,
+        "timedOut": false,
+        "spawnError": null,
+        "startedAt": "2026-10-17T21:58:17.200390+00:00",
+        "finishedAt": "2026-10-17T21:58:17.273436+00:00",
+        "stdout": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/doc-consumers.stdout.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderr": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/doc-consumers.stderr.raw",
+          "sha256": "caaa751220605e9baff3c00f1c9f75f93fa33e549f715f4c127347b1fed107ca",
+          "bytes": 546
+        }
+      },
+      {
+        "name": "full-range-diff",
+        "path": "/tmp/type-pal-s05-independent-_4zlmxx2/full-range-diff.json",
+        "sha256": "e3b321d2995354b47853bca09fe0333a8ea3eaf0f252a79ed7b9aabe8226dc17",
+        "command": [
+          "git",
+          "diff",
+          "--check",
+          "28fd9013e09e8792decbff2fa117aae14c36b196..b87a239769295a4a2549255adc3b91f0417324ca"
+        ],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+        "head": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "exitCode": 0,
+        "timedOut": false,
+        "spawnError": null,
+        "startedAt": "2026-10-17T21:59:59.632755+00:00",
+        "finishedAt": "2026-10-17T21:59:59.791589+00:00",
+        "stdout": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/full-range-diff.stdout.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderr": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/full-range-diff.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      },
+      {
+        "name": "lint",
+        "path": "/tmp/type-pal-s05-independent-_4zlmxx2/lint.json",
+        "sha256": "7410c8f19652ff5e65b7353502fb94d451ff06fdffb1e75ed4245a2baefa4a71",
+        "command": ["pnpm", "lint"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+        "head": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "exitCode": 0,
+        "timedOut": false,
+        "spawnError": null,
+        "startedAt": "2026-10-17T21:55:42.441045+00:00",
+        "finishedAt": "2026-10-17T21:55:45.844123+00:00",
+        "stdout": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/lint.stdout.raw",
+          "sha256": "305908d82aac5d230c4f0526481e61dea93e1aff5a49638c245a2b6885bade5e",
+          "bytes": 197
+        },
+        "stderr": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/lint.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      },
+      {
+        "name": "predecessor-io-v2",
+        "path": "/tmp/type-pal-s05-independent-_4zlmxx2/predecessor-io-v2.json",
+        "sha256": "7c7cff8fa2e23c57a8f0d49d1f4552cacd2701802f52ef65c740390df7db52a2",
+        "command": ["node", "/tmp/type-pal-s05-independent-_4zlmxx2/probe-predecessor-io.mjs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+        "head": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "exitCode": 1,
+        "timedOut": false,
+        "spawnError": null,
+        "startedAt": "2026-10-17T21:59:34.369610+00:00",
+        "finishedAt": "2026-10-17T21:59:34.739163+00:00",
+        "stdout": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/predecessor-io-v2.stdout.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderr": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/predecessor-io-v2.stderr.raw",
+          "sha256": "78a92f4e59902234079cbfdfe3c54772087ea5ed60747cb1b953c491b701fa2a",
+          "bytes": 1191
+        }
+      },
+      {
+        "name": "predecessor-io-v3",
+        "path": "/tmp/type-pal-s05-independent-_4zlmxx2/predecessor-io-v3.json",
+        "sha256": "fe902c946a088e8c939085c977ecf0affd096d9c663c64518232be80a3c50460",
+        "command": ["node", "/tmp/type-pal-s05-independent-_4zlmxx2/probe-predecessor-io.mjs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+        "head": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "exitCode": 0,
+        "timedOut": false,
+        "spawnError": null,
+        "startedAt": "2026-10-17T21:59:47.930930+00:00",
+        "finishedAt": "2026-10-17T21:59:48.310549+00:00",
+        "stdout": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/predecessor-io-v3.stdout.raw",
+          "sha256": "d9c8c2e0cf8daf8cc08bea05a70f48e2987d7e17a83eee6660997500c7555ae9",
+          "bytes": 5900
+        },
+        "stderr": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/predecessor-io-v3.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      },
+      {
+        "name": "predecessor-io",
+        "path": "/tmp/type-pal-s05-independent-_4zlmxx2/predecessor-io.json",
+        "sha256": "cb235832359ee211a9b0bff808b7e56cb01e95a8e54e22b4321be60279a48e91",
+        "command": ["node", "/tmp/type-pal-s05-independent-_4zlmxx2/probe-predecessor-io.mjs"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+        "head": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "exitCode": 1,
+        "timedOut": false,
+        "spawnError": null,
+        "startedAt": "2026-10-17T21:59:22.172035+00:00",
+        "finishedAt": "2026-10-17T21:59:22.263357+00:00",
+        "stdout": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/predecessor-io.stdout.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderr": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/predecessor-io.stderr.raw",
+          "sha256": "906e6011c39ef575873902cd8af2525dba2eed60c6902deff0a2d41a30cc13be",
+          "bytes": 1104
+        }
+      },
+      {
+        "name": "progress",
+        "path": "/tmp/type-pal-s05-independent-_4zlmxx2/progress.json",
+        "sha256": "dca39a010fdf609649e8d78be942839068bc0f020dded7fea86642b80dd38b13",
+        "command": ["node", "scripts/docs/report-governance-progress.mjs", "--require-complete"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+        "head": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "exitCode": 1,
+        "timedOut": false,
+        "spawnError": null,
+        "startedAt": "2026-10-17T21:55:44.220511+00:00",
+        "finishedAt": "2026-10-17T21:55:46.971812+00:00",
+        "stdout": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/progress.stdout.raw",
+          "sha256": "db1064eaa6fc2d59804ba62e6c5481401bb6fb741df2a6005c6199be5714bd8c",
+          "bytes": 155
+        },
+        "stderr": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/progress.stderr.raw",
+          "sha256": "464c356152392bb35f5535c6bddb27b81425b1a2a4e075ba2dc3c35e60773917",
+          "bytes": 89
+        }
+      },
+      {
+        "name": "staged-diff",
+        "path": "/tmp/type-pal-s05-independent-_4zlmxx2/staged-diff.json",
+        "sha256": "a149178f4cfe84de6a58dc8ae6c9a347b14c7b4a75924cec1f056a4e2e047e1e",
+        "command": ["git", "diff", "--cached", "--check"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+        "head": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "exitCode": 0,
+        "timedOut": false,
+        "spawnError": null,
+        "startedAt": "2026-10-17T21:59:59.641505+00:00",
+        "finishedAt": "2026-10-17T21:59:59.654488+00:00",
+        "stdout": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/staged-diff.stdout.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderr": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/staged-diff.stderr.raw",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      },
+      {
+        "name": "strict",
+        "path": "/tmp/type-pal-s05-independent-_4zlmxx2/strict.json",
+        "sha256": "ea490782aad33c4ebbce58dedc7e3d0db33416862d3964bafcff57f7e4d9b2ab",
+        "command": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+        "cwd": "/Users/zhangxu/.codex/worktrees/docs-semantic-e2e-entry/type-pal",
+        "head": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "exitCode": 1,
+        "timedOut": false,
+        "spawnError": null,
+        "startedAt": "2026-10-17T21:59:59.633574+00:00",
+        "finishedAt": "2026-10-17T22:00:00.188521+00:00",
+        "stdout": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/strict.stdout.raw",
+          "sha256": "21fa16527f8d865a90d680fa1546aec345030124b52d709338ce3300cb0681bd",
+          "bytes": 94
+        },
+        "stderr": {
+          "path": "/tmp/type-pal-s05-independent-_4zlmxx2/strict.stderr.raw",
+          "sha256": "b2badf8cce44d56134ceb6b29c9afff58bee0df9ce5cc964dc908cb9fd2953bf",
+          "bytes": 479310
+        }
+      }
+    ],
+    "checkDocs": {
+      "exitCode": 1,
+      "timedOut": false,
+      "actualDurationSeconds": 34.795793,
+      "docsToolTests": {
+        "tests": 128,
+        "pass": 128,
+        "fail": 0,
+        "skip": 0,
+        "todo": 0,
+        "scope": "Frozen author branch tools; not future root178 or whole product tests"
+      },
+      "componentOutput": "docs0 / model structure0 / testing0 / phase-lore0; strictFAIL",
+      "additionalWarning": "pnpm reported Local package.json exists, but node_modules missing; preserved in original stdout; this is not zero-diagnostic global acceptance."
+    },
+    "lint": {
+      "exitCode": 0,
+      "files": 4448,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "completeReport": true
+    },
+    "strict": {
+      "exitCode": 1,
+      "stderrBytes": 479310,
+      "meaning": "Actual incomplete/withdrawn current source ledger; not converted to PASS."
+    },
+    "requireComplete": {
+      "exitCode": 1,
+      "inheritedProjectionOnly": "437/1838 baseline +5 incremental;1930 pending; not new semantic certification"
+    },
+    "fullAuthorAndStagedDiff": {
+      "mainBaseRange": "28fd9013e09e8792decbff2fa117aae14c36b196..b87a239769295a4a2549255adc3b91f0417324ca",
+      "authorRange": "c8715c2c4ac1771a77127917812c87b53a30d676..b87a239769295a4a2549255adc3b91f0417324ca",
+      "allExitCodes": 0
+    }
+  },
+  "reviewerProbeFailuresRetained": [
+    {
+      "receipt": "doc-consumers.json",
+      "actualExitCode": 1,
+      "cause": "Reviewer initially used nonexistent registry.templates field; exact failed source preserved in probe-doc-consumers-failed-v1.mjs. Fixed only own probe to actual registry.types, v2 exits0; no candidate edit."
+    },
+    {
+      "receipt": "predecessor-io.json",
+      "actualExitCode": 1,
+      "cause": "Read-only dependency binder initially supplied playwright but not transitive typescript; actual missing-module output retained. Binder is restricted to these already installed shared packages; no candidate source patched."
+    },
+    {
+      "receipt": "predecessor-io-v2.json",
+      "actualExitCode": 1,
+      "cause": "Reviewer expected Node AssertionError.message to omit its generated diff. Public validator correctly rejected badhash; own oracle changed to exact first line plus exact actual/expected hashes. Failed probe source preserved; v3 exits0."
+    },
+    {
+      "receipts": ["both001-capture-rejection.json", "both002-capture-rejection.json"],
+      "actualExitCode": 1,
+      "cause": "Missing extracted all.json during ESM import before argument guard. The historical receipt filenames describe intended probe only; these are environment precondition failures, not successful capture rejections and not body counters."
+    }
+  ],
+  "upstreamArtifactIntegrity": {
+    "verification": "upstream-artifact-verification.json",
+    "authorReportSha256": "88febc4939fa54c73e017f1d7fd92f6b69935d5e35246af1e5aadbc0500a9c4c",
+    "authorArtifactsVerified": 82,
+    "harvestReportSha256": "315e8118249124d183a15b5d2e1ea1de0692cb2dcef6d6c4d9daf3064c1feb90",
+    "harvestArtifactsVerified": 54,
+    "meaning": "All manifest payload hashes/bytes recomputed; no borrowed semantic/execution credit."
+  },
+  "strongestAlternativeChecks": [
+    {
+      "alternative": "旧minimumSave11仍是当前可用RF前驱",
+      "finding": "Current constants and RF validator are12; native d022/min11 stays historical and mismatched evidence mutation rejected. New body expressly prevents renumbering old evidence."
+    },
+    {
+      "alternative": "40位revision与passed足以认证当前真实执行",
+      "finding": "Synthetic nonHEAD revision accepted by limited public IO verifier, as body explicitly warns; no genuine raw/checkpoint acceptance."
+    },
+    {
+      "alternative": "第一阶段状态或绘制次数相等是二阶段真值",
+      "finding": "Actual current contract requires intent and full related frame evidence while excluding blind internal/count equality; exact target position remains required."
+    },
+    {
+      "alternative": "旧无runner或本会话工具不可用是今天能力事实",
+      "finding": "Real root script dispatch exists; body explicitly limits old claims to date/session, leaves full maze/pause/fastwin/audio/capture unknown and did not start product."
+    },
+    {
+      "alternative": "连续卡done和文档门能认证今天整局",
+      "finding": "Card top1-72/final160-207 read as historical candidate scope; current task remainsbuild and actual strict/progressFAIL. Body explicitly refuses wider execution credit."
+    }
+  ],
+  "beforeAfter": {
+    "before": "Five generic one-paragraph sections left route decisions mainly buried in historical quote and stated inverse equality without the known separator condition.",
+    "after": "Five substantive route-specific design chapters with seven user rules, real source-backed capabilities and boundaries, current exact contracts and explicitly conditioned quote inverse; original native metadata and all original174 remain."
+  },
+  "dedupe": {
+    "result": "One existing e2e-route canonical design rewritten; no new identity, parallel stage report/status table, public API or product test added.",
+    "against": [
+      "e2e-contract",
+      "existing E2E overview and issue-family source",
+      "R4 original card",
+      "R60 old wrapper"
+    ]
+  },
+  "remainingWork": [
+    "Root must intake only this fixed body through a separately reviewed source/binding/history/pin operation; this package did not alter central ledger or regrant its count.",
+    "Whole-docs fixed1838 cohort and incremental documents, old withdrawals and five quarantines remain open.",
+    "No actual current/historical gameplay raw, genuine checkpoint authenticity, browser, preview, visual, audio, capture, coverage or full mainline/big-sidequest was executed/reaccepted.",
+    "No whole six stage reports, entire548-line contract, entire3577-line continuous card, engine journey/late maze/fastwin host, or live Content Studio project/tool audit was performed.",
+    "All actual dependency read domains are explicit; full-file hashes outside those domains are identity checks only.",
+    "Actual future root storage178 tools/registryv2 and combined S03/S04/S05 central state are outside this frozen author branch acceptance."
+  ],
+  "readonlyState": {
+    "observedAt": "2026-10-17T22:01:56.287508+00:00",
+    "authorTree": {
+      "head": "b87a239769295a4a2549255adc3b91f0417324ca",
+      "status": ""
+    },
+    "main": {
+      "head": "28fd9013e09e8792decbff2fa117aae14c36b196",
+      "status": ""
+    },
+    "checkedOwnedProcessGroups": [
+      9912, 20322, 21633, 22750, 25542, 25543, 25544, 25548, 25549, 25551, 32351, 40641, 47419,
+      72208
+    ],
+    "remainingOwnedGroupRows": [],
+    "killedUnknownProcess": false
+  },
+  "stopLine": "Only fixed b87 route design body/template accepted. Hard gate failure forbids main/done; source/publication/IO probes cannot become product, stage execution, central or full-docs acceptance.",
+  "nextStep": "Root preserve original report/raw by exact hash, intake this sole body/binding with old R60 history and all other entries unchanged, then obtain separate actual central acceptance and continue genuine per-document review.",
+  "globalHardGatePassed": false,
+  "fullSemanticAcceptance": false,
+  "fullDocsSemanticAcceptance": false,
+  "actualCentralIntakeAccepted": false,
+  "cardDoneAllowed": false,
+  "mergeToMainAllowed": false,
+  "productRuntimeCreditGranted": false
+}

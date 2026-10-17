@@ -1694,3 +1694,9 @@ Template: task-card-v1 / 1.0.0
 - 非作者逐项核固定`65ee30adc41fd78c49b0ea261ce77b62b816ece0`及其源2407/2411/目标2414绑定，限定接受S03/S04两次唯一迁移：R60 8→7→6，其余对象、顺序、S01/S02及第二次的S03不变；七个新增证据仍partial/needs。原报告SHA `f3f8674ff4bb1e9887088095a950f55fd85261bd9420d9fe3979bd420f6e6821`及146项运输见[中央报告](../evidence/DOCS-REGISTRY-SPLIT-1/independent-S03-S04-central-review-65ee30ad.json)。
 - 同时核364个原payload/存储身份、25个Git一手pin、真实178工具与lint4492零诊断；完整docs/strict/progress仍FAIL。两次自身harness错误与原日志保留，不倒写为候选失败或通过。
 - 1896撤回中仍仅重授3篇、余1893；S01另列。这里只关闭固定65的中央复核待项，新报告登记/本次确认写回及未来S05/S06不在该报告接受范围，整卡继续rework、不合main或done。
+
+### S05唯一中央绑定接入
+
+- 固定b87正文SHA `7311da4e0920a21b2df42091e7f547fcc8687aa4c51f207c66e8717555bd45b6`，非作者报告SHA `4fd5060bd3c78f64ccbd7c34729acd2a733967168b17b08279e1af9b54c0c302`；只移R60该篇6→5，其余五条和semantic旧四条不变，原撤回/quote条件/history保留。
+- 原54 harvest/82作者/97非作者项及三个manifest共236项显式运输；原失败不改。七用户规则/五章设计和具体source/IO反例获接受，方案仍proposed，历史22/min11不改、现源22/min12与RF12分轴。两次CLI缺资产提前失败不授capture guard或运行信用。
+- 1896中仅4篇重新授信、余1892，S01另列，五隔离仍在。新六份报告/映射一律pending，不自授报告完成；v3私有工具765094护栏已获非作者13正反针限定接收，未来实际中央组合另验。硬门未过整卡仍rework、不合main或done。

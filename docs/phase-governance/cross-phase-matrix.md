@@ -77,3 +77,5 @@ Template: governance-index-v1 / 1.0.0
 - S03：[docs/testing/e2e/README.md](../testing/e2e/README.md)的固定正文已非作者限定接收；实际catalog/合同/卡/原始执行各守事实权，固定65ee30ad组合已获非作者限定接收；后继中央变更另验，不授运行或全量完成。
 
 - S04：[docs/testing/e2e/cross-stage/README.md](../testing/e2e/cross-stage/README.md)的固定正文已非作者限定接收；实际catalog/合同/卡/原始执行各守事实权，固定65ee30ad组合已获非作者限定接收；后继中央变更另验，不授运行或全量完成。
+
+- S05：[路线方案](../testing/e2e/route-proposal.md)固定新正文/设计模板已获非作者接受；七用户规则、双轨原生真档、版本与覆盖/用途分轴，设计仍proposed，中央组合待验、未运行。

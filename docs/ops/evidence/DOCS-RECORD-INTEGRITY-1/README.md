@@ -75,3 +75,7 @@ S01接入的6份编号源码摘录含原有行尾空格，0bac72c2完整范围di
 ## S03/S04固定中央组合的独立闭合
 
 [固定65ee30ad非作者中央报告](../DOCS-REGISTRY-SPLIT-1/independent-S03-S04-central-review-65ee30ad.json)SHA `f3f8674ff4bb1e9887088095a950f55fd85261bd9420d9fe3979bd420f6e6821`逐项核两篇唯一迁移、其余旧绑定保全及七个新增pending；[146项运输映射](../DOCS-REGISTRY-SPLIT-1/intake-independent-central-65ee.json)保留原报告、manifest、原输出与自身失败。此次只闭合固定65中央待项，1896中仍3篇重授/1893待审、五隔离不解除；S01另列。后续写回及S05/S06另验，全量硬门仍FAIL，不将该报告外推为当前树或全docs接受。
+
+## S05固定路线设计的单篇接收
+
+[非作者原报告](independent-review-S05-b87a2397.json)与[236项无损映射](independent-intake-S05-b87a2397.json)保留原174/前219/新274全文审读、27依赖范围、七用户规则与五章设计、source/publication及synthetic IO反例；两个cold CLI提前缺资产失败和自身probe失败不改。只接受固定b87本文/模板且状态proposed，不授真实档、E2E/preview/visual/capture/coverage或其他R60信用。此次1896中4篇重授/1892待审，实际中央组合仍须独立验收。

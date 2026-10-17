@@ -1132,6 +1132,781 @@
         "scope": "Frozen65 S03/S04 central binding/data/transport only. This acknowledgment adds receipt metadata without new body credit; later new files and metadata are separate.",
         "additionalBodyCredit": 0
       }
+    },
+    {
+      "path": "docs/testing/e2e/route-proposal.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "design-spec",
+      "templateId": "design-spec-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "Distinct author /root/e2e_entry_semantic_author; non-author /root/central_intake_guard_review read complete original174/before219/new274 plus explicit27 first-party scopes, seven user rules and concrete alternatives, then exercised actual public publication/template and synthetic predecessor IO consumers. Root central intake does not claim those entire dependencies as its own full reads; no product execution.",
+      "coreConclusion": "把generic封套恢复为真实路线设计：七项已定用户规则、双轨原生真档与版本、正常输入/NPC完整呈现/精确位置/预览义务、已核001/002入口的有限能力、覆盖方向与用途双轴、最小重跑和具体停止线都有正文表达。原历史元数据与quote不变，旧运行/无runner/工具会话不升格当前事实；方案继续proposed。",
+      "truthAnchors": [
+        "docs/testing/e2e/route-proposal.md:18",
+        "docs/testing/e2e/route-proposal.md:24",
+        "docs/testing/e2e/route-proposal.md:46",
+        "docs/testing/e2e/route-proposal.md:77",
+        "docs/testing/e2e/route-proposal.md:85",
+        "scripts/e2e/inn-contract.mjs:67",
+        "docs/testing/e2e/contract.md:377"
+      ],
+      "unresolved": [
+        "Actual combined central intake requires a separate frozen-data/binding review.",
+        "Both cold CLI attempts failed at missing extracted asset import before capture guard; 001 capture rejection is source-backed,002 parser synthetic API-backed, neither proves real CLI execution.",
+        "No whole six stage reports/full548-line contract/full3577-line continuous card or game raw, authentic checkpoint, preview/visual/capture/coverage were reaccepted.",
+        "Remaining withdrawn bindings, five historical quarantines and global hard acceptance remain open."
+      ],
+      "nextStep": "Independently verify actual sole-binding/donor/history/pin intake, then continue true per-document semantic review; no main/done while full hard gates fail.",
+      "phase": "testing",
+      "module": "e2e-route-design",
+      "capability": "two-native-route-checkpoint-and-capture-contract",
+      "owner": "Codex route documentation maintenance",
+      "provenance": [
+        "body author /root/e2e_entry_semantic_author",
+        "distinct non-author body reviewer /root/central_intake_guard_review",
+        "root owns only central intake/metadata, not the author body",
+        "native frozen report and complete original command/failed probe packages"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/testing/e2e/route-proposal.md",
+          "revision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
+          "sha256": "12918d5fe6cf5fd0b2e862af8f97d33879a647f90419c212c57fc49002358901",
+          "scopeActuallyRead": "Non-author complete original174lines/17692bytes"
+        },
+        {
+          "path": "docs/testing/e2e/route-proposal.md",
+          "revision": "1f2749f31e28ce176bdddcd3c91ce3dba21c6180",
+          "sha256": "0a4c69cd404c5fd171fe9801080b18db3b17ed1ff00db49aa6cee10abd155376",
+          "scopeActuallyRead": "Non-author complete before219lines/20712bytes; root direct before read recorded separately"
+        },
+        {
+          "path": "docs/phase-governance/templates/design-spec.md",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "fc2671156e74512e2367511ff2e3f7dd81ed4a7921a63d574a4c636d5a577ee3",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": ["all"],
+            "fullFileRead": true
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "docs/phase-governance/templates/registry.json",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[117, 138]],
+            "fullFileRead": false
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "package.json",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "259820fcdc312e11ce297a83074ce168e5a9612f2016ae6d2acb5a308dd62224",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": ["all"],
+            "fullFileRead": true
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "scripts/e2e/opening-both.mjs",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "91daab30239edee63c1bf5381bb77b8eb30c0082e2da3508cde4577fc695ba56",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": ["all"],
+            "fullFileRead": true
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "scripts/e2e/inn-both.mjs",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "298e14373f0cc6aaf0a41bc25b800a7af7881ad5db7f2fe1e03375967ed6fb39",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": ["all"],
+            "fullFileRead": true
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "scripts/e2e/inn-contract.mjs",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[1, 130]],
+            "fullFileRead": false
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[150, 180]],
+            "fullFileRead": false
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "packages/reforge/src/save/types.ts",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "b40e418803af9585d944f2a5f3c0229ea26494003f0aa08b12493ddb42605bc2",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[1, 16]],
+            "fullFileRead": false
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "scripts/e2e/inn-journey.mjs",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "2f7235dd6d6e74338bf49ca714e0ba3f8e7f8af2e640ab358540fee0fc587d62",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[1, 115]],
+            "fullFileRead": false
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "scripts/e2e/game-inn.mjs",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "aac23811c42ceeccdc95543fe84fd6f9e8252db27248316c6d6286ccd95714e2",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": ["all"],
+            "fullFileRead": true
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "scripts/e2e/reforge-inn.mjs",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "0be7bde714fb0036b33cbcc50b753194d73cbf982341336afb1f0757c9ba28e4",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": ["all"],
+            "fullFileRead": true
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "scripts/e2e/game-opening.mjs",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "248462e08bd41ef4a9de933d16a0cb316d9dcd18abffe738cc857797b4db5910",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[74, 92], [250, 272]],
+            "fullFileRead": false
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "scripts/e2e/reforge-opening.mjs",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "17e554250e52c3b48340599ac8edeba17684650bfc021f4645330d0001db3338",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[82, 95], [228, 246]],
+            "fullFileRead": false
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "scripts/e2e/browser-journey.mjs",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "659926f4cf627c36470515adfe5aab0ec7d33fcf8b8153113e9a78c33ca201a1",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[1, 75]],
+            "fullFileRead": false
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "docs/testing/e2e/contract.md",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[18, 192], [239, 284], [357, 422], [449, 482]],
+            "fullFileRead": false
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "5cc09fd6636533b5b06f10b38e0e114373cfc7f204ac300a45cb9c6317295d87",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[1, 103]],
+            "fullFileRead": false
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "bfda8b6623cd3d8a47bdcfe3af92cae71ab151544e9a9baed1cb77d724ed5b7c",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[1, 72], [160, 207]],
+            "fullFileRead": false
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "docs/testing/e2e/cross-stage/common-issues.md",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "cdb892e3f02f59c1044599a59bb2c430032cb76406df64022fe8d07123784aec",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[1, 43], [229, 285]],
+            "fullFileRead": false
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "projects/pal/e2e-checkpoints/README.md",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "806135cee7ca2e0b8f560b8b21e4c9674ff09a4a4d3428f7b7e9306f89281212",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[1, 90]],
+            "fullFileRead": false
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "docs/testing/governance.md",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "dbd68ac55137df0edaa38efebcb3591f4ea826bbdbb5357b9914c6ff684926f9",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": ["all"],
+            "fullFileRead": true
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "docs/phase2/READ-FIRST.md",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "70a835e7a8cab70fe2c62618791e8fba4b124f385a8e8f95817560a41bc244be",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[1, 62]],
+            "fullFileRead": false
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "docs/ops/board.md",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "38be765d96a0cb688bfab92965cf59791d42634a267075983ebfd6751304a651",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[1, 47]],
+            "fullFileRead": false
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "scripts/docs/check-testing.mjs",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "15aa96323821b771107b7b372880af8469a9310bc545bfd56c852c95e449a166",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[1, 100], [180, 335], [414, 566]],
+            "fullFileRead": false
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "scripts/docs/document-model.mjs",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "2c7ed0419c90332dd27e866629f06fd7670112cb924084f8162f84ee74c4f64b",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[98, 213]],
+            "fullFileRead": false
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "scripts/docs/markdown.mjs",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "1427de079109a39fb03ce0b0251d80dc813f8f9758f71e3cf09099030eca5215",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[89, 160]],
+            "fullFileRead": false
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "scripts/docs/check.mjs",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "278ed0c125ab1d7a0c4e539be20aa0a278aace9ed5623a9eccd26d27fff31314",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": [[35, 55]],
+            "fullFileRead": false
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        },
+        {
+          "path": "docs/testing/e2e/evidence/e2e-route.json",
+          "revision": "b87a239769295a4a2549255adc3b91f0417324ca",
+          "sha256": "ff9a5f791dea83e8e11b89649c888742e0509c45995aeb6f0eb5e8539dd6821e",
+          "scopeActuallyRead": {
+            "reviewer": "/root/central_intake_guard_review",
+            "ranges": ["all"],
+            "fullFileRead": true
+          },
+          "scopeMeaning": "Full-file SHA is identity only outside the explicit actual read ranges; no sibling semantic acceptance."
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "phase1/phase2 testing routes and editor",
+        "scope": "A proposed route design preserving user decisions; source/publication and execution authorities remain separate."
+      },
+      "dependencies": [
+        "docs/phase-governance/templates/design-spec.md",
+        "docs/phase-governance/templates/registry.json",
+        "package.json",
+        "scripts/e2e/opening-both.mjs",
+        "scripts/e2e/inn-both.mjs",
+        "scripts/e2e/inn-contract.mjs",
+        "packages/content/src/character.ts",
+        "packages/reforge/src/save/types.ts",
+        "scripts/e2e/inn-journey.mjs",
+        "scripts/e2e/game-inn.mjs",
+        "scripts/e2e/reforge-inn.mjs",
+        "scripts/e2e/game-opening.mjs",
+        "scripts/e2e/reforge-opening.mjs",
+        "scripts/e2e/browser-journey.mjs",
+        "docs/testing/e2e/contract.md",
+        "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+        "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "docs/testing/e2e/cross-stage/common-issues.md",
+        "projects/pal/e2e-checkpoints/README.md",
+        "docs/testing/governance.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/ops/board.md",
+        "scripts/docs/check-testing.mjs",
+        "scripts/docs/document-model.mjs",
+        "scripts/docs/markdown.mjs",
+        "scripts/docs/check.mjs",
+        "docs/testing/e2e/evidence/e2e-route.json"
+      ],
+      "versionScope": {
+        "candidateCommit": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "bodySha256": "7311da4e0920a21b2df42091e7f547fcc8687aa4c51f207c66e8717555bd45b6",
+        "nativeHistory": {
+          "metadataPrefix": {
+            "sha256": "3f6ac4003e1e3b8d761faf05eb5316cc37225863ef6a72372581e1b8e80bd419",
+            "unchanged": true
+          },
+          "testingMetaAndFrontMatterUnchanged": true,
+          "catalogAndPairedEvidenceUnchanged": true,
+          "historicalRevision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+          "historicalMinimumSaveVersion": 11,
+          "currentContentConstant": 22,
+          "currentMinimumSaveConstant": 12,
+          "currentReforgeSaveVersion": 12,
+          "pairedEvidenceRuntimePerformed": false,
+          "oldR60ExactRoundTripNotRestored": true
+        },
+        "scope": "Current content22/minimumSave12 and RF SAVE12 are separate from native d022 historical22/min11 and Game format; no old native metadata version rewrite.",
+        "notRun": [
+          "product",
+          "gameplay",
+          "E2E",
+          "preview",
+          "visual",
+          "audio",
+          "capture",
+          "coverage"
+        ]
+      },
+      "publicCallers": [
+        "docs/testing/e2e/README.md actual route-proposal link",
+        "docs/testing/catalog.json existing e2e-route canonical identity"
+      ],
+      "legalInputs": [
+        "Legal same-engine checkpoint lineage with exact input/output hashes, native engine/save/content/candidate/profile/fragment identity; minimal public parser fixtures alone do not prove authenticity.",
+        "Normal bounded input/state transitions, classified battles, complete relevant NPC draws and exact position, real dialogue consumption and separate slot clear, every promised preview entry.",
+        "Q1/Q2/editor coverage axes are separate from verify/visual/capture purposes; :both capture and capture predecessor are forbidden under actual contract."
+      ],
+      "businessOracle": {
+        "type": "route-design-user-rules-and-authority-boundaries",
+        "userRules": [
+          {
+            "rule": "无人在线智能依赖",
+            "sourceLines": "32-34,100-106",
+            "newLines": "28,79,87",
+            "independentConclusion": "开发查证与运行控制分离；确定程序可用，未知状态有限失败。最终完整已声明主/支线范围仍须无Agent独立跑通，设计不授实现完成。"
+          },
+          {
+            "rule": "两阶段独立双线与大型支线",
+            "sourceLines": "35-36,89-96,160-165",
+            "newLines": "29,32,42,50-54,79",
+            "independentConclusion": "共享fragment语义，各自地图/输入/真实存档与下游停止；一轨阻断不拖另一轨，也不能以局部fixture补连续进度。"
+          },
+          {
+            "rule": "普通遇敌与剧情战斗分类",
+            "sourceLines": "37-38,79-86",
+            "newLines": "30,71-75",
+            "independentConclusion": "正式入战/结算与必要剧情条件保持；未分类先停，Q2和战斗展示不使用Q1速胜旁路；未宣称当前速胜host已存在。"
+          },
+          {
+            "rule": "正常对话消费与开发责任",
+            "sourceLines": "39-40,58-60,145-147",
+            "newLines": "31,44,51",
+            "independentConclusion": "等待真实消费/状态变化、保尾停顿和选项；不靠固定Enter数、清dialog或游标跳转。对白消费与槽显隐分别取证，用户不用编坐标/按键攻略。"
+          },
+          {
+            "rule": "两条真实检查点链",
+            "sourceLines": "41,71-73,91-95",
+            "newLines": "32,38,53,63",
+            "independentConclusion": "同引擎真实结束档与版本字段分别适配；RF12不套Game；公共前驱仅核有限IO合同，不认证HEAD和真实执行。"
+          },
+          {
+            "rule": "独立可看窗口/暂停/失败现场",
+            "sourceLines": "42",
+            "newLines": "33,54,82",
+            "independentConclusion": "仍是需逐项验证的执行器要求，不能由所读001/002源码宣布交互全实现；旧设施/排期按原时点保留。"
+          },
+          {
+            "rule": "录制与Content Studio下游边界",
+            "sourceLines": "43,143-156",
+            "newLines": "34,75,91",
+            "independentConclusion": "verify/visual/capture与Q1/Q2/editor是不同轴；录制正常节奏和素材发布另门，片段身份和宣传活动身份显式映射。旧会话工具不可用不升格今天能力事实。"
+          }
+        ],
+        "assertions": [
+          {
+            "claim": "sourceRefs",
+            "actual": "Both declared full-file SHA and within-range anchors independently matched; inn-contract67-111 and character168-170 actually read.",
+            "observation": "doc-consumer-observation.json"
+          },
+          {
+            "claim": "predecessor40SHA is syntax only",
+            "actual": "Actual public readPredecessor/validatePredecessor accepted explicitly synthetic known nonHEAD40SHA for each engine, while capture, badSHA, badhash and RF version11 were rejected with exact expected assertions. Minimal parser-domain fixtures do not prove genuine save validity or gameplay.",
+            "observation": "predecessor-io-observation.json"
+          },
+          {
+            "claim": "both capture",
+            "actual": "opening-both entire93 and inn-both94 plus innArguments1-64 read. Public innArguments both capture guard actually asserted. Both real CLI cold-start attempts failed at import of absent data/extracted/events/all.json before reaching their capture guard; neither is claimed as CLI capture-rejection success.",
+            "scope": "001 guard source-backed;002 parser API-backed; no current environment/story-run guarantee."
+          },
+          {
+            "claim": "NPC/frame/position/dialogue/preview/minimal rerun",
+            "actual": "Current contract18-192,239-284,357-422,449-482 directly read; body aligns with precise endpoints and complete related draws, distinct input consumption and slot clearing, every preview entry, evidence-based minimal reruns and full capture gates."
+          }
+        ],
+        "publicConsumers": {
+          "docObservation": "doc-consumer-observation.json",
+          "templateRequiredSectionBaselineIssues": 0,
+          "templateRemoveAcceptanceSection": ["missing section: 验收"],
+          "templateRestoredIssues": 0,
+          "canonicalEvidenceBaselineIssues": 0,
+          "catalogBaselineIssues": 0,
+          "generatedNineViewsIssues": 0,
+          "nativeVersionMutation": ["e2e-route: evidence/catalog version mismatch"],
+          "nativeVersionRestoredIssues": 0,
+          "sourceRefChecks": [
+            {
+              "path": "scripts/e2e/inn-contract.mjs",
+              "lines": "67-111",
+              "anchor": "export function validatePredecessor(",
+              "role": "input",
+              "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+              "actualSha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+              "anchorInRange": true
+            },
+            {
+              "path": "packages/content/src/character.ts",
+              "lines": "168-170",
+              "anchor": "export const CONTENT_VERSION =",
+              "role": "version",
+              "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+              "actualSha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+              "anchorInRange": true
+            }
+          ],
+          "outgoingFileTargets": 19,
+          "renderedAnchorValidation": false,
+          "businessMeaning": "Structural/publication/schema IO only; substantive acceptance above comes from actual full body and bounded primary-source reading, not these counts."
+        },
+        "syntheticIoBoundary": {
+          "observation": "predecessor-io-observation.json",
+          "sourceModuleSha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+          "dependencyBindings": [
+            {
+              "specifier": "playwright",
+              "target": "file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/playwright@1.63.0/node_modules/playwright/index.mjs"
+            },
+            {
+              "specifier": "typescript",
+              "target": "file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/typescript.js"
+            }
+          ],
+          "syntheticIoOnly": true,
+          "productRuntimeExecuted": false,
+          "meaning": "Synthetic unknown-domain parser/IO inputs only. Acceptance here proves limited validator behavior and inability to authenticate execution/current HEAD; it does not prove genuine save validity, project reachability or product success."
+        },
+        "strongestAlternatives": [
+          {
+            "alternative": "旧minimumSave11仍是当前可用RF前驱",
+            "finding": "Current constants and RF validator are12; native d022/min11 stays historical and mismatched evidence mutation rejected. New body expressly prevents renumbering old evidence."
+          },
+          {
+            "alternative": "40位revision与passed足以认证当前真实执行",
+            "finding": "Synthetic nonHEAD revision accepted by limited public IO verifier, as body explicitly warns; no genuine raw/checkpoint acceptance."
+          },
+          {
+            "alternative": "第一阶段状态或绘制次数相等是二阶段真值",
+            "finding": "Actual current contract requires intent and full related frame evidence while excluding blind internal/count equality; exact target position remains required."
+          },
+          {
+            "alternative": "旧无runner或本会话工具不可用是今天能力事实",
+            "finding": "Real root script dispatch exists; body explicitly limits old claims to date/session, leaves full maze/pause/fastwin/audio/capture unknown and did not start product."
+          },
+          {
+            "alternative": "连续卡done和文档门能认证今天整局",
+            "finding": "Card top1-72/final160-207 read as historical candidate scope; current task remainsbuild and actual strict/progressFAIL. Body explicitly refuses wider execution credit."
+          }
+        ]
+      },
+      "dedupe": {
+        "result": "One existing e2e-route canonical design rewritten; no new identity, parallel stage report/status table, public API or product test added.",
+        "against": [
+          "e2e-contract",
+          "existing E2E overview and issue-family source",
+          "R4 original card",
+          "R60 old wrapper"
+        ]
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "S05-HISTORICAL-INVERSE",
+          "status": "not-inherited",
+          "statement": "Whole original quote unchanged, direct17693 differs from17692; remove only known separatorLF then exact original SHA. No unconditional trim or old R60 round-trip restoration."
+        },
+        {
+          "id": "S05-CLI-PRECONDITION",
+          "status": "actual-limit-retained",
+          "statement": "Two intended capture-rejection CLI probes failed before guard at missing all.json; cannot count them as successful capture guard or product runs."
+        },
+        {
+          "id": "S05-SYNTHETIC-PREDECESSOR",
+          "status": "scope-preserved",
+          "statement": "Public IO accepts a syntactically valid nonHEAD revision; passing parser does not establish actual execution/checkpoint origin."
+        },
+        {
+          "id": "S05-REVIEWER-SETUP",
+          "status": "original-failures-preserved",
+          "statement": [
+            {
+              "receipt": "doc-consumers.json",
+              "actualExitCode": 1,
+              "cause": "Reviewer initially used nonexistent registry.templates field; exact failed source preserved in probe-doc-consumers-failed-v1.mjs. Fixed only own probe to actual registry.types, v2 exits0; no candidate edit."
+            },
+            {
+              "receipt": "predecessor-io.json",
+              "actualExitCode": 1,
+              "cause": "Read-only dependency binder initially supplied playwright but not transitive typescript; actual missing-module output retained. Binder is restricted to these already installed shared packages; no candidate source patched."
+            },
+            {
+              "receipt": "predecessor-io-v2.json",
+              "actualExitCode": 1,
+              "cause": "Reviewer expected Node AssertionError.message to omit its generated diff. Public validator correctly rejected badhash; own oracle changed to exact first line plus exact actual/expected hashes. Failed probe source preserved; v3 exits0."
+            },
+            {
+              "receipts": ["both001-capture-rejection.json", "both002-capture-rejection.json"],
+              "actualExitCode": 1,
+              "cause": "Missing extracted all.json during ESM import before argument guard. The historical receipt filenames describe intended probe only; these are environment precondition failures, not successful capture rejections and not body counters."
+            }
+          ]
+        }
+      ],
+      "revision": {
+        "currentSha": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "actual S05 fixed-body non-author review; future central intake separate",
+            "rootIntakeSourceRevision": "8b1dae5b0a3638c19f23c4fa17937b2a50e4c9cb",
+            "previousAfterSha256": "0a4c69cd404c5fd171fe9801080b18db3b17ed1ff00db49aa6cee10abd155376",
+            "afterSha256": "7311da4e0920a21b2df42091e7f547fcc8687aa4c51f207c66e8717555bd45b6"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "actual-per-document-nonauthor-semantic-review",
+        "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S05-b87a2397.json",
+        "reportSha256": "4fd5060bd3c78f64ccbd7c34729acd2a733967168b17b08279e1af9b54c0c302",
+        "sourceRevision": "b87a239769295a4a2549255adc3b91f0417324ca",
+        "reviewer": "/root/central_intake_guard_review",
+        "author": "/root/e2e_entry_semantic_author",
+        "nonAuthorReviewer": true,
+        "acceptance": "fixed proposed body/design template only; combined central and global scope separate",
+        "intakeMap": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S05-b87a2397.json",
+        "quotePreservation": {
+          "wholeBlockSha256": "a05ef907d0413df4ea25349207318d722dc3bf7e26d8d5b943f8113fbe9ae4f0",
+          "wholeBlockBytes": 18076,
+          "wholeBlockUnchanged": true,
+          "directInverseBytes": 17693,
+          "directInverseSha256": "c5b7d1c19ec9d8cd4471d39ba9d7e7e00842bace8a9747c7c77c7e76ddc94c5b",
+          "directEqualsSource": false,
+          "identifiedSeparatorHex": "0a",
+          "conditionalInverseBytes": 17692,
+          "conditionalInverseSha256": "12918d5fe6cf5fd0b2e862af8f97d33879a647f90419c212c57fc49002358901",
+          "conditionalEqualsSource": true,
+          "unconditionalTrimUsed": false,
+          "oldR60AcceptanceRestored": false
+        },
+        "publicationControl": {
+          "docObservation": "doc-consumer-observation.json",
+          "templateRequiredSectionBaselineIssues": 0,
+          "templateRemoveAcceptanceSection": ["missing section: 验收"],
+          "templateRestoredIssues": 0,
+          "canonicalEvidenceBaselineIssues": 0,
+          "catalogBaselineIssues": 0,
+          "generatedNineViewsIssues": 0,
+          "nativeVersionMutation": ["e2e-route: evidence/catalog version mismatch"],
+          "nativeVersionRestoredIssues": 0,
+          "sourceRefChecks": [
+            {
+              "path": "scripts/e2e/inn-contract.mjs",
+              "lines": "67-111",
+              "anchor": "export function validatePredecessor(",
+              "role": "input",
+              "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+              "actualSha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+              "anchorInRange": true
+            },
+            {
+              "path": "packages/content/src/character.ts",
+              "lines": "168-170",
+              "anchor": "export const CONTENT_VERSION =",
+              "role": "version",
+              "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+              "actualSha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+              "anchorInRange": true
+            }
+          ],
+          "outgoingFileTargets": 19,
+          "renderedAnchorValidation": false,
+          "businessMeaning": "Structural/publication/schema IO only; substantive acceptance above comes from actual full body and bounded primary-source reading, not these counts."
+        },
+        "sourceAndSyntheticIoLimits": {
+          "observation": "predecessor-io-observation.json",
+          "sourceModuleSha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+          "dependencyBindings": [
+            {
+              "specifier": "playwright",
+              "target": "file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/playwright@1.63.0/node_modules/playwright/index.mjs"
+            },
+            {
+              "specifier": "typescript",
+              "target": "file:///Users/zhangxu/illegal/type-pal/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/typescript.js"
+            }
+          ],
+          "syntheticIoOnly": true,
+          "productRuntimeExecuted": false,
+          "meaning": "Synthetic unknown-domain parser/IO inputs only. Acceptance here proves limited validator behavior and inability to authenticate execution/current HEAD; it does not prove genuine save validity, project reachability or product success."
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "Old R60 unsupported semantic credit stays withdrawn; only accepted new S05 body receives a successor",
+          "priorRecord": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+          "priorRecordRevision": "8b1dae5b0a3638c19f23c4fa17937b2a50e4c9cb",
+          "priorRecordSha256": "251ef9fdb82b0b6bfb3593fb9dc983f53de2e570b988068308b7f21068121dd4",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "oldUnconditionalExactRoundTrip": true
+        }
+      ],
+      "historicalWithdrawal": {
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "scope": "Original1896 snapshot unchanged; only this new fixed body receives separate report-backed credit."
+      },
+      "supersedes": [
+        {
+          "record": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+          "revision": "8b1dae5b0a3638c19f23c4fa17937b2a50e4c9cb",
+          "scope": "Only this path current binding; every other native donor entry and prior superseded history preserved."
+        }
+      ],
+      "stopLine": "No bulk R60/1896 restoration, source→runtime credit, historical version/status renewal, or full hard/main/done credit.",
+      "sourceSha256": "0a4c69cd404c5fd171fe9801080b18db3b17ed1ff00db49aa6cee10abd155376",
+      "afterSha256": "7311da4e0920a21b2df42091e7f547fcc8687aa4c51f207c66e8717555bd45b6",
+      "sourceGitRevision": "1f2749f31e28ce176bdddcd3c91ce3dba21c6180",
+      "reviewedLines": "Non-author complete source1-174/before1-219/new1-274; dependency scopes explicitly bounded in primarySource and native original report.",
+      "historyOverlay": false,
+      "documentStatus": "proposed",
+      "beforeAfter": {
+        "before": "Five generic one-paragraph sections left route decisions mainly buried in historical quote and stated inverse equality without the known separator condition.",
+        "after": "Five substantive route-specific design chapters with seven user rules, real source-backed capabilities and boundaries, current exact contracts and explicitly conditioned quote inverse; original native metadata and all original174 remain."
+      },
+      "templateConformance": {
+        "status": "non-author accepted fixedb87 proposed body",
+        "templateId": "design-spec-v1",
+        "templateVersion": "1.0.0",
+        "chapters": [
+          {
+            "section": "问题与目标",
+            "newLines": "18-22",
+            "conclusion": "明确合法起点→正常输入→真实结束与独立完整声明范围的设计结果；proposed/proposal两轴不授build。"
+          },
+          {
+            "section": "真值与约束",
+            "newLines": "24-44",
+            "conclusion": "七用户规则、现行content/minimum/SAVE各轴、原发布历史、意图/完整NPC帧/精确位置/对白清除/编辑器预览均有可操作边界。"
+          },
+          {
+            "section": "方案",
+            "newLines": "46-75",
+            "conclusion": "五步路线交接、稳定fragment、有限失败、真实checkpoint和明确001/002参数/前驱能力；概念动作词不伪称已有公共API；覆盖与用途分别列。"
+          },
+          {
+            "section": "边界与风险",
+            "newLines": "77-83",
+            "conclusion": "具体未知/错档/日志/差异停止线；最小重算/补采/重跑由实际影响决定；旧runner/旧容量/旧N6b/工具会话和连续卡接受均有日期适用范围。"
+          },
+          {
+            "section": "验收",
+            "newLines": "85-93",
+            "conclusion": "独立进程、五项片段闭合、NPC/编排/预览、capture及Owner与用户边界；明确本次未执行产品/E2E/视觉/coverage，不能以静态或少段代全量。"
+          }
+        ],
+        "noExecutionOrImplementationCredit": true
+      }
     }
   ]
 }

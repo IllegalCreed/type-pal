@@ -42,3 +42,7 @@ Template: governance-index-v1 / 1.0.0
 迁移输出旧counter保留未冻结完整模块的限制。固定实现已通过非作者真实输出前置拒绝、并发writer、映射snapshot、真实混包kill与显式恢复检查。中央脚本也不提供跨文件事务：发布后的外部字节竞态会拒绝继续pin，但可能已发布registry并留下空输出；外部原始stderr才是该次失败证据，空JSON不能登记为成功。
 
 固定实现与c4d中央增量已按限定范围验收，后继逐篇语义和每次中央变化继续独立核验。check:docs、lint、完整基点/staged diff与全量语义门按实际字节重跑；未满足全量硬验收前不合main、不标done。
+
+### S05私有接入工具的固定护栏扩展
+
+[76509484非作者报告](independent-private-runner-v3-review-76509484.json)SHA `250b0984d54c574b2dd0e48fefd2edd0a0d1f68e2574ed1d81cb8e87ea9eb293`与[460项无损运输](intake-independent-runner-v3-76509484.json)只接收root工具增加S05精确path/body/report/design tuple的护栏：13次真实执行，3合法/10指定负针拒绝、完整2414native与R60六→五保全、旧S03/S04类型边界未退化。旧344623/builder字节及原200+107+97封包不变；并非新模板/审阅标准放宽，也不授真实未来中央、报告本文语义/模板、全量或main/done信用。

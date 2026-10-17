@@ -77,7 +77,8 @@
     2346, 2347, 2348, 2349, 2350, 2351, 2352, 2353, 2354, 2355, 2356, 2357, 2358, 2359, 2360, 2361,
     2362, 2363, 2364, 2365, 2366, 2367, 2368, 2369, 2370, 2371, 2372, 2373, 2374, 2383, 2384, 2385,
     2386, 2387, 2388, 2389, 2390, 2391, 2392, 2393, 2394, 2395, 2396, 2397, 2398, 2399, 2400, 2401,
-    2402, 2403, 2404, 2405, 2406, 2407, 2408, 2409, 2410, 2411, 2412, 2413, 2414, 2415, 2416, 2417
+    2402, 2403, 2404, 2405, 2406, 2407, 2408, 2409, 2410, 2411, 2412, 2413, 2414, 2415, 2416, 2417,
+    2418, 2419, 2420, 2421, 2422, 2423
   ],
   "entries": [
     {
@@ -15677,6 +15678,66 @@
     },
     {
       "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-central-65ee.json",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261018-record-integrity-rework.json"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/harvest-S05-b87a2397.json",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261018-record-integrity-rework.json"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/author-review-S05-b87a2397.json",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261018-record-integrity-rework.json"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-S05-b87a2397.json",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261018-record-integrity-rework.json"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-intake-S05-b87a2397.json",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261018-record-integrity-rework.json"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-private-runner-v3-review-76509484.json",
+      "phase": "ops",
+      "docType": "evidence-receipt",
+      "templateId": "evidence-receipt-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewStatus": "partial-review-unknown",
+      "reviewRecord": "20261018-record-integrity-rework.json"
+    },
+    {
+      "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/intake-independent-runner-v3-76509484.json",
       "phase": "ops",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
