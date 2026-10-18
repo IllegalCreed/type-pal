@@ -1,5 +1,5 @@
 /**
- * TEST-FOUNDATION-COVERAGE-1 A2：RNG RLE delta 与帧解码边界（合同见 rng.ts:19-35 opcode 表）。
+ * TEST-FOUNDATION-COVERAGE-1 A2：RNG RLE delta 与帧解码边界（合同见 rng.ts `rngBlitDelta` docblock 的 opcode 表）。
  * 既有 rng.test.ts 已覆盖 0x00/0x02/0x06/0x0d 与 unknown throw；本文件补齐其余 opcode 族、
  * 精确未触字节断言与 decodeRngFrames 的合成容器链路。只比较 Uint8Array 数值，不渲染。
  */

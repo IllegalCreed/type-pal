@@ -212,6 +212,9 @@ export function decodeRngFrames(chunkBuf: Uint8Array): RngFrame[] {
     try {
       payload = decompressYj2(subChunk)
     } catch {
+      // 宽容策略:不可解 YJ2 sub-chunk 跳过该帧(不进 frames,index 留空档),
+      // surface 基面与后续帧不受影响——与 extractor 对历史坏帧的处理一致,
+      // 坏帧不中断整个动画。真实原盘 1,464 帧逐帧比对无此路径命中(CODE2)。
       continue
     }
     rngBlitDelta(payload, surface)
