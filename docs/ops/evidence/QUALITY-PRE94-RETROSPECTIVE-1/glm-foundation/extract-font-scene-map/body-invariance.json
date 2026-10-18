@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "base": "53db76bbbb5729ba8bc6525bd7ad2ad4bb425c02",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/pal-extract/src/font/bdf-to-json.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "90a6657ff4f1c468fae4820c92a494066ef17bfc3f932653aa2a7cda9542799e",
+        "current": "90a6657ff4f1c468fae4820c92a494066ef17bfc3f932653aa2a7cda9542799e"
+      },
+      "printedBytes": {
+        "base": 2452,
+        "current": 2452
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/pal-extract/src/resources/scene.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "bac152da9eeae97df339e3e209e717c532375593453d1ede242ea26d74430860",
+        "current": "bac152da9eeae97df339e3e209e717c532375593453d1ede242ea26d74430860"
+      },
+      "printedBytes": {
+        "base": 2426,
+        "current": 2426
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/pal-extract/src/resources/map.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "c50ec0084f7d2c1509ccb97fc4f6328ae77a0a0cf96efbc9a0c74fba77b0f411",
+        "current": "c50ec0084f7d2c1509ccb97fc4f6328ae77a0a0cf96efbc9a0c74fba77b0f411"
+      },
+      "printedBytes": {
+        "base": 1311,
+        "current": 1311
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}
