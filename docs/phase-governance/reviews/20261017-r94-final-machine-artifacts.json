@@ -1200,7 +1200,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "1f75558a8dce9c1c33168d537055ff05cfd3041a64886f7134e58531627a9fd2",
+      "afterSha256": "6a1ba65f54ab92c6d0d3baffb4d4e5b4a151a4cd04065b97a9b94292c48f0c8c",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1459,6 +1459,15 @@
           "previousAfterSha256": "af4f9e7f617d021e4f909ba4d9a598edc4f1ebca635e6610e3fdf044c2914a57",
           "afterSha256": "1f75558a8dce9c1c33168d537055ff05cfd3041a64886f7134e58531627a9fd2",
           "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 S13 three individually accepted GLM navigation bodies",
+          "sourceRevision": "741d96580689e6e97cffd9c286511f3bacd34044",
+          "previousAfterSha256": "1f75558a8dce9c1c33168d537055ff05cfd3041a64886f7134e58531627a9fd2",
+          "afterSha256": "6a1ba65f54ab92c6d0d3baffb4d4e5b4a151a4cd04065b97a9b94292c48f0c8c",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -5498,7 +5507,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "93f717e90c62071ad70a2ac2dabd0527bc4360b32f6745cf3f075337297b6514",
+      "afterSha256": "1b9a7445a60be00a55508e0b0d90acf978fcd8b58bd38734136707690d91337e",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -5858,6 +5867,15 @@
           "afterSha256": "93f717e90c62071ad70a2ac2dabd0527bc4360b32f6745cf3f075337297b6514",
           "method": "Actual fixed23b limited-record acceptance acknowledgement and new separately scoped GLM three-navigation body admission/manual handoff. No new semantic/template completion, execution, main or done.",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 S13 three individually accepted GLM navigation bodies",
+          "sourceRevision": "741d96580689e6e97cffd9c286511f3bacd34044",
+          "previousAfterSha256": "93f717e90c62071ad70a2ac2dabd0527bc4360b32f6745cf3f075337297b6514",
+          "afterSha256": "1b9a7445a60be00a55508e0b0d90acf978fcd8b58bd38734136707690d91337e",
+          "method": "Explicit S13 current routing/individual acceptance/recorded R32 correction and latest user evidence-led review policy; no other subject semantic or execution credit.",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -6025,7 +6043,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "a29fd922a2234189c3a5c522db09be732f6daea683c67bd1cf8d1036b680f9ba",
+      "afterSha256": "dd3eb78912bf62a889c2625024d6b79c18c375454695f69cd561143645abace8",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -6289,6 +6307,15 @@
           "afterSha256": "a29fd922a2234189c3a5c522db09be732f6daea683c67bd1cf8d1036b680f9ba",
           "method": "Explicit151 status/compliance withdrawals through branded storage writer; no semantic credit",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 S13 three individually accepted GLM navigation bodies",
+          "sourceRevision": "741d96580689e6e97cffd9c286511f3bacd34044",
+          "previousAfterSha256": "a29fd922a2234189c3a5c522db09be732f6daea683c67bd1cf8d1036b680f9ba",
+          "afterSha256": "dd3eb78912bf62a889c2625024d6b79c18c375454695f69cd561143645abace8",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -6319,7 +6346,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
-      "afterSha256": "8e7749aebe6de4a253bfefd560774b5caff1053f91141fb1f1a5e6073b9f4236",
+      "afterSha256": "73a3dfa26d5e0e05c892739216d1168ec4ff6977421cddbad17bcb0d5e1b6f0a",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -6450,6 +6477,15 @@
           "previousAfterSha256": "96740964b7922d4769a507b92bb139c1477721f706b7e44b0de1d8d171ead865",
           "afterSha256": "8e7749aebe6de4a253bfefd560774b5caff1053f91141fb1f1a5e6073b9f4236",
           "method": "Append only exact newly accepted proposed design body route; all prior routes unchanged.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 S13 three individually accepted GLM navigation bodies",
+          "sourceRevision": "741d96580689e6e97cffd9c286511f3bacd34044",
+          "previousAfterSha256": "8e7749aebe6de4a253bfefd560774b5caff1053f91141fb1f1a5e6073b9f4236",
+          "afterSha256": "73a3dfa26d5e0e05c892739216d1168ec4ff6977421cddbad17bcb0d5e1b6f0a",
+          "method": "Explicit S13 current routing/individual acceptance/recorded R32 correction and latest user evidence-led review policy; no other subject semantic or execution credit.",
           "grantsNewSemanticAcceptance": false
         }
       ]

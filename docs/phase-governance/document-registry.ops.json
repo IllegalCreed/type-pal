@@ -492,13 +492,13 @@
     {
       "path": "docs/ops/archive/tasks/cancelled/README.md",
       "phase": "ops",
-      "docType": "task-card",
-      "templateId": "task-card-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r32-ops-cancelled-tasks.json",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261018-semantic-rework.json",
       "templateVersion": "1.0.0",
-      "historyOverlay": true
+      "historyOverlay": false
     },
     {
       "path": "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md",
@@ -1965,10 +1965,10 @@
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r41-ops-archive-task.json"
+      "historyOverlay": false,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261018-semantic-rework.json"
     },
     {
       "path": "docs/ops/archive/tasks/README.md",
@@ -1976,10 +1976,10 @@
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r41-ops-archive-task.json"
+      "historyOverlay": false,
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261018-semantic-rework.json"
     },
     {
       "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md",

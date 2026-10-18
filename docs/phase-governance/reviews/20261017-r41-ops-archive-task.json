@@ -6,301 +6,6 @@
   "policy": "Current record withdraws unsupported semantic/template/independent completion. Historical claims remain at historicalReviewIdentity; no full-text re-review is asserted.",
   "entries": [
     {
-      "path": "docs/ops/archive/tasks/done/README.md",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "governance-index",
-      "templateId": "governance-index-v1",
-      "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/ops/archive/tasks/done/README.md:1"],
-      "unresolved": [
-        "Historical task claims require a current successor card and fresh evidence before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "ops",
-      "module": "archive/tasks",
-      "capability": "ops-archive-task-README",
-      "owner": "Codex（文档治理；不代签原执行）",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "ebe989d4500ded8bde1a3ed6e989136b71892e530b4c51640104d7ec8ebd276d",
-      "afterSha256": "2b816a9611098ffad7537cec568224958631f1d32a61982ea5653311204765d0",
-      "publicCallers": [
-        "docs/ops/tasks/index.md navigation",
-        "docs/ops/archive/tasks/done/README.md"
-      ],
-      "legalInputs": ["current repository documentation", "docs/ops/archive/tasks/done/README.md"],
-      "businessOracle": {
-        "type": "historical-task-template-migration",
-        "assertions": [
-          "original UTF-8 bytes remain hashable",
-          "historical boundary explicit",
-          "task status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": ["docs/ops/archive/tasks/done/README.md"]
-      },
-      "revision": {
-        "currentSha": "2b816a9611098ffad7537cec568224958631f1d32a61982ea5653311204765d0",
-        "implementationSha": "2b816a9611098ffad7537cec568224958631f1d32a61982ea5653311204765d0",
-        "history": [
-          {
-            "revision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
-            "date": "2026-10-17",
-            "action": "read-and-reviewed",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "deep-semantic"
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R41 archive task template migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r41-ops-archive-task-20261017.json",
-        "sourceSha256": "ebe989d4500ded8bde1a3ed6e989136b71892e530b4c51640104d7ec8ebd276d",
-        "candidateSha256": "2b816a9611098ffad7537cec568224958631f1d32a61982ea5653311204765d0",
-        "afterSha256": "2b816a9611098ffad7537cec568224958631f1d32a61982ea5653311204765d0",
-        "lineCount": 60,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 259,
-          "sourceLines": 7,
-          "sourceFinalNewline": true,
-          "inverseSha256": "ebe989d4500ded8bde1a3ed6e989136b71892e530b4c51640104d7ec8ebd276d",
-          "exactRoundTrip": true
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
-      },
-      "history": [
-        {
-          "revision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R41 archive task template migration",
-          "reviewer": "r41_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
-        }
-      ],
-      "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
-      "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
-      "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "documentStatus": "current-index",
-      "sourceGitRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
-      "candidateSha256": "2b816a9611098ffad7537cec568224958631f1d32a61982ea5653311204765d0",
-      "primarySource": [
-        {
-          "path": "docs/ops/archive/tasks/done/README.md",
-          "revision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
-          "sha256": "ebe989d4500ded8bde1a3ed6e989136b71892e530b4c51640104d7ec8ebd276d",
-          "scope": "full UTF-8 source"
-        }
-      ],
-      "phaseAnchors": {
-        "phase": "ops",
-        "module": "archive/tasks",
-        "currentBoundary": "current task card and consumer own truth"
-      },
-      "dependencies": "Current task index, successor card and fresh evidence when rerun.",
-      "versionScope": {
-        "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
-        "date": "2026-10-17",
-        "validity": "current-index"
-      },
-      "counterReworkBlocked": [
-        {
-          "id": "R41-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        }
-      ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r41-ops-archive-task.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
-    },
-    {
-      "path": "docs/ops/archive/tasks/README.md",
-      "contentReviewStatus": "partial-review-unknown",
-      "docType": "governance-index",
-      "templateId": "governance-index-v1",
-      "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "needs-migration",
-      "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
-      "reviewDepth": "structured-content",
-      "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
-      "truthAnchors": ["docs/ops/archive/tasks/README.md:1"],
-      "unresolved": [
-        "Historical task claims require a current successor card and fresh evidence before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
-      ],
-      "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
-      "phase": "ops",
-      "module": "archive/tasks",
-      "capability": "ops-archive-task-README",
-      "owner": "Codex（文档治理；不代签原执行）",
-      "provenance": [
-        "source-document",
-        "repository-history",
-        "structured-mechanical-envelope-only",
-        "semantic-and-non-author-credit-withdrawn-20261018"
-      ],
-      "sourceSha256": "9ea8bfd6be0b18e230315ea77305b9405d14914478f86f5b07a19154f092d590",
-      "afterSha256": "fab9411d84f94350cadb921500457958247346901562f0842d614c4f9dbc55e8",
-      "publicCallers": ["docs/ops/tasks/index.md navigation", "docs/ops/archive/tasks/README.md"],
-      "legalInputs": ["current repository documentation", "docs/ops/archive/tasks/README.md"],
-      "businessOracle": {
-        "type": "historical-task-template-migration",
-        "assertions": [
-          "original UTF-8 bytes remain hashable",
-          "historical boundary explicit",
-          "task status remains date-scoped",
-          "no runtime/E2E/visual/coverage credit"
-        ]
-      },
-      "dedupe": {
-        "result": "reviewed-and-migrated",
-        "against": ["docs/ops/archive/tasks/README.md"]
-      },
-      "revision": {
-        "currentSha": "fab9411d84f94350cadb921500457958247346901562f0842d614c4f9dbc55e8",
-        "implementationSha": "fab9411d84f94350cadb921500457958247346901562f0842d614c4f9dbc55e8",
-        "history": [
-          {
-            "revision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
-            "date": "2026-10-17",
-            "action": "read-and-reviewed",
-            "contentReviewStatus": "content-reviewed",
-            "reviewDepth": "deep-semantic"
-          },
-          {
-            "revision": "working-tree",
-            "date": "2026-10-17",
-            "action": "R41 archive task template migration",
-            "notRun": ["runtime", "E2E", "visual", "coverage"]
-          }
-        ]
-      },
-      "evidence": {
-        "kind": "document-template-migration",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r41-ops-archive-task-20261017.json",
-        "sourceSha256": "9ea8bfd6be0b18e230315ea77305b9405d14914478f86f5b07a19154f092d590",
-        "candidateSha256": "fab9411d84f94350cadb921500457958247346901562f0842d614c4f9dbc55e8",
-        "afterSha256": "fab9411d84f94350cadb921500457958247346901562f0842d614c4f9dbc55e8",
-        "lineCount": 63,
-        "artifactPreserved": false,
-        "originalPreservation": {
-          "method": "line-by-line blockquote quote",
-          "sourceBytes": 293,
-          "sourceLines": 10,
-          "sourceFinalNewline": true,
-          "inverseSha256": "9ea8bfd6be0b18e230315ea77305b9405d14914478f86f5b07a19154f092d590",
-          "exactRoundTrip": true
-        },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
-      },
-      "history": [
-        {
-          "revision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
-          "action": "read-and-reviewed",
-          "contentReviewStatus": "content-reviewed",
-          "reviewDepth": "deep-semantic"
-        },
-        {
-          "revision": "working-tree",
-          "action": "R41 archive task template migration",
-          "reviewer": "r41_readonly_review + Codex root",
-          "notRun": ["runtime", "E2E", "visual", "coverage"]
-        },
-        {
-          "date": "2026-10-18",
-          "action": "withdraw-unsupported-semantic-and-independent-credit",
-          "task": "DOCS-RECORD-INTEGRITY-1",
-          "contentReviewStatus": "partial-review-unknown",
-          "reviewDepth": "structured-content",
-          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
-        }
-      ],
-      "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
-      "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
-      "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
-      "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
-      "templateVersion": "1.0.0",
-      "historyOverlay": true,
-      "documentStatus": "current-index",
-      "sourceGitRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
-      "candidateSha256": "fab9411d84f94350cadb921500457958247346901562f0842d614c4f9dbc55e8",
-      "primarySource": [
-        {
-          "path": "docs/ops/archive/tasks/README.md",
-          "revision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
-          "sha256": "9ea8bfd6be0b18e230315ea77305b9405d14914478f86f5b07a19154f092d590",
-          "scope": "full UTF-8 source"
-        }
-      ],
-      "phaseAnchors": {
-        "phase": "ops",
-        "module": "archive/tasks",
-        "currentBoundary": "current task card and consumer own truth"
-      },
-      "dependencies": "Current task index, successor card and fresh evidence when rerun.",
-      "versionScope": {
-        "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
-        "date": "2026-10-17",
-        "validity": "current-index"
-      },
-      "counterReworkBlocked": [
-        {
-          "id": "R41-NO-EXECUTION-CREDIT",
-          "status": "closed-for-migration-open-for-product",
-          "statement": "No runtime/E2E/visual/coverage credit."
-        }
-      ],
-      "claimCorrection": {
-        "date": "2026-10-18",
-        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
-        "priorRecordPath": "docs/phase-governance/reviews/20261017-r41-ops-archive-task.json",
-        "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
-        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
-        "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
-    },
-    {
       "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md",
       "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
@@ -1535,5 +1240,319 @@
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
     "recordPath": "docs/phase-governance/reviews/20261017-r41-ops-archive-task.json",
     "meaning": "Original reviewer/policy/migration summary are historical claims at this revision; current correction supersedes their semantic and independence credit."
-  }
+  },
+  "supersededBindings": [
+    {
+      "path": "docs/ops/archive/tasks/README.md",
+      "sourceRevision": "741d96580689e6e97cffd9c286511f3bacd34044",
+      "supersededBy": "docs/phase-governance/reviews/20261018-semantic-rework.json",
+      "candidateCommit": "7611019fb41cf5bd401e87858e5e716b015ede22",
+      "reason": "Only this independently accepted S13 current navigation body; original withdrawn claim/history remain in retained entry and source Git.",
+      "originalEntry": {
+        "path": "docs/ops/archive/tasks/README.md",
+        "contentReviewStatus": "partial-review-unknown",
+        "docType": "governance-index",
+        "templateId": "governance-index-v1",
+        "template": "docs/phase-governance/templates/governance-index.md",
+        "templateCompliance": "needs-migration",
+        "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+        "reviewDepth": "structured-content",
+        "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+        "truthAnchors": ["docs/ops/archive/tasks/README.md:1"],
+        "unresolved": [
+          "Historical task claims require a current successor card and fresh evidence before reuse.",
+          "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+        ],
+        "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+        "phase": "ops",
+        "module": "archive/tasks",
+        "capability": "ops-archive-task-README",
+        "owner": "Codex（文档治理；不代签原执行）",
+        "provenance": [
+          "source-document",
+          "repository-history",
+          "structured-mechanical-envelope-only",
+          "semantic-and-non-author-credit-withdrawn-20261018"
+        ],
+        "sourceSha256": "9ea8bfd6be0b18e230315ea77305b9405d14914478f86f5b07a19154f092d590",
+        "afterSha256": "fab9411d84f94350cadb921500457958247346901562f0842d614c4f9dbc55e8",
+        "publicCallers": ["docs/ops/tasks/index.md navigation", "docs/ops/archive/tasks/README.md"],
+        "legalInputs": ["current repository documentation", "docs/ops/archive/tasks/README.md"],
+        "businessOracle": {
+          "type": "historical-task-template-migration",
+          "assertions": [
+            "original UTF-8 bytes remain hashable",
+            "historical boundary explicit",
+            "task status remains date-scoped",
+            "no runtime/E2E/visual/coverage credit"
+          ]
+        },
+        "dedupe": {
+          "result": "reviewed-and-migrated",
+          "against": ["docs/ops/archive/tasks/README.md"]
+        },
+        "revision": {
+          "currentSha": "fab9411d84f94350cadb921500457958247346901562f0842d614c4f9dbc55e8",
+          "implementationSha": "fab9411d84f94350cadb921500457958247346901562f0842d614c4f9dbc55e8",
+          "history": [
+            {
+              "revision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+              "date": "2026-10-17",
+              "action": "read-and-reviewed",
+              "contentReviewStatus": "content-reviewed",
+              "reviewDepth": "deep-semantic"
+            },
+            {
+              "revision": "working-tree",
+              "date": "2026-10-17",
+              "action": "R41 archive task template migration",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            }
+          ]
+        },
+        "evidence": {
+          "kind": "document-template-migration",
+          "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r41-ops-archive-task-20261017.json",
+          "sourceSha256": "9ea8bfd6be0b18e230315ea77305b9405d14914478f86f5b07a19154f092d590",
+          "candidateSha256": "fab9411d84f94350cadb921500457958247346901562f0842d614c4f9dbc55e8",
+          "afterSha256": "fab9411d84f94350cadb921500457958247346901562f0842d614c4f9dbc55e8",
+          "lineCount": 63,
+          "artifactPreserved": false,
+          "originalPreservation": {
+            "method": "line-by-line blockquote quote",
+            "sourceBytes": 293,
+            "sourceLines": 10,
+            "sourceFinalNewline": true,
+            "inverseSha256": "9ea8bfd6be0b18e230315ea77305b9405d14914478f86f5b07a19154f092d590",
+            "exactRoundTrip": true
+          },
+          "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        },
+        "history": [
+          {
+            "revision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "action": "R41 archive task template migration",
+            "reviewer": "r41_readonly_review + Codex root",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-18",
+            "action": "withdraw-unsupported-semantic-and-independent-credit",
+            "task": "DOCS-RECORD-INTEGRITY-1",
+            "contentReviewStatus": "partial-review-unknown",
+            "reviewDepth": "structured-content",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+          }
+        ],
+        "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
+        "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
+        "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
+        "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+        "templateVersion": "1.0.0",
+        "historyOverlay": true,
+        "documentStatus": "current-index",
+        "sourceGitRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+        "candidateSha256": "fab9411d84f94350cadb921500457958247346901562f0842d614c4f9dbc55e8",
+        "primarySource": [
+          {
+            "path": "docs/ops/archive/tasks/README.md",
+            "revision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+            "sha256": "9ea8bfd6be0b18e230315ea77305b9405d14914478f86f5b07a19154f092d590",
+            "scope": "full UTF-8 source"
+          }
+        ],
+        "phaseAnchors": {
+          "phase": "ops",
+          "module": "archive/tasks",
+          "currentBoundary": "current task card and consumer own truth"
+        },
+        "dependencies": "Current task index, successor card and fresh evidence when rerun.",
+        "versionScope": {
+          "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+          "date": "2026-10-17",
+          "validity": "current-index"
+        },
+        "counterReworkBlocked": [
+          {
+            "id": "R41-NO-EXECUTION-CREDIT",
+            "status": "closed-for-migration-open-for-product",
+            "statement": "No runtime/E2E/visual/coverage credit."
+          }
+        ],
+        "claimCorrection": {
+          "date": "2026-10-18",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+          "priorRecordPath": "docs/phase-governance/reviews/20261017-r41-ops-archive-task.json",
+          "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+          "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+        }
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/README.md",
+      "sourceRevision": "741d96580689e6e97cffd9c286511f3bacd34044",
+      "supersededBy": "docs/phase-governance/reviews/20261018-semantic-rework.json",
+      "candidateCommit": "7611019fb41cf5bd401e87858e5e716b015ede22",
+      "reason": "Only this independently accepted S13 current navigation body; original withdrawn claim/history remain in retained entry and source Git.",
+      "originalEntry": {
+        "path": "docs/ops/archive/tasks/done/README.md",
+        "contentReviewStatus": "partial-review-unknown",
+        "docType": "governance-index",
+        "templateId": "governance-index-v1",
+        "template": "docs/phase-governance/templates/governance-index.md",
+        "templateCompliance": "needs-migration",
+        "readMethod": "structured-mechanical-envelope-only; semantic and independent-review claims withdrawn 2026-10-18",
+        "reviewDepth": "structured-content",
+        "coreConclusion": "2026-10-18 勘误：本条仅保留既有结构/保真登记；此前逐篇深度语义与独立接受信用撤回。未重新核读原结论，不授模板完成。",
+        "truthAnchors": ["docs/ops/archive/tasks/done/README.md:1"],
+        "unresolved": [
+          "Historical task claims require a current successor card and fresh evidence before reuse.",
+          "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+        ],
+        "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
+        "phase": "ops",
+        "module": "archive/tasks",
+        "capability": "ops-archive-task-README",
+        "owner": "Codex（文档治理；不代签原执行）",
+        "provenance": [
+          "source-document",
+          "repository-history",
+          "structured-mechanical-envelope-only",
+          "semantic-and-non-author-credit-withdrawn-20261018"
+        ],
+        "sourceSha256": "ebe989d4500ded8bde1a3ed6e989136b71892e530b4c51640104d7ec8ebd276d",
+        "afterSha256": "2b816a9611098ffad7537cec568224958631f1d32a61982ea5653311204765d0",
+        "publicCallers": [
+          "docs/ops/tasks/index.md navigation",
+          "docs/ops/archive/tasks/done/README.md"
+        ],
+        "legalInputs": [
+          "current repository documentation",
+          "docs/ops/archive/tasks/done/README.md"
+        ],
+        "businessOracle": {
+          "type": "historical-task-template-migration",
+          "assertions": [
+            "original UTF-8 bytes remain hashable",
+            "historical boundary explicit",
+            "task status remains date-scoped",
+            "no runtime/E2E/visual/coverage credit"
+          ]
+        },
+        "dedupe": {
+          "result": "reviewed-and-migrated",
+          "against": ["docs/ops/archive/tasks/done/README.md"]
+        },
+        "revision": {
+          "currentSha": "2b816a9611098ffad7537cec568224958631f1d32a61982ea5653311204765d0",
+          "implementationSha": "2b816a9611098ffad7537cec568224958631f1d32a61982ea5653311204765d0",
+          "history": [
+            {
+              "revision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+              "date": "2026-10-17",
+              "action": "read-and-reviewed",
+              "contentReviewStatus": "content-reviewed",
+              "reviewDepth": "deep-semantic"
+            },
+            {
+              "revision": "working-tree",
+              "date": "2026-10-17",
+              "action": "R41 archive task template migration",
+              "notRun": ["runtime", "E2E", "visual", "coverage"]
+            }
+          ]
+        },
+        "evidence": {
+          "kind": "document-template-migration",
+          "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r41-ops-archive-task-20261017.json",
+          "sourceSha256": "ebe989d4500ded8bde1a3ed6e989136b71892e530b4c51640104d7ec8ebd276d",
+          "candidateSha256": "2b816a9611098ffad7537cec568224958631f1d32a61982ea5653311204765d0",
+          "afterSha256": "2b816a9611098ffad7537cec568224958631f1d32a61982ea5653311204765d0",
+          "lineCount": 60,
+          "artifactPreserved": false,
+          "originalPreservation": {
+            "method": "line-by-line blockquote quote",
+            "sourceBytes": 259,
+            "sourceLines": 7,
+            "sourceFinalNewline": true,
+            "inverseSha256": "ebe989d4500ded8bde1a3ed6e989136b71892e530b4c51640104d7ec8ebd276d",
+            "exactRoundTrip": true
+          },
+          "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        },
+        "history": [
+          {
+            "revision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+            "action": "read-and-reviewed",
+            "contentReviewStatus": "content-reviewed",
+            "reviewDepth": "deep-semantic"
+          },
+          {
+            "revision": "working-tree",
+            "action": "R41 archive task template migration",
+            "reviewer": "r41_readonly_review + Codex root",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          },
+          {
+            "date": "2026-10-18",
+            "action": "withdraw-unsupported-semantic-and-independent-credit",
+            "task": "DOCS-RECORD-INTEGRITY-1",
+            "contentReviewStatus": "partial-review-unknown",
+            "reviewDepth": "structured-content",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+          }
+        ],
+        "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
+        "stopLine": "do not promote historical task card or index to current build/runtime/E2E/visual/coverage acceptance",
+        "userVisibleBeforeAfter": "原始 ops archive task/index 保持 → 接入 task/governance template、archive overlay、可逆 quote、SHA 和 successor 边界；产品事实不变。",
+        "reviewedLines": "not semantically re-reviewed; prior claimed range retained at claimCorrection.sourceRevision",
+        "templateVersion": "1.0.0",
+        "historyOverlay": true,
+        "documentStatus": "current-index",
+        "sourceGitRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+        "candidateSha256": "2b816a9611098ffad7537cec568224958631f1d32a61982ea5653311204765d0",
+        "primarySource": [
+          {
+            "path": "docs/ops/archive/tasks/done/README.md",
+            "revision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+            "sha256": "ebe989d4500ded8bde1a3ed6e989136b71892e530b4c51640104d7ec8ebd276d",
+            "scope": "full UTF-8 source"
+          }
+        ],
+        "phaseAnchors": {
+          "phase": "ops",
+          "module": "archive/tasks",
+          "currentBoundary": "current task card and consumer own truth"
+        },
+        "dependencies": "Current task index, successor card and fresh evidence when rerun.",
+        "versionScope": {
+          "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+          "date": "2026-10-17",
+          "validity": "current-index"
+        },
+        "counterReworkBlocked": [
+          {
+            "id": "R41-NO-EXECUTION-CREDIT",
+            "status": "closed-for-migration-open-for-product",
+            "statement": "No runtime/E2E/visual/coverage credit."
+          }
+        ],
+        "claimCorrection": {
+          "date": "2026-10-18",
+          "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+          "priorRecordPath": "docs/phase-governance/reviews/20261017-r41-ops-archive-task.json",
+          "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+          "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+        }
+      }
+    }
+  ]
 }

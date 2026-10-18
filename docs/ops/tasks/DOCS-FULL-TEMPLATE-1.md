@@ -90,7 +90,7 @@ Template: task-card-v1 / 1.0.0
 - 链接/索引批量变更破坏；缓解：批次后 check:docs 与悬链扫描。
 
 ## 下一位 Agent 提示词
-下一位贡献者为用户手动转发的 GLM；仅按本卡最新“GLM S13 首包准入与交接”节执行三篇正文候选。Codex 保持总 Owner、中央账本唯一写入者和非作者验收职责；旧 R 批历史不恢复授权。
+GLM S13 已交固定761候选，三篇正文已获root非作者限定接受，当前由Codex处理必要中央接入与证据核验；下一包尚未派发。后续GLM交付沿本卡最新“后续验收简化”节，不默认让Codex重做全文与自验；旧R批历史不恢复授权。
 
 ## 用户裁决记录
 
@@ -1929,3 +1929,18 @@ root非作者实际核固定de423正文SHA1e50d535c2b16aa466207da22e698768bd5abb
 实际检查三篇显式新合同的 checkMigratedDocument、可见链接、quote 精确逆回读、任务索引投影未变、pnpm check:docs、pnpm lint 和非空完整/暂存 diff --check。中央旧 routing/after pin 未接入或全量尚未迁移会使完整 check:docs 失败；保留真实失败，不能改账本/规则/输出放行，不能称统一门通过。无需新增产品测试或重跑runtime/E2E/视觉/coverage。
 
 提交仅三篇正文到本候选分支，交精确 commit、before/after map、原件 manifest 和 /tmp 证据路径，交 Codex 非作者审。不得自授 reviewed/compliant/accept/done 或恢复152/1896等旧范围信用。来源冲突、机器字段/原quote改变、需新模板或产品取舍时停止受影响项，给具体 counter，不逐批问用户是否继续。
+
+
+### S13 GLM 三篇导航逐篇非作者裁定与中央接入
+
+- GLM 作者固定候选 `7611019fb41cf5bd401e87858e5e716b015ede22`，base `741d96580689e6e97cffd9c286511f3bacd34044`，恰三篇 +60/−114；作者 `nonAuthorReviewer=false` 保留。root 不把自验转成独立签字：对总页、done、cancelled 各给独立的固定正文/模板限定接受，根报告 SHA `3ce152c03a2eab236b39db5d106dd16c3789b46f3bbc67bf710bfcce6f0398f0`，实际 full-read 范围和自身失败/v2 更正均保留。
+- 总页接受分类及当前入口7实链；done接受本目录done范围、原卡证据和原位关闭边界5实链；cancelled接受取消边界及R32类型/phase/status三层纠正5实链。任务状态仍取原卡顶部，三导航不重开历史工作或证明产品通过。原marker字节380/341/341不变；原源293/259B直接相等，cancelled259B须精确排除唯一未引用LF才等258B，不能冒直接inverse。
+- 836个legacy tracked文件与base逐字节相等、working/index/commit零差异，无未跟踪含ignored残留。误生成153份及恢复过程缺当时完整原回执，该数量仅保作者事故陈述，不认证历史执行；root只读生成器文本，未import。三篇之外candidate无改动，中央写权未被GLM使用。
+- 独立运行确为181/181、lint4511全零；候选完整checkdocs真实FAIL，恰旧routing20问题，另跑testing/phase通过，strict4257恰4254原pending加3新SHA漂移；索引byte-equal，完整非空base..candidate diff及两暂存口径0。这是接入前真实失败，不改旧输出。原48作者文件加外manifest和root40原件加manifest分别保全。
+- root仅显式接入上述三篇、三条gov-index/historyOverlay=false路由、R32/R41三唯一binding迁至既有semantic记录与旧entry完整保留、必要native/pin/matrix和本卡；R32误分类单独记入既有integrity审计，原1896 scope/六分片和其余152旧声明不重写。实际接入和后验门另保原件，不预授新组合通过。总卡仍rework，不合main、不推main、不done。
+
+### 后续验收简化（用户2026-10-18最新指示）
+
+- 用户明确：GLM承担全文治理、自验及充分证据；Codex验收其交付，不能默认将贡献者工作重新做一遍。此为后续工作方式的显式调整，不是静默放宽artifactOnly、模板、真实语义或全量零诊断标准。
+- GLM每包交固定commit/base、精确白名单、逐篇来源/结论/before-after/SHA/原源保全/状态边界、命令完整原始输出及失败/事故。Codex优先以通用机械核验检查范围、哈希、保全、模板、原始回执及已批准合同；人工集中核关键结论、高风险和冲突。证据不足精准退回，已核合格成果直接复用。
+- 不默认逐篇全文重读或重复整套命令。仅当中央接入改变输入、出现失败或新风险时运行必要的对应检查；最终硬门仍须真实通过。逐篇记录如实区分“GLM全文审阅”“Codex证据核验/风险复核”，不能把抽核或结构检查冒称全文深审。本次S13已实际完成的root全文/实跑保原事实，后续不重复。

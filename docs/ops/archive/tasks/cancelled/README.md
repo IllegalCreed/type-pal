@@ -1,70 +1,41 @@
 # 已取消任务
 
-Status: cancelled
-Validity: historical
+Status: current
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
-Template: task-card-v1 / 1.0.0
+Last reviewed: 2026-10-18
+Template: governance-index-v1 / 1.0.0
 
-本页把 phase1 历史材料接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是已取消归档任务的当前导航：定位卡顶部终态为 cancelled 的历史任务卡。取消理由、当时范围与替代任务从原卡及统一索引追溯；本页是 ops 导航页，不是任务卡，也不承担任何历史任务（包括 phase1 计划）的目标验收。
 
-## 目标
+## 目的
 
-- 可验收的工程或用户结果：历史任务目标与 cancelled 结论保持可追溯（Historical cancelled ops task card; preserve cancelled state, reasons, scope, evidence and handoff history.）。
+- 定位已取消的归档任务卡；取消理由与替代任务见原卡及统一索引，不因归档而恢复旧方案。
 
 ## 范围
 
-- 范围内：原始任务范围、取消状态、当时依赖和交接记录。
-- 范围外：当前产品实现、当前待办和新的执行授权。
+- 当前包含：本目录内卡顶部状态 cancelled 的任务入口，以及统一索引「已取消（superseded / historical）」分组的导航。
+- 明确不包含：恢复旧方案或旧 build 授权；本页不是任务卡或 phase1 计划正文，也不重述各卡的取消裁决与替代项。
 
-## 前提与证据
+## 当前状态
 
-- 行为/工程前提：固定历史 source revision `dce008a777bb45658e9d7a146624db9b57469f63`；取消状态不等于当前缺陷结论。
-- 一手证据：`docs/ops/archive/tasks/cancelled/README.md` 原始全文、source SHA 和 quote inverse。
-- 最强替代解释与可证伪观察：当前 board、task card 或用户裁决可能已改变取舍；新证据出现时须新开卡复核。
-- 当前状态：cancelled
+- `status`: current（仅指导航）；目标卡保持 cancelled/historical 终态，取消决定不变。
+- 2026-10-17 R32 曾把本页误绑 task-card-v1、phase1 与 `Status: cancelled`，属可复核的类型/phase/状态错误；2026-10-18 S13 逐篇治理将本页纠正回 ops 导航页，该错误与原源保真分别记录，不沿用 R32 旧审阅信用。重新考虑某项取消必须按当前规范创建新任务卡并核前提，不由本页 current 恢复执行。
 
-## 验收
+## 入口与责任
 
-- 功能/文档：只验收历史记录的完整保全和状态边界。
-- 测试与证据：source/after SHA、quote inverse、registry/review/routing。
-- 视觉或 E2E（如适用）：本迁移不执行、不授信用。
-- 不把历史回执、数量或覆盖率当作单独验收依据。
+- 父导航：[历史任务](../README.md)。
+- 统一索引「已取消（superseded / historical）」分组：[统一任务索引](../../../tasks/index.md)；当前操作入口另有[任务卡说明](../../../tasks/README.md)、[活动看板](../../../board.md)与[协作流程](../../../agent-workflow.md)。
+- Owner：Codex（文档治理）。统一索引中各取消卡说明列来自生成器 config 的固定摘要，不替代原卡内的取消裁决与替代项。
 
-## 状态与交接
+## 证据与下一步
 
-- 当前 Owner：历史原任务 Owner；文档治理由 Codex 维护。
-- 阻塞/决策：- 正文信号 1:# 已取消任务
-- 正文信号 3:这里只保存顶部状态为 cancelled 的任务卡。取消理由与替代任务见原卡及总索引，不因归档而恢复旧方案。
-- 下一步与交接提示词：如需恢复，创建新 task card，读取当前 primary source、oracle 和用户裁决。
+- 关键来源：本页固定原源 revision `dce008a777bb45658e9d7a146624db9b57469f63`（258B/7LF，source SHA `a3d28f030ea60b18f34caedf6fb9416a5b1f568020c4a113ef089e142fb2cf2d`，逆回读规则见下方保全节）。R32 的类型/phase/状态错误已在本轮纠正并分别记录；其余取消卡的逐卡语义未随本页重审。
+- 未决/阻塞：本页纠正不重授任何取消卡语义完成，也不把任何取消任务变为 current/build。
+- 下一步：如需恢复被取消的工作，创建新任务卡读取当前 primary source、oracle 与用户裁决；本页与 quote 均不构成恢复授权。
 
-## 历史范围
+### 原文保全
 
-- ops archive；日期：undated；固定来源 `dce008a777bb45658e9d7a146624db9b57469f63`；source SHA `a3d28f030ea60b18f34caedf6fb9416a5b1f568020c4a113ef089e142fb2cf2d`。
-
-## 原始结论
-
-- 已取消任务：这是 task-card，当前文档状态为 historical。全文 8 行、1 个标题；摘要/首段为「这里只保存顶部状态为 cancelled 的任务卡。取消理由与替代任务见原卡及总索引，不因归档而恢复旧方案。」。属于历史/归档材料，不能单独证明当前实现。
-
-## 当时证据
-
-- 标题锚点：原文标题与章节；原始正文、表格、状态词和链接在 quote 保全。
-
-## 当前有效性
-
-historical。do not promote historical cancelled task claims to current work without a new task card and current decision
-- 历史冲突/未决：
-- 正文信号 1:# 已取消任务
-- 正文信号 3:这里只保存顶部状态为 cancelled 的任务卡。取消理由与替代任务见原卡及总索引，不因归档而恢复旧方案。
-
-## 继任文档
-
-- Current ops task board, active task cards and fresh primary-source evidence.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
-
-## 原文保全
-
-固定源 SHA `a3d28f030ea60b18f34caedf6fb9416a5b1f568020c4a113ef089e142fb2cf2d`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `dce008a777bb45658e9d7a146624db9b57469f63`，source SHA `a3d28f030ea60b18f34caedf6fb9416a5b1f568020c4a113ef089e142fb2cf2d`；下方 quote 逐行移除 `> ` 或空行裸 `>` 后得到 259B，end 标记前另有一条未加 `>` 的独立分隔 LF——精确排除这一个分隔 LF 后等于 258B 原源。不 trim、不做通用字符替换，不声称无条件直接逆回相等。
 <!-- original-source-quote:start -->
 > # 已取消任务
 >

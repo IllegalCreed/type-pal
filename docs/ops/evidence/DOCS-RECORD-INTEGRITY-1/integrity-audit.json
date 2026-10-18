@@ -5766,5 +5766,73 @@
       "administrativeSuccessorPreaccepted": false,
       "s13BuildGrantedByThisReport": false
     }
+  },
+  "S13NavigationCorrection": {
+    "sourceRevision": "741d96580689e6e97cffd9c286511f3bacd34044",
+    "candidateCommit": "7611019fb41cf5bd401e87858e5e716b015ede22",
+    "kind": "single-navigation-classification-correction-and-three-individual-reacceptances",
+    "report": {
+      "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/S13-root-nonauthor-individual-fixed-7611019/3ce152c03a2eab236b39db5d106dd16c3789b46f3bbc67bf710bfcce6f0398f0.gz",
+      "encoding": "gzip",
+      "payloadSha256": "3ce152c03a2eab236b39db5d106dd16c3789b46f3bbc67bf710bfcce6f0398f0",
+      "payloadBytes": 15873,
+      "storedSha256": "5fe940be1db89b5e1fa99ce27f82d6477430fb98d0789d7e9a9b91c1fc17dc41",
+      "storedBytes": 5078,
+      "producerTask": "/root",
+      "authorTask": "GLM/S13-manual-delivery",
+      "reviewerTask": "/root",
+      "sourceRevision": "7611019fb41cf5bd401e87858e5e716b015ede22",
+      "scope": "Three independent fixed S13 individual body/template decisions only; no central assembly/global/main/done or product execution.",
+      "owner": "Codex documentation governance evidence",
+      "caller": "DOCS-FULL-TEMPLATE-1 S13 exact per-page semantic receipt and explicit private intake",
+      "associatedTask": "DOCS-FULL-TEMPLATE-1",
+      "retentionReason": "Immutable original actual nonauthor report, failures and bounded source reads; not relocation of an existing canonical candidate.",
+      "exitCondition": "Retain audit/replay; no automatic deletion or candidate denominator exemption."
+    },
+    "oldR32Path": "docs/ops/archive/tasks/cancelled/README.md",
+    "oldR32Binding": {
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "documentStatus": "historical",
+      "phaseAnchors": {
+        "phase": "phase1",
+        "module": "archive",
+        "currentBoundary": "phase1 source/current code and successor docs own truth"
+      },
+      "sourceRecord": "docs/phase-governance/reviews/20261017-r32-ops-cancelled-tasks.json"
+    },
+    "afterScope": {
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": false,
+      "documentStatus": "current",
+      "phase": "ops",
+      "meaning": "Navigation only; cancelled task decisions/old withdrawn claims remain historical."
+    },
+    "individuallyAccepted": [
+      {
+        "path": "docs/ops/archive/tasks/README.md",
+        "afterSha256": "ef32f7c1920a3b6ac652286e8bed8ed3907ff224a26f8dbd7451643e6efa40b7",
+        "decision": "accept-fixed-S13-individual-body-and-template-only"
+      },
+      {
+        "path": "docs/ops/archive/tasks/done/README.md",
+        "afterSha256": "27539f897b2c3001b413ce4e9fd1e1dd1cf311b73c168c62850ff833d5ea7b87",
+        "decision": "accept-fixed-S13-individual-body-and-template-only"
+      },
+      {
+        "path": "docs/ops/archive/tasks/cancelled/README.md",
+        "afterSha256": "62d844ec6b9a64c989f5b2a98625297d7a6a85cb8e7b9a3cab46b38aa058bf1b",
+        "decision": "accept-fixed-S13-individual-body-and-template-only"
+      }
+    ],
+    "oldCorrectionScopeUnchanged": true,
+    "old2048HistoricalClaimRowsUnchanged": true,
+    "legacyIncidentCurrentResidueZero": true,
+    "legacyHistorical153IndependentlyAuthenticated": false,
+    "globalHardGatePassed": false,
+    "mainMerged": false,
+    "done": false
   }
 }

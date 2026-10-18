@@ -1938,8 +1938,8 @@
     },
     {
       "path": "docs/ops/archive/tasks/cancelled/README.md",
-      "templateId": "task-card-v1",
-      "historyOverlay": true
+      "templateId": "governance-index-v1",
+      "historyOverlay": false
     },
     {
       "path": "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md",
@@ -2179,12 +2179,12 @@
     {
       "path": "docs/ops/archive/tasks/done/README.md",
       "templateId": "governance-index-v1",
-      "historyOverlay": true
+      "historyOverlay": false
     },
     {
       "path": "docs/ops/archive/tasks/README.md",
       "templateId": "governance-index-v1",
-      "historyOverlay": true
+      "historyOverlay": false
     },
     {
       "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md",

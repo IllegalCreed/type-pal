@@ -516,7 +516,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "45d3ac468efc7d54f0e357b11afbc15fbb9f6473a373f47172d3f0bb692832a8",
-      "afterSha256": "4c5263f4819365aaefa0bf56a9979d24dd3890b3a9a233e2dd33f41a46b10ef8",
+      "afterSha256": "0727458fc773c859d5828e66d8d71d948f507b25ac935b7dfee051c492f85b55",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -765,6 +765,15 @@
           "previousAfterSha256": "2d720443858893ea4ffa7ec173bd9074d11a5f9da0573001005f30d7f5a86eff",
           "afterSha256": "4c5263f4819365aaefa0bf56a9979d24dd3890b3a9a233e2dd33f41a46b10ef8",
           "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 S13 three individually accepted GLM navigation bodies",
+          "sourceRevision": "741d96580689e6e97cffd9c286511f3bacd34044",
+          "previousAfterSha256": "4c5263f4819365aaefa0bf56a9979d24dd3890b3a9a233e2dd33f41a46b10ef8",
+          "afterSha256": "0727458fc773c859d5828e66d8d71d948f507b25ac935b7dfee051c492f85b55",
+          "method": "Explicit S13 current routing/individual acceptance/recorded R32 correction and latest user evidence-led review policy; no other subject semantic or execution credit.",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -11295,7 +11304,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "14a9e0ef8c6a85454ca6bea8ff01f6d312ead5b2f115f9002bca2d7960c4f1d0",
-      "afterSha256": "0376b9104d50526deee8f56ca47167b50901d628bc018e52fb36422882eb0d23",
+      "afterSha256": "003fcf1842c9531fdf32419d4441ba2f70ed9164932579c770c71d52f3e5d6fc",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -11436,6 +11445,15 @@
           "previousAfterSha256": "73d2e0264a267b325be8b28173959a584685263d5ab8153292cd980f1efbb69f",
           "afterSha256": "0376b9104d50526deee8f56ca47167b50901d628bc018e52fb36422882eb0d23",
           "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 S13 three individually accepted GLM navigation bodies",
+          "sourceRevision": "741d96580689e6e97cffd9c286511f3bacd34044",
+          "previousAfterSha256": "0376b9104d50526deee8f56ca47167b50901d628bc018e52fb36422882eb0d23",
+          "afterSha256": "003fcf1842c9531fdf32419d4441ba2f70ed9164932579c770c71d52f3e5d6fc",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -12649,7 +12667,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "9f2870b69a0eb92e9f495ad86a4ba2a601b58f21104dad18981484461e2bbb66",
-      "afterSha256": "d78714fa197f2eb37de0d04cc6bf63b4e2d9c6759fd6f2407752871d63d8cddf",
+      "afterSha256": "7eb4d0010a608e0b343a5d6abd19ce9f93518dc804e4fce32e9c6a9d9337a611",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -12781,7 +12799,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 S13 three individually accepted GLM navigation bodies",
+          "sourceRevision": "741d96580689e6e97cffd9c286511f3bacd34044",
+          "previousAfterSha256": "d78714fa197f2eb37de0d04cc6bf63b4e2d9c6759fd6f2407752871d63d8cddf",
+          "afterSha256": "7eb4d0010a608e0b343a5d6abd19ce9f93518dc804e4fce32e9c6a9d9337a611",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r42-ops-archive-task.json",

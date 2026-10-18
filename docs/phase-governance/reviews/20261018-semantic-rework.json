@@ -6719,6 +6719,633 @@
         "templateVersion": "1.1.0",
         "scope": "All five visible sections actual semantic content, publication/pair/native history preserved; exact public model and bounded negative controls passed, no new schema."
       }
+    },
+    {
+      "path": "docs/ops/archive/tasks/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM full per-page source/body migration and evidence; root actually fully read these three candidate pages and original sources, verified declared caller sections, SHA/quote/navigation and reran exact checks. This S13 work predates user instruction to prefer lightweight evidence verification in future batches; no linked task business-body reread claimed.",
+      "coreConclusion": "总导航只负责 done/cancelled 分类及当前操作入口，7个 quote 外实链可达；任务状态来自原卡顶部，统一机器索引位于 ops/tasks 是存放位置而非搬回历史卡的命令。current 只指导航，不续授历史执行。",
+      "truthAnchors": [
+        "docs/ops/archive/tasks/README.md:7",
+        "docs/ops/archive/tasks/README.md:21",
+        "scripts/docs/check.mjs:28",
+        "scripts/docs/check.mjs:56",
+        "scripts/docs/check.mjs:104",
+        "scripts/docs/check.mjs:225"
+      ],
+      "unresolved": [
+        "Historical tasks and original execution records are not reaccepted by this navigation review.",
+        "Whole docs governance and quarantined execution scopes remain incomplete."
+      ],
+      "nextStep": "Maintain current navigation and continue remaining scoped GLM governance with evidence-led Codex verification; no wholesale restoration.",
+      "phase": "ops",
+      "module": "archive/tasks",
+      "capability": "classification-and-current-entry-navigation",
+      "owner": "Codex documentation governance; S13 body author GLM",
+      "provenance": [
+        "GLM scoped full-body work under parent build admission",
+        "human delivered fixed candidate 7611019fb41cf5bd401e87858e5e716b015ede22",
+        "root nonauthor individual decision 3ce152c03a2eab236b39db5d106dd16c3789b46f3bbc67bf710bfcce6f0398f0",
+        "old withdrawal retained; no artifactOnly shortcut"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/README.md",
+          "revision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+          "sha256": "9ea8bfd6be0b18e230315ea77305b9405d14914478f86f5b07a19154f092d590",
+          "scopeActuallyRead": "Full original 10 LF / 293 bytes; Git blob c48178d04221ca1013d9f640e3989aed7fa5b9c4"
+        },
+        {
+          "path": "docs/ops/archive/tasks/README.md",
+          "revision": "741d96580689e6e97cffd9c286511f3bacd34044",
+          "sha256": "fab9411d84f94350cadb921500457958247346901562f0842d614c4f9dbc55e8",
+          "scopeActuallyRead": "Prior root whole wrapper read reused after exact byte pin match; current actual delta reviewed."
+        },
+        {
+          "path": "scripts/docs/check.mjs",
+          "revision": "741d96580689e6e97cffd9c286511f3bacd34044",
+          "sha256": "6ff612d2df541cd255a91f1050d06ae6bafd279deee1ba3c3fdbb249bd4f2676",
+          "scopeActuallyRead": "1-145 and215-285: task exclusion, top status, generated grouping, terminal location, actual navigation caller."
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "currentBoundary": "Current directory navigation; historical task states/dates/evidence stay on original cards. No phase1 task acceptance."
+      },
+      "dependencies": [
+        "docs/ops/archive/tasks/done/README.md",
+        "docs/ops/archive/tasks/cancelled/README.md",
+        "docs/ops/archive/README.md",
+        "docs/ops/tasks/index.md",
+        "docs/ops/tasks/README.md",
+        "docs/ops/board.md",
+        "docs/ops/agent-workflow.md",
+        "docs/phase-governance/templates/registry.json",
+        "scripts/docs/check.mjs"
+      ],
+      "versionScope": {
+        "validity": "current navigation only",
+        "candidateCommit": "7611019fb41cf5bd401e87858e5e716b015ede22",
+        "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+        "sourceDate": "Original source has no author date; S13 date is a governance event.",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      },
+      "publicCallers": [
+        "Current ops archive navigation readers",
+        "scripts/docs/check.mjs link and directory checks",
+        "scripts/docs/document-model.mjs explicit governance-index contract"
+      ],
+      "legalInputs": [
+        "These three exact UTF-8 README pages under governance-index1.0, quoted source bytes retained; task scanner excludes README."
+      ],
+      "businessOracle": {
+        "type": "actual-archive-navigation-role-and-source",
+        "assertions": [
+          "总导航只负责 done/cancelled 分类及当前操作入口，7个 quote 外实链可达；任务状态来自原卡顶部，统一机器索引位于 ops/tasks 是存放位置而非搬回历史卡的命令。current 只指导航，不续授历史执行。",
+          "Visible navigation links exist outside original-source quote; counts 7",
+          "Original marker region unchanged; exact source inverse uses no extra transform",
+          "Task index byte-equal to candidate Git index; status authoritative on each card."
+        ]
+      },
+      "dedupe": {
+        "result": "Navigation roles individually distinct; no copied hundreds-of-card index or renewed adjacent acceptance.",
+        "against": [
+          "docs/ops/archive/tasks/done/README.md",
+          "docs/ops/archive/tasks/cancelled/README.md"
+        ]
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "S13-ROOT-QUOTED-NAV",
+          "status": "closed-for-fixed-body-only",
+          "statement": "总导航只负责 done/cancelled 分类及当前操作入口，7个 quote 外实链可达；任务状态来自原卡顶部，统一机器索引位于 ops/tasks 是存放位置而非搬回历史卡的命令。current 只指导航，不续授历史执行。",
+          "closureReportSha256": "3ce152c03a2eab236b39db5d106dd16c3789b46f3bbc67bf710bfcce6f0398f0"
+        }
+      ],
+      "revision": {
+        "currentSha": "7611019fb41cf5bd401e87858e5e716b015ede22",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "S13 exact GLM body independently accepted",
+            "previousAfterSha256": "fab9411d84f94350cadb921500457958247346901562f0842d614c4f9dbc55e8",
+            "afterSha256": "ef32f7c1920a3b6ac652286e8bed8ed3907ff224a26f8dbd7451643e6efa40b7",
+            "revision": "7611019fb41cf5bd401e87858e5e716b015ede22"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "S13-individual-body-semantic-template-nonauthor-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/S13-root-nonauthor-individual-fixed-7611019/3ce152c03a2eab236b39db5d106dd16c3789b46f3bbc67bf710bfcce6f0398f0.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/S13-root-nonauthor-individual-fixed-7611019/3ce152c03a2eab236b39db5d106dd16c3789b46f3bbc67bf710bfcce6f0398f0.gz",
+          "encoding": "gzip",
+          "payloadSha256": "3ce152c03a2eab236b39db5d106dd16c3789b46f3bbc67bf710bfcce6f0398f0",
+          "payloadBytes": 15873,
+          "storedSha256": "5fe940be1db89b5e1fa99ce27f82d6477430fb98d0789d7e9a9b91c1fc17dc41",
+          "storedBytes": 5078,
+          "producerTask": "/root",
+          "authorTask": "GLM/S13-manual-delivery",
+          "reviewerTask": "/root",
+          "sourceRevision": "7611019fb41cf5bd401e87858e5e716b015ede22",
+          "scope": "Three independent fixed S13 individual body/template decisions only; no central assembly/global/main/done or product execution.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 S13 exact per-page semantic receipt and explicit private intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual nonauthor report, failures and bounded source reads; not relocation of an existing canonical candidate.",
+          "exitCondition": "Retain audit/replay; no automatic deletion or candidate denominator exemption."
+        },
+        "reportSha256": "3ce152c03a2eab236b39db5d106dd16c3789b46f3bbc67bf710bfcce6f0398f0",
+        "storedSha256": "5fe940be1db89b5e1fa99ce27f82d6477430fb98d0789d7e9a9b91c1fc17dc41",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S13-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "ef32f7c1920a3b6ac652286e8bed8ed3907ff224a26f8dbd7451643e6efa40b7",
+        "originalPreservation": {
+          "sourceBytes": 293,
+          "sourceSha256": "9ea8bfd6be0b18e230315ea77305b9405d14914478f86f5b07a19154f092d590",
+          "directInverseBytes": 293,
+          "directEqual": true,
+          "excludeExactOneUnquotedSeparatorLF": false,
+          "exactSourceEqual": true
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "Old 20261017-r41-ops-archive-task.json binding superseded only for this page; withdrawal and complete old entry retained.",
+          "priorRecord": "docs/phase-governance/reviews/20261017-r41-ops-archive-task.json",
+          "sourceRevision": "741d96580689e6e97cffd9c286511f3bacd34044",
+          "priorAfterSha256": "fab9411d84f94350cadb921500457958247346901562f0842d614c4f9dbc55e8",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r41-ops-archive-task.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          }
+        }
+      ],
+      "historicalWithdrawal": {
+        "priorRecord": "docs/phase-governance/reviews/20261017-r41-ops-archive-task.json",
+        "sourceRevision": "741d96580689e6e97cffd9c286511f3bacd34044",
+        "scope": "Old unsupported semantic/type claim stays withdrawn; only this new fixed body accepted."
+      },
+      "supersedes": [
+        {
+          "record": "docs/phase-governance/reviews/20261017-r41-ops-archive-task.json",
+          "revision": "741d96580689e6e97cffd9c286511f3bacd34044",
+          "scope": "This page wrapper and mistaken classification only; no historical task decisions or raw replaced."
+        }
+      ],
+      "stopLine": "No global/old execution/runtime/E2E/visual/coverage/main/done credit; changed source or unsupported conclusion returns rework.",
+      "sourceSha256": "fab9411d84f94350cadb921500457958247346901562f0842d614c4f9dbc55e8",
+      "afterSha256": "ef32f7c1920a3b6ac652286e8bed8ed3907ff224a26f8dbd7451643e6efa40b7",
+      "sourceGitRevision": "741d96580689e6e97cffd9c286511f3bacd34044",
+      "reviewedLines": "51 candidate LF; original10 LF; dependency ranges fixed in report",
+      "historyOverlay": false,
+      "documentStatus": "current",
+      "beforeAfter": {
+        "before": "R41 generic navigation with required links only inside quote",
+        "after": "总导航只负责 done/cancelled 分类及当前操作入口，7个 quote 外实链可达；任务状态来自原卡顶部，统一机器索引位于 ops/tasks 是存放位置而非搬回历史卡的命令。current 只指导航，不续授历史执行。"
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "governance-index-v1",
+        "templateVersion": "1.0.0",
+        "historyOverlay": false,
+        "scope": "Actual page-specific five navigation sections plus preserved quote; explicit contract0issues and independent root source/role decision."
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM full per-page source/body migration and evidence; root actually fully read these three candidate pages and original sources, verified declared caller sections, SHA/quote/navigation and reran exact checks. This S13 work predates user instruction to prefer lightweight evidence verification in future batches; no linked task business-body reread claimed.",
+      "coreConclusion": "done 导航限定本归档目录及统一索引的已完成分组，5个 quote 外实链可达；完成证据、签字和候选回原卡，终态可在活动目录原位关闭，与实际 taskInfo/renderTaskIndex 和归档目录门一致。本页不承诺物理全集或当前产品通过。",
+      "truthAnchors": [
+        "docs/ops/archive/tasks/done/README.md:7",
+        "docs/ops/archive/tasks/done/README.md:21",
+        "scripts/docs/check.mjs:28",
+        "scripts/docs/check.mjs:56",
+        "scripts/docs/check.mjs:104",
+        "scripts/docs/check.mjs:225"
+      ],
+      "unresolved": [
+        "Historical tasks and original execution records are not reaccepted by this navigation review.",
+        "Whole docs governance and quarantined execution scopes remain incomplete."
+      ],
+      "nextStep": "Maintain current navigation and continue remaining scoped GLM governance with evidence-led Codex verification; no wholesale restoration.",
+      "phase": "ops",
+      "module": "archive/tasks",
+      "capability": "done-archive-boundary-and-original-card-evidence",
+      "owner": "Codex documentation governance; S13 body author GLM",
+      "provenance": [
+        "GLM scoped full-body work under parent build admission",
+        "human delivered fixed candidate 7611019fb41cf5bd401e87858e5e716b015ede22",
+        "root nonauthor individual decision 3ce152c03a2eab236b39db5d106dd16c3789b46f3bbc67bf710bfcce6f0398f0",
+        "old withdrawal retained; no artifactOnly shortcut"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/README.md",
+          "revision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+          "sha256": "ebe989d4500ded8bde1a3ed6e989136b71892e530b4c51640104d7ec8ebd276d",
+          "scopeActuallyRead": "Full original 7 LF / 259 bytes; Git blob c90b4d73008373c2c8f0cb0459cdefd2499faf68"
+        },
+        {
+          "path": "docs/ops/archive/tasks/done/README.md",
+          "revision": "741d96580689e6e97cffd9c286511f3bacd34044",
+          "sha256": "2b816a9611098ffad7537cec568224958631f1d32a61982ea5653311204765d0",
+          "scopeActuallyRead": "Prior root whole wrapper read reused after exact byte pin match; current actual delta reviewed."
+        },
+        {
+          "path": "scripts/docs/check.mjs",
+          "revision": "741d96580689e6e97cffd9c286511f3bacd34044",
+          "sha256": "6ff612d2df541cd255a91f1050d06ae6bafd279deee1ba3c3fdbb249bd4f2676",
+          "scopeActuallyRead": "1-145 and215-285: task exclusion, top status, generated grouping, terminal location, actual navigation caller."
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "currentBoundary": "Current directory navigation; historical task states/dates/evidence stay on original cards. No phase1 task acceptance."
+      },
+      "dependencies": [
+        "docs/ops/archive/tasks/README.md",
+        "docs/ops/tasks/index.md",
+        "docs/ops/tasks/README.md",
+        "docs/ops/board.md",
+        "docs/ops/agent-workflow.md",
+        "docs/phase-governance/templates/registry.json",
+        "scripts/docs/check.mjs"
+      ],
+      "versionScope": {
+        "validity": "current navigation only",
+        "candidateCommit": "7611019fb41cf5bd401e87858e5e716b015ede22",
+        "sourceRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+        "sourceDate": "Original source has no author date; S13 date is a governance event.",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      },
+      "publicCallers": [
+        "Current ops archive navigation readers",
+        "scripts/docs/check.mjs link and directory checks",
+        "scripts/docs/document-model.mjs explicit governance-index contract"
+      ],
+      "legalInputs": [
+        "These three exact UTF-8 README pages under governance-index1.0, quoted source bytes retained; task scanner excludes README."
+      ],
+      "businessOracle": {
+        "type": "actual-archive-navigation-role-and-source",
+        "assertions": [
+          "done 导航限定本归档目录及统一索引的已完成分组，5个 quote 外实链可达；完成证据、签字和候选回原卡，终态可在活动目录原位关闭，与实际 taskInfo/renderTaskIndex 和归档目录门一致。本页不承诺物理全集或当前产品通过。",
+          "Visible navigation links exist outside original-source quote; counts 5",
+          "Original marker region unchanged; exact source inverse uses no extra transform",
+          "Task index byte-equal to candidate Git index; status authoritative on each card."
+        ]
+      },
+      "dedupe": {
+        "result": "Navigation roles individually distinct; no copied hundreds-of-card index or renewed adjacent acceptance.",
+        "against": [
+          "docs/ops/archive/tasks/README.md",
+          "docs/ops/archive/tasks/cancelled/README.md"
+        ]
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "S13-DONE-SCOPE",
+          "status": "closed-for-fixed-body-only",
+          "statement": "done 导航限定本归档目录及统一索引的已完成分组，5个 quote 外实链可达；完成证据、签字和候选回原卡，终态可在活动目录原位关闭，与实际 taskInfo/renderTaskIndex 和归档目录门一致。本页不承诺物理全集或当前产品通过。",
+          "closureReportSha256": "3ce152c03a2eab236b39db5d106dd16c3789b46f3bbc67bf710bfcce6f0398f0"
+        }
+      ],
+      "revision": {
+        "currentSha": "7611019fb41cf5bd401e87858e5e716b015ede22",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "S13 exact GLM body independently accepted",
+            "previousAfterSha256": "2b816a9611098ffad7537cec568224958631f1d32a61982ea5653311204765d0",
+            "afterSha256": "27539f897b2c3001b413ce4e9fd1e1dd1cf311b73c168c62850ff833d5ea7b87",
+            "revision": "7611019fb41cf5bd401e87858e5e716b015ede22"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "S13-individual-body-semantic-template-nonauthor-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/S13-root-nonauthor-individual-fixed-7611019/3ce152c03a2eab236b39db5d106dd16c3789b46f3bbc67bf710bfcce6f0398f0.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/S13-root-nonauthor-individual-fixed-7611019/3ce152c03a2eab236b39db5d106dd16c3789b46f3bbc67bf710bfcce6f0398f0.gz",
+          "encoding": "gzip",
+          "payloadSha256": "3ce152c03a2eab236b39db5d106dd16c3789b46f3bbc67bf710bfcce6f0398f0",
+          "payloadBytes": 15873,
+          "storedSha256": "5fe940be1db89b5e1fa99ce27f82d6477430fb98d0789d7e9a9b91c1fc17dc41",
+          "storedBytes": 5078,
+          "producerTask": "/root",
+          "authorTask": "GLM/S13-manual-delivery",
+          "reviewerTask": "/root",
+          "sourceRevision": "7611019fb41cf5bd401e87858e5e716b015ede22",
+          "scope": "Three independent fixed S13 individual body/template decisions only; no central assembly/global/main/done or product execution.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 S13 exact per-page semantic receipt and explicit private intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual nonauthor report, failures and bounded source reads; not relocation of an existing canonical candidate.",
+          "exitCondition": "Retain audit/replay; no automatic deletion or candidate denominator exemption."
+        },
+        "reportSha256": "3ce152c03a2eab236b39db5d106dd16c3789b46f3bbc67bf710bfcce6f0398f0",
+        "storedSha256": "5fe940be1db89b5e1fa99ce27f82d6477430fb98d0789d7e9a9b91c1fc17dc41",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S13-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "27539f897b2c3001b413ce4e9fd1e1dd1cf311b73c168c62850ff833d5ea7b87",
+        "originalPreservation": {
+          "sourceBytes": 259,
+          "sourceSha256": "ebe989d4500ded8bde1a3ed6e989136b71892e530b4c51640104d7ec8ebd276d",
+          "directInverseBytes": 259,
+          "directEqual": true,
+          "excludeExactOneUnquotedSeparatorLF": false,
+          "exactSourceEqual": true
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "Old 20261017-r41-ops-archive-task.json binding superseded only for this page; withdrawal and complete old entry retained.",
+          "priorRecord": "docs/phase-governance/reviews/20261017-r41-ops-archive-task.json",
+          "sourceRevision": "741d96580689e6e97cffd9c286511f3bacd34044",
+          "priorAfterSha256": "2b816a9611098ffad7537cec568224958631f1d32a61982ea5653311204765d0",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r41-ops-archive-task.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          }
+        }
+      ],
+      "historicalWithdrawal": {
+        "priorRecord": "docs/phase-governance/reviews/20261017-r41-ops-archive-task.json",
+        "sourceRevision": "741d96580689e6e97cffd9c286511f3bacd34044",
+        "scope": "Old unsupported semantic/type claim stays withdrawn; only this new fixed body accepted."
+      },
+      "supersedes": [
+        {
+          "record": "docs/phase-governance/reviews/20261017-r41-ops-archive-task.json",
+          "revision": "741d96580689e6e97cffd9c286511f3bacd34044",
+          "scope": "This page wrapper and mistaken classification only; no historical task decisions or raw replaced."
+        }
+      ],
+      "stopLine": "No global/old execution/runtime/E2E/visual/coverage/main/done credit; changed source or unsupported conclusion returns rework.",
+      "sourceSha256": "2b816a9611098ffad7537cec568224958631f1d32a61982ea5653311204765d0",
+      "afterSha256": "27539f897b2c3001b413ce4e9fd1e1dd1cf311b73c168c62850ff833d5ea7b87",
+      "sourceGitRevision": "741d96580689e6e97cffd9c286511f3bacd34044",
+      "reviewedLines": "47 candidate LF; original7 LF; dependency ranges fixed in report",
+      "historyOverlay": false,
+      "documentStatus": "current",
+      "beforeAfter": {
+        "before": "R41 general done/cancelled presentation",
+        "after": "done 导航限定本归档目录及统一索引的已完成分组，5个 quote 外实链可达；完成证据、签字和候选回原卡，终态可在活动目录原位关闭，与实际 taskInfo/renderTaskIndex 和归档目录门一致。本页不承诺物理全集或当前产品通过。"
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "governance-index-v1",
+        "templateVersion": "1.0.0",
+        "historyOverlay": false,
+        "scope": "Actual page-specific five navigation sections plus preserved quote; explicit contract0issues and independent root source/role decision."
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/cancelled/README.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "governance-index",
+      "templateId": "governance-index-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM full per-page source/body migration and evidence; root actually fully read these three candidate pages and original sources, verified declared caller sections, SHA/quote/navigation and reran exact checks. This S13 work predates user instruction to prefer lightweight evidence verification in future batches; no linked task business-body reread claimed.",
+      "coreConclusion": "cancelled 导航以5个 quote 外实链连接取消分组与当前入口，取消理由和替代项仍取原卡；纠正旧 task-card/phase1/historical 误呈现为 ops/current 导航，不承担 phase1 目标验收，不恢复取消工作或旧信用。259B直接逆回明确不等，精确剔除唯一未引用 LF 才等258B原源。",
+      "truthAnchors": [
+        "docs/ops/archive/tasks/cancelled/README.md:7",
+        "docs/ops/archive/tasks/cancelled/README.md:21",
+        "scripts/docs/check.mjs:28",
+        "scripts/docs/check.mjs:56",
+        "scripts/docs/check.mjs:104",
+        "scripts/docs/check.mjs:225"
+      ],
+      "unresolved": [
+        "Historical tasks and original execution records are not reaccepted by this navigation review.",
+        "Whole docs governance and quarantined execution scopes remain incomplete."
+      ],
+      "nextStep": "Maintain current navigation and continue remaining scoped GLM governance with evidence-led Codex verification; no wholesale restoration.",
+      "phase": "ops",
+      "module": "archive/tasks",
+      "capability": "cancelled-boundary-and-classification-correction",
+      "owner": "Codex documentation governance; S13 body author GLM",
+      "provenance": [
+        "GLM scoped full-body work under parent build admission",
+        "human delivered fixed candidate 7611019fb41cf5bd401e87858e5e716b015ede22",
+        "root nonauthor individual decision 3ce152c03a2eab236b39db5d106dd16c3789b46f3bbc67bf710bfcce6f0398f0",
+        "old withdrawal retained; no artifactOnly shortcut"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/cancelled/README.md",
+          "revision": "dce008a777bb45658e9d7a146624db9b57469f63",
+          "sha256": "a3d28f030ea60b18f34caedf6fb9416a5b1f568020c4a113ef089e142fb2cf2d",
+          "scopeActuallyRead": "Full original 7 LF / 258 bytes; Git blob 89b1811692ea96b68e1532c85290035e45cf3171"
+        },
+        {
+          "path": "docs/ops/archive/tasks/cancelled/README.md",
+          "revision": "741d96580689e6e97cffd9c286511f3bacd34044",
+          "sha256": "c346d499c79ac59e68b8a5d46b68ffc27d180386839dc61c95ea1a2112ab2c4c",
+          "scopeActuallyRead": "Prior root whole wrapper read reused after exact byte pin match; current actual delta reviewed."
+        },
+        {
+          "path": "scripts/docs/check.mjs",
+          "revision": "741d96580689e6e97cffd9c286511f3bacd34044",
+          "sha256": "6ff612d2df541cd255a91f1050d06ae6bafd279deee1ba3c3fdbb249bd4f2676",
+          "scopeActuallyRead": "1-145 and215-285: task exclusion, top status, generated grouping, terminal location, actual navigation caller."
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "currentBoundary": "Current directory navigation; historical task states/dates/evidence stay on original cards. No phase1 task acceptance."
+      },
+      "dependencies": [
+        "docs/ops/archive/tasks/README.md",
+        "docs/ops/tasks/index.md",
+        "docs/ops/tasks/README.md",
+        "docs/ops/board.md",
+        "docs/ops/agent-workflow.md",
+        "docs/phase-governance/templates/registry.json",
+        "scripts/docs/check.mjs"
+      ],
+      "versionScope": {
+        "validity": "current navigation only",
+        "candidateCommit": "7611019fb41cf5bd401e87858e5e716b015ede22",
+        "sourceRevision": "dce008a777bb45658e9d7a146624db9b57469f63",
+        "sourceDate": "Original source has no author date; S13 date is a governance event.",
+        "notRun": ["runtime", "E2E", "visual", "coverage"]
+      },
+      "publicCallers": [
+        "Current ops archive navigation readers",
+        "scripts/docs/check.mjs link and directory checks",
+        "scripts/docs/document-model.mjs explicit governance-index contract"
+      ],
+      "legalInputs": [
+        "These three exact UTF-8 README pages under governance-index1.0, quoted source bytes retained; task scanner excludes README."
+      ],
+      "businessOracle": {
+        "type": "actual-archive-navigation-role-and-source",
+        "assertions": [
+          "cancelled 导航以5个 quote 外实链连接取消分组与当前入口，取消理由和替代项仍取原卡；纠正旧 task-card/phase1/historical 误呈现为 ops/current 导航，不承担 phase1 目标验收，不恢复取消工作或旧信用。259B直接逆回明确不等，精确剔除唯一未引用 LF 才等258B原源。",
+          "Visible navigation links exist outside original-source quote; counts 5",
+          "Original marker region unchanged; exact source inverse uses one precisely mapped unquoted separator LF exclusion",
+          "Task index byte-equal to candidate Git index; status authoritative on each card."
+        ]
+      },
+      "dedupe": {
+        "result": "Navigation roles individually distinct; no copied hundreds-of-card index or renewed adjacent acceptance.",
+        "against": ["docs/ops/archive/tasks/README.md", "docs/ops/archive/tasks/done/README.md"]
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "S13-CANCELLED-MISCLASSIFICATION",
+          "status": "closed-for-fixed-body-only",
+          "statement": "cancelled 导航以5个 quote 外实链连接取消分组与当前入口，取消理由和替代项仍取原卡；纠正旧 task-card/phase1/historical 误呈现为 ops/current 导航，不承担 phase1 目标验收，不恢复取消工作或旧信用。259B直接逆回明确不等，精确剔除唯一未引用 LF 才等258B原源。",
+          "closureReportSha256": "3ce152c03a2eab236b39db5d106dd16c3789b46f3bbc67bf710bfcce6f0398f0"
+        }
+      ],
+      "revision": {
+        "currentSha": "7611019fb41cf5bd401e87858e5e716b015ede22",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "S13 exact GLM body independently accepted",
+            "previousAfterSha256": "c346d499c79ac59e68b8a5d46b68ffc27d180386839dc61c95ea1a2112ab2c4c",
+            "afterSha256": "62d844ec6b9a64c989f5b2a98625297d7a6a85cb8e7b9a3cab46b38aa058bf1b",
+            "revision": "7611019fb41cf5bd401e87858e5e716b015ede22"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "S13-individual-body-semantic-template-nonauthor-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/S13-root-nonauthor-individual-fixed-7611019/3ce152c03a2eab236b39db5d106dd16c3789b46f3bbc67bf710bfcce6f0398f0.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/S13-root-nonauthor-individual-fixed-7611019/3ce152c03a2eab236b39db5d106dd16c3789b46f3bbc67bf710bfcce6f0398f0.gz",
+          "encoding": "gzip",
+          "payloadSha256": "3ce152c03a2eab236b39db5d106dd16c3789b46f3bbc67bf710bfcce6f0398f0",
+          "payloadBytes": 15873,
+          "storedSha256": "5fe940be1db89b5e1fa99ce27f82d6477430fb98d0789d7e9a9b91c1fc17dc41",
+          "storedBytes": 5078,
+          "producerTask": "/root",
+          "authorTask": "GLM/S13-manual-delivery",
+          "reviewerTask": "/root",
+          "sourceRevision": "7611019fb41cf5bd401e87858e5e716b015ede22",
+          "scope": "Three independent fixed S13 individual body/template decisions only; no central assembly/global/main/done or product execution.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 S13 exact per-page semantic receipt and explicit private intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original actual nonauthor report, failures and bounded source reads; not relocation of an existing canonical candidate.",
+          "exitCondition": "Retain audit/replay; no automatic deletion or candidate denominator exemption."
+        },
+        "reportSha256": "3ce152c03a2eab236b39db5d106dd16c3789b46f3bbc67bf710bfcce6f0398f0",
+        "storedSha256": "5fe940be1db89b5e1fa99ce27f82d6477430fb98d0789d7e9a9b91c1fc17dc41",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S13-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "62d844ec6b9a64c989f5b2a98625297d7a6a85cb8e7b9a3cab46b38aa058bf1b",
+        "originalPreservation": {
+          "sourceBytes": 258,
+          "sourceSha256": "a3d28f030ea60b18f34caedf6fb9416a5b1f568020c4a113ef089e142fb2cf2d",
+          "directInverseBytes": 259,
+          "directEqual": false,
+          "excludeExactOneUnquotedSeparatorLF": true,
+          "exactSourceEqual": true
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "Old 20261017-r32-ops-cancelled-tasks.json binding superseded only for this page; withdrawal and complete old entry retained.",
+          "priorRecord": "docs/phase-governance/reviews/20261017-r32-ops-cancelled-tasks.json",
+          "sourceRevision": "741d96580689e6e97cffd9c286511f3bacd34044",
+          "priorAfterSha256": "c346d499c79ac59e68b8a5d46b68ffc27d180386839dc61c95ea1a2112ab2c4c",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "task": "DOCS-RECORD-INTEGRITY-1",
+            "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+            "scopePointer": "/expandedAudit20261018",
+            "evidenceStatus": "pending-root-intake-at-generation",
+            "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+            "originalCoreConclusion": "已取消任务：这是 task-card，当前文档状态为 historical。全文 8 行、1 个标题；摘要/首段为「这里只保存顶部状态为 cancelled 的任务卡。取消理由与替代任务见原卡及总索引，不因归档而恢复旧方案。」。属于历史/归档材料，不能单独证明当前实现。",
+            "originalReviewDepth": "deep-semantic",
+            "originalReadMethod": "full-text UTF-8 source read and R32 semantic migration; quote inverse checked",
+            "originalContentReviewStatus": "content-reviewed",
+            "originalTemplateCompliance": "template-compliant",
+            "originalAfterSha256": "c346d499c79ac59e68b8a5d46b68ffc27d180386839dc61c95ea1a2112ab2c4c",
+            "oldDigest": {
+              "algorithm": "sha256",
+              "encoding": "UTF-8",
+              "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+              "value": "7df99dad2bedd8034a08ab8b8738642c48db5ef5280da827e065c0e65d8e6c7b"
+            },
+            "originalEntryLocator": {
+              "record": "docs/phase-governance/reviews/20261017-r32-ops-cancelled-tasks.json",
+              "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+              "sourceRecordSha256": "73d2e0264a267b325be8b28173959a584685263d5ab8153292cd980f1efbb69f",
+              "sourceRecordGitObject": "73e81bb556e57c2c4353a09a6b4606b50cd2bacc",
+              "entryIndex": 5,
+              "path": "docs/ops/archive/tasks/cancelled/README.md"
+            },
+            "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "authorCanonicalTask": "/root/s12_semantic_author",
+            "nonAuthorReviewer": false,
+            "noNewSemanticOrTemplateOrRuntimeCredit": true
+          }
+        }
+      ],
+      "historicalWithdrawal": {
+        "priorRecord": "docs/phase-governance/reviews/20261017-r32-ops-cancelled-tasks.json",
+        "sourceRevision": "741d96580689e6e97cffd9c286511f3bacd34044",
+        "scope": "Old unsupported semantic/type claim stays withdrawn; only this new fixed body accepted."
+      },
+      "supersedes": [
+        {
+          "record": "docs/phase-governance/reviews/20261017-r32-ops-cancelled-tasks.json",
+          "revision": "741d96580689e6e97cffd9c286511f3bacd34044",
+          "scope": "This page wrapper and mistaken classification only; no historical task decisions or raw replaced."
+        }
+      ],
+      "stopLine": "No global/old execution/runtime/E2E/visual/coverage/main/done credit; changed source or unsupported conclusion returns rework.",
+      "sourceSha256": "c346d499c79ac59e68b8a5d46b68ffc27d180386839dc61c95ea1a2112ab2c4c",
+      "afterSha256": "62d844ec6b9a64c989f5b2a98625297d7a6a85cb8e7b9a3cab46b38aa058bf1b",
+      "sourceGitRevision": "741d96580689e6e97cffd9c286511f3bacd34044",
+      "reviewedLines": "48 candidate LF; original7 LF; dependency ranges fixed in report",
+      "historyOverlay": false,
+      "documentStatus": "current",
+      "beforeAfter": {
+        "before": "R32 task-card/phase1/cancelled mistaken wrapper",
+        "after": "cancelled 导航以5个 quote 外实链连接取消分组与当前入口，取消理由和替代项仍取原卡；纠正旧 task-card/phase1/historical 误呈现为 ops/current 导航，不承担 phase1 目标验收，不恢复取消工作或旧信用。259B直接逆回明确不等，精确剔除唯一未引用 LF 才等258B原源。"
+      },
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "governance-index-v1",
+        "templateVersion": "1.0.0",
+        "historyOverlay": false,
+        "scope": "Actual page-specific five navigation sections plus preserved quote; explicit contract0issues and independent root source/role decision."
+      }
     }
   ]
 }

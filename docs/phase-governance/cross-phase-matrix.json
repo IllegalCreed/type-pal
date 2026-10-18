@@ -1743,6 +1743,24 @@
         "Full1838 plus actual incremental semantic/template governance remains incomplete."
       ],
       "stopLine": "No blanket semantic restore, guessed historical candidate/output, product/test/coverage change, main merge or done."
+    },
+    {
+      "id": "S13-archive-navigation-current-boundaries",
+      "from": [
+        "docs/ops/archive/tasks/README.md",
+        "docs/ops/archive/tasks/done/README.md",
+        "docs/ops/archive/tasks/cancelled/README.md"
+      ],
+      "to": ["docs/ops/tasks/index.md", "docs/ops/board.md", "docs/ops/agent-workflow.md"],
+      "relationship": "Three current navigation pages retain each historical card top-status/date/evidence authority. Classification/done-evidence/cancelled-boundary roles individually accepted; ops navigation is not phase1 task acceptance or any lore/phase2/phase3/testing runtime renewal.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/S13-root-nonauthor-individual-fixed-7611019/3ce152c03a2eab236b39db5d106dd16c3789b46f3bbc67bf710bfcce6f0398f0.gz"
+      ],
+      "unresolved": [
+        "Whole docs and historical task body review remain incomplete; no runtime/E2E/visual/coverage credit."
+      ],
+      "stopLine": "Navigation current does not reopen historical work or grant product/main/done acceptance."
     }
   ],
   "acceptance": {

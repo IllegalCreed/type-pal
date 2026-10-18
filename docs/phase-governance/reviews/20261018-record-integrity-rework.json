@@ -998,7 +998,7 @@
       "supersedes": [],
       "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
       "sourceSha256": "01d22347bffa1427428dbb863df59493c6cbe923a48cd885a23473e94c595295",
-      "afterSha256": "96e77423d23978c32ea38bf5dc919d396e8ce3e62705f7fc86d69cd1ded953b6",
+      "afterSha256": "d4186dd26528640f26408af58f3efe78c13001dc937fcc06a9dd547324ad2bc9",
       "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only",
       "maintenanceDeltas": [
         {
@@ -1089,6 +1089,15 @@
           "previousAfterSha256": "c2a1752dcf76b0efcff9c9462cc97615029ee1ffaa765806b82eff12ebb1ec6c",
           "afterSha256": "96e77423d23978c32ea38bf5dc919d396e8ce3e62705f7fc86d69cd1ded953b6",
           "method": "Only expandedAudit20261018 current correction acceptance and exact immutable report reference appended after full fixed23b independent report reading; original scope and native subject statuses unchanged.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 S13 three individually accepted GLM navigation bodies",
+          "sourceRevision": "741d96580689e6e97cffd9c286511f3bacd34044",
+          "previousAfterSha256": "96e77423d23978c32ea38bf5dc919d396e8ce3e62705f7fc86d69cd1ded953b6",
+          "afterSha256": "d4186dd26528640f26408af58f3efe78c13001dc937fcc06a9dd547324ad2bc9",
+          "method": "Explicit S13 current routing/individual acceptance/recorded R32 correction and latest user evidence-led review policy; no other subject semantic or execution credit.",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -2345,7 +2354,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
-      "afterSha256": "2a43c185af71b29cfc4c3512defd5300d251b4a78afb355d603ea0ae29d9e64c",
+      "afterSha256": "7218f1a7029bb0410d702688a61ec238b64fc8bec22666b58138a78f0f02caa4",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -2436,6 +2445,15 @@
           "previousAfterSha256": "fc8fcf26bfea5741e46f755c8c39c6f592da79851d726c6a029ed12297f23a90",
           "afterSha256": "2a43c185af71b29cfc4c3512defd5300d251b4a78afb355d603ea0ae29d9e64c",
           "method": "Explicit151 status/compliance withdrawals through branded storage writer; no semantic credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 S13 three individually accepted GLM navigation bodies",
+          "sourceRevision": "741d96580689e6e97cffd9c286511f3bacd34044",
+          "previousAfterSha256": "2a43c185af71b29cfc4c3512defd5300d251b4a78afb355d603ea0ae29d9e64c",
+          "afterSha256": "7218f1a7029bb0410d702688a61ec238b64fc8bec22666b58138a78f0f02caa4",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
           "grantsNewSemanticAcceptance": false
         }
       ]
