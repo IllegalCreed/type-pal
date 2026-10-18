@@ -3673,7 +3673,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "1d43f1eaeb938d3f32fe03d64db8e6e42ab2f1d9c0e10d80bc63d490bb403a03",
-      "afterSha256": "1d43f1eaeb938d3f32fe03d64db8e6e42ab2f1d9c0e10d80bc63d490bb403a03",
+      "afterSha256": "130ff60b8390561334b0f82dfbc52efb4b7c30df5fbfb42024a22ab5e33b7efb",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -3797,7 +3797,18 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "4be24d2490ff7c01d8222275b31641cb6b6c5cb1",
+          "previousAfterSha256": "1d43f1eaeb938d3f32fe03d64db8e6e42ab2f1d9c0e10d80bc63d490bb403a03",
+          "afterSha256": "130ff60b8390561334b0f82dfbc52efb4b7c30df5fbfb42024a22ab5e33b7efb",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261016-architecture-integration-history.json",
@@ -14169,7 +14180,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "304a0ab05b84b8c60b1a5ed51b5618d2eb8370b3bf4467a6897fa50ad01b0f81",
-      "afterSha256": "5262ad21d79e85f50d487a23eaf1726048a1dd7a63aeb0943b07ea09047a18f1",
+      "afterSha256": "b3cd1e56c7abbb2b35adb86b57e4075cc78920a3d6a115a0d8d81937e900b1a5",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -14301,7 +14312,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "4be24d2490ff7c01d8222275b31641cb6b6c5cb1",
+          "previousAfterSha256": "5262ad21d79e85f50d487a23eaf1726048a1dd7a63aeb0943b07ea09047a18f1",
+          "afterSha256": "b3cd1e56c7abbb2b35adb86b57e4075cc78920a3d6a115a0d8d81937e900b1a5",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",

@@ -413,7 +413,7 @@
       "reviewedSourceSha256": "a2f890e62ce23ad2580345dd4a12178b2efb0e50c7a01371bf6aa4411c1231d3",
       "sourceGitRevision": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
       "sourceState": "present",
-      "afterSha256": "2ddf67a7b11c317cb6f1cab6001efd0eb97f15b145c2a7c7826b972e48954107",
+      "afterSha256": "ae2befda7e538238d8beb5da08aca128ddef98c825041dbc67cfad2ec26ec87a",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -476,7 +476,18 @@
       "stopLine": "Historical instructions and original E2E acceptance remain scoped; schema or template checks never grant new execution credit.",
       "userVisibleBeforeAfter": "混合日期的顺序追加报告 -> 按角色/结果/证据/历史分组，原标题锚与正文保留。",
       "reviewedLines": "1-265",
-      "reviewNotes": "实际核读原文/新正文/调用校验与相关模板；源正文和历史结论通过 Git、wrapper 或保留回执追溯。最终全量独立复核仍未完成。"
+      "reviewNotes": "实际核读原文/新正文/调用校验与相关模板；源正文和历史结论通过 Git、wrapper 或保留回执追溯。最终全量独立复核仍未完成。",
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "4be24d2490ff7c01d8222275b31641cb6b6c5cb1",
+          "previousAfterSha256": "2ddf67a7b11c317cb6f1cab6001efd0eb97f15b145c2a7c7826b972e48954107",
+          "afterSha256": "ae2befda7e538238d8beb5da08aca128ddef98c825041dbc67cfad2ec26ec87a",
+          "method": "Only explicit named historical-fragment navigation compatibility, original body/metadata/quote/status unchanged; no fresh semantic grant.",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-001.json",

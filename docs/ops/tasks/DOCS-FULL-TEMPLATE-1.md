@@ -1848,3 +1848,10 @@ root非作者实际核固定de423正文SHA1e50d535c2b16aa466207da22e698768bd5abb
 - 新正文须实质表达七家族与D01–D12/R01/T01–T11共24索引的具体来源/责任/业务判据/日期/入口/停止线，非24闭合bug；current仅catalog发布轴，006只历史/rework。明确六refs窄域、17k/60k测试源码非本轮执行、draw stub非像素、span/容量归采集比较、后期原指令与8raw缺失仍unknown，不复活party+4/600ms等撤回候选。
 - 严守frontmatter/testing-meta全部原字节、quote52736B/1ac28e2b583447b70baf8cd5455394f0f6a4be04765d3151a327f12220ec8e93原字节；inverse直接52042B不等source52041，只去marker前既有恰1LF才等601229，禁止trim/泛化变换或倒改旧声明。仅更新现可见五章/真实核读日期及必要实际导航，不重跑旧转换或补造raw。作者须逐链接/fragment及catalog真实canonical核查，避免重现本次JSON猜路径错误。
 - 作者在隔离候选实际验证现单篇完整consumer/配对证据、精确保全及有判别力的出版/保全反例，记录真实argv/cwd/time/exit/streams/source-afterSHA与全部失败；nonAuthor=false，完整diff/body-onlycommit交付。不同Owner完整核新正文、来源/历史/反例和实际consumer后才可决定接受；中央R60单条迁移/registry/matrix/card与新exact回执接入另由root处理，不能借其他S文档接受续授。本卡持续rework，不合main、不done。
+
+### S12作者实查的两个历史fragment：root单独导航修复准入
+
+- 作者实际完整fragment检查发现S12-HISTORICAL-FRAGMENT-RENAME-ARCHIVE-20261008、S12-HISTORICAL-FRAGMENT-RENAME-001-20261007；原quote的两个旧slug对应的标题已改名。作者11/16真实FAIL原件不改，正文原quote必须原字节保全，不能改旧链接过门或将缺口豁免。S12固定作者候选1c23ddde3529e81c9d95240fb6de4e0ae42531d4/61bb76dfd5de68fad02337ab95e6451c8f0e0e1d520140d328a48873abfc5747仍未获语义/模板/中央接受。
+- Codex build allowed给root，仅两个目标的兼容导航：docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md的现行archive wrapper中补旧name锚及到原历史章节的精确转接；docs/testing/e2e/stages/001-opening/report.md在既有历史验收heading前补旧name锚。target原quote、历史heading、日期/状态/数值/机器元数据、catalog和产品不改；不恢复旧“当前”标题，不为两个目标授新深审完成。原目标source SHA由作者counter固定，root写前核同字节。
+- 采用GitHub官方custom anchor的name语法，依据[官方写作语法](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#custom-anchors)。原作者ATX-only probe不支持显式name，保其原失败不改；root后继必须实际核非fence/非comment/非quote中的唯一named anchor、转接真实heading及全部链接，并以移除对应锚能复现原2项失败的有效反控证明修复。不是宣称旧公共门已有fragment覆盖，也不改全仓规则/ignore。
+- 只作新增导航delta和对应explicit pin/history维护，实际source/after与不同Owner窄验收另存，零正文重授/零runtime信用。若独立验收未闭合，两历史导航counter与S12模板/中央完成继续pending，整卡rework/main/done=false。

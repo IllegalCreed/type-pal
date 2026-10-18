@@ -32,7 +32,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "0b80912a1f5aee28f81d7d2909ee9e627cf35c43a0899a577ade30fe9a204028",
-      "afterSha256": "bfda8b6623cd3d8a47bdcfe3af92cae71ab151544e9a9baed1cb77d724ed5b7c",
+      "afterSha256": "b2a0906384727effc983927516c96dfa068c171f3fe05e68a233a46076d6467d",
       "publicCallers": [
         "docs/ops/tasks/index.md navigation",
         "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md"
@@ -155,7 +155,18 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "4be24d2490ff7c01d8222275b31641cb6b6c5cb1",
+          "previousAfterSha256": "bfda8b6623cd3d8a47bdcfe3af92cae71ab151544e9a9baed1cb77d724ed5b7c",
+          "afterSha256": "b2a0906384727effc983927516c96dfa068c171f3fe05e68a233a46076d6467d",
+          "method": "Only explicit named historical-fragment navigation compatibility, original body/metadata/quote/status unchanged; no fresh semantic grant.",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/ops/archive/tasks/done/GAME-RIX-MUSIC-1.md",

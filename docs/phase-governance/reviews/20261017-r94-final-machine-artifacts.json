@@ -1169,7 +1169,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "9649eb29db7e55638be626fa4188bffa2bf6e0be2edac69ea3e326a3316a6510",
+      "afterSha256": "f6b5ccbeadecdad9bb9d4e7c8fef1ef2dc4627ea7bd6893f66d5d74ce6af6ef5",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1400,6 +1400,15 @@
           "sourceRevision": "7af53f61cff00db333ae2f87698673ea6dbc82a2",
           "previousAfterSha256": "6b7ec659dd0869ff40bd13a245c4215491ced7f7ab06bccbe34a5abbe4a40709",
           "afterSha256": "9649eb29db7e55638be626fa4188bffa2bf6e0be2edac69ea3e326a3316a6510",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "4be24d2490ff7c01d8222275b31641cb6b6c5cb1",
+          "previousAfterSha256": "9649eb29db7e55638be626fa4188bffa2bf6e0be2edac69ea3e326a3316a6510",
+          "afterSha256": "f6b5ccbeadecdad9bb9d4e7c8fef1ef2dc4627ea7bd6893f66d5d74ce6af6ef5",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
@@ -5385,7 +5394,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "8bb940933834d9e9551d2bae1659dbffc79f3f60362a3ca1b26c2c8489521fe1",
+      "afterSha256": "05cd1a2425d3bbbacaf7e4df134da13c3c1e65c7d8571242e279425a95f61959",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -5690,6 +5699,15 @@
           "previousAfterSha256": "d7fc38b887b5f89e6e6273e930f77029871e24cc207dce9981a4fc50f8211ce1",
           "afterSha256": "8bb940933834d9e9551d2bae1659dbffc79f3f60362a3ca1b26c2c8489521fe1",
           "method": "Append fixed6a non-author scoped closure, separately limited S11 design-counter status and precise single-owner/file S12 candidate build admission; no new completed binding.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "4be24d2490ff7c01d8222275b31641cb6b6c5cb1",
+          "previousAfterSha256": "8bb940933834d9e9551d2bae1659dbffc79f3f60362a3ca1b26c2c8489521fe1",
+          "afterSha256": "05cd1a2425d3bbbacaf7e4df134da13c3c1e65c7d8571242e279425a95f61959",
+          "method": "Record original S12 historical-fragment counters, narrow root target-anchor admission, exact official syntax/new local validation boundary, no new acceptance.",
           "grantsNewSemanticAcceptance": false
         }
       ]
