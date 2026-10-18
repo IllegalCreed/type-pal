@@ -2990,7 +2990,7 @@
       "sourceGitRevision": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c",
       "sourceGitObject": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c:docs/ops/guides/documentation-model.md",
       "sourceState": "absent-new-document-empty-byte-source",
-      "afterSha256": "ea9124d5a8729a30eaaf27679224db73b5bfdc73bff591a071380c83526e9203",
+      "afterSha256": "c0a7dafc08dbada4f802501634875e7f1ecfff26f35856b510e6494f2994dee7",
       "publicCallers": [
         "AGENTS.md operation routing",
         "docs/README.md",
@@ -3067,6 +3067,15 @@
           "previousAfterSha256": "3a087aec18bd1e3a5918f7ba01fd440696c43411f743cbd5c185a93b9f1fae50",
           "afterSha256": "ea9124d5a8729a30eaaf27679224db73b5bfdc73bff591a071380c83526e9203",
           "method": "Only reviewed generic protocol/entry-reference diff (nonauthor short review74be48a1999a17b1dddcddd66108f5fe38a9b8e6fa89e7c8113631c34069cf29); actual diff known, no new body-migration or native status credit. Task scope/base unchanged.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "Canonical document-quality contract at ops root; explicit section migration",
+          "sourceRevision": "c23f7751dd9a967b2694461799c315cac688849c",
+          "previousAfterSha256": "ea9124d5a8729a30eaaf27679224db73b5bfdc73bff591a071380c83526e9203",
+          "afterSha256": "c0a7dafc08dbada4f802501634875e7f1ecfff26f35856b510e6494f2994dee7",
+          "method": "Explicit canonical location/active reference and routing correction; original1.0 protocol text unchanged and old anchor retained. No existing subject reacceptance or changed S14 scope.",
           "grantsNewSemanticAcceptance": false
         }
       ]

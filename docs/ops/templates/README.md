@@ -25,6 +25,6 @@ Template: governance-index-v1 / 1.0.0
 
 ## 证据与下一步
 
-文档任务的交付材料、证据验收、复用与交接统一取[长期文档验收协议](../guides/documentation-model.md#文档交付与证据验收协议)；完整/轻量卡只填写本批参数，不另维护验收条款。
+文档任务的交付材料、证据验收、复用与交接统一取[长期文档验收协议](../document-quality.md#文档交付与证据验收协议)；完整/轻量卡只填写本批参数，不另维护验收条款。
 
 模板结构由[统一注册表](../../phase-governance/templates/README.md)管理，任务实施和签字只落实际卡。上级为[协作与工程维护](../README.md)；创建后由 Coding Owner 补实证据，不以空模板充当交付。

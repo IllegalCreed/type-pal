@@ -35,7 +35,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
-      "afterSha256": "3f1e3fcf469f90dea9646aa73b2405c57b13e6a920588d726a339e2c1cd4050a",
+      "afterSha256": "522b6ce91da966a1df951eafc00f4631abbb0804b594d24c386d29a1797ec07d",
       "publicCallers": [
         "docs/ops/templates/README.md",
         "docs/ops/tasks/README.md",
@@ -184,6 +184,15 @@
           "afterSha256": "3f1e3fcf469f90dea9646aa73b2405c57b13e6a920588d726a339e2c1cd4050a",
           "method": "Only reviewed generic protocol/entry-reference diff (nonauthor short review74be48a1999a17b1dddcddd66108f5fe38a9b8e6fa89e7c8113631c34069cf29); actual diff known, no new body-migration or native status credit. Task scope/base unchanged.",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "Canonical document-quality contract at ops root; explicit section migration",
+          "sourceRevision": "c23f7751dd9a967b2694461799c315cac688849c",
+          "previousAfterSha256": "3f1e3fcf469f90dea9646aa73b2405c57b13e6a920588d726a339e2c1cd4050a",
+          "afterSha256": "522b6ce91da966a1df951eafc00f4631abbb0804b594d24c386d29a1797ec07d",
+          "method": "Explicit canonical location/active reference and routing correction; original1.0 protocol text unchanged and old anchor retained. No existing subject reacceptance or changed S14 scope.",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -217,7 +226,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
-      "afterSha256": "3223e8eff325305770c3bbd0975e3f3896c0c246c1be03b02a32eaddbb5b6a8a",
+      "afterSha256": "350e61f286e276d6749af07c1af2ec4e351cdd7ecf7f8249a785262b79e58b87",
       "publicCallers": [
         "docs/ops/templates/README.md",
         "docs/ops/tasks/README.md",
@@ -365,6 +374,15 @@
           "previousAfterSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
           "afterSha256": "3223e8eff325305770c3bbd0975e3f3896c0c246c1be03b02a32eaddbb5b6a8a",
           "method": "Only reviewed generic protocol/entry-reference diff (nonauthor short review74be48a1999a17b1dddcddd66108f5fe38a9b8e6fa89e7c8113631c34069cf29); actual diff known, no new body-migration or native status credit. Task scope/base unchanged.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "Canonical document-quality contract at ops root; explicit section migration",
+          "sourceRevision": "c23f7751dd9a967b2694461799c315cac688849c",
+          "previousAfterSha256": "3223e8eff325305770c3bbd0975e3f3896c0c246c1be03b02a32eaddbb5b6a8a",
+          "afterSha256": "350e61f286e276d6749af07c1af2ec4e351cdd7ecf7f8249a785262b79e58b87",
+          "method": "Explicit canonical location/active reference and routing correction; original1.0 protocol text unchanged and old anchor retained. No existing subject reacceptance or changed S14 scope.",
           "grantsNewSemanticAcceptance": false
         }
       ]

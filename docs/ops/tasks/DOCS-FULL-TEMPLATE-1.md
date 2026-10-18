@@ -1971,3 +1971,10 @@ root非作者实际核固定de423正文SHA1e50d535c2b16aa466207da22e698768bd5abb
 
 - 用户要求参照codex/code-quality-3y长期代码验收规范，将文档验收提升为通用合同。唯一规范为[项目文档模型中的文档交付与证据验收协议](../guides/documentation-model.md#文档交付与证据验收协议)，版本document-delivery-acceptance/1.0.0；AGENTS、工作流与完整/轻量任务模板引用它，本卡S13/S14等原段落仅保留当时的执行/交接快照，不是另一套现行规则。
 - 当前S14白名单、Owner、base dd37d6da、既有模板与停止线不变；贡献者从中央候选已提交的通用协议读取，勿为追规则切换/覆盖正在工作的分支。后续提示词只列本批参数和通用协议版本，不复制整份规范。全卡仍rework/main/done=false；新通用协议本身不授任何未审正文信用。
+
+
+### 文档质量规范位置纠正（用户2026-10-18）
+
+- 目录判断按职责：ops顶层维护跨任务长期制度，guides提供具体操作与组织方法，tasks记录单次执行，evidence保存观察。通用文档质量与验收规范唯一正文为[docs/ops/document-quality.md](../document-quality.md)，与代码质量规范同层；此前放进文档模型属于层级判断失当。
+- 迁移源为c23f7751的documentation-model同名章节，1.0.0条款逐字节迁出，旧anchor保留转接；AGENTS、工作流、ops导航、任务模板与routing同步改指。显式源/目标SHA、链接重算与consumer结果保留，不改旧回执。新文件单列当前增量登记，不静默扩1838分母，也不由搬路径授逐篇迁移完成。
+- S14仍用dd37d6da基点和原12篇白名单；无需重开、切分支或重做成果，只更新通用规范引用。全量治理仍rework/main/done=false。

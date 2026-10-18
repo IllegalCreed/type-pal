@@ -28,7 +28,7 @@
         "manual-semantic-migration"
       ],
       "sourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
-      "afterSha256": "38d3593065c759c911e387a950317b83c33995cbecfec82886de76157cb58559",
+      "afterSha256": "fc43f4ae68a51f05d4ed78182edfd4bb58377dcb883b7ee33895862fa8990252",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -387,6 +387,15 @@
           "previousAfterSha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
           "afterSha256": "38d3593065c759c911e387a950317b83c33995cbecfec82886de76157cb58559",
           "method": "Only reviewed generic protocol/entry-reference diff (nonauthor short review74be48a1999a17b1dddcddd66108f5fe38a9b8e6fa89e7c8113631c34069cf29); actual diff known, no new body-migration or native status credit. Task scope/base unchanged.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "Canonical document-quality contract at ops root; explicit section migration",
+          "sourceRevision": "c23f7751dd9a967b2694461799c315cac688849c",
+          "previousAfterSha256": "38d3593065c759c911e387a950317b83c33995cbecfec82886de76157cb58559",
+          "afterSha256": "fc43f4ae68a51f05d4ed78182edfd4bb58377dcb883b7ee33895862fa8990252",
+          "method": "Explicit canonical location/active reference and routing correction; original1.0 protocol text unchanged and old anchor retained. No existing subject reacceptance or changed S14 scope.",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -932,7 +941,7 @@
         "manual-semantic-migration"
       ],
       "sourceSha256": "29b0e324cf58b8840ecbe9afb9c82b8b464c04bab172a2ad43d3137c389f0473",
-      "afterSha256": "af44688efec1f7e67fa4cd50e93765d242b39d41621fe0dd4e5fa5f43e2a7e5b",
+      "afterSha256": "043a7344c1845d2a9269faf9c0c4580e79df4b6403e23122a9743fc65286591b",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -1118,7 +1127,18 @@
       "templateVersion": "1.0.0",
       "reviewedSourceSha256": "29b0e324cf58b8840ecbe9afb9c82b8b464c04bab172a2ad43d3137c389f0473",
       "sourceGitRevision": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
-      "sourceState": "present"
+      "sourceState": "present",
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "Canonical document-quality contract at ops root; explicit section migration",
+          "sourceRevision": "c23f7751dd9a967b2694461799c315cac688849c",
+          "previousAfterSha256": "af44688efec1f7e67fa4cd50e93765d242b39d41621fe0dd4e5fa5f43e2a7e5b",
+          "afterSha256": "043a7344c1845d2a9269faf9c0c4580e79df4b6403e23122a9743fc65286591b",
+          "method": "Explicit canonical location/active reference and routing correction; original1.0 protocol text unchanged and old anchor retained. No existing subject reacceptance or changed S14 scope.",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/ops/tasks/index.md",
@@ -1921,7 +1941,7 @@
         "manual-semantic-migration"
       ],
       "sourceSha256": "3976d2bbda8a770fb94520c76747a78a0706b136a05ff8e39e078da00ce88dcd",
-      "afterSha256": "10dfb5cd32d928a2e99d9e8fb1a60d30e6b9da3d44abb566ea4ebc5dfa569705",
+      "afterSha256": "e9d665cc30773f87c33d63f0416b79a4d94c8937ff2089575e01fea24fbada3e",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -2100,6 +2120,15 @@
           "previousAfterSha256": "a7c88637f4c0a57478583fcf11277b363db95dbe19f48965900656832d22b1dc",
           "afterSha256": "10dfb5cd32d928a2e99d9e8fb1a60d30e6b9da3d44abb566ea4ebc5dfa569705",
           "method": "Only reviewed generic protocol/entry-reference diff (nonauthor short review74be48a1999a17b1dddcddd66108f5fe38a9b8e6fa89e7c8113631c34069cf29); actual diff known, no new body-migration or native status credit. Task scope/base unchanged.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "Canonical document-quality contract at ops root; explicit section migration",
+          "sourceRevision": "c23f7751dd9a967b2694461799c315cac688849c",
+          "previousAfterSha256": "10dfb5cd32d928a2e99d9e8fb1a60d30e6b9da3d44abb566ea4ebc5dfa569705",
+          "afterSha256": "e9d665cc30773f87c33d63f0416b79a4d94c8937ff2089575e01fea24fbada3e",
+          "method": "Explicit canonical location/active reference and routing correction; original1.0 protocol text unchanged and old anchor retained. No existing subject reacceptance or changed S14 scope.",
           "grantsNewSemanticAcceptance": false
         }
       ]

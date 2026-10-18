@@ -2354,7 +2354,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
-      "afterSha256": "7218f1a7029bb0410d702688a61ec238b64fc8bec22666b58138a78f0f02caa4",
+      "afterSha256": "f95403aaa0633c64a7069c4b84e269c7df4ebb9e69670495435e0764b503f9e2",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -2453,6 +2453,15 @@
           "sourceRevision": "741d96580689e6e97cffd9c286511f3bacd34044",
           "previousAfterSha256": "2a43c185af71b29cfc4c3512defd5300d251b4a78afb355d603ea0ae29d9e64c",
           "afterSha256": "7218f1a7029bb0410d702688a61ec238b64fc8bec22666b58138a78f0f02caa4",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "Canonical document-quality contract at ops root; explicit section migration",
+          "sourceRevision": "c23f7751dd9a967b2694461799c315cac688849c",
+          "previousAfterSha256": "7218f1a7029bb0410d702688a61ec238b64fc8bec22666b58138a78f0f02caa4",
+          "afterSha256": "f95403aaa0633c64a7069c4b84e269c7df4ebb9e69670495435e0764b503f9e2",
           "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
           "grantsNewSemanticAcceptance": false
         }
@@ -8172,6 +8181,112 @@
       "templateConformance": {
         "status": "needs-migration",
         "scope": "Template family is a pending binding, not a claim that immutable native report fields already satisfy prose/evidence contract."
+      }
+    },
+    {
+      "path": "docs/ops/document-quality.md",
+      "contentReviewStatus": "partial-review-unknown",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "needs-migration",
+      "reviewDepth": "structured-content",
+      "readMethod": "Explicit pending registration: New entire guide root-authored; accepted c23 protocol core relocated byte-exact from documentation-model. New standalone file/header/wrapper identity has not received independent whole-document acceptance.; no full semantic/template or product acceptance from registration.",
+      "coreConclusion": "Standalone cross-task document quality/acceptance contract belongs at ops root; guides/documentation-model retains only routing and legacy-anchor handoff. Original protocol1.0 core bytes unchanged; new incremental candidate is pending, not newly migrated/completed.",
+      "truthAnchors": [
+        "docs/ops/document-quality.md:1",
+        "docs/ops/guides/documentation-model.md",
+        "docs/ops/README.md"
+      ],
+      "unresolved": [
+        "This file has not earned independent full semantic/template acceptance as a document."
+      ],
+      "nextStep": "Review this native document and actual callers under its suitable frozen template before granting completion; preserve immutable original reports.",
+      "phase": "ops",
+      "owner": "Codex central documentation maintenance",
+      "provenance": [
+        "explicit central registration; no path-inferred semantic credit",
+        "root explicit byte-preserving section relocation under user directory correction; c23f7751 source Git and relocation-map preserved"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/document-quality.md",
+          "revision": "c23f7751dd9a967b2694461799c315cac688849c",
+          "sha256": "e0a7d45e35b607ee9743e2fc8c061798ceaaff2fe5251fd8e4345899adb0e7a1",
+          "scopeActuallyRead": "New entire guide root-authored; accepted c23 protocol core relocated byte-exact from documentation-model. New standalone file/header/wrapper identity has not received independent whole-document acceptance.",
+          "meaning": "registration byte snapshot; untracked additions may not exist in this revision"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "ops",
+        "scope": "Documentation governance only; no product/runtime applicability granted."
+      },
+      "dependencies": [],
+      "versionScope": {
+        "sourceRevision": "c23f7751dd9a967b2694461799c315cac688849c",
+        "scope": "registration only; document-specific historical dates and revisions remain native"
+      },
+      "publicCallers": [
+        "AGENTS documentation operation",
+        "docs/ops/agent-workflow.md",
+        "docs/ops/templates/README.md",
+        "docs/ops/README.md"
+      ],
+      "legalInputs": [
+        "Current project document tasks with authorized scope; original source/after identity kept separate."
+      ],
+      "businessOracle": {
+        "type": "canonical-document-quality-location-and-preserved-policy",
+        "assertions": [
+          "Exactly one full protocol body at docs/ops/document-quality.md",
+          "Old model anchor forwards to new canonical; all active callers point to ops root",
+          "Original protocol1.0 core exactly equal to c23 Git source, no runtime or historical acceptance changed"
+        ]
+      },
+      "dedupe": {
+        "result": "explicit unique new pending registration; no new completed binding",
+        "against": ["docs/ops/guides/documentation-model.md"]
+      },
+      "counterReworkBlocked": [
+        {
+          "status": "pending-document-template-review",
+          "statement": "Native field preservation/storage or report transport is distinct from per-document semantic/template completion."
+        }
+      ],
+      "revision": {
+        "currentSha": "c23f7751dd9a967b2694461799c315cac688849c",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "explicit-pending-registration",
+            "sha256": "e0a7d45e35b607ee9743e2fc8c061798ceaaff2fe5251fd8e4345899adb0e7a1"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "registration-not-semantic-acceptance",
+        "path": "docs/ops/document-quality.md",
+        "producer": "root explicit byte-preserving section relocation under user directory correction; c23f7751 source Git and relocation-map preserved"
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "newly registered partial/needs; earlier original report claims and failed commands retained"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
+      "sourceSha256": "e0a7d45e35b607ee9743e2fc8c061798ceaaff2fe5251fd8e4345899adb0e7a1",
+      "afterSha256": "e0a7d45e35b607ee9743e2fc8c061798ceaaff2fe5251fd8e4345899adb0e7a1",
+      "sourceGitRevision": "c23f7751dd9a967b2694461799c315cac688849c",
+      "reviewedLines": "New entire guide root-authored; accepted c23 protocol core relocated byte-exact from documentation-model. New standalone file/header/wrapper identity has not received independent whole-document acceptance.; registration only",
+      "beforeAfter": {
+        "before": "Only a long section in organization guide; no standalone cross-task normative entry.",
+        "after": "Unique pending binding recorded; native file content and statuses not promoted."
+      },
+      "templateConformance": {
+        "status": "needs-migration",
+        "scope": "guide-runbook1.0 structure and current native declaration will be checked mechanically; independent whole-file review remains pending, no template migration credit from relocation."
       }
     }
   ],

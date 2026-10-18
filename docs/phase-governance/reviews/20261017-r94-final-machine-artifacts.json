@@ -1200,7 +1200,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "4dbc47a82737382c8a5835bde48b74640d3ac53e255dedb4c7b9344f32091f0b",
+      "afterSha256": "8d35a4fe39f77daf12d2a4fc8fb75624b1b54b274b40cf548fcdd3817f04716f",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1476,6 +1476,15 @@
           "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
           "previousAfterSha256": "6a1ba65f54ab92c6d0d3baffb4d4e5b4a151a4cd04065b97a9b94292c48f0c8c",
           "afterSha256": "4dbc47a82737382c8a5835bde48b74640d3ac53e255dedb4c7b9344f32091f0b",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "Canonical document-quality contract at ops root; explicit section migration",
+          "sourceRevision": "c23f7751dd9a967b2694461799c315cac688849c",
+          "previousAfterSha256": "4dbc47a82737382c8a5835bde48b74640d3ac53e255dedb4c7b9344f32091f0b",
+          "afterSha256": "8d35a4fe39f77daf12d2a4fc8fb75624b1b54b274b40cf548fcdd3817f04716f",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
@@ -5516,7 +5525,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "d204e92db72274aec45ae099749e80d8b94bc04980f6ee98e18ca1ec3a5763d3",
+      "afterSha256": "3d9ca539ca56dfaf497692771de7b1219b2be0d39aac4d951e420e8b3821139c",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -5903,6 +5912,15 @@
           "afterSha256": "d204e92db72274aec45ae099749e80d8b94bc04980f6ee98e18ca1ec3a5763d3",
           "method": "Only reviewed generic protocol/entry-reference diff (nonauthor short review74be48a1999a17b1dddcddd66108f5fe38a9b8e6fa89e7c8113631c34069cf29); actual diff known, no new body-migration or native status credit. Task scope/base unchanged.",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "Canonical document-quality contract at ops root; explicit section migration",
+          "sourceRevision": "c23f7751dd9a967b2694461799c315cac688849c",
+          "previousAfterSha256": "d204e92db72274aec45ae099749e80d8b94bc04980f6ee98e18ca1ec3a5763d3",
+          "afterSha256": "3d9ca539ca56dfaf497692771de7b1219b2be0d39aac4d951e420e8b3821139c",
+          "method": "Explicit canonical location/active reference and routing correction; original1.0 protocol text unchanged and old anchor retained. No existing subject reacceptance or changed S14 scope.",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -6070,7 +6088,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "dd3eb78912bf62a889c2625024d6b79c18c375454695f69cd561143645abace8",
+      "afterSha256": "c3758e1d57b59d4f64e4eac78c6c6f1fa20a31c4c6504d36440860f895b1b93d",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -6343,6 +6361,15 @@
           "afterSha256": "dd3eb78912bf62a889c2625024d6b79c18c375454695f69cd561143645abace8",
           "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "Canonical document-quality contract at ops root; explicit section migration",
+          "sourceRevision": "c23f7751dd9a967b2694461799c315cac688849c",
+          "previousAfterSha256": "dd3eb78912bf62a889c2625024d6b79c18c375454695f69cd561143645abace8",
+          "afterSha256": "c3758e1d57b59d4f64e4eac78c6c6f1fa20a31c4c6504d36440860f895b1b93d",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -6373,7 +6400,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
-      "afterSha256": "73a3dfa26d5e0e05c892739216d1168ec4ff6977421cddbad17bcb0d5e1b6f0a",
+      "afterSha256": "126982e879b02e666bdefc1f273468660f820efafae0fe381759ab5a9cd6d9d5",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -6513,6 +6540,15 @@
           "previousAfterSha256": "8e7749aebe6de4a253bfefd560774b5caff1053f91141fb1f1a5e6073b9f4236",
           "afterSha256": "73a3dfa26d5e0e05c892739216d1168ec4ff6977421cddbad17bcb0d5e1b6f0a",
           "method": "Explicit S13 current routing/individual acceptance/recorded R32 correction and latest user evidence-led review policy; no other subject semantic or execution credit.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "Canonical document-quality contract at ops root; explicit section migration",
+          "sourceRevision": "c23f7751dd9a967b2694461799c315cac688849c",
+          "previousAfterSha256": "73a3dfa26d5e0e05c892739216d1168ec4ff6977421cddbad17bcb0d5e1b6f0a",
+          "afterSha256": "126982e879b02e666bdefc1f273468660f820efafae0fe381759ab5a9cd6d9d5",
+          "method": "Explicit canonical location/active reference and routing correction; original1.0 protocol text unchanged and old anchor retained. No existing subject reacceptance or changed S14 scope.",
           "grantsNewSemanticAcceptance": false
         }
       ]

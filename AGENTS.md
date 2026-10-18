@@ -14,7 +14,7 @@
 
 | 操作 | 必读 | 一句话要点 |
 |---|---|---|
-| 新建、修改或治理文档 | [项目文档模型与通用验收](docs/ops/guides/documentation-model.md#文档交付与证据验收协议) | 贡献者全文治理并交可复验证据；Codex默认据证裁定、风险定向展开；同提交写回，必要门零诊断 |
+| 新建、修改或治理文档 | [文档质量与验收](docs/ops/document-quality.md)、[项目文档模型](docs/ops/guides/documentation-model.md) | 贡献者全文治理并交可复验证据；Codex默认据证裁定、风险定向展开；同提交写回，必要门零诊断 |
 | 开始或接手非小改 | [当前协作流程](docs/ops/agent-workflow.md)、[活动看板](docs/ops/board.md) | 读卡顶部状态与准入；历史三签不恢复，旧 counter 不自动消失 |
 | 写、改或审查测试 | [测试治理](docs/testing/governance.md)、[测试质量验收](docs/ops/agent-workflow.md#测试质量验收用户-2026-10-03-固化) | 核 caller、合法输入、oracle、排重和反控；catalog 与 evidence 配对 |
 | 第一阶段机制或缺陷 | [第一阶段知识](CLAUDE.md)、[机制真值](docs/phase1/game-mechanics.md) | 分清原始数据、sdlpal 参考与本项目观察，保留原版证据边界 |

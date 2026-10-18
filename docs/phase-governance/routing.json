@@ -6,7 +6,7 @@
   "routes": [
     {
       "operation": "新建、修改或治理文档",
-      "required": ["docs/ops/guides/documentation-model.md"]
+      "required": ["docs/ops/document-quality.md", "docs/ops/guides/documentation-model.md"]
     },
     {
       "operation": "开始或接手非小改",
@@ -6236,6 +6236,11 @@
     {
       "path": "docs/phase-governance/reviews/20261018-governance-receipt-storage-design.md",
       "templateId": "design-spec-v1"
+    },
+    {
+      "path": "docs/ops/document-quality.md",
+      "templateId": "guide-runbook-v1",
+      "historyOverlay": false
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

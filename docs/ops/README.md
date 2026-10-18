@@ -1,7 +1,7 @@
 # 协作与工程维护
 
 Status: current
-Last reviewed: 2026-10-15
+Last reviewed: 2026-10-18
 Owner: Codex
 Template: governance-index-v1 / 1.0.0
 
@@ -11,7 +11,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 范围
 
-活动看板与任务卡负责执行分工，guides 放可重复操作，audits 放仍在消费的审计，evidence 放任务证据，archive 保留历史路径。此页只路由，不复制任务进度或测试结论。
+ops顶层放跨任务长期协作与质量制度；活动看板与任务卡负责执行分工，guides放具体操作与组织指南，audits放审计，evidence放证据，archive保留历史路径。此页只路由，不复制任务进度或测试结论。
 
 ## 当前状态
 
@@ -19,6 +19,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 入口与责任
 
+- [文档质量与验收规范](document-quality.md)：跨任务长期合同、贡献者交付与Codex证据验收。
 - [现行协作工作流](agent-workflow.md)、[当前任务看板](board.md)。
 - [活动任务与生成索引](tasks/README.md)：状态从卡顶部读取。
 - [完整/轻量任务模板](templates/README.md)：同一 task-card 类型的两个变体。

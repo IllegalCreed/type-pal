@@ -1264,7 +1264,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "a22ad6b1ea817179ecb6b2ac8166031877866e294c74d8a1d33368cc01890008",
+      "afterSha256": "c3f01560295ca928e32c08eef3c002237f50f746cdd6b82e795785a3f9cea4d0",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1422,6 +1422,15 @@
           "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
           "previousAfterSha256": "793c91f46b0733c6f934482933f37103792b0b98cf6841b9c29c45b160740078",
           "afterSha256": "a22ad6b1ea817179ecb6b2ac8166031877866e294c74d8a1d33368cc01890008",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "Canonical document-quality contract at ops root; explicit section migration",
+          "sourceRevision": "c23f7751dd9a967b2694461799c315cac688849c",
+          "previousAfterSha256": "a22ad6b1ea817179ecb6b2ac8166031877866e294c74d8a1d33368cc01890008",
+          "afterSha256": "c3f01560295ca928e32c08eef3c002237f50f746cdd6b82e795785a3f9cea4d0",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
@@ -2837,7 +2846,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4c7c6feed74bc80d2e4441c186eba6fadfa057ac53cdd6f1639544803e12cc4a",
-      "afterSha256": "e59909a963b9d9f48795a49ac8827e4a7ad8a8ba3c722a3bacd8174c342e885c",
+      "afterSha256": "bc942cce2353a9dada76aed85d342140ae603e084a9b33f4c7b73e6d6c281c39",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -2977,6 +2986,15 @@
           "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
           "previousAfterSha256": "5eebe519a24ac97ec6041cd8be213fa8c9667061367d0e6bd0a25ff1f8424791",
           "afterSha256": "e59909a963b9d9f48795a49ac8827e4a7ad8a8ba3c722a3bacd8174c342e885c",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "Canonical document-quality contract at ops root; explicit section migration",
+          "sourceRevision": "c23f7751dd9a967b2694461799c315cac688849c",
+          "previousAfterSha256": "e59909a963b9d9f48795a49ac8827e4a7ad8a8ba3c722a3bacd8174c342e885c",
+          "afterSha256": "bc942cce2353a9dada76aed85d342140ae603e084a9b33f4c7b73e6d6c281c39",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
@@ -15446,7 +15464,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "19acdf9237d9ad9b00b367ff6a1b22a79612806171c8d229b4b45005c790185b",
-      "afterSha256": "8dbec2d024cbb1ab7a9dbc1274553739a4115b32d062aa481e842ca3c3c62327",
+      "afterSha256": "a10f4965c41e28bade4e0925c8bc0b6aae3e9a0a671a318889217d0c5569e897",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -15586,6 +15604,15 @@
           "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
           "previousAfterSha256": "537f99cad3263ef8937759863e2b26d37d2956c13966e8a46b8218134712a315",
           "afterSha256": "8dbec2d024cbb1ab7a9dbc1274553739a4115b32d062aa481e842ca3c3c62327",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "Canonical document-quality contract at ops root; explicit section migration",
+          "sourceRevision": "c23f7751dd9a967b2694461799c315cac688849c",
+          "previousAfterSha256": "8dbec2d024cbb1ab7a9dbc1274553739a4115b32d062aa481e842ca3c3c62327",
+          "afterSha256": "a10f4965c41e28bade4e0925c8bc0b6aae3e9a0a671a318889217d0c5569e897",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
