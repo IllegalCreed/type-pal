@@ -19,6 +19,7 @@ Status: build；以下只记有限模块结果，不声明全专项完成
 - 模块5批3作者原件：[game core小文件×4](game-core-batch3/README.md)（同线，review待验收）。B-G补维零整改;mode autoScript门/宝物屋tp补丁/老档归一化核验成立;7套件20/20。core续批:poison/search/identity等→大文件补维轮。
 - 模块5批4作者原件：[game core 3o/3n余量×4](game-core-batch4/README.md)（同线，review待验收）。B-G补维零整改;poison差异挂draft卡/搜索注释已修/量化边界吻合;27套件90/90。core小文件全收口,下一批大文件补维轮(event-system/battle-system/scene-system/game-state)。
 - 模块5批5作者原件：[game-state.ts大文件补维](game-core-gamestate/README.md)（同线，review待验收）。修 InventoryEntry 错挂注/dialogHistory 不入存档反事实(核bootstrap 定谳)/postBattleResume 孤儿docblock归位;71/71+game typecheck 0;大文件补维轮续 scene-system→event-system→battle-system。
+- 模块5批6作者原件：[scene-system.ts大文件补维](game-core-scenesystem/README.md)（同线，review待验收）。删两零调用死函数(_npcAt/_findTriggerZoneNpc,全仓grep零引)+真值注合并;基线110/110→后132/132、typecheck 0。大文件轮续 event-system→battle-system。
 
 集成修正：MKF仅首offset/表长4对齐、并非所有chunk偏移；SDL坏档结果/全原盘保证不能泛化；readChunk生产注释保留借用合同、去掉测试治理措辞。RNG跳帧保留基面继续解码，不保证缺帧后的画面等价。正常资产对拍不代替坏帧策略证明。
 
