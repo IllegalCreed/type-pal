@@ -1,0 +1,20 @@
+{
+  "scope": "Exact restored source inputs used in six controls; final follow-up changes only one comment in settlement, separately proven by emitted-JS equality.",
+  "rows": [
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.ts",
+      "snapshot": "control-source-0.gz",
+      "sha256": "72860d1f0ce732258cb5bd15e9cb22259f4241921798796eb85698658aeefe0d"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "snapshot": "control-source-1.gz",
+      "sha256": "eac9aa3e405ea1b56782c4161b3803f5c2c264dbf7b6cfe14a2a35567af011e6"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "snapshot": "control-source-2.gz",
+      "sha256": "6b20017dc7c7ca79c413fdb690cd65a5cdaa38e33d8227d009f1b19ce23fe7ea"
+    }
+  ]
+}

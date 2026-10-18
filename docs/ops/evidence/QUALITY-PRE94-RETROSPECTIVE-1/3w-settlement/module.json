@@ -1,0 +1,30 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/battle/battle-settlement.glm-next-wave.test.ts",
+    "src/core/battle/battle-progression.glm-next-wave.test.ts",
+    "src/core/battle/__tests__/battle-levelup.test.ts",
+    "src/core/battle/__tests__/battle-system.test.ts",
+    "src/core/battle/battle-state-machine.glm-battle.test.ts",
+    "src/core/battle/battle-finalization.test.ts",
+    "src/core/battle/battle-runtime-context.test.ts",
+    "--reporter=verbose",
+    "--reporter=json",
+    "--outputFile=/tmp/type-pal-3w-module.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-18T05:57:17.508167+00:00",
+  "completedAt": "2026-10-18T05:57:19.288519+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "module.raw.gz",
+  "rawBytes": 42645,
+  "rawSha256": "677df6dd5ed8549b29327579051b5f238f35f93fd131d0973fc26951032ef33d",
+  "fullUncutMergedStdoutStderr": true
+}

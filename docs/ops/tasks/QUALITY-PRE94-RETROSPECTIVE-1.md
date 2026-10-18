@@ -756,3 +756,10 @@ Codex premise verified/design agree/build allowed：同3y隔离树、单Owner，
 ### 2026-10-18 GA失败安装用户A裁决后窄修
 
 用户明确批准失败撤监听/隐私控件、刷新重试；3w本轮只读暂停，无结算改动。两个生命周期源+一正式失败测试，先15绿5指定红再修，最终7文件30绿/TC零诊断/两单针、原源回放五红及本地浏览器失败/刷新链。原probe和早期TC测试泛型失败原件保留，不改历史raw。三路径review，新增测试库存1；3317/253closed/99review/2965pending，0新增关闭，83卡55partial/28pending/0accept及原83对象不改。详见[GA回滚](../evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md)。共享SDK不清，外部清理自身抛错等未签收；全仓/coverage/protected留大任务收尾、不合main，下一步回3w结算，94–102/editor后置；无下一位Agent提示词。
+
+
+### 2026-10-18 CODE3w settlement复审准入
+
+Codex premise verified/design agree/build allowed：沿用3y隔离树、单Owner；settlement实现246行/专测259行全文，真实startBattle→tickBattle won→dialog/settlement hold、progression307行、runtime hydrate/projection/writeback、资源与cleanup出口及SDL battle.c:991–1373/play.c:603–681已核。低风险白名单为两既有文件的事实注释与测试：修正screen/hidden-exp/Phase E/F ownership和C的恒真恢复分支说明；复用typed资源工厂，经真实开战、hydrate与投影搭合法won快照，补强队伍顺序、边界tick、pressed/held、脚本/对话/恢复/释放顺序。只观察真实runner，不mock核心；不改产品执行、save/schema、资产、公共接口或机制/UI。原5例绿不代表判别力；已证混合同拆开并迁全原断言、精确反控后写review。全仓check/official coverage/protected留大任务收尾。
+
+本片交付：settlement源仅修owner、隐藏涨点顺序、C恒真恢复、TS清键策略及0x89可直接置won事实注释，执行JS与基点一致。专测259→347行、5→8，复用typed资源工厂、正式default/hydrate/projection/startBattle、真实RNG和脚本/dialog推进；原五合同逐断言迁移，无整例退役。六旧全文件5绿→新7绿1指定业务AssertionError，逐字节恢复；7文件229=8直接+221相邻及game TC零诊断。早期测试误用dialogBox.text的1红原件保留，不冒充产品先红。两旧closed重开review，3317/251closed/101review/2965pending，0新增关闭；83卡55partial/28pending/0accept不变，仅3w证据指针更新。见[结算证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-settlement/README.md)。未改产品行为/API/schema/save/资产/phase2或baseline；脚本影响域、极端数值/容量、演出及非队员Extra继续未签收。完整check/official coverage/protected留大任务收尾，不合main；下一步仍pre94 3w脚本影响域或40/41，94–102/editor后置。无下一位Agent提示词。

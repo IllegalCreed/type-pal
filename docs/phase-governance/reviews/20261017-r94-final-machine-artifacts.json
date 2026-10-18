@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "766cb5bb4e8c59b3d1d72282439fa4a927c62c7888e4f1a77668d0b0897c901e",
+      "afterSha256": "3792f046040ed5602438d732a340c9ee6ada72a956daa2211614a79c3aa291ee",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,8 +1066,24 @@
       },
       "revision": {
         "currentSha": "a2101ce8ffeb73642521f0b489d17642f27bbd3fcdc581d0e9c354dedbc05778",
-        "implementationSha": "766cb5bb4e8c59b3d1d72282439fa4a927c62c7888e4f1a77668d0b0897c901e",
+        "implementationSha": "3792f046040ed5602438d732a340c9ee6ada72a956daa2211614a79c3aa291ee",
         "history": [
+          {
+            "revision": "9bc478671044f2dff222581b6326884694e5b9e2",
+            "date": "2026-10-18",
+            "action": "Bounded CODE3w settlement implementation/comment/test review",
+            "previousAfterSha256": "766cb5bb4e8c59b3d1d72282439fa4a927c62c7888e4f1a77668d0b0897c901e",
+            "scope": "Selected implementation246→249/spec259→347 lines fully read, caller/primary/dedupe explicit. Only source comments corrected; emitted JS original/control-input/final identical. Tests use loadDefaultGame/projection/startBattle/real RNG/runner/dialog, five contracts migrated into eight cases, no retirement/baseline/rule changes. Six whole old5green/current7green+1specified AssertionError controls, exact restoration. Final7files229=direct8+adjacent221 and game TC. Earlier test-author wrong dialog field1red retained, not product-red evidence. Two old closures reopen review;3317/251closed/101review/2965pending,0newclosed.83cards55partial/28pending/0accept unchanged,only3w evidence pointer. Four incoming review files/five bindings only; other rows/history/native verdicts preserved. No product execution/API/save/schema/assets/phase2 change. Script impact/exception,edge domains,visual and nonparty Extra remain unaccepted.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-settlement/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "original game runtime",
+              "E2E",
+              "visual"
+            ]
+          },
           {
             "revision": "31a6769e7d6cd0e3c02669e3827beb38e818ed4e",
             "date": "2026-10-18",
@@ -1473,8 +1489,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "766cb5bb4e8c59b3d1d72282439fa4a927c62c7888e4f1a77668d0b0897c901e",
-        "lineCount": 15223,
+        "afterSha256": "3792f046040ed5602438d732a340c9ee6ada72a956daa2211614a79c3aa291ee",
+        "lineCount": 15255,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -1504,7 +1520,7 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "1-15223",
+      "reviewedLines": "1-15255",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

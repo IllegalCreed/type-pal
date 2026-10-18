@@ -1,0 +1,145 @@
+{
+  "base": "9bc478671044f2dff222581b6326884694e5b9e2",
+  "owner": "Codex single agent",
+  "rows": [
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "sha256": "7951c6967057b40827e206b028601580214d46fa4b13e96f8bb45ec054399dd0",
+      "lines": 249,
+      "ranges": [[1, 249]],
+      "fullRead": true,
+      "scope": "Selected implementation, full original246/current249; comments and lifecycle",
+      "snapshot": "read-0.source.gz"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts",
+      "sha256": "ee5a5f2ac3a1f2cf8a7da6ee90ba797f0add0ea4944633992b05cb7a022adc56",
+      "lines": 347,
+      "ranges": [[1, 347]],
+      "fullRead": true,
+      "scope": "Selected spec, original259/current full; legitimate host, transfers, assertions",
+      "snapshot": "read-1.source.gz"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-progression.ts",
+      "sha256": "fc687b0757b88bc0a9c287e6d80fb000ce177575bebe769728e55585896ba0ba",
+      "lines": 307,
+      "ranges": [[1, 307]],
+      "fullRead": true,
+      "scope": "Delegated numeric owner; shared snapshot/hidden/learn result",
+      "snapshot": "read-2.source.gz"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-runtime-context.ts",
+      "sha256": "535c0f0400feb0c322222c2937335f3199cfc808d1e2092e030c5294db31cf1b",
+      "lines": 98,
+      "ranges": [[1, 98]],
+      "fullRead": true,
+      "scope": "Public resource/runner ownership",
+      "snapshot": "read-3.source.gz"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.ts",
+      "sha256": "72860d1f0ce732258cb5bd15e9cb22259f4241921798796eb85698658aeefe0d",
+      "lines": 67,
+      "ranges": [[1, 67]],
+      "fullRead": true,
+      "scope": "Public cleanup/handoff used by settlement; previous3u/3w counter evidence reused",
+      "snapshot": "read-4.source.gz"
+    },
+    {
+      "path": "packages/game/src/core/command-bus.ts",
+      "sha256": "3bdb8708f32293244a69cf2ba8550fd306d328b49df26757fc175c7773de1200",
+      "lines": 88,
+      "ranges": [[1, 88]],
+      "fullRead": true,
+      "scope": "Local typed command channel; no global subscription",
+      "snapshot": "read-5.source.gz"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "130c7398a4f53d5a69b3d36178777ef3c18dfea0a7641f50d53c097493ee33a7",
+      "lines": 3130,
+      "ranges": [[180, 355], [392, 454], [490, 530], [2250, 2390], [3070, 3098]],
+      "fullRead": false,
+      "scope": "Real start/won/hold/dialog route; not full3141-line audit in this slice",
+      "snapshot": "read-6.source.gz"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "6b20017dc7c7ca79c413fdb690cd65a5cdaa38e33d8227d009f1b19ce23fe7ea",
+      "lines": 2105,
+      "ranges": [[1394, 1494], [1571, 1681], [1766, 1783]],
+      "fullRead": false,
+      "scope": "Hydrate/default/projection/writeback boundary; not whole GameState audit",
+      "snapshot": "read-7.source.gz"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+      "sha256": "c1ae5dbf2fbd93074fddde52d5f0b8980bae77d292cb311363313bf48e4203ba",
+      "lines": 464,
+      "ranges": [[1, 180], [350, 450]],
+      "fullRead": false,
+      "scope": "Dedupe and neighboring settlement/upgrade contracts; not whole-file acceptance",
+      "snapshot": "read-8.source.gz"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.test.ts",
+      "sha256": "2bd7845ef57f603b1db5801a1b33f08c7f05193c08d3c1d47909b8ac9a18b3fa",
+      "lines": 218,
+      "ranges": [[1, 135]],
+      "fullRead": false,
+      "scope": "Current real host/factory ownership pattern; full review credit remains previous slice",
+      "snapshot": "read-9.source.gz"
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.ts",
+      "sha256": "f0a4f858eb4304180664d3f8b89f41792593fe7c6df0be4e7ef184a9d9b1c6c9",
+      "lines": 961,
+      "ranges": [[1, 180], [301, 374]],
+      "fullRead": false,
+      "scope": "Public currentLineText and real start factory; not whole dialog audit",
+      "snapshot": "read-10.source.gz"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.ts",
+      "sha256": "799c6795b9f106300d412249244af86816dc305966a19b509dbd8011ea771f66",
+      "lines": 1533,
+      "ranges": [[175, 240], [770, 816]],
+      "fullRead": false,
+      "scope": "Healing ownership and0x89 can set won without full wipe",
+      "snapshot": "read-11.source.gz"
+    },
+    {
+      "path": "reference/sdlpal/battle.c",
+      "sha256": "45f38a01d08b864151390c99bcbb4622e3ba78a5da80a3657c276bf1c2fea33f",
+      "lines": 1858,
+      "ranges": [[991, 1373]],
+      "fullRead": false,
+      "scope": "PAL_BattleWon C-reference truth; not original executable runtime",
+      "snapshot": "read-12.source.gz"
+    },
+    {
+      "path": "reference/sdlpal/play.c",
+      "sha256": "f13ba4e3a9c86c494390ea1eda121be1ae4c7fa5110f5e51cf4680321c742ef8",
+      "lines": 682,
+      "ranges": [[603, 642], [663, 681]],
+      "fullRead": false,
+      "scope": "ClearKeyState and actual wait",
+      "snapshot": "read-13.source.gz"
+    },
+    {
+      "path": "docs/phase1/game-mechanics.md",
+      "sha256": "a81d17a63ff80031ab257eb38dd4db03320f33eb8e33b74d1df401a10eba6c89",
+      "lines": 1675,
+      "ranges": [[190, 240], [725, 744]],
+      "fullRead": false,
+      "scope": "Sourced hidden-exp and #if1 half-recovery; historical stale TS line anchor not adopted",
+      "snapshot": "read-14.source.gz"
+    }
+  ],
+  "reusedReadOnlyContext": [
+    "H/harness.ts pure resource factories were fully read in preceding3u state slice; current selected exported factories and real core RNG/startBattle were rechecked. No H makeHBattle/copied seededRng used.",
+    "AGENTS/CLAUDE/workflow/testing governance/document model and archived3w card; old done/accept and package-green claims do not authorize current closure."
+  ]
+}

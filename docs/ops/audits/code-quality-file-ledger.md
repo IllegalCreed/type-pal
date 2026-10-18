@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,317。
-当前已闭合核验：253；已读但待审：99；尚未逐文件核验：2,965；合计未闭合：3,064。
+当前已闭合核验：251；已读但待审：101；尚未逐文件核验：2,965；合计未闭合：3,066。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -335,8 +335,8 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/battle/__tests__/attack-mate.test.ts` | test | 已验证 | CODE-QUALITY-3v；111 行实现对应的 7 个 AttackMate oracle，154 定向/相邻 tests | 148 行全文读取；随机 self/dead 跳过、protect/defend/clamp/无活友军/武器声与 HP ownership 反例 |
 | `packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-3v 当前复审；3v-battle-actions；64 行命中特效帧基号/缺表反例，定向6 files/154 tests | 全文读取；flat index `sprite*2+1`、×3、undefined fallback 与真实 timeline oracle；未发现重复或弱断言 |
 | `packages/game/src/core/battle/battle-finalization.ts` | product | review | [pre94 finalization/runtime复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md)；67行全文，真实tick/settlement/resume与C；只修等价范围注释 | 非队员Extra生产可达性另卡draft；两源parsedTS/JS相同，不改机制，不关闭 |
-| `packages/game/src/core/battle/battle-settlement.ts` | product | 已验证 | CODE-QUALITY-3w；battle.c:991-1373；battle-system:390-530；progression/settlement callers | 246 行全文核验 exp/cash/HP-MP 回写、屏序/timeout、Phase E once、对话 hold、半血与 finalize；未发现直接缺陷 |
-| `packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-3w；settlement screen/timeout/Phase E/half-heal oracle，196 定向/相邻 tests | 259 行全文读取；首帧残键、74+1 timeout、屏序、Phase E once/dialog hold/半血恢复反例 |
+| `packages/game/src/core/battle/battle-settlement.ts` | product | review | [3w结算复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-settlement/README.md)；SDL battle.c:991-1373/play.c:603-681、真实开战/hold/caller | 原owner/恒真分支/全敌已死注释不成立，已事实纠正；执行JS未变，2旧closed中本源重开review；未签收全部脚本副作用/数值域或视觉 |
+| `packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts` | test | review | [3w结算复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-settlement/README.md)；SDL battle.c:991-1373/play.c:603-681、真实开战/hold/caller | 旧未hydrate与模式/资源断言先真、手清队列/混合合同不足；5→8逐项迁移，六旧5绿新7绿1指定红，恢复8直接221相邻；未凭全绿关闭 |
 | `packages/game/src/core/dialog-history.test.ts` | test | 已验证 | CODE-QUALITY-3o；trim/dedup/map/CAP/restore contracts | direct history oracle |
 | `packages/game/src/core/mode.test.ts` | test | 已验证 | CODE-QUALITY-3o；mode/frame/autoScript/event dispatch contracts | main loop dispatch oracle |
 | `packages/game/src/core/scene-system-search.test.ts` | test | review | [本片直接证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/README.md)；完整源码/专测、生产caller与原C | 旧normal/far/first-hit声明不实；现12例及六旧绿新单红，保持review不以通过数恢复整文件 |

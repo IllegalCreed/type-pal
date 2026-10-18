@@ -1,0 +1,40 @@
+{
+  "rows": [
+    {
+      "label": "before",
+      "nativeReport": "before.vitest.json.gz",
+      "sha256": "ecc3f873b581662737a85394d2d0444cab09eec0e01188b0513b3f3520fcc425",
+      "originalPath": "/tmp/type-pal-3w-before.json",
+      "ownedTempRemoved": true
+    },
+    {
+      "label": "direct",
+      "nativeReport": "direct.vitest.json.gz",
+      "sha256": "2c3f55cca0d7c94838e127d4c7fe6b4a538a589e9369fdc6c0ac63f7ab87b5b8",
+      "originalPath": "/tmp/type-pal-3w-direct.json",
+      "ownedTempRemoved": true
+    },
+    {
+      "label": "direct-corrected",
+      "nativeReport": "direct-corrected.vitest.json.gz",
+      "sha256": "fe1f7613ecaf2b3b2a34ee6fed9e5a328ab40b92ebe503eeafda0c92b61504a3",
+      "originalPath": "/tmp/type-pal-3w-direct-corrected.json",
+      "ownedTempRemoved": true
+    },
+    {
+      "label": "module",
+      "nativeReport": "module.vitest.json.gz",
+      "sha256": "aabac5bb5797e4c16f6ea3193fc59c5fbf22389542856a6db5776993a937e974",
+      "originalPath": "/tmp/type-pal-3w-module.json",
+      "ownedTempRemoved": true
+    },
+    {
+      "label": "module-final",
+      "nativeReport": "module-final.vitest.json.gz",
+      "sha256": "7e6beaa4ed3de37cafc30cf4a7ee23d90a388710046fb3ae18fa80c1cf7b3ce0",
+      "originalPath": "/tmp/type-pal-3w-module-final.json",
+      "ownedTempRemoved": true
+    }
+  ],
+  "earlyCandidate": "direct is the failed test-authoring draft (wrong dialog field), not a product regression/red-first claim. Early exact source snapshot was not captured; final source/spec and formal six controls are separately frozen."
+}

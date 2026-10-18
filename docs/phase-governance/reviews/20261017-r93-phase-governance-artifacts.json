@@ -1040,7 +1040,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "67fca80cb2119a518c2bbc78538193d971f159641a4b30338561b10a5b6d1538",
+      "afterSha256": "73a2c592e07987d73e9c6bddbea66074a774bc422481e8ee48c4ce089bb6e7b4",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1064,8 +1064,24 @@
       },
       "revision": {
         "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "implementationSha": "67fca80cb2119a518c2bbc78538193d971f159641a4b30338561b10a5b6d1538",
+        "implementationSha": "73a2c592e07987d73e9c6bddbea66074a774bc422481e8ee48c4ce089bb6e7b4",
         "history": [
+          {
+            "revision": "9bc478671044f2dff222581b6326884694e5b9e2",
+            "date": "2026-10-18",
+            "action": "Bounded CODE3w settlement implementation/comment/test review",
+            "previousAfterSha256": "67fca80cb2119a518c2bbc78538193d971f159641a4b30338561b10a5b6d1538",
+            "scope": "Selected implementation246→249/spec259→347 lines fully read, caller/primary/dedupe explicit. Only source comments corrected; emitted JS original/control-input/final identical. Tests use loadDefaultGame/projection/startBattle/real RNG/runner/dialog, five contracts migrated into eight cases, no retirement/baseline/rule changes. Six whole old5green/current7green+1specified AssertionError controls, exact restoration. Final7files229=direct8+adjacent221 and game TC. Earlier test-author wrong dialog field1red retained, not product-red evidence. Two old closures reopen review;3317/251closed/101review/2965pending,0newclosed.83cards55partial/28pending/0accept unchanged,only3w evidence pointer. Four incoming review files/five bindings only; other rows/history/native verdicts preserved. No product execution/API/save/schema/assets/phase2 change. Script impact/exception,edge domains,visual and nonparty Extra remain unaccepted.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-settlement/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "original game runtime",
+              "E2E",
+              "visual"
+            ]
+          },
           {
             "revision": "31a6769e7d6cd0e3c02669e3827beb38e818ed4e",
             "date": "2026-10-18",
@@ -1455,8 +1471,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "67fca80cb2119a518c2bbc78538193d971f159641a4b30338561b10a5b6d1538",
-        "lineCount": 2684,
+        "afterSha256": "73a2c592e07987d73e9c6bddbea66074a774bc422481e8ee48c4ce089bb6e7b4",
+        "lineCount": 2700,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -1490,7 +1506,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-2684",
+      "reviewedLines": "1-2700",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -5209,7 +5225,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "b01bc0f42c3585335057b1d44fe5ea3bd8bc4b4d680ff4f9e0d9861ce4f71a4d",
+      "afterSha256": "ca8a7862bac6e486f7e72c3f649544b852769c5052b4eda527de4c70ca363849",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5233,8 +5249,24 @@
       },
       "revision": {
         "currentSha": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "implementationSha": "b01bc0f42c3585335057b1d44fe5ea3bd8bc4b4d680ff4f9e0d9861ce4f71a4d",
+        "implementationSha": "ca8a7862bac6e486f7e72c3f649544b852769c5052b4eda527de4c70ca363849",
         "history": [
+          {
+            "revision": "9bc478671044f2dff222581b6326884694e5b9e2",
+            "date": "2026-10-18",
+            "action": "Bounded CODE3w settlement implementation/comment/test review",
+            "previousAfterSha256": "b01bc0f42c3585335057b1d44fe5ea3bd8bc4b4d680ff4f9e0d9861ce4f71a4d",
+            "scope": "Selected implementation246→249/spec259→347 lines fully read, caller/primary/dedupe explicit. Only source comments corrected; emitted JS original/control-input/final identical. Tests use loadDefaultGame/projection/startBattle/real RNG/runner/dialog, five contracts migrated into eight cases, no retirement/baseline/rule changes. Six whole old5green/current7green+1specified AssertionError controls, exact restoration. Final7files229=direct8+adjacent221 and game TC. Earlier test-author wrong dialog field1red retained, not product-red evidence. Two old closures reopen review;3317/251closed/101review/2965pending,0newclosed.83cards55partial/28pending/0accept unchanged,only3w evidence pointer. Four incoming review files/five bindings only; other rows/history/native verdicts preserved. No product execution/API/save/schema/assets/phase2 change. Script impact/exception,edge domains,visual and nonparty Extra remain unaccepted.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-settlement/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "original game runtime",
+              "E2E",
+              "visual"
+            ]
+          },
           {
             "revision": "31a6769e7d6cd0e3c02669e3827beb38e818ed4e",
             "date": "2026-10-18",
@@ -5630,8 +5662,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "b01bc0f42c3585335057b1d44fe5ea3bd8bc4b4d680ff4f9e0d9861ce4f71a4d",
-        "lineCount": 5579,
+        "afterSha256": "ca8a7862bac6e486f7e72c3f649544b852769c5052b4eda527de4c70ca363849",
+        "lineCount": 5595,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -5665,7 +5697,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-5579",
+      "reviewedLines": "1-5595",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
