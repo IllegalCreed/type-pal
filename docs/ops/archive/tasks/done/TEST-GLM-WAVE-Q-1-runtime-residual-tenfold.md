@@ -1,54 +1,62 @@
 # TEST-GLM-WAVE-Q-1 — runtime/解码冻结交付收口
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Closed Evidence: main d8a81d4c21a32efa3c140fb5858c83465b01bc5e; GitHub Documentation 37145486289 + Coverage 37145486286 success (2026-10-04); finite regression admission after audit, not historical quota fulfillment.
+Phase: mixed（game/pal-extract第一阶段；reforge第二阶段）
+Capability: test-coverage
+Coding Owner: GLM Q（作者已停止）
+Reviewer: Codex
+Visual Verification Timing: N/A（纯测试接入；历史未证主张保留）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 GLM Q 波（runtime/解码残余十倍量测试）与 O/P 同令冻结、按有限回归准入收口的历史记录；下述数字与门禁结果均为原卡时点陈述，本次文档治理未重跑任何测试或CI。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+把 Q 波固定 175 项 game/pal-extract/reforge runtime 与解码测试按有限回归准入收口：保留真实 IO/解码、分色近邻、队伍/战斗生命周期等代表证据，按 caller/matcher 排重，不再无限续派。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：作者固定 5dbf72d78f8df9939a76407c0f17ad10455bbbb5 的 30 个测试/fixture 文件、175 项执行保留为现行回归/交叉核验（172 是历史结构上限，不是整卡语义净新量）；不同 caller 但相同 matcher 的平台/view/direct API 轴不重复计新；CLI 用 mkdtemp 合成数据与公开入口，不触真实 data/raw/extracted；已接收 NEXT/NEXT2 的真实 IO/解码代表证据保留。
+- 范围外：700例/50组/50针/Q10视觉历史计划；D-Q01-1 标题读档 IO 错误（属[REFORGE-OPENING-LOAD-ERROR-1](../../../tasks/REFORGE-OPENING-LOAD-ERROR-1.md) draft，本卡不修不标完成）；F1 overlay 恢复主张（withdrawn，维持撤回）；PAL 剧情/E2E002/世界后门；全仓 85%（未达，不是本卡继续工作的条件）。
 
 ## 前提与证据
-- primary source：固定 source revision `b9901f97a3a09359cbeaed9dde126e6f44b7f229` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+冻结与收口指令同 O 波；共同冻结收口见[glm-tenfold-triple 机账](../../../../testing/archive/legacy/batches/glm-tenfold-triple/README.md)。第一阶段真值、生产源、旧测、数据与统计配置不改，不恢复旧兼容。可证伪反例：拿真实媒体播放或源码推断当 F1 已验恢复；把 1b 基点 CI 冒称 8efe 或今天 main 的结论。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：83 文件并集完整 check 11875 绿、工具 325 绿、七包 typecheck 与 lint 零诊断、ratchet 通过；旧 16 计数阻塞由用户窄批准关闭，最新 check 11875+345、protected 11461 全绿且五登记通过；新 strict 因旧 I06 game 8280→8279 拒收、main CI 另缺 ignored 头像五旧红，转[QUALITY-TEST-INPUTS-1](QUALITY-TEST-INPUTS-1.md)。以上均为原卡时点结果，本页未复跑。本页迁移验收：source/after SHA、quote 逆回读、模板与历史 overlay 章节、链接通过。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡明确无下一位 GLM 提示词：固定 175 交付是本卡终点；产品 draft 另行窄准入不夹修。S14 本页治理只改写泛化封套，不重开任务、不恢复旧机制、不改保护参照。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `b9901f97a3a09359cbeaed9dde126e6f44b7f229`；本轮为 2026-10-17 R41。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-10-02 冻结、2026-10-03 收口指令与 GitHub 双 CI 成功（2026-10-04）；门基点 1b3bffb7/content21/SAVE10，记录时并行 main 已升级 8efe0486/content22/SAVE11；第一阶段/稳定 IO 合同与二阶段过期模型分开筛选，不用旧 model 兼容或新配额留过期合同。2026-10-17 R41 泛化封套，2026-10-18 S14 逐篇改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：175 项固定交付按有限回归准入收口；D-Q01-1 与 F1 的边界按原卡移交，原卡全文与历史在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+main d8a81d4c2 与 GitHub Documentation/Coverage 37145486289/37145486286（2026-10-04）；作者固定树 5dbf72d78（30 文件、175 执行）；[最新机账](../../../../testing/archive/legacy/batches/finite-test-intake-20261003/README.md)。本页治理未新增任何执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。F1 overlay 恢复主张维持 withdrawn；D-Q01-1 的当前状态以[REFORGE-OPENING-LOAD-ERROR-1](../../../tasks/REFORGE-OPENING-LOAD-ERROR-1.md)活动卡为准；历史数字不外推为今天 main 或 85% 结论。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+[REFORGE-OPENING-LOAD-ERROR-1](../../../tasks/REFORGE-OPENING-LOAD-ERROR-1.md)（活动 draft）承接标题读档 IO 错误；[QUALITY-TEST-INPUTS-1](QUALITY-TEST-INPUTS-1.md)与[QUALITY-OPQ-RETIREMENT-1](QUALITY-OPQ-RETIREMENT-1.md)承接共同保护账输入。当前测试事实源为 docs/testing/catalog.json。
 
 ## 原文保全
+
 固定源 revision `b9901f97a3a09359cbeaed9dde126e6f44b7f229`，source SHA `9a18297801768d3345b163751b3f10720d95d80dab2198aee56e2319c7edd900`；下方 quote 可逆回原始 UTF-8 字节。
 <!-- original-source-quote:start -->
 > # TEST-GLM-WAVE-Q-1 — runtime/解码冻结交付收口

@@ -1,54 +1,60 @@
 # EDITOR-MAP-SELECTION-NOTICE-1 — Esc 清选后的状态通知语义
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: pre005_editor_edges（实现）；Codex Root（独立验收）
+Phase: phase2
+Capability: editor-authoring / map-selection
+Visual Verification Timing: dev-functional（实施时最小地图选区/Esc 回显）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 GLM L 波证据暴露的地图选区通知矛盾窄修历史记录：Esc 真清选/Inspector 清空后底栏仍显示“已选择 1 个视觉槽、1 个格点。”；下述验证均为原卡时点陈述，本次文档治理未重跑。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+让两处清选入口（Esc、Inspector 清空）与鼠标清选一致报告“选区已清空。”，消除选区已清而底栏仍显示旧计数的矛盾；不把底栏改成实时状态栏。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：MapMode.tsx:2178-2187 选择通知、:2646 Esc 只派发 clear-selection、EditorDiagnosticsBar.tsx:82-87 持续渲染最近 workspaceNotice 的现行链；实现 beb5ac462 共享清选回调仅处理真正清空，保留其它 Esc 优先级。产品歧义（底栏=操作通知 vs 实时状态）已由母卡核实为操作通知，旧待选歧义消解。
+- 范围外：全局通知机制、底栏语义重设计；原版/第一阶段 N/A（现行编辑器通知设计）。
 
 ## 前提与证据
-- primary source：固定 source revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+证据源自 GLM L 候选 e2b3f43770c9968d72b16a34f3d0173a271cc4ca 的 wave-L functional-visual 与截图 02/03：Esc 后 Inspector 已回“属性/选中图层”而底栏仍写旧计数；截图 SHA256 已由 Codex 核对，选区实际清除由 UI 回显证明。未见通知自动过期证据。Root premise verified/design agree/build allowed，限 MapMode 及相邻回归。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：Root 独立 87 项定向通过；6014 实际选一个地图格点分别 Esc、Inspector 清空，两次底栏均“选区已清空。”且 Inspector 回地图属性、保存/撤销仍 disabled、不修改地图，截图 build/pre005/map-escape-cleared.png 与 map-inspector-cleared.png。既有 MapMode.kimi-workflows 的 65 条 act 警告在未改 main 复现，d406cbcee 只修真实资源完成等待边界；Root 独立 5/5 且无 stderr，未抑制 console、改 fixture 或静态规则；统一质量门归母卡。以上均为原卡时点结果，本页未复跑。本页迁移验收：source/after SHA、quote 逆回读、模板与历史 overlay 章节、链接通过。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡由 Root 独立验收收口，无下一位贡献者提示词；初始产品歧义段（O1）保留为历史取证。S14 本页治理只改写泛化封套。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `bb7b1d24e9e517e09730282b104ce51b4204cb0b`；本轮为 2026-10-17 R42。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-10-02 用户清边角准入见[PRE-005-DEBT-1](PRE-005-DEBT-1-current-edge-closeout.md)；同日实现与 Root 独立接收。2026-10-17 R42 泛化封套，2026-10-18 S14 逐篇改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：两清选入口统一报告“选区已清空。”经 Root 独立验收；底栏为操作通知的产品定性同时成立。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+源码锚点 MapMode.tsx:2178-2187/:2646、EditorDiagnosticsBar.tsx:82-87；实现 beb5ac462 与 d406cbcee；GLM L 候选截图与 functional-visual；Root 截图 build/pre005/*.png。本页治理未新增任何执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。通知语义与 act 警告边界结论为修复时点结果；当前编辑器行为以现行测试与代码为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+同窗边角修见[PRE-005-DEBT-1](PRE-005-DEBT-1-current-edge-closeout.md)与[EDITOR-SCENE-FACING-1](EDITOR-SCENE-FACING-1-clear-override.md)、[EDITOR-AUTO-LOCATOR-1](EDITOR-AUTO-LOCATOR-1-current-script-target.md)。
 
 ## 原文保全
+
 固定源 revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b`，source SHA `00c446bb179f0bcccc7093c4d082f6562502649045e9529d95493e7653ec1a7c`；下方 quote 可逆回原始 UTF-8 字节。
 <!-- original-source-quote:start -->
 > # EDITOR-MAP-SELECTION-NOTICE-1 — Esc 清选后的状态通知语义

@@ -7346,6 +7346,1831 @@
         "historyOverlay": false,
         "scope": "Actual page-specific five navigation sections plus preserved quote; explicit contract0issues and independent root source/role decision."
       }
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md",
+      "contentReviewStatus": "content-reviewed",
+      "nonAuthorReviewer": false,
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "done",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM full-document semantic governance as explicitly attributed in authorReadMethod. Codex evidence-led independent acceptance: reused prior all12 identity/source/quote/inverse and12 concrete conclusions,3 targeted semantic/source checks; new counter proof/quickcheck only. Other9 not fully reread by Codex. No original execution authenticated.",
+      "coreConclusion": "本卡是 GLM O 波（供应/内容守卫）经用户 2026-10-02 冻结、2026-10-03 审计后按“有限回归准入”收口的历史记录：38 文件/472 执行中 470 项保留、2 项显示名称修改合同永久剔除、297 旧结构上限不授整卡语义；83 文件并集门 11875/345 与 protected 11461 为原卡时点陈述，I06 随机仙鹤 8280→8279 拒收与 ignored 头像五红移交 QUALITY-TEST-INPUTS-1；1b3bffb7 基点结论不冒称 8efe0486/今天 main。本次治理零重跑零重授。",
+      "truthAnchors": [
+        "原卡：冻结边界/独立裁决/收口门三节（quote 全文）",
+        "docs/testing/archive/legacy/batches/glm-tenfold-triple/README.md",
+        "docs/testing/archive/legacy/batches/finite-test-intake-20261003/README.md"
+      ],
+      "unresolved": [
+        "I06 与 ignored 头像两旧输入的当前状态由 QUALITY-TEST-INPUTS-1 与最新机账裁决",
+        "8efe0486 及之后 main 的接入筛选为原收口职责，本页不代办"
+      ],
+      "nextStep": "Maintain fixed historical document; current task/test/product truth stays at current callers. Continue S15 remaining archived task cards; global remains incomplete.",
+      "owner": "GLM（S14 单一正文 Owner）；历史卡文档治理 Governance Owner: Codex",
+      "provenance": [
+        "原卡 Coding Owner: GLM O（作者已停止）",
+        "Reviewer: Codex",
+        "Closed Evidence: main d8a81d4c2 + GitHub 37145486289/37145486286（2026-10-04）",
+        "S14 正文 Owner: GLM"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md",
+          "revision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+          "sha256": "d0c6ef27ea94da78cd637946f4c9beb178979f95e9b89494f8a0a73af07a8cc1",
+          "scopeActuallyRead": "quote 全文（原卡全部行）"
+        }
+      ],
+      "phaseAnchors": ["mixed：content/migrate 第二阶段、shared 资源编码第一阶段（原卡自述）"],
+      "dependencies": [
+        "glm-tenfold-triple 机账",
+        "finite-test-intake-20261003 机账",
+        "QUALITY-TEST-INPUTS-1",
+        "QUALITY-OPQ-RETIREMENT-1",
+        "docs/testing/catalog.json"
+      ],
+      "versionScope": "历史时点陈述；不绑定当前 content/SAVE 版本，不冒称任何当前 main/CI 结论",
+      "publicCallers": [
+        "scripts/docs/check.mjs taskInfo/isTaskDocument（顶部 Status 读取与 README 排除不适用本类）",
+        "scripts/docs/document-model.mjs checkMigratedDocument（task-card-v1+archive-record overlay 结构合同）",
+        "check.mjs Markdown 链接门与目录导航",
+        "任务索引投影（done 分组）"
+      ],
+      "legalInputs": ["卡顶部 Status/元数据行、十章节正文、quote 原文（本页不承载机器 JSON 字段）"],
+      "businessOracle": {
+        "type": "historical-document-governance-not-runtime",
+        "assertions": [
+          "结构：checkMigratedDocument 零 issue（1264 合同 PASS）；保全：marker 区与 base 逐字节相等 + 逆回读等 pinned blob；语义：历史归因纪律（原卡时点陈述、零重授）由本记录与 Codex 非作者复核承担",
+          "本卡是 GLM O 波（供应/内容守卫）经用户 2026-10-02 冻结、2026-10-03 审计后按“有限回归准入”收口的历史记录：38 文件/472 执行中 470 项保留、2 项显示名称修改合同永久剔除、297 旧结构上限不授整卡语义；83 文件并集门 11875/345 与 protected 11461 为原卡时点陈述，I06 随机仙鹤 8280→8279 拒收与 ignored 头像五红移交 QUALITY-TEST-INPUTS-1；1b3bffb7 基点结论不冒称 8efe0486/今天 main。本次治理零重跑零重授。"
+        ]
+      },
+      "dedupe": {
+        "result": "与 S13 三篇导航页角色互斥（导航 vs 历史卡）；与兄弟卡（O/P/Q、FORMS/FACING 等）按各自缺陷/批次分工互斥；封套泛化句全部替换为卡内具体事实，未复制机账正文",
+        "against": [
+          "S13 navigation-role boundary",
+          "S14 sibling scope comparison explicitly recorded in original author statement"
+        ]
+      },
+      "counterReworkBlocked": "R41/R42 的 reviewed 信用已撤——本重写不恢复该信用；历史测试数/CI 数字不因本页重授；类型仍为 task-card-v1+overlay=true，无合同不适配 counter",
+      "revision": {
+        "currentSha": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "GLM fixed-body governance; Codex evidence/risk acceptance; central field shapes normalized",
+            "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+            "candidateCommit": "fb00cc89a58539969760c05737f9003ef7c80fa2"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "evidence-led-individual-body-template-nonauthor-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz",
+          "encoding": "gzip",
+          "payloadSha256": "58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1",
+          "payloadBytes": 31901,
+          "storedSha256": "906513242a10c6632da7c467bcb043147dc6ea692ee143e2ed4e481907b06988",
+          "storedBytes": 7524,
+          "producerTask": "/root",
+          "authorTask": "GLM/S14-manual-delivery",
+          "reviewerTask": "/root",
+          "sourceRevision": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+          "scope": "12 individual fixed historical document semantic/template decisions; contributor full reading plus owner evidence/risk acceptance. No original execution renewal or central/global/main/done.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 per-document acceptance and explicit central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable owner acceptance and actual read limits, original evidence/counter history retained.",
+          "exitCondition": "Retain for audit/replay; no automatic deletion or denominator exemption."
+        },
+        "reportSha256": "58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S14-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "966f43e87808eb0c515e8d845cb34a59fe58dac99af866ac0ce5877d5cce4fdf",
+        "authorOriginalEvidence": "/tmp/s14-glm-evidence（receipts/、verification.json、candidate.patch）",
+        "counterClosure": ["S14-E01", "S14-E02"],
+        "historicalExecutionAuthenticityGranted": false,
+        "storedSha256": "906513242a10c6632da7c467bcb043147dc6ea692ee143e2ed4e481907b06988"
+      },
+      "history": [
+        "b990 原源（2026-10-04 收口时点）→ 2026-10-17 R41 泛化封套 → 2026-10-18 S14 具体内容重写",
+        {
+          "date": "2026-10-18",
+          "action": "S14 individual owner evidence/risk acceptance after append-only correction",
+          "candidateCommit": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+          "oldClaimsRestored": false,
+          "runtimeCreditGranted": false
+        }
+      ],
+      "supersedes": [
+        {
+          "reviewRecord": "20261017-r41-ops-archive-task.json",
+          "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md",
+          "previousAfterSha256": "5eca773a5d5f5b56759c1a22d9bfcd9ee43b6a880e2c4a657e50c25733849545",
+          "scope": "Only current fixed document governance binding; original withdrawn record retained under supersededBindings."
+        }
+      ],
+      "stopLine": "不动中央 routing/registry/review/ledger、不重跑产品/旧测试、quote 字节若被外力改变即停（未发生）；来源冲突或需新模板/产品取舍时单篇停并交 counter",
+      "sourceSha256": "d0c6ef27ea94da78cd637946f4c9beb178979f95e9b89494f8a0a73af07a8cc1",
+      "afterSha256": "966f43e87808eb0c515e8d845cb34a59fe58dac99af866ac0ce5877d5cce4fdf",
+      "sourceGitRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+      "reviewedLines": {
+        "before": 86,
+        "after": 94
+      },
+      "beforeAfter": {
+        "beforeSha256": "5eca773a5d5f5b56759c1a22d9bfcd9ee43b6a880e2c4a657e50c25733849545",
+        "afterSha256": "966f43e87808eb0c515e8d845cb34a59fe58dac99af866ac0ce5877d5cce4fdf",
+        "summary": "泛化封套→具体内容；quote 区零变化"
+      },
+      "templateConformance": "task-card 五章+archive-record 五章齐全非空、单一标题、Template/Last reviewed 声明精确、原身份元数据（Owner/Reviewer/Phase/Capability/Closed Evidence/VVT）恢复进首段；结构 consumer 零 issue，结构绿不授内容信用",
+      "cardFacts": {
+        "目标": "冻结交付按有限回归准入收口",
+        "关键数字": "472/470/2、297 上限、83 并集、11875+345、protected 11461、8280→8279"
+      },
+      "templateCompliance": "template-compliant",
+      "phase": "ops",
+      "authorReadMethod": "GLM 全文读 before 正文（86 行）与 quote 内原源全文；读父卡 S14 准入、execution-manifest、A4 合格样例与 task-card/archive-record 模板合同、check.mjs taskInfo/isTaskDocument/链接门、document-model checkTemplateBody；实跑 quote 逆回读/模板 consumer/导航门/索引投影/lint/diff。未重跑原卡任何测试/CI/产品执行。",
+      "ownerVerificationScope": "Read author per-file conclusion and relevant changed identity/history evidence; verify all before/source/after/quote/inverse bytes from real Git. candidate visible wrapper + pinned b990 source full; specific numeric and temporal claims only",
+      "authorOriginalFieldShapes": {
+        "legalInputs": "卡顶部 Status/元数据行、十章节正文、quote 原文（本页不承载机器 JSON 字段）",
+        "businessOracle": "结构：checkMigratedDocument 零 issue（1264 合同 PASS）；保全：marker 区与 base 逐字节相等 + 逆回读等 pinned blob；语义：历史归因纪律（原卡时点陈述、零重授）由本记录与 Codex 非作者复核承担",
+        "dedupe": "与 S13 三篇导航页角色互斥（导航 vs 历史卡）；与兄弟卡（O/P/Q、FORMS/FACING 等）按各自缺陷/批次分工互斥；封套泛化句全部替换为卡内具体事实，未复制机账正文",
+        "revision": {
+          "base": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+          "candidate": "fb00cc89a58539969760c05737f9003ef7c80fa2"
+        }
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md",
+      "contentReviewStatus": "content-reviewed",
+      "nonAuthorReviewer": false,
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "done",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM full-document semantic governance as explicitly attributed in authorReadMethod. Codex evidence-led independent acceptance: reused prior all12 identity/source/quote/inverse and12 concrete conclusions,3 targeted semantic/source checks; new counter proof/quickcheck only. Other9 not fully reread by Codex. No original execution authenticated.",
+      "coreConclusion": "本卡是 GLM P 波（Editor 残余）冻结收口历史记录：b2cbb41f3 的 15 文件/114 执行保留为回归/交叉核验（不称 114 净新）；权限/markSaved 缓存/非 Error 消息/缺 loader 消息四代表反控在当前 main 独立实采 41/41；F14 保存重开 host-blocked 与 F18 窄窗/键盘可达保持 18/20 未证不被追认；共同门与 I06/五红移交同 O 波。本次治理零重跑零重授。",
+      "truthAnchors": [
+        "原卡：冻结边界/独立裁决/收口门三节（quote 全文）",
+        "docs/testing/archive/legacy/batches/glm-tenfold-triple/README.md"
+      ],
+      "unresolved": [
+        "F14/F18 若需处理须按现行工作流另开产品/测试卡",
+        "两旧输入与共同保护账转 QUALITY-TEST-INPUTS-1 / QUALITY-OPQ-RETIREMENT-1"
+      ],
+      "nextStep": "Maintain fixed historical document; current task/test/product truth stays at current callers. Continue S15 remaining archived task cards; global remains incomplete.",
+      "owner": "GLM（S14 单一正文 Owner）；历史卡文档治理 Governance Owner: Codex",
+      "provenance": [
+        "原卡 Coding Owner: GLM P（作者已停止）",
+        "Reviewer: Codex",
+        "Closed Evidence 同 O 波",
+        "S14 正文 Owner: GLM"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md",
+          "revision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+          "sha256": "a35e154472bc36e7eb0d1056ea841b0f963b5ec7367821e653d1963932212e19",
+          "scopeActuallyRead": "quote 全文（原卡全部行）"
+        }
+      ],
+      "phaseAnchors": ["phase2（Editor 域纯测试接入）"],
+      "dependencies": [
+        "glm-tenfold-triple 机账",
+        "finite-test-intake-20261003 机账",
+        "QUALITY-TEST-INPUTS-1",
+        "QUALITY-OPQ-RETIREMENT-1"
+      ],
+      "versionScope": "历史时点陈述；不绑定当前 content/SAVE 版本，不冒称任何当前 main/CI 结论",
+      "publicCallers": [
+        "scripts/docs/check.mjs taskInfo/isTaskDocument（顶部 Status 读取与 README 排除不适用本类）",
+        "scripts/docs/document-model.mjs checkMigratedDocument（task-card-v1+archive-record overlay 结构合同）",
+        "check.mjs Markdown 链接门与目录导航",
+        "任务索引投影（done 分组）"
+      ],
+      "legalInputs": ["卡顶部 Status/元数据行、十章节正文、quote 原文（本页不承载机器 JSON 字段）"],
+      "businessOracle": {
+        "type": "historical-document-governance-not-runtime",
+        "assertions": [
+          "结构：checkMigratedDocument 零 issue（1264 合同 PASS）；保全：marker 区与 base 逐字节相等 + 逆回读等 pinned blob；语义：历史归因纪律（原卡时点陈述、零重授）由本记录与 Codex 非作者复核承担",
+          "本卡是 GLM P 波（Editor 残余）冻结收口历史记录：b2cbb41f3 的 15 文件/114 执行保留为回归/交叉核验（不称 114 净新）；权限/markSaved 缓存/非 Error 消息/缺 loader 消息四代表反控在当前 main 独立实采 41/41；F14 保存重开 host-blocked 与 F18 窄窗/键盘可达保持 18/20 未证不被追认；共同门与 I06/五红移交同 O 波。本次治理零重跑零重授。"
+        ]
+      },
+      "dedupe": {
+        "result": "与 S13 三篇导航页角色互斥（导航 vs 历史卡）；与兄弟卡（O/P/Q、FORMS/FACING 等）按各自缺陷/批次分工互斥；封套泛化句全部替换为卡内具体事实，未复制机账正文",
+        "against": [
+          "S13 navigation-role boundary",
+          "S14 sibling scope comparison explicitly recorded in original author statement"
+        ]
+      },
+      "counterReworkBlocked": "R41/R42 的 reviewed 信用已撤——本重写不恢复该信用；历史测试数/CI 数字不因本页重授；类型仍为 task-card-v1+overlay=true，无合同不适配 counter",
+      "revision": {
+        "currentSha": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "GLM fixed-body governance; Codex evidence/risk acceptance; central field shapes normalized",
+            "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+            "candidateCommit": "fb00cc89a58539969760c05737f9003ef7c80fa2"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "evidence-led-individual-body-template-nonauthor-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz",
+          "encoding": "gzip",
+          "payloadSha256": "58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1",
+          "payloadBytes": 31901,
+          "storedSha256": "906513242a10c6632da7c467bcb043147dc6ea692ee143e2ed4e481907b06988",
+          "storedBytes": 7524,
+          "producerTask": "/root",
+          "authorTask": "GLM/S14-manual-delivery",
+          "reviewerTask": "/root",
+          "sourceRevision": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+          "scope": "12 individual fixed historical document semantic/template decisions; contributor full reading plus owner evidence/risk acceptance. No original execution renewal or central/global/main/done.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 per-document acceptance and explicit central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable owner acceptance and actual read limits, original evidence/counter history retained.",
+          "exitCondition": "Retain for audit/replay; no automatic deletion or denominator exemption."
+        },
+        "reportSha256": "58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S14-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "d659670c3a6c7ea1713d8ae5e540208371b52a230b16aba69c9506cccbb4c34b",
+        "authorOriginalEvidence": "/tmp/s14-glm-evidence（receipts/、verification.json、candidate.patch）",
+        "counterClosure": ["S14-E01", "S14-E02"],
+        "historicalExecutionAuthenticityGranted": false,
+        "storedSha256": "906513242a10c6632da7c467bcb043147dc6ea692ee143e2ed4e481907b06988"
+      },
+      "history": [
+        "b990 原源 → 2026-10-17 R41 泛化封套 → 2026-10-18 S14 具体内容重写",
+        {
+          "date": "2026-10-18",
+          "action": "S14 individual owner evidence/risk acceptance after append-only correction",
+          "candidateCommit": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+          "oldClaimsRestored": false,
+          "runtimeCreditGranted": false
+        }
+      ],
+      "supersedes": [
+        {
+          "reviewRecord": "20261017-r41-ops-archive-task.json",
+          "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md",
+          "previousAfterSha256": "339fc90e5367121c45057213f478bdcc0794ba41eda204509315b221d6118633",
+          "scope": "Only current fixed document governance binding; original withdrawn record retained under supersededBindings."
+        }
+      ],
+      "stopLine": "不动中央 routing/registry/review/ledger、不重跑产品/旧测试、quote 字节若被外力改变即停（未发生）；来源冲突或需新模板/产品取舍时单篇停并交 counter",
+      "sourceSha256": "a35e154472bc36e7eb0d1056ea841b0f963b5ec7367821e653d1963932212e19",
+      "afterSha256": "d659670c3a6c7ea1713d8ae5e540208371b52a230b16aba69c9506cccbb4c34b",
+      "sourceGitRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+      "reviewedLines": {
+        "before": 86,
+        "after": 94
+      },
+      "beforeAfter": {
+        "beforeSha256": "339fc90e5367121c45057213f478bdcc0794ba41eda204509315b221d6118633",
+        "afterSha256": "d659670c3a6c7ea1713d8ae5e540208371b52a230b16aba69c9506cccbb4c34b",
+        "summary": "泛化封套→具体内容；quote 区零变化"
+      },
+      "templateConformance": "task-card 五章+archive-record 五章齐全非空、单一标题、Template/Last reviewed 声明精确、原身份元数据（Owner/Reviewer/Phase/Capability/Closed Evidence/VVT）恢复进首段；结构 consumer 零 issue，结构绿不授内容信用",
+      "cardFacts": {
+        "关键数字": "114 保留、41/41 实采、18/20 未证、11875+345、protected 11461"
+      },
+      "templateCompliance": "template-compliant",
+      "phase": "ops",
+      "authorReadMethod": "GLM 全文读 before 正文（86 行）与 quote 内原源全文；读父卡 S14 准入、execution-manifest、A4 合格样例与 task-card/archive-record 模板合同、check.mjs taskInfo/isTaskDocument/链接门、document-model checkTemplateBody；实跑 quote 逆回读/模板 consumer/导航门/索引投影/lint/diff。未重跑原卡任何测试/CI/产品执行。",
+      "ownerVerificationScope": "Read author per-file conclusion and relevant changed identity/history evidence; verify all before/source/after/quote/inverse bytes from real Git. No full candidate or full pinned-source semantic reread.",
+      "authorOriginalFieldShapes": {
+        "legalInputs": "卡顶部 Status/元数据行、十章节正文、quote 原文（本页不承载机器 JSON 字段）",
+        "businessOracle": "结构：checkMigratedDocument 零 issue（1264 合同 PASS）；保全：marker 区与 base 逐字节相等 + 逆回读等 pinned blob；语义：历史归因纪律（原卡时点陈述、零重授）由本记录与 Codex 非作者复核承担",
+        "dedupe": "与 S13 三篇导航页角色互斥（导航 vs 历史卡）；与兄弟卡（O/P/Q、FORMS/FACING 等）按各自缺陷/批次分工互斥；封套泛化句全部替换为卡内具体事实，未复制机账正文",
+        "revision": {
+          "base": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+          "candidate": "fb00cc89a58539969760c05737f9003ef7c80fa2"
+        }
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md",
+      "contentReviewStatus": "content-reviewed",
+      "nonAuthorReviewer": false,
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "done",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM full-document semantic governance as explicitly attributed in authorReadMethod. Codex evidence-led independent acceptance: reused prior all12 identity/source/quote/inverse and12 concrete conclusions,3 targeted semantic/source checks; new counter proof/quickcheck only. Other9 not fully reread by Codex. No original execution authenticated.",
+      "coreConclusion": "本卡是 GLM Q 波（game/pal-extract/reforge runtime 与解码）冻结收口历史记录：5dbf72d78 的 30 文件/175 执行保留（172 历史结构上限）、相同 caller/matcher 排重、CLI mkdtemp 合成数据不触真实 data/raw；D-Q01-1 标题读档 IO 错误归 REFORGE-OPENING-LOAD-ERROR-1 活动卡不随本卡修，F1 overlay 恢复主张维持 withdrawn，85% 未达不是本卡条件。本次治理零重跑零重授。",
+      "truthAnchors": [
+        "原卡：冻结边界/独立裁决/收口门三节（quote 全文）",
+        "docs/ops/tasks/REFORGE-OPENING-LOAD-ERROR-1.md（活动 draft）"
+      ],
+      "unresolved": [
+        "D-Q01-1 当前状态以 REFORGE-OPENING-LOAD-ERROR-1 为准",
+        "F1 overlay 恢复未验证，维持撤回"
+      ],
+      "nextStep": "Maintain fixed historical document; current task/test/product truth stays at current callers. Continue S15 remaining archived task cards; global remains incomplete.",
+      "owner": "GLM（S14 单一正文 Owner）；历史卡文档治理 Governance Owner: Codex",
+      "provenance": [
+        "原卡 Coding Owner: GLM Q（作者已停止）",
+        "Reviewer: Codex",
+        "Closed Evidence 同 O 波",
+        "S14 正文 Owner: GLM"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md",
+          "revision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+          "sha256": "9a18297801768d3345b163751b3f10720d95d80dab2198aee56e2319c7edd900",
+          "scopeActuallyRead": "quote 全文（原卡全部行）"
+        }
+      ],
+      "phaseAnchors": ["mixed：game/pal-extract 第一阶段、reforge 第二阶段（原卡自述）"],
+      "dependencies": [
+        "glm-tenfold-triple 机账",
+        "finite-test-intake-20261003 机账",
+        "REFORGE-OPENING-LOAD-ERROR-1",
+        "QUALITY-TEST-INPUTS-1"
+      ],
+      "versionScope": "历史时点陈述；不绑定当前 content/SAVE 版本，不冒称任何当前 main/CI 结论",
+      "publicCallers": [
+        "scripts/docs/check.mjs taskInfo/isTaskDocument（顶部 Status 读取与 README 排除不适用本类）",
+        "scripts/docs/document-model.mjs checkMigratedDocument（task-card-v1+archive-record overlay 结构合同）",
+        "check.mjs Markdown 链接门与目录导航",
+        "任务索引投影（done 分组）"
+      ],
+      "legalInputs": ["卡顶部 Status/元数据行、十章节正文、quote 原文（本页不承载机器 JSON 字段）"],
+      "businessOracle": {
+        "type": "historical-document-governance-not-runtime",
+        "assertions": [
+          "结构：checkMigratedDocument 零 issue（1264 合同 PASS）；保全：marker 区与 base 逐字节相等 + 逆回读等 pinned blob；语义：历史归因纪律（原卡时点陈述、零重授）由本记录与 Codex 非作者复核承担",
+          "本卡是 GLM Q 波（game/pal-extract/reforge runtime 与解码）冻结收口历史记录：5dbf72d78 的 30 文件/175 执行保留（172 历史结构上限）、相同 caller/matcher 排重、CLI mkdtemp 合成数据不触真实 data/raw；D-Q01-1 标题读档 IO 错误归 REFORGE-OPENING-LOAD-ERROR-1 活动卡不随本卡修，F1 overlay 恢复主张维持 withdrawn，85% 未达不是本卡条件。本次治理零重跑零重授。"
+        ]
+      },
+      "dedupe": {
+        "result": "与 S13 三篇导航页角色互斥（导航 vs 历史卡）；与兄弟卡（O/P/Q、FORMS/FACING 等）按各自缺陷/批次分工互斥；封套泛化句全部替换为卡内具体事实，未复制机账正文",
+        "against": [
+          "S13 navigation-role boundary",
+          "S14 sibling scope comparison explicitly recorded in original author statement"
+        ]
+      },
+      "counterReworkBlocked": "R41/R42 的 reviewed 信用已撤——本重写不恢复该信用；历史测试数/CI 数字不因本页重授；类型仍为 task-card-v1+overlay=true，无合同不适配 counter",
+      "revision": {
+        "currentSha": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "GLM fixed-body governance; Codex evidence/risk acceptance; central field shapes normalized",
+            "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+            "candidateCommit": "fb00cc89a58539969760c05737f9003ef7c80fa2"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "evidence-led-individual-body-template-nonauthor-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz",
+          "encoding": "gzip",
+          "payloadSha256": "58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1",
+          "payloadBytes": 31901,
+          "storedSha256": "906513242a10c6632da7c467bcb043147dc6ea692ee143e2ed4e481907b06988",
+          "storedBytes": 7524,
+          "producerTask": "/root",
+          "authorTask": "GLM/S14-manual-delivery",
+          "reviewerTask": "/root",
+          "sourceRevision": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+          "scope": "12 individual fixed historical document semantic/template decisions; contributor full reading plus owner evidence/risk acceptance. No original execution renewal or central/global/main/done.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 per-document acceptance and explicit central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable owner acceptance and actual read limits, original evidence/counter history retained.",
+          "exitCondition": "Retain for audit/replay; no automatic deletion or denominator exemption."
+        },
+        "reportSha256": "58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S14-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "11239de9ef099e57b56a615400367b1690f16b01c40cdb3c6d9715408fb60279",
+        "authorOriginalEvidence": "/tmp/s14-glm-evidence（receipts/、verification.json、candidate.patch）",
+        "counterClosure": ["S14-E01", "S14-E02"],
+        "historicalExecutionAuthenticityGranted": false,
+        "storedSha256": "906513242a10c6632da7c467bcb043147dc6ea692ee143e2ed4e481907b06988"
+      },
+      "history": [
+        "b990 原源 → 2026-10-17 R41 泛化封套 → 2026-10-18 S14 具体内容重写",
+        {
+          "date": "2026-10-18",
+          "action": "S14 individual owner evidence/risk acceptance after append-only correction",
+          "candidateCommit": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+          "oldClaimsRestored": false,
+          "runtimeCreditGranted": false
+        }
+      ],
+      "supersedes": [
+        {
+          "reviewRecord": "20261017-r41-ops-archive-task.json",
+          "path": "docs/ops/archive/tasks/done/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md",
+          "previousAfterSha256": "f8be7ac0e7d46e734cb4af3014961cc00fb904f90b8324078566f2b8ab80b409",
+          "scope": "Only current fixed document governance binding; original withdrawn record retained under supersededBindings."
+        }
+      ],
+      "stopLine": "不动中央 routing/registry/review/ledger、不重跑产品/旧测试、quote 字节若被外力改变即停（未发生）；来源冲突或需新模板/产品取舍时单篇停并交 counter",
+      "sourceSha256": "9a18297801768d3345b163751b3f10720d95d80dab2198aee56e2319c7edd900",
+      "afterSha256": "11239de9ef099e57b56a615400367b1690f16b01c40cdb3c6d9715408fb60279",
+      "sourceGitRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+      "reviewedLines": {
+        "before": 87,
+        "after": 95
+      },
+      "beforeAfter": {
+        "beforeSha256": "f8be7ac0e7d46e734cb4af3014961cc00fb904f90b8324078566f2b8ab80b409",
+        "afterSha256": "11239de9ef099e57b56a615400367b1690f16b01c40cdb3c6d9715408fb60279",
+        "summary": "泛化封套→具体内容；quote 区零变化"
+      },
+      "templateConformance": "task-card 五章+archive-record 五章齐全非空、单一标题、Template/Last reviewed 声明精确、原身份元数据（Owner/Reviewer/Phase/Capability/Closed Evidence/VVT）恢复进首段；结构 consumer 零 issue，结构绿不授内容信用",
+      "cardFacts": {
+        "关键数字": "175/172、11875+345、protected 11461、8280→8279"
+      },
+      "templateCompliance": "template-compliant",
+      "phase": "ops",
+      "authorReadMethod": "GLM 全文读 before 正文（87 行）与 quote 内原源全文；读父卡 S14 准入、execution-manifest、A4 合格样例与 task-card/archive-record 模板合同、check.mjs taskInfo/isTaskDocument/链接门、document-model checkTemplateBody；实跑 quote 逆回读/模板 consumer/导航门/索引投影/lint/diff。未重跑原卡任何测试/CI/产品执行。",
+      "ownerVerificationScope": "Read author per-file conclusion and relevant changed identity/history evidence; verify all before/source/after/quote/inverse bytes from real Git. No full candidate or full pinned-source semantic reread.",
+      "authorOriginalFieldShapes": {
+        "legalInputs": "卡顶部 Status/元数据行、十章节正文、quote 原文（本页不承载机器 JSON 字段）",
+        "businessOracle": "结构：checkMigratedDocument 零 issue（1264 合同 PASS）；保全：marker 区与 base 逐字节相等 + 逆回读等 pinned blob；语义：历史归因纪律（原卡时点陈述、零重授）由本记录与 Codex 非作者复核承担",
+        "dedupe": "与 S13 三篇导航页角色互斥（导航 vs 历史卡）；与兄弟卡（O/P/Q、FORMS/FACING 等）按各自缺陷/批次分工互斥；封套泛化句全部替换为卡内具体事实，未复制机账正文",
+        "revision": {
+          "base": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+          "candidate": "fb00cc89a58539969760c05737f9003ef7c80fa2"
+        }
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/QUALITY-TEST-INPUTS-1.md",
+      "contentReviewStatus": "content-reviewed",
+      "nonAuthorReviewer": false,
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "done",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM full-document semantic governance as explicitly attributed in authorReadMethod. Codex evidence-led independent acceptance: reused prior all12 identity/source/quote/inverse and12 concrete conclusions,3 targeted semantic/source checks; new counter proof/quickcheck only. Other9 not fully reread by Codex. No original execution authenticated.",
+      "coreConclusion": "本卡是 OPQ 收口暴露的两旧输入窄修历史记录：I06 未固定 Math.random 致九只仙鹤可全屏外（:155 opaque=false 臂不执行，LCOV 155,7,1 从 0 变 3 定位唯一文件，strict 8279 vs 诊断 8280）；pal-meal-shell.test.ts:133-135 依赖 gitignored faces/li-xiaoyao.png 致干净 CI 五旧红（GitHub Coverage 37022144308）。修复仅限固定合法随机输入与外部 IO 夹具可重建，禁 ignore/skip/扩 timeout/换保护 SHA；由 Codex 唯一写入者在 codex/opq-frozen-integration-r1（同步 8efe0486）执行。本次治理零重跑零重授。",
+      "truthAnchors": [
+        "原卡：前提与有限建议/待用户批准的范围与门两节（quote 全文）",
+        "finite-test-intake-20261003 机账",
+        "packages/game/src/shell/splash-fallback.glm-next-wave.test.ts（原卡指名）",
+        "packages/reforge/src/pal-meal-shell.test.ts:133-135（原卡指名）"
+      ],
+      "unresolved": [
+        "两旧输入与 83 冻结并集在后续 main 的当前状态以最新机账/catalog 为准",
+        "gitignored 资产策略可能再变化，不假定"
+      ],
+      "nextStep": "Maintain fixed historical document; current task/test/product truth stays at current callers. Continue S15 remaining archived task cards; global remains incomplete.",
+      "owner": "GLM（S14 单一正文 Owner）；历史卡文档治理 Governance Owner: Codex",
+      "provenance": [
+        "原卡 Owner: Codex（用户2026-10-03“修吧”明确授权）",
+        "Reviewer: Codex",
+        "S14 正文 Owner: GLM"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/QUALITY-TEST-INPUTS-1.md",
+          "revision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+          "sha256": "94e9abeecf99cf52a76db6bc2cb63be7534f548afa9e7203be68ea3cb94ee472",
+          "scopeActuallyRead": "quote 全文（原卡全部行）"
+        }
+      ],
+      "phaseAnchors": ["ops / mixed（一阶段 game + 二阶段 reforge 各一处）"],
+      "dependencies": [
+        "finite-test-intake-20261003 机账",
+        "O/P/Q 三卡",
+        "QUALITY-OPQ-RETIREMENT-1"
+      ],
+      "versionScope": "历史时点陈述；不绑定当前 content/SAVE 版本，不冒称任何当前 main/CI 结论",
+      "publicCallers": [
+        "scripts/docs/check.mjs taskInfo/isTaskDocument（顶部 Status 读取与 README 排除不适用本类）",
+        "scripts/docs/document-model.mjs checkMigratedDocument（task-card-v1+archive-record overlay 结构合同）",
+        "check.mjs Markdown 链接门与目录导航",
+        "任务索引投影（done 分组）"
+      ],
+      "legalInputs": ["卡顶部 Status/元数据行、十章节正文、quote 原文（本页不承载机器 JSON 字段）"],
+      "businessOracle": {
+        "type": "historical-document-governance-not-runtime",
+        "assertions": [
+          "结构：checkMigratedDocument 零 issue（1264 合同 PASS）；保全：marker 区与 base 逐字节相等 + 逆回读等 pinned blob；语义：历史归因纪律（原卡时点陈述、零重授）由本记录与 Codex 非作者复核承担",
+          "本卡是 OPQ 收口暴露的两旧输入窄修历史记录：I06 未固定 Math.random 致九只仙鹤可全屏外（:155 opaque=false 臂不执行，LCOV 155,7,1 从 0 变 3 定位唯一文件，strict 8279 vs 诊断 8280）；pal-meal-shell.test.ts:133-135 依赖 gitignored faces/li-xiaoyao.png 致干净 CI 五旧红（GitHub Coverage 37022144308）。修复仅限固定合法随机输入与外部 IO 夹具可重建，禁 ignore/skip/扩 timeout/换保护 SHA；由 Codex 唯一写入者在 codex/opq-frozen-integration-r1（同步 8efe0486）执行。本次治理零重跑零重授。"
+        ]
+      },
+      "dedupe": {
+        "result": "与 S13 三篇导航页角色互斥（导航 vs 历史卡）；与兄弟卡（O/P/Q、FORMS/FACING 等）按各自缺陷/批次分工互斥；封套泛化句全部替换为卡内具体事实，未复制机账正文",
+        "against": [
+          "S13 navigation-role boundary",
+          "S14 sibling scope comparison explicitly recorded in original author statement"
+        ]
+      },
+      "counterReworkBlocked": "R41/R42 的 reviewed 信用已撤——本重写不恢复该信用；历史测试数/CI 数字不因本页重授；类型仍为 task-card-v1+overlay=true，无合同不适配 counter",
+      "revision": {
+        "currentSha": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "GLM fixed-body governance; Codex evidence/risk acceptance; central field shapes normalized",
+            "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+            "candidateCommit": "fb00cc89a58539969760c05737f9003ef7c80fa2"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "evidence-led-individual-body-template-nonauthor-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz",
+          "encoding": "gzip",
+          "payloadSha256": "58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1",
+          "payloadBytes": 31901,
+          "storedSha256": "906513242a10c6632da7c467bcb043147dc6ea692ee143e2ed4e481907b06988",
+          "storedBytes": 7524,
+          "producerTask": "/root",
+          "authorTask": "GLM/S14-manual-delivery",
+          "reviewerTask": "/root",
+          "sourceRevision": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+          "scope": "12 individual fixed historical document semantic/template decisions; contributor full reading plus owner evidence/risk acceptance. No original execution renewal or central/global/main/done.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 per-document acceptance and explicit central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable owner acceptance and actual read limits, original evidence/counter history retained.",
+          "exitCondition": "Retain for audit/replay; no automatic deletion or denominator exemption."
+        },
+        "reportSha256": "58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S14-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "b70e9956e4ee97b33bee5e5266f1bb414a1add94712d2b7520438eee77239c2b",
+        "authorOriginalEvidence": "/tmp/s14-glm-evidence（receipts/、verification.json、candidate.patch）",
+        "counterClosure": ["S14-E01", "S14-E02"],
+        "historicalExecutionAuthenticityGranted": false,
+        "storedSha256": "906513242a10c6632da7c467bcb043147dc6ea692ee143e2ed4e481907b06988"
+      },
+      "history": [
+        "b990 原源（2026-10-03 用户“修吧”授权时点）→ R41 泛化封套 → S14 具体内容重写",
+        {
+          "date": "2026-10-18",
+          "action": "S14 individual owner evidence/risk acceptance after append-only correction",
+          "candidateCommit": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+          "oldClaimsRestored": false,
+          "runtimeCreditGranted": false
+        }
+      ],
+      "supersedes": [
+        {
+          "reviewRecord": "20261017-r41-ops-archive-task.json",
+          "path": "docs/ops/archive/tasks/done/QUALITY-TEST-INPUTS-1.md",
+          "previousAfterSha256": "f774c2c4a0aff5c1b2ea745679e368d4a94b198eef8bb6cd47f2d819f7049d1a",
+          "scope": "Only current fixed document governance binding; original withdrawn record retained under supersededBindings."
+        }
+      ],
+      "stopLine": "不动中央 routing/registry/review/ledger、不重跑产品/旧测试、quote 字节若被外力改变即停（未发生）；来源冲突或需新模板/产品取舍时单篇停并交 counter",
+      "sourceSha256": "94e9abeecf99cf52a76db6bc2cb63be7534f548afa9e7203be68ea3cb94ee472",
+      "afterSha256": "b70e9956e4ee97b33bee5e5266f1bb414a1add94712d2b7520438eee77239c2b",
+      "sourceGitRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+      "reviewedLines": {
+        "before": 89,
+        "after": 97
+      },
+      "beforeAfter": {
+        "beforeSha256": "f774c2c4a0aff5c1b2ea745679e368d4a94b198eef8bb6cd47f2d819f7049d1a",
+        "afterSha256": "b70e9956e4ee97b33bee5e5266f1bb414a1add94712d2b7520438eee77239c2b",
+        "summary": "泛化封套→具体内容；quote 区零变化"
+      },
+      "templateConformance": "task-card 五章+archive-record 五章齐全非空、单一标题、Template/Last reviewed 声明精确、原身份元数据（Owner/Reviewer/Phase/Capability/Closed Evidence/VVT）恢复进首段；结构 consumer 零 issue，结构绿不授内容信用",
+      "cardFacts": {
+        "关键事实": "strict 8280→8279 根因=LCOV 单行定位；五旧红=gitignored 资产缺失"
+      },
+      "templateCompliance": "template-compliant",
+      "phase": "ops",
+      "authorReadMethod": "GLM 全文读 before 正文（89 行）与 quote 内原源全文；读父卡 S14 准入、execution-manifest、A4 合格样例与 task-card/archive-record 模板合同、check.mjs taskInfo/isTaskDocument/链接门、document-model checkTemplateBody；实跑 quote 逆回读/模板 consumer/导航门/索引投影/lint/diff。未重跑原卡任何测试/CI/产品执行。",
+      "ownerVerificationScope": "Read author per-file conclusion and relevant changed identity/history evidence; verify all before/source/after/quote/inverse bytes from real Git. candidate visible wrapper + pinned b990 source full; two causes, legal-input and no-new-authorization boundaries",
+      "authorOriginalFieldShapes": {
+        "legalInputs": "卡顶部 Status/元数据行、十章节正文、quote 原文（本页不承载机器 JSON 字段）",
+        "businessOracle": "结构：checkMigratedDocument 零 issue（1264 合同 PASS）；保全：marker 区与 base 逐字节相等 + 逆回读等 pinned blob；语义：历史归因纪律（原卡时点陈述、零重授）由本记录与 Codex 非作者复核承担",
+        "dedupe": "与 S13 三篇导航页角色互斥（导航 vs 历史卡）；与兄弟卡（O/P/Q、FORMS/FACING 等）按各自缺陷/批次分工互斥；封套泛化句全部替换为卡内具体事实，未复制机账正文",
+        "revision": {
+          "base": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+          "candidate": "fb00cc89a58539969760c05737f9003ef7c80fa2"
+        }
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CODEX-COMMAND-FORMS-1-current-dialogs.md",
+      "contentReviewStatus": "content-reviewed",
+      "nonAuthorReviewer": false,
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "done",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM full-document semantic governance as explicitly attributed in authorReadMethod. Codex evidence-led independent acceptance: reused prior all12 identity/source/quote/inverse and12 concrete conclusions,3 targeted semantic/source checks; new counter proof/quickcheck only. Other9 not fully reread by Codex. No original execution authenticated.",
+      "coreConclusion": "本卡是 +5pp 队列对现行命令弹层的纯测试批次历史记录（2026-09-26，起点 7bd8f064）：从公开 CanonicalScriptBodyEditor 双击真实弹层，五组 51 项覆盖 movement/scene/data/identity/dialog 的完整输出/原实参不变/完成前零提交；定向+相邻 91/91、夹具+静态 136/136（首次全仓失败为 TSX 夹具被计为产品，等价改 TS 辅助并保留原失败日志）、check9438→ratchet→strict8946、全仓 45477/63178 净增 173B；切场景朝向缺陷归 EDITOR-SCENE-FACING-1 不随批关闭。本次治理零重跑零重授。",
+      "truthAnchors": [
+        "原卡：准入/范围与验收/实施与收口三节（quote 全文）",
+        "docs/testing/archive/legacy/batches/codex-command-forms/README.md",
+        "ScriptEditor.tsx:1710-1755/:3380-3425（原卡锚点）"
+      ],
+      "unresolved": ["CommandForm 合同现行状态以当前测试与 catalog 为准"],
+      "nextStep": "Maintain fixed historical document; current task/test/product truth stays at current callers. Continue S15 remaining archived task cards; global remains incomplete.",
+      "owner": "GLM（S14 单一正文 Owner）；历史卡文档治理 Governance Owner: Codex",
+      "provenance": ["原卡 Owner: Codex（实施+自验，不冒称独立他席）", "S14 正文 Owner: GLM"],
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/TEST-CODEX-COMMAND-FORMS-1-current-dialogs.md",
+          "revision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+          "sha256": "50e044a0c92713dd1908aeb9e34b7e081ee8ca74c3370cf789cd2a0e6c57cb5c",
+          "scopeActuallyRead": "quote 全文（原卡全部行）"
+        }
+      ],
+      "phaseAnchors": ["phase2"],
+      "dependencies": [
+        "TEST-COVERAGE-PLUS5-1-continuous-batches.md",
+        "codex-command-forms 回执",
+        "EDITOR-SCENE-FACING-1"
+      ],
+      "versionScope": "历史时点陈述；不绑定当前 content/SAVE 版本，不冒称任何当前 main/CI 结论",
+      "publicCallers": [
+        "scripts/docs/check.mjs taskInfo/isTaskDocument（顶部 Status 读取与 README 排除不适用本类）",
+        "scripts/docs/document-model.mjs checkMigratedDocument（task-card-v1+archive-record overlay 结构合同）",
+        "check.mjs Markdown 链接门与目录导航",
+        "任务索引投影（done 分组）"
+      ],
+      "legalInputs": ["卡顶部 Status/元数据行、十章节正文、quote 原文（本页不承载机器 JSON 字段）"],
+      "businessOracle": {
+        "type": "historical-document-governance-not-runtime",
+        "assertions": [
+          "结构：checkMigratedDocument 零 issue（1264 合同 PASS）；保全：marker 区与 base 逐字节相等 + 逆回读等 pinned blob；语义：历史归因纪律（原卡时点陈述、零重授）由本记录与 Codex 非作者复核承担",
+          "本卡是 +5pp 队列对现行命令弹层的纯测试批次历史记录（2026-09-26，起点 7bd8f064）：从公开 CanonicalScriptBodyEditor 双击真实弹层，五组 51 项覆盖 movement/scene/data/identity/dialog 的完整输出/原实参不变/完成前零提交；定向+相邻 91/91、夹具+静态 136/136（首次全仓失败为 TSX 夹具被计为产品，等价改 TS 辅助并保留原失败日志）、check9438→ratchet→strict8946、全仓 45477/63178 净增 173B；切场景朝向缺陷归 EDITOR-SCENE-FACING-1 不随批关闭。本次治理零重跑零重授。"
+        ]
+      },
+      "dedupe": {
+        "result": "与 S13 三篇导航页角色互斥（导航 vs 历史卡）；与兄弟卡（O/P/Q、FORMS/FACING 等）按各自缺陷/批次分工互斥；封套泛化句全部替换为卡内具体事实，未复制机账正文",
+        "against": [
+          "S13 navigation-role boundary",
+          "S14 sibling scope comparison explicitly recorded in original author statement"
+        ]
+      },
+      "counterReworkBlocked": "R41/R42 的 reviewed 信用已撤——本重写不恢复该信用；历史测试数/CI 数字不因本页重授；类型仍为 task-card-v1+overlay=true，无合同不适配 counter",
+      "revision": {
+        "currentSha": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "GLM fixed-body governance; Codex evidence/risk acceptance; central field shapes normalized",
+            "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+            "candidateCommit": "fb00cc89a58539969760c05737f9003ef7c80fa2"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "evidence-led-individual-body-template-nonauthor-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz",
+          "encoding": "gzip",
+          "payloadSha256": "58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1",
+          "payloadBytes": 31901,
+          "storedSha256": "906513242a10c6632da7c467bcb043147dc6ea692ee143e2ed4e481907b06988",
+          "storedBytes": 7524,
+          "producerTask": "/root",
+          "authorTask": "GLM/S14-manual-delivery",
+          "reviewerTask": "/root",
+          "sourceRevision": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+          "scope": "12 individual fixed historical document semantic/template decisions; contributor full reading plus owner evidence/risk acceptance. No original execution renewal or central/global/main/done.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 per-document acceptance and explicit central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable owner acceptance and actual read limits, original evidence/counter history retained.",
+          "exitCondition": "Retain for audit/replay; no automatic deletion or denominator exemption."
+        },
+        "reportSha256": "58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S14-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "0c3aad34cef36e051c0bfedf72574262862575b3544bad694ca2a0e2c919beb1",
+        "authorOriginalEvidence": "/tmp/s14-glm-evidence（receipts/、verification.json、candidate.patch）",
+        "counterClosure": ["S14-E01", "S14-E02"],
+        "historicalExecutionAuthenticityGranted": false,
+        "storedSha256": "906513242a10c6632da7c467bcb043147dc6ea692ee143e2ed4e481907b06988"
+      },
+      "history": [
+        "b990 原源（2026-09-26 实施时点）→ R41 泛化封套 → S14 具体内容重写",
+        {
+          "date": "2026-10-18",
+          "action": "S14 individual owner evidence/risk acceptance after append-only correction",
+          "candidateCommit": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+          "oldClaimsRestored": false,
+          "runtimeCreditGranted": false
+        }
+      ],
+      "supersedes": [
+        {
+          "reviewRecord": "20261017-r41-ops-archive-task.json",
+          "path": "docs/ops/archive/tasks/done/TEST-CODEX-COMMAND-FORMS-1-current-dialogs.md",
+          "previousAfterSha256": "1f3921f8a24d71aeb381c1822b44fbb37208b10a0ec4c663e413d5a407ff97f9",
+          "scope": "Only current fixed document governance binding; original withdrawn record retained under supersededBindings."
+        }
+      ],
+      "stopLine": "不动中央 routing/registry/review/ledger、不重跑产品/旧测试、quote 字节若被外力改变即停（未发生）；来源冲突或需新模板/产品取舍时单篇停并交 counter",
+      "sourceSha256": "50e044a0c92713dd1908aeb9e34b7e081ee8ca74c3370cf789cd2a0e6c57cb5c",
+      "afterSha256": "0c3aad34cef36e051c0bfedf72574262862575b3544bad694ca2a0e2c919beb1",
+      "sourceGitRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+      "reviewedLines": {
+        "before": 90,
+        "after": 95
+      },
+      "beforeAfter": {
+        "beforeSha256": "1f3921f8a24d71aeb381c1822b44fbb37208b10a0ec4c663e413d5a407ff97f9",
+        "afterSha256": "0c3aad34cef36e051c0bfedf72574262862575b3544bad694ca2a0e2c919beb1",
+        "summary": "泛化封套→具体内容；quote 区零变化"
+      },
+      "templateConformance": "task-card 五章+archive-record 五章齐全非空、单一标题、Template/Last reviewed 声明精确、原身份元数据（Owner/Reviewer/Phase/Capability/Closed Evidence/VVT）恢复进首段；结构 consumer 零 issue，结构绿不授内容信用",
+      "cardFacts": {
+        "关键数字": "五组 51 新增、91/91、136/136、check9438/strict8946、45477/63178、+173B"
+      },
+      "templateCompliance": "template-compliant",
+      "phase": "ops",
+      "authorReadMethod": "GLM 全文读 before 正文（90 行）与 quote 内原源全文；读父卡 S14 准入、execution-manifest、A4 合格样例与 task-card/archive-record 模板合同、check.mjs taskInfo/isTaskDocument/链接门、document-model checkTemplateBody；实跑 quote 逆回读/模板 consumer/导航门/索引投影/lint/diff。未重跑原卡任何测试/CI/产品执行。",
+      "ownerVerificationScope": "Read author per-file conclusion and relevant changed identity/history evidence; verify all before/source/after/quote/inverse bytes from real Git. No full candidate or full pinned-source semantic reread.",
+      "authorOriginalFieldShapes": {
+        "legalInputs": "卡顶部 Status/元数据行、十章节正文、quote 原文（本页不承载机器 JSON 字段）",
+        "businessOracle": "结构：checkMigratedDocument 零 issue（1264 合同 PASS）；保全：marker 区与 base 逐字节相等 + 逆回读等 pinned blob；语义：历史归因纪律（原卡时点陈述、零重授）由本记录与 Codex 非作者复核承担",
+        "dedupe": "与 S13 三篇导航页角色互斥（导航 vs 历史卡）；与兄弟卡（O/P/Q、FORMS/FACING 等）按各自缺陷/批次分工互斥；封套泛化句全部替换为卡内具体事实，未复制机账正文",
+        "revision": {
+          "base": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+          "candidate": "fb00cc89a58539969760c05737f9003ef7c80fa2"
+        }
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/TEST-CODEX-DEBUG-TOOLS-1-public-actions.md",
+      "contentReviewStatus": "content-reviewed",
+      "nonAuthorReviewer": false,
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "done",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM full-document semantic governance as explicitly attributed in authorReadMethod. Codex evidence-led independent acceptance: reused prior all12 identity/source/quote/inverse and12 concrete conclusions,3 targeted semantic/source checks; new counter proof/quickcheck only. Other9 not fully reread by Codex. No original execution authenticated.",
+      "coreConclusion": "本卡是 +5pp 队列对 Reforge 调试面板的纯测试批次历史记录（2026-09-26，起点 cd1baa6c）：main.ts:5958-6015 DEV 动态 import 为唯一真实入口，六组（commands/failures/triggers/battle/inspect/navigation）以真实 DOM 事件+真实 ScriptProjectRuntime+生产 buildWorld 预设核对传参与输入深保真；61 新增/定向 78/78、六正控+六单点反控精确业务 AssertionError 且产品 hash 不变、check9387→strict8895、全仓 45304/63178 净增 173B；不称真实战斗/Canvas/磁盘保存已验证。本次治理零重跑零重授。",
+      "truthAnchors": [
+        "原卡：准入与边界/六组与白名单/实施与收口三节（quote 全文）",
+        "docs/testing/archive/legacy/batches/codex-debug-tools/README.md",
+        "main.ts:5958-6015（原卡锚点）"
+      ],
+      "unresolved": ["调试面板现行行为以当前测试与 catalog 为准"],
+      "nextStep": "Maintain fixed historical document; current task/test/product truth stays at current callers. Continue S15 remaining archived task cards; global remains incomplete.",
+      "owner": "GLM（S14 单一正文 Owner）；历史卡文档治理 Governance Owner: Codex",
+      "provenance": ["原卡 Owner: Codex（实施+自验）", "S14 正文 Owner: GLM"],
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/TEST-CODEX-DEBUG-TOOLS-1-public-actions.md",
+          "revision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+          "sha256": "baf69349bd48a3abd9a96eb1c55f10255d334f624a8e87f9ed79b7f0c7bc9bd9",
+          "scopeActuallyRead": "quote 全文（原卡全部行）"
+        }
+      ],
+      "phaseAnchors": ["phase2（Reforge 私有调试 DOM 适配器）"],
+      "dependencies": ["TEST-COVERAGE-PLUS5-1-continuous-batches.md", "codex-debug-tools 回执"],
+      "versionScope": "历史时点陈述；不绑定当前 content/SAVE 版本，不冒称任何当前 main/CI 结论",
+      "publicCallers": [
+        "scripts/docs/check.mjs taskInfo/isTaskDocument（顶部 Status 读取与 README 排除不适用本类）",
+        "scripts/docs/document-model.mjs checkMigratedDocument（task-card-v1+archive-record overlay 结构合同）",
+        "check.mjs Markdown 链接门与目录导航",
+        "任务索引投影（done 分组）"
+      ],
+      "legalInputs": ["卡顶部 Status/元数据行、十章节正文、quote 原文（本页不承载机器 JSON 字段）"],
+      "businessOracle": {
+        "type": "historical-document-governance-not-runtime",
+        "assertions": [
+          "结构：checkMigratedDocument 零 issue（1264 合同 PASS）；保全：marker 区与 base 逐字节相等 + 逆回读等 pinned blob；语义：历史归因纪律（原卡时点陈述、零重授）由本记录与 Codex 非作者复核承担",
+          "本卡是 +5pp 队列对 Reforge 调试面板的纯测试批次历史记录（2026-09-26，起点 cd1baa6c）：main.ts:5958-6015 DEV 动态 import 为唯一真实入口，六组（commands/failures/triggers/battle/inspect/navigation）以真实 DOM 事件+真实 ScriptProjectRuntime+生产 buildWorld 预设核对传参与输入深保真；61 新增/定向 78/78、六正控+六单点反控精确业务 AssertionError 且产品 hash 不变、check9387→strict8895、全仓 45304/63178 净增 173B；不称真实战斗/Canvas/磁盘保存已验证。本次治理零重跑零重授。"
+        ]
+      },
+      "dedupe": {
+        "result": "与 S13 三篇导航页角色互斥（导航 vs 历史卡）；与兄弟卡（O/P/Q、FORMS/FACING 等）按各自缺陷/批次分工互斥；封套泛化句全部替换为卡内具体事实，未复制机账正文",
+        "against": [
+          "S13 navigation-role boundary",
+          "S14 sibling scope comparison explicitly recorded in original author statement"
+        ]
+      },
+      "counterReworkBlocked": "R41/R42 的 reviewed 信用已撤——本重写不恢复该信用；历史测试数/CI 数字不因本页重授；类型仍为 task-card-v1+overlay=true，无合同不适配 counter",
+      "revision": {
+        "currentSha": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "GLM fixed-body governance; Codex evidence/risk acceptance; central field shapes normalized",
+            "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+            "candidateCommit": "fb00cc89a58539969760c05737f9003ef7c80fa2"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "evidence-led-individual-body-template-nonauthor-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz",
+          "encoding": "gzip",
+          "payloadSha256": "58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1",
+          "payloadBytes": 31901,
+          "storedSha256": "906513242a10c6632da7c467bcb043147dc6ea692ee143e2ed4e481907b06988",
+          "storedBytes": 7524,
+          "producerTask": "/root",
+          "authorTask": "GLM/S14-manual-delivery",
+          "reviewerTask": "/root",
+          "sourceRevision": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+          "scope": "12 individual fixed historical document semantic/template decisions; contributor full reading plus owner evidence/risk acceptance. No original execution renewal or central/global/main/done.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 per-document acceptance and explicit central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable owner acceptance and actual read limits, original evidence/counter history retained.",
+          "exitCondition": "Retain for audit/replay; no automatic deletion or denominator exemption."
+        },
+        "reportSha256": "58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S14-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "808a6bd6359ee64b1a51135f5c202c9d5a8fe49086b8bd767a82b1662cf345ad",
+        "authorOriginalEvidence": "/tmp/s14-glm-evidence（receipts/、verification.json、candidate.patch）",
+        "counterClosure": ["S14-E01", "S14-E02"],
+        "historicalExecutionAuthenticityGranted": false,
+        "storedSha256": "906513242a10c6632da7c467bcb043147dc6ea692ee143e2ed4e481907b06988"
+      },
+      "history": [
+        "b990 原源（2026-09-26 实施时点）→ R41 泛化封套 → S14 具体内容重写",
+        {
+          "date": "2026-10-18",
+          "action": "S14 individual owner evidence/risk acceptance after append-only correction",
+          "candidateCommit": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+          "oldClaimsRestored": false,
+          "runtimeCreditGranted": false
+        }
+      ],
+      "supersedes": [
+        {
+          "reviewRecord": "20261017-r41-ops-archive-task.json",
+          "path": "docs/ops/archive/tasks/done/TEST-CODEX-DEBUG-TOOLS-1-public-actions.md",
+          "previousAfterSha256": "9fd614d3521a389c056aa97f92806007977083f9de34e3938bf66a99e3017c3c",
+          "scope": "Only current fixed document governance binding; original withdrawn record retained under supersededBindings."
+        }
+      ],
+      "stopLine": "不动中央 routing/registry/review/ledger、不重跑产品/旧测试、quote 字节若被外力改变即停（未发生）；来源冲突或需新模板/产品取舍时单篇停并交 counter",
+      "sourceSha256": "baf69349bd48a3abd9a96eb1c55f10255d334f624a8e87f9ed79b7f0c7bc9bd9",
+      "afterSha256": "808a6bd6359ee64b1a51135f5c202c9d5a8fe49086b8bd767a82b1662cf345ad",
+      "sourceGitRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+      "reviewedLines": {
+        "before": 90,
+        "after": 95
+      },
+      "beforeAfter": {
+        "beforeSha256": "9fd614d3521a389c056aa97f92806007977083f9de34e3938bf66a99e3017c3c",
+        "afterSha256": "808a6bd6359ee64b1a51135f5c202c9d5a8fe49086b8bd767a82b1662cf345ad",
+        "summary": "泛化封套→具体内容；quote 区零变化"
+      },
+      "templateConformance": "task-card 五章+archive-record 五章齐全非空、单一标题、Template/Last reviewed 声明精确、原身份元数据（Owner/Reviewer/Phase/Capability/Closed Evidence/VVT）恢复进首段；结构 consumer 零 issue，结构绿不授内容信用",
+      "cardFacts": {
+        "关键数字": "六组 61 新增、78/78、check9387/strict8895、45304/63178、+173B"
+      },
+      "templateCompliance": "template-compliant",
+      "phase": "ops",
+      "authorReadMethod": "GLM 全文读 before 正文（90 行）与 quote 内原源全文；读父卡 S14 准入、execution-manifest、A4 合格样例与 task-card/archive-record 模板合同、check.mjs taskInfo/isTaskDocument/链接门、document-model checkTemplateBody；实跑 quote 逆回读/模板 consumer/导航门/索引投影/lint/diff。未重跑原卡任何测试/CI/产品执行。",
+      "ownerVerificationScope": "Read author per-file conclusion and relevant changed identity/history evidence; verify all before/source/after/quote/inverse bytes from real Git. No full candidate or full pinned-source semantic reread.",
+      "authorOriginalFieldShapes": {
+        "legalInputs": "卡顶部 Status/元数据行、十章节正文、quote 原文（本页不承载机器 JSON 字段）",
+        "businessOracle": "结构：checkMigratedDocument 零 issue（1264 合同 PASS）；保全：marker 区与 base 逐字节相等 + 逆回读等 pinned blob；语义：历史归因纪律（原卡时点陈述、零重授）由本记录与 Codex 非作者复核承担",
+        "dedupe": "与 S13 三篇导航页角色互斥（导航 vs 历史卡）；与兄弟卡（O/P/Q、FORMS/FACING 等）按各自缺陷/批次分工互斥；封套泛化句全部替换为卡内具体事实，未复制机账正文",
+        "revision": {
+          "base": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+          "candidate": "fb00cc89a58539969760c05737f9003ef7c80fa2"
+        }
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-SCENE-FACING-1-clear-override.md",
+      "contentReviewStatus": "content-reviewed",
+      "nonAuthorReviewer": false,
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "done",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM full-document semantic governance as explicitly attributed in authorReadMethod. Codex evidence-led independent acceptance: reused prior all12 identity/source/quote/inverse and12 concrete conclusions,3 targeted semantic/source checks; new counter proof/quickcheck only. Other9 not fully reread by Codex. No original execution authenticated.",
+      "coreConclusion": "本卡是命令表单朝向“(保持)”缺陷窄修历史记录（2026-10-02，PRE-005-DEBT-1 准入）：根因为 CommandForm.tsx:1162 rebuild 默认实参 facing = cmd.facing 把 undefined 替换回旧朝向，而 makeLoadScene:92-98 已定义 undefined=无显式覆写；实现 beb5ac462+补证 00f577411 仅保持回调显式 makeLoadScene；Root 独立 87 项定向+writer 16 项、真实 6014 三态“保持”→重开不再恢复 left、截图 build/pre005/facing-cleared.png；保存证明分层，浏览器后台 OS 目录 picker 未出现未冒称物理磁盘保存；旧诊断 oracle 退役（Git 523cf97d）。本次治理零重跑零重授。",
+      "truthAnchors": [
+        "原卡：已核事实/实施边界两节（quote 全文）",
+        "command-form-world.tsx:585/693、CommandForm.tsx:1162、makeLoadScene:92-98（原卡锚点）",
+        "codex-command-forms 回执（发现源）"
+      ],
+      "unresolved": ["物理磁盘保存当时未验证，该系统边界保留未动"],
+      "nextStep": "Maintain fixed historical document; current task/test/product truth stays at current callers. Continue S15 remaining archived task cards; global remains incomplete.",
+      "owner": "GLM（S14 单一正文 Owner）；历史卡文档治理 Governance Owner: Codex",
+      "provenance": [
+        "原卡 Owner: pre005_editor_edges（实现）；Codex Root（独立验收）",
+        "S14 正文 Owner: GLM"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/EDITOR-SCENE-FACING-1-clear-override.md",
+          "revision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+          "sha256": "cbee188f31d42785557a6e612523abd55117043bc3571d429f6b379c8f78621a",
+          "scopeActuallyRead": "quote 全文（原卡全部行）"
+        }
+      ],
+      "phaseAnchors": ["phase2"],
+      "dependencies": ["TEST-CODEX-COMMAND-FORMS-1", "PRE-005-DEBT-1-current-edge-closeout.md"],
+      "versionScope": "历史时点陈述；不绑定当前 content/SAVE 版本，不冒称任何当前 main/CI 结论",
+      "publicCallers": [
+        "scripts/docs/check.mjs taskInfo/isTaskDocument（顶部 Status 读取与 README 排除不适用本类）",
+        "scripts/docs/document-model.mjs checkMigratedDocument（task-card-v1+archive-record overlay 结构合同）",
+        "check.mjs Markdown 链接门与目录导航",
+        "任务索引投影（done 分组）"
+      ],
+      "legalInputs": ["卡顶部 Status/元数据行、十章节正文、quote 原文（本页不承载机器 JSON 字段）"],
+      "businessOracle": {
+        "type": "historical-document-governance-not-runtime",
+        "assertions": [
+          "结构：checkMigratedDocument 零 issue（1264 合同 PASS）；保全：marker 区与 base 逐字节相等 + 逆回读等 pinned blob；语义：历史归因纪律（原卡时点陈述、零重授）由本记录与 Codex 非作者复核承担",
+          "本卡是命令表单朝向“(保持)”缺陷窄修历史记录（2026-10-02，PRE-005-DEBT-1 准入）：根因为 CommandForm.tsx:1162 rebuild 默认实参 facing = cmd.facing 把 undefined 替换回旧朝向，而 makeLoadScene:92-98 已定义 undefined=无显式覆写；实现 beb5ac462+补证 00f577411 仅保持回调显式 makeLoadScene；Root 独立 87 项定向+writer 16 项、真实 6014 三态“保持”→重开不再恢复 left、截图 build/pre005/facing-cleared.png；保存证明分层，浏览器后台 OS 目录 picker 未出现未冒称物理磁盘保存；旧诊断 oracle 退役（Git 523cf97d）。本次治理零重跑零重授。"
+        ]
+      },
+      "dedupe": {
+        "result": "与 S13 三篇导航页角色互斥（导航 vs 历史卡）；与兄弟卡（O/P/Q、FORMS/FACING 等）按各自缺陷/批次分工互斥；封套泛化句全部替换为卡内具体事实，未复制机账正文",
+        "against": [
+          "S13 navigation-role boundary",
+          "S14 sibling scope comparison explicitly recorded in original author statement"
+        ]
+      },
+      "counterReworkBlocked": "R41/R42 的 reviewed 信用已撤——本重写不恢复该信用；历史测试数/CI 数字不因本页重授；类型仍为 task-card-v1+overlay=true，无合同不适配 counter",
+      "revision": {
+        "currentSha": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "GLM fixed-body governance; Codex evidence/risk acceptance; central field shapes normalized",
+            "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+            "candidateCommit": "fb00cc89a58539969760c05737f9003ef7c80fa2"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "evidence-led-individual-body-template-nonauthor-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz",
+          "encoding": "gzip",
+          "payloadSha256": "58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1",
+          "payloadBytes": 31901,
+          "storedSha256": "906513242a10c6632da7c467bcb043147dc6ea692ee143e2ed4e481907b06988",
+          "storedBytes": 7524,
+          "producerTask": "/root",
+          "authorTask": "GLM/S14-manual-delivery",
+          "reviewerTask": "/root",
+          "sourceRevision": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+          "scope": "12 individual fixed historical document semantic/template decisions; contributor full reading plus owner evidence/risk acceptance. No original execution renewal or central/global/main/done.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 per-document acceptance and explicit central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable owner acceptance and actual read limits, original evidence/counter history retained.",
+          "exitCondition": "Retain for audit/replay; no automatic deletion or denominator exemption."
+        },
+        "reportSha256": "58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S14-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "9fef376b87e9cb83a577f79a2f38fe31306548ab14916bcc0931b3c9e37ea4a5",
+        "authorOriginalEvidence": "/tmp/s14-glm-evidence（receipts/、verification.json、candidate.patch）",
+        "counterClosure": ["S14-E01", "S14-E02"],
+        "historicalExecutionAuthenticityGranted": false,
+        "storedSha256": "906513242a10c6632da7c467bcb043147dc6ea692ee143e2ed4e481907b06988"
+      },
+      "history": [
+        "b990 原源（2026-10-02 修复时点）→ R41 泛化封套 → S14 具体内容重写",
+        {
+          "date": "2026-10-18",
+          "action": "S14 individual owner evidence/risk acceptance after append-only correction",
+          "candidateCommit": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+          "oldClaimsRestored": false,
+          "runtimeCreditGranted": false
+        }
+      ],
+      "supersedes": [
+        {
+          "reviewRecord": "20261017-r41-ops-archive-task.json",
+          "path": "docs/ops/archive/tasks/done/EDITOR-SCENE-FACING-1-clear-override.md",
+          "previousAfterSha256": "184c864e722a7ffd027387f1070997e8e441c5c3a20701feb5f0ae34d31c0653",
+          "scope": "Only current fixed document governance binding; original withdrawn record retained under supersededBindings."
+        }
+      ],
+      "stopLine": "不动中央 routing/registry/review/ledger、不重跑产品/旧测试、quote 字节若被外力改变即停（未发生）；来源冲突或需新模板/产品取舍时单篇停并交 counter",
+      "sourceSha256": "cbee188f31d42785557a6e612523abd55117043bc3571d429f6b379c8f78621a",
+      "afterSha256": "9fef376b87e9cb83a577f79a2f38fe31306548ab14916bcc0931b3c9e37ea4a5",
+      "sourceGitRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+      "reviewedLines": {
+        "before": 92,
+        "after": 97
+      },
+      "beforeAfter": {
+        "beforeSha256": "184c864e722a7ffd027387f1070997e8e441c5c3a20701feb5f0ae34d31c0653",
+        "afterSha256": "9fef376b87e9cb83a577f79a2f38fe31306548ab14916bcc0931b3c9e37ea4a5",
+        "summary": "泛化封套→具体内容；quote 区零变化"
+      },
+      "templateConformance": "task-card 五章+archive-record 五章齐全非空、单一标题、Template/Last reviewed 声明精确、原身份元数据（Owner/Reviewer/Phase/Capability/Closed Evidence/VVT）恢复进首段；结构 consumer 零 issue，结构绿不授内容信用",
+      "cardFacts": {
+        "关键事实": "undefined 覆写语义根因 + 三态清验 + 保存分层"
+      },
+      "templateCompliance": "template-compliant",
+      "phase": "ops",
+      "authorReadMethod": "GLM 全文读 before 正文（92 行）与 quote 内原源全文；读父卡 S14 准入、execution-manifest、A4 合格样例与 task-card/archive-record 模板合同、check.mjs taskInfo/isTaskDocument/链接门、document-model checkTemplateBody；实跑 quote 逆回读/模板 consumer/导航门/索引投影/lint/diff。未重跑原卡任何测试/CI/产品执行。",
+      "ownerVerificationScope": "Read author per-file conclusion and relevant changed identity/history evidence; verify all before/source/after/quote/inverse bytes from real Git. No full candidate or full pinned-source semantic reread.",
+      "authorOriginalFieldShapes": {
+        "legalInputs": "卡顶部 Status/元数据行、十章节正文、quote 原文（本页不承载机器 JSON 字段）",
+        "businessOracle": "结构：checkMigratedDocument 零 issue（1264 合同 PASS）；保全：marker 区与 base 逐字节相等 + 逆回读等 pinned blob；语义：历史归因纪律（原卡时点陈述、零重授）由本记录与 Codex 非作者复核承担",
+        "dedupe": "与 S13 三篇导航页角色互斥（导航 vs 历史卡）；与兄弟卡（O/P/Q、FORMS/FACING 等）按各自缺陷/批次分工互斥；封套泛化句全部替换为卡内具体事实，未复制机账正文",
+        "revision": {
+          "base": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+          "candidate": "fb00cc89a58539969760c05737f9003ef7c80fa2"
+        }
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/QUALITY-OPQ-RETIREMENT-1.md",
+      "contentReviewStatus": "content-reviewed",
+      "nonAuthorReviewer": false,
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "done",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM full-document semantic governance as explicitly attributed in authorReadMethod. Codex evidence-led independent acceptance: reused prior all12 identity/source/quote/inverse and12 concrete conclusions,3 targeted semantic/source checks; new counter proof/quickcheck only. Other9 not fully reread by Codex. No original execution authenticated.",
+      "coreConclusion": "本卡是用户 2026-10-03 窄授权的退役保护账维护历史记录：仅五旧文件净减 16 例（903f833da 转换核 9→7、8→1、3→1、12→11；04eb93318 真实 party 像素回归替代旧整瓦片 alpha/latch，render 5→1），净计数下降 16 不谎称恰 16 个 fullName；保护参照 1b3bffb7 不换、指标不降、废弃测试不恢复；5c29b73be 五条精确实现 20 新判据/原 30 工具绿、全仓 11875+345、官方 ratchet 过、protected 批准五个历史快照、原 16 counter 关闭；新 strict game 8280→8279（I06）与 GitHub 五红转 QUALITY-TEST-INPUTS-1，当时未推 main/done/退休。本次治理零重跑零重授。",
+      "truthAnchors": [
+        "原卡：目标与准入/前提与边界/验收/记录四节（quote 全文）",
+        "finite-test-intake-20261003 机账",
+        "scripts/coverage/protected-baseline.mjs（原卡白名单）"
+      ],
+      "unresolved": ["保护参照与判据当前版本以现行 scripts/coverage 与最新机账为准"],
+      "nextStep": "Maintain fixed historical document; current task/test/product truth stays at current callers. Continue S15 remaining archived task cards; global remains incomplete.",
+      "owner": "GLM（S14 单一正文 Owner）；历史卡文档治理 Governance Owner: Codex",
+      "provenance": [
+        "原卡 Owner: Codex；Reviewer: Codex（不冒称外部独立签字）",
+        "S14 正文 Owner: GLM"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/QUALITY-OPQ-RETIREMENT-1.md",
+          "revision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+          "sha256": "c582ed6065cd167e52ad0d85d9949452c47b5c142407d1665f80a384beaf5504",
+          "scopeActuallyRead": "quote 全文（原卡全部行）"
+        }
+      ],
+      "phaseAnchors": ["ops（纯质量工具维护，产品/玩法/UI 不变）"],
+      "dependencies": ["finite-test-intake-20261003 机账", "QUALITY-TEST-INPUTS-1", "O/P/Q 三卡"],
+      "versionScope": "历史时点陈述；不绑定当前 content/SAVE 版本，不冒称任何当前 main/CI 结论",
+      "publicCallers": [
+        "scripts/docs/check.mjs taskInfo/isTaskDocument（顶部 Status 读取与 README 排除不适用本类）",
+        "scripts/docs/document-model.mjs checkMigratedDocument（task-card-v1+archive-record overlay 结构合同）",
+        "check.mjs Markdown 链接门与目录导航",
+        "任务索引投影（done 分组）"
+      ],
+      "legalInputs": ["卡顶部 Status/元数据行、十章节正文、quote 原文（本页不承载机器 JSON 字段）"],
+      "businessOracle": {
+        "type": "historical-document-governance-not-runtime",
+        "assertions": [
+          "结构：checkMigratedDocument 零 issue（1264 合同 PASS）；保全：marker 区与 base 逐字节相等 + 逆回读等 pinned blob；语义：历史归因纪律（原卡时点陈述、零重授）由本记录与 Codex 非作者复核承担",
+          "本卡是用户 2026-10-03 窄授权的退役保护账维护历史记录：仅五旧文件净减 16 例（903f833da 转换核 9→7、8→1、3→1、12→11；04eb93318 真实 party 像素回归替代旧整瓦片 alpha/latch，render 5→1），净计数下降 16 不谎称恰 16 个 fullName；保护参照 1b3bffb7 不换、指标不降、废弃测试不恢复；5c29b73be 五条精确实现 20 新判据/原 30 工具绿、全仓 11875+345、官方 ratchet 过、protected 批准五个历史快照、原 16 counter 关闭；新 strict game 8280→8279（I06）与 GitHub 五红转 QUALITY-TEST-INPUTS-1，当时未推 main/done/退休。本次治理零重跑零重授。"
+        ]
+      },
+      "dedupe": {
+        "result": "与 S13 三篇导航页角色互斥（导航 vs 历史卡）；与兄弟卡（O/P/Q、FORMS/FACING 等）按各自缺陷/批次分工互斥；封套泛化句全部替换为卡内具体事实，未复制机账正文",
+        "against": [
+          "S13 navigation-role boundary",
+          "S14 sibling scope comparison explicitly recorded in original author statement"
+        ]
+      },
+      "counterReworkBlocked": "R41/R42 的 reviewed 信用已撤——本重写不恢复该信用；历史测试数/CI 数字不因本页重授；类型仍为 task-card-v1+overlay=true，无合同不适配 counter",
+      "revision": {
+        "currentSha": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "GLM fixed-body governance; Codex evidence/risk acceptance; central field shapes normalized",
+            "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+            "candidateCommit": "fb00cc89a58539969760c05737f9003ef7c80fa2"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "evidence-led-individual-body-template-nonauthor-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz",
+          "encoding": "gzip",
+          "payloadSha256": "58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1",
+          "payloadBytes": 31901,
+          "storedSha256": "906513242a10c6632da7c467bcb043147dc6ea692ee143e2ed4e481907b06988",
+          "storedBytes": 7524,
+          "producerTask": "/root",
+          "authorTask": "GLM/S14-manual-delivery",
+          "reviewerTask": "/root",
+          "sourceRevision": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+          "scope": "12 individual fixed historical document semantic/template decisions; contributor full reading plus owner evidence/risk acceptance. No original execution renewal or central/global/main/done.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 per-document acceptance and explicit central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable owner acceptance and actual read limits, original evidence/counter history retained.",
+          "exitCondition": "Retain for audit/replay; no automatic deletion or denominator exemption."
+        },
+        "reportSha256": "58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S14-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "5ff98a87529f3f9f57635e3c1ce05c65bfecba3e9ff13734aa3b0cb7b59caa9b",
+        "authorOriginalEvidence": "/tmp/s14-glm-evidence（receipts/、verification.json、candidate.patch）",
+        "counterClosure": ["S14-E01", "S14-E02"],
+        "historicalExecutionAuthenticityGranted": false,
+        "storedSha256": "906513242a10c6632da7c467bcb043147dc6ea692ee143e2ed4e481907b06988"
+      },
+      "history": [
+        "b990 原源（2026-10-03 窄授权时点）→ R41 泛化封套 → S14 具体内容重写",
+        {
+          "date": "2026-10-18",
+          "action": "S14 individual owner evidence/risk acceptance after append-only correction",
+          "candidateCommit": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+          "oldClaimsRestored": false,
+          "runtimeCreditGranted": false
+        }
+      ],
+      "supersedes": [
+        {
+          "reviewRecord": "20261017-r41-ops-archive-task.json",
+          "path": "docs/ops/archive/tasks/done/QUALITY-OPQ-RETIREMENT-1.md",
+          "previousAfterSha256": "b7110dc09ec1336a4111b585317ef64d4b6d6f30c4ad2019636c34334a2f6abb",
+          "scope": "Only current fixed document governance binding; original withdrawn record retained under supersededBindings."
+        }
+      ],
+      "stopLine": "不动中央 routing/registry/review/ledger、不重跑产品/旧测试、quote 字节若被外力改变即停（未发生）；来源冲突或需新模板/产品取舍时单篇停并交 counter",
+      "sourceSha256": "c582ed6065cd167e52ad0d85d9949452c47b5c142407d1665f80a384beaf5504",
+      "afterSha256": "5ff98a87529f3f9f57635e3c1ce05c65bfecba3e9ff13734aa3b0cb7b59caa9b",
+      "sourceGitRevision": "b9901f97a3a09359cbeaed9dde126e6f44b7f229",
+      "reviewedLines": {
+        "before": 92,
+        "after": 100
+      },
+      "beforeAfter": {
+        "beforeSha256": "b7110dc09ec1336a4111b585317ef64d4b6d6f30c4ad2019636c34334a2f6abb",
+        "afterSha256": "5ff98a87529f3f9f57635e3c1ce05c65bfecba3e9ff13734aa3b0cb7b59caa9b",
+        "summary": "泛化封套→具体内容；quote 区零变化"
+      },
+      "templateConformance": "task-card 五章+archive-record 五章齐全非空、单一标题、Template/Last reviewed 声明精确、原身份元数据（Owner/Reviewer/Phase/Capability/Closed Evidence/VVT）恢复进首段；结构 consumer 零 issue，结构绿不授内容信用",
+      "cardFacts": {
+        "关键数字": "五文件净减 16、20/30 判据、11875+345、protected 五快照"
+      },
+      "templateCompliance": "template-compliant",
+      "phase": "ops",
+      "authorReadMethod": "GLM 全文读 before 正文（92 行）与 quote 内原源全文；读父卡 S14 准入、execution-manifest、A4 合格样例与 task-card/archive-record 模板合同、check.mjs taskInfo/isTaskDocument/链接门、document-model checkTemplateBody；实跑 quote 逆回读/模板 consumer/导航门/索引投影/lint/diff。未重跑原卡任何测试/CI/产品执行。",
+      "ownerVerificationScope": "Read author per-file conclusion and relevant changed identity/history evidence; verify all before/source/after/quote/inverse bytes from real Git. candidate visible wrapper + pinned b990 source full; exact arithmetic, provenance and remaining historical failures",
+      "authorOriginalFieldShapes": {
+        "legalInputs": "卡顶部 Status/元数据行、十章节正文、quote 原文（本页不承载机器 JSON 字段）",
+        "businessOracle": "结构：checkMigratedDocument 零 issue（1264 合同 PASS）；保全：marker 区与 base 逐字节相等 + 逆回读等 pinned blob；语义：历史归因纪律（原卡时点陈述、零重授）由本记录与 Codex 非作者复核承担",
+        "dedupe": "与 S13 三篇导航页角色互斥（导航 vs 历史卡）；与兄弟卡（O/P/Q、FORMS/FACING 等）按各自缺陷/批次分工互斥；封套泛化句全部替换为卡内具体事实，未复制机账正文",
+        "revision": {
+          "base": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+          "candidate": "fb00cc89a58539969760c05737f9003ef7c80fa2"
+        }
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+      "contentReviewStatus": "content-reviewed",
+      "nonAuthorReviewer": false,
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "done",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM full-document semantic governance as explicitly attributed in authorReadMethod. Codex evidence-led independent acceptance: reused prior all12 identity/source/quote/inverse and12 concrete conclusions,3 targeted semantic/source checks; new counter proof/quickcheck only. Other9 not fully reread by Codex. No original execution authenticated.",
+      "coreConclusion": "本卡是 docs/ops 信息架构收口历史记录（基线 origin/main 0438dcfdd，分支 codex/ops-doc-governance）：根目录收敛为九个固定条目、board 只留活动任务、audits/pre-e2e 39 个探针脚本与正文分离、evidence 散件按任务归位且状态一致；Review accept + 用户接受入口收口；原卡自含停止线（无法安全归位即保留原件记 unresolved，不猜测/静默删除）。该布局是当时快照，后续由文档模型与 S 批次继续演化。本次治理零重跑零重授。",
+      "truthAnchors": [
+        "原卡：目标/严格验收标准/当前证据与停止线/验收记录四节（quote 全文）",
+        "docs/ops/guides/documentation-model.md（现行职责承接）"
+      ],
+      "unresolved": ["原卡未单列完成日期，按其验收记录时点读取（如实标注，不虚构日期）"],
+      "nextStep": "Maintain fixed historical document; current task/test/product truth stays at current callers. Continue S15 remaining archived task cards; global remains incomplete.",
+      "owner": "GLM（S14 单一正文 Owner）；历史卡文档治理 Governance Owner: Codex",
+      "provenance": [
+        "原卡 Coding Owner/Reviewer/Contributor: Codex；Branch: codex/ops-doc-governance",
+        "S14 正文 Owner: GLM"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+          "revision": "bb7b1d24e9e517e09730282b104ce51b4204cb0b",
+          "sha256": "dc89d92d061bac9a5b83ddf8bbe8b8bf1176e27b77c2f092565b90a086fe2a30",
+          "scopeActuallyRead": "quote 全文（原卡全部行）"
+        }
+      ],
+      "phaseAnchors": ["ops / collaboration-docs"],
+      "dependencies": [
+        "docs/ops/guides/documentation-model.md",
+        "docs/ops/board.md",
+        "DOCS-FULL-TEMPLATE-1"
+      ],
+      "versionScope": "历史时点陈述；不绑定当前 content/SAVE 版本，不冒称任何当前 main/CI 结论",
+      "publicCallers": [
+        "scripts/docs/check.mjs taskInfo/isTaskDocument（顶部 Status 读取与 README 排除不适用本类）",
+        "scripts/docs/document-model.mjs checkMigratedDocument（task-card-v1+archive-record overlay 结构合同）",
+        "check.mjs Markdown 链接门与目录导航",
+        "任务索引投影（done 分组）"
+      ],
+      "legalInputs": ["卡顶部 Status/元数据行、十章节正文、quote 原文（本页不承载机器 JSON 字段）"],
+      "businessOracle": {
+        "type": "historical-document-governance-not-runtime",
+        "assertions": [
+          "结构：checkMigratedDocument 零 issue（1264 合同 PASS）；保全：marker 区与 base 逐字节相等 + 逆回读等 pinned blob；语义：历史归因纪律（原卡时点陈述、零重授）由本记录与 Codex 非作者复核承担",
+          "本卡是 docs/ops 信息架构收口历史记录（基线 origin/main 0438dcfdd，分支 codex/ops-doc-governance）：根目录收敛为九个固定条目、board 只留活动任务、audits/pre-e2e 39 个探针脚本与正文分离、evidence 散件按任务归位且状态一致；Review accept + 用户接受入口收口；原卡自含停止线（无法安全归位即保留原件记 unresolved，不猜测/静默删除）。该布局是当时快照，后续由文档模型与 S 批次继续演化。本次治理零重跑零重授。"
+        ]
+      },
+      "dedupe": {
+        "result": "与 S13 三篇导航页角色互斥（导航 vs 历史卡）；与兄弟卡（O/P/Q、FORMS/FACING 等）按各自缺陷/批次分工互斥；封套泛化句全部替换为卡内具体事实，未复制机账正文",
+        "against": [
+          "S13 navigation-role boundary",
+          "S14 sibling scope comparison explicitly recorded in original author statement"
+        ]
+      },
+      "counterReworkBlocked": "R41/R42 的 reviewed 信用已撤——本重写不恢复该信用；历史测试数/CI 数字不因本页重授；类型仍为 task-card-v1+overlay=true，无合同不适配 counter",
+      "revision": {
+        "currentSha": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "GLM fixed-body governance; Codex evidence/risk acceptance; central field shapes normalized",
+            "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+            "candidateCommit": "fb00cc89a58539969760c05737f9003ef7c80fa2"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "evidence-led-individual-body-template-nonauthor-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz",
+          "encoding": "gzip",
+          "payloadSha256": "58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1",
+          "payloadBytes": 31901,
+          "storedSha256": "906513242a10c6632da7c467bcb043147dc6ea692ee143e2ed4e481907b06988",
+          "storedBytes": 7524,
+          "producerTask": "/root",
+          "authorTask": "GLM/S14-manual-delivery",
+          "reviewerTask": "/root",
+          "sourceRevision": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+          "scope": "12 individual fixed historical document semantic/template decisions; contributor full reading plus owner evidence/risk acceptance. No original execution renewal or central/global/main/done.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 per-document acceptance and explicit central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable owner acceptance and actual read limits, original evidence/counter history retained.",
+          "exitCondition": "Retain for audit/replay; no automatic deletion or denominator exemption."
+        },
+        "reportSha256": "58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S14-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "e1d243cf1b245d447df65486d34240e345db617b201e1266292ab7c6ba7dc501",
+        "authorOriginalEvidence": "/tmp/s14-glm-evidence（receipts/、verification.json、candidate.patch）",
+        "counterClosure": ["S14-E01", "S14-E02"],
+        "historicalExecutionAuthenticityGranted": false,
+        "storedSha256": "906513242a10c6632da7c467bcb043147dc6ea692ee143e2ed4e481907b06988"
+      },
+      "history": [
+        "bb7b1d2 原源 → 2026-10-17 R42 泛化封套 → 2026-10-18 S14 具体内容重写",
+        {
+          "date": "2026-10-18",
+          "action": "S14 individual owner evidence/risk acceptance after append-only correction",
+          "candidateCommit": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+          "oldClaimsRestored": false,
+          "runtimeCreditGranted": false
+        }
+      ],
+      "supersedes": [
+        {
+          "reviewRecord": "20261017-r42-ops-archive-task.json",
+          "path": "docs/ops/archive/tasks/done/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+          "previousAfterSha256": "2fde547dfbac39af5fd69cd813e208bbe8d2ea982ee8fc2471f07bf39bb1e9e0",
+          "scope": "Only current fixed document governance binding; original withdrawn record retained under supersededBindings."
+        }
+      ],
+      "stopLine": "不动中央 routing/registry/review/ledger、不重跑产品/旧测试、quote 字节若被外力改变即停（未发生）；来源冲突或需新模板/产品取舍时单篇停并交 counter",
+      "sourceSha256": "dc89d92d061bac9a5b83ddf8bbe8b8bf1176e27b77c2f092565b90a086fe2a30",
+      "afterSha256": "e1d243cf1b245d447df65486d34240e345db617b201e1266292ab7c6ba7dc501",
+      "sourceGitRevision": "bb7b1d24e9e517e09730282b104ce51b4204cb0b",
+      "reviewedLines": {
+        "before": 94,
+        "after": 103
+      },
+      "beforeAfter": {
+        "beforeSha256": "2fde547dfbac39af5fd69cd813e208bbe8d2ea982ee8fc2471f07bf39bb1e9e0",
+        "afterSha256": "e1d243cf1b245d447df65486d34240e345db617b201e1266292ab7c6ba7dc501",
+        "summary": "泛化封套→具体内容；quote 区零变化"
+      },
+      "templateConformance": "task-card 五章+archive-record 五章齐全非空、单一标题、Template/Last reviewed 声明精确、原身份元数据（Owner/Reviewer/Phase/Capability/Closed Evidence/VVT）恢复进首段；结构 consumer 零 issue，结构绿不授内容信用",
+      "cardFacts": {
+        "关键事实": "九条目收敛/探针分离/证据归位 + 不可归位停止线"
+      },
+      "templateCompliance": "template-compliant",
+      "phase": "ops",
+      "authorReadMethod": "GLM 全文读 before 正文（94 行）与 quote 内原源全文；读父卡 S14 准入、execution-manifest、A4 合格样例与 task-card/archive-record 模板合同、check.mjs taskInfo/isTaskDocument/链接门、document-model checkTemplateBody；实跑 quote 逆回读/模板 consumer/导航门/索引投影/lint/diff。未重跑原卡任何测试/CI/产品执行。",
+      "ownerVerificationScope": "Read author per-file conclusion and relevant changed identity/history evidence; verify all before/source/after/quote/inverse bytes from real Git. No full candidate or full pinned-source semantic reread.",
+      "authorOriginalFieldShapes": {
+        "legalInputs": "卡顶部 Status/元数据行、十章节正文、quote 原文（本页不承载机器 JSON 字段）",
+        "businessOracle": "结构：checkMigratedDocument 零 issue（1264 合同 PASS）；保全：marker 区与 base 逐字节相等 + 逆回读等 pinned blob；语义：历史归因纪律（原卡时点陈述、零重授）由本记录与 Codex 非作者复核承担",
+        "dedupe": "与 S13 三篇导航页角色互斥（导航 vs 历史卡）；与兄弟卡（O/P/Q、FORMS/FACING 等）按各自缺陷/批次分工互斥；封套泛化句全部替换为卡内具体事实，未复制机账正文",
+        "revision": {
+          "base": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+          "candidate": "fb00cc89a58539969760c05737f9003ef7c80fa2"
+        }
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-MAP-SELECTION-NOTICE-1.md",
+      "contentReviewStatus": "content-reviewed",
+      "nonAuthorReviewer": false,
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "done",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM full-document semantic governance as explicitly attributed in authorReadMethod. Codex evidence-led independent acceptance: reused prior all12 identity/source/quote/inverse and12 concrete conclusions,3 targeted semantic/source checks; new counter proof/quickcheck only. Other9 not fully reread by Codex. No original execution authenticated.",
+      "coreConclusion": "本卡是地图选区通知矛盾窄修历史记录（2026-10-02，PRE-005-DEBT-1 准入）：GLM L 候选 e2b3f437 的 02/03 截图证明 Esc 后 Inspector 已回属性而底栏仍写“已选择 1 个视觉槽、1 个格点。”；根因链 MapMode.tsx:2646 只派发 clear-selection 与 EditorDiagnosticsBar.tsx:82-87 持续渲染最近 workspaceNotice；实现 beb5ac462 共享清选回调仅处理真正清空、Esc 优先级不变；Root 87 项定向、6014 两入口实测均“选区已清空。”；产品歧义由母卡定性为操作通知；MapMode.kimi-workflows 65 条 act 警告在未改 main 复现，d406cbcee 只修真实资源完成等待边界。本次治理零重跑零重授。",
+      "truthAnchors": [
+        "原卡：已核观察/Root实测与独立接收/初始产品歧义三节（quote 全文）",
+        "MapMode.tsx:2178-2187/:2646、EditorDiagnosticsBar.tsx:82-87（原卡锚点）"
+      ],
+      "unresolved": ["通知语义与 act 警告边界为修复时点结论，现行以当前测试/代码为准"],
+      "nextStep": "Maintain fixed historical document; current task/test/product truth stays at current callers. Continue S15 remaining archived task cards; global remains incomplete.",
+      "owner": "GLM（S14 单一正文 Owner）；历史卡文档治理 Governance Owner: Codex",
+      "provenance": [
+        "原卡 Owner: pre005_editor_edges（实现）；Codex Root（独立验收）",
+        "S14 正文 Owner: GLM"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/EDITOR-MAP-SELECTION-NOTICE-1.md",
+          "revision": "bb7b1d24e9e517e09730282b104ce51b4204cb0b",
+          "sha256": "00c446bb179f0bcccc7093c4d082f6562502649045e9529d95493e7653ec1a7c",
+          "scopeActuallyRead": "quote 全文（原卡全部行）"
+        }
+      ],
+      "phaseAnchors": ["phase2 / editor-authoring / map-selection"],
+      "dependencies": [
+        "PRE-005-DEBT-1-current-edge-closeout.md",
+        "EDITOR-SCENE-FACING-1",
+        "EDITOR-AUTO-LOCATOR-1"
+      ],
+      "versionScope": "历史时点陈述；不绑定当前 content/SAVE 版本，不冒称任何当前 main/CI 结论",
+      "publicCallers": [
+        "scripts/docs/check.mjs taskInfo/isTaskDocument（顶部 Status 读取与 README 排除不适用本类）",
+        "scripts/docs/document-model.mjs checkMigratedDocument（task-card-v1+archive-record overlay 结构合同）",
+        "check.mjs Markdown 链接门与目录导航",
+        "任务索引投影（done 分组）"
+      ],
+      "legalInputs": ["卡顶部 Status/元数据行、十章节正文、quote 原文（本页不承载机器 JSON 字段）"],
+      "businessOracle": {
+        "type": "historical-document-governance-not-runtime",
+        "assertions": [
+          "结构：checkMigratedDocument 零 issue（1264 合同 PASS）；保全：marker 区与 base 逐字节相等 + 逆回读等 pinned blob；语义：历史归因纪律（原卡时点陈述、零重授）由本记录与 Codex 非作者复核承担",
+          "本卡是地图选区通知矛盾窄修历史记录（2026-10-02，PRE-005-DEBT-1 准入）：GLM L 候选 e2b3f437 的 02/03 截图证明 Esc 后 Inspector 已回属性而底栏仍写“已选择 1 个视觉槽、1 个格点。”；根因链 MapMode.tsx:2646 只派发 clear-selection 与 EditorDiagnosticsBar.tsx:82-87 持续渲染最近 workspaceNotice；实现 beb5ac462 共享清选回调仅处理真正清空、Esc 优先级不变；Root 87 项定向、6014 两入口实测均“选区已清空。”；产品歧义由母卡定性为操作通知；MapMode.kimi-workflows 65 条 act 警告在未改 main 复现，d406cbcee 只修真实资源完成等待边界。本次治理零重跑零重授。"
+        ]
+      },
+      "dedupe": {
+        "result": "与 S13 三篇导航页角色互斥（导航 vs 历史卡）；与兄弟卡（O/P/Q、FORMS/FACING 等）按各自缺陷/批次分工互斥；封套泛化句全部替换为卡内具体事实，未复制机账正文",
+        "against": [
+          "S13 navigation-role boundary",
+          "S14 sibling scope comparison explicitly recorded in original author statement"
+        ]
+      },
+      "counterReworkBlocked": "R41/R42 的 reviewed 信用已撤——本重写不恢复该信用；历史测试数/CI 数字不因本页重授；类型仍为 task-card-v1+overlay=true，无合同不适配 counter",
+      "revision": {
+        "currentSha": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "GLM fixed-body governance; Codex evidence/risk acceptance; central field shapes normalized",
+            "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+            "candidateCommit": "fb00cc89a58539969760c05737f9003ef7c80fa2"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "evidence-led-individual-body-template-nonauthor-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz",
+          "encoding": "gzip",
+          "payloadSha256": "58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1",
+          "payloadBytes": 31901,
+          "storedSha256": "906513242a10c6632da7c467bcb043147dc6ea692ee143e2ed4e481907b06988",
+          "storedBytes": 7524,
+          "producerTask": "/root",
+          "authorTask": "GLM/S14-manual-delivery",
+          "reviewerTask": "/root",
+          "sourceRevision": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+          "scope": "12 individual fixed historical document semantic/template decisions; contributor full reading plus owner evidence/risk acceptance. No original execution renewal or central/global/main/done.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 per-document acceptance and explicit central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable owner acceptance and actual read limits, original evidence/counter history retained.",
+          "exitCondition": "Retain for audit/replay; no automatic deletion or denominator exemption."
+        },
+        "reportSha256": "58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S14-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "e08d9a61f50f54162814dd9f27537c8e0bea5e2f12eaddc4e5de80c5313f3de9",
+        "authorOriginalEvidence": "/tmp/s14-glm-evidence（receipts/、verification.json、candidate.patch）",
+        "counterClosure": ["S14-E01", "S14-E02"],
+        "historicalExecutionAuthenticityGranted": false,
+        "storedSha256": "906513242a10c6632da7c467bcb043147dc6ea692ee143e2ed4e481907b06988"
+      },
+      "history": [
+        "bb7b1d2 原源（2026-10-02 修复时点）→ R42 泛化封套 → S14 具体内容重写",
+        {
+          "date": "2026-10-18",
+          "action": "S14 individual owner evidence/risk acceptance after append-only correction",
+          "candidateCommit": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+          "oldClaimsRestored": false,
+          "runtimeCreditGranted": false
+        }
+      ],
+      "supersedes": [
+        {
+          "reviewRecord": "20261017-r42-ops-archive-task.json",
+          "path": "docs/ops/archive/tasks/done/EDITOR-MAP-SELECTION-NOTICE-1.md",
+          "previousAfterSha256": "b633a0ef1b3c91b16da3dcc0c924826c9f7862d89b2ac8875f6a4dd0bd213b7d",
+          "scope": "Only current fixed document governance binding; original withdrawn record retained under supersededBindings."
+        }
+      ],
+      "stopLine": "不动中央 routing/registry/review/ledger、不重跑产品/旧测试、quote 字节若被外力改变即停（未发生）；来源冲突或需新模板/产品取舍时单篇停并交 counter",
+      "sourceSha256": "00c446bb179f0bcccc7093c4d082f6562502649045e9529d95493e7653ec1a7c",
+      "afterSha256": "e08d9a61f50f54162814dd9f27537c8e0bea5e2f12eaddc4e5de80c5313f3de9",
+      "sourceGitRevision": "bb7b1d24e9e517e09730282b104ce51b4204cb0b",
+      "reviewedLines": {
+        "before": 95,
+        "after": 101
+      },
+      "beforeAfter": {
+        "beforeSha256": "b633a0ef1b3c91b16da3dcc0c924826c9f7862d89b2ac8875f6a4dd0bd213b7d",
+        "afterSha256": "e08d9a61f50f54162814dd9f27537c8e0bea5e2f12eaddc4e5de80c5313f3de9",
+        "summary": "泛化封套→具体内容；quote 区零变化"
+      },
+      "templateConformance": "task-card 五章+archive-record 五章齐全非空、单一标题、Template/Last reviewed 声明精确、原身份元数据（Owner/Reviewer/Phase/Capability/Closed Evidence/VVT）恢复进首段；结构 consumer 零 issue，结构绿不授内容信用",
+      "cardFacts": {
+        "关键事实": "操作通知定性 + 共享清选回调 + 两入口统一文案"
+      },
+      "templateCompliance": "template-compliant",
+      "phase": "ops",
+      "authorReadMethod": "GLM 全文读 before 正文（95 行）与 quote 内原源全文；读父卡 S14 准入、execution-manifest、A4 合格样例与 task-card/archive-record 模板合同、check.mjs taskInfo/isTaskDocument/链接门、document-model checkTemplateBody；实跑 quote 逆回读/模板 consumer/导航门/索引投影/lint/diff。未重跑原卡任何测试/CI/产品执行。",
+      "ownerVerificationScope": "Read author per-file conclusion and relevant changed identity/history evidence; verify all before/source/after/quote/inverse bytes from real Git. No full candidate or full pinned-source semantic reread.",
+      "authorOriginalFieldShapes": {
+        "legalInputs": "卡顶部 Status/元数据行、十章节正文、quote 原文（本页不承载机器 JSON 字段）",
+        "businessOracle": "结构：checkMigratedDocument 零 issue（1264 合同 PASS）；保全：marker 区与 base 逐字节相等 + 逆回读等 pinned blob；语义：历史归因纪律（原卡时点陈述、零重授）由本记录与 Codex 非作者复核承担",
+        "dedupe": "与 S13 三篇导航页角色互斥（导航 vs 历史卡）；与兄弟卡（O/P/Q、FORMS/FACING 等）按各自缺陷/批次分工互斥；封套泛化句全部替换为卡内具体事实，未复制机账正文",
+        "revision": {
+          "base": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+          "candidate": "fb00cc89a58539969760c05737f9003ef7c80fa2"
+        }
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/EDITOR-AUTO-LOCATOR-1-current-script-target.md",
+      "contentReviewStatus": "content-reviewed",
+      "nonAuthorReviewer": false,
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "done",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM full-document semantic governance as explicitly attributed in authorReadMethod. Codex evidence-led independent acceptance: reused prior all12 identity/source/quote/inverse and12 concrete conclusions,3 targeted semantic/source checks; new counter proof/quickcheck only. Other9 not fully reread by Codex. No original execution authenticated.",
+      "coreConclusion": "本卡是精灵引用跳转缺陷窄修历史记录（PRE-005-DEBT-1 窗口）：缺陷为点击“编辑自动脚本”到了正确实体却选中“交互脚本”显示未创建；根因是 App:585-587 只把旧 ${entityId}:auto 写入 drawer.src 而当前 CanonicalSceneScriptWorkspace 只消费 focusOwner/focusReference 且 App:2732-2760 不传 drawer.src；定位必须按 world-sprite-behavior:480-487 的 initialPage 绑定。候选 45598749c（Root 接为 fcada709a）仅改 App.tsx 与导航测试；贡献者 5 项先红后绿、Root 48 项绿 stderr 空、真实 6014 点击 aria-selected=true（截图 build/pre005/auto-locator-final.png）；tooltip act 警告一行 await act 消除未屏蔽。本次治理零重跑零重授。",
+      "truthAnchors": [
+        "原卡：实际缺陷与准入/Root独立接收两节（quote 全文）",
+        "WorldSpriteLibrary:1272、App:585-587/:2732-2760、CanonicalSceneScriptWorkspace:79/:100-148、world-sprite-behavior:480-487（原卡锚点）"
+      ],
+      "unresolved": ["定位行为为修复时点结论，现行以当前测试/代码为准"],
+      "nextStep": "Maintain fixed historical document; current task/test/product truth stays at current callers. Continue S15 remaining archived task cards; global remains incomplete.",
+      "owner": "GLM（S14 单一正文 Owner）；历史卡文档治理 Governance Owner: Codex",
+      "provenance": [
+        "原卡 Owner/Reviewer: Codex Root；Coding Owner: pre005_editor_edges",
+        "S14 正文 Owner: GLM"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/EDITOR-AUTO-LOCATOR-1-current-script-target.md",
+          "revision": "bb7b1d24e9e517e09730282b104ce51b4204cb0b",
+          "sha256": "beef77f095aa8e2507bba2cc827d9d34f3b0b508d34b647df847d08ff2fae182",
+          "scopeActuallyRead": "quote 全文（原卡全部行）"
+        }
+      ],
+      "phaseAnchors": ["phase2"],
+      "dependencies": [
+        "PRE-005-DEBT-1-current-edge-closeout.md",
+        "EDITOR-SCENE-FACING-1",
+        "EDITOR-MAP-SELECTION-NOTICE-1"
+      ],
+      "versionScope": "历史时点陈述；不绑定当前 content/SAVE 版本，不冒称任何当前 main/CI 结论",
+      "publicCallers": [
+        "scripts/docs/check.mjs taskInfo/isTaskDocument（顶部 Status 读取与 README 排除不适用本类）",
+        "scripts/docs/document-model.mjs checkMigratedDocument（task-card-v1+archive-record overlay 结构合同）",
+        "check.mjs Markdown 链接门与目录导航",
+        "任务索引投影（done 分组）"
+      ],
+      "legalInputs": ["卡顶部 Status/元数据行、十章节正文、quote 原文（本页不承载机器 JSON 字段）"],
+      "businessOracle": {
+        "type": "historical-document-governance-not-runtime",
+        "assertions": [
+          "结构：checkMigratedDocument 零 issue（1264 合同 PASS）；保全：marker 区与 base 逐字节相等 + 逆回读等 pinned blob；语义：历史归因纪律（原卡时点陈述、零重授）由本记录与 Codex 非作者复核承担",
+          "本卡是精灵引用跳转缺陷窄修历史记录（PRE-005-DEBT-1 窗口）：缺陷为点击“编辑自动脚本”到了正确实体却选中“交互脚本”显示未创建；根因是 App:585-587 只把旧 ${entityId}:auto 写入 drawer.src 而当前 CanonicalSceneScriptWorkspace 只消费 focusOwner/focusReference 且 App:2732-2760 不传 drawer.src；定位必须按 world-sprite-behavior:480-487 的 initialPage 绑定。候选 45598749c（Root 接为 fcada709a）仅改 App.tsx 与导航测试；贡献者 5 项先红后绿、Root 48 项绿 stderr 空、真实 6014 点击 aria-selected=true（截图 build/pre005/auto-locator-final.png）；tooltip act 警告一行 await act 消除未屏蔽。本次治理零重跑零重授。"
+        ]
+      },
+      "dedupe": {
+        "result": "与 S13 三篇导航页角色互斥（导航 vs 历史卡）；与兄弟卡（O/P/Q、FORMS/FACING 等）按各自缺陷/批次分工互斥；封套泛化句全部替换为卡内具体事实，未复制机账正文",
+        "against": [
+          "S13 navigation-role boundary",
+          "S14 sibling scope comparison explicitly recorded in original author statement"
+        ]
+      },
+      "counterReworkBlocked": "R41/R42 的 reviewed 信用已撤——本重写不恢复该信用；历史测试数/CI 数字不因本页重授；类型仍为 task-card-v1+overlay=true，无合同不适配 counter",
+      "revision": {
+        "currentSha": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "GLM fixed-body governance; Codex evidence/risk acceptance; central field shapes normalized",
+            "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+            "candidateCommit": "fb00cc89a58539969760c05737f9003ef7c80fa2"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "evidence-led-individual-body-template-nonauthor-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz",
+          "encoding": "gzip",
+          "payloadSha256": "58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1",
+          "payloadBytes": 31901,
+          "storedSha256": "906513242a10c6632da7c467bcb043147dc6ea692ee143e2ed4e481907b06988",
+          "storedBytes": 7524,
+          "producerTask": "/root",
+          "authorTask": "GLM/S14-manual-delivery",
+          "reviewerTask": "/root",
+          "sourceRevision": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+          "scope": "12 individual fixed historical document semantic/template decisions; contributor full reading plus owner evidence/risk acceptance. No original execution renewal or central/global/main/done.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 per-document acceptance and explicit central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable owner acceptance and actual read limits, original evidence/counter history retained.",
+          "exitCondition": "Retain for audit/replay; no automatic deletion or denominator exemption."
+        },
+        "reportSha256": "58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S14-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "222926c22151a66e9a46465215f1b2181762a194522995751253e3fe76db02ba",
+        "authorOriginalEvidence": "/tmp/s14-glm-evidence（receipts/、verification.json、candidate.patch）",
+        "counterClosure": ["S14-E01", "S14-E02"],
+        "historicalExecutionAuthenticityGranted": false,
+        "storedSha256": "906513242a10c6632da7c467bcb043147dc6ea692ee143e2ed4e481907b06988"
+      },
+      "history": [
+        "bb7b1d2 原源 → R42 泛化封套 → S14 具体内容重写",
+        {
+          "date": "2026-10-18",
+          "action": "S14 individual owner evidence/risk acceptance after append-only correction",
+          "candidateCommit": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+          "oldClaimsRestored": false,
+          "runtimeCreditGranted": false
+        }
+      ],
+      "supersedes": [
+        {
+          "reviewRecord": "20261017-r42-ops-archive-task.json",
+          "path": "docs/ops/archive/tasks/done/EDITOR-AUTO-LOCATOR-1-current-script-target.md",
+          "previousAfterSha256": "703ac26c7a8eae9a8e6695cecaea51020aa64d7d4f8ef919c0e3328fca46699c",
+          "scope": "Only current fixed document governance binding; original withdrawn record retained under supersededBindings."
+        }
+      ],
+      "stopLine": "不动中央 routing/registry/review/ledger、不重跑产品/旧测试、quote 字节若被外力改变即停（未发生）；来源冲突或需新模板/产品取舍时单篇停并交 counter",
+      "sourceSha256": "beef77f095aa8e2507bba2cc827d9d34f3b0b508d34b647df847d08ff2fae182",
+      "afterSha256": "222926c22151a66e9a46465215f1b2181762a194522995751253e3fe76db02ba",
+      "sourceGitRevision": "bb7b1d24e9e517e09730282b104ce51b4204cb0b",
+      "reviewedLines": {
+        "before": 96,
+        "after": 103
+      },
+      "beforeAfter": {
+        "beforeSha256": "703ac26c7a8eae9a8e6695cecaea51020aa64d7d4f8ef919c0e3328fca46699c",
+        "afterSha256": "222926c22151a66e9a46465215f1b2181762a194522995751253e3fe76db02ba",
+        "summary": "泛化封套→具体内容；quote 区零变化"
+      },
+      "templateConformance": "task-card 五章+archive-record 五章齐全非空、单一标题、Template/Last reviewed 声明精确、原身份元数据（Owner/Reviewer/Phase/Capability/Closed Evidence/VVT）恢复进首段；结构 consumer 零 issue，结构绿不授内容信用",
+      "cardFacts": {
+        "关键事实": "drawer.src 旧语法失联根因 + initialPage 绑定定位 + 先红后绿"
+      },
+      "templateCompliance": "template-compliant",
+      "phase": "ops",
+      "authorReadMethod": "GLM 全文读 before 正文（96 行）与 quote 内原源全文；读父卡 S14 准入、execution-manifest、A4 合格样例与 task-card/archive-record 模板合同、check.mjs taskInfo/isTaskDocument/链接门、document-model checkTemplateBody；实跑 quote 逆回读/模板 consumer/导航门/索引投影/lint/diff。未重跑原卡任何测试/CI/产品执行。",
+      "ownerVerificationScope": "Read author per-file conclusion and relevant changed identity/history evidence; verify all before/source/after/quote/inverse bytes from real Git. No full candidate or full pinned-source semantic reread.",
+      "authorOriginalFieldShapes": {
+        "legalInputs": "卡顶部 Status/元数据行、十章节正文、quote 原文（本页不承载机器 JSON 字段）",
+        "businessOracle": "结构：checkMigratedDocument 零 issue（1264 合同 PASS）；保全：marker 区与 base 逐字节相等 + 逆回读等 pinned blob；语义：历史归因纪律（原卡时点陈述、零重授）由本记录与 Codex 非作者复核承担",
+        "dedupe": "与 S13 三篇导航页角色互斥（导航 vs 历史卡）；与兄弟卡（O/P/Q、FORMS/FACING 等）按各自缺陷/批次分工互斥；封套泛化句全部替换为卡内具体事实，未复制机账正文",
+        "revision": {
+          "base": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+          "candidate": "fb00cc89a58539969760c05737f9003ef7c80fa2"
+        }
+      }
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/OPS-MAP-3-current-truth-reconciliation.md",
+      "contentReviewStatus": "content-reviewed",
+      "nonAuthorReviewer": false,
+      "docType": "task-card",
+      "templateId": "task-card-v1",
+      "templateVersion": "1.0.0",
+      "historyOverlay": true,
+      "documentStatus": "done",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM full-document semantic governance as explicitly attributed in authorReadMethod. Codex evidence-led independent acceptance: reused prior all12 identity/source/quote/inverse and12 concrete conclusions,3 targeted semantic/source checks; new counter proof/quickcheck only. Other9 not fully reread by Codex. No original execution authenticated.",
+      "coreConclusion": "本卡是能力地图/议题池/看板真值对账历史记录（2026-09-03 用户“对账你自己做就行了，用不到三签”单人裁决）：仅改 capability-map/design-backlog/board-20261004 三文档+本卡，证据为 12 张任务卡首行 Status 与 Git 收口记录；修正 X4/A7、B2、W4、W5、B10、X7 及九项议题陈旧说明，看板删全部历史 done/cancelled 行恢复自身合同；对账后真实半完成仅 W6/E6/B5、未实现 A1/A6（A6 非 MVP）；陈旧短语定向检索归零、剩余 ⚠️/❌ 精确为五项。该能力状态是 2026-09 时点结论，后续以现行文档为准。本次治理零重跑零重授。",
+      "truthAnchors": [
+        "原卡：用户裁决/范围与证据/对账结果/验证四节（quote 全文）",
+        "docs/phase2/capability-map.md",
+        "docs/ops/archive/board-history/board-20261004.md"
+      ],
+      "unresolved": [
+        "W6/E6/B5/A1/A6 的当前状态以现行 capability-map 与看板为准，后续完成不回写本卡"
+      ],
+      "nextStep": "Maintain fixed historical document; current task/test/product truth stays at current callers. Continue S15 remaining archived task cards; global remains incomplete.",
+      "owner": "GLM（S14 单一正文 Owner）；历史卡文档治理 Governance Owner: Codex",
+      "provenance": ["原卡 Owner: Codex（用户单人裁决）", "S14 正文 Owner: GLM"],
+      "primarySource": [
+        {
+          "path": "docs/ops/archive/tasks/done/OPS-MAP-3-current-truth-reconciliation.md",
+          "revision": "bb7b1d24e9e517e09730282b104ce51b4204cb0b",
+          "sha256": "70965ef8e1fd749481b402a5b833a2f75b5eafc57c3706bca4265fcbeb98587c",
+          "scopeActuallyRead": "quote 全文（原卡全部行）"
+        }
+      ],
+      "phaseAnchors": ["phase2（documentation truth，不改实现）"],
+      "dependencies": [
+        "docs/phase2/capability-map.md",
+        "docs/phase2/design-backlog.md",
+        "docs/ops/board.md"
+      ],
+      "versionScope": "历史时点陈述；不绑定当前 content/SAVE 版本，不冒称任何当前 main/CI 结论",
+      "publicCallers": [
+        "scripts/docs/check.mjs taskInfo/isTaskDocument（顶部 Status 读取与 README 排除不适用本类）",
+        "scripts/docs/document-model.mjs checkMigratedDocument（task-card-v1+archive-record overlay 结构合同）",
+        "check.mjs Markdown 链接门与目录导航",
+        "任务索引投影（done 分组）"
+      ],
+      "legalInputs": ["卡顶部 Status/元数据行、十章节正文、quote 原文（本页不承载机器 JSON 字段）"],
+      "businessOracle": {
+        "type": "historical-document-governance-not-runtime",
+        "assertions": [
+          "结构：checkMigratedDocument 零 issue（1264 合同 PASS）；保全：marker 区与 base 逐字节相等 + 逆回读等 pinned blob；语义：历史归因纪律（原卡时点陈述、零重授）由本记录与 Codex 非作者复核承担",
+          "本卡是能力地图/议题池/看板真值对账历史记录（2026-09-03 用户“对账你自己做就行了，用不到三签”单人裁决）：仅改 capability-map/design-backlog/board-20261004 三文档+本卡，证据为 12 张任务卡首行 Status 与 Git 收口记录；修正 X4/A7、B2、W4、W5、B10、X7 及九项议题陈旧说明，看板删全部历史 done/cancelled 行恢复自身合同；对账后真实半完成仅 W6/E6/B5、未实现 A1/A6（A6 非 MVP）；陈旧短语定向检索归零、剩余 ⚠️/❌ 精确为五项。该能力状态是 2026-09 时点结论，后续以现行文档为准。本次治理零重跑零重授。"
+        ]
+      },
+      "dedupe": {
+        "result": "与 S13 三篇导航页角色互斥（导航 vs 历史卡）；与兄弟卡（O/P/Q、FORMS/FACING 等）按各自缺陷/批次分工互斥；封套泛化句全部替换为卡内具体事实，未复制机账正文",
+        "against": [
+          "S13 navigation-role boundary",
+          "S14 sibling scope comparison explicitly recorded in original author statement"
+        ]
+      },
+      "counterReworkBlocked": "R41/R42 的 reviewed 信用已撤——本重写不恢复该信用；历史测试数/CI 数字不因本页重授；类型仍为 task-card-v1+overlay=true，无合同不适配 counter",
+      "revision": {
+        "currentSha": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "GLM fixed-body governance; Codex evidence/risk acceptance; central field shapes normalized",
+            "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+            "candidateCommit": "fb00cc89a58539969760c05737f9003ef7c80fa2"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "evidence-led-individual-body-template-nonauthor-acceptance",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz",
+          "encoding": "gzip",
+          "payloadSha256": "58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1",
+          "payloadBytes": 31901,
+          "storedSha256": "906513242a10c6632da7c467bcb043147dc6ea692ee143e2ed4e481907b06988",
+          "storedBytes": 7524,
+          "producerTask": "/root",
+          "authorTask": "GLM/S14-manual-delivery",
+          "reviewerTask": "/root",
+          "sourceRevision": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+          "scope": "12 individual fixed historical document semantic/template decisions; contributor full reading plus owner evidence/risk acceptance. No original execution renewal or central/global/main/done.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 per-document acceptance and explicit central intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable owner acceptance and actual read limits, original evidence/counter history retained.",
+          "exitCondition": "Retain for audit/replay; no automatic deletion or denominator exemption."
+        },
+        "reportSha256": "58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1",
+        "nonAuthorReviewer": true,
+        "authorTask": "GLM/S14-manual-delivery",
+        "reviewerTask": "/root",
+        "candidateSha256": "16a67f3b81bc1ddd0d2481b77770c35977e3f24678c4fe20ac0fdbc11474a88c",
+        "authorOriginalEvidence": "/tmp/s14-glm-evidence（receipts/、verification.json、candidate.patch）",
+        "counterClosure": ["S14-E01", "S14-E02"],
+        "historicalExecutionAuthenticityGranted": false,
+        "storedSha256": "906513242a10c6632da7c467bcb043147dc6ea692ee143e2ed4e481907b06988"
+      },
+      "history": [
+        "bb7b1d2 原源（2026-09-03 裁决时点）→ R42 泛化封套 → S14 具体内容重写",
+        {
+          "date": "2026-10-18",
+          "action": "S14 individual owner evidence/risk acceptance after append-only correction",
+          "candidateCommit": "fb00cc89a58539969760c05737f9003ef7c80fa2",
+          "oldClaimsRestored": false,
+          "runtimeCreditGranted": false
+        }
+      ],
+      "supersedes": [
+        {
+          "reviewRecord": "20261017-r42-ops-archive-task.json",
+          "path": "docs/ops/archive/tasks/done/OPS-MAP-3-current-truth-reconciliation.md",
+          "previousAfterSha256": "fc32a5608c0cf0f870fbea8e8f90e227646e7732f81fa3196d780a35d24ad11e",
+          "scope": "Only current fixed document governance binding; original withdrawn record retained under supersededBindings."
+        }
+      ],
+      "stopLine": "不动中央 routing/registry/review/ledger、不重跑产品/旧测试、quote 字节若被外力改变即停（未发生）；来源冲突或需新模板/产品取舍时单篇停并交 counter",
+      "sourceSha256": "70965ef8e1fd749481b402a5b833a2f75b5eafc57c3706bca4265fcbeb98587c",
+      "afterSha256": "16a67f3b81bc1ddd0d2481b77770c35977e3f24678c4fe20ac0fdbc11474a88c",
+      "sourceGitRevision": "bb7b1d24e9e517e09730282b104ce51b4204cb0b",
+      "reviewedLines": {
+        "before": 97,
+        "after": 103
+      },
+      "beforeAfter": {
+        "beforeSha256": "fc32a5608c0cf0f870fbea8e8f90e227646e7732f81fa3196d780a35d24ad11e",
+        "afterSha256": "16a67f3b81bc1ddd0d2481b77770c35977e3f24678c4fe20ac0fdbc11474a88c",
+        "summary": "泛化封套→具体内容；quote 区零变化"
+      },
+      "templateConformance": "task-card 五章+archive-record 五章齐全非空、单一标题、Template/Last reviewed 声明精确、原身份元数据（Owner/Reviewer/Phase/Capability/Closed Evidence/VVT）恢复进首段；结构 consumer 零 issue，结构绿不授内容信用",
+      "cardFacts": {
+        "关键事实": "12 卡证据对账 + 三快照收敛 + 免三签边界"
+      },
+      "templateCompliance": "template-compliant",
+      "phase": "ops",
+      "authorReadMethod": "GLM 全文读 before 正文（97 行）与 quote 内原源全文；读父卡 S14 准入、execution-manifest、A4 合格样例与 task-card/archive-record 模板合同、check.mjs taskInfo/isTaskDocument/链接门、document-model checkTemplateBody；实跑 quote 逆回读/模板 consumer/导航门/索引投影/lint/diff。未重跑原卡任何测试/CI/产品执行。",
+      "ownerVerificationScope": "Read author per-file conclusion and relevant changed identity/history evidence; verify all before/source/after/quote/inverse bytes from real Git. No full candidate or full pinned-source semantic reread.",
+      "authorOriginalFieldShapes": {
+        "legalInputs": "卡顶部 Status/元数据行、十章节正文、quote 原文（本页不承载机器 JSON 字段）",
+        "businessOracle": "结构：checkMigratedDocument 零 issue（1264 合同 PASS）；保全：marker 区与 base 逐字节相等 + 逆回读等 pinned blob；语义：历史归因纪律（原卡时点陈述、零重授）由本记录与 Codex 非作者复核承担",
+        "dedupe": "与 S13 三篇导航页角色互斥（导航 vs 历史卡）；与兄弟卡（O/P/Q、FORMS/FACING 等）按各自缺陷/批次分工互斥；封套泛化句全部替换为卡内具体事实，未复制机账正文",
+        "revision": {
+          "base": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+          "candidate": "fb00cc89a58539969760c05737f9003ef7c80fa2"
+        }
+      }
     }
   ]
 }

@@ -1,54 +1,59 @@
 # TEST-CODEX-DEBUG-TOOLS-1 — 调试面板公开动作六组
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Codex
+Phase: phase2
+Visual Verification Timing: N/A（真实DOM事件/参数合同，不改UI、不声明像素验收）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 +5pp 队列中对 Reforge 调试面板（installDebugTools）公开动作的纯测试批次历史记录；下述数字与门禁均为原卡时点陈述，本次文档治理未重跑。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+为调试面板控制台主体补六组公开动作合同测试（commands/failures/triggers/battle/inspect/navigation）：真实 DOM 事件、真实 ScriptProjectRuntime、生产 buildWorld 预设下检查实际传参与 world/工程输入深保真。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：新增 packages/reforge/src/debug-tools.{commands,failures,triggers,battle,inspect,navigation}.test.ts 六文件、专属 src/__tests__/debug-tools-fixtures.ts 与 docs/testing/archive/legacy/batches/codex-debug-tools/** 证据；起点 cd1baa6c，属[+5pp 队列](TEST-COVERAGE-PLUS5-1-continuous-batches.md)。
+- 范围外：私有反射、核心 mock、放宽 fixture 守卫；产品/旧测试/配置/资产；与 Cursor 命令、GLM 内容 guard、另一 Codex 架构实现的文件重叠；真实战斗、Canvas 或磁盘保存的验证声明（宿主副作用端口仅作调用/失败/取消见证）。
 
 ## 前提与证据
-- primary source：固定 source revision `b9901f97a3a09359cbeaed9dde126e6f44b7f229` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+唯一消费者 main.ts:5958-6015 经 DEV 动态 import 调用 installDebugTools；既有 debug-tools.test.ts 七项偏安装/生命周期/样式，未覆盖控制台主体、触发实际 runtime、battle 参数构造。原版/第一阶段 N/A（Reforge 私有调试 DOM 适配器）。可证伪反例：无消费者或重复已有测试——已核 main 真实入口及全仓测试 import，新增仅未证合同。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：61 新增/相邻 17、定向 78/78、Reforge TC、新文件 Biome 通过；六正控+六单点反控全部有精确业务 AssertionError 且产品 hash 不变，详见[回执](../../../../testing/archive/legacy/batches/codex-debug-tools/README.md)；串行 check 9387→ratchet→保护 cd1baa6c 单次 strict 8895 全 exit 0；全仓 45304/63178 净增 173B；生产 701 文件与其它六包 baseline 不变。以上均为原卡时点结果，本页未复跑。本页迁移验收：source/after SHA、quote 逆回读、模板与历史 overlay 章节、链接通过。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡明确无下一位 Agent 提示词：Codex 提交推送并继续后续整批；当前模式由 Codex 实施/自验，不冒称独立他席；本批纯测试/文档无产品选择，done 准入满足、母卡未完成。S14 本页治理只改写泛化封套。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `b9901f97a3a09359cbeaed9dde126e6f44b7f229`；本轮为 2026-10-17 R41。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-26 Codex build allowed 并同日实施 accept；起点 cd1baa6c。2026-10-17 R41 泛化封套，2026-10-18 S14 逐篇改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：六组公开动作合同按纯测试批收口；真实缺陷另登记、不改预期凑绿。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+[回执](../../../../testing/archive/legacy/batches/codex-debug-tools/README.md)；正控/反控与产品 hash 不变陈述为原卡记录。本页治理未新增任何执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。不把历史 78/78 或 strict 8895 当作当前 main 结论；调试面板现行行为以当前测试与 catalog 为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+队列母卡见[TEST-COVERAGE-PLUS5-1](TEST-COVERAGE-PLUS5-1-continuous-batches.md)；相邻批次见[TEST-CODEX-COMMAND-FORMS-1](TEST-CODEX-COMMAND-FORMS-1-current-dialogs.md)。
 
 ## 原文保全
+
 固定源 revision `b9901f97a3a09359cbeaed9dde126e6f44b7f229`，source SHA `baf69349bd48a3abd9a96eb1c55f10255d334f624a8e87f9ed79b7f0c7bc9bd9`；下方 quote 可逆回原始 UTF-8 字节。
 <!-- original-source-quote:start -->
 > # TEST-CODEX-DEBUG-TOOLS-1 — 调试面板公开动作六组

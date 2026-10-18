@@ -90,7 +90,7 @@ Template: task-card-v1 / 1.0.0
 - 链接/索引批量变更破坏；缓解：批次后 check:docs 与悬链扫描。
 
 ## 下一位 Agent 提示词
-S13三导航既有接受与中央候选5b4a7cd5保留。S14已交固定fb00cc89a58539969760c05737f9003ef7c80fa2：12篇身份与quote保全通过，三项风险语义与原源对应；当前只退回S14-E01回执不存在的完整候选SHA、S14-E02快检HEAD自比较两项证据问题。复用正文与已核成果，补证后再中央接入；当前不接入12条review/after pin，不重做全文、不合main、不done。提示词按通用协议主动给用户转发。
+S13既有三导航接受保留；S14固定fb00cc89a58539969760c05737f9003ef7c80fa2已补齐E01/E02，12篇获基于证据与风险复核的逐篇限定接受并按本次显式计划中央接入。下一包为最新S15剩余274篇历史任务卡：单次大包授权，GLM内部自行分段推进，最终集中回交。全量仍rework，不合main、不done；旧R批信用不恢复。
 
 ## 用户裁决记录
 
@@ -1988,3 +1988,19 @@ root非作者实际核固定de423正文SHA1e50d535c2b16aa466207da22e698768bd5abb
 - S14-E02（12篇共同阻塞）：原verify-quote-inverse.mjs比较working对HEAD，在已提交树是自比较，不能证明对base相同；root补核已证明本批12区未坏。须另版显式base/candidate字节比较，当前12篇全部要求直接inverse，无trim/LF裁剪/隐式codec。
 - 原41作者文件（含未列39清单的后加handoff及原清单本身）加外部freeze map完整保留在s14-author-originals-before-evidence-rework raw session；fabricationNote未抹除，当前12 before已独立核正确，但首版丢失字节及发现/重生过程不追认证实。7命令原输出指纹可复核，旧执行输入身份未获信用。
 - 裁定：12篇逐篇均为evidence-only rework，未发现需改正文的counter；不撤回机械/三风险已核成果，也不将其等同中央content-reviewed/template-compliant。仅让GLM追加补证，不改12正文/commit、不写中央。未接入故不重复181或整仓checkdocs；接入后再核真实组合。本卡仍rework/main/done=false。
+
+### S14 补证解除与十二篇限定接入（2026-10-18）
+
+- 固定候选fb00cc89a58539969760c05737f9003ef7c80fa2、base dd37d6da及12正文未变；旧41原件与新26清单指纹全部匹配。E01新runner从git rev-parse取得身份，绑定干净固定HEAD及输入未变；旧臆写SHA和七旧执行的输入身份撤信保留。E02改用显式base/candidate Git blob字节比较，root只重放一次新快检12/12通过；不重复全文及作者lint/model/导航。v2脚本核固定提交，working干净另由runner/root核验；13输入具体hash未落回执，已记录该限制，以干净Git完整HEAD固定tracked版本。
+- 逐篇限定接受见[固定正文非作者裁定](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz)。贡献者负责12篇全文语义，root复用12条具体结论/保全及三篇风险核读，只核补证；记录明确演员与实际读域。旧manifest首版未恢复、旧回执不追认，不授旧CI/测试/产品/runtime/E2E/视觉/coverage信用。
+- 中央按精确12条before→after tuple、原R41/R42完整supersededBindings、现有semantic-rework唯一后继、format后SHA及必要pin依赖接入；routing已匹配不改。私有维护器只核已作出的显式决定与身份，不能生成语义结论；S15复用同合同，不逐包写另一套规则。接入后组合检查原件另存，未通过前不宣布全仓门或整卡完成。
+- 首轮组合真实exit1：181/181、导航/model/testing/phase及lint/diff通过，但中央mapper未把作者legalInputs/businessOracle/dedupe/revision四类文本/简写转成现有consumer所需数组/对象，产生48条本轮额外诊断，另有4226条既有pending。属Codex中央适配遗漏，不退正文给GLM；原值另列保留，按原具体结论归一化字段，不降低规则。原失败回执不覆盖；修后仅复核相关中央记录、结构/lint/diff，已合格181及未受影响测试/phase结果复用，未宣称checkdocs全量通过。
+
+### S15 GLM 剩余274篇历史任务卡大包准入（2026-10-18）
+
+- 用户明确要求对齐后直接交大规模任务，减少两边传话。Codex build allowed：GLM为单一正文Owner，一次负责剩余274篇历史任务卡候选（done268、cancelled6）；精确白名单/before SHA以本次冻结source-manifest为准，临时交接目录由execution-manifest给出本准入提交的实际base。选择只代表排期，实际类型与历史语义仍由GLM逐篇核，不继承旧标签信用。
+- [冻结274路径清单](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s15-274-source-white-list-admission/87b818b722561d11cf373336679b2e5e04bd4678253cefaefa10028db2842972.gz)的payload SHA为87b818b722561d11cf373336679b2e5e04bd4678253cefaefa10028db2842972，源快照f8eaa07b；274正文合计10642618B，非全文已读声明。本机交接目录为/tmp/type-pal-S15-GLM-large-handoff-80kecaf8，实际执行base另在execution-manifest取本准入提交，不以源快照代替候选base。
+- 复用document-delivery-acceptance/1.0.0、task-card-v1/1.0.0与archive-record历史overlay及合格pilot。GLM在白名单内按篇幅自行分段读写、提交和保存进度；普通组可20–40篇，长文缩小至适合真实全文处理的范围，最终集中交一个候选与证据入口。不逐段要求用户转发或批准，不以大包授权改成脚本生成通用结论。
+- 每篇保留原终态、日期、counter、来源/quote精确字节和实际codec声明，写具体目的/结论/边界/继任及独立review草稿。合同不适配、真源未知或冲突仅停该篇，保留原件并给解除条件，继续其余白名单；新模板/产品取舍交Codex。无需为单篇blocked中断整个大包。
+- GLM只写白名单正文与包外追加证据，不写中央registry/routing/review/matrix、父卡、看板、索引、模板/规则、产品/旧测试/coverage。内部按影响跑快检，最终同候选集中跑保全/合同/导航/索引/lint/diff，回执身份自动取Git并固定真实输入；review与manifest按体积拆片，单片小于512KiB，不复制源码/日志凑证据。整仓181/checkdocs留中央组合执行。
+- 一次回交所有完成与blocked路径、真实base/final candidate、分片索引/逐篇具体结论与证据/快检/原始诊断/事故。Codex默认机器核全包、集中看具体结论与高风险，异常只扩受影响claim，不默认再全文治理274篇。全卡持续rework，不合main、不推main、不done。

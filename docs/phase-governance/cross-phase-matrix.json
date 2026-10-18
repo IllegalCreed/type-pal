@@ -1761,6 +1761,39 @@
         "Whole docs and historical task body review remain incomplete; no runtime/E2E/visual/coverage credit."
       ],
       "stopLine": "Navigation current does not reopen historical work or grant product/main/done acceptance."
+    },
+    {
+      "id": "S14-historical-task-claims-vs-current-testing",
+      "from": [
+        "docs/ops/archive/tasks/done/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md",
+        "docs/ops/archive/tasks/done/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md",
+        "docs/ops/archive/tasks/done/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md",
+        "docs/ops/archive/tasks/done/QUALITY-TEST-INPUTS-1.md",
+        "docs/ops/archive/tasks/done/TEST-CODEX-COMMAND-FORMS-1-current-dialogs.md",
+        "docs/ops/archive/tasks/done/TEST-CODEX-DEBUG-TOOLS-1-public-actions.md",
+        "docs/ops/archive/tasks/done/EDITOR-SCENE-FACING-1-clear-override.md",
+        "docs/ops/archive/tasks/done/QUALITY-OPQ-RETIREMENT-1.md",
+        "docs/ops/archive/tasks/done/OPS-DOC-GOVERNANCE-1-deep-layout.md",
+        "docs/ops/archive/tasks/done/EDITOR-MAP-SELECTION-NOTICE-1.md",
+        "docs/ops/archive/tasks/done/EDITOR-AUTO-LOCATOR-1-current-script-target.md",
+        "docs/ops/archive/tasks/done/OPS-MAP-3-current-truth-reconciliation.md"
+      ],
+      "to": [
+        "docs/testing/catalog.json",
+        "docs/testing/governance.md",
+        "docs/ops/board.md",
+        "docs/phase2/READ-FIRST.md"
+      ],
+      "relationship": "S14 twelve archived task cards retain original done/date/counter/source authority. GLM full-document governance plus Codex evidence/risk acceptance governs document semantics only; O472/470/2 and1b/8efe, I06 vs external image IO, OPQ net16 are distinct historical boundaries. Current testing/product/lore/phase1/phase2/phase3 acceptance is not renewed.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz"
+      ],
+      "unresolved": [
+        "Old seven receipt inputs remain unauthenticated; overwritten first manifest not recovered.",
+        "Whole docs governance and current runtime/E2E/visual/coverage remain separate and incomplete."
+      ],
+      "stopLine": "Do not convert historical done/CI/test counts or source-preserving document acceptance into current product, main or whole-goal completion."
     }
   ],
   "acceptance": {

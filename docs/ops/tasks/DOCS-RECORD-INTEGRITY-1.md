@@ -156,3 +156,9 @@ Template: task-card-v1 / 1.0.0
 - S14-E01：原receipts/summary.json把候选写成不存在的fb00cc89a1cf0e5d43af25f7cf3c93d22c69bf56；S14-E02：保全脚本用HEAD自比较，不能支撑其base保全声明。原文件及完整raw保全，不覆盖旧结论/时间；要求仅追加真实身份勘误与更正脚本新执行。未授12篇中央接入/全量完成。
 - manifest.fabricationNote披露首版5–12条before SHA尾段手写伪造后覆盖；本次只证实当前12条与Git吻合，不能追认未留存首版及事后恢复过程。该披露及新发现共同记录；后续禁止手写Git身份或补造过去回执。
 - 返工范围限证据，12篇正文和固定候选不重做、不切分支；原7输出字节指纹匹配不等于运行输入身份已认证。全卡持续rework，main/done=false。
+
+### S14 两项证据counter的限定闭合
+
+- 新append-only补证包保留旧41文件；26新清单字节全匹配、七新回执身份为实际fb00cc89a58539969760c05737f9003ef7c80fa2，固定HEAD/干净tracked输入，完整原输出零诊断；root只重放显式base/candidate纯字节快检12/12。E01/E02仅对该新证据闭合，旧错误SHA/HEAD自比较/首版覆盖事故及旧执行未认证边界不改写。
+- 十二篇由[固定逐篇非作者裁定](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz)获文档语义/模板限定接受；原R41/R42撤信entry完整保留在supersededBindings，不批量恢复旧信用。贡献者全文、root证据/三风险和新快检明确归因，旧业务执行不重授。
+- 用户批准后续用大包减少中转，父卡S15一次准入其余274篇历史卡；当前central组合和全量硬门仍分开，不将本次接入当整卡done或main合并。
