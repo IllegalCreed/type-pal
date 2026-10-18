@@ -1200,7 +1200,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "6a1ba65f54ab92c6d0d3baffb4d4e5b4a151a4cd04065b97a9b94292c48f0c8c",
+      "afterSha256": "4dbc47a82737382c8a5835bde48b74640d3ac53e255dedb4c7b9344f32091f0b",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1467,6 +1467,15 @@
           "sourceRevision": "741d96580689e6e97cffd9c286511f3bacd34044",
           "previousAfterSha256": "1f75558a8dce9c1c33168d537055ff05cfd3041a64886f7134e58531627a9fd2",
           "afterSha256": "6a1ba65f54ab92c6d0d3baffb4d4e5b4a151a4cd04065b97a9b94292c48f0c8c",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "Common document-delivery-acceptance1.0 protocol, source code-quality3y4.1 adaptation",
+          "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+          "previousAfterSha256": "6a1ba65f54ab92c6d0d3baffb4d4e5b4a151a4cd04065b97a9b94292c48f0c8c",
+          "afterSha256": "4dbc47a82737382c8a5835bde48b74640d3ac53e255dedb4c7b9344f32091f0b",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
@@ -5507,7 +5516,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "dc093d0bfff090ea6a343c3e6006237a9faf5eb85d15b338e9e0a0fef7e5bd9a",
+      "afterSha256": "d204e92db72274aec45ae099749e80d8b94bc04980f6ee98e18ca1ec3a5763d3",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -5884,6 +5893,15 @@
           "previousAfterSha256": "1b9a7445a60be00a55508e0b0d90acf978fcd8b58bd38734136707690d91337e",
           "afterSha256": "dc093d0bfff090ea6a343c3e6006237a9faf5eb85d15b338e9e0a0fef7e5bd9a",
           "method": "Explicit new GLM12-file body-only candidate admission and user-requested evidence-led/non-duplicate verification division; no semantic/template completion granted, native statuses unchanged.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "Common document-delivery-acceptance1.0 protocol, source code-quality3y4.1 adaptation",
+          "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+          "previousAfterSha256": "dc093d0bfff090ea6a343c3e6006237a9faf5eb85d15b338e9e0a0fef7e5bd9a",
+          "afterSha256": "d204e92db72274aec45ae099749e80d8b94bc04980f6ee98e18ca1ec3a5763d3",
+          "method": "Only reviewed generic protocol/entry-reference diff (nonauthor short review74be48a1999a17b1dddcddd66108f5fe38a9b8e6fa89e7c8113631c34069cf29); actual diff known, no new body-migration or native status credit. Task scope/base unchanged.",
           "grantsNewSemanticAcceptance": false
         }
       ]

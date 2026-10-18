@@ -28,7 +28,7 @@
         "manual-semantic-migration"
       ],
       "sourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
-      "afterSha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
+      "afterSha256": "38d3593065c759c911e387a950317b83c33995cbecfec82886de76157cb58559",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -378,7 +378,18 @@
       "templateVersion": "1.0.0",
       "reviewedSourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
       "sourceGitRevision": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
-      "sourceState": "present"
+      "sourceState": "present",
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "Common document-delivery-acceptance1.0 protocol, source code-quality3y4.1 adaptation",
+          "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+          "previousAfterSha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
+          "afterSha256": "38d3593065c759c911e387a950317b83c33995cbecfec82886de76157cb58559",
+          "method": "Only reviewed generic protocol/entry-reference diff (nonauthor short review74be48a1999a17b1dddcddd66108f5fe38a9b8e6fa89e7c8113631c34069cf29); actual diff known, no new body-migration or native status credit. Task scope/base unchanged.",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/ops/board.md",
@@ -1910,7 +1921,7 @@
         "manual-semantic-migration"
       ],
       "sourceSha256": "3976d2bbda8a770fb94520c76747a78a0706b136a05ff8e39e078da00ce88dcd",
-      "afterSha256": "a7c88637f4c0a57478583fcf11277b363db95dbe19f48965900656832d22b1dc",
+      "afterSha256": "10dfb5cd32d928a2e99d9e8fb1a60d30e6b9da3d44abb566ea4ebc5dfa569705",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -2080,7 +2091,18 @@
       "templateVersion": "1.0.0",
       "reviewedSourceSha256": "3976d2bbda8a770fb94520c76747a78a0706b136a05ff8e39e078da00ce88dcd",
       "sourceGitRevision": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
-      "sourceState": "present"
+      "sourceState": "present",
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "Common document-delivery-acceptance1.0 protocol, source code-quality3y4.1 adaptation",
+          "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+          "previousAfterSha256": "a7c88637f4c0a57478583fcf11277b363db95dbe19f48965900656832d22b1dc",
+          "afterSha256": "10dfb5cd32d928a2e99d9e8fb1a60d30e6b9da3d44abb566ea4ebc5dfa569705",
+          "method": "Only reviewed generic protocol/entry-reference diff (nonauthor short review74be48a1999a17b1dddcddd66108f5fe38a9b8e6fa89e7c8113631c34069cf29); actual diff known, no new body-migration or native status credit. Task scope/base unchanged.",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/ops/tasks/DOCS-CATALOG-SPLIT-1.md",

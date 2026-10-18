@@ -1,7 +1,7 @@
 # 多 Agent 工作流
 
 Status: current
-Last reviewed: 2026-10-15
+Last reviewed: 2026-10-18
 Owner: Codex
 Template: guide-runbook-v1 / 1.0.0
 
@@ -54,6 +54,8 @@ Codex 核实后在卡内记录 `build allowed`、Owner、白名单与验收方�
 逐项保留/合并/补强/删除/blocked 要有 file:line 和证据。[测试治理](../testing/governance.md)定义 catalog、报告和机器回执的配对，候选不自动接入正式覆盖率。
 
 ### 3. 独立复核与集成
+
+文档任务统一按[文档交付与证据验收协议](guides/documentation-model.md#文档交付与证据验收协议)：贡献者负责逐篇全文治理与原件，Codex默认核摘要、逐篇结论、差异及证据，风险/矛盾才定向展开，不把独立验收变成第二次完整治理。任务卡仅引用协议版本与本批范围/例外；稳定结果复用、全仓门集中运行，精确记录未核与未跑。接收或返工时主动给下一份自含提示词，不依赖用户逐批提醒。
 
 Codex 直接核交付和一手证据，决定返工或接收；结论写回卡、交接日志和对应文档。lint/格式/typecheck 等硬静态门的 error/warning/info 全部清零，exit 0 但有诊断不算通过，不用存量、ignore 或降规则豁免。
 

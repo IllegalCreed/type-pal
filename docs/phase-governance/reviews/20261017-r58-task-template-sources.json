@@ -35,7 +35,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
-      "afterSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+      "afterSha256": "3f1e3fcf469f90dea9646aa73b2405c57b13e6a920588d726a339e2c1cd4050a",
       "publicCallers": [
         "docs/ops/templates/README.md",
         "docs/ops/tasks/README.md",
@@ -174,7 +174,18 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "Common document-delivery-acceptance1.0 protocol, source code-quality3y4.1 adaptation",
+          "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+          "previousAfterSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+          "afterSha256": "3f1e3fcf469f90dea9646aa73b2405c57b13e6a920588d726a339e2c1cd4050a",
+          "method": "Only reviewed generic protocol/entry-reference diff (nonauthor short review74be48a1999a17b1dddcddd66108f5fe38a9b8e6fa89e7c8113631c34069cf29); actual diff known, no new body-migration or native status credit. Task scope/base unchanged.",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/ops/templates/TASK-lite-template.md",
@@ -206,7 +217,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
-      "afterSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+      "afterSha256": "3223e8eff325305770c3bbd0975e3f3896c0c246c1be03b02a32eaddbb5b6a8a",
       "publicCallers": [
         "docs/ops/templates/README.md",
         "docs/ops/tasks/README.md",
@@ -345,7 +356,18 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "Common document-delivery-acceptance1.0 protocol, source code-quality3y4.1 adaptation",
+          "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+          "previousAfterSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+          "afterSha256": "3223e8eff325305770c3bbd0975e3f3896c0c246c1be03b02a32eaddbb5b6a8a",
+          "method": "Only reviewed generic protocol/entry-reference diff (nonauthor short review74be48a1999a17b1dddcddd66108f5fe38a9b8e6fa89e7c8113631c34069cf29); actual diff known, no new body-migration or native status credit. Task scope/base unchanged.",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     }
   ],
   "currentCorrection": {

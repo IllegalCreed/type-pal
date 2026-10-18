@@ -1965,3 +1965,9 @@ root非作者实际核固定de423正文SHA1e50d535c2b16aa466207da22e698768bd5abb
 - docs/ops/archive/tasks/done/EDITOR-MAP-SELECTION-NOTICE-1.md
 - docs/ops/archive/tasks/done/EDITOR-AUTO-LOCATOR-1-current-script-target.md
 - docs/ops/archive/tasks/done/OPS-MAP-3-current-truth-reconciliation.md
+
+
+### 通用文档验收协议接入（用户2026-10-18）
+
+- 用户要求参照codex/code-quality-3y长期代码验收规范，将文档验收提升为通用合同。唯一规范为[项目文档模型中的文档交付与证据验收协议](../guides/documentation-model.md#文档交付与证据验收协议)，版本document-delivery-acceptance/1.0.0；AGENTS、工作流与完整/轻量任务模板引用它，本卡S13/S14等原段落仅保留当时的执行/交接快照，不是另一套现行规则。
+- 当前S14白名单、Owner、base dd37d6da、既有模板与停止线不变；贡献者从中央候选已提交的通用协议读取，勿为追规则切换/覆盖正在工作的分支。后续提示词只列本批参数和通用协议版本，不复制整份规范。全卡仍rework/main/done=false；新通用协议本身不授任何未审正文信用。

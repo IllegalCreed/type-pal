@@ -2990,7 +2990,7 @@
       "sourceGitRevision": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c",
       "sourceGitObject": "9b6d1f90868fc8f7b1ecaf29f498be94f112209c:docs/ops/guides/documentation-model.md",
       "sourceState": "absent-new-document-empty-byte-source",
-      "afterSha256": "3a087aec18bd1e3a5918f7ba01fd440696c43411f743cbd5c185a93b9f1fae50",
+      "afterSha256": "ea9124d5a8729a30eaaf27679224db73b5bfdc73bff591a071380c83526e9203",
       "publicCallers": [
         "AGENTS.md operation routing",
         "docs/README.md",
@@ -3058,7 +3058,18 @@
       "stopLine": "Unknown content stays unread/blocked; formatting and route checks do not prove runtime/E2E/visual/coverage.",
       "userVisibleBeforeAfter": "无项目层文档模型 -> 按职责读取、写回和复核的具体 runbook。",
       "reviewedLines": "1-111",
-      "reviewNotes": "Codex 实际核正文与实际迁移差异；不是自动标题/路径归类。全量正文与最终独立验收仍在任务卡持续推进。"
+      "reviewNotes": "Codex 实际核正文与实际迁移差异；不是自动标题/路径归类。全量正文与最终独立验收仍在任务卡持续推进。",
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "Common document-delivery-acceptance1.0 protocol, source code-quality3y4.1 adaptation",
+          "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+          "previousAfterSha256": "3a087aec18bd1e3a5918f7ba01fd440696c43411f743cbd5c185a93b9f1fae50",
+          "afterSha256": "ea9124d5a8729a30eaaf27679224db73b5bfdc73bff591a071380c83526e9203",
+          "method": "Only reviewed generic protocol/entry-reference diff (nonauthor short review74be48a1999a17b1dddcddd66108f5fe38a9b8e6fa89e7c8113631c34069cf29); actual diff known, no new body-migration or native status credit. Task scope/base unchanged.",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     }
   ]
 }

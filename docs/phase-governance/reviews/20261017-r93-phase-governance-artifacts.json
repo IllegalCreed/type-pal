@@ -1264,7 +1264,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "793c91f46b0733c6f934482933f37103792b0b98cf6841b9c29c45b160740078",
+      "afterSha256": "a22ad6b1ea817179ecb6b2ac8166031877866e294c74d8a1d33368cc01890008",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1414,6 +1414,15 @@
           "previousAfterSha256": "444aa7c6adff0bd9f93f7d3ca5582542da12debba0eb925b53b6337910f8cf18",
           "afterSha256": "793c91f46b0733c6f934482933f37103792b0b98cf6841b9c29c45b160740078",
           "method": "Upstream explicitly corrected review dependency only; no new content or execution acceptance",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "Common document-delivery-acceptance1.0 protocol, source code-quality3y4.1 adaptation",
+          "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+          "previousAfterSha256": "793c91f46b0733c6f934482933f37103792b0b98cf6841b9c29c45b160740078",
+          "afterSha256": "a22ad6b1ea817179ecb6b2ac8166031877866e294c74d8a1d33368cc01890008",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -2828,7 +2837,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4c7c6feed74bc80d2e4441c186eba6fadfa057ac53cdd6f1639544803e12cc4a",
-      "afterSha256": "5eebe519a24ac97ec6041cd8be213fa8c9667061367d0e6bd0a25ff1f8424791",
+      "afterSha256": "e59909a963b9d9f48795a49ac8827e4a7ad8a8ba3c722a3bacd8174c342e885c",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -2960,7 +2969,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "Common document-delivery-acceptance1.0 protocol, source code-quality3y4.1 adaptation",
+          "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+          "previousAfterSha256": "5eebe519a24ac97ec6041cd8be213fa8c9667061367d0e6bd0a25ff1f8424791",
+          "afterSha256": "e59909a963b9d9f48795a49ac8827e4a7ad8a8ba3c722a3bacd8174c342e885c",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
@@ -15426,7 +15446,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "19acdf9237d9ad9b00b367ff6a1b22a79612806171c8d229b4b45005c790185b",
-      "afterSha256": "537f99cad3263ef8937759863e2b26d37d2956c13966e8a46b8218134712a315",
+      "afterSha256": "8dbec2d024cbb1ab7a9dbc1274553739a4115b32d062aa481e842ca3c3c62327",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -15558,7 +15578,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "Common document-delivery-acceptance1.0 protocol, source code-quality3y4.1 adaptation",
+          "sourceRevision": "dd37d6da551b77b28d972df6e5d6b08387aa4211",
+          "previousAfterSha256": "537f99cad3263ef8937759863e2b26d37d2956c13966e8a46b8218134712a315",
+          "afterSha256": "8dbec2d024cbb1ab7a9dbc1274553739a4115b32d062aa481e842ca3c3c62327",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r59-ops-archive-task-cards.json",
