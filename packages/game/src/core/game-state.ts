@@ -73,11 +73,14 @@ export interface ActiveMenuEntry {
   state: unknown
 }
 
-/** 队伍成员的 role id(MKFNUM_PLAYERROLES),原版 max 5 在 party 中。 */
-export interface InventoryEntry {
-  itemId: number
-  count: number
-}
+  /**
+   * 背包物品条目(itemId = OBJECT 全局 wObjectID,61..294;count 归 0 不剔除,
+   * 由 add/sub 命令决定)。原版同字段最多 5 名队员在队,与本条目无关(此注防误挂)。
+   */
+  export interface InventoryEntry {
+    itemId: number
+    count: number
+  }
 
 export interface NpcState {
   id: number
@@ -934,9 +937,10 @@ export interface GameState {
   wNumScene: number
 
   /**
-   * 历史对话环形缓冲(生产工具面板「历史对话」用,会话态——**不入存档**)。
-   * optional:避免破坏现有所有 GameState 构造点;event-system 提交对话行时 push,
-   * push 前确保数组存在(`gs.dialogHistory ?? (gs.dialogHistory = [])`)。
+   * 历史对话环形缓冲(生产工具面板「历史对话」用)。**随存档持久**——bootstrap
+   * 「跟着存档走」:存档含 deepClone 的本数组,读档经 restoreDialogHistory 归一
+   *(老档缺字段 → 清残留;超 CAP 截断)。optional 为兼容旧构造点;event-system
+   * 提交对话行时 push(先 `gs.dialogHistory ?? (gs.dialogHistory = [])`)。
    */
   dialogHistory?: DialogHistoryEntry[]
 
@@ -1112,11 +1116,6 @@ export interface GameState {
   sceneOnEnterOverride?: Record<number, number>
 
   /**
-   * opcode 0x07 startBattle 的战后接回上下文(sdlpal script.c:3318-3331:战斗是同步的,返回后脚本继续;
-   * 胜/无对应分支 → 下一条 ip,负 → op[1],逃 → op[2])。ts 战斗异步 → 0x07 存此,战末 resumePostBattleScript
-   * 接回触发脚本。**修"打完怪不消失"**:`0x07; 0x52 隐藏怪; end` 的 0x52 此前永不跑(0x07 直接清 cursor)。
-   */
-  /**
    * R(重提)跨战斗持久:上一场战斗最后一次备份的各队员 action(按 roleId)。sdlpal g_Battle 全局
    * 不随战斗重置 → "上回合"可跨场;但原版按战斗槽保存会在换队后串到其他角色,这里按角色归属恢复。
    * 选择阶段全员 action 决定后、actionQueue 填充前更新,startBattle 再映射为本场 party 槽;
@@ -1141,6 +1140,11 @@ export interface GameState {
    */
   deathHoldActive?: boolean
 
+  /**
+   * opcode 0x07 startBattle 的战后接回上下文(sdlpal script.c:3318-3331:战斗是同步的,返回后脚本继续;
+   * 胜/无对应分支 → 下一条 ip,负 → op[1],逃 → op[2])。ts 战斗异步 → 0x07 存此,战末 resumePostBattleScript
+   * 接回触发脚本。**修"打完怪不消失"**:`0x07; 0x52 隐藏怪; end` 的 0x52 此前永不跑(0x07 直接清 cursor)。
+   */
   postBattleResume?: {
     wonIp: number // 胜(或负/逃无对应分支)→ resume 此 ip(= 0x07 后下一条)
     lostIp?: number // 负 → op[1](已解析为全局 ip;0/无 → undefined → 用 wonIp)
