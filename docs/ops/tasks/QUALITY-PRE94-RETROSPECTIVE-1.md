@@ -824,3 +824,14 @@ C1–C3闭合，按原顺序拣选四笔候选；源码/证据映射及定向只
 用户要求后续一次交大任务，现build allowed：[GLM持续执行指令](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-pre94-foundation-goal.md)。GLM主要执行pre94全部83卡剩余八维复审/获准整改，先MKF两文件，再自主滚动不重叠模块，随后94–102既有返工；不启动103+新范围，不抢活跃Owner。内部仍小片提交，完整模块冻结证据后继续下一独立模块，不逐片等用户两边转话。Codex据证阶段验收/中央账本/集成，只有产品裁决、实际Owner冲突或证据异常升级；重大未定风险只停影响域，其它继续。MKF开工前已核五树无对应未提交修改、看板无其它专属Owner，实际开工再核最新3y。
 
 原RLE候选工作树仅在提交推送成功后清理两个自有node_modules链接及checkout，不遍历链接目标；新大包仅一个新鲜自有临时worktree，不增长期治理分支。源映射、清理结果及实际门以终验回执为准。全仓/coverage/protected在大窗口执行，本次不因文案包或任务分派重跑；83卡整卡仍55partial/28pending/0accept。
+
+
+## 2026-10-18 GLM foundation阶段1：MKF/RNG/YJ2有限接收
+
+六笔候选按原序集成，作者逐文件八维论据沿模块证据，Codex只核实际差异、证明产生者、7个TS正文保持、native计数/身份以及新增注释的一处实现/SDL取块边界；未重复全文或34/41/全仓测试。[终验与当前入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/README.md)分开记录作者与验收实际范围。新增MKF“所有offset4对齐”错误以合法[8,9]偏移实例证伪并在集成时修正；同步限定SDL坏档与RNG坏帧后续画面保证、去除源码中的测试治理噪音，均仅文案、正文不变。未把旧native corpus泛化为全部输入/坏帧真值。
+
+根据CODE2/2b既有明文撤回，精确恢复mkf.boundaries.test.ts、rng.test.ts、yj2.boundaries.test.ts及相邻rle.glm-o.test.ts为review，非本批语义重验失败；其余历史closed不授新信用。3319/245closed/109review/2965pending、0新关闭，83卡55partial/28pending/0accept。RNG boundary本来review保持；树归约独立向量及RLE格式等未解项原状态保留。GLM关于YJ2 boundary“已review”的描述与此前live表不一致，现以恢复后的机器结果为准。
+
+O-5登记在本卡输入域候选族：YJ2 u32 uncompLen可请求至4294967295输出字节，宿主可能先拒绝；当前caller/可信域及支持上限待核，不实际做巨量分配，不认定生产漏洞，不准直接加cap或改codec/API/资产格式。其与RLE O-1同族，但不混同格式真值结论。
+
+继续既有大goal，GLM保持foundation worktree并同步最新3y，下一模块shared纯类型/合同；开工自核Owner，不需逐片再请示。跨包或typecheck验证前完成自有依赖图，主树链接只能提供被明确限定的已有共享测试结果，不能作为候选跨包验收。缺少历史console的native结果只给身份/状态信用，后续必要的新执行保存原件，不为补造历史重跑。全仓/coverage/protected仍留完整阶段窗口，不合main。

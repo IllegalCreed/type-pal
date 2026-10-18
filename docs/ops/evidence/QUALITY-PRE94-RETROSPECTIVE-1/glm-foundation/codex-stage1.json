@@ -1,0 +1,1011 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-18",
+  "baseForRecord": "cf6419f16c4f8c7fd3e96c468ba7b1baf1084909",
+  "reviewer": "Codex evidence-first milestone acceptance",
+  "decision": "Accept limited comment edits/evidence with recorded integration corrections; not whole-file/whole-card eight-axis acceptance.",
+  "mappings": [
+    {
+      "original": "bfd5e267d7e235d11b9076fb822222056436c8f8",
+      "integrated": "f43d256d49a58d296e4dd9430ec8e969a2fa568a"
+    },
+    {
+      "original": "d051c6380673a820e605d5fb4f05c123e0444826",
+      "integrated": "85d69379c92c670bbe96a100f6143935fe55e1d0"
+    },
+    {
+      "original": "bc28d00db760b1d278256d7f145207e88210b7f2",
+      "integrated": "f9888f33430aae536d8cc35e8d0f208c1904a810"
+    },
+    {
+      "original": "ce65d276ae171eb0fb509419f7da1bb6922e6243",
+      "integrated": "a2bbd1b0f427e2f25cdea3d375335c4a082db836"
+    },
+    {
+      "original": "5f262331f67b442e9dfa4f76c45512be86b69af3",
+      "integrated": "db3dae5522eedabf01da39d6047c1c4ce9410ecc"
+    },
+    {
+      "original": "ab71fbb8fd1c5470e3d569158dac1a879a766261",
+      "integrated": "9ca64ca199d60372c9e3ec77e67c7e4e68b6bf70"
+    }
+  ],
+  "commentCorrections": {
+    "commit": "cf6419f16c4f8c7fd3e96c468ba7b1baf1084909",
+    "owner": "Codex; self-validation of integration corrections",
+    "MKF": [
+      "Only first offset/table length requires4-byte alignment; later byte offsets need not align.",
+      "Replace unsupported global SDL bad-file/whole-original-data assurances with verified count/read-index vs TS validation placement.",
+      "Remove testing-policy language from production readChunk docblock; describe parsed-input and borrow contract."
+    ],
+    "RNG": "Skip leaves current surface unchanged and later deltas reuse it; this does not guarantee equivalence to a complete valid stream. Remove unverified bad-path census claim.",
+    "directCounter": {
+      "input": [8, 0, 0, 0, 9, 0, 0, 0, 90],
+      "offsets": [8, 9],
+      "chunk": [90],
+      "meaning": "Only first offset/table length is four-byte aligned; later byte offsets may be unaligned."
+    },
+    "primary": "reference/sdlpal/palcommon.c:855-1015; only MKF count/read-chunk contract relevant to new comments inspected."
+  },
+  "sourceProof": {
+    "command": [
+      "node",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/prove-body-invariance.mjs",
+      "--base",
+      "63735f72fb12f6ca27bb3a3443418dd808b101cf",
+      "packages/shared/src/mkf.ts",
+      "packages/shared/src/mkf.boundaries.test.ts",
+      "packages/shared/src/rng.ts",
+      "packages/shared/src/rng.test.ts",
+      "packages/shared/src/rng.boundaries.test.ts",
+      "packages/shared/src/yj2.ts",
+      "packages/shared/src/yj2.boundaries.test.ts"
+    ],
+    "cwd": "/Users/zhangxu/.glm-worktrees/pre94-foundation",
+    "exit": 0,
+    "raw": "{\n  \"schemaVersion\": 1,\n  \"base\": \"63735f72fb12f6ca27bb3a3443418dd808b101cf\",\n  \"method\": \"typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \\\"<TITLE>\\\" in both versions\",\n  \"files\": [\n    {\n      \"file\": \"packages/shared/src/mkf.ts\",\n      \"titleCallCount\": {\n        \"base\": 0,\n        \"current\": 0\n      },\n      \"printedSha256\": {\n        \"base\": \"770ba6916a38b2ee73d0068a4b50825bc9448d2bcb317676707090b959241aa4\",\n        \"current\": \"770ba6916a38b2ee73d0068a4b50825bc9448d2bcb317676707090b959241aa4\"\n      },\n      \"printedBytes\": {\n        \"base\": 1768,\n        \"current\": 1768\n      },\n      \"printedEqual\": true\n    },\n    {\n      \"file\": \"packages/shared/src/mkf.boundaries.test.ts\",\n      \"titleCallCount\": {\n        \"base\": 13,\n        \"current\": 13\n      },\n      \"printedSha256\": {\n        \"base\": \"bf2a07562327d36d011e4a82bfa0706d83dd472aee11f2f79e79789a19b65ba2\",\n        \"current\": \"bf2a07562327d36d011e4a82bfa0706d83dd472aee11f2f79e79789a19b65ba2\"\n      },\n      \"printedBytes\": {\n        \"base\": 3444,\n        \"current\": 3444\n      },\n      \"printedEqual\": true\n    },\n    {\n      \"file\": \"packages/shared/src/rng.ts\",\n      \"titleCallCount\": {\n        \"base\": 0,\n        \"current\": 0\n      },\n      \"printedSha256\": {\n        \"base\": \"d16ebeb21b5a628ff8ffacf73672de549f3135048ab94e86bba9359e7c9b644b\",\n        \"current\": \"d16ebeb21b5a628ff8ffacf73672de549f3135048ab94e86bba9359e7c9b644b\"\n      },\n      \"printedBytes\": {\n        \"base\": 6029,\n        \"current\": 6029\n      },\n      \"printedEqual\": true\n    },\n    {\n      \"file\": \"packages/shared/src/rng.test.ts\",\n      \"titleCallCount\": {\n        \"base\": 8,\n        \"current\": 8\n      },\n      \"printedSha256\": {\n        \"base\": \"50e6bd6324662d65d31a308796ef76629c4d77c9dd206ae9b659dee809e91734\",\n        \"current\": \"50e6bd6324662d65d31a308796ef76629c4d77c9dd206ae9b659dee809e91734\"\n      },\n      \"printedBytes\": {\n        \"base\": 1241,\n        \"current\": 1241\n      },\n      \"printedEqual\": true\n    },\n    {\n      \"file\": \"packages/shared/src/rng.boundaries.test.ts\",\n      \"titleCallCount\": {\n        \"base\": 24,\n        \"current\": 24\n      },\n      \"printedSha256\": {\n        \"base\": \"91741c7d9141424097219d1e19ff058eafb492abead126ef7978136b2ac7aa12\",\n        \"current\": \"91741c7d9141424097219d1e19ff058eafb492abead126ef7978136b2ac7aa12\"\n      },\n      \"printedBytes\": {\n        \"base\": 6600,\n        \"current\": 6600\n      },\n      \"printedEqual\": true\n    },\n    {\n      \"file\": \"packages/shared/src/yj2.ts\",\n      \"titleCallCount\": {\n        \"base\": 0,\n        \"current\": 0\n      },\n      \"printedSha256\": {\n        \"base\": \"cceeef5942746686d21c99d48f583843668c82f8e3ab6bd7045e493acdffd5f3\",\n        \"current\": \"cceeef5942746686d21c99d48f583843668c82f8e3ab6bd7045e493acdffd5f3\"\n      },\n      \"printedBytes\": {\n        \"base\": 6724,\n        \"current\": 6724\n      },\n      \"printedEqual\": true\n    },\n    {\n      \"file\": \"packages/shared/src/yj2.boundaries.test.ts\",\n      \"titleCallCount\": {\n        \"base\": 12,\n        \"current\": 12\n      },\n      \"printedSha256\": {\n        \"base\": \"82aed9f1e6abc6088e1f75bf0db4f32c965f41a939c20578105449a1a1561ef4\",\n        \"current\": \"82aed9f1e6abc6088e1f75bf0db4f32c965f41a939c20578105449a1a1561ef4\"\n      },\n      \"printedBytes\": {\n        \"base\": 1850,\n        \"current\": 1850\n      },\n      \"printedEqual\": true\n    }\n  ],\n  \"allEqual\": true\n}\n\n",
+    "statusAndEvidenceBytesUnchanged": true,
+    "candidate": "ab71fbb8fd1c5470e3d569158dac1a879a766261",
+    "files": [
+      {
+        "path": "packages/shared/src/mkf.ts",
+        "sha256": "a4c73474287a9dd1c956175e508d6c569ab1f80ab5e4c84693c1ee4c163c7a71"
+      },
+      {
+        "path": "packages/shared/src/mkf.boundaries.test.ts",
+        "sha256": "9e2c09bd6f12e02955091a10afbc2411ec3248c10df8d17bcaf4237dff1b57be"
+      },
+      {
+        "path": "packages/shared/src/rng.ts",
+        "sha256": "d6f98ad0050f6274448229b4ab7096a8b6aab7e5394b62351aec13e8baa4dd5c"
+      },
+      {
+        "path": "packages/shared/src/rng.test.ts",
+        "sha256": "5d7a5003aca652fd319118df5a73d85f101b2239f8ead7d15c192254c139101a"
+      },
+      {
+        "path": "packages/shared/src/rng.boundaries.test.ts",
+        "sha256": "4f116a812dcad792e6aa8f148b753b7c8f0caa924cfca199b9caa2a5753536a6"
+      },
+      {
+        "path": "packages/shared/src/yj2.ts",
+        "sha256": "878b3fb48427f20aede9c660c7030cbd0a74db09c5cb1f01979541a7c192343f"
+      },
+      {
+        "path": "packages/shared/src/yj2.boundaries.test.ts",
+        "sha256": "10ce49c7c984ca2b69a6db93408ecfa4cfa5047aa66f8355c8ee26ca1b7866ef"
+      }
+    ],
+    "evidence": [
+      {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/prove-body-invariance.mjs",
+        "sha256": "eac6db83599e769bc0ce59f810349972e15393baa92b00b0f1a9fd88226fbe50"
+      },
+      {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/mkf/body-invariance.json",
+        "sha256": "e2f7ac9733976fcb1bbe0cc2c9acfaed7a712a9b0e8c0dbef04be81a279813c2"
+      },
+      {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/mkf/directed.json",
+        "sha256": "a9d71dd4c1739e4acd0eff6cc2b7e5aa16f415adc62c98f14a01e6eb65085c62"
+      },
+      {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/mkf/README.md",
+        "sha256": "dcc695aefd5bfb72462fbe026bda3e88860efe8a8d1803f0a1f41622ea2b286b"
+      },
+      {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/yj2/body-invariance.json",
+        "sha256": "6aa7573f9c9818cad8e33bbf930752869543c78ddbb3544bf6c05c97083b4cae"
+      },
+      {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/yj2/directed.json",
+        "sha256": "2b66acaac9f1fd1e91f9cdc647d8ef2d83f1591d3782aaee63abc5f8c3d31ca8"
+      },
+      {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/yj2/README.md",
+        "sha256": "788827b13aeb17b032efe2052a156bcf0a8db61ec168216645f296a5bb36a78c"
+      },
+      {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/rng/body-invariance.json",
+        "sha256": "d6f12f3efcc79e3e1b9760c4bdecc16d6437362ebd1dc34d80c748d5a98a8d6c"
+      },
+      {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/rng/directed.json",
+        "sha256": "fc169031eff83db63df4dd92f623fffd1d18ad56bf661cb3603667c0d63ff625"
+      },
+      {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/rng/README.md",
+        "sha256": "d6e9ea382d5cab62137a7d640c53e48e325a6718880795179a3aae32e06b5fc1"
+      }
+    ]
+  },
+  "integratedProof": {
+    "schemaVersion": 1,
+    "base": "63735f72fb12f6ca27bb3a3443418dd808b101cf",
+    "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+    "files": [
+      {
+        "file": "packages/shared/src/mkf.ts",
+        "titleCallCount": {
+          "base": 0,
+          "current": 0
+        },
+        "printedSha256": {
+          "base": "770ba6916a38b2ee73d0068a4b50825bc9448d2bcb317676707090b959241aa4",
+          "current": "770ba6916a38b2ee73d0068a4b50825bc9448d2bcb317676707090b959241aa4"
+        },
+        "printedBytes": {
+          "base": 1768,
+          "current": 1768
+        },
+        "printedEqual": true
+      },
+      {
+        "file": "packages/shared/src/mkf.boundaries.test.ts",
+        "titleCallCount": {
+          "base": 13,
+          "current": 13
+        },
+        "printedSha256": {
+          "base": "bf2a07562327d36d011e4a82bfa0706d83dd472aee11f2f79e79789a19b65ba2",
+          "current": "bf2a07562327d36d011e4a82bfa0706d83dd472aee11f2f79e79789a19b65ba2"
+        },
+        "printedBytes": {
+          "base": 3444,
+          "current": 3444
+        },
+        "printedEqual": true
+      },
+      {
+        "file": "packages/shared/src/rng.ts",
+        "titleCallCount": {
+          "base": 0,
+          "current": 0
+        },
+        "printedSha256": {
+          "base": "d16ebeb21b5a628ff8ffacf73672de549f3135048ab94e86bba9359e7c9b644b",
+          "current": "d16ebeb21b5a628ff8ffacf73672de549f3135048ab94e86bba9359e7c9b644b"
+        },
+        "printedBytes": {
+          "base": 6029,
+          "current": 6029
+        },
+        "printedEqual": true
+      },
+      {
+        "file": "packages/shared/src/rng.test.ts",
+        "titleCallCount": {
+          "base": 8,
+          "current": 8
+        },
+        "printedSha256": {
+          "base": "50e6bd6324662d65d31a308796ef76629c4d77c9dd206ae9b659dee809e91734",
+          "current": "50e6bd6324662d65d31a308796ef76629c4d77c9dd206ae9b659dee809e91734"
+        },
+        "printedBytes": {
+          "base": 1241,
+          "current": 1241
+        },
+        "printedEqual": true
+      },
+      {
+        "file": "packages/shared/src/rng.boundaries.test.ts",
+        "titleCallCount": {
+          "base": 24,
+          "current": 24
+        },
+        "printedSha256": {
+          "base": "91741c7d9141424097219d1e19ff058eafb492abead126ef7978136b2ac7aa12",
+          "current": "91741c7d9141424097219d1e19ff058eafb492abead126ef7978136b2ac7aa12"
+        },
+        "printedBytes": {
+          "base": 6600,
+          "current": 6600
+        },
+        "printedEqual": true
+      },
+      {
+        "file": "packages/shared/src/yj2.ts",
+        "titleCallCount": {
+          "base": 0,
+          "current": 0
+        },
+        "printedSha256": {
+          "base": "cceeef5942746686d21c99d48f583843668c82f8e3ab6bd7045e493acdffd5f3",
+          "current": "cceeef5942746686d21c99d48f583843668c82f8e3ab6bd7045e493acdffd5f3"
+        },
+        "printedBytes": {
+          "base": 6724,
+          "current": 6724
+        },
+        "printedEqual": true
+      },
+      {
+        "file": "packages/shared/src/yj2.boundaries.test.ts",
+        "titleCallCount": {
+          "base": 12,
+          "current": 12
+        },
+        "printedSha256": {
+          "base": "82aed9f1e6abc6088e1f75bf0db4f32c965f41a939c20578105449a1a1561ef4",
+          "current": "82aed9f1e6abc6088e1f75bf0db4f32c965f41a939c20578105449a1a1561ef4"
+        },
+        "printedBytes": {
+          "base": 1850,
+          "current": 1850
+        },
+        "printedEqual": true
+      }
+    ],
+    "allEqual": true
+  },
+  "nativeRuns": [
+    {
+      "batch": "mkf",
+      "tests": 34,
+      "native": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/mkf/directed.json",
+      "sha256": "a9d71dd4c1739e4acd0eff6cc2b7e5aa16f415adc62c98f14a01e6eb65085c62",
+      "identities": [
+        {
+          "file": "mkf.boundaries.test.ts",
+          "fullName": "openMkf 头合同 N+1 偏移：count=(firstOffset/4)-1，offsets 完整读出头",
+          "status": "passed"
+        },
+        {
+          "file": "mkf.boundaries.test.ts",
+          "fullName": "openMkf 头合同 单 chunk 容器：首 chunk 即末 chunk，边界为头后首字节",
+          "status": "passed"
+        },
+        {
+          "file": "mkf.boundaries.test.ts",
+          "fullName": "openMkf 头合同 头 <4 字节：已定义拒绝",
+          "status": "passed"
+        },
+        {
+          "file": "mkf.boundaries.test.ts",
+          "fullName": "openMkf 头合同 首偏移非 4 倍数：已定义拒绝",
+          "status": "passed"
+        },
+        {
+          "file": "mkf.boundaries.test.ts",
+          "fullName": "openMkf 头合同 首偏移 0（count<0）：已定义拒绝",
+          "status": "passed"
+        },
+        {
+          "file": "mkf.boundaries.test.ts",
+          "fullName": "openMkf 头合同 子 array 输入：byteOffset 非零时头与 chunk 仍按自身偏移读取",
+          "status": "passed"
+        },
+        {
+          "file": "mkf.boundaries.test.ts",
+          "fullName": "openMkf 头合同 offset table 超出 buffer 时拒绝，不让 DataView 越界读取成为裸异常",
+          "status": "passed"
+        },
+        {
+          "file": "mkf.boundaries.test.ts",
+          "fullName": "openMkf 头合同 offset 超出 buffer 或倒序时拒绝",
+          "status": "passed"
+        },
+        {
+          "file": "mkf.boundaries.test.ts",
+          "fullName": "readChunk 边界 首/末 chunk 索引边界均可达，返回 subarray 视图",
+          "status": "passed"
+        },
+        {
+          "file": "mkf.boundaries.test.ts",
+          "fullName": "readChunk 边界 空 chunk（相邻偏移相等）：长度 0 视图，非错误",
+          "status": "passed"
+        },
+        {
+          "file": "mkf.boundaries.test.ts",
+          "fullName": "readChunk 边界 越界、非整数与 NaN 索引均拒绝且消息含 count",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta surface ownership 连续 delta 以同一 surface 累加，第二帧保留第一帧像素",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta skip 族（未触字节精确保持） 0x03 + n：dst += (n+1)*2，其后写入落点精确",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta skip 族（未触字节精确保持） 0x04 + 2byte LE w：dst += (w+1)*2（跨字节 w=0x01FF）",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta literal pair 族 0x07-0x0a 分别写 2/3/4/5 对（0x06=1 已有测试，此处补齐族）",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta literal pair 族 0x0b + n：写 (n+1) 对",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta literal pair 族 0x0c + 2byte LE w：写 (w+1) 对",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 同对重复族 0x0e/0x0f/0x10 分别重复 3/4/5 次（0x0d=2 已有测试）",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 同对重复族 0x11 + n：重复 (n+1) 次",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 同对重复族 0x12 + 2byte LE：重复 (w+1) 次（跨字节 w=0x0100）",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 终止与混合 0x13 终止：其后字节被忽略，无写入无错误",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 终止与混合 连续帧基面保留：同 surface 上两次 delta，第一次写入保持",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 非法 payload / surface 边界 变量长度 opcode 缺操作数或 literal 时拒绝",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 非法 payload / surface 边界 固定长度 literal / repeat opcode 缺 payload 时拒绝",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 非法 payload / surface 边界 skip 或写入超过 surface 时在写入前拒绝",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "decodeRngFrames（合成 sub-MKF 容器链路） 两帧链：每帧基于上一帧 delta，pixels 为拷贝（帧0 不被帧1 写入污染）",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "decodeRngFrames（合成 sub-MKF 容器链路） 空 sub-chunk 跳过，帧 index 保持 sub-chunk 下标",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "decodeRngFrames（合成 sub-MKF 容器链路） 非法 YJ2 sub-chunk（<4 字节）跳过，不中断后续帧",
+          "status": "passed"
+        },
+        {
+          "file": "rng.test.ts",
+          "fullName": "rngBlitDelta (RLE delta opcodes) 0x06 写 1 个 2-byte literal pair",
+          "status": "passed"
+        },
+        {
+          "file": "rng.test.ts",
+          "fullName": "rngBlitDelta (RLE delta opcodes) 0x02 skip 2 bytes 后再写",
+          "status": "passed"
+        },
+        {
+          "file": "rng.test.ts",
+          "fullName": "rngBlitDelta (RLE delta opcodes) 0x0d 同 2-byte 重复 2 次",
+          "status": "passed"
+        },
+        {
+          "file": "rng.test.ts",
+          "fullName": "rngBlitDelta (RLE delta opcodes) 0x00 end frame:不再写",
+          "status": "passed"
+        },
+        {
+          "file": "rng.test.ts",
+          "fullName": "rngBlitDelta (RLE delta opcodes) 未知 opcode 抛错",
+          "status": "passed"
+        },
+        {
+          "file": "rng.test.ts",
+          "fullName": "decodeRngFrames 空 chunk → 空帧数组",
+          "status": "passed"
+        }
+      ],
+      "credit": "Native identity/status only; default-reporter console and scoped static raw not supplied."
+    },
+    {
+      "batch": "rng",
+      "tests": 34,
+      "native": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/rng/directed.json",
+      "sha256": "fc169031eff83db63df4dd92f623fffd1d18ad56bf661cb3603667c0d63ff625",
+      "identities": [
+        {
+          "file": "mkf.boundaries.test.ts",
+          "fullName": "openMkf 头合同 N+1 偏移：count=(firstOffset/4)-1，offsets 完整读出头",
+          "status": "passed"
+        },
+        {
+          "file": "mkf.boundaries.test.ts",
+          "fullName": "openMkf 头合同 单 chunk 容器：首 chunk 即末 chunk，边界为头后首字节",
+          "status": "passed"
+        },
+        {
+          "file": "mkf.boundaries.test.ts",
+          "fullName": "openMkf 头合同 头 <4 字节：已定义拒绝",
+          "status": "passed"
+        },
+        {
+          "file": "mkf.boundaries.test.ts",
+          "fullName": "openMkf 头合同 首偏移非 4 倍数：已定义拒绝",
+          "status": "passed"
+        },
+        {
+          "file": "mkf.boundaries.test.ts",
+          "fullName": "openMkf 头合同 首偏移 0（count<0）：已定义拒绝",
+          "status": "passed"
+        },
+        {
+          "file": "mkf.boundaries.test.ts",
+          "fullName": "openMkf 头合同 子 array 输入：byteOffset 非零时头与 chunk 仍按自身偏移读取",
+          "status": "passed"
+        },
+        {
+          "file": "mkf.boundaries.test.ts",
+          "fullName": "openMkf 头合同 offset table 超出 buffer 时拒绝，不让 DataView 越界读取成为裸异常",
+          "status": "passed"
+        },
+        {
+          "file": "mkf.boundaries.test.ts",
+          "fullName": "openMkf 头合同 offset 超出 buffer 或倒序时拒绝",
+          "status": "passed"
+        },
+        {
+          "file": "mkf.boundaries.test.ts",
+          "fullName": "readChunk 边界 首/末 chunk 索引边界均可达，返回 subarray 视图",
+          "status": "passed"
+        },
+        {
+          "file": "mkf.boundaries.test.ts",
+          "fullName": "readChunk 边界 空 chunk（相邻偏移相等）：长度 0 视图，非错误",
+          "status": "passed"
+        },
+        {
+          "file": "mkf.boundaries.test.ts",
+          "fullName": "readChunk 边界 越界、非整数与 NaN 索引均拒绝且消息含 count",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta surface ownership 连续 delta 以同一 surface 累加，第二帧保留第一帧像素",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta skip 族（未触字节精确保持） 0x03 + n：dst += (n+1)*2，其后写入落点精确",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta skip 族（未触字节精确保持） 0x04 + 2byte LE w：dst += (w+1)*2（跨字节 w=0x01FF）",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta literal pair 族 0x07-0x0a 分别写 2/3/4/5 对（0x06=1 已有测试，此处补齐族）",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta literal pair 族 0x0b + n：写 (n+1) 对",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta literal pair 族 0x0c + 2byte LE w：写 (w+1) 对",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 同对重复族 0x0e/0x0f/0x10 分别重复 3/4/5 次（0x0d=2 已有测试）",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 同对重复族 0x11 + n：重复 (n+1) 次",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 同对重复族 0x12 + 2byte LE：重复 (w+1) 次（跨字节 w=0x0100）",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 终止与混合 0x13 终止：其后字节被忽略，无写入无错误",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 终止与混合 连续帧基面保留：同 surface 上两次 delta，第一次写入保持",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 非法 payload / surface 边界 变量长度 opcode 缺操作数或 literal 时拒绝",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 非法 payload / surface 边界 固定长度 literal / repeat opcode 缺 payload 时拒绝",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 非法 payload / surface 边界 skip 或写入超过 surface 时在写入前拒绝",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "decodeRngFrames（合成 sub-MKF 容器链路） 两帧链：每帧基于上一帧 delta，pixels 为拷贝（帧0 不被帧1 写入污染）",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "decodeRngFrames（合成 sub-MKF 容器链路） 空 sub-chunk 跳过，帧 index 保持 sub-chunk 下标",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "decodeRngFrames（合成 sub-MKF 容器链路） 非法 YJ2 sub-chunk（<4 字节）跳过，不中断后续帧",
+          "status": "passed"
+        },
+        {
+          "file": "rng.test.ts",
+          "fullName": "rngBlitDelta (RLE delta opcodes) 0x06 写 1 个 2-byte literal pair",
+          "status": "passed"
+        },
+        {
+          "file": "rng.test.ts",
+          "fullName": "rngBlitDelta (RLE delta opcodes) 0x02 skip 2 bytes 后再写",
+          "status": "passed"
+        },
+        {
+          "file": "rng.test.ts",
+          "fullName": "rngBlitDelta (RLE delta opcodes) 0x0d 同 2-byte 重复 2 次",
+          "status": "passed"
+        },
+        {
+          "file": "rng.test.ts",
+          "fullName": "rngBlitDelta (RLE delta opcodes) 0x00 end frame:不再写",
+          "status": "passed"
+        },
+        {
+          "file": "rng.test.ts",
+          "fullName": "rngBlitDelta (RLE delta opcodes) 未知 opcode 抛错",
+          "status": "passed"
+        },
+        {
+          "file": "rng.test.ts",
+          "fullName": "decodeRngFrames 空 chunk → 空帧数组",
+          "status": "passed"
+        }
+      ],
+      "credit": "Native identity/status only; default-reporter console and scoped static raw not supplied."
+    },
+    {
+      "batch": "yj2",
+      "tests": 41,
+      "native": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/yj2/directed.json",
+      "sha256": "2b66acaac9f1fd1e91f9cdc647d8ef2d83f1591d3782aaee63abc5f8c3d31ca8",
+      "identities": [
+        {
+          "file": "rle.glm-o.test.ts",
+          "fullName": "O10 parseSpriteChunkStrict：容器结构轴 过短容器 / 零帧表 / offset table 越界 逐轴拒绝",
+          "status": "passed"
+        },
+        {
+          "file": "rle.glm-o.test.ts",
+          "fullName": "O10 parseSpriteChunkStrict：容器结构轴 sentinel 槽与计数同域（slot0=count）：纯 sentinel 空容器按计数=1 走帧0 越界",
+          "status": "passed"
+        },
+        {
+          "file": "rle.glm-o.test.ts",
+          "fullName": "O10 parseSpriteChunkStrict：容器结构轴 frame0 offset 与表长不一致 / offset 非递增 / offset 越界 逐轴拒绝",
+          "status": "passed"
+        },
+        {
+          "file": "rle.glm-o.test.ts",
+          "fullName": "O10 parseSpriteChunkStrict：容器结构轴 帧尺寸非法（宽 0 / 高超上限）逐轴拒绝；合法双帧严格通过",
+          "status": "passed"
+        },
+        {
+          "file": "rle.glm-o.test.ts",
+          "fullName": "O10 parseSpriteChunkStrict：容器结构轴 sentinel 容器：声明数含尾 0 时按 frameCount-1 解析",
+          "status": "passed"
+        },
+        {
+          "file": "rle.glm-o.test.ts",
+          "fullName": "O10 parseSpriteChunkStrict：容器结构轴 严格解析往返：encode → parse 逐帧像素一致（供应容器同构）",
+          "status": "passed"
+        },
+        {
+          "file": "rle.glm-o.test.ts",
+          "fullName": "O10 parseIndexedRleChunk：legacy 坏尾三轴 legacy：尾槽坏 offset 被跳过并计入 skippedLegacyTailSlots",
+          "status": "passed"
+        },
+        {
+          "file": "rle.glm-o.test.ts",
+          "fullName": "O10 parseIndexedRleChunk：legacy 坏尾三轴 坏尾之后仍可独立解出的帧 → 中间空洞拒绝（非坏尾）",
+          "status": "passed"
+        },
+        {
+          "file": "rle.glm-o.test.ts",
+          "fullName": "O10 encodeSpriteChunk：上限与空容器 空 frames → 2 字节空容器（strict/索引入口一致拒绝“不含帧”）",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta surface ownership 连续 delta 以同一 surface 累加，第二帧保留第一帧像素",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta skip 族（未触字节精确保持） 0x03 + n：dst += (n+1)*2，其后写入落点精确",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta skip 族（未触字节精确保持） 0x04 + 2byte LE w：dst += (w+1)*2（跨字节 w=0x01FF）",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta literal pair 族 0x07-0x0a 分别写 2/3/4/5 对（0x06=1 已有测试，此处补齐族）",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta literal pair 族 0x0b + n：写 (n+1) 对",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta literal pair 族 0x0c + 2byte LE w：写 (w+1) 对",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 同对重复族 0x0e/0x0f/0x10 分别重复 3/4/5 次（0x0d=2 已有测试）",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 同对重复族 0x11 + n：重复 (n+1) 次",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 同对重复族 0x12 + 2byte LE：重复 (w+1) 次（跨字节 w=0x0100）",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 终止与混合 0x13 终止：其后字节被忽略，无写入无错误",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 终止与混合 连续帧基面保留：同 surface 上两次 delta，第一次写入保持",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 非法 payload / surface 边界 变量长度 opcode 缺操作数或 literal 时拒绝",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 非法 payload / surface 边界 固定长度 literal / repeat opcode 缺 payload 时拒绝",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "rngBlitDelta 非法 payload / surface 边界 skip 或写入超过 surface 时在写入前拒绝",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "decodeRngFrames（合成 sub-MKF 容器链路） 两帧链：每帧基于上一帧 delta，pixels 为拷贝（帧0 不被帧1 写入污染）",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "decodeRngFrames（合成 sub-MKF 容器链路） 空 sub-chunk 跳过，帧 index 保持 sub-chunk 下标",
+          "status": "passed"
+        },
+        {
+          "file": "rng.boundaries.test.ts",
+          "fullName": "decodeRngFrames（合成 sub-MKF 容器链路） 非法 YJ2 sub-chunk（<4 字节）跳过，不中断后续帧",
+          "status": "passed"
+        },
+        {
+          "file": "rng.test.ts",
+          "fullName": "rngBlitDelta (RLE delta opcodes) 0x06 写 1 个 2-byte literal pair",
+          "status": "passed"
+        },
+        {
+          "file": "rng.test.ts",
+          "fullName": "rngBlitDelta (RLE delta opcodes) 0x02 skip 2 bytes 后再写",
+          "status": "passed"
+        },
+        {
+          "file": "rng.test.ts",
+          "fullName": "rngBlitDelta (RLE delta opcodes) 0x0d 同 2-byte 重复 2 次",
+          "status": "passed"
+        },
+        {
+          "file": "rng.test.ts",
+          "fullName": "rngBlitDelta (RLE delta opcodes) 0x00 end frame:不再写",
+          "status": "passed"
+        },
+        {
+          "file": "rng.test.ts",
+          "fullName": "rngBlitDelta (RLE delta opcodes) 未知 opcode 抛错",
+          "status": "passed"
+        },
+        {
+          "file": "rng.test.ts",
+          "fullName": "decodeRngFrames 空 chunk → 空帧数组",
+          "status": "passed"
+        },
+        {
+          "file": "yj2.boundaries.test.ts",
+          "fullName": "decompressYj2 已定义头错误 源 <4 字节拒绝",
+          "status": "passed"
+        },
+        {
+          "file": "yj2.boundaries.test.ts",
+          "fullName": "decompressYj2 已定义头错误 非空输出没有任何 Huffman 位流时显式失败",
+          "status": "passed"
+        },
+        {
+          "file": "yj2.boundaries.test.ts",
+          "fullName": "decompressYj2 已定义头错误 完整回引 symbol 后缺少位置参数时显式失败",
+          "status": "passed"
+        },
+        {
+          "file": "yj2.boundaries.test.ts",
+          "fullName": "decompressYj2 非空字面向量 三字面流：输出 = 字面值按序（语义：symbol 0..0xFF 顺序输出）",
+          "status": "passed"
+        },
+        {
+          "file": "yj2.boundaries.test.ts",
+          "fullName": "decompressYj2 非空字面向量 uncompLen=0：零长输出（循环不进入）",
+          "status": "passed"
+        },
+        {
+          "file": "yj2.boundaries.test.ts",
+          "fullName": "decompressYj2 回引向量 字面 ABC + 回引(pos=2,len=4)：重叠顺序复制 → ABCABCA",
+          "status": "passed"
+        },
+        {
+          "file": "yj2.boundaries.test.ts",
+          "fullName": "decompressYj2 回引向量 提前结束（pos==0xFFF）：余量保持 Uint8Array 零初始化",
+          "status": "passed"
+        },
+        {
+          "file": "yj2.boundaries.test.ts",
+          "fullName": "decompressYj2 回引向量 回引长度超过目标输出剩余空间时显式失败",
+          "status": "passed"
+        },
+        {
+          "file": "yj2.boundaries.test.ts",
+          "fullName": "decompressYj2 回引向量 第一条指令回引尚未产生的输出时显式失败",
+          "status": "passed"
+        }
+      ],
+      "credit": "Native identity/status only; default-reporter console and scoped static raw not supplied."
+    }
+  ],
+  "uniqueNativeIdentities": 52,
+  "limits": [
+    "Not109unique tests; MKF/RNG runs overlap.",
+    "No repeated full source/caller review or whole native asset census; author A-H reasoning remains attributed.",
+    "Frozen proof masks test titles; complete diff separately confirms zero title/fixture/assertion/executable changes.",
+    "Proof tool accepted only for these seven TS inputs; no automatic TSX/general semantic certification.",
+    "GLM console/scoped static-gate raw absent; cannot certify their historical zero-diagnostic claims from native JSON.",
+    "Worktree dependency links resolve packages to main; no cross-package/typecheck credit. Install owned dependency graph before subsequent affected validation."
+  ],
+  "O-5": {
+    "classification": "Unresolved input/allocation domain candidate, not proven production vulnerability",
+    "source": "packages/shared/src/yj2.ts: u32 uncompressed length before output allocation",
+    "observation": "A u32 declaration can request up to4294967295 output bytes; actual allocation may fail earlier. No huge allocation performed.",
+    "route": "Parent QUALITY-PRE94-RETROSPECTIVE-1 input-domain candidates, alongside RLE O-1; caller/domain/support limit evidence needed before proposing implementation.",
+    "noApproval": "No size-cap/error-contract/codec/API/asset-format modification authorized."
+  },
+  "newClosedFiles": 0,
+  "newEightAxisAcceptCards": 0,
+  "checks": [
+    {
+      "name": "docs",
+      "command": ["node", "scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T12:51:14.181620+00:00",
+      "elapsedSeconds": 1.293,
+      "exitCode": 0,
+      "stdout": "docs: 1589 Markdown / 9555 local links / 467 tasks / content22 SAVE12\ndocs: PASS (0 issues)\n",
+      "stderr": ""
+    },
+    {
+      "name": "model",
+      "command": ["node", "scripts/docs/check-document-model.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T12:51:14.179505+00:00",
+      "elapsedSeconds": 2.137,
+      "exitCode": 0,
+      "stdout": "document model: PASS (8 routes; 1264 body contracts; 0 issues; structure only)\n",
+      "stderr": ""
+    },
+    {
+      "name": "testing",
+      "command": ["node", "scripts/docs/check-testing.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T12:51:14.178992+00:00",
+      "elapsedSeconds": 0.201,
+      "exitCode": 0,
+      "stdout": "testing docs: PASS (0 issues)\n",
+      "stderr": ""
+    },
+    {
+      "name": "phase",
+      "command": ["node", "scripts/docs/check-phase-lore-governance.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T12:51:14.173936+00:00",
+      "elapsedSeconds": 0.126,
+      "exitCode": 0,
+      "stdout": "phase/lore governance: PASS (184 documents)\n",
+      "stderr": ""
+    },
+    {
+      "name": "content",
+      "command": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T12:51:14.175220+00:00",
+      "elapsedSeconds": 0.717,
+      "exitCode": 0,
+      "stdout": "content review: PASS (2346 documents; {\"content-reviewed\":2346})\n",
+      "stderr": ""
+    },
+    {
+      "name": "ledger",
+      "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T12:51:14.176534+00:00",
+      "elapsedSeconds": 2.389,
+      "exitCode": 0,
+      "stdout": "code-quality ledger: PASS — 3319 files; 245 closed / 109 review / 2965 pending; semantic review still required\n",
+      "stderr": ""
+    },
+    {
+      "name": "lint",
+      "command": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T12:51:14.173955+00:00",
+      "elapsedSeconds": 3.047,
+      "exitCode": 0,
+      "stdout": "\n> type-pal@ lint /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal\n> node scripts/quality/lint-zero.mjs\n\nlint: PASS — 5558 files; 0 errors / 0 warnings / 0 infos; complete report\n",
+      "stderr": ""
+    },
+    {
+      "name": "diff",
+      "command": ["git", "diff", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T12:51:14.173929+00:00",
+      "elapsedSeconds": 0.084,
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "bounded",
+      "command": ["python3", "/tmp/type-pal-foundation-stage1-structure.py"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T12:51:14.174705+00:00",
+      "elapsedSeconds": 0.201,
+      "exitCode": 0,
+      "stdout": "{\"success\": true, \"changedLiveRows\": [\"packages/shared/src/mkf.boundaries.test.ts\", \"packages/shared/src/rle.glm-o.test.ts\", \"packages/shared/src/rng.test.ts\", \"packages/shared/src/yj2.boundaries.test.ts\"], \"historicalLedgerTailPreserved\": true, \"onlyBoardRowChanged\": \"QUALITY-PRE94-RETROSPECTIVE-1\", \"packagesScriptsAndQueueUnchangedSinceRecordBase\": true, \"metadataUnrelatedEntriesAndPriorHistoryPreserved\": true}\n",
+      "stderr": "",
+      "producerSource": "from pathlib import Path\nimport subprocess,json,hashlib\nbase=Path('/tmp/type-pal-foundation-stage1-record-base').read_text().strip()\nblob=lambda p:subprocess.check_output(['git','show',base+':'+p])\nledger='docs/ops/audits/code-quality-file-ledger.md';header='| 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |'\ndef split(b):\n head,rest=b.decode().split(header,1);body,tail=rest.split('\\n\\n',1)\n return head,{x.split('|')[1].strip():x for x in body.splitlines() if x.startswith('| `')},tail\nbh,br,bt=split(blob(ledger));ch,cr,ct=split(Path(ledger).read_bytes());assert bt==ct and br.keys()==cr.keys()\nchanged=[p.strip('`') for p in br if br[p]!=cr[p]]\nexpected=['packages/shared/src/mkf.boundaries.test.ts','packages/shared/src/rle.glm-o.test.ts','packages/shared/src/rng.test.ts','packages/shared/src/yj2.boundaries.test.ts'];assert sorted(changed)==expected\nfor p in changed:\n assert br['`'+p+'`'].split('|')[3].strip()=='已验证'\n assert cr['`'+p+'`'].split('|')[3].strip()=='review'\np='docs/ops/board.md';old=blob(p).decode().splitlines();new=Path(p).read_text().splitlines();assert len(old)==len(new)\ndiffs=[(a,b) for a,b in zip(old,new) if a!=b];assert len(diffs)==1 and diffs[0][0].startswith('| QUALITY-PRE94-RETROSPECTIVE-1 |')\nassert subprocess.check_output(['git','diff',base,'--','packages','scripts','docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/queue.json'])==b''\nmeta={'20261004-semantic-current-batch.json':['docs/ops/board.md'],'20261016-historical-cards-d.json':[ledger],'20261017-r93-phase-governance-artifacts.json':['docs/phase-governance/reviews/20261004-semantic-current-batch.json','docs/phase-governance/reviews/20261016-historical-cards-d.json'],'20261017-r94-final-machine-artifacts.json':['docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json']}\nfor name,paths in meta.items():\n p='docs/phase-governance/reviews/'+name;b=json.loads(blob(p));a=json.loads(Path(p).read_text())\n assert {k:v for k,v in a.items() if k!='entries'}=={k:v for k,v in b.items() if k!='entries'}\n assert len(a['entries'])==len(b['entries'])\n for before,after in zip(b['entries'],a['entries']):\n  if before['path'] not in paths:assert before==after,(p,before['path']);continue\n  assert after['revision']['history'][1:]==before['revision']['history']\n  assert after['afterSha256']==hashlib.sha256(Path(after['path']).read_bytes()).hexdigest()\n  unchanged=['sourceSha256','provenance','truthAnchors','history','sourceGitRevision','primarySource']\n  for k in unchanged:\n   if k in before:assert before[k]==after[k],(p,k)\nprint(json.dumps({'success':True,'changedLiveRows':changed,'historicalLedgerTailPreserved':True,'onlyBoardRowChanged':'QUALITY-PRE94-RETROSPECTIVE-1','packagesScriptsAndQueueUnchangedSinceRecordBase':True,'metadataUnrelatedEntriesAndPriorHistoryPreserved':True},ensure_ascii=False))\n",
+      "rerun": [
+        "python3",
+        "-c",
+        "from pathlib import Path\nimport subprocess,json,hashlib\nbase=Path('/tmp/type-pal-foundation-stage1-record-base').read_text().strip()\nblob=lambda p:subprocess.check_output(['git','show',base+':'+p])\nledger='docs/ops/audits/code-quality-file-ledger.md';header='| 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |'\ndef split(b):\n head,rest=b.decode().split(header,1);body,tail=rest.split('\\n\\n',1)\n return head,{x.split('|')[1].strip():x for x in body.splitlines() if x.startswith('| `')},tail\nbh,br,bt=split(blob(ledger));ch,cr,ct=split(Path(ledger).read_bytes());assert bt==ct and br.keys()==cr.keys()\nchanged=[p.strip('`') for p in br if br[p]!=cr[p]]\nexpected=['packages/shared/src/mkf.boundaries.test.ts','packages/shared/src/rle.glm-o.test.ts','packages/shared/src/rng.test.ts','packages/shared/src/yj2.boundaries.test.ts'];assert sorted(changed)==expected\nfor p in changed:\n assert br['`'+p+'`'].split('|')[3].strip()=='已验证'\n assert cr['`'+p+'`'].split('|')[3].strip()=='review'\np='docs/ops/board.md';old=blob(p).decode().splitlines();new=Path(p).read_text().splitlines();assert len(old)==len(new)\ndiffs=[(a,b) for a,b in zip(old,new) if a!=b];assert len(diffs)==1 and diffs[0][0].startswith('| QUALITY-PRE94-RETROSPECTIVE-1 |')\nassert subprocess.check_output(['git','diff',base,'--','packages','scripts','docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/queue.json'])==b''\nmeta={'20261004-semantic-current-batch.json':['docs/ops/board.md'],'20261016-historical-cards-d.json':[ledger],'20261017-r93-phase-governance-artifacts.json':['docs/phase-governance/reviews/20261004-semantic-current-batch.json','docs/phase-governance/reviews/20261016-historical-cards-d.json'],'20261017-r94-final-machine-artifacts.json':['docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json']}\nfor name,paths in meta.items():\n p='docs/phase-governance/reviews/'+name;b=json.loads(blob(p));a=json.loads(Path(p).read_text())\n assert {k:v for k,v in a.items() if k!='entries'}=={k:v for k,v in b.items() if k!='entries'}\n assert len(a['entries'])==len(b['entries'])\n for before,after in zip(b['entries'],a['entries']):\n  if before['path'] not in paths:assert before==after,(p,before['path']);continue\n  assert after['revision']['history'][1:]==before['revision']['history']\n  assert after['afterSha256']==hashlib.sha256(Path(after['path']).read_bytes()).hexdigest()\n  unchanged=['sourceSha256','provenance','truthAnchors','history','sourceGitRevision','primarySource']\n  for k in unchanged:\n   if k in before:assert before[k]==after[k],(p,k)\nprint(json.dumps({'success':True,'changedLiveRows':changed,'historicalLedgerTailPreserved':True,'onlyBoardRowChanged':'QUALITY-PRE94-RETROSPECTIVE-1','packagesScriptsAndQueueUnchangedSinceRecordBase':True,'metadataUnrelatedEntriesAndPriorHistoryPreserved':True},ensure_ascii=False))\n"
+      ]
+    }
+  ],
+  "ledger": {
+    "tracked": 3319,
+    "closed": 245,
+    "review": 109,
+    "pending": 2965,
+    "restoredPreviousRetractions": [
+      "packages/shared/src/mkf.boundaries.test.ts",
+      "packages/shared/src/rle.glm-o.test.ts",
+      "packages/shared/src/rng.test.ts",
+      "packages/shared/src/yj2.boundaries.test.ts"
+    ],
+    "why": "Only correct previously lost retractions, not a fresh semantic failure/acceptance for these tests. Other historical closed rows keep historical scope; no new closure.",
+    "historicalRegressionSubsetCounts": {
+      "missing": 130,
+      "review": 42,
+      "已验证": 70,
+      "rework": 1
+    }
+  },
+  "metadataBindings": [
+    {
+      "review": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "path": "docs/ops/board.md"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "path": "docs/ops/audits/code-quality-file-ledger.md"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"
+    }
+  ],
+  "staticDiagnostics": {
+    "errors": 0,
+    "warnings": 0,
+    "infos": 0,
+    "scope": "Current lint plus five document consumers; no runtime/act/environment or unified-gate acceptance."
+  },
+  "validationReuse": {
+    "native": "Author original34/34,34/34,41/41;52distinct identities; no new execution.",
+    "docsToolTests": "125tests not rerun; no scripts changes in this stage. Prior retained execution reference: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1-codex-final.json.",
+    "deferred": [
+      "product typecheck",
+      "whole repository check",
+      "official coverage ratchet",
+      "protected fast",
+      "runtime/E2E/visual"
+    ],
+    "why": "Comment-only executable invariance and current docs/ledger delta; user requests expensive gates only at large stable closeout."
+  }
+}

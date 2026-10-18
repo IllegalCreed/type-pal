@@ -3113,8 +3113,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Current authorized document delta and direct first-parent ledger/caller evidence read; immutable historical records retained",
-      "coreConclusion": "Two RLE historical retractions restored to review with evidence;3319 tracked/249closed/105review/2965pending. First-parent merge89bf84e16 lost243 review statuses in the live table.74 other current closed candidates and130 unregistered paths require later provenance reconciliation; no bulk semantic rejection or closure and no new accept.",
+      "readMethod": "Actual bounded current delta and cited previous withdrawal evidence inspected; historical and unrelated conclusions retained",
+      "coreConclusion": "Restore four documented CODE2/2b withdrawals lost in merge89bf84e16, not new semantic failure or closure.3319tracked/245closed/109review/2965pending;0new closure. Regression subset retains70closed candidates/130unregistered/43review-or-rework. Historical tail retained.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3265,11 +3265,37 @@
       "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "1399231f1b389d36cf56be834f23e8cd9b8038f9e49eaef8a146dfc94eb5069e",
+      "afterSha256": "ef270ae7e14fa9a504c7c7d05557d3459c5485e401300d0eca5cc1e45bc3aa86",
       "revision": {
         "currentSha": "addcb44c52fd00ab0fd3397e61ae316bf98d02e2aeef1d5533ed23a2c1e5845a",
-        "implementationSha": "1399231f1b389d36cf56be834f23e8cd9b8038f9e49eaef8a146dfc94eb5069e",
+        "implementationSha": "ef270ae7e14fa9a504c7c7d05557d3459c5485e401300d0eca5cc1e45bc3aa86",
         "history": [
+          {
+            "revision": "cf6419f16c4f8c7fd3e96c468ba7b1baf1084909",
+            "date": "2026-10-18",
+            "action": "GLM foundation stage1 finite-prose acceptance and bounded restoration of documented ledger retractions",
+            "previousAfterSha256": "1399231f1b389d36cf56be834f23e8cd9b8038f9e49eaef8a146dfc94eb5069e",
+            "scope": "Restore four documented CODE2/2b withdrawals lost in merge89bf84e16, not new semantic failure or closure.3319tracked/245closed/109review/2965pending;0new closure. Regression subset retains70closed candidates/130unregistered/43review-or-rework. Historical tail retained.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage1.json",
+            "notRun": [
+              "duplicate34/41directed tests",
+              "125unchanged docs-tool tests",
+              "product typecheck",
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "runtime/E2E/visual"
+            ],
+            "previousCoreConclusion": "Two RLE historical retractions restored to review with evidence;3319 tracked/249closed/105review/2965pending. First-parent merge89bf84e16 lost243 review statuses in the live table.74 other current closed candidates and130 unregistered paths require later provenance reconciliation; no bulk semantic rejection or closure and no new accept.",
+            "previousEvidence": {
+              "kind": "rle-independent-calibration-record",
+              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md",
+              "afterSha256": "1399231f1b389d36cf56be834f23e8cd9b8038f9e49eaef8a146dfc94eb5069e",
+              "lineCount": 747
+            },
+            "previousReadMethod": "Current authorized document delta and direct first-parent ledger/caller evidence read; immutable historical records retained",
+            "previousNextStep": "GLM bounded prose/title candidate; Codex independently reconciles remaining ledger provenance before any state promotions."
+          },
           {
             "revision": "170edee4444fc87731308ec179d93fad93882704",
             "date": "2026-10-18",
@@ -3861,10 +3887,10 @@
         ]
       },
       "evidence": {
-        "kind": "rle-independent-calibration-record",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md",
-        "afterSha256": "1399231f1b389d36cf56be834f23e8cd9b8038f9e49eaef8a146dfc94eb5069e",
-        "lineCount": 747
+        "kind": "finite-comment-evidence-acceptance-and-ledger-reconciliation",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage1.json",
+        "afterSha256": "ef270ae7e14fa9a504c7c7d05557d3459c5485e401300d0eca5cc1e45bc3aa86",
+        "lineCount": 749
       },
       "history": [
         {
@@ -4030,13 +4056,13 @@
       ],
       "successor": "Current route/workflow and original product task sources as explicitly linked; no old prompt executable.",
       "stopLine": "Do not infer current runtime/E2E/visual/coverage, product or old-test-quality acceptance from docs/record structure; preserve legal inputs and every original failure.",
-      "nextStep": "GLM bounded prose/title candidate; Codex independently reconciles remaining ledger provenance before any state promotions.",
+      "nextStep": "GLM continues existing large goal from latest3y in the same foundation worktree, next shared pure types/contracts; preserve unresolved input domains and independent vector counters. Codex accepts module evidence without duplicate full review.",
       "userVisibleBeforeAfter": {
         "before": "Actual3300 tracked paths with predecessor declared3294; six new docs tools not yet represented; stale live3292 prose retained from earlier maintenance.",
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "1-747",
+      "reviewedLines": "1-749",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {
@@ -4759,7 +4785,7 @@
           "completePriorObjectRetrievedAndCompared": true
         }
       ],
-      "reviewNotes": "\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance."
+      "reviewNotes": "\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit."
     },
     {
       "path": "docs/ops/audits/pre-e2e/coverage-determinism.md",

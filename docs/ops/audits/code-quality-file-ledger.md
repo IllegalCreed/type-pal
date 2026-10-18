@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,319。
-当前已闭合核验：249；已读但待审：105；尚未逐文件核验：2,965；合计未闭合：3,070。
+当前已闭合核验：245；已读但待审：109；尚未逐文件核验：2,965；合计未闭合：3,074。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -28,7 +28,9 @@ Template: governance-index-v1 / 1.0.0
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
-2026-10-18 RLE校准仅恢复两条已撤回review，0新关闭。独立全表对账另发现89bf84e16合并时243条review记录在活动表丢失；当前其余74条closed候选、130条未显式登记路径需逐项核后继证据，37条已处review/rework，不在本次批量改状态，也不得据本表冒称这些候选已重新验收。完整差异与范围见[RLE校准](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md)。
+2026-10-18 RLE校准仅恢复两条已撤回review，0新关闭。独立全表对账另发现89bf84e16合并时243条review记录在活动表丢失；当前尚有70条closed候选、130条未显式登记路径需逐项核后继证据，其余43条已处review/rework（含已恢复的6条），不在本次批量改状态，也不得据本表冒称这些候选已重新验收。完整差异与范围见[RLE校准](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md)。
+
+2026-10-18 shared阶段1仅接收有限注释/证据；根据CODE2/2b既有撤回恢复4个测试文件为review，0新关闭，O-5输入域待核。见[阶段验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage1.json)。
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
@@ -37,7 +39,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/shared/src/rle.boundaries.test.ts` | test | review | [pre-94 CODE1 RLE复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md)；strict framing、相邻 offset 截断反例 | 新增前一帧帧头截断合同；注释/整卡/统一门仍待，不计 closed |
 | `packages/shared/src/rle.glm-runtime-resource.test.ts` | test | 已验证 | CODE-QUALITY-1；真实 runtime resource caller | 宽容入口合同 |
 | `packages/shared/src/mkf.ts` | product | 已验证 | CODE-QUALITY-2；raw 2,373 chunks、shared 全包、全仓门 | offset table 边界 |
-| `packages/shared/src/mkf.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-2；截断/越界/倒序 offset | 纯 codec 合同 |
+| `packages/shared/src/mkf.boundaries.test.ts` | test | review | [既有撤回](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md)；[阶段1账本校正](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage1.json) | CODE2原补证已撤回review；整数索引/借用视图反控已登记，整文件/统一门仍待 |
 | `packages/shared/src/rng.ts` | product | 已验证 | CODE-QUALITY-2；raw 1,464 frames、shared 全包、全仓门 | payload/surface 边界 |
 | `packages/shared/src/rng.boundaries.test.ts` | test | review | [pre-94 CODE2 MKF/RNG复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md)；opcode payload/surface 与连续 delta surface ownership | 新增同一 surface 连续 delta 累加合同；不扩展 runtime 语义，整卡/统一门仍待 |
 | `packages/editor/src/core/project-reference.pal.test.ts` | test | 已验证 | CODE-QUALITY-1b；collector 直接结果与历史提交证据 | 仅更新过期 oracle |
@@ -71,10 +73,10 @@ Template: governance-index-v1 / 1.0.0
 | `packages/shared/src/rle-encode.boundaries.test.ts` | test | 已验证 | 126/127/128 byte oracle、pad/offset | 高判别力反控 |
 | `packages/shared/src/rle-encode.glm-runtime-resource.test.ts` | test | 已验证 | 真实 runtime resource encoder contract | caller oracle |
 | `packages/shared/src/rle-encode.test.ts` | test | 已验证 | encoder/decoder roundtrip、128KB guard | 合法输入合同 |
-| `packages/shared/src/rle.glm-o.test.ts` | test | 已验证 | shared RLE/YJ2 public entry contracts | Q1/Q2 相邻 oracle |
-| `packages/shared/src/rng.test.ts` | test | 已验证 | RNG public decoder contract | Q2 相邻 oracle |
+| `packages/shared/src/rle.glm-o.test.ts` | test | review | [既有撤回](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/README.md)；[阶段1账本校正](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage1.json) | CODE2b四条YJ2重复退役时旧关闭已撤回；本批仅作YJ2相邻原生结果，不授整文件八维accept |
+| `packages/shared/src/rng.test.ts` | test | review | [既有撤回](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md)；[阶段1账本校正](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage1.json) | CODE2原退役/合同迁移时已撤回review；阶段1只改相邻注释，不构成重新关闭 |
 | `packages/shared/src/tables.test.ts` | test | 已验证 | type-only Item contract | 类型 contract |
-| `packages/shared/src/yj2.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-2b；9 cases 含位流/回引反例、shared 全包 131 tests | Q2b done |
+| `packages/shared/src/yj2.boundaries.test.ts` | test | review | [既有撤回](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/README.md)；[阶段1账本校正](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage1.json) | CODE2b明确保持review；独立树归约向量仍待，本批引用修正不解除旧counter |
 | `packages/pal-extract/src/resources/sprite.ts` | product | 已验证 | CODE-QUALITY-3d；indexed PNG 尺寸/pixels/opaque 输入边界，callers、全包/check/ratchet/protected/lint | Q3d done |
 | `packages/pal-extract/src/resources/sprite.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3d；非法尺寸/短 pixels/短 opaque 反例与 negative control | Q3d done |
 | `packages/editor/src/ui/SpriteFrameWorkbench.tsx` | product | 已验证 | CODE-QUALITY-3c；174 行缺帧 fallback branch 逐文件定位；公开组件回归与 coverage gate | Q3c done |

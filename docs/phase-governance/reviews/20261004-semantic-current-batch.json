@@ -457,9 +457,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Actual current delegation/assignment delta reviewed; A-H and unrelated statuses retained",
+      "readMethod": "Actual bounded current delta and cited previous withdrawal evidence inspected; historical and unrelated conclusions retained",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Only pre94 assignment changes: GLM owns the continuous pre94 foundation and94-102existing rework package, beginning with MKF after RLE prose acceptance; Codex performs milestone evidence acceptance/integration.83card states and unrelated rows retained.",
+      "coreConclusion": "Only pre94 row advances GLM shared stage1 limited comment/evidence integration and continuation to pure types/contracts. Four previous ledger retractions restored to review; O-5 unresolved.83card states and all unrelated rows retained.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -468,14 +468,14 @@
       "unresolved": [
         "Historical product/coverage/unified gates remain outside this documentation-only integration."
       ],
-      "nextStep": "GLM creates one fresh owned detached worktree at latest3y, starts MKF and progresses eligible pre94 modules then94-102existing rework; Codex accepts module evidence and integrates without duplicate full review.",
+      "nextStep": "GLM continues existing large goal from latest3y in the same foundation worktree, next shared pure types/contracts; preserve unresolved input domains and independent vector counters. Codex accepts module evidence without duplicate full review.",
       "phase": "ops",
       "module": "board.md",
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "9f1186de7d64d403887b3125036c855da11c8ab305354b5f740e72cb09ac9d26",
+      "afterSha256": "24fbb7f018850241e52671dc55c7ee0ae455ee250afa382085e25030081de250",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -493,7 +493,7 @@
       "businessOracle": {
         "type": "authorized-document-content-and-real-route-template-consumers",
         "assertions": [
-          "Only pre94 next-step assignment changes: Codex establishes permanent standard, GLM pilot remains read-only;83 states and all other rows unchanged.",
+          "Only pre94 row advances GLM shared stage1 limited comment/evidence integration and continuation to pure types/contracts. Four previous ledger retractions restored to review; O-5 unresolved.83card states and all unrelated rows retained.",
           "One canonical cross-phase quality contract; entry/form instructions preserve actual task state and risk boundaries",
           "Current delta does not claim historical byte preservation or independent third-party/product execution acceptance"
         ]
@@ -504,10 +504,44 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "9f1186de7d64d403887b3125036c855da11c8ab305354b5f740e72cb09ac9d26",
+        "implementationSha": "24fbb7f018850241e52671dc55c7ee0ae455ee250afa382085e25030081de250",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "cf6419f16c4f8c7fd3e96c468ba7b1baf1084909",
+            "date": "2026-10-18",
+            "action": "GLM foundation stage1 finite-prose acceptance and bounded restoration of documented ledger retractions",
+            "previousAfterSha256": "9f1186de7d64d403887b3125036c855da11c8ab305354b5f740e72cb09ac9d26",
+            "scope": "Only pre94 row advances GLM shared stage1 limited comment/evidence integration and continuation to pure types/contracts. Four previous ledger retractions restored to review; O-5 unresolved.83card states and all unrelated rows retained.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage1.json",
+            "notRun": [
+              "duplicate34/41directed tests",
+              "125unchanged docs-tool tests",
+              "product typecheck",
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "runtime/E2E/visual"
+            ],
+            "previousCoreConclusion": "Only pre94 assignment changes: GLM owns the continuous pre94 foundation and94-102existing rework package, beginning with MKF after RLE prose acceptance; Codex performs milestone evidence acceptance/integration.83card states and unrelated rows retained.",
+            "previousEvidence": {
+              "kind": "finite-prose-acceptance-and-large-task-routing",
+              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1-codex-final.json",
+              "afterSha256": "9f1186de7d64d403887b3125036c855da11c8ab305354b5f740e72cb09ac9d26",
+              "lineCount": 97
+            },
+            "previousReadMethod": "Actual current delegation/assignment delta reviewed; A-H and unrelated statuses retained",
+            "previousNextStep": "GLM creates one fresh owned detached worktree at latest3y, starts MKF and progresses eligible pre94 modules then94-102existing rework; Codex accepts module evidence and integrates without duplicate full review.",
+            "previousBusinessOracle": {
+              "type": "authorized-document-content-and-real-route-template-consumers",
+              "assertions": [
+                "Only pre94 next-step assignment changes: Codex establishes permanent standard, GLM pilot remains read-only;83 states and all other rows unchanged.",
+                "One canonical cross-phase quality contract; entry/form instructions preserve actual task state and risk boundaries",
+                "Current delta does not claim historical byte preservation or independent third-party/product execution acceptance"
+              ]
+            }
+          },
           {
             "revision": "c1464acde3cbff85c0a24afed343104a7a9f52d2",
             "date": "2026-10-18",
@@ -1365,9 +1399,9 @@
         ]
       },
       "evidence": {
-        "kind": "finite-prose-acceptance-and-large-task-routing",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1-codex-final.json",
-        "afterSha256": "9f1186de7d64d403887b3125036c855da11c8ab305354b5f740e72cb09ac9d26",
+        "kind": "finite-comment-evidence-acceptance-and-ledger-reconciliation",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage1.json",
+        "afterSha256": "24fbb7f018850241e52671dc55c7ee0ae455ee250afa382085e25030081de250",
         "lineCount": 97
       },
       "history": [
@@ -1456,7 +1490,7 @@
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
       "reviewedLines": "1-97",
-      "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-18: user requests one large delegated task to reduce relays; no quality/risk rule weakened.",
+      "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-18: user requests one large delegated task to reduce relays; no quality/risk rule weakened.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-12",

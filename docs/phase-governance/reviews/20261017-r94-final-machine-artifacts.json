@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "5ab7e793c3e0197a8666459d36de94f869fa953d236327dec4795a28acfd2361",
+      "afterSha256": "c3e68b2615a8ecf2689098e01f95645f82f865d64f462569f6906be8a9b2bf2a",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,8 +1066,25 @@
       },
       "revision": {
         "currentSha": "a2101ce8ffeb73642521f0b489d17642f27bbd3fcdc581d0e9c354dedbc05778",
-        "implementationSha": "5ab7e793c3e0197a8666459d36de94f869fa953d236327dec4795a28acfd2361",
+        "implementationSha": "c3e68b2615a8ecf2689098e01f95645f82f865d64f462569f6906be8a9b2bf2a",
         "history": [
+          {
+            "revision": "cf6419f16c4f8c7fd3e96c468ba7b1baf1084909",
+            "date": "2026-10-18",
+            "action": "GLM foundation stage1 finite-prose acceptance and bounded restoration of documented ledger retractions",
+            "previousAfterSha256": "5ab7e793c3e0197a8666459d36de94f869fa953d236327dec4795a28acfd2361",
+            "scope": "Only incoming binding for explicitly changed current review records; no unrelated semantic acceptance",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage1.json",
+            "notRun": [
+              "duplicate34/41directed tests",
+              "125unchanged docs-tool tests",
+              "product typecheck",
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "runtime/E2E/visual"
+            ]
+          },
           {
             "revision": "c1464acde3cbff85c0a24afed343104a7a9f52d2",
             "date": "2026-10-18",
@@ -1582,8 +1599,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "5ab7e793c3e0197a8666459d36de94f869fa953d236327dec4795a28acfd2361",
-        "lineCount": 15472,
+        "afterSha256": "c3e68b2615a8ecf2689098e01f95645f82f865d64f462569f6906be8a9b2bf2a",
+        "lineCount": 15506,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -1613,14 +1630,14 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "1-15472",
+      "reviewedLines": "1-15506",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "5ab7e793c3e0197a8666459d36de94f869fa953d236327dec4795a28acfd2361",
+      "candidateSha256": "c3e68b2615a8ecf2689098e01f95645f82f865d64f462569f6906be8a9b2bf2a",
       "primarySource": [
         {
           "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",

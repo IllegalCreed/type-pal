@@ -230,3 +230,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 - 2026-10-18：[长期工程质量规范接入](quality-standard/README.md)——八维与低成本复验进入项目级规范及开发/验收/任务模板；GLM执行、Codex独立核代码，0代码关闭，存量复审仍待。
 
 - 2026-10-18：[GLM大型持续任务](glm-pre94-foundation-goal.md)——RLE文案校准已接收；由MKF起连续推进pre94剩余及94–102既有返工，内部小批、模块交付，减少用户传话。
+
+- 2026-10-18：[GLM foundation阶段1验收](glm-foundation/README.md)——MKF/RNG/YJ2有限文案/证明接收，4条历史撤回恢复review、O-5输入域登记；依旧有大goal继续纯类型/合同模块。

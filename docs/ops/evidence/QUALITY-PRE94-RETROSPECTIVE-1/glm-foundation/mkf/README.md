@@ -39,3 +39,8 @@ cd "$WT/packages/shared" && ../../node_modules/.bin/vitest run src/mkf.boundarie
 ```
 
 失效条件：mkf.ts/boundaries 实现或断言变化 → body-invariance/34 身份重出；worktree 基点后 3y 对这两文件有新提交 → rebase 重证；vitest/biome/ts 版本变化 → 证明重跑。
+
+
+## Codex阶段1接收说明（2026-10-18）
+
+有限文案/身份保持证据已接收，非整文件或整卡八维accept；作者历史原文与native保持。集成注释纠正、证据适用范围及旧撤回状态校正见[阶段终验](../codex-stage1.json)。仅原生JSON支持计数/身份；本批未附的console/scoped静态原始输出保留作者自报层级，不写成独立零诊断。
