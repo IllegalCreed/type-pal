@@ -5,9 +5,10 @@
  * 上下文(`g_Battle.fInBattle == TRUE`)只跑特定子集 — 对 enemy 的 wScriptOnReady /
  * wScriptOnTurnStart bytecode 解释。
  *
- * 本模块实现 5-7 个核心 battle opcode,event-system runScript 的 raw case 在
- * runtimeMode='battle' 时 dispatch 到这里。其余未具名 opcode 仍走 console.debug
- * skip(D26 兜底)。
+ * 本模块实现 40+ 个 battle-context opcode(伤害/毒/状态/召唤/分裂/变身/偷窃/复活/终态等,
+ * 随各修复批持续扩容;opcode 常量区逐条带 sdlpal script.c/fight.c 行锚),event-system
+ * runScript 的 raw case 在 runtimeMode='battle' 时 dispatch 到这里。其余未具名 opcode
+ * 仍走 console.debug skip(D26 兜底)。
  *
  * 处理逻辑:
  *  - 返回 `newIp`:opcode 改了 ip(jump),caller 应跳到返回值
@@ -1085,7 +1086,7 @@ export function dispatchBattleOpcode(
       //   仅 HP==0 者:rgwHP = maxHP * operand[1] / 10;CurePoisonByLevel(role,3) + 清所有 status。
       //   g_fScriptSuccess:applyAll → 任一复活 TRUE(否则 1061 FALSE);单体 → 活着的 → FALSE(1099)。
       // 战斗语境:写 ctx.playerRoles.roles[roleId].hp + 清 state.players[pIdx].status(战内状态)
-      //   + 清 gs.rgPoisonStatus 该 role 毒(同 C7 runner revivePlayerSingle 简版,D15 残)。
+      //   + 清该 role 的 level<=3 毒(M11 对齐 script.c:1071 CurePoisonByLevel(w,3),level>3 保留)。
       if (!ctx.playerRoles) return { consumed: true }
       const applyAll = (operands[0] ?? 0) !== 0
       const ratioTenths = operands[1] ?? 0
@@ -1223,7 +1224,6 @@ export function dispatchBattleOpcode(
       // DL9:分裂跑在 wScriptOnReady(fight.c:1719-1723),紧接 PerformAction 起手 BackupStat
       //   (fight.c:4575)把 wPrevHP 刷成减半后值 → 期间**无** DisplayStatChange 窗口,HP 减半静默
       //   (原注释引证的 fight.c:1614/1665 是回合末毒结算块,不夹住 scriptOnReady;蓝数字系误加)。
-      void beforeHealth
       let copiesLeft = w
       for (let i = 0; i < MAX_ENEMIES_IN_TEAM && copiesLeft > 0; i++) {
         const init = {
