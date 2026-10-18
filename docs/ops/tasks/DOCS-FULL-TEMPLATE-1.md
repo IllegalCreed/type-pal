@@ -5,7 +5,7 @@ Execution: rework（2026-10-18 撤回 R39–R93 及最终收口的过度审阅�
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: 纠错包及分篇已获非作者限定接收；全量验收与后继中央组合仍待验
+Reviewer: 纠错包、单篇及固定fa63中央组合已获非作者限定接收；全量硬验收仍未完成
 Branch: codex/docs-audit-rework
 Last reviewed: 2026-10-18
 Template: task-card-v1 / 1.0.0
@@ -1869,3 +1869,11 @@ root非作者实际核固定de423正文SHA1e50d535c2b16aa466207da22e698768bd5abb
 - root实际组合固定1f25正文加752兼容目标44links/11fragments零问题；去单/双锚复现原1/2失败。真实完整document/pair consumer0及错publication/缺章拒绝，2590B metadata和52736B quote精确保持，quote/header损坏拒绝；direct inverse52042B不等source52041B，仅显式去分隔1LF相等。原1c23、119原件、两次断链FAIL、早期hook指令纠正与新45原件补充不改。
 - 本次中央范围仅把这一条R60最后active binding迁到semantic-rework，native唯一entry改content-reviewed/template-compliant1.1/historyOverlayfalse；其余2430 native逻辑不变。旧R60所有metadata/withdrawal、原证据和既有superseded链保留，新增该单篇明确源SHA/Git继任；矩阵仅加guarded S12关系。raw报告不因gzip运输自获文档完成，1896撤回范围/五隔离不改。
 - v8只新增此精确body/report/version和原生actor/verdict范围校验，须不同Owner实际IO正反例验收后才运行显式计划；该单篇语义接受不预授私有consumer、最终中央候选或全量门。写盘后另核唯一binding/旧donor0条/全部pin、真实静态门及固定中央非作者结论，任何失败保留原件。本卡继续rework，main/done=false。
+
+### 固定fa63实际S12中央组合非作者限定接收
+
+- 非作者/root/central_successor_independent正式报告3fd6cfaba313aafca94633df80b6bdb297741a64b544e97a44aced93bd9c3f0d接受固定fa63aeb8c7cb3593762aaffc774ae2cbe52899cf的实际单篇中央组合。正文语义/模板沿root9cfa、导航沿39344、私有v8机制沿6005各自限定来源，不重授其范围或冒新读/新跑。独立核2431 native仅common一变、其余2430对象序/键缺省保持，114根/2431唯一binding零漂；两显式edit与6维护delta、五review实际Biome重放逐字节等Git。R60最后一条迁出与原撤回/Git/SHA继任完整。
+- 16新运输map/631原source rows/455raw双身份及原路径字节核过，42个非零原命令回执保留；465路径5766815B真实staged patch、271门输入（10canonical+261raw）及后194仅原件/实际gate raw边界吻合。非作者首轮harness误把testing shard SHA当不变metadata的自身失败及v2修正保留，不倒改成候选counter或原命令成功。81原件加manifest=82与外seal/finalizer分列保全，不递归运输可重建快照。
+- 固定实际全门181/181且fail/skipped/cancelled/todo均0，navigation1301 Markdown/8237links/364tasks、model7routes/1264contracts（结构only）、testing0与phase/lore184通过，lint4511全零；wholecheckdocs/strict/requirecomplete仍FAIL。3952诊断行只为pending review/template，当前458 content-reviewed/1973 partial，迁移446/1838基线+6增量/1979当前候选待审/17模板/0integrity；这些含沿用有效成果，不冒称全为本轮新深审。
+- 原1896撤回范围及五历史隔离不改，实际现有native与固定parts交集9篇已重新接受、1887篇待审；S12是其中新增1，006外集/设计/S01等不计入这9。没有当前runtime/E2E/视觉/preview/coverage或全量完成信用。后继ack只写本卡/对应显式pin及不可变原件运输，不再改S12正文、native字段、catalog/pair/两目标或扩范围。
+- 本卡持续rework；全量硬验收未过，不合main、不推main、不标done。下一步按固定cohort与增量继续真实逐篇审阅；已核合格的源域/模板/工具直接复用，未准入原生变体仍先设计冻结，不能用静态绿补造缺失执行。

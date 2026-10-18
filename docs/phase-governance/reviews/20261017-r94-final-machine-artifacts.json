@@ -5403,7 +5403,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "628cfaed5a0a9b782372a63962f80b1002b8423d10604aad1d89e1846c9fe5ee",
+      "afterSha256": "5d971a16055ca25179e4ff0022d9b3ccb7b320eca6d344dcaf7a0e8683f2c646",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -5735,6 +5735,15 @@
           "previousAfterSha256": "4a9ac835530be6793eeb5f0dee586c979505d951cb43ad86bec7f1917a8a3500",
           "afterSha256": "628cfaed5a0a9b782372a63962f80b1002b8423d10604aad1d89e1846c9fe5ee",
           "method": "Record exact single S12 non-author body/template acceptance and explicit one-binding intake boundaries; no global/main/done.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "fa63aeb8c7cb3593762aaffc774ae2cbe52899cf",
+          "previousAfterSha256": "628cfaed5a0a9b782372a63962f80b1002b8423d10604aad1d89e1846c9fe5ee",
+          "afterSha256": "5d971a16055ca25179e4ff0022d9b3ccb7b320eca6d344dcaf7a0e8683f2c646",
+          "method": "Record exactfa63 non-author actual single S12 central acceptance/current actual counts and preserve original failures; administrative card-only ack, no new semantic or global/main/done grant.",
           "grantsNewSemanticAcceptance": false
         }
       ]
