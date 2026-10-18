@@ -177,9 +177,9 @@ function decodeStrictSpriteFrame(
  * Bloody-Mouth Bug" —— `imagecount` 字段可能比实际帧数多 1,多出来的尾帧 offset
  * 指向 chunk 内任意位置,被当作 RLE 解读会得到天文数字 width/height(旧版 decodeRle
  * 会死循环;现行 decodeRle 已对截断/越界显式失败,但病态尺寸仍会先尝试超大分配)。
- * sdlpal 按帧号取帧、越界帧号返回 NULL,按名取帧的引擎不触达该尾帧(原版引擎侧行为
- * 未单独核证);本函数静态提取全部槽,必须在调用前 guard:
- * width / height > 400(屏 320×200,sprite 远小于此)即跳过该槽。
+ * sdlpal `PAL_SpriteGetFrame` 只拒绝 [0,imagecount) 之外的帧号;多声明的坏尾槽仍落在
+ * 该范围内,是否被真实 caller 请求过未核证。width/height > 400 的尺寸过滤是当前 TS
+ * 实现的容错策略(屏 320×200,sprite 远小于此),不是原版行为考据。
  *
  * **键一致性铁律**:返回数组的下标 i 是**过滤后序列**的下标(空槽/坏槽不占位,与原始
  * slot 号不保持对应),即旧 `framesToOut` 的 index;地图 cells 引用的是这个过滤后下标。
