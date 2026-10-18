@@ -5385,7 +5385,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "d7fc38b887b5f89e6e6273e930f77029871e24cc207dce9981a4fc50f8211ce1",
+      "afterSha256": "8bb940933834d9e9551d2bae1659dbffc79f3f60362a3ca1b26c2c8489521fe1",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -5681,6 +5681,15 @@
           "previousAfterSha256": "01532944898f22d844364cf8ea2c2c684d63c245df5de0d624db11c9c61e9c9f",
           "afterSha256": "d7fc38b887b5f89e6e6273e930f77029871e24cc207dce9981a4fc50f8211ce1",
           "method": "Record fixed7af actual non-author rework, unchanged inherited scopes, explicit eight-string repair and pending narrow acceptance; no S12 build/new credit.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "6a72229ab9055ddca5a9d3b9b4833570ea7e47a7",
+          "previousAfterSha256": "d7fc38b887b5f89e6e6273e930f77029871e24cc207dce9981a4fc50f8211ce1",
+          "afterSha256": "8bb940933834d9e9551d2bae1659dbffc79f3f60362a3ca1b26c2c8489521fe1",
+          "method": "Append fixed6a non-author scoped closure, separately limited S11 design-counter status and precise single-owner/file S12 candidate build admission; no new completed binding.",
           "grantsNewSemanticAcceptance": false
         }
       ]
