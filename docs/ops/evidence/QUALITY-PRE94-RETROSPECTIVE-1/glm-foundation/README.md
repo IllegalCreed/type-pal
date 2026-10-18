@@ -23,6 +23,7 @@ Status: build；以下只记有限模块结果，不声明全专项完成
 - 模块5批7作者原件：[event-system.ts大文件补维](game-eventsystem/README.md)（同线，review待验收）。5117行全文读毕,修6处常量级过时实现描述(cash跳转/removeItem装备消耗/商店stub/0x05双职责/毒level清/0x2D状态表,均核handler现状定谳);67套件326/326+typecheck 0。大文件轮终章 battle-system。
 - 模块5批8作者原件：[battle-system.ts大文件终章](game-battlesystem/README.md)（同线，review待验收）。3131行全文读毕,修 tickPreBattle"M3跳过scriptOnReady"过时注;30套件68/68+typecheck 0。大文件轮收官,battle家族余量(actions/opcodes等深切片文件B-G补维)为下一批。
 - 模块6批9作者原件：[battle actions家族×4](game-actions-batch1/README.md)（同线，review待验收）。attack.ts删死局部casterLevel(基线8/8→超集32/32);attack-mate/defend/flee零缺陷;登记私有helper合并候选+magic.ts L122待下批。actions续批 item/magic/throw-item/coop-magic。
+- 模块6批10作者原件：[actions续批×4](game-actions-batch2/README.md)（同线，review待验收）。magic L122 定谳修正(playMagicAnim通知性op无渲染消费方,动画经时间线全实现);item/throw/coop零缺陷;登记 playMagicAnim emit 清理候选+present-battle L198 并列误导。actions 家族 8/8 全收口,下一批 battle 余量(opcodes/state/runtime-context/anim-driver/turn-queue/formulas)。
 
 集成修正：MKF仅首offset/表长4对齐、并非所有chunk偏移；SDL坏档结果/全原盘保证不能泛化；readChunk生产注释保留借用合同、去掉测试治理措辞。RNG跳帧保留基面继续解码，不保证缺帧后的画面等价。正常资产对拍不代替坏帧策略证明。
 
