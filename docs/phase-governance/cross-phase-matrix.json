@@ -1623,7 +1623,7 @@
       "from": ["docs/testing/e2e/evidence/e2e-004.json"],
       "to": [
         "docs/testing/catalog.json",
-        "docs/testing/e2e/stages/004-meal-and-save/report.md",
+        "docs/testing/e2e/stages/004-meal/report.md",
         "scripts/e2e/meal-contract.mjs"
       ],
       "relationship": "004原16字段/7短ref与5686B现前缀保持，原115行5679B仅native有序等值、不虚称原字节逆回。verified/10-02出版、d022 source审计、9a488六case与本轮源码三时点分开。实际40=2取菜+13端菜+25送酒；story/items/saves每轨互斥，取消0/错误1/库存绑定/拒绝提示各有业务oracle；静态25行/loseItem272不等运行25次。仅saves正式208中档/末档fresh restore可成为005前驱；003消费者只核自己的core/route/hash/world，不继承额外choreography/Canvas。动态扣酒/隐藏偏序不证全程未再现；Game差异拒指定路径、RF仅记。纯IO和模板/出版通过，真实六case原件/完整帧/preview/当前运行仍未验。",
@@ -1646,7 +1646,7 @@
       "from": ["docs/testing/e2e/evidence/e2e-005.json"],
       "to": [
         "docs/testing/catalog.json",
-        "docs/testing/e2e/stages/005-errands-and-news/report.md",
+        "docs/testing/e2e/stages/005-shrimp/report.md",
         "scripts/e2e/errand-contract.mjs"
       ],
       "relationship": "005原16字段/8短ref/6015B现前缀和旧治理、原日期保持；verified出版与source-backed/performedfalse不改。004完整saves admission与离线generic checkpoint多层分开，不能把同轨hash/world串都称完整producer。40/49/40与1/1/2静态行数分域，215后500→550唯一奖励不虚构217前上界；select565到515、arm522到282偏序与到家需不止一次实际commit。news同visit draw>=control且clear>control，不改成draw>clear；背景只证实际移动与最后control、不证五处全程；动态Canvas不强迫整hash相等。seq/globalOrder非atMs，384MiB物理预算和pool128不同；原wrapper失败/后续case复验/警告/版本按时点保留，不把后继结果倒回整轮。",

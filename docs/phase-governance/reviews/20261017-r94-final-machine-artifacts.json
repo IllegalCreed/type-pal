@@ -1169,7 +1169,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "6b7ec659dd0869ff40bd13a245c4215491ced7f7ab06bccbe34a5abbe4a40709",
+      "afterSha256": "9649eb29db7e55638be626fa4188bffa2bf6e0be2edac69ea3e326a3316a6510",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1391,6 +1391,15 @@
           "sourceRevision": "1cb305683a8e1ebe46a87be29ab0b05e90b9b3c5",
           "previousAfterSha256": "7cb050736104b187be42f0b2ac955fbb9bc3b824dbac37f15b14e5a1a36b9869",
           "afterSha256": "6b7ec659dd0869ff40bd13a245c4215491ced7f7ab06bccbe34a5abbe4a40709",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "7af53f61cff00db333ae2f87698673ea6dbc82a2",
+          "previousAfterSha256": "6b7ec659dd0869ff40bd13a245c4215491ced7f7ab06bccbe34a5abbe4a40709",
+          "afterSha256": "9649eb29db7e55638be626fa4188bffa2bf6e0be2edac69ea3e326a3316a6510",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
@@ -5376,7 +5385,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "01532944898f22d844364cf8ea2c2c684d63c245df5de0d624db11c9c61e9c9f",
+      "afterSha256": "d7fc38b887b5f89e6e6273e930f77029871e24cc207dce9981a4fc50f8211ce1",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -5663,6 +5672,15 @@
           "previousAfterSha256": "e29f29c84c9d84cc389e79cb0c67aef3dde55691ee3e19738c5d7bc3bce44c70",
           "afterSha256": "01532944898f22d844364cf8ea2c2c684d63c245df5de0d624db11c9c61e9c9f",
           "method": "Append actual post-fixture181/181 raw/full-gate FAIL separation, exact immutable artifact maps, S11counter/S12readonly and final independent central checkpoint boundary; no new semantic credit.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "7af53f61cff00db333ae2f87698673ea6dbc82a2",
+          "previousAfterSha256": "01532944898f22d844364cf8ea2c2c684d63c245df5de0d624db11c9c61e9c9f",
+          "afterSha256": "d7fc38b887b5f89e6e6273e930f77029871e24cc207dce9981a4fc50f8211ce1",
+          "method": "Record fixed7af actual non-author rework, unchanged inherited scopes, explicit eight-string repair and pending narrow acceptance; no S12 build/new credit.",
           "grantsNewSemanticAcceptance": false
         }
       ]

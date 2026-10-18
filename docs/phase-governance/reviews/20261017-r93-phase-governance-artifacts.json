@@ -516,7 +516,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "45d3ac468efc7d54f0e357b11afbc15fbb9f6473a373f47172d3f0bb692832a8",
-      "afterSha256": "b8d583d980eedffe12fd19392ce29411829952db50e709a5f25c821e48eea44a",
+      "afterSha256": "60658652202d12ae0f933788af817e7a73e7db8ae226ec58e1575565fb3cb1cf",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -738,6 +738,15 @@
           "previousAfterSha256": "33897afbc62afa3ee1a5473d51b512e09ac707dd4a1f0486c68696125adcf9f9",
           "afterSha256": "b8d583d980eedffe12fd19392ce29411829952db50e709a5f25c821e48eea44a",
           "method": "Specific004/005/006 source/native/history boundaries plus actual157 independent acceptance; current successor combination pending.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "7af53f61cff00db333ae2f87698673ea6dbc82a2",
+          "previousAfterSha256": "b8d583d980eedffe12fd19392ce29411829952db50e709a5f25c821e48eea44a",
+          "afterSha256": "60658652202d12ae0f933788af817e7a73e7db8ae226ec58e1575565fb3cb1cf",
+          "method": "Exactly two explicit catalog canonical target references repaired after CENTRAL-CANONICAL-PATH-S08-S09; no row status/body/metric change.",
           "grantsNewSemanticAcceptance": false
         }
       ]

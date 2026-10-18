@@ -4045,7 +4045,7 @@
       "truthAnchors": [
         "docs/testing/e2e/evidence/e2e-004.json:1",
         "docs/testing/e2e/evidence/e2e-004.json:133",
-        "docs/testing/e2e/stages/004-meal-and-save/report.md:1",
+        "docs/testing/e2e/stages/004-meal/report.md:1",
         "scripts/e2e/meal-contract.mjs:1"
       ],
       "unresolved": [
@@ -4506,7 +4506,7 @@
       },
       "publicCallers": [
         "docs/testing/catalog.json exact unique e2e-004 publication identity",
-        "docs/testing/e2e/stages/004-meal-and-save/report.md existing canonical/testing-meta pair",
+        "docs/testing/e2e/stages/004-meal/report.md existing canonical/testing-meta pair",
         "scripts/docs/check-testing.mjs actual public evidence reader"
       ],
       "legalInputs": [
@@ -4667,7 +4667,7 @@
         "result": "One existing native evidence/canonical/catalog identity; no added runtime cases/testcount/coverage, adjacent body accepts stay separate.",
         "against": [
           "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
-          "docs/testing/e2e/stages/004-meal-and-save/report.md",
+          "docs/testing/e2e/stages/004-meal/report.md",
           "e2e-003",
           "e2e-004",
           "e2e-005",
@@ -4858,6 +4858,16 @@
           },
           "firstActualPilotReportPayloadSha256": "5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b",
           "actualSuccessorCentralAccepted": false
+        },
+        {
+          "date": "2026-10-18",
+          "action": "repair-central-canonical-reference-after-non-author-counter",
+          "counterId": "CENTRAL-CANONICAL-PATH-S08-S09",
+          "sourceRevision": "7af53f61cff00db333ae2f87698673ea6dbc82a2",
+          "independentCounterReportSha256": "5f94261c4ed186c76794e1dba5a3ccbf71711ed5ec86c1c4122c89969a0da976",
+          "correctedFields": ["truthAnchors", "publicCallers", "dedupe.against"],
+          "catalogCanonicalTarget": "docs/testing/e2e/stages/004-meal/report.md",
+          "scope": "Only three active reference strings; native body/source/after/status/count/evidence acceptance unchanged; central composition still requires independent narrow re-review."
         }
       ],
       "historicalWithdrawal": {
@@ -4906,7 +4916,7 @@
       "truthAnchors": [
         "docs/testing/e2e/evidence/e2e-005.json:1",
         "docs/testing/e2e/evidence/e2e-005.json:141",
-        "docs/testing/e2e/stages/005-errands-and-news/report.md:1",
+        "docs/testing/e2e/stages/005-shrimp/report.md:1",
         "scripts/e2e/errand-contract.mjs:1"
       ],
       "unresolved": [
@@ -5152,7 +5162,7 @@
       },
       "publicCallers": [
         "docs/testing/catalog.json exact unique e2e-005 publication identity",
-        "docs/testing/e2e/stages/005-errands-and-news/report.md existing canonical/testing-meta pair",
+        "docs/testing/e2e/stages/005-shrimp/report.md existing canonical/testing-meta pair",
         "scripts/docs/check-testing.mjs actual public evidence reader"
       ],
       "legalInputs": [
@@ -5384,7 +5394,7 @@
         "result": "One existing native evidence/canonical/catalog identity; no added runtime cases/testcount/coverage, adjacent body accepts stay separate.",
         "against": [
           "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
-          "docs/testing/e2e/stages/005-errands-and-news/report.md",
+          "docs/testing/e2e/stages/005-shrimp/report.md",
           "e2e-003",
           "e2e-004",
           "e2e-005",
@@ -5535,6 +5545,16 @@
           },
           "firstActualPilotReportPayloadSha256": "5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b",
           "actualSuccessorCentralAccepted": false
+        },
+        {
+          "date": "2026-10-18",
+          "action": "repair-central-canonical-reference-after-non-author-counter",
+          "counterId": "CENTRAL-CANONICAL-PATH-S08-S09",
+          "sourceRevision": "7af53f61cff00db333ae2f87698673ea6dbc82a2",
+          "independentCounterReportSha256": "5f94261c4ed186c76794e1dba5a3ccbf71711ed5ec86c1c4122c89969a0da976",
+          "correctedFields": ["truthAnchors", "publicCallers", "dedupe.against"],
+          "catalogCanonicalTarget": "docs/testing/e2e/stages/005-shrimp/report.md",
+          "scope": "Only three active reference strings; native body/source/after/status/count/evidence acceptance unchanged; central composition still requires independent narrow re-review."
         }
       ],
       "historicalWithdrawal": {
