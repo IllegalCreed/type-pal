@@ -11,6 +11,7 @@ Status: build；以下只记有限模块结果，不声明全专项完成
 - 模块3批2作者原件：[extract io/word+utils/gbk](extract-io-word-gbk/README.md)（同线，review待验收）。修 word.ts 头部重复括注；14/14、body-invariance 齐；登记 readBlock 短输入静默空串与 Words.scenes 字段名误导两候选。
 - 模块3批3作者原件：[extract font/bdf+scene+map](extract-font-scene-map/README.md)（同线，review待验收）。bdf 容错合同注释1处；23/23含真盘MAP/GOP；三登记（bdf输入域/scene区间非单调/substr nit）。extract模块批1-3共13文件已冻结，余parsers家族+cli.ts(输出策略冻结段只读)+output-boundary.ts留模块3续批。
 - 模块3批4作者原件：[extract parsers小件×4](extract-parsers-small/README.md)（同线，review待验收）。修 rix "script"笔误与 sounds 过时M6注释；真盘34/34含SDLPal RGBA对拍；登记截断容忍族/LevelUpMagicEntry双类型/decodeRngAnim仅测试消费。
+- 模块3批5作者原件：[extract enemies+player-roles](extract-enemies-playerroles/README.md)（同线，review待验收）。修 EnemyTeam.slots 两处不存在字段引用（C2 counter 闭口）、M3→M4 dump范围双处过时；14/14真盘；登记 build*Map 静默空与 EnemyObject 双类型。
 
 集成修正：MKF仅首offset/表长4对齐、并非所有chunk偏移；SDL坏档结果/全原盘保证不能泛化；readChunk生产注释保留借用合同、去掉测试治理措辞。RNG跳帧保留基面继续解码，不保证缺帧后的画面等价。正常资产对拍不代替坏帧策略证明。
 
