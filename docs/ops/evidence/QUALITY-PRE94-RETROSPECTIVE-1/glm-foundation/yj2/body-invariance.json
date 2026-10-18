@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "base": "63735f72fb12f6ca27bb3a3443418dd808b101cf",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/shared/src/yj2.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "cceeef5942746686d21c99d48f583843668c82f8e3ab6bd7045e493acdffd5f3",
+        "current": "cceeef5942746686d21c99d48f583843668c82f8e3ab6bd7045e493acdffd5f3"
+      },
+      "printedBytes": {
+        "base": 6724,
+        "current": 6724
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/shared/src/yj2.boundaries.test.ts",
+      "titleCallCount": {
+        "base": 12,
+        "current": 12
+      },
+      "printedSha256": {
+        "base": "82aed9f1e6abc6088e1f75bf0db4f32c965f41a939c20578105449a1a1561ef4",
+        "current": "82aed9f1e6abc6088e1f75bf0db4f32c965f41a939c20578105449a1a1561ef4"
+      },
+      "printedBytes": {
+        "base": 1850,
+        "current": 1850
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}
