@@ -17,6 +17,7 @@ Status: build；以下只记有限模块结果，不声明全专项完成
 - 模块4批1作者原件：[game assets三文件](game-assets-batch1/README.md)（同线，review待验收）。修 loader 战斗资源注释与 .rle 管线自相矛盾+T28 远古措辞;19套件38/38含真blob快照;登记 DialogSprite 同构候选。game 模块开工,后续 core/present/shell 分批。
 - 模块4批2作者原件：[game assets png+rle-decode](game-assets-batch2/README.md)（同线，review待验收）。零整改复审,png.ts 资源清理/cause 包装/M3.5双通道合同核验成立;10套件12/12。assets 家族5/5生产文件收口,下一批 core。
 - 模块5批3作者原件：[game core小文件×4](game-core-batch3/README.md)（同线，review待验收）。B-G补维零整改;mode autoScript门/宝物屋tp补丁/老档归一化核验成立;7套件20/20。core续批:poison/search/identity等→大文件补维轮。
+- 模块5批4作者原件：[game core 3o/3n余量×4](game-core-batch4/README.md)（同线，review待验收）。B-G补维零整改;poison差异挂draft卡/搜索注释已修/量化边界吻合;27套件90/90。core小文件全收口,下一批大文件补维轮(event-system/battle-system/scene-system/game-state)。
 
 集成修正：MKF仅首offset/表长4对齐、并非所有chunk偏移；SDL坏档结果/全原盘保证不能泛化；readChunk生产注释保留借用合同、去掉测试治理措辞。RNG跳帧保留基面继续解码，不保证缺帧后的画面等价。正常资产对拍不代替坏帧策略证明。
 

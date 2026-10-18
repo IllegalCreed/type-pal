@@ -1,0 +1,958 @@
+{
+  "numTotalTestSuites": 27,
+  "numPassedTestSuites": 27,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 90,
+  "numPassedTests": 90,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792334797620,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["clearHiddenExpCounts(隐藏经验 wCount 战前清零,battle.c:1565-1586)"],
+          "fullName": "clearHiddenExpCounts(隐藏经验 wCount 战前清零,battle.c:1565-1586) 清 7 隐藏池各 role 的 wCount,**不动** rgPrimaryExp",
+          "status": "passed",
+          "title": "清 7 隐藏池各 role 的 wCount,**不动** rgPrimaryExp",
+          "duration": 1.7529579999999214,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["clearHiddenExpCounts(隐藏经验 wCount 战前清零,battle.c:1565-1586)"],
+          "fullName": "clearHiddenExpCounts(隐藏经验 wCount 战前清零,battle.c:1565-1586) createInitialGameState 的 Exp wCount 初始 0",
+          "status": "passed",
+          "title": "createInitialGameState 的 Exp wCount 初始 0",
+          "duration": 0.17487500000004275,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["initExpLevelsFromLevels(新游戏 Exp.wLevel 初始化,global.c:455-465)"],
+          "fullName": "initExpLevelsFromLevels(新游戏 Exp.wLevel 初始化,global.c:455-465) 8 类经验 × 6 角色 wLevel 全 = 对应等级,wExp 不动",
+          "status": "passed",
+          "title": "8 类经验 × 6 角色 wLevel 全 = 对应等级,wExp 不动",
+          "duration": 0.8510420000000067,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["initExpLevelsFromLevels(新游戏 Exp.wLevel 初始化,global.c:455-465)"],
+          "fullName": "initExpLevelsFromLevels(新游戏 Exp.wLevel 初始化,global.c:455-465) rgwLevel 缺项(undefined)→ 该角色 wLevel 退化 0,不抛错",
+          "status": "passed",
+          "title": "rgwLevel 缺项(undefined)→ 该角色 wLevel 退化 0,不抛错",
+          "duration": 0.10800000000006094,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465)"],
+          "fullName": "loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465) 清空上一局金钱/背包/毒/队伍/trail/采集值,标量回默认(global.c:434-453)",
+          "status": "passed",
+          "title": "清空上一局金钱/背包/毒/队伍/trail/采集值,标量回默认(global.c:434-453)",
+          "duration": 0.5492090000000189,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465)"],
+          "fullName": "loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465) hydrate PlayerRoles 基线 + 8 类经验 wLevel = 角色等级(global.c:455-465)",
+          "status": "passed",
+          "title": "hydrate PlayerRoles 基线 + 8 类经验 wLevel = 角色等级(global.c:455-465)",
+          "duration": 0.21141599999998562,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465)"],
+          "fullName": "loadDefaultGame(新游戏重置,PAL_LoadDefaultGame global.c:434-465) M6:清 rgPlayerStatus(大世界施放的持久状态不带入新游戏,PAL_InitGameData global.c:951)",
+          "status": "passed",
+          "title": "M6:清 rgPlayerStatus(大世界施放的持久状态不带入新游戏,PAL_InitGameData global.c:951)",
+          "duration": 0.1424170000000231,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resetSceneRuntimeForNewGame(新游戏 scene 运行时复位)"],
+          "fullName": "resetSceneRuntimeForNewGame(新游戏 scene 运行时复位) 清 scene 持久 records + 从初始对象表重建 allEventObjects",
+          "status": "passed",
+          "title": "清 scene 持久 records + 从初始对象表重建 allEventObjects",
+          "duration": 0.5190410000000156,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["GameState"],
+          "fullName": "GameState 初始态:无 NPC、explore 模式、无对话框",
+          "status": "passed",
+          "title": "初始态:无 NPC、explore 模式、无对话框",
+          "duration": 0.42420800000002146,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["GameState"],
+          "fullName": "GameState 初始态:partyMembers / inventory 默认空数组,battleState 缺省",
+          "status": "passed",
+          "title": "初始态:partyMembers / inventory 默认空数组,battleState 缺省",
+          "duration": 0.12229200000001583,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["GameState"],
+          "fullName": "GameState Mode 三态(M3 加 battle)",
+          "status": "passed",
+          "title": "Mode 三态(M3 加 battle)",
+          "duration": 0.45908299999996416,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["GameState"],
+          "fullName": "GameState Facing 四向",
+          "status": "passed",
+          "title": "Facing 四向",
+          "duration": 0.06529199999999946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["GameState"],
+          "fullName": "GameState GameState 可 JSON 序列化(含 eventCursor.commands)",
+          "status": "passed",
+          "title": "GameState 可 JSON 序列化(含 eventCursor.commands)",
+          "duration": 0.34537499999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推)"],
+          "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) round-trip JSON.stringify → parse → deep equal",
+          "status": "passed",
+          "title": "round-trip JSON.stringify → parse → deep equal",
+          "duration": 1.0782500000000255,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推)"],
+          "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) default initial state 所有新字段非 undefined",
+          "status": "passed",
+          "title": "default initial state 所有新字段非 undefined",
+          "duration": 0.6242909999999711,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推)"],
+          "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) sparse Record:rgEventObject 只存改过的 EventObject",
+          "status": "passed",
+          "title": "sparse Record:rgEventObject 只存改过的 EventObject",
+          "duration": 0.09520799999995688,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推)"],
+          "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) sparse Record:rgScene / rgObject 初始空,可单独写入",
+          "status": "passed",
+          "title": "sparse Record:rgScene / rgObject 初始空,可单独写入",
+          "duration": 0.11824999999998909,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推)"],
+          "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) AllExperience 初始值全零 ExpEntry",
+          "status": "passed",
+          "title": "AllExperience 初始值全零 ExpEntry",
+          "duration": 0.111458999999968,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推)"],
+          "fullName": "Sync.1 GameState 全字段冻结(SAVEDGAME_WIN 倒推) PlayerRolesRuntime 初始值全零",
+          "status": "passed",
+          "title": "PlayerRolesRuntime 初始值全零",
+          "duration": 0.09699999999997999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["npcFromEventObject"],
+          "fullName": "npcFromEventObject System A:eo.x/y 直接透传(1:1 sdlpal pixel),其它字段透传",
+          "status": "passed",
+          "title": "System A:eo.x/y 直接透传(1:1 sdlpal pixel),其它字段透传",
+          "duration": 0.10083400000007714,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["npcFromEventObject"],
+          "fullName": "npcFromEventObject 半 tile 位置原样保留(eo.x=720 / eo.y=664)",
+          "status": "passed",
+          "title": "半 tile 位置原样保留(eo.x=720 / eo.y=664)",
+          "duration": 0.22412499999995816,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["npcFromEventObject"],
+          "fullName": "npcFromEventObject 初始 currentFrameNum 透传为 scriptedFrame(水月宫拜谢李逍遥姿势 frame13)",
+          "status": "passed",
+          "title": "初始 currentFrameNum 透传为 scriptedFrame(水月宫拜谢李逍遥姿势 frame13)",
+          "duration": 0.08799999999996544,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["npcFromEventObject"],
+          "fullName": "npcFromEventObject 初始 vanishTime 透传为 sVanishTime(非 0 时不触发/不跑 autoScript)",
+          "status": "passed",
+          "title": "初始 vanishTime 透传为 sVanishTime(非 0 时不触发/不跑 autoScript)",
+          "duration": 0.04920800000002146,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["npcFromEventObject"],
+          "fullName": "npcFromEventObject triggerLabel 缺时透传 undefined",
+          "status": "passed",
+          "title": "triggerLabel 缺时透传 undefined",
+          "duration": 0.03633300000001327,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["npcFromEventObject"],
+          "fullName": "npcFromEventObject 太守 obj 1518:Confirm-search(mode 3)→ 走近自动触发(mode >= 4)+ autoTriggerOnce",
+          "status": "passed",
+          "title": "太守 obj 1518:Confirm-search(mode 3)→ 走近自动触发(mode >= 4)+ autoTriggerOnce",
+          "duration": 0.10479099999997743,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["npcFromEventObject"],
+          "fullName": "npcFromEventObject 其它对象 triggerMode 3 不受补丁影响(仍是 Confirm-search,无 autoTriggerOnce)",
+          "status": "passed",
+          "title": "其它对象 triggerMode 3 不受补丁影响(仍是 Confirm-search,无 autoTriggerOnce)",
+          "duration": 0.04250000000001819,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceSceneEventObjects(sdlpal lprgEventObject 切片)"],
+          "fullName": "sliceSceneEventObjects(sdlpal lprgEventObject 切片) gs.npcs = 当前 scene 切片,元素是 allEventObjects 引用 → 脚本改动持久",
+          "status": "passed",
+          "title": "gs.npcs = 当前 scene 切片,元素是 allEventObjects 引用 → 脚本改动持久",
+          "duration": 0.15337499999998272,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceSceneEventObjects(sdlpal lprgEventObject 切片)"],
+          "fullName": "sliceSceneEventObjects(sdlpal lprgEventObject 切片) 首访延迟解析 autoCursor(P2#5:autoLabel = L_<全局下标>,identity 解析)",
+          "status": "passed",
+          "title": "首访延迟解析 autoCursor(P2#5:autoLabel = L_<全局下标>,identity 解析)",
+          "duration": 0.08324999999990723,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceSceneEventObjects(sdlpal lprgEventObject 切片)"],
+          "fullName": "sliceSceneEventObjects(sdlpal lprgEventObject 切片) 已推进的 autoCursor 不重解(保留 autoscript 进度)",
+          "status": "passed",
+          "title": "已推进的 autoCursor 不重解(保留 autoscript 进度)",
+          "duration": 0.05633299999999508,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceSceneEventObjects(sdlpal lprgEventObject 切片)"],
+          "fullName": "sliceSceneEventObjects(sdlpal lprgEventObject 切片) 全局表缺失 → undefined(调用方兜底从 dump 建)",
+          "status": "passed",
+          "title": "全局表缺失 → undefined(调用方兜底从 dump 建)",
+          "duration": 0.06245899999998983,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移)"],
+          "fullName": "hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移) scriptedFrame 缺失 → 补场景初始 frame 13(水月宫抱拳拜谢)",
+          "status": "passed",
+          "title": "scriptedFrame 缺失 → 补场景初始 frame 13(水月宫抱拳拜谢)",
+          "duration": 0.2953330000000278,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移)"],
+          "fullName": "hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移) sVanishTime 缺失 → 补场景初始 vanishTime",
+          "status": "passed",
+          "title": "sVanishTime 缺失 → 补场景初始 vanishTime",
+          "duration": 0.04754200000002129,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移)"],
+          "fullName": "hydrateNpcStaticDefaults(旧全局对象 / 旧存档字段迁移) scriptedFrame 已被脚本明确设为 0 → 不用场景默认 13 覆盖",
+          "status": "passed",
+          "title": "scriptedFrame 已被脚本明确设为 0 → 不用场景默认 13 覆盖",
+          "duration": 0.05429199999991852,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["player-roles 战斗数据模型边界"],
+          "fullName": "player-roles 战斗数据模型边界 投影:战斗 roles 用 runtime 当前属性(升级后)+ 静态不可变字段(精灵/名字)",
+          "status": "passed",
+          "title": "投影:战斗 roles 用 runtime 当前属性(升级后)+ 静态不可变字段(精灵/名字)",
+          "duration": 0.31637499999999363,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["player-roles 战斗数据模型边界"],
+          "fullName": "player-roles 战斗数据模型边界 D14:投影并入装备 effect — 战斗 stat = base + Σ rgEquipmentEffect[0..6](attack/magic/def/dex/flee/poison/elem)",
+          "status": "passed",
+          "title": "D14:投影并入装备 effect — 战斗 stat = base + Σ rgEquipmentEffect[0..6](attack/magic/def/dex/flee/poison/elem)",
+          "duration": 0.12295900000003712,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["player-roles 战斗数据模型边界"],
+          "fullName": "player-roles 战斗数据模型边界 装备 override:attackAll(任一槽非0)/ spriteNumInBattle(末个非0 override)/ cooperativeMagic(末个非0 override)",
+          "status": "passed",
+          "title": "装备 override:attackAll(任一槽非0)/ spriteNumInBattle(末个非0 override)/ cooperativeMagic(末个非0 override)",
+          "duration": 0.08170800000004874,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["player-roles 战斗数据模型边界"],
+          "fullName": "player-roles 战斗数据模型边界 装备 override:无装备 effect → attackAll/sprite/coopMagic 退回 base(coopMagic 走 hydrate 后 runtime)",
+          "status": "passed",
+          "title": "装备 override:无装备 effect → attackAll/sprite/coopMagic 退回 base(coopMagic 走 hydrate 后 runtime)",
+          "duration": 0.12704099999996288,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["player-roles 战斗数据模型边界"],
+          "fullName": "player-roles 战斗数据模型边界 大世界 spriteNum hydrate 到 runtime,投影也读取 runtime 当前值",
+          "status": "passed",
+          "title": "大世界 spriteNum hydrate 到 runtime,投影也读取 runtime 当前值",
+          "duration": 0.09583300000008421,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["player-roles 战斗数据模型边界"],
+          "fullName": "player-roles 战斗数据模型边界 D14:不传 equipmentEffect → 投影退回纯 base(向后兼容,装备 effect 不并入)",
+          "status": "passed",
+          "title": "D14:不传 equipmentEffect → 投影退回纯 base(向后兼容,装备 effect 不并入)",
+          "duration": 0.05450000000007549,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["player-roles 战斗数据模型边界"],
+          "fullName": "player-roles 战斗数据模型边界 回写:战斗 HP/MP 战果回写 runtime;仅 party 成员(非 party 不碰)",
+          "status": "passed",
+          "title": "回写:战斗 HP/MP 战果回写 runtime;仅 party 成员(非 party 不碰)",
+          "duration": 0.10254200000008495,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["player-roles 战斗数据模型边界"],
+          "fullName": "player-roles 战斗数据模型边界 往返:残血进战斗 → 治满 → 出战斗 → runtime 反映\"加满\"(原打完复原的 bug 修了)",
+          "status": "passed",
+          "title": "往返:残血进战斗 → 治满 → 出战斗 → runtime 反映\"加满\"(原打完复原的 bug 修了)",
+          "duration": 0.08024999999997817,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["player-roles 战斗数据模型边界"],
+          "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:胜→wonIp + 恢复 currentEventObjectId + mode=event(打完怪接回 0x52 隐藏)",
+          "status": "passed",
+          "title": "resumePostBattleScript:胜→wonIp + 恢复 currentEventObjectId + mode=event(打完怪接回 0x52 隐藏)",
+          "duration": 0.11041599999998652,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["player-roles 战斗数据模型边界"],
+          "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:负→lostIp(op[1]) / 逃→fledIp(op[2])",
+          "status": "passed",
+          "title": "resumePostBattleScript:负→lostIp(op[1]) / 逃→fledIp(op[2])",
+          "duration": 0.09124999999994543,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["player-roles 战斗数据模型边界"],
+          "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:负/逃但无对应分支 → 退回 wonIp(sdlpal else ip++)",
+          "status": "passed",
+          "title": "resumePostBattleScript:负/逃但无对应分支 → 退回 wonIp(sdlpal else ip++)",
+          "duration": 0.0453340000000253,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["player-roles 战斗数据模型边界"],
+          "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:lost + lostIp 指死亡脚本(含 0x4F)→ 置 deathHoldActive,不置 gameOverActive",
+          "status": "passed",
+          "title": "resumePostBattleScript:lost + lostIp 指死亡脚本(含 0x4F)→ 置 deathHoldActive,不置 gameOverActive",
+          "duration": 0.07708400000001348,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["player-roles 战斗数据模型边界"],
+          "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:lost + lostIp 续剧情(0x4F 前撞 goto,team21 式)→ 不置 deathHoldActive",
+          "status": "passed",
+          "title": "resumePostBattleScript:lost + lostIp 续剧情(0x4F 前撞 goto,team21 式)→ 不置 deathHoldActive",
+          "duration": 0.06541700000002493,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["player-roles 战斗数据模型边界"],
+          "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:lost 但 lostIp=undefined(石长老 op[1]=0)→ 回退 wonIp,不置死亡 hold",
+          "status": "passed",
+          "title": "resumePostBattleScript:lost 但 lostIp=undefined(石长老 op[1]=0)→ 回退 wonIp,不置死亡 hold",
+          "duration": 0.05708300000003419,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["player-roles 战斗数据模型边界"],
+          "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:won → 不置任何死亡 hold(正常返回大世界)",
+          "status": "passed",
+          "title": "resumePostBattleScript:won → 不置任何死亡 hold(正常返回大世界)",
+          "duration": 0.11441600000000562,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["player-roles 战斗数据模型边界"],
+          "fullName": "player-roles 战斗数据模型边界 resumePostBattleScript:无 postBattleResume → no-op(非 0x07 触发的战斗 / dev panel 战斗)",
+          "status": "passed",
+          "title": "resumePostBattleScript:无 postBattleResume → no-op(非 0x07 触发的战斗 / dev panel 战斗)",
+          "duration": 0.052709000000049855,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["player-roles 战斗数据模型边界", "scriptRunHits0x4F(死亡帧预判)"],
+          "fullName": "player-roles 战斗数据模型边界 scriptRunHits0x4F(死亡帧预判) run 含 0x4F(死亡脚本 41075:0x43→0x4F)→ true",
+          "status": "passed",
+          "title": "run 含 0x4F(死亡脚本 41075:0x43→0x4F)→ true",
+          "duration": 0.03808400000002621,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["player-roles 战斗数据模型边界", "scriptRunHits0x4F(死亡帧预判)"],
+          "fullName": "player-roles 战斗数据模型边界 scriptRunHits0x4F(死亡帧预判) run 在 0x4F 前撞 goto(team21:对白→goto L_41075)→ false(不跨 goto 追)",
+          "status": "passed",
+          "title": "run 在 0x4F 前撞 goto(team21:对白→goto L_41075)→ false(不跨 goto 追)",
+          "duration": 0.028500000000008185,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["player-roles 战斗数据模型边界", "scriptRunHits0x4F(死亡帧预判)"],
+          "fullName": "player-roles 战斗数据模型边界 scriptRunHits0x4F(死亡帧预判) run 遇 end 前无 0x4F(续剧情)→ false",
+          "status": "passed",
+          "title": "run 遇 end 前无 0x4F(续剧情)→ false",
+          "duration": 0.028249999999957254,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["player-roles 战斗数据模型边界", "scriptRunHits0x4F(死亡帧预判)"],
+          "fullName": "player-roles 战斗数据模型边界 scriptRunHits0x4F(死亡帧预判) commands undefined → false",
+          "status": "passed",
+          "title": "commands undefined → false",
+          "duration": 0.02491700000007313,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["player-roles 战斗数据模型边界", "scriptRunHits0x4F(死亡帧预判)"],
+          "fullName": "player-roles 战斗数据模型边界 scriptRunHits0x4F(死亡帧预判) startIp 越过 0x43 从 0x4F 处起 → true",
+          "status": "passed",
+          "title": "startIp 越过 0x43 从 0x4F 处起 → true",
+          "duration": 0.029916999999954896,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["player-roles 战斗数据模型边界"],
+          "fullName": "player-roles 战斗数据模型边界 往返:满血进战斗 → 受伤残血 → 出战斗 → runtime 反映伤害(伤害持久化)",
+          "status": "passed",
+          "title": "往返:满血进战斗 → 受伤残血 → 出战斗 → runtime 反映伤害(伤害持久化)",
+          "duration": 0.15104200000007495,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归)"],
+          "fullName": "normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归) 复现:缺 rgwAvatar 的存档 runtime 直接投影 → 抛(undefined[0])",
+          "status": "passed",
+          "title": "复现:缺 rgwAvatar 的存档 runtime 直接投影 → 抛(undefined[0])",
+          "duration": 0.483208999999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归)"],
+          "fullName": "normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归) 归一化补齐缺失字段(rgwAvatar/rgwWalkFrames),投影不再崩",
+          "status": "passed",
+          "title": "归一化补齐缺失字段(rgwAvatar/rgwWalkFrames),投影不再崩",
+          "duration": 0.1688329999999496,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归)"],
+          "fullName": "normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归) 存档已有的真实数据原样保留(归一化只补缺失键,不覆盖)",
+          "status": "passed",
+          "title": "存档已有的真实数据原样保留(归一化只补缺失键,不覆盖)",
+          "duration": 0.06912499999998545,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归)"],
+          "fullName": "normalizePlayerRolesRuntime(读档归一化 — 旧存档缺新增字段回归) runtime 整体缺失(极旧档无 PlayerRolesRuntime)→ 返回全零完整 runtime",
+          "status": "passed",
+          "title": "runtime 整体缺失(极旧档无 PlayerRolesRuntime)→ 返回全零完整 runtime",
+          "duration": 0.07516700000007859,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resetPresentationTransients(回标题/新游戏清演出残留)"],
+          "fullName": "resetPresentationTransients(回标题/新游戏清演出残留) 清结局 RNG 演出残留 + 黑屏/fade/死亡演出/eventCursor",
+          "status": "passed",
+          "title": "清结局 RNG 演出残留 + 黑屏/fade/死亡演出/eventCursor",
+          "duration": 0.1308329999999387,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resetPresentationTransients(回标题/新游戏清演出残留)"],
+          "fullName": "resetPresentationTransients(回标题/新游戏清演出残留) resetSceneRuntimeForNewGame 复用 helper:同样清掉结局 RNG 残留(防重构回归)",
+          "status": "passed",
+          "title": "resetSceneRuntimeForNewGame 复用 helper:同样清掉结局 RNG 残留(防重构回归)",
+          "duration": 0.07854099999997288,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792334798443,
+      "endTime": 1792334798456.169,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/game-state.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["palette-fade helpers"],
+          "fullName": "palette-fade helpers blackColors:256 个 [0,0,0]",
+          "status": "passed",
+          "title": "blackColors:256 个 [0,0,0]",
+          "duration": 1.268083000000047,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["palette-fade helpers"],
+          "fullName": "palette-fade helpers cloneColors:深拷,改副本不影响源",
+          "status": "passed",
+          "title": "cloneColors:深拷,改副本不影响源",
+          "duration": 0.14891599999998562,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["palette-fade helpers"],
+          "fullName": "palette-fade helpers makeWorkingPalette:colors 深拷(与源不别名),cycles 沿用",
+          "status": "passed",
+          "title": "makeWorkingPalette:colors 深拷(与源不别名),cycles 沿用",
+          "duration": 0.14379199999996217,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["palette-fade helpers"],
+          "fullName": "palette-fade helpers makeWorkingPalette:保留 nightColors(夜色淡入目标,resolveNightColors 读 basePalette.nightColors)",
+          "status": "passed",
+          "title": "makeWorkingPalette:保留 nightColors(夜色淡入目标,resolveNightColors 读 basePalette.nightColors)",
+          "duration": 0.16075000000000728,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildFadeOut(0x50)"],
+          "fullName": "buildFadeOut(0x50) cur → 全黑,sdlpal j>>6 量化(palette.c:170-180):首帧即降到 93.75%,精确 0% 由 finalize 补",
+          "status": "passed",
+          "title": "cur → 全黑,sdlpal j>>6 量化(palette.c:170-180):首帧即降到 93.75%,精确 0% 由 finalize 补",
+          "duration": 0.4349170000000413,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildFadeOut(0x50)"],
+          "fullName": "buildFadeOut(0x50) snapshot 独立 — 后续改 cur 不影响 pf.startColors",
+          "status": "passed",
+          "title": "snapshot 独立 — 后续改 cur 不影响 pf.startColors",
+          "duration": 0.09658300000000963,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildFadeIn(0x51)"],
+          "fullName": "buildFadeIn(0x51) 全黑 → base,sdlpal j>>6 量化(palette.c:238-250):循环封顶 93.75%,精确 100% 由 finalize 补",
+          "status": "passed",
+          "title": "全黑 → base,sdlpal j>>6 量化(palette.c:238-250):循环封顶 93.75%,精确 100% 由 finalize 补",
+          "duration": 0.29795799999999417,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildSceneFade(0x93)"],
+          "fullName": "buildSceneFade(0x93) fadeIn:全黑 → base,i∈0..63 量化,封顶 63/64≈98.4%(SceneFade 函数末尾无补满)",
+          "status": "passed",
+          "title": "fadeIn:全黑 → base,i∈0..63 量化,封顶 63/64≈98.4%(SceneFade 函数末尾无补满)",
+          "duration": 0.2820840000000544,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildSceneFade(0x93)"],
+          "fullName": "buildSceneFade(0x93) fadeOut:cur → 全黑,i 63→0 量化,终值 i=0=全黑",
+          "status": "passed",
+          "title": "fadeOut:cur → 全黑,i 63→0 量化,终值 i=0=全黑",
+          "duration": 0.6571249999999509,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildPaletteFade(0x80)"],
+          "fullName": "buildPaletteFade(0x80) cur → target crossfade(lerp)",
+          "status": "passed",
+          "title": "cur → target crossfade(lerp)",
+          "duration": 0.29150000000004184,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildPaletteFade(0x80)"],
+          "fullName": "buildPaletteFade(0x80) 每通道按 SDLPal /31 整数截断，不使用四舍五入",
+          "status": "passed",
+          "title": "每通道按 SDLPal /31 整数截断，不使用四舍五入",
+          "duration": 0.21708300000000236,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildColorFade(0x8C)"],
+          "fullName": "buildColorFade(0x8C) !fFrom:场景 base → 纯色 base[color](approach ±4)",
+          "status": "passed",
+          "title": "!fFrom:场景 base → 纯色 base[color](approach ±4)",
+          "duration": 0.3215420000000222,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildColorFade(0x8C)"],
+          "fullName": "buildColorFade(0x8C) fFrom:纯色 base[color] → 场景 base",
+          "status": "passed",
+          "title": "fFrom:纯色 base[color] → 场景 base",
+          "duration": 0.22545800000000327,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildFadeToRed(0x4F)"],
+          "fullName": "buildFadeToRed(0x4F) target=(r+g+b)/4+64 / 0 / 0;skip idx 0x4F;带 remap",
+          "status": "passed",
+          "title": "target=(r+g+b)/4+64 / 0 / 0;skip idx 0x4F;带 remap",
+          "duration": 0.2517080000000078,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildFadeToRed(0x4F)"],
+          "fullName": "buildFadeToRed(0x4F) 最大合法8位RGB计算目标255,不据此声称可辨删除clamp",
+          "status": "passed",
+          "title": "最大合法8位RGB计算目标255,不据此声称可辨删除clamp",
+          "duration": 0.06762500000002092,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["finalizePaletteFade"],
+          "fullName": "finalizePaletteFade 精确套 target,skipIndex 不动",
+          "status": "passed",
+          "title": "精确套 target,skipIndex 不动",
+          "duration": 0.3177499999999327,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["stepPaletteFade 边界"],
+          "fullName": "stepPaletteFade 边界 progress clamp 到 [0,1](负 elapsed → 0,超时 → 1)",
+          "status": "passed",
+          "title": "progress clamp 到 [0,1](负 elapsed → 0,超时 → 1)",
+          "duration": 0.13629200000002584,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792334798386,
+      "endTime": 1792334798392.3179,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/palette-fade.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["M5.6 W1.c getSearchTriggerRange"],
+          "fullName": "M5.6 W1.c getSearchTriggerRange 面朝 down(South,kDir=0)→ xOffset=-16, yOffset=+8;rgPos[0] = party 位置",
+          "status": "passed",
+          "title": "面朝 down(South,kDir=0)→ xOffset=-16, yOffset=+8;rgPos[0] = party 位置",
+          "duration": 1.1539999999999964,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W1.c getSearchTriggerRange"],
+          "fullName": "M5.6 W1.c getSearchTriggerRange 面朝 right(East,kDir=3)→ xOffset=+16, yOffset=+8",
+          "status": "passed",
+          "title": "面朝 right(East,kDir=3)→ xOffset=+16, yOffset=+8",
+          "duration": 0.16995799999995143,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W1.c getSearchTriggerRange"],
+          "fullName": "M5.6 W1.c getSearchTriggerRange 面朝 up(North,kDir=2)→ xOffset=+16, yOffset=-8",
+          "status": "passed",
+          "title": "面朝 up(North,kDir=2)→ xOffset=+16, yOffset=-8",
+          "duration": 0.07645899999999983,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W1.c findSearchableNpc"],
+          "fullName": "M5.6 W1.c findSearchableNpc mode 1(SearchNear)包含最后允许的检查点i=2",
+          "status": "passed",
+          "title": "mode 1(SearchNear)包含最后允许的检查点i=2",
+          "duration": 0.1489169999999831,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W1.c findSearchableNpc"],
+          "fullName": "M5.6 W1.c findSearchableNpc 触碰触发mode 5不被Confirm搜索命中",
+          "status": "passed",
+          "title": "触碰触发mode 5不被Confirm搜索命中",
+          "duration": 0.11641600000007202,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W1.c findSearchableNpc"],
+          "fullName": "M5.6 W1.c findSearchableNpc mode 0(装饰)不被命中",
+          "status": "passed",
+          "title": "mode 0(装饰)不被命中",
+          "duration": 0.052624999999920874,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W1.c findSearchableNpc"],
+          "fullName": "M5.6 W1.c findSearchableNpc sState <=0(Hidden)不被命中",
+          "status": "passed",
+          "title": "sState <=0(Hidden)不被命中",
+          "duration": 0.10595899999998437,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W1.c findSearchableNpc"],
+          "fullName": "M5.6 W1.c findSearchableNpc mode 3(SearchFar)包含最远检查点i=12",
+          "status": "passed",
+          "title": "mode 3(SearchFar)包含最远检查点i=12",
+          "duration": 0.05595899999991616,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W1.c findSearchableNpc"],
+          "fullName": "M5.6 W1.c findSearchableNpc mode 1(SearchNear)排除紧邻上限的检查点i=3",
+          "status": "passed",
+          "title": "mode 1(SearchNear)排除紧邻上限的检查点i=3",
+          "duration": 0.35874999999998636,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W1.c findSearchableNpc"],
+          "fullName": "M5.6 W1.c findSearchableNpc mode 2(SearchNormal)包含最后允许的检查点i=8",
+          "status": "passed",
+          "title": "mode 2(SearchNormal)包含最后允许的检查点i=8",
+          "duration": 0.08187499999996817,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W1.c findSearchableNpc"],
+          "fullName": "M5.6 W1.c findSearchableNpc mode 2(SearchNormal)排除紧邻上限的检查点i=9",
+          "status": "passed",
+          "title": "mode 2(SearchNormal)排除紧邻上限的检查点i=9",
+          "duration": 0.10733299999992596,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W1.c findSearchableNpc"],
+          "fullName": "M5.6 W1.c findSearchableNpc 优先命中靠前检查点,不因NPC数组先列远处对象而改变",
+          "status": "passed",
+          "title": "优先命中靠前检查点,不因NPC数组先列远处对象而改变",
+          "duration": 0.04462499999999636,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792334798379,
+      "endTime": 1792334798382.1074,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/scene-system-search.test.ts"
+    }
+  ]
+}
