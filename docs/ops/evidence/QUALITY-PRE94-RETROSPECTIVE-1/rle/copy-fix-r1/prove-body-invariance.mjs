@@ -7,12 +7,19 @@
 // A rejected earlier variant (raw scanner token stream) mis-lexed `${}` template
 // literals when comments contained backticks — the parser-based method is correct.
 // Limitation: printed-output equality pins the AST modulo comments/titles; combined
-// with the 51-identity fullName mapping it pins per-case bodies. Run from worktree
-// root: node <this script>.
+// with the 51-identity fullName mapping it pins per-case bodies.
+//
+// Read-only by default (rework C2): prints the report JSON to stdout and exits
+// 0 (all equal) / 1 (divergence) without writing anywhere in the worktree. The
+// frozen body-invariance.json from the r1 batch is never overwritten. Report
+// regeneration is opt-in via `--out <new-path>` and must target a NEW file.
+// Run from the worktree root: node <this script> [--out <new-path>].
 import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
+import { resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 const require = createRequire(import.meta.url)
 const ts = require('typescript')
@@ -23,10 +30,11 @@ const FILES = [
   'packages/shared/src/rle.test.ts',
   'packages/shared/src/rle.boundaries.test.ts',
 ]
+const FROZEN_REPORT = fileURLToPath(new URL('./body-invariance.json', import.meta.url))
 
 function baseSource(file) {
   return execFileSync('git', ['show', `${BASE}:${file}`], {
-    cwd: new URL('..', import.meta.url).pathname,
+    cwd: fileURLToPath(new URL('../../../../../..', import.meta.url)),
     encoding: 'utf8',
     maxBuffer: 64 * 1024 * 1024,
   })
@@ -70,6 +78,17 @@ function printNoComments(source) {
   return printer.printFile(sf)
 }
 
+const outIdx = process.argv.indexOf('--out')
+const outPath = outIdx === -1 ? null : process.argv[outIdx + 1]
+if (outIdx !== -1 && (typeof outPath !== 'string' || outPath === '')) {
+  console.error('--out requires a path argument')
+  process.exit(2)
+}
+if (outPath && resolve(outPath) === FROZEN_REPORT) {
+  console.error('--out must target a NEW file; the r1 report is frozen')
+  process.exit(2)
+}
+
 const report = {
   schemaVersion: 1,
   base: BASE,
@@ -107,15 +126,9 @@ for (const file of FILES) {
   })
 }
 report.allEqual = allEqual
-writeFileSync(
-  new URL('./body-invariance.json', import.meta.url).pathname,
-  `${JSON.stringify(report, null, 2)}\n`,
-)
-console.log(
-  JSON.stringify(
-    { allEqual, files: report.files.map((f) => [f.file, f.printedEqual, f.titleCallCount]) },
-    null,
-    2,
-  ),
-)
+const reportText = `${JSON.stringify(report, null, 2)}\n`
+if (outPath) {
+  writeFileSync(outPath, reportText)
+}
+console.log(reportText)
 process.exit(allEqual ? 0 : 1)

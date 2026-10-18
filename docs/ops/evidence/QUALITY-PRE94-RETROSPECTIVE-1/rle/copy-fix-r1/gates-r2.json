@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "batch": "copy-fix-r1 narrow rework (C1-C3) per Codex review b614e88a9",
+  "base": "d8e56b1b0e41d2d0b5f2e90b2ce7a7b353bdf488 (r1 evidence commit; rework commits on top)",
+  "date": "2026-10-18",
+  "gates": [
+    {
+      "gate": "C2 read-only proof run",
+      "command": "node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/prove-body-invariance.mjs",
+      "cwd": "worktree root",
+      "exit": 0,
+      "result": "allEqual=true（C1 注释级变化后 body 仍不变）；stdout 全文、运行前后 porcelain 状态与冻结件 sha256（9fefa373… 前后一致）均在回执内；脚本零写入",
+      "receipt": "c2-readonly-run.raw"
+    },
+    {
+      "gate": "scoped biome check (r2)",
+      "command": "node_modules/.bin/biome check packages/shared/src/rle.ts docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/",
+      "cwd": "worktree root",
+      "exit": 0,
+      "result": "两次（gates-r2.json 落盘前后）均 0 error/0 warning/0 info；第二次覆盖含 gates-r2.json 在内的 8 个可检文件",
+      "receipt": "biome-r2.raw"
+    },
+    {
+      "gate": "scoped docs check (links/nav only)",
+      "command": "node scripts/docs/check.mjs",
+      "cwd": "worktree root",
+      "exit": 1,
+      "result": "首跑 FAIL 2 issues（README 链接了仅存在于 3y 分支的 Codex 验收 JSON、gates-r2.json 未落盘）；改为纯文本引用并落盘 gates-r2.json 后复跑 PASS 0 issues。两次原始输出均在回执，未跑 125 文档工具测试",
+      "receipt": "docs-r2.raw"
+    },
+    {
+      "gate": "git diff --check (r2)",
+      "command": "git diff --check",
+      "cwd": "worktree root",
+      "exit": 0,
+      "result": "无输出（0 字节）",
+      "receipt": "diff-check-r2.raw"
+    },
+    {
+      "gate": "C3 attachment identity",
+      "command": "gunzip -c docs-final.raw.gz | shasum -a 256; shasum -a 256 /tmp/checkdocs2.raw; gzip -n < /tmp/checkdocs.raw > docs-first.raw.gz",
+      "result": "docs-final.raw.gz 解压 sha=ffcb01530b9aa4d4d919eff763f77f9a7c3731ab4ade2551189506dfaec46bbe 与 /tmp 留存原件一致；docs-first.raw.gz 为 /tmp/checkdocs.raw（首跑 FAIL 3 issues 全文）无损 gzip，均非补造",
+      "receipt": "docs-first.raw.gz / docs-final.raw.gz"
+    }
+  ],
+  "notRun": [
+    "51 定向 vitest（复用 Codex 已接收的两份原生 JSON）",
+    "125 文档工具测试、完整 pnpm check:docs（按返工指令；links 检查以 scoped check.mjs 覆盖）",
+    "shared typecheck（C1 仅注释；r1 已过且无类型面变化）",
+    "全仓 check、official coverage ratchet、protected fast"
+  ]
+}

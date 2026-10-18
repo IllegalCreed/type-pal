@@ -73,3 +73,30 @@ cd "$WT/packages/shared" && ../../node_modules/.bin/vitest run \
 - rle.ts/两测试文件的实现、fixture、断言或第 5 个标题发生变化 → body-invariance/身份映射失效重出。
 - vitest/biome/typescript 版本变化 → 证明重跑（方法记录于脚本头注释）。
 - 校准包准入被撤回 → 本批整改随之停线，由 Codex 裁定回退或保留。
+
+
+## r1 窄返工（C1–C3，2026-10-18 第二轮）
+
+按 Codex 验收记录（3y 分支提交 b614e88a9 的 `rle/copy-fix-r1-codex-review.json`；该件在集成分支，不在本候选线，故不作文内链接）执行三项窄返工；复用已接收的 51/51 原生结果与身份映射，未重跑 51 测试与 125 文档工具测试。上文各节为 r1 原文保留；本节为当前有效表述，冲突处以本节为准。
+
+| 项 | 处置 | 证据 |
+|---|---|---|
+| C1 注释真实性 | rle.ts `parseSpriteChunk` docblock 删除"引擎不触达该尾帧"无证据推断，改为三段事实：`PAL_SpriteGetFrame` 只拒绝 [0,imagecount) 之外的帧号（坏尾槽仍可能在范围内）；坏尾槽是否被真实 caller 请求过未核证；width/height > 400 过滤是当前 TS 实现的容错策略，不是原版行为考据 | 返工提交 diff；只读证明复跑 allEqual=true（C1 为注释级变化，body 不变） |
+| C2 快检默认只读 | prove-body-invariance.mjs 重写：默认仅向 stdout 打印报告 JSON 并按 allEqual 退出（0/1），零写入；报告生成改为显式 `--out <新路径>` 且拒绝指向冻结 body-invariance.json（exit 2） | [c2-readonly-run.raw](c2-readonly-run.raw)：运行前后工作树 porcelain 状态与冻结件 sha256（`9fefa373…`，与 Codex 记录一致）不变，run exit 0 |
+| C3 原件与声明一致 | 补入真实首轮 docs 原件 [docs-first.raw.gz](docs-first.raw.gz)（/tmp 留存 stdout gzip 而来，含 3 issues FAIL 全文，非补造）；核验 [docs-final.raw.gz](docs-final.raw.gz) 解压 sha256 `ffcb0153…` 与留存 /tmp 原件逐字节一致；登记未保存项并分层事实权（下表）；修正"完整原件齐"类表述 | 本节 + [gates-r2.json](gates-r2.json) 及各 r2 raw |
+
+### 原件清单（事实权分层）
+
+| 证据 | 性质 | 状态 |
+|---|---|---|
+| base-targeted.json / after-targeted.json | 原生 JSON（51 passed / 0 failed·pending·todo、状态、身份） | 已存；不证明 console 无诊断 |
+| identity-mapping.json | 由两份原生 JSON 派生（Codex 已独立复算一致） | 已存 |
+| body-invariance.json | r1 冻结件（sha256 `9fefa373…`） | 已存，冻结永不覆盖 |
+| docs-first.raw.gz / docs-final.raw.gz | 原生 docs 全输出（首轮 FAIL 3 issues / 复跑 PASS 0 issues） | 均已存；final 与 /tmp 留存 sha 一致 |
+| c2-readonly-run.raw / biome-r2.raw / docs-r2.raw / diff-check-r2（见 gates-r2.json） | 本轮新执行原件 | 已存 |
+| vitest base/after console（default reporter stdout） | 作者自报摘要（"4 files 51 passed"等） | **未保存**；计数/状态由原生 JSON 证明，console 无诊断为作者自报 |
+| r1 首轮 scoped biome / typecheck / diff-check stdout | 作者自报终态（零诊断、exit 0） | **未保存**；r2 起同类门 stdout 全量落盘（biome-r2.raw 等） |
+
+### 更新后的复验入口
+
+原"复验入口"命令块继续有效；补充：prove-body-invariance.mjs 现默认只读（stdout 报告 + 退出码，不改工作树，见 C2），`--out` 仅用于显式另存新报告。语义判断（注释表述是否如实、标题是否与真实轴一致）仍需人工读 diff 裁定。
