@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "base": "aa9c6eed5d127fd963e0fd05415628827d587409",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/game/src/core/mode.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "3261d679f2554260b885b9e09c7effc772e51c8b5ddfe1c778708138c9ea742c",
+        "current": "3261d679f2554260b885b9e09c7effc772e51c8b5ddfe1c778708138c9ea742c"
+      },
+      "printedBytes": {
+        "base": 1393,
+        "current": 1393
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/core/dialog-history.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "24740fcbaa9e04cfa09d8fa54504b1c4a19fb220db4af2322736e3a0061beeea",
+        "current": "24740fcbaa9e04cfa09d8fa54504b1c4a19fb220db4af2322736e3a0061beeea"
+      },
+      "printedBytes": {
+        "base": 803,
+        "current": 803
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/core/word-lookup.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "69e3958f51f01cedabdcf58f8e3ed92ef818c7d62db0192f9ce5f304cb462d6f",
+        "current": "69e3958f51f01cedabdcf58f8e3ed92ef818c7d62db0192f9ce5f304cb462d6f"
+      },
+      "printedBytes": {
+        "base": 275,
+        "current": 275
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/core/script-catalog.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "e1abf0f366ada972497caa7a2813512e9da154617191dd06f7d95965e06c2fea",
+        "current": "e1abf0f366ada972497caa7a2813512e9da154617191dd06f7d95965e06c2fea"
+      },
+      "printedBytes": {
+        "base": 2227,
+        "current": 2227
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}
