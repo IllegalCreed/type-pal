@@ -26,6 +26,7 @@ Status: build；以下只记有限模块结果，不声明全专项完成
 - 模块6批10作者原件：[actions续批×4](game-actions-batch2/README.md)（同线，review待验收）。magic L122 定谳修正(playMagicAnim通知性op无渲染消费方,动画经时间线全实现);item/throw/coop零缺陷;登记 playMagicAnim emit 清理候选+present-battle L198 并列误导。actions 家族 8/8 全收口,下一批 battle 余量(opcodes/state/runtime-context/anim-driver/turn-queue/formulas)。
 - 模块7批11作者原件：[battle-opcodes.ts](game-battleopcodes/README.md)（同线，review待验收）。修头计数(5-7→40+实际44常量)/revive docblock与M11实现矛盾/删void beforeHealth死语句(变量仍用于maxHealth fallback);61/61+typecheck 0;混合批以定向超集+diff逐行核对证行为保持。battle余量续:state/runtime-context/anim-driver/turn-queue/formulas/magic-damage/enemy-ai/status。
 - 模块7批12作者原件：[battle-state+runtime-context](game-battlestate-ctx/README.md)（同线，review待验收）。零整改批(过时模式扫描零命中,3u 返工后高地);13套件25/25+typecheck 0。battle余量续:anim-driver/turn-queue/formulas/magic-damage/enemy-ai/status/magic-object/simulated-magic-target。
+- 模块7批13作者原件：[anim-timeline+driver+turn-queue](game-animtimeline/README.md)（同线，review待验收）。零整改批(24导出census全有消费者,queue头经队列批准修复后高地);19套件44/44+typecheck 0。battle余量续:formulas/magic-damage/enemy-ai/status/magic-object/simulated-magic-target/battle-positions/settlement/finalization。
 
 集成修正：MKF仅首offset/表长4对齐、并非所有chunk偏移；SDL坏档结果/全原盘保证不能泛化；readChunk生产注释保留借用合同、去掉测试治理措辞。RNG跳帧保留基面继续解码，不保证缺帧后的画面等价。正常资产对拍不代替坏帧策略证明。
 
