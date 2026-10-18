@@ -44,7 +44,7 @@ migration/schema/save/asset pipeline、大规模 generated rewrite 或主动改�
 - 基点/候选Git身份，相关caller/依赖/测试/工具指纹与证据失效条件：
 - 快速只读复验命令及预期、不能自动验证的语义；必要定向命令及完整原件入口：
 - 实际结果/诊断计数/未跑项与理由；全仓check/官方coverage/protected的大窗口安排：
-- Codex独立代码审查；审查完整/整改完成/可集成分别判定，不以全绿或字段齐全代替：
+- Codex证据验收：接收的claim/贡献者原件、实际核过的差异/命令、定向抽核及触发原因；默认不重复全文。审查完整/整改完成/可集成分别判定：
 
 测试任务须填写[测试质量验收](../agent-workflow.md)：逐合同原子性/判别力、合法typed输入、真实caller/oracle、旧断言排重、有效反控与隔离；不以全绿或例数独立accept，精简后重算基准。
 -

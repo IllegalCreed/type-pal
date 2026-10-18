@@ -12,9 +12,9 @@
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Full current Markdown and exact authorized delta read; actual route/template consumers checked",
+      "readMethod": "Read exact current protocol delta and direct caller/template changes; no repeated product review",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "User-authorized full task source now prompts per-file eight-axis evidence, issue disposition, identity/invalidation, read-only fast recheck and actual gate limits. Copyable task headings/status preserved; historical byte-preservation claim does not certify new bytes.",
+      "coreConclusion": "Acceptance field asks for accepted claims/author evidence, actual diff/commands and reasons for targeted inspection, explicitly excluding default duplicate full review. Existing headings and task states preserved.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -23,7 +23,7 @@
       "unresolved": [
         "Historical product/coverage/unified gates remain outside this documentation-only integration."
       ],
-      "nextStep": "Use canonical quality contract for subsequent development and GLM read-only pilot; independently review code and actual evidence before acceptance.",
+      "nextStep": "GLM implements already authorized finite batch and supplies the evidence packet; Codex evaluates evidence/diff, escalating only specific risks or inconsistencies.",
       "phase": "ops",
       "module": "templates",
       "capability": "full-task-card-template",
@@ -39,7 +39,7 @@
         }
       ],
       "sourceSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
-      "afterSha256": "fa63230488c9c4510650567d9b6158b11383adcd87fcbbd75a39ef298fdf6ab8",
+      "afterSha256": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
       "publicCallers": [
         "docs/ops/templates/README.md",
         "docs/ops/tasks/README.md",
@@ -65,8 +65,31 @@
       },
       "revision": {
         "currentSha": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
-        "implementationSha": "fa63230488c9c4510650567d9b6158b11383adcd87fcbbd75a39ef298fdf6ab8",
+        "implementationSha": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
         "history": [
+          {
+            "revision": "0ac98b83963ebee467ecffd7b9db7d0489d5da22",
+            "date": "2026-10-18",
+            "action": "Explicit user correction: evidence-first acceptance to avoid duplicated contributor work",
+            "previousAfterSha256": "fa63230488c9c4510650567d9b6158b11383adcd87fcbbd75a39ef298fdf6ab8",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+            "scope": "Acceptance field asks for accepted claims/author evidence, actual diff/commands and reasons for targeted inspection, explicitly excluding default duplicate full review. Existing headings and task states preserved.",
+            "notRun": [
+              "product tests",
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "runtime/E2E/visual"
+            ],
+            "previousCoreConclusion": "User-authorized full task source now prompts per-file eight-axis evidence, issue disposition, identity/invalidation, read-only fast recheck and actual gate limits. Copyable task headings/status preserved; historical byte-preservation claim does not certify new bytes.",
+            "previousEvidence": {
+              "kind": "authorized-engineering-quality-contract-content-review",
+              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+              "afterSha256": "fa63230488c9c4510650567d9b6158b11383adcd87fcbbd75a39ef298fdf6ab8",
+              "lineCount": 212,
+              "scope": "Documentation content/entry/template integration only; no product or old code acceptance."
+            }
+          },
           {
             "revision": "0bc82025928b4fe13dce0f34c3a8696507d04032",
             "date": "2026-10-18",
@@ -145,11 +168,10 @@
         ]
       },
       "evidence": {
-        "kind": "authorized-engineering-quality-contract-content-review",
+        "kind": "user-authorized-evidence-first-acceptance-protocol",
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
-        "afterSha256": "fa63230488c9c4510650567d9b6158b11383adcd87fcbbd75a39ef298fdf6ab8",
-        "lineCount": 212,
-        "scope": "Documentation content/entry/template integration only; no product or old code acceptance."
+        "afterSha256": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
+        "lineCount": 212
       },
       "history": [
         {
@@ -174,7 +196,7 @@
       "artifactOnly": true,
       "documentStatus": "current",
       "sourceGitRevision": "ba60e9dccc2833b30be349213b86593260f4f66c",
-      "candidateSha256": "fa63230488c9c4510650567d9b6158b11383adcd87fcbbd75a39ef298fdf6ab8",
+      "candidateSha256": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c",
       "primarySource": [
         {
           "path": "docs/ops/templates/TASK-template.md",
@@ -206,7 +228,7 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "reviewNotes": "\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit."
+      "reviewNotes": "\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation."
     },
     {
       "path": "docs/ops/templates/TASK-lite-template.md",
@@ -215,9 +237,9 @@
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Full current Markdown and exact authorized delta read; actual route/template consumers checked",
+      "readMethod": "Read exact current protocol delta and direct caller/template changes; no repeated product review",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Lite task source receives the same quality recording prompts, with compact references and non-code applicability; existing high-risk upgrade rule and state machine preserved.",
+      "coreConclusion": "Lite acceptance field adopts the same evidence-first decision record; no duplicate full reading requirement; existing risk upgrade and task structure preserved.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -226,7 +248,7 @@
       "unresolved": [
         "Historical product/coverage/unified gates remain outside this documentation-only integration."
       ],
-      "nextStep": "Use canonical quality contract for subsequent development and GLM read-only pilot; independently review code and actual evidence before acceptance.",
+      "nextStep": "GLM implements already authorized finite batch and supplies the evidence packet; Codex evaluates evidence/diff, escalating only specific risks or inconsistencies.",
       "phase": "ops",
       "module": "templates",
       "capability": "light-task-card-template",
@@ -242,7 +264,7 @@
         }
       ],
       "sourceSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
-      "afterSha256": "4d74bdbbfdc2ac7c53229d63dc3887b4049129318dc294d302f944582f79cebc",
+      "afterSha256": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
       "publicCallers": [
         "docs/ops/templates/README.md",
         "docs/ops/tasks/README.md",
@@ -268,8 +290,31 @@
       },
       "revision": {
         "currentSha": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
-        "implementationSha": "4d74bdbbfdc2ac7c53229d63dc3887b4049129318dc294d302f944582f79cebc",
+        "implementationSha": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
         "history": [
+          {
+            "revision": "0ac98b83963ebee467ecffd7b9db7d0489d5da22",
+            "date": "2026-10-18",
+            "action": "Explicit user correction: evidence-first acceptance to avoid duplicated contributor work",
+            "previousAfterSha256": "4d74bdbbfdc2ac7c53229d63dc3887b4049129318dc294d302f944582f79cebc",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+            "scope": "Lite acceptance field adopts the same evidence-first decision record; no duplicate full reading requirement; existing risk upgrade and task structure preserved.",
+            "notRun": [
+              "product tests",
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "runtime/E2E/visual"
+            ],
+            "previousCoreConclusion": "Lite task source receives the same quality recording prompts, with compact references and non-code applicability; existing high-risk upgrade rule and state machine preserved.",
+            "previousEvidence": {
+              "kind": "authorized-engineering-quality-contract-content-review",
+              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+              "afterSha256": "4d74bdbbfdc2ac7c53229d63dc3887b4049129318dc294d302f944582f79cebc",
+              "lineCount": 75,
+              "scope": "Documentation content/entry/template integration only; no product or old code acceptance."
+            }
+          },
           {
             "revision": "0bc82025928b4fe13dce0f34c3a8696507d04032",
             "date": "2026-10-18",
@@ -348,11 +393,10 @@
         ]
       },
       "evidence": {
-        "kind": "authorized-engineering-quality-contract-content-review",
+        "kind": "user-authorized-evidence-first-acceptance-protocol",
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
-        "afterSha256": "4d74bdbbfdc2ac7c53229d63dc3887b4049129318dc294d302f944582f79cebc",
-        "lineCount": 75,
-        "scope": "Documentation content/entry/template integration only; no product or old code acceptance."
+        "afterSha256": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
+        "lineCount": 75
       },
       "history": [
         {
@@ -377,7 +421,7 @@
       "artifactOnly": true,
       "documentStatus": "current",
       "sourceGitRevision": "ba60e9dccc2833b30be349213b86593260f4f66c",
-      "candidateSha256": "4d74bdbbfdc2ac7c53229d63dc3887b4049129318dc294d302f944582f79cebc",
+      "candidateSha256": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad",
       "primarySource": [
         {
           "path": "docs/ops/templates/TASK-lite-template.md",
@@ -409,7 +453,7 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "reviewNotes": "\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit."
+      "reviewNotes": "\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation."
     }
   ]
 }

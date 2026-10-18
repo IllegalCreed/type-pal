@@ -12,9 +12,9 @@
       "templateId": "guide-runbook-v1",
       "template": "docs/phase-governance/templates/guide-runbook.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Full current Markdown and exact authorized delta read; actual route/template consumers checked",
+      "readMethod": "Read exact current protocol delta and direct caller/template changes; no repeated product review",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "All code work now enters the canonical eight-axis standard; implementation, independent code review and done gates consume evidence freshness and distinct review/remediation/integration decisions. Existing risk/visual/test/ownership rules retained.",
+      "coreConclusion": "Review stage now consumes evidence-first delivery and risk-triggered source inspection. Contributor owns full review; Codex records evidence relied on, actual checks and decision without redoing all unchanged code or tests. Existing unknown/risk/integration gates retained.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -23,7 +23,7 @@
       "unresolved": [
         "Historical product/coverage/unified gates remain outside this documentation-only integration."
       ],
-      "nextStep": "Use canonical quality contract for subsequent development and GLM read-only pilot; independently review code and actual evidence before acceptance.",
+      "nextStep": "GLM implements already authorized finite batch and supplies the evidence packet; Codex evaluates evidence/diff, escalating only specific risks or inconsistencies.",
       "phase": "ops",
       "module": "protocol-and-e2e-pilot",
       "capability": "ops-agent-workflow",
@@ -34,7 +34,7 @@
         "manual-semantic-migration"
       ],
       "sourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
-      "afterSha256": "3a6e5afd59f671f92d6a3ea3d5413a49f6a54f043961dd8e11df0efa13f38e25",
+      "afterSha256": "ba3302f71c92827c97d9395a1e5b8a5397173b4b41f956b2a8658dc2b53c8778",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -55,10 +55,33 @@
       },
       "revision": {
         "currentSha": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
-        "implementationSha": "3a6e5afd59f671f92d6a3ea3d5413a49f6a54f043961dd8e11df0efa13f38e25",
+        "implementationSha": "ba3302f71c92827c97d9395a1e5b8a5397173b4b41f956b2a8658dc2b53c8778",
         "contentVersion": "N/A-document-migration",
         "minimumSaveVersion": "N/A-document-migration",
         "history": [
+          {
+            "revision": "0ac98b83963ebee467ecffd7b9db7d0489d5da22",
+            "date": "2026-10-18",
+            "action": "Explicit user correction: evidence-first acceptance to avoid duplicated contributor work",
+            "previousAfterSha256": "3a6e5afd59f671f92d6a3ea3d5413a49f6a54f043961dd8e11df0efa13f38e25",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+            "scope": "Review stage now consumes evidence-first delivery and risk-triggered source inspection. Contributor owns full review; Codex records evidence relied on, actual checks and decision without redoing all unchanged code or tests. Existing unknown/risk/integration gates retained.",
+            "notRun": [
+              "product tests",
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "runtime/E2E/visual"
+            ],
+            "previousCoreConclusion": "All code work now enters the canonical eight-axis standard; implementation, independent code review and done gates consume evidence freshness and distinct review/remediation/integration decisions. Existing risk/visual/test/ownership rules retained.",
+            "previousEvidence": {
+              "kind": "authorized-engineering-quality-contract-content-review",
+              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+              "afterSha256": "3a6e5afd59f671f92d6a3ea3d5413a49f6a54f043961dd8e11df0efa13f38e25",
+              "lineCount": 109,
+              "scope": "Documentation content/entry/template integration only; no product or old code acceptance."
+            }
+          },
           {
             "revision": "0bc82025928b4fe13dce0f34c3a8696507d04032",
             "date": "2026-10-18",
@@ -123,11 +146,10 @@
         ]
       },
       "evidence": {
-        "kind": "authorized-engineering-quality-contract-content-review",
+        "kind": "user-authorized-evidence-first-acceptance-protocol",
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
-        "afterSha256": "3a6e5afd59f671f92d6a3ea3d5413a49f6a54f043961dd8e11df0efa13f38e25",
-        "lineCount": 109,
-        "scope": "Documentation content/entry/template integration only; no product or old code acceptance."
+        "afterSha256": "ba3302f71c92827c97d9395a1e5b8a5397173b4b41f956b2a8658dc2b53c8778",
+        "lineCount": 109
       },
       "history": [
         {
@@ -155,7 +177,7 @@
       "stopLine": "Historical instructions and original E2E acceptance remain scoped; schema or template checks never grant new execution credit.",
       "userVisibleBeforeAfter": "混合现行/退休协议的长文 -> 现行可执行 runbook + 完整原文历史快照。",
       "reviewedLines": "1-109",
-      "reviewNotes": "实际核读原文/新正文/调用校验与相关模板；源正文和历史结论通过 Git、wrapper 或保留回执追溯。最终全量独立复核仍未完成。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.",
+      "reviewNotes": "实际核读原文/新正文/调用校验与相关模板；源正文和历史结论通过 Git、wrapper 或保留回执追溯。最终全量独立复核仍未完成。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.",
       "priorReadings": [
         {
           "date": "2026-10-15",
@@ -435,9 +457,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Current authorized document delta and direct first-parent ledger/caller evidence read; immutable historical records retained",
+      "readMethod": "Read exact current protocol delta and direct caller/template changes; no repeated product review",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "RLE first pilot independently calibrated. GLM may implement the bounded three-file prose/title candidate; Codex owns integration/ledger.83 historical card states and all unrelated rows preserved. No whole-repo or old-file acceptance.",
+      "coreConclusion": "Only pre94 assignment now says GLM authorized RLE remediation and Codex evidence acceptance/ledger; historical queue and all other work remain unchanged.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -446,14 +468,14 @@
       "unresolved": [
         "Historical product/coverage/unified gates remain outside this documentation-only integration."
       ],
-      "nextStep": "GLM bounded prose/title candidate; Codex independently reconciles remaining ledger provenance before any state promotions.",
+      "nextStep": "GLM implements already authorized finite batch and supplies the evidence packet; Codex evaluates evidence/diff, escalating only specific risks or inconsistencies.",
       "phase": "ops",
       "module": "board.md",
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "121df46ad3267258486514a3c4b604f90a983c1f9e61a43462667e5d1833e37a",
+      "afterSha256": "7bffe4360c23f0e9f797a16bcb50be41e218e5888f21156ace63f7745e30c691",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -482,10 +504,32 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "121df46ad3267258486514a3c4b604f90a983c1f9e61a43462667e5d1833e37a",
+        "implementationSha": "7bffe4360c23f0e9f797a16bcb50be41e218e5888f21156ace63f7745e30c691",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "0ac98b83963ebee467ecffd7b9db7d0489d5da22",
+            "date": "2026-10-18",
+            "action": "Explicit user correction: evidence-first acceptance to avoid duplicated contributor work",
+            "previousAfterSha256": "121df46ad3267258486514a3c4b604f90a983c1f9e61a43462667e5d1833e37a",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+            "scope": "Only pre94 assignment now says GLM authorized RLE remediation and Codex evidence acceptance/ledger; historical queue and all other work remain unchanged.",
+            "notRun": [
+              "product tests",
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "runtime/E2E/visual"
+            ],
+            "previousCoreConclusion": "RLE first pilot independently calibrated. GLM may implement the bounded three-file prose/title candidate; Codex owns integration/ledger.83 historical card states and all unrelated rows preserved. No whole-repo or old-file acceptance.",
+            "previousEvidence": {
+              "kind": "rle-independent-calibration-record",
+              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md",
+              "afterSha256": "121df46ad3267258486514a3c4b604f90a983c1f9e61a43462667e5d1833e37a",
+              "lineCount": 97
+            }
+          },
           {
             "revision": "170edee4444fc87731308ec179d93fad93882704",
             "date": "2026-10-18",
@@ -1298,9 +1342,9 @@
         ]
       },
       "evidence": {
-        "kind": "rle-independent-calibration-record",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md",
-        "afterSha256": "121df46ad3267258486514a3c4b604f90a983c1f9e61a43462667e5d1833e37a",
+        "kind": "user-authorized-evidence-first-acceptance-protocol",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+        "afterSha256": "7bffe4360c23f0e9f797a16bcb50be41e218e5888f21156ace63f7745e30c691",
         "lineCount": 97
       },
       "history": [
@@ -1389,7 +1433,7 @@
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
       "reviewedLines": "1-97",
-      "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.",
+      "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-12",
@@ -2943,9 +2987,9 @@
       "template": "docs/phase-governance/templates/guide-runbook.md",
       "templateVersion": "1.0.0",
       "templateCompliance": "template-compliant",
-      "readMethod": "Full new Markdown, user decisions and direct entry/process/template consumer deltas read",
+      "readMethod": "Read exact current protocol delta and direct caller/template changes; no repeated product review",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Permanent cross-phase engineering contract applies to all new features/fixes/refactors/tests/tools. Eight axes, justified structural changes, per-file evidence, cheap freshness checks and Codex/contributor/user responsibilities are explicit; review/remediation/integration are distinct and no old code is accepted by this documentation change.",
+      "coreConclusion": "User clarified delegation saves Codex tokens: contributor performs full eight-axis review/authorized remediation; Codex independently accepts pinned evidence, actual diff and critical claims, using targeted source review/reruns only on specific risk, contradiction or missing evidence. A-H clauses, static zero-diagnostic and product authorization unchanged; no mandatory duplicate full reading.",
       "truthAnchors": [
         "AGENTS.md:操作与必读",
         "docs/ops/agent-workflow.md",
@@ -2956,7 +3000,7 @@
       "unresolved": [
         "No general tool can automatically certify all design semantics; this is a delivery contract, not a claim that such a universal checker is implemented."
       ],
-      "nextStep": "GLM first RLE three-file read-only pilot; Codex independently calibrates evidence/quality before granting implementation scope.",
+      "nextStep": "GLM implements already authorized finite batch and supplies the evidence packet; Codex evaluates evidence/diff, escalating only specific risks or inconsistencies.",
       "phase": "ops",
       "module": "engineering-quality",
       "capability": "eight-axis-development-and-acceptance",
@@ -2967,7 +3011,7 @@
         "Existing workflow/test governance and direct route/template consumers"
       ],
       "sourceSha256": "70d6322333f1cdf920634503fc65739e867a62f6f58449c06b0cf9af1e803632",
-      "afterSha256": "70d6322333f1cdf920634503fc65739e867a62f6f58449c06b0cf9af1e803632",
+      "afterSha256": "be449f63c4ff00a4b070428085204f9fdfc2699658fce42f7fd5b353c84d3f3c",
       "publicCallers": [
         "AGENTS.md code operation route",
         "CLAUDE.md shared collaboration rules",
@@ -2997,8 +3041,30 @@
       },
       "revision": {
         "currentSha": "0bc82025928b4fe13dce0f34c3a8696507d04032",
-        "implementationSha": "70d6322333f1cdf920634503fc65739e867a62f6f58449c06b0cf9af1e803632",
+        "implementationSha": "be449f63c4ff00a4b070428085204f9fdfc2699658fce42f7fd5b353c84d3f3c",
         "history": [
+          {
+            "revision": "0ac98b83963ebee467ecffd7b9db7d0489d5da22",
+            "date": "2026-10-18",
+            "action": "Explicit user correction: evidence-first acceptance to avoid duplicated contributor work",
+            "previousAfterSha256": "70d6322333f1cdf920634503fc65739e867a62f6f58449c06b0cf9af1e803632",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+            "scope": "User clarified delegation saves Codex tokens: contributor performs full eight-axis review/authorized remediation; Codex independently accepts pinned evidence, actual diff and critical claims, using targeted source review/reruns only on specific risk, contradiction or missing evidence. A-H clauses, static zero-diagnostic and product authorization unchanged; no mandatory duplicate full reading.",
+            "notRun": [
+              "product tests",
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "runtime/E2E/visual"
+            ],
+            "previousCoreConclusion": "Permanent cross-phase engineering contract applies to all new features/fixes/refactors/tests/tools. Eight axes, justified structural changes, per-file evidence, cheap freshness checks and Codex/contributor/user responsibilities are explicit; review/remediation/integration are distinct and no old code is accepted by this documentation change.",
+            "previousEvidence": {
+              "kind": "current-engineering-contract-review",
+              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+              "afterSha256": "70d6322333f1cdf920634503fc65739e867a62f6f58449c06b0cf9af1e803632",
+              "lineCount": 125
+            }
+          },
           {
             "revision": "0bc82025928b4fe13dce0f34c3a8696507d04032",
             "date": "2026-10-18",
@@ -3009,10 +3075,10 @@
         ]
       },
       "evidence": {
-        "kind": "current-engineering-contract-review",
+        "kind": "user-authorized-evidence-first-acceptance-protocol",
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
-        "afterSha256": "70d6322333f1cdf920634503fc65739e867a62f6f58449c06b0cf9af1e803632",
-        "lineCount": 125
+        "afterSha256": "be449f63c4ff00a4b070428085204f9fdfc2699658fce42f7fd5b353c84d3f3c",
+        "lineCount": 153
       },
       "history": [
         {
@@ -3022,7 +3088,8 @@
       ],
       "supersedes": [],
       "stopLine": "Unknown critical premise, important unresolved issue, stale evidence, nonzero diagnostics or unauthorized scope does not receive acceptance.",
-      "reviewedLines": "1-125"
+      "reviewedLines": "1-153",
+      "reviewNotes": "\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation."
     }
   ]
 }

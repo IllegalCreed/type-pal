@@ -1,0 +1,207 @@
+{
+  "base": "0ac98b83963ebee467ecffd7b9db7d0489d5da22",
+  "startedAt": "2026-10-18T07:53:07.838815+00:00",
+  "completedAt": "2026-10-18T07:53:14.241303+00:00",
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "steps": [
+    {
+      "command": ["node", "scripts/docs/check.mjs"],
+      "startedAt": "2026-10-18T07:53:07.838927+00:00",
+      "completedAt": "2026-10-18T07:53:08.502725+00:00",
+      "exit": 0,
+      "signal": null,
+      "rawBytes": 92,
+      "rawSha256": "f42497ae6d4dc8ef504543348968c2860341d6db37407f1bd8a5a888c17fc233"
+    },
+    {
+      "command": ["node", "scripts/docs/check-document-model.mjs"],
+      "startedAt": "2026-10-18T07:53:08.502801+00:00",
+      "completedAt": "2026-10-18T07:53:09.622769+00:00",
+      "exit": 0,
+      "signal": null,
+      "rawBytes": 79,
+      "rawSha256": "4aedd940be88ac1d132006b5840168acf64d205bdbc2e781ba7fdd4de16bb1e8"
+    },
+    {
+      "command": ["node", "scripts/docs/check-testing.mjs"],
+      "startedAt": "2026-10-18T07:53:09.622897+00:00",
+      "completedAt": "2026-10-18T07:53:09.773843+00:00",
+      "exit": 0,
+      "signal": null,
+      "rawBytes": 30,
+      "rawSha256": "31fda95a2dd80bd763aacbc8053a25a4eea8cdc2b5d3a728694cb8624231621c"
+    },
+    {
+      "command": ["node", "scripts/docs/check-phase-lore-governance.mjs"],
+      "startedAt": "2026-10-18T07:53:09.773992+00:00",
+      "completedAt": "2026-10-18T07:53:09.865587+00:00",
+      "exit": 0,
+      "signal": null,
+      "rawBytes": 44,
+      "rawSha256": "b008831f3075038e0d16c5676748c83b509ebd5b7bf907c444e80b04403c774c"
+    },
+    {
+      "command": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+      "startedAt": "2026-10-18T07:53:09.865747+00:00",
+      "completedAt": "2026-10-18T07:53:10.294889+00:00",
+      "exit": 0,
+      "signal": null,
+      "rawBytes": 65,
+      "rawSha256": "3b0b15882a95d042815fa3dcb89b8a9fee95d0b962e3624081c56d62e567efad"
+    },
+    {
+      "command": ["pnpm", "lint"],
+      "startedAt": "2026-10-18T07:53:10.294972+00:00",
+      "completedAt": "2026-10-18T07:53:13.015455+00:00",
+      "exit": 0,
+      "signal": null,
+      "rawBytes": 193,
+      "rawSha256": "dcf08da32faf988ac9f05ff1413d723a455a4f10056aec0a89f1440aa3c3ac96"
+    },
+    {
+      "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+      "startedAt": "2026-10-18T07:53:13.015536+00:00",
+      "completedAt": "2026-10-18T07:53:14.100047+00:00",
+      "exit": 0,
+      "signal": null,
+      "rawBytes": 113,
+      "rawSha256": "ffe05b96750322cd19e334a27ba22626b60a19bf68e508218550715f99d8c24a"
+    },
+    {
+      "command": ["git", "diff", "--check"],
+      "startedAt": "2026-10-18T07:53:14.100123+00:00",
+      "completedAt": "2026-10-18T07:53:14.131061+00:00",
+      "exit": 0,
+      "signal": null,
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "scope": {
+    "eightAxesBeforeAndAfterSha256": "15c1454c12687f44aff8d01aca6f97ce7206c2e8c653f2260e8f988f03c1df2f",
+    "productTestsToolsRulesLedgerOldRlePacketAnd83QueueUnchanged": true,
+    "boundedBindings": [
+      {
+        "review": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+        "path": "docs/ops/code-quality.md"
+      },
+      {
+        "review": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+        "path": "docs/ops/agent-workflow.md"
+      },
+      {
+        "review": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+        "path": "docs/ops/board.md"
+      },
+      {
+        "review": "docs/phase-governance/reviews/20261017-r58-task-template-sources.json",
+        "path": "docs/ops/templates/TASK-template.md"
+      },
+      {
+        "review": "docs/phase-governance/reviews/20261017-r58-task-template-sources.json",
+        "path": "docs/ops/templates/TASK-lite-template.md"
+      },
+      {
+        "review": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+        "path": "docs/phase-governance/templates/task-card.md"
+      },
+      {
+        "review": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+        "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json"
+      },
+      {
+        "review": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+        "path": "docs/phase-governance/reviews/20261017-r58-task-template-sources.json"
+      },
+      {
+        "review": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+        "path": "docs/phase-governance/reviews/20261017-r62-template-sources.json"
+      },
+      {
+        "review": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+        "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"
+      }
+    ],
+    "unrelatedMetadataAndPriorHistoryPreserved": true,
+    "changedFiles": [
+      {
+        "path": "AGENTS.md",
+        "sha256": "ce9cce7e91ab2b0f662f25508acdf88234768b5b63d2f9ecc3232ef4151638a0"
+      },
+      {
+        "path": "docs/ops/agent-workflow.md",
+        "sha256": "ba3302f71c92827c97d9395a1e5b8a5397173b4b41f956b2a8658dc2b53c8778"
+      },
+      {
+        "path": "docs/ops/board.md",
+        "sha256": "7bffe4360c23f0e9f797a16bcb50be41e218e5888f21156ace63f7745e30c691"
+      },
+      {
+        "path": "docs/ops/code-quality.md",
+        "sha256": "be449f63c4ff00a4b070428085204f9fdfc2699658fce42f7fd5b353c84d3f3c"
+      },
+      {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+        "sha256": "995db1953a912eb32cf11a3fc209e7a1cd76dec8b395174c7fff9f1d3a187393"
+      },
+      {
+        "path": "docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md",
+        "sha256": "d0bdca9f2388d4863b51ad5e6b0ae0520cfb0278913a178bb0db575568b0800e"
+      },
+      {
+        "path": "docs/ops/templates/TASK-lite-template.md",
+        "sha256": "f16c03f5e614965544d900851523cde46e326bbe08ecdc7926a64ac177d38aad"
+      },
+      {
+        "path": "docs/ops/templates/TASK-template.md",
+        "sha256": "366428bab4bd9bf8000bd7da1925054c5cc191c52005385614b6ec221dbae21c"
+      },
+      {
+        "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+        "sha256": "cf1727eaef85a333a0ea76cf2d5d9df41943e534b6633a2c8791f2cad7e1c36b"
+      },
+      {
+        "path": "docs/phase-governance/reviews/20261017-r58-task-template-sources.json",
+        "sha256": "fe11bf912240466ea5fb53a2c9395488113a77f42ca3823272ce774485199730"
+      },
+      {
+        "path": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+        "sha256": "101d67891bc9dd865d29adb72b2601651d1b0b06852ee3aaf6a0876e0d7cd358"
+      },
+      {
+        "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+        "sha256": "73f819e7d35fe6d66e2324bb2b9d3aa7b04fb9432653af811b17fd4341cd6cb9"
+      },
+      {
+        "path": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+        "sha256": "2c287afed1d72c0c188ded15a7195e70757561d6d68e5a886073f71ca36f172a"
+      },
+      {
+        "path": "docs/phase-governance/templates/task-card.md",
+        "sha256": "38963b0583bec2206913fcbeac2bda3850e3cb9dd97cd858c6cdc5cebb6e4821"
+      }
+    ]
+  },
+  "raw": "protocol-check.raw.gz",
+  "rawBytes": 2038,
+  "rawSha256": "54f857c6733de60168a58e271875617d581e3f4da1e3cb2af9c018421352ac3c",
+  "fullUncutMergedStdoutStderr": true,
+  "reuse": {
+    "docsTool125Tests": "../rle/calibration-20261018/docs.json; actual125/125 pass, unchanged scripts in this candidate",
+    "productRle51Tests": "not rerun; no product/test changes"
+  },
+  "notRun": [
+    "whole repository check",
+    "official coverage ratchet",
+    "protected fast",
+    "product tests/typecheck",
+    "runtime/E2E/visual"
+  ],
+  "limitations": "This verifies document consumers and bounded content/history preservation; no product or historic file acceptance and no universal semantic checker.",
+  "diagnostics": {
+    "error": 0,
+    "warning": 0,
+    "info": 0,
+    "basis": "Actual five documentation consumers all report zero issues; lint-zero reports0/0/0; complete2038-byte output read. No product runtime claim."
+  }
+}
