@@ -128,7 +128,7 @@ for (const file of FILES) {
 report.allEqual = allEqual
 const reportText = `${JSON.stringify(report, null, 2)}\n`
 if (outPath) {
-  writeFileSync(outPath, reportText)
+  writeFileSync(outPath, reportText, { flag: 'wx' })
 }
 console.log(reportText)
 process.exit(allEqual ? 0 : 1)
