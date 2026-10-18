@@ -5507,7 +5507,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "1b9a7445a60be00a55508e0b0d90acf978fcd8b58bd38734136707690d91337e",
+      "afterSha256": "dc093d0bfff090ea6a343c3e6006237a9faf5eb85d15b338e9e0a0fef7e5bd9a",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -5875,6 +5875,15 @@
           "previousAfterSha256": "93f717e90c62071ad70a2ac2dabd0527bc4360b32f6745cf3f075337297b6514",
           "afterSha256": "1b9a7445a60be00a55508e0b0d90acf978fcd8b58bd38734136707690d91337e",
           "method": "Explicit S13 current routing/individual acceptance/recorded R32 correction and latest user evidence-led review policy; no other subject semantic or execution credit.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 S14 manual GLM admission and proactive next prompt",
+          "sourceRevision": "5b4a7cd56e4f2a65af7b5ebf7200c3a63f4af237",
+          "previousAfterSha256": "1b9a7445a60be00a55508e0b0d90acf978fcd8b58bd38734136707690d91337e",
+          "afterSha256": "dc093d0bfff090ea6a343c3e6006237a9faf5eb85d15b338e9e0a0fef7e5bd9a",
+          "method": "Explicit new GLM12-file body-only candidate admission and user-requested evidence-led/non-duplicate verification division; no semantic/template completion granted, native statuses unchanged.",
           "grantsNewSemanticAcceptance": false
         }
       ]

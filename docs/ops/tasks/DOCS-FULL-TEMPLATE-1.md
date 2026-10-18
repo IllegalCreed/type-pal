@@ -90,7 +90,7 @@ Template: task-card-v1 / 1.0.0
 - 链接/索引批量变更破坏；缓解：批次后 check:docs 与悬链扫描。
 
 ## 下一位 Agent 提示词
-GLM S13 已交固定761候选，三篇正文已获root非作者限定接受，当前由Codex处理必要中央接入与证据核验；下一包尚未派发。后续GLM交付沿本卡最新“后续验收简化”节，不默认让Codex重做全文与自验；旧R批历史不恢复授权。
+GLM S13 已交固定761候选，三篇正文已获root非作者限定接受，已接入隔离候选5b4a7cd5；下一包为本卡最新S14十二篇历史卡，待用户手动转发。后续GLM交付沿本卡最新“后续验收简化”节，不默认让Codex重做全文与自验；旧R批历史不恢复授权。
 
 ## 用户裁决记录
 
@@ -1944,3 +1944,24 @@ root非作者实际核固定de423正文SHA1e50d535c2b16aa466207da22e698768bd5abb
 - 用户明确：GLM承担全文治理、自验及充分证据；Codex验收其交付，不能默认将贡献者工作重新做一遍。此为后续工作方式的显式调整，不是静默放宽artifactOnly、模板、真实语义或全量零诊断标准。
 - GLM每包交固定commit/base、精确白名单、逐篇来源/结论/before-after/SHA/原源保全/状态边界、命令完整原始输出及失败/事故。Codex优先以通用机械核验检查范围、哈希、保全、模板、原始回执及已批准合同；人工集中核关键结论、高风险和冲突。证据不足精准退回，已核合格成果直接复用。
 - 不默认逐篇全文重读或重复整套命令。仅当中央接入改变输入、出现失败或新风险时运行必要的对应检查；最终硬门仍须真实通过。逐篇记录如实区分“GLM全文审阅”“Codex证据核验/风险复核”，不能把抽核或结构检查冒称全文深审。本次S13已实际完成的root全文/实跑保原事实，后续不重复。
+
+
+### S14 GLM 十二篇历史任务卡准入
+
+- Codex build allowed：S14单一正文Owner为GLM，以下12路径为唯一正文白名单；现为待用户手动转发，未声称GLM已开始。当前源基点5b4a7cd56e4f2a65af7b5ebf7200c3a63f4af237；隔离工作树沿docs-archive-navigation，分支codex/docs-s14-glm-history从本准入提交开始。root不预读再替GLM做全文治理，清单仅按未审绑定排期，不以路径或旧docType授语义信用。
+- 复用冻结task-card-v1/1.0.0及archive-record历史overlay、既有合格历史卡pilot；GLM逐篇实际核类型再实施，类型/合同不适配的单篇报counter，不新增模板、不静默降门。原历史状态/日期/结论/未知和quote字节保留，不续授旧测试或产品信用。
+- GLM只跑目标合同/保全/导航/索引、lint与完整diff；root中央接入后运行必要的全仓checkdocs，避免双方重复181项。交固定commit/base、逐篇具体review草稿、source/before/after/模板/保全manifest、可回放脚本与命令原始输出及失败/事故；root证据优先核验，风险/冲突才深入。作者不写中央，原硬验收不降低，父卡持续rework/main/done=false。
+- 用户不必每批提醒：Codex每批验收或返工时主动给下一份自含GLM提示词，写明白名单/base/分支/证据与停止线，用户只负责手动转发。
+
+- docs/ops/archive/tasks/done/TEST-GLM-WAVE-O-1-supply-validation-tenfold.md
+- docs/ops/archive/tasks/done/TEST-GLM-WAVE-P-1-editor-residual-tenfold.md
+- docs/ops/archive/tasks/done/TEST-GLM-WAVE-Q-1-runtime-residual-tenfold.md
+- docs/ops/archive/tasks/done/QUALITY-TEST-INPUTS-1.md
+- docs/ops/archive/tasks/done/TEST-CODEX-COMMAND-FORMS-1-current-dialogs.md
+- docs/ops/archive/tasks/done/TEST-CODEX-DEBUG-TOOLS-1-public-actions.md
+- docs/ops/archive/tasks/done/EDITOR-SCENE-FACING-1-clear-override.md
+- docs/ops/archive/tasks/done/QUALITY-OPQ-RETIREMENT-1.md
+- docs/ops/archive/tasks/done/OPS-DOC-GOVERNANCE-1-deep-layout.md
+- docs/ops/archive/tasks/done/EDITOR-MAP-SELECTION-NOTICE-1.md
+- docs/ops/archive/tasks/done/EDITOR-AUTO-LOCATOR-1-current-script-target.md
+- docs/ops/archive/tasks/done/OPS-MAP-3-current-truth-reconciliation.md
