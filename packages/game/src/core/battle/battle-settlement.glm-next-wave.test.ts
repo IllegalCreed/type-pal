@@ -3,91 +3,31 @@
  * SDLPal battle.c:991-1373定义屏序/脚本/恢复;play.c:603-639进入等键时清键。
  * TS首tick不收pressed是残键防护策略,不是C逐帧时序的直接等价。
  */
-import type { InputSnapshot, PlayerRole } from '@type-pal/shared'
-import { describe, expect, it } from 'vitest'
-import {
-  emptyHSpell,
-  makeHEnemy,
-  makeHField,
-  makeHRole,
-} from '../../__tests__/glm-next-wave/H/harness.js'
-import { createCommandBus } from '../command-bus.js'
+import type { InputSnapshot } from '@type-pal/shared'
+import { describe, expect, it, vi } from 'vitest'
 import { runScript } from '../event-system.js'
 import {
-  createInitialGameState,
-  loadDefaultGame,
-  projectRuntimeToBattleRoles,
-} from '../game-state.js'
+  type BattleLifecycleFixtureOptions,
+  createBattleLifecycleFixture,
+} from './battle-lifecycle.test-fixtures.js'
 import { getBattleResources, setBattleRunScript } from './battle-runtime-context.js'
 import { settlementScreenTimeoutMs, tickBattleSettlement } from './battle-settlement.js'
-import { type StartBattleInput, startBattle, tickBattle } from './battle-system.js'
+import { tickBattle } from './battle-system.js'
 
 const NO_KEY: InputSnapshot = { held: new Set(), pressed: new Set(), frameNum: 0 }
 const CONFIRM: InputSnapshot = { held: new Set(), pressed: new Set(['Confirm']), frameNum: 0 }
 const HELD: InputSnapshot = { held: new Set(['Confirm']), pressed: new Set(), frameNum: 0 }
 const MENU: InputSnapshot = { held: new Set(), pressed: new Set(['Menu']), frameNum: 0 }
 
-function wonFixture(
-  options: Partial<Pick<StartBattleInput, 'commands' | 'levelUpMagic' | 'isBoss'>> & {
-    partyMembers?: number[]
-    role?: Partial<PlayerRole>
-    scriptOnBattleEnd?: number
-  } = {},
-) {
-  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-  const baseline = {
-    roles: Array.from({ length: 6 }, (_, id) =>
-      makeHRole(id, { hp: 300, mp: 10, ...options.role }),
-    ),
-  }
-  loadDefaultGame(gs, baseline)
-  gs.partyMembers = options.partyMembers ?? [0]
-  const playerRoles = projectRuntimeToBattleRoles(
-    gs.PlayerRolesRuntime,
-    baseline,
-    gs.rgEquipmentEffect,
-  )
-  startBattle({
-    gs,
-    enemyTeamId: 0,
-    battleFieldId: 0,
-    isBoss: options.isBoss ?? false,
-    enemyTeams: [{ id: 0, enemies: [100, 0xffff, 0xffff, 0xffff, 0xffff] }],
-    enemies: [makeHEnemy({ collectValue: 7 })],
-    enemyObjects: [
-      {
-        objectIndex: 100,
-        enemyId: 100,
-        resistanceToSorcery: 0,
-        scriptOnTurnStart: 0,
-        scriptOnReady: 0,
-        scriptOnBattleEnd: options.scriptOnBattleEnd ?? 0,
-      },
-    ],
-    battleFields: [makeHField()],
-    playerRoles,
-    items: [],
-    spells: [emptyHSpell(349, '天师符法'), emptyHSpell(350, '五气朝元')],
-    magics: [],
-    commands: options.commands ?? [{ op: 'end' }],
-    levelUpExp: Array(100).fill(100),
-    levelUpMagic: options.levelUpMagic,
-    rngSeed: 7,
-  })
-  const state = gs.battleState
-  const resources = getBattleResources(gs)
-  if (!state || !resources) throw new Error('startBattle must install state and resources')
-  // 截取checkEnemyDeaths完成后的合法won边界,不冒充实际跑过整场战斗。
-  state.phase = 'won'
-  for (const enemy of state.enemies) {
-    enemy.e.health = 0
-    enemy.defeated = true
-  }
-  state.expGained = 1
-  state.cashGained = 50
-  gs.fAutoBattle = true
-  const bus = createCommandBus()
-  return { gs, state, resources, playerRoles, bus }
+function wonFixture(options: BattleLifecycleFixtureOptions = {}) {
+  const fixture = createBattleLifecycleFixture({ ...options, enemyIds: [100] })
+  // 单敌全灭/淡出完成后的明确快照;奖励与该敌资源相同,不冒充实际打完整场。
+  fixture.state.phase = 'won'
+  fixture.state.enemies[0]!.e.health = 0
+  fixture.state.enemies[0]!.defeated = true
+  fixture.state.expGained = options.expGained ?? 1
+  fixture.state.cashGained = options.cashGained ?? 50
+  return fixture
 }
 
 function enterSettlement(fixture: ReturnType<typeof wonFixture>) {
@@ -120,8 +60,8 @@ describe('settlementScreenTimeoutMs(battle.c:1048/1218/1272/1324 PAL_WaitForAnyK
           roleId: 0,
           name: '李逍遥',
           level: { old: 1, cur: 2 },
-          hp: { old: 10, oldMax: 100, cur: 100, curMax: 120 },
-          mp: { old: 5, oldMax: 20, cur: 20, curMax: 25 },
+          hp: { old: 10, oldMax: 100, cur: 120, curMax: 120 },
+          mp: { old: 5, oldMax: 20, cur: 25, curMax: 25 },
           attack: { old: 10, cur: 14 },
           magic: { old: 8, cur: 12 },
           defense: { old: 6, cur: 8 },
@@ -147,8 +87,7 @@ describe('settlementScreenTimeoutMs(battle.c:1048/1218/1272/1324 PAL_WaitForAnyK
 
 describe('won首tick的结算装配', () => {
   it('先回写战斗HP/MP再按存活角色入经验,未升级仅一屏且现金只入账一次', () => {
-    const f = wonFixture({ partyMembers: [0, 1] })
-    f.state.expGained = 10
+    const f = wonFixture({ partyMembers: [0, 1], expGained: 10 })
     f.playerRoles.roles[0]!.hp = 0
     f.playerRoles.roles[0]!.mp = 9
     f.playerRoles.roles[1]!.hp = 200
@@ -172,6 +111,8 @@ describe('won首tick的结算装配', () => {
   it('按[1,0]队伍逐人排主升级/隐藏涨点/练成屏,名字与roleId匹配', () => {
     const f = wonFixture({
       partyMembers: [1, 0],
+      expGained: 100,
+      cashGained: 0,
       role: { level: 1, hp: 50, maxHP: 100, mp: 5, maxMP: 40 },
       levelUpMagic: [
         [
@@ -185,8 +126,6 @@ describe('won首tick的结算装配', () => {
     // battle.c:1238-1282:health权重2/3,100*2/3截断后再乘2=132;attack权重不足一次涨点。
     f.gs.Exp.rgHealthExp[1] = { wExp: 0, wLevel: 1, wCount: 2 }
     f.gs.Exp.rgAttackExp[1] = { wExp: 0, wLevel: 1, wCount: 1 }
-    f.state.expGained = 100
-    f.state.cashGained = 0
     const screens = enterSettlement(f).screens
     expect(screens.map((screen) => screen.kind)).toEqual([
       'exp-cash',
@@ -276,6 +215,7 @@ describe('Phase E→对话→恢复与释放', () => {
   it('真实战后脚本仅执行一次,队列转active box后仍hold,关框后才半恢复/释放', () => {
     const f = wonFixture({
       scriptOnBattleEnd: 1,
+      expGained: 0,
       commands: [
         { op: 'end' },
         { op: 'raw', opcode: 0x33, operands: [0, 0, 0] },
@@ -283,7 +223,6 @@ describe('Phase E→对话→恢复与释放', () => {
         { op: 'end', advance: true },
       ],
     })
-    f.state.expGained = 0
     const s = enterSettlement(f)
     expect(s.screens).toEqual([])
     tickBattle(f.gs, NO_KEY, f.bus)
@@ -321,9 +260,9 @@ describe('Phase E→对话→恢复与释放', () => {
   it('无对话时脚本观察到未恢复的HP/MP,返回后才恢复和释放', () => {
     const f = wonFixture({
       scriptOnBattleEnd: 1,
+      expGained: 0,
       commands: [{ op: 'end' }, { op: 'raw', opcode: 0x33, operands: [0, 0, 0] }, { op: 'end' }],
     })
-    f.state.expGained = 0
     const atScript: number[][] = []
     // 公开runner端口的透传观察器:业务仍执行真实runScript与opcode,不替换核心oracle。
     setBattleRunScript(f.gs, (options) => {
@@ -343,5 +282,98 @@ describe('Phase E→对话→恢复与释放', () => {
     expect(f.gs.mode).toBe('explore')
     expect(f.gs.battleState).toBeUndefined()
     expect(f.gs.fAutoBattle).toBe(false)
+  })
+})
+
+describe('原盘战后掉落分支与特殊非胜利接回', () => {
+  it.each([
+    { roll: 21, sample: 0.2, count: 1 },
+    { roll: 22, sample: 0.21, count: 0 },
+  ])('黑毛球战后0x06:roll=$roll,掉落$count棵止血草,分支只执行一次', ({ sample, count }) => {
+    // SSS原盘41017–41021的同一leaf,仅搬到ip1;跳转0仍保留L_0。
+    // C的RandomLong(1,100)>=22跳走;这里只控制其TS实际宿主Math.random,不mock解释器。
+    const random = vi.spyOn(Math, 'random').mockReturnValue(sample)
+    try {
+      const f = wonFixture({
+        expGained: 0,
+        cashGained: 0,
+        scriptOnBattleEnd: 1,
+        commands: [
+          { op: 'end', label: 'L_0' },
+          { op: 'raw', opcode: 6, operands: [22, 0, 0] },
+          { op: 'giveItem', itemId: 99, count: 0 },
+          { op: 'setDialogStyleNarration' },
+          { op: 'showDialog', messageIndex: 13117, text: '获得一棵止血草' },
+          { op: 'end' },
+        ],
+      })
+      enterSettlement(f)
+      tickBattle(f.gs, NO_KEY, f.bus)
+      expect(f.gs.inventory.find((i) => i.itemId === 99)?.count ?? 0).toBe(count)
+      if (count === 1) {
+        expect(f.gs.mode).toBe('battle')
+        tickBattle(f.gs, NO_KEY, f.bus)
+        expect(f.gs.dialogBox).toMatchObject({
+          style: 'narration',
+          currentLineText: '获得一棵止血草',
+        })
+        tickBattle(f.gs, CONFIRM, f.bus)
+        tickBattle(f.gs, NO_KEY, f.bus)
+      } else {
+        expect(f.state.battleDialogQueue ?? []).toEqual([])
+        expect(f.gs.dialogBox).toBeUndefined()
+      }
+      expect(random).toHaveBeenCalledTimes(1)
+      expect(f.gs.inventory.find((i) => i.itemId === 99)?.count ?? 0).toBe(count)
+      expect(f.gs.battleState).toBeUndefined()
+      expect(f.gs.mode).toBe('explore')
+    } finally {
+      random.mockRestore()
+    }
+  })
+
+  it.each([
+    { result: 0, resumeIp: 5 },
+    { result: 1, resumeIp: 6 },
+    { result: 0xffff, resumeIp: 7 },
+  ])('0x89 result=$result不跑战后掉落/半恢复,接回ip$resumeIp', ({ result, resumeIp }) => {
+    // 当前原盘四处0x89只有result0;1/FFFF是C和typed opcode结果域,不声称剧情可达。
+    const f = createBattleLifecycleFixture({
+      scriptOnTurnStart: 1,
+      scriptOnBattleEnd: 3,
+      commands: [
+        { op: 'end' },
+        { op: 'raw', opcode: 0x89, operands: [result, 0, 0] },
+        { op: 'end' },
+        { op: 'giveItem', itemId: 104, count: 0 },
+        { op: 'end' },
+        { op: 'end' },
+        { op: 'end' },
+        { op: 'end' },
+      ],
+    })
+    f.gs.postBattleResume = {
+      wonIp: 5,
+      lostIp: 6,
+      fledIp: 7,
+      commands: f.resources.commands,
+      currentEventObjectId: 7,
+      triggerOwnerId: 7,
+    }
+    tickBattle(f.gs, NO_KEY, f.bus) // preBattle→selectAction
+    tickBattle(f.gs, NO_KEY, f.bus) // 真实turn-start runner执行0x89
+    tickBattle(f.gs, NO_KEY, f.bus) // 实际终态route→cleanup→resume
+    expect(f.gs.inventory).toEqual([])
+    expect([f.gs.PlayerRolesRuntime.rgwHP[0], f.gs.PlayerRolesRuntime.rgwMP[0]]).toEqual([300, 10])
+    expect(f.gs.eventCursor).toMatchObject({
+      ip: resumeIp,
+      currentEventObjectId: 7,
+      triggerOwnerId: 7,
+    })
+    expect(f.gs.eventCursor?.commands).toBe(f.resources.commands)
+    expect(f.gs.postBattleResume).toBeUndefined()
+    expect(f.gs.mode).toBe('event')
+    expect(f.gs.battleState).toBeUndefined()
+    expect(getBattleResources(f.gs)).toBeUndefined()
   })
 })

@@ -1,0 +1,8 @@
+{
+  "runs": {
+    "direct": "New assertion incorrectly expected defeated=false storage; corrected to production !defeated predicate (real factory optional undefined).",
+    "direct-corrected": "Observer initially assumed turnStart uses injected runner; actual caller2168–2200 directly calls runScript. PhaseE injected observer expects only entries5/9. Source snapshot retained."
+  },
+  "noProductRedFirstClaim": true,
+  "secondDraftSha256": "140727304d6244edf6ca5ec984a6e72d1613222f3c89dc5781a8ce7e10775826"
+}

@@ -1,0 +1,25 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/game",
+    "exec",
+    "vitest",
+    "run",
+    "src/core/battle/battle-settlement.glm-next-wave.test.ts",
+    "src/core/battle/battle-system.glm-next-wave.test.ts",
+    "--reporter=verbose",
+    "--reporter=json",
+    "--outputFile=/tmp/type-pal-post-before.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-18T06:31:26.223227+00:00",
+  "completedAt": "2026-10-18T06:31:31.282741+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "before.raw.gz",
+  "rawBytes": 2496,
+  "rawSha256": "26de465ea5024dd91fd60fc86751ac3d30de69e11ad6a3850d7e994d2dddb9ca",
+  "fullUncutMergedStdoutStderr": true
+}

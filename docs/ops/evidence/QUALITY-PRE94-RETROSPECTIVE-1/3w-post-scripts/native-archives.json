@@ -1,0 +1,47 @@
+[
+  {
+    "label": "before",
+    "path": "before.vitest.json.gz",
+    "sha256": "486f3f7d40d0a3d19fbf8cdfcf96274db27eabc4488be147cdd77b166a658480",
+    "bytes": 5330,
+    "files": 2,
+    "passed": 11,
+    "failed": 0
+  },
+  {
+    "label": "direct",
+    "path": "direct.vitest.json.gz",
+    "sha256": "2a4d19cc8e3c7c2983c217b6d543a5075bcd92086eb4c460831c74306e31818e",
+    "bytes": 8674,
+    "files": 2,
+    "passed": 15,
+    "failed": 1
+  },
+  {
+    "label": "direct-corrected",
+    "path": "direct-corrected.vitest.json.gz",
+    "sha256": "d4978b8cb4723e6e55b6c9d4b9fc20a295d2d1b2f5cf1cde2f5d34622185cd23",
+    "bytes": 8684,
+    "files": 2,
+    "passed": 15,
+    "failed": 1
+  },
+  {
+    "label": "module",
+    "path": "module.vitest.json.gz",
+    "sha256": "392b12ee8086c39584df9a4e2c8d3a8fc1e6cb73c054ceef8f47fba3fcc37910",
+    "bytes": 93037,
+    "files": 8,
+    "passed": 237,
+    "failed": 0
+  },
+  {
+    "label": "module-final",
+    "path": "module-final.vitest.json.gz",
+    "sha256": "14b275d21ca48964f1e8d1e5e437dbc2ccf977e5d3d3dca58e33999d8d0a9645",
+    "bytes": 93068,
+    "files": 8,
+    "passed": 237,
+    "failed": 0
+  }
+]

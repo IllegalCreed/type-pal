@@ -1,0 +1,12 @@
+{
+  "priorHead": "599d35717d8a5213802f76535eb14ba187f709e5",
+  "event": "Attached worktree directory disappeared during read-only audit; no new code/uncommitted task edit existed. Git registry showed main/docs-owner tree only while original local+remote3y remained599d. Recreated exact path from same existing branch, reattached Codex artifact. No new branch/force/reset/stash/main-file change.",
+  "path": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "dependencySetup": {
+    "command": "pnpm install --offline --frozen-lockfile",
+    "exit": 0,
+    "reused": 202,
+    "downloaded": 0,
+    "scope": "Isolated own node_modules; no link to main node_modules; tool transcript, not a product gate/raw receipt"
+  }
+}

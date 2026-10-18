@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "3792f046040ed5602438d732a340c9ee6ada72a956daa2211614a79c3aa291ee",
+      "afterSha256": "29b64af9e222b5fad5997279855cfec99367e53d048f568f3deffa5ec209c55e",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,8 +1066,24 @@
       },
       "revision": {
         "currentSha": "a2101ce8ffeb73642521f0b489d17642f27bbd3fcdc581d0e9c354dedbc05778",
-        "implementationSha": "3792f046040ed5602438d732a340c9ee6ada72a956daa2211614a79c3aa291ee",
+        "implementationSha": "29b64af9e222b5fad5997279855cfec99367e53d048f568f3deffa5ec209c55e",
         "history": [
+          {
+            "revision": "599d35717d8a5213802f76535eb14ba187f709e5",
+            "date": "2026-10-18",
+            "action": "Bounded CODE3w settlement implementation/comment/test review",
+            "previousAfterSha256": "3792f046040ed5602438d732a340c9ee6ada72a956daa2211614a79c3aa291ee",
+            "scope": "Three test/helper paths96/379/153 fully read; settlement249 unchanged. Actual SSS153 objects→15owners/10leaves, result3 typed only; six mirror whole-old-green/current-single-AssertionError controls. Final237=16direct+221adjacent and TC. Draft assertion/type/mirror/name-match failures retained without product-red credit. No product execution or new closed;3318/251closed/102review/2965pending.83cards55partial/28pending/0accept unchanged,only3w pointer; five incoming bindings only, unrelated entries/history preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "original game runtime",
+              "E2E",
+              "visual"
+            ]
+          },
           {
             "revision": "9bc478671044f2dff222581b6326884694e5b9e2",
             "date": "2026-10-18",
@@ -1489,8 +1505,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "3792f046040ed5602438d732a340c9ee6ada72a956daa2211614a79c3aa291ee",
-        "lineCount": 15255,
+        "afterSha256": "29b64af9e222b5fad5997279855cfec99367e53d048f568f3deffa5ec209c55e",
+        "lineCount": 15287,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -1520,7 +1536,7 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "1-15255",
+      "reviewedLines": "1-15287",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

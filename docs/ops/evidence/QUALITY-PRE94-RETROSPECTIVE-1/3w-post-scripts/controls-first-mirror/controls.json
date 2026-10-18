@@ -1,0 +1,31 @@
+{
+  "base": "599d35717d8a5213802f76535eb14ba187f709e5",
+  "owner": "Codex single agent",
+  "scope": "Exact copied game/src plus actual dependencies, whole unfiltered test file per experiment. Product worktree sources never mutated; no new git branch/worktree. Shared dependency sources unchanged.",
+  "controls": [],
+  "sourceInputs": [
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.ts",
+      "snapshot": "control-input-0.source.gz",
+      "sha256": "799c6795b9f106300d412249244af86816dc305966a19b509dbd8011ea771f66"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-settlement.ts",
+      "snapshot": "control-input-1.source.gz",
+      "sha256": "7951c6967057b40827e206b028601580214d46fa4b13e96f8bb45ec054399dd0"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "snapshot": "control-input-2.source.gz",
+      "sha256": "130c7398a4f53d5a69b3d36178777ef3c18dfea0a7641f50d53c097493ee33a7"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "snapshot": "control-input-3.source.gz",
+      "sha256": "34eaad97dd35a62a273596efecd9a5cfbf6e00360ac923fc6e64e2b76e622242"
+    }
+  ],
+  "temporaryRoot": "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-post-controls-wky1bdnn",
+  "temporaryRootRemoved": true,
+  "canonicalSourcesUnchanged": true
+}

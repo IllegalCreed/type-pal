@@ -763,3 +763,14 @@ Codex premise verified/design agree/build allowed：同3y隔离树、单Owner，
 Codex premise verified/design agree/build allowed：沿用3y隔离树、单Owner；settlement实现246行/专测259行全文，真实startBattle→tickBattle won→dialog/settlement hold、progression307行、runtime hydrate/projection/writeback、资源与cleanup出口及SDL battle.c:991–1373/play.c:603–681已核。低风险白名单为两既有文件的事实注释与测试：修正screen/hidden-exp/Phase E/F ownership和C的恒真恢复分支说明；复用typed资源工厂，经真实开战、hydrate与投影搭合法won快照，补强队伍顺序、边界tick、pressed/held、脚本/对话/恢复/释放顺序。只观察真实runner，不mock核心；不改产品执行、save/schema、资产、公共接口或机制/UI。原5例绿不代表判别力；已证混合同拆开并迁全原断言、精确反控后写review。全仓check/official coverage/protected留大任务收尾。
 
 本片交付：settlement源仅修owner、隐藏涨点顺序、C恒真恢复、TS清键策略及0x89可直接置won事实注释，执行JS与基点一致。专测259→347行、5→8，复用typed资源工厂、正式default/hydrate/projection/startBattle、真实RNG和脚本/dialog推进；原五合同逐断言迁移，无整例退役。六旧全文件5绿→新7绿1指定业务AssertionError，逐字节恢复；7文件229=8直接+221相邻及game TC零诊断。早期测试误用dialogBox.text的1红原件保留，不冒充产品先红。两旧closed重开review，3317/251closed/101review/2965pending，0新增关闭；83卡55partial/28pending/0accept不变，仅3w证据指针更新。见[结算证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-settlement/README.md)。未改产品行为/API/schema/save/资产/phase2或baseline；脚本影响域、极端数值/容量、演出及非队员Extra继续未签收。完整check/official coverage/protected留大任务收尾，不合main；下一步仍pre94 3w脚本影响域或40/41，94–102/editor后置。无下一位Agent提示词。
+
+
+### 2026-10-18 CODE3w战后脚本影响域/特殊结局复审准入
+
+Codex premise verified/design agree/build allowed：同3y分支/原路径、单Owner。隔离目录在只读阶段消失，已从本地/远端同SHA599d恢复并重新挂接，未新建分支或改main文件；依赖202包离线复装、0下载。settlement249行、原专测347行及system GLM123行全文已核，真实start/tick/runScript/0x89/PhaseE/cleanup与SDL battle.c、fight.c、script.c、OBJECT布局已对照。原盘SSS chunk2/4独立校验当前153对象：15对象共10个战后leaf，均掉物品/提示和可选0x06；四0x89全为0，无3剧情站点；三0x90只写turnStart。静态枚举不冒充原盘runtime或所有外部存档可达性。白名单为两既有测试及新battle-lifecycle.test-fixtures.ts：抽复用typed正式开战夹具、补合法奖励/DTO、强化原DL23到活敌结算与实际双掉落；补概率相邻边界和0/1/FFFF真实脚本结局→接回。旧断言逐项保留，不复制核心、不为计数重复0x89枚举单测。生产执行/API/schema/save/资源及活跃机制文件冻结；若发现真实产品counter另卡停线。完整check/coverage/protected留大任务收尾。
+
+### 2026-10-18 CODE3w战后脚本/特殊结局交付
+
+三测试代码96/379/153行全文，settlement249全文，生产caller/C读域与原SSS全站点核对见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md)。15对象10leaf仅掉落/叙述及可选概率；四0x89全0、三0x90仅turnStart，不把合法result3测试称当前剧情可达。产品执行冻结；真实PhaseE双活敌槽/掉落一次、零击杀奖励与0/1/FFFF接回补强，两份重复开战准备提取测试专用helper。原11合同保留→16；六完整旧绿/新指定单AssertionError，恢复8文件237（16直接/221相邻）与game typecheck零诊断。两测试草稿误读optional defeated/runner端口及tuple类型红、首镜像收集失败、末反控+0名称匹配失败全部保留原件，不冒充产品先红。
+
+工作树曾在只读阶段由外部移除，未有新WIP；同一路径/同3y/同599d恢复，无新分支，无主树修改，离线依赖自有安装。两既有测试/源保持review、新helper review，机器3318/251closed/102review/2965pending，0新增closed；83卡55partial/28pending/0accept，仅3w指针更新。未知任意脚本/异常、精确跨平台随机流、极端域、非队员Extra及视觉继续待核。最终docs/lint/ledger见gates，不跑全仓check/official coverage/protected，留大任务收尾，不合main。推送本片后，先核修用户最新GLM补审：视频输出链接穿透、CLI链接路径直执行、raw检查失实注释；其它pre94继续，不转去94–102/editor。

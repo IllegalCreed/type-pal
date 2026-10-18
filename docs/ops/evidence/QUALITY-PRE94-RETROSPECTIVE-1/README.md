@@ -218,3 +218,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 最新[GA失败安装A修复](../GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md)：用户批准失败撤监听/UI、刷新重试；五先红后绿、30相邻/两单针/TC及本地浏览器已核。两个源与新增失败测试仍review，3317/253/99/2965，0新关闭；83卡55/28/0accept不变。3w仅只读后暂停，下一步继续结算切片；统一门未跑不合main。
 
 - 2026-10-18：[3w结算复审](3w-settlement/README.md)——两源/测旧关闭撤回复审；事实注释、合法宿主、5→8合同迁移、六有效反控和8直接/221相邻，未统一收口。
+
+- 2026-10-18：[3w战后脚本/特殊结局](3w-post-scripts/README.md)——原SSS15对象/10leaf与四0x89静态域；两测试共享正式宿主、原11合同保留→16，六有效反控，237恢复/相邻与TC零诊断，0关闭。当前3318/251closed/102review/2965pending；83卡55/28/0accept不变。统一门仍待；随后先处理用户补审三项提取输出/入口/注释。

@@ -3265,11 +3265,27 @@
       "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "7e8a90ab29b9915685c079f87630d4ab6d0c3095c7f62bafc08db436943053b4",
+      "afterSha256": "3992339012bfc934b73f25cb72896daeac2ea3d91f1540d98650f34611fe9ee6",
       "revision": {
         "currentSha": "addcb44c52fd00ab0fd3397e61ae316bf98d02e2aeef1d5533ed23a2c1e5845a",
-        "implementationSha": "7e8a90ab29b9915685c079f87630d4ab6d0c3095c7f62bafc08db436943053b4",
+        "implementationSha": "3992339012bfc934b73f25cb72896daeac2ea3d91f1540d98650f34611fe9ee6",
         "history": [
+          {
+            "revision": "599d35717d8a5213802f76535eb14ba187f709e5",
+            "date": "2026-10-18",
+            "action": "Bounded CODE3w settlement implementation/comment/test review",
+            "previousAfterSha256": "7e8a90ab29b9915685c079f87630d4ab6d0c3095c7f62bafc08db436943053b4",
+            "scope": "Three test/helper paths96/379/153 fully read; settlement249 unchanged. Actual SSS153 objects→15owners/10leaves, result3 typed only; six mirror whole-old-green/current-single-AssertionError controls. Final237=16direct+221adjacent and TC. Draft assertion/type/mirror/name-match failures retained without product-red credit. No product execution or new closed;3318/251closed/102review/2965pending.83cards55partial/28pending/0accept unchanged,only3w pointer; five incoming bindings only, unrelated entries/history preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "original game runtime",
+              "E2E",
+              "visual"
+            ]
+          },
           {
             "revision": "9bc478671044f2dff222581b6326884694e5b9e2",
             "date": "2026-10-18",
@@ -3760,8 +3776,8 @@
         "kind": "A8-six-pending-inventory-real-producer-maintenance",
         "path": "docs/ops/audits/code-quality-file-ledger.md",
         "sourceSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
-        "afterSha256": "7e8a90ab29b9915685c079f87630d4ab6d0c3095c7f62bafc08db436943053b4",
-        "lineCount": 743,
+        "afterSha256": "3992339012bfc934b73f25cb72896daeac2ea3d91f1540d98650f34611fe9ee6",
+        "lineCount": 744,
         "sourceScope": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "completePrior": {
           "kind": "complete-prior-current-in-reachable-fixed-git",
@@ -3983,7 +3999,7 @@
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "1-743",
+      "reviewedLines": "1-744",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {
