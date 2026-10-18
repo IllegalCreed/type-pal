@@ -3,14 +3,14 @@
  * 头:N+1 个 u32 LE 偏移;[i] 是子文件 i 起点;子文件数 = (head[0] - 4) / 4。
  * 参考 reference/sdlpal/palcommon.c::PAL_MKFGetChunkCount / PAL_MKFReadChunk。
  *
- * 与 sdlpal 的差异:sdlpal 信任式读取(计数公式即 (head[0]-4)>>2,坏档读出垃圾/超短);
- * 本入口在解析时显式校验对齐、单调与界内,坏档 fail-loud。原盘全量 chunk 均可通过该校验。
+ * SDLPal 按首偏移计算块数,读块时按需读取相邻两个偏移;本入口在建索引时集中校验:
+ * 首偏移须 4 字节对齐且表完整,所有偏移须单调不减并在 buffer 界内。
  */
 
 export interface Mkf {
   /** 整个归档字节;借用调用方输入,本模块不复制、不修改。 */
   readonly buffer: Uint8Array
-  /** N+1 个偏移;由 openMkf 验证过 4 对齐、单调不减且都在 buffer 界内。 */
+  /** N+1 个字节偏移;首项为 4 对齐的表长,各项均单调不减且在 buffer 界内。 */
   readonly offsets: readonly number[]
 }
 
@@ -53,8 +53,8 @@ export function chunkCount(mkf: Mkf): number {
 /**
  * 取子文件 i 的字节。返回**借用**原输入 buffer 的 subarray 视图(零拷贝):
  * 调用方不得通过它修改归档;需要可变/独立副本时自行复制。
- * 仅校验索引(整数、[0, chunkCount));offset 合法性由 openMkf 统一核定,
- * 不绕过真实入口伪造 Mkf 来为 readChunk 发明错误合同。
+ * 接受 openMkf 的解析结果:这里只校验索引(整数、[0, chunkCount)),
+ * 不重复校验由 openMkf 统一核定的 offset 表。
  */
 export function readChunk(mkf: Mkf, index: number): Uint8Array {
   if (!Number.isInteger(index) || index < 0 || index >= chunkCount(mkf)) {
