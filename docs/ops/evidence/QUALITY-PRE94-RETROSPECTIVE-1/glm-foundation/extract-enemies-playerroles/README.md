@@ -32,3 +32,7 @@ cd "$WT/packages/pal-extract" && ../../node_modules/.bin/vitest run src/resource
 ```
 
 失效条件：三文件实现变化 → 重证；PLAYERROLES 布局/EnemyTeam 字段变化 → 注释复核。
+
+## 勘误（2026-10-18 晚补）
+
+本批"14/14"未披露:**tables.test.ts 套件当时因缺 WORD.DAT 加载失败(0 断言,suite-status=failed,回执内可查)**,14 为其余三文件计数。补链后 tables 全量 **89/89** 已在批 6 回执中实测通过;两态均保留。
