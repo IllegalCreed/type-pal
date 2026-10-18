@@ -17,8 +17,8 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-起始基点机器清单：2,962。当前 tracked 清单：3,318。
-当前已闭合核验：251；已读但待审：102；尚未逐文件核验：2,965；合计未闭合：3,067。
+起始基点机器清单：2,962。当前 tracked 清单：3,319。
+当前已闭合核验：251；已读但待审：103；尚未逐文件核验：2,965；合计未闭合：3,068。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -107,9 +107,9 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/src/resources/palette.ts` | product | 已验证 | VGA/night color pins、short-input宽容既有合同、CLI caller | 不改变 palette mapping |
 | `packages/pal-extract/src/resources/scene.ts` | product | 已验证 | scene range dump/real resource tests、CLI caller | dense scene bounds |
 | `packages/pal-extract/src/resources/tables.ts` | product | 已验证 | parser barrel exports、all table callers/typecheck | 无运行时实现 |
-| `packages/pal-extract/src/cli.ts` | product | rework | [Q3g/C1共享输出反控](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/c1/README.md)；根pnpm extract caller、真实临时树与marker oracle | suffix guard未验证data/data-extracted所有权；旧关闭撤回，方案A guard已实现；全仓覆盖率基线回退仍待收口 |
+| `packages/pal-extract/src/cli.ts` | product | rework | [输出入口补审](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/entrypoint-followup/README.md)；911→919行全文、根命令/实际Node+tsx子进程、Node realpath primary | argv链接组件静默0先红后修；既有输出守卫保留，整CLI/统一门未闭合 |
 | `packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts` | test | review | [C1共享输出反控](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/c1/README.md)；公开CLI子进程、symlink/marker/exit oracle | 新增OUT根与data父symlink两个轴；定向9/9、相邻包72/434通过；仍保留review，未以全绿自动关闭 |
-| `packages/pal-extract/src/output-boundary.ts` | product | review | [C1输出所有权实现](../tasks/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md)；CLI清理前 `lstat` caller、方案A symlink反例 | 只拒绝 data/data-extracted 根节点链接；data/raw 与内部子项行为保持；统一 coverage/全仓门仍待 |
+| `packages/pal-extract/src/output-boundary.ts` | product | review | [输出入口补审](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/entrypoint-followup/README.md)；25行全文、CLI及视频两真实caller、lstat合同 | 只纠正raw另检的失实注释；两输出节点守卫执行不变，不认证所有子项/TOCTOU |
 | `packages/pal-extract/src/output-boundary.test.ts` | test | review | [C1输出所有权合同](../tasks/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md)；prepareOutputRoot 与真实临时 symlink/marker oracle | 3 个合法/拒绝合同；不以独立单元绿灯替代 CLI 全链和统一门 |
 | `packages/content/src/asset.ts` | product | 已验证 | 直接读取 AssetCatalog/path/origin/role closure validators 与 1490 content tests/full check | 保持 stable AssetId/path ownership |
 | `packages/content/src/project-map.ts` | product | 已验证 | 直接读取 canonical version 4/map matrix/stamp placement validator 与 content tests | 不改 schema |
@@ -146,7 +146,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/tsconfig.json` | product | 已验证 | source/scripts include 与 typecheck | 无产品行为 |
 | `packages/pal-extract/src/utils/gbk.ts` | product | 已验证 | GBK/PUA residue mapping tests与M.MSG caller | 资源正文转码合同 |
 | `packages/pal-extract/scripts/grep-sdlpal-chunks.ts` | product | 已验证 | execFile 参数数组、reference-only read helper | 无写盘 |
-| `packages/pal-extract/scripts/extract-videos.ts` | product | review | ffmpeg external IO/mtime skip/empty output 直接读过 | 需后续工具失败反控，不与主 extract 混写 |
+| `packages/pal-extract/scripts/extract-videos.ts` | product | review | [输出入口补审](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/entrypoint-followup/README.md)；132→136行全文、包脚本/Node IO/真实子进程与六mp4字节oracle | 两共享输出穿透先红后修，复用同一guard且ffmpeg前拒绝；自有增量/raw链接保留，编码/全部失败路径待核 |
 | `packages/pal-extract/scripts/find-scenes-without-setpartypos.mjs` | product | review | scene/event/tilemap BFS 与写盘脚本直接读过 | 诊断生成器需后续 path/input 复核 |
 | `packages/pal-extract/audit-data-mkf.mjs` | product | review | DATA.MKF diagnostic census 直接读过；发现绝对 repo path 与 shared MKF duplicate | 仅诊断脚本，Q6/CLI tool audit 待核 |
 | `packages/game/src/assets/loader.ts` | product | 已验证 | CODE-QUALITY-3h；全量读取 loadAll/fetchPalette/SceneAssetsCache，真实 bootstrap caller、asset tests、game 定向测试 | fetch/status 与可选资源降级均有 caller；cache LRU/protect 合同保留，未发现直接缺陷 |
@@ -383,6 +383,7 @@ Template: governance-index-v1 / 1.0.0
 | `scripts/quality/code-quality-inventory.test.mjs` | test | review | [Git全路径容量修复](../evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md)；原1保留+2真实Git/CLI尾部合同，先1绿2红后3绿 | 两枚旧1绿新2绿1指定AssertionError，临时Git隔离；相邻/统一门范围分开，不关闭 |
 | `packages/game/src/analytics/google-analytics.install-failure.test.ts` | test | review | [GA失败回滚](../evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md)；160行全文，真实native ports/安装器/存储/自有宿主 | 五合法错误边界/原Error身份/停止后事件静默；30相邻及两单针，0新增closed |
 | `packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts` | test | review | [3w战后脚本复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md)；96行全文、两测原重复准备合并，正式hydrate/projection/startBattle与五槽typed资源 | 新测试专用helper；不复制phase/脚本/奖励算法，不计独立运行时合同或closed |
+| `packages/pal-extract/src/cli-entrypoint-paths.test.ts` | test | review | [输出入口补审](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/entrypoint-followup/README.md)；191行全文、复制源码真实进程/自有文件与链接/外部编码器替身 | 五合同：两共享节点、正常增量/raw链接、绝对链接入口、import无副作用；旧3红5绿→当前41模块全绿，0关闭 |
 
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 CanonicalScriptBodyEditor→EntityAddressEditor caller、合法 EntityAddress 与自动改绑 oracle | 1合同/4定向测试通过；相邻测试有22条 React act诊断，保持 review，不标已验证 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 ItemTab/loader/EditSession/save-gate caller、R1/R3/R5 oracle | 3合同/4定向测试通过；相邻测试有22条 React act诊断，P1 puppet/battleOnly仍是产品裁决，保持 review |

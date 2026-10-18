@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "29b64af9e222b5fad5997279855cfec99367e53d048f568f3deffa5ec209c55e",
+      "afterSha256": "0949e208d00b2dfd31c5071bd2c3cc50bb2d855de927cd507ebc281c35c91fbf",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,8 +1066,24 @@
       },
       "revision": {
         "currentSha": "a2101ce8ffeb73642521f0b489d17642f27bbd3fcdc581d0e9c354dedbc05778",
-        "implementationSha": "29b64af9e222b5fad5997279855cfec99367e53d048f568f3deffa5ec209c55e",
+        "implementationSha": "0949e208d00b2dfd31c5071bd2c3cc50bb2d855de927cd507ebc281c35c91fbf",
         "history": [
+          {
+            "revision": "298136f19c9b5acb51867a5d96275fe5438c06a7",
+            "date": "2026-10-18",
+            "action": "Bounded extraction entrypoint and shared-output followup",
+            "previousAfterSha256": "29b64af9e222b5fad5997279855cfec99367e53d048f568f3deffa5ec209c55e",
+            "scope": "User approved shared-output rejection and explicitly requested these three followups. Three implementations and new test fully read, real Node22/tsx/fake external encoder IO. Old8:5pass3specified business AssertionErrors, final41=5new+36adjacent/TC zero diagnostics. Video uses existing two-node guard before encoder/output IO; CLI realpath identifies linked absolute entry; raw comment corrected, output formats/encoder arguments/game API/schema/save unchanged.0newclosed,3319/251closed/103review/2965pending;83 card statuses unchanged. Five bindings only; unrelated rows/history preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/entrypoint-followup/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "original game runtime",
+              "E2E",
+              "visual"
+            ]
+          },
           {
             "revision": "599d35717d8a5213802f76535eb14ba187f709e5",
             "date": "2026-10-18",
@@ -1505,8 +1521,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "29b64af9e222b5fad5997279855cfec99367e53d048f568f3deffa5ec209c55e",
-        "lineCount": 15287,
+        "afterSha256": "0949e208d00b2dfd31c5071bd2c3cc50bb2d855de927cd507ebc281c35c91fbf",
+        "lineCount": 15319,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -1536,7 +1552,7 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "1-15287",
+      "reviewedLines": "1-15319",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

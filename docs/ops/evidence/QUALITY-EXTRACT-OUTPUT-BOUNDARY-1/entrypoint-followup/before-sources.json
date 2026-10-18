@@ -1,0 +1,33 @@
+{
+  "base": "298136f19",
+  "files": [
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "sha256": "601e10d7144d3fc1a8a50bf397c66650a20af2597a18f92cbb9a9afd250bc365",
+      "lines": 911,
+      "snapshot": "before-0.source.gz",
+      "read": "full"
+    },
+    {
+      "path": "packages/pal-extract/src/output-boundary.ts",
+      "sha256": "ec714fb55716cae889f4717e31d73c25c1796b0724897978fbad19513d5d7aa1",
+      "lines": 25,
+      "snapshot": "before-1.source.gz",
+      "read": "full"
+    },
+    {
+      "path": "packages/pal-extract/scripts/extract-videos.ts",
+      "sha256": "7bbf45c4ed951015f718fba361b08b760e98865bbd531d52958317bd406c1cce",
+      "lines": 132,
+      "snapshot": "before-2.source.gz",
+      "read": "full"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-entrypoint-paths.test.ts",
+      "sha256": "d28da7569253ba4964d6708e41ffb3fb6b8f8e36156d9bfb2ab016be86e6d5c5",
+      "lines": 191,
+      "snapshot": "before-3.source.gz",
+      "read": "full"
+    }
+  ]
+}

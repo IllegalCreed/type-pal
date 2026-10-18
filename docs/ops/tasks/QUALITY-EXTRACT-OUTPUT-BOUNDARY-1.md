@@ -63,3 +63,17 @@ Codex完成四向真值与直接IO反例核验，单一Coding Owner，build allo
 3. prepareOutputRoot默认参数没有独立单元oracle；已有cli-error-exits.kimi-r1.test九个真实临时树子进程通过main→prepareOutputRoot()无参接线（源码已核），故不是生产caller完全无覆盖。默认路径推导若要单独认证，须在隔离副本导入，禁止为测试触碰主树data。
 
 output-boundary实现/三专测及252行CLI错误测试已全文重读；911行CLI本轮仅重读常量/入口/清理/异常出口和两历史diff，不重签整CLI。实现/测试字节未改，故不为登记重复跑pal-extract全包/coverage。[证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/supplementary-audit/README.md)；本卡build、CLI rework及helper/test review维持。
+
+## 2026-10-18 补审入口停止线与有限准入
+
+用户最新独立复查要求修三项：视频转码绕过已批准的共享输出拒绝、CLI绝对路径含链接组件时main静默跳过、raw被caller检查的失实注释。沿用本卡既有“拒绝共享输出”裁决与用户本轮明确修复指令，不另造103+卡。Codex单一Coding Owner，同3y分支先推送3w批298136f19，main0behind后接本片。
+
+三实现extract-videos.ts132行、cli.ts911行、output-boundary.ts25行及包脚本/类型/旧边界测试全文已核（本片read-boundaries保留修改前后原字节）。视频main直接复用assertOwnedOutputRoot，guard置于ffmpeg及任何输出IO前，不调用清理、不改转码参数/增量策略/产物格式；只核data与data/extracted已批准节点。CLI直执行判定使用realpathSync解析argv路径，保持import不执行。注释只澄清raw为输入、不在此守卫范围，不补不存在的raw新策略。
+
+build allowed：仅上述三实现及新cli-entrypoint-paths.test.ts，一个明确的输出/入口边界模块切片；先新反例旧实现红，再改产品，再定向/CLI相邻/typecheck，保留完整raw/nativeJSON与隔离临时树精确清理。真实进程运行复制源码，文件/链接/ffmpeg替身/所有输出都属自建临时根；替身仅代外部编码器，不替代输出路径/守卫/进程退出。旧格式/输出guard合同不放宽，未跑真实ffmpeg编码不能宣称编码或全提取验收。whole check/official coverage/protected仍留大任务收尾，不合main。
+
+### 入口补审交付
+
+用户三项均成立：旧视频入口能经data或extracted链接覆盖六mp4，旧CLI绝对路径带目录链接静默exit0，raw确无声明中的独立caller检查。先冻结三旧实现/新测试，再实跑2文件8例：5绿/3指定业务AssertionError，无收集/环境诊断；修复后7文件41绿（5新直接/36相邻）和pal-extract typecheck零诊断。三实现各全文、包脚本/正式IO出口与Node22 fs primary已核，新191行测试全文；新旧运行时名字配对，raw/nativeJSON/hash/源码快照见[本片](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/entrypoint-followup/README.md)。
+
+视频guard在ffmpeg/输出IO前，直接复用现有lstat不清理；argv通过realpath识别main，import无副作用与旧相对路径caller均绿；注释如实限定raw不属输出守卫。未改生成物、转码参数、资源格式、游戏API或schema/save，未引入ignore/断言弱化。CLI rework、视频/helper review维持，新测试review，3319 tracked/251 closed/103 review/2965 pending，0新增closed。原data缺失提示/非ENOENT/默认参数独立反控、视频编码/所有外部失败路径、内部文件链接/并发换链不在此切片验收。最终五docs消费者/lint/ledger看gates；不重复全包/check/official coverage/protected，依用户要求留大任务收尾，不合main。之后回pre94 40/41等未核模块与3w剩余域，94–102/editor继续后置。

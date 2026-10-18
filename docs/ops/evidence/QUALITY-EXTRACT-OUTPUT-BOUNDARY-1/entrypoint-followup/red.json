@@ -1,0 +1,25 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/pal-extract",
+    "exec",
+    "vitest",
+    "run",
+    "src/cli-entrypoint-paths.test.ts",
+    "src/output-boundary.test.ts",
+    "--reporter=verbose",
+    "--reporter=json",
+    "--outputFile=/tmp/type-pal-entry-red.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-18T06:48:58.789854+00:00",
+  "completedAt": "2026-10-18T06:49:06.528756+00:00",
+  "exit": 1,
+  "signal": null,
+  "spawnError": null,
+  "raw": "red.raw.gz",
+  "rawBytes": 3710,
+  "rawSha256": "66a4ce1c399122e73c31460543dd815ebc6f872dba0069d6112e327999bffaa1",
+  "fullUncutMergedStdoutStderr": true
+}

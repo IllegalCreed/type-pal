@@ -26,6 +26,7 @@ import { existsSync, mkdirSync, statSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { promisify } from 'node:util'
+import { assertOwnedOutputRoot } from '../src/output-boundary.js'
 
 const execFileP = promisify(execFile)
 
@@ -97,6 +98,9 @@ async function convertOne(id: number): Promise<ConvertResult> {
 }
 
 async function main(): Promise<void> {
+  // 与主提取入口共用data/extracted所有权边界;检查本身不创建或清理输出。
+  assertOwnedOutputRoot(resolve(REPO_ROOT, 'data'), resolve(REPO_ROOT, 'data/extracted'))
+
   console.log('[extract-videos] start — ffmpeg AVI → mp4(H.264 CRF 18 preset slow + AAC 96k)')
 
   // ffmpeg 必须在 PATH;预 check 给清晰错误

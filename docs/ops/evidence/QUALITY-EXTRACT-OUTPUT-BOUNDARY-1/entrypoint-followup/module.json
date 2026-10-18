@@ -1,0 +1,30 @@
+{
+  "command": [
+    "pnpm",
+    "--filter",
+    "@type-pal/pal-extract",
+    "exec",
+    "vitest",
+    "run",
+    "src/cli-entrypoint-paths.test.ts",
+    "src/output-boundary.test.ts",
+    "src/cli-error-exits.kimi-r1.test.ts",
+    "src/cli-isolated.glm-q.test.ts",
+    "src/cli-global-entries.glm-q.test.ts",
+    "src/cli-battle-assets.glm-q.test.ts",
+    "src/cli-font-lookup.glm-q.test.ts",
+    "--reporter=verbose",
+    "--reporter=json",
+    "--outputFile=/tmp/type-pal-entry-module.json"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-18T06:49:27.660437+00:00",
+  "completedAt": "2026-10-18T06:49:51.997264+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "module.raw.gz",
+  "rawBytes": 5128,
+  "rawSha256": "539a03ed2eb137c37a68471678eec97a97fd0c0b950a7f49507794f199b74055",
+  "fullUncutMergedStdoutStderr": true
+}

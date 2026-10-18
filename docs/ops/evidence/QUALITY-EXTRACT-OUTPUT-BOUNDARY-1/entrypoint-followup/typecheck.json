@@ -1,0 +1,13 @@
+{
+  "command": ["pnpm", "--filter", "@type-pal/pal-extract", "typecheck"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-18T06:49:35.757863+00:00",
+  "completedAt": "2026-10-18T06:49:37.079131+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "typecheck.raw.gz",
+  "rawBytes": 139,
+  "rawSha256": "faf13fd368a252ffd64775c0ad9baf7070f4fa0b906d29c45d647cd301885440",
+  "fullUncutMergedStdoutStderr": true
+}

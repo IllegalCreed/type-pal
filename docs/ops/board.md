@@ -79,7 +79,7 @@ Template: governance-index-v1 / 1.0.0
 | QUALITY-BOOT-FAILURE-PROGRESS-1 | [启动失败进度所有权](tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md) | review | Codex / 窄功能完成，等待统一集成门 | 四旧单红新绿、相邻58绿/原红重放1绿、PROD失败稳定及正常按钮进场已实跑看图；全仓/coverage/protected未跑，不合main |
 | QUALITY-FETCH-ABORT-LIFECYCLE-1 | [重试等待与Request取消](tasks/QUALITY-FETCH-ABORT-LIFECYCLE-1.md) | build | Codex / 同步main后复跑并收口 | 取消反例旧23/3红、控制26绿、变异3枚各单红；当前修复26例绿，统一门未清 |
 | QUALITY-GAME-RUNTIME-DIAGNOSTICS-1 | [game运行时诊断核清](tasks/QUALITY-GAME-RUNTIME-DIAGNOSTICS-1.md) | build | Codex / 逐file归因后选有限包 | C2 两装备负输入测试已逐文件核验；8/8 绿、0 stderr，game typecheck 与相邻6文件66 tests通过；两行保留review，其余15块stderr仍未全文验收 |
-| QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 | [提取器共享输出清理边界](tasks/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md) | build | Codex / 跑完整质量门并复核相邻链接行为 | 方案A guard已实现；定向9/9、pal-extract 72/434通过，变异7绿/2红；全仓coverage回退仍未收口 |
+| QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 | [提取器共享输出清理边界](tasks/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md) | build | Codex / 入口补审窄修已测，统一门待续 | 视频共享输出与链接CLI先3红后修，41模块/TC零诊断；raw错注已纠，整卡未闭合 |
 | QUALITY-EXTRACT-RAW-TEST-EXECUTION-1 | [extract原盘执行完整性](tasks/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1.md) | build | Codex / C2证据已落，回编号卡复审 | 完整extract431零stderr、七有效反控；两个测试review，0关闭 |
 | QUALITY-EVENT-SLICE-CONTROL-TRUTH-1 | [事件切分控制流与元数据](tasks/QUALITY-EVENT-SLICE-CONTROL-TRUTH-1.md) | draft | Codex / 算法冻结，核真实影响域 | 更名伪边/计数goto分歧；raw17站点，默认全局runtime，不冒称游戏故障 |
 | QUALITY-RLE-COMMAND-TRUTH-1 | [RLE高位literal格式真值](tasks/QUALITY-RLE-COMMAND-TRUTH-1.md) | draft | Codex / 只读取证，算法冻结 | SDL native与TS分歧已证；GOP未见分类差异，canonical域/其它资源待核 |

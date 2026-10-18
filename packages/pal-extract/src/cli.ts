@@ -23,7 +23,15 @@
  *     rng-frames.json                              (RNG.MKF 逐帧 PNG manifest;RGM/BALL 已改 PNG 解码,不再 raw dump)
  *     fire-sprites.json                            (FIRE.MKF sprite manifest, M4 P2 T4)
  */
-import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  realpathSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs'
 import { dirname, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { gzipSync } from 'node:zlib'
@@ -903,7 +911,7 @@ async function main(): Promise<void> {
   console.log(`[pal-extract] done. output → ${OUT}`)
 }
 
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+if (process.argv[1] && realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
   main().catch((err: unknown) => {
     console.error(err)
     process.exit(1)
