@@ -1,0 +1,248 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-18",
+  "reviewer": "Codex evidence-first independent acceptance",
+  "integrationBase": "d3f59cadd3389693e600f06a43d32ccebff68f6c",
+  "candidate": {
+    "sourceCommit": "3308b9c9e23cba988c402725a2ee4a2c26765b08",
+    "evidenceCommit": "d8e56b1b0e41d2d0b5f2e90b2ce7a7b353bdf488",
+    "worktree": "/Users/zhangxu/.glm-worktrees/pre94-rle-copy-r1",
+    "branch": null
+  },
+  "decision": "rework",
+  "integration": "Not cherry-picked or pushed; contributor worktree retained for narrowly scoped fixes. No product-file Owner takeover.",
+  "acceptedFacts": {
+    "whitelist": "Actual diff contains only comments/docblocks/four test-title changes; no implementation/fixture/assertion/export change identified.",
+    "nativeResults": "Both native JSON reports contain51 passed,0 failed/pending/todo;47 unchanged+4 exact title mappings independently recomputed. These JSON reports do not establish absence of console diagnostics.",
+    "accidentRecovery": "Final rle.test.ts diff contains exactly the authorized title edit; no overwritten JSON/list residue. No need to replay the accident or rerun51 tests.",
+    "R-1": "Definition accepted:O-2 short-input/error-contract candidate; not a bug-fix approval.",
+    "R-2": "Definition accepted:O-4 cross-file test-contract dedupe candidate; no retirement approval.",
+    "G-1": "Registration accepted; unreachable-guard structure remains pending, not repaired.",
+    "B": "Eight of nine change groups acceptable; parseSpriteChunk comment retains one unsupported no-tail-access assertion."
+  },
+  "rework": [
+    {
+      "id": "C1",
+      "path": "packages/shared/src/rle.ts",
+      "lines": [180, 181],
+      "finding": "The new statement that the engine never accesses the broken tail is unsupported. PAL_SpriteGetFrame rejects only indexes outside[0,imagecount); an extra declared tail slot can still be inside this range. The parenthetical unverified label does not make the preceding assertion factual.",
+      "required": "Remove the no-access inference; state only verified index-range behavior, unknown caller reachability and the current TS400-dimension filtering policy. Comments only."
+    },
+    {
+      "id": "C2",
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/prove-body-invariance.mjs",
+      "lines": [110, 113],
+      "finding": "The advertised read-only quick check unconditionally overwrites body-invariance.json. It was inspected but not run against the contributor tree.",
+      "required": "Default mode prints/verifies without writing, preserves the frozen report; if regeneration is needed, put it behind an explicit output option. Update the documented command and capture one read-only run."
+    },
+    {
+      "id": "C3",
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/gates.json",
+      "finding": "Only final docs raw is present. Initial docs raw, before/after Vitest console output and scoped static-gate raw are absent. Native JSON supports test identities/status, not zero console diagnostics. The user handoff claim that both docs rounds retain raw is unsupported.",
+      "required": "Attach genuine existing raw if available; otherwise disclose missing records and distinguish author-reported/independently evidenced results. Do not fabricate or overwrite historical originals. This comments-only batch may rely on the existing51 native results plus body invariance; no request to rerun51/125 tests. Capture only necessary new read-only-proof/scoped static checks."
+    }
+  ],
+  "evidence": {
+    "candidateFiles": [
+      {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/README.md",
+        "sha256": "5e7ceb9c3d90ee8c35980703a12e650facaa8ca40db56a0148de4d2b63c34da6",
+        "bytes": 8628
+      },
+      {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/after-targeted.json",
+        "sha256": "3830bf7e010702232752892f03eb5ea17a15d43e9b66068ee556b6c5fef87d7a",
+        "bytes": 24531
+      },
+      {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/base-targeted.json",
+        "sha256": "e91264cc02d890c5380c5df2ce497de10c1433c532e3a57ca99eafe42a04e09e",
+        "bytes": 24414
+      },
+      {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/body-invariance.json",
+        "sha256": "9fefa37394ea07ee09fe6d23ec910fbdcc7260a0e159aa5a434d387b2bb5f825",
+        "bytes": 1707
+      },
+      {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/docs-final.raw.gz",
+        "sha256": "3e2a6015024d872b2c26976e3563c26f918a72d6ef936e3e8bbfc931f803651a",
+        "bytes": 6896
+      },
+      {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/gates.json",
+        "sha256": "535c7dbfa08884707ad16a3317bd479594bcd89ff41ec95c6e606ff3f1e4b13f",
+        "bytes": 3173
+      },
+      {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/identity-mapping.json",
+        "sha256": "40ac270a664ff51a7614494ff588fab9920c067dce3f6028276629869d1e32db",
+        "bytes": 1865
+      },
+      {
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/prove-body-invariance.mjs",
+        "sha256": "0c9684667d538b63eaf9af065e91a7a6f7d9a03bee3c20ecb942b0d19222ca6f",
+        "bytes": 4483
+      }
+    ],
+    "identityChanges": [
+      {
+        "file": "rle.boundaries.test.ts",
+        "index": 0,
+        "before": "R01 parseSpriteChunkStrict 手列字节完整核 两帧混合游程：pixels/opaque 逐字节精确、palette-0 实心不混淆、无 sentinel 报告",
+        "after": "R01 parseSpriteChunkStrict 手列字节完整核 两帧混合游程：pixels/opaque 逐字节精确、palette-0 实心不混淆（无 sentinel 容器构造）"
+      },
+      {
+        "file": "rle.boundaries.test.ts",
+        "index": 2,
+        "before": "R01 严格拒绝单轴与相邻正控 零长度指令拒绝；同容器把 0 换成合法 1 长度即过（相邻正控）",
+        "after": "R01 严格拒绝单轴与相邻正控 零长度指令拒绝；同容器把 0 换成合法 2 长度 literal 即过（相邻正控）"
+      },
+      {
+        "file": "rle.boundaries.test.ts",
+        "index": 4,
+        "before": "R01 严格拒绝单轴与相邻正控 像素段越界 / 透明段越界 / 指令流截断 / 帧头越界各单轴",
+        "after": "R01 严格拒绝单轴与相邻正控 像素段越界 / 透明段越界 / 指令流截断 / 尺寸非法各单轴"
+      },
+      {
+        "file": "rle.test.ts",
+        "index": 12,
+        "before": "parseSpriteChunk 跳过 word-offset=0 的空帧(键连续性铁律:返回数组下标 = tile 索引)",
+        "after": "parseSpriteChunk 跳过 word-offset=0 的空帧(键连续性铁律:返回数组下标 = 过滤后序列的 tile 索引,非原 slot 号)"
+      }
+    ],
+    "primary": "reference/sdlpal/palcommon.c:803-852; only index-range and return-pointer statements inspected for C1",
+    "scope": "Complete candidate diff, short receipt, proof-producer source, native JSON/mapping and final docs raw; no duplicate full-file RLE/caller review.",
+    "notRun": [
+      "contributor proof command (it writes the frozen report)",
+      "RLE tests",
+      "shared typecheck",
+      "whole repository check",
+      "official coverage ratchet",
+      "protected fast",
+      "125 docs-tool tests"
+    ]
+  },
+  "nextBatch": {
+    "files": ["packages/shared/src/mkf.ts", "packages/shared/src/mkf.boundaries.test.ts"],
+    "proposedOwner": "GLM after this narrow RLE correction is received",
+    "ownershipCheck": "No exact-path uncommitted change in five registered worktrees; active board has no separate MKF Owner assignment beyond the pre94 parent. Reserve two-file scope; recheck at actual start.",
+    "permission": "Full eight-axis review plus behavior-preserving prose/test-precision candidates under explicit scope; codec algorithm/API/resource-format changes require separate premise/risk approval."
+  },
+  "ledger": {
+    "tracked": 3319,
+    "closed": 249,
+    "review": 105,
+    "pending": 2965,
+    "newClosed": 0,
+    "RleThreeFiles": "review"
+  },
+  "checks": [
+    {
+      "command": ["node", "scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T09:39:45.187627+00:00",
+      "completedAt": "2026-10-18T09:39:45.928851+00:00",
+      "exit": 0,
+      "raw": "docs: 1583 Markdown / 9509 local links / 467 tasks / content22 SAVE12\ndocs: PASS (0 issues)\n",
+      "rawBytes": 92,
+      "rawSha256": "d3da0fc74fee9fd15e4c7a763a2116c8038cf282b5552b34d9943dbc070b9d66",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "command": ["node", "scripts/docs/check-document-model.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T09:39:45.928975+00:00",
+      "completedAt": "2026-10-18T09:39:46.982680+00:00",
+      "exit": 0,
+      "raw": "document model: PASS (8 routes; 1264 body contracts; 0 issues; structure only)\n",
+      "rawBytes": 79,
+      "rawSha256": "4aedd940be88ac1d132006b5840168acf64d205bdbc2e781ba7fdd4de16bb1e8",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "command": ["node", "scripts/docs/check-testing.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T09:39:46.982734+00:00",
+      "completedAt": "2026-10-18T09:39:47.076789+00:00",
+      "exit": 0,
+      "raw": "testing docs: PASS (0 issues)\n",
+      "rawBytes": 30,
+      "rawSha256": "31fda95a2dd80bd763aacbc8053a25a4eea8cdc2b5d3a728694cb8624231621c",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "command": ["node", "scripts/docs/check-phase-lore-governance.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T09:39:47.076836+00:00",
+      "completedAt": "2026-10-18T09:39:47.123270+00:00",
+      "exit": 0,
+      "raw": "phase/lore governance: PASS (184 documents)\n",
+      "rawBytes": 44,
+      "rawSha256": "b008831f3075038e0d16c5676748c83b509ebd5b7bf907c444e80b04403c774c",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "command": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T09:39:47.123321+00:00",
+      "completedAt": "2026-10-18T09:39:47.506539+00:00",
+      "exit": 0,
+      "raw": "content review: PASS (2346 documents; {\"content-reviewed\":2346})\n",
+      "rawBytes": 65,
+      "rawSha256": "3b0b15882a95d042815fa3dcb89b8a9fee95d0b962e3624081c56d62e567efad",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "command": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T09:39:47.506588+00:00",
+      "completedAt": "2026-10-18T09:39:50.019960+00:00",
+      "exit": 0,
+      "raw": "\n> type-pal@ lint /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal\n> node scripts/quality/lint-zero.mjs\n\nlint: PASS — 5542 files; 0 errors / 0 warnings / 0 infos; complete report\n",
+      "rawBytes": 193,
+      "rawSha256": "9bcb67108b15a43591cd43319774a6935d7f3e8f54bb24266452c6f5a7d62c94",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T09:39:50.020011+00:00",
+      "completedAt": "2026-10-18T09:39:51.107011+00:00",
+      "exit": 0,
+      "raw": "code-quality ledger: PASS — 3319 files; 249 closed / 105 review / 2965 pending; semantic review still required\n",
+      "rawBytes": 113,
+      "rawSha256": "ffe05b96750322cd19e334a27ba22626b60a19bf68e508218550715f99d8c24a",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "command": ["git", "diff", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T09:39:51.107067+00:00",
+      "completedAt": "2026-10-18T09:39:51.132358+00:00",
+      "exit": 0,
+      "raw": "",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fullUncutMergedStdoutStderr": true
+    }
+  ],
+  "priorRecordCheckAttempts": [
+    {
+      "reason": "Review receipt was linked before its initial write; first link check failed. Receipt now exists; original failure retained.",
+      "checks": [
+        {
+          "command": ["node", "scripts/docs/check.mjs"],
+          "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "startedAt": "2026-10-18T09:39:21.150073+00:00",
+          "completedAt": "2026-10-18T09:39:21.850608+00:00",
+          "exit": 1,
+          "raw": "docs: 1583 Markdown / 9509 local links / 467 tasks / content22 SAVE12\ndocs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md:813: 本地目标不存在或无法随仓库检出：../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1-codex-review.json → docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1-codex-review.json\ndocs: FAIL (1 issues)\n",
+          "rawBytes": 355,
+          "rawSha256": "f54035484cb42c2e791c5dbdf141fdcd77d8a03b61ac47fa9d45c811689cb97d",
+          "fullUncutMergedStdoutStderr": true
+        }
+      ]
+    }
+  ]
+}

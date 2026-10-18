@@ -806,3 +806,12 @@ Codex premise verified / design agree / build allowed（仅文案候选）：Cod
 RLE已准入三文件整改继续有效，不再要求额外只读轮。上一校准的全文核读是本次实际历史，保留其原件，不作为后续每批默认成本。当前协议仅改变验收方式，A–H内容及产品源码/测试未变；旧RLEmanifest对长期规范SHA会提示过期，只需核本次流程delta，不重跑未变51合同、不改旧manifest冒充原校准。
 
 后续GLM按长期协议一批一个稳定入口交短回执/详细索引/原件和快检，用户转达即可；Codex在同一3y线作accept/rework/review和集成，记录具体依赖的作者证据及实际抽核范围，不再以阅读数量充当验收质量。各普通批次直接实施获准范围，格式风险仍走既有停线卡。
+
+
+## 2026-10-18 GLM RLE copy-fix-r1证据验收：三项窄返工
+
+候选3308b9c9e23cba988c402725a2ee4a2c26765b08 + d8e56b1b0e41d2d0b5f2e90b2ce7a7b353bdf488，基点d3f59cadd。Codex仅核短回执、完整差异、证明产生者、native身份/映射和一处SDL索引范围，未再全文治理或跑RLE/125工具测试；细项及附件SHA见[验收记录](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1-codex-review.json)。差异全部属于文案/四标题范围，未见实现越界；51前后通过/47不变+4更名成立，恢复后无vitest-list事故残留。
+
+当前rework，不集成两提交、不清理候选worktree/两node_modules链接，Coding Owner仍GLM。仅C1：删去仍无依据的“引擎不触达坏尾”推断，已核SDL仅拒绝imagecount外索引；C2：快检默认只读，不能无条件覆盖冻结body-invariance.json；C3：补能定位的真实原件或如实标缺失，当前仅有最终docs raw，不能声称两轮docs及其它门原件全部齐/诊断已证零。缺失历史不补造、不以新跑覆盖；未要求重跑51或125测试，只捕获必要的新只读证明/轻量静态结果。GLM在原隔离worktree窄修，无需再交只读预审，Codex下轮仅核这些delta和证据。
+
+R-1→O-2、R-2→O-4定义已接收，不再缺标识；G-1登记补证成立但结构候选未修，B尚有C1未闭合。RLE三文件仍review，0新增关闭；账本3319/249closed/105review/2965pending未变。下一批仍MKF两文件，当前五树无对应未提交改动、看板无其它专属Owner；拟GLM接续，实际开工前复核Owner及最新3y。该排序不是给MKF算法/接口或格式变更泛化准入。主树/其它Owner不动，3y不合main。
