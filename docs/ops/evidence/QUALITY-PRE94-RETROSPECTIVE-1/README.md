@@ -222,3 +222,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 - 2026-10-18：[3w战后脚本/特殊结局](3w-post-scripts/README.md)——原SSS15对象/10leaf与四0x89静态域；两测试共享正式宿主、原11合同保留→16，六有效反控，237恢复/相邻与TC零诊断，0关闭。当前3318/251closed/102review/2965pending；83卡55/28/0accept不变。统一门仍待；随后先处理用户补审三项提取输出/入口/注释。
 
 - 2026-10-18：[长期工程质量规范接入](quality-standard/README.md)——八维与低成本复验进入项目级规范及开发/验收/任务模板；GLM执行、Codex独立核代码，0代码关闭，存量复审仍待。
+
+- 2026-10-18：[GLM大型持续任务](glm-pre94-foundation-goal.md)——RLE文案校准已接收；由MKF起连续推进pre94剩余及94–102既有返工，内部小批、模块交付，减少用户传话。

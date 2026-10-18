@@ -1,0 +1,305 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-18",
+  "reviewer": "Codex evidence-first final acceptance",
+  "recordBase": "c1464acde3cbff85c0a24afed343104a7a9f52d2",
+  "decision": "accept finite prose/title correction and C1-C3; not whole-file/governance closure",
+  "sourceMappings": [
+    {
+      "original": "3308b9c9e23cba988c402725a2ee4a2c26765b08",
+      "integrated": "d41ae027ea8b78e84dd1a2384b5ea7722119bbc8"
+    },
+    {
+      "original": "d8e56b1b0e41d2d0b5f2e90b2ce7a7b353bdf488",
+      "integrated": "4c7eab7c01e7435aaa17731f5a0a52ce0bc7159c"
+    },
+    {
+      "original": "8a6756bb62552ee493f2e07fad6415f46b7ff451",
+      "integrated": "5b811a020972b306b005b00b931f75f94b65bc8c"
+    },
+    {
+      "original": "6ab85c4d041bfaf7373275522d6cdb0ca2ec1404",
+      "integrated": "761646af61f575a5f21e7fa4849d75828f54488d"
+    }
+  ],
+  "integrationCorrection": {
+    "commit": "c1464acde3cbff85c0a24afed343104a7a9f52d2",
+    "scope": "One-line exclusive creation for optional proof output, preventing overwrite through existing files/symlinks; no product code change",
+    "checks": {
+      "scope": "Proof-artifact output ownership only; not product tests",
+      "defaultReadOnly": true,
+      "newFileCreated": true,
+      "existingFileAndSymlinkRefused": true,
+      "frozenDirectPathRefused": true,
+      "frozenSha256": "9fefa37394ea07ee09fe6d23ec910fbdcc7260a0e159aa5a434d387b2bb5f825",
+      "temporaryDirectoryRemoved": true,
+      "checks": [
+        {
+          "command": [
+            "node",
+            "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/prove-body-invariance.mjs"
+          ],
+          "expectedExit": 0,
+          "exit": 0,
+          "raw": "{\n  \"schemaVersion\": 1,\n  \"base\": \"d3f59cadd3389693e600f06a43d32ccebff68f6c\",\n  \"method\": \"typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \\\"<TITLE>\\\" in both versions\",\n  \"files\": [\n    {\n      \"file\": \"packages/shared/src/rle.ts\",\n      \"titleCallCount\": {\n        \"base\": 0,\n        \"current\": 0\n      },\n      \"printedSha256\": {\n        \"base\": \"283ad614c5ed426b79750a77433a0e93119321aea285890af6df5ce9d5a1f569\",\n        \"current\": \"283ad614c5ed426b79750a77433a0e93119321aea285890af6df5ce9d5a1f569\"\n      },\n      \"printedBytes\": {\n        \"base\": 8676,\n        \"current\": 8676\n      },\n      \"printedEqual\": true,\n      \"firstDifferenceOffset\": null\n    },\n    {\n      \"file\": \"packages/shared/src/rle.test.ts\",\n      \"titleCallCount\": {\n        \"base\": 29,\n        \"current\": 29\n      },\n      \"printedSha256\": {\n        \"base\": \"d48590b1c4f0f5bd5e42a37d0b7a600342b41cd21a5c6311531ac577a20525e3\",\n        \"current\": \"d48590b1c4f0f5bd5e42a37d0b7a600342b41cd21a5c6311531ac577a20525e3\"\n      },\n      \"printedBytes\": {\n        \"base\": 9000,\n        \"current\": 9000\n      },\n      \"printedEqual\": true,\n      \"firstDifferenceOffset\": null\n    },\n    {\n      \"file\": \"packages/shared/src/rle.boundaries.test.ts\",\n      \"titleCallCount\": {\n        \"base\": 9,\n        \"current\": 9\n      },\n      \"printedSha256\": {\n        \"base\": \"947d9278a6c763254d13e658c3e984f0ae96b700ee85d5587c7cbc32d09109b6\",\n        \"current\": \"947d9278a6c763254d13e658c3e984f0ae96b700ee85d5587c7cbc32d09109b6\"\n      },\n      \"printedBytes\": {\n        \"base\": 4699,\n        \"current\": 4699\n      },\n      \"printedEqual\": true,\n      \"firstDifferenceOffset\": null\n    }\n  ],\n  \"allEqual\": true\n}\n\n"
+        },
+        {
+          "command": [
+            "node",
+            "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/prove-body-invariance.mjs",
+            "--out",
+            "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-rle-proof-v3ry0fhw/new.json"
+          ],
+          "expectedExit": 0,
+          "exit": 0,
+          "raw": "{\n  \"schemaVersion\": 1,\n  \"base\": \"d3f59cadd3389693e600f06a43d32ccebff68f6c\",\n  \"method\": \"typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \\\"<TITLE>\\\" in both versions\",\n  \"files\": [\n    {\n      \"file\": \"packages/shared/src/rle.ts\",\n      \"titleCallCount\": {\n        \"base\": 0,\n        \"current\": 0\n      },\n      \"printedSha256\": {\n        \"base\": \"283ad614c5ed426b79750a77433a0e93119321aea285890af6df5ce9d5a1f569\",\n        \"current\": \"283ad614c5ed426b79750a77433a0e93119321aea285890af6df5ce9d5a1f569\"\n      },\n      \"printedBytes\": {\n        \"base\": 8676,\n        \"current\": 8676\n      },\n      \"printedEqual\": true,\n      \"firstDifferenceOffset\": null\n    },\n    {\n      \"file\": \"packages/shared/src/rle.test.ts\",\n      \"titleCallCount\": {\n        \"base\": 29,\n        \"current\": 29\n      },\n      \"printedSha256\": {\n        \"base\": \"d48590b1c4f0f5bd5e42a37d0b7a600342b41cd21a5c6311531ac577a20525e3\",\n        \"current\": \"d48590b1c4f0f5bd5e42a37d0b7a600342b41cd21a5c6311531ac577a20525e3\"\n      },\n      \"printedBytes\": {\n        \"base\": 9000,\n        \"current\": 9000\n      },\n      \"printedEqual\": true,\n      \"firstDifferenceOffset\": null\n    },\n    {\n      \"file\": \"packages/shared/src/rle.boundaries.test.ts\",\n      \"titleCallCount\": {\n        \"base\": 9,\n        \"current\": 9\n      },\n      \"printedSha256\": {\n        \"base\": \"947d9278a6c763254d13e658c3e984f0ae96b700ee85d5587c7cbc32d09109b6\",\n        \"current\": \"947d9278a6c763254d13e658c3e984f0ae96b700ee85d5587c7cbc32d09109b6\"\n      },\n      \"printedBytes\": {\n        \"base\": 4699,\n        \"current\": 4699\n      },\n      \"printedEqual\": true,\n      \"firstDifferenceOffset\": null\n    }\n  ],\n  \"allEqual\": true\n}\n\n"
+        },
+        {
+          "command": [
+            "node",
+            "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/prove-body-invariance.mjs",
+            "--out",
+            "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-rle-proof-v3ry0fhw/existing.json"
+          ],
+          "expectedExit": 1,
+          "exit": 1,
+          "raw": "node:fs:560\n  return binding.open(\n                 ^\n\nError: EEXIST: file already exists, open '/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-rle-proof-v3ry0fhw/existing.json'\n    at Object.openSync (node:fs:560:18)\n    at writeFileSync (node:fs:2444:35)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/prove-body-invariance.mjs:131:3\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {\n  errno: -17,\n  code: 'EEXIST',\n  syscall: 'open',\n  path: '/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-rle-proof-v3ry0fhw/existing.json'\n}\n\nNode.js v22.23.2\n"
+        },
+        {
+          "command": [
+            "node",
+            "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/prove-body-invariance.mjs",
+            "--out",
+            "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-rle-proof-v3ry0fhw/alias.json"
+          ],
+          "expectedExit": 1,
+          "exit": 1,
+          "raw": "node:fs:560\n  return binding.open(\n                 ^\n\nError: EEXIST: file already exists, open '/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-rle-proof-v3ry0fhw/alias.json'\n    at Object.openSync (node:fs:560:18)\n    at writeFileSync (node:fs:2444:35)\n    at file:///Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/prove-body-invariance.mjs:131:3\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {\n  errno: -17,\n  code: 'EEXIST',\n  syscall: 'open',\n  path: '/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-rle-proof-v3ry0fhw/alias.json'\n}\n\nNode.js v22.23.2\n"
+        },
+        {
+          "command": [
+            "node",
+            "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/prove-body-invariance.mjs",
+            "--out",
+            "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/body-invariance.json"
+          ],
+          "expectedExit": 2,
+          "exit": 2,
+          "raw": "--out must target a NEW file; the r1 report is frozen\n"
+        }
+      ]
+    },
+    "CodingOwner": "Codex; validation of this one-line correction is self-validation, not attributed to GLM"
+  },
+  "C1": "Closed: unsupported no-tail-access inference removed; known SDL index bounds distinguished from unverified caller reachability and TS dimension policy.",
+  "C2": {
+    "closed": true,
+    "independentReadOnlyRun": {
+      "command": [
+        "node",
+        "/Users/zhangxu/.glm-worktrees/pre94-rle-copy-r1/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/prove-body-invariance.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.glm-worktrees/pre94-rle-copy-r1",
+      "exit": 0,
+      "stdout": "{\n  \"schemaVersion\": 1,\n  \"base\": \"d3f59cadd3389693e600f06a43d32ccebff68f6c\",\n  \"method\": \"typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \\\"<TITLE>\\\" in both versions\",\n  \"files\": [\n    {\n      \"file\": \"packages/shared/src/rle.ts\",\n      \"titleCallCount\": {\n        \"base\": 0,\n        \"current\": 0\n      },\n      \"printedSha256\": {\n        \"base\": \"283ad614c5ed426b79750a77433a0e93119321aea285890af6df5ce9d5a1f569\",\n        \"current\": \"283ad614c5ed426b79750a77433a0e93119321aea285890af6df5ce9d5a1f569\"\n      },\n      \"printedBytes\": {\n        \"base\": 8676,\n        \"current\": 8676\n      },\n      \"printedEqual\": true,\n      \"firstDifferenceOffset\": null\n    },\n    {\n      \"file\": \"packages/shared/src/rle.test.ts\",\n      \"titleCallCount\": {\n        \"base\": 29,\n        \"current\": 29\n      },\n      \"printedSha256\": {\n        \"base\": \"d48590b1c4f0f5bd5e42a37d0b7a600342b41cd21a5c6311531ac577a20525e3\",\n        \"current\": \"d48590b1c4f0f5bd5e42a37d0b7a600342b41cd21a5c6311531ac577a20525e3\"\n      },\n      \"printedBytes\": {\n        \"base\": 9000,\n        \"current\": 9000\n      },\n      \"printedEqual\": true,\n      \"firstDifferenceOffset\": null\n    },\n    {\n      \"file\": \"packages/shared/src/rle.boundaries.test.ts\",\n      \"titleCallCount\": {\n        \"base\": 9,\n        \"current\": 9\n      },\n      \"printedSha256\": {\n        \"base\": \"947d9278a6c763254d13e658c3e984f0ae96b700ee85d5587c7cbc32d09109b6\",\n        \"current\": \"947d9278a6c763254d13e658c3e984f0ae96b700ee85d5587c7cbc32d09109b6\"\n      },\n      \"printedBytes\": {\n        \"base\": 4699,\n        \"current\": 4699\n      },\n      \"printedEqual\": true,\n      \"firstDifferenceOffset\": null\n    }\n  ],\n  \"allEqual\": true\n}\n\n",
+      "statusAndEvidenceBytesUnchanged": true,
+      "frozenSha256": "9fefa37394ea07ee09fe6d23ec910fbdcc7260a0e159aa5a434d387b2bb5f825",
+      "firstDocsSha256": "0ba3aeb1d63046979344a9acd5f49f15e1be61f17fc4671ab16b5f02ab9fa569",
+      "finalDocsSha256": "ffcb01530b9aa4d4d919eff763f77f9a7c3731ab4ade2551189506dfaec46bbe"
+    },
+    "outputGuard": "Default readonly; direct frozen path refused; optional output exclusively creates a new file."
+  },
+  "C3": "Closed: original first/final docs output available with hashes; missing historical Vitest console/static output explicitly author-reported, not independently certified zero diagnostics. Old native51 identity/status evidence reused.",
+  "retained": {
+    "G-1": "structure candidate pending",
+    "O-1": "generic frame allocation/input domain pending",
+    "O-2/R-1": "short-container error contract candidate pending",
+    "O-4/R-2": "cross-file test-contract dedupe candidate pending",
+    "O-3/format": "QUALITY-RLE-COMMAND-TRUTH-1 remains draft; no codec or asset-format build approval"
+  },
+  "newClosedFiles": 0,
+  "fileStates": {
+    "rle.ts": "review",
+    "rle.test.ts": "review",
+    "rle.boundaries.test.ts": "review"
+  },
+  "ledger": {
+    "tracked": 3319,
+    "closed": 249,
+    "review": 105,
+    "pending": 2965
+  },
+  "notRun": [
+    "RLE51 tests",
+    "125 docs-tool tests",
+    "product typecheck",
+    "whole repository check",
+    "official coverage ratchet",
+    "protected fast",
+    "runtime/E2E/visual"
+  ],
+  "reuse": "GLM native51 results and mapping independently accepted at r1; source body unchanged proven by updated read-only producer.125 docs-tool source unchanged and existing full raw retained; no duplicated execution.",
+  "cleanup": {
+    "completedAt": "2026-10-18T11:28:44.486952+00:00",
+    "afterSuccessfulPush": true,
+    "acceptedSourceCommit": "6ab85c4d041bfaf7373275522d6cdb0ca2ec1404",
+    "removedWorktree": "/Users/zhangxu/.glm-worktrees/pre94-rle-copy-r1",
+    "removedSymlinks": [
+      {
+        "path": "/Users/zhangxu/.glm-worktrees/pre94-rle-copy-r1/node_modules",
+        "target": "/Users/zhangxu/illegal/type-pal/node_modules",
+        "unlinkedOnly": true
+      },
+      {
+        "path": "/Users/zhangxu/.glm-worktrees/pre94-rle-copy-r1/packages/shared/node_modules",
+        "target": "/Users/zhangxu/illegal/type-pal/packages/shared/node_modules",
+        "unlinkedOnly": true
+      }
+    ],
+    "mainDependencyTargetsStillExist": true,
+    "remainingRegisteredWorktrees": [
+      "worktree /Users/zhangxu/illegal/type-pal",
+      "HEAD 28fd9013e09e8792decbff2fa117aae14c36b196",
+      "branch refs/heads/main",
+      "",
+      "worktree /Users/zhangxu/.codex/worktrees/docs-archive-navigation/type-pal",
+      "HEAD fb00cc89a58539969760c05737f9003ef7c80fa2",
+      "branch refs/heads/codex/docs-s14-glm-history",
+      "",
+      "worktree /Users/zhangxu/.codex/worktrees/docs-audit-continuation/type-pal",
+      "HEAD f8eaa07b07f1ee98ed31cbb3c6c45c5cd186be35",
+      "branch refs/heads/codex/docs-audit-rework",
+      "",
+      "worktree /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "HEAD c1464acde3cbff85c0a24afed343104a7a9f52d2",
+      "branch refs/heads/codex/code-quality-3y",
+      ""
+    ]
+  },
+  "next": "Large delegated pre94 foundation task, GLM executes internal small slices without per-slice user relays; CODE2 MKF first, then all pre94 eligible work, then94-102existing rework.",
+  "checks": [
+    {
+      "command": ["node", "scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T11:31:00.177450+00:00",
+      "completedAt": "2026-10-18T11:31:00.912787+00:00",
+      "exit": 0,
+      "raw": "docs: 1585 Markdown / 9530 local links / 467 tasks / content22 SAVE12\ndocs: PASS (0 issues)\n",
+      "rawBytes": 92,
+      "rawSha256": "de8edfedba71214f6beb664a25839cb45229e75c5fa11ccd319930c1bb8441b6",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "command": ["node", "scripts/docs/check-document-model.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T11:31:00.912867+00:00",
+      "completedAt": "2026-10-18T11:31:01.922731+00:00",
+      "exit": 0,
+      "raw": "document model: PASS (8 routes; 1264 body contracts; 0 issues; structure only)\n",
+      "rawBytes": 79,
+      "rawSha256": "4aedd940be88ac1d132006b5840168acf64d205bdbc2e781ba7fdd4de16bb1e8",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "command": ["node", "scripts/docs/check-testing.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T11:31:01.922787+00:00",
+      "completedAt": "2026-10-18T11:31:02.016182+00:00",
+      "exit": 0,
+      "raw": "testing docs: PASS (0 issues)\n",
+      "rawBytes": 30,
+      "rawSha256": "31fda95a2dd80bd763aacbc8053a25a4eea8cdc2b5d3a728694cb8624231621c",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "command": ["node", "scripts/docs/check-phase-lore-governance.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T11:31:02.016242+00:00",
+      "completedAt": "2026-10-18T11:31:02.061781+00:00",
+      "exit": 0,
+      "raw": "phase/lore governance: PASS (184 documents)\n",
+      "rawBytes": 44,
+      "rawSha256": "b008831f3075038e0d16c5676748c83b509ebd5b7bf907c444e80b04403c774c",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "command": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T11:31:02.061837+00:00",
+      "completedAt": "2026-10-18T11:31:02.424656+00:00",
+      "exit": 0,
+      "raw": "content review: PASS (2346 documents; {\"content-reviewed\":2346})\n",
+      "rawBytes": 65,
+      "rawSha256": "3b0b15882a95d042815fa3dcb89b8a9fee95d0b962e3624081c56d62e567efad",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "command": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T11:31:02.424726+00:00",
+      "completedAt": "2026-10-18T11:31:04.892512+00:00",
+      "exit": 0,
+      "raw": "\n> type-pal@ lint /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal\n> node scripts/quality/lint-zero.mjs\n\nlint: PASS — 5550 files; 0 errors / 0 warnings / 0 infos; complete report\n",
+      "rawBytes": 193,
+      "rawSha256": "077527bc6caddfeb066d34c3e4d8c116b79aba2f782259e2ace2f4cf42e92093",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T11:31:04.892582+00:00",
+      "completedAt": "2026-10-18T11:31:05.947030+00:00",
+      "exit": 0,
+      "raw": "code-quality ledger: PASS — 3319 files; 249 closed / 105 review / 2965 pending; semantic review still required\n",
+      "rawBytes": 113,
+      "rawSha256": "ffe05b96750322cd19e334a27ba22626b60a19bf68e508218550715f99d8c24a",
+      "fullUncutMergedStdoutStderr": true
+    },
+    {
+      "command": ["git", "diff", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-18T11:31:05.947089+00:00",
+      "completedAt": "2026-10-18T11:31:05.975313+00:00",
+      "exit": 0,
+      "raw": "",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "fullUncutMergedStdoutStderr": true
+    }
+  ],
+  "delegationBindings": [
+    {
+      "review": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "path": "docs/ops/board.md"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "path": "docs/ops/code-quality.md"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"
+    }
+  ],
+  "scopeChecks": {
+    "eightAxesBeforeAfterSha256": "15c1454c12687f44aff8d01aca6f97ce7206c2e8c653f2260e8f988f03c1df2f",
+    "noProductTestToolRuleLedger83QueueChangeAfterSourceIntegration": true,
+    "unrelatedMetadataAndPriorHistoryPreserved": true,
+    "newLongTermBranches": 0
+  },
+  "supersedesReview": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1-codex-review.json",
+    "commit": "b614e88a9b2c19832cd2216e7a62b5189e49f479",
+    "scope": "C1-C3 finite-prose rework closed; historical receipt retained; unrelated risks stay pending"
+  },
+  "diagnostics": {
+    "error": 0,
+    "warning": 0,
+    "info": 0,
+    "basis": "Actual final docs consumers and lint-zero all clean. Expected negative file-ownership probes are separately labeled, not a whole-repo runtime-zero claim."
+  }
+}

@@ -1040,7 +1040,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "cf1727eaef85a333a0ea76cf2d5d9df41943e534b6633a2c8791f2cad7e1c36b",
+      "afterSha256": "4dad0b7e536f602602e20b8bd5b68ed74572712afc2e118a579f2095b96f9d35",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1064,8 +1064,24 @@
       },
       "revision": {
         "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "implementationSha": "cf1727eaef85a333a0ea76cf2d5d9df41943e534b6633a2c8791f2cad7e1c36b",
+        "implementationSha": "4dad0b7e536f602602e20b8bd5b68ed74572712afc2e118a579f2095b96f9d35",
         "history": [
+          {
+            "revision": "c1464acde3cbff85c0a24afed343104a7a9f52d2",
+            "date": "2026-10-18",
+            "action": "RLE finite-prose acceptance and user-authorized continuous large GLM assignment",
+            "previousAfterSha256": "cf1727eaef85a333a0ea76cf2d5d9df41943e534b6633a2c8791f2cad7e1c36b",
+            "scope": "Only incoming binding for explicit current record changes; no unrelated semantic acceptance",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1-codex-final.json",
+            "notRun": [
+              "RLE51/125tool tests",
+              "product typecheck",
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "runtime/E2E/visual"
+            ]
+          },
           {
             "revision": "0ac98b83963ebee467ecffd7b9db7d0489d5da22",
             "date": "2026-10-18",
@@ -1548,8 +1564,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "cf1727eaef85a333a0ea76cf2d5d9df41943e534b6633a2c8791f2cad7e1c36b",
-        "lineCount": 3095,
+        "afterSha256": "4dad0b7e536f602602e20b8bd5b68ed74572712afc2e118a579f2095b96f9d35",
+        "lineCount": 3141,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -1583,14 +1599,14 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-3095",
+      "reviewedLines": "1-3141",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "cf1727eaef85a333a0ea76cf2d5d9df41943e534b6633a2c8791f2cad7e1c36b",
+      "candidateSha256": "4dad0b7e536f602602e20b8bd5b68ed74572712afc2e118a579f2095b96f9d35",
       "primarySource": [
         {
           "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",

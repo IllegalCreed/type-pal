@@ -1,6 +1,6 @@
 # RLE 三文件文案整改 r1（copy-fix-r1）
 
-Status: review（待 Codex 独立验收）
+Status: done（有限文案/标题与C1–C3获接收；三文件治理仍review）
 Owner: GLM（Coding Owner，按[校准包准入](../calibration-20261018/README.md)第 5 节与[长期规范 4.1](../../../../code-quality.md)直接执行）
 Date: 2026-10-18
 基点：`d3f59cadd3389693e600f06a43d32ccebff68f6c`（origin/codex/code-quality-3y，fetch 复核后锁定）
@@ -100,3 +100,12 @@ cd "$WT/packages/shared" && ../../node_modules/.bin/vitest run \
 ### 更新后的复验入口
 
 原"复验入口"命令块继续有效；补充：prove-body-invariance.mjs 现默认只读（stdout 报告 + 退出码，不改工作树，见 C2），`--out` 仅用于显式另存新报告。语义判断（注释表述是否如实、标题是否与真实轴一致）仍需人工读 diff 裁定。
+
+
+## Codex终验与集成（2026-10-18）
+
+C1–C3按证据验收接收：三文件正文保持，4标题映射沿已核51原生结果；默认快检实际只读，首轮docs原件已补，未保存历史输出明确作者自报。Codex仅对增量/证明产生者/原件作定向核验，未重跑51/125或全仓/覆盖率门。四候选提交已按序拣选至3y；原source→集成映射、输出保护及原件SHA见[终验记录](../copy-fix-r1-codex-final.json)。
+
+集成另补一行`flag: 'wx'`，使可选`--out`真正只创建新文件：新文件正控、已有文件/链接拒绝、冻结路径拒绝及默认只读均验证；冻结报告字节不变。此为证据工具的文件保护，不是产品行为修复。旧r1/返工原件保持，G-1/O-1/O-2/O-4/格式真值卡继续pending/review/draft，0代码文件关闭。旧复验块的“预期两笔”为r1历史，当前内容以终验与实际Git映射为准；接收后临时worktree清理，后续可在集成仓库运行只读证明。
+
+集成仓库的只读快检命令：`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/prove-body-invariance.mjs`，预期exit0且allEqual=true；不要求重跑51测试。

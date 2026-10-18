@@ -21,13 +21,13 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 
 ## 长期质量标准与当前执行分工
 
-所有文件按[工程代码质量与验收规范](../code-quality.md)的八维和可独立复验要求推进；本卡只保存本轮范围、进度与证据，不另维护质量条文。本轮GLM承担主要全文审查与获准整改，Codex主导分批、风险核定、独立代码验收及集成；首批RLE三文件只读校准尚不获得产品build或关闭信用。历史partial不继承新的八维验收。
+所有文件按[工程代码质量与验收规范](../code-quality.md)的八维和可独立复验要求推进；本卡只保存本轮范围、进度与证据，不另维护质量条文。本轮GLM承担主要全文审查与获准整改，Codex按证据协议作风险核定、阶段验收与集成。RLE有限文案/证据包已接收，格式算法仍冻结、三文件仍review；当前按下方持续任务滚动推进。历史partial不继承新的八维验收。
 
 ## 当前推进
 
 83卡当前全量accept=0、55partial/28pending；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3b SSS/MSG、3c动画清理、3d PNG、3g CLI、3h assets/shell、CODE71 fetch取消与测试、CODE3/3f切分与标注已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
 
-当前按长期规范由GLM执行有限批次，Codex独立校准与集成。RLE首批校准发现账本漂移及B/G维漏项；仅准入下述注释候选，不扩展到批量升格或产品算法。唯一集成分支仍为codex/code-quality-3y，贡献者使用新鲜临时detached worktree交patch，避免新增长期分支。
+当前由GLM按[大型持续任务](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-pre94-foundation-goal.md)自驱推进pre94剩余复审及94–102既有返工，Codex在模块/阶段据证验收和集成；内部小片连续执行，不逐片等用户转话。RLE文案终验已接收，高风险算法/格式与未知仍冻结，不批量升格。唯一集成分支仍为codex/code-quality-3y，贡献者使用一个新鲜临时detached worktree，避免新增长期分支。
 
 
 ### 2026-10-17 CODE-QUALITY-3r event-system 当前复审
@@ -815,3 +815,12 @@ RLE已准入三文件整改继续有效，不再要求额外只读轮。上一�
 当前rework，不集成两提交、不清理候选worktree/两node_modules链接，Coding Owner仍GLM。仅C1：删去仍无依据的“引擎不触达坏尾”推断，已核SDL仅拒绝imagecount外索引；C2：快检默认只读，不能无条件覆盖冻结body-invariance.json；C3：补能定位的真实原件或如实标缺失，当前仅有最终docs raw，不能声称两轮docs及其它门原件全部齐/诊断已证零。缺失历史不补造、不以新跑覆盖；未要求重跑51或125测试，只捕获必要的新只读证明/轻量静态结果。GLM在原隔离worktree窄修，无需再交只读预审，Codex下轮仅核这些delta和证据。
 
 R-1→O-2、R-2→O-4定义已接收，不再缺标识；G-1登记补证成立但结构候选未修，B尚有C1未闭合。RLE三文件仍review，0新增关闭；账本3319/249closed/105review/2965pending未变。下一批仍MKF两文件，当前五树无对应未提交改动、看板无其它专属Owner；拟GLM接续，实际开工前复核Owner及最新3y。该排序不是给MKF算法/接口或格式变更泛化准入。主树/其它Owner不动，3y不合main。
+
+
+## 2026-10-18 RLE窄返工终验接收与大型任务分派
+
+C1–C3闭合，按原顺序拣选四笔候选；源码/证据映射及定向只读证明见[终验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1-codex-final.json)。原件保存/缺失事实已分层，不将旧作者自报改写成独立零诊断。Codex另补证明输出wx独占创建并验默认只读、新文件正控、已有文件/链接拒绝及冻结件保持，避免为一行保护再转话。0产品行为变化、0新关闭，RLE三文件仍review，3319/249closed/105review/2965pending；G-1/O-1/O-2/O-4及格式风险卡原状态保留。
+
+用户要求后续一次交大任务，现build allowed：[GLM持续执行指令](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-pre94-foundation-goal.md)。GLM主要执行pre94全部83卡剩余八维复审/获准整改，先MKF两文件，再自主滚动不重叠模块，随后94–102既有返工；不启动103+新范围，不抢活跃Owner。内部仍小片提交，完整模块冻结证据后继续下一独立模块，不逐片等用户两边转话。Codex据证阶段验收/中央账本/集成，只有产品裁决、实际Owner冲突或证据异常升级；重大未定风险只停影响域，其它继续。MKF开工前已核五树无对应未提交修改、看板无其它专属Owner，实际开工再核最新3y。
+
+原RLE候选工作树仅在提交推送成功后清理两个自有node_modules链接及checkout，不遍历链接目标；新大包仅一个新鲜自有临时worktree，不增长期治理分支。源映射、清理结果及实际门以终验回执为准。全仓/coverage/protected在大窗口执行，本次不因文案包或任务分派重跑；83卡整卡仍55partial/28pending/0accept。
