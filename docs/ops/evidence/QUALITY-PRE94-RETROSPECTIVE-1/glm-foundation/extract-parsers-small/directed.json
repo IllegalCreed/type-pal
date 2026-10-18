@@ -1,0 +1,406 @@
+{
+  "numTotalTestSuites": 15,
+  "numPassedTestSuites": 14,
+  "numFailedTestSuites": 1,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 34,
+  "numPassedTests": 34,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792331367486,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [],
+      "startTime": 1792331367486,
+      "endTime": 1792331367486,
+      "status": "failed",
+      "message": "ENOENT: no such file or directory, open '/Users/zhangxu/.glm-worktrees/pre94-foundation/data/raw/WORD.DAT'",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/resources/tables.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值"],
+          "fullName": "rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值 0x00 end-frame 立即返回",
+          "status": "passed",
+          "title": "0x00 end-frame 立即返回",
+          "duration": 2.3260419999999726,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值"],
+          "fullName": "rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值 0x13 end-frame 立即返回",
+          "status": "passed",
+          "title": "0x13 end-frame 立即返回",
+          "duration": 0.825917000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值"],
+          "fullName": "rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值 0x02 skip 2 bytes(dst 推进,surface 不改)",
+          "status": "passed",
+          "title": "0x02 skip 2 bytes(dst 推进,surface 不改)",
+          "duration": 0.21562499999998863,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值"],
+          "fullName": "rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值 0x03 + n=2 skip (2+1)*2 = 6 bytes",
+          "status": "passed",
+          "title": "0x03 + n=2 skip (2+1)*2 = 6 bytes",
+          "duration": 0.14175000000000182,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值"],
+          "fullName": "rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值 0x06-0x0a fall-through 写 (op-0x05) 个 2-byte pair",
+          "status": "passed",
+          "title": "0x06-0x0a fall-through 写 (op-0x05) 个 2-byte pair",
+          "duration": 0.26824999999999477,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值"],
+          "fullName": "rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值 0x0b + n=2 写 (2+1)=3 个 pair",
+          "status": "passed",
+          "title": "0x0b + n=2 写 (2+1)=3 个 pair",
+          "duration": 0.4067500000000166,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值"],
+          "fullName": "rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值 0x0c + w=1 写 (1+1)=2 个 pair",
+          "status": "passed",
+          "title": "0x0c + w=1 写 (1+1)=2 个 pair",
+          "duration": 0.22924999999997908,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值"],
+          "fullName": "rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值 0x0d-0x10 重复同 2-byte (op-0x0b) 次",
+          "status": "passed",
+          "title": "0x0d-0x10 重复同 2-byte (op-0x0b) 次",
+          "duration": 0.178291999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值"],
+          "fullName": "rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值 0x11 + n=3 写同 2-byte (3+1)=4 次",
+          "status": "passed",
+          "title": "0x11 + n=3 写同 2-byte (3+1)=4 次",
+          "duration": 0.5010420000000124,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值"],
+          "fullName": "rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值 0x12 + w=1 写同 2-byte (1+1)=2 次",
+          "status": "passed",
+          "title": "0x12 + w=1 写同 2-byte (1+1)=2 次",
+          "duration": 0.12983400000001666,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值"],
+          "fullName": "rngBlitDelta — sdlpal rngplay.c:139-369 RLE opcode 真值 unknown opcode → throw(早 fail 防 ptr 错位 cascade)",
+          "status": "passed",
+          "title": "unknown opcode → throw(早 fail 防 ptr 错位 cascade)",
+          "duration": 0.44079199999998764,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeRngAnim — 真 RNG.MKF chunk 6(PAL_TrademarkScreen fallback)"],
+          "fullName": "decodeRngAnim — 真 RNG.MKF chunk 6(PAL_TrademarkScreen fallback) chunk 6 解出 N>0 帧 + 每帧 320×200 PNG",
+          "status": "passed",
+          "title": "chunk 6 解出 N>0 帧 + 每帧 320×200 PNG",
+          "duration": 211.17604200000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeRngAnim — 真 RNG.MKF chunk 6(PAL_TrademarkScreen fallback)"],
+          "fullName": "decodeRngAnim — 真 RNG.MKF chunk 6(PAL_TrademarkScreen fallback) chunk 6 帧序列 — 第一帧非全黑(RLE delta 写了内容)",
+          "status": "passed",
+          "title": "chunk 6 帧序列 — 第一帧非全黑(RLE delta 写了内容)",
+          "duration": 184.62120800000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeRngAnim — 真 RNG.MKF chunk 6(PAL_TrademarkScreen fallback)"],
+          "fullName": "decodeRngAnim — 真 RNG.MKF chunk 6(PAL_TrademarkScreen fallback) 全 12 chunk 都能解(0 frame chunk 容忍)",
+          "status": "passed",
+          "title": "全 12 chunk 都能解(0 frame chunk 容忍)",
+          "duration": 5989.110459,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792331367689,
+      "endTime": 1792331374080.1104,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/resources/parsers/rng-frames.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["parseLevelUpExp"],
+          "fullName": "parseLevelUpExp parses sdlpal rgLevelUpExp shape: 100 WORD entries",
+          "status": "passed",
+          "title": "parses sdlpal rgLevelUpExp shape: 100 WORD entries",
+          "duration": 1.5628749999999911,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseLevelUpExp"],
+          "fullName": "parseLevelUpExp buf 小于 200 字节时截断处理,不抛错",
+          "status": "passed",
+          "title": "buf 小于 200 字节时截断处理,不抛错",
+          "duration": 0.4891659999999831,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseLevelUpMagic"],
+          "fullName": "parseLevelUpMagic 20 entries × 5 roles(sdlpal LEVELUPMAGIC_ALL × 20)",
+          "status": "passed",
+          "title": "20 entries × 5 roles(sdlpal LEVELUPMAGIC_ALL × 20)",
+          "duration": 0.5724999999999909,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseLevelUpMagic"],
+          "fullName": "parseLevelUpMagic wMagic = 0 的 entry 仍被保留(不过滤)",
+          "status": "passed",
+          "title": "wMagic = 0 的 entry 仍被保留(不过滤)",
+          "duration": 0.18579199999999219,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseLevelUpMagic"],
+          "fullName": "parseLevelUpMagic roleCount = 0 返回空数组",
+          "status": "passed",
+          "title": "roleCount = 0 返回空数组",
+          "duration": 0.08216600000000085,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseBattleEffectIndex"],
+          "fullName": "parseBattleEffectIndex parses WORD array",
+          "status": "passed",
+          "title": "parses WORD array",
+          "duration": 0.18895800000001373,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseBattleEffectIndex"],
+          "fullName": "parseBattleEffectIndex 40 字节(sdlpal rgwBattleEffectIndex[10][2] = 20 WORD)解出 20 项",
+          "status": "passed",
+          "title": "40 字节(sdlpal rgwBattleEffectIndex[10][2] = 20 WORD)解出 20 项",
+          "duration": 0.13974999999999227,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut"],
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut 合成 72 帧 sprite group 正确解出 72 帧(同 chunk 9 imagecount 真值)",
+          "status": "passed",
+          "title": "合成 72 帧 sprite group 正确解出 72 帧(同 chunk 9 imagecount 真值)",
+          "duration": 0.2803329999999846,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut"],
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut framesToOut 输出含 index + pngBytes(PNG 魔数 0x89)",
+          "status": "passed",
+          "title": "framesToOut 输出含 index + pngBytes(PNG 魔数 0x89)",
+          "duration": 1.7915830000000028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut"],
+          "fullName": "chunk 9 SPRITEUI sprite group — parseSpriteChunk + framesToOut real DATA.MKF chunk 9 — 71有效帧与SDLPal全部RGBA",
+          "status": "passed",
+          "title": "real DATA.MKF chunk 9 — 71有效帧与SDLPal全部RGBA",
+          "duration": 24.753750000000025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["chunk 10 battle effect sprite — parseSpriteChunk + framesToOut"],
+          "fullName": "chunk 10 battle effect sprite — parseSpriteChunk + framesToOut 合成 86 帧 sprite group 正确解出 86 帧(同 chunk 10 imagecount 真值)",
+          "status": "passed",
+          "title": "合成 86 帧 sprite group 正确解出 86 帧(同 chunk 10 imagecount 真值)",
+          "duration": 0.24799999999999045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["chunk 10 battle effect sprite — parseSpriteChunk + framesToOut"],
+          "fullName": "chunk 10 battle effect sprite — parseSpriteChunk + framesToOut real DATA.MKF chunk 10 — 85有效帧与SDLPal全部RGBA",
+          "status": "passed",
+          "title": "real DATA.MKF chunk 10 — 85有效帧与SDLPal全部RGBA",
+          "duration": 30.34670799999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792331367698,
+      "endTime": 1792331367759.3467,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["decodeRgmPortrait"],
+          "fullName": "decodeRgmPortrait empty chunk(0 byte)→ null",
+          "status": "passed",
+          "title": "empty chunk(0 byte)→ null",
+          "duration": 0.7471659999999929,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeRgmPortrait"],
+          "fullName": "decodeRgmPortrait real RGM.MKF — 92 chunks，88张头像身份/尺寸/SDLPal全部RGBA",
+          "status": "passed",
+          "title": "real RGM.MKF — 92 chunks，88张头像身份/尺寸/SDLPal全部RGBA",
+          "duration": 94.779291,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeBallIcon"],
+          "fullName": "decodeBallIcon empty chunk(0 byte)→ null",
+          "status": "passed",
+          "title": "empty chunk(0 byte)→ null",
+          "duration": 0.1305409999999938,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeBallIcon"],
+          "fullName": "decodeBallIcon real BALL.MKF — 252 chunks，251图标身份/尺寸/SDLPal全部RGBA",
+          "status": "passed",
+          "title": "real BALL.MKF — 252 chunks，251图标身份/尺寸/SDLPal全部RGBA",
+          "duration": 57.716917000000024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseFirSprite"],
+          "fullName": "parseFirSprite one-byte raw input preserves chunkIndex and returns no frames",
+          "status": "passed",
+          "title": "one-byte raw input preserves chunkIndex and returns no frames",
+          "duration": 0.25162499999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseFirSprite"],
+          "fullName": "parseFirSprite fake raw sprite chunk after YJ2 failure returns two exact PNG frames",
+          "status": "passed",
+          "title": "fake raw sprite chunk after YJ2 failure returns two exact PNG frames",
+          "duration": 0.9571660000000293,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseFirSprite"],
+          "fullName": "parseFirSprite real FIRE.MKF — 55 chunks，837帧身份/尺寸/SDLPal全部RGBA",
+          "status": "passed",
+          "title": "real FIRE.MKF — 55 chunks，837帧身份/尺寸/SDLPal全部RGBA",
+          "duration": 1376.3597909999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["FIRE.MKF chunks — parseSpriteChunk after YJ2 decompress"],
+          "fullName": "FIRE.MKF chunks — parseSpriteChunk after YJ2 decompress chunk 0 decompresses → valid sprite with frames",
+          "status": "passed",
+          "title": "chunk 0 decompresses → valid sprite with frames",
+          "duration": 6.9158749999999145,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792331367701,
+      "endTime": 1792331369239.9158,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts"
+    }
+  ]
+}
