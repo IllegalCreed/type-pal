@@ -14,6 +14,7 @@ Status: build；以下只记有限模块结果，不声明全专项完成
 - 模块3批5作者原件：[extract enemies+player-roles](extract-enemies-playerroles/README.md)（同线，review待验收）。修 EnemyTeam.slots 两处不存在字段引用（C2 counter 闭口）、M3→M4 dump范围双处过时；14/14真盘；登记 build*Map 静默空与 EnemyObject 双类型。
 - 模块3批6作者原件：[extract spells+enemy-teams+items](extract-spells-teams-items/README.md)（同线，review待验收）。零整改复审;tables.test 全量89/89(补链WORD.DAT后);勘误批4/5未披露的tables套件加载失败;登记spells.ts同族截断策略不一致。
 - 模块3尾批作者原件：[extract cli+battle-sprite+output-boundary](extract-cli-tail/README.md)（同线，review待验收）。cli.ts 919行深读,修4处过时注释(产出目录清单/rng manifest/M6/小写mus.mkf);清理策略段冻结只读;24/24+0失败套件。extract 模块7批25文件全部冻结,余Codex已切片文件的B-G补维后续轮。
+- 模块4批1作者原件：[game assets三文件](game-assets-batch1/README.md)（同线，review待验收）。修 loader 战斗资源注释与 .rle 管线自相矛盾+T28 远古措辞;19套件38/38含真blob快照;登记 DialogSprite 同构候选。game 模块开工,后续 core/present/shell 分批。
 
 集成修正：MKF仅首offset/表长4对齐、并非所有chunk偏移；SDL坏档结果/全原盘保证不能泛化；readChunk生产注释保留借用合同、去掉测试治理措辞。RNG跳帧保留基面继续解码，不保证缺帧后的画面等价。正常资产对拍不代替坏帧策略证明。
 
