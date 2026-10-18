@@ -536,7 +536,7 @@ export function tickBattle(gs: GameState, input: InputSnapshot, bus: CommandBus)
 // Phase handlers
 // ============================================================================
 
-/** preBattle → selectAction(M3 跳过 wScriptOnReady)。起手起第一个可手动选择的活队员菜单。 */
+/** preBattle → selectAction(scriptOnReady 在 performAction 期敌轮到时跑,含 B2 c7 show-once 回写)。此处仅过 D19 入场 fade 后置 uiState='wait',选指令菜单延后到 turnStart 之后(见 selectAction case)。 */
 function tickPreBattle(state: BattleState): void {
   // D19:入场 fade-in 期间停在 preBattle gate 输入(present 放 dither 淡入);fade 完才进 selectAction。
   if (state.introFade && state.introFade.step < state.introFade.total) {
