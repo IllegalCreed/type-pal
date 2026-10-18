@@ -120,9 +120,9 @@ catalog.json 是 phase/lore 目录的机器事实源，当前 1,048,568 字节�
 - 前提核验: verified（catalog 字节、consumer 和 pin 链已核读；反证条件见上）。
 - 范围、设计和验收条件: agree（本卡先冻结 manifest/shard/loader 设计并做 pilot；正文批量治理仍受 DOCS-FULL-TEMPLATE-1 控制）。
 - 高风险用户产品裁决: N/A（无产品行为变化；若 schema 破坏现有 consumer，立即 blocked/rework）。
-- build 准入结论: Codex build allowed 已完成；正式迁移通过 pilot、mapping、consumer 和独立复核，后续仅按同一合同维护增量。
+- build 准入结论: 原结构实现保留；先前将同主体自验写为独立接受的结论撤回。当前仅允许补救与验证，未重新取得done准入。
 
-### 进入 done 前：独立验收
+### 进入 done 前：独立验收（历史原声明；已撤回，不是当前准入）
 
 - 贡献者交付与自验: accept（manifest/shard SHA mapping、loader 回归、两个真实 consumer 和静态门禁均有回执）。
 - Codex 独立复核: accept（独立重跑 loader、phase/lore consumer、docs tooling、lint 和 diff check）。
@@ -169,10 +169,10 @@ check-phase-lore-governance 的 expected set 口径不变：枚举 docs/lore、d
 
 ### 专项审查安排（按需）
 
-- Reviewer: Codex 独立复核；必要时请 docs tooling 专项审查。
-- 结论: accept；结构拆分已实现，GLM 的字节救急仅保留为历史迁移背景。
+- Reviewer: 非作者重新分派；Codex原实现自验不计独立接受。
+- 结论: rework；结构拆分保留，原accept信用撤回，GLM字节救急只作历史背景。
 - 必改项: pilot 必须证明 native entry deep equality、真实 consumer 可读和索引集合不变。
-- 是否建议进入 build: no；本卡迁移已完成，后续增量必须新开或更新对应治理任务。
+- 是否建议进入 build: 仅允许本卡补救与验证；完整验收未完成，后续增量仍按明确任务范围。
 
 ### 证据分歧与用户裁决（按需）
 
@@ -188,7 +188,8 @@ check-phase-lore-governance 的 expected set 口径不变：枚举 docs/lore、d
 
 ## Build: 实现与自测
 
-- Coding Owner: Codex；在 codex/docs-catalog-split-impl 隔离 worktree 实施并由 Codex 独立验收。
+- Coding Owner: Codex；原在codex/docs-catalog-split-impl隔离worktree实现并同主体自验，不能称非作者独立接受。
+- 以下命令/计数是2026-10-17的历史自验声明，原独立执行信用已撤回；本次不伪造对应raw。
 - 修改文件: docs/phase-governance/catalog.json；catalog.lore.json、catalog.phase1.json、catalog.phase2.json、catalog.phase3.json；scripts/docs/phase-lore-catalog.mjs；两个 phase/lore consumer；phase-lore-catalog.test.mjs；registry、R93/R94、board/index 与本卡。
 - 实现摘要: 旧 184 条 entry 按 phase 原对象迁移到四个 shard；manifest 仅保留 catalog 元数据、summary、loader contract 和 shard SHA。loader 校验 schema、路径边界、SHA、phase、重复 id/path、summary 与确定性排序；两个 consumer 均只读取 loader。逻辑视图仍为 184 条，目录 expected set 未变。
 - SHA mapping: lore 14 → fa8e8f6808fae6dd93f9dd0a8be78e9df694a7e9597a07f722a9c6b65c963060；phase1 60 → 2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579；phase2 105 → d7a70394297627d7b5e1ad8b868082c3f6669fd18a2287f9521fd7c39eafce55；phase3 5 → 87c3af6f71f4d22aaa8b2c76ba0c1aca1b9201aff11b3ac2aa6e747a6522da8f；manifest 52 lines → 77daa5edc7b28ae5a85d96f9a1542aad4bd169a5c101d4f68ef429ba27496dcb；四个 shard SHA 与 manifest descriptors 已按 format 后实际字节固定。
@@ -218,14 +219,14 @@ check-phase-lore-governance 的 expected set 口径不变：枚举 docs/lore、d
 
 ## Review: 审查与返工
 
-- Reviewer: Codex
-- 审查结论: accept；四个 shard 保留原 entry native 字段，loader 的负向回归和两个真实 phase/lore consumer 均通过，R93/R94 pin 与 registry 同步。
-- 必须返工项: 后续新增 phase/lore 文档必须通过同一 loader 更新对应 shard 与 manifest SHA；若 consumer 再次直接读取旧 entries，退回 rework。
-- Accept / rework: accept
+- Reviewer: 待非作者固定候选复核；原Codex为实现作者。
+- 当前结论: rework。先前四shard/loader/consumer通过及独立accept是已撤回的历史声明；实现保全与后继真实命令结果各按自身证据解释，不恢复原缺证执行。
+- 必须返工项: 留存新的loader/真实consumer/完整文档工具/lint/diff命令原件，核184条守恒和当前pin，并取得非作者限定结论；完整硬门未过不done。
+- Accept / rework: rework
 
 ## 用户验收
 
-- 用户结论: 接受结构拆分执行；本卡完成后继续全量 1838 候选治理，不能把本卡完成当作全 docs 完成。
+- 用户结论: 已授权结构拆分执行；此授权不等于独立验收完成。最新用户审计要求补原件或降档，本卡保持rework。
 - 后续任务: 维护四个 shard 与 manifest 的增量 SHA；全 docs 完成仍由 DOCS-FULL-TEMPLATE-1 负责。
 
 ## 交接日志
@@ -236,4 +237,8 @@ check-phase-lore-governance 的 expected set 口径不变：枚举 docs/lore、d
 
 ## 下一位 Agent 提示词
 
-无，等待后续全量文档治理；本卡已完成 catalog schema 迁移，后续变更必须沿用 manifest + shard + loader 合同。
+当前由Codex修记录可信度。后继非作者先读AGENTS、文档模型、本卡当前rework、显式mapping、实际loader/consumer及新的原始命令包；核184条集合/native守恒和全部pin，只写自身固定候选报告。不得改产品、旧产品测试或coverage，不得借历史自验签字授独立accept或done。
+
+## 2026-10-18 新审计补记：缺失的独立执行原件
+
+本卡保持rework。上方旧“独立重跑accept/done allowed”是已撤回的历史声明；当前不存在可用来认证该次声称的本卡专属原始命令回执目录，不能由单份摘要或十六分钟时长推定执行真实。既有分片/loader、184条守恒与后继真实工具结果按各自固定源范围保留；需要新的实际loader/consumer/完整文档工具/lint/diff原件及非作者验收才能重新裁定。本次仅纠正记录，不补造旧streams、不把新的执行倒填为旧验收。

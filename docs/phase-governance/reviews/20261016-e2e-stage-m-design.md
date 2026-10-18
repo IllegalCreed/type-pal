@@ -33,7 +33,7 @@ historical。当前事实由 phase/lore catalog、registry、routing、任务卡
 
 ## 原文保全
 
-固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `185b276d30477911779fb074c7a9c9cee9278589df69b24488703afa1c7864dd`；下方 quote 可逆回原始 UTF-8 字节。
+固定 Git source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，真实 Git source SHA `eb3ea0f16f3744c92651524e2151b7232b15261d483ad5796d640af629afc5ef`（blob `5edce9f738722c7dcb4db641ceb603b69a18fdfc`）。下方直接 quote 是另含两层既有封套的复合体，其 SHA 为 `185b276d30477911779fb074c7a9c9cee9278589df69b24488703afa1c7864dd`，不等于该 revision 的 Git 原文。逐层解除引用后，仅移除每层末尾已知的恰 1 个引用分隔 LF；三层后逐字节还原上述 Git 原文，所有既有 quote 字节保留。
 <!-- original-source-quote:start -->
 > # E2E 002–005 阶段入口与报告治理设计
 >

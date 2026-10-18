@@ -2338,7 +2338,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "c369eaf317a8ee724d2823de856e9539b11d57ac8bf3b84bad079354f3048834",
-      "afterSha256": "ea81fa74b676751a712feb95a9591113332c3f320a538f8f79d58ca6c22d7a0c",
+      "afterSha256": "1714a48dda97cf3f55be58fe67fe5c2bbd109757d4812f2cb307726cd59a2d26",
       "publicCallers": [
         "docs/ops/tasks/index.md navigation",
         "docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md"
@@ -2388,12 +2388,21 @@
         "lineCount": 11323,
         "artifactPreserved": false,
         "originalPreservation": {
-          "method": "line-by-line blockquote quote",
+          "method": "line-by-line blockquote with explicit single quote-line-end U+2420 to U+0020 decoding at original source line8711",
           "sourceBytes": 840326,
           "sourceLines": 11269,
           "sourceFinalNewline": true,
           "inverseSha256": "c369eaf317a8ee724d2823de856e9539b11d57ac8bf3b84bad079354f3048834",
-          "exactRoundTrip": true
+          "exactRoundTrip": false,
+          "encodedRoundTrip": true,
+          "directInverseSha256": "57422e1251f9925f2ebbd7c70adbeb2c538e6d2494a3abf2f43a8c7944851a82",
+          "trailingWhitespaceEncoding": {
+            "sourceLine": 8711,
+            "encoded": "U+2420",
+            "original": "U+0020",
+            "count": 1,
+            "scope": "Only mapped quote line end; no blanket character replacement"
+          }
         },
         "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
       },
@@ -2417,6 +2426,13 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "disclose-single-trailing-space-codec-and-withdraw-direct-exact-claim",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "nonAuthorReviewer": false,
+          "newSemanticOrExecutionCreditGranted": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical task claims remain date-scoped"],
@@ -2461,7 +2477,36 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "representationCorrection20261018": {
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "counterId": "CHAR-N3-UNDECLARED-TAIL-CODEC",
+        "originalPreservationClaim": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 840326,
+          "sourceLines": 11269,
+          "sourceFinalNewline": true,
+          "inverseSha256": "c369eaf317a8ee724d2823de856e9539b11d57ac8bf3b84bad079354f3048834",
+          "exactRoundTrip": true
+        },
+        "directUtf8InverseMatches": false,
+        "mappedDecodedInverseMatches": true,
+        "gitSourceSha256": "c369eaf317a8ee724d2823de856e9539b11d57ac8bf3b84bad079354f3048834",
+        "quoteBytesUnchanged": true,
+        "newSemanticOrExecutionCreditGranted": false,
+        "independentFixedSuccessorAccepted": false
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "ea81fa74b676751a712feb95a9591113332c3f320a538f8f79d58ca6c22d7a0c",
+          "afterSha256": "1714a48dda97cf3f55be58fe67fe5c2bbd109757d4812f2cb307726cd59a2d26",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     }
   ],
   "currentCorrection": {

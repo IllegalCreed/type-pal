@@ -33,7 +33,7 @@ historical。当前事实由 phase/lore catalog、registry、routing、任务卡
 
 ## 原文保全
 
-固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `7d3480c30b58c0a9bb1bc22ad1fb60f0ddcd26b3cb7627afebd26ac709594229`；下方 quote 可逆回原始 UTF-8 字节。
+固定 Git source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，真实 Git source SHA `655ce788de52d3ecd7bf65221254c1abd75c74dc56811e88243d53554c3a5647`（blob `d3b739db60b3c61f759c642bcbe2c0ba06fe5cbf`）。下方直接 quote 是另含两层既有封套的复合体，其 SHA 为 `7d3480c30b58c0a9bb1bc22ad1fb60f0ddcd26b3cb7627afebd26ac709594229`，不等于该 revision 的 Git 原文。逐层解除引用后，仅移除每层末尾已知的恰 1 个引用分隔 LF；三层后逐字节还原上述 Git 原文，所有既有 quote 字节保留。
 <!-- original-source-quote:start -->
 > # L4 四篇 lore 迁移设计与 characters 首篇准入
 >

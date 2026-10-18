@@ -33,7 +33,7 @@ historical。当前事实由 phase/lore catalog、registry、routing、任务卡
 
 ## 原文保全
 
-固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `581a88d1e89a475a35958e4a53905d6d3af88648c6f952ade7a983fe9f20bc49`；下方 quote 可逆回原始 UTF-8 字节。
+固定 Git source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，真实 Git source SHA `2f50a5fd23593a1d54fa73efed45ffd9ccfeeb3b0020897ba39b6242635ae411`（blob `087d112cf9e911cbb01ea6038d3152fb7847f8cd`）。下方直接 quote 是另含两层既有封套的复合体，其 SHA 为 `581a88d1e89a475a35958e4a53905d6d3af88648c6f952ade7a983fe9f20bc49`，不等于该 revision 的 Git 原文。逐层解除引用后，仅移除每层末尾已知的恰 1 个引用分隔 LF；三层后逐字节还原上述 Git 原文，所有既有 quote 字节保留。
 <!-- original-source-quote:start -->
 > # 三份静态HTML历史原型：格式合同与bootstrap准入
 >

@@ -49,7 +49,7 @@ historical。do not promote historical task card to current runtime/E2E/visual/c
 - 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
 
 ## 原文保全
-固定源 revision `4c0da02bee76c5616d0fda14a00f24bd7c8de621`，source SHA `c369eaf317a8ee724d2823de856e9539b11d57ac8bf3b84bad079354f3048834`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `4c0da02bee76c5616d0fda14a00f24bd7c8de621`，source SHA `c369eaf317a8ee724d2823de856e9539b11d57ac8bf3b84bad079354f3048834`。原源第8711行的一个行尾空格在quote中以`␠`表示；剥离blockquote前缀后，须仅将该处行尾U+2420解码为U+0020，才与840326字节Git真源逐字节相等。普通UTF-8直接逆回不相等；不能把编码后相等声明为直接exact。quote字节保持，本次只补保全口径，不重授语义或历史执行信用。
 <!-- original-source-quote:start -->
 > # N3-1 - 结构化控制流、实体具名行为与内部脚本退役
 >

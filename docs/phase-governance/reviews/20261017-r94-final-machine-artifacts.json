@@ -352,7 +352,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "8b0b924c93872f00d9e85ffa10e4b0d48c8dc259807b94fbd10caa45e014f640",
-      "afterSha256": "8b0b924c93872f00d9e85ffa10e4b0d48c8dc259807b94fbd10caa45e014f640",
+      "afterSha256": "04c18bc1edc27fcd870bfa658774daf4a67a8d52c7509669fd75ce89f1ef940c",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": [
         "current repository documentation",
@@ -483,7 +483,18 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "8b0b924c93872f00d9e85ffa10e4b0d48c8dc259807b94fbd10caa45e014f640",
+          "afterSha256": "04c18bc1edc27fcd870bfa658774daf4a67a8d52c7509669fd75ce89f1ef940c",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r92-phase-governance-artifacts-readonly-review-20261017.json",
@@ -673,7 +684,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6129cf0aba206e06d66527124c0a16196fe88f8f7bbc9d08bd356ba7a8d9e2c1",
-      "afterSha256": "6129cf0aba206e06d66527124c0a16196fe88f8f7bbc9d08bd356ba7a8d9e2c1",
+      "afterSha256": "690cb4b470ea346d6f8c91997b66798c744be1b8ea8c3be4a5cf3fc4bd4e59a8",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": [
         "current repository documentation",
@@ -804,7 +815,18 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "6129cf0aba206e06d66527124c0a16196fe88f8f7bbc9d08bd356ba7a8d9e2c1",
+          "afterSha256": "690cb4b470ea346d6f8c91997b66798c744be1b8ea8c3be4a5cf3fc4bd4e59a8",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r93-phase-governance-artifacts-readonly-review-20261017.json",
@@ -994,7 +1016,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "50aa0c90de769ebf8c426e93c8bc83635d86e4c84e91d2711d73ceaf9bb0fd54",
-      "afterSha256": "6668ccdd991e9f74cf0aaefcb466f2fa837a9ca483aa24256cd283d58d0f7a21",
+      "afterSha256": "9ab18b0b57f353dcddc6e45923a61dd89651fd797ddc553c74acd4278db03bde",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1137,6 +1159,15 @@
           "afterSha256": "6668ccdd991e9f74cf0aaefcb466f2fa837a9ca483aa24256cd283d58d0f7a21",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "6668ccdd991e9f74cf0aaefcb466f2fa837a9ca483aa24256cd283d58d0f7a21",
+          "afterSha256": "9ab18b0b57f353dcddc6e45923a61dd89651fd797ddc553c74acd4278db03bde",
+          "method": "Upstream explicitly corrected review dependency only; no new content or execution acceptance",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -1169,7 +1200,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "af4f9e7f617d021e4f909ba4d9a598edc4f1ebca635e6610e3fdf044c2914a57",
+      "afterSha256": "1f75558a8dce9c1c33168d537055ff05cfd3041a64886f7134e58531627a9fd2",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1419,6 +1450,15 @@
           "previousAfterSha256": "f6b5ccbeadecdad9bb9d4e7c8fef1ef2dc4627ea7bd6893f66d5d74ce6af6ef5",
           "afterSha256": "af4f9e7f617d021e4f909ba4d9a598edc4f1ebca635e6610e3fdf044c2914a57",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "af4f9e7f617d021e4f909ba4d9a598edc4f1ebca635e6610e3fdf044c2914a57",
+          "afterSha256": "1f75558a8dce9c1c33168d537055ff05cfd3041a64886f7134e58531627a9fd2",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -2088,7 +2128,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "82b4e95ce5256b9174b815d26b0c6574a7e0440cb846f1091f2acfc8a8976209",
-      "afterSha256": "82b4e95ce5256b9174b815d26b0c6574a7e0440cb846f1091f2acfc8a8976209",
+      "afterSha256": "cfca0ea0609a259d9961461cdbebc6fd2877e5301aa180e4631653be6463255b",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": [
         "current repository documentation",
@@ -2219,7 +2259,18 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "82b4e95ce5256b9174b815d26b0c6574a7e0440cb846f1091f2acfc8a8976209",
+          "afterSha256": "cfca0ea0609a259d9961461cdbebc6fd2877e5301aa180e4631653be6463255b",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r88-ops-evidence-artifacts-readonly-review-20261017.json",
@@ -2409,7 +2460,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "2473d0f3529b5a06b5deff4b2b3bdfda56e372aeb54f8c41a48c59902f31fce9",
-      "afterSha256": "2473d0f3529b5a06b5deff4b2b3bdfda56e372aeb54f8c41a48c59902f31fce9",
+      "afterSha256": "6ebdc2ac84bc2a7cc01e04ccdb21de52c02e5637bfd46dd2d7923a562b1874d4",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": [
         "current repository documentation",
@@ -2540,7 +2591,18 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "2473d0f3529b5a06b5deff4b2b3bdfda56e372aeb54f8c41a48c59902f31fce9",
+          "afterSha256": "6ebdc2ac84bc2a7cc01e04ccdb21de52c02e5637bfd46dd2d7923a562b1874d4",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r89-ops-evidence-artifacts-readonly-review-20261017.json",
@@ -2730,7 +2792,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "89cd4cdfcbf35308f8dff1429bf9f9fc804e5cf517bc130fab8f5d64e9c0a97a",
-      "afterSha256": "89cd4cdfcbf35308f8dff1429bf9f9fc804e5cf517bc130fab8f5d64e9c0a97a",
+      "afterSha256": "0869b4af68062d551897ee17ac3320a41281026013eb5f3e6f3a43e04dc55e5d",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": [
         "current repository documentation",
@@ -2861,7 +2923,18 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "89cd4cdfcbf35308f8dff1429bf9f9fc804e5cf517bc130fab8f5d64e9c0a97a",
+          "afterSha256": "0869b4af68062d551897ee17ac3320a41281026013eb5f3e6f3a43e04dc55e5d",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r90-ops-evidence-artifacts-readonly-review-20261017.json",
@@ -3051,7 +3124,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4daea42951e50a64ec707c2cd90b7b91bfc4aa5863edcfd02d01cf731be6eff7",
-      "afterSha256": "4daea42951e50a64ec707c2cd90b7b91bfc4aa5863edcfd02d01cf731be6eff7",
+      "afterSha256": "569bf20987b91a9f6e812ddb70c014e4284e4cc4e81a2d9848dc5cc643b00888",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": [
         "current repository documentation",
@@ -3182,7 +3255,18 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "4daea42951e50a64ec707c2cd90b7b91bfc4aa5863edcfd02d01cf731be6eff7",
+          "afterSha256": "569bf20987b91a9f6e812ddb70c014e4284e4cc4e81a2d9848dc5cc643b00888",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r91-ops-evidence-artifacts-readonly-review-20261017.json",
@@ -5125,7 +5209,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "39c7475c232e830ecc59e113799d7e2eaa9adab55ebc6272f0b7cbb0d4cb38d3",
-      "afterSha256": "39c7475c232e830ecc59e113799d7e2eaa9adab55ebc6272f0b7cbb0d4cb38d3",
+      "afterSha256": "47785473502b01727d38f383992d6f095b341078f430b7b44b91655751957e5d",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": [
         "current repository documentation",
@@ -5234,7 +5318,18 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "39c7475c232e830ecc59e113799d7e2eaa9adab55ebc6272f0b7cbb0d4cb38d3",
+          "afterSha256": "47785473502b01727d38f383992d6f095b341078f430b7b44b91655751957e5d",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r94-final-machine-artifacts-readonly-review-20261017.json",
@@ -5403,7 +5498,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "5d971a16055ca25179e4ff0022d9b3ccb7b320eca6d344dcaf7a0e8683f2c646",
+      "afterSha256": "b5d4cc4d7f1418086a8d5d2ed4204255b7fe323135173318b9ae0a7eee5dd6fc",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -5745,6 +5840,15 @@
           "afterSha256": "5d971a16055ca25179e4ff0022d9b3ccb7b320eca6d344dcaf7a0e8683f2c646",
           "method": "Record exactfa63 non-author actual single S12 central acceptance/current actual counts and preserve original failures; administrative card-only ack, no new semantic or global/main/done grant.",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "5d971a16055ca25179e4ff0022d9b3ccb7b320eca6d344dcaf7a0e8683f2c646",
+          "afterSha256": "b5d4cc4d7f1418086a8d5d2ed4204255b7fe323135173318b9ae0a7eee5dd6fc",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -5912,7 +6016,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "34deefa0f086efb4b65e234c1aec6d9d4ccbb3fcd0a9ad9575b0416176c24fd1",
+      "afterSha256": "a29fd922a2234189c3a5c522db09be732f6daea683c67bd1cf8d1036b680f9ba",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -6166,6 +6270,15 @@
           "previousAfterSha256": "00970c1efc306c794858d2db481bd5c0653f280ae28e8f4f11fd1d37f538483e",
           "afterSha256": "34deefa0f086efb4b65e234c1aec6d9d4ccbb3fcd0a9ad9575b0416176c24fd1",
           "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "34deefa0f086efb4b65e234c1aec6d9d4ccbb3fcd0a9ad9575b0416176c24fd1",
+          "afterSha256": "a29fd922a2234189c3a5c522db09be732f6daea683c67bd1cf8d1036b680f9ba",
+          "method": "Explicit151 status/compliance withdrawals through branded storage writer; no semantic credit",
           "grantsNewSemanticAcceptance": false
         }
       ]

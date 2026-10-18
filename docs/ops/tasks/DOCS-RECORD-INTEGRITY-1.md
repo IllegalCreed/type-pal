@@ -1,11 +1,11 @@
 # DOCS-RECORD-INTEGRITY-1 — R 波记录可信度撤回与补救
 
-Status: review
+Status: rework
 Phase: ops
 Capability: documentation evidence integrity
 Coding Owner: Codex
 Contributor: Codex
-Reviewer: /root/receipt_integrity_independent（58e899bf 纠错包限定接收；全量语义待审）
+Reviewer: 固定58e899bf纠错包限定接收保留；新增R23–R36/回执锚点补救待非作者验收
 Branch: codex/docs-audit-rework
 Last reviewed: 2026-10-18
 Template: task-card-v1 / 1.0.0
@@ -129,3 +129,13 @@ Template: task-card-v1 / 1.0.0
 - 实跑：128/128文档工具、lint零诊断；损坏识别反控0→指定AssertionError的1→恢复0。strict、check:docs与require-complete均真实exit1；只读树还打印缺本地node_modules的pnpm warning，原输出保留，不能称统一门零诊断。
 - `globalHardGatePassed=false`、`fullSemanticAcceptance=false`、`cardDoneAllowed=false`、`mergeToMainAllowed=false`。本卡保持review、父卡rework、main不变。旧“非作者待分派”段落保留为前一快照，不是当前交接状态。
 - 当前下一步：按用户已授权顺序进入逐篇语义重审。首先READ-FIRST的当前准入权与历史封套冲突；单篇重审须独立来源、实际before→after与非作者验收，不能批量恢复1896条信用。
+
+## 2026-10-18 新增审计：扩大撤信与回执锚点纠正
+
+- 用户新增三遍审计指出，原R39起点不足。原固定58e899bf纠错接受及1896条原scope保持原字节与限定历史范围；本卡回到rework，新增补救不借旧接受续授。Codex build allowed，单一Coding Owner为root；只改本卡/父卡/看板和生成索引、既有integrity审计控制、明确受影响review/registry/matrix/receipt及N3保全说明，不改产品、旧产品测试、coverage、规则或依赖。
+- R22–R36窗口机械复现189份Markdown另3HTML，152条模板式旧结论：R23的9条完整读取行数/字节数变体及143条标题/类型/状态/行标题数模板。152与旧1896无交集；READ-FIRST已有真实S01非作者后继，必须保留。逐条核完现绑定后仅撤回仍无真实新证据的信用，不批量降掉合格后继，也不把另37条或3HTML自动重授。
+- 候选锚点逐份核实际首次回执blob、sourceRevision、迁移review首加提交和目标after SHA；不为凑50/53修改未知项。原receipt先原字节保全，candidateHead纠正与本次查证独立记录；修锚不冒充旧命令重跑，不恢复独立/执行信用。六个复制counter和R88–R91互斥摘要另作明确无效裁定，原数值/输出不抹除。
+- R93九份design的真源SHA与overlay复合体口径逐份核Git，保留原声明并纠正当前字段或注明范围；禁止以无差别hash刷新代替查证。
+- R27实测五篇289处行尾U+2420已有可见编码声明；15篇直接逆回、5篇仅按声明解码后全字节等真源。它们不属于先前113份封套插分号修复的已清范围，不删除原始空白、不把编码相等冒称直接字节相等。R53 N3的一处行尾标记可解码等真源，但缺可见声明及记录仍称直接exact；只修说明/保全口径，quote和历史执行不动，另作非作者核验。
+- DOCS-CATALOG-SPLIT-1当前已rework；原done/自验冒称独立已撤回，本次补清历史准入块，不补造十六分钟前不存在的原始回执。缺原始执行与新非作者验收仍待补，现有实现和184条守恒成果保留。
+- 三篇历史任务导航S13只读提案a6ea67c7已封存，尚未授body build；先完成本次记录层纠错与非作者验收。S12固定正文/中央接受、配对JSON既有限定审查及其C09执行隔离分别保留；全量硬门未过，不合main、不推main、不done。

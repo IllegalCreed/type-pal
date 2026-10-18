@@ -3532,7 +3532,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "fd99fc9eba6fbff81f2639cce03e5fc293a35ccd83eff185eb7b35305bbb93d3",
-      "afterSha256": "5b6e9bbab582e6d2394c2f956d44dd0f72e8016743458ece67865ea4e5d4ad14",
+      "afterSha256": "57a1fa79c59aa0f31ac032894c96a48ff99baca9fc7420ac83d237328a6a0234",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -3678,7 +3678,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "5b6e9bbab582e6d2394c2f956d44dd0f72e8016743458ece67865ea4e5d4ad14",
+          "afterSha256": "57a1fa79c59aa0f31ac032894c96a48ff99baca9fc7420ac83d237328a6a0234",
+          "method": "Upstream explicitly corrected review dependency only; no new content or execution acceptance",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r90-ops-evidence-artifacts.json",
@@ -3707,7 +3718,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "97912888ab9dc9ddf045760fc9c4b085ff71cd3c968a631a748fdea95ed7a02a",
-      "afterSha256": "1a25844581630e8ca6337edb9d6caaae3a22d6a0b05a9b1c853e8e952f35b8de",
+      "afterSha256": "367259ca7c2ef60128f8cc11ac6cf635ed5c4a25f369acb1994107615ae901a0",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -3853,7 +3864,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "1a25844581630e8ca6337edb9d6caaae3a22d6a0b05a9b1c853e8e952f35b8de",
+          "afterSha256": "367259ca7c2ef60128f8cc11ac6cf635ed5c4a25f369acb1994107615ae901a0",
+          "method": "Upstream explicitly corrected review dependency only; no new content or execution acceptance",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r91-ops-evidence-artifacts.json",
@@ -3882,7 +3904,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "87b393dbcc5883d7e7ff556ddcb1dd72cc4d171d8ea2fae784b0393b858a919d",
-      "afterSha256": "41d702dea6763a36e1b8f04212321a375199f85cd6cafb9d797e85055da0e4dd",
+      "afterSha256": "a7ae2629b07edc46c0ecb5df3640b6981261c0620b2982c34f05745034dffa04",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -4028,7 +4050,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "41d702dea6763a36e1b8f04212321a375199f85cd6cafb9d797e85055da0e4dd",
+          "afterSha256": "a7ae2629b07edc46c0ecb5df3640b6981261c0620b2982c34f05745034dffa04",
+          "method": "Upstream explicitly corrected review dependency only; no new content or execution acceptance",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/README.md",

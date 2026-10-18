@@ -7,14 +7,14 @@
   "entries": [
     {
       "path": "docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R32 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "D15-2 - PAL auto 地形路线兼容修复：这是 task-card，当前文档状态为 cancelled。全文 367 行、26 个标题；摘要/首段为「Status: cancelled」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md:1",
         "docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md:1 D15-2 - PAL auto 地形路线兼容修复",
@@ -48,7 +48,8 @@
         "正文信号 80:- `stepEntity` / `chasePlayer` 是 one-shot runtime 合同，blocked 不会永久挂 Promise；`nudgeEntity`",
         "正文信号 105:- （历史设计，已取消且未落地）D15-2 原拟新增只读 package subpath",
         "正文信号 107:  `d15-motion-contract-v1` 的纯函数：`walkTick`、slow cadence/snap、`motionTerrainSweepBlocked`、",
-        "正文信号 108:  `isBlockedAt/pixelToLattice`。不导出 planner 状态，不改 ScriptHost，不让 Reforge 依赖 migrator。"
+        "正文信号 108:  `isBlockedAt/pixelToLattice`。不导出 planner 状态，不改 ScriptHost，不让 Reforge 依赖 migrator。",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
@@ -121,7 +122,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -135,6 +137,26 @@
           "action": "R32 readonly proposal accepted then root migration",
           "reviewer": "r32_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "62def4453976c70d3aa016caadd40e046b8e92e759be610587350a01273d8a99"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -229,18 +251,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "D15-2 - PAL auto 地形路线兼容修复：这是 task-card，当前文档状态为 cancelled。全文 367 行、26 个标题；摘要/首段为「Status: cancelled」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R32 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "e32839df21e0d6731c43f64b078db19138610ad1bd071488d988c2669504f87c",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "62def4453976c70d3aa016caadd40e046b8e92e759be610587350a01273d8a99"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r32-ops-cancelled-tasks.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "73d2e0264a267b325be8b28173959a584685263d5ab8153292cd980f1efbb69f",
+          "sourceRecordGitObject": "73e81bb556e57c2c4353a09a6b4606b50cd2bacc",
+          "entryIndex": 0,
+          "path": "docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/ops/archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R32 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "ED-ACTION-GROUP-ADOPTION-2 - 帧动画时间线动作组与纵向可见边界：这是 task-card，当前文档状态为 cancelled。全文 144 行、16 个标题；摘要/首段为「Status: cancelled（2026-09-01，用户要求帧时间线恢复原始形态）」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md:1",
         "docs/ops/archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md:1 ED-ACTION-GROUP-ADOPTION-2 - 帧动画时间线动作组与纵向可见边界",
@@ -270,7 +325,8 @@
         "正文信号 123:- 用户裁决: **counter / cancelled（恢复原始时间线）**",
         "正文信号 124:- build 准入: **cancelled（用户裁决改变目标；不得实现本卡方案）**",
         "正文信号 132:- done 准入: blocked",
-        "正文信号 142:无下一位 Agent 提示词；本卡已取消，后续只审 `ED-FRAME-TIMELINE-UX-RESTORE-1`。"
+        "正文信号 142:无下一位 Agent 提示词；本卡已取消，后续只审 `ED-FRAME-TIMELINE-UX-RESTORE-1`。",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
@@ -345,7 +401,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -359,6 +416,26 @@
           "action": "R32 readonly proposal accepted then root migration",
           "reviewer": "r32_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "26c6952abaa22a76ca56c5aae4a7a7ccfd7e34c52063aa440f8194e9e1492eeb"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -438,18 +515,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "ED-ACTION-GROUP-ADOPTION-2 - 帧动画时间线动作组与纵向可见边界：这是 task-card，当前文档状态为 cancelled。全文 144 行、16 个标题；摘要/首段为「Status: cancelled（2026-09-01，用户要求帧时间线恢复原始形态）」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R32 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "978aa10090b2d54ccb151ec1fee919dcd92d68595fb2db86804891ba0739c5c1",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "26c6952abaa22a76ca56c5aae4a7a7ccfd7e34c52063aa440f8194e9e1492eeb"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r32-ops-cancelled-tasks.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "73d2e0264a267b325be8b28173959a584685263d5ab8153292cd980f1efbb69f",
+          "sourceRecordGitObject": "73e81bb556e57c2c4353a09a6b4606b50cd2bacc",
+          "entryIndex": 1,
+          "path": "docs/ops/archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/ops/archive/tasks/cancelled/ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R32 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "ED-FRAME-TIMELINE-VIRTUALIZATION-1 - 长帧动画时间线 DOM windowing：这是 task-card，当前文档状态为 cancelled。全文 33 行、5 个标题；摘要/首段为「Status: cancelled（2026-09-01，用户恢复原始visible/native-drag形态后合并入RESTORE-1）」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/tasks/cancelled/ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md:1",
         "docs/ops/archive/tasks/cancelled/ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md:1 ED-FRAME-TIMELINE-VIRTUALIZATION-1 - 长帧动画时间线 DOM windowing",
@@ -463,7 +573,8 @@
         "正文信号 23:保留总轨宽、稳定frame.id、selection/history与唯一save command；不再要求已被用户否决的handle/move语义。",
         "正文信号 24:- 本卡保留历史并标cancelled/superseded；RESTORE-1通过visible DOM验收后关闭board开放债。",
         "正文信号 3:Status: cancelled（2026-09-01，用户恢复原始visible/native-drag形态后合并入RESTORE-1）",
-        "正文信号 24:- 本卡保留历史并标cancelled/superseded；RESTORE-1通过visible DOM验收后关闭board开放债。"
+        "正文信号 24:- 本卡保留历史并标cancelled/superseded；RESTORE-1通过visible DOM验收后关闭board开放债。",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
@@ -538,7 +649,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -552,6 +664,26 @@
           "action": "R32 readonly proposal accepted then root migration",
           "reviewer": "r32_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "a0d1d317af85a73d438652846d44235c1b43f33592c2772bf712ce0ae86683f5"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -606,18 +738,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "ED-FRAME-TIMELINE-VIRTUALIZATION-1 - 长帧动画时间线 DOM windowing：这是 task-card，当前文档状态为 cancelled。全文 33 行、5 个标题；摘要/首段为「Status: cancelled（2026-09-01，用户恢复原始visible/native-drag形态后合并入RESTORE-1）」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R32 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "25de55bbd3812ba006415877a8bfaa40c4ccf0715ee953fe2eb9d104bd10ba50",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "a0d1d317af85a73d438652846d44235c1b43f33592c2772bf712ce0ae86683f5"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r32-ops-cancelled-tasks.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "73d2e0264a267b325be8b28173959a584685263d5ab8153292cd980f1efbb69f",
+          "sourceRecordGitObject": "73e81bb556e57c2c4353a09a6b4606b50cd2bacc",
+          "entryIndex": 2,
+          "path": "docs/ops/archive/tasks/cancelled/ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R32 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof：这是 task-card，当前文档状态为 cancelled。全文 248 行、15 个标题；摘要/首段为「Status: cancelled」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md:1",
         "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md:1 OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof",
@@ -651,7 +816,8 @@
         "正文信号 182:- counter / 分歧处理: coverage 或 source-proof 任何缺口都保持 blocked。",
         "正文信号 195:- done 准入结论: blocked",
         "正文信号 236:  与 current mechanical baseline 前提未变化，但按既定执行顺序暂转 `blocked`。Next: 等 B 完成",
-        "正文信号 239:  consolidated proof 对象均已删除；当前 40/340 清单没有对应 successor 集。卡转 `cancelled` 并从"
+        "正文信号 239:  consolidated proof 对象均已删除；当前 40/340 清单没有对应 successor 集。卡转 `cancelled` 并从",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
@@ -724,7 +890,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -738,6 +905,26 @@
           "action": "R32 readonly proposal accepted then root migration",
           "reviewer": "r32_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "b2fde24e5944d40848eb6f3301c19633c2edb34b64131f954a07cd5e913736a9"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -832,18 +1019,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "OPS-TST-PERF-C - P2/P3/P4 consolidated determinism proof：这是 task-card，当前文档状态为 cancelled。全文 248 行、15 个标题；摘要/首段为「Status: cancelled」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R32 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "9e63c627c811043151605b65e11dc3342a2d76952711e7fc79bd271f021a9792",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "b2fde24e5944d40848eb6f3301c19633c2edb34b64131f954a07cd5e913736a9"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r32-ops-cancelled-tasks.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "73d2e0264a267b325be8b28173959a584685263d5ab8153292cd980f1efbb69f",
+          "sourceRecordGitObject": "73e81bb556e57c2c4353a09a6b4606b50cd2bacc",
+          "entryIndex": 3,
+          "path": "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R32 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "OPS-TST-PERF-B - shared/fresh 隔离并行 release runner：这是 task-card，当前文档状态为 cancelled。全文 661 行、23 个标题；摘要/首段为「Status: cancelled」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md:1",
         "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md:1 OPS-TST-PERF-B - shared/fresh 隔离并行 release runner",
@@ -877,7 +1097,8 @@
         "正文信号 108:- RSS 不可读取、超预算、spawn/exec/timeout、signal/OOM、路径冲突、报告缺失/不完整、清单不闭合：",
         "正文信号 117:  - manifest→canary→preflight/unit 串行完成后才 spawn 两个 PAL child；任一 child 失败会取消另一个。",
         "正文信号 137:    不是同一运行的冲突值。卡文已改为双样本并列。",
-        "正文信号 173:    （RSS 不可读/超预算/signal/路径冲突/报告缺失）设计正确，无静默串行回退路径。"
+        "正文信号 173:    （RSS 不可读/超预算/signal/路径冲突/报告缺失）设计正确，无静默串行回退路径。",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
@@ -950,7 +1171,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -964,6 +1186,26 @@
           "action": "R32 readonly proposal accepted then root migration",
           "reviewer": "r32_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "9f9428e229e79006e4c17b56ccb3080b6fe093a9d91479a0331613da3948f381"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -1058,18 +1300,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "OPS-TST-PERF-B - shared/fresh 隔离并行 release runner：这是 task-card，当前文档状态为 cancelled。全文 661 行、23 个标题；摘要/首段为「Status: cancelled」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R32 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "a8a65b28f097736f58cace6e03f16c96aeebc6c16ae5804edf13a073888d520b",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "9f9428e229e79006e4c17b56ccb3080b6fe093a9d91479a0331613da3948f381"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r32-ops-cancelled-tasks.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "73d2e0264a267b325be8b28173959a584685263d5ab8153292cd980f1efbb69f",
+          "sourceRecordGitObject": "73e81bb556e57c2c4353a09a6b4606b50cd2bacc",
+          "entryIndex": 4,
+          "path": "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/ops/archive/tasks/cancelled/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R32 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "已取消任务：这是 task-card，当前文档状态为 historical。全文 8 行、1 个标题；摘要/首段为「这里只保存顶部状态为 cancelled 的任务卡。取消理由与替代任务见原卡及总索引，不因归档而恢复旧方案。」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/tasks/cancelled/README.md:1",
         "docs/ops/archive/tasks/cancelled/README.md:1 已取消任务"
@@ -1077,7 +1352,8 @@
       "unresolved": [
         "历史材料当前有效性需要继任文档或当前代码复核",
         "正文信号 1:# 已取消任务",
-        "正文信号 3:这里只保存顶部状态为 cancelled 的任务卡。取消理由与替代任务见原卡及总索引，不因归档而恢复旧方案。"
+        "正文信号 3:这里只保存顶部状态为 cancelled 的任务卡。取消理由与替代任务见原卡及总索引，不因归档而恢复旧方案。",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
@@ -1153,7 +1429,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -1167,6 +1444,26 @@
           "action": "R32 readonly proposal accepted then root migration",
           "reviewer": "r32_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "7df99dad2bedd8034a08ab8b8738642c48db5ef5280da827e065c0e65d8e6c7b"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -1221,18 +1518,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "已取消任务：这是 task-card，当前文档状态为 historical。全文 8 行、1 个标题；摘要/首段为「这里只保存顶部状态为 cancelled 的任务卡。取消理由与替代任务见原卡及总索引，不因归档而恢复旧方案。」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R32 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "c346d499c79ac59e68b8a5d46b68ffc27d180386839dc61c95ea1a2112ab2c4c",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "7df99dad2bedd8034a08ab8b8738642c48db5ef5280da827e065c0e65d8e6c7b"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r32-ops-cancelled-tasks.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "73d2e0264a267b325be8b28173959a584685263d5ab8153292cd980f1efbb69f",
+          "sourceRecordGitObject": "73e81bb556e57c2c4353a09a6b4606b50cd2bacc",
+          "entryIndex": 5,
+          "path": "docs/ops/archive/tasks/cancelled/README.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "template": "docs/phase-governance/templates/task-card.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R32 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "W7E - 独立地图库与场景地图绑定（已取消）：这是 task-card，当前文档状态为 cancelled。全文 358 行、28 个标题；摘要/首段为「Status: cancelled」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md:1",
         "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md:1 W7E - 独立地图库与场景地图绑定（已取消）",
@@ -1266,7 +1596,8 @@
         "正文信号 121:- Opus: **agree（2026-07-14,附 M1/M2 必改）**。schema 与升级边界总体正确:LegacyOwnMapRefV1 单独命名封死双义字段;打开不写盘、保存一次性升 v2;id=stem 优先+冲突加 path hash 确定性;`o:<mapId>` 与 `legacy:<path>` 缓存键不混;懒加载哲学与 M3 一致(index 只元数据,OwnMap 场景级 LRU);MG2 双表登记+交叉测试正合 R1(现在登记=前瞻防御,迁移器",
         "正文信号 160:- done 准入结论: blocked",
         "正文信号 198:4. 非工程相对路径、`..`、重复 id/重复 path 元数据冲突或缺失地图文件一律 fail-loud，指出 scene id/path，不猜测修复。",
-        "正文信号 259:  - 缓解: 读时只建内存升级报告，保存时才写；同 path 去重，非法/冲突 fail-loud；地图内容/path 不搬家。"
+        "正文信号 259:  - 缓解: 读时只建内存升级报告，保存时才写；同 path 去重，非法/冲突 fail-loud；地图内容/path 不搬家。",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
@@ -1341,7 +1672,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -1355,6 +1687,26 @@
           "action": "R32 readonly proposal accepted then root migration",
           "reviewer": "r32_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "a575d3ec5178c18ba12dc657549356a9edfa3b608dff2e502ec3916886bf9c69"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -1449,6 +1801,39 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "W7E - 独立地图库与场景地图绑定（已取消）：这是 task-card，当前文档状态为 cancelled。全文 358 行、28 个标题；摘要/首段为「Status: cancelled」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R32 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "65f9f05097109878f4a105093240f61588a83b8440fd81ee7f44fd1d7463ee4e",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "a575d3ec5178c18ba12dc657549356a9edfa3b608dff2e502ec3916886bf9c69"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r32-ops-cancelled-tasks.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "73d2e0264a267b325be8b28173959a584685263d5ab8153292cd980f1efbb69f",
+          "sourceRecordGitObject": "73e81bb556e57c2c4353a09a6b4606b50cd2bacc",
+          "entryIndex": 6,
+          "path": "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     }
   ],
@@ -1488,5 +1873,29 @@
     "decision": "same-actor candidate acceptance cannot certify non-author review",
     "task": "DOCS-RECORD-INTEGRITY-1",
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  },
+  "expandedAuditCorrection": {
+    "date": "2026-10-18",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+    "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+    "scopePointer": "/expandedAudit20261018",
+    "evidenceStatus": "pending-root-intake-at-generation",
+    "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+    "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+    "scope": "Only listed old active entries; no non-target entry, S01 successor, unrelated historical or current body changed.",
+    "paths": [
+      "docs/ops/archive/tasks/cancelled/D15-2-pal-auto-terrain-route-compat.md",
+      "docs/ops/archive/tasks/cancelled/ED-ACTION-GROUP-ADOPTION-2-frame-animation-timeline.md",
+      "docs/ops/archive/tasks/cancelled/ED-FRAME-TIMELINE-VIRTUALIZATION-1-frame-card-dom-windowing.md",
+      "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-consolidated-determinism.md",
+      "docs/ops/archive/tasks/cancelled/OPS-TST-PERF-parallel-gates.md",
+      "docs/ops/archive/tasks/cancelled/README.md",
+      "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md"
+    ],
+    "entryCount": 7,
+    "authorCanonicalTask": "/root/s12_semantic_author",
+    "nonAuthorReviewer": false,
+    "newCredit": 0
   }
 }

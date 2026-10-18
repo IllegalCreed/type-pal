@@ -7,14 +7,14 @@
   "entries": [
     {
       "path": "docs/ops/audits/pre-e2e/battle.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "C批 · 战斗调用链审计：这是 audit-report，当前文档状态为 current。全文 194 行、12 个标题；摘要/首段为「基线：`35aa1dc5`，产品代码与A/B批基线一致。Owner：Codex，内部并行只读取证，非Kimi/GLM签字。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/audits/pre-e2e/battle.md:1",
         "docs/ops/audits/pre-e2e/battle.md:1 C批 · 战斗调用链审计",
@@ -40,7 +40,8 @@
         "正文信号 88:- 边界：本轮复现是完整core轮转＋session分派源码，未跑浏览器结算画面。",
         "正文信号 102:- 边界：只核按键路由与禁用条件，未截图宣称具体像素问题。不是既有“围攻/状态”灰显事项。",
         "正文信号 26:旧harvest的“reforge未实现”是历史快照，不能据此给当前代码定罪；二阶段按当前canonical合同判断。",
-        "正文信号 155:  与旧摘要有实质冲突。未把摘要/源码矛盾转化为产品修复，更未据此改合击规则。"
+        "正文信号 155:  与旧摘要有实质冲突。未把摘要/源码矛盾转化为产品修复，更未据此改合击规则。",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
@@ -110,7 +111,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -124,6 +126,26 @@
           "action": "R34 readonly proposal accepted then migration/envelope",
           "reviewer": "r34_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "06a36a7734306d25f43843d19cba679f6c812a5cf10caa41342dbcedd8def7b9"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -178,18 +200,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "C批 · 战斗调用链审计：这是 audit-report，当前文档状态为 current。全文 194 行、12 个标题；摘要/首段为「基线：`35aa1dc5`，产品代码与A/B批基线一致。Owner：Codex，内部并行只读取证，非Kimi/GLM签字。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "e49e6631f445cf030cf2e89e2493fd0b72a7885e1e320a416a3a5db0f84256fe",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "06a36a7734306d25f43843d19cba679f6c812a5cf10caa41342dbcedd8def7b9"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r34-ops-pre-e2e.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "4bacc133bf820cb353e78b19a67bff08f2c4bf69b97c1d081a318b73a8c2213b",
+          "sourceRecordGitObject": "96408acc6d67bb451ae6fddf38b4b87032e8d65d",
+          "entryIndex": 0,
+          "path": "docs/ops/audits/pre-e2e/battle.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/ops/audits/pre-e2e/editor-workflows.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "D批 · 编辑器工作流审计：这是 audit-report，当前文档状态为 draft。全文 218 行、12 个标题；摘要/首段为「基线：`50ed0f0f`，产品代码与A–C批一致。Owner：Codex，内部并行只读取证，非Kimi/GLM签字。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/audits/pre-e2e/editor-workflows.md:1",
         "docs/ops/audits/pre-e2e/editor-workflows.md:1 D批 · 编辑器工作流审计",
@@ -214,7 +269,8 @@
         "正文信号 109:- 验证边界：组件SSR不是浏览器点击；函数体只替等待/提示和启动环境，走缺队早退；未完整启动引擎。",
         "正文信号 131:- 限定：**本轮证实的反例由用户随后主动保存触发**，未证实打开链接立即写盘/自动覆盖，",
         "正文信号 132:也未排除后续切场景等自动存档路径保存临时状态；",
-        "正文信号 212:通过的两栈配对单测不代表交错历史整体正确；链接单测、完整字段的引用样例、顺序解码单测也不能替代上述反例。"
+        "正文信号 212:通过的两栈配对单测不代表交错历史整体正确；链接单测、完整字段的引用样例、顺序解码单测也不能替代上述反例。",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
@@ -299,7 +355,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -313,6 +370,26 @@
           "action": "R34 readonly proposal accepted then migration/envelope",
           "reviewer": "r34_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "0cc3fcdcebe6fc1ce0eecb344740aa763141f66eccb6ad1e74d8482187829a6e"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -362,18 +439,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "D批 · 编辑器工作流审计：这是 audit-report，当前文档状态为 draft。全文 218 行、12 个标题；摘要/首段为「基线：`50ed0f0f`，产品代码与A–C批一致。Owner：Codex，内部并行只读取证，非Kimi/GLM签字。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "359fb222937b2fdb56fd6b9cd5fb49e28dca1c3146938006387c3569612105ce",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "0cc3fcdcebe6fc1ce0eecb344740aa763141f66eccb6ad1e74d8482187829a6e"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r34-ops-pre-e2e.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "4bacc133bf820cb353e78b19a67bff08f2c4bf69b97c1d081a318b73a8c2213b",
+          "sourceRecordGitObject": "96408acc6d67bb451ae6fddf38b4b87032e8d65d",
+          "entryIndex": 1,
+          "path": "docs/ops/audits/pre-e2e/editor-workflows.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/ops/audits/pre-e2e/engineering.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "E批 · 测试、工程与维护性审计：这是 audit-report，当前文档状态为 current。全文 175 行、11 个标题；摘要/首段为「基线：`223a20f0`，产品代码与A–D批一致。Owner：Codex；内部并行只读取证，不代表Kimi/GLM签字。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/audits/pre-e2e/engineering.md:1",
         "docs/ops/audits/pre-e2e/engineering.md:1 E批 · 测试、工程与维护性审计",
@@ -400,7 +510,8 @@
         "正文信号 113:**238条诊断不是238个运行缺陷**，不据此夸大业务风险；未在审计中自动格式化产品源码。",
         "正文信号 3:基线：`223a20f0`，产品代码与A–D批一致。Owner：Codex；内部并行只读取证，不代表Kimi/GLM签字。",
         "正文信号 41:  E-01主风险是零断言假通过；skip与收集期读取冲突是较低级别测试设置/告知问题。",
-        "正文信号 158:不表示原门禁在所有条件下成功。直接用其config/setup手动跑missing-raw时应exit1，这是预期反例回执。"
+        "正文信号 158:不表示原门禁在所有条件下成功。直接用其config/setup手动跑missing-raw时应exit1，这是预期反例回执。",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
@@ -474,7 +585,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -488,6 +600,26 @@
           "action": "R34 readonly proposal accepted then migration/envelope",
           "reviewer": "r34_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "65c5abc6912e82009a4a78855b625560c8f1e849910fce45b002c33a265be8b1"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -547,18 +679,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "E批 · 测试、工程与维护性审计：这是 audit-report，当前文档状态为 current。全文 175 行、11 个标题；摘要/首段为「基线：`223a20f0`，产品代码与A–D批一致。Owner：Codex；内部并行只读取证，不代表Kimi/GLM签字。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "8ff98306b9b28f6ac89e81466295777ed4661844d01d12102898e5699a44000d",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "65c5abc6912e82009a4a78855b625560c8f1e849910fce45b002c33a265be8b1"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r34-ops-pre-e2e.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "4bacc133bf820cb353e78b19a67bff08f2c4bf69b97c1d081a318b73a8c2213b",
+          "sourceRecordGitObject": "96408acc6d67bb451ae6fddf38b4b87032e8d65d",
+          "entryIndex": 2,
+          "path": "docs/ops/audits/pre-e2e/engineering.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/ops/audits/pre-e2e/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "PRE-E2E-AUDIT-1 · 两阶段全仓代码审计台账：这是 audit-report，当前文档状态为 current。全文 235 行、15 个标题；摘要/首段为「后续修复回执：[E-06 质量门禁](quality-gate-remediation.md)、[B-04 当前存档预检](save-preflight-remediation.md)。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/audits/pre-e2e/README.md:1",
         "docs/ops/audits/pre-e2e/README.md:1 PRE-E2E-AUDIT-1 · 两阶段全仓代码审计台账",
@@ -592,7 +757,8 @@
         "正文信号 84:2026-09-07 用户明确验收通过，已 done，候选未漂移。下列是修前反例，不表示新候选仍静默覆盖。",
         "正文信号 96:- 修复方向：打开时持有磁盘基线，写入前在同一互斥域校验目标版本/差异；冲突显式报告，不把当前磁盘重采样当旧快照。",
         "正文信号 102:完整暂存后继续完成本次保存、外部冲突停止；r2三方前提/设计签字齐，当前build。",
-        "正文信号 182:非OS沙箱/check到syscall残余窗口与非整批回滚边界保持；以下是原审计时点，不表示新候选仍缺这组保护。"
+        "正文信号 182:非OS沙箱/check到syscall残余窗口与非整批回滚边界保持；以下是原审计时点，不表示新候选仍缺这组保护。",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
@@ -679,7 +845,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -693,6 +860,26 @@
           "action": "R34 readonly proposal accepted then migration/envelope",
           "reviewer": "r34_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "1a8c2079b68875f6bf6cfcec27fec1a19efaaa84d26d5e84f6e556fd6cbf8990"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -787,18 +974,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "PRE-E2E-AUDIT-1 · 两阶段全仓代码审计台账：这是 audit-report，当前文档状态为 current。全文 235 行、15 个标题；摘要/首段为「后续修复回执：[E-06 质量门禁](quality-gate-remediation.md)、[B-04 当前存档预检](save-preflight-remediation.md)。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "2ba51344522bbbe01a38349cd98ad5ced8817517d3f96c2d6f19dac49ad24d0f",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "1a8c2079b68875f6bf6cfcec27fec1a19efaaa84d26d5e84f6e556fd6cbf8990"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r34-ops-pre-e2e.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "4bacc133bf820cb353e78b19a67bff08f2c4bf69b97c1d081a318b73a8c2213b",
+          "sourceRecordGitObject": "96408acc6d67bb451ae6fddf38b4b87032e8d65d",
+          "entryIndex": 3,
+          "path": "docs/ops/audits/pre-e2e/README.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/ops/audits/pre-e2e/save-barrier-lineage-premise.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "SAVE-BARRIER-LINEAGE-1 · 保存子链前提与不完整修法反例：这是 audit-report，当前文档状态为 draft。全文 76 行、5 个标题；摘要/首段为「2026-09-16，Codex。取证基线`aefa5b06e067f81a90273cf245c762a9264cc09a`，产品与WORLD候选`e13216e7`相同。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/audits/pre-e2e/save-barrier-lineage-premise.md:1",
         "docs/ops/audits/pre-e2e/save-barrier-lineage-premise.md:1 SAVE-BARRIER-LINEAGE-1 · 保存子链前提与不完整修法反例",
@@ -817,7 +1037,8 @@
         "正文信号 66:结果3 files / 39 tests全绿；它们保护独立root暂停等原合同，未覆盖本卡两条反例。新probe Biome复查0问题。",
         "正文信号 71:## 修复准入与未做",
         "正文信号 5:GLM既有批二原材料及Codex接收修正贡献见[批二回执](../../../testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2-report.md)；本次新探针由Codex编写自验，不代表他席签字。",
-        "正文信号 19:两模式exit0表示**诊断观察与明确断言相符**，不表示产品已正确："
+        "正文信号 19:两模式exit0表示**诊断观察与明确断言相符**，不表示产品已正确：",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
@@ -895,7 +1116,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -909,6 +1131,26 @@
           "action": "R34 readonly proposal accepted then migration/envelope",
           "reviewer": "r34_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "b8a71e6f4c0d4f247ca268b3e4502cb59890eb7424d4e95d514a42d69506ef2e"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -963,18 +1205,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "SAVE-BARRIER-LINEAGE-1 · 保存子链前提与不完整修法反例：这是 audit-report，当前文档状态为 draft。全文 76 行、5 个标题；摘要/首段为「2026-09-16，Codex。取证基线`aefa5b06e067f81a90273cf245c762a9264cc09a`，产品与WORLD候选`e13216e7`相同。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "00e02cdecd3a9bd532cd817f93e846fe80f1e3ab128d3c4b4394af1aea87bc5a",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "b8a71e6f4c0d4f247ca268b3e4502cb59890eb7424d4e95d514a42d69506ef2e"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r34-ops-pre-e2e.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "4bacc133bf820cb353e78b19a67bff08f2c4bf69b97c1d081a318b73a8c2213b",
+          "sourceRecordGitObject": "96408acc6d67bb451ae6fddf38b4b87032e8d65d",
+          "entryIndex": 4,
+          "path": "docs/ops/audits/pre-e2e/save-barrier-lineage-premise.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/ops/audits/pre-e2e/save-preflight-remediation.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "B-04 修复回执：当前存档预检与恢复失败隔离：这是 audit-report，当前文档状态为 current。全文 59 行、4 个标题；摘要/首段为「状态：**SAVE-PREFLIGHT-1 已 done（2026-09-06，用户明确授权收口）**。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/audits/pre-e2e/save-preflight-remediation.md:1",
         "docs/ops/audits/pre-e2e/save-preflight-remediation.md:1 B-04 修复回执：当前存档预检与恢复失败隔离",
@@ -988,7 +1263,8 @@
         "正文信号 41:没有承诺任意提交后异常回滚，也没有穷举一切未知字段。",
         "正文信号 47:| 合法 checkpoint → 行走/脚本 → 坏 checkpoint 拒绝 → 合法恢复 | [R4/Q1 集中 E2E 登记](../../../testing/e2e/contract.md#已登记的存档恢复回归save-preflight-1)，Owner Codex，待跑；剧情观感不逐卡重复 |",
         "正文信号 49:| 非结构 codec 错误长提示 | Kimi 非阻断观察，作为后续缺陷记录保留，尚未实现；不扩大本卡 R4 新 guard 的范围 |",
-        "正文信号 49:| 非结构 codec 错误长提示 | Kimi 非阻断观察，作为后续缺陷记录保留，尚未实现；不扩大本卡 R4 新 guard 的范围 |"
+        "正文信号 49:| 非结构 codec 错误长提示 | Kimi 非阻断观察，作为后续缺陷记录保留，尚未实现；不扩大本卡 R4 新 guard 的范围 |",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
@@ -1066,7 +1342,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -1080,6 +1357,26 @@
           "action": "R34 readonly proposal accepted then migration/envelope",
           "reviewer": "r34_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "efd45869c72fbee5260d361863831d9837e0aaa20371de33c48925427a744115"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -1129,18 +1426,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "B-04 修复回执：当前存档预检与恢复失败隔离：这是 audit-report，当前文档状态为 current。全文 59 行、4 个标题；摘要/首段为「状态：**SAVE-PREFLIGHT-1 已 done（2026-09-06，用户明确授权收口）**。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "0167171c726cf03746f58599da1c5363fc29806f4cdf0e75c75ceab9f8a69ef6",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "efd45869c72fbee5260d361863831d9837e0aaa20371de33c48925427a744115"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r34-ops-pre-e2e.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "4bacc133bf820cb353e78b19a67bff08f2c4bf69b97c1d081a318b73a8c2213b",
+          "sourceRecordGitObject": "96408acc6d67bb451ae6fddf38b4b87032e8d65d",
+          "entryIndex": 5,
+          "path": "docs/ops/audits/pre-e2e/save-preflight-remediation.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/ops/audits/pre-e2e/summary.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "PRE-E2E-AUDIT-1 · 本轮审计收口与修复建议：这是 audit-report，当前文档状态为 A。全文 264 行、12 个标题；摘要/首段为「状态：A–E五批计划范围的**首轮只读审计完成**；不是产品缺陷已修复、不是全程序无遗漏保证、不是E2E验收。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/audits/pre-e2e/summary.md:1",
         "docs/ops/audits/pre-e2e/summary.md:1 PRE-E2E-AUDIT-1 · 本轮审计收口与修复建议",
@@ -1169,7 +1499,8 @@
         "正文信号 33:  用户随后明确“可以补上”：完整暂存后中断则继续完成本次保存，外部冲突停止；r2三方前提/设计签字及cd3de679三席终审齐，当前done。",
         "正文信号 104:新增55测试，check七包7036项与严格fast 6548项/617生产文件通过，8反控符合预期；不代表完整覆盖目标或E2E收口，不重新审查批二72项。",
         "正文信号 151:原生选择器保存重开浏览器链、360主壳、full/Q1/Q2边界保留，不代表所有评估入口或完整E2E完成。",
-        "正文信号 171:| 2 | A-02/03/07：作者旧快照冲突、部分保存、离开保护；D-01全局历史 | R4编辑器链接入前处理其采用的保存/撤销路径；多窗口/故障未覆盖必须明列，不能以一次happy-path通过替代 |"
+        "正文信号 171:| 2 | A-02/03/07：作者旧快照冲突、部分保存、离开保护；D-01全局历史 | R4编辑器链接入前处理其采用的保存/撤销路径；多窗口/故障未覆盖必须明列，不能以一次happy-path通过替代 |",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
@@ -1256,7 +1587,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -1270,6 +1602,26 @@
           "action": "R34 readonly proposal accepted then migration/envelope",
           "reviewer": "r34_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "c2d02b24cd973f7af9691aa5ad271ae395ad79daa6f7bcef0fa5cc6ed1c3af83"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -1339,23 +1691,59 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "PRE-E2E-AUDIT-1 · 本轮审计收口与修复建议：这是 audit-report，当前文档状态为 A。全文 264 行、12 个标题；摘要/首段为「状态：A–E五批计划范围的**首轮只读审计完成**；不是产品缺陷已修复、不是全程序无遗漏保证、不是E2E验收。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "5bce7463bc66b5a6c866909dc8712db7872c2e281d20c9e71bf6776d1042b2c6",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "c2d02b24cd973f7af9691aa5ad271ae395ad79daa6f7bcef0fa5cc6ed1c3af83"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r34-ops-pre-e2e.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "4bacc133bf820cb353e78b19a67bff08f2c4bf69b97c1d081a318b73a8c2213b",
+          "sourceRecordGitObject": "96408acc6d67bb451ae6fddf38b4b87032e8d65d",
+          "entryIndex": 6,
+          "path": "docs/ops/audits/pre-e2e/summary.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/ops/audits/pre-e2e/tools/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "PRE-E2E 审计工具：这是 audit-report，当前文档状态为 current。全文 7 行、1 个标题；摘要/首段为「本目录只存探针、配置和验证脚本；审计结论在上级目录的报告中。脚本移动保留源 SHA、after SHA、cwd、」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/audits/pre-e2e/tools/README.md:1",
         "docs/ops/audits/pre-e2e/tools/README.md:1 PRE-E2E 审计工具"
       ],
-      "unresolved": ["结构扫描未发现显式未决词；不等于一手真值已经核实"],
+      "unresolved": [
+        "结构扫描未发现显式未决词；不等于一手真值已经核实",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
+      ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
       "module": "audits",
@@ -1429,7 +1817,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -1443,6 +1832,26 @@
           "action": "R34 readonly proposal accepted then migration/envelope",
           "reviewer": "r34_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "a611c81c15dd216d624bc81ae561c5739ee44c682e8045d8687af6c3221ccb4d"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -1487,18 +1896,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "PRE-E2E 审计工具：这是 audit-report，当前文档状态为 current。全文 7 行、1 个标题；摘要/首段为「本目录只存探针、配置和验证脚本；审计结论在上级目录的报告中。脚本移动保留源 SHA、after SHA、cwd、」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "693513243128c79c4330b12d5c381c601f284ec1da79a35618db630cb30db647",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "a611c81c15dd216d624bc81ae561c5739ee44c682e8045d8687af6c3221ccb4d"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r34-ops-pre-e2e.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "4bacc133bf820cb353e78b19a67bff08f2c4bf69b97c1d081a318b73a8c2213b",
+          "sourceRecordGitObject": "96408acc6d67bb451ae6fddf38b4b87032e8d65d",
+          "entryIndex": 7,
+          "path": "docs/ops/audits/pre-e2e/tools/README.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/ops/audits/pre-e2e/world-lifecycle.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "B批 · 世界、脚本与异步收尾：这是 audit-report，当前文档状态为 current。全文 183 行、12 个标题；摘要/首段为「后续更新（2026-09-06）：[B-04 当前存档预检已修复](save-preflight-remediation.md)，三席通过并按用户授权收口。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/audits/pre-e2e/world-lifecycle.md:1",
         "docs/ops/audits/pre-e2e/world-lifecycle.md:1 B批 · 世界、脚本与异步收尾",
@@ -1523,7 +1965,8 @@
         "正文信号 58:palette全黑；真实tickSceneInput不移动。未模拟真实浏览器断网/磁盘故障。",
         "正文信号 59:- 反证：资源成功或缓存命中时正常；再次F9成功可恢复，**不是永久不可恢复**。普通triggerPendingSceneLoad的catch",
         "正文信号 75:| facing=\"sideways\" | commit期间dcol异常 | 已abort旧controller、替换world/scene/facing，尚未完成恢复，无回滚 |",
-        "正文信号 7:Owner：Codex；内部并行取证不代表Kimi/GLM签字。**本批只读，未修复产品代码或用户数据。**"
+        "正文信号 7:Owner：Codex；内部并行取证不代表Kimi/GLM签字。**本批只读，未修复产品代码或用户数据。**",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
@@ -1598,7 +2041,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -1612,6 +2056,26 @@
           "action": "R34 readonly proposal accepted then migration/envelope",
           "reviewer": "r34_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "e951cf1531da5a5ab1a8c72b54433d5e825519861209ee1a7252ba10b365643b"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -1661,6 +2125,39 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "B批 · 世界、脚本与异步收尾：这是 audit-report，当前文档状态为 current。全文 183 行、12 个标题；摘要/首段为「后续更新（2026-09-06）：[B-04 当前存档预检已修复](save-preflight-remediation.md)，三席通过并按用户授权收口。」。属于现行文档范围，使用时受本记录的证据与未决项约束。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R34 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "24f7c99048463536eac848f6d67b8a0e4429f39d20edbd54bd5469c6bec3f010",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "e951cf1531da5a5ab1a8c72b54433d5e825519861209ee1a7252ba10b365643b"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r34-ops-pre-e2e.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "4bacc133bf820cb353e78b19a67bff08f2c4bf69b97c1d081a318b73a8c2213b",
+          "sourceRecordGitObject": "96408acc6d67bb451ae6fddf38b4b87032e8d65d",
+          "entryIndex": 8,
+          "path": "docs/ops/audits/pre-e2e/world-lifecycle.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     }
   ],
@@ -1700,5 +2197,31 @@
     "decision": "same-actor candidate acceptance cannot certify non-author review",
     "task": "DOCS-RECORD-INTEGRITY-1",
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  },
+  "expandedAuditCorrection": {
+    "date": "2026-10-18",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+    "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+    "scopePointer": "/expandedAudit20261018",
+    "evidenceStatus": "pending-root-intake-at-generation",
+    "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+    "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+    "scope": "Only listed old active entries; no non-target entry, S01 successor, unrelated historical or current body changed.",
+    "paths": [
+      "docs/ops/audits/pre-e2e/README.md",
+      "docs/ops/audits/pre-e2e/battle.md",
+      "docs/ops/audits/pre-e2e/editor-workflows.md",
+      "docs/ops/audits/pre-e2e/engineering.md",
+      "docs/ops/audits/pre-e2e/save-barrier-lineage-premise.md",
+      "docs/ops/audits/pre-e2e/save-preflight-remediation.md",
+      "docs/ops/audits/pre-e2e/summary.md",
+      "docs/ops/audits/pre-e2e/tools/README.md",
+      "docs/ops/audits/pre-e2e/world-lifecycle.md"
+    ],
+    "entryCount": 9,
+    "authorCanonicalTask": "/root/s12_semantic_author",
+    "nonAuthorReviewer": false,
+    "newCredit": 0
   }
 }

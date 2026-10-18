@@ -1877,3 +1877,10 @@ root非作者实际核固定de423正文SHA1e50d535c2b16aa466207da22e698768bd5abb
 - 固定实际全门181/181且fail/skipped/cancelled/todo均0，navigation1301 Markdown/8237links/364tasks、model7routes/1264contracts（结构only）、testing0与phase/lore184通过，lint4511全零；wholecheckdocs/strict/requirecomplete仍FAIL。3952诊断行只为pending review/template，当前458 content-reviewed/1973 partial，迁移446/1838基线+6增量/1979当前候选待审/17模板/0integrity；这些含沿用有效成果，不冒称全为本轮新深审。
 - 原1896撤回范围及五历史隔离不改，实际现有native与固定parts交集9篇已重新接受、1887篇待审；S12是其中新增1，006外集/设计/S01等不计入这9。没有当前runtime/E2E/视觉/preview/coverage或全量完成信用。后继ack只写本卡/对应显式pin及不可变原件运输，不再改S12正文、native字段、catalog/pair/两目标或扩范围。
 - 本卡持续rework；全量硬验收未过，不合main、不推main、不标done。下一步按固定cohort与增量继续真实逐篇审阅；已核合格的源域/模板/工具直接复用，未准入原生变体仍先设计冻结，不能用静态绿补造缺失执行。
+
+### 新三遍审计：R23起的追加撤信与候选锚点纠正
+
+- 原R39起撤回不足。新增189份Markdown窗口中152条模板结论已由固定Git/逐条模式复现；其中READ-FIRST已有S01真实非作者后继，保护该后继，另151当前旧绑定降为partial-review-unknown/needs-migration/structured-content。原1896 scope及六分片不改，新历史claim并集2048；不是新审2048篇，也不把未匹配37篇或3HTML自动重授。
+- 实际72份acceptance JSON中70含candidateHead。按原首次blob与完整after集合，68可准确改锚、R65保ledger/body双锚，R92/R93仍unknown；不能凑用户50/53或猜SHA。六B01复制错位撤回、R64坏路径显式更正，R88–R91四原数字组保全并隔离；新实际门不能补真旧执行。
+- 九份R93设计的Git真源与旧两层wrapper复合体分别记录；原quote不改，不把复合体SHA称为Git原文。N3补单行尾空格编码规则并撤直接exact；R27明确15direct+5encoded/quote289，保留原始空白语义。目录拆分卡继续rework，未补造原缺失独立回执。
+- 具体逐条来源与当前纠错见[完整审计追加段](../evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json)；实际中央写盘、质量门与非作者结论另按本次固定候选记录。S12/fa63/752、配对JSON既有限定成果和全部旧失败/隔离保留。S13三导航仅有只读提案，暂不正文build。本卡持续rework，不合main、不推main、不done。

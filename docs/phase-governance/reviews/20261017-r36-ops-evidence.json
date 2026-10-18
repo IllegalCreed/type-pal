@@ -7,20 +7,23 @@
   "entries": [
     {
       "path": "docs/ops/archive/evidence/A7-3/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "A7-3 · 历史证据：这是 evidence-receipt，当前文档状态为 historical。全文 12 行、2 个标题；摘要/首段为「本目录为对应任务的原始验证附件，按产生时点解释。」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/evidence/A7-3/README.md:1",
         "docs/ops/archive/evidence/A7-3/README.md:1 A7-3 · 历史证据",
         "docs/ops/archive/evidence/A7-3/README.md:7 文档与附件"
       ],
-      "unresolved": ["历史材料当前有效性需要继任文档或当前代码复核"],
+      "unresolved": [
+        "历史材料当前有效性需要继任文档或当前代码复核",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
+      ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
       "module": "archive",
@@ -97,7 +100,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -111,6 +115,26 @@
           "action": "R36 readonly proposal accepted then migration/envelope",
           "reviewer": "r36_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "1555bd0c4b71d504728d99df12214f34164ec34c902d8b0b4a0b218904089cc7"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -155,18 +179,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "A7-3 · 历史证据：这是 evidence-receipt，当前文档状态为 historical。全文 12 行、2 个标题；摘要/首段为「本目录为对应任务的原始验证附件，按产生时点解释。」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "440b5b7ce34767944c1ec6f6d4d1eb0094639c3201f313d406c3f66236d9282e",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "1555bd0c4b71d504728d99df12214f34164ec34c902d8b0b4a0b218904089cc7"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r36-ops-evidence.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "a044338f9b993a65e11dd53428bbf6c4c17c1104b6f9ab9a403443f401e10edb",
+          "sourceRecordGitObject": "e06181b32d7e778cb9d969f95c0d8697865781b7",
+          "entryIndex": 0,
+          "path": "docs/ops/archive/evidence/A7-3/README.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/ops/archive/evidence/C1-3-first-batch-proposal.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "C1-3 第一批 NPC 归档决策（用户已批准）：这是 evidence-receipt，当前文档状态为 historical。全文 78 行、7 个标题；摘要/首段为「日期：2026-08-14」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/evidence/C1-3-first-batch-proposal.md:1",
         "docs/ops/archive/evidence/C1-3-first-batch-proposal.md:1 C1-3 第一批 NPC 归档决策（用户已批准）",
@@ -179,7 +236,8 @@
       ],
       "unresolved": [
         "正文信号 65:- 其余 7,839 个未选候选全部保持原样；第一批不靠 sprite/speaker/portrait/hash 自动扩张。",
-        "正文信号 10:- Cue coverage：`5dcbe205d0ac1b922433c163ca0a6f26d164159cd6be9083a677e6d07ed20491`"
+        "正文信号 10:- Cue coverage：`5dcbe205d0ac1b922433c163ca0a6f26d164159cd6be9083a677e6d07ed20491`",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
@@ -252,7 +310,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -266,6 +325,26 @@
           "action": "R36 readonly proposal accepted then migration/envelope",
           "reviewer": "r36_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "551cb2d4be3306f248a02c7cba1ad04eda360e32d7c4adcf7c2d9e6b0ff08427"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -315,24 +394,60 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "C1-3 第一批 NPC 归档决策（用户已批准）：这是 evidence-receipt，当前文档状态为 historical。全文 78 行、7 个标题；摘要/首段为「日期：2026-08-14」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "c3a4caaea3320fbec8ab276c54f2ea21f026b0e64e9ddfd4d667b3772083b717",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "551cb2d4be3306f248a02c7cba1ad04eda360e32d7c4adcf7c2d9e6b0ff08427"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r36-ops-evidence.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "a044338f9b993a65e11dd53428bbf6c4c17c1104b6f9ab9a403443f401e10edb",
+          "sourceRecordGitObject": "e06181b32d7e778cb9d969f95c0d8697865781b7",
+          "entryIndex": 1,
+          "path": "docs/ops/archive/evidence/C1-3-first-batch-proposal.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/ops/archive/evidence/DOC-IA-2/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "文档结构整理证据：这是 evidence-receipt，当前文档状态为 historical。全文 13 行、2 个标题；摘要/首段为「relocation.json 登记搬迁前哈希、逐文件去向和目录映射；它是本次执行输入的历史快照，不应根据当前树重写。」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/evidence/DOC-IA-2/README.md:1",
         "docs/ops/archive/evidence/DOC-IA-2/README.md:1 文档结构整理证据",
         "docs/ops/archive/evidence/DOC-IA-2/README.md:7 文档与附件"
       ],
-      "unresolved": ["历史材料当前有效性需要继任文档或当前代码复核"],
+      "unresolved": [
+        "历史材料当前有效性需要继任文档或当前代码复核",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
+      ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
       "module": "archive",
@@ -409,7 +524,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -423,6 +539,26 @@
           "action": "R36 readonly proposal accepted then migration/envelope",
           "reviewer": "r36_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "e5fe9f894b1637ed5a6effe9a0687f8655f2fab8959cd8ad2cafe857fd8e7c2c"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -467,24 +603,60 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "文档结构整理证据：这是 evidence-receipt，当前文档状态为 historical。全文 13 行、2 个标题；摘要/首段为「relocation.json 登记搬迁前哈希、逐文件去向和目录映射；它是本次执行输入的历史快照，不应根据当前树重写。」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "6f6ea396a4e1c9d156799eca104fc89a60f15bc3dddb4e9016930b30291f27f0",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "e5fe9f894b1637ed5a6effe9a0687f8655f2fab8959cd8ad2cafe857fd8e7c2c"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r36-ops-evidence.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "a044338f9b993a65e11dd53428bbf6c4c17c1104b6f9ab9a403443f401e10edb",
+          "sourceRecordGitObject": "e06181b32d7e778cb9d969f95c0d8697865781b7",
+          "entryIndex": 2,
+          "path": "docs/ops/archive/evidence/DOC-IA-2/README.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/ops/archive/evidence/ED-3/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "ED-3 · 历史证据：这是 evidence-receipt，当前文档状态为 historical。全文 11 行、2 个标题；摘要/首段为「本目录为对应任务的原始验证附件，按产生时点解释。」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/evidence/ED-3/README.md:1",
         "docs/ops/archive/evidence/ED-3/README.md:1 ED-3 · 历史证据",
         "docs/ops/archive/evidence/ED-3/README.md:7 文档与附件"
       ],
-      "unresolved": ["历史材料当前有效性需要继任文档或当前代码复核"],
+      "unresolved": [
+        "历史材料当前有效性需要继任文档或当前代码复核",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
+      ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
       "module": "archive",
@@ -560,7 +732,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -574,6 +747,26 @@
           "action": "R36 readonly proposal accepted then migration/envelope",
           "reviewer": "r36_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "caaab066218e15a9786aab4fe0a1d6fcc1e9ca9dbb6a34846828dfa913bec28f"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -618,18 +811,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "ED-3 · 历史证据：这是 evidence-receipt，当前文档状态为 historical。全文 11 行、2 个标题；摘要/首段为「本目录为对应任务的原始验证附件，按产生时点解释。」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "aa22a6c1c51d4c9f7fba2a892b70d9c82baf7fa65f2eb53d6904c2ac87d26aca",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "caaab066218e15a9786aab4fe0a1d6fcc1e9ca9dbb6a34846828dfa913bec28f"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r36-ops-evidence.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "a044338f9b993a65e11dd53428bbf6c4c17c1104b6f9ab9a403443f401e10edb",
+          "sourceRecordGitObject": "e06181b32d7e778cb9d969f95c0d8697865781b7",
+          "entryIndex": 3,
+          "path": "docs/ops/archive/evidence/ED-3/README.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "ED-3 A-C PAL 引用索引性能证据（2026-09-04 至 2026-09-05）：这是 evidence-receipt，当前文档状态为 historical。全文 247 行、10 个标题；摘要/首段为「环境：Apple M3 Pro / 18GB，Darwin arm64 24.6.0，Node 22.19.0，pnpm 10.29.2。基线与候选均通过」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md:1",
         "docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md:1 ED-3 A-C PAL 引用索引性能证据（2026-09-04 至 2026-09-05）",
@@ -644,7 +870,8 @@
       "unresolved": [
         "正文信号 231:history/version/dirty 均未变化。缓存 batch p50/p95=0/0.001ms，强制 batch 重建 p50/p95=",
         "正文信号 233:41,156B，带 coverage 的完整 batch 92,632B；PAL 没有 authored stamp，因此另用“1×1 authored stamp +",
-        "正文信号 239:Stamp 页完整 coverage 表现，不冒充 PAL 内容。"
+        "正文信号 239:Stamp 页完整 coverage 表现，不冒充 PAL 内容。",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
@@ -720,7 +947,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -734,6 +962,26 @@
           "action": "R36 readonly proposal accepted then migration/envelope",
           "reviewer": "r36_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "2a5c91f1c1b037d21ae22291a1e86e1fbfd6f0172abe726ebe734db4bf6fb66d"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -788,18 +1036,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "ED-3 A-C PAL 引用索引性能证据（2026-09-04 至 2026-09-05）：这是 evidence-receipt，当前文档状态为 historical。全文 247 行、10 个标题；摘要/首段为「环境：Apple M3 Pro / 18GB，Darwin arm64 24.6.0，Node 22.19.0，pnpm 10.29.2。基线与候选均通过」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "9d50f5c5d34eac5168a9095654dfc692262d11c9c49ca73fdd102d14a133e7d4",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "2a5c91f1c1b037d21ae22291a1e86e1fbfd6f0172abe726ebe734db4bf6fb66d"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r36-ops-evidence.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "a044338f9b993a65e11dd53428bbf6c4c17c1104b6f9ab9a403443f401e10edb",
+          "sourceRecordGitObject": "e06181b32d7e778cb9d969f95c0d8697865781b7",
+          "entryIndex": 4,
+          "path": "docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/ops/archive/evidence/ED-INPUT-PERF-1-pal-chromium-2026-08-25.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "ED-INPUT-PERF-1 PAL Chromium 性能与功能证据：这是 evidence-receipt，当前文档状态为 historical。全文 84 行、10 个标题；摘要/首段为「日期：2026-08-25」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/evidence/ED-INPUT-PERF-1-pal-chromium-2026-08-25.md:1",
         "docs/ops/archive/evidence/ED-INPUT-PERF-1-pal-chromium-2026-08-25.md:1 ED-INPUT-PERF-1 PAL Chromium 性能与功能证据",
@@ -814,7 +1095,8 @@
       "unresolved": [
         "正文信号 14:- 字段覆盖项目显示名、角色当前体力、物品说明、毒名称、共享脚本说明；共享脚本在独立未保存浏览器会话中创建。",
         "正文信号 82:- 派生状态在 reload 后先显示“检查中”，约 0.4s 后进入当前结果；PAL 当前 186 个既有诊断被保留，未伪装成“0 项”。",
-        "正文信号 83:- 浏览器会话最终 reload；未保存性能样本、临时共享脚本或字段修改均未写入工程。"
+        "正文信号 83:- 浏览器会话最终 reload；未保存性能样本、临时共享脚本或字段修改均未写入工程。",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
@@ -887,7 +1169,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -901,6 +1184,26 @@
           "action": "R36 readonly proposal accepted then migration/envelope",
           "reviewer": "r36_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "6d5f28947e685a977ae2c26a3b4b58340700cda0c4a078b3d867694be5be7103"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -945,24 +1248,60 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "ED-INPUT-PERF-1 PAL Chromium 性能与功能证据：这是 evidence-receipt，当前文档状态为 historical。全文 84 行、10 个标题；摘要/首段为「日期：2026-08-25」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "37b126058f6b25bb0077c63b9b26d0261e277ca649e7234b3bfc559d54b82e9f",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "6d5f28947e685a977ae2c26a3b4b58340700cda0c4a078b3d867694be5be7103"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r36-ops-evidence.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "a044338f9b993a65e11dd53428bbf6c4c17c1104b6f9ab9a403443f401e10edb",
+          "sourceRecordGitObject": "e06181b32d7e778cb9d969f95c0d8697865781b7",
+          "entryIndex": 5,
+          "path": "docs/ops/archive/evidence/ED-INPUT-PERF-1-pal-chromium-2026-08-25.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/ops/archive/evidence/ED-REORDER-DRAG-1/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "ED-REORDER-DRAG-1 · 历史证据：这是 evidence-receipt，当前文档状态为 historical。全文 12 行、2 个标题；摘要/首段为「本目录为对应任务的原始验证附件，按产生时点解释。」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/evidence/ED-REORDER-DRAG-1/README.md:1",
         "docs/ops/archive/evidence/ED-REORDER-DRAG-1/README.md:1 ED-REORDER-DRAG-1 · 历史证据",
         "docs/ops/archive/evidence/ED-REORDER-DRAG-1/README.md:7 文档与附件"
       ],
-      "unresolved": ["历史材料当前有效性需要继任文档或当前代码复核"],
+      "unresolved": [
+        "历史材料当前有效性需要继任文档或当前代码复核",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
+      ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
       "module": "archive",
@@ -1039,7 +1378,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -1053,6 +1393,26 @@
           "action": "R36 readonly proposal accepted then migration/envelope",
           "reviewer": "r36_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "aed8bee6530f0dc702c034e27000ba234a53c1713a873fb9dad3bf5c9eb39423"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -1097,24 +1457,60 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "ED-REORDER-DRAG-1 · 历史证据：这是 evidence-receipt，当前文档状态为 historical。全文 12 行、2 个标题；摘要/首段为「本目录为对应任务的原始验证附件，按产生时点解释。」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "e7a4088cea6ed06e346fc2b9151d3ae15601676eae463dc5cc1c114acffe4711",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "aed8bee6530f0dc702c034e27000ba234a53c1713a873fb9dad3bf5c9eb39423"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r36-ops-evidence.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "a044338f9b993a65e11dd53428bbf6c4c17c1104b6f9ab9a403443f401e10edb",
+          "sourceRecordGitObject": "e06181b32d7e778cb9d969f95c0d8697865781b7",
+          "entryIndex": 6,
+          "path": "docs/ops/archive/evidence/ED-REORDER-DRAG-1/README.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/ops/archive/evidence/ED-SHOP/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "ED-SHOP · 历史证据：这是 evidence-receipt，当前文档状态为 historical。全文 10 行、2 个标题；摘要/首段为「本目录为对应任务的原始验证附件，按产生时点解释。」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/evidence/ED-SHOP/README.md:1",
         "docs/ops/archive/evidence/ED-SHOP/README.md:1 ED-SHOP · 历史证据",
         "docs/ops/archive/evidence/ED-SHOP/README.md:7 文档与附件"
       ],
-      "unresolved": ["历史材料当前有效性需要继任文档或当前代码复核"],
+      "unresolved": [
+        "历史材料当前有效性需要继任文档或当前代码复核",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
+      ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
       "module": "archive",
@@ -1189,7 +1585,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -1203,6 +1600,26 @@
           "action": "R36 readonly proposal accepted then migration/envelope",
           "reviewer": "r36_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "558b88b1706a4195a01118afe6106bd8d9c239e5cf018b44deddea7f41289c24"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -1247,18 +1664,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "ED-SHOP · 历史证据：这是 evidence-receipt，当前文档状态为 historical。全文 10 行、2 个标题；摘要/首段为「本目录为对应任务的原始验证附件，按产生时点解释。」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "59cbba5cfe52e13baadf76f2487289dcf2a9244f839e5e6e14cef7e496d55e8f",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "558b88b1706a4195a01118afe6106bd8d9c239e5cf018b44deddea7f41289c24"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r36-ops-evidence.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "a044338f9b993a65e11dd53428bbf6c4c17c1104b6f9ab9a403443f401e10edb",
+          "sourceRecordGitObject": "e06181b32d7e778cb9d969f95c0d8697865781b7",
+          "entryIndex": 7,
+          "path": "docs/ops/archive/evidence/ED-SHOP/README.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/ops/archive/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "OPS-TST-PERF-B → ARCH-CURRENT-ONLY-1 迁移 / proof 交接：这是 evidence-receipt，当前文档状态为 historical。全文 120 行、6 个标题；摘要/首段为「Date: 2026-08-20」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md:1",
         "docs/ops/archive/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md:1 OPS-TST-PERF-B → ARCH-CURRENT-ONLY-1 迁移 / proof 交接",
@@ -1277,7 +1727,8 @@
         "正文信号 7:Status: **B 保持 `build`；current-v4 authority 候选 focused gate 失败，未形成可提交实现检查点。**",
         "正文信号 28:`content/items.json#/229/use/effects/0/script/body/1/cue` 失败：seal 记录 `rows,portrait`，当前输入为",
         "正文信号 46:`build/release-runs/v4-authority-rebuild-8148083b/pb3-pb4-final-blocked.json`。枚举必须恰为",
-        "正文信号 73:`build/release-runs/v4-authority-rebuild-8148083b/pb3-pb4-final-blocked.json`。"
+        "正文信号 73:`build/release-runs/v4-authority-rebuild-8148083b/pb3-pb4-final-blocked.json`。",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
@@ -1350,7 +1801,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -1364,6 +1816,26 @@
           "action": "R36 readonly proposal accepted then migration/envelope",
           "reviewer": "r36_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "99186f8c51ba31d670d107d8113d68863084bf54b9fba33a64c0b12c04f22af6"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -1428,18 +1900,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "OPS-TST-PERF-B → ARCH-CURRENT-ONLY-1 迁移 / proof 交接：这是 evidence-receipt，当前文档状态为 historical。全文 120 行、6 个标题；摘要/首段为「Date: 2026-08-20」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "7afea6adbed6039a8b6630f939185d017dd23a8b72733b8be8deb914acbaf949",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "99186f8c51ba31d670d107d8113d68863084bf54b9fba33a64c0b12c04f22af6"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r36-ops-evidence.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "a044338f9b993a65e11dd53428bbf6c4c17c1104b6f9ab9a403443f401e10edb",
+          "sourceRecordGitObject": "e06181b32d7e778cb9d969f95c0d8697865781b7",
+          "entryIndex": 8,
+          "path": "docs/ops/archive/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "OPS-TST-PERF current-only baseline（2026-08-22）：这是 evidence-receipt，当前文档状态为 historical。全文 82 行、8 个标题；摘要/首段为「`ARCH-CURRENT-ONLY-1` 已删除旧 release/shared/fresh、P2/P3/P4 shadow 与历史」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md:1",
         "docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md:1 OPS-TST-PERF current-only baseline（2026-08-22）",
@@ -1453,7 +1958,8 @@
       ],
       "unresolved": [
         "正文信号 15:- 若未来 current-only 门禁重新出现可感知回归，再用当时的 current 测试清单另开窄卡；不得恢复",
-        "正文信号 71:隔离、失败传播、报告守恒与长期维护成本。"
+        "正文信号 71:隔离、失败传播、报告守恒与长期维护成本。",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
@@ -1526,7 +2032,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -1540,6 +2047,26 @@
           "action": "R36 readonly proposal accepted then migration/envelope",
           "reviewer": "r36_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "d11a5f6a4cdef34914f68373369f9278eb18ebf12a4134630bdf3f0a7f5335e2"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -1589,25 +2116,61 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "OPS-TST-PERF current-only baseline（2026-08-22）：这是 evidence-receipt，当前文档状态为 historical。全文 82 行、8 个标题；摘要/首段为「`ARCH-CURRENT-ONLY-1` 已删除旧 release/shared/fresh、P2/P3/P4 shadow 与历史」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "e851c0901ded70ede5132ac32549a71026e73e70aa91c395374d9101641bdb50",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "d11a5f6a4cdef34914f68373369f9278eb18ebf12a4134630bdf3f0a7f5335e2"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r36-ops-evidence.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "a044338f9b993a65e11dd53428bbf6c4c17c1104b6f9ab9a403443f401e10edb",
+          "sourceRecordGitObject": "e06181b32d7e778cb9d969f95c0d8697865781b7",
+          "entryIndex": 9,
+          "path": "docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/ops/archive/evidence/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "evidence-receipt",
       "templateId": "evidence-receipt-v1",
       "template": "docs/phase-governance/templates/evidence-receipt.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "时点证据：这是 evidence-receipt，当前文档状态为 historical。全文 23 行、3 个标题；摘要/首段为「报告、截图和测量产物按任务存放；其内容是产生时的事实，不承诺随后实现不变。媒体原始字节保留，当前判断应同时核对源码与任务状态。」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/evidence/README.md:1",
         "docs/ops/archive/evidence/README.md:1 时点证据",
         "docs/ops/archive/evidence/README.md:7 分类入口",
         "docs/ops/archive/evidence/README.md:15 文档与附件"
       ],
-      "unresolved": ["历史材料当前有效性需要继任文档或当前代码复核"],
+      "unresolved": [
+        "历史材料当前有效性需要继任文档或当前代码复核",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
+      ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核.",
       "phase": "ops",
       "module": "archive",
@@ -1689,7 +2252,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -1703,6 +2267,26 @@
           "action": "R36 readonly proposal accepted then migration/envelope",
           "reviewer": "r36_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "efd901513b4df28a95543ac9e664516aee7ed4d46972b48c1359d8d8d5dec806"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -1747,6 +2331,39 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "时点证据：这是 evidence-receipt，当前文档状态为 historical。全文 23 行、3 个标题；摘要/首段为「报告、截图和测量产物按任务存放；其内容是产生时的事实，不承诺随后实现不变。媒体原始字节保留，当前判断应同时核对源码与任务状态。」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R36 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "4aa1241c9b2c0f66604f3978de1fcfc123d7c311abe8765d938a50c8ad014fce",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "efd901513b4df28a95543ac9e664516aee7ed4d46972b48c1359d8d8d5dec806"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r36-ops-evidence.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "a044338f9b993a65e11dd53428bbf6c4c17c1104b6f9ab9a403443f401e10edb",
+          "sourceRecordGitObject": "e06181b32d7e778cb9d969f95c0d8697865781b7",
+          "entryIndex": 10,
+          "path": "docs/ops/archive/evidence/README.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     }
   ],
@@ -1786,5 +2403,33 @@
     "decision": "same-actor candidate acceptance cannot certify non-author review",
     "task": "DOCS-RECORD-INTEGRITY-1",
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  },
+  "expandedAuditCorrection": {
+    "date": "2026-10-18",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+    "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+    "scopePointer": "/expandedAudit20261018",
+    "evidenceStatus": "pending-root-intake-at-generation",
+    "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+    "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+    "scope": "Only listed old active entries; no non-target entry, S01 successor, unrelated historical or current body changed.",
+    "paths": [
+      "docs/ops/archive/evidence/A7-3/README.md",
+      "docs/ops/archive/evidence/C1-3-first-batch-proposal.md",
+      "docs/ops/archive/evidence/DOC-IA-2/README.md",
+      "docs/ops/archive/evidence/ED-3/README.md",
+      "docs/ops/archive/evidence/ED-3A-reference-index-performance-2026-09-04.md",
+      "docs/ops/archive/evidence/ED-INPUT-PERF-1-pal-chromium-2026-08-25.md",
+      "docs/ops/archive/evidence/ED-REORDER-DRAG-1/README.md",
+      "docs/ops/archive/evidence/ED-SHOP/README.md",
+      "docs/ops/archive/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md",
+      "docs/ops/archive/evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md",
+      "docs/ops/archive/evidence/README.md"
+    ],
+    "entryCount": 11,
+    "authorCanonicalTask": "/root/s12_semantic_author",
+    "nonAuthorReviewer": false,
+    "newCredit": 0
   }
 }

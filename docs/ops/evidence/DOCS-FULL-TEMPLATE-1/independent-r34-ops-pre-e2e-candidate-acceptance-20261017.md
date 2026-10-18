@@ -32,6 +32,10 @@ historical。历史测试结论必须带日期和 source revision，并由当前
 
 - 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
 
+## 2026-10-18 回执勘误
+
+原R34-CANDIDATE-B01的“All 8 phase1 status/plan”是复制错位，当前状态为withdrawn-invalid-copied-scope；原accept、标题与数字只作历史声明保留，不是本次有效反控或独立验收。候选锚和原件身份的逐项更正见[配对机器回执](independent-r34-ops-pre-e2e-candidate-acceptance-20261017.json)；本页原quote不变。本次不重跑旧命令，也不恢复执行或正文完成信用。
+
 ## 原文保全
 
 固定 source revision `2dd1768c675dd7cd694a00d803dac0c7b1375071`，source SHA `2a428371d94704ae57ee92942d13acd205e4c556ad8cf28a1610c348bd248c05`；下方 quote 可逆回原始 UTF-8 字节。

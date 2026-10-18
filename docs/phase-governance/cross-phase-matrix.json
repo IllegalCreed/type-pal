@@ -1712,6 +1712,37 @@
         "Full1838+incremental governance and five quarantines remain unresolved; no main/done."
       ],
       "stopLine": "Do not rewrite native machine/history/status, regrant old execution or adjacent/full/main/done from this one body."
+    },
+    {
+      "id": "expanded-record-integrity-20261018",
+      "from": ["docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json"],
+      "to": [
+        "docs/phase-governance/reviews/20261017-ops-audits-r23.json",
+        "docs/phase-governance/reviews/20261017-phase2-designs-r24.json",
+        "docs/phase-governance/reviews/20261017-phase2-plans-r25.json",
+        "docs/phase-governance/reviews/20261017-r26-indoor-slices.json",
+        "docs/phase-governance/reviews/20261017-r27-phase1-plans.json",
+        "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+        "docs/phase-governance/reviews/20261017-r29-phase1-status.json",
+        "docs/phase-governance/reviews/20261017-r31-ops-archive-records.json",
+        "docs/phase-governance/reviews/20261017-r32-ops-cancelled-tasks.json",
+        "docs/phase-governance/reviews/20261017-r33-phase2-lore.json",
+        "docs/phase-governance/reviews/20261017-r34-ops-pre-e2e.json",
+        "docs/phase-governance/reviews/20261017-r35-ops-guides.json",
+        "docs/phase-governance/reviews/20261017-r36-ops-evidence.json",
+        "docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md",
+        "docs/ops/tasks/DOCS-CATALOG-SPLIT-1.md",
+        "docs/phase-governance/reviews/20261018-semantic-rework.json"
+      ],
+      "relationship": "R23–R36的152条旧模板式声明与原1896条撤回无交集；只撤仍旧绑定151，S01真实后继保留。70原candidateHead缺可靠迁移后锚，68按完整after集合纠正、R92/R93未知；六复制counter撤回、四旧gate组隔离。九设计Git真源与两层复合体分轴，N3明确单行编码，R27已声明289行尾空格编码不冒直接相等；无新业务、执行或相邻文档信用。",
+      "status": "guarded",
+      "evidence": ["docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json"],
+      "unresolved": [
+        "New fixed corrective candidate still requires non-author acceptance.",
+        "Unanchored R92/R93 receipts and old execution summaries remain untrusted.",
+        "Full1838 plus actual incremental semantic/template governance remains incomplete."
+      ],
+      "stopLine": "No blanket semantic restore, guessed historical candidate/output, product/test/coverage change, main merge or done."
     }
   ],
   "acceptance": {

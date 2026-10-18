@@ -33,7 +33,7 @@ historical。当前事实由 phase/lore catalog、registry、routing、任务卡
 
 ## 原文保全
 
-固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `3ccb5d2705926f200bf97f5f5b2821106fa8f4d9e464eb02d18098f24c06a3bf`；下方 quote 可逆回原始 UTF-8 字节。
+固定 Git source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，真实 Git source SHA `5a4c69b78cc76c3b06ae0150f89066f876732ac6e7cbaeee1e3441fa74f477bf`（blob `3968136dae4361002f85d4d45382cef69575ba65`）。下方直接 quote 是另含两层既有封套的复合体，其 SHA 为 `3ccb5d2705926f200bf97f5f5b2821106fa8f4d9e464eb02d18098f24c06a3bf`，不等于该 revision 的 Git 原文。逐层解除引用后，仅移除每层末尾已知的恰 1 个引用分隔 LF；三层后逐字节还原上述 Git 原文，所有既有 quote 字节保留。
 <!-- original-source-quote:start -->
 > # Q6 第二阶段作者指南迁移设计与首篇准入
 >

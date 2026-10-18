@@ -33,7 +33,7 @@ historical。当前事实由 phase/lore catalog、registry、routing、任务卡
 
 ## 原文保全
 
-固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `83b1ef387af19740d1b4ffe2efca4967d02ef21f06262b005e294ddef0e9cc16`；下方 quote 可逆回原始 UTF-8 字节。
+固定 Git source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，真实 Git source SHA `078dbdd119c1c5edc7d1e0b814d8923b37105f72428719a93755990c3bf2cee5`（blob `8867146194a98f1cfc797660484312a2e191d682`）。下方直接 quote 是另含两层既有封套的复合体，其 SHA 为 `83b1ef387af19740d1b4ffe2efca4967d02ef21f06262b005e294ddef0e9cc16`，不等于该 revision 的 Git 原文。逐层解除引用后，仅移除每层末尾已知的恰 1 个引用分隔 LF；三层后逐字节还原上述 Git 原文，所有既有 quote 字节保留。
 <!-- original-source-quote:start -->
 > # Lore 九篇导航、创作指南与参考资料治理设计
 >

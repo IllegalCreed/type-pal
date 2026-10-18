@@ -7,14 +7,14 @@
   "entries": [
     {
       "path": "docs/phase2/archive/slices/indoor/guijie-minju.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text source read and semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "切片 1（重定 · 小版）· 鬼界民居 demo：这是 archive-record，当前文档状态为 historical。全文 70 行、9 个标题；摘要/首段为「> 取代旧版 [spec.md](spec.md)（WebGL/MMO/通用房间，已暂缓存档）。这是第二阶段第一刀的**当前** spec。」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase2/archive/slices/indoor/guijie-minju.md:1",
         "docs/phase2/archive/slices/indoor/guijie-minju.md:1 切片 1（重定 · 小版）· 鬼界民居 demo",
@@ -30,7 +30,8 @@
         "正文信号 20:- ⚠ 原版把**很多间民居塞进一张固定尺寸大图**省资源。我们只**裁出完整一间**：把那一间的瓦片矩形（w×h）+ 碰撞复制进 reforge 的一张**小图**。",
         "The document says it replaces the old WebGL/MMO/general-room spec and calls itself current, while the live registry/review classify it as historical archive-record. Its claims require current decisions/code review before citation.",
         "Source asset/room selection is deferred to build time; the original many-room fixed image is to be cropped to one room, so exact asset identity is not fixed here.",
-        "The “browser can really play” acceptance is a proposal, not evidence from this readonly read."
+        "The “browser can really play” acceptance is a proposal, not evidence from this readonly read.",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "以当前 canonical 文档或代码复核。",
       "phase": "phase2",
@@ -104,7 +105,8 @@
           "sourceLines": 70,
           "inverseSha256": "ad46f077b823c66c364c61e4fad31d905cc4f65616d640f097d26b69fe941932",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -117,6 +119,26 @@
           "revision": "c1cfc1b7d8b106518eb6879dfa7b4bd048cf6670e4e516ce3e1a8cd9fe6d9b03",
           "action": "R26 root migration",
           "reviewer": "r26_independent_review + Codex root"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "586a5b57f27ed22a5e8ec4f3f56db0920b0ee48c2bd780cdf7c8ecbc86c5f401"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["legacy presentation only"],
@@ -175,18 +197,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "切片 1（重定 · 小版）· 鬼界民居 demo：这是 archive-record，当前文档状态为 historical。全文 70 行、9 个标题；摘要/首段为「> 取代旧版 [spec.md](spec.md)（WebGL/MMO/通用房间，已暂缓存档）。这是第二阶段第一刀的**当前** spec。」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text source read and semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "96a820cda7b324cf182b62a4e4c05b7c0b7005eb9ffb75b0d509431302031418",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "586a5b57f27ed22a5e8ec4f3f56db0920b0ee48c2bd780cdf7c8ecbc86c5f401"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r26-indoor-slices.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "7571210ae54849ee13d7b2902530e0e315ec64641156eb70f867a03a6acb1efb",
+          "sourceRecordGitObject": "614bed589db75740097995290dcd52e6435d8cbe",
+          "entryIndex": 0,
+          "path": "docs/phase2/archive/slices/indoor/guijie-minju.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/phase2/archive/slices/indoor/npc-collision-plan.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text source read and semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "切片 1 补漏:静态 NPC 碰撞(static-npc-collision plan)：这是 plan-status，当前文档状态为 historical。全文 130 行、6 个标题；摘要/首段为「> **历史文档（2026-09-06 标注）**：本文是已完成的 TDD 计划/设计存档，正文中的执行」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase2/archive/slices/indoor/npc-collision-plan.md:1",
         "docs/phase2/archive/slices/indoor/npc-collision-plan.md:5 切片 1 补漏:静态 NPC 碰撞(static-npc-collision plan)",
@@ -211,7 +266,8 @@
         "正文信号 93:tileBlocked(x, y) ||",
         "The plan records implementation commands and checkboxes, but its own header says they are an old snapshot; no current implementation acceptance is granted by this review.",
         "Dynamic NPC movement, dynamic collision, and avoidance are explicitly outside scope.",
-        "The plan’s “browser verify passed” self-review is historical prose and cannot be counted as present E2E/visual evidence."
+        "The plan’s “browser verify passed” self-review is historical prose and cannot be counted as present E2E/visual evidence.",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "以当前 canonical 文档或代码复核。",
       "phase": "phase2",
@@ -284,7 +340,8 @@
           "sourceLines": 130,
           "inverseSha256": "d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -297,6 +354,26 @@
           "revision": "b06ff05ba98309b781313fe927a2af3bdd359fdcbec3f00b6fb07e597f865542",
           "action": "R26 root migration",
           "reviewer": "r26_independent_review + Codex root"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "86e93b58e07fd7d588563d93f84fc4ad18b6b48a1de0f802516ef9fd49daff1b"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["legacy presentation only"],
@@ -355,18 +432,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "切片 1 补漏:静态 NPC 碰撞(static-npc-collision plan)：这是 plan-status，当前文档状态为 historical。全文 130 行、6 个标题；摘要/首段为「> **历史文档（2026-09-06 标注）**：本文是已完成的 TDD 计划/设计存档，正文中的执行」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text source read and semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "b6a58fecb5d1ea12ceffd8b7d8628ca52c7e6606a9509471efac4e6f9f436ad3",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "86e93b58e07fd7d588563d93f84fc4ad18b6b48a1de0f802516ef9fd49daff1b"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r26-indoor-slices.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "7571210ae54849ee13d7b2902530e0e315ec64641156eb70f867a03a6acb1efb",
+          "sourceRecordGitObject": "614bed589db75740097995290dcd52e6435d8cbe",
+          "entryIndex": 1,
+          "path": "docs/phase2/archive/slices/indoor/npc-collision-plan.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/phase2/archive/slices/indoor/plan.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text source read and semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "切片 1「室内场景跑通」实现计划（slice 1 plan）：这是 plan-status，当前文档状态为 historical。全文 1352 行、27 个标题；摘要/首段为「> **已被取代的历史计划（2026-09-06 标注）**：下方暂缓裁决仍有效；旧 WebGL/MMO 范围没有按此计划完成。」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase2/archive/slices/indoor/plan.md:1",
         "docs/phase2/archive/slices/indoor/plan.md:4 切片 1「室内场景跑通」实现计划（slice 1 plan）",
@@ -393,7 +503,8 @@
         "正文信号 418:if (blocked.length !== w * h) throw new Error(`parseScene: collision.blocked 长度 ${blocked.length} != ${w * h}`)",
         "The plan’s WebGL2, MMO leave, and generic-room scope is explicitly superseded by Canvas 2D first, real DLC content, and no MMO leave.",
         "Many task checkboxes and commands are historical instructions, not evidence the full plan was implemented.",
-        "Its later README/decisions links point to the current direction; this plan must not be used as an execution checklist."
+        "Its later README/decisions links point to the current direction; this plan must not be used as an execution checklist.",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "以当前 canonical 文档或代码复核。",
       "phase": "phase2",
@@ -465,7 +576,8 @@
           "sourceLines": 1352,
           "inverseSha256": "bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -478,6 +590,26 @@
           "revision": "c34eb108822810f39f18f73618626abbce437308a541413235f7c096f0bfb5cb",
           "action": "R26 root migration",
           "reviewer": "r26_independent_review + Codex root"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "571ac569ef3668caac9e031eb32e00d3515bf01507146ad2d17780bf71dacaeb"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["legacy presentation only"],
@@ -536,18 +668,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "切片 1「室内场景跑通」实现计划（slice 1 plan）：这是 plan-status，当前文档状态为 historical。全文 1352 行、27 个标题；摘要/首段为「> **已被取代的历史计划（2026-09-06 标注）**：下方暂缓裁决仍有效；旧 WebGL/MMO 范围没有按此计划完成。」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text source read and semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "984d0ca463561889d6c8da3e3fa86e5a52fd591cb36dd6f886591de1885cfe23",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "571ac569ef3668caac9e031eb32e00d3515bf01507146ad2d17780bf71dacaeb"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r26-indoor-slices.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "7571210ae54849ee13d7b2902530e0e315ec64641156eb70f867a03a6acb1efb",
+          "sourceRecordGitObject": "614bed589db75740097995290dcd52e6435d8cbe",
+          "entryIndex": 2,
+          "path": "docs/phase2/archive/slices/indoor/plan.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/phase2/archive/slices/indoor/spec.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "archive-record",
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text source read and semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "P1 · 切片 1：室内场景跑通（slice 1 spec）：这是 archive-record，当前文档状态为 historical。全文 278 行、17 个标题；摘要/首段为「> ⚠ **暂缓 / 待重写（2026-06-25）**：本 spec 是「重新聚焦」**之前**的版本——含 WebGL2、MMO 碰撞留口、内容无关的通用房间。重新聚焦后第二阶段改为 **Canvas 2D 起步 + 切片承载真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md) 2026-06-25 修订）。**本文留作参考，勿照此执行**；切片重启时按新范围重写。」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase2/archive/slices/indoor/spec.md:1",
         "docs/phase2/archive/slices/indoor/spec.md:1 P1 · 切片 1：室内场景跑通（slice 1 spec）",
@@ -568,7 +733,8 @@
         "正文信号 252:- 碰撞查询（isBlocked / 实体重叠）、spatial-index 增删查。",
         "The spec is explicitly pre-refocus WebGL2/MMO/general-room and says “do not execute”; current direction is Canvas 2D first, real DLC slice, and no MMO leave.",
         "It contains an unresolved assumption about 32×16 offset tiling versus square tiles for original visual fidelity; it is not a settled current decision.",
-        "The document points to guijie-minju.md as the rewritten current slice-1 spec, but the live registry keeps both as historical archive; neither is runtime proof here."
+        "The document points to guijie-minju.md as the rewritten current slice-1 spec, but the live registry keeps both as historical archive; neither is runtime proof here.",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "以当前 canonical 文档或代码复核。",
       "phase": "phase2",
@@ -653,7 +819,8 @@
           "sourceLines": 278,
           "inverseSha256": "01e7c9679f997df0b373d4d865ec863a08056e35c6f2d196e4f1ed70518a8b80",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -666,6 +833,26 @@
           "revision": "92dc4391e213586d6a7ddc913b46ddeb1b901926ea746d649d02b1ea1b6a381a",
           "action": "R26 root migration",
           "reviewer": "r26_independent_review + Codex root"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "4158fb4b4db9f6610e6939ef51902e22367de78fbe17ce9063f26d32314b77dd"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": ["legacy presentation only"],
@@ -724,6 +911,39 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "P1 · 切片 1：室内场景跑通（slice 1 spec）：这是 archive-record，当前文档状态为 historical。全文 278 行、17 个标题；摘要/首段为「> ⚠ **暂缓 / 待重写（2026-06-25）**：本 spec 是「重新聚焦」**之前**的版本——含 WebGL2、MMO 碰撞留口、内容无关的通用房间。重新聚焦后第二阶段改为 **Canvas 2D 起步 + 切片承载真实 DLC 内容 + 不留 MMO 口**（见 [decisions.md](../../../decisions.md) 2026-06-25 修订）。**本文留作参考，勿照此执行**；切片重启时按新范围重写。」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text source read and semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "e0d83b044d05b17445c72e7852dbc086a3214c3f05da6c5a61fd38a2bd53ba5b",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "4158fb4b4db9f6610e6939ef51902e22367de78fbe17ce9063f26d32314b77dd"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r26-indoor-slices.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "7571210ae54849ee13d7b2902530e0e315ec64641156eb70f867a03a6acb1efb",
+          "sourceRecordGitObject": "614bed589db75740097995290dcd52e6435d8cbe",
+          "entryIndex": 3,
+          "path": "docs/phase2/archive/slices/indoor/spec.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     }
   ],
@@ -761,5 +981,26 @@
     "decision": "same-actor candidate acceptance cannot certify non-author review",
     "task": "DOCS-RECORD-INTEGRITY-1",
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  },
+  "expandedAuditCorrection": {
+    "date": "2026-10-18",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+    "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+    "scopePointer": "/expandedAudit20261018",
+    "evidenceStatus": "pending-root-intake-at-generation",
+    "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+    "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+    "scope": "Only listed old active entries; no non-target entry, S01 successor, unrelated historical or current body changed.",
+    "paths": [
+      "docs/phase2/archive/slices/indoor/guijie-minju.md",
+      "docs/phase2/archive/slices/indoor/npc-collision-plan.md",
+      "docs/phase2/archive/slices/indoor/plan.md",
+      "docs/phase2/archive/slices/indoor/spec.md"
+    ],
+    "entryCount": 4,
+    "authorCanonicalTask": "/root/s12_semantic_author",
+    "nonAuthorReviewer": false,
+    "newCredit": 0
   }
 }

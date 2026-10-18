@@ -7,14 +7,14 @@
   "entries": [
     {
       "path": "docs/phase1/plans/2026-05-31-d-batch2-enemy-ai.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "B2 — 敌方 AI 真值 + 脚本驱动(D9 / D10残 / D24残 / D27残)详细 plan：这是 plan-status，当前文档状态为 historical。全文 133 行、17 个标题；摘要/首段为「> 总 roadmap:[2026-05-31-d-series-completion-roadmap.md](2026-05-31-d-series-completion-roadmap.md) B2。」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase1/plans/2026-05-31-d-batch2-enemy-ai.md:1",
         "docs/phase1/plans/2026-05-31-d-batch2-enemy-ai.md:1 B2 — 敌方 AI 真值 + 脚本驱动(D9 / D10残 / D24残 / D27残)详细 plan",
@@ -35,7 +35,8 @@
         "正文信号 17:| D10 0x79 | \"battle 未实现\" | **已 fallthrough 生效** → 仅清 stale 注释 |",
         "正文信号 15:| D10 0x67 | \"未真驱动\" | **已真驱动**;剩 silence 漏判(真 bug)/0xFFFF/群体魔法 |",
         "正文信号 16:| D10 0x90 | \"battle 未实现自禁\" | 写 gs.rgObject 已对;**sdlpal 战斗内从不同步 rgObject→敌;真 show-once = 脚本返回值回写**(c7),0x90 与自禁无关 → 0x90 **不加 battle sync** |",
-        "正文信号 17:| D10 0x79 | \"battle 未实现\" | **已 fallthrough 生效** → 仅清 stale 注释 |"
+        "正文信号 17:| D10 0x79 | \"battle 未实现\" | **已 fallthrough 生效** → 仅清 stale 注释 |",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "phase1",
@@ -122,7 +123,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -142,6 +144,26 @@
           "action": "R28 readonly proposal accepted then root migration",
           "reviewer": "r28_independent_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "d4e0624fc757da72c6f0430aebb5ece9e08271929f19737923652dd07a84f5cb"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -204,18 +226,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "B2 — 敌方 AI 真值 + 脚本驱动(D9 / D10残 / D24残 / D27残)详细 plan：这是 plan-status，当前文档状态为 historical。全文 133 行、17 个标题；摘要/首段为「> 总 roadmap:[2026-05-31-d-series-completion-roadmap.md](2026-05-31-d-series-completion-roadmap.md) B2。」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "14501751ad11c9509936beeb7070d4d4a94be38956581d2851b9a7deb02cbd6b",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "d4e0624fc757da72c6f0430aebb5ece9e08271929f19737923652dd07a84f5cb"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "00ecb12b8af7005015a4bb701b0eb2ab9790e4abe0db2f2c62eddd9a4bfd0a9b",
+          "sourceRecordGitObject": "b60b1e2828139afd6023d0e010170e6efa387d84",
+          "entryIndex": 0,
+          "path": "docs/phase1/plans/2026-05-31-d-batch2-enemy-ai.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/phase1/plans/2026-05-31-d-batch6-numeric-equip.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "B6 — 数值精度 + 装备(D3残 / D14残)详细 plan：这是 plan-status，当前文档状态为 historical。全文 139 行、16 个标题；摘要/首段为「> 总 roadmap:[2026-05-31-d-series-completion-roadmap.md](2026-05-31-d-series-completion-roadmap.md) B6。」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase1/plans/2026-05-31-d-batch6-numeric-equip.md:1",
         "docs/phase1/plans/2026-05-31-d-batch6-numeric-equip.md:1 B6 — 数值精度 + 装备(D3残 / D14残)详细 plan",
@@ -230,7 +285,8 @@
       "unresolved": [
         "历史材料当前有效性需要继任文档或当前代码复核",
         "历史材料当前有效性需要继任文档或当前代码复核",
-        "历史材料当前有效性需要继任文档或当前代码复核"
+        "历史材料当前有效性需要继任文档或当前代码复核",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "phase1",
@@ -316,7 +372,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -336,6 +393,26 @@
           "action": "R28 readonly proposal accepted then root migration",
           "reviewer": "r28_independent_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "27183c3be60ab0ed634930856d56b585933848e8b47742595bd69e288fad551e"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -388,18 +465,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "B6 — 数值精度 + 装备(D3残 / D14残)详细 plan：这是 plan-status，当前文档状态为 historical。全文 139 行、16 个标题；摘要/首段为「> 总 roadmap:[2026-05-31-d-series-completion-roadmap.md](2026-05-31-d-series-completion-roadmap.md) B6。」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "237ef0b02307a0a58bde99ea203bcf1d053ff511af319f0173607562d3a140db",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "27183c3be60ab0ed634930856d56b585933848e8b47742595bd69e288fad551e"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "00ecb12b8af7005015a4bb701b0eb2ab9790e4abe0db2f2c62eddd9a4bfd0a9b",
+          "sourceRecordGitObject": "b60b1e2828139afd6023d0e010170e6efa387d84",
+          "entryIndex": 1,
+          "path": "docs/phase1/plans/2026-05-31-d-batch6-numeric-equip.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/phase1/plans/2026-05-31-d-series-completion-roadmap.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "D 系列(战斗系统)完工 roadmap：这是 plan-status，当前文档状态为 historical。全文 226 行、11 个标题；摘要/首段为「> **目标(user 2026-05-31 原话)**:\"先把 D 系列全部做完,测完,和 sdl 原版复核一遍逻辑,最后给我用例挨个测一遍\"。」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase1/plans/2026-05-31-d-series-completion-roadmap.md:1",
         "docs/phase1/plans/2026-05-31-d-series-completion-roadmap.md:1 D 系列(战斗系统)完工 roadmap",
@@ -447,7 +557,8 @@
         "正文信号 78:**sdlpal 入口(待详细 plan 完整 read)**:",
         "正文信号 104:- D15: 战斗内毒 **5 函数**(抗性 `RandomLong` gate + 每回合 `PoisonDamage` 扣血 + 毒槽管理)⬜。大世界 rgPoisonStatus 已做(commit 6792dd8),战斗内未接。",
         "正文信号 107:**sdlpal 入口(待详细 plan 完整 read)**:",
-        "正文信号 131:**sdlpal 入口(待详细 plan 完整 read)**:"
+        "正文信号 131:**sdlpal 入口(待详细 plan 完整 read)**:",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "phase1",
@@ -536,7 +647,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -556,6 +668,26 @@
           "action": "R28 readonly proposal accepted then root migration",
           "reviewer": "r28_independent_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "983e6b4c79e8b8060330be9b912508531b98523dde92eb4ae0c3f02303559a31"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -663,18 +795,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "D 系列(战斗系统)完工 roadmap：这是 plan-status，当前文档状态为 historical。全文 226 行、11 个标题；摘要/首段为「> **目标(user 2026-05-31 原话)**:\"先把 D 系列全部做完,测完,和 sdl 原版复核一遍逻辑,最后给我用例挨个测一遍\"。」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "035ef91a086a943b8e1e435d660cb4250466a37681940798452c257bc9ce8925",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "983e6b4c79e8b8060330be9b912508531b98523dde92eb4ae0c3f02303559a31"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "00ecb12b8af7005015a4bb701b0eb2ab9790e4abe0db2f2c62eddd9a4bfd0a9b",
+          "sourceRecordGitObject": "b60b1e2828139afd6023d0e010170e6efa387d84",
+          "entryIndex": 2,
+          "path": "docs/phase1/plans/2026-05-31-d-series-completion-roadmap.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/phase1/plans/2026-05-31-poison-and-portrait-color.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "中毒机制 + 战斗头像颜色 实现规划(2026-05-31)：这是 plan-status，当前文档状态为 historical。全文 75 行、12 个标题；摘要/首段为「> user 指令:审计完更新文档后,实现中毒机制(投掷毒/法术中毒/4 基础+7 高级毒/抗性)+ 战斗头像颜色(中毒染色 + 死亡黑白,我之前漏的)。」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase1/plans/2026-05-31-poison-and-portrait-color.md:1",
         "docs/phase1/plans/2026-05-31-poison-and-portrait-color.md:1 中毒机制 + 战斗头像颜色 实现规划(2026-05-31)",
@@ -692,7 +857,8 @@
         "正文信号 33:- 玩家版同构(用 player resistance — 待查 PAL_AddPoisonForPlayer 真值)。",
         "正文信号 39:| 处 | 现状 | 待做 |",
         "正文信号 33:- 玩家版同构(用 player resistance — 待查 PAL_AddPoisonForPlayer 真值)。",
-        "正文信号 39:| 处 | 现状 | 待做 |"
+        "正文信号 39:| 处 | 现状 | 待做 |",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "phase1",
@@ -776,7 +942,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -796,6 +963,26 @@
           "action": "R28 readonly proposal accepted then root migration",
           "reviewer": "r28_independent_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "a75756ec4d13d8bb49f0b031a5a7c956079b6d3be6b0f228c8307aa9ffcfff0e"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -853,18 +1040,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "中毒机制 + 战斗头像颜色 实现规划(2026-05-31)：这是 plan-status，当前文档状态为 historical。全文 75 行、12 个标题；摘要/首段为「> user 指令:审计完更新文档后,实现中毒机制(投掷毒/法术中毒/4 基础+7 高级毒/抗性)+ 战斗头像颜色(中毒染色 + 死亡黑白,我之前漏的)。」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "9ad325b52dfe228bf25d120d2ea8530085cec9dc3f403cf8fa9d3fa50d0a2367",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "a75756ec4d13d8bb49f0b031a5a7c956079b6d3be6b0f228c8307aa9ffcfff0e"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "00ecb12b8af7005015a4bb701b0eb2ab9790e4abe0db2f2c62eddd9a4bfd0a9b",
+          "sourceRecordGitObject": "b60b1e2828139afd6023d0e010170e6efa387d84",
+          "entryIndex": 3,
+          "path": "docs/phase1/plans/2026-05-31-poison-and-portrait-color.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/phase1/plans/2026-06-01-d-series-test-cases.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "D 系列真机手测用例表(2026-06-01)：这是 plan-status，当前文档状态为 historical。全文 864 行、115 个标题；摘要/首段为「> 来源:24-agent workflow 逐 D 项生成(读 ts 实现 + sdlpal 真值 + 确认 gs 字段)+ 完整性 critic 审查。」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase1/plans/2026-06-01-d-series-test-cases.md:1",
         "docs/phase1/plans/2026-06-01-d-series-test-cases.md:1 D 系列真机手测用例表(2026-06-01)",
@@ -912,7 +1132,8 @@
         "正文信号 143:5) 玩家 base dex 简化:battle-system.ts:552-554 用 role.dexterity+(role.level+6)*4,未含装备 dex 加成(注释明示 M3 不实现),与真 PAL_GetPlayerDexterity 有差;手算玩家 dex 按此简化式。",
         "正文信号 156:- **预期**: sdlpal fight.c:356-359 PAL_CLASSIC:rgPlayerStatus[role][kStatusHaste]!=0 → wDexterity *= 3;fight.c:382-386 cap 999。formulas.ts:207-214 getPlayerActualDexterity 同款(dex*=3,",
         "正文信号 178:1) dualMove 进队的「随机 jitter + 取小者标 fIsSecond」语义未真做到位（简版）。sdlpal fight.c:1480-1489 真值：dualMove 敌的两条 entry 各自独立 RandomFloat(0.9,1.1) 摇 dex，再比两个 dex 取小者标 fIsSecond=TRUE（即两动谁先谁后由随机决定，第二动",
-        "正文信号 206:- **验证**: (a) 数据级（主）：dump actionQueue，找三条 isEnemy===false 的 item，比较它们在数组里的 index 次序与 dex 值——防御队员 dex 最高(×5)排最前、逃跑队员 dex 最低(÷2)排最后；整 actionQueue 的 dex 序列单调不增。(b) 肉眼：performAction 推进"
+        "正文信号 206:- **验证**: (a) 数据级（主）：dump actionQueue，找三条 isEnemy===false 的 item，比较它们在数组里的 index 次序与 dex 值——防御队员 dex 最高(×5)排最前、逃跑队员 dex 最低(÷2)排最后；整 actionQueue 的 dex 序列单调不增。(b) 肉眼：performAction 推进",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "phase1",
@@ -1006,7 +1227,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -1026,6 +1248,26 @@
           "action": "R28 readonly proposal accepted then root migration",
           "reviewer": "r28_independent_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "e3d45476f088de18011e394a7e99816bf7c8e4ae914540b5ee38957d2a853485"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -1133,18 +1375,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "D 系列真机手测用例表(2026-06-01)：这是 plan-status，当前文档状态为 historical。全文 864 行、115 个标题；摘要/首段为「> 来源:24-agent workflow 逐 D 项生成(读 ts 实现 + sdlpal 真值 + 确认 gs 字段)+ 完整性 critic 审查。」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "40175d1ead59a01c80e9934a75058894b251cfd38d0938ea485fe54efaf8157e",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "e3d45476f088de18011e394a7e99816bf7c8e4ae914540b5ee38957d2a853485"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "00ecb12b8af7005015a4bb701b0eb2ab9790e4abe0db2f2c62eddd9a4bfd0a9b",
+          "sourceRecordGitObject": "b60b1e2828139afd6023d0e010170e6efa387d84",
+          "entryIndex": 4,
+          "path": "docs/phase1/plans/2026-06-01-d-series-test-cases.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/phase1/plans/2026-06-01-feature-status-audit.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "feature-status.md 重审报告(2026-06-01)：这是 audit-report，当前文档状态为 historical。全文 84 行、9 个标题；摘要/首段为「> 方法:13 组并行 agent 逐行核 **ts 实际实现 + sdlpal 源 + 测试文件三方**,再对\"标签不准\"的行派独立对抗复核(防误告)。」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase1/plans/2026-06-01-feature-status-audit.md:1",
         "docs/phase1/plans/2026-06-01-feature-status-audit.md:1 feature-status.md 重审报告(2026-06-01)",
@@ -1192,7 +1467,8 @@
         "正文信号 39:| **B3 / E3** autoScript | 测试 ⬜ todo | event-system.test.ts 有 autoScript 断言,实现 1:1 对 script.c:3482 | 测试列 ⬜ → ✅ partial |",
         "正文信号 40:| **B7** 明雷怪 | 测试 ⬜ todo | event-system.test.ts:1501 有 0x4C 用例;实现 1:1。**另:备注 ts 行号 :4035 过时,真实 :4475-4569** | 测试 ⬜ → ✅ partial;修行号 |",
         "正文信号 41:| **B12** camera 0x7F | ⚠️ partial,备注\"平滑移镜 no-op(:2606)\" | **平滑 pan 已实现**(event-system.ts:2865 相对 pan + :1866 多帧)。备注引的 :2593/:2606 是 item-script 代码,**行号全错** | 升 ✅ claimed;备注重写(真实现在",
-        "正文信号 45:## 还没做(8 行,全部 not-done —— 但**无一意外**,全是已知 todo)"
+        "正文信号 45:## 还没做(8 行,全部 not-done —— 但**无一意外**,全是已知 todo)",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "phase1",
@@ -1276,7 +1552,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -1296,6 +1573,26 @@
           "action": "R28 readonly proposal accepted then root migration",
           "reviewer": "r28_independent_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "c7a4c9bb32277e07d7b18b31f420269c987634bf018876bab5fe1900e5905402"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -1403,18 +1700,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "feature-status.md 重审报告(2026-06-01)：这是 audit-report，当前文档状态为 historical。全文 84 行、9 个标题；摘要/首段为「> 方法:13 组并行 agent 逐行核 **ts 实际实现 + sdlpal 源 + 测试文件三方**,再对\"标签不准\"的行派独立对抗复核(防误告)。」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "79735b05168c6c2027939169f18750e1fe78a10ab1bef82c4eabb0cdb99c659d",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "c7a4c9bb32277e07d7b18b31f420269c987634bf018876bab5fe1900e5905402"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "00ecb12b8af7005015a4bb701b0eb2ab9790e4abe0db2f2c62eddd9a4bfd0a9b",
+          "sourceRecordGitObject": "b60b1e2828139afd6023d0e010170e6efa387d84",
+          "entryIndex": 5,
+          "path": "docs/phase1/plans/2026-06-01-feature-status-audit.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/phase1/plans/2026-06-01-gameoveractive-refactor.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "gameOverActive 重构设计(2026-06-01,user 报石长老必败战误红屏 + 架构返工)：这是 plan-status，当前文档状态为 historical。全文 216 行、15 个标题；摘要/首段为「> **背景**:`gameOverActive` 是 ts 自造字段(sdlpal 0 命中),判据 `outcome === 'lost'` 无 sdlpal 出处 →」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase1/plans/2026-06-01-gameoveractive-refactor.md:1",
         "docs/phase1/plans/2026-06-01-gameoveractive-refactor.md:1 gameOverActive 重构设计(2026-06-01,user 报石长老必败战误红屏 + 架构返工)",
@@ -1438,7 +1768,8 @@
         "正文信号 11:>   **已知差异(非 bug,user 未报)**:team21 林月如 lost→对白→`goto L_41075`,judge 遇 goto 停 → 不预置 deathHold,",
         "正文信号 50:> 为何不只挪判据到 0x4F、不加新标记?Q6 已证:T0 末 onPresent 时 0x4F 尚未跑(在 ip 41076,前面 41075 是 0x43 `break` 续跑),`gameOverActive=false` → 走 `present.ts:162 fb.clear()` 露大世界 1 帧。必须有 T0 同步点亮的过渡标记补这一帧。`d",
         "正文信号 99:return   // 纯 hold:此刻无死亡 dialog,palette 也还没 ramp(0x4F 未跑)",
-        "正文信号 178:- 红测:① lost+lostIp 指死亡 run(含 0x4F)→ `gs.deathHoldActive===true` 且 `gs.gameOverActive` **未置**;② lost+lostIp 指 team21-like(0x4F 前有 goto)→ deathHold/gameOver 都 false;③ lost+lostIp und"
+        "正文信号 178:- 红测:① lost+lostIp 指死亡 run(含 0x4F)→ `gs.deathHoldActive===true` 且 `gs.gameOverActive` **未置**;② lost+lostIp 指 team21-like(0x4F 前有 goto)→ deathHold/gameOver 都 false;③ lost+lostIp und",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "phase1",
@@ -1522,7 +1853,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -1542,6 +1874,26 @@
           "action": "R28 readonly proposal accepted then root migration",
           "reviewer": "r28_independent_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "e28870bc6ab7de19f829759b3c0a621a6d08bdc170cf3af984187ed3155001c8"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -1609,18 +1961,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "gameOverActive 重构设计(2026-06-01,user 报石长老必败战误红屏 + 架构返工)：这是 plan-status，当前文档状态为 historical。全文 216 行、15 个标题；摘要/首段为「> **背景**:`gameOverActive` 是 ts 自造字段(sdlpal 0 命中),判据 `outcome === 'lost'` 无 sdlpal 出处 →」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "8dd681772fcce05120d62dde0e7eca1d74b611863c7cd9e787cb0798456f117a",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "e28870bc6ab7de19f829759b3c0a621a6d08bdc170cf3af984187ed3155001c8"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "00ecb12b8af7005015a4bb701b0eb2ab9790e4abe0db2f2c62eddd9a4bfd0a9b",
+          "sourceRecordGitObject": "b60b1e2828139afd6023d0e010170e6efa387d84",
+          "entryIndex": 6,
+          "path": "docs/phase1/plans/2026-06-01-gameoveractive-refactor.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/phase1/plans/2026-06-01-remaining-work-plan.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "type-pal 剩余工作执行计划(2026-06-01)：这是 plan-status，当前文档状态为 historical。全文 126 行、12 个标题；摘要/首段为「> 来源:源码级清查 workflow(9-agent,逐项回 reference/sdlpal 核实\"是否真没做\",防 checkbox 过期)。」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase1/plans/2026-06-01-remaining-work-plan.md:1",
         "docs/phase1/plans/2026-06-01-remaining-work-plan.md:1 type-pal 剩余工作执行计划(2026-06-01)",
@@ -1659,7 +2044,8 @@
         "正文信号 71:| **F1 默认新游戏字段核对** | M | (标题\"非 SAVEDGAME 反序列化\"是误解:sdlpal 新游戏读 MKF chunk + 字段初始化,非读存档)真活 = 逐字段核 ts hydrate 齐 global.c:434-467 默认值 | bootstrap.ts:1150 startNewGameFromPrimary + game-",
         "正文信号 84:| **wWave 屏波** | M | 原语 screen-wave.ts 在(大世界已接 present.ts:180);battle 渲染路径未接 + magic.wave bump 未推 | builder 帧带 screenWave 字段(首帧 set=magic.wave、末帧复位 0,sWaveProgression=0);present-ba",
         "正文信号 98:| **D13 敌逃飞出屏动画** | M | battle-opcodes.ts:1035 applyEnemyEscape 纯数据 stub(health=0,1042 行有 TODO);无飞出帧 | 生成飞出时间轴:全活敌同步 `pos.x+=5,pos.y-=2`/帧,x>320 移除,10ms/帧,末尾强清 objectId=0(**数据终态须与旧",
-        "正文信号 115:**风险锚**:L 系统多是 item 脚本组装(非新 opcode),核心 = dump 真脚本字节确认 op 序列 + 产物 id,别假设。store 表/脚本字节若未提取则 blocked。"
+        "正文信号 115:**风险锚**:L 系统多是 item 脚本组装(非新 opcode),核心 = dump 真脚本字节确认 op 序列 + 产物 id,别假设。store 表/脚本字节若未提取则 blocked。",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "phase1",
@@ -1743,7 +2129,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -1763,6 +2150,26 @@
           "action": "R28 readonly proposal accepted then root migration",
           "reviewer": "r28_independent_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "de9d3b090457a22cb50a29d3801c9a084c7b3d57bdf3396ed7086db2d1da82ab"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -1855,18 +2262,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "type-pal 剩余工作执行计划(2026-06-01)：这是 plan-status，当前文档状态为 historical。全文 126 行、12 个标题；摘要/首段为「> 来源:源码级清查 workflow(9-agent,逐项回 reference/sdlpal 核实\"是否真没做\",防 checkbox 过期)。」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "dd610c5abf733a9855bbb6da83e654710f6cea1cd34a1a657866565128727bb9",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "de9d3b090457a22cb50a29d3801c9a084c7b3d57bdf3396ed7086db2d1da82ab"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "00ecb12b8af7005015a4bb701b0eb2ab9790e4abe0db2f2c62eddd9a4bfd0a9b",
+          "sourceRecordGitObject": "b60b1e2828139afd6023d0e010170e6efa387d84",
+          "entryIndex": 7,
+          "path": "docs/phase1/plans/2026-06-01-remaining-work-plan.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/phase1/plans/2026-06-01-sdlpal-feature-surface-audit.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "SDLPal 功能面覆盖审计：这是 audit-report，当前文档状态为 historical。全文 497 行、43 个标题；摘要/首段为「更新时间：2026-06-01」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase1/plans/2026-06-01-sdlpal-feature-surface-audit.md:1",
         "docs/phase1/plans/2026-06-01-sdlpal-feature-surface-audit.md:1 SDLPal 功能面覆盖审计",
@@ -1914,7 +2354,8 @@
         "正文信号 94:建议状态：`✅/⚠️`，说明“结算 UI 已实现，隐藏属性经验未实现”。",
         "正文信号 102:建议状态：`⚠️`。",
         "正文信号 112:- 哪些是未来待办。",
-        "正文信号 128:建议把 `D3` 从 `✅` 降到 `⚠️`，并把“玩家攻击强度公式去除敌方等级项”列为高优先级修复。"
+        "正文信号 128:建议把 `D3` 从 `✅` 降到 `⚠️`，并把“玩家攻击强度公式去除敌方等级项”列为高优先级修复。",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "phase1",
@@ -1998,7 +2439,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -2018,6 +2460,26 @@
           "action": "R28 readonly proposal accepted then root migration",
           "reviewer": "r28_independent_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "bde5de85e75cd359db49011a53d1343d2ac5008479ba59dc5e843702f286f5a0"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -2125,18 +2587,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "SDLPal 功能面覆盖审计：这是 audit-report，当前文档状态为 historical。全文 497 行、43 个标题；摘要/首段为「更新时间：2026-06-01」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "9404b6a024a81d3e6e26f9e5eb7fed172d0e8a6cb71e05f466d9345a698982d0",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "bde5de85e75cd359db49011a53d1343d2ac5008479ba59dc5e843702f286f5a0"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "00ecb12b8af7005015a4bb701b0eb2ab9790e4abe0db2f2c62eddd9a4bfd0a9b",
+          "sourceRecordGitObject": "b60b1e2828139afd6023d0e010170e6efa387d84",
+          "entryIndex": 8,
+          "path": "docs/phase1/plans/2026-06-01-sdlpal-feature-surface-audit.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/phase1/plans/2026-06-02-item-audit.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "物品功能实现完整性审计(type-pal vs sdlpal)：这是 audit-report，当前文档状态为 historical。全文 169 行、18 个标题；摘要/首段为「日期:2026-06-02」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase1/plans/2026-06-02-item-audit.md:1",
         "docs/phase1/plans/2026-06-02-item-audit.md:1 物品功能实现完整性审计(type-pal vs sdlpal)",
@@ -2184,7 +2679,8 @@
         "正文信号 100:| 装备 | ok | 0x30 临时百分比增益:梦蛇295(scriptOnUse 0x30[17,100]/[20,100],经装备路径) | 战斗写 Extra bonus=base*op1/100,base 取未 buff 不叠加,战末清,1:1 | script.c:1406-1427 | battle-opcodes.ts:580-621 |",
         "正文信号 107:| partial | 0x61 jump if not poisoned | 两实现都未排除 level>=99 装备毒(sdlpal global.c:1669-1675 显式 skip);role 仅带装备毒时 type-pal 误判\"已中毒\"不跳。常规毒一致 | script.c:1957-1965 / global.c:1616 | event-s",
         "正文信号 109:| 可达性风险 | 0x5A halve player HP | handler 正确,但 performBattleAction 现强制 item→enemy 目标,无影毒-use 选队员 UI 路由可能未通(handler 就绪,触发链待验) | script.c:1887-1893 | battle-opcodes.ts:693-711 |",
-        "正文信号 144:5. ~~0x50 战斗淡屏未实现~~ — 已修:`OP_FADE_OUT` 已在 `applyRawOpcode`。"
+        "正文信号 144:5. ~~0x50 战斗淡屏未实现~~ — 已修:`OP_FADE_OUT` 已在 `applyRawOpcode`。",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "phase1",
@@ -2268,7 +2764,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -2288,6 +2785,26 @@
           "action": "R28 readonly proposal accepted then root migration",
           "reviewer": "r28_independent_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "12e9c4571d499b61e7064fa141539c936495df8dbef89f3fed8372fdee27f87e"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -2395,18 +2912,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "物品功能实现完整性审计(type-pal vs sdlpal)：这是 audit-report，当前文档状态为 historical。全文 169 行、18 个标题；摘要/首段为「日期:2026-06-02」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "cc1c18032b5c1b9fa0c498eba570f080cf6a5bbe98761e93b0f25f6e175782f2",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "12e9c4571d499b61e7064fa141539c936495df8dbef89f3fed8372fdee27f87e"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "00ecb12b8af7005015a4bb701b0eb2ab9790e4abe0db2f2c62eddd9a4bfd0a9b",
+          "sourceRecordGitObject": "b60b1e2828139afd6023d0e010170e6efa387d84",
+          "entryIndex": 9,
+          "path": "docs/phase1/plans/2026-06-02-item-audit.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/phase1/plans/2026-06-06-battle-system-current-audit.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "2026-06-06 Battle System Current Audit：这是 audit-report，当前文档状态为 historical。全文 56 行、5 个标题；摘要/首段为「本文件作为战斗系统大修入口,只记录当前 TS 实现与 SDLPal 的实质差异。」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase1/plans/2026-06-06-battle-system-current-audit.md:1",
         "docs/phase1/plans/2026-06-06-battle-system-current-audit.md:1 2026-06-06 Battle System Current Audit",
@@ -2427,7 +2977,8 @@
         "正文信号 8:- Protect 已参与敌方物理/法术伤害除因子,旧注释「未建模」已清理。",
         "正文信号 28:- 已修: `tickBattle` 会在 `paletteFadeState` 未完成时同步阻塞后续行动队列,淡完收尾后再继续。",
         "正文信号 33:- 已修:物品菜单按本回合 pendingActions 计算已预占数量,`count - inUse <= 0` 时灰掉且不可确认。",
-        "正文信号 34:- 已修:Menu 回退上一队员会删除其 pending action,下次建表自然释放预占。"
+        "正文信号 34:- 已修:Menu 回退上一队员会删除其 pending action,下次建表自然释放预占。",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "phase1",
@@ -2511,7 +3062,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -2531,6 +3083,26 @@
           "action": "R28 readonly proposal accepted then root migration",
           "reviewer": "r28_independent_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "213ba45564bc92ab715d2dd8f59cfacdf269b89da8e58441b1048c4c79d830ca"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -2598,18 +3170,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "2026-06-06 Battle System Current Audit：这是 audit-report，当前文档状态为 historical。全文 56 行、5 个标题；摘要/首段为「本文件作为战斗系统大修入口,只记录当前 TS 实现与 SDLPal 的实质差异。」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "3be2c604625821776dcc8263aa53cf64143f4da8ac1e8656218451b4faea3c32",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "213ba45564bc92ab715d2dd8f59cfacdf269b89da8e58441b1048c4c79d830ca"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "00ecb12b8af7005015a4bb701b0eb2ab9790e4abe0db2f2c62eddd9a4bfd0a9b",
+          "sourceRecordGitObject": "b60b1e2828139afd6023d0e010170e6efa387d84",
+          "entryIndex": 10,
+          "path": "docs/phase1/plans/2026-06-06-battle-system-current-audit.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/phase1/plans/2026-06-07-sdlpal-diff-audit.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "type-pal × sdlpal 差异审查报告：这是 audit-report，当前文档状态为 historical。全文 2147 行、81 个标题；摘要/首段为「> 生成日期:2026-06-07。方法:22 个子系统并行,每个用 agent 逐函数对照 `reference/sdlpal/` C 源(真值锚)找差异候选,再对每条候选派对抗性复核 agent 独立重核 C 源、尽力推翻误报。」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase1/plans/2026-06-07-sdlpal-diff-audit.md:1",
         "docs/phase1/plans/2026-06-07-sdlpal-diff-audit.md:1 type-pal × sdlpal 差异审查报告",
@@ -2657,7 +3262,8 @@
         "正文信号 87:| L30 | ✅ 通过 | 与 L5 同根:idle/blocked 站立分支复位 stepFrame `&=2;^=2`;改写 3 个锁定\"冻结不变\"的回归测试为 C 真值(撞墙/NPC 0→2、走2步后 idle 2→0、再 idle 0↔2 翻转)。 |",
         "正文信号 103:| L46 | ✅ 通过 | `createSfxDedup` 已接入 `playSfx`,同号未结束时抑制重叠,播放结束/加载失败/ctx 未运行会复位;helper 语义测试已覆盖。 |",
         "正文信号 114:| ✅ M3 | 🟠 | pixel | 事件脚本·走位与场景控制 | NPC 走路帧循环硬编码 % 4，未按 nSpriteFrames 取模 → nSpriteFrames∈{1,2} 的 NPC 脚本走位时动画帧错乱 |",
-        "正文信号 118:| ✅ M7 | 🟠 | correctness | 战斗·主循环与回合流程 | R(重提)/F(强行)键未做整队粘滞,只对当前队员生效 |"
+        "正文信号 118:| ✅ M7 | 🟠 | correctness | 战斗·主循环与回合流程 | R(重提)/F(强行)键未做整队粘滞,只对当前队员生效 |",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "phase1",
@@ -2749,7 +3355,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -2769,6 +3376,26 @@
           "action": "R28 readonly proposal accepted then root migration",
           "reviewer": "r28_independent_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "d9d88c8af3d92f804c312e645d855c92f4a12b3e8aabd5ac21eb4741b7bfc926"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -2876,18 +3503,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "type-pal × sdlpal 差异审查报告：这是 audit-report，当前文档状态为 historical。全文 2147 行、81 个标题；摘要/首段为「> 生成日期:2026-06-07。方法:22 个子系统并行,每个用 agent 逐函数对照 `reference/sdlpal/` C 源(真值锚)找差异候选,再对每条候选派对抗性复核 agent 独立重核 C 源、尽力推翻误报。」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "bccc9e151ff3fca2388783af1a5dc4444d923e4cfa9179608ac3e71b728c0226",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "d9d88c8af3d92f804c312e645d855c92f4a12b3e8aabd5ac21eb4741b7bfc926"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "00ecb12b8af7005015a4bb701b0eb2ab9790e4abe0db2f2c62eddd9a4bfd0a9b",
+          "sourceRecordGitObject": "b60b1e2828139afd6023d0e010170e6efa387d84",
+          "entryIndex": 11,
+          "path": "docs/phase1/plans/2026-06-07-sdlpal-diff-audit.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/phase1/plans/2026-06-10-sdlpal-deep-audit.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "type-pal × sdlpal 第二轮深挖差异审查报告：这是 audit-report，当前文档状态为 historical。全文 289 行、26 个标题；摘要/首段为「> 生成日期:2026-06-10。背景:2026-06-07 第一轮逐函数对照审计(70 候选/64 confirmed)全部修复后,实玩仍持续冒 bug,根因集中在上一轮方法盲区——**跨函数执行顺序、副作用时机、状态生命周期(进入/退出/重入/读档)、系统间交接、帧级编排**。」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase1/plans/2026-06-10-sdlpal-deep-audit.md:1",
         "docs/phase1/plans/2026-06-10-sdlpal-deep-audit.md:1 type-pal × sdlpal 第二轮深挖差异审查报告",
@@ -2935,7 +3595,8 @@
         "正文信号 101:- 影响: 5 个战场(水下/幻境类)原版全程荡漾,TS 静止、法术时突然波动。复核另发现更宽:anim-timeline.ts:908 法术帧 wave **未叠加 baseScreenWave**(仅用于 keepEffect 判定)——带常驻波战场连法术期间的波幅都偏小。",
         "正文信号 118:**DM2 战斗结束未清大世界持久 rgPlayerStatus——金刚符等 buff 永久化** [confirmed]",
         "正文信号 124:**DM4 逃跑成功率 def 累加未跳过已死敌** [confirmed]",
-        "正文信号 142:C: fight.c:2735/2755 每帧 `PAL_BattleAddSpriteObject(kBattleSpriteTypeMagic,…,sLayerOffset)`,与敌我精灵统一按 `PAL_Y+sLayerOffset` 排序(battle.c:441-442/556-558)。TS: present-battle.ts:211-224 "
+        "正文信号 142:C: fight.c:2735/2755 每帧 `PAL_BattleAddSpriteObject(kBattleSpriteTypeMagic,…,sLayerOffset)`,与敌我精灵统一按 `PAL_Y+sLayerOffset` 排序(battle.c:441-442/556-558)。TS: present-battle.ts:211-224 ",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "phase1",
@@ -3021,7 +3682,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -3041,6 +3703,26 @@
           "action": "R28 readonly proposal accepted then root migration",
           "reviewer": "r28_independent_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "4b912c3f3a232b95f0bfeb44e14eca6a92c60d6c57ba95a60d1fa7a9563532da"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -3148,18 +3830,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "type-pal × sdlpal 第二轮深挖差异审查报告：这是 audit-report，当前文档状态为 historical。全文 289 行、26 个标题；摘要/首段为「> 生成日期:2026-06-10。背景:2026-06-07 第一轮逐函数对照审计(70 候选/64 confirmed)全部修复后,实玩仍持续冒 bug,根因集中在上一轮方法盲区——**跨函数执行顺序、副作用时机、状态生命周期(进入/退出/重入/读档)、系统间交接、帧级编排**。」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "c8022e6be917f22c681a532f94a8de05210544a55d7f2eb62015fe7aa20b06cf",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "4b912c3f3a232b95f0bfeb44e14eca6a92c60d6c57ba95a60d1fa7a9563532da"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "00ecb12b8af7005015a4bb701b0eb2ab9790e4abe0db2f2c62eddd9a4bfd0a9b",
+          "sourceRecordGitObject": "b60b1e2828139afd6023d0e010170e6efa387d84",
+          "entryIndex": 12,
+          "path": "docs/phase1/plans/2026-06-10-sdlpal-deep-audit.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/phase1/plans/2026-06-13-canvas-resolution-setting.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "游戏分辨率(canvas 显示尺寸)设置 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 461 行、10 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase1/plans/2026-06-13-canvas-resolution-setting.md:1",
         "docs/phase1/plans/2026-06-13-canvas-resolution-setting.md:1 游戏分辨率(canvas 显示尺寸)设置 Implementation Plan",
@@ -3180,7 +3895,8 @@
         "正文信号 451:- **待你拍板的设计点**:① 改分辨率的入口用\"左上角常驻 DOM 控件\"(本plan)——也可改成键盘快捷键(Ctrl +/-、F 全屏)或塞进某个游戏内菜单;② 全屏用\"最大整数倍(锐利,留黑边)\"——也可做\"分数铺满(填满但像素略不均)\"。两点都易调,确认后再实现。",
         "正文信号 377:/* 显示尺寸由 display-scale.ts(initDisplayScale)按持久化档/适应窗口设;此处仅 JS 未就绪时的兜底 3×。 */",
         "正文信号 396:.catch((err: unknown) => {",
-        "正文信号 451:- **待你拍板的设计点**:① 改分辨率的入口用\"左上角常驻 DOM 控件\"(本plan)——也可改成键盘快捷键(Ctrl +/-、F 全屏)或塞进某个游戏内菜单;② 全屏用\"最大整数倍(锐利,留黑边)\"——也可做\"分数铺满(填满但像素略不均)\"。两点都易调,确认后再实现。"
+        "正文信号 451:- **待你拍板的设计点**:① 改分辨率的入口用\"左上角常驻 DOM 控件\"(本plan)——也可改成键盘快捷键(Ctrl +/-、F 全屏)或塞进某个游戏内菜单;② 全屏用\"最大整数倍(锐利,留黑边)\"——也可做\"分数铺满(填满但像素略不均)\"。两点都易调,确认后再实现。",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "phase1",
@@ -3267,7 +3983,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -3287,6 +4004,26 @@
           "action": "R28 readonly proposal accepted then root migration",
           "reviewer": "r28_independent_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "c125b2b969463c7d818dd4651cefe9187b5733ad1726a7b71a8f53dc5f5b8f02"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -3349,18 +4086,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "游戏分辨率(canvas 显示尺寸)设置 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 461 行、10 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "15b0578884424943cf27112864e1c7d10288d9073ce4d326401ed87c7c5d2d18",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "c125b2b969463c7d818dd4651cefe9187b5733ad1726a7b71a8f53dc5f5b8f02"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "00ecb12b8af7005015a4bb701b0eb2ab9790e4abe0db2f2c62eddd9a4bfd0a9b",
+          "sourceRecordGitObject": "b60b1e2828139afd6023d0e010170e6efa387d84",
+          "entryIndex": 13,
+          "path": "docs/phase1/plans/2026-06-13-canvas-resolution-setting.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/phase1/plans/2026-06-13-offline-precache-sw.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "离线资源预缓存(Service Worker)Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 675 行、15 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase1/plans/2026-06-13-offline-precache-sw.md:1",
         "docs/phase1/plans/2026-06-13-offline-precache-sw.md:1 离线资源预缓存(Service Worker)Implementation Plan",
@@ -3390,7 +4160,8 @@
         "正文信号 319:> 注:`Date.now()` 在 SW 里可用(这是 SW 脚本,不是 workflow 脚本)。续传靠 `cache.match` 跳过——重载/中断后再触发会从未缓存项继续。",
         "正文信号 558:.catch((err: unknown) => {",
         "正文信号 663:- **占位扫描**:无 TBD/TODO;每个代码步给了完整代码。",
-        "正文信号 665:- **已知后续(非本plan)**:① 76k 小文件请求开销大,未来可把 world 图块打包成少量归档(改资源管线 + loader)大幅降请求数;② 移动端/计费网络可加\"暂停预缓存\"开关。"
+        "正文信号 665:- **已知后续(非本plan)**:① 76k 小文件请求开销大,未来可把 world 图块打包成少量归档(改资源管线 + loader)大幅降请求数;② 移动端/计费网络可加\"暂停预缓存\"开关。",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "phase1",
@@ -3480,7 +4251,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -3500,6 +4272,26 @@
           "action": "R28 readonly proposal accepted then root migration",
           "reviewer": "r28_independent_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "00df3e2fba8773fdd4a51f8071903408d2d0fed6701f9ba7e3cf3aba283e3f44"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -3577,18 +4369,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "离线资源预缓存(Service Worker)Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 675 行、15 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "fb87a27082e4b6d40389f7de3efe621b6a1f5b58eb2d3105428c21c5cc420976",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "00df3e2fba8773fdd4a51f8071903408d2d0fed6701f9ba7e3cf3aba283e3f44"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "00ecb12b8af7005015a4bb701b0eb2ab9790e4abe0db2f2c62eddd9a4bfd0a9b",
+          "sourceRecordGitObject": "b60b1e2828139afd6023d0e010170e6efa387d84",
+          "entryIndex": 14,
+          "path": "docs/phase1/plans/2026-06-13-offline-precache-sw.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/phase1/plans/2026-06-13-prod-tools-panel.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "生产增强工具面板(Production Tools Panel)Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 889 行、18 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase1/plans/2026-06-13-prod-tools-panel.md:1",
         "docs/phase1/plans/2026-06-13-prod-tools-panel.md:1 生产增强工具面板(Production Tools Panel)Implementation Plan",
@@ -3624,7 +4449,8 @@
         "正文信号 766:let pendingBgmVolume: number | undefined",
         "正文信号 768:pendingBgmVolume = v",
         "正文信号 827:> 注:`scaleCtrl` 依赖 canvas-resolution plan 已落地。若该 plan 未做,先做其 Task 1-2(display-scale.ts),或本 plan 临时内联一个最简 controller。",
-        "正文信号 832:Expected: ≥ 1（面板代码在生产包里,**未**被 tree-shake)。"
+        "正文信号 832:Expected: ≥ 1（面板代码在生产包里,**未**被 tree-shake)。",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "phase1",
@@ -3715,7 +4541,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -3735,6 +4562,26 @@
           "action": "R28 readonly proposal accepted then root migration",
           "reviewer": "r28_independent_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "3185a8f21bc2672fdcc2259ad137f342cf4caee9c26e9f34fa5e18ad7dc29229"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -3822,18 +4669,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "生产增强工具面板(Production Tools Panel)Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 889 行、18 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "fe9084b2476257e0952ef2054def088d9c84e52f47307f8c03013adfd7dc3154",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "3185a8f21bc2672fdcc2259ad137f342cf4caee9c26e9f34fa5e18ad7dc29229"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "00ecb12b8af7005015a4bb701b0eb2ab9790e4abe0db2f2c62eddd9a4bfd0a9b",
+          "sourceRecordGitObject": "b60b1e2828139afd6023d0e010170e6efa387d84",
+          "entryIndex": 15,
+          "path": "docs/phase1/plans/2026-06-13-prod-tools-panel.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/phase1/plans/2026-06-14-unified-precache-progress-gate-impl.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "统一预缓存进度 + 可玩门 + 进入解锁 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 780 行、15 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase1/plans/2026-06-14-unified-precache-progress-gate-impl.md:1",
         "docs/phase1/plans/2026-06-14-unified-precache-progress-gate-impl.md:1 统一预缓存进度 + 可玩门 + 进入解锁 Implementation Plan",
@@ -3875,7 +4755,8 @@
         "正文信号 730:bash scripts/deploy.sh app   # 仅运行时代码改动,无需 pnpm extract(manifest 未变);若 nginx 缓存旧 index.html 需硬刷(memory: prod-deploy-stale-index-cache)",
         "正文信号 748:**占位扫描**:无 TBD/TODO;每个代码步给完整代码。",
         "正文信号 755:- PROD 下 `#boot-loading` 进度由 SW 字节驱动、不再包 fetch:确认首访 SW 未 claim 前的最早请求不计入只是\"初期从非 0 起跳\",不影响单调。",
-        "正文信号 779:- **e2e visual baseline 失败(a2 等)经 `checkout` 改动前对比确认为预存在**:改动前后 pixel diff 完全相同(`Received: 60050`),与本重构无关(`pnpm check` 不含 e2e,长期未跑暴露的旧 baseline 漂移)。"
+        "正文信号 779:- **e2e visual baseline 失败(a2 等)经 `checkout` 改动前对比确认为预存在**:改动前后 pixel diff 完全相同(`Received: 60050`),与本重构无关(`pnpm check` 不含 e2e,长期未跑暴露的旧 baseline 漂移)。",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "phase1",
@@ -3964,7 +4845,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -3984,6 +4866,26 @@
           "action": "R28 readonly proposal accepted then root migration",
           "reviewer": "r28_independent_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "491cc8fb7f29e574e3960fafc130648fff71571978033b16813fcc79e649b717"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -4081,18 +4983,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "统一预缓存进度 + 可玩门 + 进入解锁 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 780 行、15 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "32e22ce5759553a59e77e8231e61030e928f422cb15ae03e77e5619c2dd26c7f",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "491cc8fb7f29e574e3960fafc130648fff71571978033b16813fcc79e649b717"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "00ecb12b8af7005015a4bb701b0eb2ab9790e4abe0db2f2c62eddd9a4bfd0a9b",
+          "sourceRecordGitObject": "b60b1e2828139afd6023d0e010170e6efa387d84",
+          "entryIndex": 16,
+          "path": "docs/phase1/plans/2026-06-14-unified-precache-progress-gate-impl.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/phase1/plans/2026-06-14-unified-precache-progress-gate.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "统一资源预缓存进度 + 可玩门 + 进入解锁 — Design Spec：这是 plan-status，当前文档状态为 historical。全文 82 行、13 个标题；摘要/首段为「> 2026-06-14。增强 [2026-06-13-offline-precache-sw.md](2026-06-13-offline-precache-sw.md)(已实现并上线)。」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase1/plans/2026-06-14-unified-precache-progress-gate.md:1",
         "docs/phase1/plans/2026-06-14-unified-precache-progress-gate.md:1 统一资源预缓存进度 + 可玩门 + 进入解锁 — Design Spec",
@@ -4107,7 +5042,8 @@
       "unresolved": [
         "正文信号 80:- 76k 小文件请求数大,未来可把 world 图块打包成少量归档降请求数(改资源管线 + loader)。",
         "正文信号 80:- 76k 小文件请求数大,未来可把 world 图块打包成少量归档降请求数(改资源管线 + loader)。",
-        "正文信号 80:- 76k 小文件请求数大,未来可把 world 图块打包成少量归档降请求数(改资源管线 + loader)。"
+        "正文信号 80:- 76k 小文件请求数大,未来可把 world 图块打包成少量归档降请求数(改资源管线 + loader)。",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "phase1",
@@ -4193,7 +5129,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -4213,6 +5150,26 @@
           "action": "R28 readonly proposal accepted then root migration",
           "reviewer": "r28_independent_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "f68ca79271aa64cf3cb6237434f7c1faab224aa0599ddc701e63f861ce41ac77"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -4265,18 +5222,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "统一资源预缓存进度 + 可玩门 + 进入解锁 — Design Spec：这是 plan-status，当前文档状态为 historical。全文 82 行、13 个标题；摘要/首段为「> 2026-06-14。增强 [2026-06-13-offline-precache-sw.md](2026-06-13-offline-precache-sw.md)(已实现并上线)。」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "edc7ab798f27dea5ad07514eea6529c14d0f914faee9f45a0b6c9d5cc84cbea1",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "f68ca79271aa64cf3cb6237434f7c1faab224aa0599ddc701e63f861ce41ac77"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "00ecb12b8af7005015a4bb701b0eb2ab9790e4abe0db2f2c62eddd9a4bfd0a9b",
+          "sourceRecordGitObject": "b60b1e2828139afd6023d0e010170e6efa387d84",
+          "entryIndex": 17,
+          "path": "docs/phase1/plans/2026-06-14-unified-precache-progress-gate.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/phase1/plans/2026-06-18-speedrun-timer-design.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "design-spec",
       "templateId": "design-spec-v1",
       "template": "docs/phase-governance/templates/design-spec.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "速通计时器 设计方案（Speedrun Timer）：这是 design-spec，当前文档状态为 historical。全文 240 行、25 个标题；摘要/首段为「> 日期：2026-06-18 · 阶段：第一阶段运行时的工具层覆盖功能（非核心引擎、非 Phase 2 Reforge）」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase1/plans/2026-06-18-speedrun-timer-design.md:1",
         "docs/phase1/plans/2026-06-18-speedrun-timer-design.md:1 速通计时器 设计方案（Speedrun Timer）",
@@ -4300,7 +5290,8 @@
         "正文信号 46:- **打点**：每帧对「当前待触发节点」求值其 detector，命中即把主时钟快照写入该节点 `current`，并推进到下一节点（严格按序，不可乱序、不可回退）。",
         "正文信号 176:1. **自动**：一局跑到「通关」且**本局总时间 < `best[通关]`**（或基准为空）→ 用本局逐点 `current` **整条覆盖** `perCheckpoint`。半途快但未通关的跑不更新。",
         "正文信号 177:2. **手动**：设置里「用本次成绩设为最佳」→ 整条覆盖（即使未破纪录，允许手动锚定）。",
-        "正文信号 194:- 每行 4 列：**节点名 | 最佳 | 差值(±色) | 本次**。当前待触发节点高亮；未到达的点本次列留空。"
+        "正文信号 194:- 每行 4 列：**节点名 | 最佳 | 差值(±色) | 本次**。当前待触发节点高亮；未到达的点本次列留空。",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "phase1",
@@ -4384,7 +5375,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -4404,6 +5396,26 @@
           "action": "R28 readonly proposal accepted then root migration",
           "reviewer": "r28_independent_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "d50404be491a33d66fb8c754a60324a5778c9dd62e277aac2f0e244a233b9308"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -4471,18 +5483,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "速通计时器 设计方案（Speedrun Timer）：这是 design-spec，当前文档状态为 historical。全文 240 行、25 个标题；摘要/首段为「> 日期：2026-06-18 · 阶段：第一阶段运行时的工具层覆盖功能（非核心引擎、非 Phase 2 Reforge）」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "e3cc2a3da54eb1afc31716c011d019de6240519f3bb438b9b408d26223b6ec84",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "d50404be491a33d66fb8c754a60324a5778c9dd62e277aac2f0e244a233b9308"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "00ecb12b8af7005015a4bb701b0eb2ab9790e4abe0db2f2c62eddd9a4bfd0a9b",
+          "sourceRecordGitObject": "b60b1e2828139afd6023d0e010170e6efa387d84",
+          "entryIndex": 18,
+          "path": "docs/phase1/plans/2026-06-18-speedrun-timer-design.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/phase1/plans/2026-06-18-speedrun-timer.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "速通计时器 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 1645 行、16 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase1/plans/2026-06-18-speedrun-timer.md:1",
         "docs/phase1/plans/2026-06-18-speedrun-timer.md:1 速通计时器 Implementation Plan",
@@ -4530,7 +5575,8 @@
         "正文信号 1301:/** 主循环每 rAF 调用:推进时钟、检测打点、刷新覆盖层与倒计时。未启用则隐藏 UI 并跳过。 */",
         "正文信号 1396:tickSpeedrunTimer(ctx.gs, now) // 速通计时器:每 rAF wall-clock 推进(未启用时内部早退)",
         "正文信号 1572:> 实现者注：`makeDeps`/装配细节以 `tools-panel.test.ts` 现有用例为准——照抄同文件构造 `ToolsPanelDeps` 的方式（`getGs`/`getResources` 等）。若现有测试未导出可复用 helper，则在本用例内联构造一份最小 deps（`getGs: () => fakeGs`，其余按现有用例填）。",
-        "正文信号 1640:**2. Placeholder scan：** 无 \"TBD/TODO/稍后\"。Task 12 的坐标是 PalTimer 实值起点 + 明确校准步骤（非空白）。✓"
+        "正文信号 1640:**2. Placeholder scan：** 无 \"TBD/TODO/稍后\"。Task 12 的坐标是 PalTimer 实值起点 + 明确校准步骤（非空白）。✓",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "phase1",
@@ -4614,7 +5660,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -4634,6 +5681,26 @@
           "action": "R28 readonly proposal accepted then root migration",
           "reviewer": "r28_independent_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "40a85571acf9338a7dd2a4bcc6f88eb719611e1267f9e6b7a18b8bf8469049e4"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -4741,18 +5808,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "速通计时器 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 1645 行、16 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "0a37ec0a49d9c8d149556d404692beb83a16b43c25c3caad020a84b06938080d",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "40a85571acf9338a7dd2a4bcc6f88eb719611e1267f9e6b7a18b8bf8469049e4"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "00ecb12b8af7005015a4bb701b0eb2ab9790e4abe0db2f2c62eddd9a4bfd0a9b",
+          "sourceRecordGitObject": "b60b1e2828139afd6023d0e010170e6efa387d84",
+          "entryIndex": 19,
+          "path": "docs/phase1/plans/2026-06-18-speedrun-timer.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/phase1/plans/2026-06-22-tileset-atlas-packing.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "plan-status",
       "templateId": "plan-status-v1",
       "template": "docs/phase-governance/templates/plan-status.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "瓦片资源管线优化:每地图 RLE blob（取代 atlas 方案）：这是 plan-status，当前文档状态为 historical。全文 127 行、15 个标题；摘要/首段为「> 起草日期:2026-06-22。性质:**第一阶段可落地的资源管线优化**(不破坏忠实性),为第二阶段 P0 schema §5「全局共享瓦片集」铺路。」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase1/plans/2026-06-22-tileset-atlas-packing.md:1",
         "docs/phase1/plans/2026-06-22-tileset-atlas-packing.md:1 瓦片资源管线优化:每地图 RLE blob（取代 atlas 方案）",
@@ -4782,7 +5882,8 @@
         "正文信号 74:| 原始 RLE(未压缩) | 133 MB | 49.9% |",
         "正文信号 102:## 7. 被否决的方案(留痕)",
         "正文信号 105:- **WebP/AVIF lossless**:需 Node 端编码器(sharp/cwebp,当前未装);且运行时仍走 `createImageBitmap`+canvas,解码开销一分不省;压缩比也不及 RLE+brotli。被支配。",
-        "正文信号 124:- [ ] 生产 SW 预缓存时间明显下降(数分钟 → 数十秒,实测)—— 待部署后验证。"
+        "正文信号 124:- [ ] 生产 SW 预缓存时间明显下降(数分钟 → 数十秒,实测)—— 待部署后验证。",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "phase1",
@@ -4872,7 +5973,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -4892,6 +5994,26 @@
           "action": "R28 readonly proposal accepted then root migration",
           "reviewer": "r28_independent_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "163a10734b8a0684c09e28d47f87a13c75789407ac93d71f63243ae7007061f3"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -4969,18 +6091,51 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "瓦片资源管线优化:每地图 RLE blob（取代 atlas 方案）：这是 plan-status，当前文档状态为 historical。全文 127 行、15 个标题；摘要/首段为「> 起草日期:2026-06-22。性质:**第一阶段可落地的资源管线优化**(不破坏忠实性),为第二阶段 P0 schema §5「全局共享瓦片集」铺路。」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "b750fd5f3fe8890f087a47cff6652553d7f20c5dca6503a48d07b06e383485c1",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "163a10734b8a0684c09e28d47f87a13c75789407ac93d71f63243ae7007061f3"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "00ecb12b8af7005015a4bb701b0eb2ab9790e4abe0db2f2c62eddd9a4bfd0a9b",
+          "sourceRecordGitObject": "b60b1e2828139afd6023d0e010170e6efa387d84",
+          "entryIndex": 20,
+          "path": "docs/phase1/plans/2026-06-22-tileset-atlas-packing.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     },
     {
       "path": "docs/phase1/plans/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "docs/plans/ — 开发过程历史档案(索引)：这是 plan-status，当前文档状态为 historical。全文 78 行、9 个标题；摘要/首段为「> ⚠️ **本目录是历史快照,不代表当前状态。**」。属于历史/归档材料，不能单独证明当前实现。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/phase1/plans/README.md:1",
         "docs/phase1/plans/README.md:1 docs/plans/ — 开发过程历史档案(索引)",
@@ -5004,7 +6159,8 @@
         "正文信号 3:> ⚠️ **本目录是历史快照,不代表当前状态。**",
         "正文信号 16:- 🔄 **可能含未完项** —— 原文列了 backlog / roadmap;**现状须对照状态表核实**,勿直接照搬当待办执行。",
         "正文信号 17:- 🧪 **待实测** —— 列了交给 user 的真机验收用例,verified 与否以 user 核对为准。",
-        "正文信号 56:| [remaining-work-plan](2026-06-01-remaining-work-plan.md) | 剩余工作执行计划(W1–W5,20 真待办) | 🔄 |"
+        "正文信号 56:| [remaining-work-plan](2026-06-01-remaining-work-plan.md) | 剩余工作执行计划(W1–W5,20 真待办) | 🔄 |",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "phase1",
@@ -5102,7 +6258,8 @@
             "space": "␠",
             "tab": "⇥"
           }
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -5122,6 +6279,26 @@
           "action": "R28 readonly proposal accepted then root migration",
           "reviewer": "r28_independent_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "c4dbf508df7250bf3855b1d789ec72cd6de534aeb96dc1a202c8690458ec192e"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -5189,6 +6366,39 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
+      },
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "docs/plans/ — 开发过程历史档案(索引)：这是 plan-status，当前文档状态为 historical。全文 78 行、9 个标题；摘要/首段为「> ⚠️ **本目录是历史快照,不代表当前状态。**」。属于历史/归档材料，不能单独证明当前实现。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "full-text UTF-8 source read and R28 semantic migration; quote inverse checked",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "63d372503d55e0405bfd7e24847ae630e78f23de272810accc1d2d68c4e29cb9",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "c4dbf508df7250bf3855b1d789ec72cd6de534aeb96dc1a202c8690458ec192e"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "00ecb12b8af7005015a4bb701b0eb2ab9790e4abe0db2f2c62eddd9a4bfd0a9b",
+          "sourceRecordGitObject": "b60b1e2828139afd6023d0e010170e6efa387d84",
+          "entryIndex": 21,
+          "path": "docs/phase1/plans/README.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
       }
     }
   ],
@@ -5231,5 +6441,44 @@
     "decision": "same-actor candidate acceptance cannot certify non-author review",
     "task": "DOCS-RECORD-INTEGRITY-1",
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+  },
+  "expandedAuditCorrection": {
+    "date": "2026-10-18",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+    "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+    "scopePointer": "/expandedAudit20261018",
+    "evidenceStatus": "pending-root-intake-at-generation",
+    "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+    "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+    "scope": "Only listed old active entries; no non-target entry, S01 successor, unrelated historical or current body changed.",
+    "paths": [
+      "docs/phase1/plans/2026-05-31-d-batch2-enemy-ai.md",
+      "docs/phase1/plans/2026-05-31-d-batch6-numeric-equip.md",
+      "docs/phase1/plans/2026-05-31-d-series-completion-roadmap.md",
+      "docs/phase1/plans/2026-05-31-poison-and-portrait-color.md",
+      "docs/phase1/plans/2026-06-01-d-series-test-cases.md",
+      "docs/phase1/plans/2026-06-01-feature-status-audit.md",
+      "docs/phase1/plans/2026-06-01-gameoveractive-refactor.md",
+      "docs/phase1/plans/2026-06-01-remaining-work-plan.md",
+      "docs/phase1/plans/2026-06-01-sdlpal-feature-surface-audit.md",
+      "docs/phase1/plans/2026-06-02-item-audit.md",
+      "docs/phase1/plans/2026-06-06-battle-system-current-audit.md",
+      "docs/phase1/plans/2026-06-07-sdlpal-diff-audit.md",
+      "docs/phase1/plans/2026-06-10-sdlpal-deep-audit.md",
+      "docs/phase1/plans/2026-06-13-canvas-resolution-setting.md",
+      "docs/phase1/plans/2026-06-13-offline-precache-sw.md",
+      "docs/phase1/plans/2026-06-13-prod-tools-panel.md",
+      "docs/phase1/plans/2026-06-14-unified-precache-progress-gate-impl.md",
+      "docs/phase1/plans/2026-06-14-unified-precache-progress-gate.md",
+      "docs/phase1/plans/2026-06-18-speedrun-timer-design.md",
+      "docs/phase1/plans/2026-06-18-speedrun-timer.md",
+      "docs/phase1/plans/2026-06-22-tileset-atlas-packing.md",
+      "docs/phase1/plans/README.md"
+    ],
+    "entryCount": 22,
+    "authorCanonicalTask": "/root/s12_semantic_author",
+    "nonAuthorReviewer": false,
+    "newCredit": 0
   }
 }

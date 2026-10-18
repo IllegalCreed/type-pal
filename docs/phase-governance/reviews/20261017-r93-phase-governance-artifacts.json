@@ -516,7 +516,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "45d3ac468efc7d54f0e357b11afbc15fbb9f6473a373f47172d3f0bb692832a8",
-      "afterSha256": "2d720443858893ea4ffa7ec173bd9074d11a5f9da0573001005f30d7f5a86eff",
+      "afterSha256": "4c5263f4819365aaefa0bf56a9979d24dd3890b3a9a233e2dd33f41a46b10ef8",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -756,6 +756,15 @@
           "previousAfterSha256": "60658652202d12ae0f933788af817e7a73e7db8ae226ec58e1575565fb3cb1cf",
           "afterSha256": "2d720443858893ea4ffa7ec173bd9074d11a5f9da0573001005f30d7f5a86eff",
           "method": "Append one guarded S12 issue-family/source/version/history relationship backed by exact body/report; no dependent or runtime acceptance.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "2d720443858893ea4ffa7ec173bd9074d11a5f9da0573001005f30d7f5a86eff",
+          "afterSha256": "4c5263f4819365aaefa0bf56a9979d24dd3890b3a9a233e2dd33f41a46b10ef8",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -1246,7 +1255,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "444aa7c6adff0bd9f93f7d3ca5582542da12debba0eb925b53b6337910f8cf18",
+      "afterSha256": "793c91f46b0733c6f934482933f37103792b0b98cf6841b9c29c45b160740078",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1387,6 +1396,15 @@
           "previousAfterSha256": "ed085526bec89ec97181a4b023011eddc409c12b2fbf467b2658dd4b549a7fe4",
           "afterSha256": "444aa7c6adff0bd9f93f7d3ca5582542da12debba0eb925b53b6337910f8cf18",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "444aa7c6adff0bd9f93f7d3ca5582542da12debba0eb925b53b6337910f8cf18",
+          "afterSha256": "793c91f46b0733c6f934482933f37103792b0b98cf6841b9c29c45b160740078",
+          "method": "Upstream explicitly corrected review dependency only; no new content or execution acceptance",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -4140,7 +4158,8 @@
       "truthAnchors": ["docs/phase-governance/reviews/20261016-binding-baseline-design.md:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。",
+        "DOCS-RECORD-INTEGRITY-1 来源身份候选勘误仅区分真实 Git 原文与直接引用复合体；该篇设计语义/模板完成继续未授，root 应用与非作者验收另行进行。"
       ],
       "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
@@ -4153,8 +4172,8 @@
         "structured-mechanical-envelope-only",
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
-      "sourceSha256": "28761fd805038f9c9d94e24418790cb3723e3aca701fc0e163f1dce3755e6886",
-      "afterSha256": "b94b4155a61e59c9417309dcce6644e006859236b2805ff2eea3508188b6e134",
+      "sourceSha256": "9eca138466af60f57ae2648bf1ce86e7046f36ddaf089d4251930fc2a39843a3",
+      "afterSha256": "a712d1f43ee4436cf0454cde3c30dd063cc236ecf93a9ffd4cb2248c493f3442",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -4191,7 +4210,7 @@
       "evidence": {
         "kind": "document-template-migration",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
-        "sourceSha256": "28761fd805038f9c9d94e24418790cb3723e3aca701fc0e163f1dce3755e6886",
+        "sourceSha256": "9eca138466af60f57ae2648bf1ce86e7046f36ddaf089d4251930fc2a39843a3",
         "candidateSha256": "b94b4155a61e59c9417309dcce6644e006859236b2805ff2eea3508188b6e134",
         "afterSha256": "b94b4155a61e59c9417309dcce6644e006859236b2805ff2eea3508188b6e134",
         "lineCount": 327,
@@ -4202,9 +4221,10 @@
           "sourceLines": 327,
           "sourceFinalNewline": true,
           "inverseSha256": "28761fd805038f9c9d94e24418790cb3723e3aca701fc0e163f1dce3755e6886",
-          "exactRoundTrip": false
+          "exactRoundTrip": false,
+          "scope": "Immediate quoted historical composite, not sourceGitRevision Git file; original numbers/hash/verdict preserved. See immediateQuotedArtifact and preservationLayers for conditional one-LF accounting."
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn Source-identity correction draft only; immediate quoted composite distinguished from true Git source; no new semantic/template/runtime/independent credit."
       },
       "history": [
         {
@@ -4226,6 +4246,28 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "clarify-true-git-source-versus-immediate-quoted-composite",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+          "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "750e191e847bd833c7a4980a05b8accaca8c9ad6b9d204e0364980a524e4a889"
+          },
+          "oldCompositeSha256": "28761fd805038f9c9d94e24418790cb3723e3aca701fc0e163f1dce3755e6886",
+          "trueGitSourceSha256": "9eca138466af60f57ae2648bf1ce86e7046f36ddaf089d4251930fc2a39843a3",
+          "bodyQuoteBytesPreserved": true,
+          "newSemanticCredit": 0,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -4244,7 +4286,7 @@
         {
           "path": "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
           "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-          "sha256": "28761fd805038f9c9d94e24418790cb3723e3aca701fc0e163f1dce3755e6886",
+          "sha256": "9eca138466af60f57ae2648bf1ce86e7046f36ddaf089d4251930fc2a39843a3",
           "scope": "full UTF-8 source"
         }
       ],
@@ -4273,7 +4315,116 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "immediateQuotedArtifact": {
+        "kind": "historical-composite-quoted-by-current-document",
+        "scope": "direct outer quote payload after its explicit one LF framing removal; contains two earlier wrappers plus true Git source; not the declared Git snapshot",
+        "sha256": "28761fd805038f9c9d94e24418790cb3723e3aca701fc0e163f1dce3755e6886",
+        "bytes": 37610,
+        "capturedFrom": {
+          "revision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "path": "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
+          "bodySha256": "b94b4155a61e59c9417309dcce6644e006859236b2805ff2eea3508188b6e134"
+        },
+        "originalPreservationClaim": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 37610,
+          "sourceLines": 327,
+          "sourceFinalNewline": true,
+          "inverseSha256": "28761fd805038f9c9d94e24418790cb3723e3aca701fc0e163f1dce3755e6886",
+          "exactRoundTrip": false
+        }
+      },
+      "preservationLayers": [
+        {
+          "layer": 1,
+          "directInverseSha256": "d27dff7d1b6ad79fc2e574e00b75876f56824f542822fe3286aac1e536de5443",
+          "directInverseBytes": 37611,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "28761fd805038f9c9d94e24418790cb3723e3aca701fc0e163f1dce3755e6886",
+          "correctedExactBytes": 37610,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": false
+        },
+        {
+          "layer": 2,
+          "directInverseSha256": "14281b09e2a77fc61beefebb5307105ac2ccff326dda3320434c2e41aa192f7b",
+          "directInverseBytes": 35588,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "ba5cabf543c711f1299ce2f1340316ef0934e75756383368a2913dc452b41f0c",
+          "correctedExactBytes": 35587,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": false
+        },
+        {
+          "layer": 3,
+          "directInverseSha256": "057d28427e8b7ec92f4767e2ce2fc1c7e07ff2581375649af523682b78d82dc9",
+          "directInverseBytes": 33354,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "9eca138466af60f57ae2648bf1ce86e7046f36ddaf089d4251930fc2a39843a3",
+          "correctedExactBytes": 33353,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": true
+        }
+      ],
+      "sourceIdentityCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+        "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "750e191e847bd833c7a4980a05b8accaca8c9ad6b9d204e0364980a524e4a889"
+        },
+        "oldSourceSha256": "28761fd805038f9c9d94e24418790cb3723e3aca701fc0e163f1dce3755e6886",
+        "oldEvidenceSourceSha256": "28761fd805038f9c9d94e24418790cb3723e3aca701fc0e163f1dce3755e6886",
+        "oldPrimarySource": [
+          {
+            "path": "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "sha256": "28761fd805038f9c9d94e24418790cb3723e3aca701fc0e163f1dce3755e6886",
+            "scope": "full UTF-8 source"
+          }
+        ],
+        "oldVisibleOuterPreservationDeclaration": {
+          "line": 36,
+          "text": "固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `28761fd805038f9c9d94e24418790cb3723e3aca701fc0e163f1dce3755e6886`；下方 quote 可逆回原始 UTF-8 字节。"
+        },
+        "trueGitSource": {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "path": "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
+          "gitObject": "a86c387e27a39b208060105af4ab8ed0e9a30b60",
+          "sha256": "9eca138466af60f57ae2648bf1ce86e7046f36ddaf089d4251930fc2a39843a3",
+          "bytes": 33353
+        },
+        "oldCompositeSha256": "28761fd805038f9c9d94e24418790cb3723e3aca701fc0e163f1dce3755e6886",
+        "quoteLayerCount": 3,
+        "quoteRule": "Remove exactly one > or >space prefix per quoted line, retaining LF; after verifying final encoded line hex3e0a remove exactly its one known framing LF0a per layer. No trim. Layer3 then byte-equals true Git source.",
+        "currentBodyAfterPinPolicy": "Original afterSha256/candidate/revision/evidence pins intentionally unchanged in this author draft; Root must format actual body and perform explicit approved pin maintenance before accepting any output.",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "newSemanticCredit": 0
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "b94b4155a61e59c9417309dcce6644e006859236b2805ff2eea3508188b6e134",
+          "afterSha256": "a712d1f43ee4436cf0454cde3c30dd063cc236ecf93a9ffd4cb2248c493f3442",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261016-domain-navigation-records-1.json",
@@ -4900,7 +5051,8 @@
       "truthAnchors": ["docs/phase-governance/reviews/20261016-e2e-stage-m-design.md:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。",
+        "DOCS-RECORD-INTEGRITY-1 来源身份候选勘误仅区分真实 Git 原文与直接引用复合体；该篇设计语义/模板完成继续未授，root 应用与非作者验收另行进行。"
       ],
       "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
@@ -4913,8 +5065,8 @@
         "structured-mechanical-envelope-only",
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
-      "sourceSha256": "185b276d30477911779fb074c7a9c9cee9278589df69b24488703afa1c7864dd",
-      "afterSha256": "337b9816c7959afa0b38651cfdbc457310007ae9ad0d98fd02046e2827e4f1cc",
+      "sourceSha256": "eb3ea0f16f3744c92651524e2151b7232b15261d483ad5796d640af629afc5ef",
+      "afterSha256": "b0d5b67eecc82626b13999a7a2b7d1709e7c611c36816fac76a441e601954b63",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -4951,7 +5103,7 @@
       "evidence": {
         "kind": "document-template-migration",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
-        "sourceSha256": "185b276d30477911779fb074c7a9c9cee9278589df69b24488703afa1c7864dd",
+        "sourceSha256": "eb3ea0f16f3744c92651524e2151b7232b15261d483ad5796d640af629afc5ef",
         "candidateSha256": "337b9816c7959afa0b38651cfdbc457310007ae9ad0d98fd02046e2827e4f1cc",
         "afterSha256": "337b9816c7959afa0b38651cfdbc457310007ae9ad0d98fd02046e2827e4f1cc",
         "lineCount": 300,
@@ -4962,9 +5114,10 @@
           "sourceLines": 300,
           "sourceFinalNewline": true,
           "inverseSha256": "185b276d30477911779fb074c7a9c9cee9278589df69b24488703afa1c7864dd",
-          "exactRoundTrip": false
+          "exactRoundTrip": false,
+          "scope": "Immediate quoted historical composite, not sourceGitRevision Git file; original numbers/hash/verdict preserved. See immediateQuotedArtifact and preservationLayers for conditional one-LF accounting."
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn Source-identity correction draft only; immediate quoted composite distinguished from true Git source; no new semantic/template/runtime/independent credit."
       },
       "history": [
         {
@@ -4986,6 +5139,28 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "clarify-true-git-source-versus-immediate-quoted-composite",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+          "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "5d68899a152debeb68d8542946f630774f0bb402944ad2a815a807b764c431e9"
+          },
+          "oldCompositeSha256": "185b276d30477911779fb074c7a9c9cee9278589df69b24488703afa1c7864dd",
+          "trueGitSourceSha256": "eb3ea0f16f3744c92651524e2151b7232b15261d483ad5796d640af629afc5ef",
+          "bodyQuoteBytesPreserved": true,
+          "newSemanticCredit": 0,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -5004,7 +5179,7 @@
         {
           "path": "docs/phase-governance/reviews/20261016-e2e-stage-m-design.md",
           "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-          "sha256": "185b276d30477911779fb074c7a9c9cee9278589df69b24488703afa1c7864dd",
+          "sha256": "eb3ea0f16f3744c92651524e2151b7232b15261d483ad5796d640af629afc5ef",
           "scope": "full UTF-8 source"
         }
       ],
@@ -5033,7 +5208,116 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "immediateQuotedArtifact": {
+        "kind": "historical-composite-quoted-by-current-document",
+        "scope": "direct outer quote payload after its explicit one LF framing removal; contains two earlier wrappers plus true Git source; not the declared Git snapshot",
+        "sha256": "185b276d30477911779fb074c7a9c9cee9278589df69b24488703afa1c7864dd",
+        "bytes": 40017,
+        "capturedFrom": {
+          "revision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "path": "docs/phase-governance/reviews/20261016-e2e-stage-m-design.md",
+          "bodySha256": "337b9816c7959afa0b38651cfdbc457310007ae9ad0d98fd02046e2827e4f1cc"
+        },
+        "originalPreservationClaim": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 40017,
+          "sourceLines": 300,
+          "sourceFinalNewline": true,
+          "inverseSha256": "185b276d30477911779fb074c7a9c9cee9278589df69b24488703afa1c7864dd",
+          "exactRoundTrip": false
+        }
+      },
+      "preservationLayers": [
+        {
+          "layer": 1,
+          "directInverseSha256": "e04079b22d2a5e9a4bf019583f9b5c42f6fba414714cc0a18645a059a1984708",
+          "directInverseBytes": 40018,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "185b276d30477911779fb074c7a9c9cee9278589df69b24488703afa1c7864dd",
+          "correctedExactBytes": 40017,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": false
+        },
+        {
+          "layer": 2,
+          "directInverseSha256": "93a3fdbd011e38f9e55ef58b0c3d6b0d9875f43d46af8634f4300b494a2dc59e",
+          "directInverseBytes": 38057,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "7c3225714cdf9727b4b452a1581b06a32c7578ab7f6469dd19ebc1bfdb29beeb",
+          "correctedExactBytes": 38056,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": false
+        },
+        {
+          "layer": 3,
+          "directInverseSha256": "0598d129c58dd94d25504afeb915d93faec5d3f708be49cf2f1ebba1dc06f85a",
+          "directInverseBytes": 35904,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "eb3ea0f16f3744c92651524e2151b7232b15261d483ad5796d640af629afc5ef",
+          "correctedExactBytes": 35903,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": true
+        }
+      ],
+      "sourceIdentityCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+        "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "5d68899a152debeb68d8542946f630774f0bb402944ad2a815a807b764c431e9"
+        },
+        "oldSourceSha256": "185b276d30477911779fb074c7a9c9cee9278589df69b24488703afa1c7864dd",
+        "oldEvidenceSourceSha256": "185b276d30477911779fb074c7a9c9cee9278589df69b24488703afa1c7864dd",
+        "oldPrimarySource": [
+          {
+            "path": "docs/phase-governance/reviews/20261016-e2e-stage-m-design.md",
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "sha256": "185b276d30477911779fb074c7a9c9cee9278589df69b24488703afa1c7864dd",
+            "scope": "full UTF-8 source"
+          }
+        ],
+        "oldVisibleOuterPreservationDeclaration": {
+          "line": 36,
+          "text": "固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `185b276d30477911779fb074c7a9c9cee9278589df69b24488703afa1c7864dd`；下方 quote 可逆回原始 UTF-8 字节。"
+        },
+        "trueGitSource": {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "path": "docs/phase-governance/reviews/20261016-e2e-stage-m-design.md",
+          "gitObject": "5edce9f738722c7dcb4db641ceb603b69a18fdfc",
+          "sha256": "eb3ea0f16f3744c92651524e2151b7232b15261d483ad5796d640af629afc5ef",
+          "bytes": 35903
+        },
+        "oldCompositeSha256": "185b276d30477911779fb074c7a9c9cee9278589df69b24488703afa1c7864dd",
+        "quoteLayerCount": 3,
+        "quoteRule": "Remove exactly one > or >space prefix per quoted line, retaining LF; after verifying final encoded line hex3e0a remove exactly its one known framing LF0a per layer. No trim. Layer3 then byte-equals true Git source.",
+        "currentBodyAfterPinPolicy": "Original afterSha256/candidate/revision/evidence pins intentionally unchanged in this author draft; Root must format actual body and perform explicit approved pin maintenance before accepting any output.",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "newSemanticCredit": 0
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "337b9816c7959afa0b38651cfdbc457310007ae9ad0d98fd02046e2827e4f1cc",
+          "afterSha256": "b0d5b67eecc82626b13999a7a2b7d1709e7c611c36816fac76a441e601954b63",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261016-e2e-stage-m.json",
@@ -6132,7 +6416,8 @@
       "truthAnchors": ["docs/phase-governance/reviews/20261016-historical-static-html-design.md:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。",
+        "DOCS-RECORD-INTEGRITY-1 来源身份候选勘误仅区分真实 Git 原文与直接引用复合体；该篇设计语义/模板完成继续未授，root 应用与非作者验收另行进行。"
       ],
       "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
@@ -6145,8 +6430,8 @@
         "structured-mechanical-envelope-only",
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
-      "sourceSha256": "581a88d1e89a475a35958e4a53905d6d3af88648c6f952ade7a983fe9f20bc49",
-      "afterSha256": "d5bf2aa4fb6774311c5caa8ce1cbde31d54dbe19d0f5e261cd8266fa5295a2dd",
+      "sourceSha256": "2f50a5fd23593a1d54fa73efed45ffd9ccfeeb3b0020897ba39b6242635ae411",
+      "afterSha256": "e1b607cf3a60827e8b90eca58faf0a532fc3c0f1a3cd026dbaa698cd891065ae",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -6183,7 +6468,7 @@
       "evidence": {
         "kind": "document-template-migration",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
-        "sourceSha256": "581a88d1e89a475a35958e4a53905d6d3af88648c6f952ade7a983fe9f20bc49",
+        "sourceSha256": "2f50a5fd23593a1d54fa73efed45ffd9ccfeeb3b0020897ba39b6242635ae411",
         "candidateSha256": "d5bf2aa4fb6774311c5caa8ce1cbde31d54dbe19d0f5e261cd8266fa5295a2dd",
         "afterSha256": "d5bf2aa4fb6774311c5caa8ce1cbde31d54dbe19d0f5e261cd8266fa5295a2dd",
         "lineCount": 588,
@@ -6194,9 +6479,10 @@
           "sourceLines": 588,
           "sourceFinalNewline": true,
           "inverseSha256": "581a88d1e89a475a35958e4a53905d6d3af88648c6f952ade7a983fe9f20bc49",
-          "exactRoundTrip": false
+          "exactRoundTrip": false,
+          "scope": "Immediate quoted historical composite, not sourceGitRevision Git file; original numbers/hash/verdict preserved. See immediateQuotedArtifact and preservationLayers for conditional one-LF accounting."
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn Source-identity correction draft only; immediate quoted composite distinguished from true Git source; no new semantic/template/runtime/independent credit."
       },
       "history": [
         {
@@ -6218,6 +6504,28 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "clarify-true-git-source-versus-immediate-quoted-composite",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+          "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "4a5cd5cbda01e92c3b35b79d07a727351a36f33a980510f18e1ab5803355a591"
+          },
+          "oldCompositeSha256": "581a88d1e89a475a35958e4a53905d6d3af88648c6f952ade7a983fe9f20bc49",
+          "trueGitSourceSha256": "2f50a5fd23593a1d54fa73efed45ffd9ccfeeb3b0020897ba39b6242635ae411",
+          "bodyQuoteBytesPreserved": true,
+          "newSemanticCredit": 0,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -6236,7 +6544,7 @@
         {
           "path": "docs/phase-governance/reviews/20261016-historical-static-html-design.md",
           "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-          "sha256": "581a88d1e89a475a35958e4a53905d6d3af88648c6f952ade7a983fe9f20bc49",
+          "sha256": "2f50a5fd23593a1d54fa73efed45ffd9ccfeeb3b0020897ba39b6242635ae411",
           "scope": "full UTF-8 source"
         }
       ],
@@ -6265,7 +6573,116 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "immediateQuotedArtifact": {
+        "kind": "historical-composite-quoted-by-current-document",
+        "scope": "direct outer quote payload after its explicit one LF framing removal; contains two earlier wrappers plus true Git source; not the declared Git snapshot",
+        "sha256": "581a88d1e89a475a35958e4a53905d6d3af88648c6f952ade7a983fe9f20bc49",
+        "bytes": 70535,
+        "capturedFrom": {
+          "revision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "path": "docs/phase-governance/reviews/20261016-historical-static-html-design.md",
+          "bodySha256": "d5bf2aa4fb6774311c5caa8ce1cbde31d54dbe19d0f5e261cd8266fa5295a2dd"
+        },
+        "originalPreservationClaim": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 70535,
+          "sourceLines": 588,
+          "sourceFinalNewline": true,
+          "inverseSha256": "581a88d1e89a475a35958e4a53905d6d3af88648c6f952ade7a983fe9f20bc49",
+          "exactRoundTrip": false
+        }
+      },
+      "preservationLayers": [
+        {
+          "layer": 1,
+          "directInverseSha256": "d1744e4502927523eacb6a82bf66a8875b1a52ea9939c909428d37abe9ff5012",
+          "directInverseBytes": 70536,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "581a88d1e89a475a35958e4a53905d6d3af88648c6f952ade7a983fe9f20bc49",
+          "correctedExactBytes": 70535,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": false
+        },
+        {
+          "layer": 2,
+          "directInverseSha256": "68a73a0fd02889dde516f660466a37b00b69a05a8dbf197c052e641a2a9c8e0b",
+          "directInverseBytes": 67971,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "cf47a77ea7775512f6df959276d9cc0ac45312ab568ec924b033196d07fc1eb3",
+          "correctedExactBytes": 67970,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": false
+        },
+        {
+          "layer": 3,
+          "directInverseSha256": "1641bda1436b65df650bafa93da7a569f4025a43bea34dd39b37b47f08b737b8",
+          "directInverseBytes": 65334,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "2f50a5fd23593a1d54fa73efed45ffd9ccfeeb3b0020897ba39b6242635ae411",
+          "correctedExactBytes": 65333,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": true
+        }
+      ],
+      "sourceIdentityCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+        "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "4a5cd5cbda01e92c3b35b79d07a727351a36f33a980510f18e1ab5803355a591"
+        },
+        "oldSourceSha256": "581a88d1e89a475a35958e4a53905d6d3af88648c6f952ade7a983fe9f20bc49",
+        "oldEvidenceSourceSha256": "581a88d1e89a475a35958e4a53905d6d3af88648c6f952ade7a983fe9f20bc49",
+        "oldPrimarySource": [
+          {
+            "path": "docs/phase-governance/reviews/20261016-historical-static-html-design.md",
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "sha256": "581a88d1e89a475a35958e4a53905d6d3af88648c6f952ade7a983fe9f20bc49",
+            "scope": "full UTF-8 source"
+          }
+        ],
+        "oldVisibleOuterPreservationDeclaration": {
+          "line": 36,
+          "text": "固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `581a88d1e89a475a35958e4a53905d6d3af88648c6f952ade7a983fe9f20bc49`；下方 quote 可逆回原始 UTF-8 字节。"
+        },
+        "trueGitSource": {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "path": "docs/phase-governance/reviews/20261016-historical-static-html-design.md",
+          "gitObject": "087d112cf9e911cbb01ea6038d3152fb7847f8cd",
+          "sha256": "2f50a5fd23593a1d54fa73efed45ffd9ccfeeb3b0020897ba39b6242635ae411",
+          "bytes": 65333
+        },
+        "oldCompositeSha256": "581a88d1e89a475a35958e4a53905d6d3af88648c6f952ade7a983fe9f20bc49",
+        "quoteLayerCount": 3,
+        "quoteRule": "Remove exactly one > or >space prefix per quoted line, retaining LF; after verifying final encoded line hex3e0a remove exactly its one known framing LF0a per layer. No trim. Layer3 then byte-equals true Git source.",
+        "currentBodyAfterPinPolicy": "Original afterSha256/candidate/revision/evidence pins intentionally unchanged in this author draft; Root must format actual body and perform explicit approved pin maintenance before accepting any output.",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "newSemanticCredit": 0
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "d5bf2aa4fb6774311c5caa8ce1cbde31d54dbe19d0f5e261cd8266fa5295a2dd",
+          "afterSha256": "e1b607cf3a60827e8b90eca58faf0a532fc3c0f1a3cd026dbaa698cd891065ae",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261016-historical-static-html.json",
@@ -6433,7 +6850,8 @@
       "truthAnchors": ["docs/phase-governance/reviews/20261016-lore-reference-n-design.md:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。",
+        "DOCS-RECORD-INTEGRITY-1 来源身份候选勘误仅区分真实 Git 原文与直接引用复合体；该篇设计语义/模板完成继续未授，root 应用与非作者验收另行进行。"
       ],
       "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
@@ -6446,8 +6864,8 @@
         "structured-mechanical-envelope-only",
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
-      "sourceSha256": "83b1ef387af19740d1b4ffe2efca4967d02ef21f06262b005e294ddef0e9cc16",
-      "afterSha256": "f99869859dbdcc08aac9803860022874fd3f59ee9ab57da34652f0f7327f67cd",
+      "sourceSha256": "078dbdd119c1c5edc7d1e0b814d8923b37105f72428719a93755990c3bf2cee5",
+      "afterSha256": "f10239f6054d0ac2d6531a1159e6f0027e7b412d1c3280211dd074e88e33c838",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -6484,7 +6902,7 @@
       "evidence": {
         "kind": "document-template-migration",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
-        "sourceSha256": "83b1ef387af19740d1b4ffe2efca4967d02ef21f06262b005e294ddef0e9cc16",
+        "sourceSha256": "078dbdd119c1c5edc7d1e0b814d8923b37105f72428719a93755990c3bf2cee5",
         "candidateSha256": "f99869859dbdcc08aac9803860022874fd3f59ee9ab57da34652f0f7327f67cd",
         "afterSha256": "f99869859dbdcc08aac9803860022874fd3f59ee9ab57da34652f0f7327f67cd",
         "lineCount": 302,
@@ -6495,9 +6913,10 @@
           "sourceLines": 302,
           "sourceFinalNewline": true,
           "inverseSha256": "83b1ef387af19740d1b4ffe2efca4967d02ef21f06262b005e294ddef0e9cc16",
-          "exactRoundTrip": false
+          "exactRoundTrip": false,
+          "scope": "Immediate quoted historical composite, not sourceGitRevision Git file; original numbers/hash/verdict preserved. See immediateQuotedArtifact and preservationLayers for conditional one-LF accounting."
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn Source-identity correction draft only; immediate quoted composite distinguished from true Git source; no new semantic/template/runtime/independent credit."
       },
       "history": [
         {
@@ -6519,6 +6938,28 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "clarify-true-git-source-versus-immediate-quoted-composite",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+          "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "2377726b2e125a38a123168e5437d6b9684d2a4de7021cc120870abcee98e944"
+          },
+          "oldCompositeSha256": "83b1ef387af19740d1b4ffe2efca4967d02ef21f06262b005e294ddef0e9cc16",
+          "trueGitSourceSha256": "078dbdd119c1c5edc7d1e0b814d8923b37105f72428719a93755990c3bf2cee5",
+          "bodyQuoteBytesPreserved": true,
+          "newSemanticCredit": 0,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -6537,7 +6978,7 @@
         {
           "path": "docs/phase-governance/reviews/20261016-lore-reference-n-design.md",
           "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-          "sha256": "83b1ef387af19740d1b4ffe2efca4967d02ef21f06262b005e294ddef0e9cc16",
+          "sha256": "078dbdd119c1c5edc7d1e0b814d8923b37105f72428719a93755990c3bf2cee5",
           "scope": "full UTF-8 source"
         }
       ],
@@ -6566,7 +7007,116 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "immediateQuotedArtifact": {
+        "kind": "historical-composite-quoted-by-current-document",
+        "scope": "direct outer quote payload after its explicit one LF framing removal; contains two earlier wrappers plus true Git source; not the declared Git snapshot",
+        "sha256": "83b1ef387af19740d1b4ffe2efca4967d02ef21f06262b005e294ddef0e9cc16",
+        "bytes": 33781,
+        "capturedFrom": {
+          "revision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "path": "docs/phase-governance/reviews/20261016-lore-reference-n-design.md",
+          "bodySha256": "f99869859dbdcc08aac9803860022874fd3f59ee9ab57da34652f0f7327f67cd"
+        },
+        "originalPreservationClaim": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 33781,
+          "sourceLines": 302,
+          "sourceFinalNewline": true,
+          "inverseSha256": "83b1ef387af19740d1b4ffe2efca4967d02ef21f06262b005e294ddef0e9cc16",
+          "exactRoundTrip": false
+        }
+      },
+      "preservationLayers": [
+        {
+          "layer": 1,
+          "directInverseSha256": "ac3332a7b1a018fdeabca3f945c8daf12df483e97e1e5718d060cd3ff1a7f9cc",
+          "directInverseBytes": 33782,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "83b1ef387af19740d1b4ffe2efca4967d02ef21f06262b005e294ddef0e9cc16",
+          "correctedExactBytes": 33781,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": false
+        },
+        {
+          "layer": 2,
+          "directInverseSha256": "eaab0ccf67d6477ee0009877bf0584594608738777ed15933a231c8e992c9ada",
+          "directInverseBytes": 31793,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "cc6c3753dc56390c799780c95ca63aaca7a00b952f0a8c148b88e4daf686f344",
+          "correctedExactBytes": 31792,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": false
+        },
+        {
+          "layer": 3,
+          "directInverseSha256": "6751d3eb0e0b932543e208e70092dde39480000c5d5683466e1a6825b649bf44",
+          "directInverseBytes": 29623,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "078dbdd119c1c5edc7d1e0b814d8923b37105f72428719a93755990c3bf2cee5",
+          "correctedExactBytes": 29622,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": true
+        }
+      ],
+      "sourceIdentityCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+        "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "2377726b2e125a38a123168e5437d6b9684d2a4de7021cc120870abcee98e944"
+        },
+        "oldSourceSha256": "83b1ef387af19740d1b4ffe2efca4967d02ef21f06262b005e294ddef0e9cc16",
+        "oldEvidenceSourceSha256": "83b1ef387af19740d1b4ffe2efca4967d02ef21f06262b005e294ddef0e9cc16",
+        "oldPrimarySource": [
+          {
+            "path": "docs/phase-governance/reviews/20261016-lore-reference-n-design.md",
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "sha256": "83b1ef387af19740d1b4ffe2efca4967d02ef21f06262b005e294ddef0e9cc16",
+            "scope": "full UTF-8 source"
+          }
+        ],
+        "oldVisibleOuterPreservationDeclaration": {
+          "line": 36,
+          "text": "固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `83b1ef387af19740d1b4ffe2efca4967d02ef21f06262b005e294ddef0e9cc16`；下方 quote 可逆回原始 UTF-8 字节。"
+        },
+        "trueGitSource": {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "path": "docs/phase-governance/reviews/20261016-lore-reference-n-design.md",
+          "gitObject": "8867146194a98f1cfc797660484312a2e191d682",
+          "sha256": "078dbdd119c1c5edc7d1e0b814d8923b37105f72428719a93755990c3bf2cee5",
+          "bytes": 29622
+        },
+        "oldCompositeSha256": "83b1ef387af19740d1b4ffe2efca4967d02ef21f06262b005e294ddef0e9cc16",
+        "quoteLayerCount": 3,
+        "quoteRule": "Remove exactly one > or >space prefix per quoted line, retaining LF; after verifying final encoded line hex3e0a remove exactly its one known framing LF0a per layer. No trim. Layer3 then byte-equals true Git source.",
+        "currentBodyAfterPinPolicy": "Original afterSha256/candidate/revision/evidence pins intentionally unchanged in this author draft; Root must format actual body and perform explicit approved pin maintenance before accepting any output.",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "newSemanticCredit": 0
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "f99869859dbdcc08aac9803860022874fd3f59ee9ab57da34652f0f7327f67cd",
+          "afterSha256": "f10239f6054d0ac2d6531a1159e6f0027e7b412d1c3280211dd074e88e33c838",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261016-lore-reference-n.json",
@@ -6734,7 +7284,8 @@
       "truthAnchors": ["docs/phase-governance/reviews/20261016-lore-remaining-l4-design.md:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。",
+        "DOCS-RECORD-INTEGRITY-1 来源身份候选勘误仅区分真实 Git 原文与直接引用复合体；该篇设计语义/模板完成继续未授，root 应用与非作者验收另行进行。"
       ],
       "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
@@ -6747,8 +7298,8 @@
         "structured-mechanical-envelope-only",
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
-      "sourceSha256": "7d3480c30b58c0a9bb1bc22ad1fb60f0ddcd26b3cb7627afebd26ac709594229",
-      "afterSha256": "ad7ef97e76a1139140c0c89674ae04b7b6667808a2c0551f84a84d1cdf83819e",
+      "sourceSha256": "655ce788de52d3ecd7bf65221254c1abd75c74dc56811e88243d53554c3a5647",
+      "afterSha256": "6d77abad8886a8f9320694a9e0b5ab6f9f0c86cfdb8330e5e3b2f02a8045e017",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -6785,7 +7336,7 @@
       "evidence": {
         "kind": "document-template-migration",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
-        "sourceSha256": "7d3480c30b58c0a9bb1bc22ad1fb60f0ddcd26b3cb7627afebd26ac709594229",
+        "sourceSha256": "655ce788de52d3ecd7bf65221254c1abd75c74dc56811e88243d53554c3a5647",
         "candidateSha256": "ad7ef97e76a1139140c0c89674ae04b7b6667808a2c0551f84a84d1cdf83819e",
         "afterSha256": "ad7ef97e76a1139140c0c89674ae04b7b6667808a2c0551f84a84d1cdf83819e",
         "lineCount": 342,
@@ -6796,9 +7347,10 @@
           "sourceLines": 342,
           "sourceFinalNewline": true,
           "inverseSha256": "7d3480c30b58c0a9bb1bc22ad1fb60f0ddcd26b3cb7627afebd26ac709594229",
-          "exactRoundTrip": false
+          "exactRoundTrip": false,
+          "scope": "Immediate quoted historical composite, not sourceGitRevision Git file; original numbers/hash/verdict preserved. See immediateQuotedArtifact and preservationLayers for conditional one-LF accounting."
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn Source-identity correction draft only; immediate quoted composite distinguished from true Git source; no new semantic/template/runtime/independent credit."
       },
       "history": [
         {
@@ -6820,6 +7372,28 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "clarify-true-git-source-versus-immediate-quoted-composite",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+          "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "ae621889b93ea7a86fa0796d9e8362081d0cce9612f45c0b6c09e862dc0708b3"
+          },
+          "oldCompositeSha256": "7d3480c30b58c0a9bb1bc22ad1fb60f0ddcd26b3cb7627afebd26ac709594229",
+          "trueGitSourceSha256": "655ce788de52d3ecd7bf65221254c1abd75c74dc56811e88243d53554c3a5647",
+          "bodyQuoteBytesPreserved": true,
+          "newSemanticCredit": 0,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -6838,7 +7412,7 @@
         {
           "path": "docs/phase-governance/reviews/20261016-lore-remaining-l4-design.md",
           "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-          "sha256": "7d3480c30b58c0a9bb1bc22ad1fb60f0ddcd26b3cb7627afebd26ac709594229",
+          "sha256": "655ce788de52d3ecd7bf65221254c1abd75c74dc56811e88243d53554c3a5647",
           "scope": "full UTF-8 source"
         }
       ],
@@ -6867,7 +7441,116 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "immediateQuotedArtifact": {
+        "kind": "historical-composite-quoted-by-current-document",
+        "scope": "direct outer quote payload after its explicit one LF framing removal; contains two earlier wrappers plus true Git source; not the declared Git snapshot",
+        "sha256": "7d3480c30b58c0a9bb1bc22ad1fb60f0ddcd26b3cb7627afebd26ac709594229",
+        "bytes": 32531,
+        "capturedFrom": {
+          "revision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "path": "docs/phase-governance/reviews/20261016-lore-remaining-l4-design.md",
+          "bodySha256": "ad7ef97e76a1139140c0c89674ae04b7b6667808a2c0551f84a84d1cdf83819e"
+        },
+        "originalPreservationClaim": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 32531,
+          "sourceLines": 342,
+          "sourceFinalNewline": true,
+          "inverseSha256": "7d3480c30b58c0a9bb1bc22ad1fb60f0ddcd26b3cb7627afebd26ac709594229",
+          "exactRoundTrip": false
+        }
+      },
+      "preservationLayers": [
+        {
+          "layer": 1,
+          "directInverseSha256": "5aa8aa498a6bbe701a65ff9fcbfed0fe8ca1e338af5b939b475c5bbc047b8871",
+          "directInverseBytes": 32532,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "7d3480c30b58c0a9bb1bc22ad1fb60f0ddcd26b3cb7627afebd26ac709594229",
+          "correctedExactBytes": 32531,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": false
+        },
+        {
+          "layer": 2,
+          "directInverseSha256": "abdd9cab279f7afb24991ee0f267cb81ad6b8b5c1511f022cecc6dbefa54798d",
+          "directInverseBytes": 30473,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "79a77d7eaaf4aa0108ddb9243a615f57c5af884e7335b31dda3f2233ce3b8ce5",
+          "correctedExactBytes": 30472,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": false
+        },
+        {
+          "layer": 3,
+          "directInverseSha256": "a8da83c57fc7f635e2e15c3680b0cafc932022f3b6705c993c868a3425c76e56",
+          "directInverseBytes": 28290,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "655ce788de52d3ecd7bf65221254c1abd75c74dc56811e88243d53554c3a5647",
+          "correctedExactBytes": 28289,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": true
+        }
+      ],
+      "sourceIdentityCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+        "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "ae621889b93ea7a86fa0796d9e8362081d0cce9612f45c0b6c09e862dc0708b3"
+        },
+        "oldSourceSha256": "7d3480c30b58c0a9bb1bc22ad1fb60f0ddcd26b3cb7627afebd26ac709594229",
+        "oldEvidenceSourceSha256": "7d3480c30b58c0a9bb1bc22ad1fb60f0ddcd26b3cb7627afebd26ac709594229",
+        "oldPrimarySource": [
+          {
+            "path": "docs/phase-governance/reviews/20261016-lore-remaining-l4-design.md",
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "sha256": "7d3480c30b58c0a9bb1bc22ad1fb60f0ddcd26b3cb7627afebd26ac709594229",
+            "scope": "full UTF-8 source"
+          }
+        ],
+        "oldVisibleOuterPreservationDeclaration": {
+          "line": 36,
+          "text": "固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `7d3480c30b58c0a9bb1bc22ad1fb60f0ddcd26b3cb7627afebd26ac709594229`；下方 quote 可逆回原始 UTF-8 字节。"
+        },
+        "trueGitSource": {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "path": "docs/phase-governance/reviews/20261016-lore-remaining-l4-design.md",
+          "gitObject": "d3b739db60b3c61f759c642bcbe2c0ba06fe5cbf",
+          "sha256": "655ce788de52d3ecd7bf65221254c1abd75c74dc56811e88243d53554c3a5647",
+          "bytes": 28289
+        },
+        "oldCompositeSha256": "7d3480c30b58c0a9bb1bc22ad1fb60f0ddcd26b3cb7627afebd26ac709594229",
+        "quoteLayerCount": 3,
+        "quoteRule": "Remove exactly one > or >space prefix per quoted line, retaining LF; after verifying final encoded line hex3e0a remove exactly its one known framing LF0a per layer. No trim. Layer3 then byte-equals true Git source.",
+        "currentBodyAfterPinPolicy": "Original afterSha256/candidate/revision/evidence pins intentionally unchanged in this author draft; Root must format actual body and perform explicit approved pin maintenance before accepting any output.",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "newSemanticCredit": 0
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "ad7ef97e76a1139140c0c89674ae04b7b6667808a2c0551f84a84d1cdf83819e",
+          "afterSha256": "6d77abad8886a8f9320694a9e0b5ab6f9f0c86cfdb8330e5e3b2f02a8045e017",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261016-lore-remaining-l4.json",
@@ -7035,7 +7718,8 @@
       "truthAnchors": ["docs/phase-governance/reviews/20261016-phase2-guides-q-design.md:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。",
+        "DOCS-RECORD-INTEGRITY-1 来源身份候选勘误仅区分真实 Git 原文与直接引用复合体；该篇设计语义/模板完成继续未授，root 应用与非作者验收另行进行。"
       ],
       "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
@@ -7048,8 +7732,8 @@
         "structured-mechanical-envelope-only",
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
-      "sourceSha256": "3ccb5d2705926f200bf97f5f5b2821106fa8f4d9e464eb02d18098f24c06a3bf",
-      "afterSha256": "59ffbecc1e2c5ff1965435e12152274ae72fcc84bbfb56b939a62c9599a4af3f",
+      "sourceSha256": "5a4c69b78cc76c3b06ae0150f89066f876732ac6e7cbaeee1e3441fa74f477bf",
+      "afterSha256": "89ed9d8b9d14c9db9c691403dc69aad0b63fed92c56daf5c4728a0c08cdaf88f",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -7086,7 +7770,7 @@
       "evidence": {
         "kind": "document-template-migration",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
-        "sourceSha256": "3ccb5d2705926f200bf97f5f5b2821106fa8f4d9e464eb02d18098f24c06a3bf",
+        "sourceSha256": "5a4c69b78cc76c3b06ae0150f89066f876732ac6e7cbaeee1e3441fa74f477bf",
         "candidateSha256": "59ffbecc1e2c5ff1965435e12152274ae72fcc84bbfb56b939a62c9599a4af3f",
         "afterSha256": "59ffbecc1e2c5ff1965435e12152274ae72fcc84bbfb56b939a62c9599a4af3f",
         "lineCount": 247,
@@ -7097,9 +7781,10 @@
           "sourceLines": 247,
           "sourceFinalNewline": true,
           "inverseSha256": "3ccb5d2705926f200bf97f5f5b2821106fa8f4d9e464eb02d18098f24c06a3bf",
-          "exactRoundTrip": false
+          "exactRoundTrip": false,
+          "scope": "Immediate quoted historical composite, not sourceGitRevision Git file; original numbers/hash/verdict preserved. See immediateQuotedArtifact and preservationLayers for conditional one-LF accounting."
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn Source-identity correction draft only; immediate quoted composite distinguished from true Git source; no new semantic/template/runtime/independent credit."
       },
       "history": [
         {
@@ -7121,6 +7806,28 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "clarify-true-git-source-versus-immediate-quoted-composite",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+          "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "8dc5a3095f993b31f989e5b6f00befacb7864ecd9e40c4b8a0079a4c4ae418fe"
+          },
+          "oldCompositeSha256": "3ccb5d2705926f200bf97f5f5b2821106fa8f4d9e464eb02d18098f24c06a3bf",
+          "trueGitSourceSha256": "5a4c69b78cc76c3b06ae0150f89066f876732ac6e7cbaeee1e3441fa74f477bf",
+          "bodyQuoteBytesPreserved": true,
+          "newSemanticCredit": 0,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -7139,7 +7846,7 @@
         {
           "path": "docs/phase-governance/reviews/20261016-phase2-guides-q-design.md",
           "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-          "sha256": "3ccb5d2705926f200bf97f5f5b2821106fa8f4d9e464eb02d18098f24c06a3bf",
+          "sha256": "5a4c69b78cc76c3b06ae0150f89066f876732ac6e7cbaeee1e3441fa74f477bf",
           "scope": "full UTF-8 source"
         }
       ],
@@ -7168,7 +7875,116 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "immediateQuotedArtifact": {
+        "kind": "historical-composite-quoted-by-current-document",
+        "scope": "direct outer quote payload after its explicit one LF framing removal; contains two earlier wrappers plus true Git source; not the declared Git snapshot",
+        "sha256": "3ccb5d2705926f200bf97f5f5b2821106fa8f4d9e464eb02d18098f24c06a3bf",
+        "bytes": 26021,
+        "capturedFrom": {
+          "revision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "path": "docs/phase-governance/reviews/20261016-phase2-guides-q-design.md",
+          "bodySha256": "59ffbecc1e2c5ff1965435e12152274ae72fcc84bbfb56b939a62c9599a4af3f"
+        },
+        "originalPreservationClaim": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 26021,
+          "sourceLines": 247,
+          "sourceFinalNewline": true,
+          "inverseSha256": "3ccb5d2705926f200bf97f5f5b2821106fa8f4d9e464eb02d18098f24c06a3bf",
+          "exactRoundTrip": false
+        }
+      },
+      "preservationLayers": [
+        {
+          "layer": 1,
+          "directInverseSha256": "5f9c7664b1fd5ac60a41da55c69dabb1977b13a173f92031136ed86aa4489f7a",
+          "directInverseBytes": 26022,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "3ccb5d2705926f200bf97f5f5b2821106fa8f4d9e464eb02d18098f24c06a3bf",
+          "correctedExactBytes": 26021,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": false
+        },
+        {
+          "layer": 2,
+          "directInverseSha256": "9e7a20f5a4ba9282fa91df77157ee72b9e8742415f59f0bb98155fc67025f483",
+          "directInverseBytes": 24153,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "d00798fb4e9bc1145fa75a52b8dda48be096ac3db2465fde8bffeddbcd13f3f8",
+          "correctedExactBytes": 24152,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": false
+        },
+        {
+          "layer": 3,
+          "directInverseSha256": "957f4f0b5efeea9abb7e54a5938bb25f8930096060cc519ea1ea8b9bc45989b4",
+          "directInverseBytes": 22103,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "5a4c69b78cc76c3b06ae0150f89066f876732ac6e7cbaeee1e3441fa74f477bf",
+          "correctedExactBytes": 22102,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": true
+        }
+      ],
+      "sourceIdentityCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+        "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "8dc5a3095f993b31f989e5b6f00befacb7864ecd9e40c4b8a0079a4c4ae418fe"
+        },
+        "oldSourceSha256": "3ccb5d2705926f200bf97f5f5b2821106fa8f4d9e464eb02d18098f24c06a3bf",
+        "oldEvidenceSourceSha256": "3ccb5d2705926f200bf97f5f5b2821106fa8f4d9e464eb02d18098f24c06a3bf",
+        "oldPrimarySource": [
+          {
+            "path": "docs/phase-governance/reviews/20261016-phase2-guides-q-design.md",
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "sha256": "3ccb5d2705926f200bf97f5f5b2821106fa8f4d9e464eb02d18098f24c06a3bf",
+            "scope": "full UTF-8 source"
+          }
+        ],
+        "oldVisibleOuterPreservationDeclaration": {
+          "line": 36,
+          "text": "固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `3ccb5d2705926f200bf97f5f5b2821106fa8f4d9e464eb02d18098f24c06a3bf`；下方 quote 可逆回原始 UTF-8 字节。"
+        },
+        "trueGitSource": {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "path": "docs/phase-governance/reviews/20261016-phase2-guides-q-design.md",
+          "gitObject": "3968136dae4361002f85d4d45382cef69575ba65",
+          "sha256": "5a4c69b78cc76c3b06ae0150f89066f876732ac6e7cbaeee1e3441fa74f477bf",
+          "bytes": 22102
+        },
+        "oldCompositeSha256": "3ccb5d2705926f200bf97f5f5b2821106fa8f4d9e464eb02d18098f24c06a3bf",
+        "quoteLayerCount": 3,
+        "quoteRule": "Remove exactly one > or >space prefix per quoted line, retaining LF; after verifying final encoded line hex3e0a remove exactly its one known framing LF0a per layer. No trim. Layer3 then byte-equals true Git source.",
+        "currentBodyAfterPinPolicy": "Original afterSha256/candidate/revision/evidence pins intentionally unchanged in this author draft; Root must format actual body and perform explicit approved pin maintenance before accepting any output.",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "newSemanticCredit": 0
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "59ffbecc1e2c5ff1965435e12152274ae72fcc84bbfb56b939a62c9599a4af3f",
+          "afterSha256": "89ed9d8b9d14c9db9c691403dc69aad0b63fed92c56daf5c4728a0c08cdaf88f",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261016-phase2-guides-q.json",
@@ -7336,7 +8152,8 @@
       "truthAnchors": ["docs/phase-governance/reviews/20261016-phase2-navigation-p-design.md:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。",
+        "DOCS-RECORD-INTEGRITY-1 来源身份候选勘误仅区分真实 Git 原文与直接引用复合体；该篇设计语义/模板完成继续未授，root 应用与非作者验收另行进行。"
       ],
       "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
@@ -7349,8 +8166,8 @@
         "structured-mechanical-envelope-only",
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
-      "sourceSha256": "98454ac57912dd595f809be3e5812e6fcff84a1d0d0f78b75a2c05eebbf65755",
-      "afterSha256": "bc04dbd23079e62c2cbfd84d6b582049219ff77a408aab6147f5bce84507295b",
+      "sourceSha256": "22c78637c28cc4f8fae0ef3b4dfac2f77aba7e9c8d63a8efd317365ba1bacf84",
+      "afterSha256": "37f74ba4c518c2f4a1c9e095899e9c3b4de01bf9553360612ecbfaebaf83fe35",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -7387,7 +8204,7 @@
       "evidence": {
         "kind": "document-template-migration",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
-        "sourceSha256": "98454ac57912dd595f809be3e5812e6fcff84a1d0d0f78b75a2c05eebbf65755",
+        "sourceSha256": "22c78637c28cc4f8fae0ef3b4dfac2f77aba7e9c8d63a8efd317365ba1bacf84",
         "candidateSha256": "bc04dbd23079e62c2cbfd84d6b582049219ff77a408aab6147f5bce84507295b",
         "afterSha256": "bc04dbd23079e62c2cbfd84d6b582049219ff77a408aab6147f5bce84507295b",
         "lineCount": 844,
@@ -7398,9 +8215,10 @@
           "sourceLines": 844,
           "sourceFinalNewline": true,
           "inverseSha256": "98454ac57912dd595f809be3e5812e6fcff84a1d0d0f78b75a2c05eebbf65755",
-          "exactRoundTrip": false
+          "exactRoundTrip": false,
+          "scope": "Immediate quoted historical composite, not sourceGitRevision Git file; original numbers/hash/verdict preserved. See immediateQuotedArtifact and preservationLayers for conditional one-LF accounting."
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn Source-identity correction draft only; immediate quoted composite distinguished from true Git source; no new semantic/template/runtime/independent credit."
       },
       "history": [
         {
@@ -7422,6 +8240,28 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "clarify-true-git-source-versus-immediate-quoted-composite",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+          "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "a4fec8549a420b23467126c128fb821933b88b1097f2cfe5d728e5bbe628ae42"
+          },
+          "oldCompositeSha256": "98454ac57912dd595f809be3e5812e6fcff84a1d0d0f78b75a2c05eebbf65755",
+          "trueGitSourceSha256": "22c78637c28cc4f8fae0ef3b4dfac2f77aba7e9c8d63a8efd317365ba1bacf84",
+          "bodyQuoteBytesPreserved": true,
+          "newSemanticCredit": 0,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -7440,7 +8280,7 @@
         {
           "path": "docs/phase-governance/reviews/20261016-phase2-navigation-p-design.md",
           "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-          "sha256": "98454ac57912dd595f809be3e5812e6fcff84a1d0d0f78b75a2c05eebbf65755",
+          "sha256": "22c78637c28cc4f8fae0ef3b4dfac2f77aba7e9c8d63a8efd317365ba1bacf84",
           "scope": "full UTF-8 source"
         }
       ],
@@ -7469,7 +8309,116 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "immediateQuotedArtifact": {
+        "kind": "historical-composite-quoted-by-current-document",
+        "scope": "direct outer quote payload after its explicit one LF framing removal; contains two earlier wrappers plus true Git source; not the declared Git snapshot",
+        "sha256": "98454ac57912dd595f809be3e5812e6fcff84a1d0d0f78b75a2c05eebbf65755",
+        "bytes": 54617,
+        "capturedFrom": {
+          "revision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "path": "docs/phase-governance/reviews/20261016-phase2-navigation-p-design.md",
+          "bodySha256": "bc04dbd23079e62c2cbfd84d6b582049219ff77a408aab6147f5bce84507295b"
+        },
+        "originalPreservationClaim": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 54617,
+          "sourceLines": 844,
+          "sourceFinalNewline": true,
+          "inverseSha256": "98454ac57912dd595f809be3e5812e6fcff84a1d0d0f78b75a2c05eebbf65755",
+          "exactRoundTrip": false
+        }
+      },
+      "preservationLayers": [
+        {
+          "layer": 1,
+          "directInverseSha256": "952a4631bc1ee41f8d8dac2ca908251eec1b1e60ead7ddf3950145b87e53826f",
+          "directInverseBytes": 54618,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "98454ac57912dd595f809be3e5812e6fcff84a1d0d0f78b75a2c05eebbf65755",
+          "correctedExactBytes": 54617,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": false
+        },
+        {
+          "layer": 2,
+          "directInverseSha256": "81afdbb0f9cffa1a4ec713c5192d6334e7767bcecdd50b8e8d7fdfc3324751ce",
+          "directInverseBytes": 51565,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "c1311cf45c8cbe0bc4306119a0e8658f1dff751e98120f7d7d5f186deea7c0df",
+          "correctedExactBytes": 51564,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": false
+        },
+        {
+          "layer": 3,
+          "directInverseSha256": "b9f5b533da44d7ddf11b3b116859f532e39849901126f6b0638d7c1b504ffe1d",
+          "directInverseBytes": 48335,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "22c78637c28cc4f8fae0ef3b4dfac2f77aba7e9c8d63a8efd317365ba1bacf84",
+          "correctedExactBytes": 48334,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": true
+        }
+      ],
+      "sourceIdentityCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+        "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "a4fec8549a420b23467126c128fb821933b88b1097f2cfe5d728e5bbe628ae42"
+        },
+        "oldSourceSha256": "98454ac57912dd595f809be3e5812e6fcff84a1d0d0f78b75a2c05eebbf65755",
+        "oldEvidenceSourceSha256": "98454ac57912dd595f809be3e5812e6fcff84a1d0d0f78b75a2c05eebbf65755",
+        "oldPrimarySource": [
+          {
+            "path": "docs/phase-governance/reviews/20261016-phase2-navigation-p-design.md",
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "sha256": "98454ac57912dd595f809be3e5812e6fcff84a1d0d0f78b75a2c05eebbf65755",
+            "scope": "full UTF-8 source"
+          }
+        ],
+        "oldVisibleOuterPreservationDeclaration": {
+          "line": 36,
+          "text": "固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `98454ac57912dd595f809be3e5812e6fcff84a1d0d0f78b75a2c05eebbf65755`；下方 quote 可逆回原始 UTF-8 字节。"
+        },
+        "trueGitSource": {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "path": "docs/phase-governance/reviews/20261016-phase2-navigation-p-design.md",
+          "gitObject": "e00f7ff180c6083333e68094456ff98281303928",
+          "sha256": "22c78637c28cc4f8fae0ef3b4dfac2f77aba7e9c8d63a8efd317365ba1bacf84",
+          "bytes": 48334
+        },
+        "oldCompositeSha256": "98454ac57912dd595f809be3e5812e6fcff84a1d0d0f78b75a2c05eebbf65755",
+        "quoteLayerCount": 3,
+        "quoteRule": "Remove exactly one > or >space prefix per quoted line, retaining LF; after verifying final encoded line hex3e0a remove exactly its one known framing LF0a per layer. No trim. Layer3 then byte-equals true Git source.",
+        "currentBodyAfterPinPolicy": "Original afterSha256/candidate/revision/evidence pins intentionally unchanged in this author draft; Root must format actual body and perform explicit approved pin maintenance before accepting any output.",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "newSemanticCredit": 0
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "bc04dbd23079e62c2cbfd84d6b582049219ff77a408aab6147f5bce84507295b",
+          "afterSha256": "37f74ba4c518c2f4a1c9e095899e9c3b4de01bf9553360612ecbfaebaf83fe35",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261016-phase2-navigation-p.json",
@@ -7637,7 +8586,8 @@
       "truthAnchors": ["docs/phase-governance/reviews/20261016-terminal-a8-design.md:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。",
+        "DOCS-RECORD-INTEGRITY-1 来源身份候选勘误仅区分真实 Git 原文与直接引用复合体；该篇设计语义/模板完成继续未授，root 应用与非作者验收另行进行。"
       ],
       "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
@@ -7650,8 +8600,8 @@
         "structured-mechanical-envelope-only",
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
-      "sourceSha256": "2b07c861d843179affe59877ae4ad866cb45e3671b3f9d64699ed7352015d2c9",
-      "afterSha256": "451c78173cef65d15228fa79d896a671930d60599c432e3de258ad26f9d63d69",
+      "sourceSha256": "c9d2d240d09d330420f97e37e98f4f9370a0bacafedddc48d69656cd4ad03787",
+      "afterSha256": "50a053b0455b57d66b27cce04a0ab5c9f5b7f153b0a99a5a3979a1c1ff516d8f",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -7688,7 +8638,7 @@
       "evidence": {
         "kind": "document-template-migration",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
-        "sourceSha256": "2b07c861d843179affe59877ae4ad866cb45e3671b3f9d64699ed7352015d2c9",
+        "sourceSha256": "c9d2d240d09d330420f97e37e98f4f9370a0bacafedddc48d69656cd4ad03787",
         "candidateSha256": "451c78173cef65d15228fa79d896a671930d60599c432e3de258ad26f9d63d69",
         "afterSha256": "451c78173cef65d15228fa79d896a671930d60599c432e3de258ad26f9d63d69",
         "lineCount": 1146,
@@ -7699,9 +8649,10 @@
           "sourceLines": 1146,
           "sourceFinalNewline": true,
           "inverseSha256": "2b07c861d843179affe59877ae4ad866cb45e3671b3f9d64699ed7352015d2c9",
-          "exactRoundTrip": false
+          "exactRoundTrip": false,
+          "scope": "Immediate quoted historical composite, not sourceGitRevision Git file; original numbers/hash/verdict preserved. See immediateQuotedArtifact and preservationLayers for conditional one-LF accounting."
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn Source-identity correction draft only; immediate quoted composite distinguished from true Git source; no new semantic/template/runtime/independent credit."
       },
       "history": [
         {
@@ -7723,6 +8674,28 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "clarify-true-git-source-versus-immediate-quoted-composite",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+          "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "5616ff018e24c8ffbf682b335ab4f219b19aa812d9efc2c241fa721d534a6dde"
+          },
+          "oldCompositeSha256": "2b07c861d843179affe59877ae4ad866cb45e3671b3f9d64699ed7352015d2c9",
+          "trueGitSourceSha256": "c9d2d240d09d330420f97e37e98f4f9370a0bacafedddc48d69656cd4ad03787",
+          "bodyQuoteBytesPreserved": true,
+          "newSemanticCredit": 0,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -7741,7 +8714,7 @@
         {
           "path": "docs/phase-governance/reviews/20261016-terminal-a8-design.md",
           "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-          "sha256": "2b07c861d843179affe59877ae4ad866cb45e3671b3f9d64699ed7352015d2c9",
+          "sha256": "c9d2d240d09d330420f97e37e98f4f9370a0bacafedddc48d69656cd4ad03787",
           "scope": "full UTF-8 source"
         }
       ],
@@ -7770,7 +8743,116 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "immediateQuotedArtifact": {
+        "kind": "historical-composite-quoted-by-current-document",
+        "scope": "direct outer quote payload after its explicit one LF framing removal; contains two earlier wrappers plus true Git source; not the declared Git snapshot",
+        "sha256": "2b07c861d843179affe59877ae4ad866cb45e3671b3f9d64699ed7352015d2c9",
+        "bytes": 82276,
+        "capturedFrom": {
+          "revision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "path": "docs/phase-governance/reviews/20261016-terminal-a8-design.md",
+          "bodySha256": "451c78173cef65d15228fa79d896a671930d60599c432e3de258ad26f9d63d69"
+        },
+        "originalPreservationClaim": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 82276,
+          "sourceLines": 1146,
+          "sourceFinalNewline": true,
+          "inverseSha256": "2b07c861d843179affe59877ae4ad866cb45e3671b3f9d64699ed7352015d2c9",
+          "exactRoundTrip": false
+        }
+      },
+      "preservationLayers": [
+        {
+          "layer": 1,
+          "directInverseSha256": "197999e31587f7117ea02a7d0a19c6edd1d39e320082924cc490ab2afa33dce5",
+          "directInverseBytes": 82277,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "2b07c861d843179affe59877ae4ad866cb45e3671b3f9d64699ed7352015d2c9",
+          "correctedExactBytes": 82276,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": false
+        },
+        {
+          "layer": 2,
+          "directInverseSha256": "58ca477f198b4c93ac6db47dceb636c64acc808e4fb1a531c60a2b1fda67f49b",
+          "directInverseBytes": 78588,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "f1069a912cff7f69eead60475fdf9ffee4fa1fc788724e82b35502d074cd4c75",
+          "correctedExactBytes": 78587,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": false
+        },
+        {
+          "layer": 3,
+          "directInverseSha256": "0ed69d684eaf9822dddbf52e6375700cf1f6642f30322f4029842a21d1214c6d",
+          "directInverseBytes": 74721,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "c9d2d240d09d330420f97e37e98f4f9370a0bacafedddc48d69656cd4ad03787",
+          "correctedExactBytes": 74720,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": true
+        }
+      ],
+      "sourceIdentityCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+        "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "5616ff018e24c8ffbf682b335ab4f219b19aa812d9efc2c241fa721d534a6dde"
+        },
+        "oldSourceSha256": "2b07c861d843179affe59877ae4ad866cb45e3671b3f9d64699ed7352015d2c9",
+        "oldEvidenceSourceSha256": "2b07c861d843179affe59877ae4ad866cb45e3671b3f9d64699ed7352015d2c9",
+        "oldPrimarySource": [
+          {
+            "path": "docs/phase-governance/reviews/20261016-terminal-a8-design.md",
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "sha256": "2b07c861d843179affe59877ae4ad866cb45e3671b3f9d64699ed7352015d2c9",
+            "scope": "full UTF-8 source"
+          }
+        ],
+        "oldVisibleOuterPreservationDeclaration": {
+          "line": 36,
+          "text": "固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `2b07c861d843179affe59877ae4ad866cb45e3671b3f9d64699ed7352015d2c9`；下方 quote 可逆回原始 UTF-8 字节。"
+        },
+        "trueGitSource": {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "path": "docs/phase-governance/reviews/20261016-terminal-a8-design.md",
+          "gitObject": "1400f6a1b4c7381bcb727cbcd325f6d62966cf80",
+          "sha256": "c9d2d240d09d330420f97e37e98f4f9370a0bacafedddc48d69656cd4ad03787",
+          "bytes": 74720
+        },
+        "oldCompositeSha256": "2b07c861d843179affe59877ae4ad866cb45e3671b3f9d64699ed7352015d2c9",
+        "quoteLayerCount": 3,
+        "quoteRule": "Remove exactly one > or >space prefix per quoted line, retaining LF; after verifying final encoded line hex3e0a remove exactly its one known framing LF0a per layer. No trim. Layer3 then byte-equals true Git source.",
+        "currentBodyAfterPinPolicy": "Original afterSha256/candidate/revision/evidence pins intentionally unchanged in this author draft; Root must format actual body and perform explicit approved pin maintenance before accepting any output.",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "newSemanticCredit": 0
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "451c78173cef65d15228fa79d896a671930d60599c432e3de258ad26f9d63d69",
+          "afterSha256": "50a053b0455b57d66b27cce04a0ab5c9f5b7f153b0a99a5a3979a1c1ff516d8f",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261016-terminal-a8.json",
@@ -7938,7 +9020,8 @@
       "truthAnchors": ["docs/phase-governance/reviews/20261016-testing-index-design.md:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse.",
-        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。"
+        "DOCS-RECORD-INTEGRITY-1：需真实逐篇语义重审、来源/反证/consumer 与非作者复核；机械封套不授完成。",
+        "DOCS-RECORD-INTEGRITY-1 来源身份候选勘误仅区分真实 Git 原文与直接引用复合体；该篇设计语义/模板完成继续未授，root 应用与非作者验收另行进行。"
       ],
       "nextStep": "按 DOCS-RECORD-INTEGRITY-1 和 correction-scope 逐篇重审；不批量恢复 reviewed。",
       "phase": "phase-governance",
@@ -7951,8 +9034,8 @@
         "structured-mechanical-envelope-only",
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
-      "sourceSha256": "3a845df3f9f00f6242ea7e6011ea0b091dba080f68774e59da16fa44ad7d604a",
-      "afterSha256": "fc7fb650b3a6bffc13efb77cfa58e2c03038df45bf12164019eaeb1a3072b5c1",
+      "sourceSha256": "46476681b1d47c422729fb5eb7394b23e6dfc85b5d6995eceb827f966a052629",
+      "afterSha256": "4ed9c172998e512722a6ffc504c22508a05e722b4eb14a83dad0fa0c824156ec",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -7989,7 +9072,7 @@
       "evidence": {
         "kind": "document-template-migration",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
-        "sourceSha256": "3a845df3f9f00f6242ea7e6011ea0b091dba080f68774e59da16fa44ad7d604a",
+        "sourceSha256": "46476681b1d47c422729fb5eb7394b23e6dfc85b5d6995eceb827f966a052629",
         "candidateSha256": "fc7fb650b3a6bffc13efb77cfa58e2c03038df45bf12164019eaeb1a3072b5c1",
         "afterSha256": "fc7fb650b3a6bffc13efb77cfa58e2c03038df45bf12164019eaeb1a3072b5c1",
         "lineCount": 254,
@@ -8000,9 +9083,10 @@
           "sourceLines": 254,
           "sourceFinalNewline": true,
           "inverseSha256": "3a845df3f9f00f6242ea7e6011ea0b091dba080f68774e59da16fa44ad7d604a",
-          "exactRoundTrip": false
+          "exactRoundTrip": false,
+          "scope": "Immediate quoted historical composite, not sourceGitRevision Git file; original numbers/hash/verdict preserved. See immediateQuotedArtifact and preservationLayers for conditional one-LF accounting."
         },
-        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+        "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn Source-identity correction draft only; immediate quoted composite distinguished from true Git source; no new semantic/template/runtime/independent credit."
       },
       "history": [
         {
@@ -8024,6 +9108,28 @@
           "contentReviewStatus": "partial-review-unknown",
           "reviewDepth": "structured-content",
           "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196"
+        },
+        {
+          "date": "2026-10-18",
+          "action": "clarify-true-git-source-versus-immediate-quoted-composite",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+          "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "cdb9fa983e81aeda928e940538840641a713fa1addea88a826768b7720c9c9a1"
+          },
+          "oldCompositeSha256": "3a845df3f9f00f6242ea7e6011ea0b091dba080f68774e59da16fa44ad7d604a",
+          "trueGitSourceSha256": "46476681b1d47c422729fb5eb7394b23e6dfc85b5d6995eceb827f966a052629",
+          "bodyQuoteBytesPreserved": true,
+          "newSemanticCredit": 0,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -8042,7 +9148,7 @@
         {
           "path": "docs/phase-governance/reviews/20261016-testing-index-design.md",
           "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-          "sha256": "3a845df3f9f00f6242ea7e6011ea0b091dba080f68774e59da16fa44ad7d604a",
+          "sha256": "46476681b1d47c422729fb5eb7394b23e6dfc85b5d6995eceb827f966a052629",
           "scope": "full UTF-8 source"
         }
       ],
@@ -8071,7 +9177,116 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "immediateQuotedArtifact": {
+        "kind": "historical-composite-quoted-by-current-document",
+        "scope": "direct outer quote payload after its explicit one LF framing removal; contains two earlier wrappers plus true Git source; not the declared Git snapshot",
+        "sha256": "3a845df3f9f00f6242ea7e6011ea0b091dba080f68774e59da16fa44ad7d604a",
+        "bytes": 34508,
+        "capturedFrom": {
+          "revision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "path": "docs/phase-governance/reviews/20261016-testing-index-design.md",
+          "bodySha256": "fc7fb650b3a6bffc13efb77cfa58e2c03038df45bf12164019eaeb1a3072b5c1"
+        },
+        "originalPreservationClaim": {
+          "method": "line-by-line blockquote quote",
+          "sourceBytes": 34508,
+          "sourceLines": 254,
+          "sourceFinalNewline": true,
+          "inverseSha256": "3a845df3f9f00f6242ea7e6011ea0b091dba080f68774e59da16fa44ad7d604a",
+          "exactRoundTrip": false
+        }
+      },
+      "preservationLayers": [
+        {
+          "layer": 1,
+          "directInverseSha256": "f0c2aba170822c5b6489e3d0862be0203396e2bdfe72b70533ac848f1af851de",
+          "directInverseBytes": 34509,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "3a845df3f9f00f6242ea7e6011ea0b091dba080f68774e59da16fa44ad7d604a",
+          "correctedExactBytes": 34508,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": false
+        },
+        {
+          "layer": 2,
+          "directInverseSha256": "7301779d066f246ad055847683a6b04d24c4fa92d4947cfa588b2b21e3306ea0",
+          "directInverseBytes": 32620,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "f6c2c6c481a1551c14b7ce7ee6096765b99e862cfae37510aa980518108e4dde",
+          "correctedExactBytes": 32619,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": false
+        },
+        {
+          "layer": 3,
+          "directInverseSha256": "f9f12bf040b636e7dc77019cdfb11bce5eee1626af281fe4339bbda5d14f7bcc",
+          "directInverseBytes": 30521,
+          "lastEncodedLineHex": "3e0a",
+          "framingLfRemovedHex": "0a",
+          "correctedExactSha256": "46476681b1d47c422729fb5eb7394b23e6dfc85b5d6995eceb827f966a052629",
+          "correctedExactBytes": 30520,
+          "matchesThisLayerDeclaredSha": true,
+          "matchesOriginalGitBytes": true
+        }
+      ],
+      "sourceIdentityCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+        "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "cdb9fa983e81aeda928e940538840641a713fa1addea88a826768b7720c9c9a1"
+        },
+        "oldSourceSha256": "3a845df3f9f00f6242ea7e6011ea0b091dba080f68774e59da16fa44ad7d604a",
+        "oldEvidenceSourceSha256": "3a845df3f9f00f6242ea7e6011ea0b091dba080f68774e59da16fa44ad7d604a",
+        "oldPrimarySource": [
+          {
+            "path": "docs/phase-governance/reviews/20261016-testing-index-design.md",
+            "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+            "sha256": "3a845df3f9f00f6242ea7e6011ea0b091dba080f68774e59da16fa44ad7d604a",
+            "scope": "full UTF-8 source"
+          }
+        ],
+        "oldVisibleOuterPreservationDeclaration": {
+          "line": 36,
+          "text": "固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `3a845df3f9f00f6242ea7e6011ea0b091dba080f68774e59da16fa44ad7d604a`；下方 quote 可逆回原始 UTF-8 字节。"
+        },
+        "trueGitSource": {
+          "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
+          "path": "docs/phase-governance/reviews/20261016-testing-index-design.md",
+          "gitObject": "8cfe419330af23f614254748a9106df4cdda5d79",
+          "sha256": "46476681b1d47c422729fb5eb7394b23e6dfc85b5d6995eceb827f966a052629",
+          "bytes": 30520
+        },
+        "oldCompositeSha256": "3a845df3f9f00f6242ea7e6011ea0b091dba080f68774e59da16fa44ad7d604a",
+        "quoteLayerCount": 3,
+        "quoteRule": "Remove exactly one > or >space prefix per quoted line, retaining LF; after verifying final encoded line hex3e0a remove exactly its one known framing LF0a per layer. No trim. Layer3 then byte-equals true Git source.",
+        "currentBodyAfterPinPolicy": "Original afterSha256/candidate/revision/evidence pins intentionally unchanged in this author draft; Root must format actual body and perform explicit approved pin maintenance before accepting any output.",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "newSemanticCredit": 0
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "fc7fb650b3a6bffc13efb77cfa58e2c03038df45bf12164019eaeb1a3072b5c1",
+          "afterSha256": "4ed9c172998e512722a6ffc504c22508a05e722b4eb14a83dad0fa0c824156ec",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261016-testing-index-navigation.json",
@@ -8406,7 +9621,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "5bd3e9037e489ace85b0a3ac2baccd30c1d104ba169766940e2a971a7ec4c089",
-      "afterSha256": "5bd3e9037e489ace85b0a3ac2baccd30c1d104ba169766940e2a971a7ec4c089",
+      "afterSha256": "721f4374614d256ffb58e7195d72e002e2af0816107db6b1be7e69ed4679aa06",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -8530,7 +9745,18 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "5bd3e9037e489ace85b0a3ac2baccd30c1d104ba169766940e2a971a7ec4c089",
+          "afterSha256": "721f4374614d256ffb58e7195d72e002e2af0816107db6b1be7e69ed4679aa06",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-phase2-audits-r22.json",
@@ -8720,7 +9946,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a3d80e56a7a2bfa9d26b2fd909ca06a6dcf213fc0ca307c68a4f8ec1aca96ad1",
-      "afterSha256": "a3d80e56a7a2bfa9d26b2fd909ca06a6dcf213fc0ca307c68a4f8ec1aca96ad1",
+      "afterSha256": "1693a77b4e6f8b12eab09efa32f221841dd1ef8f16a788bd75a044471ae4eda8",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -8844,7 +10070,18 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "a3d80e56a7a2bfa9d26b2fd909ca06a6dcf213fc0ca307c68a4f8ec1aca96ad1",
+          "afterSha256": "1693a77b4e6f8b12eab09efa32f221841dd1ef8f16a788bd75a044471ae4eda8",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-phase2-plans-r25.json",
@@ -8873,7 +10110,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "fb7a42de7602a58ebe584190ef2730dd2d040c908153aabebb1beac855e566b9",
-      "afterSha256": "fb7a42de7602a58ebe584190ef2730dd2d040c908153aabebb1beac855e566b9",
+      "afterSha256": "fe874ee168509a9fec01bbcb3dc4a0da423b1540834719b37c086ef15a801db9",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -8997,7 +10234,18 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "fb7a42de7602a58ebe584190ef2730dd2d040c908153aabebb1beac855e566b9",
+          "afterSha256": "fe874ee168509a9fec01bbcb3dc4a0da423b1540834719b37c086ef15a801db9",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r26-indoor-slices.json",
@@ -9026,7 +10274,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "1e498a6a04c156b4f197eabdaef9373a559f5ee38bc03406a0430ad6fa849609",
-      "afterSha256": "7571210ae54849ee13d7b2902530e0e315ec64641156eb70f867a03a6acb1efb",
+      "afterSha256": "26e12c7d60a45790eef8320117ebb9448933eccb63fca077bb59c52fae5471e9",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -9158,7 +10406,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "7571210ae54849ee13d7b2902530e0e315ec64641156eb70f867a03a6acb1efb",
+          "afterSha256": "26e12c7d60a45790eef8320117ebb9448933eccb63fca077bb59c52fae5471e9",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r27-phase1-plans.json",
@@ -9187,7 +10446,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "8e99dad52e2d3269742bf0a8e2a09cd9e405e4d35fe2f514d463583b4fe0cbb6",
-      "afterSha256": "61e83cfab6fad0cd809350faa9595df7540362aeaa22ef7d3a1af8f309418344",
+      "afterSha256": "3de41d3893e496d0405d443b4ace92b0158ee642db6739c79b261483a55c28fb",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -9319,7 +10578,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "61e83cfab6fad0cd809350faa9595df7540362aeaa22ef7d3a1af8f309418344",
+          "afterSha256": "3de41d3893e496d0405d443b4ace92b0158ee642db6739c79b261483a55c28fb",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r28-phase1-plans.json",
@@ -9348,7 +10618,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "8b59308c4b7b0fd04d3b17c0181c7734334f6eda299ba869a8ebc70a79a5bb14",
-      "afterSha256": "00ecb12b8af7005015a4bb701b0eb2ab9790e4abe0db2f2c62eddd9a4bfd0a9b",
+      "afterSha256": "93d1fac9a067e8e50b335872a7faacd68ec3acef5af3623ac1daf1a6a0a090df",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -9480,7 +10750,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "00ecb12b8af7005015a4bb701b0eb2ab9790e4abe0db2f2c62eddd9a4bfd0a9b",
+          "afterSha256": "93d1fac9a067e8e50b335872a7faacd68ec3acef5af3623ac1daf1a6a0a090df",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r29-phase1-status.json",
@@ -9509,7 +10790,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "abf2cef0e3e3ca644ebf7c939eac9f3853e07b344c5f520a38323802ff094a67",
-      "afterSha256": "e60be283aa0c9c050e55e45f9e48d157577a86bfe4b4923c9c89ffde9ddfaafa",
+      "afterSha256": "8b10607a6a363bca7114220553da428bd966a8b5e1728f2468c93749e80e6d02",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -9641,7 +10922,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "e60be283aa0c9c050e55e45f9e48d157577a86bfe4b4923c9c89ffde9ddfaafa",
+          "afterSha256": "8b10607a6a363bca7114220553da428bd966a8b5e1728f2468c93749e80e6d02",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r30-phase1-foundation.json",
@@ -9831,7 +11123,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "5bd84ea154dd997ee4165c7e10527574866287e0deb711ad6d6e8325390dd4d8",
-      "afterSha256": "e9346787646865676da2e11068cfaebb4064a3f0ef01a2edabb6016182c84c7f",
+      "afterSha256": "8a93f6489c83f8ebfeb33dd7eda0e02337ded980f22cb0c4d139525057b19e78",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -9963,7 +11255,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "e9346787646865676da2e11068cfaebb4064a3f0ef01a2edabb6016182c84c7f",
+          "afterSha256": "8a93f6489c83f8ebfeb33dd7eda0e02337ded980f22cb0c4d139525057b19e78",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r32-ops-cancelled-tasks.json",
@@ -9992,7 +11295,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "14a9e0ef8c6a85454ca6bea8ff01f6d312ead5b2f115f9002bca2d7960c4f1d0",
-      "afterSha256": "73d2e0264a267b325be8b28173959a584685263d5ab8153292cd980f1efbb69f",
+      "afterSha256": "0376b9104d50526deee8f56ca47167b50901d628bc018e52fb36422882eb0d23",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -10124,7 +11427,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "73d2e0264a267b325be8b28173959a584685263d5ab8153292cd980f1efbb69f",
+          "afterSha256": "0376b9104d50526deee8f56ca47167b50901d628bc018e52fb36422882eb0d23",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r33-phase2-lore.json",
@@ -10153,7 +11467,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "455bfd6b68ad459ee5081eb3c89e0fb61d207c04df0d02c879ddc910b1a22e5f",
-      "afterSha256": "1ca2a3b7a81032ce9e381613ef1bc851e1c8ca8440d6b09afe9d2534cca672a5",
+      "afterSha256": "f4e931705ee435ba7b009e3f88b273f1e5610e0a19f3bb97511f6d7678caa214",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -10285,7 +11599,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "1ca2a3b7a81032ce9e381613ef1bc851e1c8ca8440d6b09afe9d2534cca672a5",
+          "afterSha256": "f4e931705ee435ba7b009e3f88b273f1e5610e0a19f3bb97511f6d7678caa214",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r34-ops-pre-e2e.json",
@@ -10314,7 +11639,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "d28ed79737a5be85d8e4cec866b3bc4b6390870564accc5c8f1fe20415ea1871",
-      "afterSha256": "4bacc133bf820cb353e78b19a67bff08f2c4bf69b97c1d081a318b73a8c2213b",
+      "afterSha256": "f32a028660b0f876fd6dfbbed118ce4d7beadc4add32d8b96773a50960972cd2",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -10446,7 +11771,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "4bacc133bf820cb353e78b19a67bff08f2c4bf69b97c1d081a318b73a8c2213b",
+          "afterSha256": "f32a028660b0f876fd6dfbbed118ce4d7beadc4add32d8b96773a50960972cd2",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r35-ops-guides.json",
@@ -10475,7 +11811,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "ff77e350115598aa491baa6bac2821e108d8dcedb0ed17740c96b8d4c79eaf43",
-      "afterSha256": "dc16cc3008e6ce040458a7aa3b39e2dca7e9a898728a8ee2a5b92c636f0a3a56",
+      "afterSha256": "cb8d7366168e43d65862997c4daa54adee0da18c43b353d3af72daa750f7cbaf",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -10607,7 +11943,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "dc16cc3008e6ce040458a7aa3b39e2dca7e9a898728a8ee2a5b92c636f0a3a56",
+          "afterSha256": "cb8d7366168e43d65862997c4daa54adee0da18c43b353d3af72daa750f7cbaf",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r36-ops-evidence.json",
@@ -10636,7 +11983,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "9d15c483279af11186a6b8534830cb973427a571ed2fb74d035d56527fe57a23",
-      "afterSha256": "a044338f9b993a65e11dd53428bbf6c4c17c1104b6f9ab9a403443f401e10edb",
+      "afterSha256": "42453f2d3c9960e71dee55a650410d09de1304f617a0a5628083ca90c9d242c3",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -10768,7 +12115,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "a044338f9b993a65e11dd53428bbf6c4c17c1104b6f9ab9a403443f401e10edb",
+          "afterSha256": "42453f2d3c9960e71dee55a650410d09de1304f617a0a5628083ca90c9d242c3",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r37-ops-json-evidence.json",
@@ -13223,7 +14581,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "7f31b6c302882f5aa48fffcbf62f89845559fd2453f72a98ec468871ce6af57a",
-      "afterSha256": "5ae4b5184edb2efc52370ddb819a415e2f5ff813eaaf52a249cf45315641bddb",
+      "afterSha256": "2821f375e3b26fecfd7a2a7477e249b8a6697b659663d25b95938df19214c29a",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -13355,7 +14713,18 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "5ae4b5184edb2efc52370ddb819a415e2f5ff813eaaf52a249cf45315641bddb",
+          "afterSha256": "2821f375e3b26fecfd7a2a7477e249b8a6697b659663d25b95938df19214c29a",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r54-ops-audits-layout.json",
@@ -16515,5 +17884,31 @@
     "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
     "recordPath": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
     "meaning": "Original reviewer/policy/migration summary are historical claims at this revision; current correction supersedes their semantic and independence credit."
+  },
+  "sourceIdentityCorrectionScope": {
+    "date": "2026-10-18",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+    "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+    "scopePointer": "/expandedAudit20261018",
+    "evidenceStatus": "pending-root-intake-at-generation",
+    "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+    "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+    "paths": [
+      "docs/phase-governance/reviews/20261016-binding-baseline-design.md",
+      "docs/phase-governance/reviews/20261016-e2e-stage-m-design.md",
+      "docs/phase-governance/reviews/20261016-historical-static-html-design.md",
+      "docs/phase-governance/reviews/20261016-lore-reference-n-design.md",
+      "docs/phase-governance/reviews/20261016-lore-remaining-l4-design.md",
+      "docs/phase-governance/reviews/20261016-phase2-guides-q-design.md",
+      "docs/phase-governance/reviews/20261016-phase2-navigation-p-design.md",
+      "docs/phase-governance/reviews/20261016-terminal-a8-design.md",
+      "docs/phase-governance/reviews/20261016-testing-index-design.md"
+    ],
+    "entryCount": 9,
+    "scope": "True Git source identity vs quoted composite only; existing semantic withdrawal retained, body quote bytes unchanged. Draft after body pins await Root format and explicit maintenance.",
+    "authorCanonicalTask": "/root/s12_semantic_author",
+    "nonAuthorReviewer": false,
+    "newCredit": 0
   }
 }

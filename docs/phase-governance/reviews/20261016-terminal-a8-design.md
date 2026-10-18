@@ -33,7 +33,7 @@ historical。当前事实由 phase/lore catalog、registry、routing、任务卡
 
 ## 原文保全
 
-固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `2b07c861d843179affe59877ae4ad866cb45e3671b3f9d64699ed7352015d2c9`；下方 quote 可逆回原始 UTF-8 字节。
+固定 Git source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，真实 Git source SHA `c9d2d240d09d330420f97e37e98f4f9370a0bacafedddc48d69656cd4ad03787`（blob `1400f6a1b4c7381bcb727cbcd325f6d62966cf80`）。下方直接 quote 是另含两层既有封套的复合体，其 SHA 为 `2b07c861d843179affe59877ae4ad866cb45e3671b3f9d64699ed7352015d2c9`，不等于该 revision 的 Git 原文。逐层解除引用后，仅移除每层末尾已知的恰 1 个引用分隔 LF；三层后逐字节还原上述 Git 原文，所有既有 quote 字节保留。
 <!-- original-source-quote:start -->
 > # Terminal A8：有界格式合同与工作树命名空间质量门
 >

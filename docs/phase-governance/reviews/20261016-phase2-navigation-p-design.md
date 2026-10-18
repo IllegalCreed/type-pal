@@ -33,7 +33,7 @@ historical。当前事实由 phase/lore catalog、registry、routing、任务卡
 
 ## 原文保全
 
-固定 source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，source SHA `98454ac57912dd595f809be3e5812e6fcff84a1d0d0f78b75a2c05eebbf65755`；下方 quote 可逆回原始 UTF-8 字节。
+固定 Git source revision `bff13f74a4f95bbba05a8353651b5997fea7fc95`，真实 Git source SHA `22c78637c28cc4f8fae0ef3b4dfac2f77aba7e9c8d63a8efd317365ba1bacf84`（blob `e00f7ff180c6083333e68094456ff98281303928`）。下方直接 quote 是另含两层既有封套的复合体，其 SHA 为 `98454ac57912dd595f809be3e5812e6fcff84a1d0d0f78b75a2c05eebbf65755`，不等于该 revision 的 Git 原文。逐层解除引用后，仅移除每层末尾已知的恰 1 个引用分隔 LF；三层后逐字节还原上述 Git 原文，所有既有 quote 字节保留。
 <!-- original-source-quote:start -->
 > # P11 第二阶段目录入口治理：冻结设计
 >

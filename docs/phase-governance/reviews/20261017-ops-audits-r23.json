@@ -7,14 +7,14 @@
   "entries": [
     {
       "path": "docs/ops/archive/audits/b10-1-source-slot-census-2026-08-09.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "B10-1 源敌队槽位 census（2026-08-09）：完整读取 77 行/3238 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/audits/b10-1-source-slot-census-2026-08-09.md:1",
         "docs/ops/archive/audits/b10-1-source-slot-census-2026-08-09.md:{'line': 1, 'text': 'B10-1 源敌队槽位 census（2026-08-09）'}",
@@ -24,7 +24,8 @@
       ],
       "unresolved": [
         "历史 census 未在当前树重跑，输入 SHA 与 v12 迁移目标需要当前候选重新绑定",
-        "仅静态源/生成数据核对；不证明 runtime、敌人 summon/divide、站位或 RNG 行为"
+        "仅静态源/生成数据核对；不证明 runtime、敌人 summon/divide、站位或 RNG 行为",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "ops",
@@ -93,7 +94,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "6961c437cabdaf0095d0e433683dc18e80c47859b588b2a498862e0823c66d7b",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -107,6 +109,26 @@
           "action": "R23 non-author readonly proposal accepted then root full semantic migration",
           "reviewer": "r23_ops_audits_review + root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "2944a5493a4442897d6033be4a909085c161d50ede8aceaa913d2863ca215b16"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -136,18 +158,51 @@
       "applicability": "dated historical audit/index; static content only; current claims require a new source-backed record",
       "counterReworkBlocked": [],
       "sourceGitRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
-      "candidateSha256": "3287fd674c66b6da31c8819815dc7b3292aec8949e7f38c46570d08818596f63"
+      "candidateSha256": "3287fd674c66b6da31c8819815dc7b3292aec8949e7f38c46570d08818596f63",
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "B10-1 源敌队槽位 census（2026-08-09）：完整读取 77 行/3238 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "3287fd674c66b6da31c8819815dc7b3292aec8949e7f38c46570d08818596f63",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "2944a5493a4442897d6033be4a909085c161d50ede8aceaa913d2863ca215b16"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-ops-audits-r23.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "5bd3e9037e489ace85b0a3ac2baccd30c1d104ba169766940e2a971a7ec4c089",
+          "sourceRecordGitObject": "0b1fa17a554f22ce28cf0aa421f91ea5b50596d8",
+          "entryIndex": 0,
+          "path": "docs/ops/archive/audits/b10-1-source-slot-census-2026-08-09.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
+      }
     },
     {
       "path": "docs/ops/archive/audits/codex-p7-r13-three-way-adjudication.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "N3-1 P7-R13 三方源语义审计合并裁决：完整读取 230 行/15315 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/audits/codex-p7-r13-three-way-adjudication.md:1",
         "docs/ops/archive/audits/codex-p7-r13-three-way-adjudication.md:{'line': 1, 'text': 'N3-1 P7-R13 三方源语义审计合并裁决'}",
@@ -159,7 +214,8 @@
         "历史文档明确 R13 仍 rework、Kimi/GLM build 前签字 pending，不能当作当前已修复",
         "正文并列 48/58 throw、10/14 pendingSkills、0x76/0x9B、旧版本等争议，需以当时上下文和后继记录解释",
         "包含迁移/运行时设计提案，未给出现行候选的 runtime/E2E/visual/coverage 证明",
-        "旧结论与后续 R13 账本可能有数字差异，写 wrapper 时必须保留原值并指向后继复核"
+        "旧结论与后续 R13 账本可能有数字差异，写 wrapper 时必须保留原值并指向后继复核",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "ops",
@@ -228,7 +284,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "7305185f5dfde388978cfdd52518bf57be03879633bea1490504d2895e120854",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -242,6 +299,26 @@
           "action": "R23 non-author readonly proposal accepted then root full semantic migration",
           "reviewer": "r23_ops_audits_review + root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "29e5247fc3221fe8e985242c32afe707b8176935813c4e53fd4d6db93d276c4d"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -274,18 +351,51 @@
         "旧结论与后续 R13 账本可能有数字差异，写 wrapper 时必须保留原值并指向后继复核"
       ],
       "sourceGitRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
-      "candidateSha256": "7a53e5a2545766f8df7c4c75e1378e03a82c804dbc678aaf930b5e7a609c05c0"
+      "candidateSha256": "7a53e5a2545766f8df7c4c75e1378e03a82c804dbc678aaf930b5e7a609c05c0",
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "N3-1 P7-R13 三方源语义审计合并裁决：完整读取 230 行/15315 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "7a53e5a2545766f8df7c4c75e1378e03a82c804dbc678aaf930b5e7a609c05c0",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "29e5247fc3221fe8e985242c32afe707b8176935813c4e53fd4d6db93d276c4d"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-ops-audits-r23.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "5bd3e9037e489ace85b0a3ac2baccd30c1d104ba169766940e2a971a7ec4c089",
+          "sourceRecordGitObject": "0b1fa17a554f22ce28cf0aa421f91ea5b50596d8",
+          "entryIndex": 1,
+          "path": "docs/ops/archive/audits/codex-p7-r13-three-way-adjudication.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
+      }
     },
     {
       "path": "docs/ops/archive/audits/codex-r13-4-confirm-control-flow-audit.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "N3-1 P7-R13-4 confirm 源控制流审计：完整读取 275 行/16555 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/audits/codex-r13-4-confirm-control-flow-audit.md:1",
         "docs/ops/archive/audits/codex-r13-4-confirm-control-flow-audit.md:{'line': 1, 'text': 'N3-1 P7-R13-4 `confirm` 源控制流审计'}",
@@ -297,7 +407,8 @@
         "当前 main 的 content/SAVE 版本已变化，文中 content9/SAVE8 epoch 方案不能直接视为现行契约",
         "确认框运行时、存档屏障、Editor v5 预览和浏览器 canary 均为当时验收要求，不是本篇静态证据",
         "No/Yes 语义和 31 个物理节点必须以当前 canonical 产物复核，旧 digest 不能单独授权 build",
-        "历史版本号与现行版本存在适用范围冲突，应在 archive overlay 中显式标注"
+        "历史版本号与现行版本存在适用范围冲突，应在 archive overlay 中显式标注",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "ops",
@@ -366,7 +477,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "f0644f9c6174f90bddd86bbed86ff91e6e0d1b5074b443b239101c1cd2331c29",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -380,6 +492,26 @@
           "action": "R23 non-author readonly proposal accepted then root full semantic migration",
           "reviewer": "r23_ops_audits_review + root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "227930ae38f8e88cd3ad97642b206af08d4d8d9deeed6104dc1929647e001a20"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -411,18 +543,51 @@
         "历史版本号与现行版本存在适用范围冲突，应在 archive overlay 中显式标注"
       ],
       "sourceGitRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
-      "candidateSha256": "de7bd6cafd30a0324137a1d4e8e6720e1fe053eec23fa09cc048675b56075fea"
+      "candidateSha256": "de7bd6cafd30a0324137a1d4e8e6720e1fe053eec23fa09cc048675b56075fea",
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "N3-1 P7-R13-4 confirm 源控制流审计：完整读取 275 行/16555 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "de7bd6cafd30a0324137a1d4e8e6720e1fe053eec23fa09cc048675b56075fea",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "227930ae38f8e88cd3ad97642b206af08d4d8d9deeed6104dc1929647e001a20"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-ops-audits-r23.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "5bd3e9037e489ace85b0a3ac2baccd30c1d104ba169766940e2a971a7ec4c089",
+          "sourceRecordGitObject": "0b1fa17a554f22ce28cf0aa421f91ea5b50596d8",
+          "entryIndex": 2,
+          "path": "docs/ops/archive/audits/codex-r13-4-confirm-control-flow-audit.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
+      }
     },
     {
       "path": "docs/ops/archive/audits/codex-r13-5-enemy-source-semantics-audit.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "P7-R13-5 敌人脚本源语义审计：完整读取 150 行/10866 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/audits/codex-r13-5-enemy-source-semantics-audit.md:1",
         "docs/ops/archive/audits/codex-r13-5-enemy-source-semantics-audit.md:{'line': 1, 'text': 'P7-R13-5 敌人脚本源语义审计'}",
@@ -434,7 +599,8 @@
         "pending hook、battle choreography、battleEnd stages[0] 和 0x79 双臂缺口均未由本篇实际运行闭合",
         "敌人持久 cursor、battle-only choreography、onDefeated canonical authority、fail-loud 生成门禁属于未决公共 delta",
         "只读报告不授予敌人脚本、战斗演出、存档或 runtime 验收信用",
-        "与 GLM/Kimi 对 pendingScripts 是否落最终文件的表述有历史口径差异；保留双方原结论，当前以 buildPalMigration 与最终产物逐项重核"
+        "与 GLM/Kimi 对 pendingScripts 是否落最终文件的表述有历史口径差异；保留双方原结论，当前以 buildPalMigration 与最终产物逐项重核",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "ops",
@@ -503,7 +669,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "172f2eb76b22b3efe77b6509f44fab3b94b37dbad6a210b5e783240e8e0f944f",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -517,6 +684,26 @@
           "action": "R23 non-author readonly proposal accepted then root full semantic migration",
           "reviewer": "r23_ops_audits_review + root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "2d60cb81fc7964922d80c33d68bc0cf5c85a33f01c67a063e12e300164e60d5a"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -549,18 +736,51 @@
         "与 GLM/Kimi 对 pendingScripts 是否落最终文件的表述有历史口径差异；保留双方原结论，当前以 buildPalMigration 与最终产物逐项重核"
       ],
       "sourceGitRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
-      "candidateSha256": "8771a3d1d8900ed832ea656bfcde41fafc698beb83d3f1b81b430d1f11f040c4"
+      "candidateSha256": "8771a3d1d8900ed832ea656bfcde41fafc698beb83d3f1b81b430d1f11f040c4",
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "P7-R13-5 敌人脚本源语义审计：完整读取 150 行/10866 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "8771a3d1d8900ed832ea656bfcde41fafc698beb83d3f1b81b430d1f11f040c4",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "2d60cb81fc7964922d80c33d68bc0cf5c85a33f01c67a063e12e300164e60d5a"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-ops-audits-r23.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "5bd3e9037e489ace85b0a3ac2baccd30c1d104ba169766940e2a971a7ec4c089",
+          "sourceRecordGitObject": "0b1fa17a554f22ce28cf0aa421f91ea5b50596d8",
+          "entryIndex": 3,
+          "path": "docs/ops/archive/audits/codex-r13-5-enemy-source-semantics-audit.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
+      }
     },
     {
       "path": "docs/ops/archive/audits/documentation-2026-09-06.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "DOC-AUDIT-1 · 仓库文档与信息架构审计：完整读取 318 行/20409 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/audits/documentation-2026-09-06.md:1",
         "docs/ops/archive/audits/documentation-2026-09-06.md:{'line': 1, 'text': 'DOC-AUDIT-1 · 仓库文档与信息架构审计'}",
@@ -572,7 +792,8 @@
         "基线日期、文件数、content19/20、任务状态和断链数字属于旧快照，不能直接作为当前 docs 分母或完成度",
         "建议批次未全部实施；文档明确清理、迁移、自动门禁均未开始",
         "部分历史建议与后续 current-only/模板治理规则需由新 governance index 和 task card 接管",
-        "旧断链与规模快照必须作为 dated evidence 保留，不能在 archive wrapper 中洗成当前统计"
+        "旧断链与规模快照必须作为 dated evidence 保留，不能在 archive wrapper 中洗成当前统计",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "ops",
@@ -644,7 +865,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "1b365f1a45b3af0fc425d9b0ad84c3f983668a76b4a3ad42aabc6a5342cbdf4d",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -658,6 +880,26 @@
           "action": "R23 non-author readonly proposal accepted then root full semantic migration",
           "reviewer": "r23_ops_audits_review + root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "a12580f7ffa75dcb2a528462a0814dfaae6f7ab45486c7d94637d2bbaf9404d7"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -691,18 +933,51 @@
         "旧断链与规模快照必须作为 dated evidence 保留，不能在 archive wrapper 中洗成当前统计"
       ],
       "sourceGitRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
-      "candidateSha256": "9ad55e6fa578e979d7cc53914e1b790191867b0709a4e4a6206c07c4476bf6b0"
+      "candidateSha256": "9ad55e6fa578e979d7cc53914e1b790191867b0709a4e4a6206c07c4476bf6b0",
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "DOC-AUDIT-1 · 仓库文档与信息架构审计：完整读取 318 行/20409 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "9ad55e6fa578e979d7cc53914e1b790191867b0709a4e4a6206c07c4476bf6b0",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "a12580f7ffa75dcb2a528462a0814dfaae6f7ab45486c7d94637d2bbaf9404d7"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-ops-audits-r23.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "5bd3e9037e489ace85b0a3ac2baccd30c1d104ba169766940e2a971a7ec4c089",
+          "sourceRecordGitObject": "0b1fa17a554f22ce28cf0aa421f91ea5b50596d8",
+          "entryIndex": 4,
+          "path": "docs/ops/archive/audits/documentation-2026-09-06.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
+      }
     },
     {
       "path": "docs/ops/archive/audits/glm-p7-r13-source-semantics-audit.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "GLM P7-R13 源指令语义闭包独立审计报告：完整读取 327 行/19750 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/audits/glm-p7-r13-source-semantics-audit.md:1",
         "docs/ops/archive/audits/glm-p7-r13-source-semantics-audit.md:{'line': 1, 'text': 'GLM P7-R13 源指令语义闭包独立审计报告'}",
@@ -714,7 +989,8 @@
         "正文主表与附录对 pendingSkills 10/14、pendingThrow 48/47、敌人 pendingScripts 0/12 有明确历史自我修正",
         "静态审计和内存 report 不提供当前 runtime/E2E/visual/coverage 证明",
         "setPalette/0x08/0x76/no-op 与敌人语义需要后继 source disposition 和动态验收",
-        "必须保留正文与附录的相互纠正，不可挑选一个数字替代历史差异"
+        "必须保留正文与附录的相互纠正，不可挑选一个数字替代历史差异",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "ops",
@@ -783,7 +1059,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "b592b6ca150c1a51bee5edeeab6bcd68dbc2941013219c2590813702eb4c34ff",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -797,6 +1074,26 @@
           "action": "R23 non-author readonly proposal accepted then root full semantic migration",
           "reviewer": "r23_ops_audits_review + root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "64d8485f693b15215b899eab4e02a26e2dc207d78303f943dfebb1b4c2ec6c61"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -827,18 +1124,51 @@
       "applicability": "dated historical audit/index; static content only; current claims require a new source-backed record",
       "counterReworkBlocked": ["必须保留正文与附录的相互纠正，不可挑选一个数字替代历史差异"],
       "sourceGitRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
-      "candidateSha256": "e197f518fcafd9ab0fd834039c6baae3b0ac168e3dcdcae44edacae487882ac1"
+      "candidateSha256": "e197f518fcafd9ab0fd834039c6baae3b0ac168e3dcdcae44edacae487882ac1",
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "GLM P7-R13 源指令语义闭包独立审计报告：完整读取 327 行/19750 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "e197f518fcafd9ab0fd834039c6baae3b0ac168e3dcdcae44edacae487882ac1",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "64d8485f693b15215b899eab4e02a26e2dc207d78303f943dfebb1b4c2ec6c61"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-ops-audits-r23.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "5bd3e9037e489ace85b0a3ac2baccd30c1d104ba169766940e2a971a7ec4c089",
+          "sourceRecordGitObject": "0b1fa17a554f22ce28cf0aa421f91ea5b50596d8",
+          "entryIndex": 5,
+          "path": "docs/ops/archive/audits/glm-p7-r13-source-semantics-audit.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
+      }
     },
     {
       "path": "docs/ops/archive/audits/kimi-p7-r13-source-semantics-audit.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "N3-1 P7-R13 源指令语义闭包独立审计报告（Kimi）：完整读取 214 行/19435 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/audits/kimi-p7-r13-source-semantics-audit.md:1",
         "docs/ops/archive/audits/kimi-p7-r13-source-semantics-audit.md:{'line': 1, 'text': 'N3-1 P7-R13 源指令语义闭包独立审计报告（Kimi，架构 / SDLPal 语义红队）'}",
@@ -850,7 +1180,8 @@
         "基线 c3d620a9 与当前工程版本不同，所有源/最终 digest 和版本口径需重新绑定",
         "报告把若干结构性开放口列为风险或缺失，明确要求动态验证；静态读证不能升格为当前缺陷已修复或已重现",
         "提出 instruction disposition、diagnostics、context matrix、身份 oracle、副作用重放和单源翻译器等后继设计，但未实施",
-        "与 GLM/Codex 对 0x08、0x76、0x9B、pendingThrow 等口径存在差集合并需求"
+        "与 GLM/Codex 对 0x08、0x76、0x9B、pendingThrow 等口径存在差集合并需求",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "ops",
@@ -919,7 +1250,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "c9d4f16b801da222cdb89399922f9501406e183c1819f8eccc2b6b3e9d6ccbd1",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -933,6 +1265,26 @@
           "action": "R23 non-author readonly proposal accepted then root full semantic migration",
           "reviewer": "r23_ops_audits_review + root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "5a297b1ccb876f271b7dffa03756296c43f3e7dade9232b638000eeeeb1630d1"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -966,18 +1318,51 @@
         "与 GLM/Codex 对 0x08、0x76、0x9B、pendingThrow 等口径存在差集合并需求"
       ],
       "sourceGitRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
-      "candidateSha256": "28ee1ac698eb9a14edb08daec02e1fb2bf82328ca4a0f14215a853721bcb3985"
+      "candidateSha256": "28ee1ac698eb9a14edb08daec02e1fb2bf82328ca4a0f14215a853721bcb3985",
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "N3-1 P7-R13 源指令语义闭包独立审计报告（Kimi）：完整读取 214 行/19435 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "28ee1ac698eb9a14edb08daec02e1fb2bf82328ca4a0f14215a853721bcb3985",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "5a297b1ccb876f271b7dffa03756296c43f3e7dade9232b638000eeeeb1630d1"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-ops-audits-r23.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "5bd3e9037e489ace85b0a3ac2baccd30c1d104ba169766940e2a971a7ec4c089",
+          "sourceRecordGitObject": "0b1fa17a554f22ce28cf0aa421f91ea5b50596d8",
+          "entryIndex": 6,
+          "path": "docs/ops/archive/audits/kimi-p7-r13-source-semantics-audit.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
+      }
     },
     {
       "path": "docs/ops/archive/audits/OPS-TST-PERF-g1-coverage-map.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "audit-report",
       "templateId": "audit-report-v1",
       "template": "docs/phase-governance/templates/audit-report.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "OPS-TST-PERF G1 旧断言去向映射：完整读取 68 行/11920 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/audits/OPS-TST-PERF-g1-coverage-map.md:1",
         "docs/ops/archive/audits/OPS-TST-PERF-g1-coverage-map.md:{'line': 1, 'text': 'OPS-TST-PERF G1 旧断言去向映射'}",
@@ -988,7 +1373,8 @@
         "此表是测试覆盖路由映射，不是执行结果；fast-synthetic 不能证明 PAL/source，pal-oracle/canary 仍需实际运行",
         "44 条映射中的旧测试与后继测试文件/标题属于历史快照，当前运行状态需由 testing catalog/evidence 核对",
         "位于 ops archive 且正文是历史审计映射，暂不改绑 test-domain-report；若未来迁移为测试域报告，需先冻结新 template/consumer 设计",
-        "content-based audit-report 绑定可接受；目录位置不能单独决定 test-domain-report"
+        "content-based audit-report 绑定可接受；目录位置不能单独决定 test-domain-report",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "ops",
@@ -1060,7 +1446,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "38c8f2921086034e0584cd8b0db27bcf996eb9b0efec11a60a62ad159f6c60d3",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -1074,6 +1461,26 @@
           "action": "R23 non-author readonly proposal accepted then root full semantic migration",
           "reviewer": "r23_ops_audits_review + root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "1cf3b0122eb1963add69f0a5816352a6fb8b7d8d4de3bc311f0c623c3807868b"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -1105,18 +1512,51 @@
         "content-based audit-report 绑定可接受；目录位置不能单独决定 test-domain-report"
       ],
       "sourceGitRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
-      "candidateSha256": "0cad2cdeb91df5b64b639b9e0939ef241ec8c30e6a9642f368addf0029c40468"
+      "candidateSha256": "0cad2cdeb91df5b64b639b9e0939ef241ec8c30e6a9642f368addf0029c40468",
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "OPS-TST-PERF G1 旧断言去向映射：完整读取 68 行/11920 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "0cad2cdeb91df5b64b639b9e0939ef241ec8c30e6a9642f368addf0029c40468",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "1cf3b0122eb1963add69f0a5816352a6fb8b7d8d4de3bc311f0c623c3807868b"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-ops-audits-r23.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "5bd3e9037e489ace85b0a3ac2baccd30c1d104ba169766940e2a971a7ec4c089",
+          "sourceRecordGitObject": "0b1fa17a554f22ce28cf0aa421f91ea5b50596d8",
+          "entryIndex": 7,
+          "path": "docs/ops/archive/audits/OPS-TST-PERF-g1-coverage-map.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
+      }
     },
     {
       "path": "docs/ops/archive/audits/README.md",
-      "contentReviewStatus": "content-reviewed",
+      "contentReviewStatus": "partial-review-unknown",
       "docType": "governance-index",
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
-      "templateCompliance": "template-compliant",
-      "readMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
-      "reviewDepth": "deep-semantic",
-      "coreConclusion": "历史审计回执：完整读取 17 行/1038 字节；按正文确定为 governance-index / governance-index-v1，历史材料保留原结论和日期。",
+      "templateCompliance": "needs-migration",
+      "readMethod": "structured-mechanical-envelope-only; unsupported deep-semantic/template-complete claim withdrawn by expanded R22-R36 audit 2026-10-18; no new body/source semantic read",
+      "reviewDepth": "structured-content",
+      "coreConclusion": "2026-10-18 扩大审计勘误：本条仅保留机械封套、结构与保真登记；旧模板化核心结论不足以支持逐篇深度语义或模板完成。本次未重新核读该篇正文/业务来源，待真实逐篇重审和非作者验收。",
       "truthAnchors": [
         "docs/ops/archive/audits/README.md:1",
         "docs/ops/archive/audits/README.md:{'line': 1, 'text': '历史审计回执'}",
@@ -1126,7 +1566,8 @@
         "现有 registry 将 README 误绑为 audit-report；正文是索引导航，应改 governance-index-v1",
         "列表本身不提供审计事实、执行证明或当前状态；其链接目标仍需由各篇 review/SHA 独立治理",
         "README 已含后续新增 worktree-retirement 链接，必须以当前 SHA 记录，不回写旧 review",
-        "classification correction: audit-report → governance-index；非正文迁移，不新增 runtime/E2E/visual/coverage 信用"
+        "classification correction: audit-report → governance-index；非正文迁移，不新增 runtime/E2E/visual/coverage 信用",
+        "DOCS-RECORD-INTEGRITY-1 扩大审计：旧深审/模板完成信用撤回；保真与来源身份单列，正文、oracle、反证及非作者复核仍待逐篇完成。"
       ],
       "nextStep": "保留为历史材料；引用时带版本/日期，并以当前 canonical 文档或代码复核。",
       "phase": "ops",
@@ -1195,7 +1636,8 @@
           "sourceFinalNewline": true,
           "inverseSha256": "255f52adba79b0312e691901e928a17764c3bcb46d187f26aeb3745c7f71ba71",
           "exactRoundTrip": true
-        }
+        },
+        "currentCredit": "Mechanical envelope/structure/preservation registration only; original semantic/template-completion credit withdrawn; no new body/source/runtime/E2E/visual/coverage/independent credit."
       },
       "history": [
         {
@@ -1209,6 +1651,26 @@
           "action": "R23 non-author readonly proposal accepted then root full semantic migration",
           "reviewer": "r23_ops_audits_review + root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-18",
+          "action": "expanded-audit-withdraw-unsupported-semantic-and-template-credit",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "oldDigest": {
+            "algorithm": "sha256",
+            "encoding": "UTF-8",
+            "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+            "value": "28fda9082c20e4d86a3c3779d9c2dab2ab73011a660378df79372c5e4f972727"
+          },
+          "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+          "scopePointer": "/expandedAudit20261018",
+          "evidenceStatus": "pending-root-intake-at-generation",
+          "contentReviewStatus": "partial-review-unknown",
+          "reviewDepth": "structured-content",
+          "templateCompliance": "needs-migration",
+          "bodyReadPerformed": false,
+          "nonAuthorReviewer": false
         }
       ],
       "supersedes": [
@@ -1235,7 +1697,40 @@
         "classification correction: audit-report → governance-index；非正文迁移，不新增 runtime/E2E/visual/coverage 信用"
       ],
       "sourceGitRevision": "81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5",
-      "candidateSha256": "a798e83ef6c0d28b492f5b3a303eb55e42de6f6dd1292b3f926effbbdcf689af"
+      "candidateSha256": "a798e83ef6c0d28b492f5b3a303eb55e42de6f6dd1292b3f926effbbdcf689af",
+      "claimCorrection": {
+        "date": "2026-10-18",
+        "task": "DOCS-RECORD-INTEGRITY-1",
+        "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "scopePointer": "/expandedAudit20261018",
+        "evidenceStatus": "pending-root-intake-at-generation",
+        "reason": "templated conclusion is not a per-document business conclusion; prior semantic/template-completion credit withdrawn without new body reading",
+        "originalCoreConclusion": "历史审计回执：完整读取 17 行/1038 字节；按正文确定为 governance-index / governance-index-v1，历史材料保留原结论和日期。",
+        "originalReviewDepth": "deep-semantic",
+        "originalReadMethod": "Root writer full-source semantic migration after non-author R23 readonly proposal acceptance; source quote inverse and template sections checked; no execution credit",
+        "originalContentReviewStatus": "content-reviewed",
+        "originalTemplateCompliance": "template-compliant",
+        "originalAfterSha256": "a798e83ef6c0d28b492f5b3a303eb55e42de6f6dd1292b3f926effbbdcf689af",
+        "oldDigest": {
+          "algorithm": "sha256",
+          "encoding": "UTF-8",
+          "serialization": "ordered compact JSON; ensure_ascii=false; comma/colon separators; no final LF",
+          "value": "28fda9082c20e4d86a3c3779d9c2dab2ab73011a660378df79372c5e4f972727"
+        },
+        "originalEntryLocator": {
+          "record": "docs/phase-governance/reviews/20261017-ops-audits-r23.json",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "sourceRecordSha256": "5bd3e9037e489ace85b0a3ac2baccd30c1d104ba169766940e2a971a7ec4c089",
+          "sourceRecordGitObject": "0b1fa17a554f22ce28cf0aa421f91ea5b50596d8",
+          "entryIndex": 8,
+          "path": "docs/ops/archive/audits/README.md"
+        },
+        "historicalClaimRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "authorCanonicalTask": "/root/s12_semantic_author",
+        "nonAuthorReviewer": false,
+        "noNewSemanticOrTemplateOrRuntimeCredit": true
+      }
     }
   ],
   "independentReadOnlyReceipt": {
@@ -1258,5 +1753,31 @@
     "verdict": "accept",
     "scope": "9/9 candidate documents; source/after/quote inverse and three ledgers; runtime/E2E/visual/coverage credit=0",
     "sha256": "8a39d62d5a759e9911e7e2bf5e23bef7ae967b42f4b1b7ae55bca1dd7a8e3d22"
+  },
+  "expandedAuditCorrection": {
+    "date": "2026-10-18",
+    "task": "DOCS-RECORD-INTEGRITY-1",
+    "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+    "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+    "scopePointer": "/expandedAudit20261018",
+    "evidenceStatus": "pending-root-intake-at-generation",
+    "sourceFactsPath": "/private/tmp/type-pal-r22-r36-r93-fact-b-jx746vhx/fact-report-B.json",
+    "sourceFactsSha256": "d0055da0c2260362c9c72600f20f0769f4a398014ed70b667e98b7fccb4d48fe",
+    "scope": "Only listed old active entries; no non-target entry, S01 successor, unrelated historical or current body changed.",
+    "paths": [
+      "docs/ops/archive/audits/OPS-TST-PERF-g1-coverage-map.md",
+      "docs/ops/archive/audits/README.md",
+      "docs/ops/archive/audits/b10-1-source-slot-census-2026-08-09.md",
+      "docs/ops/archive/audits/codex-p7-r13-three-way-adjudication.md",
+      "docs/ops/archive/audits/codex-r13-4-confirm-control-flow-audit.md",
+      "docs/ops/archive/audits/codex-r13-5-enemy-source-semantics-audit.md",
+      "docs/ops/archive/audits/documentation-2026-09-06.md",
+      "docs/ops/archive/audits/glm-p7-r13-source-semantics-audit.md",
+      "docs/ops/archive/audits/kimi-p7-r13-source-semantics-audit.md"
+    ],
+    "entryCount": 9,
+    "authorCanonicalTask": "/root/s12_semantic_author",
+    "nonAuthorReviewer": false,
+    "newCredit": 0
   }
 }

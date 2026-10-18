@@ -65,7 +65,7 @@
       "supersedes": [],
       "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
       "sourceSha256": "add111f0dadbb9f6bd171af655a780120b193e06ac9610b53c6296019cd99ce0",
-      "afterSha256": "697870e5e5c41e3846402426694345ddfeeb192b0f4fd86e3173939a0a774301",
+      "afterSha256": "d493e2b3e5b32b4235262c2fb84ee8d820fb1dffe00e02d8c3a7a561e295d440",
       "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only",
       "maintenanceDeltas": [
         {
@@ -120,6 +120,15 @@
           "previousAfterSha256": "8aeea8adc9421db50143ced336bc5022eb1b49ce73184b79a4d9d4fa7278090d",
           "afterSha256": "697870e5e5c41e3846402426694345ddfeeb192b0f4fd86e3173939a0a774301",
           "method": "Actual fixed71 receipt/map with original counter/rework and limited scope; no broader acceptance.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "697870e5e5c41e3846402426694345ddfeeb192b0f4fd86e3173939a0a774301",
+          "afterSha256": "d493e2b3e5b32b4235262c2fb84ee8d820fb1dffe00e02d8c3a7a561e295d440",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -989,7 +998,7 @@
       "supersedes": [],
       "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
       "sourceSha256": "01d22347bffa1427428dbb863df59493c6cbe923a48cd885a23473e94c595295",
-      "afterSha256": "694e224c91265ee8a2b16878fa3252642a790c9014753ce9c37ab924c067ab44",
+      "afterSha256": "c2a1752dcf76b0efcff9c9462cc97615029ee1ffaa765806b82eff12ebb1ec6c",
       "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only",
       "maintenanceDeltas": [
         {
@@ -1062,6 +1071,15 @@
           "previousAfterSha256": "5e7df983369f861d6c351bad0bba5bbde45d05f720dbbf9cf206895fd7973952",
           "afterSha256": "694e224c91265ee8a2b16878fa3252642a790c9014753ce9c37ab924c067ab44",
           "method": "Only affected004/005 6→8/1888;006nonwithdrawn enrichment adds0; acknowledge fixed157 centralpilot, preserve immutable1896/fivequarantines.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "694e224c91265ee8a2b16878fa3252642a790c9014753ce9c37ab924c067ab44",
+          "afterSha256": "c2a1752dcf76b0efcff9c9462cc97615029ee1ffaa765806b82eff12ebb1ec6c",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -1969,8 +1987,19 @@
       "supersedes": [],
       "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
       "sourceSha256": "af84d2340f368b60efd099fceb387cfd57d50e5a8c285a03a091009799a64e35",
-      "afterSha256": "03c93c7f8ea426bb1e6db33c97995e7ba48d39d264e28f1d7f8b4d41d8e0dd2b",
-      "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only"
+      "afterSha256": "d269569a7ebb0ed9e3a1291e4fc5196c140b49f8b42af31598eb3b78f493be00",
+      "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only",
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "03c93c7f8ea426bb1e6db33c97995e7ba48d39d264e28f1d7f8b4d41d8e0dd2b",
+          "afterSha256": "d269569a7ebb0ed9e3a1291e4fc5196c140b49f8b42af31598eb3b78f493be00",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/ops/tasks/DOCS-REGISTRY-SPLIT-1.md",
@@ -2298,7 +2327,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
-      "afterSha256": "fc8fcf26bfea5741e46f755c8c39c6f592da79851d726c6a029ed12297f23a90",
+      "afterSha256": "2a43c185af71b29cfc4c3512defd5300d251b4a78afb355d603ea0ae29d9e64c",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -2380,6 +2409,15 @@
           "previousAfterSha256": "745f674298ecbd23bdfcaef9bfa7a96954abb03f3f84fd3c934842db6a91fb5d",
           "afterSha256": "fc8fcf26bfea5741e46f755c8c39c6f592da79851d726c6a029ed12297f23a90",
           "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "fc8fcf26bfea5741e46f755c8c39c6f592da79851d726c6a029ed12297f23a90",
+          "afterSha256": "2a43c185af71b29cfc4c3512defd5300d251b4a78afb355d603ea0ae29d9e64c",
+          "method": "Explicit151 status/compliance withdrawals through branded storage writer; no semantic credit",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -2578,7 +2616,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "9ccb32a113f5d757ef646b496b186bd3049b2d9ea4272444cb40d7810f77e92e",
-      "afterSha256": "9ccb32a113f5d757ef646b496b186bd3049b2d9ea4272444cb40d7810f77e92e",
+      "afterSha256": "b5164ff7c66fd2f313ac6233951332f87971701ed87b0ad2448cc7e3b0c3346c",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -2588,7 +2626,18 @@
       "templateConformance": {
         "status": "needs-migration",
         "scope": "Provisional machine-catalog family binding only. Native schema1 shard lacks default test-catalog envelope; suitable native storage variant still needs design/freeze and semantic review. Do not modify native fields or mark compliant for shape."
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "9ccb32a113f5d757ef646b496b186bd3049b2d9ea4272444cb40d7810f77e92e",
+          "afterSha256": "b5164ff7c66fd2f313ac6233951332f87971701ed87b0ad2448cc7e3b0c3346c",
+          "method": "Explicit151 status/compliance withdrawals through branded storage writer; no semantic credit",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/document-registry.phase2.json",
@@ -2681,7 +2730,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "ef532d88a2b094a7b17c3c65b32afaf42f87dbf0efbf3796c31071b4cd2e5cc4",
-      "afterSha256": "ef532d88a2b094a7b17c3c65b32afaf42f87dbf0efbf3796c31071b4cd2e5cc4",
+      "afterSha256": "0c485e3ee0639faf0b3182a04e79226559062aa2b82f0af5ad11ca681931a4bf",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -2691,7 +2740,18 @@
       "templateConformance": {
         "status": "needs-migration",
         "scope": "Provisional machine-catalog family binding only. Native schema1 shard lacks default test-catalog envelope; suitable native storage variant still needs design/freeze and semantic review. Do not modify native fields or mark compliant for shape."
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "ef532d88a2b094a7b17c3c65b32afaf42f87dbf0efbf3796c31071b4cd2e5cc4",
+          "afterSha256": "0c485e3ee0639faf0b3182a04e79226559062aa2b82f0af5ad11ca681931a4bf",
+          "method": "Explicit151 status/compliance withdrawals through branded storage writer; no semantic credit",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/document-registry.phase3.json",

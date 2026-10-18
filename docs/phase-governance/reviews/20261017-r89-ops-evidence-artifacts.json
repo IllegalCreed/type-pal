@@ -17203,7 +17203,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "1141788c1e70443ecc3f86ae6a80fd394384775cd4d47895fe3ca9476c6b8787",
-      "afterSha256": "1141788c1e70443ecc3f86ae6a80fd394384775cd4d47895fe3ca9476c6b8787",
+      "afterSha256": "bc60f279791825692f3fdbe293f4216cabb8d32cc53106b32634438316f53b01",
       "publicCallers": [
         "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
         "docs/ops/evidence/migrations/testing-layout-closeout-20261004.json"
@@ -17361,7 +17361,18 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "1141788c1e70443ecc3f86ae6a80fd394384775cd4d47895fe3ca9476c6b8787",
+          "afterSha256": "bc60f279791825692f3fdbe293f4216cabb8d32cc53106b32634438316f53b01",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r24-phase2-designs-candidate-acceptance-20261017.md",
@@ -17926,7 +17937,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "dceec07c8718737db397a57f52e182d7e46b43defaa651a27586382cf145062a",
-      "afterSha256": "dceec07c8718737db397a57f52e182d7e46b43defaa651a27586382cf145062a",
+      "afterSha256": "6fd8ad37b4f2375c39c30a7fe12dcd8eaf5723d75196f9a53c3679ff4a9d50ea",
       "publicCallers": [
         "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/README.md",
         "docs/ops/evidence/migrations/testing-layout-closeout-20261004.json"
@@ -18083,7 +18094,18 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1",
+          "sourceRevision": "d17cc47c4b45e4aded54872a8d61c4d4f7ee973e",
+          "previousAfterSha256": "dceec07c8718737db397a57f52e182d7e46b43defaa651a27586382cf145062a",
+          "afterSha256": "6fd8ad37b4f2375c39c30a7fe12dcd8eaf5723d75196f9a53c3679ff4a9d50ea",
+          "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r25-phase2-plans-candidate-acceptance-20261017.md",
