@@ -14,7 +14,7 @@ Owner: GLM（Coding Owner）；基点 `63735f72fb12f6ca27bb3a3443418dd808b101cf`
 
 | 维 | mkf.ts（55→73 行） | mkf.boundaries.test.ts（101 行） |
 |---|---|---|
-| A | 边界完备：<4/%4/count<0/表截断/单调/界内/readChunk 整数与范围全部显式失败；u32 头下 count 天然有界（firstOffset≤byteLength）；无状态、输出 plane 新建或借用视图。计数公式与 sdlpal `(first−4)>>2` 逐字一致（本批核 palcommon.c:855-886/916-936）；TS 为 fail-loud 加固（sdlpal 信任式），CODE2 期 raw 2,373 chunks 全通过记录支持不误伤原盘。无新直接缺陷。 | 10 例逐例核输入/oracle：手算 offsets 独立 oracle；负例单轴（<4、%4、0、表截断）；子数组 byteOffset 合同；NaN/0.5/±越界同错误模板成组断言（同族合同，合规）。空 chunk 长度 0 合同在。 |
+| A | 边界完备：<4/%4/count<0/表截断/单调/界内/readChunk 整数与范围全部显式失败；u32 头下 count 天然有界（firstOffset≤byteLength）；无状态、输出 plane 新建或借用视图。计数公式与 sdlpal `(first−4)>>2` 逐字一致（本批核 palcommon.c:855-886/916-936）；TS 为 fail-loud 加固（sdlpal 信任式），CODE2 期 raw 2,373 chunks 全通过记录支持不误伤原盘。无新直接缺陷。 | 11 例逐例核输入/oracle：手算 offsets 独立 oracle；负例单轴（<4、%4、0、表截断）；子数组 byteOffset 合同；NaN/0.5/±越界同错误模板成组断言（同族合同，合规）。空 chunk 长度 0 合同在。 |
 | B | 本批修复 3 处：①模块头补"与 sdlpal 差异"（信任式 vs fail-loud，原盘可通过）②`Mkf` 两字段补语义（buffer 借用不修改；offsets 已验证单调界内）③`readChunk` 补借用视图/索引守卫/offset 合同归属 docblock（原先该知识只在测试头）。 | 头部 `mkf.ts:1-5` 行号引用随实现注释增加漂移 → 改"mkf.ts 模块头"（去脆弱行号）。L100"不绕过真实入口伪造 Mkf"与实现侧新 docblock 呼应，保留。 |
 | C | 纯函数；offsets 唯一写入 Owner=openMkf，readChunk/chunkCount 只读 ✓。 | 按入口分 describe；fixture 局部；无全局状态。 |
 | D | 唯一实现经 barrel + extract `io/mkf` re-export 复用（本批核 caller：cli.ts 14 处 openMkf/readChunk 族、parsers/{player-roles,rix,items,sounds}、io/sss、shared/rng 子档、game tileset-blob 仅注释引用）；无重复知识。 | mkMkf fixture 为 test-only 构造器，与 pal-extract io/mkf.test.ts 手造 fixture 分属两树入口合同，保留。 |
