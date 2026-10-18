@@ -5,7 +5,8 @@
  * 本模块是纯函数解码器,extractor 与 runtime 共用,保证两端用同一份逻辑解出像素
  * (S1 of tileset 资源管线优化:tileset 从 per-tile PNG 改为每地图 gzip RLE blob)。
  *
- * **唯一解码器**:此前 game `rle-decode.ts` 另有一份带 `0x02000000` 前缀跳过的 decodeRle
+ * **唯一解码器**:此前 game `rle-decode.ts` 另有一份带 4 字节前缀 `02 00 00 00`
+ * (u32 LE `0x00000002`;见下方 skipFilePrefix 与 palcommon.c:722-728)跳过的 decodeRle
  * (单帧整-chunk 用),与本份分叉。现已用 `decodeRle(buf, { skipFilePrefix })` 参数统一 ——
  * game `rle-decode.ts` 改为 re-export 本份;sprite-group 路径不传(默认不跳),单帧整-chunk 传 true。
  */
@@ -114,27 +115,9 @@ export function decodeRle(buf: Uint8Array, opts?: { skipFilePrefix?: boolean }):
 }
 
 /**
- * 精灵 chunk 解析(sdlpal `palcommon.c::PAL_SpriteGetFrame` 真值)。
- *
- * 精灵 chunk 头:byte 0..1 = u16 LE imagecount(同时充当 frame[0] 的 word-offset)。
- * 偏移表在 byte 0..2*imagecount-2,每条 u16 word offset(乘 2 得字节偏移)。
- *   imagecount = (lpSprite[0] | (lpSprite[1] << 8));
- *   iFrameNum <<= 1;
- *   offset = ((lpSprite[iFrameNum] | (lpSprite[iFrameNum + 1] << 8)) << 1);
- *   → frame 0 的 offset 同 imagecount * 2(因为 byte 0..1 双重身份)
- *   → frame i 的 offset = u16 at byte 2*i,左移 1
- *
- * offset = 0 表示帧空缺(跳过,不进返回数组)。
- *
- * **dimensions sanity guard**(M3 T24 发现 — ABC.MKF 战斗 sprite chunk 30 / 等):
- * sdlpal `palcommon.c::PAL_SpriteGetFrame` 注释 "Hack for broken sprites like the
- * Bloody-Mouth Bug" —— `imagecount` 字段可能比实际帧数多 1,多出来的尾帧 offset
- * 指向 chunk 内任意位置,被当作 RLE 解读会得到天文数字 width/height,decodeRle
- * 死循环。原版引擎从不显式索引该尾帧,所以无感。我们静态提全部帧,必须 guard:
- * width / height > 400(屏 320×200,sprite 远小于此)即跳过尾帧。
- *
- * **键一致性铁律**:返回数组的下标 i 就是 tile 索引(地图 cells 引用它)。
- * runtime 与 extractor 必须用同一份本函数,保证下标对齐。
+ * 严格单帧解码:在 [offset, end) 边界内解出一帧。尺寸须为 1..SPRITE_DIM_MAX,
+ * 拒绝零长度指令(0/0x80)与任何段越界;end 由调用方按 offset 表相邻上界或
+ * chunk 末尾给出,帧语义不越过 end。
  */
 function decodeStrictSpriteFrame(
   buf: Uint8Array,
@@ -176,6 +159,32 @@ function decodeStrictSpriteFrame(
   return { width, height, pixels, opaque }
 }
 
+/**
+ * 宽容精灵 chunk 解析(sdlpal `palcommon.c::PAL_SpriteGetFrame` 的容器取帧真值)。
+ *
+ * 精灵 chunk 头:byte 0..1 = u16 LE imagecount(同时充当 frame[0] 的 word-offset)。
+ * 偏移表在 byte 0..2*imagecount-2,每条 u16 word offset(乘 2 得字节偏移)。
+ *   imagecount = (lpSprite[0] | (lpSprite[1] << 8));
+ *   iFrameNum <<= 1;
+ *   offset = ((lpSprite[iFrameNum] | (lpSprite[iFrameNum + 1] << 8)) << 1);
+ *   → frame 0 的 offset 同 imagecount * 2(因为 byte 0..1 双重身份)
+ *   → frame i 的 offset = u16 at byte 2*i,左移 1
+ *
+ * offset = 0 表示帧空缺(跳过,不进返回数组);解码失败的槽同样跳过(见函数体 catch)。
+ *
+ * **dimensions sanity guard**(M3 T24 发现 — ABC.MKF 战斗 sprite chunk 30 / 等):
+ * sdlpal `palcommon.c::PAL_SpriteGetFrame` 注释 "Hack for broken sprites like the
+ * Bloody-Mouth Bug" —— `imagecount` 字段可能比实际帧数多 1,多出来的尾帧 offset
+ * 指向 chunk 内任意位置,被当作 RLE 解读会得到天文数字 width/height(旧版 decodeRle
+ * 会死循环;现行 decodeRle 已对截断/越界显式失败,但病态尺寸仍会先尝试超大分配)。
+ * sdlpal 按帧号取帧、越界帧号返回 NULL,按名取帧的引擎不触达该尾帧(原版引擎侧行为
+ * 未单独核证);本函数静态提取全部槽,必须在调用前 guard:
+ * width / height > 400(屏 320×200,sprite 远小于此)即跳过该槽。
+ *
+ * **键一致性铁律**:返回数组的下标 i 是**过滤后序列**的下标(空槽/坏槽不占位,与原始
+ * slot 号不保持对应),即旧 `framesToOut` 的 index;地图 cells 引用的是这个过滤后下标。
+ * runtime 与 extractor 必须用同一份本函数,保证两端下标对齐。
+ */
 export function parseSpriteChunk(buf: Uint8Array): RleFrame[] {
   const view = new DataView(buf.buffer, buf.byteOffset, buf.byteLength)
   const frameCount = view.getUint16(0, true)

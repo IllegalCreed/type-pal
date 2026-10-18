@@ -107,7 +107,7 @@ describe('parseSpriteChunk', () => {
     expect(frames[0]!.height).toBe(2)
   })
 
-  it('跳过 word-offset=0 的空帧(键连续性铁律:返回数组下标 = tile 索引)', () => {
+  it('跳过 word-offset=0 的空帧(键连续性铁律:返回数组下标 = 过滤后序列的 tile 索引,非原 slot 号)', () => {
     // 2 帧:frame 0 byte 0..1 = imagecount = 2(也是 frame[0] word-offset = 2 = byte 4,有效)
     //       frame 1 byte 2..3 = 0(空缺)
     // RLE for frame 0 at byte 4

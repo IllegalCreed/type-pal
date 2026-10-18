@@ -1,6 +1,7 @@
 /**
  * TEST-RESOURCE-TOOLS-COVERAGE-1 R01：严格 RLE 容器边界（shared/rle.ts）。
- * 既有 rle.test 已覆盖 palette0/sentinel/空洞/坏尾/profile 拒绝——不重复。
+ * 与 rle.test / rle.glm-o 在 sentinel、坏尾等轴存在相邻重叠（入口、oracle、错误
+ * 合同不全相同；跨文件排重映射另核，不在此声称互斥）。
  * 本文件：手列严格容器字节核完整 pixels/opaque/report、有界零长度指令单轴、
  * 段越界/尺寸/offset 单轴与相邻正控、canonical 与 legacy-migrated 精确区分。
  */
@@ -33,7 +34,7 @@ function strictChunk(frames: readonly Uint8Array[], sentinel = false): Uint8Arra
 }
 
 describe('R01 parseSpriteChunkStrict 手列字节完整核', () => {
-  test('两帧混合游程：pixels/opaque 逐字节精确、palette-0 实心不混淆、无 sentinel 报告', () => {
+  test('两帧混合游程：pixels/opaque 逐字节精确、palette-0 实心不混淆（无 sentinel 容器构造）', () => {
     // 帧0（2×3）：跳1透明 + 实心3（含 palette 0）+ 跳2 → 6 px 满
     const f0 = frameBytes(2, 3, [0x81, 0x03, 0x00, 0x2a, 0x2b, 0x82])
     // 帧1（3×1）：实心2 + 跳1
@@ -65,7 +66,7 @@ describe('R01 parseSpriteChunkStrict 手列字节完整核', () => {
 })
 
 describe('R01 严格拒绝单轴与相邻正控', () => {
-  test('零长度指令拒绝；同容器把 0 换成合法 1 长度即过（相邻正控）', () => {
+  test('零长度指令拒绝；同容器把 0 换成合法 2 长度 literal 即过（相邻正控）', () => {
     const bad = frameBytes(2, 1, [0x00, 0x00, 0x00, 0x00]) // 指令 0 = 零长度
     expect(() => parseSpriteChunkStrict(strictChunk([bad]))).toThrow(
       'sprite chunk frame 0 含零长度指令',
@@ -79,7 +80,7 @@ describe('R01 严格拒绝单轴与相邻正控', () => {
       'sprite chunk frame 0 含零长度指令',
     )
   })
-  test('像素段越界 / 透明段越界 / 指令流截断 / 帧头越界各单轴', () => {
+  test('像素段越界 / 透明段越界 / 指令流截断 / 尺寸非法各单轴', () => {
     expect(
       () => parseSpriteChunkStrict(strictChunk([frameBytes(2, 2, [0x04, 0x01, 0x02])])), // 声明 4 字节只给 3
     ).toThrow('像素段越界')
@@ -89,6 +90,7 @@ describe('R01 严格拒绝单轴与相邻正控', () => {
     expect(
       () => parseSpriteChunkStrict(strictChunk([frameBytes(2, 2, [0x81, 0x02, 0xaa, 0xbb])])), // 3 px 后流恰尽，target<total
     ).toThrow('指令流截断')
+    // w=h=0 → 走尺寸非法轴（header 边界轴由「相邻 offset 截断帧头」例覆盖）
     expect(() => parseSpriteChunkStrict(strictChunk([new Uint8Array(4)]))).toThrow('尺寸非法')
   })
   test('相邻 offset 截断前一帧帧头时拒绝，不把下一帧当作当前帧内容', () => {
@@ -102,7 +104,7 @@ describe('R01 严格拒绝单轴与相邻正控', () => {
     expect(() => parseSpriteChunkStrict(bytes)).toThrow('sprite chunk frame 0 offset 越界')
   })
   test('canonical 拒坏尾；同输入 legacy-migrated 跳 1 槽并精确报告', () => {
-    // 帧0 合法 + 坏尾槽：offset 指向 chunk 内但 width=0xFFFF 不可解
+    // 帧0 合法 + 坏尾槽：offset 指向 chunk 内但 width/height=0x0FFF(4095) 超 SPRITE_DIM_MAX 不可解
     const good = frameBytes(1, 1, [0x01, 0x07])
     const badTail = frameBytes(0x0fff, 0x0fff, [0x01, 0x00])
     const declared = 3
