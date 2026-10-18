@@ -6,8 +6,9 @@
  *   第 1 遍:翻指令 → Command;收集跳转目标(指令下标)。
  *   第 2 遍:对所有被跳转的指令打 label 字段。
  *
- * M1 策略:只对 end / goto / showDialog / giveItem 产出具名 Command;
- * 其余具名 opcode 及未具名 opcode 均落 RawCommand,保证字节层面可逆。
+ * 具名产出范围(逐步扩大,非仅 M1 初版):end / goto / showDialog / giveItem /
+ * loadScene / setPalette / setDialogStyle×4;其余具名 opcode 及未具名 opcode 均落
+ * RawCommand,保证字节层面可逆。
  */
 
 import type {
