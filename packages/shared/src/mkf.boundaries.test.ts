@@ -1,5 +1,5 @@
 /**
- * TEST-FOUNDATION-COVERAGE-1 A1：MKF 归档边界（合同见 mkf.ts:1-5）。
+ * TEST-FOUNDATION-COVERAGE-1 A1：MKF 归档边界（合同见 mkf.ts 模块头）。
  * 头为 N+1 个 u32 LE 偏移；子文件数 = (head[0] - 4) / 4；chunk i = [offsets[i], offsets[i+1])。
  * openMkf 拒绝不完整表、越界与倒序 offset；readChunk 只消费该入口产出的 Mkf，
  * 拒绝越界或非整数索引，返回借用原输入 buffer 的视图。
