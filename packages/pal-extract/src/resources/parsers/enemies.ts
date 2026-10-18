@@ -143,14 +143,15 @@ export function parseEnemies(enemyBuf: Uint8Array, objBuf?: Uint8Array, words?: 
  *   wEnemyID / wResistanceToSorcery / wScriptOnTurnStart /
  *   wScriptOnBattleEnd / wScriptOnReady
  *
- * EnemyTeam.slots[i] 是 OBJECT 绝对 index(398+),通过本 dump 反查 OBJECT_ENEMY
- * 5 字段。游戏侧 battle-system enemy turn 真做 scripted AI(B-w2.a)时,从此表
+ * EnemyTeam.enemyObjectIndexes[i](翻译前的 OBJECT 绝对 index,398+)通过本 dump
+ * 反查 OBJECT_ENEMY 5 字段;enemies 字段则是翻译后的 enemies.json id。
+ * 游戏侧 battle-system enemy turn 真做 scripted AI(B-w2.a)时,从此表
  * 取 scriptOnReady 喂 runScript。
  *
  * @returns 数组 length 153,index = 段内偏移(0..152),objectIndex 字段填 OBJECT 表绝对 index
  */
 export interface EnemyObject {
-  /** OBJECT 表绝对 index(398+);EnemyTeam.slots[i] 直接对应。 */
+  /** OBJECT 表绝对 index(398+);EnemyTeam.enemyObjectIndexes[i] 直接对应。 */
   objectIndex: number
   /** wEnemyID,指向 chunk 1 ENEMY 数组(enemies[].id)。0 = 空槽。 */
   enemyId: number
