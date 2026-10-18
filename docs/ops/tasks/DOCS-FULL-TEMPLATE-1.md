@@ -1855,3 +1855,17 @@ root非作者实际核固定de423正文SHA1e50d535c2b16aa466207da22e698768bd5abb
 - Codex build allowed给root，仅两个目标的兼容导航：docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md的现行archive wrapper中补旧name锚及到原历史章节的精确转接；docs/testing/e2e/stages/001-opening/report.md在既有历史验收heading前补旧name锚。target原quote、历史heading、日期/状态/数值/机器元数据、catalog和产品不改；不恢复旧“当前”标题，不为两个目标授新深审完成。原目标source SHA由作者counter固定，root写前核同字节。
 - 采用GitHub官方custom anchor的name语法，依据[官方写作语法](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#custom-anchors)。原作者ATX-only probe不支持显式name，保其原失败不改；root后继必须实际核非fence/非comment/非quote中的唯一named anchor、转接真实heading及全部链接，并以移除对应锚能复现原2项失败的有效反控证明修复。不是宣称旧公共门已有fragment覆盖，也不改全仓规则/ignore。
 - 只作新增导航delta和对应explicit pin/history维护，实际source/after与不同Owner窄验收另存，零正文重授/零runtime信用。若独立验收未闭合，两历史导航counter与S12模板/中央完成继续pending，整卡rework/main/done=false。
+
+### 固定752两处历史导航非作者限定接收；S12精确措辞继续返工
+
+- 非作者/root/central_successor_independent报告39344a9f7826e316aef9fb0abc12e572f67e103d7892634a59cdebf74127c91b只接受752708a42db05a9901d0f7bcb3478283db5a521c的两个兼容锚。两个原ID S12-HISTORICAL-FRAGMENT-RENAME-ARCHIVE-20261008与S12-HISTORICAL-FRAGMENT-RENAME-001-20261007仅在target navigation范围闭合；删除一个/两个name各复现原1/2问题，fence/comment/quote及重复锚拒绝。原文/quote/heading/日期/状态精确保全，不授两目标新深审或S12语义。65项原件加manifest=66在s12-two-historical-anchor-nonauthor-fixed-752708运输，payload7fc4c8c58f4a132819556c4ded08e37dfcc87fde368e2a5eaf249e549701eccb；外seal/finalizer及root真实57路径暂存另分列。
+- 固定1c23 S12正文加固定752目标的完整44link/11fragment为0问题，实际当前旧正文仅两alias入链；这是指定组合导航结论，不是S12中央接受。2431native及8storage不变、114根0漂、6维护delta实际涉及4review文件且format后重放一致。真实181/181和lint4511全零不改写wholecheckdocs/strict/requirecomplete仍FAIL；445基线+6增量/1980待审不算新深审数。原失败、ENOBUFS私有枚举失败与新限定MD枚举、旧公共门未查fragment的能力更正全部保留。
+- root实际续核新正文与六sourceRefs具体行域，给S12-NONSPAN-SCREEN-PROJECTION措辞counter：无span分支只返回pose与事件order/atMs/tick/renderId，不调用screenProjection；span才逐clock调用且可回null屏幕字段。唯一正文Owner继续仅common-issues.md，在保2590B metadata/52736B quote下修这一行，并将导航小节同步为已接受的固定组合时点；原1c23与119清单/失败不改。新body-only successor仍待root非作者复核，不由作者自授闭合。
+- root后继只准入上述单篇候选与必要canonical入账；先核最终正文/diff/保全/真实单篇consumer与配对/所有链接及反控，再决定单篇语义与模板结论。中央R60唯一迁出、registry与矩阵同步及exact非作者回执tuple接入单列；若需v8私有writer，只能增该精确tuple并经不同Owner实际IO正反例验收，禁止通配或无差别hash刷新。整卡rework，五历史隔离、1896撤回与8重新授信/1888待核不变，global/main/done=false。
+
+### S12固定1f25单篇非作者接收与精确中央入账范围
+
+- root非作者报告9cfa56f13ae7aa6ce01f49e30d4ee9a0279c370b3c6536a8d6d5e162693f2604限定接受作者1f25fc42c8d4f8fc01c5ac64e75cbd996461e621的common-issues正文c372c3bcdd825ede2fd13e3b08f32cb0707a2ac7ccd20dbeb5cfbf16048a36ed与既有test-domain-report-v1/1.1.0。实际读新当前全文层、复用原386/旧431与四wrapper已核读域并验证原字节，重读六refs窄域；S12-NONSPAN-SCREEN-PROJECTION措辞在真实288–297/318–330与新diff闭合。不是新读所有链接目标全文，source/旧run/preview/coverage无新信用。
+- root实际组合固定1f25正文加752兼容目标44links/11fragments零问题；去单/双锚复现原1/2失败。真实完整document/pair consumer0及错publication/缺章拒绝，2590B metadata和52736B quote精确保持，quote/header损坏拒绝；direct inverse52042B不等source52041B，仅显式去分隔1LF相等。原1c23、119原件、两次断链FAIL、早期hook指令纠正与新45原件补充不改。
+- 本次中央范围仅把这一条R60最后active binding迁到semantic-rework，native唯一entry改content-reviewed/template-compliant1.1/historyOverlayfalse；其余2430 native逻辑不变。旧R60所有metadata/withdrawal、原证据和既有superseded链保留，新增该单篇明确源SHA/Git继任；矩阵仅加guarded S12关系。raw报告不因gzip运输自获文档完成，1896撤回范围/五隔离不改。
+- v8只新增此精确body/report/version和原生actor/verdict范围校验，须不同Owner实际IO正反例验收后才运行显式计划；该单篇语义接受不预授私有consumer、最终中央候选或全量门。写盘后另核唯一binding/旧donor0条/全部pin、真实静态门及固定中央非作者结论，任何失败保留原件。本卡继续rework，main/done=false。

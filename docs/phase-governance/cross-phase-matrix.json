@@ -1686,6 +1686,32 @@
         "Other withdrawn bindings/fivequarantines/global hardgates remain open."
       ],
       "stopLine": "Do not flip native historicaltrue, certify oldrun/originalgame equivalence from helper/gzip/template, fill missing raw/unknowns, or grant adjacent/bulk/global/main/done."
+    },
+    {
+      "id": "common-issues-s12-20261018",
+      "from": ["docs/testing/e2e/cross-stage/common-issues.md"],
+      "to": [
+        "docs/testing/catalog.json",
+        "docs/testing/e2e/evidence/e2e-common-issues.json",
+        "docs/testing/e2e/contract.md",
+        "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+        "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
+        "scripts/e2e/errand-contract.mjs",
+        "scripts/e2e/npc-transition-contract.mjs"
+      ],
+      "relationship": "七类共性问题与24个D/R/T历史ID现在给出具体实例、责任层、业务判据、来源和停止线，24不是闭合bug数。current只为001–005发布轴，006历史/rework不增依赖；六refs只授其窄域，nonspan明确不做screenProjection，17k/60k及draw stub均为源码而非本轮执行。10-10撤回项/局部用户取舍与10-11固定批次按时点保留；八raw、后期原指令及producer保留Owner未知。原metadata/52736B quote保全，direct inverse只经明确末尾1LF处理相等。固定1f25正文和既有1.1模板获非作者限定接收，两旧fragment由752接受的兼容锚恢复；不授当前runtime/E2E/视觉/preview/coverage、目标/邻篇新深审或全量完成。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261018-semantic-rework.json",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/9cfa56f13ae7aa6ce01f49e30d4ee9a0279c370b3c6536a8d6d5e162693f2604.gz"
+      ],
+      "unresolved": [
+        "Historical eight raw/event1513/1516/1517/late entries, producer/retention ownership and current reproduction remain unknown; no fabricated source or run.",
+        "All linked stage report/task bodies and transitive helpers were not newly read in full; no dependent-document renewal.",
+        "S12 fixed body/template acceptance and two target navigation acceptance are separate from exact v8 intake mechanism and final fixed-central non-author review.",
+        "Full1838+incremental governance and five quarantines remain unresolved; no main/done."
+      ],
+      "stopLine": "Do not rewrite native machine/history/status, regrant old execution or adjacent/full/main/done from this one body."
     }
   ],
   "acceptance": {

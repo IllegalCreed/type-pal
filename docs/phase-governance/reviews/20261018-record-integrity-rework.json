@@ -3037,7 +3037,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
-      "afterSha256": "1f63961f79dbd4e208c1f4d41479297b89f93ef5f9bc0d888c8caf768b486f63",
+      "afterSha256": "378b0b27205f079fbf482e63b53ea8d1a82750d8feff59132d290f9b7cc49beb",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -3100,6 +3100,15 @@
           "sourceRevision": "1cb305683a8e1ebe46a87be29ab0b05e90b9b3c5",
           "previousAfterSha256": "24f348641d67908d2f0db512d8642845a0cfa5bc90e09e67a4ba7ad806552d94",
           "afterSha256": "1f63961f79dbd4e208c1f4d41479297b89f93ef5f9bc0d888c8caf768b486f63",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "752708a42db05a9901d0f7bcb3478283db5a521c",
+          "previousAfterSha256": "1f63961f79dbd4e208c1f4d41479297b89f93ef5f9bc0d888c8caf768b486f63",
+          "afterSha256": "378b0b27205f079fbf482e63b53ea8d1a82750d8feff59132d290f9b7cc49beb",
           "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
           "grantsNewSemanticAcceptance": false
         }

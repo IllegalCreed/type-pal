@@ -6501,6 +6501,224 @@
         },
         "scope": "Originaltrue/currentAuditfalse and approved frozen original source Buffer fit existing historical variant. Specific semantic body accepted, not raw execution or futurecentral."
       }
+    },
+    {
+      "path": "docs/testing/e2e/cross-stage/common-issues.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-domain-report",
+      "templateId": "test-domain-report-v1",
+      "templateVersion": "1.1.0",
+      "templateCompliance": "template-compliant",
+      "historyOverlay": false,
+      "reviewDepth": "deep-semantic",
+      "documentStatus": "current",
+      "readMethod": "Author/root-s12 read current431/original386 and bounded48 source domains. Non-author/root independently actually read new current prose1c23 lines1–157, full7add/3delete1f25 successor diff and fresh six source scopes; reused previously root-read original386/before431/full4 wrappers/legal predecessors/dated archive by exact source/quote equality. Actual public document/pair and in-memory negatives, exact inverse/header/quote negatives and current owned root44links/11fragment navigation with remove1/2 controls verified. This does not claim fresh full-read of all linked targets or any product execution.",
+      "coreConclusion": "七类共性问题与24个D/R/T历史ID现在给出具体实例、责任层、业务判据、来源和停止线，24不是闭合bug数。current只为001–005发布轴，006历史/rework不增依赖；六refs只授其窄域，nonspan明确不做screenProjection，17k/60k及draw stub均为源码而非本轮执行。10-10撤回项/局部用户取舍与10-11固定批次按时点保留；八raw、后期原指令及producer保留Owner未知。原metadata/52736B quote保全，direct inverse只经明确末尾1LF处理相等。固定1f25正文和既有1.1模板获非作者限定接收，两旧fragment由752接受的兼容锚恢复；不授当前runtime/E2E/视觉/preview/coverage、目标/邻篇新深审或全量完成。",
+      "truthAnchors": [
+        "docs/testing/e2e/cross-stage/common-issues.md:19",
+        "docs/testing/e2e/cross-stage/common-issues.md:30",
+        "docs/testing/e2e/cross-stage/common-issues.md:81",
+        "docs/testing/e2e/cross-stage/common-issues.md:129",
+        "scripts/e2e/errand-contract.mjs:346",
+        "scripts/e2e/kitchen-contract.mjs:499",
+        "scripts/e2e/npc-transition-contract.mjs:288",
+        "scripts/e2e/npc-transition-contract.mjs:318",
+        "scripts/e2e/opening-trace-plugin.mjs:164",
+        "scripts/e2e/opening-trace.test.mjs:518",
+        "docs/testing/catalog.json",
+        "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md",
+        "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md"
+      ],
+      "unresolved": [
+        "Historical eight raw/event1513/1516/1517/late entries, producer/retention ownership and current reproduction remain unknown; no fabricated source or run.",
+        "All linked stage report/task bodies and transitive helpers were not newly read in full; no dependent-document renewal.",
+        "S12 fixed body/template acceptance and two target navigation acceptance are separate from exact v8 intake mechanism and final fixed-central non-author review.",
+        "Full1838+incremental governance and five quarantines remain unresolved; no main/done."
+      ],
+      "nextStep": "Only this single binding moves from R60 after exact private consumer acceptance; independently validate final central candidate, keep other withdrawn docs pending and continue next actually read document.",
+      "owner": "Codex horizontal issue documentation; author /root/s12_semantic_author, non-author /root",
+      "provenance": [
+        "fixed33cc/dc original386 and4be generic431",
+        "actually read new current body with bounded/source-specific manual conclusions",
+        "distinct author/reviewer and immutable original report9cfa56; no auto restoration"
+      ],
+      "primarySource": [
+        {
+          "path": "docs/testing/e2e/cross-stage/common-issues.md",
+          "revision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
+          "sha256": "6012299438bdebdfb0537ef01689b2445dba14047235e1b84788e2874bbee082",
+          "scope": "Original386 reused previously full actual read, exact unchanged quote/inverse pinned."
+        },
+        {
+          "path": "docs/testing/e2e/cross-stage/common-issues.md",
+          "revision": "4be24d2490ff7c01d8222275b31641cb6b6c5cb1",
+          "sha256": "cdb892e3f02f59c1044599a59bb2c430032cb76406df64022fe8d07123784aec",
+          "scope": "Before431 reused actual full read; not newly re-read entire linked targets."
+        },
+        {
+          "path": "docs/testing/e2e/cross-stage/common-issues.md",
+          "revision": "1f25fc42c8d4f8fc01c5ac64e75cbd996461e621",
+          "sha256": "c372c3bcdd825ede2fd13e3b08f32cb0707a2ac7ccd20dbeb5cfbf16048a36ed",
+          "scope": "All new prose via final visible1c23 and full successor diff; native quote/header exact; body candidate546 lines78272B."
+        }
+      ],
+      "phaseAnchors": {
+        "phase": ["phase1", "phase2"],
+        "scope": "Separate original reference/intention, phase1 observations and phase2 clean-author orchestration; source descriptions not current runtime certification."
+      },
+      "dependencies": [
+        "docs/testing/catalog.json",
+        "docs/testing/e2e/evidence/e2e-common-issues.json",
+        "e2e-001",
+        "e2e-002",
+        "e2e-003",
+        "e2e-004",
+        "e2e-005",
+        "docs/testing/e2e/contract.md",
+        "docs/ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md"
+      ],
+      "versionScope": {
+        "sourceRevision": "1f25fc42c8d4f8fc01c5ac64e75cbd996461e621",
+        "publication": "current, native d022/content22/min11 audit unchanged",
+        "currentSource": "content22/min12 source-only; no save or runtime renewal",
+        "date": "2026-10-18"
+      },
+      "publicCallers": [
+        "docs/testing/e2e/README.md",
+        "docs/testing/e2e/cross-stage/README.md",
+        "pnpm e2e:002:both",
+        "pnpm e2e:003:both",
+        "pnpm e2e:004:both",
+        "pnpm e2e:005:both"
+      ],
+      "legalInputs": [
+        "each real same-engine predecessor;005 only004 saves",
+        "normal navigation/input and isolated browser storage",
+        "capture is not verify predecessor; source read is not execution"
+      ],
+      "businessOracle": {
+        "type": "concrete-cross-stage-issue-family-routing",
+        "assertions": [
+          "e83 restore movement routes to actual bounded background oracle",
+          "span/clock/capacity/draw-source gaps route to collector/comparator",
+          "later absent source/raw remains unknown instead of invented bug/fix",
+          "historical/current/withdrawn/product execution axes do not collapse"
+        ]
+      },
+      "dedupe": {
+        "result": "specific issue-family routing, not stage pass-number replication or24closedbugs",
+        "against": [
+          "docs/testing/e2e/stages/001-opening/report.md",
+          "docs/testing/e2e/stages/002-inn-guests-and-reward/report.md",
+          "docs/testing/e2e/stages/003-kitchen/report.md",
+          "docs/testing/e2e/stages/004-meal/report.md",
+          "docs/testing/e2e/stages/005-shrimp/report.md"
+        ]
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "S12-NONSPAN-SCREEN-PROJECTION",
+          "status": "closed-for-fixed1f25-wording",
+          "statement": "Actual288–297 versus318–330 distinguishes nonspan pose/time from span screenProjection."
+        },
+        {
+          "id": "S12-HISTORICAL-FRAGMENT-RENAME-ARCHIVE-20261008",
+          "status": "closed-navigation-only",
+          "statement": "Fixed752 target plus fixed1f25 current owned combination; original1c23 failure retained."
+        },
+        {
+          "id": "S12-HISTORICAL-FRAGMENT-RENAME-001-20261007",
+          "status": "closed-navigation-only",
+          "statement": "Fixed752 target plus fixed1f25 current owned combination; original1c23 failure retained."
+        },
+        {
+          "id": "S12-MISSING-HISTORICAL-RAW-AND-ORIGINAL",
+          "status": "unknown-product-unverified",
+          "statement": "Honest scoped domain report accepted; no historical run authenticity or current product acceptance."
+        }
+      ],
+      "revision": {
+        "currentSha": "1f25fc42c8d4f8fc01c5ac64e75cbd996461e621",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "unsupported R60 deep review/independent/direct-inverse claims remain withdrawn; original exact statements preserved at sourceR60 Git and correction-scope",
+            "sourceRevision": "752708a42db05a9901d0f7bcb3478283db5a521c",
+            "priorRecordSha256": "05fa3642aed68addfd657d97761d237f097a4053ed707f6a9a36cfe4472b966c"
+          },
+          {
+            "date": "2026-10-18",
+            "action": "actual single-body semantic/template non-author acceptance only",
+            "sourceRevision": "1f25fc42c8d4f8fc01c5ac64e75cbd996461e621",
+            "reportSha256": "9cfa56f13ae7aa6ce01f49e30d4ee9a0279c370b3c6536a8d6d5e162693f2604",
+            "notRun": [
+              "product runtime",
+              "old product tests",
+              "E2E",
+              "visual",
+              "preview",
+              "coverage"
+            ]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "independent-per-document-semantic-template-review",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/9cfa56f13ae7aa6ce01f49e30d4ee9a0279c370b3c6536a8d6d5e162693f2604.gz",
+        "reportSha256": "9cfa56f13ae7aa6ce01f49e30d4ee9a0279c370b3c6536a8d6d5e162693f2604",
+        "storedSha256": "30eccf0e0e67a1e61e62df84988c705ac863a6a8f696f52731cce6a8033d995a",
+        "nonAuthorReviewer": true,
+        "authorTask": "/root/s12_semantic_author",
+        "reviewerTask": "/root",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/9cfa56f13ae7aa6ce01f49e30d4ee9a0279c370b3c6536a8d6d5e162693f2604.gz",
+          "encoding": "gzip",
+          "payloadSha256": "9cfa56f13ae7aa6ce01f49e30d4ee9a0279c370b3c6536a8d6d5e162693f2604",
+          "payloadBytes": 30054,
+          "storedSha256": "30eccf0e0e67a1e61e62df84988c705ac863a6a8f696f52731cce6a8033d995a",
+          "storedBytes": 9469,
+          "producerTask": "/root",
+          "authorTask": "/root/s12_semantic_author",
+          "reviewerTask": "/root",
+          "sourceRevision": "1f25fc42c8d4f8fc01c5ac64e75cbd996461e621",
+          "scope": "Only fixed1f25/c372 common-issues body and existing test-domain-report1.1 template. Current owned working tree44links11fragments0 plus exact source/preservation/consumer controls; no actual central/global/product credit.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 exact S12 semantic entry and explicit private intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original one-off non-author review output; old failed commands/read limits/unknowns preserved. Not relocation or exemption of an existing canonical candidate.",
+          "exitCondition": "Retain audit/replay; no automatic deletion or candidate denominator exemption."
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "Only common-issues new actual body/template replaces withdrawn R60 mechanical binding; original source/withdrawal/history unmodified in Git and correction-scope."
+        }
+      ],
+      "supersedes": [
+        {
+          "reviewRecord": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+          "sourceRevision": "752708a42db05a9901d0f7bcb3478283db5a521c",
+          "priorRecordSha256": "05fa3642aed68addfd657d97761d237f097a4053ed707f6a9a36cfe4472b966c",
+          "scope": "single active binding only; not rehabilitation or deletion of original withdrawn statement"
+        }
+      ],
+      "sourceSha256": "6012299438bdebdfb0537ef01689b2445dba14047235e1b84788e2874bbee082",
+      "afterSha256": "c372c3bcdd825ede2fd13e3b08f32cb0707a2ac7ccd20dbeb5cfbf16048a36ed",
+      "sourceGitRevision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
+      "candidateSha256": "c372c3bcdd825ede2fd13e3b08f32cb0707a2ac7ccd20dbeb5cfbf16048a36ed",
+      "reviewedLines": "All new current prose read via1c23L1–157 plus full1f25 successor7add/3delete diff; original386/before431/root source scopes reused by exact identity, not new full linked-target reads.",
+      "beforeAfter": {
+        "before": "431-line generic wrapper with withdrawn semantic credit and missing old fragments",
+        "after": "546-line concrete issue-family/caller/source/history/unknown report, unchanged native quote and metadata; compatibility targets accepted separately."
+      },
+      "stopLine": "Do not rewrite native machine/history/status, regrant old execution or adjacent/full/main/done from this one body.",
+      "templateConformance": {
+        "status": "template-compliant",
+        "templateId": "test-domain-report-v1",
+        "templateVersion": "1.1.0",
+        "scope": "All five visible sections actual semantic content, publication/pair/native history preserved; exact public model and bounded negative controls passed, no new schema."
+      }
     }
   ]
 }

@@ -11,35 +11,150 @@ evidence: e2e/evidence/e2e-common-issues.json
 # 001–005 共性问题族
 
 Status: current
-Owner: Codex
-Last reviewed: 2026-10-17
+Owner: Codex（横向问题归因与文档维护；原执行身份按各批回执）
+Last reviewed: 2026-10-18
 Template: test-domain-report-v1 / 1.1.0
-
-本页接入统一 testing 模板；原 testing-meta、catalog identity、sourceRefs、历史日期与横向结论在 quote 中保全。本次不重跑产品、E2E、视觉或 coverage。
 
 ## Domain scope
 
-跨 001–005 的路线、演出、存档、控制权和工具边界问题族；本页是当前源码/出版审计，不新增动态验收。
+本页是 `e2e-common-issues` 的跨阶段问题归因与证据入口。覆盖 001–005 的作者编排、路线、演出、控制权、存档和工具边界；`current` 是 [catalog](../../catalog.json) 的发布状态，登记依赖恰为 `e2e-001` 至 `e2e-005`。原材料包含 006 与后期剧情线索，它们保留为历史交叉参照，不增加本页依赖，也不为仍 `rework` 的 006 授信。
+
+[横向索引](README.md)负责导航，[E2E 总览](../README.md)路由阶段；各正式报告持有指定候选的结果、输入和检查点。 [配对 evidence](../evidence/e2e-common-issues.json) 是 `document-audit`，`runtimeExecution.performed=false`、`artifacts=[]`，其 `source-backed` 不代表本轮执行。catalog 管发布状态、日期和依赖，原任务卡管 Owner、准入及 counter，本页管跨阶段归因与缺口，四者不能互相代授信用。
+
+当前工作从 [R4 原卡](../../../ops/tasks/E2E-R4-1-route-and-checkpoint-foundation.md)、[005 原卡](../../../ops/tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md)与 [006 原卡](../../../ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md)核准入；[连续任务归档](../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md)保存旧批次，不能作今天的 build 授权。演出按[意图优先合同](../contract.md#演出验收标准意图优先差异不等于缺陷用户2026-10-07)判断；第一阶段也是待归因的对照，双轨差异数量不能单独证明二阶段缺陷。
 
 ## Claim matrix
 
-公共根因按族收敛，路线/演出/存档失败分开归因；各阶段通过数字和历史 raw 不复制成新的 current pass。
+### 七类共性问题
+
+以下代表实例与当时修复声明取自固定原文的七家族及后续线索。本次核正文与必要源码范围，未重新跑七家族或证明所有调用域已闭合。每行的业务判据用于决定后续核什么；“历史已修”只保留原时点，不是当前全量通过。
+
+| 问题族 | 代表实例与归因 | 业务判据与下一步 | 停止线 |
+|---|---|---|---|
+| 连贯动作拆成机械状态 | 大娘下楼曾有46状态，又误按六路段拆六步骤；逐拍调度暴露成作者结构 | 以方案→步骤→指令表达完整激活；核路线、速度、姿态、分支和收尾后，再合并机械指令。转弯不等于下一次激活 | 旧288/642状态只是后期候选，未核完整入口不能断言可无损折叠；165个stateMachine不是165个bug |
+| 首次、复读、完成与后继混淆 | 002大娘错选次日行为；005张四缺后续段、香兰返程变空 | 核真实NPC下一次激活的入口、target、channel、cursor和副作用；奖励只一次，后续对话与返程不丢 | 后继地址“存在”或错误绑定可保存不等于剧情正确。旧443空终止/27套分次不是本轮重新统计 |
+| 正文归属与调用不清 | 厨房大娘、赠桂花酒和香兰报信的入口曾藏在auto或场景入场中 | 主链落回明确NPC入口并显式调用/等待；后台巡走、返程单独保留 | 选择方案不等于立即执行；不全禁auto，也不把所有select都改成run |
+| 隐式调度依赖 | 三苗人边谈边走、大娘转向被auto抢写、选道士方案后期待隐式触发 | 核实际参与者的take/run/release、owner、sceneVisit、动作完成和正确恢复；无关环境继续 | 用户已选择暂停时站立；漏接管与多余冻结均要拒绝，不能恢复全局对白冻结 |
+| 时间与移动尺度不准 | 楼梯40ms、目标末拍补齐、香兰480ms估时；不同指令被当成同一时基 | 区分作者等待、真实动作完成、输入和渲染时钟，按原指令及当前意图归因；精确验端点、姿态和必要节拍 | 不统一乘2.5；goto.frameDelay是循环上限的旧线索，未核源不能当毫秒。已批局部匀速不外推 |
+| 瞬态呈现误作持久状态 | 门页、端菜外观跨存档丢失；live pose和动作续演不能只由canonical静态值重建 | 正式保存→新实例恢复、场景重入和当前页面连续现场分别核；检查动作/等待/已提交未ack的续接 | 源hash、终态或截图不证明完整恢复；不把所有短暂表情都持久化，也不为旧开发档恢复兼容 |
+| 名称与作者界面不可理解 | 自动行为6、intro/cycle、e59和单步骤摘要不能直接表达人物用途 | 保稳定ID，按可靠人物/用途映射核真实方案与步骤；复杂语义先读正文，编辑器预览另留现场证据 | 通用显示旧修复不等于语义命名全量完成；未核后期剧情不批量猜名 |
+
+旧文中的294场景、4662方案、165结构、573池和111次首次install各有不同统计对象；注册缓存还曾遗漏调用类别。它们不能成为今天完整安装边或已闭合缺陷的分母。`s021/e406`、`s273/e4723`、洪大夫L2018、老王L3383、灵儿L5076及相关等待只保留为待核线索；本次未取得这些后期原始入口，不据此改作者内容或报新E2E反例。
+
+### D/R/T 历史索引与责任
+
+下列24个ID来自本页原覆盖表，是定位索引，不能相加为24个已修bug。D为具体作者编排，R为本表的公共保存/重入项，T为输入、采集、比较及执行器；归档合理性表另有R01–R16等编号，引用时必须连同来源说明，不能合并两套ID。
+
+| ID / 入口 | 要核的具体问题 | 证据路由与边界 |
+|---|---|---|
+| D01 / 001叫醒、密道 | 探索拍等待、无对白clear呈现与动作完成 | 回[001报告](../stages/001-opening/report.md)核当次raw及因果；旧35等待/21对白/30步不作本轮重计 |
+| D02 / 002走廊接待 | 入口面向主角、开门同步属性及呈现拍 | 回[002报告](../stages/002-inn-guests-and-reward/report.md)核真实caller；三苗人接管与大娘继续去厨房分开 |
+| D03 / 001–003大娘末半格 | 原目标补齐与获批匀速分拍 | 核具体路线段、精确端点和完整隐藏闭区间；不能豁免其它leg或全部render |
+| D04 / 003厨房大娘 | 不同接近方向下的转身及对白后工作姿态 | 回[003报告](../stages/003-kitchen/report.md)核实际入口；不加入全局隐式转向副作用 |
+| D05 / 004端菜随从 | nudge/animate的世界节拍、完整返程与中断 | 回[004报告](../stages/004-meal/report.md)核完整动作窗口；只见六/七步前缀不等于八步终点 |
+| D06 / 004赠酒 | 选择方案与立即执行NPC正文不同 | 正常菜单剧情与items取消/错目标专项分开，核真实target及run等待，不改普通输入 |
+| D07 / 005船家转身 | 张四、水生叔、鱼嫂的不同实体和入口 | 回[005报告](../stages/005-shrimp/report.md)核确切trigger/target；某处有face指令不足 |
+| D08 / 005香兰报信 | 估时、entry/auto抢写与姐妹各自路线 | 核真实动作完成及各人的首次差异；香兰、秀兰不合称随从，也不因公共修复绿而一起关闭 |
+| D09 / 006苗人头领 | 正文停点与auto终点混淆、显式接管 | 回[006报告](../stages/006-doctor-boat/report.md)与历史primary；旧坐标声明不成为本次新核原值 |
+| D10 / 006求医、码头 | 小虎子错误激活、洪大夫后继与张四显隐 | 核后继实际可触发及精确状态条件，不只核方案存在；006仍rework |
+| D11 / 006乘船 | 船体terminal、乘员偏移、slow与ride节拍 | 需实际completion、同run/visit own pose及原指令。本次缺1513/1516/1517原数据，不新认证原版朝向/offset |
+| D12 / 006岛口 | 首句即停与真实对白结束、控制返回不同 | 四行1886/1888/1889/1890仅保留旧核验要求；实际收尾、存档与旧95项须回原回执，不算新执行 |
+| R01 / 保存、重入 | live pose、gait、动作等待及已commit未ack的续演 | 核本引擎正式保存/新实例恢复和返场；不以capture→resume自洽替代真实caller，也不修当前连续现场来冒充恢复 |
+| T01 / 输入、scope | 普通菜单键被过滤、长按半组或缺route输入 | 核完整ledger与真实down/up成功回执；不能按Escape等键值删正常输入 |
+| T02 / 004尾探针 | 无必要control-move污染005起点 | 核独立结束与下段开始一致；不能裁scope来保留实际副作用 |
+| T03 / 移动观察 | 轮询漏commit、转向误当位移、末sample误当终点 | 核commit/finished各自职责和完整路线；不取整、加坐标容差或逐格点按 |
+| T04 / 006对白输入 | Game未消费就多次Enter、重放多余键超时 | 核真实消费与下一页边界；不加工旧raw删键冒充重录 |
+| T05 / 生命周期 | 初始化/恢复中间态混入正文、同visit被拆两次 | 核materialized/ready、storyScope完整初值；不能借另一visit证明，也不把恢复前变化判为正文缺陷 |
+| T06 / 实际帧证据 | selected缓存误作drawn、组内frame与显示frame混比 | 核成功world pass、资源身份及完整clock；source读取或测试stub不证明像素 |
+| T07 / 局部对齐 | leg不齐漏全姿态、获批末步被错误按数组对齐 | 核完整共享窗口与具体差异证书；不压帧集合、跳过全部render或按NPC名单豁免 |
+| T08 / 基础设施 | Chrome newContext/RPC超时、父中断IPC关闭 | 保失败阶段、exit/signal与监督清理证据；R4待办不计剧情bug或正常流程通过 |
+| T09 / 持帧时钟 | Game frameNum与RF worldTick不是同一时钟 | 分开作者等待、打字、确认与实际draw时长；未知标evidence-gap，不加毫秒容差或用总时长抵消漏等待 |
+| T10 / 静止帧、首显 | 等待/转向/门状态漏帧，接管顺序与对白动作边界漏核 | 核实际wait/dialog/move、take顺序、成功draw及动作前clear；根脚本结束不能替代段内消失 |
+| T11 / 源帧、剔除 | actor最新值或观测bbox自证正确，掩盖错帧/错误消失 | 核原始位置、资源、geometry及独立视口；假bbox、漏末draw不能自洽放行 |
+
+### 六个 sourceRefs 的实际范围
+
+本次核六个全文件SHA及范围内anchor均匹配原metadata；语义信用限于实际读取范围，不能据hash授整文件深审或七家族全部通过。
+
+| 来源 / 实际范围 | 可支持的具体结论 | 不能支持的结论 |
+|---|---|---|
+| [errand-contract](../../../../scripts/e2e/errand-contract.mjs) 346–376 | `assertErrandBackground`核一次真实restore后的e83/s004位置commit、前台控制及continuation起终点存在实际移动记录 | 不覆盖所有NPC、完整区间连续性、原版路线或全部存档语义 |
+| [kitchen-contract](../../../../scripts/e2e/kitchen-contract.mjs) 497–518 | `assertKitchenTrace`入口拒overflow/errors，要求worldRenders/causes并开始各列表seq检查 | 该22行未显示完整函数，不能单凭它声明全global-order/全部厨房合同已验 |
+| [observer测试源码](../../../../scripts/e2e/render-evidence-observer.test.mjs) 323–398 | 五collector的17,000世界绘制样本与状态变化预算分开；Opening另测60,000及overflow | 本轮未执行测试；count、字节限、快照池、actor列表上限不是同一容量轴 |
+| [renderedPoseEvidence](../../../../scripts/e2e/npc-transition-contract.mjs) 262–338（另读投影208–260） | 有throughRenderId的span须完整连续、同scene/visit且端点时钟一致，展开后才按renderScope裁剪 | 无span分支只返回pose及order/atMs/tick/renderId，可保null来源，**不调用screenProjection**；只有span逐clock调用屏幕几何投影，且可回null screenVisible/screenRect。该函数不独立认证全采集链或像素 |
+| [opening-trace-plugin](../../../../scripts/e2e/opening-trace-plugin.mjs) 164–178（必要上下文140–190） | Game world完成hook在entries循环闭合后发布，不能在循环中提前声称完成 | 一个插入点不能证明全部采集链正确，也不给旧raw补发信用 |
+| [opening-trace测试源码](../../../../scripts/e2e/opening-trace.test.mjs) 515–633 | 真实函数transform后的测试以drawSprite stub记资源；第二draw抛错不发布新pass | 本轮未跑该测试、未画Canvas像素，不授浏览器、全帧、视觉等价 |
 
 ## Inputs and fixtures
 
-沿现有 testing-meta 的 sourceRefs、public callers、合法输入和 business oracle；当前版本/检查点由 catalog 与阶段报告控制。
+本页由人/Agent阅读，不是runtime wrapper的剧情输入。公开 [package脚本](../../../../package.json)进入以下真实caller；源码显示它们启动各自子流程后读报告并调用`assertRecordedStoryParity`，本轮未运行它们。
+
+| 公开入口 / caller | 正常输入与专项边界 |
+|---|---|
+| `pnpm e2e:002:both` / [inn-both](../../../../scripts/e2e/inn-both.mjs) | 分别启动game/reforge；[inn-contract](../../../../scripts/e2e/inn-contract.mjs)37–118要求真实passed001报告及001.end.save.json，同轨身份、字节SHA和规定状态；capture不能作verify前驱 |
+| `pnpm e2e:003:both` / [kitchen-both](../../../../scripts/e2e/kitchen-both.mjs) | 两轨各用真实002报告/002.end.save.json；[kitchen-contract](../../../../scripts/e2e/kitchen-contract.mjs)90–218还核core/route/choreography、实际end/restore和Canvas。非任意JSON或40hex即可准入 |
+| `pnpm e2e:004:both` / [meal-both](../../../../scripts/e2e/meal-both.mjs) | 按story/items/saves分别跑两轨六case；[meal-contract](../../../../scripts/e2e/meal-contract.mjs)39–93/413–490区分正常剧情、取消/不可用物品与保存专项，核真实003前驱/源码冻结/end与restore |
+| `pnpm e2e:005:both` / [errand-both](../../../../scripts/e2e/errand-both.mjs) | 按story/guards/saves分别跑两轨；[errand-contract](../../../../scripts/e2e/errand-contract.mjs)405–449只收同引擎004 saves，拒story/items及capture，并核checkpoint字节与实际保存world |
+
+正常导航/菜单输入、同引擎合格前驱和隔离浏览器存储沿原合同；story、items/guards/saves与capture各有职责，不能混作一个passed。上表为已读reader/validator及wrapper职责，不代替其中调用的所有传递helper、当前真实checkpoint或完整runner验收。源码hash相等不证明合法输入确已执行。
+
+顶部metadata、catalog与配对JSON仍精确记录 `d02278dc0154dd73b5db24388a35c30bb096cc81`、content22/minimumSave11及2026-10-04文档审计。当前[版本常量](../../../../packages/content/src/character.ts)168–170为content22/minimumSave12，只是本轮源码核读；Game的保存format与RF envelope另属各自合同。本次不修改机器历史、lastVerified、reviewBy或依赖，也不把旧SAVE11报告续成SAVE12实跑。
+
+[编辑器预览准则](../contract.md#每段核对编辑器预览初始状态用户2026-10-12)另需真实入口前态、相关NPC、正确方案/场景默认、步骤关联及保存重开回执。旧runner passed不能追认为预览通过。本次未开编辑器、未造游戏/E2E fixture或正式存档；文档consumer反例只在临时文档副本上验证。
 
 ## Results and gaps
 
-保留源核读、用户反例、撤回项、未冻结补录和历史限制；runtime/E2E/视觉/coverage 仍需对应阶段或任务卡 fresh evidence。
+### 各日期声明的有效范围
+
+| 时点 / 来源 | 保留什么 | 今天不能据此宣布什么 |
+|---|---|---|
+| 2026-10-04 / d022、content22/SAVE11 | 文档发布/source审计，配对performed=false | 不构成新游戏执行或当前版本续期 |
+| 2026-10-06至07 / 原正文诊断 | 实际draw、时钟、story窗口、恢复边界和有界阶段修复的当时声明；曾有未决数变化 | 减少初始化/帧索引误报不等于修掉同数量产品bug，独立流程passed不等帧差异全闭合 |
+| 2026-10-08至09 / 连续任务各批 | 工具补强、partial/冻结与逐批重录各自时点；纯oracle变更可依影响证据离线重比 | 较早“冻结”或局部工具绿不能压过后续新counter，也不能用旧日志缺字段证明新义务 |
+| 2026-10-10 / [合理性复核](../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#全量改动范围与合理性审计2026-10-10当前) | 撤回只为复制旧引擎而加的party+4、无entry补600ms、e203对白冻结等候选；保留暂停站立取舍 | 后文旧“当前party assembly +4”只是更早诊断，不能复活为今日修复；合理差异仍须有具体证据 |
+| 2026-10-11 / [固定批次accept](../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-11-最终重录与headed验收accept) | 当时六份acceptance、headed、对白动作前clear及其失败/重跑记录；原回执保留RF浏览器404/Canvas消息 | 归档中的“当前”只属该候选，不覆盖今天catalog的006 rework或R4未完；浏览器消息不改写为零 |
+
+当前明确保留：用户选择接管期间站立；已批准001/003大娘局部匀速末步，不改精确端点和必需姿态。party screenOffsetY4、无entry额外补旧600ms、s014/e203全局式冻结、e84/e127初始朝向及e87初始手势候选按归档裁定撤回。本次没有重验其产品实现，也不把第一阶段相同值当作二阶段唯一合理答案。
+
+### 缺证、重开与退出条件
+
+本轮仅检查八条历史build路径是否存在：三条实际draw/story-scope/scene-lifecycle收据，以及最终tape、headed父回执、两侧continuous-report和文件验证索引，在本隔离checkout均缺失；没有打开、hash、补造或从主树搬回raw。原`data/extracted/events/all.json`也不可用。缺失仅描述本checkout，不能推断历史从未执行或全仓不存在证据。
+
+原producer、raw保留Owner、完整帧/时钟、后期原指令和各问题今天是否仍复现均未在本次确认。后续收口须回原任务补指定候选、输入、完整raw身份和可证伪检查；本篇的source-backed不能填补这些unknown。历史路径、数值、失败和撤回项在下方原文完整保留，不恢复R60的旧深审/直接inverse声明。
+
+重开时先记录人物中文称呼+稳定ID/场景/通道/入口、现象、候选与版本、真实输入和raw、最强替代解释、根因层及反控：作者编排回对应stage，保存/调度/呈现回公共runtime，导航/采集/比较/监督各回自身工具。先证明同根再收敛；同一公共修复的文件数不计成多个bug。维护权须按当前作者真源判断，不以“迁移问题”重跑已退役转换器覆盖人工001–005。
+
+本页排重于各stage报告：不复制通过数字，不从其它文档的迁移接受外推本篇。可用性判据是读者能把e83恢复后位移回background oracle、把span/容量缺证回采集比较层、把后期L2018/3383/5076留待核；若只能凭标题/current/hash或旧0 findings判断“都好了”，本篇仍须返工。证据冲突、前驱/版本不合、旧counter未闭合、Owner不明或缺必要raw时停止受影响项，保持needs-review/rework/blocked，不用静态绿补证。
+
+### 历史导航 counter 与当前状态
+
+固定作者候选`1c23ddde3529e81c9d95240fb6de4e0ae42531d4`逐条检查时，原quote中两条标题fragment因目标标题历史化而失效，当时两项导航counter为rework。原断链发现、两次作者失败回执与下方旧slug→实际历史heading映射均保留；不能用后来的修复回写成当时已通过。
+
+| 原fragment（历史字节保留） | 已核实际标题与当前替代入口 |
+|---|---|
+| `2026-10-08-当前推进语义适配与统一关系仍非完整双轨证明` | [2026-10-08 前批冻结：语义适配与统一关系（仍非完整双轨证明）](../../../ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md#2026-10-08-前批冻结语义适配与统一关系仍非完整双轨证明) |
+| `2026-10-07-当前验收独立流程与双轨比较通过` | [2026-10-07 历史验收：独立流程与双轨比较通过](../stages/001-opening/report.md#2026-10-07-历史验收独立流程与双轨比较通过) |
+
+后续root固定候选`752708a42db05a9901d0f7bcb3478283db5a521c`在两个目标的现行说明层加入稳定兼容锚。非作者`/root/central_successor_independent`的导航回执SHA为`39344a9f7826e316aef9fb0abc12e572f67e103d7892634a59cdebf74127c91b`：实际组合固定`1c23ddde`正文（SHA `61bb76dfd5de68fad02337ab95e6451c8f0e0e1d520140d328a48873abfc5747`）与固定`752708a4`目标，核44条链接/11个fragment为0问题；删除单锚各产生1项、删除双锚产生原2项失败，只限定闭合这两项导航counter。
+
+本作者隔离分支没有导入`752708a4`的目标文件；本节同步的是上述已核固定组合，不声称本分支旧目标已修。原quote、旧标题/历史结论及原回执未改。导航闭合不授本篇语义或模板接受、目标新的内容review、runtime/E2E、中央入账、全量门、main或done；此后继正文与最终组合仍须由root另行复核。
 
 ## Quality gate
 
-本页只通过文档/consumer 配对和静态门；源码核读不计实跑，横向台账不授任何阶段 verified。
+本次将原来的概括封套改为具体问题族、责任、来源范围和重验入口，仍采用既有1.1模板。单篇自验、非作者内容验收与root中央入账分别记录；此页不自行授reviewed、completed或阶段verified。
 
-## 原文保全
+| 检查 | 接受判据 | 信用边界 |
+|---|---|---|
+| 正文与配对 | 五章有实际内容；单篇完整模板consumer、真实`validateCanonicalEvidence`核唯一catalog身份/发布字段/sourceRefs；错publication应被拒 | 形状/配对不证明问题全部闭合或runtime |
+| 原文保全 | frontmatter/testing-meta与完整quote原字节不变；精确source逆回及损坏反例能区分 | 字节保真不等于语义接受，也不倒改旧回执 |
+| 导航 | 新旧每条链接、fragment与catalog实际canonical核验，不能只猜目录或仅核文件存在 | 不代替链接目标全文审查 |
+| 独立验收 | 不同Owner核新/原全文、实际来源、历史/unknown、caller/oracle及真实自验原件后作明确结论 | 作者nonAuthor=false；全量任务仍[rework](../../../ops/tasks/DOCS-FULL-TEMPLATE-1.md)，不借本篇合main或done |
 
-固定 source revision `dc478db11c6b52c4e50a1d1135f8a4740796418c`，source SHA `6012299438bdebdfb0537ef01689b2445dba14047235e1b84788e2874bbee082`；下方 quote 可逆回原始 UTF-8 字节。
+本次没有产品、旧产品测试、E2E、视觉或coverage执行。文档/lint/全量门须按实际候选、命令、原始诊断分别记录，任何error/warning/info不算通过；没有执行的门不沿用旧数字。下一步先完成本篇独立验收，再由root核source/after和回执接入中央唯一binding、R60迁出及矩阵；其它待审文档与全量硬验收仍独立排队。
+
+## 历史与原文保全
+
+下方保留固定revision `dc478db11c6b52c4e50a1d1135f8a4740796418c`（与33cc源字节相同）的386行原文，source SHA `6012299438bdebdfb0537ef01689b2445dba14047235e1b84788e2874bbee082`。完整quote为52,736B，SHA `1ac28e2b583447b70baf8cd5455394f0f6a4be04765d3151a327f12220ec8e93`。剥离每行引用前缀后的直接inverse为52,042B，不等于52,041B源；只去结束marker前既有分隔空行产生的恰一个LF后才与固定源相等，不作无条件trim或其它变换。原时点的“当前”、通过/失败、未决、用户裁定和链接保留；上方说明控制今天的适用范围，不追溯改写原结论。
 <!-- original-source-quote:start -->
 > ---
 > testingSchema: 2

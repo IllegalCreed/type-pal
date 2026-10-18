@@ -1394,9 +1394,11 @@
       "phase": "testing",
       "docType": "test-domain-report",
       "templateId": "test-domain-report-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r60-testing-e2e-entry.json"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261018-semantic-rework.json",
+      "templateVersion": "1.1.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/testing/e2e/route-proposal.md",
