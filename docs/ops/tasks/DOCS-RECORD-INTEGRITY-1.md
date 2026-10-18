@@ -5,7 +5,7 @@ Phase: ops
 Capability: documentation evidence integrity
 Coding Owner: Codex
 Contributor: Codex
-Reviewer: 固定58e899bf纠错包限定接收保留；新增R23–R36/回执锚点补救待非作者验收
+Reviewer: 固定58e899bf及23b62e97纠错包获非作者限定接收；全量语义与硬门仍未完成
 Branch: codex/docs-audit-rework
 Last reviewed: 2026-10-18
 Template: task-card-v1 / 1.0.0
@@ -139,3 +139,13 @@ Template: task-card-v1 / 1.0.0
 - R27实测五篇289处行尾U+2420已有可见编码声明；15篇直接逆回、5篇仅按声明解码后全字节等真源。它们不属于先前113份封套插分号修复的已清范围，不删除原始空白、不把编码相等冒称直接字节相等。R53 N3的一处行尾标记可解码等真源，但缺可见声明及记录仍称直接exact；只修说明/保全口径，quote和历史执行不动，另作非作者核验。
 - DOCS-CATALOG-SPLIT-1当前已rework；原done/自验冒称独立已撤回，本次补清历史准入块，不补造十六分钟前不存在的原始回执。缺原始执行与新非作者验收仍待补，现有实现和184条守恒成果保留。
 - 三篇历史任务导航S13只读提案a6ea67c7已封存，尚未授body build；先完成本次记录层纠错与非作者验收。S12固定正文/中央接受、配对JSON既有限定审查及其C09执行隔离分别保留；全量硬门未过，不合main、不推main、不done。
+
+
+## 2026-10-18 扩大纠错的固定候选非作者限定接收
+
+- 不同逻辑任务 `/root/s11_design_rework` 独立复核 root 实施的 `23b62e9772a85096ba10ebf5971ebe066d7ff632`，报告 SHA `dae53bb2ee5caa3139751a9594ba39d986e7d359824da74edd490f573960996a`，结论为 `limited-accept-record-correction-only`，无新增 blocking counter。同属 Codex 平台；其原 d17 字符事实报告与本次 fresh 检查分开，不冒称异供应商或作者自验。
+- 151 个现旧绑定仅撤两状态字段，S01 与全部 12 条语义后继/180 保护文件不变；70 回执的 68 个可证头、R65 双锚与 R92/R93 unknown、六错位 counter 和四旧 gate 组的撤信、九设计真源与 N3/R27 编码范围、118 显式 pin/114 根/2431 唯一 binding 零漂均在限定范围核实。原 1896 scope/六分片不改，并集 2048 当前 10 已合格/2038 待审不是本轮深审数。
+- Reviewer 实跑完整 181/181，fail/skip/cancel/todo 全 0；lint 4511 文件 error/warning/info 全 0，导航 1301/8246/364、model 7/1264（结构）、testing、phase/lore 184 及完整 diff 通过。strict 的 4254 项仅 2124 partial 与 2130 模板待迁移；require-complete 为 295/1838 基线 +6 增量、2130 待审，真实 exit 1。完整 check:docs 仍失败，旧运行未获补真。
+- 原报告、实际 23 命令和首轮 harness 错误保原字节；91 成员加 manifest 共 92 原件，外 seal 另列。运输入口为 `docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/expanded-record-correction-nonauthor-fixed-23b/transport.json.gz`；精确双 SHA/范围写入既有 integrity-audit 的 expandedAudit20261018.independentAcceptance。
+- 本卡与父卡持续 rework；全量语义/模板、五既有执行隔离和四组旧数字真实性、目录拆分独立执行缺口仍保留。main/done/global 皆 false；本行政接入或任何后继 build 不在固定 23b 报告预授范围。
+- 用户指定后续由 Codex 主导通用机制、复杂判断、派发和非作者验收，GLM 做明确范围的逐篇正文与重复劳动；用户手动转发提示词，尚无 GLM 实际执行。具体首包准入独立记录在父卡，不从本限定接受扩大授权。

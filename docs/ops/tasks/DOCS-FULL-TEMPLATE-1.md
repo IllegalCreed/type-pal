@@ -1,11 +1,11 @@
 # DOCS-FULL-TEMPLATE-1 — 全 docs 深度治理与模板化改写
 
 Status: rework
-Execution: rework（2026-10-18 撤回 R39–R93 及最终收口的过度审阅信用）
+Execution: rework（R23–R36追加撤信与R39后原撤信已纠错；逐篇语义及全量硬门未完成）
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: 纠错包、单篇及固定fa63中央组合已获非作者限定接收；全量硬验收仍未完成
+Reviewer: 原纠错、fa63单篇中央组合及固定23b扩大纠错获非作者限定接收；全量硬验收未完成
 Branch: codex/docs-audit-rework
 Last reviewed: 2026-10-18
 Template: task-card-v1 / 1.0.0
@@ -90,7 +90,7 @@ Template: task-card-v1 / 1.0.0
 - 链接/索引批量变更破坏；缓解：批次后 check:docs 与悬链扫描。
 
 ## 下一位 Agent 提示词
-无下一位 Agent 提示词；Codex 继续执行冻结注册表、pilot 和分批迁移，最终仍需独立验收。
+下一位贡献者为用户手动转发的 GLM；仅按本卡最新“GLM S13 首包准入与交接”节执行三篇正文候选。Codex 保持总 Owner、中央账本唯一写入者和非作者验收职责；旧 R 批历史不恢复授权。
 
 ## 用户裁决记录
 
@@ -1884,3 +1884,48 @@ root非作者实际核固定de423正文SHA1e50d535c2b16aa466207da22e698768bd5abb
 - 实际72份acceptance JSON中70含candidateHead。按原首次blob与完整after集合，68可准确改锚、R65保ledger/body双锚，R92/R93仍unknown；不能凑用户50/53或猜SHA。六B01复制错位撤回、R64坏路径显式更正，R88–R91四原数字组保全并隔离；新实际门不能补真旧执行。
 - 九份R93设计的Git真源与旧两层wrapper复合体分别记录；原quote不改，不把复合体SHA称为Git原文。N3补单行尾空格编码规则并撤直接exact；R27明确15direct+5encoded/quote289，保留原始空白语义。目录拆分卡继续rework，未补造原缺失独立回执。
 - 具体逐条来源与当前纠错见[完整审计追加段](../evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json)；实际中央写盘、质量门与非作者结论另按本次固定候选记录。S12/fa63/752、配对JSON既有限定成果和全部旧失败/隔离保留。S13三导航仅有只读提案，暂不正文build。本卡持续rework，不合main、不推main、不done。
+
+
+### 固定23b扩大纠错非作者接受写回
+
+- Reviewer `/root/s11_design_rework` 对固定 `23b62e9772a85096ba10ebf5971ebe066d7ff632` 给出 `limited-accept-record-correction-only`；报告 SHA `dae53bb2ee5caa3139751a9594ba39d986e7d359824da74edd490f573960996a`，没有新增阻塞 counter。151 撤信、70 回执、9 真源、N3/R27 编码、118 pin 与原件运输均独立核过；181/181 实跑和 lint 零诊断成立，完整治理门仍失败。
+- 原始报告/91 成员/manifest 与外 seal 不改，精确运输与范围见[返工卡](DOCS-RECORD-INTEGRITY-1.md)和既有 integrity-audit 的 expandedAudit20261018.independentAcceptance。本行政写回与新包准入不是报告所接受的固定对象；不重授旧运行或全量完成，不更改 S01/S12/配对 JSON、旧失败或撤回清单。
+
+### 后续执行分工（用户2026-10-18）
+
+- Codex 主导：任务排期与不重叠白名单、模板/consumer/账本的通用机制、复杂语义冲突与来源裁决、非作者逐篇复核、全仓质量门、集成与状态写回。中央 registry/review/routing/matrix/catalog 的唯一写入者为 root；机制检查不自动授语义完成。
+- GLM 执行：按已冻结合同逐篇阅读、正文模板治理、具体审阅记录草稿与真实自验；每包仅写所准入正文。已核合格成果直接复用，同类交付稳定后扩大批量；不以机械 envelope 或泛化结论充深审，不自授独立接受。
+- 实际入口：用户选择手动转发；本次只准备可转发交接，未自动调用或冒称已派发 GLM。GLM 完成交精确候选/原件，Codex 决定接受或返工。无需逐批再问许可，关键产品取舍/事实冲突仍按停止线处理。
+
+### GLM S13 首包准入与交接
+
+- Codex 新 `build allowed`：仅三篇历史任务导航正文候选，单一 Coding Owner 为 GLM；这是 root 根据用户持续授权、已有 governance-index 1.0 pilot 与具体 a6ea67c7 设计逐项核定的隔离候选准入，独立于固定23b纠错报告，不预授正文/中央/全量接受。
+- 隔离工作树为 `/Users/zhangxu/.codex/worktrees/docs-archive-navigation/type-pal`，分支 `codex/docs-s13-glm-navigation`；root 在本准入提交后从其提交创建该分支，保留原 detached d17/旧分支。GLM 开始前核分支/源 SHA/脏树；本包以包含本准入的分支初始提交为 base，不在 main 或中央 root 实施。
+- 根已复核三篇当前全文与原源保全、具体只读设计和真实 README 排除/状态顶层/索引消费者；三篇 body SHA 与提案一致。cancelled 原生审阅状态已在23b撤信，不能继承提案 d17 的旧信用。当前模型路由仍旧值，GLM 不改；body 合同按 governance-index-v1/1.0.0、historyOverlay=false 明确验证，中央接入另由 root 负责。
+- 正文完成后仍须 Codex 对每篇具体语义、原源/quote、导航、真实消费者与 before→after 做非作者复核；GLM 交自验不等于接收。全卡持续 rework，全量门未过不合main、不推main、不done。
+
+以下为可直接转发的自含提示词；状态是“已备妥，待用户转发”，不是 GLM 已开始或已完成：
+
+你是 type-pal 的 GLM 文档贡献者；Codex 负责准入、中央入账和非作者审核。用户手动转发本提示词，不代表你已交付。
+
+任务：DOCS-FULL-TEMPLATE-1 / S13，三篇历史任务导航的真实语义与模板治理。先读父卡顶部和其最新“GLM S13 首包准入与交接”节。若该节还没有 build allowed，仅核对交接条件，不能自行开始正文。
+
+执行目录仅为 /Users/zhangxu/.codex/worktrees/docs-archive-navigation/type-pal，分支应为 codex/docs-s13-glm-navigation。先记录 git status、branch、HEAD；有他人改动、来源不符或仍 detached 时停止受影响写入，不 reset/stash/覆盖，不在 main 或 root 中央 worktree 实施。
+
+按序必读：AGENTS.md、CLAUDE.md、docs/phase2/READ-FIRST.md、docs/ops/guides/documentation-model.md、docs/ops/agent-workflow.md、docs/ops/board.md、父卡当前准入、DOCS-RECORD-INTEGRITY-1 最新裁定、docs/phase-governance/templates/{README.md,governance-index.md,registry.json}、docs/testing/governance.md 与 docs/testing/_templates/README.md。复用已核实成果，不批量回读无关历史回执。
+
+唯一正文白名单：docs/ops/archive/tasks/README.md、docs/ops/archive/tasks/done/README.md、docs/ops/archive/tasks/cancelled/README.md。只改这三篇；逐篇审阅记录草稿、命令原始回执和完整 patch 交到独立 /tmp 目录，不能写中央 registry/review/routing/matrix/catalog/card/board/index、产品、旧产品测试、coverage、配置或依赖，也不能自行合 main。
+
+已有具体设计可复用：docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s13-three-navigation-readonly-no-build-d17/a6ea67c7e80cc51e3575af3e0165e37d9a658e109b944f5ace010aabaadbaebb.gz。解压阅读原提案并核 payload SHA；它是 d17 时点只读提案，不代替本次实际正文阅读。其 cancelled 的旧 content-reviewed/template-compliant 观察已被23b纠错撤回；本包不能沿用旧信用。
+
+三篇均用已冻结 governance-index-v1 / 1.0.0、Status current（只指导航）、phase ops、historyOverlay false，正文五章为目的/范围/当前状态/入口与责任/证据与下一步。总页给 done、cancelled、上级和统一索引实链；done 页表达已归档 done 范围与原卡证据，允许任务原位关闭；cancelled 页纠正历史 task-card/phase1/cancelled 的导航误分类，取消理由和替代项仍取原卡。不得把本页 current 变为历史任务重开或产品通过。不要手抄数百卡或只换标题套模板，当前必要导航必须在 quote 外可直接访问。
+
+保留三篇现有标题、路径和 original-source-quote:start/end 之间的完整原字节。两篇原源固定 b9901f97a3a09359cbeaed9dde126e6f44b7f229（293B/10LF、259B/7LF），cancelled 固定 dce008a777bb45658e9d7a146624db9b57469f63（258B/7LF）；cancelled 逆回读须精确排除原有一个未加quote的分隔 LF，不能 trim、通用替换字符或声称无条件直接相等。旧封套由本次 before SHA/Git 留存，原始日期与结论不改。
+
+当前正文三个 before SHA 按上述顺序为 fab9411d84f94350cadb921500457958247346901562f0842d614c4f9dbc55e8、2b816a9611098ffad7537cec568224958631f1d32a61982ea5653311204765d0、c346d499c79ac59e68b8a5d46b68ffc27d180386839dc61c95ea1a2112ab2c4c。Codex 会先给分支准入；若实际不同先交差异，不覆盖。
+
+交付：三篇正文候选、每篇具体可证伪结论与实际阅读范围/来源/状态权/owner/provenance/阶段/依赖/版本/入口/合法输入/oracle/排重/counter/历史与supersedes/source-after SHA/before→after/停止线/下一步/模板符合性；作者 nonAuthorReviewer 必须为 false。保留真实 argv/cwd/起止时间/exit/完整 stdout+stderr、所有失败和限制，格式化后再取 after SHA。
+
+实际检查三篇显式新合同的 checkMigratedDocument、可见链接、quote 精确逆回读、任务索引投影未变、pnpm check:docs、pnpm lint 和非空完整/暂存 diff --check。中央旧 routing/after pin 未接入或全量尚未迁移会使完整 check:docs 失败；保留真实失败，不能改账本/规则/输出放行，不能称统一门通过。无需新增产品测试或重跑runtime/E2E/视觉/coverage。
+
+提交仅三篇正文到本候选分支，交精确 commit、before/after map、原件 manifest 和 /tmp 证据路径，交 Codex 非作者审。不得自授 reviewed/compliant/accept/done 或恢复152/1896等旧范围信用。来源冲突、机器字段/原quote改变、需新模板或产品取舍时停止受影响项，给具体 counter，不逐批问用户是否继续。

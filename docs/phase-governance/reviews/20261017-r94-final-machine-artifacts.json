@@ -5498,7 +5498,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "b5d4cc4d7f1418086a8d5d2ed4204255b7fe323135173318b9ae0a7eee5dd6fc",
+      "afterSha256": "93f717e90c62071ad70a2ac2dabd0527bc4360b32f6745cf3f075337297b6514",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -5848,6 +5848,15 @@
           "previousAfterSha256": "5d971a16055ca25179e4ff0022d9b3ccb7b320eca6d344dcaf7a0e8683f2c646",
           "afterSha256": "b5d4cc4d7f1418086a8d5d2ed4204255b7fe323135173318b9ae0a7eee5dd6fc",
           "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1 fixed23b acknowledgement and separately scoped GLM manual S13 admission",
+          "sourceRevision": "23b62e9772a85096ba10ebf5971ebe066d7ff632",
+          "previousAfterSha256": "b5d4cc4d7f1418086a8d5d2ed4204255b7fe323135173318b9ae0a7eee5dd6fc",
+          "afterSha256": "93f717e90c62071ad70a2ac2dabd0527bc4360b32f6745cf3f075337297b6514",
+          "method": "Actual fixed23b limited-record acceptance acknowledgement and new separately scoped GLM three-navigation body admission/manual handoff. No new semantic/template completion, execution, main or done.",
           "grantsNewSemanticAcceptance": false
         }
       ]

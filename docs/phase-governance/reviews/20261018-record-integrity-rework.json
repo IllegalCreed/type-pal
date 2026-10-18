@@ -998,7 +998,7 @@
       "supersedes": [],
       "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
       "sourceSha256": "01d22347bffa1427428dbb863df59493c6cbe923a48cd885a23473e94c595295",
-      "afterSha256": "c2a1752dcf76b0efcff9c9462cc97615029ee1ffaa765806b82eff12ebb1ec6c",
+      "afterSha256": "96e77423d23978c32ea38bf5dc919d396e8ce3e62705f7fc86d69cd1ded953b6",
       "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only",
       "maintenanceDeltas": [
         {
@@ -1080,6 +1080,15 @@
           "previousAfterSha256": "694e224c91265ee8a2b16878fa3252642a790c9014753ce9c37ab924c067ab44",
           "afterSha256": "c2a1752dcf76b0efcff9c9462cc97615029ee1ffaa765806b82eff12ebb1ec6c",
           "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1 fixed23b acknowledgement and separately scoped GLM manual S13 admission",
+          "sourceRevision": "23b62e9772a85096ba10ebf5971ebe066d7ff632",
+          "previousAfterSha256": "c2a1752dcf76b0efcff9c9462cc97615029ee1ffaa765806b82eff12ebb1ec6c",
+          "afterSha256": "96e77423d23978c32ea38bf5dc919d396e8ce3e62705f7fc86d69cd1ded953b6",
+          "method": "Only expandedAudit20261018 current correction acceptance and exact immutable report reference appended after full fixed23b independent report reading; original scope and native subject statuses unchanged.",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -1987,7 +1996,7 @@
       "supersedes": [],
       "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
       "sourceSha256": "af84d2340f368b60efd099fceb387cfd57d50e5a8c285a03a091009799a64e35",
-      "afterSha256": "d269569a7ebb0ed9e3a1291e4fc5196c140b49f8b42af31598eb3b78f493be00",
+      "afterSha256": "624529d205cfccda2fc8ad1ac6caccf130f329d1675619ad23ca50b8ed14c1bc",
       "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only",
       "maintenanceDeltas": [
         {
@@ -1997,6 +2006,15 @@
           "previousAfterSha256": "03c93c7f8ea426bb1e6db33c97995e7ba48d39d264e28f1d7f8b4d41d8e0dd2b",
           "afterSha256": "d269569a7ebb0ed9e3a1291e4fc5196c140b49f8b42af31598eb3b78f493be00",
           "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-RECORD-INTEGRITY-1 fixed23b acknowledgement and separately scoped GLM manual S13 admission",
+          "sourceRevision": "23b62e9772a85096ba10ebf5971ebe066d7ff632",
+          "previousAfterSha256": "d269569a7ebb0ed9e3a1291e4fc5196c140b49f8b42af31598eb3b78f493be00",
+          "afterSha256": "624529d205cfccda2fc8ad1ac6caccf130f329d1675619ad23ca50b8ed14c1bc",
+          "method": "Actual fixed23b limited nonauthor acceptance acknowledged with exact original report, true gates and limitations. Rework retained; no new subject acceptance.",
           "grantsNewSemanticAcceptance": false
         }
       ]

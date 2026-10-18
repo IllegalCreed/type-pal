@@ -2440,7 +2440,7 @@
     "date": "2026-10-18",
     "author": "/root",
     "nonAuthorReviewer": false,
-    "status": "corrective-implementation-awaiting-fixed-candidate-nonauthor-acceptance",
+    "status": "fixed-23b-record-correction-independently-limited-accepted",
     "priorAcceptedScopeUnchanged": {
       "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json": "3118d8a2d935e06169ff119da89f368ab696f2fdc58e922c4ce03c5eec9dace9",
       "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope-1.json": "038cb9a89f0136a42756755fd1ac323d890c0fcb9c2b18eb892f720603cffbc6",
@@ -5717,9 +5717,54 @@
       "Full baseline and incremental semantic/template review still required; this supplement only withdraws unsupported claims and corrects source identity."
     ],
     "newSemanticOrExecutionCreditGranted": false,
-    "actualCentralCorrectionAccepted": false,
+    "actualCentralCorrectionAccepted": true,
     "globalHardGatePassed": false,
     "mergeMain": false,
-    "cardDone": false
+    "cardDone": false,
+    "independentAcceptance": {
+      "candidateCommit": "23b62e9772a85096ba10ebf5971ebe066d7ff632",
+      "reviewerTask": "/root/s11_design_rework",
+      "authorTask": "/root",
+      "nonAuthorReviewer": true,
+      "relationship": "Different logical Codex task, same platform; reviewer previously authored read-only fixedd17 character facts only, not root23b corrective implementation. That prior source report remains dated and does not by itself accept this successor; current representation/source checks freshly recomputed.",
+      "verdict": "limited-accept-record-correction-only",
+      "report": {
+        "originalPath": "/tmp/type-pal-expanded-final-independent-20261018-dvpsimus/independent-review-23b62e97.json",
+        "sourceScope": "original-manifest-member",
+        "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/expanded-record-correction-nonauthor-fixed-23b/dae53bb2ee5caa3139751a9594ba39d986e7d359824da74edd490f573960996a.gz",
+        "payloadSha256": "dae53bb2ee5caa3139751a9594ba39d986e7d359824da74edd490f573960996a",
+        "payloadBytes": 19266,
+        "encoding": "gzip",
+        "storedSha256": "d11493a7f488d2144cc4df83778294a8e786ad219a9f356be3f42c35dcbf806e",
+        "storedBytes": 6274,
+        "reviewerTask": "/root/s11_design_rework",
+        "authorTask": "/root",
+        "candidateCommit": "23b62e9772a85096ba10ebf5971ebe066d7ff632",
+        "scope": "Fixed23b record correction only; no new deep semantics, old execution, main, done, or successor build."
+      },
+      "manifestSha256": "9317f006e8c48b6ce107f076df2ba92b41abcaeb467d12f03991b3352055c6af",
+      "originalManifestMembers": 91,
+      "membersPlusManifest": 92,
+      "externalSealSha256": "e7cfae4685c1d4f60704e2e77834d980b3827825246c391de69834febac1ce0c",
+      "blockingCounters": [],
+      "scope": {
+        "fixedRecordCorrectionIndependentlyAccepted": true,
+        "newDeepSemanticOrTemplateCompletionGranted": false,
+        "oldExecutionAuthenticated": false,
+        "runtime": false,
+        "e2e": false,
+        "visual": false,
+        "coverage": false,
+        "fullGovernanceComplete": false,
+        "mergeMainAllowed": false,
+        "pushMainAllowed": false,
+        "cardDoneAllowed": false,
+        "successorBuildAllowed": false
+      },
+      "readscopeSha256": "eb6f9a861e1f4119a2969f3c3d763875675c6242a9731b09227833afd5b929c5",
+      "ownHarnessFailuresPreserved": true,
+      "administrativeSuccessorPreaccepted": false,
+      "s13BuildGrantedByThisReport": false
+    }
   }
 }
