@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "base": "3af9939a9b0895fbd9208aec5df3d837482eafb4",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/game/src/core/battle/battle-opcodes.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "c982fb7b034b15d73f75137728bbc9d1140e2777572f894800c6b1261d51d39e",
+        "current": "8e2f145e192636d2352f49b52f4d615b20d879a80002888d62f63acf3217f25b"
+      },
+      "printedBytes": {
+        "base": 49589,
+        "current": 49558
+      },
+      "printedEqual": false
+    }
+  ],
+  "allEqual": false
+}
