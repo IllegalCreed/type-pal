@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "base": "d3f59cadd3389693e600f06a43d32ccebff68f6c",
+  "date": "2026-10-18",
+  "gates": [
+    {
+      "gate": "directed vitest (before fix)",
+      "command": "cd packages/shared && ../../node_modules/.bin/vitest run --reporter=default --reporter=json --outputFile=<evid>/base-targeted.json src/rle.test.ts src/rle.boundaries.test.ts src/rle.glm-o.test.ts src/rle.glm-runtime-resource.test.ts",
+      "cwd": "worktree/packages/shared",
+      "exit": 0,
+      "result": "4 files / 51 passed / 0 failed / 0 skipped / 0 pending / 0 todo; stdout 无诊断",
+      "receipt": "base-targeted.json"
+    },
+    {
+      "gate": "directed vitest (after fix)",
+      "command": "cd packages/shared && ../../node_modules/.bin/vitest run --reporter=default --reporter=json --outputFile=<evid>/after-targeted.json src/rle.test.ts src/rle.boundaries.test.ts src/rle.glm-o.test.ts src/rle.glm-runtime-resource.test.ts",
+      "cwd": "worktree/packages/shared",
+      "exit": 0,
+      "result": "4 files / 51 passed / 0 failed / 0 skipped / 0 pending / 0 todo; stdout 无诊断",
+      "receipt": "after-targeted.json"
+    },
+    {
+      "gate": "body invariance (parse + print removeComments)",
+      "command": "node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/prove-body-invariance.mjs",
+      "cwd": "worktree root",
+      "exit": 0,
+      "result": "三文件 printedEqual=true；标题调用数 base=current（rle.test 29 / boundaries 9 / rle.ts 0）",
+      "receipt": "body-invariance.json"
+    },
+    {
+      "gate": "scoped biome check",
+      "command": "node_modules/.bin/biome check packages/shared/src/rle.ts packages/shared/src/rle.test.ts packages/shared/src/rle.boundaries.test.ts docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1/",
+      "cwd": "worktree root",
+      "exit": 0,
+      "result": "Checked 8 files, 0 error / 0 warning / 0 info（过程中曾报 3 useTemplate info + 1 organizeImports error，修复并重跑后归零）"
+    },
+    {
+      "gate": "shared typecheck",
+      "command": "cd packages/shared && ../../node_modules/.bin/tsc --noEmit -p tsconfig.json",
+      "cwd": "worktree/packages/shared",
+      "exit": 0,
+      "result": "无输出"
+    },
+    {
+      "gate": "git diff --check",
+      "command": "git diff --check",
+      "cwd": "worktree root",
+      "exit": 0,
+      "result": "无空白错误"
+    },
+    {
+      "gate": "check:docs",
+      "command": "pnpm check:docs",
+      "cwd": "worktree root",
+      "exit": 1,
+      "result": "首跑：125 工具合同 pass / 0 fail，docs 3 issues（gates.json 未落盘 ×2、copy-fix-r1 未登记导航 ×1）；补写 gates.json 并在 rle/README.md 登记导航后复跑见下一条"
+    },
+    {
+      "gate": "check:docs (final)",
+      "command": "pnpm check:docs",
+      "cwd": "worktree root",
+      "exit": 0,
+      "result": "125 工具合同 pass / 0 fail，docs 0 issues",
+      "receipt": "docs-final.raw.gz"
+    }
+  ],
+  "notRun": [
+    "全仓 pnpm check、official coverage ratchet、protected fast（按准入：纯文案批不重复）",
+    "相邻全包、E2E、视觉（纯文案批无视觉校验点）"
+  ]
+}

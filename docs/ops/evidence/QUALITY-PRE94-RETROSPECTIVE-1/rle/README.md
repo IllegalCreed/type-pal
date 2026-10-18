@@ -39,3 +39,9 @@ shared公共出口已使game/extract重导出同一codec；generic与strict的�
 [本次校准、八维结论、有限build与低成本复验入口](calibration-20261018/README.md)以170edee44为基点。P-1成立，实际丢失在89bf84e16合并，不把9cf1fd09f另一支线的旧表误写成其本次有意恢复；完整243行差异已保存。Codex仅恢复当前rle.ts/rle.test.ts两行review，三文件仍review；3319/249closed/105review/2965pending，0新关闭。
 
 独立定向4文件51/51，完整raw/native已附；不继承GLM未附原件的执行信用，不与本页历史54身份混同。上表316/329/117/150等行数属于各历史时点，当前逐文件字节/行数另列新包，不覆盖旧证据。GLM仅获三文件文案/标题候选准入，漏项需补，八维整体尚未接收；格式/分支/fixture/断言均未改。全仓门/coverage/protected在稳定窗口执行，本次未跑、未合main。
+
+
+## 2026-10-18 RLE三文件文案整改候选（GLM r1）
+
+[copy-fix-r1](copy-fix-r1/README.md)以d3f59cadd为基点、临时detached worktree交付：仅注释/docblock/错误测试标题9处，实现/fixture/断言零变化；51身份47不变+4标题更正一一映射，去注释打印AST三文件字节级一致，定向前后51/51。候选待Codex独立验收后集成，本节仅为导航，不作接收结论。
+

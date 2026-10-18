@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "counts": {
+    "rle.boundaries.test.ts": {
+      "before": 7,
+      "after": 7
+    },
+    "rle.glm-o.test.ts": {
+      "before": 9,
+      "after": 9
+    },
+    "rle.glm-runtime-resource.test.ts": {
+      "before": 9,
+      "after": 9
+    },
+    "rle.test.ts": {
+      "before": 26,
+      "after": 26
+    }
+  },
+  "changed": [
+    {
+      "file": "rle.boundaries.test.ts",
+      "before": "R01 parseSpriteChunkStrict 手列字节完整核 两帧混合游程：pixels/opaque 逐字节精确、palette-0 实心不混淆、无 sentinel 报告",
+      "after": "R01 parseSpriteChunkStrict 手列字节完整核 两帧混合游程：pixels/opaque 逐字节精确、palette-0 实心不混淆（无 sentinel 容器构造）",
+      "index": 0
+    },
+    {
+      "file": "rle.boundaries.test.ts",
+      "before": "R01 严格拒绝单轴与相邻正控 像素段越界 / 透明段越界 / 指令流截断 / 帧头越界各单轴",
+      "after": "R01 严格拒绝单轴与相邻正控 像素段越界 / 透明段越界 / 指令流截断 / 尺寸非法各单轴",
+      "index": 4
+    },
+    {
+      "file": "rle.boundaries.test.ts",
+      "before": "R01 严格拒绝单轴与相邻正控 零长度指令拒绝；同容器把 0 换成合法 1 长度即过（相邻正控）",
+      "after": "R01 严格拒绝单轴与相邻正控 零长度指令拒绝；同容器把 0 换成合法 2 长度 literal 即过（相邻正控）",
+      "index": 2
+    },
+    {
+      "file": "rle.test.ts",
+      "before": "parseSpriteChunk 跳过 word-offset=0 的空帧(键连续性铁律:返回数组下标 = tile 索引)",
+      "after": "parseSpriteChunk 跳过 word-offset=0 的空帧(键连续性铁律:返回数组下标 = 过滤后序列的 tile 索引,非原 slot 号)",
+      "index": 12
+    }
+  ],
+  "unchangedCount": 47,
+  "total": 51,
+  "changedCount": 4
+}
