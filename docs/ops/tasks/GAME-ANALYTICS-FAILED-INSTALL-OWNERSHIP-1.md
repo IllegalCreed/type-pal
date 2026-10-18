@@ -1,91 +1,73 @@
 # GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 — GA安装失败后的订阅所有权
 
-Status: draft
+Status: review
 Owner: Codex
 Phase: phase1 project analytics extension
 Capability: optional analytics / initialization ownership
-Coding Owner: Codex（只读核证，产品执行冻结）
+Coding Owner: Codex（用户A裁决，三文件窄修）
 Reviewer: Codex（自身源码与反例核证，不冒充第三方）
-Visual Verification Timing: dev-functional（若产品准入后执行；本卡尚未浏览器实跑）
+Visual Verification Timing: dev-functional（本地诊断宿主已实跑；非实网GA/完整游戏）
 Branch: codex/code-quality-3y
 
 ## 目标
 
-明确可选GA安装在外部gtag端口抛错后的资源归属与重试方式；失败安装不得在无返回controller的情况下继续拥有授权订阅。当前只读反例成立，产品行为选择尚未批准。
+安装在返回controller前失败，应由创建者撤已取得的监听和本次隐私UI，保留原错误供main隔离；本次停用，刷新后重新安装。用户2026-10-18已明确批准A，不重复请求。
 
 ## 范围
 
-候选实现边界：google-analytics.ts、install-analytics.ts及其定向回归。当前仅本卡与3z证据，不改生产执行、GA数据范围、Measurement ID、隐私政策、游戏机制、UI布局、schema/save、资产或公共接口。用户裁决后重新定有限白名单与先红后绿步骤；不由历史done或父卡测试治理授权产品修复。
+build allowed有限白名单为google-analytics.ts、install-analytics.ts、新正式google-analytics.install-failure.test.ts。只修失败ownership；正常GA采集范围/ID/URL白名单/去重/同意策略、脚本资源error重试、UI布局、公共接口、schema/save/资产/二阶段冻结。3w本轮仅只读，没有改动。
 
 ## 前提真值门
 
-一句话前提：真实install在建立consent订阅后执行初始granted；外部gtag在js初始化命令抛错，安装没有返回销毁句柄，订阅仍响应后续授权。
-
-| 维度 | 当前真值与直接证据 |
+| 维度 | 证据与停止线 |
 |---|---|
-| primary | OPS-GA4既有可选analytics/失败隔离意图；当前typed gtag端口及正式game jsdom原生Storage/window事件。Google官方API只定义命令，不为本项目异常/重试策略背书。 |
-| 第一阶段 | google-analytics.ts:118–139先订阅后applyConsent，:78–81初始化命令异常不在发送catch内；install-analytics.ts:28–56先装UI后GA，GA抛错时未返回installation；main.ts:9–15隔离启动异常但无法取得该句柄。 |
-| 当前二阶段 | N/A：没有Reforge/编辑器/内容域或SDLPal机制对应功能。 |
-| 目标 | 初始化失败后明确释放，或保留完整可重试controller；不得继续留下半初始化的无owner订阅。 |
+| primary | OPS-GA4现已历史保留的可选扩展/失败不阻启动意图；本轮用户A为重试产品真值。Google命令API不为项目异常策略背书。 |
+| 第一阶段 | 真实main.ts:9–15捕获可选安装异常；GA先取得订阅再apply初始授权，旧错误导致无返回句柄却继续响应重授；安装器先装UI。基点完整源/5正式业务失败和原早期probe分别保全。 |
+| 二阶段 | N/A：无Reforge/editor/content或SDLPal机制对应。 |
+| 目标 | GA构造器撤本次已取得的订阅；installer撤本次UI；同一错误对象传播至原启动catch。正常合同不扩张。 |
 
 ### 反证与替代解释
 
-- 真实gtag通常只排队，不假称真实Google SDK已被观察抛错；本例是合法外部函数端口的同步IO异常。
-- 反例完整调用真实installTypePalAnalytics、writeAnalyticsConsent、原生window/EventTarget和localStorage，只用自有无浏览上下文Document及可抛错的SDK端口；不是手写ga状态机。随后替换为恢复的SDK函数，再明确deny/grant，实际排队一次page_view。
-- 后续page_view发生在再次明确授权后；本卡结论是失败安装仍有存活订阅与不完整初始化，未声称未经同意发送或游戏启动失败。
-- 若产品明确规定失败安装仍须保留可重试监听，则A前提应改为B，并补齐初始化状态与异常隔离；现实现没有返回可销毁controller，也未重发js/config，不能靠旧12绿证明完整重试。
-- extractor/原盘/机制真值N/A；复现不消费游戏资源，无生成物变化。
+真实gtag通常只排队，不能声称Google实网SDK已观测抛错。本例是公开可注入外部函数端口的同步异常；正式runner与原生浏览器用实际SUT/native事件/Storage和独占Document/记录型SDK。后续命令只在再次明确授权后出现，原缺陷是无owner订阅，不是未经同意发送。若旧源相同输入不泄漏，counter应撤回；本轮精确最终spec回放仍5业务红。
 
-### 用户可见选择（pending）
+## 用户裁决与准入
 
-A（建议最小边界）：安装失败即回滚本次GA订阅和UI，将原错误交给main既有隔离层；本次安装停用，刷新页面后重新安装。正常安装和脚本资源error重试保持既有合同。
-
-B：保留隐私按钮和可销毁controller，在后续明确授权时重试SDK初始化；需另核部分命令已执行后抛错的重复/提交边界。
-
-当前before→after仅为待裁决方案；A/B都尚未build allowed。
+用户原话：“A：失败即撤销本次监听和隐私控件，刷新页面后重试（推荐，改动较小）”。Codex premise verified/design agree/build allowed，单Owner/同3y隔离树；先正式失败回归再实现。B（保留可重试controller/同页重试状态机）不实施。原probe冻结4b86b04b7与历史draft不替代此新准入。
 
 ## 上下文锚点
 
-- AGENTS.md高风险/用户可见行为边界；CLAUDE.md可选扩展与异常隔离、工程/生命周期审查要求。
-- [父卡3z准入](QUALITY-PRE94-RETROSPECTIVE-1.md)仅注释与测试治理。
-- [旧OPS-GA4](../archive/tasks/done/OPS-GA4-consent-pageviews.md)为设计来源，旧三签/部署不是当前准入。
-- [完整反例](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/initialization-probe.json)、完整nativeJSON/raw及probe源gzip同目录。
+- [父卡](QUALITY-PRE94-RETROSPECTIVE-1.md)、[本轮完整证据](../evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md)。
+- [旧3z probe](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/initialization-probe.json)和源/native/raw为当时未修观察；本次不改旧原件。
+- [旧OPS-GA4](../archive/tasks/done/OPS-GA4-consent-pageviews.md)仅设计来源，不恢复固定三签/历史部署信用。
 
 ## 验收条件
 
-- 用户选择A或B，先把反例变成正式回归并确认旧实现精确业务红，再修实现；纯测试重构与产品修复分提交。
-- 核实际install→consent→gtag caller；SDK例外、订阅解绑、UI归属、部分初始化和后续授权/销毁均有精确oracle。
-- 正常12原合同与当前治理后合同、consent/UI/installer相邻、必要typecheck/静态零诊断通过；昂贵全仓/coverage/protected按大任务窗口实际执行。
-- 若进入产品build，功能性浏览器入口验证延期到稳定候选，不伪造实网GA数据；不向真实property制造测试采集。
-
-## 当前模式推进记录
-
-- Codex前提：counter已证；冻结4b86b04b7，原12绿＋精确清理反例1个AssertionError，0skip/pending/unhandled。
-- Owner：Codex单Agent/同3y树，未分派其它Owner。
-- 用户产品裁决：pending；本卡product build not allowed。
-- 独立第三方审查：N/A，没有冒充他席；作者自验不替代将来Codex产品验收。
-- done：不允许，当前draft。
+1. 正式修前js/config/page订阅/初次readPage/真实installer UI失败为精确业务红，错误对象不替换。
+2. 释放已取得的监听、UI撤销、已保存选择与不相关DOM保留；失败后native重授/页面事件不再触发本次SDK。
+3. 正常现有合同与同意/UI相邻、TC/静态零诊断；全仓/coverage/protected留大任务收尾。
+4. 本地浏览器失败及刷新重试功能实跑，不向真实property发送测试采集。
 
 ## Draft: 设计与风险
 
-A分别由GA创建者撤订阅、安装器撤UI，保留原异常与main隔离；B须有完整的失败状态与重试提交语义。未定项是用户可见重试方式，不能先改实现再请求确认。创建失败可能发生在subscribePage/readPage/初始化不同阶段，获批后逐一核caller与cleanup，不把单个gtag反例外推所有异常已收口。
+事务边界从已取得consent释放句柄开始，page订阅与初次apply位于try内；异常撤已取得的consent/page，再抛回。installer另撤自己UI。共享SDK/global/脚本不是本次独占资源，不清；已执行SDK命令不可逆，不宣称完整撤销外部副作用。任意外部unsubscribe自身抛错、订阅源已注册却抛且不交句柄、已返回controller后的事件回调错误未据本卡认证。
 
 ## Build: 实现与自测
 
-产品未实现。只读probe临时树逐项清理，三生产源SHA逐字节恢复；真实Google端点、完整浏览器、全仓check/coverage/protected未运行。详见probe回执。
+产品只改上述两生命周期块。修前4文件15绿/5指定AssertionError；先红源/spec/native SHA保存后再修，随后7文件30绿。TC首版测试spy泛型有TS2344，改真实类型推断闭包恢复，未cast/ignore；最终TC零诊断。最终spec以两旧源回放仍5红；两单针各4绿1指定红，全部源/测恢复字节，自有临时目录清理。无纯重构夹带、baseline/退役/规则或生成物修改。
 
 ## Review: 审查与返工
 
-旧google主测“Google或URL异常”实际只覆盖URL；当前3z先撤销此过强信用并补强合法合同，不用错误绿测固化本缺陷。
+三文件全文及main/真实UI/consent/共享host核读。既有25相邻测试未改，无弱化/skip。30绿仅本slice执行，三个文件继续review，0新增closed；83卡55partial/28pending/0accept不变。实际docs/lint/ledger以本轮gates为准。统一check/ratchet/protected未跑，review不等于整卡done或允许合main。
 
 ## 用户验收
 
-pending，等待A/B裁决；不在本卡恢复历史固定三签。
+A产品方向已批准。本地浏览器诊断宿主实际看到失败后无控件/无后续命令，刷新后controller/隐私设置可用；真实模块执行，SDK是显式记录端口。不是Google网络/完整游戏启动验收；无需用户重复技术步骤。
 
 ## 交接日志
 
-- 2026-10-18 Codex：完整读取139/169/121行与实际install/main/consent/UI；正式runner旧12绿，真实安装失败后恢复SDK/再次授权仍收到page_view，清理期望单红。产品源码未改，先开本卡draft；3z测试宿主治理独立继续。
+- 2026-10-18早期：冻结4b86b04b7，旧12绿+真实install清理单红，未改产品，开draft等待裁决；原件留3z。
+- 2026-10-18本轮：用户A到达；暂停3w只读，先正式五红再窄修，7文件30绿/TC最终零诊断/两单针与本地浏览器通过。三代码路径review，新测试库存+1；3317/253closed/99review/2965pending。main/其它Owner未写，统一门仍待。
 
 ## 下一位Agent提示词
 
-无下一位Agent提示词；Codex单Agent维护。未获裁决前只读该产品异常路径，不改实现、不标done、不以3z其它测试绿关闭。
+无下一位Agent提示词，Codex单Agent继续；本卡窄功能证据有效但全仓门未收口，随后回pre94 3w settlement，不把本次修复当专项完成。

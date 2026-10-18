@@ -214,3 +214,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 最新[3u/3w清理/runtime复审](3u-3w-finalization/README.md)：真实factory替换强转，九状态/释放时序/实际终态接线与跨GameState隔离；七旧绿新指定单红，9直接/266相邻和TC零诊断。四旧closed重开review，0新关闭，3316/255/96/2965；83卡55partial/28pending/0accept。非队员Extra生产可达性另卡draft，未把静态差异当剧情bug；统一门仍待，后续state或40/41。
 
 最新[3u state工厂专测](3u-state-factory/README.md)：两测复用typed资源工厂、九状态role映射/owner隔离/实际活敌layout，六旧绿新单红和迁移快照双红保全；18→17，7文件283绿/TC零诊断。两旧关闭转review、实现原字节保持；3316/253/98/2965，83卡55/28/0accept不变。元数据/极端域及统一门仍待，protected身份/计数协调留大窗口，不合main。
+
+最新[GA失败安装A修复](../GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md)：用户批准失败撤监听/UI、刷新重试；五先红后绿、30相邻/两单针/TC及本地浏览器已核。两个源与新增失败测试仍review，3317/253/99/2965，0新关闭；83卡55/28/0accept不变。3w仅只读后暂停，下一步继续结算切片；统一门未跑不合main。

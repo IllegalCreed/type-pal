@@ -1040,7 +1040,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "b3b2cd7f8b270aa3383cbd6743f69d0e1ed40fd99d85ec99e881ae5517852585",
+      "afterSha256": "67fca80cb2119a518c2bbc78538193d971f159641a4b30338561b10a5b6d1538",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1064,8 +1064,24 @@
       },
       "revision": {
         "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "implementationSha": "b3b2cd7f8b270aa3383cbd6743f69d0e1ed40fd99d85ec99e881ae5517852585",
+        "implementationSha": "67fca80cb2119a518c2bbc78538193d971f159641a4b30338561b10a5b6d1538",
         "history": [
+          {
+            "revision": "31a6769e7d6cd0e3c02669e3827beb38e818ed4e",
+            "date": "2026-10-18",
+            "action": "Approved GA failed-install rollback A; precise ownership and retry evidence",
+            "previousAfterSha256": "b3b2cd7f8b270aa3383cbd6743f69d0e1ed40fd99d85ec99e881ae5517852585",
+            "scope": "User2026-10-18 approved A: revoke acquired subscriptions and current privacy UI on installation failure; refresh to retry. Two implementation lifecycle blocks and one new formal test, no pure refactor. Actual15green/5specific AssertionError before product mutation, final7files30green/TCzero; native final-spec old-source5red replay and two full5case one-failure controls, exact owned restoration. Local CUA browser diagnostic with actual modules and recording SDK proves failed UI0/no future command then real reload controller/UI/js-config-pageview; no real GA/network or full-game smoke claim. Three code paths remain review;3317tracked/253closed/99review/2965pending,0newclosed.83card queue55partial/28pending/0accept and original objects unchanged. No baseline/retirement/rule/schema/save/assets/API or game mechanism change. Only one board task row, generated draft-to-review index row, root evidence navigation and ledger2existing review notes+newtestreview. Original historical quote/native verdicts preserved. 3w remained read-only paused for explicit user decision.",
+            "evidence": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "real Google SDK/network",
+              "whole-game runtime",
+              "E2E"
+            ]
+          },
           {
             "revision": "9c2c5eabe143bc81ad8df1c9234aa741b130aabc",
             "date": "2026-10-18",
@@ -1439,8 +1455,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "b3b2cd7f8b270aa3383cbd6743f69d0e1ed40fd99d85ec99e881ae5517852585",
-        "lineCount": 2652,
+        "afterSha256": "67fca80cb2119a518c2bbc78538193d971f159641a4b30338561b10a5b6d1538",
+        "lineCount": 2684,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -1474,7 +1490,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-2652",
+      "reviewedLines": "1-2684",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -5193,7 +5209,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "5d1c72fe1a76875d8dfb37479a9705825af1322566ea09774f32fbe8861128ae",
+      "afterSha256": "b01bc0f42c3585335057b1d44fe5ea3bd8bc4b4d680ff4f9e0d9861ce4f71a4d",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5217,8 +5233,24 @@
       },
       "revision": {
         "currentSha": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "implementationSha": "5d1c72fe1a76875d8dfb37479a9705825af1322566ea09774f32fbe8861128ae",
+        "implementationSha": "b01bc0f42c3585335057b1d44fe5ea3bd8bc4b4d680ff4f9e0d9861ce4f71a4d",
         "history": [
+          {
+            "revision": "31a6769e7d6cd0e3c02669e3827beb38e818ed4e",
+            "date": "2026-10-18",
+            "action": "Approved GA failed-install rollback A; precise ownership and retry evidence",
+            "previousAfterSha256": "5d1c72fe1a76875d8dfb37479a9705825af1322566ea09774f32fbe8861128ae",
+            "scope": "User2026-10-18 approved A: revoke acquired subscriptions and current privacy UI on installation failure; refresh to retry. Two implementation lifecycle blocks and one new formal test, no pure refactor. Actual15green/5specific AssertionError before product mutation, final7files30green/TCzero; native final-spec old-source5red replay and two full5case one-failure controls, exact owned restoration. Local CUA browser diagnostic with actual modules and recording SDK proves failed UI0/no future command then real reload controller/UI/js-config-pageview; no real GA/network or full-game smoke claim. Three code paths remain review;3317tracked/253closed/99review/2965pending,0newclosed.83card queue55partial/28pending/0accept and original objects unchanged. No baseline/retirement/rule/schema/save/assets/API or game mechanism change. Only one board task row, generated draft-to-review index row, root evidence navigation and ledger2existing review notes+newtestreview. Original historical quote/native verdicts preserved. 3w remained read-only paused for explicit user decision.",
+            "evidence": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "real Google SDK/network",
+              "whole-game runtime",
+              "E2E"
+            ]
+          },
           {
             "revision": "9c2c5eabe143bc81ad8df1c9234aa741b130aabc",
             "date": "2026-10-18",
@@ -5598,8 +5630,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "5d1c72fe1a76875d8dfb37479a9705825af1322566ea09774f32fbe8861128ae",
-        "lineCount": 5563,
+        "afterSha256": "b01bc0f42c3585335057b1d44fe5ea3bd8bc4b4d680ff4f9e0d9861ce4f71a4d",
+        "lineCount": 5579,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -5633,7 +5665,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-5563",
+      "reviewedLines": "1-5579",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -10449,7 +10481,7 @@
         }
       ],
       "sourceSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
-      "afterSha256": "57f2d895ab5362d851c28478d838864ca8f09b238d49e9428d3646c3fbece5d6",
+      "afterSha256": "822bbb220e2ec14b5300c69e7131cd807b1828a680dadcff5040710e1868ee5d",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -10473,8 +10505,24 @@
       },
       "revision": {
         "currentSha": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
-        "implementationSha": "57f2d895ab5362d851c28478d838864ca8f09b238d49e9428d3646c3fbece5d6",
+        "implementationSha": "822bbb220e2ec14b5300c69e7131cd807b1828a680dadcff5040710e1868ee5d",
         "history": [
+          {
+            "revision": "31a6769e7d6cd0e3c02669e3827beb38e818ed4e",
+            "date": "2026-10-18",
+            "action": "Approved GA failed-install rollback A; precise ownership and retry evidence",
+            "previousAfterSha256": "57f2d895ab5362d851c28478d838864ca8f09b238d49e9428d3646c3fbece5d6",
+            "scope": "User2026-10-18 approved A: revoke acquired subscriptions and current privacy UI on installation failure; refresh to retry. Two implementation lifecycle blocks and one new formal test, no pure refactor. Actual15green/5specific AssertionError before product mutation, final7files30green/TCzero; native final-spec old-source5red replay and two full5case one-failure controls, exact owned restoration. Local CUA browser diagnostic with actual modules and recording SDK proves failed UI0/no future command then real reload controller/UI/js-config-pageview; no real GA/network or full-game smoke claim. Three code paths remain review;3317tracked/253closed/99review/2965pending,0newclosed.83card queue55partial/28pending/0accept and original objects unchanged. No baseline/retirement/rule/schema/save/assets/API or game mechanism change. Only one board task row, generated draft-to-review index row, root evidence navigation and ledger2existing review notes+newtestreview. Original historical quote/native verdicts preserved. 3w remained read-only paused for explicit user decision.",
+            "evidence": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "real Google SDK/network",
+              "whole-game runtime",
+              "E2E"
+            ]
+          },
           {
             "revision": "6fde6d86cf9754e441de948c82ac99ebc1f480c8",
             "date": "2026-10-18",
@@ -10519,8 +10567,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
         "candidateSha256": "c3bbeaa5a531f7aae26ba0525ac6a5093e0cd76fae9bbe6111d81b369cbfe65a",
-        "afterSha256": "57f2d895ab5362d851c28478d838864ca8f09b238d49e9428d3646c3fbece5d6",
-        "lineCount": 1033,
+        "afterSha256": "822bbb220e2ec14b5300c69e7131cd807b1828a680dadcff5040710e1868ee5d",
+        "lineCount": 1049,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -10554,7 +10602,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-1033",
+      "reviewedLines": "1-1049",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

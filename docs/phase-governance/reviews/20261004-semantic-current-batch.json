@@ -407,7 +407,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "145fda42c2c58f0035f235ed6068f3566b1d6384c069ca688ec1bf91e1df793e",
+      "afterSha256": "13404caf2e26457872060422f1a96603082df22907710e45fb86a60ab56c3c28",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -438,10 +438,26 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "145fda42c2c58f0035f235ed6068f3566b1d6384c069ca688ec1bf91e1df793e",
+        "implementationSha": "13404caf2e26457872060422f1a96603082df22907710e45fb86a60ab56c3c28",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "31a6769e7d6cd0e3c02669e3827beb38e818ed4e",
+            "date": "2026-10-18",
+            "action": "Approved GA failed-install rollback A; precise ownership and retry evidence",
+            "previousAfterSha256": "145fda42c2c58f0035f235ed6068f3566b1d6384c069ca688ec1bf91e1df793e",
+            "scope": "User2026-10-18 approved A: revoke acquired subscriptions and current privacy UI on installation failure; refresh to retry. Two implementation lifecycle blocks and one new formal test, no pure refactor. Actual15green/5specific AssertionError before product mutation, final7files30green/TCzero; native final-spec old-source5red replay and two full5case one-failure controls, exact owned restoration. Local CUA browser diagnostic with actual modules and recording SDK proves failed UI0/no future command then real reload controller/UI/js-config-pageview; no real GA/network or full-game smoke claim. Three code paths remain review;3317tracked/253closed/99review/2965pending,0newclosed.83card queue55partial/28pending/0accept and original objects unchanged. No baseline/retirement/rule/schema/save/assets/API or game mechanism change. Only one board task row, generated draft-to-review index row, root evidence navigation and ledger2existing review notes+newtestreview. Original historical quote/native verdicts preserved. 3w remained read-only paused for explicit user decision.",
+            "evidence": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "real Google SDK/network",
+              "whole-game runtime",
+              "E2E"
+            ]
+          },
           {
             "revision": "9c2c5eabe143bc81ad8df1c9234aa741b130aabc",
             "date": "2026-10-18",
@@ -1013,7 +1029,7 @@
           "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
           "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
         ],
-        "afterSha256": "145fda42c2c58f0035f235ed6068f3566b1d6384c069ca688ec1bf91e1df793e",
+        "afterSha256": "13404caf2e26457872060422f1a96603082df22907710e45fb86a60ab56c3c28",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
@@ -1462,7 +1478,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "8bc3fe17aa2cfdc235e1f7644e42bc265f732288802a9e16d3faa75f395c1136",
+      "afterSha256": "dfbf0addad258e8bfbfa476ac3d46d3504aa63a856bf229536cae03de24ab1e8",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -1483,10 +1499,26 @@
       },
       "revision": {
         "currentSha": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
-        "implementationSha": "8bc3fe17aa2cfdc235e1f7644e42bc265f732288802a9e16d3faa75f395c1136",
+        "implementationSha": "dfbf0addad258e8bfbfa476ac3d46d3504aa63a856bf229536cae03de24ab1e8",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "31a6769e7d6cd0e3c02669e3827beb38e818ed4e",
+            "date": "2026-10-18",
+            "action": "Approved GA failed-install rollback A; precise ownership and retry evidence",
+            "previousAfterSha256": "8bc3fe17aa2cfdc235e1f7644e42bc265f732288802a9e16d3faa75f395c1136",
+            "scope": "User2026-10-18 approved A: revoke acquired subscriptions and current privacy UI on installation failure; refresh to retry. Two implementation lifecycle blocks and one new formal test, no pure refactor. Actual15green/5specific AssertionError before product mutation, final7files30green/TCzero; native final-spec old-source5red replay and two full5case one-failure controls, exact owned restoration. Local CUA browser diagnostic with actual modules and recording SDK proves failed UI0/no future command then real reload controller/UI/js-config-pageview; no real GA/network or full-game smoke claim. Three code paths remain review;3317tracked/253closed/99review/2965pending,0newclosed.83card queue55partial/28pending/0accept and original objects unchanged. No baseline/retirement/rule/schema/save/assets/API or game mechanism change. Only one board task row, generated draft-to-review index row, root evidence navigation and ledger2existing review notes+newtestreview. Original historical quote/native verdicts preserved. 3w remained read-only paused for explicit user decision.",
+            "evidence": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "real Google SDK/network",
+              "whole-game runtime",
+              "E2E"
+            ]
+          },
           {
             "revision": "37e2cd7c9a54b29766a87d17ffed90e4dae465dd",
             "date": "2026-10-18",
@@ -1840,7 +1872,7 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "8bc3fe17aa2cfdc235e1f7644e42bc265f732288802a9e16d3faa75f395c1136",
+        "afterSha256": "dfbf0addad258e8bfbfa476ac3d46d3504aa63a856bf229536cae03de24ab1e8",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",

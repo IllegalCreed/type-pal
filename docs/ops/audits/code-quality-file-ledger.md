@@ -17,8 +17,8 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-起始基点机器清单：2,962。当前 tracked 清单：3,316。
-当前已闭合核验：253；已读但待审：98；尚未逐文件核验：2,965；合计未闭合：3,063。
+起始基点机器清单：2,962。当前 tracked 清单：3,317。
+当前已闭合核验：253；已读但待审：99；尚未逐文件核验：2,965；合计未闭合：3,064。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -368,7 +368,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/menu/__tests__/item-magic-select.test.ts` | test | review | CODE-QUALITY-107；真实 item/magic selection caller、MP disabled/排序/rightText oracle | 7 文件定向 78 tests；相邻 magic-script 诊断保持开放 |
 | `packages/game/src/core/menu/magic-script.ts` | product | review | CODE-QUALITY-108；SDLPal uigame.c:740-873、script.c:867-1102；menu-driver/in-game-magic 与 battle runScript callers | 258 行完整读取；大世界 runner 的全局 label、HP/MP、复活和 warning ownership 已核；本批未改生产，整卡等统一门 |
 | `packages/game/src/core/menu/magic-script.test.ts` | test | review | CODE-QUALITY-108；真实 castOverworldMagic caller、typed global command fixture、warning/HP/return oracle | 37 tests；缺失 label 两项 warning 已精确捕获并恢复 spy，定向与 menu 相邻 0 stderr；整卡等统一门 |
-| `packages/game/src/analytics/install-analytics.ts` | product | review | CODE-QUALITY-109；main.ts 唯一生产 caller、consent UI/Google Analytics lifecycle、DNT/GPC 与 dataLayer oracle | 57 行完整读取；安装/销毁 ownership 与生产 gate 对齐；本批未改生产，整卡等统一门 |
+| `packages/game/src/analytics/install-analytics.ts` | product | review | [GA失败回滚](../evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md)；64行当前/57行原源全文；main可选catch、实际UI和GA创建者 | 失败撤本次UI并保留原错误；本地刷新重试已实跑，统一门待，不关闭 |
 | `packages/game/src/analytics/install-analytics.test.ts` | test | review | CODE-QUALITY-109；真实 installation return、DOM/storage/dataLayer oracle | 2 tests；补 afterEach destroy，修复第二例 listener/UI 跨用例泄漏；game analytics 6/23 通过，整卡等统一门 |
 | `packages/game/src/present/draw-sprite.ts` | product | review | CODE-QUALITY-110；SDLPal palcommon.c:36-130/scene.c:210-316；present/FBP/ending/dialog callers | 49 行完整读取；逐帧 anchor、opaque mask、palette-0 和 Framebuffer clipping 对齐；无直接缺陷 |
 | `packages/game/src/present/draw-sprite.test.ts` | test | review | CODE-QUALITY-110；Framebuffer pixel oracle、present sprite contract | 3 合同/定向 17 tests；帧高、脚底、透明孔、palette-0、屏外均有判别力 |
@@ -376,11 +376,12 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/analytics/analytics-consent.ts` | product | review | [pre94 consent复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/README.md)；90行全文，真实main/install/UI/GA与OPS项目合同 | 只修广播失败过强注释，parsedTS/JS相同；跨realm/注入组合和实网端到端未知，不关闭 |
 | `packages/game/src/analytics/analytics-consent.test.ts` | test | review | [pre94 consent复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/README.md)；57行原测全文，独立持久键/真实默认Storage+window、通知时已提交与信号优先级 | 三旧3绿→新2绿1指定AssertionError；3例保持，按自有键/finally隔离；7定向/17相邻仅有限信用 |
 | `packages/game/src/analytics/analytics-consent.boundaries.test.ts` | test | review | [pre94 consent复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/README.md)；71行原测全文，typed getter/原生EventTarget、无window与失败零通知 | 两旧3绿→新3绿1指定AssertionError；3→4拆职责，读异常/denied与重复detail逐断言迁主测；零新关闭 |
-| `packages/game/src/analytics/google-analytics.ts` | product | review | [pre94 GA复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md)；139行及真实installer/main/同意caller、官方命令合同 | 执行冻结，仅改catch范围注释；真实初始化泄漏另卡draft，0关闭 |
+| `packages/game/src/analytics/google-analytics.ts` | product | review | [GA失败回滚](../evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md)；147行当前/139行原源全文；真实install/main/consent与用户A | 初次安装失败回滚已取得两订阅，五先红后绿/两针；正常合同不改，仍review |
 | `packages/game/src/analytics/google-analytics.test.ts` | test | review | [pre94 GA复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md)；169行原测与9例当前全文，精确payload/Arguments/stop/重试 | 三旧8绿→新8绿1指定红，隔离外owner旧单红新绿；未知SDK/浏览器不关闭 |
 | `packages/game/src/analytics/google-analytics.boundaries.test.ts` | test | review | [pre94 GA复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md)；121行原测与当前4例，项目ID6/20与UTM白名单、真实订阅 | 两旧4绿→新3绿1指定红；坏注/伪fetch隔离撤回，13直接/12相邻只是有限证据 |
 | `packages/game/src/analytics/google-analytics.test-fixtures.ts` | fixture | review | [pre94 GA复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md)；新增测试专用共享宿主全文，真实SUT/自有Document与属性描述符 | 完整cohort外owner断言旧8/1红→新10绿；stop断言前不代清；不改公共接口/不关闭 |
 | `scripts/quality/code-quality-inventory.test.mjs` | test | review | [Git全路径容量修复](../evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md)；原1保留+2真实Git/CLI尾部合同，先1绿2红后3绿 | 两枚旧1绿新2绿1指定AssertionError，临时Git隔离；相邻/统一门范围分开，不关闭 |
+| `packages/game/src/analytics/google-analytics.install-failure.test.ts` | test | review | [GA失败回滚](../evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md)；160行全文，真实native ports/安装器/存储/自有宿主 | 五合法错误边界/原Error身份/停止后事件静默；30相邻及两单针，0新增closed |
 
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 CanonicalScriptBodyEditor→EntityAddressEditor caller、合法 EntityAddress 与自动改绑 oracle | 1合同/4定向测试通过；相邻测试有22条 React act诊断，保持 review，不标已验证 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 ItemTab/loader/EditSession/save-gate caller、R1/R3/R5 oracle | 3合同/4定向测试通过；相邻测试有22条 React act诊断，P1 puppet/battleOnly仍是产品裁决，保持 review |

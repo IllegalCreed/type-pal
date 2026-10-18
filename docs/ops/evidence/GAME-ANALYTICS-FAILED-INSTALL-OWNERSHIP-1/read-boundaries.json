@@ -1,0 +1,95 @@
+{
+  "base": "31a6769e7d6cd0e3c02669e3827beb38e818ed4e",
+  "owner": "Codex single agent",
+  "scope": "Named implementations, new regression, adjacent tests, shared host and real installer/main/consent/UI were read completely. Other executed consent tests retain earlier read evidence, not newly accepted here.",
+  "rows": [
+    {
+      "path": "packages/game/src/analytics/google-analytics.ts",
+      "sha256": "67c410a135d434ee7b75881578e6c117221685cbe0a01fd7eab8fc3ff6950cbe",
+      "lines": 147,
+      "ranges": [[1, 147]],
+      "fullRead": true,
+      "snapshot": "67c410a135d4-google-analytics.ts.read.gz"
+    },
+    {
+      "path": "packages/game/src/analytics/install-analytics.ts",
+      "sha256": "586d8f71de49b625ef324e35fe9a92cc64e37da9cd892d3d7dcb1cdf6c19cad8",
+      "lines": 64,
+      "ranges": [[1, 64]],
+      "fullRead": true,
+      "snapshot": "586d8f71de49-install-analytics.ts.read.gz"
+    },
+    {
+      "path": "packages/game/src/analytics/google-analytics.install-failure.test.ts",
+      "sha256": "de91bf99ddbd52f54dda813436d5386a338768cca7ee9129493c74899c1d98f1",
+      "lines": 160,
+      "ranges": [[1, 160]],
+      "fullRead": true,
+      "snapshot": "de91bf99ddbd-google-analytics.install-failure.test.ts.read.gz"
+    },
+    {
+      "path": "packages/game/src/analytics/google-analytics.test.ts",
+      "sha256": "d9f88d9ee28faabb1ff354b6e2a43c3866f55c8c4749e272c673d3a0b65f7439",
+      "lines": 139,
+      "ranges": [[1, 139]],
+      "fullRead": true,
+      "snapshot": "d9f88d9ee28f-google-analytics.test.ts.read.gz"
+    },
+    {
+      "path": "packages/game/src/analytics/google-analytics.boundaries.test.ts",
+      "sha256": "0c14224b787602de65a8a6bb81b61bda8050297e81f7fde02b4c8e207725b96b",
+      "lines": 86,
+      "ranges": [[1, 86]],
+      "fullRead": true,
+      "snapshot": "0c14224b7876-google-analytics.boundaries.test.ts.read.gz"
+    },
+    {
+      "path": "packages/game/src/analytics/google-analytics.test-fixtures.ts",
+      "sha256": "c5acdb094a150e357bc4fd67eed04f36e8e19d99d697e32c6b6b4e86d4f63c38",
+      "lines": 148,
+      "ranges": [[1, 148]],
+      "fullRead": true,
+      "snapshot": "c5acdb094a15-google-analytics.test-fixtures.ts.read.gz"
+    },
+    {
+      "path": "packages/game/src/analytics/install-analytics.test.ts",
+      "sha256": "fffcb0ba4b11e7f8a308f733465e272f1581b4d95532e6bcce0830711b519cce",
+      "lines": 48,
+      "ranges": [[1, 48]],
+      "fullRead": true,
+      "snapshot": "fffcb0ba4b11-install-analytics.test.ts.read.gz"
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent.ts",
+      "sha256": "15e5a9897e2d272459a5d2dc7e94e118e61dddc56d8e3930d9d9fccecd0b34df",
+      "lines": 90,
+      "ranges": [[1, 90]],
+      "fullRead": true,
+      "snapshot": "15e5a9897e2d-analytics-consent.ts.read.gz"
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent-ui.ts",
+      "sha256": "e8bce6086369e2b4bcbbd8bf4c21efc1b8030690c841b2769aa39d018261bc52",
+      "lines": 124,
+      "ranges": [[1, 124]],
+      "fullRead": true,
+      "snapshot": "e8bce6086369-analytics-consent-ui.ts.read.gz"
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent-ui.test.ts",
+      "sha256": "6acdd46767977253d6a6d33d3439fa0dd8a85f8193ab4b0675520471cb5bde83",
+      "lines": 57,
+      "ranges": [[1, 57]],
+      "fullRead": true,
+      "snapshot": "6acdd4676797-analytics-consent-ui.test.ts.read.gz"
+    },
+    {
+      "path": "packages/game/src/main.ts",
+      "sha256": "2c2632eb6015f250cf31157769a569aa419dec8e7060f3e17cd0e096498b9c91",
+      "lines": 84,
+      "ranges": [[1, 84]],
+      "fullRead": true,
+      "snapshot": "2c2632eb6015-main.ts.read.gz"
+    }
+  ]
+}

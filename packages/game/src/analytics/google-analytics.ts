@@ -112,7 +112,7 @@ export function startGoogleAnalytics(options: GoogleAnalyticsOptions): () => voi
       })
       lastPath = pagePath
     } catch {
-      // 此处只隔离URL/发送阶段异常；初始initialize/readPage不在本catch内，见安装失败ownership卡。
+      // URL/发送异常保留本场控制器；首次安装异常由下方回滚订阅并向调用者传播。
     }
   }
 
@@ -129,11 +129,19 @@ export function startGoogleAnalytics(options: GoogleAnalyticsOptions): () => voi
   }
 
   const unsubscribeConsent = options.subscribeConsent(applyConsent)
-  const unsubscribePage = options.subscribePage?.(sendPageView) ?? (() => undefined)
-  applyConsent(consent)
+  let unsubscribePage: (() => void) | undefined
+  try {
+    unsubscribePage = options.subscribePage?.(sendPageView)
+    applyConsent(consent)
+  } catch (error) {
+    // 安装尚未返回stop句柄，本创建者必须释放已取得的订阅；刷新后由新安装重试。
+    unsubscribeConsent()
+    unsubscribePage?.()
+    throw error
+  }
 
   return () => {
     unsubscribeConsent()
-    unsubscribePage()
+    unsubscribePage?.()
   }
 }

@@ -1,0 +1,65 @@
+{
+  "tool": "cua_repl browser UI",
+  "url": "http://localhost:6005/artifacts/ga-failed-install-20261018.html",
+  "stages": [
+    {
+      "stage": "before",
+      "snapshot": "browser-before.ax.txt.gz",
+      "bytes": 628,
+      "sha256": "c80b8078a98207cf3d147c60b474b4e573f01422d73ee67abea7cad925de842e"
+    },
+    {
+      "stage": "button",
+      "snapshot": "browser-button.ax.txt.gz",
+      "bytes": 577,
+      "sha256": "1f3aa36052d0a067780e2626ecee3f901ec67f9760b1b5d8cef27d4b5b5bd363"
+    },
+    {
+      "stage": "refresh",
+      "snapshot": "browser-refresh.ax.txt.gz",
+      "bytes": 1122,
+      "sha256": "ae5ed57e05fb4356314f78e10bc2e5bcdad9ff8db654435423c5d4778a46e50d"
+    },
+    {
+      "stage": "privacy",
+      "snapshot": "browser-privacy.ax.txt.gz",
+      "bytes": 304,
+      "sha256": "87bb63d81f7481c0a19b65cf825d57ecf699e6fb1a9d381ebd24446b8c2c9665"
+    },
+    {
+      "stage": "cleanup",
+      "snapshot": "browser-cleanup.ax.txt.gz",
+      "bytes": 1056,
+      "sha256": "7ed781be5104d62a570108554287c1514e1f84f7f54be56d0092072976fe8d1e"
+    }
+  ],
+  "assertedScope": [
+    "failed initial installation: exact error identity/no returned controller/no privacy root/no SDK commands after deny-grant",
+    "existing isolated enter button still responds",
+    "after actual reload: returned controller/one privacy root/js+config+one page_view queued",
+    "actual privacy preferences opens current consent panel",
+    "owned cleanup action removes root; source restores exact saved consent key and probe session keys"
+  ],
+  "notClaimed": [
+    "real Google SDK/network",
+    "whole game bootstrap/input/rendering smoke",
+    "scene/E2E",
+    "arbitrary external unsubscribe callbacks that themselves throw"
+  ],
+  "consoleErrorsWarnings": 0,
+  "fixtureOwnedFileRemoved": true,
+  "screenshots": [
+    {
+      "path": "build/dev-screenshots/ga-failed-install-20261018/ga-failed-install-before.png",
+      "sha256": "1dc9819a9c687e08b810b23d6e886c2c4bbfa52abb39dbe3c48d782154dda2f9",
+      "scope": "Ignored build/dev-screenshots local functional screenshot, not Git attachment"
+    },
+    {
+      "path": "build/dev-screenshots/ga-failed-install-20261018/ga-failed-install-refresh.png",
+      "sha256": "b2886b0708bde13b25f6d7f5919849069cc833e12a8c7b4384dae88e9287cce4",
+      "scope": "Ignored build/dev-screenshots local functional screenshot, not Git attachment"
+    }
+  ],
+  "cleanupObservationLimit": "After-cleanup UI proves root removal; report savedChoice/hasController are original diagnostic snapshot values, not a claim of current restored storage/handle state.",
+  "privacyObservation": "Saved browser-privacy AX is a no-change diff summary, not full tree. Original screenshot retained and inspected with view_image; see browser-privacy-visual-review.json. Initial panel-open tool output was visible, not separately archived as full AX."
+}

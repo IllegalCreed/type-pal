@@ -1,0 +1,61 @@
+{
+  "base": "31a6769e7d6cd0e3c02669e3827beb38e818ed4e",
+  "bindings": [
+    {
+      "review": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "target": "docs/ops/board.md",
+      "previousAfterSha256": "145fda42c2c58f0035f235ed6068f3566b1d6384c069ca688ec1bf91e1df793e",
+      "currentSha256": "13404caf2e26457872060422f1a96603082df22907710e45fb86a60ab56c3c28",
+      "lines": 97
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "target": "docs/ops/tasks/index.md",
+      "previousAfterSha256": "8bc3fe17aa2cfdc235e1f7644e42bc265f732288802a9e16d3faa75f395c1136",
+      "currentSha256": "dfbf0addad258e8bfbfa476ac3d46d3504aa63a856bf229536cae03de24ab1e8",
+      "lines": 511
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "target": "docs/ops/audits/code-quality-file-ledger.md",
+      "previousAfterSha256": "e5b183ce1af6adecb0f65e2b3c09781bc44b30084150f099bd0075197f038998",
+      "currentSha256": "3b8a8e7723e9e7ca9ec1a717fed3bc7ffa878bf03b1973aec33e74448c62cbe1",
+      "lines": 743
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r39-ops-evidence-readmes.json",
+      "target": "docs/ops/evidence/README.md",
+      "previousAfterSha256": "c95d0011f4d47337fd47ed4d96e48d3d688cd24bb25324992121582daea4ed6c",
+      "currentSha256": "2d74b6cd40a45bcc2d92416d177c7f27d68029d4dec5ad369a6e205a5a333dee",
+      "lines": 169
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "target": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "previousAfterSha256": "b3b2cd7f8b270aa3383cbd6743f69d0e1ed40fd99d85ec99e881ae5517852585",
+      "currentSha256": "67fca80cb2119a518c2bbc78538193d971f159641a4b30338561b10a5b6d1538",
+      "lines": 2684
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "target": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "previousAfterSha256": "5d1c72fe1a76875d8dfb37479a9705825af1322566ea09774f32fbe8861128ae",
+      "currentSha256": "b01bc0f42c3585335057b1d44fe5ea3bd8bc4b4d680ff4f9e0d9861ce4f71a4d",
+      "lines": 5579
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "target": "docs/phase-governance/reviews/20261017-r39-ops-evidence-readmes.json",
+      "previousAfterSha256": "57f2d895ab5362d851c28478d838864ca8f09b238d49e9428d3646c3fbece5d6",
+      "currentSha256": "822bbb220e2ec14b5300c69e7131cd807b1828a680dadcff5040710e1868ee5d",
+      "lines": 1049
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "target": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "previousAfterSha256": "fddd7497b7a1a046f20778b77c1b77f36f235d1f668df53fa34c9fbfeb90b200",
+      "currentSha256": "766cb5bb4e8c59b3d1d72282439fa4a927c62c7888e4f1a77668d0b0897c901e",
+      "lines": 15223
+    }
+  ]
+}

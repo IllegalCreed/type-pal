@@ -1,0 +1,13 @@
+{
+  "command": ["python3", "/tmp/type-pal-ga-failure-controls.py"],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-18T05:39:41.227985+00:00",
+  "completedAt": "2026-10-18T05:39:44.880539+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "controls-driver.raw.gz",
+  "rawBytes": 254,
+  "rawSha256": "b89961c71cb7ae4ff6b28298bc929afa3d0abe74cd11a640215df7635595e3c5",
+  "fullUncutMergedStdoutStderr": true
+}

@@ -752,3 +752,7 @@ Codex premise verified/design agree/build allowed：四文件67/80/98/75行全�
 Codex premise verified/design agree/build allowed：同3y隔离树、单Owner，battle-state.ts 916行、主383行、GLM81行及H harness222行/positions93行已全文读取；真实startBattle展开队槽/装备重建/构造输入、脚本HP与敌maxHealth消费和C状态枚举/开战/坐标已核。白名单为两既有测试的typed工厂复用、合法MP、九状态role映射与owner隔离、快照/空槽坐标oracle和已证无业务/重复合同精简；生产执行/结构、save/schema、毒域、机制/UI冻结。枚举自数及手写JSON不授运行时信用；退役授权仅本轮用户逐文件/测试少而精指令，不能继承10-03旧五文件授权。两原专测已验证信用撤回复审，实施后按实际证据登记review，不靠包绿关闭。全仓/official coverage/protected留大任务窗口；本片不提前跑昂贵门。
 
 本片交付：两测typed工厂复用，九状态role映射/隔离、HPMP/script快照及零槽活敌layout补强；18→17精简，枚举无业务撤销、GLM快照完整迁主测且有双红保全，六旧绿新指定单红均逐字节恢复。7文件283（17直接/266相邻）及TC零诊断，早期手拼queue字段候选局限原件保留。两旧专测关闭重开review，state实现字节不改；机器3316/253closed/98review/2965pending，83卡55partial/28pending/0accept不变，仅3u证据指针更新；生产/phase2/schema/save/UI无改。详见[state证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/README.md)。全仓/official coverage/protected仍留大任务窗口，baseline/退役registry未变，身份协调未通过；不合main，后续3u输入/caller或3w/40/41，94–102/editor后置。无下一位Agent提示词。
+
+### 2026-10-18 GA失败安装用户A裁决后窄修
+
+用户明确批准失败撤监听/隐私控件、刷新重试；3w本轮只读暂停，无结算改动。两个生命周期源+一正式失败测试，先15绿5指定红再修，最终7文件30绿/TC零诊断/两单针、原源回放五红及本地浏览器失败/刷新链。原probe和早期TC测试泛型失败原件保留，不改历史raw。三路径review，新增测试库存1；3317/253closed/99review/2965pending，0新增关闭，83卡55partial/28pending/0accept及原83对象不改。详见[GA回滚](../evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md)。共享SDK不清，外部清理自身抛错等未签收；全仓/coverage/protected留大任务收尾、不合main，下一步回3w结算，94–102/editor后置；无下一位Agent提示词。

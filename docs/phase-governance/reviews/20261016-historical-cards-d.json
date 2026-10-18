@@ -3265,11 +3265,27 @@
       "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "e5b183ce1af6adecb0f65e2b3c09781bc44b30084150f099bd0075197f038998",
+      "afterSha256": "3b8a8e7723e9e7ca9ec1a717fed3bc7ffa878bf03b1973aec33e74448c62cbe1",
       "revision": {
         "currentSha": "addcb44c52fd00ab0fd3397e61ae316bf98d02e2aeef1d5533ed23a2c1e5845a",
-        "implementationSha": "e5b183ce1af6adecb0f65e2b3c09781bc44b30084150f099bd0075197f038998",
+        "implementationSha": "3b8a8e7723e9e7ca9ec1a717fed3bc7ffa878bf03b1973aec33e74448c62cbe1",
         "history": [
+          {
+            "revision": "31a6769e7d6cd0e3c02669e3827beb38e818ed4e",
+            "date": "2026-10-18",
+            "action": "Approved GA failed-install rollback A; precise ownership and retry evidence",
+            "previousAfterSha256": "e5b183ce1af6adecb0f65e2b3c09781bc44b30084150f099bd0075197f038998",
+            "scope": "User2026-10-18 approved A: revoke acquired subscriptions and current privacy UI on installation failure; refresh to retry. Two implementation lifecycle blocks and one new formal test, no pure refactor. Actual15green/5specific AssertionError before product mutation, final7files30green/TCzero; native final-spec old-source5red replay and two full5case one-failure controls, exact owned restoration. Local CUA browser diagnostic with actual modules and recording SDK proves failed UI0/no future command then real reload controller/UI/js-config-pageview; no real GA/network or full-game smoke claim. Three code paths remain review;3317tracked/253closed/99review/2965pending,0newclosed.83card queue55partial/28pending/0accept and original objects unchanged. No baseline/retirement/rule/schema/save/assets/API or game mechanism change. Only one board task row, generated draft-to-review index row, root evidence navigation and ledger2existing review notes+newtestreview. Original historical quote/native verdicts preserved. 3w remained read-only paused for explicit user decision.",
+            "evidence": "docs/ops/evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "real Google SDK/network",
+              "whole-game runtime",
+              "E2E"
+            ]
+          },
           {
             "revision": "9c2c5eabe143bc81ad8df1c9234aa741b130aabc",
             "date": "2026-10-18",
@@ -3728,8 +3744,8 @@
         "kind": "A8-six-pending-inventory-real-producer-maintenance",
         "path": "docs/ops/audits/code-quality-file-ledger.md",
         "sourceSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
-        "afterSha256": "e5b183ce1af6adecb0f65e2b3c09781bc44b30084150f099bd0075197f038998",
-        "lineCount": 742,
+        "afterSha256": "3b8a8e7723e9e7ca9ec1a717fed3bc7ffa878bf03b1973aec33e74448c62cbe1",
+        "lineCount": 743,
         "sourceScope": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "completePrior": {
           "kind": "complete-prior-current-in-reachable-fixed-git",
@@ -3951,7 +3967,7 @@
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "1-742",
+      "reviewedLines": "1-743",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {

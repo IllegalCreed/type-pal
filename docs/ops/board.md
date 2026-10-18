@@ -73,7 +73,7 @@ Template: governance-index-v1 / 1.0.0
 | GAME-ACTION-QUEUE-TIE-ORDER-1 | [第一阶段同速队列](tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | Codex / 批准窄修已测，统一门/视觉待续 | 先7红后绿、真实Confirm/RNG、38/942与六单红反控；整文件不关闭 |
 | GAME-PLAYER-POISON-SLOT-COMPACTION-1 | [卸装备毒列表压缩](tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md) | draft | Codex / 只读完整生命周期，无产品build allowed | C前移幸存毒、TS原地清零，角色身份不变；因果待核 |
 | GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1 | [非队员Extra可达性](tasks/GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md) | draft | Codex / 只读核完整生产写入链 | C全role/TS party不同，但开战换队全量重建；未证剧情缺陷，不改行为 |
-| GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 | [GA失败安装归属](tasks/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md) | draft | Codex / 真实反例已证，产品冻结等裁决 | 旧12绿＋真实install清理单红；无返回controller仍响应重授，未改生产执行 |
+| GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 | [GA失败安装归属](tasks/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md) | review | Codex / A窄修已测，待统一门 | 五先红后绿、30相邻/两单针；失败撤监听UI、刷新重试已本地实跑，0关闭 |
 | GAME-MAGIC-NUMERIC-ASSIGNMENT-1 | [第一阶段法术数值赋值](tasks/GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) | draft | Codex / 已复现160/161，等裁决再改数值 | 原C O0/O2与真实TS/PRNG/caller；不改随机算法、次数或接口 |
 | QUALITY-BATTLE-MAGIC-PARITY-1 | [pre-94战斗机制三项counter](tasks/QUALITY-BATTLE-MAGIC-PARITY-1.md) | review | Codex / 窄修及反控已测，等待统一门/视觉 | 上次目标、裸武术、非伤害预掷与防御姿；不关闭整文件 |
 | QUALITY-BOOT-FAILURE-PROGRESS-1 | [启动失败进度所有权](tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md) | review | Codex / 窄功能完成，等待统一集成门 | 四旧单红新绿、相邻58绿/原红重放1绿、PROD失败稳定及正常按钮进场已实跑看图；全仓/coverage/protected未跑，不合main |
