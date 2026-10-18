@@ -149,3 +149,10 @@ Template: task-card-v1 / 1.0.0
 - 原报告、实际 23 命令和首轮 harness 错误保原字节；91 成员加 manifest 共 92 原件，外 seal 另列。运输入口为 `docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/expanded-record-correction-nonauthor-fixed-23b/transport.json.gz`；精确双 SHA/范围写入既有 integrity-audit 的 expandedAudit20261018.independentAcceptance。
 - 本卡与父卡持续 rework；全量语义/模板、五既有执行隔离和四组旧数字真实性、目录拆分独立执行缺口仍保留。main/done/global 皆 false；本行政接入或任何后继 build 不在固定 23b 报告预授范围。
 - 用户指定后续由 Codex 主导通用机制、复杂判断、派发和非作者验收，GLM 做明确范围的逐篇正文与重复劳动；用户手动转发提示词，尚无 GLM 实际执行。具体首包准入独立记录在父卡，不从本限定接受扩大授权。
+
+## 2026-10-18 S14 回执与快检证据返工
+
+- 候选fb00cc89a58539969760c05737f9003ef7c80fa2的12篇真实before/source/after、quote与base和原源inverse均核对通过；指定三篇风险语义与原源对应，具体读域见[非作者裁定原件](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-evidence-adjudication/f65c43dd67c501e7dd3ea8f9e7e636f55069c59d72462508f74aab13d8786301.gz)，不冒称root全文重审。
+- S14-E01：原receipts/summary.json把候选写成不存在的fb00cc89a1cf0e5d43af25f7cf3c93d22c69bf56；S14-E02：保全脚本用HEAD自比较，不能支撑其base保全声明。原文件及完整raw保全，不覆盖旧结论/时间；要求仅追加真实身份勘误与更正脚本新执行。未授12篇中央接入/全量完成。
+- manifest.fabricationNote披露首版5–12条before SHA尾段手写伪造后覆盖；本次只证实当前12条与Git吻合，不能追认未留存首版及事后恢复过程。该披露及新发现共同记录；后续禁止手写Git身份或补造过去回执。
+- 返工范围限证据，12篇正文和固定候选不重做、不切分支；原7输出字节指纹匹配不等于运行输入身份已认证。全卡持续rework，main/done=false。

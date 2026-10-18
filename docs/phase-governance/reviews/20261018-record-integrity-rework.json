@@ -2005,7 +2005,7 @@
       "supersedes": [],
       "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
       "sourceSha256": "af84d2340f368b60efd099fceb387cfd57d50e5a8c285a03a091009799a64e35",
-      "afterSha256": "624529d205cfccda2fc8ad1ac6caccf130f329d1675619ad23ca50b8ed14c1bc",
+      "afterSha256": "5b052c79d672eb45711239d15aead8190c48a8042750e65de947693e90bc3409",
       "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only",
       "maintenanceDeltas": [
         {
@@ -2024,6 +2024,15 @@
           "previousAfterSha256": "d269569a7ebb0ed9e3a1291e4fc5196c140b49f8b42af31598eb3b78f493be00",
           "afterSha256": "624529d205cfccda2fc8ad1ac6caccf130f329d1675619ad23ca50b8ed14c1bc",
           "method": "Actual fixed23b limited nonauthor acceptance acknowledged with exact original report, true gates and limitations. Rework retained; no new subject acceptance.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 / S14 evidence-only rework decision",
+          "sourceRevision": "fcc4bb5ccc07b355f55f669b11eb40805e89064b",
+          "previousAfterSha256": "624529d205cfccda2fc8ad1ac6caccf130f329d1675619ad23ca50b8ed14c1bc",
+          "afterSha256": "5b052c79d672eb45711239d15aead8190c48a8042750e65de947693e90bc3409",
+          "method": "Explicit S14 evidence-only counter decision and next handoff; no semantic restoration or candidate intake",
           "grantsNewSemanticAcceptance": false
         }
       ]

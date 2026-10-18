@@ -1200,7 +1200,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "8d35a4fe39f77daf12d2a4fc8fb75624b1b54b274b40cf548fcdd3817f04716f",
+      "afterSha256": "0814a35db92564edc1e3b084d4776b1cac565ff883c06b61098f0e7b32694cde",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1485,6 +1485,15 @@
           "sourceRevision": "c23f7751dd9a967b2694461799c315cac688849c",
           "previousAfterSha256": "4dbc47a82737382c8a5835bde48b74640d3ac53e255dedb4c7b9344f32091f0b",
           "afterSha256": "8d35a4fe39f77daf12d2a4fc8fb75624b1b54b274b40cf548fcdd3817f04716f",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 / S14 evidence-only rework decision",
+          "sourceRevision": "fcc4bb5ccc07b355f55f669b11eb40805e89064b",
+          "previousAfterSha256": "8d35a4fe39f77daf12d2a4fc8fb75624b1b54b274b40cf548fcdd3817f04716f",
+          "afterSha256": "0814a35db92564edc1e3b084d4776b1cac565ff883c06b61098f0e7b32694cde",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
@@ -5525,7 +5534,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "3d9ca539ca56dfaf497692771de7b1219b2be0d39aac4d951e420e8b3821139c",
+      "afterSha256": "13a0acba7f4647343e5a9b0039b094fce47e088408575157c93b67752107896f",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -5920,6 +5929,15 @@
           "previousAfterSha256": "d204e92db72274aec45ae099749e80d8b94bc04980f6ee98e18ca1ec3a5763d3",
           "afterSha256": "3d9ca539ca56dfaf497692771de7b1219b2be0d39aac4d951e420e8b3821139c",
           "method": "Explicit canonical location/active reference and routing correction; original1.0 protocol text unchanged and old anchor retained. No existing subject reacceptance or changed S14 scope.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 / S14 evidence-only rework decision",
+          "sourceRevision": "fcc4bb5ccc07b355f55f669b11eb40805e89064b",
+          "previousAfterSha256": "3d9ca539ca56dfaf497692771de7b1219b2be0d39aac4d951e420e8b3821139c",
+          "afterSha256": "13a0acba7f4647343e5a9b0039b094fce47e088408575157c93b67752107896f",
+          "method": "Explicit S14 evidence-only counter decision and next handoff; no semantic restoration or candidate intake",
           "grantsNewSemanticAcceptance": false
         }
       ]

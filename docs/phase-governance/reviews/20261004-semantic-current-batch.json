@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "341b40eb85882098852b8d08ac3a8f10200979471678b8cb5f124c08f91c89e1",
+      "afterSha256": "b087b71c466cf1509689dbbf4abe87ae8b2d8fbd7e19591191a389dde614c0a5",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -914,6 +914,15 @@
           "previousAfterSha256": "3a1d55c5df9da820c098a2dc2082d94fc0233182d36aacf567e585daa578b6f2",
           "afterSha256": "341b40eb85882098852b8d08ac3a8f10200979471678b8cb5f124c08f91c89e1",
           "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 / S14 evidence-only rework decision",
+          "sourceRevision": "fcc4bb5ccc07b355f55f669b11eb40805e89064b",
+          "previousAfterSha256": "341b40eb85882098852b8d08ac3a8f10200979471678b8cb5f124c08f91c89e1",
+          "afterSha256": "b087b71c466cf1509689dbbf4abe87ae8b2d8fbd7e19591191a389dde614c0a5",
+          "method": "Explicit S14 evidence-only counter decision and next handoff; no semantic restoration or candidate intake",
           "grantsNewSemanticAcceptance": false
         }
       ]

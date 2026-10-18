@@ -1264,7 +1264,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "c3f01560295ca928e32c08eef3c002237f50f746cdd6b82e795785a3f9cea4d0",
+      "afterSha256": "852f65967a20418a939a89d7f561ac80cd72e0e2143164f8dc7e316e87268815",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1431,6 +1431,15 @@
           "sourceRevision": "c23f7751dd9a967b2694461799c315cac688849c",
           "previousAfterSha256": "a22ad6b1ea817179ecb6b2ac8166031877866e294c74d8a1d33368cc01890008",
           "afterSha256": "c3f01560295ca928e32c08eef3c002237f50f746cdd6b82e795785a3f9cea4d0",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 / S14 evidence-only rework decision",
+          "sourceRevision": "fcc4bb5ccc07b355f55f669b11eb40805e89064b",
+          "previousAfterSha256": "c3f01560295ca928e32c08eef3c002237f50f746cdd6b82e795785a3f9cea4d0",
+          "afterSha256": "852f65967a20418a939a89d7f561ac80cd72e0e2143164f8dc7e316e87268815",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }

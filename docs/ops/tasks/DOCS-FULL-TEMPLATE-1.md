@@ -90,7 +90,7 @@ Template: task-card-v1 / 1.0.0
 - 链接/索引批量变更破坏；缓解：批次后 check:docs 与悬链扫描。
 
 ## 下一位 Agent 提示词
-GLM S13 已交固定761候选，三篇正文已获root非作者限定接受，已接入隔离候选5b4a7cd5；下一包为本卡最新S14十二篇历史卡，待用户手动转发。后续GLM交付沿本卡最新“后续验收简化”节，不默认让Codex重做全文与自验；旧R批历史不恢复授权。
+S13三导航既有接受与中央候选5b4a7cd5保留。S14已交固定fb00cc89a58539969760c05737f9003ef7c80fa2：12篇身份与quote保全通过，三项风险语义与原源对应；当前只退回S14-E01回执不存在的完整候选SHA、S14-E02快检HEAD自比较两项证据问题。复用正文与已核成果，补证后再中央接入；当前不接入12条review/after pin，不重做全文、不合main、不done。提示词按通用协议主动给用户转发。
 
 ## 用户裁决记录
 
@@ -1978,3 +1978,13 @@ root非作者实际核固定de423正文SHA1e50d535c2b16aa466207da22e698768bd5abb
 - 目录判断按职责：ops顶层维护跨任务长期制度，guides提供具体操作与组织方法，tasks记录单次执行，evidence保存观察。通用文档质量与验收规范唯一正文为[docs/ops/document-quality.md](../document-quality.md)，与代码质量规范同层；此前放进文档模型属于层级判断失当。
 - 迁移源为c23f7751的documentation-model同名章节，1.0.0条款逐字节迁出，旧anchor保留转接；AGENTS、工作流、ops导航、任务模板与routing同步改指。显式源/目标SHA、链接重算与consumer结果保留，不改旧回执。新文件单列当前增量登记，不静默扩1838分母，也不由搬路径授逐篇迁移完成。
 - S14仍用dd37d6da基点和原12篇白名单；无需重开、切分支或重做成果，只更新通用规范引用。全量治理仍rework/main/done=false。
+
+### S14 固定候选的证据返工裁定（2026-10-18）
+
+- 作者GLM候选 `fb00cc89a58539969760c05737f9003ef7c80fa2`，base `dd37d6da551b77b28d972df6e5d6b08387aa4211`，恰白名单12篇 +371/−288，作者nonAuthorReviewer=false。按document-delivery-acceptance/1.0.0核12条具体结论/映射，不默认再做全文。逐篇裁定、实际读域及解除条件见[非作者证据裁定原件](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-evidence-adjudication/f65c43dd67c501e7dd3ea8f9e7e636f55069c59d72462508f74aab13d8786301.gz)。
+- 机械核验：12/12 before/source/after与真实Git全等；marker区直接对base逐字节相等、inverse直接等原源12/12，不使用trim或LF变换；candidate.patch与Git完整diff字节相等；39条附件指纹全等；索引输出与candidate提交版字节相等；实际base..candidate diff检查0。原快检自身PASS不用于授base保全信用。
+- 风险定向：实际读O波、QUALITY-TEST-INPUTS、OPQ-RETIREMENT三篇可见正文与原源，核472=470+2、1b/8efe基点、I06随机输入与图像IO双根因、五文件净减16精确账及零当前重授。其余九篇只核贡献者具体结论与证据/字节，不冒称root全文深审；未复跑旧测试、CI、产品、runtime/E2E/视觉/coverage。
+- S14-E01（12篇共同阻塞）：receipts/summary.json声称候选 `fb00cc89a1cf0e5d43af25f7cf3c93d22c69bf56` 不存在，不能把输出指纹当真实候选输入证明。须保留原件另附勘误，以真实git rev-parse取得身份、固定运行前后输入后新增真实回执，不能改旧数字/时间伪装旧执行。
+- S14-E02（12篇共同阻塞）：原verify-quote-inverse.mjs比较working对HEAD，在已提交树是自比较，不能证明对base相同；root补核已证明本批12区未坏。须另版显式base/candidate字节比较，当前12篇全部要求直接inverse，无trim/LF裁剪/隐式codec。
+- 原41作者文件（含未列39清单的后加handoff及原清单本身）加外部freeze map完整保留在s14-author-originals-before-evidence-rework raw session；fabricationNote未抹除，当前12 before已独立核正确，但首版丢失字节及发现/重生过程不追认证实。7命令原输出指纹可复核，旧执行输入身份未获信用。
+- 裁定：12篇逐篇均为evidence-only rework，未发现需改正文的counter；不撤回机械/三风险已核成果，也不将其等同中央content-reviewed/template-compliant。仅让GLM追加补证，不改12正文/commit、不写中央。未接入故不重复181或整仓checkdocs；接入后再核真实组合。本卡仍rework/main/done=false。
