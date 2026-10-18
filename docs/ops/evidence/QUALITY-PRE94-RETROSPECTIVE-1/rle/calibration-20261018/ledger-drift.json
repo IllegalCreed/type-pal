@@ -1,0 +1,1473 @@
+{
+  "beforeMerge": "89bf84e16^1",
+  "merge": "89bf84e16",
+  "base": "170edee4444fc87731308ec179d93fad93882704",
+  "lost": [
+    {
+      "path": "packages/pal-extract/src/io/yj2.test.ts",
+      "before": "| `packages/pal-extract/src/io/yj2.test.ts` | test | review | CODE2b当前复审；[primary/caller/oracle/反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/README.md) | 旧长度smoke零输出变异2绿，新MGO20段native完整字节oracle1红；2→1，既有fast不含本文件；从pending登记review |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel-picker-lifecycle.test.ts",
+      "before": "| `packages/game/src/dev/dev-panel-picker-lifecycle.test.ts` | test | review | CODE-QUALITY-81 review；真实 `setupDevPanel` caller、真实 scene-jumps 夹具、hydrated runtime、typed fake `IntersectionObserver` 与 deferred/null/rejecting thumbnail oracle；5 定向 tests、game typecheck、Biome、check、ratchet、protected fast、lint-zero、ledger | close/cache reopen、filter late result、null/无 IO/rejection 合同；HEAD 原实现 3 failed/2 passed；mutation runner 两个精确反控各 1 failed/4 passed；不替代 dev-panel.ts 整文件治理；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/shared/src/rle.ts",
+      "before": "| `packages/shared/src/rle.ts` | product | review | CODE1当前复审；[逐文件/primary/caller/oracle证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md) | SDLPal高位literal与当前TS格式域存在分歧，转QUALITY-RLE-COMMAND-TRUTH-1 draft；禁止直接改算法，旧关闭撤回review |",
+      "merged": "| `packages/shared/src/rle.ts` | product | 已验证 | CODE-QUALITY-1；RLE 定向、shared 全包、check、ratchet、protected fast、lint | generic/strict framing 边界已收 |",
+      "current": "| `packages/shared/src/rle.ts` | product | 已验证 | CODE-QUALITY-1；RLE 定向、shared 全包、check、ratchet、protected fast、lint | generic/strict framing 边界已收 |"
+    },
+    {
+      "path": "packages/shared/src/rle.test.ts",
+      "before": "| `packages/shared/src/rle.test.ts` | test | review | CODE1当前复审；[逐文件/primary/caller/oracle证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md) | 原坏帧fixture绕过catch，现有身份补证；反控旧54绿/新53绿1红，恢复shared131及相邻47；统一门待续 |",
+      "merged": "| `packages/shared/src/rle.test.ts` | test | 已验证 | CODE-QUALITY-1；合法帧与回归 oracle | 只登记合同，不以数量验收 |",
+      "current": "| `packages/shared/src/rle.test.ts` | test | 已验证 | CODE-QUALITY-1；合法帧与回归 oracle | 只登记合同，不以数量验收 |"
+    },
+    {
+      "path": "packages/shared/src/rle.boundaries.test.ts",
+      "before": "| `packages/shared/src/rle.boundaries.test.ts` | test | review | CODE1当前复审；[逐文件/primary/caller/oracle证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md) | 标题/注释声称header轴但实际尺寸非法、1长度正控实际2；直接证据待窄修，不把描述当已验证 |",
+      "merged": "| `packages/shared/src/rle.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-1；截断/越界反例 | 高判别力反例 |",
+      "current": "| `packages/shared/src/rle.boundaries.test.ts` | test | review | [pre-94 CODE1 RLE复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md)；strict framing、相邻 offset 截断反例 | 新增前一帧帧头截断合同；注释/整卡/统一门仍待，不计 closed |"
+    },
+    {
+      "path": "packages/shared/src/mkf.boundaries.test.ts",
+      "before": "| `packages/shared/src/mkf.boundaries.test.ts` | test | review | CODE2当前复审；[caller/primary/oracle与有效反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md) | 旧整数guard反控11绿→补证10绿1红；纠正过期注释及借用view，11例/一标题更名；统一门待续 |",
+      "merged": "| `packages/shared/src/mkf.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-2；截断/越界/倒序 offset | 纯 codec 合同 |",
+      "current": "| `packages/shared/src/mkf.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-2；截断/越界/倒序 offset | 纯 codec 合同 |"
+    },
+    {
+      "path": "packages/shared/src/rng.boundaries.test.ts",
+      "before": "| `packages/shared/src/rng.boundaries.test.ts` | test | review | CODE2当前复审；[caller/primary/oracle与有效反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md) | 旧坏YJ2清面反控16绿→补证15绿1红；真实中间坏帧保留完整plane，16例不变；统一门待续 |",
+      "merged": "| `packages/shared/src/rng.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-2；opcode payload/surface 反例 | 不扩展 runtime 语义 |",
+      "current": "| `packages/shared/src/rng.boundaries.test.ts` | test | review | [pre-94 CODE2 MKF/RNG复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md)；opcode payload/surface 与连续 delta surface ownership | 新增同一 surface 连续 delta 累加合同；不扩展 runtime 语义，整卡/统一门仍待 |"
+    },
+    {
+      "path": "packages/pal-extract/src/events/annotate.test.ts",
+      "before": "| `packages/pal-extract/src/events/annotate.test.ts` | test | review | CODE3/3f当前复审；[caller/完整oracle/反控与退役](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md) | 六旧绿新红；9→6，三重复转移；统一门未清，旧关闭撤回 |",
+      "merged": "| `packages/pal-extract/src/events/annotate.test.ts` | test | 已验证 | CODE-QUALITY-3a；annotation 合同 | 纯转换输出 |",
+      "current": "| `packages/pal-extract/src/events/annotate.test.ts` | test | 已验证 | CODE-QUALITY-3a；annotation 合同 | 纯转换输出 |"
+    },
+    {
+      "path": "packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts",
+      "before": "| `packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts` | test | review | CODE3/3f当前复审；[合法输入/五表/输入守恒/隔离证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md) | 8→10：一重复转主合同，混合坏输入拆四原子；整文件仍待统一门 |",
+      "merged": "| `packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts` | test | 已验证 | CODE-QUALITY-3a + Q3f；真实 annotation 与 symbols malformed contracts | Q3f done |",
+      "current": "| `packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts` | test | 已验证 | CODE-QUALITY-3a + Q3f；真实 annotation 与 symbols malformed contracts | Q3f done |"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.ts",
+      "before": "| `packages/pal-extract/src/events/slice.ts` | product | review | CODE3当前复审；[真实caller/控制流/反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md) | 人读伪边与计数goto风险停线专卡draft；原实现未改，不以roundtrip/包绿关闭 |",
+      "merged": "| `packages/pal-extract/src/events/slice.ts` | product | 已验证 | CODE-QUALITY-3a；BFS/recompile round-trip、全包、全仓门 | typed visitor boundary |",
+      "current": "| `packages/pal-extract/src/events/slice.ts` | product | 已验证 | CODE-QUALITY-3a；BFS/recompile round-trip、全包、全仓门 | typed visitor boundary |"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.test.ts",
+      "before": "| `packages/pal-extract/src/events/slice.test.ts` | test | review | CODE3当前复审；[A2/reset完整oracle与反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md) | 两旧反控均绿，新各指定AssertionError；例数身份不变，统一门待续 |",
+      "merged": "| `packages/pal-extract/src/events/slice.test.ts` | test | 已验证 | CODE-QUALITY-3a；scene/global/shared 合同 | 不以 coverage 单独验收 |",
+      "current": "| `packages/pal-extract/src/events/slice.test.ts` | test | 已验证 | CODE-QUALITY-3a；scene/global/shared 合同 | 不以 coverage 单独验收 |"
+    },
+    {
+      "path": "packages/pal-extract/src/events/slice.kimi-r1.test.ts",
+      "before": "| `packages/pal-extract/src/events/slice.kimi-r1.test.ts` | test | review | CODE3当前复审；[EO身份oracle/反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3/README.md) | 旧auto入口错为1仍绿、新精确一红；字符串扫描例不能证明正确控制流，风险专卡未解 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/pal-extract/src/io/msg.boundaries.test.ts",
+      "before": "| `packages/pal-extract/src/io/msg.boundaries.test.ts` | test | review | [CODE3b完整输入ownership/原子拒绝/有效反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/README.md) | 两输入修改旧绿/新指定AssertionError；纠正政策未定注释，3→4独立轴；旧关闭撤回review |",
+      "merged": "| `packages/pal-extract/src/io/msg.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3b；越界/倒序反例 | Q3b done |",
+      "current": "| `packages/pal-extract/src/io/msg.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3b；越界/倒序反例 | Q3b done |"
+    },
+    {
+      "path": "packages/pal-extract/src/io/sss.boundaries.test.ts",
+      "before": "| `packages/pal-extract/src/io/sss.boundaries.test.ts` | test | review | [CODE3b父buffer/完整EO与scene/有效反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/README.md) | 原view不含guard，四反控旧绿/新指定AssertionError；4→7独立chunk拒绝，生产未改，旧关闭撤回review |",
+      "merged": "| `packages/pal-extract/src/io/sss.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3b；结构未对齐 34/34 | Q3b done |",
+      "current": "| `packages/pal-extract/src/io/sss.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3b；结构未对齐 34/34 | Q3b done |"
+    },
+    {
+      "path": "packages/pal-extract/src/io/msg.test.ts",
+      "before": "| `packages/pal-extract/src/io/msg.test.ts` | test | review | [CODE3b真实raw读取/caller与oracle核验](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/README.md) | 三smoke→一精确条数/五原文与输入ownership；独立raw区间/严格GBK支持，完整正文与fixup仍待；[raw补证](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/raw-tests/README.md) |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/pal-extract/src/io/sss.test.ts",
+      "before": "| `packages/pal-extract/src/io/sss.test.ts` | test | review | [CODE3b真实raw读取/独立struct全量对照](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/README.md) | 六sanity→一完整独立struct oracle；5077 EO/295 scene/3955 WORD/13514 offsets/43503指令摘要保真，局部反控通过；[raw补证](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3b/raw-tests/README.md)，统一门未过不关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/shared/src/rle.glm-o.test.ts",
+      "before": "| `packages/shared/src/rle.glm-o.test.ts` | test | review | CODE2b当前复审；[primary/caller/oracle/反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/README.md) | 四弱重复YJ2合同转规范boundary，13→9，RLE测试体不变；精确旧关闭撤回review，未知RLE轴不关闭 |",
+      "merged": "| `packages/shared/src/rle.glm-o.test.ts` | test | 已验证 | shared RLE/YJ2 public entry contracts | Q1/Q2 相邻 oracle |",
+      "current": "| `packages/shared/src/rle.glm-o.test.ts` | test | 已验证 | shared RLE/YJ2 public entry contracts | Q1/Q2 相邻 oracle |"
+    },
+    {
+      "path": "packages/shared/src/rng.test.ts",
+      "before": "| `packages/shared/src/rng.test.ts` | test | review | CODE2当前复审；[caller/primary/oracle与有效反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md) | 精确退役一条弱重复delta，7→6；保留full-plane oracle及转移反控；三父旧digest/新SHA精确登记，统一门待续 |",
+      "merged": "| `packages/shared/src/rng.test.ts` | test | 已验证 | RNG public decoder contract | Q2 相邻 oracle |",
+      "current": "| `packages/shared/src/rng.test.ts` | test | 已验证 | RNG public decoder contract | Q2 相邻 oracle |"
+    },
+    {
+      "path": "packages/shared/src/yj2.boundaries.test.ts",
+      "before": "| `packages/shared/src/yj2.boundaries.test.ts` | test | review | CODE2b当前复审；[primary/caller/oracle/反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/README.md) | 9规范合同精确承接短头/零长尾随/重复固定值；七项变异业务红集合保持；树归约独立向量仍待证，统一门待续 |",
+      "merged": "| `packages/shared/src/yj2.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-2b；9 cases 含位流/回引反例、shared 全包 131 tests | Q2b done |",
+      "current": "| `packages/shared/src/yj2.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-2b；9 cases 含位流/回引反例、shared 全包 131 tests | Q2b done |"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.ts",
+      "before": "| `packages/pal-extract/src/resources/sprite.ts` | product | review | [CODE3d当前caller/primary/职责/逐文件证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/README.md) | 错误primary/运输说明注释已校，算法不变；无production caller候选/其它出口待核，旧关闭撤回review |",
+      "merged": "| `packages/pal-extract/src/resources/sprite.ts` | product | 已验证 | CODE-QUALITY-3d；indexed PNG 尺寸/pixels/opaque 输入边界，callers、全包/check/ratchet/protected/lint | Q3d done |",
+      "current": "| `packages/pal-extract/src/resources/sprite.ts` | product | 已验证 | CODE-QUALITY-3d；indexed PNG 尺寸/pixels/opaque 输入边界，callers、全包/check/ratchet/protected/lint | Q3d done |"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.boundaries.test.ts",
+      "before": "| `packages/pal-extract/src/resources/sprite.boundaries.test.ts` | test | review | [CODE3d合法PNG输入/真实错误oracle/两有效反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/README.md) | height两盲点旧9绿/新各指定AssertionError，2混合→6独立合同；统一门待续，旧关闭撤回review |",
+      "merged": "| `packages/pal-extract/src/resources/sprite.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3d；非法尺寸/短 pixels/短 opaque 反例与 negative control | Q3d done |",
+      "current": "| `packages/pal-extract/src/resources/sprite.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3d；非法尺寸/短 pixels/短 opaque 反例与 negative control | Q3d done |"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.test.ts",
+      "before": "| `packages/pal-extract/src/resources/sprite.test.ts` | test | review | [CODE3d全文/caller/oracle与边界](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/README.md) | 真实空组/缺id helper；生成物sanity不调用CLI，warn失败收尾/可选早退仍待核；本片未改；0关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts",
+      "before": "| `packages/pal-extract/src/resources/sprite.glm-runtime-resource.test.ts` | test | review | [CODE3d全文/caller/oracle与边界](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3d/README.md) | RGBA/alpha、多帧/多id实际业务执行；只校错误排重说明，测试body不变，未知ownership/全域排重待核；0关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.tsx",
+      "before": "| `packages/editor/src/ui/SpriteFrameWorkbench.tsx` | product | review | CODE3c当前复审；[动画切片/真实caller/边界](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/README.md) | 原实现未改；单branch与门不能覆盖684行整文件，picker/拖拽/其它生命周期仍待验，统一门未过 |",
+      "merged": "| `packages/editor/src/ui/SpriteFrameWorkbench.tsx` | product | 已验证 | CODE-QUALITY-3c；174 行缺帧 fallback branch 逐文件定位；公开组件回归与 coverage gate | Q3c done |",
+      "current": "| `packages/editor/src/ui/SpriteFrameWorkbench.tsx` | product | 已验证 | CODE-QUALITY-3c；174 行缺帧 fallback branch 逐文件定位；公开组件回归与 coverage gate | Q3c done |"
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx",
+      "before": "| `packages/editor/src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx` | test | review | CODE3c当前复审；[像素/时序/三反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3c/README.md) | cleanup变异旧绿/新指定业务红，原1身份保留；生产未改，相邻36绿仍6act，统一门待续 |",
+      "merged": "| `packages/editor/src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx` | test | 已验证 | CODE-QUALITY-3c；缺帧动画时序合同与 fallback mutant 反控 | Q3c done |",
+      "current": "| `packages/editor/src/ui/SpriteFrameWorkbench.animation-boundary.test.tsx` | test | 已验证 | CODE-QUALITY-3c；缺帧动画时序合同与 fallback mutant 反控 | Q3c done |"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts",
+      "before": "| `packages/pal-extract/src/resources/parsers/ball.glm-runtime-resource.test.ts` | test | review | [C1真实IO/PNG/反控/精简](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c1/README.md) | 5→4同输入弱重复；坏尺寸warn+Error/null完整核，8反控有效、局部V8不降；统一门待续 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts",
+      "before": "| `packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts` | test | review | [C1同步RGM/sprite诊断与throw清理](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c1/README.md) | 原16身份保留；只核本片IO与异常清理，其它混合parser/重复/注释待整文件复审 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/parser-diagnostics.ts",
+      "before": "| `packages/pal-extract/src/__tests__/parser-diagnostics.ts` | test | review | [C1真实Console/完整记录校验/同步ownership](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c1/README.md) | 新helper只处理同步parser指定IO；stdout空/stderr全消费，finally恢复，0关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts",
+      "before": "| `packages/pal-extract/src/resources/parsers/__tests__/enemy-teams.boundaries.test.ts` | test | review | [C2完整DTO/输入ownership/真实IO与反控](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md) | 正例补403，2→3独立未知域；七旧绿新红与raw名字/999 oracle保留转移，统一门待续 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/pal-extract/src/resources/tables.test.ts",
+      "before": "| `packages/pal-extract/src/resources/tables.test.ts` | test | review | [C2精确13行弱子集转移](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md) | 沿C1全文SHA仅删旧999弱例90→89，剩余混合table合同与重复继续待核，0关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts",
+      "before": "| `packages/pal-extract/src/resources/parsers/__tests__/data-misc.test.ts` | test | review | [原盘caller/SDL像素与反控](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md) | 修两原盘早退，71/85完整RGBA；表测试排重/统一门仍待，未关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts",
+      "before": "| `packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts` | test | review | [真实输入/固定oracle/精简/反控](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md) | 修四早退，88/251/837及FIRE0完整RGBA；9→8，helper非CLI实际调用，统一门未清 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/indexed-frame-digest.ts",
+      "before": "| `packages/pal-extract/src/resources/parsers/__tests__/indexed-frame-digest.ts` | test | review | [唯一test-only摘要接线与caller](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md) | 新tracked helper；每例独立SHA，PNG真解码，只产actual不产expected；0关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/fire.glm-runtime-resource.test.ts",
+      "before": "| `packages/pal-extract/src/resources/parsers/fire.glm-runtime-resource.test.ts` | test | review | [四合同全文/空块转移与注释counter](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/README.md) | 空块原合同保留0与7，另外三体/四身份不变；纠正raw多帧不可达注释，未整文件accept |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/enemies.ts",
+      "before": "| `packages/pal-extract/src/resources/parsers/enemies.ts` | product | review | [C2当前全文/caller/类型复核](../evidence/QUALITY-EXTRACT-RAW-TEST-EXECUTION-1/diagnostics-c2/README.md) | 注释两处EnemyTeam.slots指向不存在字段且混淆raw身份；实现未改，旧关闭撤回review，待专片修注释/完整合同 |",
+      "merged": "| `packages/pal-extract/src/resources/parsers/enemies.ts` | product | 已验证 | ENEMY/OBJECT fixed layout、signed fields、name/map callers 与 tests | short map helper 合同保留 |",
+      "current": "| `packages/pal-extract/src/resources/parsers/enemies.ts` | product | 已验证 | ENEMY/OBJECT fixed layout、signed fields、name/map callers 与 tests | short map helper 合同保留 |"
+    },
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "before": "| `packages/pal-extract/src/cli.ts` | product | rework | [CODE3g当前全文/caller/实际IO反证](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/README.md) | OUT根/data父链接通过suffix guard清理另一树；旧关闭撤回，高风险QUALITY-EXTRACT-OUTPUT-BOUNDARY-1 draft，产品修复等裁决 |",
+      "merged": "| `packages/pal-extract/src/cli.ts` | product | 已验证 | Q3f/Q3g；全量 73-896 行 IO/清理/降级/manifest 直接审计；full check/ratchet/protected/lint | Q3g done |",
+      "current": "| `packages/pal-extract/src/cli.ts` | product | rework | [输出入口补审](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/entrypoint-followup/README.md)；911→919行全文、根命令/实际Node+tsx子进程、Node realpath primary | argv链接组件静默0先红后修；既有输出守卫保留，整CLI/统一门未闭合 |"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts",
+      "before": "| `packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts` | test | review | [CODE3g七合同/真实子进程/临时树](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/README.md) | 当前清理例不能证明输出ownership；宿主注册/失败收尾与判别力待续，0关闭 |",
+      "merged": null,
+      "current": "| `packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts` | test | review | [C1共享输出反控](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/c1/README.md)；公开CLI子进程、symlink/marker/exit oracle | 新增OUT根与data父symlink两个轴；定向9/9、相邻包72/434通过；仍保留review，未以全绿自动关闭 |"
+    },
+    {
+      "path": "packages/pal-extract/src/cli-isolated.glm-q.test.ts",
+      "before": "| `packages/pal-extract/src/cli-isolated.glm-q.test.ts` | test | review | [CODE3g全文/真实阶段输出/oracle边界](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/README.md) | 六例有业务执行，manifest大于10不能证明完整内容；宿主重复/输出ownership/未知反控待续，0关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/pal-extract/src/cli-font-lookup.glm-q.test.ts",
+      "before": "| `packages/pal-extract/src/cli-font-lookup.glm-q.test.ts` | test | review | [CODE3g完整BDF/lookup oracle与注释差异](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3g/README.md) | 仅校19970=丂/U+4E02注释，fixture/body/身份不变；宿主/全域合同与统一门未闭合，0关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "scripts/quality/code-quality-ledger.test.mjs",
+      "before": "| `scripts/quality/code-quality-ledger.test.mjs` | test | review | 6a当前复审；CLI导入副作用反控旧9绿/新9绿1红→恢复10绿；[证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/6a/README.md) | 原测试漏护import guard；历史关闭撤回，补证后统一门仍待续 |",
+      "merged": "| `scripts/quality/code-quality-ledger.test.mjs` | test | 已验证 | CODE-QUALITY-6a；9 个独立反例/真实仓库调用：重复、未知路径、计数漂移、表形状/状态/证据缺失、inventory 变更 | 真实 Node quality runner 纳入；不修改 ledger |",
+      "current": "| `scripts/quality/code-quality-ledger.test.mjs` | test | 已验证 | CODE-QUALITY-6a；9 个独立反例/真实仓库调用：重复、未知路径、计数漂移、表形状/状态/证据缺失、inventory 变更 | 真实 Node quality runner 纳入；不修改 ledger |"
+    },
+    {
+      "path": "scripts/quality/code-quality-inventory.test.mjs",
+      "before": "| `scripts/quality/code-quality-inventory.test.mjs` | test | review | 6a当前复审；真实stdout/--out字节与无关cwd合同；错误写入反控旧1绿/新1红→恢复1绿；[证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/6a/README.md) | 临时目录after清理；pending登记review，不以字段全绿宣称图或整卡完备 |",
+      "merged": null,
+      "current": "| `scripts/quality/code-quality-inventory.test.mjs` | test | review | [Git全路径容量修复](../evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md)；原1保留+2真实Git/CLI尾部合同，先1绿2红后3绿 | 两枚旧1绿新2绿1指定AssertionError，临时Git隔离；相邻/统一门范围分开，不关闭 |"
+    },
+    {
+      "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+      "before": "| `packages/pal-extract/src/audit-data-mkf.test.ts` | test | review | CODE-QUALITY-82；真实 Node 子进程、临时 checkout、合法/损坏 MKF 与 cwd 隔离；8 tests，修复前 8 failed，修复后 8 passed | 真实 caller/oracle；验证原输出等价与失败传播，不覆盖 extractor 生成管线；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/assets/png.test.ts",
+      "before": "| `packages/game/src/assets/png.test.ts` | test | review | [CODE3h当前全文/真实PNG/高位200 oracle](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/README.md) | 唯一高位索引与完整遮罩保留，复用独立encoder；pending→review，统一门未收，0关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/assets/png-decode.grok-r1.test.ts",
+      "before": "| `packages/game/src/assets/png-decode.grok-r1.test.ts` | test | review | [CODE3h完整平面/真实cause身份/释放与有效反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/README.md) | 两旧10绿新各指定AssertionError；A04弱摘要转A05，5→4精确退役；生产未改，统一门待续 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/assets/png.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/assets/png.glm-phase1-leaves.test.ts` | test | review | [CODE3h alpha边界/排重与注释事实](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/README.md) | 保留alpha0/200和opaque index0，坏Blob弱摘要转A05，2→1精确退役；不虚报dialog caller，0关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts",
+      "before": "| `packages/game/src/present/__tests__/grok-present/p10-indexed-png.test.ts` | test | review | [CODE3h真实解码到Framebuffer/输入ownership与独立close轴](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/README.md) | 混合故障拆开、成功close归正例，2→3；去强转/finally恢复宿主，0关闭，浏览器实际释放未验 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.test.ts",
+      "before": "| `packages/game/src/shell/bootstrap-resources.test.ts` | test | review | [CODE3h原始soundfont异常/独立ready与settle/反控](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/bootstrap/README.md) | 消除空对象/异常强转，glyph弱重复转完整Grok例4→3，原始身份故障旧13绿新指定单例红；统一门待续，0关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts",
+      "before": "| `packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts` | test | review | [CODE3h独立glyph屏障/真实默认端口/teardown观测](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/bootstrap/README.md) | glyph提早放行旧13绿新单例红，九身份保持；默认两例各4 pending→正常及失败收尾均0，原始Response/生产调用保留，0关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/__tests__/grok-boot-mid-1/legal.ts",
+      "before": "| `packages/game/src/__tests__/grok-boot-mid-1/legal.ts` | test | review | [CODE3h完整typed端口fixture/loader与bootstrap前提](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/bootstrap/README.md) | 补role0/首segment、去不必要数组强转；两bootstrap测试复用，相邻scene/dialog caller执行；不冒充完整游戏可玩或其它helper整域验收 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.test.ts",
+      "before": "| `packages/game/src/shell/fetch-retry.test.ts` | test | review | [CODE3h/71 typed fetch/原错误与Response/原子HTTP轴](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/README.md) | 耗尽弱例转boundary，503/404拆独立；仍6但身份改变，默认次数/404 oracle转移均一对一，统一门未清 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts` | test | review | [CODE3h/71真实卸载恢复引用/重装网络重试](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/README.md) | 原卸载例换新fetch假证明，故障旧18绿/新单例AssertionError；2身份保留、去强转，真实恢复断言先于测试收尾，0关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/dependency-ownership.test.ts",
+      "before": "| `packages/game/src/core/dependency-ownership.test.ts` | test | review | CODE-QUALITY-3n；catalog/scene identity ownership、prototype label negative controls、cross-entrypoint identity | 真实公开 entrypoint oracle；QUALITY-PRE94-RETROSPECTIVE-1直接counter见[回溯证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md)，旧关闭结论撤回 |",
+      "merged": "| `packages/game/src/core/dependency-ownership.test.ts` | test | 已验证 | CODE-QUALITY-3n；catalog/scene identity ownership、prototype label negative controls、cross-entrypoint identity | 真实公开 entrypoint oracle |",
+      "current": "| `packages/game/src/core/dependency-ownership.test.ts` | test | 已验证 | CODE-QUALITY-3n 3n-fade-identity-catalog；catalog/scene identity ownership、prototype label negative controls、cross-entrypoint identity | 真实公开 entrypoint oracle |"
+    },
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "before": "| `packages/game/src/core/player-poison-state.ts` | product | rework | CODE-QUALITY-3o；event-opcode/equipment/battle callers、ownership/poison tests | poison definition ownership/level99/slot dedup/cure/runner 合同完整；QUALITY-PRE94-RETROSPECTIVE-1直接counter见[回溯证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md)，旧关闭结论撤回 |",
+      "merged": "| `packages/game/src/core/player-poison-state.ts` | product | 已验证 | CODE-QUALITY-3o；event-opcode/equipment/battle callers、ownership/poison tests | poison definition ownership/level99/slot dedup/cure/runner 合同完整 |",
+      "current": "| `packages/game/src/core/player-poison-state.ts` | product | review | [毒/升级注释与夹具](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md)；全文/真实装备与opcode caller/原C；CureKind及Wear/首空槽注释勘误 | 非压缩/全槽去重差异保持review，GAME-PLAYER-POISON-SLOT-COMPACTION-1只读；未改状态、schema或接口 |"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "before": "| `packages/game/src/core/event-system.ts` | product | review | CODE-QUALITY-3r；script.c:30-307,608-750,1140-1410,1600-1815,1850-1990,2050-2145,2290-2385,2385-2555,2570-2775,2970-3070；mode/bootstrap/scene/battle/menu/equipment/poison callers | 5110 行逐段核验全局脚本表、auto/event/runScript、waiting/fade/modal、scene/battle resume、raw opcode、对象解析与移动；定向 370、game typecheck、完整 check、official ratchet、protected fast、Biome 零诊断均通过，未发现直接缺陷 |",
+      "merged": "| `packages/game/src/core/event-system.ts` | product | 已验证 | CODE-QUALITY-3r；script.c:30-307,608-750,1140-1410,1600-1815,1850-1990,2050-2145,2290-2385,2385-2555,2570-2775,2970-3070；mode/bootstrap/scene/battle/menu/equipment/poison callers | 5110 行逐段核验全局脚本表、auto/event/runScript、waiting/fade/modal、scene/battle resume、raw opcode、对象解析与移动；定向 370、game typecheck、完整 check、official ratchet、protected fast、Biome 零诊断均通过，未发现直接缺陷 |",
+      "current": "| `packages/game/src/core/event-system.ts` | product | 已验证 | CODE-QUALITY-3r 当前复审；3r-event-system；script.c:30-307,608-750,1140-1410,1600-1815,1850-1990,2050-2145,2290-2385,2385-2555,2570-2775,2970-3070；play.c:56-238；scene.c:779-930；mode/bootstrap/scene/menu callers | 5,117 行完整读取；global ip、auto/event/runScript、waiting/fade/modal、scene/battle/menu resume、raw opcode、对象解析与移动逐段核验；game package 321 files/3,619 tests、typecheck通过，未发现新 direct defect；coverage/ratchet/protected/full check 未在本小批运行 |"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.ts",
+      "before": "| `packages/game/src/core/battle/battle-opcodes.ts` | product | review | CODE-QUALITY-3t；script.c:867-950,1026-1102,1175-1425,1437-1449,1573-1640,1848-2054,2547-2668,2776-2995,3267-3297；fight.c:602-716,2387-2390,4214-4323,5193-5400；battle.c:1397-1434；event-system/actions/battle-system callers | 1528 行逐段核验 dispatch、BattleCtx ownership、目标/状态/伤害/毒、召唤/分裂/变身/逃跑、动画/偷窃/战斗结果与 consumed/newIp；定向/相邻 470 tests、game typecheck、完整 check、official ratchet、protected fast、Biome 零诊断均通过；未发现直接缺陷；0x2E `>=` 为 game-mechanics 已记录的原版后期产品决策 |",
+      "merged": "| `packages/game/src/core/battle/battle-opcodes.ts` | product | 已验证 | CODE-QUALITY-3t；script.c:867-950,1026-1102,1175-1425,1437-1449,1573-1640,1848-2054,2547-2668,2776-2995,3267-3297；fight.c:602-716,2387-2390,4214-4323,5193-5400；battle.c:1397-1434；event-system/actions/battle-system callers | 1528 行逐段核验 dispatch、BattleCtx ownership、目标/状态/伤害/毒、召唤/分裂/变身/逃跑、动画/偷窃/战斗结果与 consumed/newIp；定向/相邻 470 tests、game typecheck、完整 check、official ratchet、protected fast、Biome 零诊断均通过；未发现直接缺陷；0x2E `>=` 为 game-mechanics 已记录的原版后期产品决策 |",
+      "current": "| `packages/game/src/core/battle/battle-opcodes.ts` | product | review | [pre-94机制返工](../evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md)；SDL fight.c/script.c、真实runScript/action caller、手算oracle | 0x66基础属性ownership与0x42伤害/动画一致性counter；局部修复已测，其它opcode仍待完整重验 |"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-finalization.test.ts",
+      "before": "| `packages/game/src/core/battle/battle-finalization.test.ts` | test | review | CODE-QUALITY-3u；finalization cleanup/resume caller oracle，定向/相邻 55 tests | 80 行逐段读取；状态/波场/模式/资源释放顺序与 0x07 resume 反例；QUALITY-PRE94-RETROSPECTIVE-1直接counter见[回溯证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md)，旧关闭结论撤回 |",
+      "merged": "| `packages/game/src/core/battle/battle-finalization.test.ts` | test | 已验证 | CODE-QUALITY-3u；finalization cleanup/resume caller oracle，定向/相邻 55 tests | 80 行逐段读取；状态/波场/模式/资源释放顺序与 0x07 resume 反例 |",
+      "current": "| `packages/game/src/core/battle/battle-finalization.test.ts` | test | review | [pre94 finalization/runtime复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md)；80行原测全文，真实factory/hydrate/dialog，九状态与实际cursor交接观察 | 2→6补真实finalize出口；六旧2绿→新5绿1指定红；9直接/266相邻仅有限信用 |"
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent.ts",
+      "before": "| `packages/game/src/analytics/analytics-consent.ts` | product | review | CODE-QUALITY-3y；install-analytics/main callers、analytics tests、定向 Vitest | storage/DNT-GPC/广播/失败关闭合同逐段核验；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/analytics/analytics-consent.ts` | product | review | [pre94 consent复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/README.md)；90行全文，真实main/install/UI/GA与OPS项目合同 | 只修广播失败过强注释，parsedTS/JS相同；跨realm/注入组合和实网端到端未知，不关闭 |"
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent.test.ts",
+      "before": "| `packages/game/src/analytics/analytics-consent.test.ts` | test | review | CODE-QUALITY-3y；真实 consent public functions 与 storage/event oracle | 合法选择、损坏存储、隐私信号与 unsubscribe 合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/analytics/analytics-consent.test.ts` | test | review | [pre94 consent复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/README.md)；57行原测全文，独立持久键/真实默认Storage+window、通知时已提交与信号优先级 | 三旧3绿→新2绿1指定AssertionError；3例保持，按自有键/finally隔离；7定向/17相邻仅有限信用 |"
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
+      "before": "| `packages/game/src/analytics/analytics-consent.boundaries.test.ts` | test | review | CODE-QUALITY-3y；宿主边界与异常 EventTarget oracle | getter/dispatch 异常、非 CustomEvent、stored 优先级反例；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/analytics/analytics-consent.boundaries.test.ts` | test | review | [pre94 consent复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3y-analytics-consent/README.md)；71行原测全文，typed getter/原生EventTarget、无window与失败零通知 | 两旧3绿→新3绿1指定AssertionError；3→4拆职责，读异常/denied与重复detail逐断言迁主测；零新关闭 |"
+    },
+    {
+      "path": "packages/game/src/analytics/google-analytics.ts",
+      "before": "| `packages/game/src/analytics/google-analytics.ts` | product | review | CODE-QUALITY-3z；install-analytics/main callers、Google tests、URL/consent lifecycle oracle、game full test | measurement ID、UTM sanitization、page-view dedupe、script retry、disable flag、异常隔离逐段核验；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/analytics/google-analytics.ts` | product | review | [GA失败回滚](../evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md)；147行当前/139行原源全文；真实install/main/consent与用户A | 初次安装失败回滚已取得两订阅，五先红后绿/两针；正常合同不改，仍review |"
+    },
+    {
+      "path": "packages/game/src/analytics/google-analytics.test.ts",
+      "before": "| `packages/game/src/analytics/google-analytics.test.ts` | test | review | CODE-QUALITY-3z；真实 startGoogleAnalytics caller 与 dataLayer/page-view oracle | 合法/非法 ID、敏感 URL、路径去重、撤回、脚本失败、gtag arguments 合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/analytics/google-analytics.test.ts` | test | review | [pre94 GA复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md)；169行原测与9例当前全文，精确payload/Arguments/stop/重试 | 三旧8绿→新8绿1指定红，隔离外owner旧单红新绿；未知SDK/浏览器不关闭 |"
+    },
+    {
+      "path": "packages/game/src/analytics/google-analytics.boundaries.test.ts",
+      "before": "| `packages/game/src/analytics/google-analytics.boundaries.test.ts` | test | review | CODE-QUALITY-3z；真实 window/dataLayer 与宿主网络隔离 oracle | ID/UTM 长度边界、无 page subscriber、regrant、disable flag 反例；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/analytics/google-analytics.boundaries.test.ts` | test | review | [pre94 GA复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md)；121行原测与当前4例，项目ID6/20与UTM白名单、真实订阅 | 两旧4绿→新3绿1指定红；坏注/伪fetch隔离撤回，13直接/12相邻只是有限证据 |"
+    },
+    {
+      "path": "packages/game/src/analytics/install-analytics.ts",
+      "before": "| `packages/game/src/analytics/install-analytics.ts` | product | review | CODE-QUALITY-40；main.ts production caller、consent/google/UI lifecycle、game typecheck/full test | enabled 开关、navigator privacy 传递、storage ownership、destroy cleanup 与异常隔离逐段核验；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/analytics/install-analytics.ts` | product | review | [GA失败回滚](../evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md)；64行当前/57行原源全文；main可选catch、实际UI和GA创建者 | 失败撤本次UI并保留原错误；本地刷新重试已实跑，统一门待，不关闭 |"
+    },
+    {
+      "path": "packages/game/src/analytics/install-analytics.test.ts",
+      "before": "| `packages/game/src/analytics/install-analytics.test.ts` | test | review | CODE-QUALITY-40；真实 installTypePalAnalytics public entry、DOM/dataLayer oracle、game full test | 开发零副作用、DNT/GPC 默认关闭、UI/安装生命周期和销毁合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/analytics/install-analytics.test.ts` | test | review | CODE-QUALITY-109；真实 installation return、DOM/storage/dataLayer oracle | 2 tests；补 afterEach destroy，修复第二例 listener/UI 跨用例泄漏；game analytics 6/23 通过，整卡等统一门 |"
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent-ui.ts",
+      "before": "| `packages/game/src/analytics/analytics-consent-ui.ts` | product | review | CODE-QUALITY-41；install-analytics caller、DOM/ARIA lifecycle、UI test、local dev AX/screenshot | consent panel/preferences visibility、button ownership、storage failure、destroy cleanup 与现有布局合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent-ui.test.ts",
+      "before": "| `packages/game/src/analytics/analytics-consent-ui.test.ts` | test | review | CODE-QUALITY-41；真实 mountAnalyticsConsentUi public entry、DOM/focus/storage oracle、game full test | panel placement、privacy signal、choice persistence、storage failure 与 destroy 反例；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.ts",
+      "before": "| `packages/game/src/present/dialog-box.ts` | product | review | CODE-QUALITY-42；event-system/present callers、text.c/uigame.c、dialog tests与pixel oracle | 几何/边框/文字/头像、分页/清理、资源失败与 framebuffer ownership逐段核验；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/dialog-box.ts` | product | 已验证 | CODE-QUALITY-42 当前复审；42-dialog-box；SDLPal text.c:1208-1815/uigame.c:878-930；event-system/menu/present callers | 958 行实现全文核验；先行 narration `~NN` 反例失败后修复为 `!isDialog` 才计尾暂停；分页、title/portrait、Confirm/userSkip、key icon、narration/item-box、资源降级与 framebuffer ownership 对齐；定向83例、game typecheck通过；相邻像素环境诊断保留，coverage/全仓门未在本小批运行 |"
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.test.ts",
+      "before": "| `packages/game/src/present/dialog-box.test.ts` | test | review | CODE-QUALITY-42；公开 dialog draw/clear caller、直接 framebuffer/状态 oracle | 合法布局、分页、头像、清理、缺资源与边界反例；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/dialog-box.test.ts` | test | 已验证 | CODE-QUALITY-42 当前复审；42-dialog-box；真实 dialog-box public exports、framebuffer/font/present oracle | 761 行全文核验；控制符/分页/墙钟/尾暂停/Confirm、像素/头像/icon/item-box 合同；定向83例通过；未发现重复或弱断言 |"
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.glm-next-wave.test.ts",
+      "before": "| `packages/game/src/present/dialog-box.glm-next-wave.test.ts` | test | review | CODE-QUALITY-42；真实 dialog/present caller 与分页/残留边界 oracle | 82项定向合同排重、合法输入、负控与跨帧清理判别力；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/dialog-box.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-42 当前复审；42-dialog-box；公开 parser/title/reset caller 与 text.c oracle | 84 行全文核验；新增 narration `~NN` 反例在修复后通过，title/reset 合同保持；定向83例通过 |"
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite.ts",
+      "before": "| `packages/game/src/present/draw-sprite.ts` | product | review | CODE-QUALITY-43；present.ts/battle sprite callers、scene.c anchors、framebuffer/pixel tests | 逐帧 anchor、opaque mask、palette-0、屏外裁剪与 buffer ownership逐段核验；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/draw-sprite.ts` | product | review | CODE-QUALITY-110；SDLPal palcommon.c:36-130/scene.c:210-316；present/FBP/ending/dialog callers | 49 行完整读取；逐帧 anchor、opaque mask、palette-0 和 Framebuffer clipping 对齐；无直接缺陷 |"
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite.test.ts",
+      "before": "| `packages/game/src/present/draw-sprite.test.ts` | test | review | CODE-QUALITY-43；公开 drawSprite/toSpriteImages caller、直接 framebuffer oracle | 高度剖面/底边、mask、palette-0、屏外反例；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/draw-sprite.test.ts` | test | review | CODE-QUALITY-110；Framebuffer pixel oracle、present sprite contract | 3 合同/定向 17 tests；帧高、脚底、透明孔、palette-0、屏外均有判别力 |"
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+      "before": "| `packages/game/src/present/draw-sprite-clip.grok-r1.test.ts` | test | review | CODE-QUALITY-43；真实 framebuffer caller 与奇数宽/裁剪/孔洞 oracle | 合法 typed 输入、8 条边界合同、无弱化断言；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/draw-sprite-clip.grok-r1.test.ts` | test | review | CODE-QUALITY-110；真实 drawSprite/Framebuffer caller、G03-B clip oracle | 8 边界；奇数宽、左右/上下裁剪、identity、透明孔；与主干排重 |"
+    },
+    {
+      "path": "packages/game/src/present/font.ts",
+      "before": "| `packages/game/src/present/font.ts` | product | review | CODE-QUALITY-44；dialog/menu/battle/present callers、text.c/font.c/ui.c、font tests | glyph load/failure、tofu、逐字/阴影、颜色 fallback、measure/Pal width 与 framebuffer ownership逐段核验；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/present/font.test.ts",
+      "before": "| `packages/game/src/present/font.test.ts` | test | review | CODE-QUALITY-44；真实 renderText/measure/pal width public oracle | 合法 glyph、CJK/ASCII width、tofu、empty 与 framebuffer反例；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/present/font.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-44；renderColoredText/缺字形/阴影真实 oracle | 逐字颜色、缺色 0x4F、三影和 tofu 像素合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/present/font-width.grok-r1.test.ts",
+      "before": "| `packages/game/src/present/font-width.grok-r1.test.ts` | test | review | CODE-QUALITY-44；loadGlyphs fetch caller与width/render framebuffer oracle | HTTP 状态/baseUrl、codepoint width、shadow/底色保留合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/present/follower-render.ts",
+      "before": "| `packages/game/src/present/follower-render.ts` | product | review | CODE-QUALITY-45；present.ts caller、scene.c/res.c anchors、follower tests | 0x98 sprite chunk、trail[3+k]、direction/3-frame step、standing/walking、缺槽 ownership逐段核验；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/present/follower-render.test.ts",
+      "before": "| `packages/game/src/present/follower-render.test.ts` | test | review | CODE-QUALITY-45；公开 computeFollowerRenderItems oracle | 空 follower、缺槽、位置/身份、站立/行走步帧、多 follower 合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
+      "before": "| `packages/game/src/present/follower-render-gap.grok-r1.test.ts` | test | review | CODE-QUALITY-45；真实 typed trail/follower caller与边界 oracle | 越界 step、稀疏槽、朝左步帧、第二 follower 缺槽反例；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-confirm.ts",
+      "before": "| `packages/game/src/present/menu/draw-confirm.ts` | product | review | CODE-QUALITY-46；present/menu/shop callers、uigame.c:242-388、confirm pixel tests | 双框坐标、selectedColor 时间生命周期、labels 复用、shadow 与 framebuffer ownership逐段核验；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/draw-confirm.ts` | product | 已验证 | CODE-QUALITY-46 当前复审；46-draw-confirm；uigame.c:242-388；present/draw-menu/draw-shop callers；draw-box/font/framebuffer owners | 48 行实现全文核验双框坐标、selectedColor、标签/阴影、空标签与 framebuffer ownership；定向2 files/10 tests、相邻3 files/69 tests、game typecheck通过；未发现 direct defect |"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-46；真实 drawConfirmBox public caller、fixture framebuffer oracle | 默认/右选、0xF9/0x4F、三影、关/开标签合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-46 当前复审；46-draw-confirm；真实 drawConfirmBox/framebuffer pixel oracle | 67 行全文核验选中侧、palette cycle、三影、custom switch labels；定向2 files/10 tests通过，无弱断言 |"
+    },
+    {
+      "path": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "before": "| `packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts` | test | review | CODE-QUALITY-46；opening/menu/confirm pixel caller与state clone oracle | 空/多字标签、背景 sentinel、光标隔离与框体像素反例；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-46 当前复审；46-draw-confirm；opening/pixel caller与状态隔离 oracle | 177 行全文核验背景/光标/状态不可变、多字与空标签边界；定向2 files/10 tests通过，无弱断言 |"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.ts",
+      "before": "| `packages/game/src/present/menu/draw-box.ts` | product | review | CODE-QUALITY-47；dialog/menu/shop/battle callers、ui.c/uigame.c、draw-box/pixel tests | 9-slice/单行框 frame identity、shadow、opaque mask、边界裁剪、menuTextMaxCols 与 fail-loud 合同逐段核验；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/draw-box.ts` | product | 已验证 | CODE-QUALITY-47 当前复审；47-draw-box；SDLPal `ui.c:131-340,762-833`/`ui.h:195-254`；draw-menu/confirm/shop/magic/inventory/equip/battle-ui/dialog/settlement callers；framebuffer owner | 191 行实现全文核验 9-slice/single-line frame identity、几何、shadow/opaque 顺序、palette-0/透明孔、屏外裁剪、缺帧与宽度 helper；直接3 files/22 tests、相邻10 files/127 tests、game typecheck通过；未发现 direct defect；统一门待模块收口 |"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.test.ts",
+      "before": "| `packages/game/src/present/menu/draw-box.test.ts` | test | review | CODE-QUALITY-47；公开 drawBox framebuffer oracle | style/rows-cols/grid、动态 shadow、缺帧反例；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/draw-box.test.ts` | test | 已验证 | CODE-QUALITY-47；47-draw-box；drawBox 公开入口与 framebuffer pixel oracle | 101 行全文核验 style/网格/frame/shadow/缺帧合同；直接3 files/22 tests通过；无弱化断言 |"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-47；drawBox/drawSingleLineBox/menuTextMaxCols typed caller oracle | 缺 44-46、shadow=0、屏外、空 rows-cols、width 合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-47；47-draw-box；drawSingleLineBox/menuTextMaxCols/Framebuffer 反例 | 79 行全文核验缺帧、无阴影、屏外裁剪、零 rows/cols、空/ASCII/CJK 宽度和 fixture 合同；直接3 files/22 tests通过；与主测试职责不重复 |"
+    },
+    {
+      "path": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "before": "| `packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts` | test | review | CODE-QUALITY-47；像素 framebuffer 与透明孔/单行框 caller oracle | 12 条高判别力阴影、透明孔、palette-0、标签宽度合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-47；47-draw-box；真实 framebuffer 像素 shadow/opaque mask oracle | 232 行全文核验透明孔、边缘 shadow、single-line 重复、style 缺帧、palette 0、字宽与边界；直接3 files/22 tests通过；无弱化断言 |"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.ts",
+      "before": "| `packages/game/src/present/menu/draw-opening-menu.ts` | product | review | CODE-QUALITY-51；draw-menu/present callers、uigame.c:42-167、ui.c:458、opening-menu state | FBP 全屏背景、两行文案、长文案 x 公式、闪烁色、shadow 与缺背景边界逐段核验；未发现直接缺陷；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/draw-opening-menu.ts` | product | 已验证 | CODE-QUALITY-51 当前复审；51-draw-opening-menu；SDLPal `uigame.c:42-167`/`ui.c:458`；draw-menu/present/opening-menu/menu-driver callers | 94 行全文核验背景、两项文案、长文案 x 公式、selected/normal 色、三影、缺背景和 framebuffer ownership；直接3 files/17 tests、相邻4 files/107 tests、game typecheck通过；未发现 direct defect |"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+      "before": "| `packages/game/src/present/menu/draw-opening-menu.test.ts` | test | review | CODE-QUALITY-51；drawOpeningMenu/openingItemX 真实 caller 与 framebuffer oracle | 5 tests；背景/缺背景、两行坐标、cursor 差异、长文案 x 公式与输入合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/draw-opening-menu.test.ts` | test | 已验证 | CODE-QUALITY-51；51-draw-opening-menu；openingItemX/background/cursor framebuffer oracle | 101 行全文核验公式、背景/缺背景、两行坐标、cursor差异；直接3 files/17 tests通过 |"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-51；词表/fixture glyph 与 framebuffer oracle | 3 tests；选中/未选色、三影、词表 fallback 与无 frames 合同；与 opening-confirm 像素测试排重；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-51；51-draw-opening-menu；精确色值/词表/阴影反例 | 79 行全文核验 0xF9/0x4F、三影、词表同步和无 frames；直接3 files/17 tests通过；职责不重复 |"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-shop.ts",
+      "before": "| `packages/game/src/present/menu/draw-shop.ts` | product | review | CODE-QUALITY-52；draw-menu/present/menu-driver callers、uigame.c:1503-1777、shop-menu state | 买/卖列表与价格、预览框/图标、库存+装备 ownedCount、金钱、确认框、卖价半价与缺资源边界逐段核验；未发现直接缺陷；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/draw-shop.ts` | product | review | [商店布局/宿主测试返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/shop-layout-tests/README.md)；241行当前源全文；买紧凑/卖全屏装配错注修正，去注释TS/JS不变 | 旧源关闭撤回review；22/35有限回归不能验收全部绘制/资源/视觉/统一门 |"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-52；真实 drawShopMenu/drawSellOverlay caller 与 framebuffer oracle | 4 tests；owned equipment、空店、非卖品、空 cursor/半价 overlay 合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts` | test | review | [商店布局/宿主测试返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/shop-layout-tests/README.md)；全文；非顺序party/非队员、非卖品数字、空店目录与图标反例 | 5枚各旧4绿→新3绿1指定AssertionError；4例保持，半价移至真实栈装配；旧整文件信用撤回review |"
+    },
+    {
+      "path": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "before": "| `packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts` | test | review | CODE-QUALITY-52；P04 caller、像素/palette oracle与输入快照 | 13 tests；rightText 价格、shadow/缺帧/缺图标、确认层、库存/装备 owned、0 金钱、半价与 palette 合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts` | test | review | [商店布局/宿主测试返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/shop-layout-tests/README.md)；352行全文；B06真实可购买确认、B12合法两队员手部装备、删除3条被精确值蕴含的否定 | 13例正式package/jsdom全绿含canvas，历史12/13不改；共享fixture/六部位/视觉/身份统一门仍待，不恢复文件关闭 |"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-magic.ts",
+      "before": "| `packages/game/src/present/menu/draw-magic.ts` | product | review | CODE-QUALITY-50；draw-menu/present/menu-driver callers、magicmenu.c:36-299/301-484、uigame.c:653-875、uibattle.c:31-269 | 施法人/仙术/目标三阶段、PlayerInfoBox、MP/说明、禁用色、分页/光标、缺帧与 runtime stats 逐段核验；未发现直接缺陷；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/draw-magic.ts` | product | review | CODE-QUALITY-50 当前复审；50-draw-magic；SDLPal `magicmenu.c:1-484`/`uigame.c:653-875`/`uibattle.c:31-269`；P06/draw-menu/present/menu callers | 359 行实现全文核验三阶段、MP/说明/网格/目标/资源/运行时 ownership；25直接+136相邻/typecheck通过；发现 `PAL_PlayerInfoBox` 中毒头像染色与乱/定/眠/封状态字被明确省略，开 GAME-MAGIC-PLAYERINFO-STATUS-1，未擅自改实现 |"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-magic.test.ts",
+      "before": "| `packages/game/src/present/menu/draw-magic.test.ts` | test | review | CODE-QUALITY-50；真实 drawInGameMagicMenu caller、magicmenu.c WIN95 MP/说明 oracle | 2 tests；多行说明、左侧 MP 与右侧空区布局，合法 typed state 与 global script fixture；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/draw-magic.test.ts` | test | 已验证 | CODE-QUALITY-50；50-draw-magic；description/WIN95 MP framebuffer oracle | 235 行全文核验合法 scriptDesc/MP布局与独立像素断言；直接4 files/25 tests通过 |"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-magic.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/present/menu/draw-magic.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-50；真实状态/fixture framebuffer oracle | 5 tests；死亡/MP 禁用色、空表、缺 catalog、role/name fallback 与缺资源边界，排重 P06；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/draw-magic.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-50；50-draw-magic；disabled/empty/catalog fallback oracle | 267 行全文核验死亡/MP禁用/空表/未知目录与回退标签；直接4 files/25 tests通过；不以数量代替判别力 |"
+    },
+    {
+      "path": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "before": "| `packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts` | test | review | CODE-QUALITY-50；P06 相邻 caller 与直接像素 oracle | 15 tests；坐标/说明多行/头像/HP-MP/缺帧/目标箭头/透明孔/运行时数值隔离；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-50；50-draw-magic；真实 framebuffer geometry/runtime/cursor oracle | 584 行全文核验单人框、说明、缺帧、运行时 HP/MP、分页/target cursor/透明孔；直接4 files/25 tests通过；未覆盖高风险状态字，故实现仍 review |"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.ts",
+      "before": "| `packages/game/src/present/menu/draw-inventory.ts` | product | review | CODE-QUALITY-49；draw-menu/present/menu-driver callers、itemmenu.c:28-310、uigame.c:1289-1470、P01/P02 与 menu-driver oracle | list/use-target 布局、6 色规则、live inventory、缺帧/资源、描述/noDesc 与 framebuffer ownership 逐段核验；修复数量归零时仍绘制目标物品图标/名称的 bug；未改退出状态机；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/draw-inventory.ts` | product | 已验证 | CODE-QUALITY-49 当前复审；49-draw-inventory；SDLPal `uigame.c:1289-1473`/`itemmenu.c:28-310`/`play.c:268-323`；P01/P02、inventory-menu/menu-driver callers | 390 行实现全文核验列表/目标层 live count、SDL zero branch、auto-cancel caller、过滤/描述/资源/状态 ownership；范围测试11通过+1 node DOM诊断、相邻10 files/190 tests、game typecheck通过；未发现新实现 defect |"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/present/menu/draw-inventory.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-49；真实 drawInventoryMenu caller 与 fixture framebuffer oracle | 未知目录/过滤混列/use-target 缺上下文反例；与 P01/P02、像素测试排重，3 tests 通过；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/draw-inventory.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-49；49-draw-inventory；未知目录/filter/use-target 缺依赖反例 | 124 行全文核验三分支反例；范围执行通过；无弱化断言 |"
+    },
+    {
+      "path": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "before": "| `packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts` | test | review | CODE-QUALITY-49；真实大世界目标层 live-count 与 framebuffer pixel oracle | 12 tests；先以最后一件物品归零反例证实旧实现失败，再验证 SDLPal 语义下图标/名称/数字均隐藏；其余 shadow、数量差额、缺帧、属性和 palette oracle 保持；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts` | test | review | CODE-QUALITY-49；49-draw-inventory；列表/live-zero/framebuffer/canvas pixel oracle | 全文核验约400行、12 tests；11通过，G06-A12 直接 `document.createElement` 在 node 环境 `ReferenceError: document is not defined`；未改环境/未静音，保留 review |"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-equip.ts",
+      "before": "| `packages/game/src/present/menu/draw-equip.ts` | product | review | CODE-QUALITY-48；draw-menu/present/menu-driver callers、uigame.c:1793-2055、itemmenu.c:28-224、装备绘制 tests | list 复用 InventoryMenu；pick-role 背景/图标/装备槽/运行时属性/角色四色/数量投影、缺资源与 framebuffer ownership 逐段核验；未发现直接缺陷；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/draw-equip.ts` | product | 已验证 | CODE-QUALITY-48 当前复审；48-draw-equip；SDLPal `uigame.c:1793-2055`/`itemmenu.c:28-224`/`play.c:328-359`/`global.c:1175-1225`；draw-menu/present/equip-menu/menu-driver/inventory callers；P03 oracle | 279 行实现全文核验 list/pick-role/done ownership、equipable role 位、6 槽/5 stat、数量/颜色、资源缺失、party 顺序和 framebuffer 边界；直接3 files/16 tests、相邻9 files/167 tests、game typecheck通过；零数量差异只在不可达防御输入，未发现 direct defect |"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-48；真实 drawEquipMenu caller 与 fixture framebuffer oracle | 非顺序 party/roleId 位、未知已装备、空槽、缺 role 行反例；与 P03/像素测试排重，3 tests 通过；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-48；48-draw-equip；drawEquipMenu role/party/catalog 反例 | 124 行全文核验非顺序 party、roleId equipable 位、未知已装备/空槽/缺 role；直接3 files/16 tests通过；与 P03/像素职责不重复 |"
+    },
+    {
+      "path": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "before": "| `packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts` | test | review | CODE-QUALITY-48；真实 EquipMenu state 与 framebuffer pixel oracle | 单人框高、done/缺目录/越界光标/数量 0、运行时属性与 live inventory 反例；11 tests 通过，输入快照隔离；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-48；48-draw-equip；真实 framebuffer/typed role/equipment oracle | 367 行全文核验单人框、done/未选/未知 id、越界 cursor、数量 0、灵力/防御/身法/吉运与 runtime count；直接3 files/16 tests通过；未弱化断言 |"
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.ts",
+      "before": "| `packages/game/src/present/draw-tilemap.ts` | product | review | CODE-QUALITY-54；SDLPal map.c/scene.c、present/bootstrap callers、extractor exact 64×128 contract；tilemap/present 定向 20 + 相邻 58 tests、全仓 check/ratchet/protected fast/lint | 坐标、layer、height、cover 与 primary 一致；seam repair 是 TS 持久帧补偿，bootstrap 缩略图未纳入本批；未发现直接缺陷；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.test.ts",
+      "before": "| `packages/game/src/present/draw-tilemap.test.ts` | test | review | CODE-QUALITY-54；direct framebuffer/coverage oracle；9 tests 通过，波次全门通过 | h 子行、fence、9-bit id、fallback、coverage、seam dilation 合同；高判别力反例；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "before": "| `packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts` | test | review | CODE-QUALITY-54；真实 drawTilemap/repair caller、像素与裁剪 oracle；11 tests 通过，波次全门通过 | 缺帧、透明/opaque palette-0、边界裁剪、扫描顺序与 maxPasses 反例；不覆盖 bootstrap 缩略图；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "before": "| `packages/game/src/present/menu/draw-menu.ts` | product | review | CODE-QUALITY-55；uigame.c/ui.c、present/menu-driver callers、P05 stack oracle；draw-menu/P05 15 + 波次相邻共 93 tests、全仓 check/ratchet/protected fast/lint | stack 顺序、坐标/颜色、cash/slot/overlay/placeholder 与资源转发已读；不拥有 poison key，runtime-zero 风险留 CODE-QUALITY-53；未发现直接缺陷；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/draw-menu.ts` | product | 已验证 | [pre-94 CODE55 draw-menu复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/55-draw-menu/README.md)；SDLPal `uigame.c:42-242,430-620,878-919,990-1031,1051-1286,1503-1777`/`ui.c:458`；present/menu-driver/menu-stack callers | 448 行完整核验 stack 顺序、cash/主菜单/system/confirm/switch/save-slot/inventory-action/shop-sell、extra ownership 与 mode gate；删除历史无效 lint 伪用法，不改输出；直接3 files/15、相邻11 files/197、game typecheck通过 |"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.test.ts",
+      "before": "| `packages/game/src/present/menu/draw-menu.test.ts` | test | review | CODE-QUALITY-55；drawMenuStack framebuffer/state oracle；6 tests 通过，波次全门通过 | 空栈、主/系统/confirm、stack 叠层、缺帧 fail-loud；与 P05/GLM leaves 排重；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/draw-menu.test.ts` | test | 已验证 | [pre-94 CODE55 draw-menu复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/55-draw-menu/README.md)；空栈/主菜单/system/confirm/两层stack/缺帧 framebuffer oracle | 89 行完整核验合法 fixture、像素坐标、缺帧反例和输入无副作用；直接3 files/15 tests通过 |"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-55；save-slot/inventory-action/switch/shop-sell/placeholder 真实 state 与像素 oracle；5 tests 通过，波次全门通过 | savedTimes、选中色、overlay、缺 extra 与输入快照隔离；不替代 runtime/poison ownership 审计；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts` | test | review | [商店布局/宿主测试返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/shop-layout-tests/README.md)；205行全文；可卖库存经公开确认，grid/icon/noDesc/overlay完整相关oracle | 3枚各旧5绿→新4绿1指定AssertionError；缺catalog用正式状态工厂/hydrate；5例保持，旧信用撤回review |"
+    },
+    {
+      "path": "packages/game/src/tools/minimap.ts",
+      "before": "| `packages/game/src/tools/minimap.ts` | product | review | CODE-QUALITY-56；bootstrap/tools-panel/dev-panel callers、draw-tilemap/world pixel contract；定向 20 + 相邻 68 tests、game typecheck、全仓 check/ratchet/protected fast/lint | worldToThumb、分类、缩放、底图 cache 与 Image 生命周期逐段核验；失败反例证明并修复 loading ownership；bootstrap seam repair 差异留后续卡；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/minimap.ts` | product | review | [minimap分类/缩放返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/minimap-classification-view/README.md)；487行原源全文；caller/Command/原C库存/真实raw数量域核证；只校两注释 | parsedTS/JS相同；425条0x1F中401零量并非地图宝箱分母；raw/具名signed域和其它生命周期仍review |"
+    },
+    {
+      "path": "packages/game/src/tools/minimap.test.ts",
+      "before": "| `packages/game/src/tools/minimap.test.ts` | test | review | CODE-QUALITY-56；world/trigger/data oracle；14 tests 全绿，波次全门通过 | 合法命令、label fallback、item/teleport/NPC 分类与 zoom 边界；与 leaves 排重；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/minimap.test.ts` | test | review | [minimap分类/缩放返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/minimap-classification-view/README.md)；148行原测全文；独立视野中心/四边钳制与item优先双顺序；14例保持 | 三反控各旧14绿→新13绿1指定AssertionError；一无据标题勘误、未退役；未知输入域保持review |"
+    },
+    {
+      "path": "packages/game/src/tools/minimap.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/tools/minimap.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-56；真实 canvas 与 localStorage/controller oracle；6 tests 全绿，波次全门通过 | 像素、toggle、持久化、延迟 Image.onload 与 decode failure 资源反控；不替代 bootstrap seam repair 审计；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/minimap.glm-phase1-leaves.test.ts` | test | review | [minimap分类/缩放返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/minimap-classification-view/README.md)；200行原测全文；原6保留加2真实widget缩放/焦点合同；正式camera、穿透canvas与精确清理 | 两反控各旧6绿→新7绿1指定AssertionError；正式22直接/36相邻；非法持久zoom/完整视觉未验，仍review |"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "before": "| `packages/game/src/shell/bootstrap.ts` | product | review | CODE-QUALITY-57；SDLPal scene.c、present/draw-tilemap、dev-panel/tools-panel/minimap callers；bootstrap 全文件读取，定向 helper/资源 tests 6 通过 | 资源/scene/save/modal ownership 已读；thumbnail 直绘未调用 seam repair，缺真实 thumbnail pixel oracle，保持 review |",
+      "merged": null,
+      "current": "| `packages/game/src/shell/bootstrap.ts` | product | review | [工具缩略图/快捷键返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/README.md)；1944行原源全文/两公开helper测试/真实main与tools caller；尺寸/F8-F4-F2/过时stub说明修正 | 原未列pending转review；AST/JS不变，CODE57 seam/色板/完整启动生命周期仍review，不授关闭 |"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-load.test.ts",
+      "before": "| `packages/game/src/shell/bootstrap-load.test.ts` | test | review | CODE-QUALITY-57；bootstrap palette transition oracle；1 test 通过 | helper 合同真实且独立；不覆盖 bootstrap thumbnail closure，随卡保留 review |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.glm-next-wave.test.ts",
+      "before": "| `packages/game/src/shell/bootstrap.glm-next-wave.test.ts` | test | review | CODE-QUALITY-57；showError canvas port oracle；2 tests 通过 | 启动失败显示/无 2D context 反例；不覆盖 thumbnail closure，随卡保留 review |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "before": "| `packages/game/src/tools/tools-panel.ts` | product | review | CODE-QUALITY-58；bootstrap/minimap/save/inspect callers；定向 18 + save wave 29 tests、全仓 check/ratchet/protected fast/lint | tab/DOM/键盘/委托/战斗签名/工具状态逐段读取；save version 由 CODE-QUALITY-59 收口；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/tools-panel.ts` | product | review | [工具缩略图/快捷键返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/README.md)；1106行原源全文/真实bootstrap与minimap/index caller | 640接线与battleSig仅选定字段说明修正；保存/文件IO/完整UI仍未验，旧关闭转review |"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.test.ts",
+      "before": "| `packages/game/src/tools/tools-panel.test.ts` | test | review | CODE-QUALITY-58；DOM/keyboard/audio/dialog/timer/battle oracle；16 tests、全仓门通过 | 真实注入依赖、受控 timer、输入传播与状态隔离；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/tools-panel.test.ts` | test | 已验证 | [CODE58夹具/隔离勘误](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel-fixtures/README.md)；310行全文、正式GameState/BattleState/hydrate、真实DOM | 更正旧合法fixture声明；HP/turn分别观测、精确目标HP；跨例旧单红新绿，相邻34files199tests；未认证save/计时器编辑 |"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-58；display-scale/fullscreen/FPS delegation oracle；2 tests、全仓门通过 | 公开委托参数与持久键观察；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/tools-panel.glm-phase1-leaves.test.ts` | test | 已验证 | [CODE58夹具/隔离勘误](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/58-tools-panel-fixtures/README.md)；70行全文、真实缩放/全屏/FPS输入 | 全屏/FPS拆职责；共用宿主恢复监听/音源/偏好与单例，正式合计19tests；新统一门未运行 |"
+    },
+    {
+      "path": "packages/game/src/tools/save-io.ts",
+      "before": "| `packages/game/src/tools/save-io.ts` | product | review | CODE-QUALITY-59；tools-panel/Save API callers、phase1 VERSION=1 plan、phase2 SAVE12 boundary；wrong-version 失败反例、全仓门通过 | `VERSION=1` guard fail-closed；不改 Save API/旧 upgrader；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/tools/save-io.test.ts",
+      "before": "| `packages/game/src/tools/save-io.test.ts` | test | review | CODE-QUALITY-59；serialize/parse合法、格式/必填/wrong-version 反例；4 tests | 失败反例先行，未知 version 不再送入 Save API；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
+      "before": "| `packages/game/src/tools/save-import-quicksave.glm-msio.test.ts` | test | review | CODE-QUALITY-59；真实 parse/quick-save caller与必填守卫；4 tests、全仓门通过 | 当前合法输入、缺字段、快存错误反馈合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/tools/quick-save.ts",
+      "before": "| `packages/game/src/tools/quick-save.ts` | product | review | Codex takeover: complete GameState/feedback and listener balance verified in quick-save.test.ts; approved Save commit fix verified; open/connection/input contracts remain review | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/quick-save.ts` | product | 已验证 | [CODE-QUALITY-102 Codex独立复核](../evidence/CODE-QUALITY-102/codex-current-review.md)；bootstrap setupQuickSave真实注入、Save API/IDB caller、quick-save/toast tests | F5/F9 时机门、preventDefault、错误反馈、SSR no-op、disposer 与依赖 ownership 逐文件核验；无直接缺陷 |"
+    },
+    {
+      "path": "packages/game/src/tools/quick-save.test.ts",
+      "before": "| `packages/game/src/tools/quick-save.test.ts` | test | review | CODE-QUALITY-60；canQuickSave、F5/F9、战斗拒绝与 caller oracle；4 tests、save wave全门通过 | 合法准入、反例、异步委托与输入隔离合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/quick-save.test.ts` | test | 已验证 | [CODE-QUALITY-102 Codex独立复核](../evidence/CODE-QUALITY-102/codex-current-review.md)；真实 GameState/KeyboardEvent、save/load/toast oracle 与 finally 清理 | 8 tests；E-13 `as never` 夹具已移除，异步失败/空槽/解绑/计时器和 DOM 隔离均有判别力；无重复 toast 原语断言 |"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.ts",
+      "before": "| `packages/game/src/tools/speedrun/store.ts` | product | review | CODE-QUALITY-61；speedrun/index/tools-panel/overlay callers；非法值反例、小数毫秒反例、全仓 check/ratchet/protected fast/lint | localStorage settings/bests 默认副本、坏 JSON/未知 key/非法容器 fail-closed；有限非负小数成绩保留；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/speedrun/store.ts` | product | 已验证 | [pre-94 CODE61 speedrun store复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/61-speedrun-store/README.md)；speedrun/index/overlay/tools-panel caller、localStorage 边界 | 58 行完整核验设置 1/0、bests defaults 骨架、坏 JSON/未知 key/非法数值 fail-closed 与小数毫秒；直接2 files/9、相邻3 files/30通过 |"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.test.ts",
+      "before": "| `packages/game/src/tools/speedrun/store.test.ts` | test | review | CODE-QUALITY-61；defaults/round-trip/真实 SpeedrunTimer 小数毫秒 oracle；5 tests | 合法合同与存储 round-trip；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/speedrun/store.test.ts` | test | 已验证 | [pre-94 CODE61 speedrun store复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/61-speedrun-store/README.md)；默认/往返/真实 timer 小数 PB oracle | 51 行完整核验合法 localStorage 与真实 SpeedrunTimer caller；直接2 files/9 tests通过 |"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-61；坏 JSON/ghost key/settings/非法数值/非法容器 oracle；4 tests | 非法值反控；不堆弱断言；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts` | test | 已验证 | [pre-94 CODE61 speedrun store复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/61-speedrun-store/README.md)；坏 JSON/ghost key/非法值/数组标量反控 | 64 行完整核验逐键回退、defaults ownership 和 setting 合同；直接2 files/9 tests通过 |"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.ts",
+      "before": "| `packages/game/src/tools/speedrun/timer.ts` | product | review | CODE-QUALITY-62；index/snapshot/detectors/tools-panel callers；timer 主/GLM/boundary 与全仓质量门 | wall-clock/暂停/PB/setStep 状态机逐段核验，未发现直接缺陷；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/speedrun/timer.ts` | product | 已验证 | [pre-94 CODE62 speedrun timer复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/62-speedrun-timer/README.md)；index/snapshot/store/overlay/tools-panel callers、timer/boundary tests | 218 行完整核验起表、wall-clock、依序 detector、PB、香蕉/F8暂停、setStep/reset、dirty/justResumed ownership；直接3 files/22 tests通过 |"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.test.ts",
+      "before": "| `packages/game/src/tools/speedrun/timer.test.ts` | test | review | CODE-QUALITY-62；起表/打点/PB/香蕉/手动暂停 oracle；timer wave 全门通过 | 主合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/speedrun/timer.test.ts` | test | 已验证 | [pre-94 CODE62 speedrun timer复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/62-speedrun-timer/README.md)；起表/依序/PB/香蕉/手动暂停合法 snapshot oracle | 195 行完整核验真实 timer 输入与时间轴；直接3 files/22 tests通过 |"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-62；countdown/dirty/reset oracle；timer wave 全门通过 | 一次性 flags 与恢复边界；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts` | test | 已验证 | [pre-94 CODE62 speedrun timer复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/62-speedrun-timer/README.md)；倒计时 null/ceil、dirty 一次性、reset 保留 PB 反例 | 75 行完整核验剩余状态合同，和主测试排重；直接3 files/22 tests通过 |"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/snapshot.ts",
+      "before": "| `packages/game/src/tools/speedrun/snapshot.ts` | product | review | CODE-QUALITY-63；index/main-loop/timer callers；6 tests、game 全包/check/ratchet/protected fast/lint | inventory/BattleSnap/canMove 门控逐文件核验，未发现直接缺陷；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/speedrun/snapshot.ts` | product | 已验证 | [pre-94 CODE63 speedrun snapshot复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/63-speedrun-snapshot/README.md)；index/timer/detectors/main-loop callers、GameState owner、speedrun design | 58 行完整核验 inventory count>0、battle id/总血、Set ownership 与 canMove 四门；直接1 file/7、相邻5 files/32、game typecheck通过；未发现 direct defect |"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/snapshot.test.ts",
+      "before": "| `packages/game/src/tools/speedrun/snapshot.test.ts` | test | review | CODE-QUALITY-63；snapshot/canMove 合同；6 tests | count>0、battle HP、sceneLoading/paletteFade/suspendRaf 反例；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/speedrun/snapshot.test.ts` | test | 已验证 | [CODE63/65合法夹具勘误](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/63-65-speedrun-fixtures/README.md)；72行全文、真实caller/oracle与20例排重 | 正式GameState/新游戏初始化/BattleState/PaletteFade；exact ID set/总血30/五canMove门；核心强转撤除，旧合法片段声明更正；数量不增、新统一门未运行 |"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.ts",
+      "before": "| `packages/game/src/tools/speedrun/detectors.ts` | product | review | CODE-QUALITY-64；timer/checkpoints/snapshot callers；detector 主/边界 13 tests、全仓门 | prev/mem/容差/彩依两段状态机逐段核验，未发现直接缺陷；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/speedrun/detectors.ts` | product | 已验证 | [pre-94 CODE64 speedrun detectors复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/64-speedrun-detectors/README.md)；timer/snapshot/checkpoints callers、speedrun design §4.2–4.3 | 76 行完整核验 prev/mem、enter/leave/any、spot、boss/item/music、caiyi 两阶段与输入集合复制；六文件42 tests、game typecheck通过；未发现 direct defect |"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.test.ts",
+      "before": "| `packages/game/src/tools/speedrun/detectors.test.ts` | test | review | CODE-QUALITY-64；enter/leave/spot/boss/item/music/caiyi 主 oracle；7 tests | 主合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/speedrun/detectors.test.ts` | test | 已验证 | [pre-94 CODE64 speedrun detectors复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/64-speedrun-detectors/README.md)；原语、null prev、battle null、boss/item/music、caiyi 基本 oracle | 77 行完整核验 8 tests；与 leaves 文件职责分离，无弱恒真断言 |"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-64；null prev、集合、容差、自定义 enemy 边界 oracle；6 tests | 边界合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts` | test | 已验证 | [pre-94 CODE64 speedrun detectors复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/64-speedrun-detectors/README.md)；默认容差/多点/空集合/prev null/自定义敌 id 反例 | 65 行完整核验 4 tests；不重复主测试基本合同 |"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/checkpoints.test.ts",
+      "before": "| `packages/game/src/tools/speedrun/checkpoints.test.ts` | test | review | CODE-QUALITY-67；21-id/单调/首尾/香蕉配置 oracle；3 tests、speedrun wave 全门 | 无重复弱断言，数据合同完整；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/speedrun/checkpoints.test.ts` | test | 已验证 | [pre-94 CODE67 speedrun checkpoint tests复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/67-speedrun-checkpoint-tests/README.md)；21-id/单调/首尾标签、BANANA 三格零容差 oracle | 27 行完整核验3 tests；运行时坐标/BGM仍明确 unknown，不冒充实跑 |"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.boundaries.test.ts",
+      "before": "| `packages/game/src/tools/speedrun/timer.boundaries.test.ts` | test | review | CODE-QUALITY-67；同 now/finished/暂停边界/setStep/mem 隔离/detector boundary oracle；6 tests、speedrun wave 全门 | 状态机边界判别力完整；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/speedrun/timer.boundaries.test.ts` | test | 已验证 | [pre-94 CODE67 speedrun checkpoint tests复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/67-speedrun-checkpoint-tests/README.md)；同 now/finished、暂停边界、一次性 flags、setStep/mem/实例隔离、detector反例 | 124 行完整核验6 tests；真实 SpeedrunTimer/detector caller，无弱重复断言 |"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.test.ts",
+      "before": "| `packages/game/src/tools/speedrun/countdown.test.ts` | test | review | CODE-QUALITY-68；挂出/更新/null remove DOM oracle；2 tests、speedrun wave 全门 | 倒计时元素生命周期；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/speedrun/countdown.test.ts` | test | 已验证 | [CODE68 countdown测试复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/68-countdown-tests/README.md)；index字符串/null caller、真实DOM身份/文本/重建oracle | 合入原GLM生命周期断言；身份变异1红→1红，移除变异2红→1红；相邻20files/104tests与game typecheck通过；新统一门未运行 |"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-68；单例复用/重建/pointer-events oracle；2 tests | DOM 单节点合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts` | test | 已验证 | [CODE68 countdown测试复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/68-countdown-tests/README.md)；MutationObserver同文字无变更、无document合法宿主边界 | 纠正误导注释、去除重复生命周期；guard旧4绿/新3绿1指定AssertionError；observer/global/spy恢复完整；新统一门未运行 |"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.test.ts",
+      "before": "| `packages/game/src/tools/speedrun/time-format.test.ts` | test | review | CODE-QUALITY-69；clock/HMS/parse/diff 合法值 oracle；4 tests | 常规格式合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/speedrun/time-format.test.ts` | test | 已验证 | [CODE69 time-format复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/69-time-format-tests/README.md)；overlay/tool文本caller、毫秒/固定字符串oracle | 正常四函数职责明确；GLM精确厘秒小时oracle归回主测试；相邻20files108tests、game typecheck通过；新统一门未运行 |"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+      "before": "| `packages/game/src/tools/speedrun/time-format.boundaries.test.ts` | test | review | CODE-QUALITY-69；进位/负数/符号/非法 parse boundary oracle；3 tests | 高判别力边界合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/speedrun/time-format.boundaries.test.ts` | test | 已验证 | [CODE69 time-format复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/69-time-format-tests/README.md)；截断/进位、负数、diff与文本拒绝/finite总量 | 纠正错误进位标题、拆开不同函数合同；旧GLM负数oracle保留；生产非finite显示政策仍review |"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-69；小时进位/负数 oracle；2 tests | 与主/边界测试排重；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts` | test | 已验证 | [CODE69 time-format复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/69-time-format-tests/README.md)；科学计数法文本/分钟60且秒0两个独立oracle | 两原重复用例转回主/边界；两枚各旧10绿→新13绿1个指定AssertionError；正式源未改、临时副本已清 |"
+    },
+    {
+      "path": "packages/game/src/shell/audio-volume.test.ts",
+      "before": "| `packages/game/src/shell/audio-volume.test.ts` | test | review | CODE-QUALITY-70；主 volume/mute/storage oracle；3 tests | 主合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/shell/audio-volume.test.ts` | test | 已验证 | [CODE70音量测试](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/70-audio-volume/README.md)；49行全文、真实bootstrap/tools-panel caller、sink/state/storage oracle | clamp各输出/持久值、静音中改目标归main、取消恢复与启动回读；前后清理；相邻36绿/typecheck通过，无新统一门 |"
+    },
+    {
+      "path": "packages/game/src/shell/audio.ts",
+      "before": "| `packages/game/src/shell/audio.ts` | product | review | CODE-QUALITY-74；SDLPal sound/midi caller、bootstrap/dev-panel callers、audio 主/边界 tests；27 定向 tests、全仓质量门 | SFX queue ownership、BGM track/loop、同号去重、开关/补播、OGG release 逐段核验；未发现直接缺陷；MIDI async race 留 CODE-QUALITY-75；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/shell/audio.test.ts",
+      "before": "| `packages/game/src/shell/audio.test.ts` | test | review | CODE-QUALITY-74；URL/track、AudioManager、SFX mapping/dedup、OGG lifecycle oracle；主合同全绿 | 合法输入、真实 MusicBackend caller、资源释放与高判别力反例；不覆盖 MIDI fetch 逆序；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/shell/audio.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-74；OGG volume 与 audio-midi no-WebAudio/no-op 端口 oracle；27 定向 tests 全绿 | 与主合同排重；audio-midi async race 明确留 CODE-QUALITY-75；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/shell/audio-midi.ts",
+      "before": "| `packages/game/src/shell/audio-midi.ts` | product | review | CODE75当前复审Y01：全文读取并核MusicBackend/AudioManager/source-controller caller及SpessaSynth 4.3.6异步事件协议；精确保留最新main字节 | 旧3y实现已由main发布实现替代；12定向、44相邻、game typecheck与stop代际反控通过；公共输入/整生命周期及统一质量门仍待核，不恢复历史closed |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/shell/audio-midi.test.ts",
+      "before": "| `packages/game/src/shell/audio-midi.test.ts` | test | review | CODE75当前复审Y01：全文323行、合法SMF/canonical SF3/实际Response与受控body完成oracle；两个旧合同精确映射到现有12例；隔离stop反控12绿→11绿1指定业务红→恢复12绿 | 主线原字节未改；旧boundaries两例重复且FakeSequencer协议过期，删除原件与file×fullName映射见[本片证据](../evidence/CODE-QUALITY-3Y-CLOSEOUT-1/midi-review/README.md)；全仓门尚未收口 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.ts",
+      "before": "| `packages/game/src/shell/main-loop.ts` | product | review | CODE-QUALITY-76；SDLPal `game.c:43-86`/`play.c:513-565`、bootstrap/mode/speedrun callers；33 定向、全仓质量门 | fixed cadence、accumulator、mode clamp、freeze、present/input gates、scene context、RAF cancel 逐段核验；未发现直接缺陷；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.test.ts",
+      "before": "| `packages/game/src/shell/main-loop.test.ts` | test | review | CODE-QUALITY-76；tickN/interval/accumulator/present/fade/input oracle；12 tests | 主合同与 SDLPal cadence 对照；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+      "before": "| `packages/game/src/shell/main-loop-gates.grok-r1.test.ts` | test | review | CODE-QUALITY-76；drain/nowMs/dump/freeze/mode-switch/RAF cancel boundary oracle；13 tests | 宿主边界与主合同排重；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.ts",
+      "before": "| `packages/game/src/shell/rng-player.ts` | product | review | CODE-QUALITY-77；SDLPal `rngplay.c:372-448`/`main.c:197-203`/`video.c:571-616`、bootstrap/event/trademark callers；33 定向、全仓质量门 | frame window、chunk in-flight cache、失败驱逐、fade、skip、shake、flush lifecycle 逐段核验；未发现直接缺陷；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.test.ts",
+      "before": "| `packages/game/src/shell/rng-player.test.ts` | test | review | CODE-QUALITY-77；合法播放/失败/skip/shake/fade/cache oracle；主合同全绿 | 直接 framebuffer/canvas 与真实 loader seam，26 tests；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+      "before": "| `packages/game/src/shell/rng-player.glm-next-wave.test.ts` | test | review | CODE-QUALITY-77；窗口外零请求、失败 Promise 驱逐 oracle；2 tests | 补齐未占用 frame window 与 retry 合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.ts",
+      "before": "| `packages/game/src/shell/avi-player.ts` | product | review | CODE-QUALITY-78；SDLPal `aviplay.c:643-747`、bootstrap/main/ending callers；32 定向/相邻、全仓质量门 | video DOM/cleanup、skip/500ms、autoplay fallback、warm-up、volume owner、迟到 Promise 生命周期逐段核验；未发现直接缺陷；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.test.ts",
+      "before": "| `packages/game/src/shell/avi-player.test.ts` | test | review | CODE-QUALITY-78；video creation/ended/error/skip/volume/cleanup oracle；主合同全绿 | 合法视频与生命周期反例，13 tests；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.glm-next-wave.test.ts",
+      "before": "| `packages/game/src/shell/avi-player.glm-next-wave.test.ts` | test | review | CODE-QUALITY-78；autoplay reject overlay、warm-up resolve/reject oracle；2 tests | 补齐浏览器拒绝与同步手势解锁边界；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/shell/boot-loading.ts",
+      "before": "| `packages/game/src/shell/boot-loading.ts` | product | review | CODE-QUALITY-72；bootstrap/main-loop/DOM caller；20 tests、全仓 check/ratchet/protected fast/lint | fetch counting、进度、SW onProgress、finish/fail/restore、rAF fallback lifecycle 逐段核验；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/shell/boot-loading.ts` | product | 已验证 | [CODE72实现/ownership](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md)；全文/真实caller，22直接合同与相邻58绿，真实PROD释放实证 | 810/单调/无overlay注释纠正；只释放自己包装/回调，旧响应不污染新轮次；2旧单红新绿/原红重放1绿/typecheck；无统一门信用 |"
+    },
+    {
+      "path": "packages/game/src/shell/boot-loading.test.ts",
+      "before": "| `packages/game/src/shell/boot-loading.test.ts` | test | review | CODE-QUALITY-72；计数/进度/finish/fail/nop DOM oracle；9 tests | 主合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/shell/boot-loading.test.ts` | test | 已验证 | [CODE72测试与补强](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md)；全文/合法typed IO/真实DOM，保留9合同并加2独立ownership时序 | 原三枚反控原件保留；后装fetch身份/旧Response跨轮两旧单红新绿，finally settle/drain，22直接/58相邻绿，未扩大整卡验收 |"
+    },
+    {
+      "path": "packages/game/src/shell/boot-loading-host.grok-r1.test.ts",
+      "before": "| `packages/game/src/shell/boot-loading-host.grok-r1.test.ts` | test | review | CODE-QUALITY-72；host DOM/缺节点/rAF/onProgress 反例；11 tests | 宿主边界合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/shell/boot-loading-host.grok-r1.test.ts` | test | 已验证 | [CODE72测试合同](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md)；235行全文、合法typed IO/真实DOM、20例排重 | Request/init/Response、错误身份、分母、缺节点/定时与隔离；三枚旧绿新单红、相邻54绿/typecheck；无新统一门 |"
+    },
+    {
+      "path": "packages/game/src/shell/input.ts",
+      "before": "| `packages/game/src/shell/input.ts` | product | review | CODE-QUALITY-73；main-loop/input caller、SDLPal input.c key map、主/边界/回放 tests；31 tests、全仓门 | held/pressed/repeat/fade suppression/detach 与回放 ownership逐段核验，未发现直接缺陷；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/shell/input.test.ts",
+      "before": "| `packages/game/src/shell/input.test.ts` | test | review | CODE-QUALITY-73；key map/held/pressed/replay/recording 主 oracle；19 tests | 主合同与原版键位映射；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/shell/input.boundaries.test.ts",
+      "before": "| `packages/game/src/shell/input.boundaries.test.ts` | test | review | CODE-QUALITY-73；alias/detach/unknown keyup/fade boundary oracle；3 tests | 宿主边界；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+      "before": "| `packages/game/src/shell/input-replay.grok-r1.test.ts` | test | review | CODE-QUALITY-73；multi-source/order/replay cursor/recording ownership oracle；11 tests | 回放与多源生命周期；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.ts",
+      "before": "| `packages/game/src/tools/speedrun/index.ts` | product | review | CODE-QUALITY-65；main-loop/tools-panel/timer/store/overlay/countdown callers；12 tests、game 全包/check/ratchet/protected fast/lint | 单例/tick/暂停/快捷键/PB 持久化编排逐段核验，未发现直接缺陷；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/speedrun/index.ts` | product | 已验证 | [pre-94 CODE65 speedrun index复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/65-speedrun-index/README.md)；main-loop/tools-panel、snapshot/timer/store/overlay/countdown callers | 116 行完整核验单例、disabled/tick、persistence、快捷键、暂停门、SSR/解绑；六文件39 tests、game typecheck通过；未发现 direct defect |"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.test.ts",
+      "before": "| `packages/game/src/tools/speedrun/index.test.ts` | test | review | CODE-QUALITY-65；disabled/tick/overlay/hotkey/pause oracle；10 tests | 主编排合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/speedrun/index.test.ts` | test | 已验证 | [CODE63/65合法夹具勘误](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/63-65-speedrun-fixtures/README.md)；135行全文、真实caller/oracle与20例排重 | 完整状态工厂/合法Facing，disabled实际0、PB精确9452000ms；afterEach清监听/timer/DOM/偏好/单例；数量不增、新统一门未运行 |"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-65；解绑/未启用 shortcut 反例；2 tests | 输入监听生命周期；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts` | test | 已验证 | [CODE63/65解绑判别力勘误](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/63-65-speedrun-fixtures/README.md)；70行全文、真实caller/oracle与20例排重 | 实际起表再解绑后F4保留500/running与toast数量；静默重置旧20绿→新19绿1AssertionError；失败路径也解绑；数量不增、新统一门未运行 |"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.ts",
+      "before": "| `packages/game/src/tools/speedrun/overlay.ts` | product | review | CODE-QUALITY-66；index/timer/time-format caller；6 tests、game 全包/check/ratchet/protected fast/lint | DOM row/ETA/diff/clock/pause/style ownership逐段核验，未发现直接缺陷；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/speedrun/overlay.ts` | product | 已验证 | [pre-94 CODE66 speedrun overlay复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/66-speedrun-overlay/README.md)；index/timer/store/time-format/tools-panel callers | 120 行完整核验 DOM/style ownership、21 行、diff/ETA/clock、SSR/hide cleanup；5 files/25 tests、game typecheck通过；未发现 direct defect |"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.test.ts",
+      "before": "| `packages/game/src/tools/speedrun/overlay.test.ts` | test | review | CODE-QUALITY-66；overlay row/value oracle；4 tests | 功能性 DOM 合同；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/speedrun/overlay.test.ts` | test | 已验证 | [pre-94 CODE66 speedrun overlay复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/66-speedrun-overlay/README.md)；21 行/主计时、pause、diff/ETA、hide DOM oracle | 49 行完整核验 4 tests；补齐差值/ETA 判别力，无重复断言 |"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-66；DOM cleanup/diff/paused prefix 反例；2 tests | 视觉形态保持，不做剧情 E2E；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": "| `packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts` | test | 已验证 | [pre-94 CODE66 speedrun overlay复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/66-speedrun-overlay/README.md)；原位更新、style 注入幂等、hide 幂等反例 | 59 行完整核验 2 tests；与主测试排重 |"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-mode.ts",
+      "before": "| `packages/game/src/core/menu/menu-mode.ts` | product | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-stack.ts",
+      "before": "| `packages/game/src/core/menu/menu-stack.ts` | product | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-mode.test.ts",
+      "before": "| `packages/game/src/core/menu/menu-mode.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.ts",
+      "before": "| `packages/game/src/core/menu/inventory-menu.ts` | product | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.test.ts",
+      "before": "| `packages/game/src/core/menu/inventory-menu.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+      "before": "| `packages/game/src/core/menu/inventory-menu.boundaries.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.ts",
+      "before": "| `packages/game/src/core/menu/shop-menu.ts` | product | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.test.ts",
+      "before": "| `packages/game/src/core/menu/shop-menu.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+      "before": "| `packages/game/src/core/menu/shop-menu.boundaries.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.ts",
+      "before": "| `packages/game/src/core/menu/equip-menu.ts` | product | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.test.ts",
+      "before": "| `packages/game/src/core/menu/equip-menu.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+      "before": "| `packages/game/src/core/menu/equip-menu.boundaries.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.ts",
+      "before": "| `packages/game/src/core/menu/in-game-menu.ts` | product | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.test.ts",
+      "before": "| `packages/game/src/core/menu/in-game-menu.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+      "before": "| `packages/game/src/core/menu/in-game-menu.boundaries.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.ts",
+      "before": "| `packages/game/src/core/menu/magic-select.ts` | product | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+      "before": "| `packages/game/src/core/menu/magic-select.boundaries.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/__tests__/item-magic-select.test.ts",
+      "before": "| `packages/game/src/core/menu/__tests__/item-magic-select.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": "| `packages/game/src/core/menu/__tests__/item-magic-select.test.ts` | test | review | CODE-QUALITY-107；真实 item/magic selection caller、MP disabled/排序/rightText oracle | 7 文件定向 78 tests；相邻 magic-script 诊断保持开放 |"
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+      "before": "| `packages/game/src/core/menu/in-game-magic-menu.ts` | product | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+      "before": "| `packages/game/src/core/menu/in-game-magic-menu.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+      "before": "| `packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.ts",
+      "before": "| `packages/game/src/core/menu/inventory-action-menu.ts` | product | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+      "before": "| `packages/game/src/core/menu/inventory-action-menu.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-94 集成候选；治理分支 CODE83–89/91 逐文件审阅与CODE92源字节一致性证据已接收；Codex R2全文/caller/oracle复核见evidence/CODE-QUALITY-94/codex-r2-review.md；counter，统一门与机制/测试返工未闭合 | 不借源分支全绿关闭；不带CODE53/90实现 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-script.ts",
+      "before": "| `packages/game/src/core/menu/magic-script.ts` | product | review | CODE-QUALITY-90；SDLPal `script.c:1052-1102`/`global.c:2279-2344`、runtime/menu-driver/event-opcode-player；41 targeted、518 adjacent、4 exact mutation controls；full check/official ratchet/protected fast/lint/docs 均通过 | revive <=999 repair only; full spell-chain/input/unsupported-op/step-limit contract not closed |",
+      "merged": null,
+      "current": "| `packages/game/src/core/menu/magic-script.ts` | product | review | CODE-QUALITY-108；SDLPal uigame.c:740-873、script.c:867-1102；menu-driver/in-game-magic 与 battle runScript callers | 258 行完整读取；大世界 runner 的全局 label、HP/MP、复活和 warning ownership 已核；本批未改生产，整卡等统一门 |"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-script.test.ts",
+      "before": "| `packages/game/src/core/menu/magic-script.test.ts` | test | review | CODE-QUALITY-90；真实 GameState HP/status/poison oracle；999/1000/32760、party [2,0] 与 party 外隔离；先红后绿/4 mutations | poison-table cleanup, remaining synthetic fixtures and full runner input/unsupported-op/step-limit review remain unclosed |",
+      "merged": null,
+      "current": "| `packages/game/src/core/menu/magic-script.test.ts` | test | review | CODE-QUALITY-108；真实 castOverworldMagic caller、typed global command fixture、warning/HP/return oracle | 37 tests；缺失 label 两项 warning 已精确捕获并恢复 spy，定向与 menu 相邻 0 stderr；整卡等统一门 |"
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.ts",
+      "before": "| `packages/game/src/core/menu/sell-menu.ts` | product | review | CODE-QUALITY-93；全文/SDLPal uigame/itemmenu/global、menu-driver/bootstrap/event/draw caller 已核；96 定向相邻、typecheck、3 精确反控通过 | check/ratchet/protected fast/lint/docs/ledger全部通过；实现未改；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.test.ts",
+      "before": "| `packages/game/src/core/menu/sell-menu.test.ts` | test | review | CODE-QUALITY-93；typed Item/GameState、公共导航/选择/意图与 cash/inventory ownership oracle；确认默认重置反控 | 已移除强转，独立导航/取消/意图合同；check/ratchet/protected fast/lint/docs/ledger全部通过；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+      "before": "| `packages/game/src/core/menu/sell-menu.boundaries.test.ts` | test | review | CODE-QUALITY-93；inUse 等值、confirm 期四键逐次不变、等长/空/增表与非零 cursor oracle；2 精确反控 | typed fixture；独立输入轴与快照不别名；check/ratchet/protected fast/lint/docs/ledger全部通过；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+      "before": "| `packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-93；真实公共入口进入 confirm，空库存与重复选择/确认合同 | 已删与主测试重复的缩表用例；check/ratchet/protected fast/lint/docs/ledger全部通过；3Y-CLOSEOUT当前复审未完成，旧关闭只保留历史 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "before": "| `scripts/coverage/approved-test-retirements.mjs` | tool | review | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1；精确身份/源SHA与66例真实工具回归见[证据](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md) | matcher不变；历史表各输入来源未在本片重核，统一门待续，不关闭  C10精确G07 10→8，27项/net62、旧26及matcher不变、72工具通过；[当前证据](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md)。 CODE3h两精确PNG退役后29项/net64，旧27与matcher/拒绝合同不变、74工具通过；[当前证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/README.md)。 启动主测试精确4→3后30项/net65，旧29与matcher/拒绝合同不变、75工具通过；[启动证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/bootstrap/README.md)。 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "before": "| `scripts/coverage/approved-test-retirements.test.mjs` | tool | review | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1；精确身份/源SHA与66例真实工具回归见[证据](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md) | matcher不变；历史表各输入来源未在本片重核，统一门待续，不关闭  C10精确G07 10→8，27项/net62、旧26及matcher不变、72工具通过；[当前证据](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md)。 CODE3h两精确PNG退役后29项/net64，旧27与matcher/拒绝合同不变、74工具通过；[当前证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/README.md)。 启动主测试精确4→3后30项/net65，旧29与matcher/拒绝合同不变、75工具通过；[启动证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/bootstrap/README.md)。 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/primitives.ts",
+      "before": "| `packages/game/src/core/menu/primitives.ts` | product | review | Codex takeover: page helpers remain test-only/unknown; false SDL page anchor and selectable guarantees corrected; no API or behavior change | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |",
+      "merged": null,
+      "current": "| `packages/game/src/core/menu/primitives.ts` | product | review | CODE-QUALITY-107；SDLPal ui.c:510-572 cursor、真实 menu/battle/inventory caller、E-4 test-only page API | 纯状态 helper 已完整读取；定向/相邻证据待批次收口，E-4 不删公共出口 |"
+    },
+    {
+      "path": "packages/game/src/core/menu/item-select.ts",
+      "before": "| `packages/game/src/core/menu/item-select.ts` | product | review | Codex takeover: equip bit and Important approximation comments corrected; production matchesFilter retained; factory cleanup remains review | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |",
+      "merged": null,
+      "current": "| `packages/game/src/core/menu/item-select.ts` | product | review | CODE-QUALITY-107；SDLPal itemmenu/play/uigame filter caller、typed Item/Inventory oracle、E-5 无生产 caller | filter/建表合同已完整读取；important 为工程近似，E-5 不删公共出口 |"
+    },
+    {
+      "path": "packages/game/src/core/menu/opening-menu.ts",
+      "before": "| `packages/game/src/core/menu/opening-menu.ts` | product | review | Codex R3: choice dedupe accepted; title cancel fixed in driver after user approval, real chain/browser verified; global diagnostics remain | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/player-status.ts",
+      "before": "| `packages/game/src/core/menu/player-status.ts` | product | review | Codex takeover: role index versus object ID comment corrected; currentRoleId test-only remains review | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "before": "| `packages/game/src/core/menu/menu-driver.ts` | product | review | Codex takeover: C4 legal-role oracle red/green, handler cast removed, approved title cancel cursor fixed; 125 targeted/3564 game tests pass; global diagnostics remain | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/game/src/core/menu/save-slot-menu.ts",
+      "before": "| `packages/game/src/core/menu/save-slot-menu.ts` | product | review | Codex takeover: removed self-model test; documented actual direct Save/handler, cancel ownership and dual storage path | evidence/CODE-QUALITY-94/codex-takeover.md; no closure |",
+      "merged": null,
+      "current": "| `packages/game/src/core/menu/save-slot-menu.ts` | product | 已验证 | [CODE-QUALITY-100 Codex当前独立复核](../evidence/CODE-QUALITY-100/codex-current-review.md)；menu-driver 标题/系统 save-load caller、draw-menu SlotMeta oracle、Save API/IDB 边界、sdlpal uigame.c:169-242 | 选择状态、1-based/defaultSlot、非顺序 id、空表与异步元数据 ownership 逐文件核验；无 schema/写路径或直接产品缺陷 |"
+    },
+    {
+      "path": "packages/game/src/core/save/api.ts",
+      "before": "| `packages/game/src/core/save/api.ts` | product | review | CODE-101 C5 返工后：头注释已更正（E-10 关闭，双路径现状）；\"hot-reload 已处理\"过 claim 已回收（openDb 失败缓存/未 close 未证） | NaN/小数合同列 review 不改接口；U-1 引用既有卡；待 Codex 再验收 |",
+      "merged": null,
+      "current": "| `packages/game/src/core/save/api.ts` | product | review | [CODE-QUALITY-101 Codex当前逐文件复核](../evidence/CODE-QUALITY-101/codex-current-review.md)；Save API 双路径 caller、MAX_SAVE_SLOTS=5、内存/IndexedDB 边界 | 已完整读取；NaN/无穷/小数只通过范围守卫，双路径输入合同未裁决；见 GAME-SAVE-INPUT-DOMAIN-1，禁止实现或标已验证 |"
+    },
+    {
+      "path": "packages/game/src/core/save/indexed-db.ts",
+      "before": "| `packages/game/src/core/save/indexed-db.ts` | product | review | 用户批准后c81f469e3修复：put/delete等transaction complete；success后abort拒绝并保留旧槽，真实Save调用回归通过 | GAME-SAVE-IDB-COMMIT-1仍review等完整门；连接/失败缓存未决不关闭 |",
+      "merged": null,
+      "current": "| `packages/game/src/core/save/indexed-db.ts` | product | review | [CODE-QUALITY-101 Codex当前逐文件复核](../evidence/CODE-QUALITY-101/codex-current-review.md)；真实事务测试、IndexedDB 生命周期与公共 Save caller | 事务 complete/abort 由 GAME-SAVE-IDB-COMMIT-1 维护；open 失败缓存与 db.close 生命周期仍缺主路径证据，保持 review |"
+    },
+    {
+      "path": "packages/game/src/core/save/__tests__/indexed-db.test.ts",
+      "before": "| `packages/game/src/core/save/__tests__/indexed-db.test.ts` | test | review | 用户批准事务修复的新三条真实Save→IDB回归：提交时机/正常存读删、覆盖abort保旧槽、删除abort保旧槽；完整typed GameState，独立IDBFactory及连接/global/spy清理 | 作者自验，尚未独立闭合；不以3绿或覆盖率升高关闭文件 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx",
+      "before": "| `packages/editor/src/ui/SpriteResourceViewer.c03-g03.cursor-r1.test.tsx` | test | review | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1；全文/caller/反例/真实IO/有效反控见[证据](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md) | 20例先清51act再精确退役1条；19定向0诊断，相邻63act/全域排重/完整门待续，不关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx",
+      "before": "| `packages/editor/src/ui/SpriteResourceViewer.c03-g04.cursor-r1.test.tsx` | test | review | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1；全文/caller/反例/真实IO/有效反控见[证据](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md) | 20例先清51act再精确退役1条；19定向0诊断，相邻63act/全域排重/完整门待续，不关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx",
+      "before": "| `packages/editor/src/ui/SpriteResourceViewer.kimi-workflows.test.tsx` | test | review | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 C09；全文/合法输入/caller/oracle与反控见[本片](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/c09/README.md) | 五例身份保留；宿主去重/真实IO与提交等待56→44→0act，两枚反控旧新各4绿1指定业务红；全域排重/统一门待续，0关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx",
+      "before": "| `packages/editor/src/__tests__/cursor-asset-r1/upload-harness.tsx` | test | review | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1；全文/caller/反例/真实IO/有效反控见[证据](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md) | 20例先清51act再精确退役1条；19定向0诊断，相邻63act/全域排重/完整门待续，不关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/upload-ui.ts",
+      "before": "| `packages/editor/src/__tests__/cursor-asset-r1/upload-ui.ts` | test | review | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1；全文/caller/反例/真实IO/有效反控见[证据](../evidence/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1/README.md) | 20例先清51act再精确退役1条；19定向0诊断，相邻63act/全域排重/完整门待续，不关闭  C10恢复核命令失败真实SHA等待，28定向零诊断；[证据](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md)，其它caller仍待。 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts",
+      "before": "| `packages/editor/src/__tests__/cursor-asset-r1/upload-ports.ts` | test | review | QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1恢复；[完整读取/caller/oracle/反控](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md) | 真实gzip/SHA闸门finally排空与spy恢复；G05相邻仍有6act，其余caller待核；0关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx",
+      "before": "| `packages/editor/src/ui/SpriteUploadWizard.c03-g02.cursor-r1.test.tsx` | test | review | QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1恢复；[完整读取/caller/oracle/反控](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md) | 十例保持；迟到close有效反控，真实命令失败等待清2act；跨族与统一门待续；0关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx",
+      "before": "| `packages/editor/src/ui/SpriteUploadWizard.c03-g07.cursor-r1.test.tsx` | test | review | QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1恢复；[完整读取/caller/oracle/反控](../evidence/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1/recovery/README.md) | 两弱子集有证转移，10→8；提交锁有效反控、05标题/完整值校正；跨族与统一门待续；0关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/world-sprite-harness.tsx",
+      "before": "| `packages/editor/src/__tests__/cursor-asset-r1/world-sprite-harness.tsx` | test | review | QUALITY-EDITOR-DIAGNOSTICS-1；全文与真实viewer/cache/session调用已核；604→200→0分步诊断证据见evidence/QUALITY-EDITOR-DIAGNOSTICS-1 | 另核QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1；共享sprite/palette IO与finally清理，9定向/121相邻0诊断；全域caller/统一门待核，不关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx",
+      "before": "| `packages/editor/src/ui/WorldSpriteLibrary.kimi-workflows.test.tsx` | test | review | QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1；全文/caller/原始诊断与有效反控见[证据](../evidence/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1/README.md) | 9身份保留、121相邻零诊断；全域排重/其它caller/新窗口未完成，不关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx",
+      "before": "| `packages/editor/src/ui/WorldSpriteLibrary.glm-ui-wave.test.tsx` | test | review | QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1；全文/caller/原始诊断与有效反控见[证据](../evidence/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1/README.md) | 9身份保留、121相邻零诊断；全域排重/其它caller/新窗口未完成，不关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/ui/__tests__/kimi-editor-workflows/k02-fixtures.ts",
+      "before": "| `packages/editor/src/ui/__tests__/kimi-editor-workflows/k02-fixtures.ts` | test | review | QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1；全文/caller/原始诊断与有效反控见[证据](../evidence/QUALITY-EDITOR-WORLD-SPRITE-DIAGNOSTICS-1/README.md) | 9身份保留、121相邻零诊断；全域排重/其它caller/新窗口未完成，不关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/kit.ts",
+      "before": "| `packages/editor/src/__tests__/cursor-asset-r1/kit.ts` | test | review | QUALITY-EDITOR-DIAGNOSTICS-1；全文与真实viewer/cache/session调用已核；604→200→0分步诊断证据见evidence/QUALITY-EDITOR-DIAGNOSTICS-1 | 作者自验；3个oracle有效反控，67定向0诊断；完整门带外部诊断/其它caller待核，不关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx",
+      "before": "| `packages/editor/src/ui/WorldSpriteLibrary.c01.cursor-r1.test.tsx` | test | review | QUALITY-EDITOR-DIAGNOSTICS-1；全文与真实viewer/cache/session调用已核；604→200→0分步诊断证据见evidence/QUALITY-EDITOR-DIAGNOSTICS-1 | 作者自验；3个oracle有效反控，67定向0诊断；完整门带外部诊断/其它caller待核，不关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-harness.tsx",
+      "before": "| `packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-harness.tsx` | test | review | QUALITY-EDITOR-DIAGNOSTICS-2；全文/caller与G04生命周期消融见[证据](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/README.md) | G04十例局部0诊断；其它caller/排重及全仓门仍待核，不关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-ui.ts",
+      "before": "| `packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-ui.ts` | test | review | QUALITY-EDITOR-DIAGNOSTICS-2；全文/caller与G04生命周期消融见[证据](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/README.md) | G04十例局部0诊断；其它caller/排重及全仓门仍待核，不关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx",
+      "before": "| `packages/editor/src/ui/BattleSpriteLibrary.c02-g04.cursor-r1.test.tsx` | test | review | QUALITY-EDITOR-DIAGNOSTICS-2；全文/caller与G04生命周期消融见[证据](../evidence/QUALITY-EDITOR-DIAGNOSTICS-2/README.md) | G04十例局部0诊断；其它caller/排重及全仓门仍待核，不关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx",
+      "before": "| `packages/editor/src/ui/BattleSpriteLibrary.c02-g01.cursor-r1.test.tsx` | test | review | QUALITY-EDITOR-DIAGNOSTICS-3；全文/真实caller与生命周期证据见[本片](../evidence/QUALITY-EDITOR-DIAGNOSTICS-3/README.md) | 29定向/77相邻0诊断；pending反控与oracle转移已测；完整门仍有全仓诊断，不关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx",
+      "before": "| `packages/editor/src/ui/BattleSpriteLibrary.c02-g02.cursor-r1.test.tsx` | test | review | QUALITY-EDITOR-DIAGNOSTICS-3；全文/真实caller与生命周期证据见[本片](../evidence/QUALITY-EDITOR-DIAGNOSTICS-3/README.md) | 29定向/77相邻0诊断；pending反控与oracle转移已测；完整门仍有全仓诊断，不关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx",
+      "before": "| `packages/editor/src/ui/BattleSpriteLibrary.c02-g05.cursor-r1.test.tsx` | test | review | QUALITY-EDITOR-DIAGNOSTICS-3；全文/真实caller与生命周期证据见[本片](../evidence/QUALITY-EDITOR-DIAGNOSTICS-3/README.md) | 29定向/77相邻0诊断；pending反控与oracle转移已测；完整门仍有全仓诊断，不关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx",
+      "before": "| `packages/editor/src/ui/BattleSpriteLibrary.kimi-workflows.test.tsx` | test | review | QUALITY-EDITOR-DIAGNOSTICS-4；全文/真实caller及三反控见[本片](../evidence/QUALITY-EDITOR-DIAGNOSTICS-4/README.md) | 六例398→0；两旧绿/新红oracle，统一门与未知排重待核，不关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-fixtures.ts",
+      "before": "| `packages/editor/src/__tests__/cursor-asset-r1/battle-sprite-fixtures.ts` | test | review | QUALITY-EDITOR-DIAGNOSTICS-4；全文读取与复用caller见[本片](../evidence/QUALITY-EDITOR-DIAGNOSTICS-4/README.md) | 本片仅头注改为测试复用，未改构造实现；输入防御与全库caller未逐项闭合 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/ui/design-system/navigation.glm-leaf-wave.test.tsx",
+      "before": "| `packages/editor/src/ui/design-system/navigation.glm-leaf-wave.test.tsx` | test | review | QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1；全文/真实事件/caller见[证据](../evidence/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md) | native 1→0，六例保留；public helper无生产caller与统一门仍待核，不关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/reforge/src/main.host-lifecycle-1.test.ts",
+      "before": "| `packages/reforge/src/main.host-lifecycle-1.test.ts` | test | review | QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1；全文/真实reload与旧绿新红见[证据](../evidence/QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1/README.md) | native 1→0，八例保留；音频端口/其它故障与统一门未清，不关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/ui/LevelingEditor.test.tsx",
+      "before": "| `packages/editor/src/ui/LevelingEditor.test.tsx` | test | review | QUALITY-EDITOR-FORM-FIXTURES-1；全文/caller/合法输入/oracle见[证据](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/README.md) | 定向与相邻零诊断；统一门及未知排重仍待核，不关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/ui/LevelCurveEditor.ui.test.tsx",
+      "before": "| `packages/editor/src/ui/LevelCurveEditor.ui.test.tsx` | test | review | QUALITY-EDITOR-FORM-FIXTURES-1；全文/caller/合法输入/oracle见[证据](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/README.md) | 定向与相邻零诊断；统一门及未知排重仍待核，不关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/ui/CasualtyEditor.test.tsx",
+      "before": "| `packages/editor/src/ui/CasualtyEditor.test.tsx` | test | review | QUALITY-EDITOR-FORM-FIXTURES-1；全文/caller/合法输入/oracle见[证据](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/README.md) | 定向与相邻零诊断；统一门及未知排重仍待核，不关闭 |",
+      "merged": null,
+      "current": null
+    },
+    {
+      "path": "packages/editor/src/ui/CasualtyEditor.glm-m.test.tsx",
+      "before": "| `packages/editor/src/ui/CasualtyEditor.glm-m.test.tsx` | test | review | QUALITY-EDITOR-FORM-FIXTURES-1；全文/caller/合法输入/oracle见[证据](../evidence/QUALITY-EDITOR-FORM-FIXTURES-1/README.md) | 定向与相邻零诊断；统一门及未知排重仍待核，不关闭 |",
+      "merged": null,
+      "current": null
+    }
+  ],
+  "retraction": "c727bc81e",
+  "commentary": "Result-level state regression; 9cf1fd09f and its parent already contain old rows on another history line. No intent inferred. Full first-parent merge before/after rows; subsequent explicit closure/provenance not adjudicated except two RLE rows.",
+  "beforeFixCurrentStatusCounts": {
+    "missing": 130,
+    "已验证": 76,
+    "review": 36,
+    "rework": 1
+  }
+}

@@ -32,3 +32,10 @@ shared公共出口已使game/extract重导出同一codec；generic与strict的�
 根CODE1还含工程清单与Q1b editor PAL census，这些不因本RLE片通过完成；6a/92也仍partial。整仓check/官方ratchet/protected fast留稳定窗口，editor仍非零诊断，禁止合main。当前仅三条旧关闭撤回review，机器已确认：3287/219closed/204review/2864pending。下一片CODE2 shared MKF/RNG，RLE格式风险转专卡只读取证。
 
 [本检查点静态门](gates.md)单独记录；原始日志中的预期反控失败不会被重写成通过。
+
+
+## 2026-10-18 GLM首批的Codex独立校准
+
+[本次校准、八维结论、有限build与低成本复验入口](calibration-20261018/README.md)以170edee44为基点。P-1成立，实际丢失在89bf84e16合并，不把9cf1fd09f另一支线的旧表误写成其本次有意恢复；完整243行差异已保存。Codex仅恢复当前rle.ts/rle.test.ts两行review，三文件仍review；3319/249closed/105review/2965pending，0新关闭。
+
+独立定向4文件51/51，完整raw/native已附；不继承GLM未附原件的执行信用，不与本页历史54身份混同。上表316/329/117/150等行数属于各历史时点，当前逐文件字节/行数另列新包，不覆盖旧证据。GLM仅获三文件文案/标题候选准入，漏项需补，八维整体尚未接收；格式/分支/fixture/断言均未改。全仓门/coverage/protected在稳定窗口执行，本次未跑、未合main。

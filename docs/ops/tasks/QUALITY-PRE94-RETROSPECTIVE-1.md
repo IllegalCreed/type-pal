@@ -13,7 +13,7 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
 用户2026-10-16重申“复审94号之前的所有卡的成果”，本卡当前覆盖全部83张CODE-QUALITY编号小于94的卡，包含字母后缀，不是抽样。77张历史done、1张build、4张review、1张draft仅是原卡状态；本轮重新accept为0。当前复审队列已推进为55张partial、28张pending；partial只表示有限证据切片，不是验收。按当前Git tracked路径收集，大小写敏感编号规则排除行政卡CODE-QUALITY-3Y-CLOSEOUT-1；不按编号空缺虚构卡。完整83行清单与卡SHA见[复审队列](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)。原36卡结构/8卡全文抽查是历史部分证据，不能替代任何整卡成果复验。3y的58差异卡矩阵也不是全部83卡。
 
-唯一工作树/分支codex/code-quality-3y；主树和其它Owner只读，不再新建治理分支。94–102及editor既有返工继续保留；C10未完成检查点bea19f80c已提交推送，当前先推进本卡。工程→模块→功能→文件；先6a的账本/清单四文件，再核92的受保护门证据，继而逐卡回到shared/extract/game等模块。活跃53/57/79/80/81/90只读协调，未核前不抢写其实现。
+唯一治理集成工作树/分支codex/code-quality-3y；主树和其它Owner只读，不再新建长期治理分支。贡献者仅按下方准入建立临时隔离worktree。94–102及editor既有返工继续保留；C10未完成检查点bea19f80c已提交推送，当前先推进本卡。工程→模块→功能→文件；先6a的账本/清单四文件，再核92的受保护门证据，继而逐卡回到shared/extract/game等模块。活跃53/57/79/80/81/90只读协调，未核前不抢写其实现。
 
 Codex premise verified / design agree / build allowed：完整读取任务卡、实现、真实caller/出口/类型/生命周期，核注释事实、可复用代码边界、内聚耦合、输入/错误/异步取消/清理/ownership；测试核合法输入、真实oracle、排重、判别力与隔离。只读复核、隔离反控、测试与治理证据允许；发现需修复时先钉有限白名单和反例，低风险工具/测试补证逐批准入。产品机制、schema/save/migration/资产、公共接口或可感知行为变化立即停线专卡，不用本卡泛化授权。
 
@@ -27,7 +27,7 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 
 83卡当前全量accept=0、55partial/28pending；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3b SSS/MSG、3c动画清理、3d PNG、3g CLI、3h assets/shell、CODE71 fetch取消与测试、CODE3/3f切分与标注已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
 
-无下一位Agent提示词，Codex单Agent继续全量复审，不把本卡交回GLM。
+当前按长期规范由GLM执行有限批次，Codex独立校准与集成。RLE首批校准发现账本漂移及B/G维漏项；仅准入下述注释候选，不扩展到批量升格或产品算法。唯一集成分支仍为codex/code-quality-3y，贡献者使用新鲜临时detached worktree交patch，避免新增长期分支。
 
 
 ### 2026-10-17 CODE-QUALITY-3r event-system 当前复审
@@ -784,3 +784,16 @@ Codex premise verified/design agree/build allowed：同3y分支/原路径、单O
 用户明确要求将八维质量、低成本复验与分工固化为后续开发通用规范。Codex单Owner在现3y树build allowed：新ops/code-quality.md为唯一完整条款；AGENTS/CLAUDE路由、agent-workflow、Ops/通用任务模板及导航只做入口/验收接线，必要registry/routing与逐项review同步。只改文档与对应元数据，不改产品/测试/质量工具或存量文件状态；不占用GLM首批RLE只读范围，不触碰另一docs树。完整check:docs、lint-zero、diff和ledger实测后提交推送治理分支；不借规范接入签收任何旧代码或统一集成门。
 
 本次接入结果与实际门记录见[长期规范接入回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md)。只证明规范/入口/开发验收模板接线，代码ledger和83卡状态不变；完整check:docs与零诊断静态门以该回执为准。
+
+
+## 2026-10-18 RLE首批独立校准与有限准入
+
+Codex全文核读rle.ts/rle.test.ts/rle.boundaries.test.ts，另读glm-o/runtime-resource、encoder/barrel与game/extract真实caller；Reforge只读入口段，不冒称全文件验收。基点170edee44相对GLM的0bc820259仅文档变化，RLE源码相同。独立定向4文件51/51，无诊断，完整raw/native及逐文件A–H、来源SHA/失效条件见[校准包](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md)。未跑全仓check/coverage/protected；0新增关闭，三RLE文件均review，83卡仍55partial/28pending/0accept。
+
+P-1事实成立但归因更正：9cf1fd09f及其父在另一支线已是旧表；实际治理线89bf84e16合并时丢失243条review记录。W-1由Codex负责，仅恢复rle.ts/rle.test.ts两行与计数：3319/249closed/105review/2965pending。全表差异已保存，另74当前closed/130未登记候选由Codex先核后继证据；不得自动认作真实缺陷或批量撤回，也不授予重新关闭信用。下一账本片先核16条仍逐字保留合并旧关闭行的其它候选，纯记录与语义复审分开。
+
+首批发现有效，但“八维未见问题”不整体接收：B维漏报长度1/2标题、过时死循环、docblock附错函数/索引合同表述；G维未登记strict两项由slot0=count可证明不可达的防御分支。具体保留/候选及O-1..O-4进入校准包，格式风险仍归QUALITY-RLE-COMMAND-TRUTH-1 draft；未批准格式/资源/API/分支/测试断言整改。
+
+Codex premise verified / design agree / build allowed（仅文案候选）：Coding Owner=GLM；白名单rle.ts、rle.test.ts、rle.boundaries.test.ts共3文件，仅修已列注释/docblock及错误测试标题，零实现/fixture/断言变化。W-2/W-3原两文件提案扩入主测试误导标题，并显式允许标题fullName更正：提供旧→新身份一一映射，仍26+7+9+9；不再声称标题字节不动。实现与测试body的AST/去注释代码必须一致。GLM从本回执发布后的origin/codex/code-quality-3y完整SHA建立唯一临时detached worktree，在副本交patch/八维补证/raw，不写主树、集成树、共享账本或验收记录；Codex独立审查后接收并清理临时副本。不创建/推送新长期治理分支。详细停止线与复验见校准包。
+
+本次方法校准保持review，先交回注释候选与B/G补证，不直接滚动CODE2。R-1/R-2在转交摘要中未定义，标识本身不授予准入；先按实际格式/结构/测试问题归口，不能猜造已关闭结论。其它已授权pre94/94–102和editor返工原范围保留。

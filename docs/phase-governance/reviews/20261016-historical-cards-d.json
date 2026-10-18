@@ -3113,8 +3113,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Reuse prior independently accepted ledger/source semantics at fixed782 and full nonauthor A8 aggregate source review, with alias-counter closure exact85. Root freshly reads live inventory summary/responsibility/next-step, six purposes and raw preservation boundaries, performs exact old248-row/full273-source comparison and real producer/consumer. Root fresh code scope370 lines; remaining2968-line aggregate reviewed by independent source reviewer. Current exact root intake verdict is only 20261016-terminal-a8.json rootIntake.",
-      "coreConclusion": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
+      "readMethod": "Current authorized document delta and direct first-parent ledger/caller evidence read; immutable historical records retained",
+      "coreConclusion": "Two RLE historical retractions restored to review with evidence;3319 tracked/249closed/105review/2965pending. First-parent merge89bf84e16 lost243 review statuses in the live table.74 other current closed candidates and130 unregistered paths require later provenance reconciliation; no bulk semantic rejection or closure and no new accept.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3265,11 +3265,83 @@
       "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "4392578b02ba36cd2ccb20ef79b6a6fac564960a56b4caa82e0a42a61a377924",
+      "afterSha256": "1399231f1b389d36cf56be834f23e8cd9b8038f9e49eaef8a146dfc94eb5069e",
       "revision": {
         "currentSha": "addcb44c52fd00ab0fd3397e61ae316bf98d02e2aeef1d5533ed23a2c1e5845a",
-        "implementationSha": "4392578b02ba36cd2ccb20ef79b6a6fac564960a56b4caa82e0a42a61a377924",
+        "implementationSha": "1399231f1b389d36cf56be834f23e8cd9b8038f9e49eaef8a146dfc94eb5069e",
         "history": [
+          {
+            "revision": "170edee4444fc87731308ec179d93fad93882704",
+            "date": "2026-10-18",
+            "action": "Independent RLE pilot calibration and bounded ledger correction",
+            "previousAfterSha256": "4392578b02ba36cd2ccb20ef79b6a6fac564960a56b4caa82e0a42a61a377924",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md",
+            "scope": "Two RLE historical retractions restored to review with evidence;3319 tracked/249closed/105review/2965pending. First-parent merge89bf84e16 lost243 review statuses in the live table.74 other current closed candidates and130 unregistered paths require later provenance reconciliation; no bulk semantic rejection or closure and no new accept.",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "E2E/visual"
+            ],
+            "previousCoreConclusion": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
+            "previousEvidence": {
+              "kind": "A8-six-pending-inventory-real-producer-maintenance",
+              "path": "docs/ops/audits/code-quality-file-ledger.md",
+              "sourceSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
+              "afterSha256": "4392578b02ba36cd2ccb20ef79b6a6fac564960a56b4caa82e0a42a61a377924",
+              "lineCount": 745,
+              "sourceScope": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
+              "completePrior": {
+                "kind": "complete-prior-current-in-reachable-fixed-git",
+                "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
+                "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+                "gitObject": "6d6252e540c108712d9a8178bbc0551c93484c0f",
+                "fileSha256": "3b7271269934ed7be4f809157a664e15ef65057a1e4d7decea8652be5b7bea06",
+                "selector": {
+                  "entries.path": "docs/ops/audits/code-quality-file-ledger.md",
+                  "uniqueMatches": 1
+                },
+                "completePriorObjectRetrievedAndCompared": true
+              },
+              "independentReception": "docs/phase-governance/reviews/20261016-terminal-a8.json rootIntake",
+              "originalPreservation": {
+                "originalPreserved": true,
+                "method": "Complete UTF8 original in raw fenced text; exact bytes between markers; real ledger consumer excludes fence.",
+                "startMarker": "<!-- original-source-fenced:start -->\n~~~~text\n",
+                "endMarker": "~~~~\n<!-- original-source-fenced:end -->\n",
+                "sourceBytes": 51844,
+                "inverseSha256": "3cf1c1bbdae97ccd59bf5df2a7e760d1fe2490082f7b145d48c203fb937eeb71",
+                "exactRoundTrip": true
+              },
+              "originalLiveRowsUnchanged": 248,
+              "currentLiveRows": 254,
+              "newPendingPaths": [
+                "scripts/docs/terminal-json.mjs",
+                "scripts/docs/terminal-codec.mjs",
+                "scripts/docs/terminal-git.mjs",
+                "scripts/docs/terminal-namespace.mjs",
+                "scripts/docs/terminal-contract.mjs",
+                "scripts/docs/terminal-codec.test.mjs"
+              ],
+              "actualInventory": {
+                "files": 3300,
+                "closed": 229,
+                "review": 5,
+                "pending": 3066,
+                "unclosed": 3071,
+                "scope": "Real inventory integrity only, no semantic closure."
+              },
+              "history": [
+                {
+                  "date": "2026-10-17",
+                  "action": "Current C1 task/ledger machine evidence writeback",
+                  "sourceSha256": "ae6eaf2cc5790f2333e8a3e6531b0adf669d332ebc595dd2b28a229302718246",
+                  "afterSha256": "a0b93fd1820bcc8032892a7c3485709a63ee32b0d5d48af4b78025e4208e546c",
+                  "runtimeExecutionPerformed": true
+                }
+              ]
+            }
+          },
           {
             "revision": "298136f19c9b5acb51867a5d96275fe5438c06a7",
             "date": "2026-10-18",
@@ -3789,61 +3861,10 @@
         ]
       },
       "evidence": {
-        "kind": "A8-six-pending-inventory-real-producer-maintenance",
-        "path": "docs/ops/audits/code-quality-file-ledger.md",
-        "sourceSha256": "e7685237c4495d8cfc96ef1c2eae680a67ea02de1d53a7d74d0a1ad9edad0ec3",
-        "afterSha256": "4392578b02ba36cd2ccb20ef79b6a6fac564960a56b4caa82e0a42a61a377924",
-        "lineCount": 745,
-        "sourceScope": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
-        "completePrior": {
-          "kind": "complete-prior-current-in-reachable-fixed-git",
-          "revision": "782128f12f475a7a72bc0d4dc7c6b4fe091c6509",
-          "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
-          "gitObject": "6d6252e540c108712d9a8178bbc0551c93484c0f",
-          "fileSha256": "3b7271269934ed7be4f809157a664e15ef65057a1e4d7decea8652be5b7bea06",
-          "selector": {
-            "entries.path": "docs/ops/audits/code-quality-file-ledger.md",
-            "uniqueMatches": 1
-          },
-          "completePriorObjectRetrievedAndCompared": true
-        },
-        "independentReception": "docs/phase-governance/reviews/20261016-terminal-a8.json rootIntake",
-        "originalPreservation": {
-          "originalPreserved": true,
-          "method": "Complete UTF8 original in raw fenced text; exact bytes between markers; real ledger consumer excludes fence.",
-          "startMarker": "<!-- original-source-fenced:start -->\n~~~~text\n",
-          "endMarker": "~~~~\n<!-- original-source-fenced:end -->\n",
-          "sourceBytes": 51844,
-          "inverseSha256": "3cf1c1bbdae97ccd59bf5df2a7e760d1fe2490082f7b145d48c203fb937eeb71",
-          "exactRoundTrip": true
-        },
-        "originalLiveRowsUnchanged": 248,
-        "currentLiveRows": 254,
-        "newPendingPaths": [
-          "scripts/docs/terminal-json.mjs",
-          "scripts/docs/terminal-codec.mjs",
-          "scripts/docs/terminal-git.mjs",
-          "scripts/docs/terminal-namespace.mjs",
-          "scripts/docs/terminal-contract.mjs",
-          "scripts/docs/terminal-codec.test.mjs"
-        ],
-        "actualInventory": {
-          "files": 3300,
-          "closed": 229,
-          "review": 5,
-          "pending": 3066,
-          "unclosed": 3071,
-          "scope": "Real inventory integrity only, no semantic closure."
-        },
-        "history": [
-          {
-            "date": "2026-10-17",
-            "action": "Current C1 task/ledger machine evidence writeback",
-            "sourceSha256": "ae6eaf2cc5790f2333e8a3e6531b0adf669d332ebc595dd2b28a229302718246",
-            "afterSha256": "a0b93fd1820bcc8032892a7c3485709a63ee32b0d5d48af4b78025e4208e546c",
-            "runtimeExecutionPerformed": true
-          }
-        ]
+        "kind": "rle-independent-calibration-record",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md",
+        "afterSha256": "1399231f1b389d36cf56be834f23e8cd9b8038f9e49eaef8a146dfc94eb5069e",
+        "lineCount": 747
       },
       "history": [
         {
@@ -4009,13 +4030,13 @@
       ],
       "successor": "Current route/workflow and original product task sources as explicitly linked; no old prompt executable.",
       "stopLine": "Do not infer current runtime/E2E/visual/coverage, product or old-test-quality acceptance from docs/record structure; preserve legal inputs and every original failure.",
-      "nextStep": "Continue all1838 baseline/increments/artifacts. A8 control rootIntake owns current reception; B/C0/C1 require separate design, actual implementation and independent acceptance. Pending source quality inventory remains pending.",
+      "nextStep": "GLM bounded prose/title candidate; Codex independently reconciles remaining ledger provenance before any state promotions.",
       "userVisibleBeforeAfter": {
         "before": "Actual3300 tracked paths with predecessor declared3294; six new docs tools not yet represented; stale live3292 prose retained from earlier maintenance.",
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "1-745",
+      "reviewedLines": "1-747",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {
@@ -4737,7 +4758,8 @@
           },
           "completePriorObjectRetrievedAndCompared": true
         }
-      ]
+      ],
+      "reviewNotes": "\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance."
     },
     {
       "path": "docs/ops/audits/pre-e2e/coverage-determinism.md",

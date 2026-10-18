@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "064bab9f13859f4a4e377284694c68331dcddefc62ff2cb443796d4f897cdb7a",
+      "afterSha256": "69d6bb7f41a833660d25efa2cec20c66b1ba9903a6f8d2c56e613067a891717f",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,8 +1066,22 @@
       },
       "revision": {
         "currentSha": "a2101ce8ffeb73642521f0b489d17642f27bbd3fcdc581d0e9c354dedbc05778",
-        "implementationSha": "064bab9f13859f4a4e377284694c68331dcddefc62ff2cb443796d4f897cdb7a",
+        "implementationSha": "69d6bb7f41a833660d25efa2cec20c66b1ba9903a6f8d2c56e613067a891717f",
         "history": [
+          {
+            "revision": "170edee4444fc87731308ec179d93fad93882704",
+            "date": "2026-10-18",
+            "action": "Independent RLE pilot calibration and bounded ledger correction",
+            "previousAfterSha256": "064bab9f13859f4a4e377284694c68331dcddefc62ff2cb443796d4f897cdb7a",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md",
+            "scope": "Only incoming binding for explicitly changed review record; no unrelated semantic credit",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "E2E/visual"
+            ]
+          },
           {
             "revision": "0bc82025928b4fe13dce0f34c3a8696507d04032",
             "date": "2026-10-18",
@@ -1537,8 +1551,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "064bab9f13859f4a4e377284694c68331dcddefc62ff2cb443796d4f897cdb7a",
-        "lineCount": 15383,
+        "afterSha256": "69d6bb7f41a833660d25efa2cec20c66b1ba9903a6f8d2c56e613067a891717f",
+        "lineCount": 15411,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -1568,14 +1582,14 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "1-15383",
+      "reviewedLines": "1-15411",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+      "candidateSha256": "69d6bb7f41a833660d25efa2cec20c66b1ba9903a6f8d2c56e613067a891717f",
       "primarySource": [
         {
           "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",

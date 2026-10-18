@@ -1,0 +1,484 @@
+{
+  "schemaVersion": 1,
+  "base": "170edee4444fc87731308ec179d93fad93882704",
+  "glmReportedBase": "0bc82025928b4fe13dce0f34c3a8696507d04032",
+  "originMain": "28fd9013e09e8792decbff2fa117aae14c36b196",
+  "reviewer": "Codex independent source/caller review; GLM report is a lead, not execution evidence",
+  "scope": [
+    "packages/shared/src/rle.ts",
+    "packages/shared/src/rle.test.ts",
+    "packages/shared/src/rle.boundaries.test.ts"
+  ],
+  "inputs": [
+    {
+      "path": "packages/shared/src/rle.ts",
+      "sha256": "900a5de4bb4f680a8858a6c31ad222037b2f33ee96890b04fba14e1c3f0de1b5",
+      "lines": 316
+    },
+    {
+      "path": "packages/shared/src/rle.test.ts",
+      "sha256": "f0d1405a7cfdda25fe43623c615d3c6a5271de8d7ad8e843edd8547e446792e5",
+      "lines": 333
+    },
+    {
+      "path": "packages/shared/src/rle.boundaries.test.ts",
+      "sha256": "8ba97a4ab6f698e8af49cb16b911037790ed52d05e3ca5d884dc9e7f8e16d4b7",
+      "lines": 127
+    },
+    {
+      "path": "packages/shared/src/rle.glm-o.test.ts",
+      "sha256": "b4ff29b83abd05b88307f3cad9eeed7957cc4508cda2f753c60925b20a97ddfc",
+      "lines": 180
+    },
+    {
+      "path": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+      "sha256": "cc41e134f9ff96fdceedc7419bde3a6e95e63efb2a18a6410918ed4ab1727f3b",
+      "lines": 150
+    },
+    {
+      "path": "packages/shared/src/rle-encode.ts",
+      "sha256": "047b96879d4889a99f745525f894c6ebcc3714a65bca73c2e609912e0162ba36",
+      "lines": 77
+    },
+    {
+      "path": "packages/shared/src/index.ts",
+      "sha256": "76a33dfb0fae1ca83f6e8c163d9d4d7ff01d9ae2a1893a9819c3a3291855f98e",
+      "lines": 39
+    },
+    {
+      "path": "packages/shared/package.json",
+      "sha256": "574bb6698c420e6e2858b496676943ba179e671a53127463b3a9c840ad29aa9a",
+      "lines": 17
+    },
+    {
+      "path": "packages/shared/tsconfig.json",
+      "sha256": "d17bc3179d3cfb306f1c4babbd1ad85da4985db4be4fb3ae78226256ea28a95c",
+      "lines": 9
+    },
+    {
+      "path": "packages/game/src/assets/rle-decode.ts",
+      "sha256": "dd44cc5c0975856221bec3edc40f0fcecf9e5f40cb6c8b70a6592972cca9b7c1",
+      "lines": 19
+    },
+    {
+      "path": "packages/game/src/assets/tileset-blob.ts",
+      "sha256": "dae6e19f7dcff0f731a73c90d669a35e7fba0846a24ddad947df51b14c2208ed",
+      "lines": 150
+    },
+    {
+      "path": "packages/pal-extract/src/resources/sprite.ts",
+      "sha256": "5ed13fc9c404449f1543fe85474d97a418397b5fb98a5e71af928855e614e96e",
+      "lines": 95
+    },
+    {
+      "path": "packages/reforge/src/assets.ts",
+      "sha256": "8835c24554de4f37ce95532293771a759b578635fa2ac8f9db88db998c5ed025",
+      "lines": 621
+    },
+    {
+      "path": "reference/sdlpal/palcommon.c",
+      "sha256": "919f428112e70c11b8db208e9bba486c8ab056aa4a893a8d4d6bae9b21b9aae6",
+      "lines": 1136
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "3e9c669950c68c0f996a7007fdd198270a079630e277b1e6de575ec1d738da65",
+      "lines": 2521
+    },
+    {
+      "path": "package.json",
+      "sha256": "259820fcdc312e11ce297a83074ce168e5a9612f2016ae6d2acb5a308dd62224",
+      "lines": 71
+    },
+    {
+      "path": "docs/phase2/READ-FIRST.md",
+      "sha256": "405dde555f59c1dac41cf043bdd58571d06197ca4bc21c6440326fb555974429",
+      "lines": 122
+    },
+    {
+      "path": "docs/ops/code-quality.md",
+      "sha256": "70d6322333f1cdf920634503fc65739e867a62f6f58449c06b0cf9af1e803632",
+      "lines": 125
+    },
+    {
+      "path": "scripts/quality/code-quality-ledger.mjs",
+      "sha256": "ebe8f816babc6ef316a190754f7dcc45dfc645e6c0587164a84304a1e06c29e2",
+      "lines": 142
+    }
+  ],
+  "nativeTests": [
+    {
+      "file": "packages/shared/src/rle.boundaries.test.ts",
+      "fullName": "R01 parseSpriteChunkStrict 手列字节完整核 两帧混合游程：pixels/opaque 逐字节精确、palette-0 实心不混淆、无 sentinel 报告",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.boundaries.test.ts",
+      "fullName": "R01 parseSpriteChunkStrict 手列字节完整核 末尾唯一 0 sentinel：不计帧、trailingSentinel=true、skippedLegacyTailSlots=0",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.boundaries.test.ts",
+      "fullName": "R01 严格拒绝单轴与相邻正控 零长度指令拒绝；同容器把 0 换成合法 1 长度即过（相邻正控）",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.boundaries.test.ts",
+      "fullName": "R01 严格拒绝单轴与相邻正控 零长度透明段 0x80 也拒绝；不能以无进度命令卡住严格 parser",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.boundaries.test.ts",
+      "fullName": "R01 严格拒绝单轴与相邻正控 像素段越界 / 透明段越界 / 指令流截断 / 帧头越界各单轴",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.boundaries.test.ts",
+      "fullName": "R01 严格拒绝单轴与相邻正控 相邻 offset 截断前一帧帧头时拒绝，不把下一帧当作当前帧内容",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.boundaries.test.ts",
+      "fullName": "R01 严格拒绝单轴与相邻正控 canonical 拒坏尾；同输入 legacy-migrated 跳 1 槽并精确报告",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.glm-o.test.ts",
+      "fullName": "O10 parseSpriteChunkStrict：容器结构轴 过短容器 / 零帧表 / offset table 越界 逐轴拒绝",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.glm-o.test.ts",
+      "fullName": "O10 parseSpriteChunkStrict：容器结构轴 sentinel 槽与计数同域（slot0=count）：纯 sentinel 空容器按计数=1 走帧0 越界",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.glm-o.test.ts",
+      "fullName": "O10 parseSpriteChunkStrict：容器结构轴 frame0 offset 与表长不一致 / offset 非递增 / offset 越界 逐轴拒绝",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.glm-o.test.ts",
+      "fullName": "O10 parseSpriteChunkStrict：容器结构轴 帧尺寸非法（宽 0 / 高超上限）逐轴拒绝；合法双帧严格通过",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.glm-o.test.ts",
+      "fullName": "O10 parseSpriteChunkStrict：容器结构轴 sentinel 容器：声明数含尾 0 时按 frameCount-1 解析",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.glm-o.test.ts",
+      "fullName": "O10 parseSpriteChunkStrict：容器结构轴 严格解析往返：encode → parse 逐帧像素一致（供应容器同构）",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.glm-o.test.ts",
+      "fullName": "O10 parseIndexedRleChunk：legacy 坏尾三轴 legacy：尾槽坏 offset 被跳过并计入 skippedLegacyTailSlots",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.glm-o.test.ts",
+      "fullName": "O10 parseIndexedRleChunk：legacy 坏尾三轴 坏尾之后仍可独立解出的帧 → 中间空洞拒绝（非坏尾）",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.glm-o.test.ts",
+      "fullName": "O10 encodeSpriteChunk：上限与空容器 空 frames → 2 字节空容器（strict/索引入口一致拒绝“不含帧”）",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+      "fullName": "R01 decodeRle skipFilePrefix 选项矩阵 0x00000002 前缀 + 选项：从 byte 4 解码（sdlpal palcommon.c:722-728 单帧整-chunk 头）",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+      "fullName": "R01 decodeRle skipFilePrefix 选项矩阵 同缓冲不传选项：不跳前缀，头从 byte 0 读后拒绝零尺寸帧",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+      "fullName": "R01 decodeRle skipFilePrefix 选项矩阵 传选项但首 4 字节非该前缀：不跳，正常解码",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+      "fullName": "R01 decodeRle skipFilePrefix 选项矩阵 缓冲 <4 字节 + 选项：长度守卫显式拒绝，不挂起",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+      "fullName": "R01 decodeRle 帧后尾随字节（截断边界自上侧） 完整帧后追加任意字节：解码结果与精确长度输入逐字段相等",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+      "fullName": "R01 子数组 byteOffset 传播 decodeRle / parseSpriteChunk / strict / indexed 在 subarray 上与独立缓冲等价",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+      "fullName": "R01 严格容器末帧未消费 payload（rle.ts:162 帧边界唯一真值） 末帧指令流后残留对齐字节：解析成功且帧语义与精确长度版本相等",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+      "fullName": "R01 legacy 合法邻接拒绝分支 canonical 空洞 + 全零后缀：legacy 拒「只有普通 sentinel，不应进入 legacy 坏尾兼容」",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.glm-runtime-resource.test.ts",
+      "fullName": "R01 legacy 合法邻接拒绝分支 坏槽前无任何有效帧：canonical 拒「尺寸非法」，legacy 拒「尾槽前不含有效帧」",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "decodeRle 2×2 实心方块",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "decodeRle 透明像素填 0 + opaque 标 0",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "decodeRle 混合 —— 1 透明 + 2 实心 + 1 透明",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "decodeRle palette-0 实心像素也被标 opaque(不与透明混淆)",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "decodeRle 无像素进度命令 0x0 后仍可解合法 literal",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "decodeRle 无像素进度命令 0x128 后仍可解合法 literal",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "decodeRle 未填满像素且源流耗尽时显式失败",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "decodeRle literal payload 缺字节时显式失败",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "decodeRle 透明段超过声明像素数时显式失败",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "decodeRle literal 数量超过声明像素数时显式失败",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "decodeRle 通用帧可解超过 sprite 容器上限的合法宽度",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "parseSpriteChunk 切 1 帧 —— byte 0..1 = imagecount = 1,frame[0] word-offset = 1 (=2 字节)",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "parseSpriteChunk 跳过 word-offset=0 的空帧(键连续性铁律:返回数组下标 = tile 索引)",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "parseSpriteChunk 多帧返回下标连续(0,1,2,...),即使中间有空帧",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "parseSpriteChunk broken-sprite 尾帧 guard:width/height > 400 跳过",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "parseSpriteChunk 宽容入口跳过截断坏帧并保留后续合法帧",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "parseSpriteChunkStrict 接受作者编码的无 sentinel 单帧容器",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "parseSpriteChunkStrict 接受 PAL 末尾唯一 0 sentinel，并且不把 sentinel 计为帧",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "parseSpriteChunkStrict 拒绝中间 0 offset 空洞",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "parseSpriteChunkStrict 拒绝零帧容器",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "parseWorldSpriteChunk 拒绝运行时传入的未知 profile，不能默认落入 legacy 宽容路径",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "parseWorldSpriteChunk canonical 报告正常 PAL sentinel，不把它算成坏尾",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "parseWorldSpriteChunk legacy-migrated 只跳过不可解的非零尾槽",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "parseWorldSpriteChunk legacy-migrated 支持坏倒数第二槽 + 最后零 sentinel",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "parseWorldSpriteChunk 坏槽之后仍有可解帧时拒绝，不能把中间空洞伪装成坏尾",
+      "status": "passed"
+    },
+    {
+      "file": "packages/shared/src/rle.test.ts",
+      "fullName": "parseWorldSpriteChunk 首个坏尾槽本身仍指向可解帧时拒绝，不能把重复 offset 当历史坏尾",
+      "status": "passed"
+    }
+  ],
+  "expectedLedgerRows": ["packages/shared/src/rle.ts", "packages/shared/src/rle.test.ts"],
+  "expectedCounts": {
+    "total": 3319,
+    "closed": 249,
+    "review": 105,
+    "pending": 2965
+  },
+  "tools": {
+    "node": "v22.23.2",
+    "pnpm": "10.29.2",
+    "vitest": "4.1.7"
+  },
+  "notRun": [
+    "whole repository check",
+    "official coverage ratchet",
+    "protected fast",
+    "new native SDL/raw census",
+    "E2E/visual"
+  ],
+  "invalidation": "Changed implementation, caller, public export, encoder, stage contract or tool/lock identity makes corresponding claims stale. Matching identities are not semantic approval. Fresh doc ledger fixes do not rerun format truth.",
+  "attachments": [
+    {
+      "path": "targeted.json",
+      "sha256": "b9d68b73fb98a8565aec2373244b98f325ece951b6a8aa36f5021a623aae649d"
+    },
+    {
+      "path": "targeted.raw.gz",
+      "sha256": "4c6463cd5704c8d68b79c704418672ee9f39aae5547bdbab74b9b72979e50c21"
+    },
+    {
+      "path": "targeted.native.json.gz",
+      "sha256": "c0ba70c60e9af053cd93f1d366b6d980158a2e7a8d9344925444efc87b2cc7b0"
+    },
+    {
+      "path": "ledger-drift.json",
+      "sha256": "e26bb8c996adf0060792f900656f1a858cd0f1ccaa6dd5a30e254ec4dda4ea3a"
+    },
+    {
+      "path": "verify.py",
+      "sha256": "1b7cc57344c8fd2a64cf3be18c3d8a2ded12a8f446694fc66368a8be2984b272"
+    },
+    {
+      "path": "docs.json",
+      "sha256": "2270fbde7a99ae4faf349921f9b0f57d981ca33945ed1d8bdcfdaa91f558c629"
+    },
+    {
+      "path": "docs.raw.gz",
+      "sha256": "88191a53d4b9194d84a4d1f6e09b95b3cd54eb1ebb4b5cf18111ab6fcd1e71af"
+    },
+    {
+      "path": "ledger.json",
+      "sha256": "3ed3d80a716d0b7c3b742720005beecbdd5bf81a595d240df59d97b7bd517cb4"
+    },
+    {
+      "path": "ledger.raw.gz",
+      "sha256": "ce1c179ae246e1dc814c45069d1e2b9605d78400042f79a8adb1c804f6264db6"
+    },
+    {
+      "path": "scope.json",
+      "sha256": "7145220f631da7d9655b0528eb6ae938e1ddb52eb81f46488d02f3e6311bb116"
+    },
+    {
+      "path": "scope.raw.gz",
+      "sha256": "089b449744712f2e3b10aea4d3df1e26ac72b8f866526b5a4c37326d1294f8fd"
+    },
+    {
+      "path": "scope-verification.json",
+      "sha256": "7856247089fe3093c4a086b5359730b3dba30baffdda1a5467a22091e88642f2"
+    },
+    {
+      "path": "scope-final.json",
+      "sha256": "4172db6d6f71970bf8c902ee096f35d1e93fb6b464efe2754fbffdbcf8f32806"
+    },
+    {
+      "path": "scope-final.raw.gz",
+      "sha256": "089b449744712f2e3b10aea4d3df1e26ac72b8f866526b5a4c37326d1294f8fd"
+    },
+    {
+      "path": "lint.json",
+      "sha256": "c07c5d23029ce51fa8b25e85d4fbd4e07bbd5bc01499e76fcfc2be081fbab968"
+    },
+    {
+      "path": "lint.raw.gz",
+      "sha256": "6f80ef9ee56af51b709e00ec0be49c7640b34d542dc7961e5460f217347404aa"
+    },
+    {
+      "path": "lint-final.json",
+      "sha256": "63d9447c12c346396a5d567d4778495a1b3d7bf6153c4b2f5fc40940ff7792bc"
+    },
+    {
+      "path": "lint-final.raw.gz",
+      "sha256": "2d1e672ba632c90b2590bf9f4b7b00f9f8f3bfd05beeb0d95804d1c790205f15"
+    },
+    {
+      "path": "docs-final.json",
+      "sha256": "17c3c957bd1258ac64d52a89b44fe3b86562912cd44e066874af0a2cfa093a7d"
+    },
+    {
+      "path": "docs-final.raw.gz",
+      "sha256": "8eb02b13a715274e3bb7c65c55e52bd65685042ad819fb5b5044f48afcd71d79"
+    },
+    {
+      "path": "docs-final-pass.json",
+      "sha256": "eafcb4f96711e043f408d872c6c43d22778cc5c7c79dd30454dddfc49156e5bb"
+    },
+    {
+      "path": "docs-final-pass.raw.gz",
+      "sha256": "bac72cd42c36354b90bf58925c97704bbeff7108d4870dded3b8ae5c89543bd1"
+    },
+    {
+      "path": "artifact-format.json",
+      "sha256": "d306180bb13386487ce1f389d16e79bcd0bf27603bd2c25a36d2ec339417ea98"
+    },
+    {
+      "path": "artifact-format.raw.gz",
+      "sha256": "73e537edeb8bcad58bb8f0309056b22597c41e230dcdb867331f876ffe70633d"
+    }
+  ]
+}

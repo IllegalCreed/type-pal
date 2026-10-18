@@ -435,9 +435,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Full current Markdown and exact authorized delta read; actual route/template consumers checked",
+      "readMethod": "Current authorized document delta and direct first-parent ledger/caller evidence read; immutable historical records retained",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Only pre94 next-step assignment changes: Codex establishes permanent standard, GLM pilot remains read-only;83 states and all other rows unchanged.",
+      "coreConclusion": "RLE first pilot independently calibrated. GLM may implement the bounded three-file prose/title candidate; Codex owns integration/ledger.83 historical card states and all unrelated rows preserved. No whole-repo or old-file acceptance.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -446,14 +446,14 @@
       "unresolved": [
         "Historical product/coverage/unified gates remain outside this documentation-only integration."
       ],
-      "nextStep": "Use canonical quality contract for subsequent development and GLM read-only pilot; independently review code and actual evidence before acceptance.",
+      "nextStep": "GLM bounded prose/title candidate; Codex independently reconciles remaining ledger provenance before any state promotions.",
       "phase": "ops",
       "module": "board.md",
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "da4552ada93ffdb5f07b0bed1635c686539482baa4895f431011845db60369af",
+      "afterSha256": "121df46ad3267258486514a3c4b604f90a983c1f9e61a43462667e5d1833e37a",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -482,10 +482,32 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "da4552ada93ffdb5f07b0bed1635c686539482baa4895f431011845db60369af",
+        "implementationSha": "121df46ad3267258486514a3c4b604f90a983c1f9e61a43462667e5d1833e37a",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "170edee4444fc87731308ec179d93fad93882704",
+            "date": "2026-10-18",
+            "action": "Independent RLE pilot calibration and bounded ledger correction",
+            "previousAfterSha256": "da4552ada93ffdb5f07b0bed1635c686539482baa4895f431011845db60369af",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md",
+            "scope": "RLE first pilot independently calibrated. GLM may implement the bounded three-file prose/title candidate; Codex owns integration/ledger.83 historical card states and all unrelated rows preserved. No whole-repo or old-file acceptance.",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "E2E/visual"
+            ],
+            "previousCoreConclusion": "Only pre94 next-step assignment changes: Codex establishes permanent standard, GLM pilot remains read-only;83 states and all other rows unchanged.",
+            "previousEvidence": {
+              "kind": "authorized-engineering-quality-contract-content-review",
+              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+              "afterSha256": "da4552ada93ffdb5f07b0bed1635c686539482baa4895f431011845db60369af",
+              "lineCount": 97,
+              "scope": "Documentation content/entry/template integration only; no product or old code acceptance."
+            }
+          },
           {
             "revision": "0bc82025928b4fe13dce0f34c3a8696507d04032",
             "date": "2026-10-18",
@@ -1276,11 +1298,10 @@
         ]
       },
       "evidence": {
-        "kind": "authorized-engineering-quality-contract-content-review",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
-        "afterSha256": "da4552ada93ffdb5f07b0bed1635c686539482baa4895f431011845db60369af",
-        "lineCount": 97,
-        "scope": "Documentation content/entry/template integration only; no product or old code acceptance."
+        "kind": "rle-independent-calibration-record",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md",
+        "afterSha256": "121df46ad3267258486514a3c4b604f90a983c1f9e61a43462667e5d1833e37a",
+        "lineCount": 97
       },
       "history": [
         {
@@ -1368,7 +1389,7 @@
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
       "reviewedLines": "1-97",
-      "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.",
+      "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-12",

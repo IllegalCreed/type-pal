@@ -1,0 +1,57 @@
+{
+  "base": "170edee4444fc87731308ec179d93fad93882704",
+  "trackedChangedPaths": [
+    "docs/ops/audits/code-quality-file-ledger.md",
+    "docs/ops/board.md",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/README.md",
+    "docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md",
+    "docs/ops/tasks/QUALITY-RLE-COMMAND-TRUTH-1.md",
+    "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+    "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+    "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+    "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json"
+  ],
+  "productTestsScriptsRulesAnd83QueueUnchanged": true,
+  "onlyTwoLiveLedgerRowsChanged": ["packages/shared/src/rle.ts", "packages/shared/src/rle.test.ts"],
+  "historicalLedgerTailUnchanged": true,
+  "onlyCurrentBoardAssignmentChanged": true,
+  "boundedReviewRows": [
+    {
+      "review": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "path": "docs/ops/board.md",
+      "previousAfterSha256": "da4552ada93ffdb5f07b0bed1635c686539482baa4895f431011845db60369af",
+      "afterSha256": "121df46ad3267258486514a3c4b604f90a983c1f9e61a43462667e5d1833e37a",
+      "content": true
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "path": "docs/ops/audits/code-quality-file-ledger.md",
+      "previousAfterSha256": "4392578b02ba36cd2ccb20ef79b6a6fac564960a56b4caa82e0a42a61a377924",
+      "afterSha256": "1399231f1b389d36cf56be834f23e8cd9b8038f9e49eaef8a146dfc94eb5069e",
+      "content": true
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "previousAfterSha256": "6ecaefb99954eb6402709c8aa88c1a9f5d3652a21ec32c089a6641462896d5fd",
+      "afterSha256": "c8e0135546d6ff695bee36e11a7c626a60f9caa14593af83f25bd77000762c0d",
+      "content": false
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "previousAfterSha256": "45702c9b7a83732305a4f3c8cb39dfc21c58e67a9cc2a7ad7e2a6b84ede2ab6a",
+      "afterSha256": "74e0f6172c32244e0b58a339f8f4aca893f4046a48975f34c9316d7be208f6c4",
+      "content": false
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "previousAfterSha256": "064bab9f13859f4a4e377284694c68331dcddefc62ff2cb443796d4f897cdb7a",
+      "afterSha256": "69d6bb7f41a833660d25efa2cec20c66b1ba9903a6f8d2c56e613067a891717f",
+      "content": false
+    }
+  ],
+  "allUnrelatedEntriesAndPriorHistoryPreserved": true,
+  "limitations": "Scope/integrity proof only; no semantic certification of remaining ledger candidates or product files."
+}
