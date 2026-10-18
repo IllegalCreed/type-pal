@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "base": "35ded5a0a1075ad089f4312520b586e6209b0664",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/game/src/core/battle/actions/attack-mate.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "4052a750b767af39baa96364262b90e2b12496e65df11cbaabcf13f1d49ea3f6",
+        "current": "4052a750b767af39baa96364262b90e2b12496e65df11cbaabcf13f1d49ea3f6"
+      },
+      "printedBytes": {
+        "base": 2574,
+        "current": 2574
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/core/battle/actions/defend.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "fc408aa806fbcff534863e19a6d2b9c9971784a4ce01ae0a328368bd6e4084f9",
+        "current": "fc408aa806fbcff534863e19a6d2b9c9971784a4ce01ae0a328368bd6e4084f9"
+      },
+      "printedBytes": {
+        "base": 213,
+        "current": 213
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/core/battle/actions/flee.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "5ce96fe525076937deef97803b8e9d981dc5ccdba2ebcf84408ea84a4597b4f7",
+        "current": "5ce96fe525076937deef97803b8e9d981dc5ccdba2ebcf84408ea84a4597b4f7"
+      },
+      "printedBytes": {
+        "base": 1552,
+        "current": 1552
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}

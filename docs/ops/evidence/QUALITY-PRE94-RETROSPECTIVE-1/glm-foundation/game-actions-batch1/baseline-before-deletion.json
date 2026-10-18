@@ -1,0 +1,144 @@
+{
+  "numTotalTestSuites": 6,
+  "numPassedTestSuites": 6,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 8,
+  "numPassedTests": 8,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792340701406,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["performAttack × battleEffectIndex(fight.c:2055-2056 命中特效帧基号)"],
+          "fullName": "performAttack × battleEffectIndex(fight.c:2055-2056 命中特效帧基号) sprite0 → flat[sprite*2+1]=2 → base=6,特效帧 frameIdx 6/7/8",
+          "status": "passed",
+          "title": "sprite0 → flat[sprite*2+1]=2 → base=6,特效帧 frameIdx 6/7/8",
+          "duration": 2.095666999999935,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["performAttack × battleEffectIndex(fight.c:2055-2056 命中特效帧基号)"],
+          "fullName": "performAttack × battleEffectIndex(fight.c:2055-2056 命中特效帧基号) 表缺省(undefined)→ base=0,特效帧 frameIdx 0/1/2(缺表防御语义)",
+          "status": "passed",
+          "title": "表缺省(undefined)→ base=0,特效帧 frameIdx 0/1/2(缺表防御语义)",
+          "duration": 0.3918749999999136,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792340702242,
+      "endTime": 1792340702244.3918,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 → 3756-3757)"
+          ],
+          "fullName": "performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 → 3756-3757) healthy≤1(仅发起者活)→ 退化普攻:敌掉血、不付 HP 代价、attackExp+1/healthExp+=R(2,3)",
+          "status": "passed",
+          "title": "healthy≤1(仅发起者活)→ 退化普攻:敌掉血、不付 HP 代价、attackExp+1/healthExp+=R(2,3)",
+          "duration": 2.091374999999971,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 → 3756-3757)"
+          ],
+          "fullName": "performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 → 3756-3757) RNG 序:普攻修饰(jitter→crit→李逍遥→float)先消耗,(2,3) 隐藏经验最后(C 同序)",
+          "status": "passed",
+          "title": "RNG 序:普攻修饰(jitter→crit→李逍遥→float)先消耗,(2,3) 隐藏经验最后(C 同序)",
+          "duration": 0.5893750000000182,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 → 3756-3757)"
+          ],
+          "fullName": "performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 → 3756-3757) 双人健康(≥2 contributors)→ 正常合击,无 attackExp 累计、付 HP 代价",
+          "status": "passed",
+          "title": "双人健康(≥2 contributors)→ 正常合击,无 attackExp 累计、付 HP 代价",
+          "duration": 0.36445900000001075,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792340702242,
+      "endTime": 1792340702245.3645,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/actions/coop-magic.glm-next-wave.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["DM6:敌方法术自动防御预掷先于脚本(fight.c:4719-4775 → 4761/4768)"],
+          "fullName": "DM6:敌方法术自动防御预掷先于脚本(fight.c:4719-4775 → 4761/4768) 实时交错轨迹:首掷 range(0,3) 早于 scriptOnUse,整条轨迹逐项吻合",
+          "status": "passed",
+          "title": "实时交错轨迹:首掷 range(0,3) 早于 scriptOnUse,整条轨迹逐项吻合",
+          "duration": 4.169125000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["DM6:敌方法术自动防御预掷先于脚本(fight.c:4719-4775 → 4761/4768)"],
+          "fullName": "DM6:敌方法术自动防御预掷先于脚本(fight.c:4719-4775 → 4761/4768) 脚本施睡不剥夺预掷资格:与「不施睡」孪生战斗伤害逐位一致",
+          "status": "passed",
+          "title": "脚本施睡不剥夺预掷资格:与「不施睡」孪生战斗伤害逐位一致",
+          "duration": 0.5063749999999345,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["DM6:敌方法术自动防御预掷先于脚本(fight.c:4719-4775 → 4761/4768)"],
+          "fullName": "DM6:敌方法术自动防御预掷先于脚本(fight.c:4719-4775 → 4761/4768) 预掷未中(range(0,3)!=0)→ 无 +1 减伤除数,伤害高于预掷命中(可证伪对照)",
+          "status": "passed",
+          "title": "预掷未中(range(0,3)!=0)→ 无 +1 减伤除数,伤害高于预掷命中(可证伪对照)",
+          "duration": 0.38800000000003365,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792340702171,
+      "endTime": 1792340702175.5063,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/actions/magic.glm-next-wave.test.ts"
+    }
+  ]
+}
