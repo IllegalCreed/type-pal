@@ -1791,3 +1791,42 @@ root非作者实际核固定de423正文SHA1e50d535c2b16aa466207da22e698768bd5abb
 - fixed88非作者dd075确认唯一导航链接修复、2431native/114根维护pin与原运输/门输出边界，但发现RECEIPT-COUNTER-ID-PROVENANCE-MISMATCH。本次明记C af743原ID RECEIPT-DESIGN-NAVIGATION-MISSING，root159 helper别名RECEIPT-DESIGN-MISSING-INDEX，指向同README缺入口；两原件不改。导航已修与别名元数据纠正待本次窄复验分开，零额外正文信用。
 - 原件运输纠正：root误将S07可重建fixed-a233 Git副本递归带入，原11624文件运输payload b8bc39a31accfba522c2aed49c956681ede0aa463f13e7abdaa10179c45eeaff已在任何门/登记/消费前完整移到自有/tmp隔离，原审查源未改。按原96清单加manifest本身运输97原件，transport payload21a78b8fa17cb17ae40c7a7accf1040daf6e03443d73871b9874938496a2d577；不是删除既有候选/报告或改变1838义务。C88原38manifest之外manifest/pycache/实跑残留共41另运输，后继不冒称原清单覆盖。
 - 所有新一次性执行输出仅既有raw ownership附件，full逐篇结论仍在现有semantic root；不迁走既有正文/report候选，不加structural root/ignore/maxSize豁免。实际dry/apply/格式后哈希与全真实硬门、114根/2431唯一binding保全均独立记录。未过全量硬验收不合main、不done；静态不授runtime/E2E/视觉/coverage。
+
+### Progress 清单共享 IO：限定实施准入
+
+- Codex build allowed，仅docs工具IO。root当前docs Git清单已达968514B；真实check导航曾越1MiB导致ENOBUFS，已获独立验收的磁盘stdout方案位于check.mjs，而progress仍使用默认execFileSync buffer。准以同一实际Git大清单反例治理剩余consumer，不缩短路径/删除raw/抬buffer/降门救急。原1838及增量、strict/complete原义保留。
+- 单一实现Owner `/root/receipt_integrity_independent` 从固定157独立干净分支实施；root为非作者复核者。白名单仅scripts/docs/check.mjs、report-governance-progress.mjs、抽出的单一inventory辅助模块与直接必要docs-tool测试。旧产品tests/产品/coverage/config/中央registry与规范正文不在贡献者写域，不合main。
+- 共享底层只负责相同Git argv/pathspec/NUL完整读取及私有spool/0600/finally清理、失败不解析；保持checkoutFiles原公开API及成功后exists过滤。progress原pathspec docs、后缀过滤/去重及对tracked-deleted的原口径不得被复用exists过滤静默改变。Git stdout直接文件，不扩大maxBuffer或改变ignore。
+- 验收为少量真实IO：实际>1MiB docs路径及NUL/尾部/非ASCII、相应完整progress公开consumer，必要失败清理/旧check兼容与实际旧buffer反控；不得用共享helper自测冒充CLI消费。声明夹具真实源码/完整数据范围；不重复旧180套作为语义深度。作者冻结完整diff/源SHA/真实命令/失败原件，root独立核代码及有判别力实跑后才导入候选，全部硬门仍按真实输出、不授full/main/done。
+
+### S08/S09与S10分别接入、首篇实际pilot接收写回
+
+- 非作者C对固定157实际S07中央pilot限定接受，原报告5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b/36清单，后继快照39另运输。114根/2431唯一pin零漂、真实10delta逐次format后hash重放；仅S07和设计两native状态变/其他2429含S06原样；原counter-ID/root alias纠正闭合。v5仅两个rawtuple，此次后继仍须各自工具及实际中央验收，full/global/main/done始终false。
+- 独立B最终v6-v2报告0b56abaa16aa5db80871edc8b269860ca304d67501ce9d40d85c86c94ff853aa限定接受S08/S09 exacttuples及3根131输入真实IO：两raw/旧plain正针、4负针和删bodyguard反控；原v1两句130笔误原稿及13格式化原件不改，v2只校正文字，真实maps一贯131。225manifest之外原manifest/外部seal/5finalizer共232原件运输，可重建131clone明确排除，惰性source/.git字节仅gzip/map不生成实际Git库。
+- 独立C对v7/S10 exacttuple+IO限定接收，原报告2c175b3a2eab05cb51b19dab2457018d823e75ea36ed28b6423317d70406ecdb/93清单，仅2根103输入，3正3拒/真实删guard发布后负oracle失败及恢复拒；十次private运行含setup失败完整保留。它不等114DAG或006body重审/实际中央，v6旧代码逐字继承；各schema guard实际到达层级按原报告，不将pin/identity层拒绝说成已过gunzip/schema。
+- 只导入A三个已获独立正文/1.5模板接收的固定body：004 d66f23/0051e50d5/006b19bf6。004/005从R60当前3条中只移两条，common-issues留原样；006真实donor是10-16历史执行pilot原3条，只移006，其README/report另2原样。006此前已content-reviewed/template-compliant，不在冻结1896集合，不能伪报一篇重新授信；受影响计数仅6→8/1888待核，006只是既有有效正文丰富，历史true/5artifact/原日期和缺源blocked不改。
+- root准备错误保留：原脚本把006猜成R60，next查找在写账前StopIteration，未产packet/未写中央；原script及另时真实复现raw保留，不冒称初次时间。新v2按真实registry/donor及冻结六部分核外集；S08/S09准备包一处“R60含006”关联文字也仅在另v2纠正，旧准备包原样且未应用。不为赶进度沿用错误归属或重复计数。
+- 原件按实际清单范围保全：S08独立181+manifest=182、author82+后7=89、harvest102+后7=109；S10独立280+manifest/seal/5外部=287、author75+后7=82、harvest95+后7=102。后继自回执不冒称原清单成员，原JSON/失败/数字不改，不移走任何既有report候选。新一次性执行raw仅既有ownership附件，逐篇完整结论仍在semantic root，零报告自审信用。
+- 当前只为候选中显式唯一binding/真实source-after SHA与原生保全写回，实际新中央组合待非作者固定树验收。docs清单progress共享IO准入与设计HTML候选只按各自范围推进，无产品/旧测试/coverage/配置写权。后续真实六门与暂存diff均分源记录，完整check:docs/strict/requirecomplete未过不合main、不done。
+
+### 后继只读排期与共享IO接收边界
+
+- root非作者已全文核ff0d4f89四文件diff/33行共享IO/126行真实CLI测试，独立实跑原2针+新1针全部通过，并核实际root9266条docs清单1046981B逐序/逐路径全等；同机旧all-checkout buffer真实ENOBUFS独立留存。该数当时仍低于docs单独1MiB，不伪称旧progress此刻已炸；作者owned大docs fixture的旧progress反控另分源。原报告fe9f69d2af91541d2df095a04efde570e46cc925ac9c8e23903843097e7678f6仅接收4文件IO，已导入1cb30568，实际集成全门另跑。
+- 作者B原报告3b53adbddc62b2c4ecd2739cf643da8d1ba92d7cf92898f2998a27e76b30f462/68清单及外部5/seal/manifest共75原件保留；82可重建clone只按原排除，不导入根目录。原2check测试字节未改，零产品/旧产品tests/coverage/config变更。
+- S11 HTML设计3d3e4f58仍只tmp proposed/draft-1.0.1，新增精确配对/variantVersion/source授权尚待完整非作者设计冻结，禁止实现HTML/README/sidecar/consumer。A可并行只读harvest当前R60最后common-issues.md，核全文/原源/实际入口及必要证据，交具体内容提案；未给其正文写build，不能凭S04链接/旧wrapper续授。
+
+### 共享IO实际集成反例：真实CLI夹具缺依赖
+
+- 首次1cb组合全门真实checkdocs退出1：181工具178过/3败，terminal-codec169/171/172的隔离CLI缺新git-inventory.mjs，属于本次新增依赖未同步，不能归“存量”或给豁免。本次未走到navigation/model/testing/phase，不借前轮输出假称已执行；独立lint4511零、progress445/1838+6incremental/1980pending/0integrity和full/stageddiff各自实际结果原样保留。旧root fe9f仅IO窄接受不覆盖这次整套集成反例。
+- Codex build allowed给原Owner B追加唯一必要docs-tool夹具写域scripts/docs/terminal-codec.test.mjs，只把真实新模块复制到原真实CLI fixture，所有原断言/namespace/codec/反控强度和旧产品tests字节保持；不用skip、mock假模块、改预期或降低门。先冻结S11设计counter报告再修隔离分支，root非作者独立核新增diff/有效实跑，正式全181重新实测后才讨论候选集成范围。原失败/时间/streams不编辑。
+- 这不改变任何正文重授、1896/8/1888或五隔离；S08/S09/006实际中央组合仍待非作者固定树复核，global/main/done始终false。
+
+- 上述夹具counter的修复候选fdb65d9d仅依赖表增加git-inventory一行38B；root移除该行逐字等于原文件，所有断言/反控与测试体未变，已导入c8e01511。作者真实复现31/34+3fail、修后34/34及3IO另跑通过；root不借作者数字冒充完整181，后继整仓命令原件另存，最终global/main/done仍不授。S11完整非作者f647365b报告明确S11-COMPANION-BINDING-LOCATION返工，原draft1.0.1不冻结/不准实现；A先只读S12后另修draft1.0.2，原版与失败不改。
+
+### 夹具修复后当前中央组合：真实181项与全量失败分开
+
+- 固定c8e01511加显式owned WIP中央组合真实重新执行完整check:docs，181/181工具项通过，fail/skipped/cancelled/todo均0；navigation1301 Markdown/8200 local links/364 tasks、document model7 routes/1264 body contracts、testing0及phase/lore184均通过。最终strict仍FAIL：2431唯一文档中457 content-reviewed/1974 partial，不能把前置通过写成整个check:docs通过。原完整argv/cwd/time/stdout/stderr/输入324819B及unchanged-after保留在post-fixture-full-181-first-current-central-gates运输，payload3465cd69c6366e00d6753488280aa8a58a095a4660088ef305e3bcf11405f6e2；此前178/181+3fail原件不改。
+- 同轮独立pnpm lint4511文件零error/warning/info、相对main28fd全候选diff --check为0；requirecomplete仍FAIL：445/1838基线+6增量、1980当前候选待审、17/17模板、0integrity。该轮staged diff为当时实际暂存区，不能替代后继真实全候选暂存检查。上述计数是旧有效绑定与本轮新接受的投影，不冒称445篇本轮重审；受影响1896只8篇重新授信/1888未授，006外集丰富零额外信用。
+- fdb夹具作者报告8616153f5427e215ac6ea1d523dcc8a4662e243a1f6dd3fbb120b9880ecc644a/76清单加原manifest/seal/五外部实际83原件，transport54ebe5312f796e5aaced1897119fd942c9092e57ae69d4decf18e066896b9e66；原报告builder猜行号892失败及新910纠正分源保留。root接收只一行真实依赖及181实际集成验证，不冒充逐项34合同新深审。两次card-only显式maintenance各1pin原计划/dry/apply输出保留，不批量刷hash授语义信用。
+- S11 draft1.0.1非作者f647 counter原150清单加manifest/seal/五外部共157运输，payloadf65ca03d76aabc13d31ae9aeb6e80bf2888a1512dd668fbb3ec987002a78b3ed。确认entries[i].nativeCompanions与原草案root位置冲突，draft仍rework，1.0.2仅tmp修订，不准HTML/sidecar/README/consumer实现。S12只读harvest293fc724e37191a8b08de4d6e47e2a0c704c4467cb44d4022e8b179c767fec0b已给七家族/时点/源域/条件LF保全方案；正文build和独立语义接受仍未授。
+- 先对本次固定中央候选作另一Owner非作者验收：S07 fixed157接收写回、004/005唯一迁移、006真实donor/历史true/外集零计数、immutable correction-scope、114根/2431唯一binding/format后哈希、原运输和真实工具边界及全候选暂存diff。任何counter先返工，全卡rework/global/main/done=false；仅隔离候选检查点可提交，不推送或合main。

@@ -84,3 +84,6 @@ Template: governance-index-v1 / 1.0.0
 - [回执设计1.0](reviews/20261018-governance-receipt-storage-design.md)原93a6章节判断与新0d16日期/完整正文consumer分别获独立接受，本次仅重授proposed正文/模板；v5消费者另获限定接受，实际S07中央pilot待验，既有候选零迁移。
 
 - S07：[003原生审计](../testing/e2e/evidence/e2e-003.json)固定a233正文/1.5模板获非作者接受；本次唯一中央gzip试点仍待实际组合独立验收，不授运行或其他篇完成。
+
+- 固定157的S07实际中央试点、proposed日期正文入账及counter原ID/root别名映射已获非作者限定接受；新004/005/006组合另验，不能从旧body报告继承实际中央接受。
+- S08/S09：004的story/items/saves、005的奖励/news/动态Canvas各守实际源码域，两篇各重授1；S10：006历史true/currentAuditfalse及原数据/slot/rider/视觉缺口继续blocked，它原属10-16历史pilot、不在1896撤回集合，丰富正文不加重授数。原1896仅8重授/1888待核，五隔离不解除。

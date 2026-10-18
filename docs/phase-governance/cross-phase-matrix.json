@@ -1404,7 +1404,7 @@
         "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/independent-review-58e899bf-20261018.json"
       ],
       "unresolved": [
-        "1896 bindings were withdrawn. 6 fixed new affected bodies have separate non-author body/template acceptance; 1890 remain without reacceptance. S01 and incremental design are outside this set; actual S07 central pilot pending and five quarantines remain.",
+        "1896 bindings withdrawn;8 fixed affected bodies separately accepted/1888 without reacceptance. S01/incrementaldesign and nonwithdrawn006 are outside;006enrichment adds0 affectedcredit. Current successor central pending; fivequarantines/globalFAIL remain.",
         "58e899bf纠错包获非作者限定接收；全量语义及统一零诊断门未完成，五项隔离不解除。"
       ],
       "stopLine": "Do not infer all-docs completion, user decisions, runtime/E2E/visual/coverage or semantic approval from shape/hash checks."
@@ -1536,7 +1536,7 @@
         "docs/phase-governance/reviews/20261018-semantic-rework.json"
       ],
       "unresolved": [
-        "Fixed67 S06 data and fixed88 navigation repair independently accepted. Exact source-ID versus root-alias mapping is corrected here; this later composition still needs narrow independent review.",
+        "Fixed67data/fixed88navigation/fixed157originalcounter-versus-rootalias mapping independently accepted. Current successor metadata composition separate.",
         "Other affected documents, full hard gates and execution remain separate; five quarantines retained."
       ],
       "stopLine": "No other R60/1896 restoration, raw eligibility bypass, native status/version rewrite or product/runtime/E2E/preview/visual/capture/coverage/global/main/done credit.",
@@ -1558,15 +1558,16 @@
         "originalReportsUnmodified": true,
         "navigationClosedByFixed88ReportPayloadSha256": "dd0755778247672a78b4617d29c271ae0aa0e9fc07bf97e09144bf0847f8236b",
         "newMetadataCounter": "RECEIPT-COUNTER-ID-PROVENANCE-MISMATCH",
-        "mappingCorrectionActualIndependentAcceptancePending": true,
-        "additionalBodyCredit": 0
+        "mappingCorrectionActualIndependentAcceptancePending": false,
+        "additionalBodyCredit": 0,
+        "mappingCorrectionAcceptedByReportPayloadSha256": "5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b"
       }
     },
     {
       "id": "governance-receipt-design-v1-20261018",
       "from": ["docs/phase-governance/reviews/20261018-governance-receipt-storage-design.md"],
       "to": ["docs/ops/guides/documentation-model.md", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
-      "relationship": "Exact dated proposed1.0 design body/template accepted via inherited B chapters plus C full date/body consumer; exact v5 raw consumer independently accepted separately. Sole S07 actual central pilot still unaccepted; existing candidates unchanged.",
+      "relationship": "Datedproposed1.0 body/template and soleS07/v5 actualcentral accepted at157; exactv6/v7 tuple consumers separately accepted, present successor combination pending. No existingcandidate migration or cohort/ignore change.",
       "status": "guarded",
       "evidence": [
         "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/independent-governance-receipt-design-review-4ddd17e4.json",
@@ -1574,7 +1575,7 @@
       ],
       "unresolved": [
         "Original missing-date failure and withdrawal retained; exact0d16 body/template now regranted on separate evidence, not retrospective pass.",
-        "Actual S07 sole central binding/byte/transport pilot still pending distinct acceptance before route reuse.",
+        "Only fixed157 actualpilot accepted; current successor central combination remains pending, no global/main/done.",
         "Other affected documents, global hard gates and all execution remain separate; five quarantines retained."
       ],
       "stopLine": "Do not compress/reclassify existing candidates, adopt an unverified gzip consumer/pilot, self-review the report or claim runtime/global/main/done from design freeze."
@@ -1594,10 +1595,97 @@
         "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/bd0520775873201a7e57a296cf5bc043f5b2bc3da9639de218b19a81baadc441.gz"
       ],
       "unresolved": [
-        "Fixeda233 body/template accepted by distinct C; actual sole central gzip pilot still pending, no route reuse yet.",
+        "Fixed157 actual S07/v5 centralpilot independently accepted; later exacttuples and actual successor combination separately reviewed.",
         "Source-backed/performedfalse/history and old/current versions remain distinct; authentic raw/full frames/preview/runtime not accepted."
       ],
-      "stopLine": "No automatic other R60/1896 regrant, old-report mutation, native-path migration, denominator shrink, runtime/global/main/done credit."
+      "stopLine": "No automatic other R60/1896 regrant, old-report mutation, native-path migration, denominator shrink, runtime/global/main/done credit.",
+      "actualCentralAcceptance": {
+        "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s07-actual-central-pilot-independent-originals/5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b.gz",
+        "encoding": "gzip",
+        "payloadSha256": "5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b",
+        "payloadBytes": 49141,
+        "storedSha256": "bb64c00d47249d1a080d7e6cbd05702cfc256ed5f89779b54a2ca9646e0303ec",
+        "storedBytes": 13471,
+        "producerTask": "/root/central_intake_guard_review",
+        "authorTask": "/root",
+        "reviewerTask": "/root/central_intake_guard_review",
+        "sourceRevision": "15711390bc5f69d21fa9a240985d5bb703c08d29",
+        "scope": "Only actual fixed157 S07 central pilot, exactv5 raw consumption, dated proposed design binding and counter-ID mapping accepted; global/main/done false; future tuples/combinations separate.",
+        "owner": "Codex documentation governance evidence",
+        "caller": "DOCS-FULL-TEMPLATE-1 exact central intake acknowledgment and tool authorization source",
+        "associatedTask": "DOCS-FULL-TEMPLATE-1",
+        "retentionReason": "Immutable one-off independent output; no report self-body credit, existing candidate movement or automatic successor acceptance.",
+        "exitCondition": "Retain original for replay/audit; no automatic deletion."
+      }
+    },
+    {
+      "id": "native-e2e004-s08-20261018",
+      "from": ["docs/testing/e2e/evidence/e2e-004.json"],
+      "to": [
+        "docs/testing/catalog.json",
+        "docs/testing/e2e/stages/004-meal-and-save/report.md",
+        "scripts/e2e/meal-contract.mjs"
+      ],
+      "relationship": "004原16字段/7短ref与5686B现前缀保持，原115行5679B仅native有序等值、不虚称原字节逆回。verified/10-02出版、d022 source审计、9a488六case与本轮源码三时点分开。实际40=2取菜+13端菜+25送酒；story/items/saves每轨互斥，取消0/错误1/库存绑定/拒绝提示各有业务oracle；静态25行/loseItem272不等运行25次。仅saves正式208中档/末档fresh restore可成为005前驱；003消费者只核自己的core/route/hash/world，不继承额外choreography/Canvas。动态扣酒/隐藏偏序不证全程未再现；Game差异拒指定路径、RF仅记。纯IO和模板/出版通过，真实六case原件/完整帧/preview/当前运行仍未验。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261018-semantic-rework.json",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d.gz"
+      ],
+      "unresolved": [
+        "Exact v6/v7 per-tuple consumers and fixed157 S07 actual pilot accepted separately. This current successor central binding/transport/composition still requires distinct fixed-snapshot acceptance.",
+        "No original six game-case/raw/children/save/pixels/audio/Owner-retention validation; [] artifacts remains native.",
+        "Only canonical0041-78/98-125/159-190 read, not whole319 or full003/005/capture/visual/task bodies; no dependent-document renewal.",
+        "Historical browser warnings/comparison failure/receipt-only and21/min10→22/min11→22/min12 remain at separate times.",
+        "Other withdrawn bindings/five quarantines/full hardgate/main/done remain open."
+      ],
+      "stopLine": "No native status/version/history rewrite, source→runtime claim, oldraw fabrication, adjacent/bulk credit, denominator removal or global/main/done acceptance."
+    },
+    {
+      "id": "native-e2e005-s09-20261018",
+      "from": ["docs/testing/e2e/evidence/e2e-005.json"],
+      "to": [
+        "docs/testing/catalog.json",
+        "docs/testing/e2e/stages/005-errands-and-news/report.md",
+        "scripts/e2e/errand-contract.mjs"
+      ],
+      "relationship": "005原16字段/8短ref/6015B现前缀和旧治理、原日期保持；verified出版与source-backed/performedfalse不改。004完整saves admission与离线generic checkpoint多层分开，不能把同轨hash/world串都称完整producer。40/49/40与1/1/2静态行数分域，215后500→550唯一奖励不虚构217前上界；select565到515、arm522到282偏序与到家需不止一次实际commit。news同visit draw>=control且clear>control，不改成draw>clear；背景只证实际移动与最后control、不证五处全程；动态Canvas不强迫整hash相等。seq/globalOrder非atMs，384MiB物理预算和pool128不同；原wrapper失败/后续case复验/警告/版本按时点保留，不把后继结果倒回整轮。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261018-semantic-rework.json",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/b4190c6c6af1c3fe4ab54a6a2e096251cd78a2187be732ed65402445acc22d5f.gz"
+      ],
+      "unresolved": [
+        "Exact v6/v7 per-tuple consumers and fixed157 S07 actual pilot accepted separately. This current successor central binding/transport/composition still requires distinct fixed-snapshot acceptance.",
+        "No original005raw/save/trace/pixels/producer/retention/full production save or complete canonical249 read; canonical only1-84/120-137/181-189/199-231.",
+        "Shared meal927/1082/895/plugin275 read by B inherited at exact hashes, not fresh root reads; full006business not granted by observer sharedprojection.",
+        "Current version22/min12 separate from9a48821/min10 and d02222/min11; no runtime/visual/preview/coverage renewal.",
+        "Other withdrawn bindings/five quarantines/full hardgate/main/done remain open."
+      ],
+      "stopLine": "No native status/version/history rewrite, source→runtime claim, oldraw fabrication, adjacent/bulk credit, denominator removal or global/main/done acceptance."
+    },
+    {
+      "id": "native-e2e006-s10-20261018",
+      "from": ["docs/testing/e2e/evidence/e2e-006.json"],
+      "to": [
+        "docs/testing/catalog.json",
+        "docs/testing/e2e/stages/006-doctor-boat/report.md",
+        "scripts/e2e/boat-contract.mjs"
+      ],
+      "relationship": "006原16native/3refs/5artifacts/4676B前缀及原governance保全；33cc96行4679B才是原源，当前dc120行不是。historical performedtrue与当前auditfalse分轴，沿既有1.5 historical-execution-publication-v2，不翻原true适配普通audit。source95=17+23+40+11+4含岛落地收尾；最小island+ready子谓词可过不能证明95正文原意。实际投影只选draw并可丢未绘commit；任意常量相对offset/up可过，不等正确canonical偏移，静止中段漂移反控可拒。terminal/真实slot continuation/rider resource各有独立源码合同；005真实reader与generic checkpoint分层，both只消费报告不启动两轨。当前doctor state2与旧state3、RF[0,0]/down与[-2,-4]/up保分时点未知。缺原1513/1516/1517、真实raw/slot/rider/完整SAVE12船链及视觉继续blocked，未认证历史执行真实性。",
+      "status": "guarded",
+      "evidence": [
+        "docs/phase-governance/reviews/20261018-semantic-rework.json",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4.gz"
+      ],
+      "unresolved": [
+        "Exact v6/v7 per-tuple consumers and fixed157 S07 actual pilot accepted separately. This current successor central binding/transport/composition still requires distinct fixed-snapshot acceptance.",
+        "Original data/extracted events1513/1516/1517 absent in isolated checkout; original95text/speakers/operands or game equivalence not established.",
+        "Actual raw/slot/rider resources and full SAVE12 boat chain/fullframes/visual/preview/coverage not executed or accepted.",
+        "Historicalstate3/offset-facing conflicts remain date-bounded unknown; no false choice of one historicalvalue.",
+        "Other withdrawn bindings/fivequarantines/global hardgates remain open."
+      ],
+      "stopLine": "Do not flip native historicaltrue, certify oldrun/originalgame equivalence from helper/gzip/template, fill missing raw/unknowns, or grant adjacent/bulk/global/main/done."
     }
   ],
   "acceptance": {
@@ -1606,6 +1694,6 @@
     "unresolvedItemsAreExplicit": true,
     "runtimeClaimsDeferred": true
   },
-  "lastReviewed": "2026-10-16",
+  "lastReviewed": "2026-10-18",
   "acceptanceScope": "Only relationships registered in rows; not an exhaustive census of all docs and not product/runtime or full-governance acceptance."
 }

@@ -278,7 +278,7 @@
       "reviewedSourceSha256": "522c958d325afaf4a92845d9dbb89a00d72bce72e3396aad4b890920b39c01f2",
       "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
       "sourceGitObject": "906868289a9187830360dedaf4f28ab048318445",
-      "afterSha256": "653be7848435776d2c688c34283d36b96fb5ef15e8b203988386d6b252beef2c",
+      "afterSha256": "389c9136da6f43007dde5d744917239c221d4354602d4d934285fe74d510f8f5",
       "publicCallers": [
         "docs/phase-governance/README.md",
         "node scripts/docs/check-content-review.mjs --strict"
@@ -6853,6 +6853,15 @@
           "previousAfterSha256": "6e83f0e85800ce9da2b74d14f26936fa95a098578c0216bb5303ac1fdeae28a1",
           "afterSha256": "653be7848435776d2c688c34283d36b96fb5ef15e8b203988386d6b252beef2c",
           "method": "Readable source-specific S06 counter correction/date design and S07 sole central pilot boundary.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "1cb305683a8e1ebe46a87be29ab0b05e90b9b3c5",
+          "previousAfterSha256": "653be7848435776d2c688c34283d36b96fb5ef15e8b203988386d6b252beef2c",
+          "afterSha256": "389c9136da6f43007dde5d744917239c221d4354602d4d934285fe74d510f8f5",
+          "method": "Readable fixed157 and distinct affected/nonwithdrawn provenance, no global/runtime grant.",
           "grantsNewSemanticAcceptance": false
         }
       ]

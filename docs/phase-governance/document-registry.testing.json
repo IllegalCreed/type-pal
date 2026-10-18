@@ -418,7 +418,8 @@
       "templateVariant": "historical-execution-publication-v2",
       "templateCompliance": "template-compliant",
       "reviewStatus": "content-reviewed",
-      "reviewRecord": "20261016-historical-execution-pilot.json"
+      "reviewRecord": "20261018-semantic-rework.json",
+      "historyOverlay": false
     },
     {
       "path": "docs/testing/e2e/stages/006-doctor-boat/README.md",
@@ -1437,20 +1438,24 @@
       "phase": "testing",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r60-testing-e2e-entry.json",
-      "templateVariant": "document-audit-v2"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261018-semantic-rework.json",
+      "templateVariant": "document-audit-v2",
+      "templateVersion": "1.5.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-005.json",
       "phase": "testing",
       "docType": "test-machine-evidence",
       "templateId": "test-machine-evidence-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
-      "reviewRecord": "20261017-r60-testing-e2e-entry.json",
-      "templateVariant": "document-audit-v2"
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261018-semantic-rework.json",
+      "templateVariant": "document-audit-v2",
+      "templateVersion": "1.5.0",
+      "historyOverlay": false
     },
     {
       "path": "docs/testing/domains/editor/commands/command-form-families/history/report.md",

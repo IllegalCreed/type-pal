@@ -516,7 +516,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "45d3ac468efc7d54f0e357b11afbc15fbb9f6473a373f47172d3f0bb692832a8",
-      "afterSha256": "33897afbc62afa3ee1a5473d51b512e09ac707dd4a1f0486c68696125adcf9f9",
+      "afterSha256": "b8d583d980eedffe12fd19392ce29411829952db50e709a5f25c821e48eea44a",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -729,6 +729,15 @@
           "previousAfterSha256": "764e68fc4700c883c9275802f4ed8b3f6e31aee389c78ab7a945dbc6207e2f0e",
           "afterSha256": "33897afbc62afa3ee1a5473d51b512e09ac707dd4a1f0486c68696125adcf9f9",
           "method": "S07 specific native/source boundary, exact dated proposed design evidence, explicit original C counter ID/root alias mapping; no execution/global credit.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "1cb305683a8e1ebe46a87be29ab0b05e90b9b3c5",
+          "previousAfterSha256": "33897afbc62afa3ee1a5473d51b512e09ac707dd4a1f0486c68696125adcf9f9",
+          "afterSha256": "b8d583d980eedffe12fd19392ce29411829952db50e709a5f25c821e48eea44a",
+          "method": "Specific004/005/006 source/native/history boundaries plus actual157 independent acceptance; current successor combination pending.",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -3400,7 +3409,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "c9674a22cfb8a77f1da1ca46167185882b9b51dca04edb09da5f8c19231f2668",
-      "afterSha256": "36b5d993ff2278f4d7ad7812e00436333ff8178b488ecd5b4052448be591ed52",
+      "afterSha256": "2d74cf598bfc28c54c2147da52f704b2b42317000c2e342f27f09b4a32b62db9",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -3612,6 +3621,15 @@
           "sourceRevision": "1dfd0b7f9bc5a8b7896c381ca82e846ef658aa9f",
           "previousAfterSha256": "b7fa3e3d766e028e747a5ac36c758a216fc01e3018e2ed89f331d278fa79ead1",
           "afterSha256": "36b5d993ff2278f4d7ad7812e00436333ff8178b488ecd5b4052448be591ed52",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "1cb305683a8e1ebe46a87be29ab0b05e90b9b3c5",
+          "previousAfterSha256": "36b5d993ff2278f4d7ad7812e00436333ff8178b488ecd5b4052448be591ed52",
+          "afterSha256": "2d74cf598bfc28c54c2147da52f704b2b42317000c2e342f27f09b4a32b62db9",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
@@ -5935,7 +5953,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4ba2dec97aa9b4dc4b05eabe599b900c8ca9d5418a938010bc5153825beda240",
-      "afterSha256": "4ba2dec97aa9b4dc4b05eabe599b900c8ca9d5418a938010bc5153825beda240",
+      "afterSha256": "18e74124ad1d6e75404c667e4909d4b572282e58866c167c66b7c2a8c71e6105",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -6059,7 +6077,18 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "1cb305683a8e1ebe46a87be29ab0b05e90b9b3c5",
+          "previousAfterSha256": "4ba2dec97aa9b4dc4b05eabe599b900c8ca9d5418a938010bc5153825beda240",
+          "afterSha256": "18e74124ad1d6e75404c667e4909d4b572282e58866c167c66b7c2a8c71e6105",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261016-historical-static-html-design.md",
@@ -14292,7 +14321,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "7b7c026e81f1646ed4d910df1c34f7feea7690ae6511c913dac84b12ae971b6f",
-      "afterSha256": "cba224dcf79c34c275074ecfd75dd0742006bbafe2d918131a4869b086b76e7a",
+      "afterSha256": "05fa3642aed68addfd657d97761d237f097a4053ed707f6a9a36cfe4472b966c",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -14468,6 +14497,15 @@
           "sourceRevision": "1dfd0b7f9bc5a8b7896c381ca82e846ef658aa9f",
           "previousAfterSha256": "7d21eb99942c49248f7b732225b48da205445834a2c0c6a9b1331d095badafad",
           "afterSha256": "cba224dcf79c34c275074ecfd75dd0742006bbafe2d918131a4869b086b76e7a",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1",
+          "sourceRevision": "1cb305683a8e1ebe46a87be29ab0b05e90b9b3c5",
+          "previousAfterSha256": "cba224dcf79c34c275074ecfd75dd0742006bbafe2d918131a4869b086b76e7a",
+          "afterSha256": "05fa3642aed68addfd657d97761d237f097a4053ed707f6a9a36cfe4472b966c",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }

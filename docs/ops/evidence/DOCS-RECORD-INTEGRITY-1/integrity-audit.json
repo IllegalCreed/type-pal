@@ -2227,8 +2227,8 @@
   },
   "semanticReacceptance": {
     "withdrawalSnapshotBindings": 1896,
-    "currentReacceptedAffectedBindings": 6,
-    "remainingAffectedBindingsWithoutReacceptance": 1890,
+    "currentReacceptedAffectedBindings": 8,
+    "remainingAffectedBindingsWithoutReacceptance": 1888,
     "entries": [
       {
         "path": "docs/testing/governance.md",
@@ -2290,6 +2290,58 @@
           "exitCondition": "Retain for audit/replay; no automatic deletion or existing candidate exemption."
         },
         "actualCentralPilotAccepted": false
+      },
+      {
+        "path": "docs/testing/e2e/evidence/e2e-004.json",
+        "acceptedCommit": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+        "bodySha256": "d66f23fcb531dfff8a34832559daabdc7bb9149933ead78bdef808c257381562",
+        "report": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d.gz",
+        "reportSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d.gz",
+          "encoding": "gzip",
+          "payloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+          "payloadBytes": 44036,
+          "storedSha256": "bad3899b30ce7755448ac555e6e99244cba3509991de53077b8a5e9484d04752",
+          "storedBytes": 11913,
+          "producerTask": "/root/receipt_integrity_independent",
+          "authorTask": "/root/e2e_entry_semantic_author",
+          "reviewerTask": "/root/receipt_integrity_independent",
+          "sourceRevision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "scope": "Only fixed S08 native evidence document body and1.5/document-audit-v2 template; no actual central/global/product credit.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 exact per-document semantic review entry and private explicit intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original one-off governance review output with original failures and actual read limits; not an existing canonical document migrated to raw.",
+          "exitCondition": "Retain for audit/replay; no automatic deletion or existing candidate exemption."
+        },
+        "actualSuccessorCentralAccepted": false
+      },
+      {
+        "path": "docs/testing/e2e/evidence/e2e-005.json",
+        "acceptedCommit": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+        "bodySha256": "1e50d535c2b16aa466207da22e698768bd5abb1cd88a0323ae4e16504fe172f1",
+        "report": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/b4190c6c6af1c3fe4ab54a6a2e096251cd78a2187be732ed65402445acc22d5f.gz",
+        "reportSha256": "b4190c6c6af1c3fe4ab54a6a2e096251cd78a2187be732ed65402445acc22d5f",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/b4190c6c6af1c3fe4ab54a6a2e096251cd78a2187be732ed65402445acc22d5f.gz",
+          "encoding": "gzip",
+          "payloadSha256": "b4190c6c6af1c3fe4ab54a6a2e096251cd78a2187be732ed65402445acc22d5f",
+          "payloadBytes": 20747,
+          "storedSha256": "0b8138d2bea5c41a3dca3ef0337b673ef15a54b31cc52a3384060baa80d3a480",
+          "storedBytes": 6709,
+          "producerTask": "/root",
+          "authorTask": "/root/e2e_entry_semantic_author",
+          "reviewerTask": "/root",
+          "sourceRevision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "scope": "Only fixed S09 native evidence document body and1.5/document-audit-v2 template; no actual central/global/product credit.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 exact per-document semantic review entry and private explicit intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original one-off governance review output with original failures and actual read limits; not an existing canonical document migrated to raw.",
+          "exitCondition": "Retain for audit/replay; no automatic deletion or existing candidate exemption."
+        },
+        "actualSuccessorCentralAccepted": false
       }
     ],
     "boundary": "S01 was a separately discovered R33 authority counter outside the1896 cohort. Historical correction-scope and original withdrawals remain immutable; no batch credit restoration.",
@@ -2325,6 +2377,60 @@
         "nonAuthorReviewer": true,
         "scope": "Only fixed4ddd actual S05 central binding/data/history/transport accepted; later acknowledgment, design, S06/S07 and new records separate.",
         "additionalBodyCredit": 0
+      },
+      {
+        "candidateCommit": "15711390bc5f69d21fa9a240985d5bb703c08d29",
+        "originalReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s07-actual-central-pilot-independent-originals/5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b.gz",
+          "encoding": "gzip",
+          "payloadSha256": "5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b",
+          "payloadBytes": 49141,
+          "storedSha256": "bb64c00d47249d1a080d7e6cbd05702cfc256ed5f89779b54a2ca9646e0303ec",
+          "storedBytes": 13471,
+          "producerTask": "/root/central_intake_guard_review",
+          "authorTask": "/root",
+          "reviewerTask": "/root/central_intake_guard_review",
+          "sourceRevision": "15711390bc5f69d21fa9a240985d5bb703c08d29",
+          "scope": "Only actual fixed157 S07 central pilot, exactv5 raw consumption, dated proposed design binding and counter-ID mapping accepted; global/main/done false; future tuples/combinations separate.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 exact central intake acknowledgment and tool authorization source",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable one-off independent output; no report self-body credit, existing candidate movement or automatic successor acceptance.",
+          "exitCondition": "Retain original for replay/audit; no automatic deletion."
+        },
+        "reviewer": "/root/central_intake_guard_review",
+        "nonAuthorReviewer": true,
+        "scope": "Only actual fixed157 S07 central pilot, exactv5 raw consumption, dated proposed design binding and counter-ID mapping accepted; global/main/done false; future tuples/combinations separate.",
+        "additionalBodyCredit": 0
+      }
+    ],
+    "existingNonWithdrawnBindingEnrichments": [
+      {
+        "path": "docs/testing/e2e/evidence/e2e-006.json",
+        "priorRecord": "docs/phase-governance/reviews/20261016-historical-execution-pilot.json",
+        "priorBodySha256": "0df03a5a578eff7a5ee8656961717d8b3a2380b2b5e0cb61220ae552963a574d",
+        "newBodySha256": "b19bf66515a1ec6be444dad115cdab629bb770ac119d4c8100a142b29d87bd46",
+        "originalIndependentReport": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4.gz",
+          "encoding": "gzip",
+          "payloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+          "payloadBytes": 58982,
+          "storedSha256": "12e550e23c1dd251f1bcbef08885d50ecad81bce3664a3e3c05991f5a10e8082",
+          "storedBytes": 14262,
+          "producerTask": "/root/receipt_integrity_independent",
+          "authorTask": "/root/e2e_entry_semantic_author",
+          "reviewerTask": "/root/receipt_integrity_independent",
+          "sourceRevision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+          "scope": "Only fixedb166 native006 body and1.5/historical-execution-publication-v2 template; original native historical performedtrue retained, currentAuditfalse. No historical authenticity/current E2E/central/global/product credit.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 exact per-document semantic review entry and private explicit intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original one-off governance review output, original failure/unknown/missing-source boundaries retained; not an existing canonical document migrated to raw.",
+          "exitCondition": "Retain for audit/replay; no automatic deletion or existing candidate exemption."
+        },
+        "outside1896WithdrawalSet": true,
+        "additionalAffectedBodyCredit": 0,
+        "actualSuccessorCentralAccepted": false
       }
     ]
   }

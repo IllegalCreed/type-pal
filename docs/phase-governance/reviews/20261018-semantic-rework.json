@@ -1958,7 +1958,7 @@
         "scripts/e2e/inn-contract.mjs:488"
       ],
       "unresolved": [
-        "Fixed67 S06 data and fixed88 navigation repair independently accepted. Exact source-ID versus root-alias mapping is corrected here; this later composition still needs narrow independent review.",
+        "Original C navigation counter ID/root helper alias mapping independently closed at fixed157, in addition to fixed67data/fixed88navigation acceptance; later successor acknowledgment composition separate.",
         "Full canonical371/history, actorRecording/production hook completeness, actual raw and authentic producer/current execution were not reaccepted.",
         "Whole-docs hard gates, all other withdrawn bindings and five quarantines remain open."
       ],
@@ -2682,6 +2682,12 @@
           "action": "Explicitly distinguish original C navigation counter ID from root helper alias after fixed88 provenance counter. Neither original report changed; no new body credit.",
           "reportPayloadSha256": "dd0755778247672a78b4617d29c271ae0aa0e9fc07bf97e09144bf0847f8236b",
           "additionalBodyCredit": 0
+        },
+        {
+          "date": "2026-10-18",
+          "action": "Acknowledge independent fixed157 actual central pilot/date-body binding/source-counter acceptance, no new body credit; current composition separate.",
+          "reportPayloadSha256": "5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b",
+          "additionalBodyCredit": 0
         }
       ],
       "historicalWithdrawal": {
@@ -2756,9 +2762,33 @@
           "originalReportsUnmodified": true,
           "navigationClosedByFixed88ReportPayloadSha256": "dd0755778247672a78b4617d29c271ae0aa0e9fc07bf97e09144bf0847f8236b",
           "newMetadataCounter": "RECEIPT-COUNTER-ID-PROVENANCE-MISMATCH",
-          "mappingCorrectionActualIndependentAcceptancePending": true,
-          "additionalBodyCredit": 0
+          "mappingCorrectionActualIndependentAcceptancePending": false,
+          "additionalBodyCredit": 0,
+          "mappingCorrectionAcceptedByReportPayloadSha256": "5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b"
         }
+      },
+      "actualCentralAcceptanceAt157": {
+        "report": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s07-actual-central-pilot-independent-originals/5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b.gz",
+          "encoding": "gzip",
+          "payloadSha256": "5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b",
+          "payloadBytes": 49141,
+          "storedSha256": "bb64c00d47249d1a080d7e6cbd05702cfc256ed5f89779b54a2ca9646e0303ec",
+          "storedBytes": 13471,
+          "producerTask": "/root/central_intake_guard_review",
+          "authorTask": "/root",
+          "reviewerTask": "/root/central_intake_guard_review",
+          "sourceRevision": "15711390bc5f69d21fa9a240985d5bb703c08d29",
+          "scope": "Only actual fixed157 S07 central pilot, exactv5 raw consumption, dated proposed design binding and counter-ID mapping accepted; global/main/done false; future tuples/combinations separate.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 exact central intake acknowledgment and tool authorization source",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable one-off independent output; no report self-body credit, existing candidate movement or automatic successor acceptance.",
+          "exitCondition": "Retain original for replay/audit; no automatic deletion."
+        },
+        "nonAuthorReviewer": true,
+        "additionalBodyCredit": 0,
+        "scope": "Only exact fixed157 data/body binding/transport/sourcecounter described by original report; no current successor combination acceptance."
       }
     },
     {
@@ -2770,7 +2800,7 @@
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
       "readMethod": "Root authored a substantive five-section proposed design. Distinct receipt_integrity_independent read full69-line draft, verified exact stable version-line-only delta, judged each complete chapter and strongest alternatives against bounded fixed4ddd primary sources, ran real template and native plain→gzip rejection→restore consumers. Acceptance is design-body/template only, no implementation/adoption/pilot/whole-docs credit. Later C read exact70-line 0d16 dated body, inherited B unchanged five-chapter semantics, and ran full checkMigratedDocument with missing/fenced/wrong-format date and template-version controls; no new full primary-corpus read claimed. Actual central binding acceptance remains separate.",
-      "coreConclusion": "Proposed receipt-storage design1.0.0: unchanged five chapters inherit exact93a6/d632 independent judgment; exact0d16 date/full migrated consumer repair separately accepted by6c43. This one incremental design body/template binding is regranted with both original sources, not adoption. B independently accepts only exact private v5 raw consumer/tuples; sole S07 actual central pilot still pending. Existing1838/native candidates remain at original paths; no denominator, ignore, structural-root or runtime/global credit change.",
+      "coreConclusion": "Exact0d16 dated proposed design body/template binding accepted at157 through original B d632 chapters and C6c43 full date/body consumer. ActualS07/v5 central pilot and counter-ID mapping independently accepted; proposed stays proposed, no oldcandidate movement/denominator/ignore/structural-root/runtime/global credit. Exactv6/v7 consumers are separately accepted; current successor combination pending.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261018-governance-receipt-storage-design.md:9",
         "docs/phase-governance/reviews/20261018-governance-receipt-storage-design.md:15",
@@ -2780,11 +2810,11 @@
         "docs/ops/guides/documentation-model.md:70"
       ],
       "unresolved": [
-        "Actual sole S07 central pilot/binding/transport requires independent acceptance before gzip route reuse; proposed design status stays proposed.",
+        "Exact dated proposed design body/template binding and soleS07/v5 actual centralpilot accepted at157; subsequent exact tuple implementation/central combinations separate.",
         "All existing native candidates/1838 and pending report candidates remain at original paths and keep separate document-review obligations.",
         "No runtime/E2E/visual/coverage or full hard gate/main/done acceptance."
       ],
-      "nextStep": "Obtain independent actual S07 central pilot acceptance, then reuse only exact independently accepted report tuples; no migration/exemption of existing documents.",
+      "nextStep": "Use only independently accepted exact new tuples, obtain actual successor combination review; no existing native/report candidate migration or global/runtime acceptance.",
       "phase": "phase-governance",
       "module": "governance-receipt-storage-design",
       "capability": "nonrecursive-review-and-immutable-evidence-identity",
@@ -3052,7 +3082,7 @@
         },
         {
           "id": "RECEIPT-IMPLEMENTATION-PILOT",
-          "status": "pending",
+          "status": "fixed-v5-S07-pilot-accepted-successors-separate",
           "statement": "Design-only acceptance cannot substitute real exact-identity consumer and actual body+central pilot."
         },
         {
@@ -3148,6 +3178,12 @@
           "action": "Regrant only exact0d16 proposed design body/template after distinct full metadata/date acceptance plus inherited d632 chapter judgment. Global/actual central pilot not accepted.",
           "reportPayloadSha256": "6c43dc3be54c785196f40961eb1ba648090c01fee1f24794264d63b3d184480a",
           "outside1896WithdrawalSet": true
+        },
+        {
+          "date": "2026-10-18",
+          "action": "Acknowledge independent fixed157 actual central pilot/date-body binding/source-counter acceptance, no new body credit; current composition separate.",
+          "reportPayloadSha256": "5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b",
+          "additionalBodyCredit": 0
         }
       ],
       "supersedes": [
@@ -3215,7 +3251,7 @@
           "reportPayloadSha256": "6c43dc3be54c785196f40961eb1ba648090c01fee1f24794264d63b3d184480a",
           "actualFullPerDocumentConsumerAccepted": true,
           "bodySha256": "0d16ea29db5ce12037b4b6d94c0fbe282afbdf37a89856e517bdf22ba525ce60",
-          "centralCombinedAcceptancePending": true
+          "centralCombinedAcceptancePending": false
         }
       },
       "dateRepairEvidence": {
@@ -3239,7 +3275,31 @@
         },
         "bodySha256": "0d16ea29db5ce12037b4b6d94c0fbe282afbdf37a89856e517bdf22ba525ce60",
         "requiredDateAndFullConsumerAccepted": true,
-        "centralTemplateRegrantAccepted": false
+        "centralTemplateRegrantAccepted": true,
+        "centralAcceptanceReportPayloadSha256": "5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b"
+      },
+      "actualCentralAcceptanceAt157": {
+        "report": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s07-actual-central-pilot-independent-originals/5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b.gz",
+          "encoding": "gzip",
+          "payloadSha256": "5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b",
+          "payloadBytes": 49141,
+          "storedSha256": "bb64c00d47249d1a080d7e6cbd05702cfc256ed5f89779b54a2ca9646e0303ec",
+          "storedBytes": 13471,
+          "producerTask": "/root/central_intake_guard_review",
+          "authorTask": "/root",
+          "reviewerTask": "/root/central_intake_guard_review",
+          "sourceRevision": "15711390bc5f69d21fa9a240985d5bb703c08d29",
+          "scope": "Only actual fixed157 S07 central pilot, exactv5 raw consumption, dated proposed design binding and counter-ID mapping accepted; global/main/done false; future tuples/combinations separate.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 exact central intake acknowledgment and tool authorization source",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable one-off independent output; no report self-body credit, existing candidate movement or automatic successor acceptance.",
+          "exitCondition": "Retain original for replay/audit; no automatic deletion."
+        },
+        "nonAuthorReviewer": true,
+        "additionalBodyCredit": 0,
+        "scope": "Only exact fixed157 data/body binding/transport/sourcecounter described by original report; no current successor combination acceptance."
       }
     },
     {
@@ -3262,11 +3322,11 @@
         "scripts/e2e/kitchen-contract.mjs:595"
       ],
       "unresolved": [
-        "Exact v5/raw tuple consumer independently accepted; actual sole central pilot/binding/transport combination still requires distinct fixed-snapshot acceptance before route reuse.",
+        "Fixed157 unique S07 central pilot and exactv5/raw consumption independently accepted; current later acknowledgment/successor combination separate.",
         "No revalidation of old game raw, full canonical204, complete production bridge/actorRecording, whole NPC frames/dialogue-slot visibility or preview.",
         "All other withdrawn bindings, five quarantines and full-docs strict/progress hard gates remain open."
       ],
-      "nextStep": "After independently accepted exact raw consumer, apply this sole binding in an explicit plan and obtain distinct actual central pilot acceptance before reusing the route. Keep runtime/global/main/done uncredited.",
+      "nextStep": "Continue separately accepted exactv6/v7 successors and independent actual combination review; no general source/native/runtime credit.",
       "phase": "testing",
       "module": "e2e-003-native-audit",
       "capability": "stairs-dialogue-kitchen-handoff-authority-and-source-obligations",
@@ -3734,7 +3794,7 @@
         },
         {
           "id": "S07-GZIP-AND-ACTUAL-CENTRAL-PILOT",
-          "status": "pending",
+          "status": "fixed-v5-S07-actual-pilot-independently-accepted",
           "scope": "Prepared per-document entry is not published until implementation and actual sole-binding acceptance; raw transfer alone cannot grant completion."
         }
       ],
@@ -3889,6 +3949,12 @@
           "sourceRevision": "1dfd0b7f9bc5a8b7896c381ca82e846ef658aa9f",
           "consumerReportPayloadSha256": "f7a5c4d41057aac31237c46ec975e4399b45776abf2d4429c28cf835d9e50b59",
           "actualCentralPilotAccepted": false
+        },
+        {
+          "date": "2026-10-18",
+          "action": "Acknowledge independent fixed157 actual central pilot/date-body binding/source-counter acceptance, no new body credit; current composition separate.",
+          "reportPayloadSha256": "5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b",
+          "additionalBodyCredit": 0
         }
       ],
       "historicalWithdrawal": {
@@ -3940,6 +4006,2480 @@
           "scope": "Exact original one-off reviewer output retained; this is a locator, not a new review or current runtime grant."
         },
         "scope": "1.5/document-audit-v2 actual field-bearing body; raw evidence reference/central unique binding still separately pending."
+      },
+      "actualCentralAcceptanceAt157": {
+        "report": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s07-actual-central-pilot-independent-originals/5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b.gz",
+          "encoding": "gzip",
+          "payloadSha256": "5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b",
+          "payloadBytes": 49141,
+          "storedSha256": "bb64c00d47249d1a080d7e6cbd05702cfc256ed5f89779b54a2ca9646e0303ec",
+          "storedBytes": 13471,
+          "producerTask": "/root/central_intake_guard_review",
+          "authorTask": "/root",
+          "reviewerTask": "/root/central_intake_guard_review",
+          "sourceRevision": "15711390bc5f69d21fa9a240985d5bb703c08d29",
+          "scope": "Only actual fixed157 S07 central pilot, exactv5 raw consumption, dated proposed design binding and counter-ID mapping accepted; global/main/done false; future tuples/combinations separate.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 exact central intake acknowledgment and tool authorization source",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable one-off independent output; no report self-body credit, existing candidate movement or automatic successor acceptance.",
+          "exitCondition": "Retain original for replay/audit; no automatic deletion."
+        },
+        "nonAuthorReviewer": true,
+        "additionalBodyCredit": 0,
+        "scope": "Only exact fixed157 data/body binding/transport/sourcecounter described by original report; no current successor combination acceptance."
+      }
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-004.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.5.0",
+      "templateVariant": "document-audit-v2",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "Distinct B read complete original115/before132/new648, meal contract927/journey1082/observer895/plugin275/menu57/both114/frame58 and exact necessary bounded dependencies. Generic46 template reused at identical SHA from earlier read; author harvest scopes are separately labelled. Root intake inherits B actual judgment, not a fresh full source review.",
+      "coreConclusion": "004原16字段/7短ref与5686B现前缀保持，原115行5679B仅native有序等值、不虚称原字节逆回。verified/10-02出版、d022 source审计、9a488六case与本轮源码三时点分开。实际40=2取菜+13端菜+25送酒；story/items/saves每轨互斥，取消0/错误1/库存绑定/拒绝提示各有业务oracle；静态25行/loseItem272不等运行25次。仅saves正式208中档/末档fresh restore可成为005前驱；003消费者只核自己的core/route/hash/world，不继承额外choreography/Canvas。动态扣酒/隐藏偏序不证全程未再现；Game差异拒指定路径、RF仅记。纯IO和模板/出版通过，真实六case原件/完整帧/preview/当前运行仍未验。",
+      "truthAnchors": [
+        "docs/testing/e2e/evidence/e2e-004.json:1",
+        "docs/testing/e2e/evidence/e2e-004.json:133",
+        "docs/testing/e2e/stages/004-meal-and-save/report.md:1",
+        "scripts/e2e/meal-contract.mjs:1"
+      ],
+      "unresolved": [
+        "Exact v6/v7 per-tuple consumers and fixed157 S07 actual pilot accepted separately. This current successor central binding/transport/composition still requires distinct fixed-snapshot acceptance.",
+        "No original six game-case/raw/children/save/pixels/audio/Owner-retention validation; [] artifacts remains native.",
+        "Only canonical0041-78/98-125/159-190 read, not whole319 or full003/005/capture/visual/task bodies; no dependent-document renewal.",
+        "Historical browser warnings/comparison failure/receipt-only and21/min10→22/min11→22/min12 remain at separate times.",
+        "Other withdrawn bindings/five quarantines/full hardgate/main/done remain open."
+      ],
+      "nextStep": "Obtain distinct actual successor central acceptance; continue true per-document semantic review without adjacent/global/runtime credit.",
+      "phase": "testing",
+      "module": "S08-native-document-audit",
+      "capability": "meal-and-save-predecessor-contracts",
+      "owner": "Codex native evidence documentation maintenance",
+      "provenance": [
+        "Body author /root/e2e_entry_semantic_author",
+        "Distinct body reviewer /root/receipt_integrity_independent",
+        "Root central entry adopts exact original report with stated source boundaries, no root fresh full read claimed for inherited sources."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/testing/e2e/evidence/e2e-004.json",
+          "revision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
+          "sha256": "23cb02d86a090a91448b1b092d0bd13aa7e996f1f0fc6723a8ef34f0e50d1757",
+          "scopeActuallyRead": {
+            "author": "原115行5679B全文；16native/数组/日期，不是游戏原始运行产物。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "docs/testing/e2e/evidence/e2e-004.json",
+          "revision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+          "sha256": "1841bf204edf6724d3dd81f96e29a4189d5ad59c64fa26e8bf77da243155a2b2",
+          "scopeActuallyRead": {
+            "author": "改前132行6658B全文；原_governance完整对象留历史。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "docs/testing/_templates/test-machine-evidence.json",
+          "revision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "sha256": "2e8d7894d9e67e78a0a2844c05d2d20a6723ce4ebe397a9b76218644051732ca",
+          "scopeActuallyRead": {
+            "author": "S08 readonly harvest: all46 generic execution example lines; separated from applicable audit variant",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/meal-contract.mjs",
+          "revision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "sha256": "811e6a262c332ad7f9c1608df3cc11d6d8fcd995a39db72bda3aa41a342ea4ad",
+          "scopeActuallyRead": {
+            "author": "S08 readonly harvest: all927 lines in03/04/05, source only; no readMealContract invocation or underlying raw/author data opened",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/meal-journey.mjs",
+          "revision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "sha256": "3fa822ac5e5092f978a58022ebfe0211c7e1b8e8fda96975c41203083a4d34eb",
+          "scopeActuallyRead": {
+            "author": "S08 readonly harvest: all1082 lines in06 1-282/07 283-565/08 566-845/09 846-1082; no launch",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/meal-observer.mjs",
+          "revision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "sha256": "78cb8d9b5de278ab89b4f5587efdb16804dd84af73c4d379626a19e950f45f63",
+          "scopeActuallyRead": {
+            "author": "S08 readonly harvest: all895 lines in10/11/12; hook/DTO/render/save definitions only, not observed production pixels",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/meal-menu.mjs",
+          "revision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "sha256": "2403d5a82ac098af010bab0150b363cf40c20cd67a2b97b1037674c25a433749",
+          "scopeActuallyRead": {
+            "author": "S08 readonly harvest: all57 lines in10; normal consumed key/menu selector, not executed",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/meal-trace-plugin.mjs",
+          "revision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "sha256": "b5164ba78b8bcf361579fa0af62a14833020c4ad36ec87a841bb021fda34c209",
+          "scopeActuallyRead": {
+            "author": "S08 readonly harvest: all275 lines in14; AST insertion/census source, no transform or served product executed",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/meal-game.mjs",
+          "revision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "sha256": "a922f13f014cb4923e0f3ede5d7ddcacc030d892a75a8aeb86cf202d478aad8f",
+          "scopeActuallyRead": {
+            "author": "S08 readonly harvest: all3 lines in06",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/meal-reforge.mjs",
+          "revision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "sha256": "2e187e228df64dd0a2a872df37851aa6297f4483622c564f1b8adcbad18df1ca",
+          "scopeActuallyRead": {
+            "author": "S08 readonly harvest: all3 lines in06",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/meal-both.mjs",
+          "revision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "sha256": "3ff27a3a88f90d3685fa79f16eb080f29429193f9631bbe94964482d066933b8",
+          "scopeActuallyRead": {
+            "author": "S08 readonly harvest: all114 lines in06; no children/parity launched",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/meal-game.config.mts",
+          "revision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "sha256": "664c61d0c94621906edb9b8c23b251549315864b8867aa9b1c757ad255f829c5",
+          "scopeActuallyRead": {
+            "author": "S08 readonly harvest: all3 lines in15; base config not followed",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/meal-reforge.config.mts",
+          "revision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "sha256": "25df9f780e221906a30d3075b33cc2033c7a54171e2e6de445dc41e03c8ccb4f",
+          "scopeActuallyRead": {
+            "author": "S08 readonly harvest: all3 lines in15; base config not followed",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/opening-frame.mjs",
+          "revision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "sha256": "d0e092a5d5b24650ff5edb704a71966bbba147ec0e30c4ff855f971af82c43e6",
+          "scopeActuallyRead": {
+            "author": "S08 readonly harvest: all58 lines across15 20-49 and16 1-19/50-58; only exported openingFrameMatches pure synthetic shape probe run",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "docs/phase-governance/templates/registry.json",
+          "revision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "sha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+          "scopeActuallyRead": {
+            "author": "S08 readonly harvest: test-machine identity/version/format/requiredGovernance/historyRule and full document-audit-v2 only; not824-line registry or other variants",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "docs/testing/catalog.json",
+          "revision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "sha256": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0",
+          "scopeActuallyRead": {
+            "author": "S08 readonly harvest: one whole e2e-004 record;003/005/contract id/canonical/index/status/evidence/dependsOn navigation fields only",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "docs/testing/e2e/stages/004-meal/report.md",
+          "revision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "sha256": "cc0cdefce43e9d45589f73bfac6d4eb86bbe74a6c385ccef28f1bf84cf46803a",
+          "scopeActuallyRead": {
+            "author": "S08 readonly harvest: 1-78,98-125,159-190; additional rg matches discovery only; not full319-line canonical or historical raw audit",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/errand-contract.mjs",
+          "revision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "sha256": "8816f6e279e0b8d16fe37ba37190303a8c9ba629debfd436e1fd5dd42bf11be0",
+          "scopeActuallyRead": {
+            "author": "S08 readonly harvest: 427-451 complete validateErrandPredecessor/readErrandPredecessor only; rg other functions discovery, not full508",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/kitchen-contract.mjs",
+          "revision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634",
+          "scopeActuallyRead": {
+            "author": "S08 readonly harvest: 1-35 kitchenGrid/kitchenReady/kitchenScene only; not fresh full655",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/inn-contract.mjs",
+          "revision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+          "scopeActuallyRead": {
+            "author": "S08 readonly harvest: 206-228 incl full assertInnRestoreCommitted211-224; trailing readInnContract list discovery only; not653 full",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/reforge-opening-policy.mjs",
+          "revision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "sha256": "eac9c3dc8ccec1b8b4f8699c26c40eff85ad62632b32d58899280cfaba7be9e8",
+          "scopeActuallyRead": {
+            "author": "S08 readonly harvest: 75-91 full openingSaveView only",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/browser-journey.mjs",
+          "revision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "sha256": "659926f4cf627c36470515adfe5aab0ec7d33fcf8b8153113e9a78c33ca201a1",
+          "scopeActuallyRead": {
+            "author": "S08 readonly harvest: 175-224 newContext/emptyIDB and browser warning/error collection only; no full300/cleanup/source-authentication review",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "revision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+          "scopeActuallyRead": {
+            "author": "S08 readonly harvest: 168-170 only current22/min12 declarations; rest351 hash only",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "packages/reforge/src/save/types.ts",
+          "revision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "sha256": "b40e418803af9585d944f2a5f3c0229ea26494003f0aa08b12493ddb42605bc2",
+          "scopeActuallyRead": {
+            "author": "S08 readonly harvest: 1-16 only SAVE_VERSION12 and slot declaration; rest54 not read",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "docs/testing/e2e/contract.md",
+          "revision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "sha256": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f",
+          "scopeActuallyRead": {
+            "author": "S08 readonly harvest: 98-149 and239-284 full-frame/dialogue/minimal-rerun/preview/hard-stop selected contract; not full548",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "package.json",
+          "revision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "sha256": "259820fcdc312e11ce297a83074ce168e5a9612f2016ae6d2acb5a308dd62224",
+          "scopeActuallyRead": {
+            "author": "S08 readonly harvest: 15-27 script keys;004 trio/four specialist aliases used; adjacent entries inventory only",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "revision": "9a488c02dfeb2c568256ecbee974e4940b421d91",
+          "sha256": "7c2cc2e736535a01c408da3502b885f3c5c19a1535e36bfe1078692579d77d77",
+          "scopeActuallyRead": {
+            "author": "固定Git源码仅核声明：character.ts168 CONTENT_VERSION及170 CURRENT_PROJECT_MINIMUM_SAVE_VERSION；全文件SHA不扩成全文或历史运行字节验收。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "packages/reforge/src/save/types.ts",
+          "revision": "9a488c02dfeb2c568256ecbee974e4940b421d91",
+          "sha256": "09cb8b249595fbdb5cb786b64fd69093a384039c7b81441a88065ec9fb8d5148",
+          "scopeActuallyRead": {
+            "author": "固定Git源码仅核声明：save/types.ts8 SAVE_VERSION；全文件SHA不扩成全文或历史运行字节验收。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+          "sha256": "375a1d94b6f6bdc79ea104a4d76744e96da5d7c70f866af8e71a8c0c1be6d5df",
+          "scopeActuallyRead": {
+            "author": "固定Git源码仅核声明：character.ts168 CONTENT_VERSION及170 CURRENT_PROJECT_MINIMUM_SAVE_VERSION；全文件SHA不扩成全文或历史运行字节验收。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        },
+        {
+          "path": "packages/reforge/src/save/types.ts",
+          "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+          "sha256": "856ba7ac63a7d0a314ac6189b4c2ec9b3e5c8130b03485e700a0ec38566f41bf",
+          "scopeActuallyRead": {
+            "author": "固定Git源码仅核声明：save/types.ts8 SAVE_VERSION；全文件SHA不扩成全文或历史运行字节验收。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+              "field": "actualReadScope",
+              "note": "Separate B13 explicit scopes govern reviewer coverage; author readScope is not relabelled B full read."
+            }
+          }
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing/phase1/phase2",
+        "scope": "Native source/publication documentary semantics; independent production/runtime/visual/coverage obligations remain."
+      },
+      "dependencies": [
+        "docs/testing/_templates/test-machine-evidence.json",
+        "scripts/e2e/meal-contract.mjs",
+        "scripts/e2e/meal-journey.mjs",
+        "scripts/e2e/meal-observer.mjs",
+        "scripts/e2e/meal-menu.mjs",
+        "scripts/e2e/meal-trace-plugin.mjs",
+        "scripts/e2e/meal-game.mjs",
+        "scripts/e2e/meal-reforge.mjs",
+        "scripts/e2e/meal-both.mjs",
+        "scripts/e2e/meal-game.config.mts",
+        "scripts/e2e/meal-reforge.config.mts",
+        "scripts/e2e/opening-frame.mjs",
+        "docs/phase-governance/templates/registry.json",
+        "docs/testing/catalog.json",
+        "docs/testing/e2e/stages/004-meal/report.md",
+        "scripts/e2e/errand-contract.mjs",
+        "scripts/e2e/kitchen-contract.mjs",
+        "scripts/e2e/inn-contract.mjs",
+        "scripts/e2e/reforge-opening-policy.mjs",
+        "scripts/e2e/browser-journey.mjs",
+        "packages/content/src/character.ts",
+        "packages/reforge/src/save/types.ts",
+        "docs/testing/e2e/contract.md",
+        "package.json"
+      ],
+      "versionScope": {
+        "candidateCommit": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+        "nativeHistoricalCandidate": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "nativeHistoricalVersions": {
+          "content": 22,
+          "minimumSave": 11
+        },
+        "currentSourceContentMinimumRF": [22, 12, 12],
+        "gameSave": "Separate native game gs format, not RF SAVE_VERSION",
+        "notPerformed": [
+          "product tests",
+          "game/runtime/browser",
+          "public E2E run",
+          "raw/save/screenshot/producer validation",
+          "preview/visual/audio/coverage"
+        ]
+      },
+      "publicCallers": [
+        "docs/testing/catalog.json exact unique e2e-004 publication identity",
+        "docs/testing/e2e/stages/004-meal-and-save/report.md existing canonical/testing-meta pair",
+        "scripts/docs/check-testing.mjs actual public evidence reader"
+      ],
+      "legalInputs": [
+        "Preserve16 native values,topkey/array/date order,sourceRefs and exact current prefix; no payload restructuring.",
+        "Actual product input requires legitimate same-engine predecessor/save/producer/version; synthetic source probes are narrow IO/record fixtures, not complete gameplay.",
+        "Use existing1.5/document-audit-v2 publication axis and performedfalse without historical date/version renewal."
+      ],
+      "businessOracle": {
+        "type": "S08-native-field-meaning-and-source-specific-oracle",
+        "assertions": [
+          "Both engines each story/items/saves is a distinct case; source40-row count2+13+25, static commands do not prove dynamic execution count.",
+          "003 own predecessor core/route/hash/save/world and engine-specific difference policy; no invented stronger choreography/Canvas or40hex-as-HEAD authenticity.",
+          "Items inventory, binding, cancel0,wrong1 and rejection hints; serving/gift ordering/one272, formal208 mid/end fresh restore; only saves admits005.",
+          "Full migrated/pair/catalog/index source-only positives and publication/version/runtime-backed negatives; synthetic IO no production run."
+        ],
+        "independentFieldAssessment": [
+          {
+            "field": "schemaVersion",
+            "verdict": "verified-documentary-scope-only",
+            "independentConclusion": "原生2属于既有document-audit-v2；通用execution示例1不是本篇合同，没有补造execution/schema或payload包装。"
+          },
+          {
+            "field": "id",
+            "verdict": "verified-documentary-scope-only",
+            "independentConclusion": "e2e-004精确配对一个catalog/canonical/testing-meta/evidence，稳定片段身份不等于run或任一case执行身份。"
+          },
+          {
+            "field": "kind",
+            "verdict": "verified-documentary-scope-only",
+            "independentConclusion": "document-audit与performed=false及既有1.5变体相符，源码/发布审计未改名运行回执。"
+          },
+          {
+            "field": "status",
+            "verdict": "verified-documentary-scope-only",
+            "independentConclusion": "verified保publication轴及lastVerified10-02/reviewBy11-02；没有续期六case、完整帧、preview或当前SAVE12运行。"
+          },
+          {
+            "field": "candidateSha",
+            "verdict": "verified-documentary-scope-only",
+            "independentConclusion": "d022属于10-04 source-and-publication-audit。9a488旧六case、本轮a233/2de源码候选分别负责，不从当前hash吻合追认证旧执行。"
+          },
+          {
+            "field": "versions",
+            "verdict": "verified-documentary-scope-only",
+            "independentConclusion": "独立Git声明窄核9a488=21/min10/RF10，d022=22/min11/RF11，当前22/min12/RF12；Game format/gs单列。原22/11不回填。"
+          },
+          {
+            "field": "sourceRefs",
+            "verdict": "verified-documentary-scope-only",
+            "independentConclusion": "七项SHA/anchor均匹配，四处contract短范围只到新函数起头或前段，正文准确另列完整函数范围。observer1-115也不代表整个采集链验收。"
+          },
+          {
+            "field": "publicCallers",
+            "verdict": "verified-documentary-scope-only",
+            "independentConclusion": "实际package三入口/四专项alias、两3行桥与both114行符合。逐case双引擎并行而非六同时；单轨默认story，both拒case/capture；未launch。"
+          },
+          {
+            "field": "legalInputs",
+            "verdict": "verified-documentary-scope-only",
+            "independentConclusion": "004自己的003校验核core/route/sourceHashesStable、原字节/解析值/持久world/同轨厨房状态；不复制003额外choreography/Canvas形状保证。Game差异拒指定路径、RF只记；40hex不认证HEAD。"
+          },
+          {
+            "field": "businessOracle",
+            "verdict": "verified-documentary-scope-only",
+            "independentConclusion": "独立完整源码支持每轨story/items/saves互斥、40=2+13+25、取消0/错误1及库存/绑定/拒绝提示、NPC25行静态归属与一次loseItem272、动态扣酒/消失偏序、正式208中档与末档fresh同步restore。静态命令计数不等于运行次数；首次hide/终态不保证全程不再现。"
+          },
+          {
+            "field": "dedupe",
+            "verdict": "verified-documentary-scope-only",
+            "independentConclusion": "历史reviewed/against003、005及#历史保留；只saves能进入005前驱窄合同。本轮不重审003/005整篇或产品测试排重，不加运行/覆盖计数。"
+          },
+          {
+            "field": "claims",
+            "verdict": "verified-documentary-scope-only",
+            "independentConclusion": "单个source-backed claim的7locator与7sourceRefs对应，未升runtime-backed；实际改为runtime-backed的owned IO负控拒绝缺execution/artifacts。"
+          },
+          {
+            "field": "runtimeExecution",
+            "verdict": "verified-documentary-scope-only",
+            "independentConclusion": "performed=false/rawnotpresent是原审计checkout时点；新治理明确15个metadata探测来自冻结harvest而非新探测，不否认原历史运行。"
+          },
+          {
+            "field": "findings",
+            "verdict": "verified-documentary-scope-only",
+            "independentConclusion": "六条原日期/顺序/数字全部保留。10-08尚未冻结及10-06待采集只归当时；9a488六case、failed comparison、receipt-only及非零browser warnings分开。"
+          },
+          {
+            "field": "artifacts",
+            "verdict": "verified-documentary-scope-only",
+            "independentConclusion": "原[]未填docs日志或猜造六目录。完整comparison.children/游戏raw未打开，15定位含basename/派生名的不确定性，Owner/retention仍unknown。"
+          },
+          {
+            "field": "history",
+            "verdict": "verified-documentary-scope-only",
+            "independentConclusion": "原d022/10-04/notRun顺序与旧_governance完整对象保留；新作者false和pending不恢复R60旧完成或自签独立验收。"
+          }
+        ],
+        "independentReadScopes": [
+          {
+            "source": "originaldc478/currentbeforea233/fixed2de e2e004 JSON",
+            "scope": "All115/132/648 lines full, includingall16fields/allnewgovernance; exactnative/prefix preservation actualchecked"
+          },
+          {
+            "source": "scripts/e2e/meal-contract.mjs",
+            "scope": "Full1-927, allfunctions; readMealContract NOTinvoked; referenced raw events,projects authoringdata/locale NOTopened"
+          },
+          {
+            "source": "scripts/e2e/meal-journey.mjs",
+            "scope": "Full1-1082; no runMealJourney/bootstrap/browser/context/menu/save/capture launched"
+          },
+          {
+            "source": "scripts/e2e/meal-observer.mjs",
+            "scope": "Full1-895; DTO/hooks/budgets/actualrender definitions only, no instrumentation/production invocation"
+          },
+          {
+            "source": "meal-trace-plugin.mjs/menu.mjs/both.mjs/opening-frame.mjs",
+            "scope": "Full275/57/114/58 respectively; ASTtransform/children/parity/DOM/Canvasproducer NOTexecuted"
+          },
+          {
+            "source": "meal-game/reforge bridges andconfigs",
+            "scope": "Both3linebridges andboth3lineconfigs complete. BaseViteconfigs notfollowed"
+          },
+          {
+            "source": "package.json/kitchen-contract.mjs/inn-contract.mjs/errand-contract.mjs/reforge-opening-policy.mjs/browser-journey.mjs",
+            "scope": "15-28 /1-35 /206-228 /427-451 /75-91 /175-224 respectively. Onlynecessaryexport/caller/readiness/restore/freshcontext/warnings boundaries, notwholedependentbusinessfiles"
+          },
+          {
+            "source": "canonical004 report",
+            "scope": "1-78,98-125,159-190 only; notfull319 or oldgame raw/task/visualreceipts"
+          },
+          {
+            "source": "catalog/templates",
+            "scope": "Wholee2e004entry plusactual sourcepair/index consumers; currenttestmachine topmetadata+complete document-audit-v2variant. Notallcatalogbusinessfields/other templatevariants semantically reviewed; generic46lineexample read earlier underunchanged2e8dSHA, notrelabelledfreshfullread"
+          },
+          {
+            "source": "historical/current versions",
+            "scope": "Only character168/170 and RF SAVE_VERSION declaration matches inGit9a488/d022/current2de; fullfilehash isidentity only"
+          },
+          {
+            "source": "E2Econtract/admission",
+            "scope": "98-149 and239-284 normative fullframe/dialogue/preview/hardstops; currentrootS08admissionsectiononly frozeninown/tmp withactualfileSHA/time, explicitlyWIPnotfixedcentral source"
+          },
+          {
+            "source": "existing meal-cases.test.mjs",
+            "scope": "1-170 readonlyfixturefactory and existing sourcecontracttest1-125/337-378 inspection; onlyreceiptfactory extracted forpureIOprobes, no oldtests invoked or altered"
+          },
+          {
+            "source": "author/harvest provenance",
+            "scope": "Authorreportfixedidentity+relevant source/field/readscope/limitations and11commandrows,82listedartifacts allbytes/sha;13selfrecord4files verifiedoutside82asdeclared. Harvestreport+102listedfileidentities only; no borrowingharvestfullread judgments."
+          }
+        ],
+        "originalSourceLocator": {
+          "reportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+          "scope": "Original full report retained with source challenges/controls/consumer results, not duplicated as a new report candidate."
+        }
+      },
+      "dedupe": {
+        "result": "One existing native evidence/canonical/catalog identity; no added runtime cases/testcount/coverage, adjacent body accepts stay separate.",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+          "docs/testing/e2e/stages/004-meal-and-save/report.md",
+          "e2e-003",
+          "e2e-004",
+          "e2e-005",
+          "e2e-006"
+        ]
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "S08-NATIVE-SCOPE",
+          "status": "fixed-body-independently-accepted",
+          "statement": "5686B current native prefix/16 orderedfields and old_governance preserved; original-source formatting distinct."
+        },
+        {
+          "id": "S08-ACTUAL-PRODUCT-PREREQUISITES",
+          "status": "unknown-not-executed",
+          "statement": "No original six game-case/raw/children/save/pixels/audio/Owner-retention validation; [] artifacts remains native."
+        },
+        {
+          "id": "S08-V6-AND-ACTUAL-CENTRAL",
+          "status": "exact-tool-accepted-actual-successor-central-pending",
+          "statement": "Exactv6/v7 actual consumer accepted separately, current real central combination remains pending."
+        }
+      ],
+      "revision": {
+        "currentSha": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "Specific fixed body received independent scoped acceptance; central entry prepared separately",
+            "rootPreparedAtRevision": "15711390bc5f69d21fa9a240985d5bb703c08d29",
+            "previousAfterSha256": "1841bf204edf6724d3dd81f96e29a4189d5ad59c64fa26e8bf77da243155a2b2",
+            "afterSha256": "d66f23fcb531dfff8a34832559daabdc7bb9149933ead78bdef808c257381562"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "actual-per-document-nonauthor-semantic-review-original-raw-reference",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d.gz",
+        "reportSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+        "storedSha256": "bad3899b30ce7755448ac555e6e99244cba3509991de53077b8a5e9484d04752",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d.gz",
+          "encoding": "gzip",
+          "payloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+          "payloadBytes": 44036,
+          "storedSha256": "bad3899b30ce7755448ac555e6e99244cba3509991de53077b8a5e9484d04752",
+          "storedBytes": 11913,
+          "producerTask": "/root/receipt_integrity_independent",
+          "authorTask": "/root/e2e_entry_semantic_author",
+          "reviewerTask": "/root/receipt_integrity_independent",
+          "sourceRevision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+          "scope": "Only fixed S08 native evidence document body and1.5/document-audit-v2 template; no actual central/global/product credit.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 exact per-document semantic review entry and private explicit intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original one-off governance review output with original failures and actual read limits; not an existing canonical document migrated to raw.",
+          "exitCondition": "Retain for audit/replay; no automatic deletion or existing candidate exemption."
+        },
+        "sourceRevision": "2de6ffcf847fdb8e5b24e5311445ba091a8d41a9",
+        "reviewer": "/root/receipt_integrity_independent",
+        "author": "/root/e2e_entry_semantic_author",
+        "nonAuthorReviewer": true,
+        "acceptance": "Only fixed S08 body and1.5/document-audit-v2 template, no central/global/product route acceptance.",
+        "nativePreservation": {
+          "original": {
+            "revision": "dc478db11c6b52c4e50a1d1135f8a4740796418c",
+            "gitObject": "1f85d0ba7afe5b8b195255dd97ee3cbbae7e544c",
+            "bytes": 5679,
+            "lines": 115,
+            "sha256": "23cb02d86a090a91448b1b092d0bd13aa7e996f1f0fc6723a8ef34f0e50d1757"
+          },
+          "before": {
+            "revision": "a233aff8cab85a7bacab3b91fddba2fb1e541316",
+            "bytes": 6658,
+            "lines": 132,
+            "sha256": "1841bf204edf6724d3dd81f96e29a4189d5ad59c64fa26e8bf77da243155a2b2"
+          },
+          "after": {
+            "bytes": 41684,
+            "lines": 648,
+            "sha256": "d66f23fcb531dfff8a34832559daabdc7bb9149933ead78bdef808c257381562"
+          },
+          "native16OrderedCompactSerializationEqualsOriginal": true,
+          "prefix": {
+            "bytes": 5686,
+            "sha256": "bc0eafb4eaf7829edb4497586e68ac109dfcc9375a4903b4237dfde2dcf0c630",
+            "exact": true
+          },
+          "prefixMeaning": "Only current before/after5686B byte prefix equality. Original115-line5679B formatting differs; no original-source byte-roundtrip claim.",
+          "oldGovernanceObjectRetained": true,
+          "fieldReadingKeys": [
+            "schemaVersion",
+            "id",
+            "kind",
+            "status",
+            "candidateSha",
+            "versions",
+            "sourceRefs",
+            "publicCallers",
+            "legalInputs",
+            "businessOracle",
+            "dedupe",
+            "claims",
+            "runtimeExecution",
+            "findings",
+            "artifacts",
+            "history"
+          ],
+          "onlyGovernanceTargetInCompleteAuthorRange": true,
+          "noArtifactOnlyShortcutAdded": true,
+          "nativeArtifactsUnchangedEmpty": true
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "R60 mechanical/artifact envelope credit remains withdrawn; new actually reviewed fixed body has a separate pending binding.",
+          "priorRecord": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+          "priorRecordRevision": "15711390bc5f69d21fa9a240985d5bb703c08d29",
+          "priorRecordSha256": "cba224dcf79c34c275074ecfd75dd0742006bbafe2d918131a4869b086b76e7a",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "priorMechanicalEvidence": {
+            "kind": "json-artifact-envelope",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r60-testing-e2e-entry-20261017.json",
+            "sourceSha256": "23cb02d86a090a91448b1b092d0bd13aa7e996f1f0fc6723a8ef34f0e50d1757",
+            "candidateSha256": "1841bf204edf6724d3dd81f96e29a4189d5ad59c64fa26e8bf77da243155a2b2",
+            "afterSha256": "1841bf204edf6724d3dd81f96e29a4189d5ad59c64fa26e8bf77da243155a2b2",
+            "lineCount": 132,
+            "artifactPreserved": false,
+            "originalPreservation": {
+              "method": "non-overwriting _governance envelope",
+              "sourceBytes": 5679,
+              "sourceLines": 115,
+              "sourceFinalNewline": true,
+              "inverseSha256": "23cb02d86a090a91448b1b092d0bd13aa7e996f1f0fc6723a8ef34f0e50d1757",
+              "exactRoundTrip": false,
+              "topLevelShape": "object",
+              "topLevelFields": [
+                "schemaVersion",
+                "id",
+                "kind",
+                "status",
+                "candidateSha",
+                "versions",
+                "sourceRefs",
+                "publicCallers",
+                "legalInputs",
+                "businessOracle",
+                "dedupe",
+                "claims",
+                "runtimeExecution",
+                "findings",
+                "artifacts",
+                "history"
+              ]
+            },
+            "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+          }
+        },
+        {
+          "date": "2026-10-18",
+          "action": "Explicit fixed-body unique successor binding after separately accepted original body, exact consumer and firstactualS07 centralpilot; successor composition still pending.",
+          "sourceRevision": "c2d4ab9478d23bdba2fd2f185363a3267bb86836",
+          "consumerEvidence": {
+            "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/v6-independent-sealed-originals/0b56abaa16aa5db80871edc8b269860ca304d67501ce9d40d85c86c94ff853aa.gz",
+            "encoding": "gzip",
+            "payloadSha256": "0b56abaa16aa5db80871edc8b269860ca304d67501ce9d40d85c86c94ff853aa",
+            "payloadBytes": 70557,
+            "storedSha256": "b054f30bdde3e5946b48518fd8627ab34f638a2bf20fe64f50c32651d611198d",
+            "storedBytes": 18887,
+            "producerTask": "/root/receipt_integrity_independent",
+            "authorTask": "/root",
+            "reviewerTask": "/root/receipt_integrity_independent",
+            "sourceRevision": "1e6235db7fc5a4eee53be4d6ff44245ecf7bd91bab03f6c3ef04ac49fd8df889",
+            "scope": "Only exactv6 S08/S09 raw tuples/actual IO accepted. 3-root131input fixture,3positives4negatives+realbodyguardcounter; inherited unchangedv5, not114DAG or actualcentral. Originalv1 counttypo/actualraw preserved.",
+            "owner": "Codex documentation governance evidence",
+            "caller": "DOCS-FULL-TEMPLATE-1 exact central intake acknowledgment and tool authorization source",
+            "associatedTask": "DOCS-FULL-TEMPLATE-1",
+            "retentionReason": "Immutable one-off independent output; no report self-body credit, existing candidate movement or automatic successor acceptance.",
+            "exitCondition": "Retain original for replay/audit; no automatic deletion."
+          },
+          "firstActualPilotReportPayloadSha256": "5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b",
+          "actualSuccessorCentralAccepted": false
+        }
+      ],
+      "historicalWithdrawal": {
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "scope": "Immutable1896/fivequarantines unchanged, no bulk restoration."
+      },
+      "supersedes": [
+        {
+          "record": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+          "revision": "15711390bc5f69d21fa9a240985d5bb703c08d29",
+          "scope": "Only this path binding; actual R60 current3 are common-issues,004,005. Other entries and order stay exact unless separately explicitly updated;006 is in a different historical pilot."
+        }
+      ],
+      "stopLine": "No native status/version/history rewrite, source→runtime claim, oldraw fabrication, adjacent/bulk credit, denominator removal or global/main/done acceptance.",
+      "sourceSha256": "1841bf204edf6724d3dd81f96e29a4189d5ad59c64fa26e8bf77da243155a2b2",
+      "afterSha256": "d66f23fcb531dfff8a34832559daabdc7bb9149933ead78bdef808c257381562",
+      "sourceGitRevision": "15711390bc5f69d21fa9a240985d5bb703c08d29",
+      "reviewedLines": "Distinct B read complete original115/before132/new648, meal contract927/journey1082/observer895/plugin275/menu57/both114/frame58 and exact necessary bounded dependencies. Generic46 template reused at identical SHA from earlier read; author harvest scopes are separately labelled. Root intake inherits B actual judgment, not a fresh full source review.",
+      "historyOverlay": false,
+      "documentStatus": "verified",
+      "beforeAfter": {
+        "before": "改前132行6658B已有通用治理封套；改为逐字段事实权/时点、完整或窄域primarySource、具体case/caller/oracle/producer边界、原治理限定history及反例。原115行5679B与现格式仅native对象等值；现5686B前缀、全部16key/值/键序/数组序/日期不变，不声称source字节逆回。",
+        "after": "004原16字段/7短ref与5686B现前缀保持，原115行5679B仅native有序等值、不虚称原字节逆回。verified/10-02出版、d022 source审计、9a488六case与本轮源码三时点分开。实际40=2取菜+13端菜+25送酒；story/items/saves每轨互斥，取消0/错误1/库存绑定/拒绝提示各有业务oracle；静态25行/loseItem272不等运行25次。仅saves正式208中档/末档fresh restore可成为005前驱；003消费者只核自己的core/route/hash/world，不继承额外choreography/Canvas。动态扣酒/隐藏偏序不证全程未再现；Game差异拒指定路径、RF仅记。纯IO和模板/出版通过，真实六case原件/完整帧/preview/当前运行仍未验。"
+      },
+      "templateConformance": {
+        "status": "fixed-body-independent-template-accepted",
+        "templateId": "test-machine-evidence-v1",
+        "templateVersion": "1.5.0",
+        "variant": "document-audit-v2",
+        "originalReportPayloadSha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d",
+        "scope": "Specific substantive field-bearing body and actual migrated/pair/publication consumers accepted; raw tuple extension and actual central composition remain separate."
+      }
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-005.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.5.0",
+      "templateVariant": "document-audit-v2",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "Distinct root reviewer read current140 and new616 all content including separate full16 field readings after output truncation; original123 ordered-native projection compared and identical values read through currentnative, no original/current bytes-equal claim. Fresh own005508/541/668/60/both106 plus exact source scopes; B c3f shared corpus inherited at identical SHAs, not root fresh full reads.",
+      "coreConclusion": "005原16字段/8短ref/6015B现前缀和旧治理、原日期保持；verified出版与source-backed/performedfalse不改。004完整saves admission与离线generic checkpoint多层分开，不能把同轨hash/world串都称完整producer。40/49/40与1/1/2静态行数分域，215后500→550唯一奖励不虚构217前上界；select565到515、arm522到282偏序与到家需不止一次实际commit。news同visit draw>=control且clear>control，不改成draw>clear；背景只证实际移动与最后control、不证五处全程；动态Canvas不强迫整hash相等。seq/globalOrder非atMs，384MiB物理预算和pool128不同；原wrapper失败/后续case复验/警告/版本按时点保留，不把后继结果倒回整轮。",
+      "truthAnchors": [
+        "docs/testing/e2e/evidence/e2e-005.json:1",
+        "docs/testing/e2e/evidence/e2e-005.json:141",
+        "docs/testing/e2e/stages/005-errands-and-news/report.md:1",
+        "scripts/e2e/errand-contract.mjs:1"
+      ],
+      "unresolved": [
+        "Exact v6/v7 per-tuple consumers and fixed157 S07 actual pilot accepted separately. This current successor central binding/transport/composition still requires distinct fixed-snapshot acceptance.",
+        "No original005raw/save/trace/pixels/producer/retention/full production save or complete canonical249 read; canonical only1-84/120-137/181-189/199-231.",
+        "Shared meal927/1082/895/plugin275 read by B inherited at exact hashes, not fresh root reads; full006business not granted by observer sharedprojection.",
+        "Current version22/min12 separate from9a48821/min10 and d02222/min11; no runtime/visual/preview/coverage renewal.",
+        "Other withdrawn bindings/five quarantines/full hardgate/main/done remain open."
+      ],
+      "nextStep": "Obtain distinct actual successor central acceptance; continue true per-document semantic review without adjacent/global/runtime credit.",
+      "phase": "testing",
+      "module": "S09-native-document-audit",
+      "capability": "errands-news-and-bounded-draw-order",
+      "owner": "Codex native evidence documentation maintenance",
+      "provenance": [
+        "Body author /root/e2e_entry_semantic_author",
+        "Distinct body reviewer /root",
+        "Root central entry adopts exact original report with stated source boundaries, no root fresh full read claimed for inherited sources."
+      ],
+      "primarySource": [
+        {
+          "path": "scripts/e2e/errand-contract.mjs",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "8816f6e279e0b8d16fe37ba37190303a8c9ba629debfd436e1fd5dd42bf11be0",
+          "scopeActuallyRead": "all1-508",
+          "reviewer": "/root"
+        },
+        {
+          "path": "scripts/e2e/errand-journey.mjs",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "3d0b3d74dc1f762708ba3f9e84ce35c4efef189600c8b61f6f6c4e69f93014b9",
+          "scopeActuallyRead": "all1-541",
+          "reviewer": "/root"
+        },
+        {
+          "path": "scripts/e2e/errand-observer.mjs",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "803318d912c65830fc48b960d4948f32c82db1f51136a5efd10fc39f68bcf0aa",
+          "scopeActuallyRead": "all1-668, last006 projection read but not006 business acceptance",
+          "reviewer": "/root"
+        },
+        {
+          "path": "scripts/e2e/errand-trace-plugin.mjs",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "3dd53e2f70215be39106af6413e3bd9d7bc9d2beee378957d9fbdd64e5ff50d6",
+          "scopeActuallyRead": "all1-60",
+          "reviewer": "/root"
+        },
+        {
+          "path": "scripts/e2e/errand-both.mjs",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "d490162f2ad60355311f75e281800d4ad9054bcd126764d4853728bff16865d2",
+          "scopeActuallyRead": "all1-106",
+          "reviewer": "/root"
+        },
+        {
+          "path": "scripts/e2e/errand-game.mjs",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "177ad8501907590f7d95264bce806bb446ebe845dda6826b7534abe017baf3d7",
+          "scopeActuallyRead": "all1-3",
+          "reviewer": "/root"
+        },
+        {
+          "path": "scripts/e2e/errand-reforge.mjs",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "3e7708e9d4823a1389178579a75f460adb610545937df4430117766618007954",
+          "scopeActuallyRead": "all1-3",
+          "reviewer": "/root"
+        },
+        {
+          "path": "scripts/e2e/errand-game.config.mts",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "bc2ca647bdc3253376deadb8c95528eff341f52733657f165ff4b2903bd6cad2",
+          "scopeActuallyRead": "all1-3, base config not followed",
+          "reviewer": "/root"
+        },
+        {
+          "path": "scripts/e2e/errand-reforge.config.mts",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "1f844ec24dff2445fd67686258e35a0e672dd44a035ee0cd031160f563770b40",
+          "scopeActuallyRead": "all1-3, base config not followed",
+          "reviewer": "/root"
+        },
+        {
+          "path": "scripts/e2e/evidence-recorder.mjs",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "24bd5a6f8d0ec836bee1968bd3be45a2629e94b87b4a00745a83d72dfcfd4963",
+          "scopeActuallyRead": "all1-141",
+          "reviewer": "/root"
+        },
+        {
+          "path": "scripts/e2e/long-evidence.mjs",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "655514f6221d30fa110e13adc0bb810eac41c479d162f1218ccde6769521771c",
+          "scopeActuallyRead": "all1-74",
+          "reviewer": "/root"
+        },
+        {
+          "path": "scripts/e2e/evidence-artifact.mjs",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "47eff14aaa4568eb94035c66f154af0a55af8c9e214a60c43ad7a832858846ee",
+          "scopeActuallyRead": "all1-88",
+          "reviewer": "/root"
+        },
+        {
+          "path": "scripts/e2e/restore-input-contract.mjs",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "1cd4e52238e80e5ee69f118eaca9bac4010706875685aafe78dc8779ae8602f5",
+          "scopeActuallyRead": "all1-49",
+          "reviewer": "/root"
+        },
+        {
+          "path": "scripts/e2e/snapshot-graph.mjs",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "929545a5703630573fbf16a3eb63e113467a5964bfd0aadbd86e890d85f2b123",
+          "scopeActuallyRead": "all1-185",
+          "reviewer": "/root"
+        },
+        {
+          "path": "scripts/e2e/reforge-actor-observation.mjs",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "0ba1f9a1029d341d9cd4ebba0231eed57ca906f47aec09d124b0a9feff0859be",
+          "scopeActuallyRead": "all1-17",
+          "reviewer": "/root"
+        },
+        {
+          "path": "scripts/e2e/opening-frame.mjs",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "d0e092a5d5b24650ff5edb704a71966bbba147ec0e30c4ff855f971af82c43e6",
+          "scopeActuallyRead": "all1-58",
+          "reviewer": "/root"
+        },
+        {
+          "path": "scripts/e2e/reforge-opening-policy.mjs",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "eac9c3dc8ccec1b8b4f8699c26c40eff85ad62632b32d58899280cfaba7be9e8",
+          "scopeActuallyRead": "75-91 openingSaveView",
+          "reviewer": "/root"
+        },
+        {
+          "path": "scripts/e2e/kitchen-contract.mjs",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634",
+          "scopeActuallyRead": "1-35 readiness/coordinates",
+          "reviewer": "/root"
+        },
+        {
+          "path": "scripts/e2e/inn-contract.mjs",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+          "scopeActuallyRead": "206-228 sync restore",
+          "reviewer": "/root"
+        },
+        {
+          "path": "scripts/e2e/meal-contract.mjs",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "811e6a262c332ad7f9c1608df3cc11d6d8fcd995a39db72bda3aa41a342ea4ad",
+          "scopeActuallyRead": "344-395 mealSaveView prefix;655-745 complete assertMealDialogue655-699 plus following collector prefix, notfull927 here",
+          "reviewer": "/root"
+        },
+        {
+          "path": "scripts/e2e/browser-journey.mjs",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "659926f4cf627c36470515adfe5aab0ec7d33fcf8b8153113e9a78c33ca201a1",
+          "scopeActuallyRead": "175-224 context/IndexedDB/warnings",
+          "reviewer": "/root"
+        },
+        {
+          "path": "docs/testing/e2e/stages/005-shrimp/report.md",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "9f7a6022c2cca3999e2adc67432e256fa273bb2741bb6aca3bb7b7e83c9146e2",
+          "scopeActuallyRead": "1-84/120-137/181-189/199-231; notfull249",
+          "reviewer": "/root"
+        },
+        {
+          "path": "package.json",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "259820fcdc312e11ce297a83074ce168e5a9612f2016ae6d2acb5a308dd62224",
+          "scopeActuallyRead": "28-35:005callers/aliases,006onlydiscovery",
+          "reviewer": "/root"
+        },
+        {
+          "path": "docs/testing/e2e/contract.md",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f",
+          "scopeActuallyRead": "98-149/239-284 actual frame/dialogue/minimalrerun/preview hard boundaries",
+          "reviewer": "/root"
+        },
+        {
+          "path": "docs/testing/e2e/evidence/e2e-005.json",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "1e50d535c2b16aa466207da22e698768bd5abb1cd88a0323ae4e16504fe172f1",
+          "scopeActuallyRead": "Current140 complete and new616 allcontent read across complete Gitoutput plus separately emitted full16fieldReadings after tool output truncation; original123 native ordered projection compared and its identical values read through current native body. No claim original/current bytes equal.",
+          "reviewer": "/root"
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing/phase1/phase2",
+        "scope": "Native source/publication documentary semantics; independent production/runtime/visual/coverage obligations remain."
+      },
+      "dependencies": [
+        "scripts/e2e/errand-contract.mjs",
+        "scripts/e2e/errand-journey.mjs",
+        "scripts/e2e/errand-observer.mjs",
+        "scripts/e2e/errand-trace-plugin.mjs",
+        "scripts/e2e/errand-both.mjs",
+        "scripts/e2e/errand-game.mjs",
+        "scripts/e2e/errand-reforge.mjs",
+        "scripts/e2e/errand-game.config.mts",
+        "scripts/e2e/errand-reforge.config.mts",
+        "scripts/e2e/evidence-recorder.mjs",
+        "scripts/e2e/long-evidence.mjs",
+        "scripts/e2e/evidence-artifact.mjs",
+        "scripts/e2e/restore-input-contract.mjs",
+        "scripts/e2e/snapshot-graph.mjs",
+        "scripts/e2e/reforge-actor-observation.mjs",
+        "scripts/e2e/opening-frame.mjs",
+        "scripts/e2e/reforge-opening-policy.mjs",
+        "scripts/e2e/kitchen-contract.mjs",
+        "scripts/e2e/inn-contract.mjs",
+        "scripts/e2e/meal-contract.mjs",
+        "scripts/e2e/browser-journey.mjs",
+        "docs/testing/e2e/stages/005-shrimp/report.md",
+        "package.json",
+        "docs/testing/e2e/contract.md"
+      ],
+      "versionScope": {
+        "candidateCommit": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+        "nativeHistoricalCandidate": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "nativeHistoricalVersions": {
+          "content": 22,
+          "minimumSave": 11
+        },
+        "currentSourceContentMinimumRF": [22, 12, 12],
+        "gameSave": "Separate native game gs format, not RF SAVE_VERSION",
+        "notPerformed": [
+          "product tests",
+          "game/runtime/browser",
+          "public E2E run",
+          "raw/save/screenshot/producer validation",
+          "preview/visual/audio/coverage"
+        ]
+      },
+      "publicCallers": [
+        "docs/testing/catalog.json exact unique e2e-005 publication identity",
+        "docs/testing/e2e/stages/005-errands-and-news/report.md existing canonical/testing-meta pair",
+        "scripts/docs/check-testing.mjs actual public evidence reader"
+      ],
+      "legalInputs": [
+        "Preserve16 native values,topkey/array/date order,sourceRefs and exact current prefix; no payload restructuring.",
+        "Actual product input requires legitimate same-engine predecessor/save/producer/version; synthetic source probes are narrow IO/record fixtures, not complete gameplay.",
+        "Use existing1.5/document-audit-v2 publication axis and performedfalse without historical date/version renewal."
+      ],
+      "businessOracle": {
+        "type": "S09-native-field-meaning-and-source-specific-oracle",
+        "assertions": [
+          "005 input requires004 saves-case predecessor validity and unique receipt-specific runtime/source/digest checks; offline generic checkpoint reader is a narrower layer.",
+          "Source40/49/40 rows and1/1/2 instruction domains; sole215500→550 reward bound, pick565→515 and arm522→282 order, arrival multiple actualcommits.",
+          "Atomicnews allows draw==control while clear>control in samevisit; background boundedcommit observation only, dynamicCanvas free to change; no strengthenedfalseoracle.",
+          "Collector seq/globalOrder, slot/action phases, archive physical384MiB and eventpool128 independent; originalfailed wrapper/warnings plus latercase results retain distinct provenance."
+        ],
+        "independentFieldAssessment": {
+          "count": 16,
+          "coverage": "Exactly each native key in same order has distinct factOwner and field reading; schema/id/kind/status/candidate/versions/refs/caller/input/oracle/dedupe/claim/runtime/findings/artifact/history all assessed against native or specific source/time scope.",
+          "sourceRefs": 8,
+          "primaryIdentityPins": 38,
+          "sourcePinCaveat": "All38 full Gitidentity pins matched independently; this does not expand root read scopes or turn sameSHA inheritance into fresh full reads.",
+          "counterexamples": "Six distinct candidate alternatives separate predecessor layers, unique reward bounds, atomicnews order, finite background inference, dynamicCanvas and wrapper/receipt history. No new candidate counter found."
+        },
+        "independentReadScopes": {
+          "body": "Current140 complete and new616 allcontent read across complete Gitoutput plus separately emitted full16fieldReadings after tool output truncation; original123 native ordered projection compared and its identical values read through current native body. No claim original/current bytes equal.",
+          "sources": [
+            {
+              "path": "scripts/e2e/errand-contract.mjs",
+              "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+              "sha256": "8816f6e279e0b8d16fe37ba37190303a8c9ba629debfd436e1fd5dd42bf11be0",
+              "totalLines": 508,
+              "actualRootReadScope": "all1-508",
+              "identityOfFullFileOutsideScopeNotSemanticCredit": true
+            },
+            {
+              "path": "scripts/e2e/errand-journey.mjs",
+              "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+              "sha256": "3d0b3d74dc1f762708ba3f9e84ce35c4efef189600c8b61f6f6c4e69f93014b9",
+              "totalLines": 541,
+              "actualRootReadScope": "all1-541",
+              "identityOfFullFileOutsideScopeNotSemanticCredit": true
+            },
+            {
+              "path": "scripts/e2e/errand-observer.mjs",
+              "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+              "sha256": "803318d912c65830fc48b960d4948f32c82db1f51136a5efd10fc39f68bcf0aa",
+              "totalLines": 668,
+              "actualRootReadScope": "all1-668, last006 projection read but not006 business acceptance",
+              "identityOfFullFileOutsideScopeNotSemanticCredit": true
+            },
+            {
+              "path": "scripts/e2e/errand-trace-plugin.mjs",
+              "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+              "sha256": "3dd53e2f70215be39106af6413e3bd9d7bc9d2beee378957d9fbdd64e5ff50d6",
+              "totalLines": 60,
+              "actualRootReadScope": "all1-60",
+              "identityOfFullFileOutsideScopeNotSemanticCredit": true
+            },
+            {
+              "path": "scripts/e2e/errand-both.mjs",
+              "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+              "sha256": "d490162f2ad60355311f75e281800d4ad9054bcd126764d4853728bff16865d2",
+              "totalLines": 106,
+              "actualRootReadScope": "all1-106",
+              "identityOfFullFileOutsideScopeNotSemanticCredit": true
+            },
+            {
+              "path": "scripts/e2e/errand-game.mjs",
+              "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+              "sha256": "177ad8501907590f7d95264bce806bb446ebe845dda6826b7534abe017baf3d7",
+              "totalLines": 3,
+              "actualRootReadScope": "all1-3",
+              "identityOfFullFileOutsideScopeNotSemanticCredit": true
+            },
+            {
+              "path": "scripts/e2e/errand-reforge.mjs",
+              "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+              "sha256": "3e7708e9d4823a1389178579a75f460adb610545937df4430117766618007954",
+              "totalLines": 3,
+              "actualRootReadScope": "all1-3",
+              "identityOfFullFileOutsideScopeNotSemanticCredit": true
+            },
+            {
+              "path": "scripts/e2e/errand-game.config.mts",
+              "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+              "sha256": "bc2ca647bdc3253376deadb8c95528eff341f52733657f165ff4b2903bd6cad2",
+              "totalLines": 3,
+              "actualRootReadScope": "all1-3, base config not followed",
+              "identityOfFullFileOutsideScopeNotSemanticCredit": true
+            },
+            {
+              "path": "scripts/e2e/errand-reforge.config.mts",
+              "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+              "sha256": "1f844ec24dff2445fd67686258e35a0e672dd44a035ee0cd031160f563770b40",
+              "totalLines": 3,
+              "actualRootReadScope": "all1-3, base config not followed",
+              "identityOfFullFileOutsideScopeNotSemanticCredit": true
+            },
+            {
+              "path": "scripts/e2e/evidence-recorder.mjs",
+              "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+              "sha256": "24bd5a6f8d0ec836bee1968bd3be45a2629e94b87b4a00745a83d72dfcfd4963",
+              "totalLines": 141,
+              "actualRootReadScope": "all1-141",
+              "identityOfFullFileOutsideScopeNotSemanticCredit": true
+            },
+            {
+              "path": "scripts/e2e/long-evidence.mjs",
+              "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+              "sha256": "655514f6221d30fa110e13adc0bb810eac41c479d162f1218ccde6769521771c",
+              "totalLines": 74,
+              "actualRootReadScope": "all1-74",
+              "identityOfFullFileOutsideScopeNotSemanticCredit": true
+            },
+            {
+              "path": "scripts/e2e/evidence-artifact.mjs",
+              "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+              "sha256": "47eff14aaa4568eb94035c66f154af0a55af8c9e214a60c43ad7a832858846ee",
+              "totalLines": 88,
+              "actualRootReadScope": "all1-88",
+              "identityOfFullFileOutsideScopeNotSemanticCredit": true
+            },
+            {
+              "path": "scripts/e2e/restore-input-contract.mjs",
+              "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+              "sha256": "1cd4e52238e80e5ee69f118eaca9bac4010706875685aafe78dc8779ae8602f5",
+              "totalLines": 49,
+              "actualRootReadScope": "all1-49",
+              "identityOfFullFileOutsideScopeNotSemanticCredit": true
+            },
+            {
+              "path": "scripts/e2e/snapshot-graph.mjs",
+              "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+              "sha256": "929545a5703630573fbf16a3eb63e113467a5964bfd0aadbd86e890d85f2b123",
+              "totalLines": 185,
+              "actualRootReadScope": "all1-185",
+              "identityOfFullFileOutsideScopeNotSemanticCredit": true
+            },
+            {
+              "path": "scripts/e2e/reforge-actor-observation.mjs",
+              "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+              "sha256": "0ba1f9a1029d341d9cd4ebba0231eed57ca906f47aec09d124b0a9feff0859be",
+              "totalLines": 17,
+              "actualRootReadScope": "all1-17",
+              "identityOfFullFileOutsideScopeNotSemanticCredit": true
+            },
+            {
+              "path": "scripts/e2e/opening-frame.mjs",
+              "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+              "sha256": "d0e092a5d5b24650ff5edb704a71966bbba147ec0e30c4ff855f971af82c43e6",
+              "totalLines": 58,
+              "actualRootReadScope": "all1-58",
+              "identityOfFullFileOutsideScopeNotSemanticCredit": true
+            },
+            {
+              "path": "scripts/e2e/reforge-opening-policy.mjs",
+              "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+              "sha256": "eac9c3dc8ccec1b8b4f8699c26c40eff85ad62632b32d58899280cfaba7be9e8",
+              "totalLines": 91,
+              "actualRootReadScope": "75-91 openingSaveView",
+              "identityOfFullFileOutsideScopeNotSemanticCredit": true
+            },
+            {
+              "path": "scripts/e2e/kitchen-contract.mjs",
+              "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+              "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634",
+              "totalLines": 655,
+              "actualRootReadScope": "1-35 readiness/coordinates",
+              "identityOfFullFileOutsideScopeNotSemanticCredit": true
+            },
+            {
+              "path": "scripts/e2e/inn-contract.mjs",
+              "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+              "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+              "totalLines": 653,
+              "actualRootReadScope": "206-228 sync restore",
+              "identityOfFullFileOutsideScopeNotSemanticCredit": true
+            },
+            {
+              "path": "scripts/e2e/meal-contract.mjs",
+              "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+              "sha256": "811e6a262c332ad7f9c1608df3cc11d6d8fcd995a39db72bda3aa41a342ea4ad",
+              "totalLines": 927,
+              "actualRootReadScope": "344-395 mealSaveView prefix;655-745 complete assertMealDialogue655-699 plus following collector prefix, notfull927 here",
+              "identityOfFullFileOutsideScopeNotSemanticCredit": true
+            },
+            {
+              "path": "scripts/e2e/browser-journey.mjs",
+              "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+              "sha256": "659926f4cf627c36470515adfe5aab0ec7d33fcf8b8153113e9a78c33ca201a1",
+              "totalLines": 300,
+              "actualRootReadScope": "175-224 context/IndexedDB/warnings",
+              "identityOfFullFileOutsideScopeNotSemanticCredit": true
+            },
+            {
+              "path": "docs/testing/e2e/stages/005-shrimp/report.md",
+              "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+              "sha256": "9f7a6022c2cca3999e2adc67432e256fa273bb2741bb6aca3bb7b7e83c9146e2",
+              "totalLines": 249,
+              "actualRootReadScope": "1-84/120-137/181-189/199-231; notfull249",
+              "identityOfFullFileOutsideScopeNotSemanticCredit": true
+            },
+            {
+              "path": "package.json",
+              "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+              "sha256": "259820fcdc312e11ce297a83074ce168e5a9612f2016ae6d2acb5a308dd62224",
+              "totalLines": 71,
+              "actualRootReadScope": "28-35:005callers/aliases,006onlydiscovery",
+              "identityOfFullFileOutsideScopeNotSemanticCredit": true
+            },
+            {
+              "path": "docs/testing/e2e/contract.md",
+              "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+              "sha256": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f",
+              "totalLines": 548,
+              "actualRootReadScope": "98-149/239-284 actual frame/dialogue/minimalrerun/preview hard boundaries",
+              "identityOfFullFileOutsideScopeNotSemanticCredit": true
+            }
+          ],
+          "template": "Actual base test-machine-evidence tuple/required audit-v2 JSON metadata/status/values via actual full migrated consumer; not all17families semantic rereview.",
+          "publication": "One whole005 catalog entry and matching canonical metadata/pair plus listed canonical selected history only."
+        },
+        "originalSourceLocator": {
+          "reportPayloadSha256": "b4190c6c6af1c3fe4ab54a6a2e096251cd78a2187be732ed65402445acc22d5f",
+          "scope": "Original full report retained with source challenges/controls/consumer results, not duplicated as a new report candidate."
+        }
+      },
+      "dedupe": {
+        "result": "One existing native evidence/canonical/catalog identity; no added runtime cases/testcount/coverage, adjacent body accepts stay separate.",
+        "against": [
+          "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+          "docs/testing/e2e/stages/005-errands-and-news/report.md",
+          "e2e-003",
+          "e2e-004",
+          "e2e-005",
+          "e2e-006"
+        ]
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "S09-NATIVE-SCOPE",
+          "status": "fixed-body-independently-accepted",
+          "statement": "6015B current native prefix/16 orderedfields and old_governance preserved; original-source formatting distinct."
+        },
+        {
+          "id": "S09-ACTUAL-PRODUCT-PREREQUISITES",
+          "status": "unknown-not-executed",
+          "statement": "No original005raw/save/trace/pixels/producer/retention/full production save or complete canonical249 read; canonical only1-84/120-137/181-189/199-231."
+        },
+        {
+          "id": "S09-V6-AND-ACTUAL-CENTRAL",
+          "status": "exact-tool-accepted-actual-successor-central-pending",
+          "statement": "Exactv6/v7 actual consumer accepted separately, current real central combination remains pending."
+        }
+      ],
+      "revision": {
+        "currentSha": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "Specific fixed body received independent scoped acceptance; central entry prepared separately",
+            "rootPreparedAtRevision": "15711390bc5f69d21fa9a240985d5bb703c08d29",
+            "previousAfterSha256": "188f58a96c87e19ab82ee05e5ba209e0d63cf189f42e634e3cc98f30d3c24530",
+            "afterSha256": "1e50d535c2b16aa466207da22e698768bd5abb1cd88a0323ae4e16504fe172f1"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "actual-per-document-nonauthor-semantic-review-original-raw-reference",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/b4190c6c6af1c3fe4ab54a6a2e096251cd78a2187be732ed65402445acc22d5f.gz",
+        "reportSha256": "b4190c6c6af1c3fe4ab54a6a2e096251cd78a2187be732ed65402445acc22d5f",
+        "storedSha256": "0b8138d2bea5c41a3dca3ef0337b673ef15a54b31cc52a3384060baa80d3a480",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/b4190c6c6af1c3fe4ab54a6a2e096251cd78a2187be732ed65402445acc22d5f.gz",
+          "encoding": "gzip",
+          "payloadSha256": "b4190c6c6af1c3fe4ab54a6a2e096251cd78a2187be732ed65402445acc22d5f",
+          "payloadBytes": 20747,
+          "storedSha256": "0b8138d2bea5c41a3dca3ef0337b673ef15a54b31cc52a3384060baa80d3a480",
+          "storedBytes": 6709,
+          "producerTask": "/root",
+          "authorTask": "/root/e2e_entry_semantic_author",
+          "reviewerTask": "/root",
+          "sourceRevision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "scope": "Only fixed S09 native evidence document body and1.5/document-audit-v2 template; no actual central/global/product credit.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 exact per-document semantic review entry and private explicit intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original one-off governance review output with original failures and actual read limits; not an existing canonical document migrated to raw.",
+          "exitCondition": "Retain for audit/replay; no automatic deletion or existing candidate exemption."
+        },
+        "sourceRevision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+        "reviewer": "/root",
+        "author": "/root/e2e_entry_semantic_author",
+        "nonAuthorReviewer": true,
+        "acceptance": "Only fixed S09 body and1.5/document-audit-v2 template, no central/global/product route acceptance.",
+        "nativePreservation": {
+          "bodySha256": "1e50d535c2b16aa466207da22e698768bd5abb1cd88a0323ae4e16504fe172f1",
+          "nativeFields": 16,
+          "nativeOrderedProjectionEqual": true,
+          "nativePrefixBytes": 6015,
+          "nativePrefixSha256": "41aa6c3e7815c96d1832cb7c192637fdee6214ef6a4da1a7b0652534530a236a",
+          "originalNativeBytesEqual": false,
+          "oldGovernanceOrderedPreserved": true
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "R60 mechanical/artifact envelope credit remains withdrawn; new actually reviewed fixed body has a separate pending binding.",
+          "priorRecord": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+          "priorRecordRevision": "15711390bc5f69d21fa9a240985d5bb703c08d29",
+          "priorRecordSha256": "cba224dcf79c34c275074ecfd75dd0742006bbafe2d918131a4869b086b76e7a",
+          "priorClaimCorrection": {
+            "date": "2026-10-18",
+            "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+            "priorRecordPath": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+            "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
+            "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+            "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
+          },
+          "priorMechanicalEvidence": {
+            "kind": "json-artifact-envelope",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r60-testing-e2e-entry-20261017.json",
+            "sourceSha256": "fd0ff353a2aab63987fc54ea50edddaf94ecf81adaeaba1d0a514ce675466d89",
+            "candidateSha256": "188f58a96c87e19ab82ee05e5ba209e0d63cf189f42e634e3cc98f30d3c24530",
+            "afterSha256": "188f58a96c87e19ab82ee05e5ba209e0d63cf189f42e634e3cc98f30d3c24530",
+            "lineCount": 140,
+            "artifactPreserved": false,
+            "originalPreservation": {
+              "method": "non-overwriting _governance envelope",
+              "sourceBytes": 6008,
+              "sourceLines": 123,
+              "sourceFinalNewline": true,
+              "inverseSha256": "fd0ff353a2aab63987fc54ea50edddaf94ecf81adaeaba1d0a514ce675466d89",
+              "exactRoundTrip": false,
+              "topLevelShape": "object",
+              "topLevelFields": [
+                "schemaVersion",
+                "id",
+                "kind",
+                "status",
+                "candidateSha",
+                "versions",
+                "sourceRefs",
+                "publicCallers",
+                "legalInputs",
+                "businessOracle",
+                "dedupe",
+                "claims",
+                "runtimeExecution",
+                "findings",
+                "artifacts",
+                "history"
+              ]
+            },
+            "currentCredit": "mechanical preservation/registration only; prior semantic or independent claims withdrawn"
+          }
+        },
+        {
+          "date": "2026-10-18",
+          "action": "Explicit fixed-body unique successor binding after separately accepted original body, exact consumer and firstactualS07 centralpilot; successor composition still pending.",
+          "sourceRevision": "c2d4ab9478d23bdba2fd2f185363a3267bb86836",
+          "consumerEvidence": {
+            "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/v6-independent-sealed-originals/0b56abaa16aa5db80871edc8b269860ca304d67501ce9d40d85c86c94ff853aa.gz",
+            "encoding": "gzip",
+            "payloadSha256": "0b56abaa16aa5db80871edc8b269860ca304d67501ce9d40d85c86c94ff853aa",
+            "payloadBytes": 70557,
+            "storedSha256": "b054f30bdde3e5946b48518fd8627ab34f638a2bf20fe64f50c32651d611198d",
+            "storedBytes": 18887,
+            "producerTask": "/root/receipt_integrity_independent",
+            "authorTask": "/root",
+            "reviewerTask": "/root/receipt_integrity_independent",
+            "sourceRevision": "1e6235db7fc5a4eee53be4d6ff44245ecf7bd91bab03f6c3ef04ac49fd8df889",
+            "scope": "Only exactv6 S08/S09 raw tuples/actual IO accepted. 3-root131input fixture,3positives4negatives+realbodyguardcounter; inherited unchangedv5, not114DAG or actualcentral. Originalv1 counttypo/actualraw preserved.",
+            "owner": "Codex documentation governance evidence",
+            "caller": "DOCS-FULL-TEMPLATE-1 exact central intake acknowledgment and tool authorization source",
+            "associatedTask": "DOCS-FULL-TEMPLATE-1",
+            "retentionReason": "Immutable one-off independent output; no report self-body credit, existing candidate movement or automatic successor acceptance.",
+            "exitCondition": "Retain original for replay/audit; no automatic deletion."
+          },
+          "firstActualPilotReportPayloadSha256": "5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b",
+          "actualSuccessorCentralAccepted": false
+        }
+      ],
+      "historicalWithdrawal": {
+        "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
+        "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
+        "scope": "Immutable1896/fivequarantines unchanged, no bulk restoration."
+      },
+      "supersedes": [
+        {
+          "record": "docs/phase-governance/reviews/20261017-r60-testing-e2e-entry.json",
+          "revision": "15711390bc5f69d21fa9a240985d5bb703c08d29",
+          "scope": "Only this path binding; actual R60 current3 are common-issues,004,005. Other entries and order stay exact unless separately explicitly updated;006 is in a different historical pilot."
+        }
+      ],
+      "stopLine": "No native status/version/history rewrite, source→runtime claim, oldraw fabrication, adjacent/bulk credit, denominator removal or global/main/done acceptance.",
+      "sourceSha256": "188f58a96c87e19ab82ee05e5ba209e0d63cf189f42e634e3cc98f30d3c24530",
+      "afterSha256": "1e50d535c2b16aa466207da22e698768bd5abb1cd88a0323ae4e16504fe172f1",
+      "sourceGitRevision": "15711390bc5f69d21fa9a240985d5bb703c08d29",
+      "reviewedLines": "Distinct root reviewer read current140 and new616 all content including separate full16 field readings after output truncation; original123 ordered-native projection compared and identical values read through currentnative, no original/current bytes-equal claim. Fresh own005508/541/668/60/both106 plus exact source scopes; B c3f shared corpus inherited at identical SHAs, not root fresh full reads.",
+      "historyOverlay": false,
+      "documentStatus": "verified",
+      "beforeAfter": {
+        "before": "原123行6008B与现140行6987B的native对象同值；现已有通用治理封套，改为逐字段/引用、具体caller/input/oracle/producer、精确读域和原治理历史。现6015B前缀与全部16原生key/值/键序/数组序/日期保持；不声称两份不同格式源字节直接逆回相等。",
+        "after": "005原16字段/8短ref/6015B现前缀和旧治理、原日期保持；verified出版与source-backed/performedfalse不改。004完整saves admission与离线generic checkpoint多层分开，不能把同轨hash/world串都称完整producer。40/49/40与1/1/2静态行数分域，215后500→550唯一奖励不虚构217前上界；select565到515、arm522到282偏序与到家需不止一次实际commit。news同visit draw>=control且clear>control，不改成draw>clear；背景只证实际移动与最后control、不证五处全程；动态Canvas不强迫整hash相等。seq/globalOrder非atMs，384MiB物理预算和pool128不同；原wrapper失败/后续case复验/警告/版本按时点保留，不把后继结果倒回整轮。"
+      },
+      "templateConformance": {
+        "status": "fixed-body-independent-template-accepted",
+        "templateId": "test-machine-evidence-v1",
+        "templateVersion": "1.5.0",
+        "variant": "document-audit-v2",
+        "originalReportPayloadSha256": "b4190c6c6af1c3fe4ab54a6a2e096251cd78a2187be732ed65402445acc22d5f",
+        "scope": "Specific substantive field-bearing body and actual migrated/pair/publication consumers accepted; raw tuple extension and actual central composition remain separate."
+      }
+    },
+    {
+      "path": "docs/testing/e2e/evidence/e2e-006.json",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "test-machine-evidence",
+      "templateId": "test-machine-evidence-v1",
+      "templateVersion": "1.5.0",
+      "templateVariant": "historical-execution-publication-v2",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "Distinct B read full original96/dc120/before120/new447 and16native/full new+old governance, boat unique sources plus exact bounded/shared prior scopes. Some own initial reads at prior405 are fixedb166 sameSHA and reverified; errand508 own full union, not author-S09 borrowed judgment. Root current120/admission and report adoption only, not all fresh boat source reads.",
+      "coreConclusion": "006原16native/3refs/5artifacts/4676B前缀及原governance保全；33cc96行4679B才是原源，当前dc120行不是。historical performedtrue与当前auditfalse分轴，沿既有1.5 historical-execution-publication-v2，不翻原true适配普通audit。source95=17+23+40+11+4含岛落地收尾；最小island+ready子谓词可过不能证明95正文原意。实际投影只选draw并可丢未绘commit；任意常量相对offset/up可过，不等正确canonical偏移，静止中段漂移反控可拒。terminal/真实slot continuation/rider resource各有独立源码合同；005真实reader与generic checkpoint分层，both只消费报告不启动两轨。当前doctor state2与旧state3、RF[0,0]/down与[-2,-4]/up保分时点未知。缺原1513/1516/1517、真实raw/slot/rider/完整SAVE12船链及视觉继续blocked，未认证历史执行真实性。",
+      "truthAnchors": [
+        "docs/testing/e2e/evidence/e2e-006.json:1",
+        "docs/testing/e2e/evidence/e2e-006.json:121",
+        "scripts/e2e/boat-contract.mjs:203",
+        "scripts/e2e/boat-observations.mjs:1",
+        "scripts/e2e/boat-terminal-contract.mjs:1",
+        "docs/testing/e2e/stages/006-doctor-boat/report.md:1"
+      ],
+      "unresolved": [
+        "Exact v6/v7 per-tuple consumers and fixed157 S07 actual pilot accepted separately. This current successor central binding/transport/composition still requires distinct fixed-snapshot acceptance.",
+        "Original data/extracted events1513/1516/1517 absent in isolated checkout; original95text/speakers/operands or game equivalence not established.",
+        "Actual raw/slot/rider resources and full SAVE12 boat chain/fullframes/visual/preview/coverage not executed or accepted.",
+        "Historicalstate3/offset-facing conflicts remain date-bounded unknown; no false choice of one historicalvalue.",
+        "Other withdrawn bindings/fivequarantines/global hardgates remain open."
+      ],
+      "nextStep": "Obtain distinct actual successor central acceptance; continue true per-document semantic review without adjacent/global/runtime credit.",
+      "phase": "testing",
+      "module": "e2e006-historical-execution-document-audit",
+      "capability": "doctor-island-terminal-and-rider-provenance-boundaries",
+      "owner": "Codex native evidence documentation maintenance",
+      "provenance": [
+        "Body author /root/e2e_entry_semantic_author",
+        "Distinct body reviewer /root/receipt_integrity_independent",
+        "Root central adoption preserves exact original B output/280manifest/external seal and5finalization artifacts; no root fresh primary-corpus claim."
+      ],
+      "primarySource": [
+        {
+          "path": "docs/testing/e2e/evidence/e2e-006.json",
+          "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+          "sha256": "9b6924236a790224ad4a3b3a305f15eaaa17e5acbd5b9e1876cd8e3c9272efbb",
+          "scopeActuallyRead": {
+            "authorReadScope": "原生96行4679B全文，固定外pin/blob a7148a1c5087e2fcef899cb79818560fc3dd7bc5。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+              "field": "actualReadScope",
+              "note": "B exact full/selected/inherited source domains separately listed; author scope is not relabelled B fresh full read."
+            }
+          }
+        },
+        {
+          "path": "docs/testing/e2e/evidence/e2e-006.json",
+          "revision": "de423f0ec1e1e4324b8fb6756e72ab41c2b9de4a",
+          "sha256": "0df03a5a578eff7a5ee8656961717d8b3a2380b2b5e0cb61220ae552963a574d",
+          "scopeActuallyRead": {
+            "authorReadScope": "改前120行6419B全文；dc478同字节已含旧治理，不混作原96行。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+              "field": "actualReadScope",
+              "note": "B exact full/selected/inherited source domains separately listed; author scope is not relabelled B fresh full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/boat-contract.mjs",
+          "revision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+          "sha256": "4ef36f2c720f18198b10644fb4312090148c58b9262cf5b7482d5d44fe2945cc",
+          "scopeActuallyRead": {
+            "authorReadScope": "S10 harvest全文237行；未调用readBoatContract。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+              "field": "actualReadScope",
+              "note": "B exact full/selected/inherited source domains separately listed; author scope is not relabelled B fresh full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/boat-reforge.mjs",
+          "revision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+          "sha256": "d5c648a90e22617c1d16b97964f3539c22625cc68836e5194c23802c0dd14b43",
+          "scopeActuallyRead": {
+            "authorReadScope": "S10 harvest全文3行，未启动。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+              "field": "actualReadScope",
+              "note": "B exact full/selected/inherited source domains separately listed; author scope is not relabelled B fresh full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/boat-journey.mjs",
+          "revision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+          "sha256": "fc976aa809bfca929ec6f09d81cd8b10e16339d2b270b6660e08ff90d30990f4",
+          "scopeActuallyRead": {
+            "authorReadScope": "S10 harvest全文364行，未运行。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+              "field": "actualReadScope",
+              "note": "B exact full/selected/inherited source domains separately listed; author scope is not relabelled B fresh full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/boat-game.mjs",
+          "revision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+          "sha256": "08e97140b8ac2376030b19a377f964a0307c3e33a371168b66cf51f52937d9dd",
+          "scopeActuallyRead": {
+            "authorReadScope": "S10 harvest全文447行，未import自启动入口。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+              "field": "actualReadScope",
+              "note": "B exact full/selected/inherited source domains separately listed; author scope is not relabelled B fresh full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/boat-both.mjs",
+          "revision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+          "sha256": "56602cadf73623c27376f353ec5320eb5d6990585cae4805f6e7978f25fa670d",
+          "scopeActuallyRead": {
+            "authorReadScope": "S10 harvest全文38行，未离线重放。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+              "field": "actualReadScope",
+              "note": "B exact full/selected/inherited source domains separately listed; author scope is not relabelled B fresh full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/boat-motion-evidence.mjs",
+          "revision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+          "sha256": "f98d4e51ef3ac333c51b42e72877a482651986fd78efbb3f53d72045bc7cbecf",
+          "scopeActuallyRead": {
+            "authorReadScope": "S10 harvest全文41行，未处理真实trace。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+              "field": "actualReadScope",
+              "note": "B exact full/selected/inherited source domains separately listed; author scope is not relabelled B fresh full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/boat-observations.mjs",
+          "revision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+          "sha256": "49e821df09aa47f45a4a486b3e979f18db5161860bc6d03e6b3586878ad9fb6e",
+          "scopeActuallyRead": {
+            "authorReadScope": "S10 harvest全文65行，仅合成helper观察。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+              "field": "actualReadScope",
+              "note": "B exact full/selected/inherited source domains separately listed; author scope is not relabelled B fresh full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/boat-recording-contract.mjs",
+          "revision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+          "sha256": "10615c4ab09513bb82b047570c6cf89aa922366afe5d1a87090d50ebdf148854",
+          "scopeActuallyRead": {
+            "authorReadScope": "S10 harvest全文167行，未消费真实原件。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+              "field": "actualReadScope",
+              "note": "B exact full/selected/inherited source domains separately listed; author scope is not relabelled B fresh full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/boat-terminal-contract.mjs",
+          "revision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+          "sha256": "b8698ea45e305eb4a1303dca6f5f634fae3097bcd01a2cb7c0c0d5b63f516ee0",
+          "scopeActuallyRead": {
+            "authorReadScope": "S10 harvest全文232行；原1513/1516/1517数据缺席。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+              "field": "actualReadScope",
+              "note": "B exact full/selected/inherited source domains separately listed; author scope is not relabelled B fresh full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/boat-rider-pose.mjs",
+          "revision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+          "sha256": "35ba184655782d0012489933db0dec3da9fa5074f5c1b08ddb276d7fb41b07c6",
+          "scopeActuallyRead": {
+            "authorReadScope": "S10 harvest全文100行；原0x15值、真实资源/实绘未核。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+              "field": "actualReadScope",
+              "note": "B exact full/selected/inherited source domains separately listed; author scope is not relabelled B fresh full read."
+            }
+          }
+        },
+        {
+          "path": "docs/testing/e2e/stages/006-doctor-boat/report.md",
+          "revision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+          "sha256": "03a461282265a974f260173333a29d1ca9be11cfc1b92e3397184707388fa4da",
+          "scopeActuallyRead": {
+            "authorReadScope": "S10 harvest全文119行；旧执行/视觉仅原文声明。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+              "field": "actualReadScope",
+              "note": "B exact full/selected/inherited source domains separately listed; author scope is not relabelled B fresh full read."
+            }
+          }
+        },
+        {
+          "path": "projects/pal/content/scenes/s005.json",
+          "revision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+          "sha256": "a1c384c57d25640eb98a49a635c45af1d5a0e04c976885084dd5552383132561",
+          "scopeActuallyRead": {
+            "authorReadScope": "仅e116.trigger.legacy-001.initial.body[4,9,10,11,12]；非全文5831行。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+              "field": "actualReadScope",
+              "note": "B exact full/selected/inherited source domains separately listed; author scope is not relabelled B fresh full read."
+            }
+          }
+        },
+        {
+          "path": "docs/testing/catalog.json",
+          "revision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+          "sha256": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0",
+          "scopeActuallyRead": {
+            "authorReadScope": "完整006及005导航、006 publication续期history；非全catalog复审。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+              "field": "actualReadScope",
+              "note": "B exact full/selected/inherited source domains separately listed; author scope is not relabelled B fresh full read."
+            }
+          }
+        },
+        {
+          "path": "docs/phase-governance/templates/registry.json",
+          "revision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+          "sha256": "2ab7e9864b4ae41ad70de338bddbb68b181d4c571dd17417b1ece9eb97b502dd",
+          "scopeActuallyRead": {
+            "authorReadScope": "本模板1.5 identity/required/history、完整historical变体与唯一006外pin；非全registry语义审。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+              "field": "actualReadScope",
+              "note": "B exact full/selected/inherited source domains separately listed; author scope is not relabelled B fresh full read."
+            }
+          }
+        },
+        {
+          "path": "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
+          "revision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+          "sha256": "41142491aa9389b6a5b9f7d13f6ef38cf1b66add5b94f7c9b6bc2c9d454c7363",
+          "scopeActuallyRead": {
+            "authorReadScope": "仅1–95；当前rework/停止线与原state3。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+              "field": "actualReadScope",
+              "note": "B exact full/selected/inherited source domains separately listed; author scope is not relabelled B fresh full read."
+            }
+          }
+        },
+        {
+          "path": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+          "revision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+          "sha256": "bfda8b6623cd3d8a47bdcfe3af92cae71ab151544e9a9baed1cb77d724ed5b7c",
+          "scopeActuallyRead": {
+            "authorReadScope": "仅1–44/485–527；历史done与三步/用户边界，不审全卡。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+              "field": "actualReadScope",
+              "note": "B exact full/selected/inherited source domains separately listed; author scope is not relabelled B fresh full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/errand-contract.mjs",
+          "revision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+          "sha256": "8816f6e279e0b8d16fe37ba37190303a8c9ba629debfd436e1fd5dd42bf11be0",
+          "scopeActuallyRead": {
+            "authorReadScope": "继承S09同SHA全文508行，非S10 fresh全文；005真实receipt与较窄通用前驱消费。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+              "field": "actualReadScope",
+              "note": "B exact full/selected/inherited source domains separately listed; author scope is not relabelled B fresh full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/errand-observer.mjs",
+          "revision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+          "sha256": "803318d912c65830fc48b960d4948f32c82db1f51136a5efd10fc39f68bcf0aa",
+          "scopeActuallyRead": {
+            "authorReadScope": "继承S09同SHA全文668行，非fresh全文；DTO/hook定义非当前接线实证。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+              "field": "actualReadScope",
+              "note": "B exact full/selected/inherited source domains separately listed; author scope is not relabelled B fresh full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/meal-contract.mjs",
+          "revision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+          "sha256": "811e6a262c332ad7f9c1608df3cc11d6d8fcd995a39db72bda3aa41a342ea4ad",
+          "scopeActuallyRead": {
+            "authorReadScope": "继承S08同SHA全文927行；对白consumer非真实95行原件。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+              "field": "actualReadScope",
+              "note": "B exact full/selected/inherited source domains separately listed; author scope is not relabelled B fresh full read."
+            }
+          }
+        },
+        {
+          "path": "scripts/e2e/kitchen-contract.mjs",
+          "revision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+          "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634",
+          "scopeActuallyRead": {
+            "authorReadScope": "继承1–35且harvest11重读同范围；scene/ready，非全文655。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+              "field": "actualReadScope",
+              "note": "B exact full/selected/inherited source domains separately listed; author scope is not relabelled B fresh full read."
+            }
+          }
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "revision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+          "scopeActuallyRead": {
+            "authorReadScope": "继承同SHA168–170，仅当前content22/minimumSave12声明。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+              "field": "actualReadScope",
+              "note": "B exact full/selected/inherited source domains separately listed; author scope is not relabelled B fresh full read."
+            }
+          }
+        },
+        {
+          "path": "packages/reforge/src/save/types.ts",
+          "revision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+          "sha256": "b40e418803af9585d944f2a5f3c0229ea26494003f0aa08b12493ddb42605bc2",
+          "scopeActuallyRead": {
+            "authorReadScope": "继承同SHA1–16，仅SAVE12/slot声明。",
+            "independentReviewerScopeSource": {
+              "reportPayloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+              "field": "actualReadScope",
+              "note": "B exact full/selected/inherited source domains separately listed; author scope is not relabelled B fresh full read."
+            }
+          }
+        }
+      ],
+      "phaseAnchors": {
+        "phase": "testing/phase1/phase2",
+        "scope": "Historicalrework/publication and documentary/source semantics, no historical execution authenticity or current006admission."
+      },
+      "dependencies": [
+        "scripts/e2e/boat-contract.mjs",
+        "scripts/e2e/boat-reforge.mjs",
+        "scripts/e2e/boat-journey.mjs",
+        "scripts/e2e/boat-game.mjs",
+        "scripts/e2e/boat-both.mjs",
+        "scripts/e2e/boat-motion-evidence.mjs",
+        "scripts/e2e/boat-observations.mjs",
+        "scripts/e2e/boat-recording-contract.mjs",
+        "scripts/e2e/boat-terminal-contract.mjs",
+        "scripts/e2e/boat-rider-pose.mjs",
+        "docs/testing/e2e/stages/006-doctor-boat/report.md",
+        "projects/pal/content/scenes/s005.json",
+        "docs/testing/catalog.json",
+        "docs/phase-governance/templates/registry.json",
+        "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
+        "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+        "scripts/e2e/errand-contract.mjs",
+        "scripts/e2e/errand-observer.mjs",
+        "scripts/e2e/meal-contract.mjs",
+        "scripts/e2e/kitchen-contract.mjs",
+        "packages/content/src/character.ts",
+        "packages/reforge/src/save/types.ts"
+      ],
+      "versionScope": {
+        "candidateCommit": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+        "nativeHistoricalCandidate": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+        "nativeHistoricalVersions": {
+          "content": 22,
+          "minimumSave": 11
+        },
+        "currentContentMinimumRF": [22, 12, 12],
+        "originalSourceRevision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+        "originalSourceSha256": "9b6924236a790224ad4a3b3a305f15eaaa17e5acbd5b9e1876cd8e3c9272efbb",
+        "nativePublicationStatus": "rework",
+        "historicalExecutionPerformedPreserved": true,
+        "currentAuditRuntimeExecutionPerformed": false
+      },
+      "publicCallers": [
+        "docs/testing/catalog.json uniquee2e006 publication record",
+        "docs/testing/e2e/stages/006-doctor-boat/report.md existing canonical/testing-meta pair",
+        "scripts/docs/check-testing.mjs native pair/index consumer",
+        "package boat game/reforge/both actual CLI/source caller boundaries, not invoked"
+      ],
+      "legalInputs": [
+        "All16 native key/value/array/date order,3refs/5artifactlocators/history and4676B currentprefix unchanged; original prefix plus fixed0a7d0a exactly inverts33cc source.",
+        "Existing historical-execution-publication-v2 accepts native historicaltrue only with currentAuditfalse and exact approved33cc original Buffer/baseline, not ordinary performedfalse audit.",
+        "Current actual006requires genuine sameengine005saves report/traces/savebytes/version/raw/slot evidence; source helper syntheticDTOs do not meet complete lawful gameplay input."
+      ],
+      "businessOracle": {
+        "type": "S10-historical-native-fields-and-specific-source-limit-oracle",
+        "assertions": [
+          "95dialogue rows and final4 plus island/control source obligations are stronger than isolated storyEnd helper.",
+          "Relative motion can accept arbitrary constant offset/up but rejects moving middle in stationary segment; drawn-frame projection is not everycommit and not terminal.",
+          "Terminal/rider slot continuation and resource source checks separate; source consumer existence does not authenticate missing original operands/raw.",
+          "005 realbusiness reader/checkpoint validation and boat both report-only dispatch, no launched dualengine/sixcase.",
+          "Originaltrue/currentAuditfalse/version/claim mutations rejected by full migrated/publication consumer; rework/status/dates and source-versus-runtime axes retained."
+        ],
+        "independentFieldFindings": [
+          {
+            "field": "schemaVersion",
+            "pointer": "/schemaVersion",
+            "verdict": "accept-preserved-field-and-limited-explanation",
+            "independentFinding": "Original2 remains native schema. Existing mixed-history variant does not rewrite historical envelope."
+          },
+          {
+            "field": "id",
+            "pointer": "/id",
+            "verdict": "accept-preserved-field-and-limited-explanation",
+            "independentFinding": "Stable e2e-006 identity pairs exact catalog entry, not a new case/run."
+          },
+          {
+            "field": "kind",
+            "pointer": "/kind",
+            "verdict": "accept-preserved-field-and-limited-explanation",
+            "independentFinding": "document-audit retained alongside historical performed=true; historical-execution-publication-v2 fits this input. Borrowing document-audit-v2 fails public consumer."
+          },
+          {
+            "field": "status",
+            "pointer": "/status",
+            "verdict": "accept-preserved-field-and-limited-explanation",
+            "independentFinding": "rework remains. Paired current status, lastVerified10-03 and reviewBy10-23 are not E2E pass or freshness of current execution."
+          },
+          {
+            "field": "candidateSha",
+            "pointer": "/candidateSha",
+            "verdict": "accept-preserved-field-and-limited-explanation",
+            "independentFinding": "d022 stays historical source/publication identity; missing raw revision cannot be inferred from this field."
+          },
+          {
+            "field": "versions",
+            "pointer": "/versions",
+            "verdict": "accept-preserved-field-and-limited-explanation",
+            "independentFinding": "Original22/min11 remains paired. Current22/min12 and RF12 are source declarations on a different axis. Actual mutation to12 is rejected by paired consumer."
+          },
+          {
+            "field": "sourceRefs",
+            "pointer": "/sourceRefs",
+            "verdict": "accept-preserved-field-and-limited-explanation",
+            "independentFinding": "All3 fileSHA/range/anchor checked. RF bridge3 and caller23–40 do not contain all boat business logic; bytes hash42–43 is outside short range. Full source reads supply only their stated scope."
+          },
+          {
+            "field": "publicCallers",
+            "pointer": "/publicCallers",
+            "verdict": "accept-preserved-field-and-limited-explanation",
+            "independentFinding": "Original soleRF caller retained; actual package/source also has Game and both. both reads reports, does not start two engines or sixcases."
+          },
+          {
+            "field": "legalInputs",
+            "pointer": "/legalInputs",
+            "verdict": "accept-preserved-field-and-limited-explanation",
+            "independentFinding": "Current publication requires SAVE12 chain, while caller actually consumes same-engine005 saves through real005 business reader and checkpoint byte checks. It does not independently certify all upstream001–004 or literal SAVE12 chain."
+          },
+          {
+            "field": "businessOracle",
+            "pointer": "/businessOracle",
+            "verdict": "accept-preserved-field-and-limited-explanation",
+            "independentFinding": "Declared95=17+23+40+11+4, ending1886/1888/1889/1890, island/control. Actual helper story-end predicate alone is weaker. Terminal, draw projection and rider consumers are distinct source obligations; missing original data/raw stays blocked."
+          },
+          {
+            "field": "dedupe",
+            "pointer": "/dedupe",
+            "verdict": "accept-preserved-field-and-limited-explanation",
+            "independentFinding": "Original reviewed/against remains historical scope. No full neighboring report/test audit performed, and no current006 missing logs/visual evidence filled by005 or old001–005."
+          },
+          {
+            "field": "claims",
+            "pointer": "/claims",
+            "verdict": "accept-preserved-field-and-limited-explanation",
+            "independentFinding": "Sole source-backed claim retained with three locators. Historical runtime=true does not promote this claim; actual runtime promotion rejected."
+          },
+          {
+            "field": "runtimeExecution",
+            "pointer": "/runtimeExecution",
+            "verdict": "accept-preserved-field-and-limited-explanation",
+            "independentFinding": "Historicaltrue/three paths/original current wording preserved, explicitly dated by governance. Current author auditfalse separate. Missing raw here is not proof that old execution was false."
+          },
+          {
+            "field": "findings",
+            "pointer": "/findings",
+            "verdict": "accept-preserved-field-and-limited-explanation",
+            "independentFinding": "All five original dated strings/order exact. Later10-07/10-06 correction and old10-04 claim remain their own times, not one currently verified execution."
+          },
+          {
+            "field": "artifacts",
+            "pointer": "/artifacts",
+            "verdict": "accept-preserved-field-and-limited-explanation",
+            "independentFinding": "All five original locators/order exact. Native historical state-trace names, later dated directories and current derived filenames are differentiated. No contents/hash authenticity asserted."
+          },
+          {
+            "field": "history",
+            "pointer": "/history",
+            "verdict": "accept-preserved-field-and-limited-explanation",
+            "independentFinding": "Originald022/10-04 source-and-publication-audit/notRun retained. Old governance retained structurally under history; expired/C2/continuous done prose does not renew present completed credit."
+          }
+        ],
+        "independentReadScope": {
+          "bodyGitInputs": "All original96, dc120, before120 and candidate447 lines, all16 original native fields, all new governance and retained governance read. Exact Git bytes and identities reverified in command14.",
+          "freshFullSources": [
+            "scripts/e2e/boat-contract.mjs",
+            "scripts/e2e/boat-reforge.mjs",
+            "scripts/e2e/boat-journey.mjs",
+            "scripts/e2e/boat-game.mjs",
+            "scripts/e2e/boat-both.mjs",
+            "scripts/e2e/boat-motion-evidence.mjs",
+            "scripts/e2e/boat-observations.mjs",
+            "scripts/e2e/boat-recording-contract.mjs",
+            "scripts/e2e/boat-terminal-contract.mjs",
+            "scripts/e2e/boat-rider-pose.mjs",
+            "scripts/e2e/npc-story-scope.mjs",
+            "scripts/e2e/coordinate-evidence.mjs",
+            "scripts/e2e/errand-contract.mjs",
+            "scripts/e2e/evidence-artifact.mjs",
+            "docs/testing/e2e/stages/006-doctor-boat/report.md",
+            "docs/testing/e2e/stages/006-doctor-boat/README.md"
+          ],
+          "freshFullQualification": "Some initial full boat reads occurred in own prior405 checkout before detach; each source SHA matches the fixed b166 Git object and is reverified here. No mutable author-tree body substituted. errand-contract full508 obtained by union1–188,175–350,350–508; not borrowed from author S09 judgment.",
+          "freshSelectedSources": [
+            {
+              "path": "scripts/e2e/recompare-recording.mjs",
+              "lines": "1–116,175–218,249–295; not full313"
+            },
+            {
+              "path": "scripts/e2e/recorded-story-contract.mjs",
+              "lines": "1–26,51–101,147–161; omitted gaps not semantically reviewed"
+            },
+            {
+              "path": "scripts/e2e/errand-observer.mjs",
+              "lines": "578–668 only, DTO/readiness/hook definitions; not full668"
+            },
+            {
+              "path": "projects/pal/content/scenes/s005.json",
+              "scope": "Only e116.trigger.legacy-001.initial.body[4,9,10,11,12]; not full5831-line scene"
+            },
+            {
+              "path": "docs/testing/catalog.json",
+              "scope": "Whole006 and005 objects/navigation; governance006 entry reading and explicit10-16 publication renewal history1977–2000; not allcatalog semantic review"
+            },
+            {
+              "path": "docs/phase-governance/templates/registry.json",
+              "scope": "Machine1.5 base identity/required/history and complete historical-execution-publication-v2 variant; unique006 historical pin. Other templates not semantically re-reviewed"
+            },
+            {
+              "path": "docs/ops/tasks/E2E-006-1-inn-doctor-and-boat-to-island.md",
+              "lines": "1–95 only"
+            },
+            {
+              "path": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+              "lines": "1–44,485–527 only; not full archive"
+            },
+            {
+              "path": "docs/testing/e2e/contract.md",
+              "lines": "98–149,239–284 normative boundaries, freshly reread"
+            },
+            {
+              "path": "scripts/docs/document-model.mjs",
+              "lines": "108–155,183–325 only plus actual full public consumer invocation"
+            },
+            {
+              "path": "scripts/docs/frozen-document-source.mjs",
+              "lines": "1–70,181–242 only; immutable branded source/baseline contract"
+            },
+            {
+              "path": "scripts/docs/check-testing.mjs",
+              "lines": "187–337; actual public full catalog/index/pair consumers invoked"
+            },
+            {
+              "path": "packages/content/src/character.ts",
+              "lines": "168–170 freshly reread, file hash identity only elsewhere"
+            },
+            {
+              "path": "packages/reforge/src/save/types.ts",
+              "lines": "1–16 freshly reread, no save-loader internals"
+            },
+            {
+              "path": "package.json",
+              "lines": "35–37 boat public scripts only; no package-wide semantic acceptance"
+            }
+          ],
+          "ownPriorExactShaInheritance": [
+            {
+              "path": "scripts/e2e/meal-contract.mjs",
+              "sha256": "811e6a262c332ad7f9c1608df3cc11d6d8fcd995a39db72bda3aa41a342ea4ad",
+              "scope": "Prior own S08 full1–927; fixed file SHA verified equal. Not called readMealContract and no original dialogue values newly authenticated."
+            },
+            {
+              "path": "scripts/e2e/kitchen-contract.mjs",
+              "sha256": "7286db31cd810f8c0ae982bb51bba1453eb52f98367fdab834c2d922d1587634",
+              "scope": "Prior own S08 lines1–35 readiness; not entire655."
+            }
+          ],
+          "inheritedOwnReport": {
+            "path": "sources/prior-own-S08-report.json",
+            "sha256": "c3f157fc3028c35cbe0170c26846cb67ade57e6e5cf3ad12177ceb9a1e041c6d"
+          },
+          "authority": "AGENTS, documentation model, agent workflow testing-quality section and testing governance read in this continuing session; exact fixed files captured/reverified. They retain separation of static, documentary, source, execution, original data and user visual acceptance.",
+          "admission": "Only current root S10 section1779–1785 observed/captured; root file is WIP routing/admission evidence, not candidate body or fixed central acceptance. Captured root file SHA below.",
+          "sourceIdentities": "sources/source-identities.json and sources/final-input-audit.json are whole-file identity ledgers; copying/hashing a file does not claim semantic reading of every field or line.",
+          "notReadOrRun": [
+            "Original data/extracted/events/all.json, events1513/1516/1517 and full original95 dialogue/speaker values absent/unread. No main-tree fallback or fabricated source/data.",
+            "No original raw report/trace/motion/state/capture bytes opened. Metadata-only absence at own checkout/time is not global nonexistence or proof historical runtime never happened. Original owner/retention unknown.",
+            "No full actor-recording/resource/motion-slot/restore-input internal contract review; no actual slot/rider/resource/frame/terminal consumer invocation. The terminal/rider modules have missing original-data dependency; read source without importing or replacing data.",
+            "No actual full SAVE12 001–006 chain, Game/RF journey, browser, offline E2E recompare, preview, product tests or coverage execution.",
+            "No all2372/1838 or fullcatalog/continuous archive/centralDAG semantic review; no old test deduplication claim. Author/harvest read scopes are not copied as reviewer accomplishments."
+          ]
+        },
+        "specificChallenges": [
+          {
+            "id": "S10-HISTORICAL-TRUE",
+            "target": "/_governance/fieldReadings/2 and /12; /currentAudit",
+            "alternative": "Replace performed=true with false to fit ordinary audit, or count old true as current execution.",
+            "source": "e2e-006 original Git96; native consumer controls03",
+            "decision": "Rejected both alternatives. Sixteen native fields exact; historical variant and currentAuditfalse separate. Actual nativefalse/currentAudittrue mutations refuse. No execution authenticity grant."
+          },
+          {
+            "id": "S10-NINETY-FIVE-END",
+            "target": "/_governance/sourceContracts/story",
+            "alternative": "Island+ready alone proves95 dialogues and correct current boat route.",
+            "source": "scripts/e2e/boat-contract.mjs:30–172,203–237; boat journeys full; actual helper02",
+            "decision": "Actual minimalGame/RF DTO with no dialogue history passes storyEnd; active dialogue fails. Full caller/recording obligations add95 confirmation/consumption/source text requirements. Body accurately limits helper proof, original text/speakers/raw remain blocked."
+          },
+          {
+            "id": "S10-RELATIVE-MOTION",
+            "target": "/_governance/sourceContracts/motionProjection",
+            "alternative": "Constant relative pose/up-facing passes therefore expected mount offset or canonical rendering is correct.",
+            "source": "boat-observations.mjs full65; boat-contract motion helper; actual helper02",
+            "decision": "Actual [7,8,0] arbitrary offset/up passes. Interior stationary movement drift is rejected, showing ride interval includes stationary middle. Comparison facing mutation produces needs-review, not proof of original pose. No full raw/Game defect inference."
+          },
+          {
+            "id": "S10-DRAW-VS-COMMIT",
+            "target": "/_governance/sourceContracts/motionProjection and offlineBoat",
+            "alternative": "Every actor state commit is a rendered frame, or projected sample is actual terminal.",
+            "source": "boat-motion-evidence.mjs full41; boat-recording167; terminal232; actual helper02",
+            "decision": "Projection selected3 completed draws, intermediate99 pose absent and adjacent duplicate pose deduped; wrongvisit draw rejected. Terminal code additionally requires source/commit or two bound RF slot continuations. Body does not substitute final sample for terminal."
+          },
+          {
+            "id": "S10-BOTH-READER",
+            "target": "/_governance/sourceContracts/both",
+            "alternative": "both CLI starts dual engines/executes six cases and supplies missing evidence.",
+            "source": "boat-both.mjs full38; recompare-recording selected actual dispatch",
+            "decision": "Public CLI consumes game/reforge reports and recompare, unlike005 suite. Not invoked; generic actor/resource internals and actual reports not fully reviewed or replayed."
+          },
+          {
+            "id": "S10-REAL-PREDECESSOR",
+            "target": "/_governance/sourceContracts/callerAndInput",
+            "alternative": "Only label005/pass is checked, or conversely caller certifies every upstream and currentSAVE12.",
+            "source": "boat-game.mjs full447; boat-journey.mjs full364; errand-contract.mjs:175–215 and full508; evidence-artifact.mjs:71–88",
+            "decision": "005 reader genuinely validates report/traces/business/restoration and saved bytes; generic readCheckpointInput004 checks bounded report/checkpoint identity and bytes. Sameengine/saves/passed/hash are required by006 caller. This is narrower than full recursive source provenance or literal currentSAVE12 chain. No call run."
+          },
+          {
+            "id": "S10-DOCTOR-HISTORY",
+            "target": "/_governance/sourceContracts/story and currentAudit/historicalConflict",
+            "alternative": "Rewrite oldstate3 to currentstate2 or currentdown settles originalup/down and offset conflict.",
+            "source": "boat-journey doctor branch; activeE2E006 card1–95; pairedreport119; selecteds005 author body4/9–12",
+            "decision": "Current source explicitly checks e123 legacy-002/state2. Old state3 and RF[0,0]/down versus paired[-2,-4]/up remain dated statements. Source down/author mount offsets cannot authenticate old revision/fix timing without raw."
+          },
+          {
+            "id": "S10-RIDER-ORIGINAL-DATA",
+            "target": "/_governance/sourceContracts/terminalAndRider and /blockedConclusions",
+            "alternative": "Current assertions of1513/1516/1517 or author s005 slice prove original operands, correct rider resource/slot lifecycle or original equivalence.",
+            "source": "boat-terminal-contract.mjs full232; boat-rider-pose.mjs full100; currentselecteds005; metadata03; preservedharvest16stderr",
+            "decision": "Code references original values and explicit RF continuation/rider draw obligations, but absent originaldata prevents validating those values. Actual slot/resource/frame raw not consumed. Body explicitly blocks original equivalence and current演出; no product fix authorized."
+          },
+          {
+            "id": "S10-VERSIONS-PUBLICATION",
+            "target": "/_governance/currentAudit/publication and versions",
+            "alternative": "reviewBy10-23, current constants or historicaldone/C2 means currentE2E verified or newrenewal now.",
+            "source": "catalog006 and governance1977–2000; sourcecharacter168–170; RFsave1–16; originalnativehistory",
+            "decision": "Publication rework/lastVerified10-03 with explicit10-16 renewal remains historical public state. Original22/min11 d022 unchanged; current22/min12/RF12 declarations do not supply complete boat chain. Current audit grants no renewed execution."
+          },
+          {
+            "id": "S10-REFS-RAW-FAILURES",
+            "target": "/_governance/sourceRefReadings and currentAudit/rawAvailability/diagnosticFailure",
+            "alternative": "Three shortrefs cover all consumers, shell0 means original source read succeeded, or absent metadata disproves historicalrun.",
+            "source": "three exact ranges; harvestedcommand16exit0+FileNotFoundError; command09exit2 and disclosedad hocexit2; ownmetadata03",
+            "decision": "Sourcehash identity and declaredrange/anchor checked independently; separate full/selected sources enumerated. Failure scope remains failed, metadata absence limited to own checkout/time with owner unknown. No raw generated/borrowed; no originaldata value certified."
+          }
+        ],
+        "actualPublicConsumers": {
+          "receipt": "raw/03-native-full-consumers.stdout",
+          "baseline": {
+            "fullMigratedDocument": [],
+            "pairedEvidence": [],
+            "catalog": [],
+            "indexes": []
+          },
+          "controls": {
+            "flippedHistoricalTrue": [
+              "machine field mismatch: runtimeExecution.performed",
+              "historical original machine fields changed"
+            ],
+            "currentAuditExecutionTrue": [
+              "machine field mismatch: _governance.currentAudit.runtimeExecutionPerformed"
+            ],
+            "borrowedDocumentAuditVariant": ["machine field mismatch: runtimeExecution.performed"],
+            "wrongTemplateVersion": ["machine template declaration mismatch"],
+            "historicalMin11FilledWith12": ["e2e-006: evidence/catalog version mismatch"],
+            "sourceClaimPromotedToRuntime": [
+              "e2e-006 evidence: runtime claim lacks actual execution/artifacts e2e-006-source-contract"
+            ],
+            "restoredFullModelAndPair": []
+          },
+          "todayUTC": "2026-10-17",
+          "scope": "Real public migrated-document and publication consumers with ownedpair fixture and no repository writes. Rejection controls are publication/template/source-preservation controls, not product runtime tests or originalrun authenticity."
+        }
+      },
+      "dedupe": {
+        "result": "One existing006 document identity; no runtime/testcase/coverage count or neighboring001–005 renewal.",
+        "against": [
+          "docs/phase-governance/reviews/20261016-historical-execution-pilot.json",
+          "e2e005",
+          "docs/testing/e2e/stages/006-doctor-boat/report.md",
+          "E2E-CONTINUOUS-001-006"
+        ]
+      },
+      "counterReworkBlocked": [
+        {
+          "id": "S10-NATIVE-HISTORICAL-TRUE",
+          "status": "fixed-body-independently-accepted",
+          "statement": "Actual 16native/prefix/oldgovernance/sourceinverse preserved; historicaltrue is not current execution."
+        },
+        {
+          "id": "S10-MISSING-ORIGINAL-AND-PRODUCT-RAW",
+          "status": "blocked",
+          "statement": "Original1513/1516/1517 and raw/terminal slot/rider/fullchain/visual missing; no reconstruction or product fix."
+        },
+        {
+          "id": "S10-EXACT-V7-AND-ACTUAL-CENTRAL",
+          "status": "exact-tool-accepted-actual-successor-central-pending",
+          "statement": "Exactv6/v7 actual consumer accepted separately, current real central combination remains pending."
+        }
+      ],
+      "revision": {
+        "currentSha": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+        "history": [
+          {
+            "date": "2026-10-18",
+            "action": "Fixed historical006 body/template accepted by distinct B only; central entry prepared separately",
+            "rootPreparedAtRevision": "15711390bc5f69d21fa9a240985d5bb703c08d29",
+            "previousAfterSha256": "0df03a5a578eff7a5ee8656961717d8b3a2380b2b5e0cb61220ae552963a574d",
+            "afterSha256": "b19bf66515a1ec6be444dad115cdab629bb770ac119d4c8100a142b29d87bd46"
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "actual-per-document-nonauthor-semantic-review-original-raw-reference",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4.gz",
+        "reportSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+        "storedSha256": "12e550e23c1dd251f1bcbef08885d50ecad81bce3664a3e3c05991f5a10e8082",
+        "rawReportRef": {
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/frozen-payloads/8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4.gz",
+          "encoding": "gzip",
+          "payloadSha256": "8e87161f0a443bb8f12e4350cbb294ce074991d6c438527818935bc9fe1f61f4",
+          "payloadBytes": 58982,
+          "storedSha256": "12e550e23c1dd251f1bcbef08885d50ecad81bce3664a3e3c05991f5a10e8082",
+          "storedBytes": 14262,
+          "producerTask": "/root/receipt_integrity_independent",
+          "authorTask": "/root/e2e_entry_semantic_author",
+          "reviewerTask": "/root/receipt_integrity_independent",
+          "sourceRevision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+          "scope": "Only fixedb166 native006 body and1.5/historical-execution-publication-v2 template; original native historical performedtrue retained, currentAuditfalse. No historical authenticity/current E2E/central/global/product credit.",
+          "owner": "Codex documentation governance evidence",
+          "caller": "DOCS-FULL-TEMPLATE-1 exact per-document semantic review entry and private explicit intake",
+          "associatedTask": "DOCS-FULL-TEMPLATE-1",
+          "retentionReason": "Immutable original one-off governance review output, original failure/unknown/missing-source boundaries retained; not an existing canonical document migrated to raw.",
+          "exitCondition": "Retain for audit/replay; no automatic deletion or existing candidate exemption."
+        },
+        "sourceRevision": "b16656deb2ab5a158c39ce944a46aeebd5990d97",
+        "reviewer": "/root/receipt_integrity_independent",
+        "author": "/root/e2e_entry_semantic_author",
+        "nonAuthorReviewer": true,
+        "acceptance": "Only fixedb166 historical006 substantive body and1.5 historical execution variant. No execution authenticity/currentE2E/central/global/product credit.",
+        "nativePreservation": {
+          "source": {
+            "revision": "33cc2df50c7279d2750ddad4fcf6c373b7b2bda3",
+            "sha256": "9b6924236a790224ad4a3b3a305f15eaaa17e5acbd5b9e1876cd8e3c9272efbb",
+            "bytes": 4679
+          },
+          "before": {
+            "sha256": "0df03a5a578eff7a5ee8656961717d8b3a2380b2b5e0cb61220ae552963a574d",
+            "bytes": 6419,
+            "dcEqual": true
+          },
+          "after": {
+            "sha256": "b19bf66515a1ec6be444dad115cdab629bb770ac119d4c8100a142b29d87bd46",
+            "bytes": 26924
+          },
+          "native16SerializedKeysArraysAllEqual": true,
+          "oldGovernanceObjectExactlyRetained": true,
+          "prefix": {
+            "bytes": 4676,
+            "sha256": "75977a7499dbb89168e3f661fe5babb281d92a31551d624b540446de2d1e1e65",
+            "exactBeforeAfter": true,
+            "inverseSuffixHex": "0a7d0a",
+            "exactOriginalInverse": true
+          }
+        }
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "Existing valid10-16 historical-execution pilot binding is enriched by separately accepted fixed006 body, no affected-withdrawal credit restored.",
+          "priorRecord": "docs/phase-governance/reviews/20261016-historical-execution-pilot.json",
+          "priorRecordRevision": "15711390bc5f69d21fa9a240985d5bb703c08d29",
+          "priorRecordSha256": "4ba2dec97aa9b4dc4b05eabe599b900c8ca9d5418a938010bc5153825beda240",
+          "priorValidContentReviewStatus": "content-reviewed",
+          "priorMechanicalEvidence": {
+            "kind": "actual-machine-envelope-pilot-with-pinned-original-inverse",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/c2-historical-execution-pilot-20261016.json",
+            "sourceSha256": "9b6924236a790224ad4a3b3a305f15eaaa17e5acbd5b9e1876cd8e3c9272efbb",
+            "afterSha256": "0df03a5a578eff7a5ee8656961717d8b3a2380b2b5e0cb61220ae552963a574d",
+            "lineCount": 120
+          }
+        },
+        {
+          "date": "2026-10-18",
+          "action": "Explicit fixed-body unique successor binding after separately accepted original body, exact consumer and firstactualS07 centralpilot; successor composition still pending.",
+          "sourceRevision": "c2d4ab9478d23bdba2fd2f185363a3267bb86836",
+          "consumerEvidence": {
+            "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/v7-private-consumer-independent-originals/2c175b3a2eab05cb51b19dab2457018d823e75ea36ed28b6423317d70406ecdb.gz",
+            "encoding": "gzip",
+            "payloadSha256": "2c175b3a2eab05cb51b19dab2457018d823e75ea36ed28b6423317d70406ecdb",
+            "payloadBytes": 33487,
+            "storedSha256": "53c8ca1103624b9a676480991e6909018341fe9a307b8c4cf56a64817a4d6a5c",
+            "storedBytes": 9514,
+            "producerTask": "/root/central_intake_guard_review",
+            "authorTask": "/root",
+            "reviewerTask": "/root/central_intake_guard_review",
+            "sourceRevision": "0a7c35301c42366919a2fec60c4d20dad3abafdb36b619ddddc36a09af706fa6",
+            "scope": "Only exactv7 additionalS10 historicaltrue/currentAuditfalse tuple/actualIO;2roots103inputs,3positive3negative+realguardcounter, inherits unchangedv6; no bodyrereview/actualcentral/global.",
+            "owner": "Codex documentation governance evidence",
+            "caller": "DOCS-FULL-TEMPLATE-1 exact central intake acknowledgment and tool authorization source",
+            "associatedTask": "DOCS-FULL-TEMPLATE-1",
+            "retentionReason": "Immutable one-off independent output; no report self-body credit, existing candidate movement or automatic successor acceptance.",
+            "exitCondition": "Retain original for replay/audit; no automatic deletion."
+          },
+          "firstActualPilotReportPayloadSha256": "5b90d74a4adbde35b46de064e88a6ac6940b1d58e741e0c3e75effd2ee3a9a7b",
+          "actualSuccessorCentralAccepted": false
+        }
+      ],
+      "supersedes": [
+        {
+          "record": "docs/phase-governance/reviews/20261016-historical-execution-pilot.json",
+          "revision": "15711390bc5f69d21fa9a240985d5bb703c08d29",
+          "scope": "Only006 documentary binding from historical-execution-pilot; its README/report other2 entries preserved exactly. Historical execution/facts/counters/dates not rewritten."
+        }
+      ],
+      "priorCreditProvenance": {
+        "sourceRevision": "15711390bc5f69d21fa9a240985d5bb703c08d29",
+        "record": "docs/phase-governance/reviews/20261016-historical-execution-pilot.json",
+        "scope": "Original006 already content-reviewed/template-compliant before this enrichment, outside frozen1896 withdrawal set. AdditionalAffectedBodyCredit0; five quarantines unchanged.",
+        "additionalAffectedBodyCredit": 0
+      },
+      "stopLine": "Do not flip native historicaltrue, certify oldrun/originalgame equivalence from helper/gzip/template, fill missing raw/unknowns, or grant adjacent/bulk/global/main/done.",
+      "sourceSha256": "0df03a5a578eff7a5ee8656961717d8b3a2380b2b5e0cb61220ae552963a574d",
+      "afterSha256": "b19bf66515a1ec6be444dad115cdab629bb770ac119d4c8100a142b29d87bd46",
+      "sourceGitRevision": "15711390bc5f69d21fa9a240985d5bb703c08d29",
+      "reviewedLines": "B actual full original96/dc120/before120/new447 and16fields plus explicit fresh/shared exact scopes. Root report/admission adoption, not fresh allsource.",
+      "historyOverlay": false,
+      "documentStatus": "rework",
+      "beforeAfter": {
+        "before": "Original96source plus existing120historical governance already validly accepted at10-16 pilot; this enrichment clarifies field/source/history boundaries without pretending prior withdrawal or adding affected credit.",
+        "after": "006原16native/3refs/5artifacts/4676B前缀及原governance保全；33cc96行4679B才是原源，当前dc120行不是。historical performedtrue与当前auditfalse分轴，沿既有1.5 historical-execution-publication-v2，不翻原true适配普通audit。source95=17+23+40+11+4含岛落地收尾；最小island+ready子谓词可过不能证明95正文原意。实际投影只选draw并可丢未绘commit；任意常量相对offset/up可过，不等正确canonical偏移，静止中段漂移反控可拒。terminal/真实slot continuation/rider resource各有独立源码合同；005真实reader与generic checkpoint分层，both只消费报告不启动两轨。当前doctor state2与旧state3、RF[0,0]/down与[-2,-4]/up保分时点未知。缺原1513/1516/1517、真实raw/slot/rider/完整SAVE12船链及视觉继续blocked，未认证历史执行真实性。"
+      },
+      "templateConformance": {
+        "status": "fixed-body-independent-template-accepted",
+        "templateId": "test-machine-evidence-v1",
+        "templateVersion": "1.5.0",
+        "variant": "historical-execution-publication-v2",
+        "actualPublicConsumers": {
+          "receipt": "raw/03-native-full-consumers.stdout",
+          "baseline": {
+            "fullMigratedDocument": [],
+            "pairedEvidence": [],
+            "catalog": [],
+            "indexes": []
+          },
+          "controls": {
+            "flippedHistoricalTrue": [
+              "machine field mismatch: runtimeExecution.performed",
+              "historical original machine fields changed"
+            ],
+            "currentAuditExecutionTrue": [
+              "machine field mismatch: _governance.currentAudit.runtimeExecutionPerformed"
+            ],
+            "borrowedDocumentAuditVariant": ["machine field mismatch: runtimeExecution.performed"],
+            "wrongTemplateVersion": ["machine template declaration mismatch"],
+            "historicalMin11FilledWith12": ["e2e-006: evidence/catalog version mismatch"],
+            "sourceClaimPromotedToRuntime": [
+              "e2e-006 evidence: runtime claim lacks actual execution/artifacts e2e-006-source-contract"
+            ],
+            "restoredFullModelAndPair": []
+          },
+          "todayUTC": "2026-10-17",
+          "scope": "Real public migrated-document and publication consumers with ownedpair fixture and no repository writes. Rejection controls are publication/template/source-preservation controls, not product runtime tests or originalrun authenticity."
+        },
+        "scope": "Originaltrue/currentAuditfalse and approved frozen original source Buffer fit existing historical variant. Specific semantic body accepted, not raw execution or futurecentral."
       }
     }
   ]
