@@ -52,6 +52,8 @@ catalog 父版本1.2保持默认publication catalog全部旧字段/有序16项�
 
 ## 证据与下一步
 
+任务卡的验收内容同时受[长期工程质量规范](../../ops/code-quality.md)约束；完整与轻量Ops模板已增加八维及低成本复验填写提示。本次不新增docType、不改task-card-v1状态或requiredSections，内容提示的更新按实际consumer和review验证。
+
 - [已批准的设计提案](registry-proposal-20261011.md)保留 2026-10-11 的范围与大纲，适配流程见[项目文档模型](../../ops/guides/documentation-model.md)。
 - 新文档从对应模板开始；历史文档保留原结论/日期/SHA，使用 archive wrapper 说明当前有效性与继任者。
 - governed-legacy 仅是旧 ledger 状态，不是迁移完成；全量完成前除用户批准保留项外必须消除。

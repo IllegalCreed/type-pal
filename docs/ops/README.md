@@ -19,6 +19,7 @@ Template: governance-index-v1 / 1.0.0
 
 ## 入口与责任
 
+- [工程代码质量与验收规范](code-quality.md)：两阶段所有开发与审查的八维标准、低成本复验和完成定义。
 - [现行协作工作流](agent-workflow.md)、[当前任务看板](board.md)。
 - [活动任务与生成索引](tasks/README.md)：状态从卡顶部读取。
 - [完整/轻量任务模板](templates/README.md)：同一 task-card 类型的两个变体。

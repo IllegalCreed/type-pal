@@ -12,17 +12,18 @@
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read; reusable task-template source preserved byte-stably and consumer references checked",
+      "readMethod": "Full current Markdown and exact authorized delta read; actual route/template consumers checked",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "TASK-template.md：canonical reusable task-card template source; byte-stable preservation is required because agents and documentation tooling copy/consume this file directly. It is not a task card and does not carry a task status or execution credit.",
+      "coreConclusion": "User-authorized full task source now prompts per-file eight-axis evidence, issue disposition, identity/invalidation, read-only fast recheck and actual gate limits. Copyable task headings/status preserved; historical byte-preservation claim does not certify new bytes.",
       "truthAnchors": [
-        "docs/ops/templates/TASK-template.md:1",
-        "docs/ops/templates/TASK-template.md:8"
+        "docs/ops/code-quality.md",
+        "AGENTS.md:操作与必读",
+        "User 2026-10-18 instruction to persist quality, recheck and contributor responsibilities"
       ],
       "unresolved": [
-        "Template source must remain copyable and synchronized with task-card-v1; changes require a template registry review and consumer checks."
+        "Historical product/coverage/unified gates remain outside this documentation-only integration."
       ],
-      "nextStep": "引用时从本 canonical template source 复制；若改章节/状态词，先更新 template registry、README 和 consumer tests。",
+      "nextStep": "Use canonical quality contract for subsequent development and GLM read-only pilot; independently review code and actual evidence before acceptance.",
       "phase": "ops",
       "module": "templates",
       "capability": "full-task-card-template",
@@ -38,7 +39,7 @@
         }
       ],
       "sourceSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
-      "afterSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+      "afterSha256": "fa63230488c9c4510650567d9b6158b11383adcd87fcbbd75a39ef298fdf6ab8",
       "publicCallers": [
         "docs/ops/templates/README.md",
         "docs/ops/tasks/README.md",
@@ -51,29 +52,83 @@
         "task-card-v1 registry and consumer tests"
       ],
       "businessOracle": {
-        "type": "canonical-template-source",
+        "type": "authorized-document-content-and-real-route-template-consumers",
         "assertions": [
-          "original reusable template bytes remain unchanged",
-          "template consumer links remain reachable",
-          "template source is not mistaken for a task card or execution evidence",
-          "no runtime/E2E/visual/coverage credit"
+          "User-authorized full task source now prompts per-file eight-axis evidence, issue disposition, identity/invalidation, read-only fast recheck and actual gate limits. Copyable task headings/status preserved; historical byte-preservation claim does not certify new bytes.",
+          "One canonical cross-phase quality contract; entry/form instructions preserve actual task state and risk boundaries",
+          "Current delta does not claim historical byte preservation or independent third-party/product execution acceptance"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-preserved",
-        "against": [
-          "docs/ops/templates/TASK-template.md",
-          "docs/ops/templates/README.md",
-          "docs/ops/tasks/README.md",
-          "scripts/docs/cursor-task-index.test.mjs",
-          "scripts/docs/check.mjs",
-          "docs/phase-governance/templates/registry.json"
-        ]
+        "result": "Only entry/recording prompts here; complete quality clauses live in docs/ops/code-quality.md",
+        "against": ["docs/ops/code-quality.md", "docs/ops/agent-workflow.md"]
       },
       "revision": {
         "currentSha": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
-        "implementationSha": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+        "implementationSha": "fa63230488c9c4510650567d9b6158b11383adcd87fcbbd75a39ef298fdf6ab8",
         "history": [
+          {
+            "revision": "0bc82025928b4fe13dce0f34c3a8696507d04032",
+            "date": "2026-10-18",
+            "action": "User-authorized permanent engineering-quality standard integration",
+            "previousAfterSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+            "scope": "User-authorized full task source now prompts per-file eight-axis evidence, issue disposition, identity/invalidation, read-only fast recheck and actual gate limits. Copyable task headings/status preserved; historical byte-preservation claim does not certify new bytes.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+            "notRun": [
+              "product runtime",
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "E2E",
+              "visual"
+            ],
+            "previousCoreConclusion": "TASK-template.md：canonical reusable task-card template source; byte-stable preservation is required because agents and documentation tooling copy/consume this file directly. It is not a task card and does not carry a task status or execution credit.",
+            "previousEvidence": {
+              "kind": "template-source-artifact-envelope",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r58-task-template-sources-20261017.json",
+              "sourceSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+              "candidateSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+              "afterSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+              "lineCount": 198,
+              "artifactPreserved": true,
+              "originalPreservation": {
+                "method": "byte-stable Markdown template source",
+                "sourceBytes": 5757,
+                "sourceLines": 198,
+                "sourceFinalNewline": true,
+                "inverseSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+                "exactRoundTrip": true
+              }
+            },
+            "previousBusinessOracle": {
+              "type": "canonical-template-source",
+              "assertions": [
+                "original reusable template bytes remain unchanged",
+                "template consumer links remain reachable",
+                "template source is not mistaken for a task card or execution evidence",
+                "no runtime/E2E/visual/coverage credit"
+              ]
+            },
+            "previousDedupe": {
+              "result": "reviewed-and-preserved",
+              "against": [
+                "docs/ops/templates/TASK-template.md",
+                "docs/ops/templates/README.md",
+                "docs/ops/tasks/README.md",
+                "scripts/docs/cursor-task-index.test.mjs",
+                "scripts/docs/check.mjs",
+                "docs/phase-governance/templates/registry.json"
+              ]
+            },
+            "previousTruthAnchors": [
+              "docs/ops/templates/TASK-template.md:1",
+              "docs/ops/templates/TASK-template.md:8"
+            ],
+            "previousUnresolved": [
+              "Template source must remain copyable and synchronized with task-card-v1; changes require a template registry review and consumer checks."
+            ],
+            "previousNextStep": "引用时从本 canonical template source 复制；若改章节/状态词，先更新 template registry、README 和 consumer tests。"
+          },
           {
             "revision": "ba60e9dccc2833b30be349213b86593260f4f66c",
             "date": "2026-10-17",
@@ -90,21 +145,11 @@
         ]
       },
       "evidence": {
-        "kind": "template-source-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r58-task-template-sources-20261017.json",
-        "sourceSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
-        "candidateSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
-        "afterSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
-        "lineCount": 198,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable Markdown template source",
-          "sourceBytes": 5757,
-          "sourceLines": 198,
-          "sourceFinalNewline": true,
-          "inverseSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
-          "exactRoundTrip": true
-        }
+        "kind": "authorized-engineering-quality-contract-content-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+        "afterSha256": "fa63230488c9c4510650567d9b6158b11383adcd87fcbbd75a39ef298fdf6ab8",
+        "lineCount": 212,
+        "scope": "Documentation content/entry/template integration only; no product or old code acceptance."
       },
       "history": [
         {
@@ -123,13 +168,13 @@
       "supersedes": ["governed-legacy presentation; reusable template source retained byte-stably"],
       "stopLine": "do not wrap, delete or rewrite reusable template source without registry/consumer review; do not treat a template source as a task card or execution acceptance",
       "userVisibleBeforeAfter": "原始可复制任务模板保持 → registry/review 增加 reference-canon template-source artifact envelope、SHA、consumer 和版本边界；复制行为与任务状态不变。",
-      "reviewedLines": "1-198",
+      "reviewedLines": "1-212",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
-      "documentStatus": "canonical-template-source",
+      "documentStatus": "current",
       "sourceGitRevision": "ba60e9dccc2833b30be349213b86593260f4f66c",
-      "candidateSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2",
+      "candidateSha256": "fa63230488c9c4510650567d9b6158b11383adcd87fcbbd75a39ef298fdf6ab8",
       "primarySource": [
         {
           "path": "docs/ops/templates/TASK-template.md",
@@ -160,7 +205,8 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "reviewNotes": "\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit."
     },
     {
       "path": "docs/ops/templates/TASK-lite-template.md",
@@ -169,17 +215,18 @@
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read; reusable task-template source preserved byte-stably and consumer references checked",
+      "readMethod": "Full current Markdown and exact authorized delta read; actual route/template consumers checked",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "TASK-lite-template.md：canonical reusable task-card template source; byte-stable preservation is required because agents and documentation tooling copy/consume this file directly. It is not a task card and does not carry a task status or execution credit.",
+      "coreConclusion": "Lite task source receives the same quality recording prompts, with compact references and non-code applicability; existing high-risk upgrade rule and state machine preserved.",
       "truthAnchors": [
-        "docs/ops/templates/TASK-lite-template.md:1",
-        "docs/ops/templates/TASK-lite-template.md:8"
+        "docs/ops/code-quality.md",
+        "AGENTS.md:操作与必读",
+        "User 2026-10-18 instruction to persist quality, recheck and contributor responsibilities"
       ],
       "unresolved": [
-        "Template source must remain copyable and synchronized with task-card-v1; changes require a template registry review and consumer checks."
+        "Historical product/coverage/unified gates remain outside this documentation-only integration."
       ],
-      "nextStep": "引用时从本 canonical template source 复制；若改章节/状态词，先更新 template registry、README 和 consumer tests。",
+      "nextStep": "Use canonical quality contract for subsequent development and GLM read-only pilot; independently review code and actual evidence before acceptance.",
       "phase": "ops",
       "module": "templates",
       "capability": "light-task-card-template",
@@ -195,7 +242,7 @@
         }
       ],
       "sourceSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
-      "afterSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+      "afterSha256": "4d74bdbbfdc2ac7c53229d63dc3887b4049129318dc294d302f944582f79cebc",
       "publicCallers": [
         "docs/ops/templates/README.md",
         "docs/ops/tasks/README.md",
@@ -208,29 +255,83 @@
         "task-card-v1 registry and consumer tests"
       ],
       "businessOracle": {
-        "type": "canonical-template-source",
+        "type": "authorized-document-content-and-real-route-template-consumers",
         "assertions": [
-          "original reusable template bytes remain unchanged",
-          "template consumer links remain reachable",
-          "template source is not mistaken for a task card or execution evidence",
-          "no runtime/E2E/visual/coverage credit"
+          "Lite task source receives the same quality recording prompts, with compact references and non-code applicability; existing high-risk upgrade rule and state machine preserved.",
+          "One canonical cross-phase quality contract; entry/form instructions preserve actual task state and risk boundaries",
+          "Current delta does not claim historical byte preservation or independent third-party/product execution acceptance"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-preserved",
-        "against": [
-          "docs/ops/templates/TASK-lite-template.md",
-          "docs/ops/templates/README.md",
-          "docs/ops/tasks/README.md",
-          "scripts/docs/cursor-task-index.test.mjs",
-          "scripts/docs/check.mjs",
-          "docs/phase-governance/templates/registry.json"
-        ]
+        "result": "Only entry/recording prompts here; complete quality clauses live in docs/ops/code-quality.md",
+        "against": ["docs/ops/code-quality.md", "docs/ops/agent-workflow.md"]
       },
       "revision": {
         "currentSha": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
-        "implementationSha": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+        "implementationSha": "4d74bdbbfdc2ac7c53229d63dc3887b4049129318dc294d302f944582f79cebc",
         "history": [
+          {
+            "revision": "0bc82025928b4fe13dce0f34c3a8696507d04032",
+            "date": "2026-10-18",
+            "action": "User-authorized permanent engineering-quality standard integration",
+            "previousAfterSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+            "scope": "Lite task source receives the same quality recording prompts, with compact references and non-code applicability; existing high-risk upgrade rule and state machine preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+            "notRun": [
+              "product runtime",
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "E2E",
+              "visual"
+            ],
+            "previousCoreConclusion": "TASK-lite-template.md：canonical reusable task-card template source; byte-stable preservation is required because agents and documentation tooling copy/consume this file directly. It is not a task card and does not carry a task status or execution credit.",
+            "previousEvidence": {
+              "kind": "template-source-artifact-envelope",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r58-task-template-sources-20261017.json",
+              "sourceSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+              "candidateSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+              "afterSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+              "lineCount": 61,
+              "artifactPreserved": true,
+              "originalPreservation": {
+                "method": "byte-stable Markdown template source",
+                "sourceBytes": 2312,
+                "sourceLines": 61,
+                "sourceFinalNewline": true,
+                "inverseSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+                "exactRoundTrip": true
+              }
+            },
+            "previousBusinessOracle": {
+              "type": "canonical-template-source",
+              "assertions": [
+                "original reusable template bytes remain unchanged",
+                "template consumer links remain reachable",
+                "template source is not mistaken for a task card or execution evidence",
+                "no runtime/E2E/visual/coverage credit"
+              ]
+            },
+            "previousDedupe": {
+              "result": "reviewed-and-preserved",
+              "against": [
+                "docs/ops/templates/TASK-lite-template.md",
+                "docs/ops/templates/README.md",
+                "docs/ops/tasks/README.md",
+                "scripts/docs/cursor-task-index.test.mjs",
+                "scripts/docs/check.mjs",
+                "docs/phase-governance/templates/registry.json"
+              ]
+            },
+            "previousTruthAnchors": [
+              "docs/ops/templates/TASK-lite-template.md:1",
+              "docs/ops/templates/TASK-lite-template.md:8"
+            ],
+            "previousUnresolved": [
+              "Template source must remain copyable and synchronized with task-card-v1; changes require a template registry review and consumer checks."
+            ],
+            "previousNextStep": "引用时从本 canonical template source 复制；若改章节/状态词，先更新 template registry、README 和 consumer tests。"
+          },
           {
             "revision": "ba60e9dccc2833b30be349213b86593260f4f66c",
             "date": "2026-10-17",
@@ -247,21 +348,11 @@
         ]
       },
       "evidence": {
-        "kind": "template-source-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r58-task-template-sources-20261017.json",
-        "sourceSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
-        "candidateSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
-        "afterSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
-        "lineCount": 61,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable Markdown template source",
-          "sourceBytes": 2312,
-          "sourceLines": 61,
-          "sourceFinalNewline": true,
-          "inverseSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
-          "exactRoundTrip": true
-        }
+        "kind": "authorized-engineering-quality-contract-content-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+        "afterSha256": "4d74bdbbfdc2ac7c53229d63dc3887b4049129318dc294d302f944582f79cebc",
+        "lineCount": 75,
+        "scope": "Documentation content/entry/template integration only; no product or old code acceptance."
       },
       "history": [
         {
@@ -280,13 +371,13 @@
       "supersedes": ["governed-legacy presentation; reusable template source retained byte-stably"],
       "stopLine": "do not wrap, delete or rewrite reusable template source without registry/consumer review; do not treat a template source as a task card or execution acceptance",
       "userVisibleBeforeAfter": "原始可复制任务模板保持 → registry/review 增加 reference-canon template-source artifact envelope、SHA、consumer 和版本边界；复制行为与任务状态不变。",
-      "reviewedLines": "1-61",
+      "reviewedLines": "1-75",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
-      "documentStatus": "canonical-template-source",
+      "documentStatus": "current",
       "sourceGitRevision": "ba60e9dccc2833b30be349213b86593260f4f66c",
-      "candidateSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4",
+      "candidateSha256": "4d74bdbbfdc2ac7c53229d63dc3887b4049129318dc294d302f944582f79cebc",
       "primarySource": [
         {
           "path": "docs/ops/templates/TASK-lite-template.md",
@@ -317,7 +408,8 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "reviewNotes": "\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit."
     }
   ]
 }

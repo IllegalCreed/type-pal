@@ -1,0 +1,7 @@
+{
+  "scope": "Verification harness correction, not a product or document contract failure",
+  "receipt": "scope-verification-draft.json",
+  "cause": "Draft checker wrongly required every task variant to enumerate all seven states. Full variant never enumerated review/cancelled; actual registry still owns the state machine. Corrected checker compares before/after preservation.",
+  "laterPackaging": "Post-processing stopped on that failure; following scoped format/check named a not-yet-created note and emitted internal IO diagnostics in the tool transcript. Those invocations are not accepted gates; final check is rerun after creating all targets.",
+  "credit": "No business counter or first-pass clean-gate claim."
+}

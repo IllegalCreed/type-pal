@@ -12,12 +12,18 @@
       "templateId": "guide-runbook-v1",
       "template": "docs/phase-governance/templates/guide-runbook.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full-text-read-plus-semantic-migration",
+      "readMethod": "Full current Markdown and exact authorized delta read; actual route/template consumers checked",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "现行工作流聚焦前提、隔离交付、少而精测试、独立复核、视觉/生图、写回与共享树停止线；旧三签与退休记录整份归历史，不恢复固定席位。",
-      "truthAnchors": ["AGENTS.md:1", "docs/ops/archive/protocols/workflow-snapshot-20261015.md:1"],
-      "unresolved": [],
-      "nextStep": "保留全量 build；本类型真实 pilot 可用于后续同类迁移，其余类型未验证不自动进入批量。",
+      "coreConclusion": "All code work now enters the canonical eight-axis standard; implementation, independent code review and done gates consume evidence freshness and distinct review/remediation/integration decisions. Existing risk/visual/test/ownership rules retained.",
+      "truthAnchors": [
+        "docs/ops/code-quality.md",
+        "AGENTS.md:操作与必读",
+        "User 2026-10-18 instruction to persist quality, recheck and contributor responsibilities"
+      ],
+      "unresolved": [
+        "Historical product/coverage/unified gates remain outside this documentation-only integration."
+      ],
+      "nextStep": "Use canonical quality contract for subsequent development and GLM read-only pilot; independently review code and actual evidence before acceptance.",
       "phase": "ops",
       "module": "protocol-and-e2e-pilot",
       "capability": "ops-agent-workflow",
@@ -28,7 +34,7 @@
         "manual-semantic-migration"
       ],
       "sourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
-      "afterSha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
+      "afterSha256": "3a6e5afd59f671f92d6a3ea3d5413a49f6a54f043961dd8e11df0efa13f38e25",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -36,29 +42,71 @@
       ],
       "legalInputs": ["当前任务范围内的文档阅读、交付与追溯；历史指令不提供新授权"],
       "businessOracle": {
-        "type": "semantic-preservation-and-real-document-consumer",
+        "type": "authorized-document-content-and-real-route-template-consumers",
         "assertions": [
-          "现行工作流聚焦前提、隔离交付、少而精测试、独立复核、视觉/生图、写回与共享树停止线；旧三签与退休记录整份归历史，不恢复固定席位。",
-          "必填模板章节有具体语义；原文事实、日期与来源边界可追溯",
-          "不新增 runtime/E2E/visual/coverage 通过结论"
+          "All code work now enters the canonical eight-axis standard; implementation, independent code review and done gates consume evidence freshness and distinct review/remediation/integration decisions. Existing risk/visual/test/ownership rules retained.",
+          "One canonical cross-phase quality contract; entry/form instructions preserve actual task state and risk boundaries",
+          "Current delta does not claim historical byte preservation or independent third-party/product execution acceptance"
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": [
-          "AGENTS.md",
-          "docs/ops/agent-workflow.md",
-          "docs/testing/catalog.json",
-          "docs/phase-governance/templates/registry.json"
-        ],
-        "notes": "根入口路由，当前流程定义执行纪律，历史 wrapper 保存旧原文，testing catalog/report/evidence 各保原事实权；类型按正文而非文件夹判。"
+        "result": "Only entry/recording prompts here; complete quality clauses live in docs/ops/code-quality.md",
+        "against": ["docs/ops/code-quality.md", "docs/ops/agent-workflow.md"]
       },
       "revision": {
         "currentSha": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
-        "implementationSha": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
+        "implementationSha": "3a6e5afd59f671f92d6a3ea3d5413a49f6a54f043961dd8e11df0efa13f38e25",
         "contentVersion": "N/A-document-migration",
         "minimumSaveVersion": "N/A-document-migration",
         "history": [
+          {
+            "revision": "0bc82025928b4fe13dce0f34c3a8696507d04032",
+            "date": "2026-10-18",
+            "action": "User-authorized permanent engineering-quality standard integration",
+            "previousAfterSha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
+            "scope": "All code work now enters the canonical eight-axis standard; implementation, independent code review and done gates consume evidence freshness and distinct review/remediation/integration decisions. Existing risk/visual/test/ownership rules retained.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+            "notRun": [
+              "product runtime",
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "E2E",
+              "visual"
+            ],
+            "previousCoreConclusion": "现行工作流聚焦前提、隔离交付、少而精测试、独立复核、视觉/生图、写回与共享树停止线；旧三签与退休记录整份归历史，不恢复固定席位。",
+            "previousEvidence": {
+              "kind": "full-text-preservation-and-consumer-review",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/protocol-preservation-20261015.json",
+              "sourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
+              "afterSha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
+              "lineCount": 101
+            },
+            "previousBusinessOracle": {
+              "type": "semantic-preservation-and-real-document-consumer",
+              "assertions": [
+                "现行工作流聚焦前提、隔离交付、少而精测试、独立复核、视觉/生图、写回与共享树停止线；旧三签与退休记录整份归历史，不恢复固定席位。",
+                "必填模板章节有具体语义；原文事实、日期与来源边界可追溯",
+                "不新增 runtime/E2E/visual/coverage 通过结论"
+              ]
+            },
+            "previousDedupe": {
+              "result": "reviewed",
+              "against": [
+                "AGENTS.md",
+                "docs/ops/agent-workflow.md",
+                "docs/testing/catalog.json",
+                "docs/phase-governance/templates/registry.json"
+              ],
+              "notes": "根入口路由，当前流程定义执行纪律，历史 wrapper 保存旧原文，testing catalog/report/evidence 各保原事实权；类型按正文而非文件夹判。"
+            },
+            "previousTruthAnchors": [
+              "AGENTS.md:1",
+              "docs/ops/archive/protocols/workflow-snapshot-20261015.md:1"
+            ],
+            "previousUnresolved": [],
+            "previousNextStep": "保留全量 build；本类型真实 pilot 可用于后续同类迁移，其余类型未验证不自动进入批量。"
+          },
           {
             "revision": "working-tree",
             "date": "2026-10-04",
@@ -75,11 +123,11 @@
         ]
       },
       "evidence": {
-        "kind": "full-text-preservation-and-consumer-review",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/protocol-preservation-20261015.json",
-        "sourceSha256": "81f8d39f2b0fa818a74ac7335b7293d2ca3b2cc968a74fd9d63197935b0e4b8d",
-        "afterSha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d",
-        "lineCount": 101
+        "kind": "authorized-engineering-quality-contract-content-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+        "afterSha256": "3a6e5afd59f671f92d6a3ea3d5413a49f6a54f043961dd8e11df0efa13f38e25",
+        "lineCount": 109,
+        "scope": "Documentation content/entry/template integration only; no product or old code acceptance."
       },
       "history": [
         {
@@ -106,8 +154,8 @@
       "supersedes": [],
       "stopLine": "Historical instructions and original E2E acceptance remain scoped; schema or template checks never grant new execution credit.",
       "userVisibleBeforeAfter": "混合现行/退休协议的长文 -> 现行可执行 runbook + 完整原文历史快照。",
-      "reviewedLines": "1-101",
-      "reviewNotes": "实际核读原文/新正文/调用校验与相关模板；源正文和历史结论通过 Git、wrapper 或保留回执追溯。最终全量独立复核仍未完成。",
+      "reviewedLines": "1-109",
+      "reviewNotes": "实际核读原文/新正文/调用校验与相关模板；源正文和历史结论通过 Git、wrapper 或保留回执追溯。最终全量独立复核仍未完成。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.",
       "priorReadings": [
         {
           "date": "2026-10-15",
@@ -387,27 +435,25 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full-text-read-plus-template-migration-20261017",
+      "readMethod": "Full current Markdown and exact authorized delta read; actual route/template consumers checked",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "仅新增 DOCS-FULL-TEMPLATE-1 build 行，保留 main 实体状态 review、回合测试 rework 和全部其它分工；新增行不代表全量文档已完成。 看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行 看板已移除完成的 catalog split 活动行；不代表全 docs 或产品执行完成。 看板已移除完成的 catalog split 活动行；不代表全 docs 或产品执行完成。",
+      "coreConclusion": "Only pre94 next-step assignment changes: Codex establishes permanent standard, GLM pilot remains read-only;83 states and all other rows unchanged.",
       "truthAnchors": [
-        "docs/ops/board.md",
-        "docs/ops/archive/tasks/done/GAME-RNG-SCENE-RESTORE-1.md",
-        "docs/ops/evidence/game-rng-scene-restore-1/README.md"
+        "docs/ops/code-quality.md",
+        "AGENTS.md:操作与必读",
+        "User 2026-10-18 instruction to persist quality, recheck and contributor responsibilities"
       ],
       "unresolved": [
-        "编辑器完整world/条件/auto/接管与在途动作恢复、E2E采集待续。",
-        "战斗回合测试缺原生反控报告，合法物品输入及前序动作可达性待补。",
-        "E2E-R4、E2E-005/006、标题读档IO及脚本命名治理仍按各卡当前状态推进。"
+        "Historical product/coverage/unified gates remain outside this documentation-only integration."
       ],
-      "nextStep": "保持入口与状态同步；内容或生成器变化后刷新 review SHA，并重跑文档门禁。",
+      "nextStep": "Use canonical quality contract for subsequent development and GLM read-only pilot; independently review code and actual evidence before acceptance.",
       "phase": "ops",
       "module": "board.md",
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "3e3ad288063892588659b53053546e9fba3ea4443ffd58f7dbd1dba54e8170f7",
+      "afterSha256": "da4552ada93ffdb5f07b0bed1635c686539482baa4895f431011845db60369af",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -423,25 +469,202 @@
       ],
       "legalInputs": ["current repository documentation", "docs/ops/board.md"],
       "businessOracle": {
-        "type": "content-review",
+        "type": "authorized-document-content-and-real-route-template-consumers",
         "assertions": [
-          "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
-          "full file bytes and text were read and hashed",
-          "title, sections, state signals and unresolved markers were recorded",
-          "structured review is not runtime/E2E/visual/coverage proof"
+          "Only pre94 next-step assignment changes: Codex establishes permanent standard, GLM pilot remains read-only;83 states and all other rows unchanged.",
+          "One canonical cross-phase quality contract; entry/form instructions preserve actual task state and risk boundaries",
+          "Current delta does not claim historical byte preservation or independent third-party/product execution acceptance"
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": ["docs/ops/board.md", "docs/phase-governance/templates/governance-index.md"],
-        "notes": "Type/template and content review are distinct from product verification."
+        "result": "Only entry/recording prompts here; complete quality clauses live in docs/ops/code-quality.md",
+        "against": ["docs/ops/code-quality.md", "docs/ops/agent-workflow.md"]
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "3e3ad288063892588659b53053546e9fba3ea4443ffd58f7dbd1dba54e8170f7",
+        "implementationSha": "da4552ada93ffdb5f07b0bed1635c686539482baa4895f431011845db60369af",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "0bc82025928b4fe13dce0f34c3a8696507d04032",
+            "date": "2026-10-18",
+            "action": "User-authorized permanent engineering-quality standard integration",
+            "previousAfterSha256": "3e3ad288063892588659b53053546e9fba3ea4443ffd58f7dbd1dba54e8170f7",
+            "scope": "Only pre94 next-step assignment changes: Codex establishes permanent standard, GLM pilot remains read-only;83 states and all other rows unchanged.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+            "notRun": [
+              "product runtime",
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "E2E",
+              "visual"
+            ],
+            "previousCoreConclusion": "仅新增 DOCS-FULL-TEMPLATE-1 build 行，保留 main 实体状态 review、回合测试 rework 和全部其它分工；新增行不代表全量文档已完成。 看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行 看板已移除完成的 catalog split 活动行；不代表全 docs 或产品执行完成。 看板已移除完成的 catalog split 活动行；不代表全 docs 或产品执行完成。",
+            "previousEvidence": {
+              "kind": "content-reading",
+              "path": "docs/ops/board.md",
+              "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
+              "lineCount": 97,
+              "headings": [
+                {
+                  "line": 1,
+                  "text": "多 Agent 任务看板"
+                },
+                {
+                  "line": 17,
+                  "text": "看板规则"
+                }
+              ],
+              "unresolvedSignals": [
+                "3:当前看板只记录尚未终态的任务；历史状态快照见 [board-history/board-20261004.md](archive/board-history/board-20261004.md)。任务卡、证据与审计入口见 [ops README](README.md)。",
+                "7:| OPS-CONTENT-DOC-REVIEW-1 | [Lore / 三阶段 / Ops 内容深审](tasks/OPS-CONTENT-DOC-REVIEW-1-deep-reading.md) | build | Codex / 逐篇阅读与跨阶段真值矩阵 | 机器 inventory 不等于 review；未读项不得标 reviewed |",
+                "8:| E2E-R4-1 | [路线驱动与合法检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 共性批次优先于006 | 001–005已验；浏览器启动失败自动清理待补 |",
+                "9:| E2E-005-1 | [买虾出门与香兰报信](tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | Codex技术accept / 用户观感 | 技术证据已核，等待用户观感验收 |",
+                "10:| E2E-006-1 | [回客栈求药与张四出海上仙灵岛](tasks/E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | Codex / 补关键NPC日志与一阶段对比 | 剧情链可达但视觉与关键NPC日志未闭合 |",
+                "11:| REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |",
+                "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
+                "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
+              ],
+              "afterSha256": "3e3ad288063892588659b53053546e9fba3ea4443ffd58f7dbd1dba54e8170f7",
+              "currentReading": {
+                "date": "2026-10-17",
+                "sha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
+                "scope": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行",
+                "method": "full-text-read-plus-current-delta"
+              },
+              "readingHistory": [
+                {
+                  "date": "2026-10-08",
+                  "sha256": "51b1a6c3b0223e4b8fdd71c2db5fab6a8ca32edb769886999f2593c66f8c35e6",
+                  "lineCount": 22,
+                  "headings": [
+                    {
+                      "line": 1,
+                      "text": "多 Agent 任务看板"
+                    },
+                    {
+                      "line": 17,
+                      "text": "看板规则"
+                    }
+                  ],
+                  "scope": "2026-10-08 finite contract dispatch navigation only: canonical script interaction, item alchemy boundaries and project loading. Previous 2026-10-07 three-card closure remains valid; no new acceptance or coverage/hosted CI claim."
+                },
+                {
+                  "date": "2026-10-11",
+                  "sha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
+                  "lineCount": 19,
+                  "headings": [
+                    {
+                      "line": 1,
+                      "text": "多 Agent 任务看板"
+                    },
+                    {
+                      "line": 14,
+                      "text": "看板规则"
+                    }
+                  ],
+                  "scope": "2026-10-11 三个 GLM 有限测试包经 Codex 独立验收，六/七/十四合同与六/七/十五针，任务归档 done；看板移除三卡，生成索引接到实际归档顶部状态。其它活动卡与历史 E2E 结论未改动；托管 CI 必须另核新 HEAD。",
+                  "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
+                },
+                {
+                  "date": "2026-10-11",
+                  "sha256": "e0a7d72b9145fd4dd5fa36b85c0cfa0e4f557a4a644caf0b2dc0485c9291cd64",
+                  "lineCount": 20,
+                  "headings": [
+                    {
+                      "line": 1,
+                      "text": "多 Agent 任务看板"
+                    },
+                    {
+                      "line": 15,
+                      "text": "看板规则"
+                    }
+                  ],
+                  "scope": "2026-10-11 新增 ED-ENTITY-STATE-PLAN-1 draft 任务入口；需求已追溯至 E2E 原始讨论，完整设计待用户审阅。仅新增该行，其它活动卡与历史验收状态不变；没有产品 build 或新 E2E 通过声明。",
+                  "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation",
+                  "coreConclusion": "2026-10-11 新增 ED-ENTITY-STATE-PLAN-1 draft 任务入口；需求已追溯至 E2E 原始讨论，完整设计待用户审阅。仅新增该行，其它活动卡与历史验收状态不变；没有产品 build 或新 E2E 通过声明。",
+                  "unresolved": [
+                    "正文信号 3:当前看板只记录尚未终态的任务；历史状态快照见 [board-history/board-20261004.md](archive/board-history/board-20261004.md)。任务卡、证据与审计入口见 [ops README](README.md)。",
+                    "正文信号 7:| OPS-CONTENT-DOC-REVIEW-1 | [Lore / 三阶段 / Ops 内容深审](tasks/OPS-CONTENT-DOC-REVIEW-1-deep-reading.md) | build | Codex / 逐篇阅读与跨阶段真值矩阵 | 机器 inventory 不等于 review；未读项不得标 reviewed |",
+                    "正文信号 8:| E2E-R4-1 | [路线驱动与合法检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 共性批次优先于006 | 001–005已验；浏览器启动失败自动清理待补 |",
+                    "正文信号 9:| E2E-005-1 | [买虾出门与香兰报信](tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | Codex技术accept / 用户观感 | 技术证据已核，等待用户观感验收 |",
+                    "正文信号 10:| E2E-006-1 | [回客栈求药与张四出海上仙灵岛](tasks/E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | Codex / 补关键NPC日志与一阶段对比 | 剧情链可达但视觉与关键NPC日志未闭合 |",
+                    "正文信号 11:| REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |",
+                    "正文信号 12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
+                    "正文信号 19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
+                  ]
+                },
+                {
+                  "date": "2026-10-12",
+                  "sha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
+                  "lineCount": 20,
+                  "headings": [
+                    {
+                      "line": 1,
+                      "text": "多 Agent 任务看板"
+                    },
+                    {
+                      "line": 15,
+                      "text": "看板规则"
+                    }
+                  ],
+                  "scope": "2026-10-12：ED-ENTITY-STATE-PLAN-1 静态首批经用户验收、维持review，完整现场/E2E采集待续；TEST-GLM-GAME-TURN-BOUNDARIES-1 的先前accept经原件复核撤回，重新登记rework。其余活动任务保留原状态，不借文档一致性检查升级产品、剧情或CI结论。",
+                  "method": "current-full-text-and-primary-evidence-read-20261012",
+                  "coreConclusion": "2026-10-12：ED-ENTITY-STATE-PLAN-1 静态首批经用户验收、维持review，完整现场/E2E采集待续；TEST-GLM-GAME-TURN-BOUNDARIES-1 的先前accept经原件复核撤回，重新登记rework。其余活动任务保留原状态，不借文档一致性检查升级产品、剧情或CI结论。",
+                  "truthAnchors": [
+                    "docs/ops/board.md:7",
+                    "docs/ops/board.md:8",
+                    "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md:11",
+                    "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md:11"
+                  ]
+                },
+                {
+                  "date": "2026-10-14",
+                  "sha256": "bad86c72864758cdeb0e9d0f015048f4fbb9a2620be26ef7ee98970630ed7da9",
+                  "lineCount": 21,
+                  "reviewedRanges": ["7-7"],
+                  "scope": "新增 GAME-RNG-SCENE-RESTORE-1 review：本地复现、窄修、四合同及反控已核，用户授权合并发布，当前尚未部署；其它任务状态不变。",
+                  "method": "prior-content-review-plus-current-delta-and-primary-evidence",
+                  "coreConclusion": "2026-10-14：新增 GAME-RNG-SCENE-RESTORE-1 review：本地复现、窄修、四合同及反控已核，用户授权合并发布，当前尚未部署；其它任务状态不变。",
+                  "truthAnchors": [
+                    "docs/ops/board.md:7",
+                    "docs/ops/tasks/GAME-RNG-SCENE-RESTORE-1.md",
+                    "docs/ops/evidence/game-rng-scene-restore-1/README.md"
+                  ]
+                }
+              ]
+            },
+            "previousBusinessOracle": {
+              "type": "content-review",
+              "assertions": [
+                "Codex independently reconciled the document purpose, current/historical boundary, template type and explicit unresolved claims",
+                "full file bytes and text were read and hashed",
+                "title, sections, state signals and unresolved markers were recorded",
+                "structured review is not runtime/E2E/visual/coverage proof"
+              ]
+            },
+            "previousDedupe": {
+              "result": "reviewed",
+              "against": [
+                "docs/ops/board.md",
+                "docs/phase-governance/templates/governance-index.md"
+              ],
+              "notes": "Type/template and content review are distinct from product verification."
+            },
+            "previousTruthAnchors": [
+              "docs/ops/board.md",
+              "docs/ops/archive/tasks/done/GAME-RNG-SCENE-RESTORE-1.md",
+              "docs/ops/evidence/game-rng-scene-restore-1/README.md"
+            ],
+            "previousUnresolved": [
+              "编辑器完整world/条件/auto/接管与在途动作恢复、E2E采集待续。",
+              "战斗回合测试缺原生反控报告，合法物品输入及前序动作可达性待补。",
+              "E2E-R4、E2E-005/006、标题读档IO及脚本命名治理仍按各卡当前状态推进。"
+            ],
+            "previousNextStep": "保持入口与状态同步；内容或生成器变化后刷新 review SHA，并重跑文档门禁。"
+          },
           {
             "revision": "298136f19c9b5acb51867a5d96275fe5438c06a7",
             "date": "2026-10-18",
@@ -1053,138 +1276,11 @@
         ]
       },
       "evidence": {
-        "kind": "content-reading",
-        "path": "docs/ops/board.md",
-        "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
+        "kind": "authorized-engineering-quality-contract-content-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+        "afterSha256": "da4552ada93ffdb5f07b0bed1635c686539482baa4895f431011845db60369af",
         "lineCount": 97,
-        "headings": [
-          {
-            "line": 1,
-            "text": "多 Agent 任务看板"
-          },
-          {
-            "line": 17,
-            "text": "看板规则"
-          }
-        ],
-        "unresolvedSignals": [
-          "3:当前看板只记录尚未终态的任务；历史状态快照见 [board-history/board-20261004.md](archive/board-history/board-20261004.md)。任务卡、证据与审计入口见 [ops README](README.md)。",
-          "7:| OPS-CONTENT-DOC-REVIEW-1 | [Lore / 三阶段 / Ops 内容深审](tasks/OPS-CONTENT-DOC-REVIEW-1-deep-reading.md) | build | Codex / 逐篇阅读与跨阶段真值矩阵 | 机器 inventory 不等于 review；未读项不得标 reviewed |",
-          "8:| E2E-R4-1 | [路线驱动与合法检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 共性批次优先于006 | 001–005已验；浏览器启动失败自动清理待补 |",
-          "9:| E2E-005-1 | [买虾出门与香兰报信](tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | Codex技术accept / 用户观感 | 技术证据已核，等待用户观感验收 |",
-          "10:| E2E-006-1 | [回客栈求药与张四出海上仙灵岛](tasks/E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | Codex / 补关键NPC日志与一阶段对比 | 剧情链可达但视觉与关键NPC日志未闭合 |",
-          "11:| REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |",
-          "12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
-          "19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
-        ],
-        "afterSha256": "3e3ad288063892588659b53053546e9fba3ea4443ffd58f7dbd1dba54e8170f7",
-        "currentReading": {
-          "date": "2026-10-17",
-          "sha256": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-          "scope": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行",
-          "method": "full-text-read-plus-current-delta"
-        },
-        "readingHistory": [
-          {
-            "date": "2026-10-08",
-            "sha256": "51b1a6c3b0223e4b8fdd71c2db5fab6a8ca32edb769886999f2593c66f8c35e6",
-            "lineCount": 22,
-            "headings": [
-              {
-                "line": 1,
-                "text": "多 Agent 任务看板"
-              },
-              {
-                "line": 17,
-                "text": "看板规则"
-              }
-            ],
-            "scope": "2026-10-08 finite contract dispatch navigation only: canonical script interaction, item alchemy boundaries and project loading. Previous 2026-10-07 three-card closure remains valid; no new acceptance or coverage/hosted CI claim."
-          },
-          {
-            "date": "2026-10-11",
-            "sha256": "f85ad147dbe5393346520997cf179389bba6900a1d6359863f76d639b75316a1",
-            "lineCount": 19,
-            "headings": [
-              {
-                "line": 1,
-                "text": "多 Agent 任务看板"
-              },
-              {
-                "line": 14,
-                "text": "看板规则"
-              }
-            ],
-            "scope": "2026-10-11 三个 GLM 有限测试包经 Codex 独立验收，六/七/十四合同与六/七/十五针，任务归档 done；看板移除三卡，生成索引接到实际归档顶部状态。其它活动卡与历史 E2E 结论未改动；托管 CI 必须另核新 HEAD。",
-            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation"
-          },
-          {
-            "date": "2026-10-11",
-            "sha256": "e0a7d72b9145fd4dd5fa36b85c0cfa0e4f557a4a644caf0b2dc0485c9291cd64",
-            "lineCount": 20,
-            "headings": [
-              {
-                "line": 1,
-                "text": "多 Agent 任务看板"
-              },
-              {
-                "line": 15,
-                "text": "看板规则"
-              }
-            ],
-            "scope": "2026-10-11 新增 ED-ENTITY-STATE-PLAN-1 draft 任务入口；需求已追溯至 E2E 原始讨论，完整设计待用户审阅。仅新增该行，其它活动卡与历史验收状态不变；没有产品 build 或新 E2E 通过声明。",
-            "method": "prior-full-text-review-plus-current-delta-and-state-reconciliation",
-            "coreConclusion": "2026-10-11 新增 ED-ENTITY-STATE-PLAN-1 draft 任务入口；需求已追溯至 E2E 原始讨论，完整设计待用户审阅。仅新增该行，其它活动卡与历史验收状态不变；没有产品 build 或新 E2E 通过声明。",
-            "unresolved": [
-              "正文信号 3:当前看板只记录尚未终态的任务；历史状态快照见 [board-history/board-20261004.md](archive/board-history/board-20261004.md)。任务卡、证据与审计入口见 [ops README](README.md)。",
-              "正文信号 7:| OPS-CONTENT-DOC-REVIEW-1 | [Lore / 三阶段 / Ops 内容深审](tasks/OPS-CONTENT-DOC-REVIEW-1-deep-reading.md) | build | Codex / 逐篇阅读与跨阶段真值矩阵 | 机器 inventory 不等于 review；未读项不得标 reviewed |",
-              "正文信号 8:| E2E-R4-1 | [路线驱动与合法检查点薄基线](tasks/E2E-R4-1-route-and-checkpoint-foundation.md) | build | Codex / 共性批次优先于006 | 001–005已验；浏览器启动失败自动清理待补 |",
-              "正文信号 9:| E2E-005-1 | [买虾出门与香兰报信](tasks/E2E-005-1-shrimp-errand-and-xianglan-news.md) | review | Codex技术accept / 用户观感 | 技术证据已核，等待用户观感验收 |",
-              "正文信号 10:| E2E-006-1 | [回客栈求药与张四出海上仙灵岛](tasks/E2E-006-1-inn-doctor-and-boat-to-island.md) | rework | Codex / 补关键NPC日志与一阶段对比 | 剧情链可达但视觉与关键NPC日志未闭合 |",
-              "正文信号 11:| REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |",
-              "正文信号 12:| SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |",
-              "正文信号 19:- 只把当前未终态任务放在这里；done/cancelled/rework 历史回执进 archive。"
-            ]
-          },
-          {
-            "date": "2026-10-12",
-            "sha256": "e03207942bee814c505325cd0beb5ab3f967aba65e6fbb2efd0fb6ef882c2a08",
-            "lineCount": 20,
-            "headings": [
-              {
-                "line": 1,
-                "text": "多 Agent 任务看板"
-              },
-              {
-                "line": 15,
-                "text": "看板规则"
-              }
-            ],
-            "scope": "2026-10-12：ED-ENTITY-STATE-PLAN-1 静态首批经用户验收、维持review，完整现场/E2E采集待续；TEST-GLM-GAME-TURN-BOUNDARIES-1 的先前accept经原件复核撤回，重新登记rework。其余活动任务保留原状态，不借文档一致性检查升级产品、剧情或CI结论。",
-            "method": "current-full-text-and-primary-evidence-read-20261012",
-            "coreConclusion": "2026-10-12：ED-ENTITY-STATE-PLAN-1 静态首批经用户验收、维持review，完整现场/E2E采集待续；TEST-GLM-GAME-TURN-BOUNDARIES-1 的先前accept经原件复核撤回，重新登记rework。其余活动任务保留原状态，不借文档一致性检查升级产品、剧情或CI结论。",
-            "truthAnchors": [
-              "docs/ops/board.md:7",
-              "docs/ops/board.md:8",
-              "docs/ops/tasks/ED-ENTITY-STATE-PLAN-1.md:11",
-              "docs/ops/tasks/TEST-GLM-GAME-TURN-BOUNDARIES-1.md:11"
-            ]
-          },
-          {
-            "date": "2026-10-14",
-            "sha256": "bad86c72864758cdeb0e9d0f015048f4fbb9a2620be26ef7ee98970630ed7da9",
-            "lineCount": 21,
-            "reviewedRanges": ["7-7"],
-            "scope": "新增 GAME-RNG-SCENE-RESTORE-1 review：本地复现、窄修、四合同及反控已核，用户授权合并发布，当前尚未部署；其它任务状态不变。",
-            "method": "prior-content-review-plus-current-delta-and-primary-evidence",
-            "coreConclusion": "2026-10-14：新增 GAME-RNG-SCENE-RESTORE-1 review：本地复现、窄修、四合同及反控已核，用户授权合并发布，当前尚未部署；其它任务状态不变。",
-            "truthAnchors": [
-              "docs/ops/board.md:7",
-              "docs/ops/tasks/GAME-RNG-SCENE-RESTORE-1.md",
-              "docs/ops/evidence/game-rng-scene-restore-1/README.md"
-            ]
-          }
-        ]
+        "scope": "Documentation content/entry/template integration only; no product or old code acceptance."
       },
       "history": [
         {
@@ -1272,7 +1368,7 @@
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
       "reviewedLines": "1-97",
-      "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。",
+      "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-12",
@@ -1301,12 +1397,18 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full-text-read-plus-semantic-migration",
+      "readMethod": "Full current Markdown and exact authorized delta read; actual route/template consumers checked",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Ops 总入口按工作流/任务/模板/指南/审计/证据/历史导航，去掉三贤人现役含义，不复制进度和测试结论。",
-      "truthAnchors": ["AGENTS.md:1", "docs/ops/agent-workflow.md:1"],
-      "unresolved": [],
-      "nextStep": "保留全量 build；本类型真实 pilot 可用于后续同类迁移，其余类型未验证不自动进入批量。",
+      "coreConclusion": "Current Ops navigation links the cross-phase engineering standard without copying task progress or eight-axis clauses.",
+      "truthAnchors": [
+        "docs/ops/code-quality.md",
+        "AGENTS.md:操作与必读",
+        "User 2026-10-18 instruction to persist quality, recheck and contributor responsibilities"
+      ],
+      "unresolved": [
+        "Historical product/coverage/unified gates remain outside this documentation-only integration."
+      ],
+      "nextStep": "Use canonical quality contract for subsequent development and GLM read-only pilot; independently review code and actual evidence before acceptance.",
       "phase": "ops",
       "module": "protocol-and-e2e-pilot",
       "capability": "ops-README",
@@ -1317,7 +1419,7 @@
         "manual-semantic-migration"
       ],
       "sourceSha256": "29b0e324cf58b8840ecbe9afb9c82b8b464c04bab172a2ad43d3137c389f0473",
-      "afterSha256": "af44688efec1f7e67fa4cd50e93765d242b39d41621fe0dd4e5fa5f43e2a7e5b",
+      "afterSha256": "cc30c58bc4988b229b6f670c7416512b545eed37ec338fdff966c546218d3996",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -1325,29 +1427,68 @@
       ],
       "legalInputs": ["当前任务范围内的文档阅读、交付与追溯；历史指令不提供新授权"],
       "businessOracle": {
-        "type": "semantic-preservation-and-real-document-consumer",
+        "type": "authorized-document-content-and-real-route-template-consumers",
         "assertions": [
-          "Ops 总入口按工作流/任务/模板/指南/审计/证据/历史导航，去掉三贤人现役含义，不复制进度和测试结论。",
-          "必填模板章节有具体语义；原文事实、日期与来源边界可追溯",
-          "不新增 runtime/E2E/visual/coverage 通过结论"
+          "Current Ops navigation links the cross-phase engineering standard without copying task progress or eight-axis clauses.",
+          "One canonical cross-phase quality contract; entry/form instructions preserve actual task state and risk boundaries",
+          "Current delta does not claim historical byte preservation or independent third-party/product execution acceptance"
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": [
-          "AGENTS.md",
-          "docs/ops/agent-workflow.md",
-          "docs/testing/catalog.json",
-          "docs/phase-governance/templates/registry.json"
-        ],
-        "notes": "根入口路由，当前流程定义执行纪律，历史 wrapper 保存旧原文，testing catalog/report/evidence 各保原事实权；类型按正文而非文件夹判。"
+        "result": "Only entry/recording prompts here; complete quality clauses live in docs/ops/code-quality.md",
+        "against": ["docs/ops/code-quality.md", "docs/ops/agent-workflow.md"]
       },
       "revision": {
         "currentSha": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
-        "implementationSha": "af44688efec1f7e67fa4cd50e93765d242b39d41621fe0dd4e5fa5f43e2a7e5b",
+        "implementationSha": "cc30c58bc4988b229b6f670c7416512b545eed37ec338fdff966c546218d3996",
         "contentVersion": "N/A-document-migration",
         "minimumSaveVersion": "N/A-document-migration",
         "history": [
+          {
+            "revision": "0bc82025928b4fe13dce0f34c3a8696507d04032",
+            "date": "2026-10-18",
+            "action": "User-authorized permanent engineering-quality standard integration",
+            "previousAfterSha256": "af44688efec1f7e67fa4cd50e93765d242b39d41621fe0dd4e5fa5f43e2a7e5b",
+            "scope": "Current Ops navigation links the cross-phase engineering standard without copying task progress or eight-axis clauses.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+            "notRun": [
+              "product runtime",
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "E2E",
+              "visual"
+            ],
+            "previousCoreConclusion": "Ops 总入口按工作流/任务/模板/指南/审计/证据/历史导航，去掉三贤人现役含义，不复制进度和测试结论。",
+            "previousEvidence": {
+              "kind": "full-text-preservation-and-consumer-review",
+              "path": "docs/ops/README.md",
+              "sourceSha256": "29b0e324cf58b8840ecbe9afb9c82b8b464c04bab172a2ad43d3137c389f0473",
+              "afterSha256": "af44688efec1f7e67fa4cd50e93765d242b39d41621fe0dd4e5fa5f43e2a7e5b",
+              "lineCount": 31
+            },
+            "previousBusinessOracle": {
+              "type": "semantic-preservation-and-real-document-consumer",
+              "assertions": [
+                "Ops 总入口按工作流/任务/模板/指南/审计/证据/历史导航，去掉三贤人现役含义，不复制进度和测试结论。",
+                "必填模板章节有具体语义；原文事实、日期与来源边界可追溯",
+                "不新增 runtime/E2E/visual/coverage 通过结论"
+              ]
+            },
+            "previousDedupe": {
+              "result": "reviewed",
+              "against": [
+                "AGENTS.md",
+                "docs/ops/agent-workflow.md",
+                "docs/testing/catalog.json",
+                "docs/phase-governance/templates/registry.json"
+              ],
+              "notes": "根入口路由，当前流程定义执行纪律，历史 wrapper 保存旧原文，testing catalog/report/evidence 各保原事实权；类型按正文而非文件夹判。"
+            },
+            "previousTruthAnchors": ["AGENTS.md:1", "docs/ops/agent-workflow.md:1"],
+            "previousUnresolved": [],
+            "previousNextStep": "保留全量 build；本类型真实 pilot 可用于后续同类迁移，其余类型未验证不自动进入批量。"
+          },
           {
             "revision": "working-tree",
             "date": "2026-10-04",
@@ -1364,11 +1505,11 @@
         ]
       },
       "evidence": {
-        "kind": "full-text-preservation-and-consumer-review",
-        "path": "docs/ops/README.md",
-        "sourceSha256": "29b0e324cf58b8840ecbe9afb9c82b8b464c04bab172a2ad43d3137c389f0473",
-        "afterSha256": "af44688efec1f7e67fa4cd50e93765d242b39d41621fe0dd4e5fa5f43e2a7e5b",
-        "lineCount": 31
+        "kind": "authorized-engineering-quality-contract-content-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+        "afterSha256": "cc30c58bc4988b229b6f670c7416512b545eed37ec338fdff966c546218d3996",
+        "lineCount": 32,
+        "scope": "Documentation content/entry/template integration only; no product or old code acceptance."
       },
       "history": [
         {
@@ -1388,8 +1529,8 @@
       "supersedes": [],
       "stopLine": "Historical instructions and original E2E acceptance remain scoped; schema or template checks never grant new execution credit.",
       "userVisibleBeforeAfter": "混合说明与三贤人工作流标签 -> 当前职责索引。",
-      "reviewedLines": "1-31",
-      "reviewNotes": "实际核读原文/新正文/调用校验与相关模板；源正文和历史结论通过 Git、wrapper 或保留回执追溯。最终全量独立复核仍未完成。",
+      "reviewedLines": "1-32",
+      "reviewNotes": "实际核读原文/新正文/调用校验与相关模板；源正文和历史结论通过 Git、wrapper 或保留回执追溯。最终全量独立复核仍未完成。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.",
       "priorReadings": [
         {
           "date": "2026-10-15",
@@ -2414,15 +2555,18 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full-text-read-plus-semantic-migration",
+      "readMethod": "Full current Markdown and exact authorized delta read; actual route/template consumers checked",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "完整与轻量任务卡是同一 task-card 的两个变体；入口说明适用风险、准入来源和 Owner，模板不构成实际交付。",
+      "coreConclusion": "Full/lite task forms share canonical quality and recheck requirements. Task type/status/required sections unchanged; compact references allowed.",
       "truthAnchors": [
-        "docs/ops/templates/TASK-template.md:1",
-        "docs/ops/templates/TASK-lite-template.md:1"
+        "docs/ops/code-quality.md",
+        "AGENTS.md:操作与必读",
+        "User 2026-10-18 instruction to persist quality, recheck and contributor responsibilities"
       ],
-      "unresolved": [],
-      "nextStep": "保留全量 build；本类型真实 pilot 可用于后续同类迁移，其余类型未验证不自动进入批量。",
+      "unresolved": [
+        "Historical product/coverage/unified gates remain outside this documentation-only integration."
+      ],
+      "nextStep": "Use canonical quality contract for subsequent development and GLM read-only pilot; independently review code and actual evidence before acceptance.",
       "phase": "ops",
       "module": "protocol-and-e2e-pilot",
       "capability": "ops-templates-README",
@@ -2433,7 +2577,7 @@
         "manual-semantic-migration"
       ],
       "sourceSha256": "3976d2bbda8a770fb94520c76747a78a0706b136a05ff8e39e078da00ce88dcd",
-      "afterSha256": "a7c88637f4c0a57478583fcf11277b363db95dbe19f48965900656832d22b1dc",
+      "afterSha256": "a08bbf52f6c3cb8fe1470567d1f3722d3f0e231fea966865a10a12489a68bf36",
       "publicCallers": [
         "AGENTS.md operation routing",
         "node scripts/docs/check-document-model.mjs",
@@ -2441,29 +2585,71 @@
       ],
       "legalInputs": ["当前任务范围内的文档阅读、交付与追溯；历史指令不提供新授权"],
       "businessOracle": {
-        "type": "semantic-preservation-and-real-document-consumer",
+        "type": "authorized-document-content-and-real-route-template-consumers",
         "assertions": [
-          "完整与轻量任务卡是同一 task-card 的两个变体；入口说明适用风险、准入来源和 Owner，模板不构成实际交付。",
-          "必填模板章节有具体语义；原文事实、日期与来源边界可追溯",
-          "不新增 runtime/E2E/visual/coverage 通过结论"
+          "Full/lite task forms share canonical quality and recheck requirements. Task type/status/required sections unchanged; compact references allowed.",
+          "One canonical cross-phase quality contract; entry/form instructions preserve actual task state and risk boundaries",
+          "Current delta does not claim historical byte preservation or independent third-party/product execution acceptance"
         ]
       },
       "dedupe": {
-        "result": "reviewed",
-        "against": [
-          "AGENTS.md",
-          "docs/ops/agent-workflow.md",
-          "docs/testing/catalog.json",
-          "docs/phase-governance/templates/registry.json"
-        ],
-        "notes": "根入口路由，当前流程定义执行纪律，历史 wrapper 保存旧原文，testing catalog/report/evidence 各保原事实权；类型按正文而非文件夹判。"
+        "result": "Only entry/recording prompts here; complete quality clauses live in docs/ops/code-quality.md",
+        "against": ["docs/ops/code-quality.md", "docs/ops/agent-workflow.md"]
       },
       "revision": {
         "currentSha": "1d2c8635814f0b3aae4eb212d3457b4aaafb7a71",
-        "implementationSha": "a7c88637f4c0a57478583fcf11277b363db95dbe19f48965900656832d22b1dc",
+        "implementationSha": "a08bbf52f6c3cb8fe1470567d1f3722d3f0e231fea966865a10a12489a68bf36",
         "contentVersion": "N/A-document-migration",
         "minimumSaveVersion": "N/A-document-migration",
         "history": [
+          {
+            "revision": "0bc82025928b4fe13dce0f34c3a8696507d04032",
+            "date": "2026-10-18",
+            "action": "User-authorized permanent engineering-quality standard integration",
+            "previousAfterSha256": "a7c88637f4c0a57478583fcf11277b363db95dbe19f48965900656832d22b1dc",
+            "scope": "Full/lite task forms share canonical quality and recheck requirements. Task type/status/required sections unchanged; compact references allowed.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+            "notRun": [
+              "product runtime",
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "E2E",
+              "visual"
+            ],
+            "previousCoreConclusion": "完整与轻量任务卡是同一 task-card 的两个变体；入口说明适用风险、准入来源和 Owner，模板不构成实际交付。",
+            "previousEvidence": {
+              "kind": "full-text-preservation-and-consumer-review",
+              "path": "docs/ops/templates/README.md",
+              "sourceSha256": "3976d2bbda8a770fb94520c76747a78a0706b136a05ff8e39e078da00ce88dcd",
+              "afterSha256": "a7c88637f4c0a57478583fcf11277b363db95dbe19f48965900656832d22b1dc",
+              "lineCount": 28
+            },
+            "previousBusinessOracle": {
+              "type": "semantic-preservation-and-real-document-consumer",
+              "assertions": [
+                "完整与轻量任务卡是同一 task-card 的两个变体；入口说明适用风险、准入来源和 Owner，模板不构成实际交付。",
+                "必填模板章节有具体语义；原文事实、日期与来源边界可追溯",
+                "不新增 runtime/E2E/visual/coverage 通过结论"
+              ]
+            },
+            "previousDedupe": {
+              "result": "reviewed",
+              "against": [
+                "AGENTS.md",
+                "docs/ops/agent-workflow.md",
+                "docs/testing/catalog.json",
+                "docs/phase-governance/templates/registry.json"
+              ],
+              "notes": "根入口路由，当前流程定义执行纪律，历史 wrapper 保存旧原文，testing catalog/report/evidence 各保原事实权；类型按正文而非文件夹判。"
+            },
+            "previousTruthAnchors": [
+              "docs/ops/templates/TASK-template.md:1",
+              "docs/ops/templates/TASK-lite-template.md:1"
+            ],
+            "previousUnresolved": [],
+            "previousNextStep": "保留全量 build；本类型真实 pilot 可用于后续同类迁移，其余类型未验证不自动进入批量。"
+          },
           {
             "revision": "working-tree",
             "date": "2026-10-04",
@@ -2480,11 +2666,11 @@
         ]
       },
       "evidence": {
-        "kind": "full-text-preservation-and-consumer-review",
-        "path": "docs/ops/templates/README.md",
-        "sourceSha256": "3976d2bbda8a770fb94520c76747a78a0706b136a05ff8e39e078da00ce88dcd",
-        "afterSha256": "a7c88637f4c0a57478583fcf11277b363db95dbe19f48965900656832d22b1dc",
-        "lineCount": 28
+        "kind": "authorized-engineering-quality-contract-content-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+        "afterSha256": "a08bbf52f6c3cb8fe1470567d1f3722d3f0e231fea966865a10a12489a68bf36",
+        "lineCount": 30,
+        "scope": "Documentation content/entry/template integration only; no product or old code acceptance."
       },
       "history": [
         {
@@ -2504,8 +2690,8 @@
       "supersedes": [],
       "stopLine": "Historical instructions and original E2E acceptance remain scoped; schema or template checks never grant new execution credit.",
       "userVisibleBeforeAfter": "短模板链接表 -> 有范围和升级规则的模板导航。",
-      "reviewedLines": "1-28",
-      "reviewNotes": "实际核读原文/新正文/调用校验与相关模板；源正文和历史结论通过 Git、wrapper 或保留回执追溯。最终全量独立复核仍未完成。",
+      "reviewedLines": "1-30",
+      "reviewNotes": "实际核读原文/新正文/调用校验与相关模板；源正文和历史结论通过 Git、wrapper 或保留回执追溯。最终全量独立复核仍未完成。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.",
       "priorReadings": [
         {
           "date": "2026-10-15",
@@ -2727,6 +2913,95 @@
       "documentStatus": "current",
       "templateVersion": "1.0.0",
       "historyOverlay": false
+    },
+    {
+      "path": "docs/ops/code-quality.md",
+      "contentReviewStatus": "content-reviewed",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "template": "docs/phase-governance/templates/guide-runbook.md",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "template-compliant",
+      "readMethod": "Full new Markdown, user decisions and direct entry/process/template consumer deltas read",
+      "reviewDepth": "deep-semantic",
+      "coreConclusion": "Permanent cross-phase engineering contract applies to all new features/fixes/refactors/tests/tools. Eight axes, justified structural changes, per-file evidence, cheap freshness checks and Codex/contributor/user responsibilities are explicit; review/remediation/integration are distinct and no old code is accepted by this documentation change.",
+      "truthAnchors": [
+        "AGENTS.md:操作与必读",
+        "docs/ops/agent-workflow.md",
+        "docs/ops/templates/TASK-template.md",
+        "docs/ops/templates/TASK-lite-template.md",
+        "User decisions in current quality conversation,2026-10-18"
+      ],
+      "unresolved": [
+        "No general tool can automatically certify all design semantics; this is a delivery contract, not a claim that such a universal checker is implemented."
+      ],
+      "nextStep": "GLM first RLE three-file read-only pilot; Codex independently calibrates evidence/quality before granting implementation scope.",
+      "phase": "ops",
+      "module": "engineering-quality",
+      "capability": "eight-axis-development-and-acceptance",
+      "owner": "Codex",
+      "provenance": [
+        "2026-10-18 explicit user instructions",
+        "Codex authored and fully read current contract",
+        "Existing workflow/test governance and direct route/template consumers"
+      ],
+      "sourceSha256": "70d6322333f1cdf920634503fc65739e867a62f6f58449c06b0cf9af1e803632",
+      "afterSha256": "70d6322333f1cdf920634503fc65739e867a62f6f58449c06b0cf9af1e803632",
+      "publicCallers": [
+        "AGENTS.md code operation route",
+        "CLAUDE.md shared collaboration rules",
+        "docs/ops/agent-workflow.md",
+        "Ops full/lite and generic task-card templates"
+      ],
+      "legalInputs": [
+        "All authorized cross-phase code work; task-specific scope/risk controls remain"
+      ],
+      "businessOracle": {
+        "type": "semantic-contract-and-real-document-consumers",
+        "assertions": [
+          "A-H each require file-specific evidence and unknown/N/A handling; functionality alone does not close files",
+          "New feature behavior changes follow actual authorization; governance-only freezes are not global product policy",
+          "Identity/freshness/raw results and semantic judgement remain distinct; fast checks do not auto-certify design",
+          "Contributor execution does not substitute Codex code review; no fixed multi-model signatures",
+          "No product code, test, baseline, static rule or ledger closure changes"
+        ]
+      },
+      "dedupe": {
+        "result": "One canonical standard; current task and entrypoints reference instead of maintaining a second quality definition",
+        "against": [
+          "docs/ops/agent-workflow.md",
+          "docs/testing/governance.md",
+          "docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md"
+        ]
+      },
+      "revision": {
+        "currentSha": "0bc82025928b4fe13dce0f34c3a8696507d04032",
+        "implementationSha": "70d6322333f1cdf920634503fc65739e867a62f6f58449c06b0cf9af1e803632",
+        "history": [
+          {
+            "revision": "0bc82025928b4fe13dce0f34c3a8696507d04032",
+            "date": "2026-10-18",
+            "action": "First permanent quality-contract edition under explicit user authorization",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+            "notRun": ["runtime", "E2E", "visual", "coverage"]
+          }
+        ]
+      },
+      "evidence": {
+        "kind": "current-engineering-contract-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+        "afterSha256": "70d6322333f1cdf920634503fc65739e867a62f6f58449c06b0cf9af1e803632",
+        "lineCount": 125
+      },
+      "history": [
+        {
+          "date": "2026-10-18",
+          "action": "Initial current engineering-quality standard; no inherited old-file or model-identity credit"
+        }
+      ],
+      "supersedes": [],
+      "stopLine": "Unknown critical premise, important unresolved issue, stale evidence, nonzero diagnostics or unauthorized scope does not receive acceptance.",
+      "reviewedLines": "1-125"
     }
   ]
 }

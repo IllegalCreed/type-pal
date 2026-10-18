@@ -9,6 +9,10 @@
       "required": ["docs/ops/guides/documentation-model.md"]
     },
     {
+      "operation": "开发、修改、重构或审查代码",
+      "required": ["docs/ops/code-quality.md", "docs/ops/agent-workflow.md"]
+    },
+    {
       "operation": "开始或接手非小改",
       "required": ["docs/ops/agent-workflow.md", "docs/ops/board.md"]
     },
@@ -6232,6 +6236,10 @@
     {
       "path": "docs/ops/tasks/index.md",
       "templateId": "governance-index-v1"
+    },
+    {
+      "path": "docs/ops/code-quality.md",
+      "templateId": "guide-runbook-v1"
     }
   ],
   "policy": "Routing is a checked projection of the AGENTS operation table, not a task or testing status source. migratedDocuments lists structure checks only; semantic review and hashes belong in review records."

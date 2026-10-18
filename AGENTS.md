@@ -15,6 +15,7 @@
 | 操作 | 必读 | 一句话要点 |
 |---|---|---|
 | 新建、修改或治理文档 | [项目文档模型](docs/ops/guides/documentation-model.md) | 先定唯一事实源与模板；同提交写回；提交前运行 check:docs、lint 和 diff 检查，诊断全部为零 |
+| 开发、修改、重构或审查代码 | [工程代码质量与验收](docs/ops/code-quality.md)、[开发验收流程](docs/ops/agent-workflow.md) | 八维逐文件、按影响范围验证；功能正确与质量合格共同构成完成，交付须可独立复验 |
 | 开始或接手非小改 | [当前协作流程](docs/ops/agent-workflow.md)、[活动看板](docs/ops/board.md) | 读卡顶部状态与准入；历史三签不恢复，旧 counter 不自动消失 |
 | 写、改或审查测试 | [测试治理](docs/testing/governance.md)、[测试质量验收](docs/ops/agent-workflow.md#测试质量验收用户-2026-10-03-固化) | 核 caller、合法输入、oracle、排重和反控；catalog 与 evidence 配对 |
 | 第一阶段机制或缺陷 | [第一阶段知识](CLAUDE.md)、[机制真值](docs/phase1/game-mechanics.md) | 分清原始数据、sdlpal 参考与本项目观察，保留原版证据边界 |

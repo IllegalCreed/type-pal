@@ -1,0 +1,162 @@
+{
+  "base": "0bc82025928b4fe13dce0f34c3a8696507d04032",
+  "branch": "codex/code-quality-3y",
+  "candidate": "Uncommitted documentation candidate; final commit provides immutable Git identity",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "afterSha256": "98d3ce820378442a48dc1b668088b7fcab6aac837e3cf7e6519b4f3cf1bd64c1",
+      "lines": 46,
+      "beforeSha256": "24771e0310c9dec44df9912d09179d3540724971306e0095ca252b190e318a8e"
+    },
+    {
+      "path": "CLAUDE.md",
+      "afterSha256": "46c9ee4cb06c09c68a3348836b94b44fec646308f6ddce2dc5936f75442736a5",
+      "lines": 137,
+      "beforeSha256": "716cfdf0ef292bef104e0e42259eea10e74af027ea45e9bccac594c81800a74b"
+    },
+    {
+      "path": "docs/ops/README.md",
+      "afterSha256": "cc30c58bc4988b229b6f670c7416512b545eed37ec338fdff966c546218d3996",
+      "lines": 32,
+      "beforeSha256": "af44688efec1f7e67fa4cd50e93765d242b39d41621fe0dd4e5fa5f43e2a7e5b"
+    },
+    {
+      "path": "docs/ops/agent-workflow.md",
+      "afterSha256": "3a6e5afd59f671f92d6a3ea3d5413a49f6a54f043961dd8e11df0efa13f38e25",
+      "lines": 109,
+      "beforeSha256": "56ae855f53346ef373a11c3f612cc1d24b72935fdc18d35e25751b68a05f474d"
+    },
+    {
+      "path": "docs/ops/board.md",
+      "afterSha256": "da4552ada93ffdb5f07b0bed1635c686539482baa4895f431011845db60369af",
+      "lines": 97,
+      "beforeSha256": "3e3ad288063892588659b53053546e9fba3ea4443ffd58f7dbd1dba54e8170f7"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md",
+      "afterSha256": "dd1d8e39bb6616d5ffc0ce93a42429b110814ca979f49695a88bf348b9452745",
+      "lines": 224,
+      "beforeSha256": "08c279a2670a01e0c1fc78c97891cbc21d964a8a2d53305db88b9d115830f033"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md",
+      "afterSha256": "c64cbe0736a94d6466a543f566922c09e93203125ed69d976810ad9cec6fe400",
+      "lines": 786,
+      "beforeSha256": "6dadda98da405ca0ae41976309ea6115a24b3f0d66b37c744a50bfb521f1cc06"
+    },
+    {
+      "path": "docs/ops/templates/README.md",
+      "afterSha256": "a08bbf52f6c3cb8fe1470567d1f3722d3f0e231fea966865a10a12489a68bf36",
+      "lines": 30,
+      "beforeSha256": "a7c88637f4c0a57478583fcf11277b363db95dbe19f48965900656832d22b1dc"
+    },
+    {
+      "path": "docs/ops/templates/TASK-lite-template.md",
+      "afterSha256": "4d74bdbbfdc2ac7c53229d63dc3887b4049129318dc294d302f944582f79cebc",
+      "lines": 75,
+      "beforeSha256": "6fb14bb214b3f7f07cbf49e760c38aa7635a3c5370827a5b3641ece040e00fd4"
+    },
+    {
+      "path": "docs/ops/templates/TASK-template.md",
+      "afterSha256": "fa63230488c9c4510650567d9b6158b11383adcd87fcbbd75a39ef298fdf6ab8",
+      "lines": 212,
+      "beforeSha256": "4892c967f46448b7dfc849cc101ef83405ecbcfe59fc2c5e2d429a26daab15a2"
+    },
+    {
+      "path": "docs/phase-governance/document-registry.json",
+      "afterSha256": "57e1fe575c13552b76ab6c6d472a07997508a65b08112a5563644d6ef5b67124",
+      "lines": 27188,
+      "beforeSha256": "54c050874eb9079eabe7a16a424ec8a1f25bf04f1b0aa009f92b6b9da1731098"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "afterSha256": "6ecaefb99954eb6402709c8aa88c1a9f5d3652a21ec32c089a6641462896d5fd",
+      "lines": 3007,
+      "beforeSha256": "1b5adae4a2876d2f0de2f02be8cc401585ad9e87a2594c92f512a61d71bf6d5b"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261015-agent-first-routing-batch.json",
+      "afterSha256": "d466ee44c10c8dadf016974771c0fd024a97c2f11a99807cb05b08f36a55c10d",
+      "lines": 3101,
+      "beforeSha256": "4c7c6feed74bc80d2e4441c186eba6fadfa057ac53cdd6f1639544803e12cc4a"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r58-task-template-sources.json",
+      "afterSha256": "a5f2ed1c307376f41a24c65274d5e2c446f8f1d429079713ae5e31ae67ede217",
+      "lines": 415,
+      "beforeSha256": "19acdf9237d9ad9b00b367ff6a1b22a79612806171c8d229b4b45005c790185b"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r62-template-sources.json",
+      "afterSha256": "17d3be247eb91ebde5518e5195456572cc07040e42498d440d95c72aeae34b6e",
+      "lines": 3333,
+      "beforeSha256": "6528483e40d006b41795f1a2a31804697c2882a263d42f578551fc4a0e0dced3"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "afterSha256": "064bab9f13859f4a4e377284694c68331dcddefc62ff2cb443796d4f897cdb7a",
+      "lines": 15383,
+      "beforeSha256": "0949e208d00b2dfd31c5071bd2c3cc50bb2d855de927cd507ebc281c35c91fbf"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "afterSha256": "933e45c75729c73917fbb5d2aacdeedc89953290bec6ca38ed61721ef54e3f8c",
+      "lines": 5779,
+      "beforeSha256": "d2e05e93e14f185215efc868bf3548174add91e867b408bf730fc439e4ce45de"
+    },
+    {
+      "path": "docs/phase-governance/routing.json",
+      "afterSha256": "b2d24e084cdc24b426b0b67543a32b51cbf41484953ba5603d201c5325761da7",
+      "lines": 6246,
+      "beforeSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68"
+    },
+    {
+      "path": "docs/phase-governance/templates/README.md",
+      "afterSha256": "ab6c25f1abca30595dac0f56558321b672a19e789001eede079b643de6dca2dc",
+      "lines": 60,
+      "beforeSha256": "927c92135df2b822a9374b1bbcadd532e76105a6ecaed6e79ba8c541c09f7722"
+    },
+    {
+      "path": "docs/phase-governance/templates/task-card.md",
+      "afterSha256": "e35b6d1884dcd0f08d59cf472d9e7229594eecc61531a9a57d7cd11e3112c0d6",
+      "lines": 26,
+      "beforeSha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34"
+    },
+    {
+      "path": "docs/ops/code-quality.md",
+      "afterSha256": "70d6322333f1cdf920634503fc65739e867a62f6f58449c06b0cf9af1e803632",
+      "lines": 125
+    }
+  ],
+  "semanticReview": "Full changed Markdown/deltas and new125-line standard read by Codex author. Machine checks establish routing/template/record identity only.",
+  "primarySource": "User quality-standard, recheck, reorganization and delegation decisions in this chat,2026-10-18",
+  "fastCommands": [
+    ["node", "scripts/docs/check-document-model.mjs"],
+    ["node", "scripts/docs/check-content-review.mjs", "--strict"]
+  ],
+  "fullDocsCommand": ["pnpm", "check:docs"],
+  "notClaimed": [
+    "generic semantic quality checker implementation",
+    "any old file acceptance",
+    "product/runtime/E2E/visual/coverage pass"
+  ],
+  "ledgerUnchanged": {
+    "tracked": 3319,
+    "closed": 251,
+    "review": 103,
+    "pending": 2965
+  },
+  "cardsUnchanged": {
+    "partial": 55,
+    "pending": 28,
+    "accept": 0
+  },
+  "docsToolsReuse": {
+    "receipt": "docs.json",
+    "commandExit": 1,
+    "passedTests": 125,
+    "failedTests": 0,
+    "reason": "Full command tool suite green, following Markdown consumer rejected one missing parent-navigation link. Link fixed; actual five consumers replay separately. Tool sources/tests/config unchanged, no new whole-command success claim."
+  }
+}

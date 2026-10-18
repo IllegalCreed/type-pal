@@ -1,0 +1,7 @@
+{
+  "scope": "Clarify reused driver label; raw unchanged",
+  "authoritativeToolExecution": "docs.json and docs.raw.gz contain125 passing tools freshly run in this batch; exit1 later for one Markdown navigation issue.",
+  "driverScopeText": "Reused five-consumer driver prints older equivalent125 source reference37e2cd7c9. Actual execution source for this batch is docs.json.",
+  "equivalence": "No scripts/docs or quality-tool source/test/config changes; final consumers separately passed.",
+  "semanticLimit": "Documentation content was authored/read by Codex; machine structure/hash gates do not certify code design."
+}

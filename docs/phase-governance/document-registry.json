@@ -16,9 +16,9 @@
     }
   ],
   "summary": {
-    "total": 2345,
+    "total": 2346,
     "byPhase": {
-      "ops": 1251,
+      "ops": 1252,
       "lore": 14,
       "phase1": 60,
       "phase2": 109,
@@ -27,7 +27,7 @@
       "testing": 759
     },
     "byType": {
-      "guide-runbook": 17,
+      "guide-runbook": 18,
       "archive-record": 1476,
       "audit-report": 59,
       "governance-index": 105,
@@ -46,10 +46,10 @@
       "test-catalog": 4
     },
     "reviewStatus": {
-      "content-reviewed": 2345
+      "content-reviewed": 2346
     },
     "templateCompliance": {
-      "template-compliant": 2345,
+      "template-compliant": 2346,
       "governed-legacy": 0
     }
   },
@@ -25172,7 +25172,6 @@
       "artifactEnvelope": true,
       "artifactFormat": "json"
     },
-
     {
       "path": "docs/phase-governance/cross-phase-matrix.json",
       "phase": "phase-governance",
@@ -27173,6 +27172,16 @@
       "artifactOnly": true,
       "artifactEnvelope": true,
       "artifactFormat": "json"
+    },
+    {
+      "path": "docs/ops/code-quality.md",
+      "phase": "ops",
+      "docType": "guide-runbook",
+      "templateId": "guide-runbook-v1",
+      "templateVersion": "1.0.0",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
+      "reviewRecord": "20261004-semantic-current-batch.json"
     }
   ],
   "scopeNote": "Legacy 570 plus individually reviewed routing batch; not whole-docs coverage. The approved cohort remains 1838 and new docs are a separate delta."

@@ -1593,12 +1593,18 @@
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full UTF-8 template-source read; byte-stable canonical source and consumer references checked",
+      "readMethod": "Full current Markdown and exact authorized delta read; actual route/template consumers checked",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "task-card.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
-      "truthAnchors": ["docs/phase-governance/templates/task-card.md:1"],
-      "unresolved": ["Template source changes require registry/consumer review before reuse."],
-      "nextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。",
+      "coreConclusion": "Generic task-card acceptance links the canonical quality/recheck contract, so direct generic-template users receive the same requirements as Ops variants; existing structural contract unchanged.",
+      "truthAnchors": [
+        "docs/ops/code-quality.md",
+        "AGENTS.md:操作与必读",
+        "User 2026-10-18 instruction to persist quality, recheck and contributor responsibilities"
+      ],
+      "unresolved": [
+        "Historical product/coverage/unified gates remain outside this documentation-only integration."
+      ],
+      "nextStep": "Use canonical quality contract for subsequent development and GLM read-only pilot; independently review code and actual evidence before acceptance.",
       "phase": "phase-governance",
       "module": "templates",
       "capability": "task-card.md",
@@ -1614,7 +1620,7 @@
         }
       ],
       "sourceSha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
-      "afterSha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
+      "afterSha256": "e35b6d1884dcd0f08d59cf472d9e7229594eecc61531a9a57d7cd11e3112c0d6",
       "publicCallers": [
         "docs/phase-governance/templates/README.md",
         "docs/phase-governance/templates/registry.json",
@@ -1622,25 +1628,77 @@
       ],
       "legalInputs": ["current template registry", "docs/phase-governance/templates/task-card.md"],
       "businessOracle": {
-        "type": "canonical-template-source",
+        "type": "authorized-document-content-and-real-route-template-consumers",
         "assertions": [
-          "original bytes remain unchanged",
-          "template source remains copyable/consumable",
-          "source and after SHA equal",
-          "no runtime/E2E/visual/coverage credit"
+          "Generic task-card acceptance links the canonical quality/recheck contract, so direct generic-template users receive the same requirements as Ops variants; existing structural contract unchanged.",
+          "One canonical cross-phase quality contract; entry/form instructions preserve actual task state and risk boundaries",
+          "Current delta does not claim historical byte preservation or independent third-party/product execution acceptance"
         ]
       },
       "dedupe": {
-        "result": "reviewed-and-preserved",
-        "against": [
-          "docs/phase-governance/templates/task-card.md",
-          "docs/phase-governance/templates/registry.json"
-        ]
+        "result": "Only entry/recording prompts here; complete quality clauses live in docs/ops/code-quality.md",
+        "against": ["docs/ops/code-quality.md", "docs/ops/agent-workflow.md"]
       },
       "revision": {
         "currentSha": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
-        "implementationSha": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
+        "implementationSha": "e35b6d1884dcd0f08d59cf472d9e7229594eecc61531a9a57d7cd11e3112c0d6",
         "history": [
+          {
+            "revision": "0bc82025928b4fe13dce0f34c3a8696507d04032",
+            "date": "2026-10-18",
+            "action": "User-authorized permanent engineering-quality standard integration",
+            "previousAfterSha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
+            "scope": "Generic task-card acceptance links the canonical quality/recheck contract, so direct generic-template users receive the same requirements as Ops variants; existing structural contract unchanged.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+            "notRun": [
+              "product runtime",
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "E2E",
+              "visual"
+            ],
+            "previousCoreConclusion": "task-card.md：canonical template/registry source; original bytes and copy/consumer syntax remain unchanged.",
+            "previousEvidence": {
+              "kind": "template-source-artifact-envelope",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
+              "sourceSha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
+              "candidateSha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
+              "afterSha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
+              "lineCount": 25,
+              "artifactPreserved": true,
+              "originalPreservation": {
+                "method": "byte-stable canonical template source",
+                "sourceBytes": 541,
+                "sourceLines": 25,
+                "sourceFinalNewline": true,
+                "inverseSha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
+                "exactRoundTrip": true,
+                "topLevelShape": "markdown"
+              }
+            },
+            "previousBusinessOracle": {
+              "type": "canonical-template-source",
+              "assertions": [
+                "original bytes remain unchanged",
+                "template source remains copyable/consumable",
+                "source and after SHA equal",
+                "no runtime/E2E/visual/coverage credit"
+              ]
+            },
+            "previousDedupe": {
+              "result": "reviewed-and-preserved",
+              "against": [
+                "docs/phase-governance/templates/task-card.md",
+                "docs/phase-governance/templates/registry.json"
+              ]
+            },
+            "previousTruthAnchors": ["docs/phase-governance/templates/task-card.md:1"],
+            "previousUnresolved": [
+              "Template source changes require registry/consumer review before reuse."
+            ],
+            "previousNextStep": "保持 source bytes；若模板合同变化，先更新 registry、README、consumer tests 和版本。"
+          },
           {
             "revision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
             "date": "2026-10-17",
@@ -1657,22 +1715,11 @@
         ]
       },
       "evidence": {
-        "kind": "template-source-artifact-envelope",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r62-template-sources-20261017.json",
-        "sourceSha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
-        "candidateSha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
-        "afterSha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
-        "lineCount": 25,
-        "artifactPreserved": true,
-        "originalPreservation": {
-          "method": "byte-stable canonical template source",
-          "sourceBytes": 541,
-          "sourceLines": 25,
-          "sourceFinalNewline": true,
-          "inverseSha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
-          "exactRoundTrip": true,
-          "topLevelShape": "markdown"
-        }
+        "kind": "authorized-engineering-quality-contract-content-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+        "afterSha256": "e35b6d1884dcd0f08d59cf472d9e7229594eecc61531a9a57d7cd11e3112c0d6",
+        "lineCount": 26,
+        "scope": "Documentation content/entry/template integration only; no product or old code acceptance."
       },
       "history": [
         {
@@ -1693,13 +1740,13 @@
       ],
       "stopLine": "do not rewrite/delete reusable template source without registry/consumer review; no execution credit",
       "userVisibleBeforeAfter": "原始模板/registry source 保持 → registry/review 增加 canonical template-source artifact envelope、SHA 与 consumer 边界。",
-      "reviewedLines": "1-25",
+      "reviewedLines": "1-26",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
-      "documentStatus": "canonical-template-source",
+      "documentStatus": "current",
       "sourceGitRevision": "7cfdccad9fd9299a7d839cc3047a6252e4474b50",
-      "candidateSha256": "1e686389466c03041e5a31efd34eebd1d9909f7ca96fef18c3d63c68e7ca3e34",
+      "candidateSha256": "e35b6d1884dcd0f08d59cf472d9e7229594eecc61531a9a57d7cd11e3112c0d6",
       "primarySource": [
         {
           "path": "docs/phase-governance/templates/task-card.md",
@@ -1725,7 +1772,8 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "reviewNotes": "\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit."
     },
     {
       "path": "docs/testing/_templates/e2e-report.md",

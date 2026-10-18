@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "0949e208d00b2dfd31c5071bd2c3cc50bb2d855de927cd507ebc281c35c91fbf",
+      "afterSha256": "064bab9f13859f4a4e377284694c68331dcddefc62ff2cb443796d4f897cdb7a",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,8 +1066,24 @@
       },
       "revision": {
         "currentSha": "a2101ce8ffeb73642521f0b489d17642f27bbd3fcdc581d0e9c354dedbc05778",
-        "implementationSha": "0949e208d00b2dfd31c5071bd2c3cc50bb2d855de927cd507ebc281c35c91fbf",
+        "implementationSha": "064bab9f13859f4a4e377284694c68331dcddefc62ff2cb443796d4f897cdb7a",
         "history": [
+          {
+            "revision": "0bc82025928b4fe13dce0f34c3a8696507d04032",
+            "date": "2026-10-18",
+            "action": "User-authorized permanent engineering-quality standard integration",
+            "previousAfterSha256": "0949e208d00b2dfd31c5071bd2c3cc50bb2d855de927cd507ebc281c35c91fbf",
+            "scope": "Bounded incoming metadata binding only, no unrelated verdict/history change.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+            "notRun": [
+              "product runtime",
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "E2E",
+              "visual"
+            ]
+          },
           {
             "revision": "298136f19c9b5acb51867a5d96275fe5438c06a7",
             "date": "2026-10-18",
@@ -1521,8 +1537,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "0949e208d00b2dfd31c5071bd2c3cc50bb2d855de927cd507ebc281c35c91fbf",
-        "lineCount": 15319,
+        "afterSha256": "064bab9f13859f4a4e377284694c68331dcddefc62ff2cb443796d4f897cdb7a",
+        "lineCount": 15383,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -1552,7 +1568,7 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "1-15319",
+      "reviewedLines": "1-15383",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -5485,7 +5501,7 @@
         }
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "54c050874eb9079eabe7a16a424ec8a1f25bf04f1b0aa009f92b6b9da1731098",
+      "afterSha256": "57e1fe575c13552b76ab6c6d472a07997508a65b08112a5563644d6ef5b67124",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -5508,8 +5524,24 @@
       },
       "revision": {
         "currentSha": "54c050874eb9079eabe7a16a424ec8a1f25bf04f1b0aa009f92b6b9da1731098",
-        "implementationSha": "54c050874eb9079eabe7a16a424ec8a1f25bf04f1b0aa009f92b6b9da1731098",
+        "implementationSha": "57e1fe575c13552b76ab6c6d472a07997508a65b08112a5563644d6ef5b67124",
         "history": [
+          {
+            "revision": "0bc82025928b4fe13dce0f34c3a8696507d04032",
+            "date": "2026-10-18",
+            "action": "User-authorized permanent engineering-quality standard integration",
+            "previousAfterSha256": "54c050874eb9079eabe7a16a424ec8a1f25bf04f1b0aa009f92b6b9da1731098",
+            "scope": "Bounded incoming metadata binding only, no unrelated verdict/history change.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+            "notRun": [
+              "product runtime",
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "E2E",
+              "visual"
+            ]
+          },
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
             "date": "2026-10-17",
@@ -5541,8 +5573,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
         "candidateSha256": "54c050874eb9079eabe7a16a424ec8a1f25bf04f1b0aa009f92b6b9da1731098",
-        "afterSha256": "54c050874eb9079eabe7a16a424ec8a1f25bf04f1b0aa009f92b6b9da1731098",
-        "lineCount": 27086,
+        "afterSha256": "57e1fe575c13552b76ab6c6d472a07997508a65b08112a5563644d6ef5b67124",
+        "lineCount": 27188,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable structural JSON artifact",
@@ -5564,7 +5596,7 @@
       "supersedes": ["none; structural root"],
       "stopLine": "do not promote structural registry/routing artifact to runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "结构根保持 → 增加外部 review/SHA 和 self-reference 边界；不写入自身 route。",
-      "reviewedLines": "1-27086",
+      "reviewedLines": "1-27188",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,
@@ -5628,7 +5660,7 @@
         }
       ],
       "sourceSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
-      "afterSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
+      "afterSha256": "b2d24e084cdc24b426b0b67543a32b51cbf41484953ba5603d201c5325761da7",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -5648,8 +5680,24 @@
       },
       "revision": {
         "currentSha": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
-        "implementationSha": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
+        "implementationSha": "b2d24e084cdc24b426b0b67543a32b51cbf41484953ba5603d201c5325761da7",
         "history": [
+          {
+            "revision": "0bc82025928b4fe13dce0f34c3a8696507d04032",
+            "date": "2026-10-18",
+            "action": "User-authorized permanent engineering-quality standard integration",
+            "previousAfterSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
+            "scope": "Bounded incoming metadata binding only, no unrelated verdict/history change.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md",
+            "notRun": [
+              "product runtime",
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "E2E",
+              "visual"
+            ]
+          },
           {
             "revision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
             "date": "2026-10-17",
@@ -5669,8 +5717,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
         "candidateSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
-        "afterSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
-        "lineCount": 6230,
+        "afterSha256": "b2d24e084cdc24b426b0b67543a32b51cbf41484953ba5603d201c5325761da7",
+        "lineCount": 6246,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable structural JSON artifact",
@@ -5692,7 +5740,7 @@
       "supersedes": ["none; structural root"],
       "stopLine": "do not promote structural registry/routing artifact to runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "结构根保持 → 增加外部 review/SHA 和 self-reference 边界；不写入自身 route。",
-      "reviewedLines": "1-6230",
+      "reviewedLines": "1-6246",
       "templateVersion": "1.0.0",
       "historyOverlay": false,
       "artifactOnly": true,

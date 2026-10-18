@@ -1,0 +1,19 @@
+{
+  "command": [
+    "pnpm",
+    "exec",
+    "biome",
+    "check",
+    "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard"
+  ],
+  "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+  "startedAt": "2026-10-18T07:31:58.155439+00:00",
+  "completedAt": "2026-10-18T07:31:58.341232+00:00",
+  "exit": 0,
+  "signal": null,
+  "spawnError": null,
+  "raw": "evidence-format.raw.gz",
+  "rawBytes": 44,
+  "rawSha256": "2a3f10a9fd05afd8df2327f8e043a53009a8a370dd76e710ef2d013d896399b3",
+  "fullUncutMergedStdoutStderr": true
+}

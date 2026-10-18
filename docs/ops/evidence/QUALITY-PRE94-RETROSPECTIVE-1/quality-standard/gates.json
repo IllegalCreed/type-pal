@@ -1,0 +1,74 @@
+{
+  "status": "Documentation-only composed gate:125 tool tests passed in full command, final five consumers/zero-lint/ledger/scope passed. Original full command exit1 retained; no claim of a fresh whole-command exit0.",
+  "rows": [
+    {
+      "label": "docs-tools",
+      "receipt": "docs.json",
+      "commandExit": 1,
+      "testsPassed": 125,
+      "testsFailed": 0,
+      "limit": "Following Markdown consumer rejected one navigation link; fixed before final five-consumer replay. Unchanged tool sources/tests/config allow result reuse."
+    },
+    {
+      "label": "docs-final",
+      "receipt": "docs-final.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "actualConsumers": 5
+    },
+    {
+      "label": "lint",
+      "receipt": "lint.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      },
+      "files": 5517
+    },
+    {
+      "label": "ledger",
+      "receipt": "ledger.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      }
+    },
+    {
+      "label": "scope-verification",
+      "receipt": "scope-verification.json",
+      "exit": 0,
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      }
+    },
+    {
+      "label": "evidence-format",
+      "receipt": "evidence-format.json",
+      "exit": 0,
+      "scope": "New evidence records added after full lint; scoped format/check zero diagnostics",
+      "diagnostics": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0
+      }
+    }
+  ],
+  "notRun": [
+    "product tests/typecheck",
+    "whole repository check",
+    "official coverage ratchet",
+    "protected fast",
+    "E2E",
+    "visual"
+  ]
+}

@@ -19,15 +19,9 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 
 逐卡状态只记pending/partial/rework/accept等实际结论；源码全文读取不等于caller已核，测试全绿不等于合同完备，旧done不等于本轮accept。原账本关闭遇直接counter才精确重开，不批量假验收/假否定。每个有限切片记录实际读取路径和SHA、primary/caller/oracle、问题/未修、定向相邻和反控；完整check/official ratchet/protected fast在稳定模块窗口集中。error/warning/info及运行时诊断未清前不合main，不宣布全仓完成。
 
-## 2026-10-18 用户重申：代码质量是治理主目标
+## 长期质量标准与当前执行分工
 
-本节是当前推进重点，不改变已有产品裁决或历史证据。最近若干切片过度集中SDLPal机制对照、反控和证据整理，结构与可维护性审查不足；不能以机制一致、测试绿或附件齐全代替好代码。优先级仍为94前全部成果复审，再处理94–102/editor；工程→模块→功能→文件、单一Owner/同3y分支及高风险停止线继续。
-
-每个文件的审查须实际回答：职责是否单一、模块内聚及依赖方向是否清楚；重复是否应在同一语义/生命周期下提取复用；接口/类型/状态ownership是否让caller容易正确使用；输入、错误、取消与资源清理是否完整；命名和注释是否准确解释约束；测试是否用合法输入、独立oracle和有效反例，且精简重复、清理隔离。按真实问题选择有限重构或修复，不为制造改动强行抽象，也不把未发现行为bug写成结构质量已验收。未知项具体登记，文件保持pending/review。
-
-SDLPal用于涉及第一阶段机制时确定必要真值；证据足以约束行为后回到上述代码质量主线，不把C结构/历史怪癖机械移植为TS设计，不把二阶段设计混入一阶段。测试判别力存疑或真实修复须有能证伪的反例；无需为每个已充分支撑的断言重复制造反控。原始结果可复核即可，证据工作服务实际修复，不以附件、卡片或测试数量当成果。
-
-下一有限批次先核职责、依赖、重复和生命周期问题，再决定2–4文件或明确模块切片；交付首先说明结构/可读性/复用/稳健性/测试质量改善与未改善项，然后列必要功能oracle和验证。小改批内定向验证，whole check/官方coverage/protected仍只在较大稳定任务收尾窗口执行，不因本次对齐重跑产品测试或覆盖率。
+所有文件按[工程代码质量与验收规范](../code-quality.md)的八维和可独立复验要求推进；本卡只保存本轮范围、进度与证据，不另维护质量条文。本轮GLM承担主要全文审查与获准整改，Codex主导分批、风险核定、独立代码验收及集成；首批RLE三文件只读校准尚不获得产品build或关闭信用。历史partial不继承新的八维验收。
 
 ## 当前推进
 
@@ -784,3 +778,9 @@ Codex premise verified/design agree/build allowed：同3y分支/原路径、单O
 三测试代码96/379/153行全文，settlement249全文，生产caller/C读域与原SSS全站点核对见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md)。15对象10leaf仅掉落/叙述及可选概率；四0x89全0、三0x90仅turnStart，不把合法result3测试称当前剧情可达。产品执行冻结；真实PhaseE双活敌槽/掉落一次、零击杀奖励与0/1/FFFF接回补强，两份重复开战准备提取测试专用helper。原11合同保留→16；六完整旧绿/新指定单AssertionError，恢复8文件237（16直接/221相邻）与game typecheck零诊断。两测试草稿误读optional defeated/runner端口及tuple类型红、首镜像收集失败、末反控+0名称匹配失败全部保留原件，不冒充产品先红。
 
 工作树曾在只读阶段由外部移除，未有新WIP；同一路径/同3y/同599d恢复，无新分支，无主树修改，离线依赖自有安装。两既有测试/源保持review、新helper review，机器3318/251closed/102review/2965pending，0新增closed；83卡55partial/28pending/0accept，仅3w指针更新。未知任意脚本/异常、精确跨平台随机流、极端域、非队员Extra及视觉继续待核。最终docs/lint/ledger见gates，不跑全仓check/official coverage/protected，留大任务收尾，不合main。推送本片后，先核修用户最新GLM补审：视频输出链接穿透、CLI链接路径直执行、raw检查失实注释；其它pre94继续，不转去94–102/editor。
+
+### 2026-10-18 项目长期质量规范接入准入
+
+用户明确要求将八维质量、低成本复验与分工固化为后续开发通用规范。Codex单Owner在现3y树build allowed：新ops/code-quality.md为唯一完整条款；AGENTS/CLAUDE路由、agent-workflow、Ops/通用任务模板及导航只做入口/验收接线，必要registry/routing与逐项review同步。只改文档与对应元数据，不改产品/测试/质量工具或存量文件状态；不占用GLM首批RLE只读范围，不触碰另一docs树。完整check:docs、lint-zero、diff和ledger实测后提交推送治理分支；不借规范接入签收任何旧代码或统一集成门。
+
+本次接入结果与实际门记录见[长期规范接入回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/quality-standard/README.md)。只证明规范/入口/开发验收模板接线，代码ledger和83卡状态不变；完整check:docs与零诊断静态门以该回执为准。
