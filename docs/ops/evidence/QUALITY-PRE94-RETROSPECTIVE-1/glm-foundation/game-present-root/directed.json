@@ -1,0 +1,3550 @@
+{
+  "numTotalTestSuites": 81,
+  "numPassedTestSuites": 81,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 319,
+  "numPassedTests": 319,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792371309609,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D01 右括号把等键图标切到第 1 帧，而不是默认第 0 帧",
+          "status": "passed",
+          "title": "G05-D01 右括号把等键图标切到第 1 帧，而不是默认第 0 帧",
+          "duration": 3.228458000000046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D02 半角字宽 8 时，箭头落在文字末尾 x=52",
+          "status": "passed",
+          "title": "G05-D02 半角字宽 8 时，箭头落在文字末尾 x=52",
+          "duration": 0.7329589999999371,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D03 当前行为空时，箭头画在最后一条已显示行上",
+          "status": "passed",
+          "title": "G05-D03 当前行为空时，箭头画在最后一条已显示行上",
+          "duration": 0.8409580000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D04 两个半角单位的旁白框从 (152,40) 起，文字在 (160,50)",
+          "status": "passed",
+          "title": "G05-D04 两个半角单位的旁白框从 (152,40) 起，文字在 (160,50)",
+          "duration": 0.9534159999998337,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D05 旁白连续数字按 8 像素步进，第二位不落在 +6",
+          "status": "passed",
+          "title": "G05-D05 旁白连续数字按 8 像素步进，第二位不落在 +6",
+          "duration": 0.43783299999995506,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D06 旁白样式不画头像，正文仍写在 (160,50)",
+          "status": "passed",
+          "title": "G05-D06 旁白样式不画头像，正文仍写在 (160,50)",
+          "duration": 6.866166999999905,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D07 物品框没有 itemBox 时，画面保持调用前的底色",
+          "status": "passed",
+          "title": "G05-D07 物品框没有 itemBox 时，画面保持调用前的底色",
+          "duration": 1.7899159999999483,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D08 物品框两行文字分别落在 y=40 和 y=58，右侧一点不是阴影",
+          "status": "passed",
+          "title": "G05-D08 物品框两行文字分别落在 y=40 和 y=58，右侧一点不是阴影",
+          "duration": 1.894457999999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D09 物品目录里没有该 id 时，框仍居中，图标像素不出现",
+          "status": "passed",
+          "title": "G05-D09 物品目录里没有该 id 时，框仍居中，图标像素不出现",
+          "duration": 4.494999999999891,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D10 头像 opaque 必须等于 1 才写入，2 的孔保留底色",
+          "status": "passed",
+          "title": "G05-D10 头像 opaque 必须等于 1 才写入，2 的孔保留底色",
+          "duration": 0.5175830000000587,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D11 物品框正文坐标是 (160,30)，有无头像都一样",
+          "status": "passed",
+          "title": "G05-D11 物品框正文坐标是 (160,30)，有无头像都一样",
+          "duration": 0.9538330000000315,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D12 物品框姓名坐标也是占位 (160,30)",
+          "status": "passed",
+          "title": "G05-D12 物品框姓名坐标也是占位 (160,30)",
+          "duration": 0.25583400000004985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-D dialog 图标物品框与旁白"],
+          "fullName": "G05-D dialog 图标物品框与旁白 G05-D13 物品框占位矩形是 (8,80,304,48)",
+          "status": "passed",
+          "title": "G05-D13 物品框占位矩形是 (8,80,304,48)",
+          "duration": 0.31408299999998235,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371311321,
+      "endTime": 1792371311345.314,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/dialog-box-chrome.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G05-A dialog 可见文字"],
+          "fullName": "G05-A dialog 可见文字 G05-A01 上框无头像时姓名在 (12,8) 为 0x8C，正文在 (44,26)",
+          "status": "passed",
+          "title": "G05-A01 上框无头像时姓名在 (12,8) 为 0x8C，正文在 (44,26)",
+          "duration": 3.7075410000002194,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-A dialog 可见文字"],
+          "fullName": "G05-A dialog 可见文字 G05-A02 上框有头像时姓名改到 (80,8)，正文改到 (96,26)",
+          "status": "passed",
+          "title": "G05-A02 上框有头像时姓名改到 (80,8)，正文改到 (96,26)",
+          "duration": 1.2899160000001757,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-A dialog 可见文字"],
+          "fullName": "G05-A dialog 可见文字 G05-A03 居中框的冒号句画在 (80,40)，不画到姓名位 (12,8)",
+          "status": "passed",
+          "title": "G05-A03 居中框的冒号句画在 (80,40)，不画到姓名位 (12,8)",
+          "duration": 0.28929100000004837,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-A dialog 可见文字"],
+          "fullName": "G05-A dialog 可见文字 G05-A04 charsRevealed 为 1 时只画第一个字，第二个字的位置保持 0",
+          "status": "passed",
+          "title": "G05-A04 charsRevealed 为 1 时只画第一个字，第二个字的位置保持 0",
+          "duration": 0.3382920000003651,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-A dialog 可见文字"],
+          "fullName": "G05-A dialog 可见文字 G05-A05 已沉入的第二行在首行之下 18 像素，黄字与红字分行",
+          "status": "passed",
+          "title": "G05-A05 已沉入的第二行在首行之下 18 像素，黄字与红字分行",
+          "duration": 0.27433300000029703,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-A dialog 可见文字"],
+          "fullName": "G05-A dialog 可见文字 G05-A06 普通对话引号里的字画成黄色 0x2D，不是默认 0x4F",
+          "status": "passed",
+          "title": "G05-A06 普通对话引号里的字画成黄色 0x2D，不是默认 0x4F",
+          "duration": 0.4734579999999369,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-A dialog 可见文字"],
+          "fullName": "G05-A dialog 可见文字 G05-A07 清正文后姓名像素还在 (12,8)，正文位回到 0",
+          "status": "passed",
+          "title": "G05-A07 清正文后姓名像素还在 (12,8)，正文位回到 0",
+          "duration": 0.5476670000002741,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-A dialog 可见文字"],
+          "fullName": "G05-A dialog 可见文字 G05-A08 带引号的姓名仍画成 0x8C，不使用引号切出的黄色",
+          "status": "passed",
+          "title": "G05-A08 带引号的姓名仍画成 0x8C，不使用引号切出的黄色",
+          "duration": 0.5153749999999491,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-A dialog 可见文字"],
+          "fullName": "G05-A dialog 可见文字 G05-A09 当前行没有逐字色时，像素用 state.fontColor 而不是 0x4F",
+          "status": "passed",
+          "title": "G05-A09 当前行没有逐字色时，像素用 state.fontColor 而不是 0x4F",
+          "duration": 0.8756250000001273,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-A dialog 可见文字"],
+          "fullName": "G05-A dialog 可见文字 G05-A10 半角字形宽 8 时，第二个字从 x+8 起画，不落到 x+16",
+          "status": "passed",
+          "title": "G05-A10 半角字形宽 8 时，第二个字从 x+8 起画，不落到 x+16",
+          "duration": 0.5160829999999805,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-A dialog 可见文字"],
+          "fullName": "G05-A dialog 可见文字 G05-A11 姓名索引 0x8C 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x8C",
+          "status": "passed",
+          "title": "G05-A11 姓名索引 0x8C 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x8C",
+          "duration": 491.27537500000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371312373,
+      "endTime": 1792371312873.2754,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/dialog-box-pixels.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["parseDialogText narration tail delay(text.c:1551-1554)"],
+          "fullName": "parseDialogText narration tail delay(text.c:1551-1554) narration/isDialog=true consumes ~NN without waiting",
+          "status": "passed",
+          "title": "narration/isDialog=true consumes ~NN without waiting",
+          "duration": 0.8769999999999527,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置)"],
+          "fullName": "getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置) top + 头像 → \"top\"",
+          "status": "passed",
+          "title": "top + 头像 → \"top\"",
+          "duration": 0.3897910000000593,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置)"],
+          "fullName": "getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置) top 无头像 → \"top\"",
+          "status": "passed",
+          "title": "top 无头像 → \"top\"",
+          "duration": 0.1588329999999587,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置)"],
+          "fullName": "getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置) center(一般不用 title,sdlpal default) → \"center\"",
+          "status": "passed",
+          "title": "center(一般不用 title,sdlpal default) → \"center\"",
+          "duration": 0.06733299999996234,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置)"],
+          "fullName": "getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置) bottom + 头像 → \"bottom\"",
+          "status": "passed",
+          "title": "bottom + 头像 → \"bottom\"",
+          "duration": 0.05854100000010476,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置)"],
+          "fullName": "getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置) bottom 无头像 → \"bottom\"",
+          "status": "passed",
+          "title": "bottom 无头像 → \"bottom\"",
+          "duration": 0.1209160000000793,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置)"],
+          "fullName": "getDialogTitlePos(sdlpal text.c:1316/1340 title 独立于正文位置) narration 同 bottom 档 → \"narration\"",
+          "status": "passed",
+          "title": "narration 同 bottom 档 → \"narration\"",
+          "duration": 0.09850000000005821,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名)"],
+          "fullName": "isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名) 半角冒号(U+003A) → 李逍遥:",
+          "status": "passed",
+          "title": "半角冒号(U+003A) → 李逍遥:",
+          "duration": 0.5299580000000788,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名)"],
+          "fullName": "isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名) 全角冒号(U+FF1A) → 李逍遥：",
+          "status": "passed",
+          "title": "全角冒号(U+FF1A) → 李逍遥：",
+          "duration": 0.7735000000000127,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名)"],
+          "fullName": "isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名) ratio 冒号(U+2236) → 李逍遥∶",
+          "status": "passed",
+          "title": "ratio 冒号(U+2236) → 李逍遥∶",
+          "duration": 0.4101670000000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名)"],
+          "fullName": "isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名) 非冒号结尾 → 李逍遥来了",
+          "status": "passed",
+          "title": "非冒号结尾 → 李逍遥来了",
+          "duration": 0.23404200000004494,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名)"],
+          "fullName": "isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名) 冒号在中间 → 李:逍遥",
+          "status": "passed",
+          "title": "冒号在中间 → 李:逍遥",
+          "duration": 0.07779099999993377,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名)"],
+          "fullName": "isCharacterNameLine(sdlpal text.c:1717-1719 三种冒号结尾判姓名) 空串 → ",
+          "status": "passed",
+          "title": "空串 → ",
+          "duration": 0.060582999999951426,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "resetDialogBody(sdlpal PAL_ClearDialog 等价:清正文不擦 title/portrait)"
+          ],
+          "fullName": "resetDialogBody(sdlpal PAL_ClearDialog 等价:清正文不擦 title/portrait) 清 shownLines/current/计数/typing 态 → line-done;保留 titleText/portraitIcon/style/fontColor",
+          "status": "passed",
+          "title": "清 shownLines/current/计数/typing 态 → line-done;保留 titleText/portraitIcon/style/fontColor",
+          "duration": 1.4120419999999285,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371311319,
+      "endTime": 1792371311325.412,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/dialog-box.glm-next-wave.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613)"
+          ],
+          "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) 普通对话(isDialog=FALSE):`\"...\"` 整句黄 + 引号消费(用户报的\"黄色文字\")",
+          "status": "passed",
+          "title": "普通对话(isDialog=FALSE):`\"...\"` 整句黄 + 引号消费(用户报的\"黄色文字\")",
+          "duration": 1.556041999999934,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613)"
+          ],
+          "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) narration(isDialog=TRUE):`\"` 被消费但**不**变黄(text.c:1522 !isDialog 门控)+ DEFAULT→0",
+          "status": "passed",
+          "title": "narration(isDialog=TRUE):`\"` 被消费但**不**变黄(text.c:1522 !isDialog 门控)+ DEFAULT→0",
+          "duration": 0.5896250000000691,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613)"
+          ],
+          "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) `-` 青 / `'` 红 / `@` 红alt toggle(普通对话)",
+          "status": "passed",
+          "title": "`-` 青 / `'` 红 / `@` 红alt toggle(普通对话)",
+          "duration": 0.9025830000000497,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613)"
+          ],
+          "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) `$NN` 消费 3 字符(typing 速度,不显字面)",
+          "status": "passed",
+          "title": "`$NN` 消费 3 字符(typing 速度,不显字面)",
+          "duration": 0.3941250000000309,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613)"
+          ],
+          "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) `~` 本行提前结束(其后丢弃,text.c:1554 return)+ endedWithTilde=true(text.c:1552 line=-1)",
+          "status": "passed",
+          "title": "`~` 本行提前结束(其后丢弃,text.c:1554 return)+ endedWithTilde=true(text.c:1552 line=-1)",
+          "duration": 0.2524160000000393,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613)"
+          ],
+          "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) 普通行(无 `~` 收尾)endedWithTilde=false → 正文行计数 ++",
+          "status": "passed",
+          "title": "普通行(无 `~` 收尾)endedWithTilde=false → 正文行计数 ++",
+          "duration": 0.343166999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613)"
+          ],
+          "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) `(` / `)` 设 icon + 消费(不字面显示括号)",
+          "status": "passed",
+          "title": "`(` / `)` 设 icon + 消费(不字面显示括号)",
+          "duration": 0.6614170000000286,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613)"
+          ],
+          "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) `\\` 转义:画下一字符字面(\\\" → 字面引号)",
+          "status": "passed",
+          "title": "`\\` 转义:画下一字符字面(\\\" → 字面引号)",
+          "duration": 0.07187500000009095,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613)"
+          ],
+          "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) endColor 跨行持续:未闭合 `\"` → 下一行起始仍黄",
+          "status": "passed",
+          "title": "endColor 跨行持续:未闭合 `\"` → 下一行起始仍黄",
+          "duration": 0.894207999999935,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613)"
+          ],
+          "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) 混色:默认文本 + `\"黄词\"` + 默认(逐字符色正确)",
+          "status": "passed",
+          "title": "混色:默认文本 + `\"黄词\"` + 默认(逐字符色正确)",
+          "duration": 0.9286250000000109,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613)"
+          ],
+          "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) 默认 revealAt:每字 iDelayTime(3)*8=24ms(sdlpal text.c:885/1600)",
+          "status": "passed",
+          "title": "默认 revealAt:每字 iDelayTime(3)*8=24ms(sdlpal text.c:885/1600)",
+          "duration": 0.36149999999997817,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613)"
+          ],
+          "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) `$10` 变速:iDelay=floor(100/7)=14 → 112ms/字(text.c:1538)",
+          "status": "passed",
+          "title": "`$10` 变速:iDelay=floor(100/7)=14 → 112ms/字(text.c:1538)",
+          "duration": 0.08924999999999272,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613)"
+          ],
+          "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) `~NN` 尾暂停:doneAt 含 NN*80/7 ms(text.c:1551)",
+          "status": "passed",
+          "title": "`~NN` 尾暂停:doneAt 含 NN*80/7 ms(text.c:1551)",
+          "duration": 0.1058339999999589,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613)"
+          ],
+          "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) `~40` 一夜过去:原版尾暂停 floor(40*80/7)=457ms",
+          "status": "passed",
+          "title": "`~40` 一夜过去:原版尾暂停 floor(40*80/7)=457ms",
+          "duration": 0.06400000000007822,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613)"
+          ],
+          "fullName": "parseDialogText 控制符 state machine(sdlpal TEXT_DisplayText text.c:1458-1613) iDelay 跨行:startIDelay 参数继承上行 endIDelay",
+          "status": "passed",
+          "title": "iDelay 跨行:startIDelay 参数继承上行 endIDelay",
+          "duration": 0.05033400000002075,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · startDialogLine / appendDialogLine"],
+          "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine startDialogLine 初始化:shownLines 空,currentLineText=text,phase=typing",
+          "status": "passed",
+          "title": "startDialogLine 初始化:shownLines 空,currentLineText=text,phase=typing",
+          "duration": 0.20562500000005457,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · startDialogLine / appendDialogLine"],
+          "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine defaults:fontColor=FONT_COLOR_DEFAULT(0x4F=79),shadow=false,portraitIcon=undefined",
+          "status": "passed",
+          "title": "defaults:fontColor=FONT_COLOR_DEFAULT(0x4F=79),shadow=false,portraitIcon=undefined",
+          "duration": 0.0987079999999878,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · startDialogLine / appendDialogLine"],
+          "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine opts 覆盖 defaults(含 portraitIcon)",
+          "status": "passed",
+          "title": "opts 覆盖 defaults(含 portraitIcon)",
+          "duration": 0.07137499999998909,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · startDialogLine / appendDialogLine"],
+          "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine appendDialogLine 把上行(已 line-done)沉进 shownLines + 新行 typing",
+          "status": "passed",
+          "title": "appendDialogLine 把上行(已 line-done)沉进 shownLines + 新行 typing",
+          "duration": 0.48516700000004676,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · startDialogLine / appendDialogLine"],
+          "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine shouldWaitPageKey:第 4 行 line-done 后返 true(下条 showDialog 会撞)",
+          "status": "passed",
+          "title": "shouldWaitPageKey:第 4 行 line-done 后返 true(下条 showDialog 会撞)",
+          "duration": 0.17479199999979755,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · startDialogLine / appendDialogLine"],
+          "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine dialogLineCount:普通正文行 ++,`~` 收尾复位 0(text.c:1746/1552)",
+          "status": "passed",
+          "title": "dialogLineCount:普通正文行 ++,`~` 收尾复位 0(text.c:1746/1552)",
+          "duration": 0.12370800000007875,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · startDialogLine / appendDialogLine"],
+          "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine L2:typing 中确认置 userSkip → 后续 append 行瞬显(line-done + 满字符)",
+          "status": "passed",
+          "title": "L2:typing 中确认置 userSkip → 后续 append 行瞬显(line-done + 满字符)",
+          "duration": 0.4046249999998963,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · startDialogLine / appendDialogLine"],
+          "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine L2:`~` 段末复位 userSkip → 下一段重新逐字(text.c:1553)",
+          "status": "passed",
+          "title": "L2:`~` 段末复位 userSkip → 下一段重新逐字(text.c:1553)",
+          "duration": 0.3989169999999831,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · startDialogLine / appendDialogLine"],
+          "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine L2:翻页等键后复位 userSkip(text.c:1447)",
+          "status": "passed",
+          "title": "L2:翻页等键后复位 userSkip(text.c:1447)",
+          "duration": 0.6089590000001408,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · startDialogLine / appendDialogLine"],
+          "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine dialogLineCount:首行即 `~` 收尾 → 0(梦境画外音\"李逍遥！~30\")",
+          "status": "passed",
+          "title": "dialogLineCount:首行即 `~` 收尾 → 0(梦境画外音\"李逍遥！~30\")",
+          "duration": 0.565375000000131,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · startDialogLine / appendDialogLine"],
+          "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine dialogLineCount:姓名 title 行不计入(text.c:1715-1726)",
+          "status": "passed",
+          "title": "dialogLineCount:姓名 title 行不计入(text.c:1715-1726)",
+          "duration": 0.5961250000000291,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · startDialogLine / appendDialogLine"],
+          "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine M1:段中续行(line>0)冒号结尾不当姓名牌(text.c:1715 nCurrentDialogLine==0)",
+          "status": "passed",
+          "title": "M1:段中续行(line>0)冒号结尾不当姓名牌(text.c:1715 nCurrentDialogLine==0)",
+          "duration": 0.35454200000003766,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · startDialogLine / appendDialogLine"],
+          "fullName": "Sync.2 DialogBox · startDialogLine / appendDialogLine L1:center 风格首行冒号结尾当居中正文,不当姓名牌(text.c:1716 != kDialogCenter)",
+          "status": "passed",
+          "title": "L1:center 风格首行冒号结尾当居中正文,不当姓名牌(text.c:1716 != kDialogCenter)",
+          "duration": 0.4617920000000595,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块)"],
+          "fullName": "Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块) 24ms/字:60ms 时应显 3 字(revealAt 0/24/48<=60;旧实现 0-100ms 内 0 字或蹦 4 字,都不对)",
+          "status": "passed",
+          "title": "24ms/字:60ms 时应显 3 字(revealAt 0/24/48<=60;旧实现 0-100ms 内 0 字或蹦 4 字,都不对)",
+          "duration": 1.5204579999999623,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块)"],
+          "fullName": "Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块) 24ms/字:逐字推进(24ms→2字,48ms→3字,72ms→4字)非成块蹦",
+          "status": "passed",
+          "title": "24ms/字:逐字推进(24ms→2字,48ms→3字,72ms→4字)非成块蹦",
+          "duration": 1.807457999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块)"],
+          "fullName": "Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块) $NN 变速语义保留:$10(iDelay=14→112ms/字)50ms 仅 1 字,200ms 2 字,224ms 3 字",
+          "status": "passed",
+          "title": "$NN 变速语义保留:$10(iDelay=14→112ms/字)50ms 仅 1 字,200ms 2 字,224ms 3 字",
+          "duration": 0.4223749999998745,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块)"],
+          "fullName": "Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块) ~NN 尾暂停语义保留:doneAt 前仍 typing,doneAt 后 line-done + renderPending",
+          "status": "passed",
+          "title": "~NN 尾暂停语义保留:doneAt 前仍 typing,doneAt 后 line-done + renderPending",
+          "duration": 0.4898329999998623,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块)"],
+          "fullName": "Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块) Bug3:`~NN` 尾行打字中途跳字 → 只等 ~NN 尾停顿,不卡到完整 doneAt(对齐 sdlpal text.c:1551)",
+          "status": "passed",
+          "title": "Bug3:`~NN` 尾行打字中途跳字 → 只等 ~NN 尾停顿,不卡到完整 doneAt(对齐 sdlpal text.c:1551)",
+          "duration": 0.41345899999987523,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块)"],
+          "fullName": "Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块) Bug3-2:`~NN` 尾行跳字后再按 Confirm → 不重置尾停顿(noop),墙钟走到尾停顿结束仍推进",
+          "status": "passed",
+          "title": "Bug3-2:`~NN` 尾行跳字后再按 Confirm → 不重置尾停顿(noop),墙钟走到尾停顿结束仍推进",
+          "duration": 0.3730000000000473,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块)"],
+          "fullName": "Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块) line-done 后继续 tick → charsRevealed 不再增长",
+          "status": "passed",
+          "title": "line-done 后继续 tick → charsRevealed 不再增长",
+          "duration": 0.21849999999994907,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块)"],
+          "fullName": "Bug1 fix · tickDialog wall-clock 驱动(24ms/字逐字,非 100ms 成块) appendDialogLine 续行重置 lineStartMs 为新行 now",
+          "status": "passed",
+          "title": "appendDialogLine 续行重置 lineStartMs 为新行 now",
+          "duration": 0.12066600000002836,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · tickDialog typing"],
+          "fullName": "Sync.2 DialogBox · tickDialog typing 默认速度时间驱动(sdlpal iDelayTime=3 → 24ms/字):100ms/tick 内一次出多字",
+          "status": "passed",
+          "title": "默认速度时间驱动(sdlpal iDelayTime=3 → 24ms/字):100ms/tick 内一次出多字",
+          "duration": 0.7029999999999745,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · tickDialog typing"],
+          "fullName": "Sync.2 DialogBox · tickDialog typing $NN 变速:$10(iDelay=14 → 112ms/字)远慢 → 1 tick 仅 1 字",
+          "status": "passed",
+          "title": "$NN 变速:$10(iDelay=14 → 112ms/字)远慢 → 1 tick 仅 1 字",
+          "duration": 1.448667000000114,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · tickDialog typing"],
+          "fullName": "Sync.2 DialogBox · tickDialog typing charsRevealed === currentLineText.length 时 phase → line-done",
+          "status": "passed",
+          "title": "charsRevealed === currentLineText.length 时 phase → line-done",
+          "duration": 0.19983300000012605,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · tickDialog typing"],
+          "fullName": "Sync.2 DialogBox · tickDialog typing `~NN` 尾暂停结束后标记保留完整文字一帧",
+          "status": "passed",
+          "title": "`~NN` 尾暂停结束后标记保留完整文字一帧",
+          "duration": 0.24241600000004837,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · tickDialog typing"],
+          "fullName": "Sync.2 DialogBox · tickDialog typing line-done 后继续 tick → charsRevealed 不再增长",
+          "status": "passed",
+          "title": "line-done 后继续 tick → charsRevealed 不再增长",
+          "duration": 0.0827919999999267,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · tickDialog typing"],
+          "fullName": "Sync.2 DialogBox · tickDialog typing 等键 phase → icon 常显(不随 tick show/hide)",
+          "status": "passed",
+          "title": "等键 phase → icon 常显(不随 tick show/hide)",
+          "duration": 215.61862500000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · confirmDialog 4 case"],
+          "fullName": "Sync.2 DialogBox · confirmDialog 4 case typing 中 → skip-typing(跳行末,不翻页)",
+          "status": "passed",
+          "title": "typing 中 → skip-typing(跳行末,不翻页)",
+          "duration": 0.12474999999994907,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · confirmDialog 4 case"],
+          "fullName": "Sync.2 DialogBox · confirmDialog 4 case line-done 状态下 Confirm → noop(等自动推进)",
+          "status": "passed",
+          "title": "line-done 状态下 Confirm → noop(等自动推进)",
+          "duration": 0.050917000000026746,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · confirmDialog 4 case"],
+          "fullName": "Sync.2 DialogBox · confirmDialog 4 case waiting-page-key 状态 → page-advance + 清 shownLines / currentLineText",
+          "status": "passed",
+          "title": "waiting-page-key 状态 → page-advance + 清 shownLines / currentLineText",
+          "duration": 0.11116700000002311,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · confirmDialog 4 case"],
+          "fullName": "Sync.2 DialogBox · confirmDialog 4 case waiting-end-key 状态 → dialog-end",
+          "status": "passed",
+          "title": "waiting-end-key 状态 → dialog-end",
+          "duration": 0.04250000000001819,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · getDialogBoxRect"],
+          "fullName": "Sync.2 DialogBox · getDialogBoxRect 4 styles 返回不同 y 坐标",
+          "status": "passed",
+          "title": "4 styles 返回不同 y 坐标",
+          "duration": 0.058459000000084416,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值)"],
+          "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) top 无 portrait → (44, 26)",
+          "status": "passed",
+          "title": "top 无 portrait → (44, 26)",
+          "duration": 0.14999999999986358,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值)"],
+          "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) top 有 portrait → (96, 26)",
+          "status": "passed",
+          "title": "top 有 portrait → (96, 26)",
+          "duration": 0.04016599999999926,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值)"],
+          "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) center → (80, 40),不论 portrait",
+          "status": "passed",
+          "title": "center → (80, 40),不论 portrait",
+          "duration": 0.03995800000006966,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值)"],
+          "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) bottom 无 portrait → (44, 126)",
+          "status": "passed",
+          "title": "bottom 无 portrait → (44, 126)",
+          "duration": 0.028625000000147338,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值)"],
+          "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) bottom 有 portrait → (20, 126)",
+          "status": "passed",
+          "title": "bottom 有 portrait → (20, 126)",
+          "duration": 0.027540999999928317,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值)"],
+          "fullName": "Sync.2 DialogBox · getDialogTextPos(sdlpal text.c:1313-1346 真值) narration 同 bottom",
+          "status": "passed",
+          "title": "narration 同 bottom",
+          "duration": 0.036458999999922526,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · drawDialogBox 不画 box bg"],
+          "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg charsRevealed=0 且无 portrait → fb 完全空",
+          "status": "passed",
+          "title": "charsRevealed=0 且无 portrait → fb 完全空",
+          "duration": 2.060375000000022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · drawDialogBox 不画 box bg"],
+          "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg typing 完一字 → fontColor 像素存在,无 255 边框色",
+          "status": "passed",
+          "title": "typing 完一字 → fontColor 像素存在,无 255 边框色",
+          "duration": 7.724459000000024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · drawDialogBox 不画 box bg"],
+          "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg 多行(shownLines + currentLine)都画在 fb",
+          "status": "passed",
+          "title": "多行(shownLines + currentLine)都画在 fb",
+          "duration": 4.534209000000146,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · drawDialogBox 不画 box bg"],
+          "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg 对话文字 → 主色 200 + 三层阴影 color 0(取代旧单层 color 50)",
+          "status": "passed",
+          "title": "对话文字 → 主色 200 + 三层阴影 color 0(取代旧单层 color 50)",
+          "duration": 14.010750000000144,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · drawDialogBox 不画 box bg"],
+          "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg 5 styles 绘制不抛错(无 ctx)",
+          "status": "passed",
+          "title": "5 styles 绘制不抛错(无 ctx)",
+          "duration": 1.784208000000035,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · drawDialogBox 不画 box bg"],
+          "fullName": "Sync.2 DialogBox · drawDialogBox 不画 box bg item-box 物品框:居中 ITEMBOX 精灵 + 物品 BALL 图标@box+(8,7)(script.c:1483-1508)",
+          "status": "passed",
+          "title": "item-box 物品框:居中 ITEMBOX 精灵 + 物品 BALL 图标@box+(8,7)(script.c:1483-1508)",
+          "duration": 6.844166000000087,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · portrait 真做(sdlpal text.c:1289-1310 真位置)"],
+          "fullName": "Sync.2 DialogBox · portrait 真做(sdlpal text.c:1289-1310 真位置) top + portrait → blit 在 (48 - w/2, 55 - h/2)",
+          "status": "passed",
+          "title": "top + portrait → blit 在 (48 - w/2, 55 - h/2)",
+          "duration": 0.578333000000157,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · portrait 真做(sdlpal text.c:1289-1310 真位置)"],
+          "fullName": "Sync.2 DialogBox · portrait 真做(sdlpal text.c:1289-1310 真位置) bottom + portrait → blit 在 (270 - w/2, 144 - h/2)",
+          "status": "passed",
+          "title": "bottom + portrait → blit 在 (270 - w/2, 144 - h/2)",
+          "duration": 0.20329199999991943,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · portrait 真做(sdlpal text.c:1289-1310 真位置)"],
+          "fullName": "Sync.2 DialogBox · portrait 真做(sdlpal text.c:1289-1310 真位置) center style → 不画 portrait",
+          "status": "passed",
+          "title": "center style → 不画 portrait",
+          "duration": 5.44766699999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · portrait 真做(sdlpal text.c:1289-1310 真位置)"],
+          "fullName": "Sync.2 DialogBox · portrait 真做(sdlpal text.c:1289-1310 真位置) portraitLayout=true 但 portraitIcon=undefined(0x05 擦立绘后续话):不画图、文本仍缩进 x≥96",
+          "status": "passed",
+          "title": "portraitLayout=true 但 portraitIcon=undefined(0x05 擦立绘后续话):不画图、文本仍缩进 x≥96",
+          "duration": 11.986208000000033,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · portrait 真做(sdlpal text.c:1289-1310 真位置)"],
+          "fullName": "Sync.2 DialogBox · portrait 真做(sdlpal text.c:1289-1310 真位置) top + portrait → text X 起始 ≥ 96",
+          "status": "passed",
+          "title": "top + portrait → text X 起始 ≥ 96",
+          "duration": 3.460792000000083,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · key icon(sdlpal text.c:1391)"],
+          "fullName": "Sync.2 DialogBox · key icon(sdlpal text.c:1391) waiting-page-key → blit icon(常显,不再 gate keyIconBlink)",
+          "status": "passed",
+          "title": "waiting-page-key → blit icon(常显,不再 gate keyIconBlink)",
+          "duration": 6.271791000000121,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · key icon(sdlpal text.c:1391)"],
+          "fullName": "Sync.2 DialogBox · key icon(sdlpal text.c:1391) icon 位置 = 本行文字末尾 x + 本行 y(sdlpal posIcon 真值)",
+          "status": "passed",
+          "title": "icon 位置 = 本行文字末尾 x + 本行 y(sdlpal posIcon 真值)",
+          "duration": 3.011250000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · key icon(sdlpal text.c:1391)"],
+          "fullName": "Sync.2 DialogBox · key icon(sdlpal text.c:1391) typing 中(phase=typing)→ 不画 icon",
+          "status": "passed",
+          "title": "typing 中(phase=typing)→ 不画 icon",
+          "duration": 3.5228750000001128,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · key icon(sdlpal text.c:1391)"],
+          "fullName": "Sync.2 DialogBox · key icon(sdlpal text.c:1391) center style 即使 waiting → 不画 icon(sdlpal kDialogCenter 守卫)",
+          "status": "passed",
+          "title": "center style 即使 waiting → 不画 icon(sdlpal kDialogCenter 守卫)",
+          "duration": 4.93383300000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Sync.2 DialogBox · MAX_LINES_PER_PAGE 真值"],
+          "fullName": "Sync.2 DialogBox · MAX_LINES_PER_PAGE 真值 MAX_LINES_PER_PAGE = 4(sdlpal text.c:1649 nCurrentDialogLine > 3)",
+          "status": "passed",
+          "title": "MAX_LINES_PER_PAGE = 4(sdlpal text.c:1649 nCurrentDialogLine > 3)",
+          "duration": 0.15516699999989214,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371311317,
+      "endTime": 1792371311633.1553,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/dialog-box.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G04-C dither 相位与低位回退"],
+          "fullName": "G04-C dither 相位与低位回退 G04-C01 step 1 到 5 按 RG_INDEX 依次碰到下标 3、1、5、2、4",
+          "status": "passed",
+          "title": "G04-C01 step 1 到 5 按 RG_INDEX 依次碰到下标 3、1、5、2、4",
+          "duration": 2.248458000000028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-C dither 相位与低位回退"],
+          "fullName": "G04-C dither 相位与低位回退 G04-C02 outer 1 的 step 6 把低位 9 减到 8，邻接下标不动",
+          "status": "passed",
+          "title": "G04-C02 outer 1 的 step 6 把低位 9 减到 8，邻接下标不动",
+          "duration": 0.21700000000009823,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-C dither 相位与低位回退"],
+          "fullName": "G04-C dither 相位与低位回退 G04-C03 低位已经相等时 outer 1 不加减，只换上 target 高位",
+          "status": "passed",
+          "title": "G04-C03 低位已经相等时 outer 1 不加减，只换上 target 高位",
+          "duration": 0.13512500000001637,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-C dither 相位与低位回退"],
+          "fullName": "G04-C dither 相位与低位回退 G04-C04 outer 0 把更高的 backup 高位直接换成 target 高位",
+          "status": "passed",
+          "title": "G04-C04 outer 0 把更高的 backup 高位直接换成 target 高位",
+          "duration": 0.10954100000003564,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-C dither 相位与低位回退"],
+          "fullName": "G04-C dither 相位与低位回退 G04-C05 长度超过 6 时同一 step 继续处理 k+6",
+          "status": "passed",
+          "title": "G04-C05 长度超过 6 时同一 step 继续处理 k+6",
+          "duration": 0.08216700000002675,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-C dither 相位与低位回退"],
+          "fullName": "G04-C dither 相位与低位回退 G04-C06 fromStep 等于 toStep 时不改 backup",
+          "status": "passed",
+          "title": "G04-C06 fromStep 等于 toStep 时不改 backup",
+          "duration": 0.0855420000000322,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371313785,
+      "endTime": 1792371313788.135,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/dither-fade-nibble.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["applyDitherSteps(nibble dither,video.c:1178 / battle.c:630)"],
+          "fullName": "applyDitherSteps(nibble dither,video.c:1178 / battle.c:630) step 0(outer 0)仅取 target 高 nibble + backup 低 nibble(rgIndex[0]=0 那条 stride)",
+          "status": "passed",
+          "title": "step 0(outer 0)仅取 target 高 nibble + backup 低 nibble(rgIndex[0]=0 那条 stride)",
+          "duration": 1.6828749999999673,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyDitherSteps(nibble dither,video.c:1178 / battle.c:630)"],
+          "fullName": "applyDitherSteps(nibble dither,video.c:1178 / battle.c:630) outer>0 低 nibble 朝 target ±1(a低 > b低 → b低+1)",
+          "status": "passed",
+          "title": "outer>0 低 nibble 朝 target ±1(a低 > b低 → b低+1)",
+          "duration": 0.4689579999999296,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyDitherSteps(nibble dither,video.c:1178 / battle.c:630)"],
+          "fullName": "applyDitherSteps(nibble dither,video.c:1178 / battle.c:630) 跑满 72 step:低 nibble 差 ≤ 11(11 outer 趟 ±1)→ backup 收敛 = target",
+          "status": "passed",
+          "title": "跑满 72 step:低 nibble 差 ≤ 11(11 outer 趟 ±1)→ backup 收敛 = target",
+          "duration": 0.10749999999984539,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371313911,
+      "endTime": 1792371313913.469,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/dither-fade.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G05-C draw-number 空位与掩码"],
+          "fullName": "G05-C draw-number 空位与掩码 G05-C01 透明孔保留底色，旁边的不透明点写入精灵索引 44",
+          "status": "passed",
+          "title": "G05-C01 透明孔保留底色，旁边的不透明点写入精灵索引 44",
+          "duration": 3.7109590000000026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-C draw-number 空位与掩码"],
+          "fullName": "G05-C draw-number 空位与掩码 G05-C02 只点亮最后一行时，像素写在 y+7，首行保持底色",
+          "status": "passed",
+          "title": "G05-C02 只点亮最后一行时，像素写在 y+7，首行保持底色",
+          "duration": 0.4597079999998641,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-C draw-number 空位与掩码"],
+          "fullName": "G05-C draw-number 空位与掩码 G05-C03 个位帧缺失时仍把十位画到左移 6 像素的位置",
+          "status": "passed",
+          "title": "G05-C03 个位帧缺失时仍把十位画到左移 6 像素的位置",
+          "duration": 0.14699999999993452,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-C draw-number 空位与掩码"],
+          "fullName": "G05-C draw-number 空位与掩码 G05-C04 nLength 为 0 且数字大于 0 时，一个数字像素都不写",
+          "status": "passed",
+          "title": "G05-C04 nLength 为 0 且数字大于 0 时，一个数字像素都不写",
+          "duration": 1.19074999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-C draw-number 空位与掩码"],
+          "fullName": "G05-C draw-number 空位与掩码 G05-C05 数字 0 且 nLength 为 0 时，右对齐把这一位画在 pos.x-6",
+          "status": "passed",
+          "title": "G05-C05 数字 0 且 nLength 为 0 时，右对齐把这一位画在 pos.x-6",
+          "duration": 0.38241599999992104,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371313575,
+      "endTime": 1792371313581.3823,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/draw-number-slots.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port"],
+          "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port num=0,nLength=6,right-align 到 (49, 14) — 1 个 0 digit 在 (79, 14)",
+          "status": "passed",
+          "title": "num=0,nLength=6,right-align 到 (49, 14) — 1 个 0 digit 在 (79, 14)",
+          "duration": 2.847334000000046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port"],
+          "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port num=123,nLength=6,right-align — 3 digits 末位 3 在 (79, 14),2 在 (73, 14),1 在 (67, 14)",
+          "status": "passed",
+          "title": "num=123,nLength=6,right-align — 3 digits 末位 3 在 (79, 14),2 在 (73, 14),1 在 (67, 14)",
+          "duration": 1.338124999999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port"],
+          "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port num=0,nLength=4,right-align 到 (270, 21) — saved times slot 真值",
+          "status": "passed",
+          "title": "num=0,nLength=4,right-align 到 (270, 21) — saved times slot 真值",
+          "duration": 0.3909169999999449,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port"],
+          "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port blue color → base frame 29",
+          "status": "passed",
+          "title": "blue color → base frame 29",
+          "duration": 0.24841600000013386,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port"],
+          "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port cyan color → base frame 56",
+          "status": "passed",
+          "title": "cyan color → base frame 56",
+          "duration": 0.2851250000001073,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port"],
+          "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port left-align num=42,nLength=6 — digit 起 (49 - 6 + 6*2 = 55) — 2 在 55,4 在 49",
+          "status": "passed",
+          "title": "left-align num=42,nLength=6 — digit 起 (49 - 6 + 6*2 = 55) — 2 在 55,4 在 49",
+          "duration": 0.5835420000000795,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port"],
+          "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port num 超过 nLength → truncate(actualLength = nLength)",
+          "status": "passed",
+          "title": "num 超过 nLength → truncate(actualLength = nLength)",
+          "duration": 0.22733399999992798,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port"],
+          "fullName": "drawNumber — sdlpal ui.c:640-732 PAL_DrawNumber port uiSpriteFrames 缺失对应 base+digit 时跳过 blit 不抛",
+          "status": "passed",
+          "title": "uiSpriteFrames 缺失对应 base+digit 时跳过 blit 不抛",
+          "duration": 1.8695419999999103,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371312348,
+      "endTime": 1792371312355.8696,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/draw-number.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G03-B drawSprite 锚点与裁剪"],
+          "fullName": "G03-B drawSprite 锚点与裁剪 G03-B01 宽 7 高 4 的帧 anchorX 为 3，anchorY 为自身高度 4",
+          "status": "passed",
+          "title": "G03-B01 宽 7 高 4 的帧 anchorX 为 3，anchorY 为自身高度 4",
+          "duration": 1.3723339999999098,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-B drawSprite 锚点与裁剪"],
+          "fullName": "G03-B drawSprite 锚点与裁剪 G03-B02 宽 1 的帧 anchorX 为 0，不跟相邻更宽的帧",
+          "status": "passed",
+          "title": "G03-B02 宽 1 的帧 anchorX 为 0，不跟相邻更宽的帧",
+          "duration": 0.49833300000000236,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-B drawSprite 锚点与裁剪"],
+          "fullName": "G03-B drawSprite 锚点与裁剪 G03-B03 toSpriteImages 复用调用方的 indices 与 opaque",
+          "status": "passed",
+          "title": "G03-B03 toSpriteImages 复用调用方的 indices 与 opaque",
+          "duration": 0.21562500000004547,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-B drawSprite 锚点与裁剪"],
+          "fullName": "G03-B drawSprite 锚点与裁剪 G03-B04 左缘外的像素不写，紧挨着的屏内像素写入 9",
+          "status": "passed",
+          "title": "G03-B04 左缘外的像素不写，紧挨着的屏内像素写入 9",
+          "duration": 0.5023750000000291,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-B drawSprite 锚点与裁剪"],
+          "fullName": "G03-B drawSprite 锚点与裁剪 G03-B05 顶缘外的像素不写，下一行屏内像素写入 9",
+          "status": "passed",
+          "title": "G03-B05 顶缘外的像素不写，下一行屏内像素写入 9",
+          "duration": 0.20762500000000728,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-B drawSprite 锚点与裁剪"],
+          "fullName": "G03-B drawSprite 锚点与裁剪 G03-B06 右缘只写下 x=319 的像素，调用不抛错",
+          "status": "passed",
+          "title": "G03-B06 右缘只写下 x=319 的像素，调用不抛错",
+          "duration": 0.12987500000008367,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-B drawSprite 锚点与裁剪"],
+          "fullName": "G03-B drawSprite 锚点与裁剪 G03-B07 3×1 按行序写入 11、12、13",
+          "status": "passed",
+          "title": "G03-B07 3×1 按行序写入 11、12、13",
+          "duration": 0.2926660000000538,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-B drawSprite 锚点与裁剪"],
+          "fullName": "G03-B drawSprite 锚点与裁剪 G03-B08 中间透明孔不挡住右侧不透明像素",
+          "status": "passed",
+          "title": "G03-B08 中间透明孔不挡住右侧不透明像素",
+          "duration": 0.30358300000011695,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371312818,
+      "endTime": 1792371312822.3035,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/draw-sprite-clip.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["toSpriteImages 逐帧 anchor(密道攀爬偏下根因回归)"],
+          "fullName": "toSpriteImages 逐帧 anchor(密道攀爬偏下根因回归) 每帧 anchorY = 自身高度,anchorX = 自身宽度/2(非整组钉死 frame0)",
+          "status": "passed",
+          "title": "每帧 anchorY = 自身高度,anchorX = 自身宽度/2(非整组钉死 frame0)",
+          "duration": 1.9984999999999218,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["toSpriteImages 逐帧 anchor(密道攀爬偏下根因回归)"],
+          "fullName": "toSpriteImages 逐帧 anchor(密道攀爬偏下根因回归) 脚底对齐:任意高度帧在 drawSprite(cy) 处底边都落在同一行(sdlpal PAL_RLEGetHeight 逐帧)",
+          "status": "passed",
+          "title": "脚底对齐:任意高度帧在 drawSprite(cy) 处底边都落在同一行(sdlpal PAL_RLEGetHeight 逐帧)",
+          "duration": 1.2343329999998787,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawSprite"],
+          "fullName": "drawSprite 画一个 2×2 精灵,anchor 在底部中心 (1, 2)",
+          "status": "passed",
+          "title": "画一个 2×2 精灵,anchor 在底部中心 (1, 2)",
+          "duration": 0.3734999999999218,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawSprite"],
+          "fullName": "drawSprite opaque=0 不覆盖底面(M3.5 fix:透明判定走 opaque mask,非 idx===0)",
+          "status": "passed",
+          "title": "opaque=0 不覆盖底面(M3.5 fix:透明判定走 opaque mask,非 idx===0)",
+          "duration": 0.2605829999999969,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawSprite"],
+          "fullName": "drawSprite opaque=1 且 idx=0 仍画(palette index 0 是合法 opaque 像素,M3.5 fix)",
+          "status": "passed",
+          "title": "opaque=1 且 idx=0 仍画(palette index 0 是合法 opaque 像素,M3.5 fix)",
+          "duration": 0.462291999999934,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawSprite"],
+          "fullName": "drawSprite 屏幕外像素不抛错",
+          "status": "passed",
+          "title": "屏幕外像素不抛错",
+          "duration": 1.1052500000000691,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371312520,
+      "endTime": 1792371312526.1052,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/draw-sprite.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A01 layer 0 的 lower 图缺失时，画面用 tile 0，upper 仍用自己的图",
+          "status": "passed",
+          "title": "G03-A01 layer 0 的 lower 图缺失时，画面用 tile 0，upper 仍用自己的图",
+          "duration": 3.423332999999957,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A02 layer 1 的 upper 有 id 但没有图时，不回落 tile 0",
+          "status": "passed",
+          "title": "G03-A02 layer 1 的 upper 有 id 但没有图时，不回落 tile 0",
+          "duration": 1.0547080000001188,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A03 layer 1 的 lower 图缺失时仍回落 tile 0，upper 的 -1 不画",
+          "status": "passed",
+          "title": "G03-A03 layer 1 的 lower 图缺失时仍回落 tile 0，upper 的 -1 不画",
+          "duration": 0.14608300000008967,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A04 透明像素不记 coverage，不透明的 index 0 会写入并记 coverage",
+          "status": "passed",
+          "title": "G03-A04 透明像素不记 coverage，不透明的 index 0 会写入并记 coverage",
+          "duration": 0.2965409999999338,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A05 瓦片跨过 x=0 时，负列不记 coverage，屏内列写入 9",
+          "status": "passed",
+          "title": "G03-A05 瓦片跨过 x=0 时，负列不记 coverage，屏内列写入 9",
+          "duration": 0.1407920000001468,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A06 瓦片跨过 y=0 时，屏内那一行写入 9，再下一行保持空白",
+          "status": "passed",
+          "title": "G03-A06 瓦片跨过 y=0 时，屏内那一行写入 9，再下一行保持空白",
+          "duration": 0.0904169999998885,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A07 整行落在屏幕下方时不取该行的 tile id",
+          "status": "passed",
+          "title": "G03-A07 整行落在屏幕下方时不取该行的 tile id",
+          "duration": 0.2186250000002019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A08 整列落在屏幕右边界外时不取该列的 tile id",
+          "status": "passed",
+          "title": "G03-A08 整列落在屏幕右边界外时不取该列的 tile id",
+          "duration": 0.24849999999992178,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A09 接缝先取扫描顺序里的西北邻居，不取东边更晚的邻居",
+          "status": "passed",
+          "title": "G03-A09 接缝先取扫描顺序里的西北邻居，不取东边更晚的邻居",
+          "duration": 0.4452080000000933,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A10 maxPasses 为 1 时只填到紧邻已覆盖像素的一圈",
+          "status": "passed",
+          "title": "G03-A10 maxPasses 为 1 时只填到紧邻已覆盖像素的一圈",
+          "duration": 0.3467080000000351,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A11 blitTileAt 把屏内 1×1 写成给定索引",
+          "status": "passed",
+          "title": "G03-A11 blitTileAt 把屏内 1×1 写成给定索引",
+          "duration": 0.13708300000007512,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371311223,
+      "endTime": 1792371311230.137,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["drawTilemap"],
+          "fullName": "drawTilemap lower (h=0) 画在 (-16,-8) 子行;upper (h=1) 画在 col/row baseline",
+          "status": "passed",
+          "title": "lower (h=0) 画在 (-16,-8) 子行;upper (h=1) 画在 col/row baseline",
+          "duration": 2.8840000000000146,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawTilemap"],
+          "fullName": "drawTilemap ±1 fence(M3.5 T6 修):layer 0 fence 位置回落到 tile(cells[0][0].lower 的 h=0)",
+          "status": "passed",
+          "title": "±1 fence(M3.5 T6 修):layer 0 fence 位置回落到 tile(cells[0][0].lower 的 h=0)",
+          "duration": 0.3343339999998989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawTilemap"],
+          "fullName": "drawTilemap ±1 fence:layer 1 fence 位置 fallback = -1,fence 不调 tiles.get",
+          "status": "passed",
+          "title": "±1 fence:layer 1 fence 位置 fallback = -1,fence 不调 tiles.get",
+          "duration": 0.36754099999984646,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawTilemap"],
+          "fullName": "drawTilemap layer 0:9-bit tile id 从低 16 bit 提取 (d & 0xff) | ((d >> 4) & 0x100)",
+          "status": "passed",
+          "title": "layer 0:9-bit tile id 从低 16 bit 提取 (d & 0xff) | ((d >> 4) & 0x100)",
+          "duration": 0.4310840000000553,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawTilemap"],
+          "fullName": "drawTilemap layer 1:tile id 从高 16 bit 提取且 -1;高 16 bit = 0 → id < 0 → skip",
+          "status": "passed",
+          "title": "layer 1:tile id 从高 16 bit 提取且 -1;高 16 bit = 0 → id < 0 → skip",
+          "duration": 0.16562499999986358,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawTilemap"],
+          "fullName": "drawTilemap 传入 coverage 时标记已画像素;远处未画处不标记",
+          "status": "passed",
+          "title": "传入 coverage 时标记已画像素;远处未画处不标记",
+          "duration": 0.18945800000005875,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "repairTilemapSeams(瓦片接缝漏黑修复——血池\"黑色三角\"根因:原版不清屏遮住,我们 clear 到 0 露黑)"
+          ],
+          "fullName": "repairTilemapSeams(瓦片接缝漏黑修复——血池\"黑色三角\"根因:原版不清屏遮住,我们 clear 到 0 露黑) 未覆盖像素用最近的已覆盖邻居填充",
+          "status": "passed",
+          "title": "未覆盖像素用最近的已覆盖邻居填充",
+          "duration": 0.2235000000000582,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "repairTilemapSeams(瓦片接缝漏黑修复——血池\"黑色三角\"根因:原版不清屏遮住,我们 clear 到 0 露黑)"
+          ],
+          "fullName": "repairTilemapSeams(瓦片接缝漏黑修复——血池\"黑色三角\"根因:原版不清屏遮住,我们 clear 到 0 露黑) 已覆盖像素保持不变,即使其值为 0(合法的不透明 index-0,不能当漏黑)",
+          "status": "passed",
+          "title": "已覆盖像素保持不变,即使其值为 0(合法的不透明 index-0,不能当漏黑)",
+          "duration": 0.07137499999998909,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "repairTilemapSeams(瓦片接缝漏黑修复——血池\"黑色三角\"根因:原版不清屏遮住,我们 clear 到 0 露黑)"
+          ],
+          "fullName": "repairTilemapSeams(瓦片接缝漏黑修复——血池\"黑色三角\"根因:原版不清屏遮住,我们 clear 到 0 露黑) 填宽接缝:逐圈向内扩散直到填满",
+          "status": "passed",
+          "title": "填宽接缝:逐圈向内扩散直到填满",
+          "duration": 0.4217919999998685,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371311224,
+      "endTime": 1792371311229.4219,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/draw-tilemap.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G03-C computeFollowerWorldPos 方向与冻结"],
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C01 m=1 且 trail[1] 朝右时偏移为 -16,-8，返回朝向仍是 trail[2]",
+          "status": "passed",
+          "title": "G03-C01 m=1 且 trail[1] 朝右时偏移为 -16,-8，返回朝向仍是 trail[2]",
+          "duration": 2.7518749999999272,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-C computeFollowerWorldPos 方向与冻结"],
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C02 m=1 且 trail[1] 朝左时偏移为 +16,+8",
+          "status": "passed",
+          "title": "G03-C02 m=1 且 trail[1] 朝左时偏移为 +16,+8",
+          "duration": 0.3335420000000795,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-C computeFollowerWorldPos 方向与冻结"],
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C03 m=1 且 trail[1] 朝上时偏移为 -16,+8",
+          "status": "passed",
+          "title": "G03-C03 m=1 且 trail[1] 朝上时偏移为 -16,+8",
+          "duration": 0.09933299999988776,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-C computeFollowerWorldPos 方向与冻结"],
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C04 m=2 朝下时偏移是 +16,+8，不是 m=1 的 +16,-8",
+          "status": "passed",
+          "title": "G03-C04 m=2 朝下时偏移是 +16,+8，不是 m=1 的 +16,-8",
+          "duration": 0.2058750000001055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-C computeFollowerWorldPos 方向与冻结"],
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C05 m=2 朝右时水平偏移为 -16，垂直仍是 +8",
+          "status": "passed",
+          "title": "G03-C05 m=2 朝右时水平偏移为 -16，垂直仍是 +8",
+          "duration": 0.07720800000015515,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-C computeFollowerWorldPos 方向与冻结"],
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C06 偏移落在障碍上时，冻结的是退回 trail[1] 之后的位移",
+          "status": "passed",
+          "title": "G03-C06 偏移落在障碍上时，冻结的是退回 trail[1] 之后的位移",
+          "duration": 0.08779200000003584,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-C computeFollowerWorldPos 方向与冻结"],
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C07 走路时不沿用旧冻结，并把它改写成这次的位移",
+          "status": "passed",
+          "title": "G03-C07 走路时不沿用旧冻结，并把它改写成这次的位移",
+          "duration": 0.19154100000014296,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-C computeFollowerWorldPos 方向与冻结"],
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C08 trail 没有第 3 项时，朝向回退 trail[1].dir",
+          "status": "passed",
+          "title": "G03-C08 trail 没有第 3 项时，朝向回退 trail[1].dir",
+          "duration": 0.17020900000011352,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-C computeFollowerWorldPos 方向与冻结"],
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C09 静止且成员下标超出 trail 时，用最后一项的坐标",
+          "status": "passed",
+          "title": "G03-C09 静止且成员下标超出 trail 时，用最后一项的坐标",
+          "duration": 0.5305000000000746,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-C computeFollowerWorldPos 方向与冻结"],
+          "fullName": "G03-C computeFollowerWorldPos 方向与冻结 G03-C10 静止摆位不调用 isWalkable",
+          "status": "passed",
+          "title": "G03-C10 静止摆位不调用 isWalkable",
+          "duration": 0.8625420000000759,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371312521,
+      "endTime": 1792371312526.8625,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/follower-pos-axis.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745)"
+          ],
+          "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) walking:trail[1]+方向偏移(m=1 down → +16,-8)+ 朝向 trail[2].dir,并捕获 frozenOffset(含 dir)",
+          "status": "passed",
+          "title": "walking:trail[1]+方向偏移(m=1 down → +16,-8)+ 朝向 trail[2].dir,并捕获 frozenOffset(含 dir)",
+          "duration": 1.1467089999998734,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745)"
+          ],
+          "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) walking + 偏移落水:回退 trail[1](scene.c:712 障碍回退,仅 fWalking 分支)",
+          "status": "passed",
+          "title": "walking + 偏移落水:回退 trail[1](scene.c:712 障碍回退,仅 fWalking 分支)",
+          "duration": 0.17112500000007458,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745)"
+          ],
+          "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) not walking + 有 frozenOffset:**位置冻结**、**朝向用当前 trail[2].dir**(sdlpal scene.c:761,不跟队长 0x15)",
+          "status": "passed",
+          "title": "not walking + 有 frozenOffset:**位置冻结**、**朝向用当前 trail[2].dir**(sdlpal scene.c:761,不跟队长 0x15)",
+          "duration": 0.09033299999987321,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745)"
+          ],
+          "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) 回归:船上重叠场景(trail[1]==leader + 落水 + not walking)不再与李逍遥重叠",
+          "status": "passed",
+          "title": "回归:船上重叠场景(trail[1]==leader + 落水 + not walking)不再与李逍遥重叠",
+          "duration": 0.422249999999849,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745)"
+          ],
+          "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) not walking + 无 frozenOffset(0x46 摆位):跟随者落 trail[m]=队长+m×offset(只退一格,sdlpal script.c:1690),非 trail[1] 再叠偏移",
+          "status": "passed",
+          "title": "not walking + 无 frozenOffset(0x46 摆位):跟随者落 trail[m]=队长+m×offset(只退一格,sdlpal script.c:1690),非 trail[1] 再叠偏移",
+          "duration": 0.09945799999991323,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745)"
+          ],
+          "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) 回归(刘晋元叫醒后):0x46 黑屏摆位 dir=up,李逍遥(跟随)紧贴队长=trail[1]=队长+(-16,+8),非 2×偏移(user 2026-06-16)",
+          "status": "passed",
+          "title": "回归(刘晋元叫醒后):0x46 黑屏摆位 dir=up,李逍遥(跟随)紧贴队长=trail[1]=队长+(-16,+8),非 2×偏移(user 2026-06-16)",
+          "duration": 0.06529199999999946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745)"
+          ],
+          "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) not walking 不捕获 frozenOffset(只在 walking 捕获,避免冻结值漂移)",
+          "status": "passed",
+          "title": "not walking 不捕获 frozenOffset(只在 walking 捕获,避免冻结值漂移)",
+          "duration": 0.15991699999995035,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745)"
+          ],
+          "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) trail 不足(length<=1)→ null(不画跟随者)",
+          "status": "passed",
+          "title": "trail 不足(length<=1)→ null(不画跟随者)",
+          "duration": 0.11037500000020373,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745)"
+          ],
+          "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) 集成(船划行):划船(ride)每步把 trail 刷成船行方向 → 跟随者朝向跟 trail(=队长),静止位置仍冻结",
+          "status": "passed",
+          "title": "集成(船划行):划船(ride)每步把 trail 刷成船行方向 → 跟随者朝向跟 trail(=队长),静止位置仍冻结",
+          "duration": 0.3564169999999649,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745)"
+          ],
+          "fullName": "computeFollowerWorldPos —— port PAL_UpdatePartyGestures 的 fWalking 闸门(scene.c:658 vs 745) 回归(隐龙窟):站立对话时队长 0x15 回头不动 trail → 跟随者保持走来方向(不跟队长转)",
+          "status": "passed",
+          "title": "回归(隐龙窟):站立对话时队长 0x15 回头不动 trail → 跟随者保持走来方向(不跟队长转)",
+          "duration": 0.08420900000010079,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371311210,
+      "endTime": 1792371311213.3564,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/follower-pos.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G03-D computeFollowerRenderItems 缺槽与越界步"],
+          "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D01 行走且 stepFrame 为 4 时步帧回落到 0，朝右的帧是 9",
+          "status": "passed",
+          "title": "G03-D01 行走且 stepFrame 为 4 时步帧回落到 0，朝右的帧是 9",
+          "duration": 1.202458000000206,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-D computeFollowerRenderItems 缺槽与越界步"],
+          "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D02 第一个跟随者缺 trail[3]、第二个有 trail[4] 时只留下 index 1",
+          "status": "passed",
+          "title": "G03-D02 第一个跟随者缺 trail[3]、第二个有 trail[4] 时只留下 index 1",
+          "duration": 0.4311250000000655,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-D computeFollowerRenderItems 缺槽与越界步"],
+          "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D03 朝左行走且 stepFrame 为 1 时帧是 5",
+          "status": "passed",
+          "title": "G03-D03 朝左行走且 stepFrame 为 1 时帧是 5",
+          "duration": 0.10033300000009149,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-D computeFollowerRenderItems 缺槽与越界步"],
+          "fullName": "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D04 第二个跟随者没有 trail[4] 时，第一个仍然留下",
+          "status": "passed",
+          "title": "G03-D04 第二个跟随者没有 trail[4] 时，第一个仍然留下",
+          "duration": 0.21212500000001455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371313864,
+      "endTime": 1792371313866.2122,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/follower-render-gap.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771)"
+          ],
+          "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 无 follower → 空",
+          "status": "passed",
+          "title": "无 follower → 空",
+          "duration": 2.5603340000000117,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771)"
+          ],
+          "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) trail 深度不足(< 4)→ 跳过(不报错)",
+          "status": "passed",
+          "title": "trail 深度不足(< 4)→ 跳过(不报错)",
+          "duration": 0.19679199999995944,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771)"
+          ],
+          "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) follower 0 → trail[3] 位置(world,无偏移)+ 角色 id",
+          "status": "passed",
+          "title": "follower 0 → trail[3] 位置(world,无偏移)+ 角色 id",
+          "duration": 0.5580410000000029,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771)"
+          ],
+          "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 站立帧 = dir*3(无 step;left dir=1 → 3)",
+          "status": "passed",
+          "title": "站立帧 = dir*3(无 step;left dir=1 → 3)",
+          "duration": 0.12674999999990177,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771)"
+          ],
+          "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 行走帧 = dir*3 + iStepFrameFollower[step](序列 [0,2,0,1],区别于 leader [0,1,0,2])",
+          "status": "passed",
+          "title": "行走帧 = dir*3 + iStepFrameFollower[step](序列 [0,2,0,1],区别于 leader [0,1,0,2])",
+          "duration": 0.16133300000001327,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771)"
+          ],
+          "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 两 follower → trail[3]/[4],各自 dir/role/index",
+          "status": "passed",
+          "title": "两 follower → trail[3]/[4],各自 dir/role/index",
+          "duration": 1.2812079999998787,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371312552,
+      "endTime": 1792371312557.2812,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/follower-render.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
+          "fullName": "G05-B font 宽度与字形装载 G05-B01 palCharWidth 在 0x7F 仍是 8，0x80 起是 16",
+          "status": "passed",
+          "title": "G05-B01 palCharWidth 在 0x7F 仍是 8，0x80 起是 16",
+          "duration": 1.0129159999999047,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
+          "fullName": "G05-B font 宽度与字形装载 G05-B02 空串的 palWordWidth 是 0",
+          "status": "passed",
+          "title": "G05-B02 空串的 palWordWidth 是 0",
+          "duration": 0.168042000000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
+          "fullName": "G05-B font 宽度与字形装载 G05-B03 四个 ASCII 的 palWordWidth 是 2，不是字符串长度 4",
+          "status": "passed",
+          "title": "G05-B03 四个 ASCII 的 palWordWidth 是 2，不是字符串长度 4",
+          "duration": 0.12179199999991397,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
+          "fullName": "G05-B font 宽度与字形装载 G05-B04 两个全角字的 palWordWidth 等于 2",
+          "status": "passed",
+          "title": "G05-B04 两个全角字的 palWordWidth 等于 2",
+          "duration": 0.12291699999991579,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
+          "fullName": "G05-B font 宽度与字形装载 G05-B05 两个 ASCII 加一个全角的 palWordWidth 是 2，不是 3",
+          "status": "passed",
+          "title": "G05-B05 两个 ASCII 加一个全角的 palWordWidth 是 2，不是 3",
+          "duration": 0.12666699999999764,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
+          "fullName": "G05-B font 宽度与字形装载 G05-B06 loadGlyphs 把 bitmapBase64 解成字节，并能按码位取回",
+          "status": "passed",
+          "title": "G05-B06 loadGlyphs 把 bitmapBase64 解成字节，并能按码位取回",
+          "duration": 4.270625000000109,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
+          "fullName": "G05-B font 宽度与字形装载 G05-B07 loadGlyphs 把调用方给的 baseUrl 接到 /data/font/glyphs.json",
+          "status": "passed",
+          "title": "G05-B07 loadGlyphs 把调用方给的 baseUrl 接到 /data/font/glyphs.json",
+          "duration": 0.23916699999995217,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
+          "fullName": "G05-B font 宽度与字形装载 G05-B08 字形清单 HTTP 失败时，错误文本带上状态码",
+          "status": "passed",
+          "title": "G05-B08 字形清单 HTTP 失败时，错误文本带上状态码",
+          "duration": 0.1590000000001055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
+          "fullName": "G05-B font 宽度与字形装载 G05-B09 字形清单为空时，has 为假且 get 为 undefined",
+          "status": "passed",
+          "title": "G05-B09 字形清单为空时，has 为假且 get 为 undefined",
+          "duration": 0.5275409999999283,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
+          "fullName": "G05-B font 宽度与字形装载 G05-B10 表里有宽 8 的字形时，measureText 返回 8",
+          "status": "passed",
+          "title": "G05-B10 表里有宽 8 的字形时，measureText 返回 8",
+          "duration": 0.14754199999993034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
+          "fullName": "G05-B font 宽度与字形装载 G05-B11 renderText 半角加全角返回 24，第二字落在 x+8",
+          "status": "passed",
+          "title": "G05-B11 renderText 半角加全角返回 24，第二字落在 x+8",
+          "duration": 0.2695000000001073,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
+          "fullName": "G05-B font 宽度与字形装载 G05-B12 renderText 打开阴影时，右、下、右下三点是 0，原点仍是前景",
+          "status": "passed",
+          "title": "G05-B12 renderText 打开阴影时，右、下、右下三点是 0，原点仍是前景",
+          "duration": 0.1358749999999418,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
+          "fullName": "G05-B font 宽度与字形装载 G05-B13 renderText 关闭阴影时，右、下、右下保持底色",
+          "status": "passed",
+          "title": "G05-B13 renderText 关闭阴影时，右、下、右下保持底色",
+          "duration": 0.08379199999990306,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05-B font 宽度与字形装载"],
+          "fullName": "G05-B font 宽度与字形装载 G05-B14 空字符串 renderText 返回 0，并且不改像素",
+          "status": "passed",
+          "title": "G05-B14 空字符串 renderText 返回 0，并且不改像素",
+          "duration": 0.05041699999992488,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371311205,
+      "endTime": 1792371311212.2695,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/font-width.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L16 renderColoredText（逐字符色）"],
+          "fullName": "L16 renderColoredText（逐字符色） 逐字符颜色数组按 code point 对位上色",
+          "status": "passed",
+          "title": "逐字符颜色数组按 code point 对位上色",
+          "duration": 0.95900000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L16 renderColoredText（逐字符色）"],
+          "fullName": "L16 renderColoredText（逐字符色） colors 缺项回退 0x4F；fShadow 三影写黑 0",
+          "status": "passed",
+          "title": "colors 缺项回退 0x4F；fShadow 三影写黑 0",
+          "duration": 0.3158329999998841,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L16 tofu 缺字形回退"],
+          "fullName": "L16 tofu 缺字形回退 缺字形 → 16×16 空心框：顶/底行 cols0-14 亮 col15 暗，中间行只有 col0/col9",
+          "status": "passed",
+          "title": "缺字形 → 16×16 空心框：顶/底行 cols0-14 亮 col15 暗，中间行只有 col0/col9",
+          "duration": 0.25987499999996544,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L16 tofu 缺字形回退"],
+          "fullName": "L16 tofu 缺字形回退 measureText 空表 ASCII fallback 16px/字（布局入口禁止用它，doc 锚）",
+          "status": "passed",
+          "title": "measureText 空表 ASCII fallback 16px/字（布局入口禁止用它，doc 锚）",
+          "duration": 0.080791999999974,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371313749,
+      "endTime": 1792371313751.0808,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/font.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861)"],
+          "fullName": "palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861) palCharWidth:ASCII<0x80=8,CJK=16",
+          "status": "passed",
+          "title": "palCharWidth:ASCII<0x80=8,CJK=16",
+          "duration": 2.393291999999974,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861)"],
+          "fullName": "palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861) palWordWidth:'新的故事'(4 CJK)→ (64+8)>>4 = 4",
+          "status": "passed",
+          "title": "palWordWidth:'新的故事'(4 CJK)→ (64+8)>>4 = 4",
+          "duration": 0.18129100000010112,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861)"],
+          "fullName": "palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861) palWordWidth:5 CJK → (80+8)>>4 = 5;6 CJK → (96+8)>>4 = 6",
+          "status": "passed",
+          "title": "palWordWidth:5 CJK → (80+8)>>4 = 5;6 CJK → (96+8)>>4 = 6",
+          "duration": 0.08170800000016243,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861)"],
+          "fullName": "palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861) palWordWidth:8 ASCII → (64+8)>>4 = 4(ASCII 半宽,不等于 length)",
+          "status": "passed",
+          "title": "palWordWidth:8 ASCII → (64+8)>>4 = 4(ASCII 半宽,不等于 length)",
+          "duration": 0.052957999999989624,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["renderText (P4.T3)"],
+          "fullName": "renderText (P4.T3) blits ASCII A: top row 8 pixels lit at fgColor",
+          "status": "passed",
+          "title": "blits ASCII A: top row 8 pixels lit at fgColor",
+          "duration": 0.34350000000017644,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["renderText (P4.T3)"],
+          "fullName": "renderText (P4.T3) CJK 中: top row 16 pixels lit at fgColor",
+          "status": "passed",
+          "title": "CJK 中: top row 16 pixels lit at fgColor",
+          "duration": 0.18650000000002365,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["renderText (P4.T3)"],
+          "fullName": "renderText (P4.T3) cursor advances correctly: A then 中 occupies px 0..23",
+          "status": "passed",
+          "title": "cursor advances correctly: A then 中 occupies px 0..23",
+          "duration": 0.2901670000001104,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["renderText (P4.T3)"],
+          "fullName": "renderText (P4.T3) unknown codepoint → tofu 16×16 placeholder (no throw)",
+          "status": "passed",
+          "title": "unknown codepoint → tofu 16×16 placeholder (no throw)",
+          "duration": 0.36979199999996126,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["renderText (P4.T3)"],
+          "fullName": "renderText (P4.T3) empty string → no-op, returns 0",
+          "status": "passed",
+          "title": "empty string → no-op, returns 0",
+          "duration": 0.38837499999999636,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["renderText (P4.T3)"],
+          "fullName": "renderText (P4.T3) glyphs omitted → tofu fallback (no throw)",
+          "status": "passed",
+          "title": "glyphs omitted → tofu fallback (no throw)",
+          "duration": 0.13370899999995345,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["measureText (P4.T3)"],
+          "fullName": "measureText (P4.T3) 8 for A",
+          "status": "passed",
+          "title": "8 for A",
+          "duration": 1.1071670000001177,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["measureText (P4.T3)"],
+          "fullName": "measureText (P4.T3) 16 for 中",
+          "status": "passed",
+          "title": "16 for 中",
+          "duration": 0.31729199999995217,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["measureText (P4.T3)"],
+          "fullName": "measureText (P4.T3) 24 for A中",
+          "status": "passed",
+          "title": "24 for A中",
+          "duration": 0.20995799999991505,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["measureText (P4.T3)"],
+          "fullName": "measureText (P4.T3) unknown char defaults to 16",
+          "status": "passed",
+          "title": "unknown char defaults to 16",
+          "duration": 0.14220899999986614,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["measureText (P4.T3)"],
+          "fullName": "measureText (P4.T3) empty string → 0",
+          "status": "passed",
+          "title": "empty string → 0",
+          "duration": 0.08591599999999744,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371311202,
+      "endTime": 1792371311209.21,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/font.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L16 framebuffer 剩余合同"],
+          "fullName": "L16 framebuffer 剩余合同 writePixel 越界（负值/超宽高）静默不写不抛",
+          "status": "passed",
+          "title": "writePixel 越界（负值/超宽高）静默不写不抛",
+          "duration": 0.9783749999999145,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L16 framebuffer 剩余合同"],
+          "fullName": "L16 framebuffer 剩余合同 自定义尺寸离屏缓冲（dev panel 缩略图路径）",
+          "status": "passed",
+          "title": "自定义尺寸离屏缓冲（dev panel 缩略图路径）",
+          "duration": 0.1997079999998732,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L16 framebuffer 剩余合同"],
+          "fullName": "L16 framebuffer 剩余合同 toImageData：palette 缺该索引颜色 → fallback [0,0,0]、alpha 恒 255",
+          "status": "passed",
+          "title": "toImageData：palette 缺该索引颜色 → fallback [0,0,0]、alpha 恒 255",
+          "duration": 0.4954169999998612,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371313914,
+      "endTime": 1792371313915.4954,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Framebuffer"],
+          "fullName": "Framebuffer 320×200,初始全 0",
+          "status": "passed",
+          "title": "320×200,初始全 0",
+          "duration": 1.2764590000000453,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Framebuffer"],
+          "fullName": "Framebuffer writePixel + clear",
+          "status": "passed",
+          "title": "writePixel + clear",
+          "duration": 0.2368340000000444,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Framebuffer"],
+          "fullName": "Framebuffer toImageData(palette) —— 索引 → RGBA",
+          "status": "passed",
+          "title": "toImageData(palette) —— 索引 → RGBA",
+          "duration": 3.849917000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371313914,
+      "endTime": 1792371313918.8499,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/framebuffer.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["cursorless fade completion preserves the actual restored palette"],
+          "fullName": "cursorless fade completion preserves the actual restored palette FadeIn without owning waiter (undefined) restores all target colors",
+          "status": "passed",
+          "title": "FadeIn without owning waiter (undefined) restores all target colors",
+          "duration": 20.083541999999852,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cursorless fade completion preserves the actual restored palette"],
+          "fullName": "cursorless fade completion preserves the actual restored palette FadeIn without owning waiter (dialog) restores all target colors",
+          "status": "passed",
+          "title": "FadeIn without owning waiter (dialog) restores all target colors",
+          "duration": 11.264208999999937,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cursorless fade completion preserves the actual restored palette"],
+          "fullName": "cursorless fade completion preserves the actual restored palette FadeIn without owning waiter (frame-wait) restores all target colors",
+          "status": "passed",
+          "title": "FadeIn without owning waiter (frame-wait) restores all target colors",
+          "duration": 11.44845899999973,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cursorless fade completion preserves the actual restored palette"],
+          "fullName": "cursorless fade completion preserves the actual restored palette palette-fade remains owned by the event system",
+          "status": "passed",
+          "title": "palette-fade remains owned by the event system",
+          "duration": 5.104749999999967,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cursorless fade completion preserves the actual restored palette"],
+          "fullName": "cursorless fade completion preserves the actual restored palette scene-fade remains owned by the event system",
+          "status": "passed",
+          "title": "scene-fade remains owned by the event system",
+          "duration": 2.7177919999999176,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cursorless fade completion preserves the actual restored palette"],
+          "fullName": "cursorless fade completion preserves the actual restored palette cursorless SceneFade still keeps its documented 63/64 endpoint",
+          "status": "passed",
+          "title": "cursorless SceneFade still keeps its documented 63/64 endpoint",
+          "duration": 2.131666000000223,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "presentFrame 菜单渲染门控(物品/手卷 use 脚本期间 mode=event → 不画菜单遮挡对话)"
+          ],
+          "fullName": "presentFrame 菜单渲染门控(物品/手卷 use 脚本期间 mode=event → 不画菜单遮挡对话) mode=menu + menuStack 非空 → drawMenuStack 被调用(正常菜单交互)",
+          "status": "passed",
+          "title": "mode=menu + menuStack 非空 → drawMenuStack 被调用(正常菜单交互)",
+          "duration": 2.4329579999998714,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "presentFrame 菜单渲染门控(物品/手卷 use 脚本期间 mode=event → 不画菜单遮挡对话)"
+          ],
+          "fullName": "presentFrame 菜单渲染门控(物品/手卷 use 脚本期间 mode=event → 不画菜单遮挡对话) mode=event + menuStack 非空(物品 use 脚本跑 scriptOnUse 对话)→ drawMenuStack **不**被调用(对话不被列表遮挡)",
+          "status": "passed",
+          "title": "mode=event + menuStack 非空(物品 use 脚本跑 scriptOnUse 对话)→ drawMenuStack **不**被调用(对话不被列表遮挡)",
+          "duration": 3.3094579999997222,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["presentFrame"],
+          "fullName": "presentFrame 无 dialogBox → 不画对话框,不抛错",
+          "status": "passed",
+          "title": "无 dialogBox → 不画对话框,不抛错",
+          "duration": 3.0375840000001517,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["presentFrame"],
+          "fullName": "presentFrame 有 dialogBox → 文本绘到 fb(sdlpal upper/center/lower 无 box bg,文本即唯一证据)",
+          "status": "passed",
+          "title": "有 dialogBox → 文本绘到 fb(sdlpal upper/center/lower 无 box bg,文本即唯一证据)",
+          "duration": 14.116542000000209,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["presentFrame"],
+          "fullName": "presentFrame dialogBoxKept + dialogBox → 上下两侧对话同屏绘制",
+          "status": "passed",
+          "title": "dialogBoxKept + dialogBox → 上下两侧对话同屏绘制",
+          "duration": 9.128833000000213,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["presentFrame"],
+          "fullName": "presentFrame deathHoldActive=true → 保持上一帧(不 fb.clear、不重绘世界):预写哨兵像素存活",
+          "status": "passed",
+          "title": "deathHoldActive=true → 保持上一帧(不 fb.clear、不重绘世界):预写哨兵像素存活",
+          "duration": 0.17587500000036016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["presentFrame"],
+          "fullName": "presentFrame gameOverActive=true + dialogBox → 保持上一帧 + 画死亡对话",
+          "status": "passed",
+          "title": "gameOverActive=true + dialogBox → 保持上一帧 + 画死亡对话",
+          "duration": 3.9780000000000655,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["presentFrame"],
+          "fullName": "presentFrame 两者都 false(普通 explore)→ fb.clear()+正常重绘世界:哨兵被清",
+          "status": "passed",
+          "title": "两者都 false(普通 explore)→ fb.clear()+正常重绘世界:哨兵被清",
+          "duration": 1.434374999999818,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["presentFrame"],
+          "fullName": "presentFrame blackScreenHold=true → 保持全黑背景,但仍叠加居中文字",
+          "status": "passed",
+          "title": "blackScreenHold=true → 保持全黑背景,但仍叠加居中文字",
+          "duration": 10.358041999999841,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["presentFrame"],
+          "fullName": "presentFrame dialogPlayingRNG=true + rngDialogBackup → 恢复 RNG 动画画面(不重绘世界)+ 叠对话",
+          "status": "passed",
+          "title": "dialogPlayingRNG=true + rngDialogBackup → 恢复 RNG 动画画面(不重绘世界)+ 叠对话",
+          "duration": 4.427708000000166,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["presentFrame"],
+          "fullName": "presentFrame dialogPlayingRNG=true 但无 rngDialogBackup → 退化为正常重绘(防御,不抛错)",
+          "status": "passed",
+          "title": "dialogPlayingRNG=true 但无 rngDialogBackup → 退化为正常重绘(防御,不抛错)",
+          "duration": 1.2613750000000437,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)"],
+          "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=false → 站立帧:frameIdx = dir * walkFrames (P0.0 既有)",
+          "status": "passed",
+          "title": "walking=false → 站立帧:frameIdx = dir * walkFrames (P0.0 既有)",
+          "duration": 2.753374999999778,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)"],
+          "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=3, stepFrame=0 → iStepFrameLeader=0 → frameIdx=dir*3+0",
+          "status": "passed",
+          "title": "walking=true, walkFrames=3, stepFrame=0 → iStepFrameLeader=0 → frameIdx=dir*3+0",
+          "duration": 3.515665999999783,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)"],
+          "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=3, stepFrame=1 → iStepFrameLeader=1 → frameIdx=dir*3+1",
+          "status": "passed",
+          "title": "walking=true, walkFrames=3, stepFrame=1 → iStepFrameLeader=1 → frameIdx=dir*3+1",
+          "duration": 2.402792000000318,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)"],
+          "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=3, stepFrame=2 → iStepFrameLeader=0 → frameIdx=dir*3+0",
+          "status": "passed",
+          "title": "walking=true, walkFrames=3, stepFrame=2 → iStepFrameLeader=0 → frameIdx=dir*3+0",
+          "duration": 1.69012500000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)"],
+          "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=3, stepFrame=3 → iStepFrameLeader=2 → frameIdx=dir*3+2",
+          "status": "passed",
+          "title": "walking=true, walkFrames=3, stepFrame=3 → iStepFrameLeader=2 → frameIdx=dir*3+2",
+          "duration": 3.4493750000001455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)"],
+          "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) walking=true, walkFrames=4 → frameIdx=dir*4+stepFrame",
+          "status": "passed",
+          "title": "walking=true, walkFrames=4 → frameIdx=dir*4+stepFrame",
+          "duration": 3.144166999999925,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)"],
+          "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) M2:队首 walkFrames 读 PlayerRolesRuntime.rgwWalkFrames,不再固定 ctx.partyWalkFrames=3",
+          "status": "passed",
+          "title": "M2:队首 walkFrames 读 PlayerRolesRuntime.rgwWalkFrames,不再固定 ctx.partyWalkFrames=3",
+          "duration": 1.2064589999999953,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.c party frame 取 stepFrame(sdlpal scene.c:678-685)"],
+          "fullName": "P0.c party frame 取 stepFrame(sdlpal scene.c:678-685) 4 方向 facing 映射:down=0/left=1/up=2/right=3(站立帧验证)",
+          "status": "passed",
+          "title": "4 方向 facing 映射:down=0/left=1/up=2/right=3(站立帧验证)",
+          "duration": 7.5992089999999735,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)"],
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) partyMembers=[0] 单人 → 不渲染 follower(只有 leader drawSprite)",
+          "status": "passed",
+          "title": "partyMembers=[0] 单人 → 不渲染 follower(只有 leader drawSprite)",
+          "duration": 3.078875000000153,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)"],
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) 队首/跟随者按各自 rgwSpriteNum 渲染,不回退 role0 partyFrames",
+          "status": "passed",
+          "title": "队首/跟随者按各自 rgwSpriteNum 渲染,不回退 role0 partyFrames",
+          "duration": 4.2009579999999005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)"],
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) M2:跟随队员按自己的 runtime walkFrames 取帧",
+          "status": "passed",
+          "title": "M2:跟随队员按自己的 runtime walkFrames 取帧",
+          "duration": 1.7122920000001614,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)"],
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) 0x15 给跟随者设 partyScriptedFrame(静止演出)→ 跟随者按脚本帧转身,不用 trail 朝向(刘兄「等一下」bug)",
+          "status": "passed",
+          "title": "0x15 给跟随者设 partyScriptedFrame(静止演出)→ 跟随者按脚本帧转身,不用 trail 朝向(刘兄「等一下」bug)",
+          "duration": 1.4620829999998932,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)"],
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) 已知队员 spriteNum 但资源未加载时,不把 follower 画成 role0",
+          "status": "passed",
+          "title": "已知队员 spriteNum 但资源未加载时,不把 follower 画成 role0",
+          "duration": 1.8730829999999514,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)"],
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) walking 时渲染 follower 在 trail[1] + 偏移(scene.c:692-707 扇形布局)",
+          "status": "passed",
+          "title": "walking 时渲染 follower 在 trail[1] + 偏移(scene.c:692-707 扇形布局)",
+          "duration": 3.2596659999999247,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)"],
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) dir=left(West) walking: isWS=true→offsetX=+16; isWN=true→offsetY=+8",
+          "status": "passed",
+          "title": "dir=left(West) walking: isWS=true→offsetX=+16; isWN=true→offsetY=+8",
+          "duration": 2.8784590000000208,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)"],
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) dir=down(South) walking: isWS=true→offsetX=+16; isWN=false→offsetY=-8",
+          "status": "passed",
+          "title": "dir=down(South) walking: isWS=true→offsetX=+16; isWN=false→offsetY=-8",
+          "duration": 1.9112500000001091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)"],
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) dir=up(North) walking: isWS=false→offsetX=-16; isWN=true→offsetY=+8",
+          "status": "passed",
+          "title": "dir=up(North) walking: isWS=false→offsetX=-16; isWN=true→offsetY=+8",
+          "duration": 3.3512909999999465,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)"],
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) partyMembers.length > 1 但 trail.length <= 1 → 不渲染 follower(避免 crash)",
+          "status": "passed",
+          "title": "partyMembers.length > 1 但 trail.length <= 1 → 不渲染 follower(避免 crash)",
+          "duration": 1.891041999999743,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.d follower 占位 + 偏移(sdlpal scene.c:692-707)"],
+          "fullName": "P0.d follower 占位 + 偏移(sdlpal scene.c:692-707) partyMembers=[0, 1] 且 trail 为空 → 不渲染 follower",
+          "status": "passed",
+          "title": "partyMembers=[0, 1] 且 trail 为空 → 不渲染 follower",
+          "duration": 2.789582999999766,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["palette fade 孤儿自清(香兰报信 cutscene 吞键回归)"],
+          "fullName": "palette fade 孤儿自清(香兰报信 cutscene 吞键回归) 演出游标在(waiting=dialog)+ fade 到时 + 无人等待 → present 自清孤儿",
+          "status": "passed",
+          "title": "演出游标在(waiting=dialog)+ fade 到时 + 无人等待 → present 自清孤儿",
+          "duration": 1.8117080000001806,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["palette fade 孤儿自清(香兰报信 cutscene 吞键回归)"],
+          "fullName": "palette fade 孤儿自清(香兰报信 cutscene 吞键回归) waiting=palette-fade(event-system 将 finalize+ip++)→ present 不抢清",
+          "status": "passed",
+          "title": "waiting=palette-fade(event-system 将 finalize+ip++)→ present 不抢清",
+          "duration": 1.2764580000002752,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["palette fade 孤儿自清(香兰报信 cutscene 吞键回归)"],
+          "fullName": "palette fade 孤儿自清(香兰报信 cutscene 吞键回归) fade 未到时 → 不清(进行中)",
+          "status": "passed",
+          "title": "fade 未到时 → 不清(进行中)",
+          "duration": 1.5585829999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile)"
+          ],
+          "fullName": "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 屏内 NPC 正常绘制(基准)",
+          "status": "passed",
+          "title": "屏内 NPC 正常绘制(基准)",
+          "duration": 1.7074170000000777,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile)"
+          ],
+          "fullName": "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 右侧屏外(left = sx-w/2 ≥ 320)→ 跳过",
+          "status": "passed",
+          "title": "右侧屏外(left = sx-w/2 ≥ 320)→ 跳过",
+          "duration": 2.0931250000003274,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile)"
+          ],
+          "fullName": "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 左侧完全屏外(left < -width)→ 跳过;部分可见仍绘制",
+          "status": "passed",
+          "title": "左侧完全屏外(left < -width)→ 跳过;部分可见仍绘制",
+          "duration": 3.7548329999999623,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile)"
+          ],
+          "fullName": "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 下方屏外(vy ≥ 200)→ 跳过;贴底仍绘制",
+          "status": "passed",
+          "title": "下方屏外(vy ≥ 200)→ 跳过;贴底仍绘制",
+          "duration": 4.4869580000004134,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile)"
+          ],
+          "fullName": "NPC 屏外剔除(sdlpal scene.c:286-314:屏外对象不画精灵、不产生 cover tile) 上方完全屏外(vy < -height)→ 跳过",
+          "status": "passed",
+          "title": "上方完全屏外(vy < -height)→ 跳过",
+          "duration": 3.3882079999998496,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.b Y-sort + cover-tile"],
+          "fullName": "P0.b Y-sort + cover-tile party.y > npc.y → party 在 NPC 之下方(屏幕),Y-sort 后 NPC 先绘 / party 后绘",
+          "status": "passed",
+          "title": "party.y > npc.y → party 在 NPC 之下方(屏幕),Y-sort 后 NPC 先绘 / party 后绘",
+          "duration": 3.3780000000001564,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.b Y-sort + cover-tile"],
+          "fullName": "P0.b Y-sort + cover-tile party.y < npc.y → NPC 在 party 之下方,Y-sort 后 party 先绘 / NPC 后绘",
+          "status": "passed",
+          "title": "party.y < npc.y → NPC 在 party 之下方,Y-sort 后 party 先绘 / NPC 后绘",
+          "duration": 1.8447500000002037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.b Y-sort + cover-tile"],
+          "fullName": "P0.b Y-sort + cover-tile 3 个 NPC 不同 y — Y-sort 正确(y 小先绘,y 大后绘)",
+          "status": "passed",
+          "title": "3 个 NPC 不同 y — Y-sort 正确(y 小先绘,y 大后绘)",
+          "duration": 1.3197500000001128,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.b Y-sort + cover-tile"],
+          "fullName": "P0.b Y-sort + cover-tile vanishTime>0 隐藏 NPC;vanishTime<0 仍绘制但由更新层冻结",
+          "status": "passed",
+          "title": "vanishTime>0 隐藏 NPC;vanishTime<0 仍绘制但由更新层冻结",
+          "duration": 1.718417000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.b Y-sort + cover-tile"],
+          "fullName": "P0.b Y-sort + cover-tile 非方向性姿势对象 nSpriteFrames=0 + scriptedFrame=13 → 实际绘制 frame 13",
+          "status": "passed",
+          "title": "非方向性姿势对象 nSpriteFrames=0 + scriptedFrame=13 → 实际绘制 frame 13",
+          "duration": 1.375833000000057,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.b Y-sort + cover-tile"],
+          "fullName": "P0.b Y-sort + cover-tile cover-tile:layer1 tile height>0 且满足条件 → tile 画在 fb 上(sprite 重叠)",
+          "status": "passed",
+          "title": "cover-tile:layer1 tile height>0 且满足条件 → tile 画在 fb 上(sprite 重叠)",
+          "duration": 34.98849999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.b Y-sort + cover-tile"],
+          "fullName": "P0.b Y-sort + cover-tile cover-tile blit_y 公式 = dy*16 + dh*8 + 7 - bitmap.height(sdlpal scene.c:358 相消化)",
+          "status": "passed",
+          "title": "cover-tile blit_y 公式 = dy*16 + dh*8 + 7 - bitmap.height(sdlpal scene.c:358 相消化)",
+          "duration": 21.780417000000398,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P0.b Y-sort + cover-tile"],
+          "fullName": "P0.b Y-sort + cover-tile cover-tile 不画超出范围的 tile(party 远离,height 条件不满足 → tile 不出现)",
+          "status": "passed",
+          "title": "cover-tile 不画超出范围的 tile(party 远离,height 条件不满足 → tile 不出现)",
+          "duration": 3.3581669999998667,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyDialogIconPaletteShift(dialog 箭头 palette 轮转)"],
+          "fullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) 非等键 phase(typing)→ 原样返回 base 同引用",
+          "status": "passed",
+          "title": "非等键 phase(typing)→ 原样返回 base 同引用",
+          "duration": 0.21162500000036744,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyDialogIconPaletteShift(dialog 箭头 palette 轮转)"],
+          "fullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) blackScreenHold + dialog → 保持背景黑色,恢复对话文字色槽",
+          "status": "passed",
+          "title": "blackScreenHold + dialog → 保持背景黑色,恢复对话文字色槽",
+          "duration": 0.48366699999996854,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyDialogIconPaletteShift(dialog 箭头 palette 轮转)"],
+          "fullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) blackScreenHold 文字色不受 nightPalette/nightColors 影响",
+          "status": "passed",
+          "title": "blackScreenHold 文字色不受 nightPalette/nightColors 影响",
+          "duration": 0.6377080000002024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyDialogIconPaletteShift(dialog 箭头 palette 轮转)"],
+          "fullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) 等键 phase + step=1(t=100ms)→ 0xF9-0xFE 左轮转 1 格,区间外不动",
+          "status": "passed",
+          "title": "等键 phase + step=1(t=100ms)→ 0xF9-0xFE 左轮转 1 格,区间外不动",
+          "duration": 0.35666700000001583,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyDialogIconPaletteShift(dialog 箭头 palette 轮转)"],
+          "fullName": "applyDialogIconPaletteShift(dialog 箭头 palette 轮转) 等键 phase + step=0(整圈起点 t=600ms)→ 原样返回 base",
+          "status": "passed",
+          "title": "等键 phase + step=0(整圈起点 t=600ms)→ 原样返回 base",
+          "duration": 0.11616599999979371,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "G8 SceneFade 72 帧 dither e2e(present 驱动 — sdlpal video.c:1130 VIDEO_FadeScreen)"
+          ],
+          "fullName": "G8 SceneFade 72 帧 dither e2e(present 驱动 — sdlpal video.c:1130 VIDEO_FadeScreen) snapshot backupPixels(clear 前)+ 按 elapsed 推进 0→36→72 + 显示 backupPixels",
+          "status": "passed",
+          "title": "snapshot backupPixels(clear 前)+ 按 elapsed 推进 0→36→72 + 显示 backupPixels",
+          "duration": 71.19941700000027,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371312380,
+      "endTime": 1792371312706.1995,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/present.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G04-B screen-shake 边界与补帧"],
+          "fullName": "G04-B screen-shake 边界与补帧 G04-B01 shakeLevel=200 不搬移像素，shakeTime 仍减 1",
+          "status": "passed",
+          "title": "G04-B01 shakeLevel=200 不搬移像素，shakeTime 仍减 1",
+          "duration": 1.0570000000000164,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-B screen-shake 边界与补帧"],
+          "fullName": "G04-B screen-shake 边界与补帧 G04-B02 奇数帧 level=199 只把最后一行抬到顶，其余行填黑",
+          "status": "passed",
+          "title": "G04-B02 奇数帧 level=199 只把最后一行抬到顶，其余行填黑",
+          "duration": 0.2270410000000993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-B screen-shake 边界与补帧"],
+          "fullName": "G04-B screen-shake 边界与补帧 G04-B03 advance=false 的奇数帧仍上移，shakeTime 保持原值",
+          "status": "passed",
+          "title": "G04-B03 advance=false 的奇数帧仍上移，shakeTime 保持原值",
+          "duration": 0.1529169999998885,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-B screen-shake 边界与补帧"],
+          "fullName": "G04-B screen-shake 边界与补帧 G04-B04 偶数帧 level=199 顶上 199 行填黑，底行等于改写后的第 0 行",
+          "status": "passed",
+          "title": "G04-B04 偶数帧 level=199 顶上 199 行填黑，底行等于改写后的第 0 行",
+          "duration": 0.09324999999989814,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-B screen-shake 边界与补帧"],
+          "fullName": "G04-B screen-shake 边界与补帧 G04-B05 level=1 的奇数帧上移一行，底行填黑",
+          "status": "passed",
+          "title": "G04-B05 level=1 的奇数帧上移一行，底行填黑",
+          "duration": 0.09279100000003382,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-B screen-shake 边界与补帧"],
+          "fullName": "G04-B screen-shake 边界与补帧 G04-B06 level=256 且 advance=false 时像素和 shakeTime 都不变",
+          "status": "passed",
+          "title": "G04-B06 level=256 且 advance=false 时像素和 shakeTime 都不变",
+          "duration": 0.07462500000019645,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371313705,
+      "endTime": 1792371313707.0928,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/screen-shake-bounds.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["applyScreenShake — port sdlpal video.c:571-616"],
+          "fullName": "applyScreenShake — port sdlpal video.c:571-616 奇帧(shakeTime=3,level=4):整幅上移 4 行,底部 4 行填黑,shakeTime→2",
+          "status": "passed",
+          "title": "奇帧(shakeTime=3,level=4):整幅上移 4 行,底部 4 行填黑,shakeTime→2",
+          "duration": 21.021916000000147,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyScreenShake — port sdlpal video.c:571-616"],
+          "fullName": "applyScreenShake — port sdlpal video.c:571-616 偶帧(shakeTime=2,level=4):整幅下移 4 行,顶部 4 行填黑,shakeTime→1",
+          "status": "passed",
+          "title": "偶帧(shakeTime=2,level=4):整幅下移 4 行,顶部 4 行填黑,shakeTime→1",
+          "duration": 16.86158300000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyScreenShake — port sdlpal video.c:571-616"],
+          "fullName": "applyScreenShake — port sdlpal video.c:571-616 shakeTime 从 N 连调 N 次后归 0(video.c:614 末尾 g_wShakeTime--)",
+          "status": "passed",
+          "title": "shakeTime 从 N 连调 N 次后归 0(video.c:614 末尾 g_wShakeTime--)",
+          "duration": 0.30254200000013043,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyScreenShake — port sdlpal video.c:571-616"],
+          "fullName": "applyScreenShake — port sdlpal video.c:571-616 level=0:无可见偏移(整幅不变),但 shakeTime 仍递减",
+          "status": "passed",
+          "title": "level=0:无可见偏移(整幅不变),但 shakeTime 仍递减",
+          "duration": 136.6768750000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyScreenShake — port sdlpal video.c:571-616"],
+          "fullName": "applyScreenShake — port sdlpal video.c:571-616 奇帧上移搬运无残留:被搬走的源行被新内容覆盖(连续性自洽)",
+          "status": "passed",
+          "title": "奇帧上移搬运无残留:被搬走的源行被新内容覆盖(连续性自洽)",
+          "duration": 18.508291999999983,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyScreenShake — port sdlpal video.c:571-616"],
+          "fullName": "applyScreenShake — port sdlpal video.c:571-616 偶帧下移搬运无残留:第 10 行 = 旧第 0 行,第 199 行 = 旧第 189 行,顶部 0..9 全 0",
+          "status": "passed",
+          "title": "偶帧下移搬运无残留:第 10 行 = 旧第 0 行,第 199 行 = 旧第 189 行,顶部 0..9 全 0",
+          "duration": 24.506665999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371312539,
+      "endTime": 1792371312757.5066,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/screen-shake.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G04-A screen-wave 镜像与关断"],
+          "fullName": "G04-A screen-wave 镜像与关断 G04-A01 相位 0 波幅 128 时第 16 行是 320 减 wave[0] 的镜像左移 290",
+          "status": "passed",
+          "title": "G04-A01 相位 0 波幅 128 时第 16 行是 320 减 wave[0] 的镜像左移 290",
+          "duration": 4.304624999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-A screen-wave 镜像与关断"],
+          "fullName": "G04-A screen-wave 镜像与关断 G04-A02 波幅 255 仍卷动，行 0 左移 trunc(60*255/256)=59",
+          "status": "passed",
+          "title": "G04-A02 波幅 255 仍卷动，行 0 左移 trunc(60*255/256)=59",
+          "duration": 4.10266700000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-A screen-wave 镜像与关断"],
+          "fullName": "G04-A screen-wave 镜像与关断 G04-A03 波幅 4 时行 0 的偏移表为 0 故不卷，行 7 左移 4",
+          "status": "passed",
+          "title": "G04-A03 波幅 4 时行 0 的偏移表为 0 故不卷，行 7 左移 4",
+          "duration": 3.7578329999998914,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-A screen-wave 镜像与关断"],
+          "fullName": "G04-A screen-wave 镜像与关断 G04-A04 advance=false 且波幅已经是 256 时不卷动也不清零",
+          "status": "passed",
+          "title": "G04-A04 advance=false 且波幅已经是 256 时不卷动也不清零",
+          "duration": 186.093208,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-A screen-wave 镜像与关断"],
+          "fullName": "G04-A screen-wave 镜像与关断 G04-A05 波幅恰好 256 且 advance=true 时波幅和 progression 都归 0，像素不动",
+          "status": "passed",
+          "title": "G04-A05 波幅恰好 256 且 advance=true 时波幅和 progression 都归 0，像素不动",
+          "duration": 167.544709,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-A screen-wave 镜像与关断"],
+          "fullName": "G04-A screen-wave 镜像与关断 G04-A06 推进一次后 advance=false 停在 wave[1]，连卷两次是 56 再 112",
+          "status": "passed",
+          "title": "G04-A06 推进一次后 advance=false 停在 wave[1]，连卷两次是 56 再 112",
+          "duration": 13.059541999999965,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-A screen-wave 镜像与关断"],
+          "fullName": "G04-A screen-wave 镜像与关断 G04-A07 先累加再判断，250+10 越过 256 则清零且本帧不卷",
+          "status": "passed",
+          "title": "G04-A07 先累加再判断，250+10 越过 256 则清零且本帧不卷",
+          "duration": 306.431417,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04-A screen-wave 镜像与关断"],
+          "fullName": "G04-A screen-wave 镜像与关断 G04-A08 advance=false 的活跃波幅 200 行 0 精确左移 46，计数不累加",
+          "status": "passed",
+          "title": "G04-A08 advance=false 的活跃波幅 200 行 0 精确左移 46，计数不累加",
+          "duration": 6.379207999999835,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371312555,
+      "endTime": 1792371313247.3792,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/screen-wave-mirror.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L16 applyScreenWave 剩余合同"],
+          "fullName": "L16 applyScreenWave 剩余合同 真实 0x71 raw 的负 progression 跨过 0 时立即关断，不用负波幅卷动",
+          "status": "passed",
+          "title": "真实 0x71 raw 的负 progression 跨过 0 时立即关断，不用负波幅卷动",
+          "duration": 230.9055840000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L16 applyScreenWave 剩余合同"],
+          "fullName": "L16 applyScreenWave 剩余合同 advance=false（DM32 fade-only 补帧）：像素扭曲但 wScreenWave/progression/相位不推进",
+          "status": "passed",
+          "title": "advance=false（DM32 fade-only 补帧）：像素扭曲但 wScreenWave/progression/相位不推进",
+          "duration": 1.9329589999999826,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L16 applyScreenWave 剩余合同"],
+          "fullName": "L16 applyScreenWave 剩余合同 循环卷动：行 0 整体左移 shift=trunc(60·w/256)，卷出像素接回行尾",
+          "status": "passed",
+          "title": "循环卷动：行 0 整体左移 shift=trunc(60·w/256)，卷出像素接回行尾",
+          "duration": 10.807084000000032,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L16 applyScreenWave 剩余合同"],
+          "fullName": "L16 applyScreenWave 剩余合同 相位跨帧推进：第二帧行 0 用 wave[1]=trunc(112·w/256)，图案继续滚动",
+          "status": "passed",
+          "title": "相位跨帧推进：第二帧行 0 用 wave[1]=trunc(112·w/256)，图案继续滚动",
+          "duration": 8.68837499999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371312619,
+      "endTime": 1792371312871.6885,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/screen-wave.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["特效 B screen-wave(PAL_ApplyWave port)"],
+          "fullName": "特效 B screen-wave(PAL_ApplyWave port) wScreenWave=0 且 sWaveProgression=0 → 无效果,不改像素",
+          "status": "passed",
+          "title": "wScreenWave=0 且 sWaveProgression=0 → 无效果,不改像素",
+          "duration": 108.14583399999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["特效 B screen-wave(PAL_ApplyWave port)"],
+          "fullName": "特效 B screen-wave(PAL_ApplyWave port) 每帧 wScreenWave += sWaveProgression(渐弱)",
+          "status": "passed",
+          "title": "每帧 wScreenWave += sWaveProgression(渐弱)",
+          "duration": 0.38308299999994233,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["特效 B screen-wave(PAL_ApplyWave port)"],
+          "fullName": "特效 B screen-wave(PAL_ApplyWave port) wScreenWave 累加到 0 → 自动清零关闭(wave + progression 都归 0)",
+          "status": "passed",
+          "title": "wScreenWave 累加到 0 → 自动清零关闭(wave + progression 都归 0)",
+          "duration": 71.7560410000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["特效 B screen-wave(PAL_ApplyWave port)"],
+          "fullName": "特效 B screen-wave(PAL_ApplyWave port) wScreenWave>=256 → 越界清零关闭",
+          "status": "passed",
+          "title": "wScreenWave>=256 → 越界清零关闭",
+          "duration": 0.49483299999997143,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["特效 B screen-wave(PAL_ApplyWave port)"],
+          "fullName": "特效 B screen-wave(PAL_ApplyWave port) 活跃波动 → 像素被横向卷动(至少一行发生左移,且像素值集合守恒=循环卷动)",
+          "status": "passed",
+          "title": "活跃波动 → 像素被横向卷动(至少一行发生左移,且像素值集合守恒=循环卷动)",
+          "duration": 21.862458999999944,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371313824,
+      "endTime": 1792371314026.8625,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/screen-wave.test.ts"
+    }
+  ]
+}
