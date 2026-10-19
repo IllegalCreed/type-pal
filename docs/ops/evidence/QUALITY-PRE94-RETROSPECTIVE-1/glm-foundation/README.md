@@ -63,7 +63,8 @@ Status: build；以下只记有限模块结果，不声明全专项完成
 - 模块14批46作者原件：[reforge render/assets/world族15文件](reforge-world-render/README.md)（同线，review待验收）。零整改批(render高度感知baseY cover-tile+迟滞/entity-motion纯规划器精确sweep+fail-closed逐相位重放/action-player时间轴restore全量校验/follower BASE_SLOT=2实测锚);363/363零失败套件。
 - 模块14批47作者原件：[reforge project/IO族15文件](reforge-project/README.md)（同线，review待验收）。零整改批(loader全验证链纯装配/save-state只读准入双读token/switch-transaction依赖足迹冻结/frame-session帧相位定序/project-map错排lattice真源);243/243零失败套件。
 - 模块14批48作者原件：[reforge 中件扫尾24文件](reforge-medium-tail/README.md)（同线，review待验收）。零整改批(dither 72步色系换入/TPFS随机读取器/battle-trial字节快照seal+三重revision校验/menu-state族5件纯逻辑机/sprite-anim带事故锚);337/337零失败套件。
-- 模块14批49作者原件：[reforge debug-tools](reforge-debug-tools/README.md)（同线，review待验收）。零整改批(DEV-only纪律五钉落地/触发器cancel+占用确认/detached真实命令链/无障碍全角);71/71零失败套件。reforge余量:main.ts(6710)最后一件。
+- 模块14批49作者原件：[reforge debug-tools](reforge-debug-tools/README.md)（同线，review待验收）。零整改批(DEV-only纪律五钉落地/触发器cancel+占用确认/detached真实命令链/无障碍全角);71/71零失败套件。
+- 模块14批50作者原件：[reforge main.ts 6710行](reforge-main/README.md)（同线，review待验收）。零整改批,reforge包生产代码全量收口(组合根:七类intent/canonical单一权威/世界拍六段线性化/存档三态R2/呈现栈定序注释全对齐);216/216零失败套件。余量:editor(39k)→94-102返工。
 集成修正：MKF仅首offset/表长4对齐、并非所有chunk偏移；SDL坏档结果/全原盘保证不能泛化；readChunk生产注释保留借用合同、去掉测试治理措辞。RNG跳帧保留基面继续解码，不保证缺帧后的画面等价。正常资产对拍不代替坏帧策略证明。
 
 旧撤回恢复：mkf.boundaries.test.ts、rng.test.ts、yj2.boundaries.test.ts、rle.glm-o.test.ts四行恢复review，不是本批重新发现代码失败。中央ledger3319/245closed/109review/2965pending，0新关闭；CODE2/2b仍partial。
