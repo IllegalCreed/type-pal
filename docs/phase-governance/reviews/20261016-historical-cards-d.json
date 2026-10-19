@@ -3114,7 +3114,7 @@
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
       "readMethod": "Actual bounded current delta and cited previous withdrawal evidence inspected; historical and unrelated conclusions retained",
-      "coreConclusion": "CODE82 script remains review;unchanged8case process test moves pending to review after full A-H and real business counter.3316tracked/234closed/121review/2961pending,0newclosed;historical tail unchanged;243subset68closed/129missing/45review/1rework.",
+      "coreConclusion": "Direct hidden-ledger counter withdraws verifier closure;prior test withdrawal/coverage gaps restore test review. Inventory pair remains review.3316tracked/232closed/123review/2961pending,0newclosed;243subset67closed/129missing/46review/1rework;historical tail unchanged.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3265,11 +3265,36 @@
       "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "4f3b9407b89e63fee7bc536e5ea06392987657a17fa3e2862c15fb390607cc5b",
+      "afterSha256": "838eb6ed79373badefca8c103b63e2671b841592b2f0bc635d2476c82c9c8ffc",
       "revision": {
         "currentSha": "addcb44c52fd00ab0fd3397e61ae316bf98d02e2aeef1d5533ed23a2c1e5845a",
-        "implementationSha": "4f3b9407b89e63fee7bc536e5ea06392987657a17fa3e2862c15fb390607cc5b",
+        "implementationSha": "838eb6ed79373badefca8c103b63e2671b841592b2f0bc635d2476c82c9c8ffc",
         "history": [
+          {
+            "revision": "95a0a8218ee7fa72f1081f4952efb83504c4521a",
+            "date": "2026-10-19",
+            "action": "CODE6a4file A-H/cache and fixture rework;real hidden-record/output-option counters repaired",
+            "previousAfterSha256": "4f3b9407b89e63fee7bc536e5ea06392987657a17fa3e2862c15fb390607cc5b",
+            "scope": "Direct hidden-ledger counter withdraws verifier closure;prior test withdrawal/coverage gaps restore test review. Inventory pair remains review.3316tracked/232closed/123review/2961pending,0newclosed;243subset67closed/129missing/46review/1rework;historical tail unchanged.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json",
+            "notRun": [
+              "duplicate34/41directed tests",
+              "125unchanged docs-tool tests",
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "runtime/E2E/visual"
+            ],
+            "previousCoreConclusion": "CODE82 script remains review;unchanged8case process test moves pending to review after full A-H and real business counter.3316tracked/234closed/121review/2961pending,0newclosed;historical tail unchanged;243subset68closed/129missing/45review/1rework.",
+            "previousEvidence": {
+              "kind": "codex-owned-first-slice-quality-rework-and-current-ledger-reconciliation",
+              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json",
+              "afterSha256": "4f3b9407b89e63fee7bc536e5ea06392987657a17fa3e2862c15fb390607cc5b",
+              "lineCount": 758
+            },
+            "previousReadMethod": "Actual bounded current delta and cited previous withdrawal evidence inspected; historical and unrelated conclusions retained",
+            "previousNextStep": "Codex continues frozen GLM checkpoint rework in existing3y;shared-type/WORD/CODE82 slices preserved. Remaining missing axes/83card tests require precise follow-up;unified/official final gates and unrelated route expiry remain unresolved."
+          },
           {
             "revision": "59a4b439ea99e7253b2c10a68d4f69cb01e73b97",
             "date": "2026-10-19",
@@ -3988,9 +4013,9 @@
       },
       "evidence": {
         "kind": "codex-owned-first-slice-quality-rework-and-current-ledger-reconciliation",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json",
-        "afterSha256": "4f3b9407b89e63fee7bc536e5ea06392987657a17fa3e2862c15fb390607cc5b",
-        "lineCount": 758
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json",
+        "afterSha256": "838eb6ed79373badefca8c103b63e2671b841592b2f0bc635d2476c82c9c8ffc",
+        "lineCount": 760
       },
       "history": [
         {
@@ -4156,13 +4181,13 @@
       ],
       "successor": "Current route/workflow and original product task sources as explicitly linked; no old prompt executable.",
       "stopLine": "Do not infer current runtime/E2E/visual/coverage, product or old-test-quality acceptance from docs/record structure; preserve legal inputs and every original failure.",
-      "nextStep": "Codex continues frozen GLM checkpoint rework in existing3y;shared-type/WORD/CODE82 slices preserved. Remaining missing axes/83card tests require precise follow-up;unified/official final gates and unrelated route expiry remain unresolved.",
+      "nextStep": "Codex continues frozen GLM checkpoint rework in existing3y;shared-type/WORD/CODE82/CODE6a slices preserved. Remaining missing axes/83card tests require precise follow-up;unified/official final gates and unrelated route expiry remain unresolved.",
       "userVisibleBeforeAfter": {
         "before": "Actual3300 tracked paths with predecessor declared3294; six new docs tools not yet represented; stale live3292 prose retained from earlier maintenance.",
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "1-758",
+      "reviewedLines": "1-760",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {
@@ -4885,7 +4910,7 @@
           "completePriorObjectRetrievedAndCompared": true
         }
       ],
-      "reviewNotes": "\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: Only two already-withdrawn same-SHA annotation tests restored toreview;no new runtime execution,source changes or semantic closure.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit."
+      "reviewNotes": "\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: Only two already-withdrawn same-SHA annotation tests restored toreview;no new runtime execution,source changes or semantic closure.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit."
     },
     {
       "path": "docs/ops/audits/pre-e2e/coverage-determinism.md",

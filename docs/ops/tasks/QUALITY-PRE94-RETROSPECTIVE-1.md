@@ -890,3 +890,17 @@ Codex premise verified/build allowed，同3y单Owner；五worktree两目标无�
 定向最终8/8，沿用未变shared/re-export三相邻，独立身份总11；中间长度重构11/11也保留，不把多轮执行累计成新增测试。STORE18→20使固定census合同恰一业务AssertionError；最终快照仅筛该例，另7为筛选未执行，源码/状态逐字节恢复。真实63978B/15chunk原盘stdout前后逐字节相同、输入不变；初次缺DATA的ENOENT和控制脚本取hash失误如实保留，补的仅本树只读raw链接。AST初筛parseChunkOffsets为8，不以指标收口；TS图未变，沿用486570fa0的extract tsc0，root.mjs不在src/scripts include，Node实跑验证语法。
 
 CODE82 pending→partial，两文件八维均有陈述、统一门仍待；83卡56partial/27pending/0accept。脚本review保持，测试从pending登记review，机器3316/234closed/121review/2961pending，0新关闭；243漂移子集68closed/129missing/45review/1rework。旧493索引冻结，唯一代码delta为诊断脚本，all-cards/ledger当前绑定因此过期，新片明确接续，不刷新旧SHA消警。大任务check/coverage/protected未跑，editor/E2E到期阻塞未解，不合main。下一片回CODE3/3f缺失的设计/命名/简洁/可测维度或CODE6a，复用有效A/E，不转后置94–102。
+
+## 2026-10-19 CODE6a四文件质量续审准入
+
+Codex premise verified/build allowed：同3y单Owner，五worktree四目标无未提交冲突；白名单仅quality下ledger/inventory及两专测。完整读四文件、原卡/既有反控与现有纯Markdown工具；原ledger两文件与旧反控SHA仍匹配，库存两文件已变化，按实际delta补核。先纯重构：每源一次读取/词法事实供图扩散复用、修正符号绑定过度注释、隔离测试中的docs/quality夹具依赖与有界子进程。再独立修复已证低风险工具缺陷：隐藏围栏/HTML示例被当作live记录给进度；输出选项按现行单一非空PATH用法先加失败反例再修。可消费现有withoutFences，不改docs Owner实现、图算法/JSON字段/产品/public签名/资源/规则/基线。新坏输入反例、原生失败、定向相邻与逐文件八维随后写回；未知保持review，昂贵全仓门仍留大任务收尾。
+
+## 2026-10-19 CODE6a四文件八维、架构与记录完整性返工
+
+[本片证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json)区分首次读取、旧证据复用、实际代码差异与原件。65365e514只做纯重构：每个源码一次读取，依赖/重导出事实缓存供图扩散使用，修正把callee叫caller和“符号精确归属”的误导；已知路径集合与record Map同源，移除不可达存在性检查。原始首轮缓存前后4,025,694字节/3316条库存完全相同，冻结该阶段源码与一份无损流，不将其泛化覆盖后续行为修改。测试夹具只共享Git状态，各case显式装配docs或inventory依赖；原有Node子进程从无界改15s上界，未放宽既有限制。
+
+95a0a8218单独行为修复：先红五例证明围栏假结束、HTML隐藏记录、跨隐藏块接表可给假进度，以及空/重复out假成功；随后修正。曾尝试现有withoutFences，18例绿仍漏掉代码字面量中的注释标记，会误拒合法live表；一条真实新反例使其失败，追加实际helper两条重放均AssertionError，故否决复用、保留私有行语法，不改docs Owner。新scanner区分代码/注释并保留表边界，不声称完整Markdown renderer；更广嵌套/多行span等仍未认证。输出接口/字段/图算法/原有效参数、游戏/schema/save/资产与规则基线保持。
+
+原13测试身份全部保留，新增7均对应反例或合法输入保真；删一条不可变string的无判别力自比，inventory变更检查仍保留。最终20/20、工具47/47（含该20）无stderr；初红5、helper红1、中途18绿与追加真实旧实现5红/helper2红均不覆写，快照/命令/原始TAP可核。既有quiet-import与out字节counter仅按未变谓词复用，不重跑旧大包；无新增TypeScript执行声明，全仓check/coverage/protected仍留大任务收尾。
+
+ledger工具遇直接counter、专测既有撤回与盲点各有证据，两旧closed精确重开review；inventory两文件原review保持。当前3316/232closed/123review/2961pending，0新关闭；243漂移子集67closed/129missing/46review/1rework。6a仍partial，全83卡56partial/27pending/0accept，详细矩阵累计19文件；分支仅3y，不合main。CC初筛四处>10均记录实际读域与可改善候选，不为指标拆分或新造万能helper。下一片回CODE3/3f annotation/slice欠缺的结构/可读/可测维度，复用有效A/E，94–102后置。

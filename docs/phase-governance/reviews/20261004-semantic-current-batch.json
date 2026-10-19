@@ -459,7 +459,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Actual bounded current delta and cited previous withdrawal evidence inspected; historical and unrelated conclusions retained",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Only pre94 current row updates CODE82 private diagnostic cleanup and15file A-H matrices;83cards56partial/27pending/0accept. No new closure;other tasks and unresolved unified/editor/route blockers retained.",
+      "coreConclusion": "Only current pre94 row adds19file A-H/quality-tool cache and false-credit/output-option fixes;56partial/27pending/0accept. No new closure,other tasks/unified blockers retained.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -468,14 +468,14 @@
       "unresolved": [
         "Historical product/coverage/unified gates remain outside this documentation-only integration."
       ],
-      "nextStep": "Codex continues frozen GLM checkpoint rework in existing3y;shared-type/WORD/CODE82 slices preserved. Remaining missing axes/83card tests require precise follow-up;unified/official final gates and unrelated route expiry remain unresolved.",
+      "nextStep": "Codex continues frozen GLM checkpoint rework in existing3y;shared-type/WORD/CODE82/CODE6a slices preserved. Remaining missing axes/83card tests require precise follow-up;unified/official final gates and unrelated route expiry remain unresolved.",
       "phase": "ops",
       "module": "board.md",
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "40ee7081bb60d7b1dae40a0935c76d98f0f1fc49a985576cf68ca54fc684bed8",
+      "afterSha256": "c934cc7f79d153e4e946dd0481b1dd424c9d4a733394a4ab512e4c1233c88250",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -493,7 +493,7 @@
       "businessOracle": {
         "type": "authorized-document-content-and-real-route-template-consumers",
         "assertions": [
-          "Only pre94 current row updates CODE82 private diagnostic cleanup and15file A-H matrices;83cards56partial/27pending/0accept. No new closure;other tasks and unresolved unified/editor/route blockers retained.",
+          "Only current pre94 row adds19file A-H/quality-tool cache and false-credit/output-option fixes;56partial/27pending/0accept. No new closure,other tasks/unified blockers retained.",
           "One canonical cross-phase quality contract; entry/form instructions preserve actual task state and risk boundaries",
           "Current delta does not claim historical byte preservation or independent third-party/product execution acceptance"
         ]
@@ -504,10 +504,43 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "40ee7081bb60d7b1dae40a0935c76d98f0f1fc49a985576cf68ca54fc684bed8",
+        "implementationSha": "c934cc7f79d153e4e946dd0481b1dd424c9d4a733394a4ab512e4c1233c88250",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "95a0a8218ee7fa72f1081f4952efb83504c4521a",
+            "date": "2026-10-19",
+            "action": "CODE6a4file A-H/cache and fixture rework;real hidden-record/output-option counters repaired",
+            "previousAfterSha256": "40ee7081bb60d7b1dae40a0935c76d98f0f1fc49a985576cf68ca54fc684bed8",
+            "scope": "Only current pre94 row adds19file A-H/quality-tool cache and false-credit/output-option fixes;56partial/27pending/0accept. No new closure,other tasks/unified blockers retained.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json",
+            "notRun": [
+              "duplicate34/41directed tests",
+              "125unchanged docs-tool tests",
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "runtime/E2E/visual"
+            ],
+            "previousCoreConclusion": "Only pre94 current row updates CODE82 private diagnostic cleanup and15file A-H matrices;83cards56partial/27pending/0accept. No new closure;other tasks and unresolved unified/editor/route blockers retained.",
+            "previousEvidence": {
+              "kind": "codex-owned-first-slice-quality-rework-and-current-ledger-reconciliation",
+              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json",
+              "afterSha256": "40ee7081bb60d7b1dae40a0935c76d98f0f1fc49a985576cf68ca54fc684bed8",
+              "lineCount": 97
+            },
+            "previousReadMethod": "Actual bounded current delta and cited previous withdrawal evidence inspected; historical and unrelated conclusions retained",
+            "previousNextStep": "Codex continues frozen GLM checkpoint rework in existing3y;shared-type/WORD/CODE82 slices preserved. Remaining missing axes/83card tests require precise follow-up;unified/official final gates and unrelated route expiry remain unresolved.",
+            "previousBusinessOracle": {
+              "type": "authorized-document-content-and-real-route-template-consumers",
+              "assertions": [
+                "Only pre94 current row updates CODE82 private diagnostic cleanup and15file A-H matrices;83cards56partial/27pending/0accept. No new closure;other tasks and unresolved unified/editor/route blockers retained.",
+                "One canonical cross-phase quality contract; entry/form instructions preserve actual task state and risk boundaries",
+                "Current delta does not claim historical byte preservation or independent third-party/product execution acceptance"
+              ]
+            }
+          },
           {
             "revision": "59a4b439ea99e7253b2c10a68d4f69cb01e73b97",
             "date": "2026-10-19",
@@ -1500,8 +1533,8 @@
       },
       "evidence": {
         "kind": "codex-owned-first-slice-quality-rework-and-current-ledger-reconciliation",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json",
-        "afterSha256": "40ee7081bb60d7b1dae40a0935c76d98f0f1fc49a985576cf68ca54fc684bed8",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json",
+        "afterSha256": "c934cc7f79d153e4e946dd0481b1dd424c9d4a733394a4ab512e4c1233c88250",
         "lineCount": 97
       },
       "history": [
@@ -1590,7 +1623,7 @@
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
       "reviewedLines": "1-97",
-      "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-18: user requests one large delegated task to reduce relays; no quality/risk rule weakened.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.",
+      "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-18: user requests one large delegated task to reduce relays; no quality/risk rule weakened.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit.",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-12",

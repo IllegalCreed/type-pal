@@ -32,7 +32,7 @@
 | [CODE-QUALITY-3x](../../archive/tasks/done/CODE-QUALITY-3x-game-battle-progression.md) | done | partial | [既有复审切片](3x-battle-progression/README.md)：只同步 JSON 中已登记的 partial；有限证据不等于整卡 accept |
 | [CODE-QUALITY-3y](../../archive/tasks/done/CODE-QUALITY-3y-game-analytics-consent.md) | done | partial | [consent三文件](3y-analytics-consent/README.md)：原生存储/事件和五旧绿新单红，7定向/17相邻；跨realm/实网/统一门仍待 |
 | [CODE-QUALITY-3z](../../archive/tasks/done/CODE-QUALITY-3z-game-google-analytics.md) | done | partial | [GA四文件](3z-google-analytics/README.md)：共享宿主/五反控，13直接12相邻；初始化泄漏另卡draft，实网/统一门仍待 |
-| [CODE-QUALITY-6a](../../archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md) | done | partial | [账本/清单四文件](6a/README.md)，两测试补证/两有效反控；未accept |
+| [CODE-QUALITY-6a](../../archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md) | done | partial | [四文件八维](glm-foundation/codex-code6a.json)：隐藏账本/输出参数修复；13旧身份保持+7针对性合同；20定向/47含该20；[既有反控](6a/README.md)保留，统一门待 |
 | [CODE-QUALITY-40](../../archive/tasks/done/CODE-QUALITY-40-game-analytics-install.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-41](../../archive/tasks/done/CODE-QUALITY-41-game-analytics-consent-ui.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-42](../../archive/tasks/done/CODE-QUALITY-42-game-dialog-box.md) | done | partial | [既有复审切片](42-dialog-box/README.md)：只同步 JSON 中已登记的 partial；有限证据不等于整卡 accept |

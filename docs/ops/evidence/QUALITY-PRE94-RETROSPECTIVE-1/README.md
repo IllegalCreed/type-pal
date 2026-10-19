@@ -4,7 +4,7 @@
 
 任务：[QUALITY-PRE94-RETROSPECTIVE-1](../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。当前要求是全部83卡逐卡逐文件复审，未全部完成。下文原f0cf0f7f抽查是历史快照；当前唯一3y分支、主工作树只读。
 
-当前增量（2026-10-19）：[CODE82两文件八维](glm-foundation/codex-code82.json)完成有限续审与纯重构，当前56partial/27pending/0accept；其余历史数字按各片时点。源码/测试仍review，234closed/121review/2961pending，统一门未过。
+当前增量（2026-10-19）：[CODE6a四文件八维](glm-foundation/codex-code6a.json)修复隐藏记录假进度/输出参数假成功，并整理事实缓存与夹具依赖。当前56partial/27pending/0accept；其余历史数字按各片时点。四文件仍review，232closed/123review/2961pending，0新关闭，统一门未过。
 
 ## 2026-10-17 当前范围与优先级
 

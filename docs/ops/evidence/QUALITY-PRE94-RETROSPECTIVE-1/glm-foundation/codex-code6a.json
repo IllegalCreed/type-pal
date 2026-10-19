@@ -1,0 +1,1898 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-19",
+  "owner": "Codex",
+  "decision": "CODE6a finite4file rework;stillpartial/filesreview;0newclosed",
+  "base": "1837f2fa55d242e07b759b1e141677878e17f3b3",
+  "commits": ["65365e514", "95a0a8218"],
+  "fileReviews": [
+    {
+      "path": "scripts/quality/code-quality-ledger.mjs",
+      "sha256": "76c45b719c241305d59eec611b3584f3ea623494900ae0afd69ccd8e8c2c1157",
+      "lines": 191,
+      "readScope": "Full1837file read plus every current edit/current diff;current fingerprints below. Existing A/E reused only at stated exact source/predicate scope.",
+      "dimensions": {
+        "A": "Confirmed actual exported validator previously accepted a document containing only a fenced/HTML hidden ledger;info-bearing marker falsely closed a fence and removal of hidden lines rejoined a split table. New scanner keeps block boundaries and ignores comment text only outside code literals;known canonical live ledger still validates. Counts/signature/result shape and unknown-path/no-credit rules unchanged.",
+        "B": "Comment explains why code-literal comment markers are inert and why hidden blocks still terminate a machine table. Function-level record-integrity-only disclaimer retained. No claim full Markdown rendering or human semantic review by machine.",
+        "C": "Private code-span/comment/fence grammar stages are pure,local state;public audit owns issue ordering/record Map/counts. main alone owns subprocess/file IO/exit reporting. No new mutable global or cross-package/game state. Branch-heavy validation remains a cohesive sequence;possible extraction is a design candidate,not forced to hit a metric.",
+        "D": "Compared real existing withoutFences API first. Its global comment pass masks valid code-literal prefixes,demonstrated by two exact business AssertionErrors;rejected reuse rather than mutate another Owner module or add mode flags. Private line grammar therefore remains explicit. Existing shared parser not modified.",
+        "E": "Old10identities retained;new5ledger cases cover3false-positive modes and2valid literal-code contexts. Initial3negative ledger cases failed on actual original validator;real shared-helper approach failed valid positive contract. Final ledger15pass within20directed,47quality-tools includes those20.",
+        "F": "inlineCodeEnd/hideCommentText/visibleLines name distinct lexical jobs;state transitions and source/table boundary are explicit. No comment needed to infer status owner or field accounting. Audit linear stages visible even though cyclomatic38 is flagged.",
+        "G": "No public export removed or schema changed. Deleted immutable-string self-comparison from test only;source inventory/counter policies not weakened. Kept numeric/status/known-path checks with real callers. No ignore/exclude/cast/rule change.",
+        "H": "Audit takes plain source/inventory and has no IO;actual CLI separately tested. Private scanners deterministic;real temp/copy reproduction preserves actual old core instead of cloning oracle. General Markdown block/nesting/multiline-span combinations remain unverified,not declared a renderer or whole-file closure."
+      },
+      "currentAcceptance": "review;finiteA-H work,not closed/unified integration",
+      "unknowns": [
+        "Whole-stage final gates/route/editor diagnostics remain open",
+        "Lexical/canonical ledger grammar is not a complete Markdown renderer or symbol graph"
+      ]
+    },
+    {
+      "path": "scripts/quality/code-quality-ledger.test.mjs",
+      "sha256": "cbf61f06d3bb5f8992989580a7f3a354741a272f78ef98a0e5153322f3cb5d1b",
+      "lines": 182,
+      "readScope": "Full1837file read plus every current edit/current diff;current fingerprints below. Existing A/E reused only at stated exact source/predicate scope.",
+      "dimensions": {
+        "A": "Legal3path inventory and literal rows preserve normal counts;invalid docs intentionally test rejection. Added Markdown-only documents and a split machine table are negative ledger inputs,not fake legal game DTOs. Positive code-literal prefixes preserve live rows.",
+        "B": "Original titles retained because inventory nonmutation remains meaningful;removed assert.equal(source,ledger()) was an immutable primitive self-comparison with no discrimination. New titles identify precise hidden/literal/table contracts without whole-parser promise.",
+        "C": "Fixture builder owns fixed strings/data only;public validator called directly. Quiet-import and actual-repository child cases remain separate. Child processes now have15s upper bounds instead of unbounded waits;no increased existing limit or masked failure.",
+        "D": "Old fixtures reused for distinct invalid-input axes;new hidden variants do not add per-branch counts as standalone weak tests. Two positive literal contexts protect against a concrete rejected abstraction,not duplicate the rejection cases.",
+        "E": "15ledger cases=10old+5new;full counts fixed independently,issue/mismatch assertions discriminate wrong progress. Prior quiet-import mutant reused at exact old source/test binding before changes;guard/predicate untouched,current real import remains green. Controlled real-old-source replay reproduces the three new negative count failures;no mock-call oracle.",
+        "F": "New fixtures show which text is hidden vs active. Explicit expected count objects expose progress inflation rather than only asserting some error. Existing status-axis and malformed-inventory loops have stated independent inputs.",
+        "G": "No oldcase retirement/rename;only one proven nondiscriminating primitive assertion removed. No skip/only/weakening,new fixture cast or production-copy oracle.",
+        "H": "Pure unit inputs plus real Node import/CLI process boundary,owned cwd. No global mocks/listeners;process outcomes asserted. Existing old counters and native bytes retained;filtered diagnostic runs do not imply other tests ran."
+      },
+      "currentAcceptance": "review;finiteA-H work,not closed/unified integration",
+      "unknowns": [
+        "Whole-stage final gates/route/editor diagnostics remain open",
+        "Lexical/canonical ledger grammar is not a complete Markdown renderer or symbol graph"
+      ]
+    },
+    {
+      "path": "scripts/quality/code-quality-inventory.mjs",
+      "sha256": "00c89fee45b176a3f58f51bbe3856c2a5675d48d668e23c1f148c40f1e879158",
+      "lines": 219,
+      "readScope": "Full1837file read plus every current edit/current diff;current fingerprints below. Existing A/E reused only at stated exact source/predicate scope.",
+      "dimensions": {
+        "A": "Tracked path set/output schema/caller fixed-point algorithm retained. Real stable-checkout inventory before/after first cache phase is byte-identical across3316records. Explicit output option now rejects empty PATH or repeated option before any write;normal stdout/--out paths unchanged.",
+        "B": "Replaced false exported-symbol ownership claim with path-level conservative hints/no runtime-reachability guarantee. Documented one read per file,not atomic whole-tree snapshot. Lexical source patterns and package-entry limitations remain visible.",
+        "C": "Each file read once to public dependency facts/private re-export cache;graph expansion performs no filesystem read. Dependency target named dependency,not caller. Known Set and byPath derive from same records,so redundant target-existence checks removed;no broad context/new mode flags.",
+        "D": "One export/from matcher feeds both dependency metadata and propagation. Dependency collector accepts actual precomputed reExports to avoid repeated regex work. No new public framework/export/build layer;map cache contains facts,not retained full source strings.",
+        "E": "Full4,025,694byte before/after inventory streams identical in cache epoch;current3legacy CLI contracts retained and2bad-output contracts added. Real>1MiB staged Git metadata/tail callers still checked. First repo check supplies barrel reachability clues only,not proof all lexical edges correct.",
+        "F": "dependencySpecifiers/dependencies/reExportsByPath/dependency reveal actual graph roles;record field names match public output. main still has clear scan/link/propagate/publish phases;classification and scope functions flagged as branch-heavy screening.",
+        "G": "Remove repeated reads/parses and two impossible missing-target guards,not validation of arbitrary external records. Preserve generated/test/fixture categories and pending defaults. No scope/filter/threshold reduction.",
+        "H": "Fact cache isolates graph work from IO;actual standalone fixtures can inject a small repo instead of thousands of physical files. CLI root remains URL-derived. Normal Git environment/POSIX path use validated;external Git namespace overrides/general symbol parser not newly certified."
+      },
+      "currentAcceptance": "review;finiteA-H work,not closed/unified integration",
+      "unknowns": [
+        "Whole-stage final gates/route/editor diagnostics remain open",
+        "Lexical/canonical ledger grammar is not a complete Markdown renderer or symbol graph"
+      ]
+    },
+    {
+      "path": "scripts/quality/code-quality-inventory.test.mjs",
+      "sha256": "bf8019893a5b193dc6e4e5e519cf5ed87230d98a69c5ea6465b49fc9d14fdb85",
+      "lines": 216,
+      "readScope": "Full1837file read plus every current edit/current diff;current fingerprints below. Existing A/E reused only at stated exact source/predicate scope.",
+      "dimensions": {
+        "A": "Original3CLI identities retained:repo stdout==explicit-file bytes,real docs index large-path tail and real inventory large-path tail. Add empty/repeated --out negatives with owned output paths;check exit1/no stdout/usage/no createdfile. No productassets or shared output touched.",
+        "B": "Large-path comment accurately explains staged metadata may reference absent padding blobs. Titles and fixed tail file expectations match actual Git/CLI caller scope. No package-green assurance replaces fixture validity.",
+        "C": "Shared fixture owns Git metadata/lifecycle only. Each test copies its own docs or quality entrypoint dependencies;inventory case no longer needs docs modules/content constants.15s child bounds and finally/t.after only owned dirs;Git config/hooks/signing isolated.",
+        "D": "Small copyFromRepository helper has real consumers in both cases and no generic options. One metadata fixture genuinely shared,application dependencies explicit at test site. Current first1byte-comparison contract preserves prior --out counter predicate.",
+        "E": "5inventory cases=3old+2new;actual original CLI accepts both invalid forms and fails new exit assertions. Independent fixed two-file outputs/caller edge and exact saved bytes are oracles. No implementation-generated expected records or source clone self-comparison.",
+        "F": "Setup distinguishes source files,data/Git state and which CLI runs. Bad-output case names state the intended rejection boundary. Original tail Unicode/space path remains explicit.",
+        "G": "No case removed/replaced by a weaker substitute;new2cases only close two observed false-success argument paths. No timeout increase,only an upper bound on previously unbounded child calls. No new exclusions.",
+        "H": "Temp repos use realpath,mkdtemp and t.after;actual Git index exceeds1MiB while only required files exist. Child env strips inherited Git namespace/config,execs bounded. Failed child or invalid task cannot masquerade as a successful scan."
+      },
+      "currentAcceptance": "review;finiteA-H work,not closed/unified integration",
+      "unknowns": [
+        "Whole-stage final gates/route/editor diagnostics remain open",
+        "Lexical/canonical ledger grammar is not a complete Markdown renderer or symbol graph"
+      ]
+    }
+  ],
+  "callerPrimaryBindings": [
+    {
+      "path": "package.json",
+      "sha256": "259820fcdc312e11ce297a83074ce168e5a9612f2016ae6d2acb5a308dd62224",
+      "readScope": "full actual test:quality-tools/check callers"
+    },
+    {
+      "path": "scripts/docs/markdown.mjs",
+      "sha256": "1427de079109a39fb03ce0b0251d80dc813f8f9758f71e3cf09099030eca5215",
+      "readScope": "full;rejected reuse failure semantics,source unchanged"
+    },
+    {
+      "path": "scripts/docs/cursor-markdown.test.mjs",
+      "sha256": "731cc5e8218409754ddf26a276e9dfe81fae6288ee75f9c42e4910cfdd940944",
+      "readScope": "full;adjacent reference only,not whole-file acceptance"
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md",
+      "sha256": "c76579690002117eed9b51b1681207dc8485ea642997cba8205016d2ff1d8e53",
+      "readScope": "full current historical card;current build authority is parent"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/6a/README.md",
+      "sha256": "72711db51023d5a2b962a2fbadcbd8b05212845b058784e718e08e4b081d11fa",
+      "readScope": "full existing finite evidence/withdrawal"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/6a/test-proof.json",
+      "sha256": "c11e69bb295ea9d479eba92f1203787eb852f7dfdfb5048be68949c62c70bea0",
+      "readScope": "full old counters/source hashes/native ids"
+    }
+  ],
+  "attachments": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/code6a-pure13.tap.gz",
+      "kind": "full original Node TAP stdout",
+      "originalSha256": "cf81b04bae3e196eca57e5edc634e09d9728c8c4f13a96004453bbe51de1ba46",
+      "gzipSha256": "02f1be6914fa8c62def7e7bc8ce3e14a7805a4250fb5d599b50f1fa19c0cf42b",
+      "tap": {
+        "counts": {
+          "tests": 13,
+          "pass": 13,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "cases": [
+          {
+            "name": "code-quality inventory emits deterministic scoped records with caller and category fields",
+            "status": "passed"
+          },
+          {
+            "name": "actual docs index CLI consumes over1MiB Git paths and still rejects an invalid tail task",
+            "status": "passed"
+          },
+          {
+            "name": "actual quality inventory CLI consumes over1MiB Git paths and preserves exact tail records and callers",
+            "status": "passed"
+          },
+          {
+            "name": "unique files determine all counts; running the guard does not change evidence",
+            "status": "passed"
+          },
+          {
+            "name": "duplicate ledger row fails even if the header gives it no extra credit",
+            "status": "passed"
+          },
+          {
+            "name": "untracked evidence path cannot count as a reviewed file",
+            "status": "passed"
+          },
+          {
+            "name": "each published status count is checked independently",
+            "status": "passed"
+          },
+          {
+            "name": "added and removed tracked files invalidate inventory and pending counts",
+            "status": "passed"
+          },
+          {
+            "name": "table shape, status and evidence cannot be silently skipped",
+            "status": "passed"
+          },
+          {
+            "name": "fenced examples give no credit; duplicate/missing summary or table fails closed",
+            "status": "passed"
+          },
+          {
+            "name": "malformed or duplicate inventory is rejected before claiming success",
+            "status": "passed"
+          },
+          {
+            "name": "importing the validator from an unrelated cwd does not start the CLI",
+            "status": "passed"
+          },
+          {
+            "name": "real quality-tools caller checks the current repository ledger against the inventory CLI",
+            "status": "passed"
+          }
+        ]
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/code6a-initial-red5.tap.gz",
+      "kind": "full original Node TAP stdout",
+      "originalSha256": "7421b5eedde73f11182f05928a1969ac37bff8027dd5a9e0076aca6e08851c4d",
+      "gzipSha256": "8f4ac0f61f2c67679548f11b9e203af9cd6898eec86e928741e604950f29ccc7",
+      "tap": {
+        "counts": {
+          "tests": 5,
+          "pass": 0,
+          "fail": 5,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "cases": [
+          {
+            "name": "inventory rejects an empty output path without publishing output",
+            "status": "failed"
+          },
+          {
+            "name": "inventory rejects duplicate output options without publishing output",
+            "status": "failed"
+          },
+          {
+            "name": "hidden fenced example with an info-bearing marker cannot publish reviewed-file counts",
+            "status": "failed"
+          },
+          {
+            "name": "hidden HTML comment cannot publish reviewed-file counts",
+            "status": "failed"
+          },
+          {
+            "name": "a fenced block terminates the contiguous machine ledger",
+            "status": "failed"
+          }
+        ]
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/code6a-rejected-helper-red1.tap.gz",
+      "kind": "full original Node TAP stdout",
+      "originalSha256": "8a9dd11bef0532a374f89c82a3453b6ec931e053f78dfe247d8b3b06a69e3d9c",
+      "gzipSha256": "6ec5d41a4dddc9f798ba65de97de9a6f1747ad0fd032eb4842b98709cea60dea",
+      "tap": {
+        "counts": {
+          "tests": 1,
+          "pass": 0,
+          "fail": 1,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "cases": [
+          {
+            "name": "comment markers in fenced code do not hide the following live ledger",
+            "status": "failed"
+          }
+        ]
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/code6a-intermediate18.tap.gz",
+      "kind": "full original Node TAP stdout",
+      "originalSha256": "5ef7b0577f5958755abb0ca664cc34ae36cce04d552bd9093234dff17e99b183",
+      "gzipSha256": "b0d783d1192c8d18a536cd66cf02792addcf19a3934b6ec8bafc1635a958dbb7",
+      "tap": {
+        "counts": {
+          "tests": 18,
+          "pass": 18,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "cases": [
+          {
+            "name": "inventory rejects an empty output path without publishing output",
+            "status": "passed"
+          },
+          {
+            "name": "inventory rejects duplicate output options without publishing output",
+            "status": "passed"
+          },
+          {
+            "name": "code-quality inventory emits deterministic scoped records with caller and category fields",
+            "status": "passed"
+          },
+          {
+            "name": "actual docs index CLI consumes over1MiB Git paths and still rejects an invalid tail task",
+            "status": "passed"
+          },
+          {
+            "name": "actual quality inventory CLI consumes over1MiB Git paths and preserves exact tail records and callers",
+            "status": "passed"
+          },
+          {
+            "name": "unique files determine all counts; running the guard does not change evidence",
+            "status": "passed"
+          },
+          {
+            "name": "duplicate ledger row fails even if the header gives it no extra credit",
+            "status": "passed"
+          },
+          {
+            "name": "untracked evidence path cannot count as a reviewed file",
+            "status": "passed"
+          },
+          {
+            "name": "each published status count is checked independently",
+            "status": "passed"
+          },
+          {
+            "name": "added and removed tracked files invalidate inventory and pending counts",
+            "status": "passed"
+          },
+          {
+            "name": "table shape, status and evidence cannot be silently skipped",
+            "status": "passed"
+          },
+          {
+            "name": "fenced examples give no credit; duplicate/missing summary or table fails closed",
+            "status": "passed"
+          },
+          {
+            "name": "hidden fenced example with an info-bearing marker cannot publish reviewed-file counts",
+            "status": "passed"
+          },
+          {
+            "name": "hidden HTML comment cannot publish reviewed-file counts",
+            "status": "passed"
+          },
+          {
+            "name": "a fenced block terminates the contiguous machine ledger",
+            "status": "passed"
+          },
+          {
+            "name": "malformed or duplicate inventory is rejected before claiming success",
+            "status": "passed"
+          },
+          {
+            "name": "importing the validator from an unrelated cwd does not start the CLI",
+            "status": "passed"
+          },
+          {
+            "name": "real quality-tools caller checks the current repository ledger against the inventory CLI",
+            "status": "passed"
+          }
+        ]
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/code6a-final20.tap.gz",
+      "kind": "full original Node TAP stdout",
+      "originalSha256": "039d61971831c5c0d59b7eb4b91b92e658fcd6c4eb77cb5765e14ccdf96357ea",
+      "gzipSha256": "9ac965772ef3b4f1db998c02f9b945a25bcaef280021a6953b043a7d66f08cfe",
+      "tap": {
+        "counts": {
+          "tests": 20,
+          "pass": 20,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "cases": [
+          {
+            "name": "inventory rejects an empty output path without publishing output",
+            "status": "passed"
+          },
+          {
+            "name": "inventory rejects duplicate output options without publishing output",
+            "status": "passed"
+          },
+          {
+            "name": "code-quality inventory emits deterministic scoped records with caller and category fields",
+            "status": "passed"
+          },
+          {
+            "name": "actual docs index CLI consumes over1MiB Git paths and still rejects an invalid tail task",
+            "status": "passed"
+          },
+          {
+            "name": "actual quality inventory CLI consumes over1MiB Git paths and preserves exact tail records and callers",
+            "status": "passed"
+          },
+          {
+            "name": "unique files determine all counts; running the guard does not change evidence",
+            "status": "passed"
+          },
+          {
+            "name": "duplicate ledger row fails even if the header gives it no extra credit",
+            "status": "passed"
+          },
+          {
+            "name": "untracked evidence path cannot count as a reviewed file",
+            "status": "passed"
+          },
+          {
+            "name": "each published status count is checked independently",
+            "status": "passed"
+          },
+          {
+            "name": "added and removed tracked files invalidate inventory and pending counts",
+            "status": "passed"
+          },
+          {
+            "name": "table shape, status and evidence cannot be silently skipped",
+            "status": "passed"
+          },
+          {
+            "name": "fenced examples give no credit; duplicate/missing summary or table fails closed",
+            "status": "passed"
+          },
+          {
+            "name": "hidden fenced example with an info-bearing marker cannot publish reviewed-file counts",
+            "status": "passed"
+          },
+          {
+            "name": "hidden HTML comment cannot publish reviewed-file counts",
+            "status": "passed"
+          },
+          {
+            "name": "a fenced block terminates the contiguous machine ledger",
+            "status": "passed"
+          },
+          {
+            "name": "comment markers in fenced code do not hide the following live ledger",
+            "status": "passed"
+          },
+          {
+            "name": "comment markers in inline code do not hide the following live ledger",
+            "status": "passed"
+          },
+          {
+            "name": "malformed or duplicate inventory is rejected before claiming success",
+            "status": "passed"
+          },
+          {
+            "name": "importing the validator from an unrelated cwd does not start the CLI",
+            "status": "passed"
+          },
+          {
+            "name": "real quality-tools caller checks the current repository ledger against the inventory CLI",
+            "status": "passed"
+          }
+        ]
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/code6a-quality47.tap.gz",
+      "kind": "full original Node TAP stdout",
+      "originalSha256": "29413e0ebe387eee0bc52dddaeca4e1bfc1de826d4f07f9d2d5ac2f4bfde371e",
+      "gzipSha256": "1c868fd922b4b68a0d9eacd9bf046e082e29bc464ad23afe8bbd8d625460723c",
+      "tap": {
+        "counts": {
+          "tests": 47,
+          "pass": 47,
+          "fail": 0,
+          "cancelled": 0,
+          "skipped": 0,
+          "todo": 0
+        },
+        "cases": [
+          {
+            "name": "inventory rejects an empty output path without publishing output",
+            "status": "passed"
+          },
+          {
+            "name": "inventory rejects duplicate output options without publishing output",
+            "status": "passed"
+          },
+          {
+            "name": "code-quality inventory emits deterministic scoped records with caller and category fields",
+            "status": "passed"
+          },
+          {
+            "name": "actual docs index CLI consumes over1MiB Git paths and still rejects an invalid tail task",
+            "status": "passed"
+          },
+          {
+            "name": "actual quality inventory CLI consumes over1MiB Git paths and preserves exact tail records and callers",
+            "status": "passed"
+          },
+          {
+            "name": "unique files determine all counts; running the guard does not change evidence",
+            "status": "passed"
+          },
+          {
+            "name": "duplicate ledger row fails even if the header gives it no extra credit",
+            "status": "passed"
+          },
+          {
+            "name": "untracked evidence path cannot count as a reviewed file",
+            "status": "passed"
+          },
+          {
+            "name": "each published status count is checked independently",
+            "status": "passed"
+          },
+          {
+            "name": "added and removed tracked files invalidate inventory and pending counts",
+            "status": "passed"
+          },
+          {
+            "name": "table shape, status and evidence cannot be silently skipped",
+            "status": "passed"
+          },
+          {
+            "name": "fenced examples give no credit; duplicate/missing summary or table fails closed",
+            "status": "passed"
+          },
+          {
+            "name": "hidden fenced example with an info-bearing marker cannot publish reviewed-file counts",
+            "status": "passed"
+          },
+          {
+            "name": "hidden HTML comment cannot publish reviewed-file counts",
+            "status": "passed"
+          },
+          {
+            "name": "a fenced block terminates the contiguous machine ledger",
+            "status": "passed"
+          },
+          {
+            "name": "comment markers in fenced code do not hide the following live ledger",
+            "status": "passed"
+          },
+          {
+            "name": "comment markers in inline code do not hide the following live ledger",
+            "status": "passed"
+          },
+          {
+            "name": "malformed or duplicate inventory is rejected before claiming success",
+            "status": "passed"
+          },
+          {
+            "name": "importing the validator from an unrelated cwd does not start the CLI",
+            "status": "passed"
+          },
+          {
+            "name": "real quality-tools caller checks the current repository ledger against the inventory CLI",
+            "status": "passed"
+          },
+          {
+            "name": "accepts a complete, zero-diagnostic report",
+            "status": "passed"
+          },
+          {
+            "name": "rejects nonzero errors even when CLI exits zero",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing errors",
+            "status": "passed"
+          },
+          {
+            "name": "rejects nonzero warnings even when CLI exits zero",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing warnings",
+            "status": "passed"
+          },
+          {
+            "name": "rejects nonzero infos even when CLI exits zero",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing infos",
+            "status": "passed"
+          },
+          {
+            "name": "rejects nonzero skipped even when CLI exits zero",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing skipped",
+            "status": "passed"
+          },
+          {
+            "name": "rejects nonzero diagnosticsNotPrinted even when CLI exits zero",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing diagnosticsNotPrinted",
+            "status": "passed"
+          },
+          {
+            "name": "rejects nonzero changed even when CLI exits zero",
+            "status": "passed"
+          },
+          {
+            "name": "rejects missing changed",
+            "status": "passed"
+          },
+          {
+            "name": "rejects invalid count -1",
+            "status": "passed"
+          },
+          {
+            "name": "rejects invalid count NaN",
+            "status": "passed"
+          },
+          {
+            "name": "rejects invalid count Infinity",
+            "status": "passed"
+          },
+          {
+            "name": "rejects invalid count 1.5",
+            "status": "passed"
+          },
+          {
+            "name": "rejects invalid count 0",
+            "status": "passed"
+          },
+          {
+            "name": "rejects invalid count null",
+            "status": "passed"
+          },
+          {
+            "name": "rejects diagnostics even if summary hides them",
+            "status": "passed"
+          },
+          {
+            "name": "rejects empty scan",
+            "status": "passed"
+          },
+          {
+            "name": "rejects unknown or malformed report shapes",
+            "status": "passed"
+          },
+          {
+            "name": "rejects process errors regardless of a clean report",
+            "status": "passed"
+          },
+          {
+            "name": "real Biome process: clean",
+            "status": "passed"
+          },
+          {
+            "name": "real Biome process: warning",
+            "status": "passed"
+          },
+          {
+            "name": "real Biome process: info",
+            "status": "passed"
+          },
+          {
+            "name": "real Biome process: syntax",
+            "status": "passed"
+          }
+        ]
+      }
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/code6a-controlled-replay.json.gz",
+      "kind": "full controlled old-source/helper reproduction with exact executed source/test snapshots",
+      "originalSha256": "1a21b7ca02bdfa5a5ce736cf4059878aa7a43f6fd8d44160d99e017b6c0a9211",
+      "gzipSha256": "3b6dfc9ee1af6db0fc4207735b1b614836b36368894a7f2a603522bab82ae6cf"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/code6a-cache-inventory.json.gz",
+      "kind": "lossless original inventory stdout;before/after cache streams are byte-identical",
+      "originalSha256": "96682db8c7458720fc63dd4698a089991727189696c3bff593dd2edbad8b04fb",
+      "gzipSha256": "4d94452a9be58e0a2bbe82fa6d072210946ecc973a79558be51562ea208afbf4"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/code6a-cache-epoch.mjs.gz",
+      "kind": "exact intermediate cache implementation6a0503;unpublished e481 source recovered before GC,not final source",
+      "originalSha256": "6a0503c5c2814daced3c4eb2eb37e8b900e479156ca193aa1d7d94dd8c38358f",
+      "gzipSha256": "8332e172e8c070beb9550128db34e8650149242d12f55d14753703eac83b44e0"
+    }
+  ],
+  "executionLogs": {
+    "pure13": {
+      "command": [
+        "node",
+        "--test",
+        "scripts/quality/code-quality-ledger.test.mjs",
+        "scripts/quality/code-quality-inventory.test.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T14:21:08.873116+00:00",
+      "exitCode": 0,
+      "stderr": "",
+      "stdoutAttachment": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/code6a-pure13.tap.gz"
+    },
+    "initial-red5": {
+      "command": [
+        "node",
+        "--test",
+        "--test-name-pattern=^(hidden |a fenced block|inventory rejects )",
+        "scripts/quality/code-quality-ledger.test.mjs",
+        "scripts/quality/code-quality-inventory.test.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T14:23:00.372034+00:00",
+      "exitCode": 1,
+      "stderr": "",
+      "stdoutAttachment": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/code6a-initial-red5.tap.gz"
+    },
+    "rejected-helper-red1": {
+      "command": [
+        "node",
+        "--test",
+        "--test-name-pattern=^comment markers in fenced code",
+        "scripts/quality/code-quality-ledger.test.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T14:28:29.588992+00:00",
+      "exitCode": 1,
+      "stderr": "",
+      "scope": "Rejected shared-helper approach: valid live ledger after a code-literal HTML opener must remain visible.",
+      "stdoutAttachment": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/code6a-rejected-helper-red1.tap.gz"
+    },
+    "intermediate18": {
+      "command": [
+        "node",
+        "--test",
+        "scripts/quality/code-quality-ledger.test.mjs",
+        "scripts/quality/code-quality-inventory.test.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T14:25:11.922526+00:00",
+      "exitCode": 0,
+      "stderr": "",
+      "stdoutAttachment": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/code6a-intermediate18.tap.gz"
+    },
+    "final20": {
+      "command": [
+        "node",
+        "--test",
+        "scripts/quality/code-quality-ledger.test.mjs",
+        "scripts/quality/code-quality-inventory.test.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T14:33:03.707172+00:00",
+      "exitCode": 0,
+      "stderr": "",
+      "stdoutAttachment": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/code6a-final20.tap.gz"
+    },
+    "quality47": {
+      "command": [
+        "node",
+        "--test",
+        "scripts/quality/code-quality-inventory.test.mjs",
+        "scripts/quality/code-quality-ledger.test.mjs",
+        "scripts/quality/lint-zero.test.mjs"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T14:34:54.915710+00:00",
+      "exitCode": 0,
+      "stderr": "",
+      "stdoutAttachment": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/code6a-quality47.tap.gz"
+    }
+  },
+  "caseMapping": [
+    {
+      "name": "inventory rejects an empty output path without publishing output",
+      "status": "passed",
+      "file": "scripts/quality/code-quality-inventory.test.mjs",
+      "origin": "new direct counter or legal-input preservation",
+      "oracle": "Real Node CLI fixed bytes/status/no writes/tail metadata"
+    },
+    {
+      "name": "inventory rejects duplicate output options without publishing output",
+      "status": "passed",
+      "file": "scripts/quality/code-quality-inventory.test.mjs",
+      "origin": "new direct counter or legal-input preservation",
+      "oracle": "Real Node CLI fixed bytes/status/no writes/tail metadata"
+    },
+    {
+      "name": "code-quality inventory emits deterministic scoped records with caller and category fields",
+      "status": "passed",
+      "file": "scripts/quality/code-quality-inventory.test.mjs",
+      "origin": "unchanged existing identity",
+      "oracle": "Real Node CLI fixed bytes/status/no writes/tail metadata"
+    },
+    {
+      "name": "actual docs index CLI consumes over1MiB Git paths and still rejects an invalid tail task",
+      "status": "passed",
+      "file": "scripts/quality/code-quality-inventory.test.mjs",
+      "origin": "unchanged existing identity",
+      "oracle": "Real Node CLI fixed bytes/status/no writes/tail metadata"
+    },
+    {
+      "name": "actual quality inventory CLI consumes over1MiB Git paths and preserves exact tail records and callers",
+      "status": "passed",
+      "file": "scripts/quality/code-quality-inventory.test.mjs",
+      "origin": "unchanged existing identity",
+      "oracle": "Real Node CLI fixed bytes/status/no writes/tail metadata"
+    },
+    {
+      "name": "unique files determine all counts; running the guard does not change evidence",
+      "status": "passed",
+      "file": "scripts/quality/code-quality-ledger.test.mjs",
+      "origin": "unchanged existing identity",
+      "oracle": "Actual validator with fixed inventory/counts/error contract or real import/CLI"
+    },
+    {
+      "name": "duplicate ledger row fails even if the header gives it no extra credit",
+      "status": "passed",
+      "file": "scripts/quality/code-quality-ledger.test.mjs",
+      "origin": "unchanged existing identity",
+      "oracle": "Actual validator with fixed inventory/counts/error contract or real import/CLI"
+    },
+    {
+      "name": "untracked evidence path cannot count as a reviewed file",
+      "status": "passed",
+      "file": "scripts/quality/code-quality-ledger.test.mjs",
+      "origin": "unchanged existing identity",
+      "oracle": "Actual validator with fixed inventory/counts/error contract or real import/CLI"
+    },
+    {
+      "name": "each published status count is checked independently",
+      "status": "passed",
+      "file": "scripts/quality/code-quality-ledger.test.mjs",
+      "origin": "unchanged existing identity",
+      "oracle": "Actual validator with fixed inventory/counts/error contract or real import/CLI"
+    },
+    {
+      "name": "added and removed tracked files invalidate inventory and pending counts",
+      "status": "passed",
+      "file": "scripts/quality/code-quality-ledger.test.mjs",
+      "origin": "unchanged existing identity",
+      "oracle": "Actual validator with fixed inventory/counts/error contract or real import/CLI"
+    },
+    {
+      "name": "table shape, status and evidence cannot be silently skipped",
+      "status": "passed",
+      "file": "scripts/quality/code-quality-ledger.test.mjs",
+      "origin": "unchanged existing identity",
+      "oracle": "Actual validator with fixed inventory/counts/error contract or real import/CLI"
+    },
+    {
+      "name": "fenced examples give no credit; duplicate/missing summary or table fails closed",
+      "status": "passed",
+      "file": "scripts/quality/code-quality-ledger.test.mjs",
+      "origin": "unchanged existing identity",
+      "oracle": "Actual validator with fixed inventory/counts/error contract or real import/CLI"
+    },
+    {
+      "name": "hidden fenced example with an info-bearing marker cannot publish reviewed-file counts",
+      "status": "passed",
+      "file": "scripts/quality/code-quality-ledger.test.mjs",
+      "origin": "new direct counter or legal-input preservation",
+      "oracle": "Actual validator with fixed inventory/counts/error contract or real import/CLI"
+    },
+    {
+      "name": "hidden HTML comment cannot publish reviewed-file counts",
+      "status": "passed",
+      "file": "scripts/quality/code-quality-ledger.test.mjs",
+      "origin": "new direct counter or legal-input preservation",
+      "oracle": "Actual validator with fixed inventory/counts/error contract or real import/CLI"
+    },
+    {
+      "name": "a fenced block terminates the contiguous machine ledger",
+      "status": "passed",
+      "file": "scripts/quality/code-quality-ledger.test.mjs",
+      "origin": "new direct counter or legal-input preservation",
+      "oracle": "Actual validator with fixed inventory/counts/error contract or real import/CLI"
+    },
+    {
+      "name": "comment markers in fenced code do not hide the following live ledger",
+      "status": "passed",
+      "file": "scripts/quality/code-quality-ledger.test.mjs",
+      "origin": "new direct counter or legal-input preservation",
+      "oracle": "Actual validator with fixed inventory/counts/error contract or real import/CLI"
+    },
+    {
+      "name": "comment markers in inline code do not hide the following live ledger",
+      "status": "passed",
+      "file": "scripts/quality/code-quality-ledger.test.mjs",
+      "origin": "new direct counter or legal-input preservation",
+      "oracle": "Actual validator with fixed inventory/counts/error contract or real import/CLI"
+    },
+    {
+      "name": "malformed or duplicate inventory is rejected before claiming success",
+      "status": "passed",
+      "file": "scripts/quality/code-quality-ledger.test.mjs",
+      "origin": "unchanged existing identity",
+      "oracle": "Actual validator with fixed inventory/counts/error contract or real import/CLI"
+    },
+    {
+      "name": "importing the validator from an unrelated cwd does not start the CLI",
+      "status": "passed",
+      "file": "scripts/quality/code-quality-ledger.test.mjs",
+      "origin": "unchanged existing identity",
+      "oracle": "Actual validator with fixed inventory/counts/error contract or real import/CLI"
+    },
+    {
+      "name": "real quality-tools caller checks the current repository ledger against the inventory CLI",
+      "status": "passed",
+      "file": "scripts/quality/code-quality-ledger.test.mjs",
+      "origin": "unchanged existing identity",
+      "oracle": "Actual validator with fixed inventory/counts/error contract or real import/CLI"
+    }
+  ],
+  "oldCasesRetained": [
+    "actual docs index CLI consumes over1MiB Git paths and still rejects an invalid tail task",
+    "actual quality inventory CLI consumes over1MiB Git paths and preserves exact tail records and callers",
+    "added and removed tracked files invalidate inventory and pending counts",
+    "code-quality inventory emits deterministic scoped records with caller and category fields",
+    "duplicate ledger row fails even if the header gives it no extra credit",
+    "each published status count is checked independently",
+    "fenced examples give no credit; duplicate/missing summary or table fails closed",
+    "importing the validator from an unrelated cwd does not start the CLI",
+    "malformed or duplicate inventory is rejected before claiming success",
+    "real quality-tools caller checks the current repository ledger against the inventory CLI",
+    "table shape, status and evidence cannot be silently skipped",
+    "unique files determine all counts; running the guard does not change evidence",
+    "untracked evidence path cannot count as a reviewed file"
+  ],
+  "newCases": [
+    "inventory rejects an empty output path without publishing output",
+    "inventory rejects duplicate output options without publishing output",
+    "hidden fenced example with an info-bearing marker cannot publish reviewed-file counts",
+    "hidden HTML comment cannot publish reviewed-file counts",
+    "a fenced block terminates the contiguous machine ledger",
+    "comment markers in fenced code do not hide the following live ledger",
+    "comment markers in inline code do not hide the following live ledger"
+  ],
+  "caseCount": {
+    "directBefore": 13,
+    "directAfter": 20,
+    "new": 7,
+    "qualityTools47IncludesDirect20": true
+  },
+  "initialFalseCredit": {
+    "inventory": {
+      "schemaVersion": 1,
+      "records": [
+        {
+          "path": "a.ts"
+        },
+        {
+          "path": "b.test.ts"
+        },
+        {
+          "path": "c.ts"
+        }
+      ]
+    },
+    "rows": [
+      {
+        "name": "live-control",
+        "source": "当前 tracked 清单：3。\n当前已闭合核验：1；已读但待审：1；尚未逐文件核验：1；合计未闭合：2。\n\n| 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |\n|---|---|---|---|---|\n| `a.ts` | product | 已验证 | actual evidence | example |\n| `b.test.ts` | test | review | actual test | example |\n",
+        "result": {
+          "issues": [],
+          "counts": {
+            "total": 3,
+            "verified": 1,
+            "review": 1,
+            "pending": 1,
+            "unclosed": 2
+          }
+        }
+      },
+      {
+        "name": "fence-with-info",
+        "source": "~~~md\n~~~still-code\n当前 tracked 清单：3。\n当前已闭合核验：1；已读但待审：1；尚未逐文件核验：1；合计未闭合：2。\n\n| 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |\n|---|---|---|---|---|\n| `a.ts` | product | 已验证 | actual evidence | example |\n| `b.test.ts` | test | review | actual test | example |\n\n~~~",
+        "result": {
+          "issues": [],
+          "counts": {
+            "total": 3,
+            "verified": 1,
+            "review": 1,
+            "pending": 1,
+            "unclosed": 2
+          }
+        }
+      },
+      {
+        "name": "html-comment",
+        "source": "<!--\n当前 tracked 清单：3。\n当前已闭合核验：1；已读但待审：1；尚未逐文件核验：1；合计未闭合：2。\n\n| 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |\n|---|---|---|---|---|\n| `a.ts` | product | 已验证 | actual evidence | example |\n| `b.test.ts` | test | review | actual test | example |\n\n-->",
+        "result": {
+          "issues": [],
+          "counts": {
+            "total": 3,
+            "verified": 1,
+            "review": 1,
+            "pending": 1,
+            "unclosed": 2
+          }
+        }
+      }
+    ]
+  },
+  "cacheProof": {
+    "command": ["node", "scripts/quality/code-quality-inventory.mjs"],
+    "recordedAt": "2026-10-19T14:20:45.435244+00:00",
+    "exitCode": 0,
+    "stderr": "",
+    "beforeSha256": "96682db8c7458720fc63dd4698a089991727189696c3bff593dd2edbad8b04fb",
+    "afterSha256": "96682db8c7458720fc63dd4698a089991727189696c3bff593dd2edbad8b04fb",
+    "records": 3316,
+    "exactDelta": [],
+    "allOtherFieldsEqual": true,
+    "sourceSha256": "6a0503c5c2814daced3c4eb2eb37e8b900e479156ca193aa1d7d94dd8c38358f",
+    "limits": "Stable checkout finite CLI equivalence,not atomic whole-repository snapshot or symbol-level correctness proof."
+  },
+  "cacheEpoch": {
+    "stdoutAttachment": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/code6a-cache-inventory.json.gz",
+    "sourceAttachment": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/code6a-cache-epoch.mjs.gz",
+    "beforeCommandLog": {
+      "command": ["node", "scripts/quality/code-quality-inventory.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T14:19:59.117925+00:00",
+      "exitCode": 0,
+      "stdoutSha256": "96682db8c7458720fc63dd4698a089991727189696c3bff593dd2edbad8b04fb",
+      "stdoutBytes": 4025694,
+      "stderr": ""
+    },
+    "limits": "Exact intermediate cache stream/source are frozen;later private guards/test/behavior changes have separate diffs/current20and47proof,not falsely covered by original identical-output claim."
+  },
+  "controlledReplay": {
+    "attachment": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/code6a-controlled-replay.json.gz",
+    "outcomes": "original5ERR_ASSERTION;real helper2ERR_ASSERTION;copies/state restored;additional reproduction after chronological initial red,not substituted history"
+  },
+  "priorCounterReuse": {
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/6a/test-proof.json",
+    "beforeSourceMatches": {
+      "ledger": true,
+      "ledgerTest": true,
+      "inventory": false,
+      "inventoryTest": false
+    },
+    "scope": "Old quiet-import and --out byte-counter actual predicates retained with bounded-process/fixture deltas;do not inherit old11or38as current whole-file proof. Current20/47native explicitly executed.",
+    "actualBeforeSourceMatches": {
+      "scripts/quality/code-quality-ledger.mjs": true,
+      "scripts/quality/code-quality-ledger.test.mjs": true,
+      "scripts/quality/code-quality-inventory.mjs": false,
+      "scripts/quality/code-quality-inventory.test.mjs": false
+    }
+  },
+  "assertionRemoval": {
+    "file": "scripts/quality/code-quality-ledger.test.mjs",
+    "old": "assert.equal(source, ledger())",
+    "why": "Primitive source string cannot be mutated by caller;this compares fixture reproduction to original immutable value,not guarded behavior. Inventory before/after JSON assertion retained. No old runtime case removed."
+  },
+  "complexityScreen": {
+    "tool": "typescript@6.0.3 AST local branch count",
+    "method": "1+if/loop/catch/case/conditional/&&/||/??;nested functions separate;optional-chain notcounted;screening only",
+    "rows": [
+      {
+        "path": "scripts/quality/code-quality-ledger.mjs",
+        "name": "inlineCodeEnd",
+        "line": 12,
+        "cyclomatic": 5,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.mjs",
+        "name": "hideCommentText",
+        "line": 21,
+        "cyclomatic": 7,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.mjs",
+        "name": "visibleLines",
+        "line": 47,
+        "cyclomatic": 9,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.mjs",
+        "name": "number",
+        "line": 76,
+        "cyclomatic": 3,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.mjs",
+        "name": "auditCodeQualityLedger",
+        "line": 83,
+        "cyclomatic": 38,
+        "flag": true
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.mjs",
+        "name": "<callback>",
+        "line": 100,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.mjs",
+        "name": "<callback>",
+        "line": 108,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.mjs",
+        "name": "<callback>",
+        "line": 118,
+        "cyclomatic": 2,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.mjs",
+        "name": "<callback>",
+        "line": 127,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.mjs",
+        "name": "<callback>",
+        "line": 160,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.mjs",
+        "name": "main",
+        "line": 169,
+        "cyclomatic": 3,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.mjs",
+        "name": "trackedFiles",
+        "line": 18,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.mjs",
+        "name": "categoryFor",
+        "line": 29,
+        "cyclomatic": 17,
+        "flag": true
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.mjs",
+        "name": "scopeFor",
+        "line": 52,
+        "cyclomatic": 15,
+        "flag": true
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.mjs",
+        "name": "dependencySpecifiers",
+        "line": 73,
+        "cyclomatic": 3,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.mjs",
+        "name": "exportSpecifiers",
+        "line": 87,
+        "cyclomatic": 2,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.mjs",
+        "name": "publicExports",
+        "line": 97,
+        "cyclomatic": 5,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.mjs",
+        "name": "resolveRelative",
+        "line": 110,
+        "cyclomatic": 2,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.mjs",
+        "name": "<callback>",
+        "line": 117,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.mjs",
+        "name": "<callback>",
+        "line": 118,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.mjs",
+        "name": "<callback>",
+        "line": 120,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.mjs",
+        "name": "<callback>",
+        "line": 120,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.mjs",
+        "name": "resolvePackageEntry",
+        "line": 123,
+        "cyclomatic": 3,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.mjs",
+        "name": "main",
+        "line": 130,
+        "cyclomatic": 21,
+        "flag": true
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.mjs",
+        "name": "<callback>",
+        "line": 135,
+        "cyclomatic": 4,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.mjs",
+        "name": "<callback>",
+        "line": 141,
+        "cyclomatic": 2,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.mjs",
+        "name": "<callback>",
+        "line": 164,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.test.mjs",
+        "name": "<callback>",
+        "line": 10,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.test.mjs",
+        "name": "<callback>",
+        "line": 14,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.test.mjs",
+        "name": "<callback>",
+        "line": 25,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.test.mjs",
+        "name": "<callback>",
+        "line": 35,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.test.mjs",
+        "name": "<callback>",
+        "line": 41,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.test.mjs",
+        "name": "<callback>",
+        "line": 50,
+        "cyclomatic": 2,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.test.mjs",
+        "name": "<callback>",
+        "line": 60,
+        "cyclomatic": 2,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.test.mjs",
+        "name": "<callback>",
+        "line": 71,
+        "cyclomatic": 2,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.test.mjs",
+        "name": "<callback>",
+        "line": 84,
+        "cyclomatic": 2,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.test.mjs",
+        "name": "<callback>",
+        "line": 99,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.test.mjs",
+        "name": "<callback>",
+        "line": 100,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.test.mjs",
+        "name": "<callback>",
+        "line": 102,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.test.mjs",
+        "name": "<callback>",
+        "line": 115,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.test.mjs",
+        "name": "<callback>",
+        "line": 128,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.test.mjs",
+        "name": "<callback>",
+        "line": 136,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.test.mjs",
+        "name": "<callback>",
+        "line": 144,
+        "cyclomatic": 2,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.test.mjs",
+        "name": "<callback>",
+        "line": 156,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.test.mjs",
+        "name": "<callback>",
+        "line": 168,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.test.mjs",
+        "name": "<callback>",
+        "line": 22,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.test.mjs",
+        "name": "<callback>",
+        "line": 23,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.test.mjs",
+        "name": "<callback>",
+        "line": 25,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.test.mjs",
+        "name": "<callback>",
+        "line": 27,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.test.mjs",
+        "name": "<callback>",
+        "line": 45,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.test.mjs",
+        "name": "<callback>",
+        "line": 55,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.test.mjs",
+        "name": "<callback>",
+        "line": 72,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.test.mjs",
+        "name": "<callback>",
+        "line": 87,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.test.mjs",
+        "name": "<callback>",
+        "line": 90,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.test.mjs",
+        "name": "<callback>",
+        "line": 94,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.test.mjs",
+        "name": "<callback>",
+        "line": 95,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.test.mjs",
+        "name": "largePathFixture",
+        "line": 102,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.test.mjs",
+        "name": "<callback>",
+        "line": 104,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.test.mjs",
+        "name": "<callback>",
+        "line": 106,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.test.mjs",
+        "name": "<callback>",
+        "line": 110,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.test.mjs",
+        "name": "<callback>",
+        "line": 116,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.test.mjs",
+        "name": "<callback>",
+        "line": 143,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.test.mjs",
+        "name": "<callback>",
+        "line": 145,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.test.mjs",
+        "name": "<callback>",
+        "line": 149,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.test.mjs",
+        "name": "<callback>",
+        "line": 153,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.test.mjs",
+        "name": "<callback>",
+        "line": 164,
+        "cyclomatic": 2,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.test.mjs",
+        "name": "<callback>",
+        "line": 197,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.test.mjs",
+        "name": "<callback>",
+        "line": 207,
+        "cyclomatic": 1,
+        "flag": false
+      }
+    ]
+  },
+  "structureCandidates": [
+    {
+      "id": "6a-C1",
+      "kind": "can improve structure,not a proved defect",
+      "scope": "auditCodeQualityLedger CC38 and inventory mainCC21",
+      "decision": "Full flow reviewed;pure issue/count ownership and phased IO separated. Potential private parse/result extraction remains candidate;do not split only for metric or introduce a mutable issues/context bag."
+    },
+    {
+      "id": "6a-O1",
+      "kind": "unverified broader contracts",
+      "scope": "General Markdown nesting/multiline code spans;Git environment overrides/future package roots/symbol-level imports",
+      "decision": "Current canonical corpus/declared CLI tested;no broader certification,scope expansion or automatic close."
+    }
+  ],
+  "limits": [
+    "Low-risk governance tool rejection fixes;no game behavior/schema/save/migration/asset or public result-shape/signature change.",
+    "Raw old-source failure snapshots/rejected helper stages are historical/control evidence,not currently failing quality gates.",
+    "Native20and47are overlapping executions;not67independent newcases. Old13identities unchanged,new7all mapped.",
+    "Cache proof concerns stable current checkout,not transactional whole-tree snapshot or complete runtime/symbol graph.",
+    "No new TypeScript implementation/config changes;Node native execution is actual runtime gate. No new tsc/whole check/coverage/protected claim.",
+    "Existing e2e-route expiry/editor act+environment diagnostics still block main integration."
+  ],
+  "ledger": {
+    "before": {
+      "tracked": 3316,
+      "closed": 234,
+      "review": 121,
+      "pending": 2961
+    },
+    "after": {
+      "tracked": 3316,
+      "closed": 232,
+      "review": 123,
+      "pending": 2961
+    },
+    "newClosed": 0,
+    "oldRows": {
+      "scripts/quality/code-quality-ledger.mjs": "| `scripts/quality/code-quality-ledger.mjs` | tool | 已验证 | CODE-QUALITY-6a；真实 inventory/ledger uniqueness/status/count verifier、37 quality-tool tests | 只校验记录完整性，不把机器 PASS 当语义审查 verdict；fail-closed |",
+      "scripts/quality/code-quality-ledger.test.mjs": "| `scripts/quality/code-quality-ledger.test.mjs` | test | 已验证 | CODE-QUALITY-6a；9 个独立反例/真实仓库调用：重复、未知路径、计数漂移、表形状/状态/证据缺失、inventory 变更 | 真实 Node quality runner 纳入；不修改 ledger |",
+      "scripts/quality/code-quality-inventory.mjs": "| `scripts/quality/code-quality-inventory.mjs` | tool | review | [Git全路径容量修复](../evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md)；全文/真实CLI，>1MiB合法路径先红后绿 | 完整NUL枚举有限16MiB；独立4MiB namespace不改，原检查策略保留，0新关闭 |",
+      "scripts/quality/code-quality-inventory.test.mjs": "| `scripts/quality/code-quality-inventory.test.mjs` | test | review | [Git全路径容量修复](../evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md)；原1保留+2真实Git/CLI尾部合同，先1绿2红后3绿 | 两枚旧1绿新2绿1指定AssertionError，临时Git隔离；相邻/统一门范围分开，不关闭 |"
+    },
+    "newRows": {
+      "scripts/quality/code-quality-ledger.mjs": "| `scripts/quality/code-quality-ledger.mjs` | tool | review | [CODE6a四文件续审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json)；完整源码/真实caller/隐藏文本进度反例先红后修 | 旧fail-closed主张遇直接counter撤回；私有lexer保留代码字面量与连续表边界，不是完整Markdown renderer |",
+      "scripts/quality/code-quality-ledger.test.mjs": "| `scripts/quality/code-quality-ledger.test.mjs` | test | review | [CODE6a四文件续审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json)；原10身份保持+5针对性合同，实际旧实现/共享helper反例 | 恢复既有6a已明文撤回review；删不可变string自比，新增有界child；不凭全绿关闭 |",
+      "scripts/quality/code-quality-inventory.mjs": "| `scripts/quality/code-quality-inventory.mjs` | tool | review | [CODE6a四文件续审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json)；原[Git容量域](../evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md)保留 | 每源一次读取/事实复用；4MB缓存前后逐字节一致；空/重复out先红后拒绝；调用仅词法线索 |",
+      "scripts/quality/code-quality-inventory.test.mjs": "| `scripts/quality/code-quality-inventory.test.mjs` | test | review | [CODE6a四文件续审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json)；原3身份保持+2真实参数反例，>1MiB Git尾部oracle不变 | 隔离docs与quality夹具依赖，15s有界Node子进程；临时目录/Git环境隔离，不关闭 |"
+    },
+    "regressionSubset": {
+      "missing": 129,
+      "review": 46,
+      "已验证": 67,
+      "rework": 1
+    },
+    "historicalTailSha256": "b59824baa8dad3728c7dd9cf5378bdb7366202527ad7ef397f677ad5ef76cc6b"
+  },
+  "nextScope": "Return to CODE3/3f annotation/slice current missing design/testability/readability evidence using unchanged valid counters;no94-102beforepre94foundation.",
+  "quickVerify": {
+    "command": [
+      "node",
+      "-e",
+      "const f=require('node:fs'),c=require('node:crypto'),z=require('node:zlib'),a=require('node:assert/strict');const d=JSON.parse(f.readFileSync(process.argv[1]));const h=b=>c.createHash('sha256').update(b).digest('hex');for(const r of [...d.fileReviews,...d.callerPrimaryBindings])a.equal(h(f.readFileSync(r.path)),r.sha256,r.path);for(const r of d.fileReviews)a.ok('ABCDEFGH'.split('').every(k=>typeof r.dimensions[k]==='string'));for(const r of d.attachments){const b=f.readFileSync(r.path);a.equal(h(b),r.gzipSha256);const raw=z.gunzipSync(b);a.equal(h(raw),r.originalSha256);if(r.tap){const text=raw.toString();for(const[k,v]of Object.entries(r.tap.counts))a.ok(new RegExp('^# '+k+' '+v+'$','m').test(text));}}a.equal(d.caseMapping.length,20);a.equal(new Set(d.caseMapping.map(r=>r.name)).size,20);a.equal(d.newCases.length,7);a.ok(d.oldCasesRetained.every(n=>d.caseMapping.some(r=>r.name===n&&r.status==='passed')));a.equal(d.cacheProof.beforeSha256,d.cacheProof.afterSha256);const tap=r=>z.gunzipSync(f.readFileSync(r.path)).toString();const final=d.attachments.find(r=>r.path.includes('final20.tap'));const names=[...tap(final).matchAll(/^ok \\d+ - (.+)$/gm)].map(m=>m[1]);a.deepEqual(names,d.caseMapping.map(r=>r.name));const replay=JSON.parse(tap(d.attachments.find(r=>r.path.includes('controlled-replay.json'))));a.ok(replay.copiesRemoved&&replay.statusBeforeAfterEqual);a.ok(replay.runs.every(r=>r.exitCode===1&&r.stdout.includes('ERR_ASSERTION')));const s=d.currentScopedState;const card=JSON.parse(f.readFileSync(s.cardsPath)).cards.find(x=>x.id===s.id);for(const[k,v]of Object.entries(s.expected))a.deepEqual(card[k],v);const live=f.readFileSync(s.ledgerPath,'utf8').split('<!-- original-source-fenced:start -->')[0];for(const row of s.ledgerRows)a.ok(live.split('\\n').includes(row));console.log('CODE6a source/receipts/identities-match;semantic acceptance not certified');",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "scope": "Read-only local source/primary/gzip/native-identity fingerprints,not product tests/network/semantic approval.",
+    "producerValidation": {
+      "positive": {
+        "exitCode": 0,
+        "stdout": "CODE6a source/receipts/identities-match;semantic acceptance not certified\n",
+        "stderr": ""
+      },
+      "staleSource": {
+        "change": "External temporary record firstsource SHA=64zeroes",
+        "exitCode": 1,
+        "stdout": "",
+        "stderr": "node:assert:150\n  throw new AssertionError(obj);\n  ^\n\nAssertionError [ERR_ASSERTION]: scripts/quality/code-quality-ledger.mjs\n+ actual - expected\n\n+ '76c45b719c241305d59eec611b3584f3ea623494900ae0afd69ccd8e8c2c1157'\n- '0000000000000000000000000000000000000000000000000000000000000000'\n\n    at [eval]:1:292\n    at [eval]:1:1898\n    at runScriptInThisContext (node:internal/vm:209:10)\n    at node:internal/process/execution:446:12\n    at [eval]-wrapper:6:24\n    at runScriptInContext (node:internal/process/execution:444:60)\n    at evalFunction (node:internal/process/execution:279:30)\n    at evalTypeScript (node:internal/process/execution:291:3)\n    at node:internal/main/eval_string:74:3 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: '76c45b719c241305d59eec611b3584f3ea623494900ae0afd69ccd8e8c2c1157',\n  expected: '0000000000000000000000000000000000000000000000000000000000000000',\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v22.23.2\n"
+      },
+      "temporaryRecordRemoved": true,
+      "statusBeforeAfterEqual": true,
+      "limits": "Codex identity-check producer self-control,not third-party or semantic review",
+      "scopeSelectorDelta": "Scope confirmed for original ledger pair plus already authorized engineering producer pair;generic selector predicate unchanged. No broad product scope or accept."
+    }
+  },
+  "cardStateDelta": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json",
+    "before6a": {
+      "id": "6a",
+      "number": 6,
+      "suffix": "a",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md",
+      "sha256": "b3990fb6d2564711e74cdfd4fba0e8368664fdc2f0d11c9411cbeebee4a724e9",
+      "lines": 46,
+      "historicalStatus": "done",
+      "currentReview": "partial",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 10,
+          "text": "## 前提、范围与准入"
+        },
+        {
+          "line": 21,
+          "text": "- 白名单：新增 `scripts/quality/code-quality-ledger.mjs` 与专属测试；修正 ledger/总纲/本卡/board/index。"
+        },
+        {
+          "line": 22,
+          "text": "- 不做：不判断人是否真正读过源码，不自动标已验证，不自动删候选，不降低 lint/coverage 门。"
+        },
+        {
+          "line": 39,
+          "text": "- 结论：记录完整性门已纳入正式 quality-tools runner；它只防重复/漂移/漏记，不替代逐文件源码语义审查；goal 仍未完成。"
+        },
+        {
+          "line": 43,
+          "text": "2026-10-05 Codex：先完成账本事实核验，再实现机器门。Q3x 继续只读，禁止因为工具过门而宣布全仓已审。"
+        },
+        {
+          "line": 46,
+          "text": "无下一位 Agent 提示词；本卡只完成治理记录完整性，不代表全仓源码治理完成。"
+        }
+      ],
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/6a/README.md",
+      "reviewedFiles": [
+        {
+          "path": "scripts/quality/code-quality-ledger.mjs",
+          "read": "complete current source",
+          "sha256": "ebe8f816babc6ef316a190754f7dcc45dfc645e6c0587164a84304a1e06c29e2"
+        },
+        {
+          "path": "scripts/quality/code-quality-ledger.test.mjs",
+          "read": "complete current source",
+          "sha256": "316ae87733dac03c5a6cb14ec40e0ea0067cc65e947bd5a4b57ca26db4d55442"
+        },
+        {
+          "path": "scripts/quality/code-quality-inventory.mjs",
+          "read": "complete current source",
+          "sha256": "3506486afd2a30c6182042b9e2c1badb46e8f36465e46541c09057a191265ee2"
+        },
+        {
+          "path": "scripts/quality/code-quality-inventory.test.mjs",
+          "read": "complete current source",
+          "sha256": "97a35784f99e1036e20920549deb4388d06fe8272e904d9b87694aad7673fdaa"
+        }
+      ],
+      "findings": "two test discrimination gaps repaired; targeted 11 and quality-tools 38 pass; two old-green/new-single-red counters; unified gates pending; no file closed"
+    },
+    "after6a": {
+      "id": "6a",
+      "number": 6,
+      "suffix": "a",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md",
+      "sha256": "b3990fb6d2564711e74cdfd4fba0e8368664fdc2f0d11c9411cbeebee4a724e9",
+      "lines": 46,
+      "historicalStatus": "done",
+      "currentReview": "partial",
+      "currentAcceptance": false,
+      "scopeTextCandidates": [
+        {
+          "line": 10,
+          "text": "## 前提、范围与准入"
+        },
+        {
+          "line": 21,
+          "text": "- 白名单：新增 `scripts/quality/code-quality-ledger.mjs` 与专属测试；修正 ledger/总纲/本卡/board/index。"
+        },
+        {
+          "line": 22,
+          "text": "- 不做：不判断人是否真正读过源码，不自动标已验证，不自动删候选，不降低 lint/coverage 门。"
+        },
+        {
+          "line": 39,
+          "text": "- 结论：记录完整性门已纳入正式 quality-tools runner；它只防重复/漂移/漏记，不替代逐文件源码语义审查；goal 仍未完成。"
+        },
+        {
+          "line": 43,
+          "text": "2026-10-05 Codex：先完成账本事实核验，再实现机器门。Q3x 继续只读，禁止因为工具过门而宣布全仓已审。"
+        },
+        {
+          "line": 46,
+          "text": "无下一位 Agent 提示词；本卡只完成治理记录完整性，不代表全仓源码治理完成。"
+        }
+      ],
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json",
+      "reviewedFiles": [
+        {
+          "path": "scripts/quality/code-quality-ledger.mjs",
+          "read": "complete current source",
+          "sha256": "ebe8f816babc6ef316a190754f7dcc45dfc645e6c0587164a84304a1e06c29e2"
+        },
+        {
+          "path": "scripts/quality/code-quality-ledger.test.mjs",
+          "read": "complete current source",
+          "sha256": "316ae87733dac03c5a6cb14ec40e0ea0067cc65e947bd5a4b57ca26db4d55442"
+        },
+        {
+          "path": "scripts/quality/code-quality-inventory.mjs",
+          "read": "complete current source",
+          "sha256": "3506486afd2a30c6182042b9e2c1badb46e8f36465e46541c09057a191265ee2"
+        },
+        {
+          "path": "scripts/quality/code-quality-inventory.test.mjs",
+          "read": "complete current source",
+          "sha256": "97a35784f99e1036e20920549deb4388d06fe8272e904d9b87694aad7673fdaa"
+        }
+      ],
+      "findings": "Current4file A-H:one-read lexical facts/isolated CLI fixtures;five original-source business failures repaired,shared-helper valid-input regression rejected;old13identities+7precise cases,20direct/47including20. Two old closures reopened;stillpartial/no newclosed or accept.",
+      "currentCardBinding": {
+        "sha256": "c76579690002117eed9b51b1681207dc8485ea642997cba8205016d2ff1d8e53",
+        "lines": 122,
+        "scope": "Current card full read;historical source SHA/lines above remain frozen"
+      },
+      "currentSlicePaths": [
+        "scripts/quality/code-quality-ledger.mjs",
+        "scripts/quality/code-quality-ledger.test.mjs",
+        "scripts/quality/code-quality-inventory.mjs",
+        "scripts/quality/code-quality-inventory.test.mjs"
+      ],
+      "currentScopeBoundary": "Original CODE6a ledger pair confirmed;inventory pair is the existing engineering/direct-producer continuation. This confirms slice ownership/scope,not all ledger-listed products or full-card accept."
+    },
+    "other82RowsUnchanged": true
+  },
+  "currentScopedState": {
+    "cardsPath": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json",
+    "id": "6a",
+    "expected": {
+      "currentReview": "partial",
+      "currentAcceptance": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json",
+      "currentCardBinding": {
+        "sha256": "c76579690002117eed9b51b1681207dc8485ea642997cba8205016d2ff1d8e53",
+        "lines": 122,
+        "scope": "Current card full read;historical source SHA/lines above remain frozen"
+      },
+      "scopeConfirmed": true,
+      "currentSlicePaths": [
+        "scripts/quality/code-quality-ledger.mjs",
+        "scripts/quality/code-quality-ledger.test.mjs",
+        "scripts/quality/code-quality-inventory.mjs",
+        "scripts/quality/code-quality-inventory.test.mjs"
+      ]
+    },
+    "ledgerPath": "docs/ops/audits/code-quality-file-ledger.md",
+    "ledgerRows": [
+      "| `scripts/quality/code-quality-ledger.mjs` | tool | review | [CODE6a四文件续审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json)；完整源码/真实caller/隐藏文本进度反例先红后修 | 旧fail-closed主张遇直接counter撤回；私有lexer保留代码字面量与连续表边界，不是完整Markdown renderer |",
+      "| `scripts/quality/code-quality-ledger.test.mjs` | test | review | [CODE6a四文件续审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json)；原10身份保持+5针对性合同，实际旧实现/共享helper反例 | 恢复既有6a已明文撤回review；删不可变string自比，新增有界child；不凭全绿关闭 |",
+      "| `scripts/quality/code-quality-inventory.mjs` | tool | review | [CODE6a四文件续审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json)；原[Git容量域](../evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md)保留 | 每源一次读取/事实复用；4MB缓存前后逐字节一致；空/重复out先红后拒绝；调用仅词法线索 |",
+      "| `scripts/quality/code-quality-inventory.test.mjs` | test | review | [CODE6a四文件续审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json)；原3身份保持+2真实参数反例，>1MiB Git尾部oracle不变 | 隔离docs与quality夹具依赖，15s有界Node子进程；临时目录/Git环境隔离，不关闭 |"
+    ],
+    "limits": "Only CODE6a row selectors are current bindings;global totals are dated snapshots,not required to freeze future unrelated progress."
+  },
+  "scopeSnapshotDelta": {
+    "snapshot": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-pre94-scope.json",
+    "changedSourceBindings": [
+      {
+        "path": "packages/pal-extract/audit-data-mkf.mjs",
+        "previousSha256": "b6d2040d44b8869648099cb090e0adf8af416c7ca2c0ec66e06e8b621e133f53",
+        "currentSha256": "dc6d386620a54dc8f3036b754f0cc1173fa037a40c9f19e85936cd61f818afc5"
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.mjs",
+        "previousSha256": "03df42b0fb4e7e7366173b21c527b905e8d74109691f26f5c021fdfdc14588d0",
+        "currentSha256": "00c89fee45b176a3f58f51bbe3856c2a5675d48d668e23c1f148c40f1e879158"
+      },
+      {
+        "path": "scripts/quality/code-quality-inventory.test.mjs",
+        "previousSha256": "ed2a85a2a501ba7ac6aaa5ea3d93b1bf048dac05792f36483917712d649b0510",
+        "currentSha256": "bf8019893a5b193dc6e4e5e519cf5ed87230d98a69c5ea6465b49fc9d14fdb85"
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.mjs",
+        "previousSha256": "ebe8f816babc6ef316a190754f7dcc45dfc645e6c0587164a84304a1e06c29e2",
+        "currentSha256": "76c45b719c241305d59eec611b3584f3ea623494900ae0afd69ccd8e8c2c1157"
+      },
+      {
+        "path": "scripts/quality/code-quality-ledger.test.mjs",
+        "previousSha256": "316ae87733dac03c5a6cb14ec40e0ea0067cc65e947bd5a4b57ca26db4d55442",
+        "currentSha256": "cbf61f06d3bb5f8992989580a7f3a354741a272f78ef98a0e5153322f3cb5d1b"
+      }
+    ],
+    "limits": "Frozen493index not refreshed. Cumulative changed source=CODE82+these4quality files;other code identities match. all-cards/ledger current selectors supersede only cited states."
+  },
+  "metadataBindings": [
+    {
+      "review": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "path": "docs/ops/board.md"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "path": "docs/ops/audits/code-quality-file-ledger.md"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"
+    }
+  ],
+  "unchangedPriorQuickChecks": [
+    {
+      "packet": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json",
+      "exitCode": 0,
+      "stdout": "CODE82 identities-and-receipts-match;semantic acceptance not certified\n",
+      "stderr": ""
+    },
+    {
+      "packet": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage3-word.json",
+      "exitCode": 0,
+      "stdout": "identity-and-receipt-match; semantic judgments not certified\n",
+      "stderr": ""
+    }
+  ],
+  "checks": {
+    "docs": {
+      "command": ["node", "scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T14:51:14.953374+00:00",
+      "exitCode": 0,
+      "stdout": "docs: 1653 Markdown / 9794 local links / 467 tasks / content22 SAVE12\ndocs: PASS (0 issues)\n",
+      "stderr": ""
+    },
+    "model": {
+      "command": ["node", "scripts/docs/check-document-model.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T14:51:15.621778+00:00",
+      "exitCode": 0,
+      "stdout": "document model: PASS (8 routes; 1264 body contracts; 0 issues; structure only)\n",
+      "stderr": ""
+    },
+    "phase": {
+      "command": ["node", "scripts/docs/check-phase-lore-governance.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T14:51:13.725622+00:00",
+      "exitCode": 0,
+      "stdout": "phase/lore governance: PASS (184 documents)\n",
+      "stderr": ""
+    },
+    "content": {
+      "command": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T14:51:14.366077+00:00",
+      "exitCode": 0,
+      "stdout": "content review: PASS (2346 documents; {\"content-reviewed\":2346})\n",
+      "stderr": ""
+    },
+    "lint": {
+      "command": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T14:51:16.629026+00:00",
+      "exitCode": 0,
+      "stdout": "\n> type-pal@ lint /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal\n> node scripts/quality/lint-zero.mjs\n\nlint: PASS — 5660 files; 0 errors / 0 warnings / 0 infos; complete report\n",
+      "stderr": ""
+    },
+    "diff": {
+      "command": ["git", "diff", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T14:51:13.700031+00:00",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "ledger": {
+      "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T14:51:15.563626+00:00",
+      "exitCode": 0,
+      "stdout": "code-quality ledger: PASS — 3316 files; 232 closed / 123 review / 2961 pending; semantic review still required\n",
+      "stderr": ""
+    }
+  },
+  "currentGateConclusion": "Direct20/20 and quality-tools47/47including20 have0stderr;actual five-case pre-fix red and rejected-helper controls preserved. Listed docs/model/phase/content/ledger/static gates pass;lint5660 has0errors/0warnings/0infos. No new TS implementation/typecheck,wholecheck/officialcoverage/protected;editor/route blockers remain.0newclosed."
+}

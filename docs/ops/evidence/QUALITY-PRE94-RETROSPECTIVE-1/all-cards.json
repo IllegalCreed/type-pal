@@ -1518,8 +1518,8 @@
           "text": "无下一位 Agent 提示词；本卡只完成治理记录完整性，不代表全仓源码治理完成。"
         }
       ],
-      "scopeConfirmed": false,
-      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/6a/README.md",
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json",
       "reviewedFiles": [
         {
           "path": "scripts/quality/code-quality-ledger.mjs",
@@ -1542,7 +1542,19 @@
           "sha256": "97a35784f99e1036e20920549deb4388d06fe8272e904d9b87694aad7673fdaa"
         }
       ],
-      "findings": "two test discrimination gaps repaired; targeted 11 and quality-tools 38 pass; two old-green/new-single-red counters; unified gates pending; no file closed"
+      "findings": "Current4file A-H:one-read lexical facts/isolated CLI fixtures;five original-source business failures repaired,shared-helper valid-input regression rejected;old13identities+7precise cases,20direct/47including20. Two old closures reopened;stillpartial/no newclosed or accept.",
+      "currentCardBinding": {
+        "sha256": "c76579690002117eed9b51b1681207dc8485ea642997cba8205016d2ff1d8e53",
+        "lines": 122,
+        "scope": "Current card full read;historical source SHA/lines above remain frozen"
+      },
+      "currentSlicePaths": [
+        "scripts/quality/code-quality-ledger.mjs",
+        "scripts/quality/code-quality-ledger.test.mjs",
+        "scripts/quality/code-quality-inventory.mjs",
+        "scripts/quality/code-quality-inventory.test.mjs"
+      ],
+      "currentScopeBoundary": "Original CODE6a ledger pair confirmed;inventory pair is the existing engineering/direct-producer continuation. This confirms slice ownership/scope,not all ledger-listed products or full-card accept."
     },
     {
       "id": "40",
@@ -3885,9 +3897,9 @@
   },
   "lastIncrementalReview": {
     "date": "2026-10-19",
-    "card": "82",
-    "base": "59a4b439ea99e7253b2c10a68d4f69cb01e73b97",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json",
-    "scope": "Only CODE82 pending→partial;other82states unchanged,no accept"
+    "card": "6a",
+    "base": "95a0a8218ee7fa72f1081f4952efb83504c4521a",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json",
+    "scope": "Only CODE6a evidence update;state remainspartial,other82states unchanged,no accept"
   }
 }

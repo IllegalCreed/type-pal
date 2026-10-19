@@ -9,6 +9,8 @@ Status: build；以下只记有限模块结果，不声明全专项完成
 
 当前CODE82增量：[两文件A–H/原件/只读快检](codex-code82.json)。私有长度诊断/命名与计数复用，8定向身份不变、相邻3复用、原盘byte-equal/业务反控成立；详细矩阵累计15文件仍review。83卡56partial/27pending/0accept、账本234closed/121review/2961pending，0新关闭。旧493范围索引因仅CODE82源码/all-cards/ledger变化会报stale，新片列出完整delta；旧矩阵不刷新、其它来源按原域复用。
 
+当前CODE6a增量：[四文件八维/原生快检](codex-code6a.json)。65365e514纯重构：每源一次读取/词法事实复用、明确依赖方向、隔离夹具及有界子进程；首轮缓存前后4,025,694字节库存输出完全相同。95a0a8218独立修复隐藏账本进度和空/重复输出参数，先五条实际失败反例。共享Markdown helper遇合法代码字面量会误拒绝，已用实际反例否决该复用，未修改其它Owner实现。原13测试身份保持+7有判别力合同；20定向与含它的47工具项通过。详细八维累计19文件仍review；232closed/123review/2961pending，0新关闭、56partial/27pending/0accept，统一门仍待。
+
 - [持续任务准入](../glm-pre94-foundation-goal.md)：pre94全部剩余复审/获准整改，随后94–102既有返工；内部小片、阶段交付。
 - [阶段1终验记录](codex-stage1.json)：MKF/RNG/YJ2六笔候选已集成；正文保持、定向原生34/34、34/34、41/41已据证核对，52个独立身份，未重跑这些测试。
 - 作者原件：[MKF](mkf/README.md)、[RNG](rng/README.md)、[YJ2](yj2/README.md)。作者审查与Codex实际核过的差异/证明/原件分开记，不把摘要当日志。
