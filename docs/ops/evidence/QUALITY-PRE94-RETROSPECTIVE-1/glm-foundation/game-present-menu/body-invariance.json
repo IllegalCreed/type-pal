@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "base": "HEAD",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/game/src/present/menu/draw-equip.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "7e6276350fa41c9859a26a9396c5aa3f537208c2c2ae574ff1eabcf27df2d369",
+        "current": "7e6276350fa41c9859a26a9396c5aa3f537208c2c2ae574ff1eabcf27df2d369"
+      },
+      "printedBytes": {
+        "base": 5863,
+        "current": 5863
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/present/menu/draw-player-status.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "bad5f75e301b08a8e510fefa27d65ba1c1d183728af7c4d6aa97c28d91f1b089",
+        "current": "bad5f75e301b08a8e510fefa27d65ba1c1d183728af7c4d6aa97c28d91f1b089"
+      },
+      "printedBytes": {
+        "base": 7727,
+        "current": 7727
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}
