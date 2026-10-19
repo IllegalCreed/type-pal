@@ -9,7 +9,7 @@ describe('decodeGbk', () => {
     expect(decodeGbk(new Uint8Array([0x41]))).toBe('A')
   })
 
-  it('GBK "李逍遥" → UTF-8', () => {
+  it('GBK "李逍遥"字节解码为JavaScript字符串', () => {
     // 李 = 0xC0 0xEE, 逍 = 0xE5 0xD0, 遥 = 0xD2 0xA3
     const bytes = new Uint8Array([0xc0, 0xee, 0xe5, 0xd0, 0xd2, 0xa3])
     expect(decodeGbk(bytes)).toBe('李逍遥')
