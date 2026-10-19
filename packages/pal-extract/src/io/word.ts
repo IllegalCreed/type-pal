@@ -65,14 +65,17 @@ function stripTrailingOne(s: string): string {
   return s.endsWith('1') ? s.slice(0, -1) : s
 }
 
+/** 解码一个固定宽度词条;是否要求完整记录由flat/分类调用方分别决定。 */
+function decodeWordAt(buf: Uint8Array, byteOffset: number): string {
+  let end = byteOffset + WORD_LENGTH
+  while (end > byteOffset && buf[end - 1] === 0x20) end--
+  return stripTrailingOne(decodeGbk(buf.subarray(byteOffset, end)))
+}
+
 function readBlock(buf: Uint8Array, offset: number, count: number): string[] {
   const out: string[] = []
   for (let i = 0; i < count; i++) {
-    const start = (offset + i) * WORD_LENGTH
-    // 参考 sdlpal text.c: 先去掉尾部空格再做 GBK 解码
-    let end = start + WORD_LENGTH
-    while (end > start && buf[end - 1] === 0x20) end--
-    out.push(stripTrailingOne(decodeGbk(buf.subarray(start, end))))
+    out.push(decodeWordAt(buf, (offset + i) * WORD_LENGTH))
   }
   return out
 }
@@ -92,9 +95,7 @@ export function parseWordDat(buf: Uint8Array): Words {
   for (let i = 0; i < TOTAL_WORD_COUNT; i++) {
     const start = i * WORD_LENGTH
     if (start + WORD_LENGTH > buf.byteLength) break
-    let end = start + WORD_LENGTH
-    while (end > start && buf[end - 1] === 0x20) end--
-    flat.push(stripTrailingOne(decodeGbk(buf.subarray(start, end))))
+    flat.push(decodeWordAt(buf, start))
   }
   return {
     persons: readBlock(buf, PERSONS_OFFSET, PERSONS_COUNT),
