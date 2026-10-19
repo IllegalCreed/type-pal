@@ -69,7 +69,7 @@ Status: build；以下只记有限模块结果，不声明全专项完成
 - 模块15批52作者原件：[editor core中件38文件](editor-core-medium/README.md)（同线，review待验收）。零整改批(保存恢复计划对账/历史协调单时间线/map-patch三ownership域/OverlayLookupMap有界差分/引用扫描只认kind判别/替换proof消费者快照);2331/2331零失败套件。
 - 模块15批53作者原件：[editor core大件13文件](editor-core-large/README.md)（同线，review待验收）。零整改批,core包125文件全量收口(保存日志逐步观测-复核/workspace capability相位机/script-editor单遍visits材料化/引用快照五表编码/有界视觉投影三预算);2331/2331零失败套件。
 - 模块15批54作者原件：[editor ui微/小件58文件](editor-ui-small/README.md)（同线，review待验收）。零整改批(design-system全控件无分叉/draft事务统一/Cmd+S消费防浏览器存页/overlay共享边抵消);ui全量2504/2505唯一红=并行互扰(单套件重跑2/2绿已登记)。
-- 模块15批55作者原件：[editor ui中件48文件](editor-ui-medium/README.md)（同线，review待验收）。零整改批(FloatingLayer dialog内portal/Dialog开启收口周期/draft输入事务内核/ProjectSession保存全生命周期/LevelCurve拖点编辑);零diff纯读批,测试引用ui全量(唯一红=批54已登记互扰)。ui余量:大件(App 4766/ScriptEditor 4417/MapMode 3740/Workbench 2528等)→design-lab。
+- 模块15批55作者原件：[editor ui中件48文件](editor-ui-medium/README.md)（同线，review待验收）。零整改批(FloatingLayer dialog内portal/Dialog开启收口周期/draft输入事务内核/ProjectSession保存全生命周期/LevelCurve拖点编辑);零diff纯读批,测试引用ui全量(唯一红=批54已登记互扰)。ui大件56文件已收:第16批[editor ui大件56文件](editor-ui-large/README.md)(同线,review待验收)——零整改批(App组合根C-gate订阅降级/ScriptEditor canonical全族/MapMode变换+组内编辑+结构确认/Workbench四页/共享画布族/资产工作台族/数据页族/design-system大件/reorder三输入)。src/ui 162件全部收口;ui全量712套件2505测试全绿(批54互扰未复现)。余量:design-lab(2件1.5k)→94-102返工卡→Codex验收包。
 集成修正：MKF仅首offset/表长4对齐、并非所有chunk偏移；SDL坏档结果/全原盘保证不能泛化；readChunk生产注释保留借用合同、去掉测试治理措辞。RNG跳帧保留基面继续解码，不保证缺帧后的画面等价。正常资产对拍不代替坏帧策略证明。
 
 旧撤回恢复：mkf.boundaries.test.ts、rng.test.ts、yj2.boundaries.test.ts、rle.glm-o.test.ts四行恢复review，不是本批重新发现代码失败。中央ledger3319/245closed/109review/2965pending，0新关闭；CODE2/2b仍partial。
