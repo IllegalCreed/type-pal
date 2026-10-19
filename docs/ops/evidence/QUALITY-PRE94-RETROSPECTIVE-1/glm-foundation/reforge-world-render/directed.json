@@ -1,0 +1,4031 @@
+{
+  "numTotalTestSuites": 88,
+  "numPassedTestSuites": 88,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 363,
+  "numPassedTests": 363,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792387910869,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 battle-sprite 解码核：kind / mediaType / bytes / sha256 逐门精确拒绝",
+          "status": "passed",
+          "title": "Q02 battle-sprite 解码核：kind / mediaType / bytes / sha256 逐门精确拒绝",
+          "duration": 21.615541000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 battle-sprite 解码核：非 gzip 字节拒收；合法字节解出锚点与 canonical profile",
+          "status": "passed",
+          "title": "Q02 battle-sprite 解码核：非 gzip 字节拒收；合法字节解出锚点与 canonical profile",
+          "duration": 5.799374999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 battle-sprite 解码核：legacy-migrated origin 选择 legacy profile",
+          "status": "passed",
+          "title": "Q02 battle-sprite 解码核：legacy-migrated origin 选择 legacy profile",
+          "duration": 2.285500000000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 battle 缓存以完整 record（含 label/origin.ref）为失效签名",
+          "status": "passed",
+          "title": "Q02 battle 缓存以完整 record（含 label/origin.ref）为失效签名",
+          "duration": 2.5968330000000037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 battle 缓存保护裁剪：受保护项存活、非保护项逐出后重读",
+          "status": "passed",
+          "title": "Q02 battle 缓存保护裁剪：受保护项存活、非保护项逐出后重读",
+          "duration": 1.6394159999999829,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 effect-sprite record 门：mediaType / bytes 登记 / sha256 逐臂拒绝 + 合法对照",
+          "status": "passed",
+          "title": "Q02 effect-sprite record 门：mediaType / bytes 登记 / sha256 逐臂拒绝 + 合法对照",
+          "duration": 1.1752500000000055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 loadFireSprite 按 chunk 派生 catalog 身份读取法术特效",
+          "status": "passed",
+          "title": "Q02 loadFireSprite 按 chunk 派生 catalog 身份读取法术特效",
+          "duration": 0.6887079999999912,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 tilesFromChunkBytes：非 gzip 拒收带默认与显式标签；合法字节解出帧表",
+          "status": "passed",
+          "title": "Q02 tilesFromChunkBytes：非 gzip 拒收带默认与显式标签；合法字节解出帧表",
+          "duration": 1.0010000000000048,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 decompressGzip 对无 gzip 魔数的字节原样透传",
+          "status": "passed",
+          "title": "Q02 decompressGzip 对无 gzip 魔数的字节原样透传",
+          "duration": 0.4420420000000149,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 compressGzip 接受带偏移的字节视图并只压缩可见区间",
+          "status": "passed",
+          "title": "Q02 compressGzip 接受带偏移的字节视图并只压缩可见区间",
+          "duration": 0.4455829999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 compressGzip 缺 CompressionStream 端口时 fail-loud",
+          "status": "passed",
+          "title": "Q02 compressGzip 缺 CompressionStream 端口时 fail-loud",
+          "duration": 0.27041600000001154,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387912317,
+      "endTime": 1792387912355.2705,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/assets-decode-gates.glm-q.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["当前战场背景索引图的 catalog→位图→调色板链"],
+          "fullName": "当前战场背景索引图的 catalog→位图→调色板链 真实 320×200 PNG 的索引字节逐像素着色，位图只解码并关闭一次",
+          "status": "passed",
+          "title": "真实 320×200 PNG 的索引字节逐像素着色，位图只解码并关闭一次",
+          "duration": 48.335708,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前战场背景索引图的 catalog→位图→调色板链"],
+          "fullName": "当前战场背景索引图的 catalog→位图→调色板链 真实 PNG 尺寸偏差先关闭位图，绝不创建目标 canvas 或发布着色结果",
+          "status": "passed",
+          "title": "真实 PNG 尺寸偏差先关闭位图，绝不创建目标 canvas 或发布着色结果",
+          "duration": 10.027082999999976,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前战场背景索引图的 catalog→位图→调色板链"],
+          "fullName": "当前战场背景索引图的 catalog→位图→调色板链 解码异常保留资源身份与原始原因，不进入 canvas 绘制",
+          "status": "passed",
+          "title": "解码异常保留资源身份与原始原因，不进入 canvas 绘制",
+          "duration": 8.154541999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前战场背景索引图的 catalog→位图→调色板链"],
+          "fullName": "当前战场背景索引图的 catalog→位图→调色板链 非灰度或非不透明像素在精确索引处拒绝，不写入调色板画布",
+          "status": "passed",
+          "title": "非灰度或非不透明像素在精确索引处拒绝，不写入调色板画布",
+          "duration": 9.08850000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387912861,
+      "endTime": 1792387912937.0884,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/assets.battle-bg.residual.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G03 assets 端口错误与缓存失效残差"],
+          "fullName": "G03 assets 端口错误与缓存失效残差 loadStandardPalette 结构守卫逐臂 fail-loud；合法对照通过",
+          "status": "passed",
+          "title": "loadStandardPalette 结构守卫逐臂 fail-loud；合法对照通过",
+          "duration": 2.447958,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03 assets 端口错误与缓存失效残差"],
+          "fullName": "G03 assets 端口错误与缓存失效残差 loadTilesetAsset record 三门：mediaType / bytes / sha 逐臂精确拒绝",
+          "status": "passed",
+          "title": "loadTilesetAsset record 三门：mediaType / bytes / sha 逐臂精确拒绝",
+          "duration": 17.599334,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03 assets 端口错误与缓存失效残差"],
+          "fullName": "G03 assets 端口错误与缓存失效残差 decodeWorldSpriteAssetBytes：kind 臂与合法 sha 的非 gzip 字节臂 fail-loud",
+          "status": "passed",
+          "title": "decodeWorldSpriteAssetBytes：kind 臂与合法 sha 的非 gzip 字节臂 fail-loud",
+          "duration": 1.2521670000000142,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03 assets 端口错误与缓存失效残差"],
+          "fullName": "G03 assets 端口错误与缓存失效残差 SpriteAssetCache.get 签名漂移：逐出并返回 undefined，重读不复活旧值",
+          "status": "passed",
+          "title": "SpriteAssetCache.get 签名漂移：逐出并返回 undefined，重读不复活旧值",
+          "duration": 3.9090830000000096,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03 assets 端口错误与缓存失效残差"],
+          "fullName": "G03 assets 端口错误与缓存失效残差 decompressGzip 缺 DecompressionStream 端口时 fail-loud（gzip 头字节进入解压臂）",
+          "status": "passed",
+          "title": "decompressGzip 缺 DecompressionStream 端口时 fail-loud（gzip 头字节进入解压臂）",
+          "duration": 0.6774580000000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387913224,
+      "endTime": 1792387913250.6775,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/assets.glm-next-wave.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["当前战斗画面索引着色与特效资源边界"],
+          "fullName": "当前战斗画面索引着色与特效资源边界 原索引按调色板逐字节上色；正负 nibble 位移分别饱和上界与归零下界",
+          "status": "passed",
+          "title": "原索引按调色板逐字节上色；正负 nibble 位移分别饱和上界与归零下界",
+          "duration": 1.9472920000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前战斗画面索引着色与特效资源边界"],
+          "fullName": "当前战斗画面索引着色与特效资源边界 物理与法术特效使用各自 catalog 身份读取同源真实 gzip；源字节与登记哈希保持一致",
+          "status": "passed",
+          "title": "物理与法术特效使用各自 catalog 身份读取同源真实 gzip；源字节与登记哈希保持一致",
+          "duration": 18.396292000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前战斗画面索引着色与特效资源边界"],
+          "fullName": "当前战斗画面索引着色与特效资源边界 缺失地图源文件保留真实路径和提取指引，不让空地图冒充成功",
+          "status": "passed",
+          "title": "缺失地图源文件保留真实路径和提取指引，不让空地图冒充成功",
+          "duration": 1.2503749999999911,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387915013,
+      "endTime": 1792387915034.2505,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/assets.presentation.residual.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["assets.ts 经 FileSource 读"],
+          "fullName": "assets.ts 经 FileSource 读 地图走工程 source，工程标准色彩走角色 resolver",
+          "status": "passed",
+          "title": "地图走工程 source，工程标准色彩走角色 resolver",
+          "duration": 2.852166000000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["assets.ts 经 FileSource 读"],
+          "fullName": "assets.ts 经 FileSource 读 loadProjectMap 在加载边界校验 ProjectMap schema",
+          "status": "passed",
+          "title": "loadProjectMap 在加载边界校验 ProjectMap schema",
+          "duration": 0.7936669999999708,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["assets.ts 经 FileSource 读"],
+          "fullName": "assets.ts 经 FileSource 读 loadProjectMap 只接受当前 v4 且未知 authoring 版本 fail-loud",
+          "status": "passed",
+          "title": "loadProjectMap 只接受当前 v4 且未知 authoring 版本 fail-loud",
+          "duration": 1.141458,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["loadTileset AssetId 唯一链"],
+          "fullName": "loadTileset AssetId 唯一链 只按 catalog path 读取并校验 hash",
+          "status": "passed",
+          "title": "只按 catalog path 读取并校验 hash",
+          "duration": 22.340542000000028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["loadSpriteAsset AssetId 唯一链"],
+          "fullName": "loadSpriteAsset AssetId 唯一链 只按 catalog record 读取并校验 kind/media/bytes/hash/gzip",
+          "status": "passed",
+          "title": "只按 catalog record 读取并校验 kind/media/bytes/hash/gzip",
+          "duration": 4.277791999999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["loadSpriteAsset AssetId 唯一链"],
+          "fullName": "loadSpriteAsset AssetId 唯一链 缓存按 AssetId 共享，record SHA/path/origin 变化失效，失败不会污染重试",
+          "status": "passed",
+          "title": "缓存按 AssetId 共享，record SHA/path/origin 变化失效，失败不会污染重试",
+          "duration": 7.183084000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["loadSpriteAsset AssetId 唯一链"],
+          "fullName": "loadSpriteAsset AssetId 唯一链 容量裁剪保留当前场景 protected 资产，并淘汰最旧非保护项",
+          "status": "passed",
+          "title": "容量裁剪保留当前场景 protected 资产，并淘汰最旧非保护项",
+          "duration": 2.1048749999999927,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattleSpriteDef + catalog loader/cache 唯一链"],
+          "fullName": "BattleSpriteDef + catalog loader/cache 唯一链 并发共享 promise，完整 record 变化失效，失败驱逐后可重试",
+          "status": "passed",
+          "title": "并发共享 promise，完整 record 变化失效，失败驱逐后可重试",
+          "duration": 2.766791000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BattleSpriteDef + catalog loader/cache 唯一链"],
+          "fullName": "BattleSpriteDef + catalog loader/cache 唯一链 definition profile/kind/帧越界在 readiness fail-loud",
+          "status": "passed",
+          "title": "definition profile/kind/帧越界在 readiness fail-loud",
+          "duration": 1.5039999999999623,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387911593,
+      "endTime": 1792387911638.504,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/assets.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["deferred touch trigger"],
+          "fullName": "deferred touch trigger holds one committed landing while a runner is busy, then starts it exactly once",
+          "status": "passed",
+          "title": "holds one committed landing while a runner is busy, then starts it exactly once",
+          "duration": 1.3411669999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["deferred touch trigger"],
+          "fullName": "deferred touch trigger drops a stale scene claim without firing",
+          "status": "passed",
+          "title": "drops a stale scene claim without firing",
+          "duration": 0.17729099999999676,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["deferred touch trigger"],
+          "fullName": "deferred touch trigger targeted lifecycle or binding replacement clears only the matching claim",
+          "status": "passed",
+          "title": "targeted lifecycle or binding replacement clears only the matching claim",
+          "duration": 0.09237500000000409,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["deferred touch trigger"],
+          "fullName": "deferred touch trigger drops a landing whose scene/lifecycle disposition is no longer valid",
+          "status": "passed",
+          "title": "drops a landing whose scene/lifecycle disposition is no longer valid",
+          "duration": 0.09129200000000992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["deferred touch trigger"],
+          "fullName": "deferred touch trigger retains a temporarily suspended landing until it becomes triggerable",
+          "status": "passed",
+          "title": "retains a temporarily suspended landing until it becomes triggerable",
+          "duration": 0.5620830000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["deferred touch trigger"],
+          "fullName": "deferred touch trigger delivers the frozen landing fact instead of reselecting from later positions",
+          "status": "passed",
+          "title": "delivers the frozen landing fact instead of reselecting from later positions",
+          "duration": 0.4381670000000071,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387915120,
+      "endTime": 1792387915122.562,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/deferred-trigger.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["deferred touch trigger (world-lifecycle-1)"],
+          "fullName": "deferred touch trigger (world-lifecycle-1) clear() 原子复位未决 claim 与 deliveryFence：teardown 后 auto safe-point 屏障立即解除",
+          "status": "passed",
+          "title": "clear() 原子复位未决 claim 与 deliveryFence：teardown 后 auto safe-point 屏障立即解除",
+          "duration": 1.3104589999999945,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["deferred touch trigger (world-lifecycle-1)"],
+          "fullName": "deferred touch trigger (world-lifecycle-1) fire 失败的落点按 dropped 收口：不设 deliveryFence、不保留 claim、不重试",
+          "status": "passed",
+          "title": "fire 失败的落点按 dropped 收口：不设 deliveryFence、不保留 claim、不重试",
+          "duration": 0.4100830000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387915219,
+      "endTime": 1792387915220.4102,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/deferred-trigger.world-lifecycle-1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "fixture 合法性：sprite 过 content validateSprites",
+          "status": "passed",
+          "title": "fixture 合法性：sprite 过 content validateSprites",
+          "duration": 1.473792000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C1 resolveSpriteActionBinding 守卫轴"],
+          "fullName": "C1 resolveSpriteActionBinding 守卫轴 精灵不匹配/动作缺失/空 steps/非正时长/loopFrom 越界/实际帧数门各自精确拒绝",
+          "status": "passed",
+          "title": "精灵不匹配/动作缺失/空 steps/非正时长/loopFrom 越界/实际帧数门各自精确拒绝",
+          "duration": 1.1428330000000102,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C2 单次动作 startAtMs 越尾"],
+          "fullName": "C2 单次动作 startAtMs 越尾 play 兑现、覆盖不悬挂、历史 cue 不补发",
+          "status": "passed",
+          "title": "play 兑现、覆盖不悬挂、历史 cue 不补发",
+          "duration": 0.8896660000000054,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C3 无基础轨覆盖的三条收尾"],
+          "fullName": "C3 无基础轨覆盖的三条收尾 自然结束：deferred 兑现一次，后续 advance 不重复 cue/兑现",
+          "status": "passed",
+          "title": "自然结束：deferred 兑现一次，后续 advance 不重复 cue/兑现",
+          "duration": 0.3867089999999962,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C3 无基础轨覆盖的三条收尾"],
+          "fullName": "C3 无基础轨覆盖的三条收尾 stop(false)：waiter 兑现、覆盖清除；clearEntity：同样收尾",
+          "status": "passed",
+          "title": "stop(false)：waiter 兑现、覆盖清除；clearEntity：同样收尾",
+          "duration": 0.19633400000000734,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C4 覆盖期间 setBase 删除/替换"],
+          "fullName": "C4 覆盖期间 setBase 删除/替换 覆盖结束后恢复到新基础轨，不接回旧轨",
+          "status": "passed",
+          "title": "覆盖结束后恢复到新基础轨，不接回旧轨",
+          "duration": 0.751583999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C5 旧 signal 迟到 abort 不删新覆盖"],
+          "fullName": "C5 旧 signal 迟到 abort 不删新覆盖 新请求接管后旧 signal abort：新覆盖存活并完成；stop 后迟到 abort 无副作用",
+          "status": "passed",
+          "title": "新请求接管后旧 signal abort：新覆盖存活并完成；stop 后迟到 abort 无副作用",
+          "duration": 0.9651250000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C6 边界 startAtMs 与 dt 轴"],
+          "fullName": "C6 边界 startAtMs 与 dt 轴 精确边界/半步 startAtMs 的帧号；dt=0 no-op；非法 dt 拒绝",
+          "status": "passed",
+          "title": "精确边界/半步 startAtMs 的帧号；dt=0 no-op；非法 dt 拒绝",
+          "duration": 0.7768339999999938,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C6 边界 startAtMs 与 dt 轴"],
+          "fullName": "C6 边界 startAtMs 与 dt 轴 完整 cue 轨迹按步序一次发出（walk：step0 与 step2 的 sound）",
+          "status": "passed",
+          "title": "完整 cue 轨迹按步序一次发出（walk：step0 与 step2 的 sound）",
+          "duration": 0.43566700000000935,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387912159,
+      "endTime": 1792387912166.4355,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/entity-action-player.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "base intro and loop snapshots resume exact phase without repeating historical cues",
+          "status": "passed",
+          "title": "base intro and loop snapshots resume exact phase without repeating historical cues",
+          "duration": 2.8942499999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a script override and the base hidden beneath it both resume without reviving the old waiter",
+          "status": "passed",
+          "title": "a script override and the base hidden beneath it both resume without reviving the old waiter",
+          "duration": 0.5529170000000079,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "an automatic once action waits for the new runner then resumes its exact remaining duration",
+          "status": "passed",
+          "title": "an automatic once action waits for the new runner then resumes its exact remaining duration",
+          "duration": 0.507916999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "rebinding a restored automatic owner detaches the replaced signal and aborts its new waiter",
+          "status": "passed",
+          "title": "rebinding a restored automatic owner detaches the replaced signal and aborts its new waiter",
+          "duration": 0.6264170000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a restored looping override advances before runner reentry but belongs to its newly attached owner",
+          "status": "passed",
+          "title": "a restored looping override advances before runner reentry but belongs to its newly attached owner",
+          "duration": 0.30979099999998994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a different binding replaces a restored automatic action instead of adopting it",
+          "status": "passed",
+          "title": "a different binding replaces a restored automatic action instead of adopting it",
+          "duration": 0.23533299999999713,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a different source replaces a restored automatic action instead of adopting it",
+          "status": "passed",
+          "title": "a different source replaces a restored automatic action instead of adopting it",
+          "duration": 0.12116600000001654,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "preparation resolves and validates every track before commit, freezes inputs, and commits only once",
+          "status": "passed",
+          "title": "preparation resolves and validates every track before commit, freezes inputs, and commits only once",
+          "duration": 0.853666000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "restore rejects an impossible action progress before disturbing active tracks: {\"stepIndex\":-1}",
+          "status": "passed",
+          "title": "restore rejects an impossible action progress before disturbing active tracks: {\"stepIndex\":-1}",
+          "duration": 1.2973750000000166,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "restore rejects an impossible action progress before disturbing active tracks: {\"elapsedInStepMs\":100}",
+          "status": "passed",
+          "title": "restore rejects an impossible action progress before disturbing active tracks: {\"elapsedInStepMs\":100}",
+          "duration": 0.1705000000000041,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "restore rejects an impossible action progress before disturbing active tracks: {\"elapsedInStepMs\":null}",
+          "status": "passed",
+          "title": "restore rejects an impossible action progress before disturbing active tracks: {\"elapsedInStepMs\":null}",
+          "duration": 0.1875,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "restore rejects an impossible action progress before disturbing active tracks: {\"finished\":true}",
+          "status": "passed",
+          "title": "restore rejects an impossible action progress before disturbing active tracks: {\"finished\":true}",
+          "duration": 0.1665830000000028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "restore rejects an impossible action progress before disturbing active tracks: {\"pendingLoopStartAtMs\":12}",
+          "status": "passed",
+          "title": "restore rejects an impossible action progress before disturbing active tracks: {\"pendingLoopStartAtMs\":12}",
+          "duration": 0.11354200000002379,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "restore rejects an impossible action progress before disturbing active tracks: {}",
+          "status": "passed",
+          "title": "restore rejects an impossible action progress before disturbing active tracks: {}",
+          "duration": 0.08541700000000674,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a finished base action remains on its final frame and emits no cue on restore or later ticks",
+          "status": "passed",
+          "title": "a finished base action remains on its final frame and emits no cue on restore or later ticks",
+          "duration": 0.14645800000002396,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a synchronously completed automatic action survives save before its awaited continuation acknowledges it",
+          "status": "passed",
+          "title": "a synchronously completed automatic action survives save before its awaited continuation acknowledges it",
+          "duration": 1.4795000000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "different automatic owners keep independent fulfilled receipts while a new override owns the image",
+          "status": "passed",
+          "title": "different automatic owners keep independent fulfilled receipts while a new override owns the image",
+          "duration": 0.49687499999998863,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "stopping fulfills one automatic command, but fresh playback does not consume its historical receipt",
+          "status": "passed",
+          "title": "stopping fulfills one automatic command, but fresh playback does not consume its historical receipt",
+          "duration": 0.2960830000000101,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "restored automatic in-flight tracks attach and resume only through their stable owner",
+          "status": "passed",
+          "title": "restored automatic in-flight tracks attach and resume only through their stable owner",
+          "duration": 0.3448750000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a non-awaited automatic once action resumes in the background without reentering its already passed leaf",
+          "status": "passed",
+          "title": "a non-awaited automatic once action resumes in the background without reentering its already passed leaf",
+          "duration": 0.2200409999999806,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "syncing an unchanged base preserves its precise phase, active override and unacknowledged receipts",
+          "status": "passed",
+          "title": "syncing an unchanged base preserves its precise phase, active override and unacknowledged receipts",
+          "duration": 0.3927500000000066,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "syncing changed, added and removed bases touches only those bases and emits only new visible start cues",
+          "status": "passed",
+          "title": "syncing changed, added and removed bases touches only those bases and emits only new visible start cues",
+          "duration": 0.40900000000002024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387911098,
+      "endTime": 1792387911110.409,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/entity-action-player.restore.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["resolveSpriteActionPosition"],
+          "fullName": "resolveSpriteActionPosition 保留一次启动段，并按 loopFrom 归一任意起始相位",
+          "status": "passed",
+          "title": "保留一次启动段，并按 loopFrom 归一任意起始相位",
+          "duration": 2.160624999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolveSpriteActionPosition"],
+          "fullName": "resolveSpriteActionPosition 单次动作忽略定义 loopFrom，越过末尾后定格末帧",
+          "status": "passed",
+          "title": "单次动作忽略定义 loopFrom，越过末尾后定格末帧",
+          "duration": 0.2511659999999978,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolveSpriteActionBinding"],
+          "fullName": "resolveSpriteActionBinding 对精灵不匹配、动作缺失和真实帧越界 fail-loud",
+          "status": "passed",
+          "title": "对精灵不匹配、动作缺失和真实帧越界 fail-loud",
+          "duration": 0.5288749999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["EntityActionPlayer"],
+          "fullName": "EntityActionPlayer 逐边界推进非均匀步骤，相同源帧仍保留独立 cue 语义",
+          "status": "passed",
+          "title": "逐边界推进非均匀步骤，相同源帧仍保留独立 cue 语义",
+          "duration": 0.9982079999999911,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["EntityActionPlayer"],
+          "fullName": "EntityActionPlayer 每实体相位独立，暂停实体不追帧也不补 cue",
+          "status": "passed",
+          "title": "每实体相位独立，暂停实体不追帧也不补 cue",
+          "duration": 0.13262500000000443,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["EntityActionPlayer"],
+          "fullName": "EntityActionPlayer 循环相位不跳过共同启动段，只在进入 loopFrom 时应用",
+          "status": "passed",
+          "title": "循环相位不跳过共同启动段，只在进入 loopFrom 时应用",
+          "duration": 0.1912499999999966,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["EntityActionPlayer"],
+          "fullName": "EntityActionPlayer 脚本覆盖期间冻结基础轨，单次完成后用剩余 dt 恢复基础轨",
+          "status": "passed",
+          "title": "脚本覆盖期间冻结基础轨，单次完成后用剩余 dt 恢复基础轨",
+          "duration": 0.28495900000000063,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["EntityActionPlayer"],
+          "fullName": "EntityActionPlayer 相同活动请求幂等，不重置游标或重复首帧 cue",
+          "status": "passed",
+          "title": "相同活动请求幂等，不重置游标或重复首帧 cue",
+          "duration": 0.11258300000000077,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["EntityActionPlayer"],
+          "fullName": "EntityActionPlayer stop(false) 恢复冻结相位，stop(true) 重启页动作",
+          "status": "passed",
+          "title": "stop(false) 恢复冻结相位，stop(true) 重启页动作",
+          "duration": 0.7104170000000067,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["EntityActionPlayer"],
+          "fullName": "EntityActionPlayer signal 中止覆盖并以 AbortError 兑现 waiter",
+          "status": "passed",
+          "title": "signal 中止覆盖并以 AbortError 兑现 waiter",
+          "duration": 0.7789169999999928,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["EntityActionPlayer"],
+          "fullName": "EntityActionPlayer 替换、停止与清场都会兑现旧 waiter，不留下悬挂 Promise",
+          "status": "passed",
+          "title": "替换、停止与清场都会兑现旧 waiter，不留下悬挂 Promise",
+          "duration": 0.3220839999999896,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["EntityActionPlayer"],
+          "fullName": "EntityActionPlayer 前台覆盖收尾的剩余时间不能推进仍被接管的自动底轨",
+          "status": "passed",
+          "title": "前台覆盖收尾的剩余时间不能推进仍被接管的自动底轨",
+          "duration": 0.14479199999999537,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["EntityActionPlayer"],
+          "fullName": "EntityActionPlayer 相同动作的新automatic owner取得自己的abort归属，旧signal不反写新覆盖",
+          "status": "passed",
+          "title": "相同动作的新automatic owner取得自己的abort归属，旧signal不反写新覆盖",
+          "duration": 0.24179200000000378,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387912717,
+      "endTime": 1792387912724.2417,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/entity-action-player.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["current lifecycle command adapter"],
+          "fullName": "current lifecycle command adapter writes a non-current scene without touching script/entityState",
+          "status": "passed",
+          "title": "writes a non-current scene without touching script/entityState",
+          "duration": 2.3662499999999795,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current lifecycle command adapter"],
+          "fullName": "current lifecycle command adapter supports all four leaves through one reducer boundary",
+          "status": "passed",
+          "title": "supports all four leaves through one reducer boundary",
+          "duration": 0.3089999999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current lifecycle command adapter"],
+          "fullName": "current lifecycle command adapter manual restore emits the only explicit frame-reset notification",
+          "status": "passed",
+          "title": "manual restore emits the only explicit frame-reset notification",
+          "duration": 0.23370800000000713,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current lifecycle command adapter"],
+          "fullName": "current lifecycle command adapter rejects unknown target before writing: { scene: 'missing', entity: 'e001' }",
+          "status": "passed",
+          "title": "rejects unknown target before writing: { scene: 'missing', entity: 'e001' }",
+          "duration": 0.42395799999999895,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current lifecycle command adapter"],
+          "fullName": "current lifecycle command adapter rejects unknown target before writing: { scene: 's001', entity: 'missing' }",
+          "status": "passed",
+          "title": "rejects unknown target before writing: { scene: 's001', entity: 'missing' }",
+          "duration": 0.12320800000000531,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387915363,
+      "endTime": 1792387915367.1233,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/entity-lifecycle-command.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["entity lifecycle reducer and derived gates"],
+          "fullName": "entity lifecycle reducer and derived gates suspend keeps visibility/manual interaction but gates touch/auto/hostile",
+          "status": "passed",
+          "title": "suspend keeps visibility/manual interaction but gates touch/auto/hostile",
+          "duration": 1.6061249999999916,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity lifecycle reducer and derived gates"],
+          "fullName": "entity lifecycle reducer and derived gates hidden/removed states gate every consumer and entityState remains a separate input",
+          "status": "passed",
+          "title": "hidden/removed states gate every consumer and entityState remains a separate input",
+          "duration": 0.775708999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity lifecycle reducer and derived gates"],
+          "fullName": "entity lifecycle reducer and derived gates mutations are immutable and restore removes the scene container",
+          "status": "passed",
+          "title": "mutations are immutable and restore removes the scene container",
+          "duration": 0.7037919999999929,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity lifecycle reducer and derived gates"],
+          "fullName": "entity lifecycle reducer and derived gates explicit entityState overrides a static hidden/collision definition before lifecycle gates",
+          "status": "passed",
+          "title": "explicit entityState overrides a static hidden/collision definition before lifecycle gates",
+          "duration": 0.24516599999999755,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity lifecycle reducer and derived gates"],
+          "fullName": "entity lifecycle reducer and derived gates eligible ticks freeze, decrement, and transition hide to awaitingExit",
+          "status": "passed",
+          "title": "eligible ticks freeze, decrement, and transition hide to awaitingExit",
+          "duration": 0.23999999999999488,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity lifecycle reducer and derived gates"],
+          "fullName": "entity lifecycle reducer and derived gates foot-anchor boundary includes 0/320 and restores only outside",
+          "status": "passed",
+          "title": "foot-anchor boundary includes 0/320 and restores only outside",
+          "duration": 0.20908399999999006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity lifecycle reducer and derived gates"],
+          "fullName": "entity lifecycle reducer and derived gates awaitingExit reappears on the first eligible return tick and reports a frame reset",
+          "status": "passed",
+          "title": "awaitingExit reappears on the first eligible return tick and reports a frame reset",
+          "duration": 0.3785829999999919,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity lifecycle reducer and derived gates"],
+          "fullName": "entity lifecycle reducer and derived gates despawn final countdown and off-screen restore occupy separate eligible ticks",
+          "status": "passed",
+          "title": "despawn final countdown and off-screen restore occupy separate eligible ticks",
+          "duration": 0.16720899999999972,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387913738,
+      "endTime": 1792387913742.3787,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/entity-lifecycle.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "非法快照臂:重复 actor 与空足迹各自 fail-loud",
+          "status": "passed",
+          "title": "非法快照臂:重复 actor 与空足迹各自 fail-loud",
+          "duration": 1.9812499999999886,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "非法意图臂:重复/缺 actor、过期原点、非法 quantum 与 epoch 各自 fail-loud",
+          "status": "passed",
+          "title": "非法意图臂:重复/缺 actor、过期原点、非法 quantum 与 epoch 各自 fail-loud",
+          "duration": 0.5723749999999939,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "非法侧杖臂:缺 actor、重复、非法 epoch 与越界时长各自 fail-loud",
+          "status": "passed",
+          "title": "非法侧杖臂:缺 actor、重复、非法 epoch 与越界时长各自 fail-loud",
+          "duration": 0.4850420000000071,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "公平拍臂:同争用环的 fairnessTickForGroup 返回非整数即 fail-loud",
+          "status": "passed",
+          "title": "公平拍臂:同争用环的 fairnessTickForGroup 返回非整数即 fail-loud",
+          "duration": 0.8790410000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "原地意图臂:desired 等于 from 的动态意图零位移成功且朝向回落 desiredFacing",
+          "status": "passed",
+          "title": "原地意图臂:desired 等于 from 的动态意图零位移成功且朝向回落 desiredFacing",
+          "duration": 0.8367080000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "悬浮臂:floating 意图无视全图地形封锁照常移动",
+          "status": "passed",
+          "title": "悬浮臂:floating 意图无视全图地形封锁照常移动",
+          "duration": 0.21170899999999904,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "移动键臂:party 键恒为 0:party 且排序先于实体键",
+          "status": "passed",
+          "title": "移动键臂:party 键恒为 0:party 且排序先于实体键",
+          "duration": 0.14712500000000261,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "足迹重叠臂:精确相邻不重叠,任何分量靠近一格即重叠;高度不参与",
+          "status": "passed",
+          "title": "足迹重叠臂:精确相邻不重叠,任何分量靠近一格即重叠;高度不参与",
+          "duration": 0.08745899999999551,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C85 r6 让位与持杖多拍臂（真实运行时纪律:拍→结果→回喂 nextSideSticks）"
+          ],
+          "fullName": "C85 r6 让位与持杖多拍臂（真实运行时纪律:拍→结果→回喂 nextSideSticks） party 绕行回落臂:站立让位者无法侧踏让出时,party 自身 side-only 绕行并产生持杖",
+          "status": "passed",
+          "title": "party 绕行回落臂:站立让位者无法侧踏让出时,party 自身 side-only 绕行并产生持杖",
+          "duration": 1.7139999999999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C85 r6 让位与持杖多拍臂（真实运行时纪律:拍→结果→回喂 nextSideSticks）"
+          ],
+          "fullName": "C85 r6 让位与持杖多拍臂（真实运行时纪律:拍→结果→回喂 nextSideSticks） 持杖多拍臂:回喂 party nextSideSticks 后继续同侧贴边并衰减剩余拍数",
+          "status": "passed",
+          "title": "持杖多拍臂:回喂 party nextSideSticks 后继续同侧贴边并衰减剩余拍数",
+          "duration": 0.9979580000000112,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "C85 r6 让位与持杖多拍臂（真实运行时纪律:拍→结果→回喂 nextSideSticks）"
+          ],
+          "fullName": "C85 r6 让位与持杖多拍臂（真实运行时纪律:拍→结果→回喂 nextSideSticks） 绕行受限臂:party 侧踏候选全被地形拦死时回落 blocked 并给出地形拒绝",
+          "status": "passed",
+          "title": "绕行受限臂:party 侧踏候选全被地形拦死时回落 blocked 并给出地形拒绝",
+          "duration": 0.4959999999999951,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387911891,
+      "endTime": 1792387911899.496,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/entity-motion.c85-arms.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G04 entity-motion 输入契约残差"],
+          "fullName": "G04 entity-motion 输入契约残差 非安全整数 tick 在计划入口 fail-loud（含 NaN/Infinity/小数）",
+          "status": "passed",
+          "title": "非安全整数 tick 在计划入口 fail-loud（含 NaN/Infinity/小数）",
+          "duration": 2.625833,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04 entity-motion 输入契约残差"],
+          "fullName": "G04 entity-motion 输入契约残差 intent 的 quantum/epoch 守卫与缺失 actor 引用逐臂拒绝",
+          "status": "passed",
+          "title": "intent 的 quantum/epoch 守卫与缺失 actor 引用逐臂拒绝",
+          "duration": 0.6424170000000089,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04 entity-motion 输入契约残差"],
+          "fullName": "G04 entity-motion 输入契约残差 side-stick 守卫尾：缺失 actor / 非安全整数 epoch / 时长 <1 与 ≥4",
+          "status": "passed",
+          "title": "side-stick 守卫尾：缺失 actor / 非安全整数 epoch / 时长 <1 与 ≥4",
+          "duration": 0.8507079999999974,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04 entity-motion 输入契约残差"],
+          "fullName": "G04 entity-motion 输入契约残差 MotionFairnessClock：批次记账、离场成员剪除、clear 复位到 0",
+          "status": "passed",
+          "title": "MotionFairnessClock：批次记账、离场成员剪除、clear 复位到 0",
+          "duration": 0.3735420000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387913638,
+      "endTime": 1792387913642.3735,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/entity-motion.glm-next-wave.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["entity motion continuous geometry"],
+          "fullName": "entity motion continuous geometry footprint uses L-infinity distance, ignores height, and allows exact adjacency",
+          "status": "passed",
+          "title": "footprint uses L-infinity distance, ignores height, and allows exact adjacency",
+          "duration": 0.8746670000000165,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion continuous geometry"],
+          "fullName": "entity motion continuous geometry exact swept check catches swap and perpendicular crossing",
+          "status": "passed",
+          "title": "exact swept check catches swap and perpendicular crossing",
+          "duration": 0.2728749999999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion continuous geometry"],
+          "fullName": "entity motion continuous geometry same-speed convoy at exact one-grid spacing stays valid",
+          "status": "passed",
+          "title": "same-speed convoy at exact one-grid spacing stays valid",
+          "duration": 0.0745409999999822,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion continuous geometry"],
+          "fullName": "entity motion continuous geometry different-speed pursuit that closes below one grid is rejected",
+          "status": "passed",
+          "title": "different-speed pursuit that closes below one grid is rejected",
+          "duration": 0.12020800000001941,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion continuous geometry"],
+          "fullName": "entity motion continuous geometry terrain sweep samples run/snap segments at no more than 0.25 grid",
+          "status": "passed",
+          "title": "terrain sweep samples run/snap segments at no more than 0.25 grid",
+          "duration": 0.3821660000000122,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion continuous geometry"],
+          "fullName": "entity motion continuous geometry pre-existing full overlap can escape monotonically by 0.25",
+          "status": "passed",
+          "title": "pre-existing full overlap can escape monotonically by 0.25",
+          "duration": 0.0759999999999934,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion continuous geometry"],
+          "fullName": "entity motion continuous geometry pre-existing full overlap can escape monotonically by 0.375",
+          "status": "passed",
+          "title": "pre-existing full overlap can escape monotonically by 0.375",
+          "duration": 0.09770799999998303,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion continuous geometry"],
+          "fullName": "entity motion continuous geometry partial overlap can move outward, but not hold distance or dip inward first",
+          "status": "passed",
+          "title": "partial overlap can move outward, but not hold distance or dip inward first",
+          "duration": 0.09825000000000728,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion continuous geometry"],
+          "fullName": "entity motion continuous geometry compound footprints ignore their internal overlap and block on any external member",
+          "status": "passed",
+          "title": "compound footprints ignore their internal overlap and block on any external member",
+          "duration": 0.3714999999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion continuous geometry"],
+          "fullName": "entity motion continuous geometry compound escape allows one old overlap to improve while another holds steady",
+          "status": "passed",
+          "title": "compound escape allows one old overlap to improve while another holds steady",
+          "duration": 0.07800000000000296,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion deterministic arbitration"],
+          "fullName": "entity motion deterministic arbitration same destination has one stable winner and ignores input order",
+          "status": "passed",
+          "title": "same destination has one stable winner and ignores input order",
+          "duration": 1.4295410000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion deterministic arbitration"],
+          "fullName": "entity motion deterministic arbitration two-way swap and a three-actor cycle never exchange occupied positions",
+          "status": "passed",
+          "title": "two-way swap and a three-actor cycle never exchange occupied positions",
+          "duration": 0.7748340000000269,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion deterministic arbitration"],
+          "fullName": "entity motion deterministic arbitration independent long paths that cross synchronously cannot both move",
+          "status": "passed",
+          "title": "independent long paths that cross synchronously cannot both move",
+          "duration": 0.494542000000024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion deterministic arbitration"],
+          "fullName": "entity motion deterministic arbitration vacate dependencies are rebuilt globally and cannot admit two actors to one endpoint",
+          "status": "passed",
+          "title": "vacate dependencies are rebuilt globally and cannot admit two actors to one endpoint",
+          "duration": 1.04525000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion deterministic arbitration"],
+          "fullName": "entity motion deterministic arbitration a three-actor vacate chain is validated back-to-front in distinct phases",
+          "status": "passed",
+          "title": "a three-actor vacate chain is validated back-to-front in distinct phases",
+          "duration": 0.22812500000000568,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion deterministic arbitration"],
+          "fullName": "entity motion deterministic arbitration an acyclic convoy vacates back-to-front, then commits as one result",
+          "status": "passed",
+          "title": "an acyclic convoy vacates back-to-front, then commits as one result",
+          "duration": 0.24737500000000523,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion deterministic arbitration"],
+          "fullName": "entity motion deterministic arbitration a follower cannot enter a dependency position when the leader is terrain-blocked",
+          "status": "passed",
+          "title": "a follower cannot enter a dependency position when the leader is terrain-blocked",
+          "duration": 0.15154199999997786,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion deterministic arbitration"],
+          "fullName": "entity motion deterministic arbitration shuffling a four-way contention 100 times is byte-identical",
+          "status": "passed",
+          "title": "shuffling a four-way contention 100 times is byte-identical",
+          "duration": 9.304958999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion deterministic arbitration"],
+          "fullName": "entity motion deterministic arbitration rotated world priority prevents a fixed-id reservation winner",
+          "status": "passed",
+          "title": "rotated world priority prevents a fixed-id reservation winner",
+          "duration": 0.2942079999999976,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion deterministic arbitration"],
+          "fullName": "entity motion deterministic arbitration component-local eligible clock survives skipped cadence and changing leaf epochs",
+          "status": "passed",
+          "title": "component-local eligible clock survives skipped cadence and changing leaf epochs",
+          "duration": 1.0519160000000056,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion deterministic arbitration"],
+          "fullName": "entity motion deterministic arbitration unrelated movers cannot perturb one contention component for eight ticks",
+          "status": "passed",
+          "title": "unrelated movers cannot perturb one contention component for eight ticks",
+          "duration": 2.4517910000000143,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion deterministic arbitration"],
+          "fullName": "entity motion deterministic arbitration side-candidate reservation contention rotates even when primaries are unrelated",
+          "status": "passed",
+          "title": "side-candidate reservation contention rotates even when primaries are unrelated",
+          "duration": 0.6302919999999972,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion deterministic arbitration"],
+          "fullName": "entity motion deterministic arbitration compound escape aggregation ignores a holding actor whose own intent is terrain-blocked",
+          "status": "passed",
+          "title": "compound escape aggregation ignores a holding actor whose own intent is terrain-blocked",
+          "duration": 0.29887500000000955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion deterministic arbitration"],
+          "fullName": "entity motion deterministic arbitration actor blockage permits a lateral step; primary terrain blockage does not",
+          "status": "passed",
+          "title": "actor blockage permits a lateral step; primary terrain blockage does not",
+          "duration": 0.3942920000000072,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion deterministic arbitration"],
+          "fullName": "entity motion deterministic arbitration floating pursuit bypasses both terrain and solid event-object bodies like original PAL",
+          "status": "passed",
+          "title": "floating pursuit bypasses both terrain and solid event-object bodies like original PAL",
+          "duration": 0.20908299999999258,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion deterministic arbitration"],
+          "fullName": "entity motion deterministic arbitration a non-body mover checks terrain but ignores actors and reservations",
+          "status": "passed",
+          "title": "a non-body mover checks terrain but ignores actors and reservations",
+          "duration": 0.06254200000000765,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion deterministic arbitration"],
+          "fullName": "entity motion deterministic arbitration authored script movement bypasses terrain and bodies but remains explicit in the plan",
+          "status": "passed",
+          "title": "authored script movement bypasses terrain and bodies but remains explicit in the plan",
+          "duration": 0.06312500000001364,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion deterministic arbitration"],
+          "fullName": "entity motion deterministic arbitration authored auto movement bypasses terrain and bodies but remains explicit in the plan",
+          "status": "passed",
+          "title": "authored auto movement bypasses terrain and bodies but remains explicit in the plan",
+          "duration": 0.04158300000000281,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion deterministic arbitration"],
+          "fullName": "entity motion deterministic arbitration authored bypass endpoint becomes a same-batch solid blocker for ground pursuit",
+          "status": "passed",
+          "title": "authored bypass endpoint becomes a same-batch solid blocker for ground pursuit",
+          "duration": 0.22974999999999568,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion deterministic arbitration"],
+          "fullName": "entity motion deterministic arbitration floating bypass endpoint becomes a same-batch solid blocker for ground pursuit",
+          "status": "passed",
+          "title": "floating bypass endpoint becomes a same-batch solid blocker for ground pursuit",
+          "duration": 0.13804200000001288,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion player/NPC yielding"],
+          "fullName": "entity motion player/NPC yielding active party escape aggregates old overlap improvement across all external bodies",
+          "status": "passed",
+          "title": "active party escape aggregates old overlap improvement across all external bodies",
+          "duration": 0.18183300000001168,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion player/NPC yielding"],
+          "fullName": "entity motion player/NPC yielding static or hostile hard blockers do not get pushed and do not make the player slide",
+          "status": "passed",
+          "title": "static or hostile hard blockers do not get pushed and do not make the player slide",
+          "duration": 0.1769159999999772,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion player/NPC yielding"],
+          "fullName": "entity motion player/NPC yielding an active ordinary NPC sidesteps first while the player waits",
+          "status": "passed",
+          "title": "an active ordinary NPC sidesteps first while the player waits",
+          "duration": 0.11274999999997704,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion player/NPC yielding"],
+          "fullName": "entity motion player/NPC yielding when the NPC cannot yield, player sidestep keeps visual input facing",
+          "status": "passed",
+          "title": "when the NPC cannot yield, player sidestep keeps visual input facing",
+          "duration": 0.5533749999999884,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion player/NPC yielding"],
+          "fullName": "entity motion player/NPC yielding blocked autonomous mover can atomically request one passive party yield",
+          "status": "passed",
+          "title": "blocked autonomous mover can atomically request one passive party yield",
+          "duration": 0.25745799999998553,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion player/NPC yielding"],
+          "fullName": "entity motion player/NPC yielding passive party yield replans every mover and cannot share its endpoint with a third actor",
+          "status": "passed",
+          "title": "passive party yield replans every mover and cannot share its endpoint with a third actor",
+          "duration": 0.177250000000015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion player/NPC yielding"],
+          "fullName": "entity motion player/NPC yielding party authority denial prevents passive yield and all player outcomes",
+          "status": "passed",
+          "title": "party authority denial prevents passive yield and all player outcomes",
+          "duration": 0.1550410000000113,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion side-stick"],
+          "fullName": "entity motion side-stick holds one side for four eligible attempts instead of oscillating",
+          "status": "passed",
+          "title": "holds one side for four eligible attempts instead of oscillating",
+          "duration": 0.16279199999999605,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion side-stick"],
+          "fullName": "entity motion side-stick the fifth eligible attempt may abandon a blocked held side",
+          "status": "passed",
+          "title": "the fifth eligible attempt may abandon a blocked held side",
+          "duration": 0.15954100000001858,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion side-stick"],
+          "fullName": "entity motion side-stick primary terrain hard-stop does not consume a held-side eligible tick",
+          "status": "passed",
+          "title": "primary terrain hard-stop does not consume a held-side eligible tick",
+          "duration": 0.061082999999996446,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion side-stick"],
+          "fullName": "entity motion side-stick a new command epoch clears the held side immediately",
+          "status": "passed",
+          "title": "a new command epoch clears the held side immediately",
+          "duration": 0.07412500000000932,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion side-stick"],
+          "fullName": "entity motion side-stick primary progress clears side-stick",
+          "status": "passed",
+          "title": "primary progress clears side-stick",
+          "duration": 0.053334000000006654,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion input contracts"],
+          "fullName": "entity motion input contracts rejects duplicate actors, duplicate intents, and stale origins",
+          "status": "passed",
+          "title": "rejects duplicate actors, duplicate intents, and stale origins",
+          "duration": 0.4204169999999863,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion input contracts"],
+          "fullName": "entity motion input contracts rejects duplicate or malformed side-sticks instead of last-write winning",
+          "status": "passed",
+          "title": "rejects duplicate or malformed side-sticks instead of last-write winning",
+          "duration": 0.12166700000000219,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity motion input contracts"],
+          "fullName": "entity motion input contracts non-ASCII ids use locale-independent UTF-16 priority",
+          "status": "passed",
+          "title": "non-ASCII ids use locale-independent UTF-16 priority",
+          "duration": 0.06829200000001379,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387911099,
+      "endTime": 1792387911125.0684,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/entity-motion.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["production entity walk tick"],
+          "fullName": "production entity walk tick walks the authored stair line continuously at slow speed without an endpoint jump",
+          "status": "passed",
+          "title": "walks the authored stair line continuously at slow speed without an endpoint jump",
+          "duration": 2.298500000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production entity walk tick"],
+          "fullName": "production entity walk tick walks the authored stair line continuously at normal speed without an endpoint jump",
+          "status": "passed",
+          "title": "walks the authored stair line continuously at normal speed without an endpoint jump",
+          "duration": 0.7048330000000078,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production entity walk tick"],
+          "fullName": "production entity walk tick walks the authored stair line continuously at fast speed without an endpoint jump",
+          "status": "passed",
+          "title": "walks the authored stair line continuously at fast speed without an endpoint jump",
+          "duration": 0.43370900000000745,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production entity walk tick"],
+          "fullName": "production entity walk tick walks the authored stair line continuously at run speed without an endpoint jump",
+          "status": "passed",
+          "title": "walks the authored stair line continuously at run speed without an endpoint jump",
+          "duration": 0.22466699999999662,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production entity walk tick"],
+          "fullName": "production entity walk tick does not teleport when a projected axis is already aligned",
+          "status": "passed",
+          "title": "does not teleport when a projected axis is already aligned",
+          "duration": 0.0920420000000064,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production entity walk tick"],
+          "fullName": "production entity walk tick does not teleport when a projected axis is already aligned",
+          "status": "passed",
+          "title": "does not teleport when a projected axis is already aligned",
+          "duration": 0.05583400000000438,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production entity walk tick"],
+          "fullName": "production entity walk tick does not teleport when a projected axis is already aligned",
+          "status": "passed",
+          "title": "does not teleport when a projected axis is already aligned",
+          "duration": 0.10266599999999926,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production entity walk tick"],
+          "fullName": "production entity walk tick does not teleport when a projected axis is already aligned",
+          "status": "passed",
+          "title": "does not teleport when a projected axis is already aligned",
+          "duration": 0.05499999999999261,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production entity walk tick"],
+          "fullName": "production entity walk tick does not teleport when a projected axis is already aligned",
+          "status": "passed",
+          "title": "does not teleport when a projected axis is already aligned",
+          "duration": 0.37041599999999164,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production entity walk tick"],
+          "fullName": "production entity walk tick does not teleport when a projected axis is already aligned",
+          "status": "passed",
+          "title": "does not teleport when a projected axis is already aligned",
+          "duration": 0.07829200000000469,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production entity walk tick"],
+          "fullName": "production entity walk tick commits height only at the endpoint, including zero ground-plane distance",
+          "status": "passed",
+          "title": "commits height only at the endpoint, including zero ground-plane distance",
+          "duration": 0.18933300000000486,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production entity walk tick"],
+          "fullName": "production entity walk tick clamps the last slow step exactly to the target, without overshooting",
+          "status": "passed",
+          "title": "clamps the last slow step exactly to the target, without overshooting",
+          "duration": 0.06274999999999409,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production entity walk tick"],
+          "fullName": "production entity walk tick clamps the last normal step exactly to the target, without overshooting",
+          "status": "passed",
+          "title": "clamps the last normal step exactly to the target, without overshooting",
+          "duration": 0.04170899999999733,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production entity walk tick"],
+          "fullName": "production entity walk tick clamps the last fast step exactly to the target, without overshooting",
+          "status": "passed",
+          "title": "clamps the last fast step exactly to the target, without overshooting",
+          "duration": 0.037292000000007874,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production entity walk tick"],
+          "fullName": "production entity walk tick clamps the last run step exactly to the target, without overshooting",
+          "status": "passed",
+          "title": "clamps the last run step exactly to the target, without overshooting",
+          "duration": 0.07541700000000162,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production entity walk tick"],
+          "fullName": "production entity walk tick keeps the four authored speed quanta",
+          "status": "passed",
+          "title": "keeps the four authored speed quanta",
+          "duration": 0.03779199999999605,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production entity walk tick"],
+          "fullName": "production entity walk tick uses projected-pixel quadrants for diamond-grid facing",
+          "status": "passed",
+          "title": "uses projected-pixel quadrants for diamond-grid facing",
+          "duration": 0.0599589999999921,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production entity walk tick"],
+          "fullName": "production entity walk tick shares the exact quarter-grid one-step opcode geometry",
+          "status": "passed",
+          "title": "shares the exact quarter-grid one-step opcode geometry",
+          "duration": 0.05875000000000341,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production entity walk tick"],
+          "fullName": "production entity walk tick advances by the selected quantum and snaps only at the production threshold",
+          "status": "passed",
+          "title": "advances by the selected quantum and snaps only at the production threshold",
+          "duration": 0.047624999999996476,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production entity walk tick"],
+          "fullName": "production entity walk tick slow cadence attempts immediately, then rests exactly one eligible tick",
+          "status": "passed",
+          "title": "slow cadence attempts immediately, then rests exactly one eligible tick",
+          "duration": 0.07574999999999932,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production entity walk tick"],
+          "fullName": "production entity walk tick ineligible wall-clock gaps do not age command-local slow cadence",
+          "status": "passed",
+          "title": "ineligible wall-clock gaps do not age command-local slow cadence",
+          "duration": 0.04716599999999005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387914798,
+      "endTime": 1792387914803.0757,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/entity-walk.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "computeFollowerPos —— 间距校准(phase-1 live 实测:m1=队长后3格 m2=(2,1))"
+          ],
+          "fullName": "computeFollowerPos —— 间距校准(phase-1 live 实测:m1=队长后3格 m2=(2,1)) 走 left:m1 rel=(3,0) m2 rel=(2,1)",
+          "status": "passed",
+          "title": "走 left:m1 rel=(3,0) m2 rel=(2,1)",
+          "duration": 1.1334169999999943,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerPos —— 间距校准(phase-1 live 实测:m1=队长后3格 m2=(2,1))"
+          ],
+          "fullName": "computeFollowerPos —— 间距校准(phase-1 live 实测:m1=队长后3格 m2=(2,1)) 走 right:m1 rel=(-3,0) m2 rel=(-2,1)",
+          "status": "passed",
+          "title": "走 right:m1 rel=(-3,0) m2 rel=(-2,1)",
+          "duration": 0.22845900000000086,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerPos —— 间距校准(phase-1 live 实测:m1=队长后3格 m2=(2,1))"
+          ],
+          "fullName": "computeFollowerPos —— 间距校准(phase-1 live 实测:m1=队长后3格 m2=(2,1)) 走 up:m1 rel=(0,3) m2 rel=(1,2)",
+          "status": "passed",
+          "title": "走 up:m1 rel=(0,3) m2 rel=(1,2)",
+          "duration": 0.16191700000000253,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerPos —— 间距校准(phase-1 live 实测:m1=队长后3格 m2=(2,1))"
+          ],
+          "fullName": "computeFollowerPos —— 间距校准(phase-1 live 实测:m1=队长后3格 m2=(2,1)) 走 down:m1 rel=(0,-3) m2 rel=(1,-2)",
+          "status": "passed",
+          "title": "走 down:m1 rel=(0,-3) m2 rel=(1,-2)",
+          "duration": 0.07462500000001171,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerPos —— 间距校准(phase-1 live 实测:m1=队长后3格 m2=(2,1))"
+          ],
+          "fullName": "computeFollowerPos —— 间距校准(phase-1 live 实测:m1=队长后3格 m2=(2,1)) 朝向源 = 基点+1 槽(比位置晚一步转,原版 quirk)",
+          "status": "passed",
+          "title": "朝向源 = 基点+1 槽(比位置晚一步转,原版 quirk)",
+          "duration": 0.2050830000000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerPos —— 间距校准(phase-1 live 实测:m1=队长后3格 m2=(2,1))"
+          ],
+          "fullName": "computeFollowerPos —— 间距校准(phase-1 live 实测:m1=队长后3格 m2=(2,1)) 偏移位撞墙 → 回退基点格(避障收拢)",
+          "status": "passed",
+          "title": "偏移位撞墙 → 回退基点格(避障收拢)",
+          "duration": 0.09675000000000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerPos —— 间距校准(phase-1 live 实测:m1=队长后3格 m2=(2,1))"
+          ],
+          "fullName": "computeFollowerPos —— 间距校准(phase-1 live 实测:m1=队长后3格 m2=(2,1)) not-walking + 冻结快照:位置 = 队长 + frozenOffset(演出/骑乘期锁死)",
+          "status": "passed",
+          "title": "not-walking + 冻结快照:位置 = 队长 + frozenOffset(演出/骑乘期锁死)",
+          "duration": 0.11770900000000495,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerPos —— 间距校准(phase-1 live 实测:m1=队长后3格 m2=(2,1))"
+          ],
+          "fullName": "computeFollowerPos —— 间距校准(phase-1 live 实测:m1=队长后3格 m2=(2,1)) pushTrail 离开方向语义:回写旧头 dir;同格不记(原地转身)",
+          "status": "passed",
+          "title": "pushTrail 离开方向语义:回写旧头 dir;同格不记(原地转身)",
+          "duration": 0.11179199999999412,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerPos —— 间距校准(phase-1 live 实测:m1=队长后3格 m2=(2,1))"
+          ],
+          "fullName": "computeFollowerPos —— 间距校准(phase-1 live 实测:m1=队长后3格 m2=(2,1)) 拐弯甩尾(8字实测钉死):拐角格记新方向 → m1 甩到拐角外侧再回落",
+          "status": "passed",
+          "title": "拐弯甩尾(8字实测钉死):拐角格记新方向 → m1 甩到拐角外侧再回落",
+          "duration": 0.3818330000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerPos —— 间距校准(phase-1 live 实测:m1=队长后3格 m2=(2,1))"
+          ],
+          "fullName": "computeFollowerPos —— 间距校准(phase-1 live 实测:m1=队长后3格 m2=(2,1)) walking 捕获冻结快照;trail<=1 返回 null",
+          "status": "passed",
+          "title": "walking 捕获冻结快照;trail<=1 返回 null",
+          "duration": 0.10729200000000105,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["seedFormationTrail —— 0x46 / 场景出生立即铺开队形"],
+          "fullName": "seedFormationTrail —— 0x46 / 场景出生立即铺开队形 left:每槽向身后铺一步，静止时两名队员无需移动即可分开",
+          "status": "passed",
+          "title": "left:每槽向身后铺一步，静止时两名队员无需移动即可分开",
+          "duration": 0.5483750000000072,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["seedFormationTrail —— 0x46 / 场景出生立即铺开队形"],
+          "fullName": "seedFormationTrail —— 0x46 / 场景出生立即铺开队形 right:每槽向身后铺一步，静止时两名队员无需移动即可分开",
+          "status": "passed",
+          "title": "right:每槽向身后铺一步，静止时两名队员无需移动即可分开",
+          "duration": 0.13654200000000571,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["seedFormationTrail —— 0x46 / 场景出生立即铺开队形"],
+          "fullName": "seedFormationTrail —— 0x46 / 场景出生立即铺开队形 up:每槽向身后铺一步，静止时两名队员无需移动即可分开",
+          "status": "passed",
+          "title": "up:每槽向身后铺一步，静止时两名队员无需移动即可分开",
+          "duration": 0.22812499999999147,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["seedFormationTrail —— 0x46 / 场景出生立即铺开队形"],
+          "fullName": "seedFormationTrail —— 0x46 / 场景出生立即铺开队形 down:每槽向身后铺一步，静止时两名队员无需移动即可分开",
+          "status": "passed",
+          "title": "down:每槽向身后铺一步，静止时两名队员无需移动即可分开",
+          "duration": 0.10925000000000296,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387913932,
+      "endTime": 1792387913936.228,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/follower.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["world motion batch side-effect order"],
+          "fullName": "world motion batch side-effect order an ordinary batch commits, scans touch, scans post-contact, then queues continuations",
+          "status": "passed",
+          "title": "an ordinary batch commits, scans touch, scans post-contact, then queues continuations",
+          "duration": 1.4945830000000058,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["world motion batch side-effect order"],
+          "fullName": "world motion batch side-effect order same-tick endpoint plus dialogue touch keeps settlement but suppresses post-contact",
+          "status": "passed",
+          "title": "same-tick endpoint plus dialogue touch keeps settlement but suppresses post-contact",
+          "duration": 0.3107919999999922,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["world motion batch side-effect order"],
+          "fullName": "world motion batch side-effect order same-actor take happens after the committed endpoint and cannot roll it back",
+          "status": "passed",
+          "title": "same-actor take happens after the committed endpoint and cannot roll it back",
+          "duration": 0.4714999999999918,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["world motion batch side-effect order"],
+          "fullName": "world motion batch side-effect order a newer same-actor touch mutation wins after the old endpoint commit",
+          "status": "passed",
+          "title": "a newer same-actor touch mutation wins after the old endpoint commit",
+          "duration": 0.13895899999999983,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["world motion batch side-effect order"],
+          "fullName": "world motion batch side-effect order touch scene replacement invalidates the queued old-scene continuation only",
+          "status": "passed",
+          "title": "touch scene replacement invalidates the queued old-scene continuation only",
+          "duration": 0.16895900000000097,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["world motion batch side-effect order"],
+          "fullName": "world motion batch side-effect order chase terminal contact uses final positions for simultaneous toward and away motion",
+          "status": "passed",
+          "title": "chase terminal contact uses final positions for simultaneous toward and away motion",
+          "duration": 0.10208399999999074,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["durable motion completion record"],
+          "fullName": "durable motion completion record remove/replace cannot reject a slot after endpoint commit but wake-up still occurs",
+          "status": "passed",
+          "title": "remove/replace cannot reject a slot after endpoint commit but wake-up still occurs",
+          "duration": 0.225750000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["durable motion completion record"],
+          "fullName": "durable motion completion record an uncommitted proposal remains cancellable and cannot wake later",
+          "status": "passed",
+          "title": "an uncommitted proposal remains cancellable and cannot wake later",
+          "duration": 0.13312500000000682,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387914158,
+      "endTime": 1792387914161.2258,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/motion-batch.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["production motion runtime coordinator"],
+          "fullName": "production motion runtime coordinator take/release pauses an auto move without cancelling its independent slot",
+          "status": "passed",
+          "title": "take/release pauses an auto move without cancelling its independent slot",
+          "duration": 1.2321660000000065,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime coordinator"],
+          "fullName": "production motion runtime coordinator step registered before a complete take/release ABA is dropped at precommit",
+          "status": "passed",
+          "title": "step registered before a complete take/release ABA is dropped at precommit",
+          "duration": 0.2724160000000069,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime coordinator"],
+          "fullName": "production motion runtime coordinator chase registered before a complete take/release ABA is dropped at precommit",
+          "status": "passed",
+          "title": "chase registered before a complete take/release ABA is dropped at precommit",
+          "duration": 0.09074999999999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime coordinator"],
+          "fullName": "production motion runtime coordinator a lifecycle-hidden cross-target owner restarts only after the effective gate opens",
+          "status": "passed",
+          "title": "a lifecycle-hidden cross-target owner restarts only after the effective gate opens",
+          "duration": 0.4720000000000084,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime coordinator"],
+          "fullName": "production motion runtime coordinator a lifecycle-hidden own target survives an intervening suspension until the effective gate opens",
+          "status": "passed",
+          "title": "a lifecycle-hidden own target survives an intervening suspension until the effective gate opens",
+          "duration": 0.6780420000000049,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime coordinator"],
+          "fullName": "production motion runtime coordinator a committed cross-target endpoint retains owner lineage until its queued wake-up",
+          "status": "passed",
+          "title": "a committed cross-target endpoint retains owner lineage until its queued wake-up",
+          "duration": 0.6344580000000093,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime coordinator"],
+          "fullName": "production motion runtime coordinator a stale committed lineage does not identify a replacement activation by owner alone",
+          "status": "passed",
+          "title": "a stale committed lineage does not identify a replacement activation by owner alone",
+          "duration": 0.28408300000000963,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime coordinator"],
+          "fullName": "production motion runtime coordinator slot validation uses the same scene and activation identities as production commit",
+          "status": "passed",
+          "title": "slot validation uses the same scene and activation identities as production commit",
+          "duration": 0.1432089999999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime coordinator"],
+          "fullName": "production motion runtime coordinator scene teardown cancels both source slots, clears authority/dependencies and changes session",
+          "status": "passed",
+          "title": "scene teardown cancels both source slots, clears authority/dependencies and changes session",
+          "duration": 0.9869999999999948,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387913837,
+      "endTime": 1792387913841.987,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/motion-runtime-coordinator.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["production motion runtime wiring"],
+          "fullName": "production motion runtime wiring legacy contact matches the first-stage weighted pixel footprint",
+          "status": "passed",
+          "title": "legacy contact matches the first-stage weighted pixel footprint",
+          "duration": 0.8013329999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime wiring"],
+          "fullName": "production motion runtime wiring move uses the original PAL collision domain scriptedBypass",
+          "status": "passed",
+          "title": "move uses the original PAL collision domain scriptedBypass",
+          "duration": 0.135083999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime wiring"],
+          "fullName": "production motion runtime wiring step uses the original PAL collision domain scriptedBypass",
+          "status": "passed",
+          "title": "step uses the original PAL collision domain scriptedBypass",
+          "duration": 0.056167000000002076,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime wiring"],
+          "fullName": "production motion runtime wiring chase uses the original PAL collision domain dynamic",
+          "status": "passed",
+          "title": "chase uses the original PAL collision domain dynamic",
+          "duration": 0.04487499999999045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime wiring"],
+          "fullName": "production motion runtime wiring hostile uses the original PAL collision domain dynamic",
+          "status": "passed",
+          "title": "hostile uses the original PAL collision domain dynamic",
+          "duration": 0.048749999999998295,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime wiring"],
+          "fullName": "production motion runtime wiring same-scene dialogue touch preserves a durable endpoint and continuation session",
+          "status": "passed",
+          "title": "same-scene dialogue touch preserves a durable endpoint and continuation session",
+          "duration": 0.5144169999999946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime wiring"],
+          "fullName": "production motion runtime wiring same-actor take happens after endpoint durability and only gates the next safe point",
+          "status": "passed",
+          "title": "same-actor take happens after endpoint durability and only gates the next safe point",
+          "duration": 0.18999999999999773,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime wiring"],
+          "fullName": "production motion runtime wiring a newer touch position wins after the old endpoint without rolling durability back",
+          "status": "passed",
+          "title": "a newer touch position wins after the old endpoint without rolling durability back",
+          "duration": 0.09154100000000653,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime wiring"],
+          "fullName": "production motion runtime wiring cross-target touch hide aborts the exact committed owner and records canonical restart",
+          "status": "passed",
+          "title": "cross-target touch hide aborts the exact committed owner and records canonical restart",
+          "duration": 0.8115409999999912,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime wiring"],
+          "fullName": "production motion runtime wiring durable cross-target lineage survives wake/take until the exact auto safe point finishes",
+          "status": "passed",
+          "title": "durable cross-target lineage survives wake/take until the exact auto safe point finishes",
+          "duration": 0.3319580000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime wiring"],
+          "fullName": "production motion runtime wiring attempted cross-target step lineage lets deferred touch hide abort and restart its owner",
+          "status": "passed",
+          "title": "attempted cross-target step lineage lets deferred touch hide abort and restart its owner",
+          "duration": 0.1935410000000104,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime wiring"],
+          "fullName": "production motion runtime wiring pending touch is a next-command auto safe-point barrier after endpoint acknowledgement",
+          "status": "passed",
+          "title": "pending touch is a next-command auto safe-point barrier after endpoint acknowledgement",
+          "duration": 0.06387499999999591,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime wiring"],
+          "fullName": "production motion runtime wiring pending touch is a next-command auto safe-point barrier after step acknowledgement",
+          "status": "passed",
+          "title": "pending touch is a next-command auto safe-point barrier after step acknowledgement",
+          "duration": 0.2554580000000044,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime wiring"],
+          "fullName": "production motion runtime wiring pending touch is a next-command auto safe-point barrier after chase acknowledgement",
+          "status": "passed",
+          "title": "pending touch is a next-command auto safe-point barrier after chase acknowledgement",
+          "duration": 0.07124999999999204,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime wiring"],
+          "fullName": "production motion runtime wiring target-scoped move continuation waits through target suspend and resumes after restore",
+          "status": "passed",
+          "title": "target-scoped move continuation waits through target suspend and resumes after restore",
+          "duration": 0.385083999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime wiring"],
+          "fullName": "production motion runtime wiring target-scoped step continuation waits through target suspend and resumes after restore",
+          "status": "passed",
+          "title": "target-scoped step continuation waits through target suspend and resumes after restore",
+          "duration": 0.23491700000001003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime wiring"],
+          "fullName": "production motion runtime wiring target-scoped chase continuation waits through target suspend and resumes after restore",
+          "status": "passed",
+          "title": "target-scoped chase continuation waits through target suspend and resumes after restore",
+          "duration": 0.055499999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime wiring"],
+          "fullName": "production motion runtime wiring deferred touch gets first command opportunity before target authority can release",
+          "status": "passed",
+          "title": "deferred touch gets first command opportunity before target authority can release",
+          "duration": 0.11262500000000841,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime wiring"],
+          "fullName": "production motion runtime wiring touch scene replacement keeps endpoint durability but invalidates old continuation session",
+          "status": "passed",
+          "title": "touch scene replacement keeps endpoint durability but invalidates old continuation session",
+          "duration": 0.48612500000000125,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime wiring"],
+          "fullName": "production motion runtime wiring stale committed owner epoch never aborts or restarts a replacement activation",
+          "status": "passed",
+          "title": "stale committed owner epoch never aborts or restarts a replacement activation",
+          "duration": 0.22716599999999687,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime wiring"],
+          "fullName": "production motion runtime wiring queued chase adjacent settlement waits until same-tick touch take owns the next safe point",
+          "status": "passed",
+          "title": "queued chase adjacent settlement waits until same-tick touch take owns the next safe point",
+          "duration": 1.5323329999999942,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime wiring"],
+          "fullName": "production motion runtime wiring queued chase out-of-range settlement waits until same-tick touch take owns the next safe point",
+          "status": "passed",
+          "title": "queued chase out-of-range settlement waits until same-tick touch take owns the next safe point",
+          "duration": 1.3155420000000078,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production motion runtime wiring"],
+          "fullName": "production motion runtime wiring a cancelled or replaced deferred one-shot cannot wake the new slot",
+          "status": "passed",
+          "title": "a cancelled or replaced deferred one-shot cannot wake the new slot",
+          "duration": 0.12587500000000773,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387911243,
+      "endTime": 1792387911251.3154,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/motion-runtime-wiring.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["party-only foreground composition: real RGBA canvas"],
+          "fullName": "party-only foreground composition: real RGBA canvas NPC-only stays normally occluded; a party does not reveal a shared-wall NPC or empty wall",
+          "status": "passed",
+          "title": "NPC-only stays normally occluded; a party does not reveal a shared-wall NPC or empty wall",
+          "duration": 168.59775000000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["party-only foreground composition: real RGBA canvas"],
+          "fullName": "party-only foreground composition: real RGBA canvas NPC ahead of party erases only its true opaque footprint; an NPC behind does not erase party",
+          "status": "passed",
+          "title": "NPC ahead of party erases only its true opaque footprint; an NPC behind does not erase party",
+          "duration": 1.8575000000000728,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["party-only foreground composition: real RGBA canvas"],
+          "fullName": "party-only foreground composition: real RGBA canvas equal-depth ties use existing stable draw order, not worldY or eligible priority",
+          "status": "passed",
+          "title": "equal-depth ties use existing stable draw order, not worldY or eligible priority",
+          "duration": 1.1794999999999618,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["party-only foreground composition: real RGBA canvas"],
+          "fullName": "party-only foreground composition: real RGBA canvas NPC in front of wall stays opaque and overlays party normally",
+          "status": "passed",
+          "title": "NPC in front of wall stays opaque and overlays party normally",
+          "duration": 0.5358340000000226,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["party-only foreground composition: real RGBA canvas"],
+          "fullName": "party-only foreground composition: real RGBA canvas all eligible party members reveal; extra followers remain normally occluded",
+          "status": "passed",
+          "title": "all eligible party members reveal; extra followers remain normally occluded",
+          "duration": 0.5437500000000455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["party-only foreground composition: real RGBA canvas"],
+          "fullName": "party-only foreground composition: real RGBA canvas sprite holes never reveal underlying NPC; opaque palette index zero does reveal",
+          "status": "passed",
+          "title": "sprite holes never reveal underlying NPC; opaque palette index zero does reveal",
+          "duration": 0.9437910000001466,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["party-only foreground composition: real RGBA canvas"],
+          "fullName": "party-only foreground composition: real RGBA canvas tile holes preserve normal party/NPC pixels without extra reveal alpha",
+          "status": "passed",
+          "title": "tile holes preserve normal party/NPC pixels without extra reveal alpha",
+          "duration": 0.6665000000000418,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["party-only foreground composition: real RGBA canvas"],
+          "fullName": "party-only foreground composition: real RGBA canvas a foreground palette-zero pixel remains opaque; instance height is only a depth input",
+          "status": "passed",
+          "title": "a foreground palette-zero pixel remains opaque; instance height is only a depth input",
+          "duration": 0.6183330000001206,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["party-only foreground composition: real RGBA canvas"],
+          "fullName": "party-only foreground composition: real RGBA canvas transparent pixels of a nearer NPC do not erase party, and alpha does not leak to later draws",
+          "status": "passed",
+          "title": "transparent pixels of a nearer NPC do not erase party, and alpha does not leak to later draws",
+          "duration": 0.775916000000052,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["party-only foreground composition: real RGBA canvas"],
+          "fullName": "party-only foreground composition: real RGBA canvas overlapping walls and parties never accumulate reveal brightness",
+          "status": "passed",
+          "title": "overlapping walls and parties never accumulate reveal brightness",
+          "duration": 0.5591669999998885,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["party-only foreground composition: real RGBA canvas"],
+          "fullName": "party-only foreground composition: real RGBA canvas latch retains only current party intersection during a candidate gap and expires at 120ms",
+          "status": "passed",
+          "title": "latch retains only current party intersection during a candidate gap and expires at 120ms",
+          "duration": 0.5369579999999132,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["party-only foreground composition: real RGBA canvas"],
+          "fullName": "party-only foreground composition: real RGBA canvas a latch-only cover never changes ordinary NPC pixels outside the current party mask",
+          "status": "passed",
+          "title": "a latch-only cover never changes ordinary NPC pixels outside the current party mask",
+          "duration": 0.49758300000007694,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["party-only foreground composition: real RGBA canvas"],
+          "fullName": "party-only foreground composition: real RGBA canvas leaving, empty party or changed frame never leaves old-position ghosts or reveals an NPC",
+          "status": "passed",
+          "title": "leaving, empty party or changed frame never leaves old-position ghosts or reveals an NPC",
+          "duration": 1.129165999999941,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["party-only foreground composition: real RGBA canvas"],
+          "fullName": "party-only foreground composition: real RGBA canvas reset and changed tile identity discard retained relationships",
+          "status": "passed",
+          "title": "reset and changed tile identity discard retained relationships",
+          "duration": 0.6012090000001535,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["party-only foreground composition: real RGBA canvas"],
+          "fullName": "party-only foreground composition: real RGBA canvas debug true/undefined/undefined preserves normal occlusion and clears latch",
+          "status": "passed",
+          "title": "debug true/undefined/undefined preserves normal occlusion and clears latch",
+          "duration": 0.3369580000000951,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["party-only foreground composition: real RGBA canvas"],
+          "fullName": "party-only foreground composition: real RGBA canvas debug undefined/'cover'/undefined preserves normal occlusion and clears latch",
+          "status": "passed",
+          "title": "debug undefined/'cover'/undefined preserves normal occlusion and clears latch",
+          "duration": 0.3840829999999187,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["party-only foreground composition: real RGBA canvas"],
+          "fullName": "party-only foreground composition: real RGBA canvas debug undefined/undefined/2 preserves normal occlusion and clears latch",
+          "status": "passed",
+          "title": "debug undefined/undefined/2 preserves normal occlusion and clears latch",
+          "duration": 0.8015829999999369,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["party-only foreground composition: real RGBA canvas"],
+          "fullName": "party-only foreground composition: real RGBA canvas skipCover and hidden layers keep ordinary sprite composition, without retained cover",
+          "status": "passed",
+          "title": "skipCover and hidden layers keep ordinary sprite composition, without retained cover",
+          "duration": 0.40116699999998673,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["party-only foreground composition: real RGBA canvas"],
+          "fullName": "party-only foreground composition: real RGBA canvas fractional camera -0.25/-0.75, scale4 and foot +7 align reveal exactly with the ordinary opaque sprite mask",
+          "status": "passed",
+          "title": "fractional camera -0.25/-0.75, scale4 and foot +7 align reveal exactly with the ordinary opaque sprite mask",
+          "duration": 670.310792,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["party-only foreground composition: real RGBA canvas"],
+          "fullName": "party-only foreground composition: real RGBA canvas fractional camera -0.375/-0.625, scale4 and foot +7 align reveal exactly with the ordinary opaque sprite mask",
+          "status": "passed",
+          "title": "fractional camera -0.375/-0.625, scale4 and foot +7 align reveal exactly with the ordinary opaque sprite mask",
+          "duration": 746.316208,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["party-only foreground composition: real RGBA canvas"],
+          "fullName": "party-only foreground composition: real RGBA canvas fractional camera -0.2/-0.8, scale4 and foot +7 align reveal exactly with the ordinary opaque sprite mask",
+          "status": "passed",
+          "title": "fractional camera -0.2/-0.8, scale4 and foot +7 align reveal exactly with the ordinary opaque sprite mask",
+          "duration": 660.6085000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387913210,
+      "endTime": 1792387915469.6084,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/render-occlusion.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "renderSceneFrame:clear → save → scale(worldScale) → renderScene(args) → restore,且关平滑",
+          "status": "passed",
+          "title": "renderSceneFrame:clear → save → scale(worldScale) → renderScene(args) → restore,且关平滑",
+          "duration": 2.5037920000000042,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "renderSceneFrame:renderer 与目标 context 错配时 fail-loud",
+          "status": "passed",
+          "title": "renderSceneFrame:renderer 与目标 context 错配时 fail-loud",
+          "duration": 0.6261669999999953,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387915563,
+      "endTime": 1792387915566.6262,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/render-scene.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G03 render 公开边界残差"],
+          "fullName": "G03 render 公开边界残差 spriteBlitRect：y 轴固定 +7 资产落底、锚点精确扣减（零锚对照）",
+          "status": "passed",
+          "title": "spriteBlitRect：y 轴固定 +7 资产落底、锚点精确扣减（零锚对照）",
+          "duration": 1.2031670000000076,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03 render 公开边界残差"],
+          "fullName": "G03 render 公开边界残差 bakeFrame：colorShift 低 4 位上/下钳制，透明像素 alpha 0，高 4 位 band 不动",
+          "status": "passed",
+          "title": "bakeFrame：colorShift 低 4 位上/下钳制，透明像素 alpha 0，高 4 位 band 不动",
+          "duration": 1.7012920000000094,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03 render 公开边界残差"],
+          "fullName": "G03 render 公开边界残差 clear()：以 #000 fillRect 覆盖整幅 canvas",
+          "status": "passed",
+          "title": "clear()：以 #000 fillRect 覆盖整幅 canvas",
+          "duration": 0.8409169999999904,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03 render 公开边界残差"],
+          "fullName": "G03 render 公开边界残差 drawSprite：相机相对取整 blit，同帧共享 bake 画布",
+          "status": "passed",
+          "title": "drawSprite：相机相对取整 blit，同帧共享 bake 画布",
+          "duration": 0.4560830000000067,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387914054,
+      "endTime": 1792387914058.456,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/render.glm-next-wave.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Canvas2DRenderer cover layer"],
+          "fullName": "Canvas2DRenderer cover layer sLayer=6 把同一高物排到人物之前，layer=0 对照会盖住人物",
+          "status": "passed",
+          "title": "sLayer=6 把同一高物排到人物之前，layer=0 对照会盖住人物",
+          "duration": 2.8069169999999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387915508,
+      "endTime": 1792387915510.807,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/render.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap"
+          ],
+          "fullName": "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap main rejects a missing commit control before IO instead of creating a second canonical writer",
+          "status": "passed",
+          "title": "main rejects a missing commit control before IO instead of creating a second canonical writer",
+          "duration": 141.27770799999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap"
+          ],
+          "fullName": "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap success commits live/canonical/snapshot together from map.old",
+          "status": "passed",
+          "title": "success commits live/canonical/snapshot together from map.old",
+          "duration": 7.296875,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap"
+          ],
+          "fullName": "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap success commits live/canonical/snapshot together from undefined",
+          "status": "passed",
+          "title": "success commits live/canonical/snapshot together from undefined",
+          "duration": 1.7172090000000253,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap"
+          ],
+          "fullName": "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap resource failure preserves live/canonical/snapshot and retry from map.old",
+          "status": "passed",
+          "title": "resource failure preserves live/canonical/snapshot and retry from map.old",
+          "duration": 1.901042000000075,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap"
+          ],
+          "fullName": "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap resource failure preserves live/canonical/snapshot and retry from undefined",
+          "status": "passed",
+          "title": "resource failure preserves live/canonical/snapshot and retry from undefined",
+          "duration": 1.7820410000000493,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap"
+          ],
+          "fullName": "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap cancel after resource entered keeps absent override absent and permits retry",
+          "status": "passed",
+          "title": "cancel after resource entered keeps absent override absent and permits retry",
+          "duration": 1.7626249999999573,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap"
+          ],
+          "fullName": "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap renderer preparation throws before either state commits",
+          "status": "passed",
+          "title": "renderer preparation throws before either state commits",
+          "duration": 2.7254590000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap"
+          ],
+          "fullName": "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap scene invalidation while loading blocks old commit despite same ID/object identity",
+          "status": "passed",
+          "title": "scene invalidation while loading blocks old commit despite same ID/object identity",
+          "duration": 1.7854999999999563,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap"
+          ],
+          "fullName": "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap world-intent invalidation while loading blocks old commit despite same ID/object identity",
+          "status": "passed",
+          "title": "world-intent invalidation while loading blocks old commit despite same ID/object identity",
+          "duration": 3.3295420000000604,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap"
+          ],
+          "fullName": "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap post-commit abort preserves both states and publishes once, stopping later commands",
+          "status": "passed",
+          "title": "post-commit abort preserves both states and publishes once, stopping later commands",
+          "duration": 1.794040999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap"
+          ],
+          "fullName": "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap post-commit reject preserves both states and publishes once, stopping later commands",
+          "status": "passed",
+          "title": "post-commit reject preserves both states and publishes once, stopping later commands",
+          "duration": 1.5171659999999747,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap"
+          ],
+          "fullName": "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap an old cancelled resource completion cannot overwrite a later successful commit",
+          "status": "passed",
+          "title": "an old cancelled resource completion cannot overwrite a later successful commit",
+          "duration": 1.3072089999999434,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap"
+          ],
+          "fullName": "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap a live host must commit explicitly; a detached late callback cannot write after effect exit",
+          "status": "passed",
+          "title": "a live host must commit explicitly; a detached late callback cannot write after effect exit",
+          "duration": 1.1460839999999735,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap"
+          ],
+          "fullName": "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap duplicate accepted commit control is idempotent and cannot restore an old value",
+          "status": "passed",
+          "title": "duplicate accepted commit control is idempotent and cannot restore an old value",
+          "duration": 1.266999999999939,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap"
+          ],
+          "fullName": "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap state-only adapter explicitly commits without reload, scene=undefined",
+          "status": "passed",
+          "title": "state-only adapter explicitly commits without reload, scene=undefined",
+          "duration": 0.22858300000007148,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap"
+          ],
+          "fullName": "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap state-only adapter explicitly commits without reload, scene=source",
+          "status": "passed",
+          "title": "state-only adapter explicitly commits without reload, scene=source",
+          "duration": 0.43587500000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap"
+          ],
+          "fullName": "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap state-only adapter explicitly commits without reload, scene=elsewhere",
+          "status": "passed",
+          "title": "state-only adapter explicitly commits without reload, scene=elsewhere",
+          "duration": 0.28550000000007003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap"
+          ],
+          "fullName": "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap explicit scene source writes the override without reloading the live map",
+          "status": "passed",
+          "title": "explicit scene source writes the override without reloading the live map",
+          "duration": 1.4750830000000406,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap"
+          ],
+          "fullName": "WORLD-ASYNC-COMMIT-1 current map: real canonical runtime → adapter → main reloadMap explicit scene elsewhere writes the override without reloading the live map",
+          "status": "passed",
+          "title": "explicit scene elsewhere writes the override without reloading the live map",
+          "duration": 1.2558749999999463,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WORLD-ASYNC-COMMIT-1 'selectSceneHooks' async selection"],
+          "fullName": "WORLD-ASYNC-COMMIT-1 'selectSceneHooks' async selection successful resolver then abort preserves canonical/epoch/notification (existing cursor=false)",
+          "status": "passed",
+          "title": "successful resolver then abort preserves canonical/epoch/notification (existing cursor=false)",
+          "duration": 0.47012499999993906,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WORLD-ASYNC-COMMIT-1 'selectSceneHooks' async selection"],
+          "fullName": "WORLD-ASYNC-COMMIT-1 'selectSceneHooks' async selection successful resolver then abort preserves canonical/epoch/notification (existing cursor=true)",
+          "status": "passed",
+          "title": "successful resolver then abort preserves canonical/epoch/notification (existing cursor=true)",
+          "duration": 0.3256250000000591,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WORLD-ASYNC-COMMIT-1 'selectSceneHooks' async selection"],
+          "fullName": "WORLD-ASYNC-COMMIT-1 'selectSceneHooks' async selection same scene ID but newer source session rejects, without confusing source and target",
+          "status": "passed",
+          "title": "same scene ID but newer source session rejects, without confusing source and target",
+          "duration": 0.26091699999994944,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WORLD-ASYNC-COMMIT-1 'selectSceneHooks' async selection"],
+          "fullName": "WORLD-ASYNC-COMMIT-1 'selectSceneHooks' async selection unchanged source session can select a different target scene",
+          "status": "passed",
+          "title": "unchanged source session can select a different target scene",
+          "duration": 0.20604200000002493,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WORLD-ASYNC-COMMIT-1 'selectEntityBehavior' async selection"],
+          "fullName": "WORLD-ASYNC-COMMIT-1 'selectEntityBehavior' async selection successful resolver then abort preserves canonical/epoch/notification (existing cursor=false)",
+          "status": "passed",
+          "title": "successful resolver then abort preserves canonical/epoch/notification (existing cursor=false)",
+          "duration": 0.27366699999993216,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WORLD-ASYNC-COMMIT-1 'selectEntityBehavior' async selection"],
+          "fullName": "WORLD-ASYNC-COMMIT-1 'selectEntityBehavior' async selection successful resolver then abort preserves canonical/epoch/notification (existing cursor=true)",
+          "status": "passed",
+          "title": "successful resolver then abort preserves canonical/epoch/notification (existing cursor=true)",
+          "duration": 0.2215840000000071,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WORLD-ASYNC-COMMIT-1 'selectEntityBehavior' async selection"],
+          "fullName": "WORLD-ASYNC-COMMIT-1 'selectEntityBehavior' async selection same scene ID but newer source session rejects, without confusing source and target",
+          "status": "passed",
+          "title": "same scene ID but newer source session rejects, without confusing source and target",
+          "duration": 0.1660829999999578,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WORLD-ASYNC-COMMIT-1 'selectEntityBehavior' async selection"],
+          "fullName": "WORLD-ASYNC-COMMIT-1 'selectEntityBehavior' async selection unchanged source session can select a different target scene",
+          "status": "passed",
+          "title": "unchanged source session can select a different target scene",
+          "duration": 0.17095900000003894,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WORLD-ASYNC-COMMIT-1 'selectEntityPage' async selection"],
+          "fullName": "WORLD-ASYNC-COMMIT-1 'selectEntityPage' async selection successful resolver then abort preserves canonical/epoch/notification (existing cursor=false)",
+          "status": "passed",
+          "title": "successful resolver then abort preserves canonical/epoch/notification (existing cursor=false)",
+          "duration": 0.1987500000000182,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WORLD-ASYNC-COMMIT-1 'selectEntityPage' async selection"],
+          "fullName": "WORLD-ASYNC-COMMIT-1 'selectEntityPage' async selection successful resolver then abort preserves canonical/epoch/notification (existing cursor=true)",
+          "status": "passed",
+          "title": "successful resolver then abort preserves canonical/epoch/notification (existing cursor=true)",
+          "duration": 0.2577919999999949,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WORLD-ASYNC-COMMIT-1 'selectEntityPage' async selection"],
+          "fullName": "WORLD-ASYNC-COMMIT-1 'selectEntityPage' async selection same scene ID but newer source session rejects, without confusing source and target",
+          "status": "passed",
+          "title": "same scene ID but newer source session rejects, without confusing source and target",
+          "duration": 0.1698749999999336,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WORLD-ASYNC-COMMIT-1 'selectEntityPage' async selection"],
+          "fullName": "WORLD-ASYNC-COMMIT-1 'selectEntityPage' async selection unchanged source session can select a different target scene",
+          "status": "passed",
+          "title": "unchanged source session can select a different target scene",
+          "duration": 0.14129100000002381,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WORLD-ASYNC-COMMIT-1 'setEntityTriggerActivation' async selection"],
+          "fullName": "WORLD-ASYNC-COMMIT-1 'setEntityTriggerActivation' async selection successful resolver then abort preserves canonical/epoch/notification (existing cursor=false)",
+          "status": "passed",
+          "title": "successful resolver then abort preserves canonical/epoch/notification (existing cursor=false)",
+          "duration": 0.203708000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WORLD-ASYNC-COMMIT-1 'setEntityTriggerActivation' async selection"],
+          "fullName": "WORLD-ASYNC-COMMIT-1 'setEntityTriggerActivation' async selection successful resolver then abort preserves canonical/epoch/notification (existing cursor=true)",
+          "status": "passed",
+          "title": "successful resolver then abort preserves canonical/epoch/notification (existing cursor=true)",
+          "duration": 0.2603749999999536,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WORLD-ASYNC-COMMIT-1 'setEntityTriggerActivation' async selection"],
+          "fullName": "WORLD-ASYNC-COMMIT-1 'setEntityTriggerActivation' async selection same scene ID but newer source session rejects, without confusing source and target",
+          "status": "passed",
+          "title": "same scene ID but newer source session rejects, without confusing source and target",
+          "duration": 0.1402499999999236,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WORLD-ASYNC-COMMIT-1 'setEntityTriggerActivation' async selection"],
+          "fullName": "WORLD-ASYNC-COMMIT-1 'setEntityTriggerActivation' async selection unchanged source session can select a different target scene",
+          "status": "passed",
+          "title": "unchanged source session can select a different target scene",
+          "duration": 0.10987500000010186,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387911901,
+      "endTime": 1792387912080.1401,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/world-async-commit.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["WorldCamera ownership"],
+          "fullName": "WorldCamera ownership reads replacement player and bounds live while keeping the public position identity",
+          "status": "passed",
+          "title": "reads replacement player and bounds live while keeping the public position identity",
+          "duration": 1.8578749999999786,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldCamera ownership"],
+          "fullName": "WorldCamera ownership clamps both edges without changing the retained relative offset",
+          "status": "passed",
+          "title": "clamps both edges without changing the retained relative offset",
+          "duration": 0.4853750000000048,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldCamera ownership"],
+          "fullName": "WorldCamera ownership snap uses target-minus-player and preserves the offset during subsequent player motion",
+          "status": "passed",
+          "title": "snap uses target-minus-player and preserves the offset during subsequent player motion",
+          "duration": 0.21470800000000168,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldCamera ownership"],
+          "fullName": "WorldCamera ownership pan advances on render steps, retaining the minimum step and rounded elapsed time",
+          "status": "passed",
+          "title": "pan advances on render steps, retaining the minimum step and rounded elapsed time",
+          "duration": 0.2370830000000126,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldCamera ownership"],
+          "fullName": "WorldCamera ownership replacement resolves the old waiter and starts from the current displacement",
+          "status": "passed",
+          "title": "replacement resolves the old waiter and starts from the current displacement",
+          "duration": 0.2596249999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldCamera ownership"],
+          "fullName": "WorldCamera ownership pre-aborted request rejects without settling or replacing the running pan",
+          "status": "passed",
+          "title": "pre-aborted request rejects without settling or replacing the running pan",
+          "duration": 0.6759160000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldCamera ownership"],
+          "fullName": "WorldCamera ownership mid-pan abort rejects once, detaches its listener and freezes the partial displacement",
+          "status": "passed",
+          "title": "mid-pan abort rejects once, detaches its listener and freezes the partial displacement",
+          "duration": 0.6434169999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldCamera ownership"],
+          "fullName": "WorldCamera ownership reset resolves the waiter and clears offset but leaves pixel position until host update",
+          "status": "passed",
+          "title": "reset resolves the waiter and clears offset but leaves pixel position until host update",
+          "duration": 0.18466699999999037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldCamera ownership"],
+          "fullName": "WorldCamera ownership snap during a pan does not silently cancel the original pan track",
+          "status": "passed",
+          "title": "snap during a pan does not silently cancel the original pan track",
+          "duration": 0.46450000000001523,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldCamera ownership"],
+          "fullName": "WorldCamera ownership zero-frame pan settles on advancement without adding a displacement",
+          "status": "passed",
+          "title": "zero-frame pan settles on advancement without adding a displacement",
+          "duration": 0.17137500000001182,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldCamera ownership"],
+          "fullName": "WorldCamera ownership an abort during listener registration cannot leave a pending motion behind",
+          "status": "passed",
+          "title": "an abort during listener registration cannot leave a pending motion behind",
+          "duration": 0.18999999999999773,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387913390,
+      "endTime": 1792387913396.19,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/world-camera.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-REFORGE-MOTION-TRANSITION-1 world-motion-runtime 残余合同"],
+          "fullName": "TEST-GLM-REFORGE-MOTION-TRANSITION-1 world-motion-runtime 残余合同 MT-CADENCE-CLAMP-1 真积压被钳掉：一帧至多一拍，丢弃的余数不得结转成下一帧的提前拍",
+          "status": "passed",
+          "title": "MT-CADENCE-CLAMP-1 真积压被钳掉：一帧至多一拍，丢弃的余数不得结转成下一帧的提前拍",
+          "duration": 1.1009590000000031,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-REFORGE-MOTION-TRANSITION-1 world-motion-runtime 残余合同"],
+          "fullName": "TEST-GLM-REFORGE-MOTION-TRANSITION-1 world-motion-runtime 残余合同 MT-PARTY-COMPLETE-STALE-1 被替换的旧槽迟到完成不得唤醒新等待者；当前槽完成照常兑现",
+          "status": "passed",
+          "title": "MT-PARTY-COMPLETE-STALE-1 被替换的旧槽迟到完成不得唤醒新等待者；当前槽完成照常兑现",
+          "duration": 0.8689580000000063,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-REFORGE-MOTION-TRANSITION-1 world-motion-runtime 残余合同"],
+          "fullName": "TEST-GLM-REFORGE-MOTION-TRANSITION-1 world-motion-runtime 残余合同 MT-PARTY-RESOLVE-RELEASE-1 强停收口以 fulfilled 兑现当前在途走位并清槽；结算后迟到 abort 不再改变结果",
+          "status": "passed",
+          "title": "MT-PARTY-RESOLVE-RELEASE-1 强停收口以 fulfilled 兑现当前在途走位并清槽；结算后迟到 abort 不再改变结果",
+          "duration": 0.1386670000000123,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387914892,
+      "endTime": 1792387914894.1387,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/world-motion-runtime.motion-transition-1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["当前世界走位所有权与稀疏诊断边界"],
+          "fullName": "当前世界走位所有权与稀疏诊断边界 已登记的一次性 auto 步进在 authority 换代后只回 dropped，不留下成功续点",
+          "status": "passed",
+          "title": "已登记的一次性 auto 步进在 authority 换代后只回 dropped，不留下成功续点",
+          "duration": 2.603999999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前世界走位所有权与稀疏诊断边界"],
+          "fullName": "当前世界走位所有权与稀疏诊断边界 追逐入队前/后两种 authority 丢弃分别只触发一次回调；脚本源不误丢",
+          "status": "passed",
+          "title": "追逐入队前/后两种 authority 丢弃分别只触发一次回调；脚本源不误丢",
+          "duration": 1.1990419999999915,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前世界走位所有权与稀疏诊断边界"],
+          "fullName": "当前世界走位所有权与稀疏诊断边界 侧避锁仅保留合法休眠实体与本批新锁；活跃实体和 party 不借旧锁跨轮",
+          "status": "passed",
+          "title": "侧避锁仅保留合法休眠实体与本批新锁；活跃实体和 party 不借旧锁跨轮",
+          "duration": 1.5670420000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前世界走位所有权与稀疏诊断边界"],
+          "fullName": "当前世界走位所有权与稀疏诊断边界 阻挡原因与被动退让按稳定 actor 顺序记录实际提交，不拿计划位置冒充已移动",
+          "status": "passed",
+          "title": "阻挡原因与被动退让按稳定 actor 顺序记录实际提交，不拿计划位置冒充已移动",
+          "duration": 0.4930829999999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前世界走位所有权与稀疏诊断边界"],
+          "fullName": "当前世界走位所有权与稀疏诊断边界 诊断记录达到上限后只淘汰最早条，失败现场仍保留最新提交",
+          "status": "passed",
+          "title": "诊断记录达到上限后只淘汰最早条，失败现场仍保留最新提交",
+          "duration": 12.43012499999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387913054,
+      "endTime": 1792387913072.4302,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/world-motion-runtime.residual.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换"],
+          "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 中止在途实体走位按来源署名拒绝并清空注册表",
+          "status": "passed",
+          "title": "中止在途实体走位按来源署名拒绝并清空注册表",
+          "duration": 2.6042089999999973,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换"],
+          "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 预中止信号让全部注册入口立即拒绝且不留槽位",
+          "status": "passed",
+          "title": "预中止信号让全部注册入口立即拒绝且不留槽位",
+          "duration": 1.3629999999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换"],
+          "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 中止在途 auto 单步拒绝且不留下已提交续点",
+          "status": "passed",
+          "title": "中止在途 auto 单步拒绝且不留下已提交续点",
+          "duration": 0.5703330000000051,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换"],
+          "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 同目标重复注册以替换消息拒绝旧等待者并由新槽接管注册表",
+          "status": "passed",
+          "title": "同目标重复注册以替换消息拒绝旧等待者并由新槽接管注册表",
+          "duration": 0.7418329999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换"],
+          "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 取消与替换 实体 authority 接管清空旧 script owner 的步态与侧避锁",
+          "status": "passed",
+          "title": "实体 authority 接管清空旧 script owner 的步态与侧避锁",
+          "duration": 2.354457999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-REFORGE-RUNTIME-SESSION-1 迟到回执"],
+          "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 迟到回执 单步 attempted 结算后的迟到回执不再重发 committed 回调",
+          "status": "passed",
+          "title": "单步 attempted 结算后的迟到回执不再重发 committed 回调",
+          "duration": 1.1256660000000096,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-REFORGE-RUNTIME-SESSION-1 迟到回执"],
+          "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 迟到回执 追逐取消结算后的迟到调用不再重发任何回调",
+          "status": "passed",
+          "title": "追逐取消结算后的迟到调用不再重发任何回调",
+          "duration": 0.695541999999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-REFORGE-RUNTIME-SESSION-1 scene token"],
+          "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 scene token scene token 在注册时快照,teardown 失效后旧槽保持旧 token 而新注册取新 token",
+          "status": "passed",
+          "title": "scene token 在注册时快照,teardown 失效后旧槽保持旧 token 而新注册取新 token",
+          "duration": 0.9450000000000074,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387911765,
+      "endTime": 1792387911775.945,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/world-motion-runtime.runtime-session-1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["WorldMotionRuntime ownership"],
+          "fullName": "WorldMotionRuntime ownership owns the one-tick cadence, carry remainder and frozen-frame reset",
+          "status": "passed",
+          "title": "owns the one-tick cadence, carry remainder and frozen-frame reset",
+          "duration": 1.0719589999999926,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldMotionRuntime ownership"],
+          "fullName": "WorldMotionRuntime ownership party move replacement wakes the old waiter while abort rejects only the current waiter",
+          "status": "passed",
+          "title": "party move replacement wakes the old waiter while abort rejects only the current waiter",
+          "duration": 1.1079999999999899,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldMotionRuntime ownership"],
+          "fullName": "WorldMotionRuntime ownership party endpoint completion detaches the abort listener before waking its waiter",
+          "status": "passed",
+          "title": "party endpoint completion detaches the abort listener before waking its waiter",
+          "duration": 0.47766599999999926,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldMotionRuntime ownership"],
+          "fullName": "WorldMotionRuntime ownership script and auto durable slots coexist and commit before their deferred wake-up",
+          "status": "passed",
+          "title": "script and auto durable slots coexist and commit before their deferred wake-up",
+          "duration": 0.28487499999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldMotionRuntime ownership"],
+          "fullName": "WorldMotionRuntime ownership auto one-shot registration samples authority and activation identities once",
+          "status": "passed",
+          "title": "auto one-shot registration samples authority and activation identities once",
+          "duration": 0.9804589999999962,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldMotionRuntime ownership"],
+          "fullName": "WorldMotionRuntime ownership chase registration publishes its exact slot and cancellation callback before rejection",
+          "status": "passed",
+          "title": "chase registration publishes its exact slot and cancellation callback before rejection",
+          "duration": 0.8151659999999907,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldMotionRuntime ownership"],
+          "fullName": "WorldMotionRuntime ownership gait and explicit animation share the source current-frame phase",
+          "status": "passed",
+          "title": "gait and explicit animation share the source current-frame phase",
+          "duration": 0.27383300000001043,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldMotionRuntime ownership"],
+          "fullName": "WorldMotionRuntime ownership a fixed source frame seeds the next animation and step phase",
+          "status": "passed",
+          "title": "a fixed source frame seeds the next animation and step phase",
+          "duration": 0.17995799999999917,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldMotionRuntime ownership"],
+          "fullName": "WorldMotionRuntime ownership player direction and authority changes share the side-stick epoch owner",
+          "status": "passed",
+          "title": "player direction and authority changes share the side-stick epoch owner",
+          "duration": 0.37462499999999466,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldMotionRuntime ownership"],
+          "fullName": "WorldMotionRuntime ownership a foreground arrival hands its exact gait only to a same-frame live continuation: continue",
+          "status": "passed",
+          "title": "a foreground arrival hands its exact gait only to a same-frame live continuation: continue",
+          "duration": 0.36558399999999835,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldMotionRuntime ownership"],
+          "fullName": "WorldMotionRuntime ownership a foreground arrival hands its exact gait only to a same-frame live continuation: release-all",
+          "status": "passed",
+          "title": "a foreground arrival hands its exact gait only to a same-frame live continuation: release-all",
+          "duration": 0.12383400000000222,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldMotionRuntime ownership"],
+          "fullName": "WorldMotionRuntime ownership a foreground arrival hands its exact gait only to a same-frame live continuation: next-tick",
+          "status": "passed",
+          "title": "a foreground arrival hands its exact gait only to a same-frame live continuation: next-tick",
+          "duration": 0.1616250000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldMotionRuntime ownership"],
+          "fullName": "WorldMotionRuntime ownership a foreground arrival hands its exact gait only to a same-frame live continuation: presented",
+          "status": "passed",
+          "title": "a foreground arrival hands its exact gait only to a same-frame live continuation: presented",
+          "duration": 0.21349999999999625,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldMotionRuntime ownership"],
+          "fullName": "WorldMotionRuntime ownership a foreground arrival hands its exact gait only to a same-frame live continuation: pose",
+          "status": "passed",
+          "title": "a foreground arrival hands its exact gait only to a same-frame live continuation: pose",
+          "duration": 0.22187499999999716,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldMotionRuntime ownership"],
+          "fullName": "WorldMotionRuntime ownership a foreground arrival hands its exact gait only to a same-frame live continuation: explicit-animation",
+          "status": "passed",
+          "title": "a foreground arrival hands its exact gait only to a same-frame live continuation: explicit-animation",
+          "duration": 0.2478749999999934,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldMotionRuntime ownership"],
+          "fullName": "WorldMotionRuntime ownership a foreground arrival hands its exact gait only to a same-frame live continuation: owner-replaced",
+          "status": "passed",
+          "title": "a foreground arrival hands its exact gait only to a same-frame live continuation: owner-replaced",
+          "duration": 0.22079200000000299,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldMotionRuntime ownership"],
+          "fullName": "WorldMotionRuntime ownership a foreground arrival hands its exact gait only to a same-frame live continuation: relocated",
+          "status": "passed",
+          "title": "a foreground arrival hands its exact gait only to a same-frame live continuation: relocated",
+          "duration": 0.16075000000000728,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldMotionRuntime ownership"],
+          "fullName": "WorldMotionRuntime ownership a foreground arrival hands its exact gait only to a same-frame live continuation: retaken",
+          "status": "passed",
+          "title": "a foreground arrival hands its exact gait only to a same-frame live continuation: retaken",
+          "duration": 0.07883300000000304,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldMotionRuntime ownership"],
+          "fullName": "WorldMotionRuntime ownership a foreground arrival hands its exact gait only to a same-frame live continuation: endpoint",
+          "status": "passed",
+          "title": "a foreground arrival hands its exact gait only to a same-frame live continuation: endpoint",
+          "duration": 0.07550000000000523,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldMotionRuntime ownership"],
+          "fullName": "WorldMotionRuntime ownership trace capture owns cloning, stable order and explicit clearing",
+          "status": "passed",
+          "title": "trace capture owns cloning, stable order and explicit clearing",
+          "duration": 0.32237499999999386,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldMotionRuntime ownership"],
+          "fullName": "WorldMotionRuntime ownership scene teardown cancels both registries, releases authority and clears visual motion",
+          "status": "passed",
+          "title": "scene teardown cancels both registries, releases authority and clears visual motion",
+          "duration": 0.4427920000000114,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387912018,
+      "endTime": 1792387912026.4429,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/world-motion-runtime.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["A3 world runtime ownership"],
+          "fullName": "A3 world runtime ownership main constructs one motion and one drawing owner without retaining the displaced state cells",
+          "status": "passed",
+          "title": "main constructs one motion and one drawing owner without retaining the displaced state cells",
+          "duration": 13.369957999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A3 world runtime ownership"],
+          "fullName": "A3 world runtime ownership the existing coordinator remains the sole slot/authority owner under the aggregate runtime",
+          "status": "passed",
+          "title": "the existing coordinator remains the sole slot/authority owner under the aggregate runtime",
+          "duration": 0.38287500000001273,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A3 world runtime ownership"],
+          "fullName": "A3 world runtime ownership advanceMoves retains sample, plan, atomic commit and queued continuation order",
+          "status": "passed",
+          "title": "advanceMoves retains sample, plan, atomic commit and queued continuation order",
+          "duration": 8.870333000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A3 world runtime ownership"],
+          "fullName": "A3 world runtime ownership render keeps world sampling before overlays and output effects",
+          "status": "passed",
+          "title": "render keeps world sampling before overlays and output effects",
+          "duration": 7.833875000000035,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A3 world runtime ownership"],
+          "fullName": "A3 world runtime ownership scene teardown invalidates mutations before slots and resets camera after motion dependants",
+          "status": "passed",
+          "title": "scene teardown invalidates mutations before slots and resets camera after motion dependants",
+          "duration": 7.8603330000000255,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387914638,
+      "endTime": 1792387914676.8604,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/world-runtime-ownership.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G04 world-scene-presentation 残差"],
+          "fullName": "G04 world-scene-presentation 残差 震屏偶数拍 +level 臂；shake(now,0) 显式清场后相机原样",
+          "status": "passed",
+          "title": "震屏偶数拍 +level 臂；shake(now,0) 显式清场后相机原样",
+          "duration": 1.6428750000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04 world-scene-presentation 残差"],
+          "fullName": "G04 world-scene-presentation 残差 实体帧覆盖注册表尾：has/entityFrame 读出、单体与全清恢复 gait 帧选择",
+          "status": "passed",
+          "title": "实体帧覆盖注册表尾：has/entityFrame 读出、单体与全清恢复 gait 帧选择",
+          "duration": 1.8039159999999868,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G04 world-scene-presentation 残差"],
+          "fullName": "G04 world-scene-presentation 残差 extraFollowerSpriteIds 稀疏空洞 fail-loud，不静默跳过",
+          "status": "passed",
+          "title": "extraFollowerSpriteIds 稀疏空洞 fail-loud，不静默跳过",
+          "duration": 0.5463330000000042,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387913536,
+      "endTime": 1792387913539.5464,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/world-scene-presentation.glm-next-wave.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["当前大世界呈现的实体与队伍帧选择"],
+          "fullName": "当前大世界呈现的实体与队伍帧选择 主角队伍触发局部前景透视，NPC/静物/编外跟随者仍保留普通遮挡与不透明本体",
+          "status": "passed",
+          "title": "主角队伍触发局部前景透视，NPC/静物/编外跟随者仍保留普通遮挡与不透明本体",
+          "duration": 1.4101659999999896,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前大世界呈现的实体与队伍帧选择"],
+          "fullName": "当前大世界呈现的实体与队伍帧选择 空队伍的首个编外跟随者不因深度序号为0而成为受控主角",
+          "status": "passed",
+          "title": "空队伍的首个编外跟随者不因深度序号为0而成为受控主角",
+          "duration": 0.5497499999999889,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前大世界呈现的实体与队伍帧选择"],
+          "fullName": "当前大世界呈现的实体与队伍帧选择 队伍换人不绑定旧Actor；队长无可绘帧时当前队友仍按队伍身份透视",
+          "status": "passed",
+          "title": "队伍换人不绑定旧Actor；队长无可绘帧时当前队友仍按队伍身份透视",
+          "duration": 0.38695800000002123,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前大世界呈现的实体与队伍帧选择"],
+          "fullName": "当前大世界呈现的实体与队伍帧选择 隐藏、缺定义和空解码帧不进入绘制队列，只有合法可见精灵留下实际帧锚",
+          "status": "passed",
+          "title": "隐藏、缺定义和空解码帧不进入绘制队列，只有合法可见精灵留下实际帧锚",
+          "duration": 0.4590000000000032,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前大世界呈现的实体与队伍帧选择"],
+          "fullName": "当前大世界呈现的实体与队伍帧选择 显式动画优先于 loop 时钟；无覆盖时 loop 真按时间取帧，层深取实体 zBias",
+          "status": "passed",
+          "title": "显式动画优先于 loop 时钟；无覆盖时 loop 真按时间取帧，层深取实体 zBias",
+          "duration": 0.34516700000000355,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前大世界呈现的实体与队伍帧选择"],
+          "fullName": "当前大世界呈现的实体与队伍帧选择 队长脚本姿势压过走帧；清姿势后恢复 3 帧步序，当前帧尺寸决定脚底锚",
+          "status": "passed",
+          "title": "队长脚本姿势压过走帧；清姿势后恢复 3 帧步序，当前帧尺寸决定脚底锚",
+          "duration": 0.31620800000001736,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前大世界呈现的实体与队伍帧选择"],
+          "fullName": "当前大世界呈现的实体与队伍帧选择 缺席队友不占绘制位；额外跟随源按身份筛选，步行队友取自身朝向组",
+          "status": "passed",
+          "title": "缺席队友不占绘制位；额外跟随源按身份筛选，步行队友取自身朝向组",
+          "duration": 0.3464580000000126,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387912494,
+      "endTime": 1792387912498.3464,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/world-scene-presentation.residual.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["WorldScenePresentation sprite ownership"],
+          "fullName": "WorldScenePresentation sprite ownership entity frame override keeps the exact priority, per-frame anchor and layer geometry",
+          "status": "passed",
+          "title": "entity frame override keeps the exact priority, per-frame anchor and layer geometry",
+          "duration": 1.7374170000000078,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldScenePresentation sprite ownership"],
+          "fullName": "WorldScenePresentation sprite ownership party, party followers and extra followers retain source order and depth tie-breaks",
+          "status": "passed",
+          "title": "party, party followers and extra followers retain source order and depth tie-breaks",
+          "duration": 1.446083999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldScenePresentation sprite ownership"],
+          "fullName": "WorldScenePresentation sprite ownership gait outranks explicit animation/action while semantic action outranks loop time",
+          "status": "passed",
+          "title": "gait outranks explicit animation/action while semantic action outranks loop time",
+          "duration": 0.23175000000000523,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldScenePresentation world painter"],
+          "fullName": "WorldScenePresentation world painter shake samples frame time before the unchanged ordinary scene pass and expires at boundary",
+          "status": "passed",
+          "title": "shake samples frame time before the unchanged ordinary scene pass and expires at boundary",
+          "duration": 0.43795799999999474,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldScenePresentation world painter"],
+          "fullName": "WorldScenePresentation world painter wave draws background offscreen, applies rows, then overlays static sprites without clearing",
+          "status": "passed",
+          "title": "wave draws background offscreen, applies rows, then overlays static sprites without clearing",
+          "duration": 1.0567499999999939,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792387912612,
+      "endTime": 1792387912617.0566,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/world-scene-presentation.test.ts"
+    }
+  ]
+}
