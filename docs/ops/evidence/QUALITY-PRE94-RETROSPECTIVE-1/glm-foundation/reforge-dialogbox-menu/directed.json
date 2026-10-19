@@ -1,0 +1,299 @@
+{
+  "numTotalTestSuites": 3,
+  "numPassedTestSuites": 3,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 25,
+  "numPassedTests": 25,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792377371749,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["DialogBox slot cursor contract"],
+          "fullName": "DialogBox slot cursor contract center/narration 不画普通对话箭头",
+          "status": "passed",
+          "title": "center/narration 不画普通对话箭头",
+          "duration": 0.730041999999969,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377372192,
+      "endTime": 1792377372192.73,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/dialog/dialog-box.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "closed menu ignores input; independent sessions retain independent panel and cursor state",
+          "status": "passed",
+          "title": "closed menu ignores input; independent sessions retain independent panel and cursor state",
+          "duration": 2.9599999999999795,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "status traverses live party and returns to hub; navigation aliases preserve selected panel",
+          "status": "passed",
+          "title": "status traverses live party and returns to hub; navigation aliases preserve selected panel",
+          "duration": 0.6681669999999826,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "magic reads the current world instead of a startup snapshot and remembers the confirmed caster",
+          "status": "passed",
+          "title": "magic reads the current world instead of a startup snapshot and remembers the confirmed caster",
+          "duration": 0.9157500000000027,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "system music commits only on confirm; cancel preserves preferences and remembered cursor",
+          "status": "passed",
+          "title": "system music commits only on confirm; cancel preserves preferences and remembered cursor",
+          "duration": 0.947084000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "system sound commits only on confirm; cancel preserves preferences and remembered cursor",
+          "status": "passed",
+          "title": "system sound commits only on confirm; cancel preserves preferences and remembered cursor",
+          "duration": 0.4678329999999846,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "quit default no and Escape remain in hub; explicit yes calls only the navigation port",
+          "status": "passed",
+          "title": "quit default no and Escape remain in hub; explicit yes calls only the navigation port",
+          "duration": 0.29816600000003746,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "save browser owns input over system menu and overwrite requires explicit yes",
+          "status": "passed",
+          "title": "save browser owns input over system menu and overwrite requires explicit yes",
+          "duration": 0.5869589999999789,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "save browser paging and refresh retain captured mode/cursor; a closed browser stays closed",
+          "status": "passed",
+          "title": "save browser paging and refresh retain captured mode/cursor; a closed browser stays closed",
+          "duration": 0.5861250000000382,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "save write rejection is reported through the existing failure port without closing the browser",
+          "status": "passed",
+          "title": "save write rejection is reported through the existing failure port without closing the browser",
+          "duration": 0.5705839999999966,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "load request rejection remains visible; successful close is owned by the storage completion callback",
+          "status": "passed",
+          "title": "load request rejection remains visible; successful close is owned by the storage completion callback",
+          "duration": 0.43225000000001046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "system cancellation returns to hub and repeated item execution preserves exact real effects",
+          "status": "passed",
+          "title": "system cancellation returns to hub and repeated item execution preserves exact real effects",
+          "duration": 1.2342499999999745,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "item outcome not-owned keeps the exact menu request and reports its stable message",
+          "status": "passed",
+          "title": "item outcome not-owned keeps the exact menu request and reports its stable message",
+          "duration": 0.45512500000000955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "item outcome missing-target keeps the exact menu request and reports its stable message",
+          "status": "passed",
+          "title": "item outcome missing-target keeps the exact menu request and reports its stable message",
+          "duration": 0.3418749999999591,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "item outcome wrong-context keeps the exact menu request and reports its stable message",
+          "status": "passed",
+          "title": "item outcome wrong-context keeps the exact menu request and reports its stable message",
+          "duration": 0.27291600000000926,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "item outcome gate-failed keeps the exact menu request and reports its stable message",
+          "status": "passed",
+          "title": "item outcome gate-failed keeps the exact menu request and reports its stable message",
+          "duration": 0.217583999999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "item outcome missing-materials keeps the exact menu request and reports its stable message",
+          "status": "passed",
+          "title": "item outcome missing-materials keeps the exact menu request and reports its stable message",
+          "duration": 0.25324999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "item outcome empty-resource-pool keeps the exact menu request and reports its stable message",
+          "status": "passed",
+          "title": "item outcome empty-resource-pool keeps the exact menu request and reports its stable message",
+          "duration": 0.21112499999998136,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "item outcome external-unavailable keeps the exact menu request and reports its stable message",
+          "status": "passed",
+          "title": "item outcome external-unavailable keeps the exact menu request and reports its stable message",
+          "duration": 0.29704199999997627,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "item outcome invalid-effect-chain keeps the exact menu request and reports its stable message",
+          "status": "passed",
+          "title": "item outcome invalid-effect-chain keeps the exact menu request and reports its stable message",
+          "duration": 0.21308299999998326,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "item outcome unknown-item keeps the exact menu request and reports its stable message",
+          "status": "passed",
+          "title": "item outcome unknown-item keeps the exact menu request and reports its stable message",
+          "duration": 0.24629199999998264,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "custom item message is retained and unexpected executor failure restores the original menu",
+          "status": "passed",
+          "title": "custom item message is retained and unexpected executor failure restores the original menu",
+          "duration": 1.4478340000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "in-flight item hides the menu, rejects duplicate input and consumes its own cancellation before reuse",
+          "status": "passed",
+          "title": "in-flight item hides the menu, rejects duplicate input and consumes its own cancellation before reuse",
+          "duration": 0.9335420000000454,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "item result presentation retains ownership until settled; AbortError never restores the old menu",
+          "status": "passed",
+          "title": "item result presentation retains ownership until settled; AbortError never restores the old menu",
+          "duration": 0.32679200000001174,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "scene-changing item result closes the old menu even when executor requested keep",
+          "status": "passed",
+          "title": "scene-changing item result closes the old menu even when executor requested keep",
+          "duration": 0.25487499999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377372127,
+      "endTime": 1792377372142.327,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/menu/menu-session.test.ts"
+    }
+  ]
+}
