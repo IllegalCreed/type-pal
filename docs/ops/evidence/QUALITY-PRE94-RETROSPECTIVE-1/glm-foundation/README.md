@@ -51,6 +51,7 @@ Status: build；以下只记有限模块结果，不声明全专项完成
 - 模块12批35作者原件：[script+asset两大件](content-script-asset/README.md)（同线，review待验收）。零整改批(script每kind opcode锚+PREPARE_SAFETY穷尽表/asset pal*稳定id家族+file closure防延迟爆炸);4文件9套件54/54+typecheck 0。content余量:item→author-script-core→validate+validate-refs终三批。
 - 模块12批36作者原件：[item.ts](content-item/README.md)（同线，review待验收）。零整改批(live派生红线族/逐kind opcode锚/gate N-1%语义/external事务边界);3文件17套件57/57+typecheck 0。content余量:author-script-core→validate+validate-refs终两批。
 - 模块12批37作者原件：[author-script-core.ts](content-authorcore/README.md)（同线，review待验收）。零整改批(组合式词表双satisfies/词法循环纪律/裸id禁令/续跑帧穷尽/SAVE12持久层声明);typecheck 0。content余量:validate+validate-refs终批。
+- 模块12批38作者原件：[validate+validate-refs](content-validators/README.md)（同线，review待验收）。零整改批(use effects组合规则完备/毒表唯一id门禁/三层分工声明);2文件16套件140/140+typecheck 0。**content 包全部收口**(b30-38九批~50文件,整改仅2处纯注释,零整改批7/9)。下一站:migrate(6k)→reforge(43k)→editor(39k)→94-102。
 
 集成修正：MKF仅首offset/表长4对齐、并非所有chunk偏移；SDL坏档结果/全原盘保证不能泛化；readChunk生产注释保留借用合同、去掉测试治理措辞。RNG跳帧保留基面继续解码，不保证缺帧后的画面等价。正常资产对拍不代替坏帧策略证明。
 
