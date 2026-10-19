@@ -36,6 +36,7 @@ Status: build；以下只记有限模块结果，不声明全专项完成
 - 模块9批20作者原件：[shell播放器六文件](game-shell-players/README.md)（同线，review待验收）。纯注释2处:trademark-fallback双"1秒淡出"过时注同步L43定谳(PAL_FadeOut(1)=600ms);其余5件零缺陷(avi键泄漏分析/rng in-flight去重/splash L42正解);body-invariance恒真,14文件36套件73/73+typecheck 0。shell余量续:交互循环批(input/main-loop/boot-loading/precache-ui)→bootstrap.ts+audio.ts大文件批。
 - 模块9批21作者原件：[shell交互/循环四文件](game-shell-loop/README.md)（同线，review待验收）。零整改批(input WASD还原/DM30抑制集/main-loop DM31不补帧考证/boot-loading 810预估校准史/precache-ui四相状态机);10文件28套件112/112+typecheck 0。shell余量终批:bootstrap.ts 1934行+audio.ts大文件。
 - 模块9批22作者原件：[bootstrap.ts+audio.ts](game-shell-bootstrap/README.md)（同线，review待验收）。纯注释3处:双"M5真做时"未来注定谳(walkFrames链在present/npcSprites closure为定案)+~3200请求数过时(实810);audio.ts零缺陷(L46去重/L47loop/DM29);body-invariance恒真,8文件23套件41/41+typecheck 0。**shell 模块全部收口**(audio/io+players+loop+bootstrap=22文件,三零整改批)。下一模块 menu(core)→content/migrate/reforge/editor。
+- 模块10批23作者原件：[menu小中件15文件](game-menu-small/README.md)（同线，review待验收）。纯注释2处:item-select"follow-up精细"过时注定谳(卖路径灰显已在sell-menu实现,工厂零生产caller)+battle-state:514错指builder(buildBattleMagicSelect,批12漏网);其余13文件零缺陷;body-invariance恒真,28文件105套件340/340+typecheck 0。新增登记:createItemSelectMenu死导出。menu余量:magic-script/inventory-menu/in-game-magic-menu三件→menu-driver 1054行大文件。
 
 集成修正：MKF仅首offset/表长4对齐、并非所有chunk偏移；SDL坏档结果/全原盘保证不能泛化；readChunk生产注释保留借用合同、去掉测试治理措辞。RNG跳帧保留基面继续解码，不保证缺帧后的画面等价。正常资产对拍不代替坏帧策略证明。
 
