@@ -20,8 +20,8 @@
  *
  * 见 [packages/game/src/core/menu/equip-menu.ts](../../core/menu/equip-menu.ts) state machine。
  *
- * phase='list' UI(sdlpal `PAL_ItemSelectMenu(equipable)`)简版复用 SelectionMenu list；
- * 完整 grid 与 InventoryMenu 共享，留 follow-up（M6 grid statemachine 抽 primitive）。
+ * phase='list' 渲染直接复用 drawInventoryMenu(完整 grid)—— sdlpal 真值装备物品选择
+ * 就是同一个 PAL_ItemSelectMenu,仅 filter 不同(见下方 drawEquipList)。
  */
 
 import type { Item, PlayerRoles } from '@type-pal/shared'
