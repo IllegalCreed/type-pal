@@ -1,0 +1,1146 @@
+{
+  "numTotalTestSuites": 48,
+  "numPassedTestSuites": 48,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 95,
+  "numPassedTests": 95,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792377518392,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Q03 spessa 初始化：无 audioWorklet 按 secure context 指路拒绝",
+          "status": "passed",
+          "title": "Q03 spessa 初始化：无 audioWorklet 按 secure context 指路拒绝",
+          "duration": 1.9460830000000442,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q03 spessa 初始化成功链：模块 URL、RIFF 音色库、16 通道混响 91 锁定",
+          "status": "passed",
+          "title": "Q03 spessa 初始化成功链：模块 URL、RIFF 音色库、16 通道混响 91 锁定",
+          "duration": 0.8854589999999689,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q03 spessa 初始化：非 RIFF 音色库拒绝并销毁合成器，可重试",
+          "status": "passed",
+          "title": "Q03 spessa 初始化：非 RIFF 音色库拒绝并销毁合成器，可重试",
+          "duration": 0.6136249999999563,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q03 spessa 初始化：音色库读取失败销毁合成器并原样抛出",
+          "status": "passed",
+          "title": "Q03 spessa 初始化：音色库读取失败销毁合成器并原样抛出",
+          "duration": 0.30291699999997945,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q03 spessa 初始化：isReady 拒绝销毁合成器并原样抛出",
+          "status": "passed",
+          "title": "Q03 spessa 初始化：isReady 拒绝销毁合成器并原样抛出",
+          "duration": 0.24583400000005895,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q03 试听 runtime：无任何 AudioContext 构造器返回 undefined",
+          "status": "passed",
+          "title": "Q03 试听 runtime：无任何 AudioContext 构造器返回 undefined",
+          "duration": 0.07179200000007313,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q03 试听 runtime：webkitAudioContext 回退可用",
+          "status": "passed",
+          "title": "Q03 试听 runtime：webkitAudioContext 回退可用",
+          "duration": 0.12049999999999272,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q03 试听 runtime：适配器透传 sequencer 传输操作与快照字段，二次 initialize 复用",
+          "status": "passed",
+          "title": "Q03 试听 runtime：适配器透传 sequencer 传输操作与快照字段，二次 initialize 复用",
+          "duration": 0.5154999999999745,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q03 试听 runtime：dispose 暂停并销毁合成器、关闭 context；之后 initialize AbortError",
+          "status": "passed",
+          "title": "Q03 试听 runtime：dispose 暂停并销毁合成器、关闭 context；之后 initialize AbortError",
+          "duration": 0.5855419999999185,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q03 试听 runtime：初始化中途 dispose 销毁迟到合成器并以 AbortError 收尾",
+          "status": "passed",
+          "title": "Q03 试听 runtime：初始化中途 dispose 销毁迟到合成器并以 AbortError 收尾",
+          "duration": 52.04662499999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q03 analyzeMidiBytes 解析真实 MIDI 字节并产出 note-activity",
+          "status": "passed",
+          "title": "Q03 analyzeMidiBytes 解析真实 MIDI 字节并产出 note-activity",
+          "duration": 36.27612499999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q03 analyzeMidiBytes 对非 MIDI 字节 fail-loud",
+          "status": "passed",
+          "title": "Q03 analyzeMidiBytes 对非 MIDI 字节 fail-loud",
+          "duration": 0.451041000000032,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377518987,
+      "endTime": 1792377519080.451,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/audio-spessa-runtime.glm-q.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "dispose is idempotent and a late initialized backend never reads or plays a song",
+          "status": "passed",
+          "title": "dispose is idempotent and a late initialized backend never reads or plays a song",
+          "duration": 1.5942500000000024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "dispose during an actual song read prevents late playback, with a same-input positive control",
+          "status": "passed",
+          "title": "dispose during an actual song read prevents late playback, with a same-input positive control",
+          "duration": 1.1185829999999939,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377520764,
+      "endTime": 1792377520767.1187,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/audio/bgm.dispose.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L1 autoplay 解锁补播（bgm 头注释合同：resume 成功后补播记账曲）"],
+          "fullName": "L1 autoplay 解锁补播（bgm 头注释合同：resume 成功后补播记账曲） 挂起 ctx 上 autoplay 被拒仍完成一次静默提交；手势 resume 成功 → 补播记账曲",
+          "status": "passed",
+          "title": "挂起 ctx 上 autoplay 被拒仍完成一次静默提交；手势 resume 成功 → 补播记账曲",
+          "duration": 155.77937500000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L1 autoplay 解锁补播（bgm 头注释合同：resume 成功后补播记账曲）"],
+          "fullName": "L1 autoplay 解锁补播（bgm 头注释合同：resume 成功后补播记账曲） 负臂：stop 清账后手势解锁不补播（补播只由记账曲驱动，不无条件重放）",
+          "status": "passed",
+          "title": "负臂：stop 清账后手势解锁不补播（补播只由记账曲驱动，不无条件重放）",
+          "duration": 56.20770799999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L2 同曲 steady-state 重复调用（接口合同：同曲重复调用不重启）"],
+          "fullName": "L2 同曲 steady-state 重复调用（接口合同：同曲重复调用不重启） 运行中重复 play 同曲：零重读/零重载/零重启，恢复全增益；stop 后再 play 真重载",
+          "status": "passed",
+          "title": "运行中重复 play 同曲：零重读/零重载/零重启，恢复全增益；stop 后再 play 真重载",
+          "duration": 105.467667,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L3 setEnabled 同值幂等（接口合同：无变化不重启/不重停）"],
+          "fullName": "L3 setEnabled 同值幂等（接口合同：无变化不重启/不重停） 重复开不重启；重复关只停一次（pause/cancelFade 恰一次）；重开补播记账曲",
+          "status": "passed",
+          "title": "重复开不重启；重复关只停一次（pause/cancelFade 恰一次）；重开补播记账曲",
+          "duration": 105.14849999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377519742,
+      "endTime": 1792377520165.1484,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/audio/bgm.glm-audio-lifecycle.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["N02 BGM 生产工厂在缺失音源环境下的精确形态"],
+          "fullName": "N02 BGM 生产工厂在缺失音源环境下的精确形态 无 AudioContext 的浏览器环境：createBgmPlayer 返回可安全调用的静音播放器",
+          "status": "passed",
+          "title": "无 AudioContext 的浏览器环境：createBgmPlayer 返回可安全调用的静音播放器",
+          "duration": 1.8072499999999536,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N02 BGM 后端初始化失败降级"],
+          "fullName": "N02 BGM 后端初始化失败降级 initialize 拒绝 → 静默告警、不抛出、init 不重试，播放器仍可关闭",
+          "status": "passed",
+          "title": "initialize 拒绝 → 静默告警、不抛出、init 不重试，播放器仍可关闭",
+          "duration": 72.49962499999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N02 BGM dispose 与迟到初始化的释放次序"],
+          "fullName": "N02 BGM dispose 与迟到初始化的释放次序 初始化悬置期间 dispose：迟到后端只被 pause，不读取、不播放任何曲",
+          "status": "passed",
+          "title": "初始化悬置期间 dispose：迟到后端只被 pause，不读取、不播放任何曲",
+          "duration": 42.67900000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377520618,
+      "endTime": 1792377520735.679,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/audio/bgm.glm-n.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C1 resume 并发去重与被拒后可再次手势"],
+          "fullName": "C1 resume 并发去重与被拒后可再次手势 挂起期间并发 resume 只触发一次 ctx.resume；被拒后清旗标，后续手势可再次调用",
+          "status": "passed",
+          "title": "挂起期间并发 resume 只触发一次 ctx.resume；被拒后清旗标，后续手势可再次调用",
+          "duration": 1.1905000000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C2 换曲读取逆序完成：仅当前请求真正 load/play"],
+          "fullName": "C2 换曲读取逆序完成：仅当前请求真正 load/play 懒初始化期间后发接管：init 完成只读 last",
+          "status": "passed",
+          "title": "懒初始化期间后发接管：init 完成只读 last",
+          "duration": 52.47624999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C2 换曲读取逆序完成：仅当前请求真正 load/play"],
+          "fullName": "C2 换曲读取逆序完成：仅当前请求真正 load/play 已初始化 player 真读取乱序：旧读 entered 挂起→新请求先完成→旧读迟到被 post-read 门丢弃",
+          "status": "passed",
+          "title": "已初始化 player 真读取乱序：旧读 entered 挂起→新请求先完成→旧读迟到被 post-read 门丢弃",
+          "duration": 103.40741699999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C3 读取失败不提交且同曲可重试"],
+          "fullName": "C3 读取失败不提交且同曲可重试 readBytes 失败 → 不 loadNewSongList/不 play；修复读取后同曲 play 真正提交",
+          "status": "passed",
+          "title": "readBytes 失败 → 不 loadNewSongList/不 play；修复读取后同曲 play 真正提交",
+          "duration": 109.39287500000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377519175,
+      "endTime": 1792377519441.3928,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/audio/bgm.runtime-boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["BgmPlayer 生命周期"],
+          "fullName": "BgmPlayer 生命周期 soundfont 初始化未完成时 stop 清账，初始化完成后不迟到补播",
+          "status": "passed",
+          "title": "soundfont 初始化未完成时 stop 清账，初始化完成后不迟到补播",
+          "duration": 1.0840829999999926,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BgmPlayer 生命周期"],
+          "fullName": "BgmPlayer 生命周期 MIDI 字节读取未完成时 stop 同样取消迟到播放",
+          "status": "passed",
+          "title": "MIDI 字节读取未完成时 stop 同样取消迟到播放",
+          "duration": 50.79929200000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BgmPlayer 生命周期"],
+          "fullName": "BgmPlayer 生命周期 音乐开关停播留账可续播，stop 清账后不再恢复",
+          "status": "passed",
+          "title": "音乐开关停播留账可续播，stop 清账后不再恢复",
+          "duration": 101.549459,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BgmPlayer fade 过渡 (D12-1)"],
+          "fullName": "BgmPlayer fade 过渡 (D12-1) 换曲串行:fade-out 完成(过 isCurrent 门)后才 load 新曲 + fade-in",
+          "status": "passed",
+          "title": "换曲串行:fade-out 完成(过 isCurrent 门)后才 load 新曲 + fade-in",
+          "duration": 155.23825000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BgmPlayer fade 过渡 (D12-1)"],
+          "fullName": "BgmPlayer fade 过渡 (D12-1) K2a:fade-out 期间新 play 立即接管,旧 fade 完成回调不误停/不误换",
+          "status": "passed",
+          "title": "K2a:fade-out 期间新 play 立即接管,旧 fade 完成回调不误停/不误换",
+          "duration": 276.17350000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BgmPlayer fade 过渡 (D12-1)"],
+          "fullName": "BgmPlayer fade 过渡 (D12-1) K2b:stop 淡出后停;期间新 play 接管则完成回调不误停旧曲",
+          "status": "passed",
+          "title": "K2b:stop 淡出后停;期间新 play 接管则完成回调不误停旧曲",
+          "duration": 223.329791,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BgmPlayer fade 过渡 (D12-1)"],
+          "fullName": "BgmPlayer fade 过渡 (D12-1) K5:换曲窗口内 play 旧曲 → 取消进行中换曲,旧曲续播、记账一致",
+          "status": "passed",
+          "title": "K5:换曲窗口内 play 旧曲 → 取消进行中换曲,旧曲续播、记账一致",
+          "duration": 225.657958,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BgmPlayer fade 过渡 (D12-1)"],
+          "fullName": "BgmPlayer fade 过渡 (D12-1) stop fade 窗口内重申同曲 → 接管 timer、恢复增益且不暂停/重载",
+          "status": "passed",
+          "title": "stop fade 窗口内重申同曲 → 接管 timer、恢复增益且不暂停/重载",
+          "duration": 173.85633400000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BgmPlayer fade 过渡 (D12-1)"],
+          "fullName": "BgmPlayer fade 过渡 (D12-1) K3:记账含 fadeInMs,re-enable 补播仍走 fade-in",
+          "status": "passed",
+          "title": "K3:记账含 fadeInMs,re-enable 补播仍走 fade-in",
+          "duration": 101.2588330000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BgmPlayer fade 过渡 (D12-1)"],
+          "fullName": "BgmPlayer fade 过渡 (D12-1) G2:fade 期间 setEnabled(false) → cancelFade + 归零 + 不残留换曲",
+          "status": "passed",
+          "title": "G2:fade 期间 setEnabled(false) → cancelFade + 归零 + 不残留换曲",
+          "duration": 223.30108300000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BgmPlayer fade 过渡 (D12-1)"],
+          "fullName": "BgmPlayer fade 过渡 (D12-1) G3c:fadeInMs=0 走快捷路径(不回全增益 ramp 序列,直接 setValueAtTime 语义)",
+          "status": "passed",
+          "title": "G3c:fadeInMs=0 走快捷路径(不回全增益 ramp 序列,直接 setValueAtTime 语义)",
+          "duration": 51.008124999999836,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377519006,
+      "endTime": 1792377520590.008,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/audio/bgm.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L4 播放中替换选择（停止/替换轴）"],
+          "fullName": "L4 播放中替换选择（停止/替换轴） 旧曲播放中 load 新曲：旧曲被停、新曲字节真入 sequencer、快照归零换时长，play 从头开播",
+          "status": "passed",
+          "title": "旧曲播放中 load 新曲：旧曲被停、新曲字节真入 sequencer、快照归零换时长，play 从头开播",
+          "duration": 2.2062500000000043,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L5 播放中替换读取失败（失败轴）"],
+          "fullName": "L5 播放中替换读取失败（失败轴） 替换读取失败：精确拒绝、新曲未入 sequencer、旧曲已停且旧字节不得顶替新选择；修复后重载开播",
+          "status": "passed",
+          "title": "替换读取失败：精确拒绝、新曲未入 sequencer、旧曲已停且旧字节不得顶替新选择；修复后重载开播",
+          "duration": 0.8458750000000066,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377520238,
+      "endTime": 1792377520240.846,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/audio/midi-preview.glm-audio-lifecycle.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["N02 MIDI 试听浏览器运行时探测"],
+          "fullName": "N02 MIDI 试听浏览器运行时探测 无窗口环境：createBrowserMidiPreviewRuntime 返回 undefined，不分配任何资源",
+          "status": "passed",
+          "title": "无窗口环境：createBrowserMidiPreviewRuntime 返回 undefined，不分配任何资源",
+          "duration": 1.100625000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N02 MIDI 试听传输守卫"],
+          "fullName": "N02 MIDI 试听传输守卫 空传输快照：无资产、时长 0、暂停态",
+          "status": "passed",
+          "title": "空传输快照：无资产、时长 0、暂停态",
+          "duration": 0.5095419999999962,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N02 MIDI 试听传输守卫"],
+          "fullName": "N02 MIDI 试听传输守卫 seek 负值/NaN/超界全部钳制到 [0, duration] 并反映在快照",
+          "status": "passed",
+          "title": "seek 负值/NaN/超界全部钳制到 [0, duration] 并反映在快照",
+          "duration": 0.19041700000001072,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377521061,
+      "endTime": 1792377521063.1904,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/audio/midi-preview.glm-n.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R17 analyzeMidiBytes（真实解析器）"],
+          "fullName": "R17 analyzeMidiBytes（真实解析器） 手构 SMF：时长 0.5s、单音符满覆盖、桶值归一化到 1",
+          "status": "passed",
+          "title": "手构 SMF：时长 0.5s、单音符满覆盖、桶值归一化到 1",
+          "duration": 40.436041,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R17 analyzeMidiBytes（真实解析器）"],
+          "fullName": "R17 analyzeMidiBytes（真实解析器） 自定义 bucketCount=5：桶数跟随参数，值仍全 1（单音全覆盖）",
+          "status": "passed",
+          "title": "自定义 bucketCount=5：桶数跟随参数，值仍全 1（单音全覆盖）",
+          "duration": 0.3697909999999922,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377520943,
+      "endTime": 1792377520983.436,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/audio/midi-preview.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C4 A/B 载入逆序与同 key 在途去重"],
+          "fullName": "C4 A/B 载入逆序与同 key 在途去重 旧选择迟到被拒（AbortError），transport 仍是新选择；不清新请求的成果",
+          "status": "passed",
+          "title": "旧选择迟到被拒（AbortError），transport 仍是新选择；不清新请求的成果",
+          "duration": 1.469417000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C4 A/B 载入逆序与同 key 在途去重"],
+          "fullName": "C4 A/B 载入逆序与同 key 在途去重 同 asset+cacheKey 在途去重：读取轨迹只有一次，两次调用同结果",
+          "status": "passed",
+          "title": "同 asset+cacheKey 在途去重：读取轨迹只有一次，两次调用同结果",
+          "duration": 0.5471660000000043,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C4 A/B 载入逆序与同 key 在途去重"],
+          "fullName": "C4 A/B 载入逆序与同 key 在途去重 旧 load 的 finally 不清仍在途的新请求：A 挂起→B entered→A 迟到被拒→重复 B 仍只读一次",
+          "status": "passed",
+          "title": "旧 load 的 finally 不清仍在途的新请求：A 挂起→B entered→A 迟到被拒→重复 B 仍只读一次",
+          "duration": 0.482167000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C5 读取失败与后端初始化失败后的重试"],
+          "fullName": "C5 读取失败与后端初始化失败后的重试 读取失败可观察；修复 reader 后同 asset 重载成功",
+          "status": "passed",
+          "title": "读取失败可观察；修复 reader 后同 asset 重载成功",
+          "duration": 0.6685410000000047,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C5 读取失败与后端初始化失败后的重试"],
+          "fullName": "C5 读取失败与后端初始化失败后的重试 后端 initialize 失败 → play 拒绝且不缓存失败；下次 play 重试初始化成功",
+          "status": "passed",
+          "title": "后端 initialize 失败 → play 拒绝且不缓存失败；下次 play 重试初始化成功",
+          "duration": 0.37658399999999403,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C6 挂起 play 的失效组合（snapshot 与实际后端动作双断言）"],
+          "fullName": "C6 挂起 play 的失效组合（snapshot 与实际后端动作双断言） 并发 play 去重：resume 只发生一次，两调用同一结局",
+          "status": "passed",
+          "title": "并发 play 去重：resume 只发生一次，两调用同一结局",
+          "duration": 0.30804200000000037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C6 挂起 play 的失效组合（snapshot 与实际后端动作双断言）"],
+          "fullName": "C6 挂起 play 的失效组合（snapshot 与实际后端动作双断言） pause 使挂起 play 失效：AbortError、后端零 play、snapshot 记录显式位置",
+          "status": "passed",
+          "title": "pause 使挂起 play 失效：AbortError、后端零 play、snapshot 记录显式位置",
+          "duration": 0.280083999999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C6 挂起 play 的失效组合（snapshot 与实际后端动作双断言）"],
+          "fullName": "C6 挂起 play 的失效组合（snapshot 与实际后端动作双断言） stop/seek/dispose 均使挂起 play 失效；dispose 关闭后端",
+          "status": "passed",
+          "title": "stop/seek/dispose 均使挂起 play 失效；dispose 关闭后端",
+          "duration": 0.49774999999999636,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377518925,
+      "endTime": 1792377518930.4978,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/audio/midi-preview.lifecycle-boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["N02 MIDI 试听 play 守卫与取消"],
+          "fullName": "N02 MIDI 试听 play 守卫与取消 未完成读取前 play → 精确拒绝；jsdom 无 AudioContext → 不支持试听",
+          "status": "passed",
+          "title": "未完成读取前 play → 精确拒绝；jsdom 无 AudioContext → 不支持试听",
+          "duration": 36.81537500000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N02 MIDI 试听 play 守卫与取消"],
+          "fullName": "N02 MIDI 试听 play 守卫与取消 dispose 后的 load 仍以 AbortError 收场，且成果永不入账",
+          "status": "passed",
+          "title": "dispose 后的 load 仍以 AbortError 收场，且成果永不入账",
+          "duration": 0.8721669999999904,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377521122,
+      "endTime": 1792377521159.872,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/audio/midi-preview.play-guards.glm-n.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["MIDI preview analysis"],
+          "fullName": "MIDI preview analysis normalizes real note activity deterministically and preserves empty tracks",
+          "status": "passed",
+          "title": "normalizes real note activity deterministically and preserves empty tracks",
+          "duration": 1.0351660000000038,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MIDI preview transport"],
+          "fullName": "MIDI preview transport does not allocate an AudioContext until the user requests playback",
+          "status": "passed",
+          "title": "does not allocate an AudioContext until the user requests playback",
+          "duration": 0.49074999999999136,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MIDI preview transport"],
+          "fullName": "MIDI preview transport deduplicates the same identity and reuses cached note activity on a new SHA",
+          "status": "passed",
+          "title": "deduplicates the same identity and reuses cached note activity on a new SHA",
+          "duration": 34.964875000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MIDI preview transport"],
+          "fullName": "MIDI preview transport loads a canonical MIDI and exposes play, pause, stop and clamped seek",
+          "status": "passed",
+          "title": "loads a canonical MIDI and exposes play, pause, stop and clamped seek",
+          "duration": 0.8649580000000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MIDI preview transport"],
+          "fullName": "MIDI preview transport normalizes natural completion to the exact end and resets before replay",
+          "status": "passed",
+          "title": "normalizes natural completion to the exact end and resets before replay",
+          "duration": 0.623541000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MIDI preview transport"],
+          "fullName": "MIDI preview transport lets stop and seek override a completed sequencer before the next play",
+          "status": "passed",
+          "title": "lets stop and seek override a completed sequencer before the next play",
+          "duration": 0.5457090000000022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MIDI preview transport"],
+          "fullName": "MIDI preview transport continues reporting live sequencer time after seeking during playback",
+          "status": "passed",
+          "title": "continues reporting live sequencer time after seeking during playback",
+          "duration": 0.3352079999999944,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MIDI preview transport"],
+          "fullName": "MIDI preview transport stop cancels a pending resume and dispose cancels late synthesizer initialization",
+          "status": "passed",
+          "title": "stop cancels a pending resume and dispose cancels late synthesizer initialization",
+          "duration": 0.7635410000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377519536,
+      "endTime": 1792377519575.7634,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/audio/midi-preview.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "B4 collectSceneSoundAssets 显式输入轴（合法 fixture：全部引用可解析）"
+          ],
+          "fullName": "B4 collectSceneSoundAssets 显式输入轴（合法 fixture：全部引用可解析） 基础：pages[0] 绑定 cue 音 + additionalRoots 动态根的 playSound 边",
+          "status": "passed",
+          "title": "基础：pages[0] 绑定 cue 音 + additionalRoots 动态根的 playSound 边",
+          "duration": 1.283875000000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "B4 collectSceneSoundAssets 显式输入轴（合法 fixture：全部引用可解析）"
+          ],
+          "fullName": "B4 collectSceneSoundAssets 显式输入轴（合法 fixture：全部引用可解析） 背包物品三音轴：use.sound + throw.sound + magic 呈现动画音都入集",
+          "status": "passed",
+          "title": "背包物品三音轴：use.sound + throw.sound + magic 呈现动画音都入集",
+          "duration": 0.28220799999999713,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "B4 collectSceneSoundAssets 显式输入轴（合法 fixture：全部引用可解析）"
+          ],
+          "fullName": "B4 collectSceneSoundAssets 显式输入轴（合法 fixture：全部引用可解析） additionalRoots 中的 callScript 递归 canonical sharedScripts；动态根同环同去重",
+          "status": "passed",
+          "title": "additionalRoots 中的 callScript 递归 canonical sharedScripts；动态根同环同去重",
+          "duration": 0.16166599999999676,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "B4 collectSceneSoundAssets 显式输入轴（合法 fixture：全部引用可解析）"
+          ],
+          "fullName": "B4 collectSceneSoundAssets 显式输入轴（合法 fixture：全部引用可解析） 缺 sharedScripts 注册表 → 精确 fail-loud（引用脚本但无表）",
+          "status": "passed",
+          "title": "缺 sharedScripts 注册表 → 精确 fail-loud（引用脚本但无表）",
+          "duration": 0.6417500000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "B4 collectSceneSoundAssets 显式输入轴（合法 fixture：全部引用可解析）"
+          ],
+          "fullName": "B4 collectSceneSoundAssets 显式输入轴（合法 fixture：全部引用可解析） signal 预取消 → 立即 AbortError（进入前即拒）",
+          "status": "passed",
+          "title": "signal 预取消 → 立即 AbortError（进入前即拒）",
+          "duration": 0.23358299999999588,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377520691,
+      "endTime": 1792377520693.2336,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/audio/sfx-readiness.collections.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L6 收集中途 abort（AbortSignal 轴）"],
+          "fullName": "L6 收集中途 abort（AbortSignal 轴） 首 root 访问完成后同步 abort → 后续 root 不访问，以 AbortError 收场",
+          "status": "passed",
+          "title": "首 root 访问完成后同步 abort → 后续 root 不访问，以 AbortError 收场",
+          "duration": 1.379249999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L6 收集中途 abort（AbortSignal 轴）"],
+          "fullName": "L6 收集中途 abort（AbortSignal 轴） 同输入正控（不 abort）：root[1] 会被访问并以缺 sprites 注册表 fail-loud",
+          "status": "passed",
+          "title": "同输入正控（不 abort）：root[1] 会被访问并以缺 sprites 注册表 fail-loud",
+          "duration": 0.3187499999999943,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L6 收集中途 abort（AbortSignal 轴）"],
+          "fullName": "L6 收集中途 abort（AbortSignal 轴） 双合法 root 正控：多 root 收集不受影响，全部入集",
+          "status": "passed",
+          "title": "双合法 root 正控：多 root 收集不受影响，全部入集",
+          "duration": 0.23629199999999173,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377520869,
+      "endTime": 1792377520871.2363,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/audio/sfx-readiness.glm-audio-lifecycle.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["SFX readiness 收集"],
+          "fullName": "SFX readiness 收集 递归 canonical sharedScripts、去环并对缺失脚本 fail-loud",
+          "status": "passed",
+          "title": "递归 canonical sharedScripts、去环并对缺失脚本 fail-loud",
+          "duration": 1.749083999999982,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SFX readiness 收集"],
+          "fullName": "SFX readiness 收集 场景包含实体脚本、覆写脚本与背包用品声音",
+          "status": "passed",
+          "title": "场景包含实体脚本、覆写脚本与背包用品声音",
+          "duration": 0.32416699999998855,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SFX readiness 收集"],
+          "fullName": "SFX readiness 收集 只递归准备当前场景页绑定与可达动作命令的 cue 音效",
+          "status": "passed",
+          "title": "只递归准备当前场景页绑定与可达动作命令的 cue 音效",
+          "duration": 0.212208999999973,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SFX readiness 收集"],
+          "fullName": "SFX readiness 收集 动作 cue readiness 对缺失复合引用 fail-loud",
+          "status": "passed",
+          "title": "动作 cue readiness 对缺失复合引用 fail-loud",
+          "duration": 0.1408749999999941,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SFX readiness 收集"],
+          "fullName": "SFX readiness 收集 页默认动作只预取运行时当前支持的 pages[0]，不误读未激活页",
+          "status": "passed",
+          "title": "页默认动作只预取运行时当前支持的 pages[0]，不误读未激活页",
+          "duration": 0.1342499999999518,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SFX readiness 收集"],
+          "fullName": "SFX readiness 收集 battleBase 递归敌变身/召唤、fallback、hook 与战后脚本",
+          "status": "passed",
+          "title": "battleBase 递归敌变身/召唤、fallback、hook 与战后脚本",
+          "duration": 0.9952920000000063,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SFX readiness 收集"],
+          "fullName": "SFX readiness 收集 turn 只收实际 cast/item/throw，施毒目标分别走 enemy/player/enemy ticks",
+          "status": "passed",
+          "title": "turn 只收实际 cast/item/throw，施毒目标分别走 enemy/player/enemy ticks",
+          "duration": 0.3360410000000229,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SFX readiness 收集"],
+          "fullName": "SFX readiness 收集 同一 poisonId 的玩家/敌人活跃毒保持两套 tick 身份，base 与 turn 结果一致",
+          "status": "passed",
+          "title": "同一 poisonId 的玩家/敌人活跃毒保持两套 tick 身份，base 与 turn 结果一致",
+          "duration": 0.22429199999999128,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SFX readiness 收集"],
+          "fullName": "SFX readiness 收集 enemyTicks grantItem 从当前 tick 起递归 use→player / throw→enemy 两侧嵌套毒链",
+          "status": "passed",
+          "title": "enemyTicks grantItem 从当前 tick 起递归 use→player / throw→enemy 两侧嵌套毒链",
+          "duration": 0.4001670000000104,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377518724,
+      "endTime": 1792377518728.4001,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/audio/sfx-readiness.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "fixture 合法性：legalWav 过产品 RIFF/WAVE 门（构造正控）",
+          "status": "passed",
+          "title": "fixture 合法性：legalWav 过产品 RIFF/WAVE 门（构造正控）",
+          "duration": 3.3793329999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B1 RIFF 标记门三轴：坏输入在 decode 前拒绝（decode 零调用见证）"],
+          "fullName": "B1 RIFF 标记门三轴：坏输入在 decode 前拒绝（decode 零调用见证） RIFF 首标记错 / WAVE 标记错 / 长度不足 三轴各自拒绝且 decode 零调用",
+          "status": "passed",
+          "title": "RIFF 首标记错 / WAVE 标记错 / 长度不足 三轴各自拒绝且 decode 零调用",
+          "duration": 0.8370829999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "B2 真实 browserAdapter：字节复制与 AudioContext 宿主事件（协议级，非 PCM 证明）"
+          ],
+          "fullName": "B2 真实 browserAdapter：字节复制与 AudioContext 宿主事件（协议级，非 PCM 证明） window.AudioContext 双替身下产品 browserAdapter 构造：decode 收到字节副本、宿主事件齐",
+          "status": "passed",
+          "title": "window.AudioContext 双替身下产品 browserAdapter 构造：decode 收到字节副本、宿主事件齐",
+          "duration": 0.9859999999999971,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B1 同 reader 修复重试：真实字节身份与读取轨迹"],
+          "fullName": "B1 同 reader 修复重试：真实字节身份与读取轨迹 首次读坏 RIFF → 同 reader 修好字节后同 asset 成功；读取次数与内容见证",
+          "status": "passed",
+          "title": "首次读坏 RIFF → 同 reader 修好字节后同 asset 成功；读取次数与内容见证",
+          "duration": 0.22495800000000088,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B1 prepare 在途取消：entered 见证 + 可释放读取 + 迟到不回填"],
+          "fullName": "B1 prepare 在途取消：entered 见证 + 可释放读取 + 迟到不回填 readBytes 挂起期间 dispose → 原调用以资源错误收尾、迟到完成不回填",
+          "status": "passed",
+          "title": "readBytes 挂起期间 dispose → 原调用以资源错误收尾、迟到完成不回填",
+          "duration": 0.1431660000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377519643,
+      "endTime": 1792377519649.2249,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/audio/sfx.staged-failures.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["SfxPlayer readiness"],
+          "fullName": "SfxPlayer readiness 冷缓存不迟播；并发 prepare 只读解码一次",
+          "status": "passed",
+          "title": "冷缓存不迟播；并发 prepare 只读解码一次",
+          "duration": 1.379374999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SfxPlayer readiness"],
+          "fullName": "SfxPlayer readiness 失败可重试，invalidate 期间旧结果不能回填",
+          "status": "passed",
+          "title": "失败可重试，invalidate 期间旧结果不能回填",
+          "duration": 0.8639170000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SfxPlayer readiness"],
+          "fullName": "SfxPlayer readiness 不相交并发工作集串行提交；每个 resolve 时该批仍完整驻留",
+          "status": "passed",
+          "title": "不相交并发工作集串行提交；每个 resolve 时该批仍完整驻留",
+          "duration": 0.4752909999999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SfxPlayer readiness"],
+          "fullName": "SfxPlayer readiness LRU 触碰顺序和 readiness 预算可观察且 fail-loud",
+          "status": "passed",
+          "title": "LRU 触碰顺序和 readiness 预算可观察且 fail-loud",
+          "duration": 0.30450000000000443,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SfxPlayer readiness"],
+          "fullName": "SfxPlayer readiness 无 adapter 也在任何资源读取前抛 typed budget error",
+          "status": "passed",
+          "title": "无 adapter 也在任何资源读取前抛 typed budget error",
+          "duration": 0.348708000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SfxPlayer readiness"],
+          "fullName": "SfxPlayer readiness prepare 等同批全部落定：成功项 ready 后才抛聚合 resource error",
+          "status": "passed",
+          "title": "prepare 等同批全部落定：成功项 ready 后才抛聚合 resource error",
+          "duration": 1.7041250000000048,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SfxPlayer 一阶段 lastSFX 状态机"],
+          "fullName": "SfxPlayer 一阶段 lastSFX 状态机 同号拒绝、异号覆盖、旧 ended 不清当前号",
+          "status": "passed",
+          "title": "同号拒绝、异号覆盖、旧 ended 不清当前号",
+          "duration": 0.12245799999999463,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SfxPlayer 一阶段 lastSFX 状态机"],
+          "fullName": "SfxPlayer 一阶段 lastSFX 状态机 播放 start 失败复位去重，禁用尝试不污染状态",
+          "status": "passed",
+          "title": "播放 start 失败复位去重，禁用尝试不污染状态",
+          "duration": 0.12399999999999523,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "resume 防重入，suspended 不建 source，dispose 停止并失效",
+          "status": "passed",
+          "title": "resume 防重入，suspended 不建 source，dispose 停止并失效",
+          "duration": 0.5452080000000024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "resume 失败后清除防重入状态，下一次用户手势可重试",
+          "status": "passed",
+          "title": "resume 失败后清除防重入状态，下一次用户手势可重试",
+          "duration": 0.1629999999999967,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "dispose 期间完成的 decode 不会让旧 prepare 假成功",
+          "status": "passed",
+          "title": "dispose 期间完成的 decode 不会让旧 prepare 假成功",
+          "duration": 0.16124999999999545,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "错误包含 project、AssetId、path 与 kind 上下文",
+          "status": "passed",
+          "title": "错误包含 project、AssetId、path 与 kind 上下文",
+          "duration": 0.4042910000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377518805,
+      "endTime": 1792377518812.4043,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/audio/sfx.test.ts"
+    }
+  ]
+}

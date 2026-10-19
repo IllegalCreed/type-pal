@@ -57,7 +57,8 @@ Status: build；以下只记有限模块结果，不声明全专项完成
 - 模块14批41作者原件：[reforge根目录微/小件~45文件](reforge-root-small/README.md)（同线，review待验收）。零整改批(红线纪律注/gate族token与identity/game-over $00坐标考证/engine-chrome 85 slot穷尽);21文件39套件106/106。reforge余量:menu其余+dialog其余+save其余+audio族+script族+render/assets/world族+project族+main/debug-tools/entity-motion。
 - 模块14批42作者原件：[reforge save/dialog/menu已读件](reforge-save-dialog-menu/README.md)（同线，review待验收）。零整改批(current-structure SAVE-PREFLIGHT-1稀疏洞/toast像素宽论证/codec身份闭包/store三store原子事务);save全7文件+dialog/layout+menu已读件。
 
-- 模块14批43作者原件：[reforge dialog-box/menu-box/menu-session](reforge-dialogbox-menu/README.md)（同线，review待验收）。零整改批(drawSlicedBox九宫格实际宽高定位+卷轴头右探/drawBoxShadow source-in镂空阴影/MENU_W=61推导链/menu-session六相位输入机+dispatchItemUse挂起恢复合同);25/25零失败套件。reforge余量:audio族/script族/render/assets/world族/project族/main/debug-tools/entity-motion。
+- 模块14批43作者原件：[reforge dialog-box/menu-box/menu-session](reforge-dialogbox-menu/README.md)（同线，review待验收）。零整改批(drawSlicedBox九宫格实际宽高定位+卷轴头右探/drawBoxShadow source-in镂空阴影/MENU_W=61推导链/menu-session六相位输入机+dispatchItemUse挂起恢复合同);25/25零失败套件。
+- 模块14批44作者原件：[reforge audio族](reforge-audio/README.md)（同线，review待验收）。1整改(bgm inflightTarget只写死状态+失实K5注释删除,body-invariance false预期95/95)+3零整改(sfx串行prepare队列/generation失效链;sfx-readiness两屏障+毒walker;midi-preview双代际门+hasExplicitPosition);typecheck 0。reforge余量:script族/render/assets/world族/project族/main/debug-tools/entity-motion。
 集成修正：MKF仅首offset/表长4对齐、并非所有chunk偏移；SDL坏档结果/全原盘保证不能泛化；readChunk生产注释保留借用合同、去掉测试治理措辞。RNG跳帧保留基面继续解码，不保证缺帧后的画面等价。正常资产对拍不代替坏帧策略证明。
 
 旧撤回恢复：mkf.boundaries.test.ts、rng.test.ts、yj2.boundaries.test.ts、rle.glm-o.test.ts四行恢复review，不是本批重新发现代码失败。中央ledger3319/245closed/109review/2965pending，0新关闭；CODE2/2b仍partial。
