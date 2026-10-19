@@ -7,12 +7,18 @@ import type {
   EnemyObject,
   EnemyTeam,
   InputSnapshot,
+  Item,
   LevelUpMagicEntry,
+  Magic,
   PlayerRole,
   PlayerRoles,
+  Spell,
 } from '@type-pal/shared'
-import { describe, expect, it } from 'vitest'
-import { type BattleResources, tickBattle } from '../core/battle/battle-system.js'
+import { assert, describe, expect, it } from 'vitest'
+import { makeHEnemy, makeHRole } from '../__tests__/glm-next-wave/H/harness.js'
+import { SceneAssetsCache } from '../assets/loader.js'
+import { getBattleResources } from '../core/battle/battle-runtime-context.js'
+import { tickBattle } from '../core/battle/battle-system.js'
 import { createCommandBus } from '../core/command-bus.js'
 import { createInitialGameState, projectRuntimeToBattleRoles } from '../core/game-state.js'
 import { confirmCaster, createInGameMagicMenu } from '../core/menu/in-game-magic-menu.js'
@@ -35,7 +41,7 @@ import fixturesData from './fixtures/battle-fixtures.json' with { type: 'json' }
 //   role0 李逍遥 base 法术 = 气疗术(296, usableOutsideBattle);lv7 学天师符法(349, 仅战斗),
 //   lv10 学凝神归元(298, usableOutsideBattle)。用于验「升级学的大世界法术经 runtime 投影后菜单可见」。
 const R0_BASE_MAGIC = [296]
-const SPELLS_FIX = [
+const SPELLS_FIX: Spell[] = [
   {
     id: 296,
     _name: '气疗术',
@@ -79,18 +85,21 @@ const SPELLS_FIX = [
     },
   },
 ]
-const MAGICS_FIX = [
-  { id: 50, costMP: 5 },
-  { id: 52, costMP: 10 },
-  { id: 54, costMP: 8 },
+const MAGICS_FIX: Magic[] = [
+  magicFixture(50, 5, 'applyToPlayer'),
+  magicFixture(52, 10, 'applyToPlayer'),
+  magicFixture(54, 8, 'normal'),
 ]
 // levelUpMagic[j][roleId] = {level, magic};只填 role0(inner idx 0)列
-const LEVELUP_MAGIC_FIX = [[{ level: 7, magic: 349 }], [{ level: 10, magic: 298 }]]
+const LEVELUP_MAGIC_FIX: LevelUpMagicEntry[][] = [
+  [{ level: 7, magic: 349 }],
+  [{ level: 10, magic: 298 }],
+]
 // 真 DATA.MKF chunk 14 rgLevelUpExp 前 14 项(够升到 lv12)
 const LEVELUP_EXP_FIX = [0, 15, 40, 90, 165, 265, 390, 540, 715, 915, 1140, 1390, 1665, 1965]
 
 function minimalEnemy(id: number, over: Partial<Enemy> = {}): Enemy {
-  return {
+  return makeHEnemy({
     id,
     _name: `e${id}`,
     health: 30,
@@ -100,14 +109,16 @@ function minimalEnemy(id: number, over: Partial<Enemy> = {}): Enemy {
     defense: 0,
     dexterity: 10,
     physicalResistance: 1,
+    magicStrength: 0,
+    cash: 0,
+    fleeRate: 0,
     elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
     yPosOffset: 0,
     ...over,
-  } as any as Enemy
+  })
 }
 function minimalRole(id: number): PlayerRole {
-  return {
-    id,
+  return makeHRole(id, {
     _name: `r${id}`,
     level: 1,
     hp: 100,
@@ -127,7 +138,50 @@ function minimalRole(id: number): PlayerRole {
     attackAll: 0,
     walkFrames: 0,
     elemResistance: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
-  } as any as PlayerRole
+  })
+}
+
+function magicFixture(id: number, costMP: number, type: Magic['type']): Magic {
+  return {
+    id,
+    costMP,
+    type,
+    effect: 0,
+    xOffset: 0,
+    yOffset: 0,
+    special: 0,
+    speed: 0,
+    keepEffect: 0,
+    fireDelay: 0,
+    effectTimes: 0,
+    shake: 0,
+    wave: 0,
+    unknown: 0,
+    baseDamage: 0,
+    elemental: 0,
+    sound: 0,
+  }
+}
+
+function itemFixture(id: number): Item {
+  return {
+    id,
+    bitmap: 0,
+    price: 0,
+    scriptOnUse: 0,
+    scriptOnEquip: 0,
+    scriptOnThrow: 0,
+    scriptDesc: 0,
+    flags: {
+      usable: false,
+      equipable: false,
+      throwable: false,
+      consuming: false,
+      applyToAll: false,
+      sellable: false,
+      equipableBy: [false, false, false, false, false, false],
+    },
+  }
 }
 
 function makeDeps(): DevPanelDeps {
@@ -141,7 +195,7 @@ function makeDeps(): DevPanelDeps {
       scriptOnReady: 0,
       scriptOnBattleEnd: 0,
       resistanceToSorcery: 0,
-    } as any,
+    },
   ]
   const enemyTeams: EnemyTeam[] = [
     { id: 1, enemies: [2, 0xffff, 0xffff, 0xffff, 0xffff] }, // 灯笼
@@ -154,9 +208,11 @@ function makeDeps(): DevPanelDeps {
   }
   return {
     gs,
-    fixtures: { fixtures: [] } as any,
-    sceneJumps: { jumps: [] } as any,
-    sceneAssetsCache: {} as any,
+    fixtures: { fixtures: [] },
+    sceneJumps: { jumps: [] },
+    sceneAssetsCache: new SceneAssetsCache(() =>
+      Promise.reject(new Error('fixture flow must not load a scene')),
+    ),
     resources: {
       enemies: [
         minimalEnemy(2, { _name: '灯笼', health: 30, exp: 1 }),
@@ -165,30 +221,31 @@ function makeDeps(): DevPanelDeps {
       enemyObjects,
       enemyTeams,
       battleFields: [field],
-      playerRoles: { roles: [{ ...minimalRole(0), magic: R0_BASE_MAGIC } as any] },
+      playerRoles: { roles: [{ ...minimalRole(0), magic: [...R0_BASE_MAGIC] }] },
       levelUpExp: LEVELUP_EXP_FIX,
-      levelUpMagic: LEVELUP_MAGIC_FIX as any,
+      levelUpMagic: LEVELUP_MAGIC_FIX,
       items: [],
-      spells: SPELLS_FIX as any,
-      magics: MAGICS_FIX as any,
+      spells: SPELLS_FIX,
+      magics: MAGICS_FIX,
       objectMagics: [],
       objectPoisons: [],
       objectPlayers: [],
       commands: [{ op: 'end' }],
-      // enemyPos undefined → createBattleState 走 fallback 位置表(测试不验位置)
-      enemyPos: undefined as any,
+      // 空布局 → createBattleState 使用默认位置(本片不验位置)。
+      enemyPos: { layouts: [] },
       battleEffectIndex: [],
       magicSpriteFrameCounts: new Map(),
     },
   }
 }
 
-const dialogFixture = fixturesData.fixtures.find(
-  (f) => f.id === 'fixture-dialog',
-)! as unknown as BattleFixture
-const levelupFixture = fixturesData.fixtures.find(
-  (f) => f.id === 'fixture-levelup',
-)! as unknown as BattleFixture
+function fixtureById(id: string): BattleFixture {
+  const fixture = fixturesData.fixtures.find((f) => f.id === id)
+  if (!fixture) throw new Error(`missing battle fixture ${id}`)
+  return fixture
+}
+const dialogFixture = fixtureById('fixture-dialog')
+const levelupFixture = fixtureById('fixture-levelup')
 
 /** 推进战斗到 explore:D11b 胜利结算演出 active 时按 Confirm 快速翻屏,其余阶段空输入。 */
 function driveToExplore(
@@ -255,7 +312,7 @@ describe('computeMagicGrantsByRole(全局脚本 0x55 addMagic 剧情/法宝授�
     { op: 'raw', opcode: 0x55, operands: [203, 3, 0] }, // role2 授 magic 203(roleArg 3 → role2)
     { op: 'raw', opcode: 0x55, operands: [999, 0, 0] }, // roleArg=0 dynamic → 跳过
     { op: 'end' },
-  ] as unknown as Command[]
+  ]
   it('按 role 聚合授予法术(roleArg-1),roleArg=0 跳过', () => {
     const grants = computeMagicGrantsByRole(cmds)
     expect([...(grants.get(0) ?? [])].sort((a, b) => a - b)).toEqual([201, 202])
@@ -265,12 +322,12 @@ describe('computeMagicGrantsByRole(全局脚本 0x55 addMagic 剧情/法宝授�
 })
 
 describe('roleMagicsAtLevel(仙术按等级:起手 + 升级习得 entry.level<=level + 授予)', () => {
-  const playerRoles = { roles: [{ id: 0, magic: [296, 0, 0] }] } as unknown as PlayerRoles
+  const playerRoles: PlayerRoles = { roles: [{ ...minimalRole(0), magic: [296, 0, 0] }] }
   // levelUpMagic[row][roleId]:role0 列 — lv7 学 349、lv10 学 298
-  const levelUpMagic = [
+  const levelUpMagic: LevelUpMagicEntry[][] = [
     [{ level: 7, magic: 349 }],
     [{ level: 10, magic: 298 }],
-  ] as unknown as LevelUpMagicEntry[][]
+  ]
   const grantsByRole = new Map<number, Set<number>>([[0, new Set([500])]])
 
   it('level=5:只起手 296 + 授予 500(7/10 级法术未到等级)', () => {
@@ -301,7 +358,7 @@ describe('roleMagicsAtLevel(仙术按等级:起手 + 升级习得 entry.level<=l
 describe('applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全道具)', () => {
   it('选敌 + 队员 + level=7 + 全道具 → 临时 team 90000 启战 / 仙术按等级 / 道具×99', () => {
     const deps = makeDeps()
-    deps.resources.items = [{ id: 10 } as any, { id: 11 } as any]
+    deps.resources.items = [itemFixture(61), itemFixture(62)]
     applyCustomBattle(deps, { enemyIds: [82, 2], partyMembers: [0], level: 7, allItems: true }, 42)
     // 临时 team(id 90000)推入 enemyTeams,pad 0xFFFF
     const team = deps.resources.enemyTeams.find((t) => t.id === CUSTOM_BATTLE_TEAM_ID)
@@ -311,11 +368,9 @@ describe('applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全
     expect(deps.gs.battleState?.enemies.map((e) => e.e.id).sort((a, b) => a - b)).toEqual([2, 82])
     // role0 level=7 override + 仙术按等级(起手 296 + lv7 学 349;lv10 的 298 未到)
     expect(deps.resources.playerRoles.roles[0]!.level).toBe(7)
-    expect(
-      (deps.resources.playerRoles.roles[0] as unknown as { magic: number[] }).magic.sort(
-        (a, b) => a - b,
-      ),
-    ).toEqual([296, 349])
+    expect(deps.resources.playerRoles.roles[0]?.magic?.slice().sort((a, b) => a - b)).toEqual([
+      296, 349,
+    ])
     // 等级不只写静态表:runtime / Exp / 真战斗投影角色都同步,且按等级补出成长属性。
     expect(deps.gs.PlayerRolesRuntime.rgwLevel[0]).toBe(7)
     expect(deps.gs.Exp.rgPrimaryExp[0]).toMatchObject({ wExp: 0, wLevel: 7 })
@@ -325,8 +380,7 @@ describe('applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全
     expect(deps.gs.PlayerRolesRuntime.rgwHP[0]).toBe(181)
     expect(deps.gs.PlayerRolesRuntime.rgwAttackStrength[0]).toBe(32)
     expect(deps.gs.PlayerRolesRuntime.rgwDefense[0]).toBe(20)
-    const battleRole = (deps.gs as unknown as { __battleResources?: BattleResources })
-      .__battleResources?.playerRoles.roles[0]
+    const battleRole = getBattleResources(deps.gs)?.playerRoles.roles[0]
     expect(battleRole).toMatchObject({
       level: 7,
       hp: 181,
@@ -336,8 +390,8 @@ describe('applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全
     })
     // 全道具 ×99
     expect(deps.gs.inventory.map((e) => ({ itemId: e.itemId, count: e.count }))).toEqual([
-      { itemId: 10, count: 99 },
-      { itemId: 11, count: 99 },
+      { itemId: 61, count: 99 },
+      { itemId: 62, count: 99 },
     ])
   })
 
@@ -363,14 +417,13 @@ describe('applyCustomBattle(自定义战斗:临时 team + 按 level 仙术 + 全
     expect(deps.gs.Exp.rgPrimaryExp[0]).toMatchObject({ wExp: 0, wLevel: 3 })
     expect(deps.gs.PlayerRolesRuntime.rgwMaxHP[0]).toBe(123)
     expect(deps.gs.PlayerRolesRuntime.rgwAttackStrength[0]).toBe(14)
-    const battleRole = (deps.gs as unknown as { __battleResources?: BattleResources })
-      .__battleResources?.playerRoles.roles[0]
+    const battleRole = getBattleResources(deps.gs)?.playerRoles.roles[0]
     expect(battleRole).toMatchObject({ level: 3, hp: 123, maxHP: 123, attackStrength: 14 })
   })
 
   it('allItems=false → inventory 空', () => {
     const deps = makeDeps()
-    deps.resources.items = [{ id: 10 } as any]
+    deps.resources.items = [itemFixture(61)]
     applyCustomBattle(deps, { enemyIds: [82], partyMembers: [0], level: 1, allItems: false }, 42)
     expect(deps.gs.inventory).toEqual([])
   })
@@ -409,7 +462,7 @@ describe('applyAutoBattleT37(过场自动战斗 1:1:盖罗娇+苗女 vs 石长�
   it('party=[4,5,4] + fAutoBattle + 真 team37(石长老)+ 战场23,不 god-mode override', () => {
     const deps = makeDeps()
     // 扩展:roles 0-5(盖罗娇=5)+ team 37(石长老 119)+ enemy 119 + 战场 23
-    deps.resources.playerRoles = { roles: [0, 1, 2, 3, 4, 5].map((id) => minimalRole(id)) } as any
+    deps.resources.playerRoles = { roles: [0, 1, 2, 3, 4, 5].map((id) => minimalRole(id)) }
     deps.resources.enemies.push(minimalEnemy(119, { _name: '石长老', health: 9000, level: 36 }))
     deps.resources.enemyTeams.push({ id: 37, enemies: [119, 0xffff, 0xffff, 0xffff, 0xffff] })
     deps.resources.battleFields.push({
@@ -431,7 +484,7 @@ describe('applyAutoBattleT37(过场自动战斗 1:1:盖罗娇+苗女 vs 石长�
 describe('applyBossBattle(剧情 boss 战:真 boss team + god-mode 队伍)', () => {
   it('teamId=21 + members=[0] → 起真 team 21(林月如一)战 / 队伍 god-mode lv99 全仙术 / 全道具', () => {
     const deps = makeDeps()
-    deps.resources.items = [{ id: 10 } as any]
+    deps.resources.items = [itemFixture(61)]
     applyBossBattle(deps, 21, { members: [0] })
     expect(deps.gs.mode).toBe('battle')
     // 真 boss team 21(非临时 90000)→ 林月如一(82)
@@ -439,12 +492,10 @@ describe('applyBossBattle(剧情 boss 战:真 boss team + god-mode 队伍)', () 
     expect(deps.resources.enemyTeams.some((t) => t.id === CUSTOM_BATTLE_TEAM_ID)).toBe(false) // 不建临时 team
     // god-mode:level 99 + 全仙术(起手 296 + 升级 349/298 全学)+ 全道具
     expect(deps.resources.playerRoles.roles[0]!.level).toBe(99)
-    expect(
-      (deps.resources.playerRoles.roles[0] as unknown as { magic: number[] }).magic.sort(
-        (a, b) => a - b,
-      ),
-    ).toEqual([296, 298, 349])
-    expect(deps.gs.inventory.map((e) => e.itemId)).toEqual([10])
+    expect(deps.resources.playerRoles.roles[0]?.magic?.slice().sort((a, b) => a - b)).toEqual([
+      296, 298, 349,
+    ])
+    expect(deps.gs.inventory.map((e) => e.itemId)).toEqual([61])
   })
 })
 
@@ -493,7 +544,7 @@ describe('applyFixture —— 对话 / 升级 fixture 数据级验证', () => {
 
   it('fixture-levelup 配置自检:exp 6000 跨多级阈值(lv1→lv12,过 lv10 学大世界法术)', () => {
     // 健全性:6000 经验 + 累计到 lv12=5665 < 6000 < lv13=7330 → 连升到 12 级,过 lv10(凝神归元)
-    const exp = (levelupFixture.expOverrides!['0'] as { wExp: number }).wExp
+    const exp = levelupFixture.expOverrides?.['0']?.wExp
     expect(exp).toBeGreaterThan(3135) // 至少跨过 lv10(学凝神归元 298,大世界可用)
   })
 
@@ -549,15 +600,15 @@ describe('applyFixture —— 对话 / 升级 fixture 数据级验证', () => {
     while (gs.mode === 'battle' && !gs.battleState?.settlement && safety-- > 0)
       tickBattle(gs, emptyInput, bus)
     const settlement = gs.battleState?.settlement
-    expect(settlement).toBeDefined()
-    const screens = settlement!.screens
+    assert(settlement, '胜利必须生成结算屏')
+    const screens = settlement.screens
 
     // 1) 首屏 = Phase A exp/cash(expGained = 灯笼 exp 1,本场所得;6000 是既有累积,不计本屏)
     expect(screens[0]).toMatchObject({ kind: 'exp-cash', expGained: 1 })
 
     // 2) Phase B 升级 box(role0 lv1 → lv12,8 属性 old→cur)
-    const lv = screens.find((s) => s.kind === 'level-up') as any
-    expect(lv).toBeDefined()
+    const lv = screens.find((s) => s.kind === 'level-up')
+    assert(lv, '结算必须包含升级屏')
     expect(lv.data.level).toEqual({ old: 1, cur: 12 })
     expect(lv.data.hp.old).toBe(30) // 入战满血 30(一击秒未受伤)→ old
     expect(lv.data.hp.oldMax).toBe(30)
@@ -565,9 +616,7 @@ describe('applyFixture —— 对话 / 升级 fixture 数据级验证', () => {
     expect(lv.data.defense.cur).toBeGreaterThan(lv.data.defense.old) // 升 11 级 → 防御涨(base 5 起)
 
     // 3) Phase D 练成屏:天师符法(349)+ 凝神归元(298)各一屏
-    const learned = screens
-      .filter((s) => s.kind === 'learn-magic')
-      .map((s) => (s as any).data.magicName)
+    const learned = screens.filter((s) => s.kind === 'learn-magic').map((s) => s.data.magicName)
     expect(learned).toContain('天师符法')
     expect(learned).toContain('凝神归元')
   })
