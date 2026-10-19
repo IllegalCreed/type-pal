@@ -1,6 +1,7 @@
 /**
  * C7(2026-05-29):大世界 magic script 同步 runner —
- * sdlpal `uigame.c:740-861` PAL_RunTriggerScript(scriptOnUse / scriptOnSuccess) 1:1 port。
+ * 按 sdlpal uigame.c 的施法调用顺序消费 scriptOnUse / scriptOnSuccess;
+ * 本模块只实现已核大世界法术链所需的同步子集,不是完整脚本解释器。
  *
  * **outside-battle spell 真值实测**(7 个 spell scriptOnSuccess chain 全 opcode hist):
  *  - 0x1B (27) `OP_INCREASE_HP` × 5 次:气疗术 / 观音咒 / 凝神归元 / 元灵归心术 / 五气朝元
@@ -21,8 +22,8 @@
  * 但本 runner 通用支持 scriptOnUse 非零情况(battle-only spell 真值 chain 含其它 opcode,
  * 但 battle ctx 由 runScript / dispatchBattleOpcode 处理,本 runner 仅大世界用)。
  *
- * sdlpal `g_fScriptSuccess` 真值由特定 opcode 设(eg 0x9C condition check)— outside spell
- * chain 不 hit 这些 opcode,我们 always success=true(等价 sdlpal 默认行为)。
+ * scriptSuccess 默认 true;HP/MP未发生变化、没有目标实际复活或脚本无法完成时
+ * 按各分支返回 false。menu-driver 仅在成功后扣 MP,本 runner 不扣施法成本。
  */
 
 import type { Spell } from '@type-pal/shared'
@@ -80,10 +81,11 @@ function applyHPMPDeltaAll(gs: GameState, hpDelta: number, mpDelta: number): boo
 
 // ── opcode 0x22 OP_REVIVE_PLAYER 真值(sdlpal script.c:1052-1102)────────────
 //
-// HP==0 时复活 HP=maxHP*operand[1]/10 + cure poison level <= 3 + clear all status。
+// HP==0 时复活 HP=maxHP*operand[1]/10 + cure poison level <= 3;
+// 状态只清<=999,保留>999装备授予效果(global.c::PAL_RemovePlayerStatus)。
 // applyToAll=operand[0]。
 //
-// **关键真值**(sdlpal script.c:1099 / 1077):无活 target 复活时设
+// **关键真值**(sdlpal script.c:1099 / 1077):没有目标实际复活时设
 // `g_fScriptSuccess = FALSE` — 上层 uigame.c:818-822 `if (g_fScriptSuccess) MP -=`
 // 不扣 MP。即:战斗外用还魂咒选活人 / 全队都活时,ts 端也应不扣 MP。
 //
@@ -201,7 +203,7 @@ export function runMagicScriptSync(
         // OP_REVIVE_PLAYER — sdlpal script.c:1052-1102
         // operand[0]=applyToAll,operand[1]=ratio*10 (1=10%, 10=100%)
         //
-        // **关键真值**(sdlpal script.c:1099 / 1077):无活 target 复活时设
+        // **关键真值**(sdlpal script.c:1099 / 1077):没有目标实际复活时设
         // `g_fScriptSuccess = FALSE` — 上层 uigame.c:818-822 `if (g_fScriptSuccess)`
         // 不扣 MP。即:战斗外用还魂咒选活人 → 不扣 MP(user 2026-05-29 提醒:
         // BattleWon 已 auto-revive 半 HP,大世界几乎无死人)。
@@ -226,10 +228,10 @@ export function runMagicScriptSync(
 }
 
 /**
- * 跑完整 magic cast 流程(sdlpal uigame.c:740-873 真值)。
+ * 跑施法的两个同步脚本阶段;选择目标/检查MP/扣成本由menu-driver持有。
  * - scriptOnUse(=0 时 skip)
  * - success → scriptOnSuccess
- * - success → caster.MP -= costMP(由 caller 检 MP 是否 >= costMP 再调)
+ * - 返回success后由caller扣MP,再更新法术列表/目标picker
  *
  * @returns success — caller 据此决定是否扣 MP + 是否退 picker(MP 不足)
  */

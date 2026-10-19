@@ -107,9 +107,8 @@ function pickFacing(input: InputSnapshot): Facing | null {
 /**
  * sdlpal global.h:88-92 kTriggerTouchNear..Farthest = 4..8(自动触发区间)。
  *
- * trigger zone 真值(play.c:107-165 PAL_GameUpdate fTrigger 段;实际实现内联于
- * updateEventObjectsAndTrigger,带 in-place 转向 + state 修;独立 findTriggerZoneNpc
- * 已随之退役删除 —— 2026-10-19 零调用方,全仓 grep 核):
+ * trigger zone 真值(play.c::PAL_GameUpdate 的 fTrigger 段);距离判定位于
+ * updateEventObjectsAndTrigger,同一遍历还负责消失计时、复活和触发朝向:
  *   if (p->sState > 0 && p->wTriggerMode >= kTriggerTouchNear) {
  *      if (abs(viewport.x + partyoffset.x - p->x) +
  *          abs(viewport.y + partyoffset.y - p->y) * 2 <
