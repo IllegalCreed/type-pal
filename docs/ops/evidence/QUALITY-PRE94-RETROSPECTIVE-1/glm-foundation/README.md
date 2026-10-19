@@ -53,6 +53,7 @@ Status: build；以下只记有限模块结果，不声明全专项完成
 - 模块12批37作者原件：[author-script-core.ts](content-authorcore/README.md)（同线，review待验收）。零整改批(组合式词表双satisfies/词法循环纪律/裸id禁令/续跑帧穷尽/SAVE12持久层声明);typecheck 0。content余量:validate+validate-refs终批。
 - 模块12批38作者原件：[validate+validate-refs](content-validators/README.md)（同线，review待验收）。零整改批(use effects组合规则完备/毒表唯一id门禁/三层分工声明);2文件16套件140/140+typecheck 0。**content 包全部收口**(b30-38九批~50文件,整改仅2处纯注释,零整改批7/9)。下一站:migrate(6k)→reforge(43k)→editor(39k)→94-102。
 - 模块13批39作者原件：[migrate全包34文件](migrate-all/README.md)（同线，review待验收）。零整改批(窄供应纪律/LPCSPRITE逐字考证/EQUIP槽序实证纠错/journal恢复路径/merge数组身份模式/资产tuple digest冻结/布局overlay逐项L_锚);初跑27失败=data/extracted软链环境缺口补链后245套件739/739全绿+typecheck 0。**migrate 包全部收口**(唯一批)。下一站:reforge(43k)→editor(39k)→94-102。
+- 模块14批40作者原件：[reforge battle全目录20文件](reforge-battle/README.md)（同线，review待验收）。零整改批(battle-core 2754/session 2593/anim 1789 三大件全文+17外围件;敌方站位表逐项对DATA.MKF chunk13真值核过;fight.c逐段锚);battle族148套件518/518+typecheck 0。reforge余量:main(6710)/debug-tools(1444)/entity-motion(1403)/script族/world-render-assets-menu等~32k。
 
 集成修正：MKF仅首offset/表长4对齐、并非所有chunk偏移；SDL坏档结果/全原盘保证不能泛化；readChunk生产注释保留借用合同、去掉测试治理措辞。RNG跳帧保留基面继续解码，不保证缺帧后的画面等价。正常资产对拍不代替坏帧策略证明。
 
