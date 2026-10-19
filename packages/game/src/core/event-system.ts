@@ -1118,6 +1118,22 @@ function clearDialogBoxes(gs: GameState): void {
   }
 }
 
+/**
+ * 0x73 / 0x9B 共用的场景 dither 起点。每步 (speed+1)*10ms,共 72 步。
+ * 先解冻场景、清掉当前对话再等待;present 的旧 framebuffer 快照仍含对话像素,
+ * 因而文字随旧场景渐隐。这里不推进 ip,由 fade-screen 等待消费后续跑。
+ */
+function startDitherFade(gs: GameState, cursor: EventCursor, speed: number): void {
+  const totalMs = (speed + 1) * 10 * 72
+  gs.fadeState = { speed, totalMs, startTimeMs: performance.now(), appliedSteps: 0 }
+  gs.blackScreenHold = false
+  gs.sceneLoading = false
+  clearDialogBoxes(gs)
+  gs.currentDialogPortraitIcon = undefined
+  gs.currentDialogFontColor = 0x4f
+  cursor.waiting = 'fade-screen'
+}
+
 export function buildLabelMap(commands: Command[]): Record<string, number> {
   const map: Record<string, number> = {}
   commands.forEach((c, i) => {
@@ -2490,37 +2506,11 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: Comman
           return // 等延时完('delay' 等待 handler 到时清 waiting + ip++)
         }
 
-        // Sync.2 fix9: opcode 0x73 fadeScreen — sdlpal script.c:3271 + video.c:1130 VIDEO_FadeScreen
-        //   sdlpal 真值:VIDEO_BackupScreen + PAL_MakeScene + VIDEO_FadeScreen(speed)
-        //   VIDEO_FadeScreen 内 12 outer × 6 inner = 72 步 palette-bit blending,blocking。
-        //   speed 控制每步 SDL_Delay(wSpeed*10ms);我们 raf tick 速率固定 ≈ 60Hz,
-        //   72 frames ≈ 1.2s,接近 sdlpal speed=2 的 2.16s(可接受的近似)。
-        //   设 fadeState + waiting='fade-screen';tick 1a' 推帧完成后 ip++。
+        // 0x73 fadeScreen:VIDEO_BackupScreen → PAL_MakeScene → VIDEO_FadeScreen(op0)。
+        // 使用墙钟等待(speed+1)*10*72ms,不以 rAF 帧数近似 SDL_Delay。
         if (cmd.opcode === OP_FADE_SCREEN) {
-          // sdlpal video.c:1175-1176 真值:wSpeed = (operand+1)*10 ms 每步,72 步总时长。
-          // speed=2 → 30ms × 72 = 2160ms。time-based 不受 raf 帧率影响 — 1:1 还原 sdlpal classic 真值。
           const speed = cmd.operands[0] ?? 0
-          const totalMs = (speed + 1) * 10 * 72
-          gs.fadeState = {
-            speed,
-            totalMs,
-            startTimeMs: performance.now(),
-            appliedSteps: 0,
-          }
-          gs.blackScreenHold = false
-          // P2#7:fadeScreen 是 fade-first onEnter 的第一个可渲染 yield(setPartyPos 等已跑、camera 已定位)
-          // → 清 sceneLoading 解冻渲染。fade backup 从冻屏保留的旧 scene 帧拷(present.ts fb.indices)。
-          gs.sceneLoading = false
-          // Sync.2 fix18:sdlpal 真值 — fadeScreen 启动前的 default-case PAL_ClearDialog(TRUE) 已经
-          // 把 nCurrentDialogLine 设 0 → 之后 PAL_MakeScene 重画不含 dialog box → fade 是
-          // backup(冻结画面有 dialog 像素) → current(重画无 dialog) → 视觉 dialog 跟着渐隐。
-          //
-          // 我们 game dialog 是 state-driven render:清 gs.dialogBox 让 current 渲染不画 dialog,
-          // backupPixels 已含上一帧冻结的 dialog 像素 → fade 视觉 dialog 渐隐(title + body 一起)。
-          clearDialogBoxes(gs)
-          gs.currentDialogPortraitIcon = undefined
-          gs.currentDialogFontColor = 0x4f
-          cursor.waiting = 'fade-screen'
+          startDitherFade(gs, cursor, speed)
           return // 等 fade 完
         }
 
@@ -2630,15 +2620,7 @@ export function tickEventSystem(gs: GameState, input: InputSnapshot, bus: Comman
         //   = dither 引擎(同 0x73),speed 硬编 2。复用 gs.fadeState + waiting='fade-screen'(present 已处理
         //   backupPixels 快照),**不**用 paletteFadeState。
         if (cmd.opcode === OP_FADE_TO_SCENE) {
-          const speed = 2
-          const totalMs = (speed + 1) * 10 * 72 // 2160ms,同 0x73 真值
-          gs.fadeState = { speed, totalMs, startTimeMs: performance.now(), appliedSteps: 0 }
-          gs.blackScreenHold = false
-          gs.sceneLoading = false
-          clearDialogBoxes(gs)
-          gs.currentDialogPortraitIcon = undefined
-          gs.currentDialogFontColor = 0x4f
-          cursor.waiting = 'fade-screen'
+          startDitherFade(gs, cursor, 2)
           return
         }
 
