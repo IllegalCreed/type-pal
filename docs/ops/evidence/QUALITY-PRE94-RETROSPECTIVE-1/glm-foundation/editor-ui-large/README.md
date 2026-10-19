@@ -18,3 +18,13 @@
 ## 验证
 - 定向测试:`src/ui` 全量 712 套件 0 失败 / 2505 通过 / 2505（directed.json,本批新跑;批 54 登记的 BattleSpriteLibrary M05 并行互扰本次未复现,全绿）。
 - 零 diff 批:无源码改动,不适用 body-invariance。
+
+
+## Codex当前勘误与接管（2026-10-19）
+
+2505/2505原生绿保留，但不解释前次M05失败原因，也不代替逐文件E维或act/环境诊断计数。旧“八维全部通过/162件收口”只保留作者当时主张，当前验收保持review，缺维由Codex继续。 [当前返工与限制](../codex-stage2-rework.json)。
+
+
+## 原生附件无损迁移（Codex，2026-10-19）
+
+原directed.json超过现行1MiB检查边界；现以[原始JSON的无损gzip](directed.json.gz)保留，解压字节/SHA与冻结5af1b6372一致。 未放宽files.maxSize或新增ignore；迁移与失败/恢复身份见[当前回执](../codex-stage2-rework.json)。

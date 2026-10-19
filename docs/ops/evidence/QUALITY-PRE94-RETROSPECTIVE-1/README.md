@@ -236,3 +236,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 - 2026-10-18：[GLM foundation阶段1验收](glm-foundation/README.md)——MKF/RNG/YJ2有限文案/证明接收，4条历史撤回恢复review、O-5输入域登记；依旧有大goal继续纯类型/合同模块。
 
 - 2026-10-19：[GLM后续大包验收与集中返工](glm-foundation/codex-stage2-review.json)——93候选提交未集成；保留已有有效证据，五项定向返工，不重做全量阅读/测试。
+
+- 2026-10-19：[Codex接手后的逐文件返工证据](glm-foundation/codex-stage2-rework.json)——修正错注/格式、补8漏跑、14类型例转编译、共享存在性复用；其它缺维继续，0新关闭。

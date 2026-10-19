@@ -41,3 +41,8 @@ cd "$WT/packages/shared" && ../../node_modules/.bin/vitest run
 ```
 
 失效条件：六文件类型成员变化 → d.ts/body 证明重出；event-system loadScene 实现再变化 → events.ts 注释复核；sdlpal 锚引用段变化 → 对应字段注释复核。
+
+
+## Codex当前勘误与接管（2026-10-19）
+
+本片类型B/E清零结论经Codex定向复核发现遗漏：TileCell是两个h错排半格完整DWORD，Item/Spell使用OBJECT绝对ID，装备槽序/三种角色计数/升级法术ID/对话参数均有错注，已窄修。原events/input/tables14个运行时用例属类型或本地fixture，转既有tsc编译链并补flags/六位equipableBy，当前shared114运行时例与类型反控/恢复分开记录。八维逐文件矩阵见当前回执，公共出口候选仍review。 [当前返工与限制](../codex-stage2-rework.json)。

@@ -15,3 +15,13 @@
 ## 验证
 - 定向测试:src/ui 全量 2504/2505(唯一红=M05 并行互扰)+ 单套件重跑 2/2 绿（directed.json + retry.json）。
 - 零 diff 批:无源码改动,不适用 body-invariance。
+
+
+## Codex当前勘误与接管（2026-10-19）
+
+当前裁定：M05初跑业务断言失败、单文件重跑绿、后续editor-ui-large全量2505绿分别成立；原因保持未知，撤回“并行假失败/非回归已证”的归因。不得只凭无源码diff或重跑通过认定根因。原件保持，不要求再盲跑2505例。 [当前返工与限制](../codex-stage2-rework.json)。
+
+
+## 原生附件无损迁移（Codex，2026-10-19）
+
+原directed.json超过现行1MiB检查边界；现以[原始JSON的无损gzip](directed.json.gz)保留，解压字节/SHA与冻结5af1b6372一致。 未放宽files.maxSize或新增ignore；迁移与失败/恢复身份见[当前回执](../codex-stage2-rework.json)。

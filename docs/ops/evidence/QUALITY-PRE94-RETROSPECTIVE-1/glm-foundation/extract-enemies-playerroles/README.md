@@ -36,3 +36,8 @@ cd "$WT/packages/pal-extract" && ../../node_modules/.bin/vitest run src/resource
 ## 勘误（2026-10-18 晚补）
 
 本批"14/14"未披露:**tables.test.ts 套件当时因缺 WORD.DAT 加载失败(0 断言,suite-status=failed,回执内可查)**,14 为其余三文件计数。补链后 tables 全量 **89/89** 已在批 6 回执中实测通过;两态均保留。
+
+
+## Codex当前勘误与接管（2026-10-19）
+
+本片原14断言通过但tables套件加载失败，不能写完整门通过；后续extract-spells-teams-items的tables89/89原件支持该tables恢复，word漏跑另由Codex补8例。旧原件与后续回执分别保留，不追溯清零。 [当前返工与限制](../codex-stage2-rework.json)。

@@ -21,13 +21,13 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 
 ## 长期质量标准与当前执行分工
 
-所有文件按[工程代码质量与验收规范](../code-quality.md)的八维和可独立复验要求推进；本卡只保存本轮范围、进度与证据，不另维护质量条文。本轮GLM承担主要全文审查与获准整改，Codex按证据协议作风险核定、阶段验收与集成。RLE有限文案/证据包已接收，格式算法仍冻结、三文件仍review；当前按下方持续任务滚动推进。历史partial不继承新的八维验收。
+所有文件按[工程代码质量与验收规范](../code-quality.md)的八维和可独立复验要求推进；本卡只保存本轮范围、进度与证据，不另维护质量条文。本轮原由GLM主要全文审查与获准整改；用户2026-10-19明确本批返工改由Codex执行，Codex接手5af1b6372候选的修正、缺维补核和集成，保留GLM原始署名/证据。RLE有限文案/证据包已接收，格式算法仍冻结、三文件仍review；当前按下方持续任务滚动推进。历史partial不继承新的八维验收。
 
 ## 当前推进
 
 83卡当前全量accept=0、55partial/28pending；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3b SSS/MSG、3c动画清理、3d PNG、3g CLI、3h assets/shell、CODE71 fetch取消与测试、CODE3/3f切分与标注已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
 
-当前由GLM按[大型持续任务](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-pre94-foundation-goal.md)自驱推进pre94剩余复审及94–102既有返工，Codex在模块/阶段据证验收和集成；内部小片连续执行，不逐片等用户转话。RLE文案终验已接收，高风险算法/格式与未知仍冻结，不批量升格。唯一集成分支仍为codex/code-quality-3y，贡献者使用一个新鲜临时detached worktree，避免新增长期分支。
+原[大型持续任务](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-pre94-foundation-goal.md)范围保留，当前本批由Codex接手GLM后续大包返工并继续pre94缺维；内部小片连续执行，不逐片等用户转话。RLE文案终验已接收，高风险算法/格式与未知仍冻结，不批量升格。唯一集成分支仍为codex/code-quality-3y，贡献者使用一个新鲜临时detached worktree，避免新增长期分支。
 
 
 ### 2026-10-17 CODE-QUALITY-3r event-system 当前复审
@@ -846,3 +846,14 @@ S2-R1要求用既有笔记补逐文件八维/具体caller与设计依据、测�
 结论rework，未拣选候选、不改中央账本或83卡状态；3319/245closed/109review/2965pending，0新增关闭/accept。GLM仍为原foundation树Coding Owner，在93候选上追加窄返工，不能reset切回上游丢候选；fetch对照最新3y，独立工作继续，不恢复逐片用户转话门。缺失历史console如实缺失，不补造；无具体需要不重跑既有绿结果，check/coverage/protected继续留大任务完整窗口。主树与其它Owner只读，不合main。
 
 用户随后明确“返工你来做”：本候选返工Owner改派Codex，GLM93笔冻结记录保留，Codex在唯一3y集成树修正；不再要求用户转交GLM。旧返工清单中的GLM下一步为当时建议，被本次指令替代。缺证维度保持review/unknown，不以接管自动升格。
+
+
+## 2026-10-19 Codex接管首组实际整改与编译合同迁移
+
+GLM93笔冻结候选通过7b4be88a0保留到唯一3y，非整包/整卡验收。Codex分提交065059438修五文件格式/注释，cd8027dbd让game地图名存在性复用shared已存在公共helper，8fb38fb19纠正shared实际生产/primary冲突的错注，c9a979f4c将events/input/tables14个类型/本地fixture运行时例并入既有编译模块public-contracts，保留原resources类型断言并补Item.flags、精确6布尔装备资格；未改类型面、产品行为、配置或基线。
+
+[单一返工与八维矩阵](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage2-rework.json)逐文件给8维、caller/primary/输入/源码指纹、14身份去向和当前未知。R1其余64模块的逐文件/83卡映射仍待继续，包级主张撤当前验收信用，不要求再全文复刻有效A/E。R2漏跑word8/8零stderr恢复；R3格式已修；R4初红/单绿/后全绿分别保留且根因未知；R5另钉实际parseBdf短行F→[15,0]/1G→[1,0]/GG→[0,0]反证旧归零注释，行为保持。shared剩余13文件114/114零stderr；地图名复用前后3/3；shared/game/reforge必要typecheck0；缺flags编译反控TS2344单红、恢复0且临时文件清理。完整原件压缩保留，未重跑旧大包结果。
+
+账本净减3测试文件为3316/238closed/113review/2965pending：resources/events/tables三份产品类型发现直接B/E counter，撤旧关闭为review；四旧测试记录映射至一个编译合同review，历史表不改，0新关闭、83卡55partial/28pending/0accept不变。官方coverage/protected仍在大任务收尾按精确身份映射重建基准，不以缺少此门声称统一收口。
+
+新观察的文档门阻塞为e2e-route.reviewBy=2026-10-18在10-19到期；该E2E路线复核非本次类型返工范围，不延期消警，保存失败事实。原editor act/环境诊断也未清，仍不合main。Codex继续本批未解维度，无下一位Agent提示词。

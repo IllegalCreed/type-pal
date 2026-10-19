@@ -18,3 +18,13 @@
 ## 验证
 - 定向测试:复用 src/ui 全量(2504/2505,唯一红=批54已登记并行互扰,本批零 diff 无新输入;单套件重跑 2/2 绿见批54 retry.json)——本批为纯读批,证据引用同目录 directed.json（directed.json 复制自批54全量）。
 - 零 diff 批:无源码改动,不适用 body-invariance。
+
+
+## Codex当前勘误与接管（2026-10-19）
+
+本片directed.json与editor-ui-small是同SHA/同startTime的同一次执行复用，不算第二次独立红或绿。M05原因未核证，后续全量绿仅给该次结果信用；旧“并行互扰”归因撤回。 [当前返工与限制](../codex-stage2-rework.json)。
+
+
+## 原生附件无损迁移（Codex，2026-10-19）
+
+原directed.json超过现行1MiB检查边界；现以[原始JSON的无损gzip](../editor-ui-small/directed.json.gz)保留，解压字节/SHA与冻结5af1b6372一致。本片与small为同一次执行的同字节报告，复用同一附件。 未放宽files.maxSize或新增ignore；迁移与失败/恢复身份见[当前回执](../codex-stage2-rework.json)。

@@ -17,8 +17,8 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-起始基点机器清单：2,962。当前 tracked 清单：3,319。
-当前已闭合核验：245；已读但待审：109；尚未逐文件核验：2,965；合计未闭合：3,074。
+起始基点机器清单：2,962。当前 tracked 清单：3,316。
+当前已闭合核验：238；已读但待审：113；尚未逐文件核验：2,965；合计未闭合：3,078。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -28,9 +28,11 @@ Template: governance-index-v1 / 1.0.0
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
-2026-10-18 RLE校准仅恢复两条已撤回review，0新关闭。独立全表对账另发现89bf84e16合并时243条review记录在活动表丢失；当前尚有70条closed候选、130条未显式登记路径需逐项核后继证据，其余43条已处review/rework（含已恢复的6条），不在本次批量改状态，也不得据本表冒称这些候选已重新验收。完整差异与范围见[RLE校准](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md)。
+2026-10-18 RLE校准仅恢复两条已撤回review，0新关闭。独立全表对账另发现89bf84e16合并时243条review记录在活动表丢失；当前尚有70条closed候选、130条未显式登记路径需逐项核后继证据，其余43条已处review/rework，不在本次批量改状态，也不得据本表冒称这些候选已重新验收。完整差异与范围见[RLE校准](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md)。
 
 2026-10-18 shared阶段1仅接收有限注释/证据；根据CODE2/2b既有撤回恢复4个测试文件为review，0新关闭，O-5输入域待核。见[阶段验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage1.json)。
+
+2026-10-19 Codex接手GLM后续大包返工：已修错注/格式、补word8/8；shared三份产品类型撤旧关闭为review，四份旧类型测试记录迁移为一个编译合同review（净减3文件），0新关闭。包级全绿不授逐文件八维信用；见[返工与逐文件矩阵](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage2-rework.json)。
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
@@ -56,26 +58,23 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/src/io/sss.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3b；结构未对齐 34/34 | Q3b done |
 | `packages/shared/package.json` | product | 已验证 | shared check/typecheck；仅 workspace 元数据 | 无运行时逻辑 |
 | `packages/shared/tsconfig.json` | product | 已验证 | shared typecheck；编译边界 | 无产品行为 |
-| `packages/shared/src/events.ts` | product | 已验证 | 直接读取 Command union；shared typecheck/events 合同 | 类型 schema，未改公共接口 |
+| `packages/shared/src/events.ts` | product | review | [shared八维补维与精确counter](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage2-rework.json) | 旧B/E关闭存在错注/运行时伪类型信用；本批纠正并保持review，公共出口未知不代替闭合 |
 | `packages/shared/src/input.ts` | product | 已验证 | 直接读取 AbstractKey/InputSource；input type contract | 类型 schema，未改输入语义 |
 | `packages/shared/src/index.ts` | product | 已验证 | 直接读取 barrel exports；shared typecheck | 公共出口保持 |
 | `packages/shared/src/pal-authored-map-names.ts` | product | 已验证 | authored fixture hash/222 entries 测试 | 缺名显式 undefined，无 fallback |
-| `packages/shared/src/resources.ts` | product | 已验证 | 直接读取全部资源接口；pal-extract/game callers 与 typecheck | 纯类型合同 |
+| `packages/shared/src/resources.ts` | product | review | [shared八维补维与精确counter](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage2-rework.json) | 旧B/E关闭存在错注/运行时伪类型信用；本批纠正并保持review，公共出口未知不代替闭合 |
 | `packages/shared/src/rle-encode.ts` | product | 已验证 | encode roundtrip、独立 byte oracle、128KB guard | 与 RLE decoder 合同一致 |
-| `packages/shared/src/tables.ts` | product | 已验证 | 直接读取表类型与 pal-extract/game callers；typecheck/tables type contract | 纯类型合同 |
+| `packages/shared/src/tables.ts` | product | review | [shared八维补维与精确counter](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage2-rework.json) | 旧B/E关闭存在错注/运行时伪类型信用；本批纠正并保持review，公共出口未知不代替闭合 |
 | `packages/shared/src/yj2.ts` | product | 已验证 | CODE-QUALITY-2b；2,626 raw chunks / 34,367,608B 逐字节一致，位流/回引边界与反控 | Q2b done |
 | `packages/shared/src/__tests__/glm-foundation-fixtures.ts` | test | 已验证 | YJ2/MKF/RNG 固定向量直接被 shared tests 消费 | test-only fixture |
-| `packages/shared/src/__tests__/resources-types.ts` | test | 已验证 | shared type fixtures；typecheck | test-only fixture |
-| `packages/shared/src/events.test.ts` | test | 已验证 | Command union type contract | 不以数量验收 |
+| `packages/shared/src/__tests__/public-contracts.ts` | test | review | [编译合同与旧用例映射](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage2-rework.json) | 14个类型/本地fixture运行时用例转编译检查；缺flags反控已证；统一门仍待 |
 | `packages/shared/src/index.test.ts` | test | 已验证 | timing constants contract | 公共常量 oracle |
-| `packages/shared/src/input.test.ts` | test | 已验证 | AbstractKey/InputSnapshot/InputSource contract | 类型 contract |
 | `packages/shared/src/pal-map-names.test.ts` | test | 已验证 | 222 entries/hash/undefined gaps | authored fixture oracle |
 | `packages/shared/src/rle-encode.boundaries.test.ts` | test | 已验证 | 126/127/128 byte oracle、pad/offset | 高判别力反控 |
 | `packages/shared/src/rle-encode.glm-runtime-resource.test.ts` | test | 已验证 | 真实 runtime resource encoder contract | caller oracle |
 | `packages/shared/src/rle-encode.test.ts` | test | 已验证 | encoder/decoder roundtrip、128KB guard | 合法输入合同 |
 | `packages/shared/src/rle.glm-o.test.ts` | test | review | [既有撤回](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/README.md)；[阶段1账本校正](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage1.json) | CODE2b四条YJ2重复退役时旧关闭已撤回；本批仅作YJ2相邻原生结果，不授整文件八维accept |
 | `packages/shared/src/rng.test.ts` | test | review | [既有撤回](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md)；[阶段1账本校正](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage1.json) | CODE2原退役/合同迁移时已撤回review；阶段1只改相邻注释，不构成重新关闭 |
-| `packages/shared/src/tables.test.ts` | test | 已验证 | type-only Item contract | 类型 contract |
 | `packages/shared/src/yj2.boundaries.test.ts` | test | review | [既有撤回](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2b/README.md)；[阶段1账本校正](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage1.json) | CODE2b明确保持review；独立树归约向量仍待，本批引用修正不解除旧counter |
 | `packages/pal-extract/src/resources/sprite.ts` | product | 已验证 | CODE-QUALITY-3d；indexed PNG 尺寸/pixels/opaque 输入边界，callers、全包/check/ratchet/protected/lint | Q3d done |
 | `packages/pal-extract/src/resources/sprite.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3d；非法尺寸/短 pixels/短 opaque 反例与 negative control | Q3d done |

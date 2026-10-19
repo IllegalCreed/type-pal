@@ -35,3 +35,8 @@ cd "$WT/packages/pal-extract" && ../../node_modules/.bin/vitest run src/io/word.
 ```
 
 失效条件：两文件实现变化 → 重证；WORD.DAT 实测布局变化 → 段表复核。
+
+
+## Codex当前勘误与接管（2026-10-19）
+
+旧14/14仅指已收集的断言，success=false且word.test.ts因WORD.DAT缺失未加载，原“0 fail”与flat原盘执行信用撤回。Codex已只读连接原盘并补跑word8/8，stdout/stderr/native/input/source身份见当前返工记录；原失败JSON保持。 [当前返工与限制](../codex-stage2-rework.json)。

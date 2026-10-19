@@ -17,3 +17,8 @@
 ## 验证
 - 定向测试:src/core + src/__tests__ + play.test.ts 全量 2366/2366、numFailedTestSuites=0（directed.json）。
 - 零 diff 批:无源码改动,不适用 body-invariance。
+
+
+## 原生附件无损迁移（Codex，2026-10-19）
+
+原directed.json超过现行1MiB检查边界；现以[原始JSON的无损gzip](directed.json.gz)保留，解压字节/SHA与冻结5af1b6372一致。 未放宽files.maxSize或新增ignore；迁移与失败/恢复身份见[当前回执](../codex-stage2-rework.json)。

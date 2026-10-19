@@ -1040,7 +1040,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "800202223c3f293641f4ba2073b63fa686b3a59744c152662e64504e496d93e0",
+      "afterSha256": "f2a9e9f1c10de5eb23ce4cefb17c21a6291bcb30444b6551613a7e7a172406d1",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1064,8 +1064,25 @@
       },
       "revision": {
         "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "implementationSha": "800202223c3f293641f4ba2073b63fa686b3a59744c152662e64504e496d93e0",
+        "implementationSha": "f2a9e9f1c10de5eb23ce4cefb17c21a6291bcb30444b6551613a7e7a172406d1",
         "history": [
+          {
+            "revision": "c9a979f4c3957f2d123b3e75f2cde7e368a45098",
+            "date": "2026-10-18",
+            "action": "Codex takeover and first8file A-H rework with compiler-only contract migration",
+            "previousAfterSha256": "800202223c3f293641f4ba2073b63fa686b3a59744c152662e64504e496d93e0",
+            "scope": "Only incoming binding for explicitly changed current review records; no unrelated semantic acceptance",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage2-rework.json",
+            "notRun": [
+              "duplicate34/41directed tests",
+              "125unchanged docs-tool tests",
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "runtime/E2E/visual"
+            ],
+            "executed": "shared/game/reforge necessary tsc recorded;new compiler contract counter/restoration and current game recheck are in the rework receipt."
+          },
           {
             "revision": "cf6419f16c4f8c7fd3e96c468ba7b1baf1084909",
             "date": "2026-10-18",
@@ -1581,8 +1598,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "800202223c3f293641f4ba2073b63fa686b3a59744c152662e64504e496d93e0",
-        "lineCount": 3175,
+        "afterSha256": "f2a9e9f1c10de5eb23ce4cefb17c21a6291bcb30444b6551613a7e7a172406d1",
+        "lineCount": 3209,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -1616,14 +1633,14 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-3175",
+      "reviewedLines": "1-3209",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "800202223c3f293641f4ba2073b63fa686b3a59744c152662e64504e496d93e0",
+      "candidateSha256": "f2a9e9f1c10de5eb23ce4cefb17c21a6291bcb30444b6551613a7e7a172406d1",
       "primarySource": [
         {
           "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
@@ -5351,7 +5368,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "7897629e4eafc93f013f35f65f918460eb680bc9a386e00d97bbbbac6c3accf0",
+      "afterSha256": "597549642b980cfdbf477c222cf486fe96bb7d231956c93ec2cca36c4e2be083",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5375,8 +5392,25 @@
       },
       "revision": {
         "currentSha": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "implementationSha": "7897629e4eafc93f013f35f65f918460eb680bc9a386e00d97bbbbac6c3accf0",
+        "implementationSha": "597549642b980cfdbf477c222cf486fe96bb7d231956c93ec2cca36c4e2be083",
         "history": [
+          {
+            "revision": "c9a979f4c3957f2d123b3e75f2cde7e368a45098",
+            "date": "2026-10-18",
+            "action": "Codex takeover and first8file A-H rework with compiler-only contract migration",
+            "previousAfterSha256": "7897629e4eafc93f013f35f65f918460eb680bc9a386e00d97bbbbac6c3accf0",
+            "scope": "Only incoming binding for explicitly changed current review records; no unrelated semantic acceptance",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage2-rework.json",
+            "notRun": [
+              "duplicate34/41directed tests",
+              "125unchanged docs-tool tests",
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "runtime/E2E/visual"
+            ],
+            "executed": "shared/game/reforge necessary tsc recorded;new compiler contract counter/restoration and current game recheck are in the rework receipt."
+          },
           {
             "revision": "cf6419f16c4f8c7fd3e96c468ba7b1baf1084909",
             "date": "2026-10-18",
@@ -5851,8 +5885,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "7897629e4eafc93f013f35f65f918460eb680bc9a386e00d97bbbbac6c3accf0",
-        "lineCount": 5675,
+        "afterSha256": "597549642b980cfdbf477c222cf486fe96bb7d231956c93ec2cca36c4e2be083",
+        "lineCount": 5701,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -5886,14 +5920,14 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-5675",
+      "reviewedLines": "1-5701",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "7897629e4eafc93f013f35f65f918460eb680bc9a386e00d97bbbbac6c3accf0",
+      "candidateSha256": "597549642b980cfdbf477c222cf486fe96bb7d231956c93ec2cca36c4e2be083",
       "primarySource": [
         {
           "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
