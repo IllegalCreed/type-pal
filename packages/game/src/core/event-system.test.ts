@@ -1429,16 +1429,10 @@ describe('goto shared#L_xxx(P2#5 — 单一全局数组,剥前缀经全局 label
     }
   })
 
-  it('shared# label 全局不存在 → warn + skip(不抛错,不死循环)', () => {
-    // 旧模型:缺 shared label 立即抛 `shared goto label` 错。P2#5 设计意图(migration rule 3):
-    //   主 while goto 改 warn + skip(不抛错)。
-    // ⚠ 疑似生产 BUG(留 failing,不 mask):主 while 的 goto case(event-system.ts:1160-1170)
-    //   解不到 label 时只 console.warn + `break`,**不推进 cursor.ip** → 同一 goto 被反复重读 →
-    //   触发 SINGLE_TICK_LIMIT(256)guard 抛 `single-tick instruction limit` 错。
-    //   autoCursor 的 goto(event-system.ts:765-781)解不到时清 cursor(不死循环),两路不一致 —
-    //   主 while goto 应同样在解不到时清 cursor / 推进 ip,而非自旋到 tick-limit。
+  it('shared# label 全局不存在 → 告警一次并终止脚本(不抛错,不死循环)', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     setGlobalEvents([
-      { op: 'goto', to: 'shared#L_DOES_NOT_EXIST' }, // 0: 目标不在全局 labelMap → 应 warn skip
+      { op: 'goto', to: 'shared#L_DOES_NOT_EXIST' },
       { op: 'end' }, // 1: 脚本结束
     ])
     try {
@@ -1450,7 +1444,11 @@ describe('goto shared#L_xxx(P2#5 — 单一全局数组,剥前缀经全局 label
       expect(() => tickEventSystem(gs, snap(), bus)).not.toThrow()
       expect(gs.mode).toBe('explore')
       expect(gs.eventCursor).toBeUndefined()
+      expect(warn.mock.calls).toEqual([
+        ['event-system: goto label shared#L_DOES_NOT_EXIST 不在全局 labelMap → 终止脚本'],
+      ])
     } finally {
+      warn.mockRestore()
       setGlobalEvents([])
     }
   })
@@ -4880,16 +4878,18 @@ describe('特效 A 调色板淡入淡出引擎(2026-05-29 — sdlpal palette.c F
     gs.sceneLoading = true
     loadEvent(gs, [
       { op: 'raw', opcode: OP_REDRAW_SCREEN, operands: [0, 0, 0] },
-      { op: 'raw', opcode: OP_SET_OBJECT_POS, operands: [0, 5, 5] }, // 哨兵:延时完后续跑(无 self → skip + ip++)
+      { op: 'raw', opcode: OP_PLAY_SOUND, operands: [77, 0, 0] }, // 合法可观察的后续动作
       { op: 'end' },
     ])
     tickEventSystem(gs, snap(), bus)
     expect(gs.paletteFadeState).toBeUndefined() // 无 pending 淡入 → 不触发
     expect(gs.sceneLoading).toBe(false) // 解冻(PAL_MakeScene 重绘)
     expect(gs.eventCursor?.waiting).toBe('delay') // 0x05 UTIL_Delay(60ms,sdlpal script.c:3293)
+    expect(gs.pendingSounds).toBeUndefined()
     cursorOf(gs).delayUntilMs = 0 // 强制延时已过
     tickEventSystem(gs, snap(), bus)
     expect(gs.mode).toBe('explore') // 延时完 → 续跑到 end
+    expect(gs.pendingSounds).toEqual([77])
   })
 
   // M1(sdlpal script.c:3285-3288):0x05 REDRAW 的 operand[2]!=0 → PAL_UpdatePartyGestures(FALSE),重绘前把
