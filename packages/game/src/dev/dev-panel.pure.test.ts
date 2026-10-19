@@ -307,16 +307,16 @@ describe('buildCustomEnemyTeam(自定义战斗:选中敌人 id → 临时 EnemyT
 describe('computeMagicGrantsByRole(全局脚本 0x55 addMagic 剧情/法宝授予)', () => {
   // OP_ADD_MAGIC=0x55=85。operands=[magicId, roleArg];roleArg!=0 → role=roleArg-1 fixed(script.c:1816)。
   const cmds: Command[] = [
-    { op: 'raw', opcode: 0x55, operands: [201, 1, 0] }, // role0 授 magic 201
-    { op: 'raw', opcode: 0x55, operands: [202, 1, 0] }, // role0 授 magic 202
-    { op: 'raw', opcode: 0x55, operands: [203, 3, 0] }, // role2 授 magic 203(roleArg 3 → role2)
-    { op: 'raw', opcode: 0x55, operands: [999, 0, 0] }, // roleArg=0 dynamic → 跳过
+    { op: 'raw', opcode: 0x55, operands: [296, 1, 0] }, // role0 授气疗术
+    { op: 'raw', opcode: 0x55, operands: [349, 1, 0] }, // role0 授天师符法
+    { op: 'raw', opcode: 0x55, operands: [298, 3, 0] }, // role2 授凝神归元(roleArg 3 → role2)
+    { op: 'raw', opcode: 0x55, operands: [295, 0, 0] }, // roleArg=0 dynamic → 跳过
     { op: 'end' },
   ]
   it('按 role 聚合授予法术(roleArg-1),roleArg=0 跳过', () => {
     const grants = computeMagicGrantsByRole(cmds)
-    expect([...(grants.get(0) ?? [])].sort((a, b) => a - b)).toEqual([201, 202])
-    expect([...(grants.get(2) ?? [])]).toEqual([203])
+    expect([...(grants.get(0) ?? [])].sort((a, b) => a - b)).toEqual([296, 349])
+    expect([...(grants.get(2) ?? [])]).toEqual([298])
     expect(grants.has(-1)).toBe(false) // roleArg=0 不产生 role -1
   })
 })
@@ -328,19 +328,19 @@ describe('roleMagicsAtLevel(仙术按等级:起手 + 升级习得 entry.level<=l
     [{ level: 7, magic: 349 }],
     [{ level: 10, magic: 298 }],
   ]
-  const grantsByRole = new Map<number, Set<number>>([[0, new Set([500])]])
+  const grantsByRole = new Map<number, Set<number>>([[0, new Set([370])]])
 
-  it('level=5:只起手 296 + 授予 500(7/10 级法术未到等级)', () => {
+  it('level=5:只起手 296 + 授予 370(7/10 级法术未到等级)', () => {
     const m = roleMagicsAtLevel({ playerRoles, levelUpMagic, grantsByRole, roleId: 0, level: 5 })
-    expect(m.sort((a, b) => a - b)).toEqual([296, 500])
+    expect(m.sort((a, b) => a - b)).toEqual([296, 370])
   })
-  it('level=7:起手 296 + lv7 学的 349 + 授予 500(lv10 的 298 未到)', () => {
+  it('level=7:起手 296 + lv7 学的 349 + 授予 370(lv10 的 298 未到)', () => {
     const m = roleMagicsAtLevel({ playerRoles, levelUpMagic, grantsByRole, roleId: 0, level: 7 })
-    expect(m.sort((a, b) => a - b)).toEqual([296, 349, 500])
+    expect(m.sort((a, b) => a - b)).toEqual([296, 349, 370])
   })
-  it('level=99:全学(296/349/298 + 授予 500)', () => {
+  it('level=99:全学(296/349/298 + 授予 370)', () => {
     const m = roleMagicsAtLevel({ playerRoles, levelUpMagic, grantsByRole, roleId: 0, level: 99 })
-    expect(m.sort((a, b) => a - b)).toEqual([296, 298, 349, 500])
+    expect(m.sort((a, b) => a - b)).toEqual([296, 298, 349, 370])
   })
   it('去重:起手与授予同 id 不重复', () => {
     const g = new Map<number, Set<number>>([[0, new Set([296])]]) // 授予 296 = 起手已有
