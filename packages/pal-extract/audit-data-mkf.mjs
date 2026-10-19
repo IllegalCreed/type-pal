@@ -36,8 +36,8 @@ const here = dirname(fileURLToPath(import.meta.url))
 const dataPath = resolve(here, '../../data/raw/DATA.MKF')
 const buf = new Uint8Array(readFileSync(dataPath))
 const offsets = parseChunkOffsets(buf)
-const n = offsets.length - 1
-console.log('DATA.MKF chunkCount =', n)
+const chunkCount = offsets.length - 1
+console.log('DATA.MKF chunkCount =', chunkCount)
 console.log(
   'offsets.length =',
   offsets.length,
@@ -77,15 +77,15 @@ const meaning = {
   14: ['rgLevelUpExp[100]', LEVELUPEXP],
 }
 
-for (let i = 0; i < n; i++) {
+for (let i = 0; i < chunkCount; i++) {
   const size = offsets[i + 1] - offsets[i]
-  const m = meaning[i] || ['?', 0]
-  let recInfo = ''
-  if (m[1] > 0) {
-    const recs = size / m[1]
-    recInfo = `recordSize=${m[1]} → records=${size / m[1]}${Number.isInteger(recs) ? '' : ' (NOT INTEGER!)'}`
+  const [label, recordSize] = meaning[i] || ['?', 0]
+  let recordInfo = ''
+  if (recordSize > 0) {
+    const recordCount = size / recordSize
+    recordInfo = `recordSize=${recordSize} → records=${recordCount}${Number.isInteger(recordCount) ? '' : ' (NOT INTEGER!)'}`
   }
   console.log(
-    `chunk ${String(i).padStart(2)}: size=${String(size).padStart(6)}  ${m[0].padEnd(34)} ${recInfo}`,
+    `chunk ${String(i).padStart(2)}: size=${String(size).padStart(6)}  ${label.padEnd(34)} ${recordInfo}`,
   )
 }
