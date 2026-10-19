@@ -416,7 +416,7 @@ export function presentFrame(
         isWalkable(ctx.tilemap, x, y, gs.npcs, 0, true),
       )
       if (!fpos) continue
-      // 帧/朝向优先级(对齐队长 present.ts:304-314 + sdlpal):
+      // 帧/朝向优先级(对齐上方队长块:walking > scriptedFrame > 站立帧;sdlpal 真值同):
       //   walking=true → trail 帧(PAL_UpdatePartyGestures(TRUE) scene.c:724/728 走路覆盖);
       //   walking=false 且 0x15 写了本队员 scriptedFrame → 用脚本帧。sdlpal 0x15 直接写
       //     rgParty[operand[2]].wFrame(script.c:736,operand[2] 可指跟随者),静止演出期间

@@ -4,26 +4,25 @@
  * Phase E 收口:消费 PresentCommand → 画 bg → sprite → 数字弹幕 → UI overlay。
  * BattleAssets 由 dev panel(T29)或 bootstrap 注入。
  *
- * 命令消费(M3 简版):
+ * 命令消费(视觉层只取两个 op;其余 op 的去向见下方消费循环注释):
  *   - `showDamageNum`     → FloatingNumsLayer.emit(数字弹幕)
- *   - `playEnemyAttack`   /  `playPlayerAttack` / `playMagicAnim`
- *     / `flashEnemy` / `flashPlayer` / `playEnemyDeath`
- *     / `showBattleMessage`
- *   - `showBattleUI` —— state 本身由 battle-system 改写到 state.uiState,
- *     Present 层不消费此 cmd 修改 state。
- *   - `showDialogBox` / `clearDialogBox` —— 战斗模式下不画对话框,跳过。
+ *   - `showBattleMessage` → 单行消息条(步骤 5.5)
+ *   - `playEnemyAttack` / `playPlayerAttack` / `playEnemyDeath`:本层不消费 —— 声音由
+ *     shell 解析(bootstrap → audio.sfxForBattleEvent 映射 per-单位声),画面由动画
+ *     时间线(battleAnim frames)驱动。
+ *   - `playMagicAnim`:通知性 op,无消费方(声音解析为 0;真实法术动画由
+ *     actions/magic.ts 的 buildAndStart* 时间线链驱动)。
+ *   - `flashEnemy` / `flashPlayer` / `showBattleUI` / `clearDialogBox`:无 emit 方 ——
+ *     受击色闪实际走动画帧 iColorShift(draw-battle-sprites),uiState 由 battle-system 直写。
+ *   - `showDialogBox`:战斗内对话框不经 bus —— tickBattleDialog 写 gs.dialogBox,
+ *     本层步骤 6 直接画。
  *
  * 绘制顺序(对照 sdlpal `battle.c::PAL_BattleMakeScene`):
  *   1. 战斗背景(底)
  *   2. 我方 + 敌方精灵
  *   3. 数字弹幕(在精灵之上)
  *   4. UI overlay(主菜单 / 二级菜单 / 目标光标 / HP/MP 状态栏)
- *
- * 不在本 task 做(留 M5):
- *   - 精灵动画切帧(idle frame 循环、攻击 frame、魔法 cast frame)
- *   - 闪屏 / 敌人 flash 红色
- *   - 战斗消息单行 banner
- *   - 死亡淡出
+ *   5. 战斗内对话框 / 胜利结算 overlay(覆于场景与 UI 之上)
  */
 
 import type { EnemyPosTable, Item, PlayerRoles, Spell } from '@type-pal/shared'
@@ -101,9 +100,9 @@ export interface BattleAssets {
 }
 
 /**
- * 战斗 Present —— 持有跨帧状态(目前只有 FloatingNumsLayer)。
- * 一帧装配:`draw(fb, gs, state, commands, assets, currentFrame)`;
- * 战斗结束时调 `clearFloatingNums()` 避免下次战斗看到上次残留。
+ * 战斗 Present —— 持有跨帧状态:数字弹幕层、单行消息条、召唤 fade 快照/累积缓冲、
+ * 入场 fade backup。一帧装配:`draw(fb, gs, state, commands, assets, currentFrame, advanceEffects)`;
+ * 战斗结束时调 `clearFloatingNums()` 清弹幕与消息条,避免下次战斗看到上次残留。
  */
 export class BattlePresent {
   private readonly floatingNums = new FloatingNumsLayer()
@@ -169,7 +168,8 @@ export class BattlePresent {
       this.introBackup = undefined
     }
 
-    // 1. 消费战斗命令(M3 简版:只 showDamageNum;其他命令 M5 真补)
+    // 1. 消费战斗命令 —— 视觉层只取 showDamageNum(弹幕)与 showBattleMessage(消息条),
+    //    其余 op 的去向见模块头注释。
     for (const { cmd } of commands) {
       if (cmd.op === 'showDamageNum') {
         // D17b:逻辑 target → 屏幕坐标(与精灵共用 computeEnemyAnchor/computePlayerAnchor,杜绝漂移)。
@@ -195,8 +195,10 @@ export class BattlePresent {
         const frames = Math.ceil((cmd.durationMs ?? 800) / 40)
         this.battleMsg = { text: cmd.text, expiryFrame: currentFrame + frames, pos: cmd.pos }
       }
-      // 其他 op(playEnemyAttack / playMagicAnim / flashEnemy / playEnemyDeath / showBattleUI
-      // / showDialogBox / clearDialogBox 等)M3 简版跳过
+      // 其余 op 本视觉层不消费(详列见模块头):playEnemyAttack / playPlayerAttack /
+      //   playEnemyDeath 由 shell 解析 SFX、画面走动画时间线;playMagicAnim 无消费方;
+      //   flashEnemy / flashPlayer / showBattleUI / clearDialogBox 无 emit 方;
+      //   战斗内对话框经 gs.dialogBox(步骤 6 画),不经 bus。
     }
 
     // 召唤演出(state.battleAnim.summon):in/loop 期画召唤神替换队员 + 背景染色;out 期(淡出)正常画队员。
