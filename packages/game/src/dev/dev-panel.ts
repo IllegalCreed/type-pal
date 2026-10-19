@@ -2318,7 +2318,7 @@ export function applyAutoBattleT37(deps: DevPanelDeps, rngSeed?: number): void {
  *     + 重置 scene-system 的 ctx singleton,canvas 下一帧画新地图
  *
  * 不跑 onEnter(D34 dev shortcut)。tile 已按 scene 路由(T17:sceneFetcher 取该场景
- * tileset blob,onSceneChanged 切 currentSceneId);palette 仍留首屏(scene-system.loadScene
+ * tileset blob,onSceneChanged 切 currentSceneId);palette 保留跳转前的当前色表(scene-system.loadScene
  * 不更新 gs.palette/basePalette,场景调色板由 0x8B setPalette/脚本管理,dev 跳转后色表
  * 与目标场景可能不符 — 已知差异)。
  */

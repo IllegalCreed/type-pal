@@ -226,7 +226,7 @@ export async function loadAll(sceneId: number): Promise<LoadedAssets> {
   // 走 manifest:
   //   - battle-sprites.json:列出 (kind, id) 集合,逐条加 gzip RLE blob(.rle,见下方管线优化)
   //   - battle-bgs.json:列出有效 FBP chunk id 集合,逐条加 battle-bg-NNN.png
-  // 失败的 entry warn + skip(视觉资源降级不阻断可玩性,为既定策略)。
+  // 当前失败处理:记录 warning 后跳过该 entry,不让此项错误拒绝整个 loadAll。
   const [battleSpritesManifest, battleBgsManifest] = await Promise.all([
     fetchJson<BattleSpritesManifest>(`${BASE}/data/battle-sprites.json`).catch((err: unknown) => {
       console.warn('assets: battle-sprites.json 缺失,跳过战斗精灵:', err)

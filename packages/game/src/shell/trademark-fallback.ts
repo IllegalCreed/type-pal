@@ -107,6 +107,6 @@ export async function playTrademarkFallback(options: PlayTrademarkFallbackOption
   // 2. 1s delay(sdlpal UTIL_Delay(1000))
   await sleep(options.delayBeforeFadeMs ?? 1000)
 
-  // 3. 1s fadeOut(sdlpal PAL_FadeOut(1))
+  // 3. fadeOut(默认 600ms,允许 options 覆写时长)
   await fadeOut(options.fb, options.canvasCtx, options.palette, options.fadeOutMs ?? 600, now) // L43:PAL_FadeOut(1)=600ms
 }

@@ -1857,7 +1857,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     }
   }
 
-  // soundfont 收尾等待:其余 boot 资源(~800 个请求,2026-06-22 资源管线优化后;曾 ~3200)完成后,
+  // soundfont 收尾等待:其余 boot 资源完成后,
   // 慢网下进度计数会停在最后一格等这单个大文件请求 —— 注明在等什么;到手(或失败)即清。必须在视频/菜单发起**之前**等,
   // 否则 1.mp4 在 loading 覆盖层底下开播。(大小不写死:音色库可换,2026-06-12 已从 32MB
   // GeneralUser GS 换 6MB TimGM6mb,见 public/soundfont-LICENSE.txt)
