@@ -43,3 +43,7 @@ cd "$WT/packages/pal-extract" && ../../node_modules/.bin/vitest run src/resource
 ## Codex当前勘误与接管（2026-10-19）
 
 本片原14断言通过但tables套件加载失败，不能写完整门通过；后续extract-spells-teams-items的tables89/89原件支持该tables恢复，word漏跑另由Codex补8例。旧原件与后续回执分别保留，不追溯清零。 [当前返工与限制](../codex-stage2-rework.json)。
+
+## Codex 2026-10-20 有限返工
+
+[当前四文件八维及原件](../codex-enemy-role.json)：作者布局事实按既有域保留；补齐两解析实现/两专测设计与测试合同。纠正剩余名字参数注释、带版本行号及首末槽说明；原用例保留，仅补强OBJECT四字段与全零非空合同，更正1标题。两旧产品关闭撤review；0新关闭。整阶段门、短输入策略及本地同形类型仍未收口，不能把本节当整包accept。

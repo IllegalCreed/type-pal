@@ -83,12 +83,12 @@ const PLAYER_ROLES_BYTES =
  * 硬编码后接此 dump。
  *
  * **signed 字段**:`attackStrength / magicStrength / defense / dexterity` 与
- * 5 个 sound 字段(`attackSound / weaponSound / criticalSound / magicSound /
- * deathSound`)按 SHORT 处理,与 Enemy D28 一致。
+ * 7 个 sound 字段(含 coverSound / dyingSound)在本 parser 中按 SHORT 读取。
  *
  * @param dataMkfBytes DATA.MKF 整个 .MKF 字节(本函数内部 openMkf + readChunk 3)
  * @param words        可选;parseWordDat 解出的名称表,用于反向填 `_name`
- *                     (从 `words.persons[i]` 取角色名)
+ *                     (按 rgwName[i] - PERSONS_WORD_OFFSET 索引 words.persons,
+ *                     不按角色序号顺取;缺词时省略 _name)
  */
 export function parsePlayerRoles(dataMkfBytes: Uint8Array, words?: Words): PlayerRoles {
   const mkf = openMkf(dataMkfBytes)

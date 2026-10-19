@@ -1,0 +1,613 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-20",
+  "owner": "Codex",
+  "base": "0b778bc0f0d49190e63c9f11fd32b0b263e7b460",
+  "authorCandidate": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+  "decision": "Finite four-file rework;2 changed-source evidence gaps addressed;0 new closed;no whole-package/card acceptance",
+  "sourceBodyProof": {
+    "file": "source-body-final.json",
+    "allEqual": true,
+    "method": "Existing readonly TypeScript6.0.3 parse+print removeComments against base;2production modules only;not test equivalence/semantic quality certification"
+  },
+  "fileReviews": [
+    {
+      "path": "packages/pal-extract/src/resources/parsers/enemies.ts",
+      "sha256": "12c0fba0960792c066859a832120c894483d3cdec3d29e0e250db4277573f9b6",
+      "lines": 251,
+      "readScope": "Full current module and four-file diff;existing GLM A/layout evidence reused;only targeted primary/caller/adjacent ranges expanded.",
+      "dimensions": {
+        "A": "Fixed70-byte ENEMY and14-byte OBJECT fields remain unchanged;bounded153-row metadata scans return local arrays/maps. CLI first parses complete enemyObjects,then builds three projections. Empty ENEMY accepted;short optional name map scan can throw RangeError,while two build helpers return empty Map:existing input-policy difference remains review,not silently normalized.",
+        "B": "Corrected stale line anchors to function symbols,wrong implication all index0 records are absent,and name-key explanation. Array return description belongs to parseEnemyObjects,not interface. GLM enemyObjectIndexes wording supported by current EnemyTeam caller.",
+        "C": "Pure byte→DTO/projection boundary,IO stays CLI;no async/resource/timer ownership. Name lookup is enemyId first-wins,object metadata preserves OBJECT identity. Local Map ownership has no global mutation. Extraction interface duplication does not justify merging parser with runtime.",
+        "D": "Uses shared field offsets/u16/s16. Two map builders share153-row scan but name-map needs Words and filters missing names,ID-map has no Words;keep separate narrow contracts rather than mode switches. Local EnemyObject duplicates shared DTO;candidate type-only consolidation requires checking direct import/augmentation compatibility,not implemented here.",
+        "E": "5 boundary identities kept;new complete first OBJECT assertion checks resistance and3script values from independent tagOBJECT_ENEMY byte offsets,plus153length. Exact actual resistance→0 mutant passes old testcase,fails strengthened testcase once. Author raw-layout evidence retained at its snapshot;current89suite rerun due changed WORD input dependency.",
+        "F": "ENEMY_SIZE/OBJ_SIZE/objectIndex/enemyId distinguish records and identities;field reads deliberately explicit and sequential. Comments give layout/identity rather than interpret base addresses as scripts. No new design rename needed.",
+        "G": "All4exports are consumed in CLI/barrel;bounded record mapping loops contain meaningful filtering. Cursor/generic parser abstraction would obscure source layout without measured benefit. Did not delete permissive short-map policy or add fallback.",
+        "H": "Inputs are byte views and optionalWords;outputs inspected directly,zero mocks. No clock/random/IO in module. Counter uses exact production source in owned temp package with real helper dependency,not cloned algorithm."
+      },
+      "disposition": "review;finite A-H examination and local repairs recorded;whole-stage/unified acceptance not granted"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/player-roles.ts",
+      "sha256": "faddc5642418cfcf1eb639850bc71fbdde2a8784190263fa022d2af42d03da4d",
+      "lines": 276,
+      "readScope": "Full current module and four-file diff;existing GLM A/layout evidence reused;only targeted primary/caller/adjacent ranges expanded.",
+      "dimensions": {
+        "A": "Exact900-byte PLAYERROLES chunk,SoA rows6roles and cursor900 maintain alignment;roleIDs remain distinct from name word indices. Full existing code read,author layout claim reused;focused global.h rows and current callers cross-checked. No schema/stat/signedness/input changes.",
+        "B": "Parameter now follows actual rgwName[i]-36 lookup,not sequential persons[i]. Signed sound description says parser reads7 (including cover/dying),not5. Source retains external layout and equipment ordering;does not use assertions inside parser as independent layout proof.",
+        "C": "One deterministic deserializer;readPlayers owns no IO and closure view is immutable. Cursor local to one call,arrays built anew;returned per-role equipment/magic arrays detached. openMkf/readChunk input adapter stays local,CLI owns disk/publishing. Long explicit layout is one cohesive ordered task,not unrelated business logic.",
+        "D": "Shared MKF adapter reused. Private readPlayers boolean only selects16-bit signed decoding,not a business mode/framework. Different matrix dimensions reflect real layout;do not generalize away names/units. PLAYER_ROLES_NUM shared locally;no new global/public helper needed.",
+        "E": "4 main identities (one title clarified) plus2adjacent name/element contracts;all11 current pass. Full-zero case formerly passed empty roles through every;add exact6length. Actual all-zero→[] mutant passes old case,fails new length assertion once. Existing element/order/name contracts reused;do not claim every output field has independent direct negative control.",
+        "F": "Named arrays plus explicit cursor increments expose SoA read order;equipment/magic transposition visible near DTO assembly. PERSONS_WORD_OFFSET makes word-to-role boundary legible. No added abstraction,cryptic index rewrite or chained transforms.",
+        "G": "readPlayers and layout constants have actual consumers;cursor check guards programmer layout drift. Individual row locals encode physical order;removing them for line count would hide rather than simplify layout. No dead export/parameter proved in this slice.",
+        "H": "WholeMKF deterministic input and output DTO are directly testable;fixtures control individual byte cells. No core mocks/private state access needed. Input exact size makes allocation finite6roles;malformed name pointer is optional metadata fallback already directly tested."
+      },
+      "disposition": "review;finite A-H examination and local repairs recorded;whole-stage/unified acceptance not granted"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/enemies.boundaries.test.ts",
+      "sha256": "60f468590d88560dfd77d04c472cf2f620ae3fcb59b9457b41269f31b832784d",
+      "lines": 102,
+      "readScope": "Full current module and four-file diff;existing GLM A/layout evidence reused;only targeted primary/caller/adjacent ranges expanded.",
+      "dimensions": {
+        "A": "Synthetic70B records/full153OBJECTsegment are legal parser IO inputs;139B/shortOBJECT are explicit invalid-boundary cases. Direct exported functions,including map consumers,are invoked with real helpers. Fixture layout verified against external global.h symbols,not only production comments.",
+        "B": "Header now names both table layouts and external source. Existing first-wins title remains precise;complete OBJECT assertion does not claim all enemy stats/production battle behavior covered.",
+        "C": "Immutable shared write-list and per-case local byte allocations;no global mocks,timers,callbacks or mutable live asset state. One OBJECT fixture tests related projections of same identities,not unrelated lifecycle cases.",
+        "D": "Real shared mkTable/mkWords only construct bytes/Words,not expected parser output. Fixed byte offsets and literal expected DTO remain independent from product offsets. No generic expected-map generator or copied decode logic.",
+        "E": "All5 retained with exact native identities. Added four nonzero values and full metadata/length assertion strengthens formerly unobserved fields. Truncation and empty inputs distinct;first-wins aliases/zero-slot route distinct from straight mapping. Mutant oldgreen/newred is one AssertionError,other filtered cases not counted as executed.",
+        "F": "Separate field mapping/name-object projection describes mirror actual contracts;named sizes/explicit writes distinguish OBJECT index from enemyId. No title-only added coverage credit.",
+        "G": "No new case/deletion/skip/timeout/config;old repeated-name and maps assertions kept. Broader tables smoke assertions can overlap but raw asset integration is a distinct input/oracle;whole tables test quality not signed off by this slice.",
+        "H": "Pure byte fixtures isolate each call;negative paths assert stable error contract. Real-source temp counter cleans only its own temp dirs,and root source/status identity checks prove no residue."
+      },
+      "disposition": "review;finite A-H examination and local repairs recorded;whole-stage/unified acceptance not granted"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/player-roles.boundaries.test.ts",
+      "sha256": "7c0719614bf246e4d43ff5b5ccd0222a008551b1bf465bef56c5f554550bdff3",
+      "lines": 101,
+      "readScope": "Full current module and four-file diff;existing GLM A/layout evidence reused;only targeted primary/caller/adjacent ranges expanded.",
+      "dimensions": {
+        "A": "900B legal layout with independent row/role asymmetry,898B negative exact guard;name inputs use pointers with role3/4 reversal. Full-zero binary valid for deserializer domain,not claimed a playable game state.",
+        "B": "Removed stale line reference and corrected claim about non-first/last markers. Zero-case title narrowed to observed six-role HP/attack0 contract;no assertion that all fields were independently checked.",
+        "C": "Each case owns fresh MKF/chunk/output;shared helpers only assemble byte tables. No shared runtime/session or mock lifecycle. One large field-mapping case stays one physical-layout observation,not generalized engine contract.",
+        "D": "Reuses legal MKF/table/Words builders. Expected equipment/magic arrays manually set asymmetric markers;does not call parser to construct oracle. Event-boundary tests supplement water/earth and missing-name axes rather than duplicate the whole SoA case.",
+        "E": "4identities retained with1title mapping. Previously roles.every vacuous-empty acceptance proven by actual mutant;new6length rejects it. Exact arrays preserve32magic/6equipment lengths and asymmetric columns. Existing name test intentionally not whole missing-word coverage;adjacent2 adds that.",
+        "F": "Rows,roles,first/last slots and SHORT examples are explicit;zero-title matches assertions. No hidden implementation-algorithm copy in fixture.",
+        "G": "No case removal/addedruntime count;one length assertion fixes real discrimination gap. Name/title edit does not manufacture a new test. Existing full-zero case distinct from nonzero layout case by validzero vs absent-record boundary.",
+        "H": "Synchronous deterministic tests,real parsePlayerRoles invocation;no IO required in these4cases. Contract counters use temporary copies plus real shared package resolving,without private-state/casts/mocks."
+      },
+      "disposition": "review;finite A-H examination and local repairs recorded;whole-stage/unified acceptance not granted"
+    }
+  ],
+  "callerPrimaryBindings": [
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "sha256": "c9a67cc73e40584b99fab28dd7f5cbd4acd218894db2daf7cb96bd1464dca9f6",
+      "readScope": "Full helper/barrel/fixture/adjacent name test;CLI325-365,shared Enemy/EnemyObject/EnemyTeam/PlayerRole,global.h199-208/257-345,fight enemy SHORT casts and tables enemy/role blocks were focused primary/caller reads. Other functions not accepted by binding."
+    },
+    {
+      "path": "packages/pal-extract/src/resources/tables.ts",
+      "sha256": "74df97a4874d86525378189cc4f59d118e8d5a002caa3f852212c50c8a409ccd",
+      "readScope": "Full helper/barrel/fixture/adjacent name test;CLI325-365,shared Enemy/EnemyObject/EnemyTeam/PlayerRole,global.h199-208/257-345,fight enemy SHORT casts and tables enemy/role blocks were focused primary/caller reads. Other functions not accepted by binding."
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/_utils.ts",
+      "sha256": "958dea6b7bec38ca3ae2a467b2d372c28263bedcf2b8a6f92d28f72fee9b3215",
+      "readScope": "Full helper/barrel/fixture/adjacent name test;CLI325-365,shared Enemy/EnemyObject/EnemyTeam/PlayerRole,global.h199-208/257-345,fight enemy SHORT casts and tables enemy/role blocks were focused primary/caller reads. Other functions not accepted by binding."
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/enemy-teams.ts",
+      "sha256": "eb8369584d1ea80317fca82764ef9c0a88f653b9bcf6d8808b5cb92e41c8f5b0",
+      "readScope": "Full helper/barrel/fixture/adjacent name test;CLI325-365,shared Enemy/EnemyObject/EnemyTeam/PlayerRole,global.h199-208/257-345,fight enemy SHORT casts and tables enemy/role blocks were focused primary/caller reads. Other functions not accepted by binding."
+    },
+    {
+      "path": "packages/pal-extract/src/io/mkf.ts",
+      "sha256": "ca53d95c262a6fe6d7b31fe0ec149804e4e759875803b3cf63c8f7c713cb0fd3",
+      "readScope": "Full helper/barrel/fixture/adjacent name test;CLI325-365,shared Enemy/EnemyObject/EnemyTeam/PlayerRole,global.h199-208/257-345,fight enemy SHORT casts and tables enemy/role blocks were focused primary/caller reads. Other functions not accepted by binding."
+    },
+    {
+      "path": "packages/pal-extract/src/io/word.ts",
+      "sha256": "dbcd851a23f10829f2f04ef7fd7ec427c0362ea3d0796714a7186da9f35323a6",
+      "readScope": "Full helper/barrel/fixture/adjacent name test;CLI325-365,shared Enemy/EnemyObject/EnemyTeam/PlayerRole,global.h199-208/257-345,fight enemy SHORT casts and tables enemy/role blocks were focused primary/caller reads. Other functions not accepted by binding."
+    },
+    {
+      "path": "packages/pal-extract/src/utils/gbk.ts",
+      "sha256": "cf74eb8e8b37ab04e8746a9c42391c699f85af9cc02b8e4f1b08b7d7c9ea1a8b",
+      "readScope": "Full helper/barrel/fixture/adjacent name test;CLI325-365,shared Enemy/EnemyObject/EnemyTeam/PlayerRole,global.h199-208/257-345,fight enemy SHORT casts and tables enemy/role blocks were focused primary/caller reads. Other functions not accepted by binding."
+    },
+    {
+      "path": "packages/shared/src/tables.ts",
+      "sha256": "efc0ed3c6cd2b50e002f783a738be1306bde0b727d3f3701a2aee18b55279828",
+      "readScope": "Full helper/barrel/fixture/adjacent name test;CLI325-365,shared Enemy/EnemyObject/EnemyTeam/PlayerRole,global.h199-208/257-345,fight enemy SHORT casts and tables enemy/role blocks were focused primary/caller reads. Other functions not accepted by binding."
+    },
+    {
+      "path": "packages/shared/src/mkf.ts",
+      "sha256": "7d4504527745800dee8ef1675269c6385ff028896d322f4fb66fde378bfc42cc",
+      "readScope": "Full helper/barrel/fixture/adjacent name test;CLI325-365,shared Enemy/EnemyObject/EnemyTeam/PlayerRole,global.h199-208/257-345,fight enemy SHORT casts and tables enemy/role blocks were focused primary/caller reads. Other functions not accepted by binding."
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-foundation-fixtures.ts",
+      "sha256": "dedcadf9aa816f9b64e01acb840d405dfae89f2eb1e407efd1cc1cd9d3a30ba8",
+      "readScope": "Full helper/barrel/fixture/adjacent name test;CLI325-365,shared Enemy/EnemyObject/EnemyTeam/PlayerRole,global.h199-208/257-345,fight enemy SHORT casts and tables enemy/role blocks were focused primary/caller reads. Other functions not accepted by binding."
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/__tests__/player-roles.event-boundaries-1.test.ts",
+      "sha256": "8892d438a8c88ea2c9f544f2aef90b90283d1934c9618c7d2bbb88d1120d015f",
+      "readScope": "Full helper/barrel/fixture/adjacent name test;CLI325-365,shared Enemy/EnemyObject/EnemyTeam/PlayerRole,global.h199-208/257-345,fight enemy SHORT casts and tables enemy/role blocks were focused primary/caller reads. Other functions not accepted by binding."
+    },
+    {
+      "path": "packages/pal-extract/src/resources/tables.test.ts",
+      "sha256": "1d223df93228b3bd45a4058ce61bd57ad4ee6999b17fa5f4c201353590d78403",
+      "readScope": "Full helper/barrel/fixture/adjacent name test;CLI325-365,shared Enemy/EnemyObject/EnemyTeam/PlayerRole,global.h199-208/257-345,fight enemy SHORT casts and tables enemy/role blocks were focused primary/caller reads. Other functions not accepted by binding."
+    },
+    {
+      "path": "packages/pal-extract/tsconfig.json",
+      "sha256": "c495913f16faed5087b5f04fdf57ea15147633743e2c2b0f4352383a2453ac1b",
+      "readScope": "Full helper/barrel/fixture/adjacent name test;CLI325-365,shared Enemy/EnemyObject/EnemyTeam/PlayerRole,global.h199-208/257-345,fight enemy SHORT casts and tables enemy/role blocks were focused primary/caller reads. Other functions not accepted by binding."
+    },
+    {
+      "path": "reference/sdlpal/global.h",
+      "sha256": "07f307f91af62291fba50a345075c54adf170a33d1eba1f389852abf9c44d28c",
+      "readScope": "Full helper/barrel/fixture/adjacent name test;CLI325-365,shared Enemy/EnemyObject/EnemyTeam/PlayerRole,global.h199-208/257-345,fight enemy SHORT casts and tables enemy/role blocks were focused primary/caller reads. Other functions not accepted by binding."
+    },
+    {
+      "path": "reference/sdlpal/fight.c",
+      "sha256": "6d71434242de081d3cd2d5a0578d05485948e7c6cd507407805d0eafa3e761f5",
+      "readScope": "Full helper/barrel/fixture/adjacent name test;CLI325-365,shared Enemy/EnemyObject/EnemyTeam/PlayerRole,global.h199-208/257-345,fight enemy SHORT casts and tables enemy/role blocks were focused primary/caller reads. Other functions not accepted by binding."
+    }
+  ],
+  "reusedAuthorEvidence": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/extract-enemies-playerroles/directed.json",
+      "sha256": "f5142ade66b913fe3f1ce6de712fdf8da517a49d3b93975682ee5368607c3b4c",
+      "credit": "14assertions plus1tables loading failure;no whole gate success.4role/2name/8misc identities only at author snapshot."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/extract-spells-teams-items/directed.json",
+      "sha256": "6f697fee7fef7c24f6a2fe509c9410d4f6937a6ca4077037b82b147c5eea4b3a",
+      "credit": "Historical tables89 recovery;current WORD dependency changed so current89 separately executed."
+    }
+  ],
+  "testMapping": {
+    "enemy": "5old identities unchanged;one strengthens full OBJECT projection,including4previously unobserved fields and153length",
+    "role": "4old identities;one title narrowed and6length assertion added;3exact fullNames unchanged",
+    "renamed": [
+      {
+        "before": "parsePlayerRoles · SoA 布局合同 零值全表合法（全零 900B → 全部角色字段为 0/无 -1 语义）",
+        "after": "parsePlayerRoles · SoA 布局合同 全零 900B 仍解出六个角色，HP 与武术保留 0"
+      }
+    ],
+    "adjacent": "2name/element identities and89tables cases not newly accepted test files;100current distinct identities total,not4counter executions added as tests"
+  },
+  "counterScope": "Actual temporary source mutations;oldgreen/newred2business assertions. Source module comments changed after control but current removeComments print equals same base;historical counter hashes retained,not refreshed. Production source/status unchanged and temp dirs removed. Filtered tests not credited as executed.",
+  "artifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/enemy-role-native.json.gz",
+    "sha256": "094f1cfd5f44c9b1f093792a5c043a0e03edfbbde2a358b91cccad77ba2e0eb5",
+    "decodedSha256": "d9b70ddf915061a41369799903347160976acc2b70d07f72ead1ef5160c4aea2",
+    "decodedBytes": 102218,
+    "members": [
+      {
+        "name": "directed.native.json",
+        "sha256": "dee57b728c096ce18a3125a89584aa611f4f7827b671a5d6180a7c4befff6fa3",
+        "bytes": 5370
+      },
+      {
+        "name": "directed.stdout",
+        "sha256": "b0e27ea40b19a6627281f44e317958c31b12825d7a1461145580b91316bbfc9a",
+        "bytes": 598
+      },
+      {
+        "name": "directed.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "directed.execution.json",
+        "sha256": "3916e4d88dec76174e45c2bc05ff4eb2de75f910d0259341a776e733737e7f99",
+        "bytes": 617
+      },
+      {
+        "name": "adjacent-first.native.json",
+        "sha256": "a2e5ba8e5da9e2e768c40f1a21662b4a1f6fa05f549b82a7206bd338b98d49d5",
+        "bytes": 826
+      },
+      {
+        "name": "adjacent-first.stdout",
+        "sha256": "6f3fd2a81a07829c06b0bf13c2b5decb40db5e20d775c19e43b21523e94c1216",
+        "bytes": 379
+      },
+      {
+        "name": "adjacent-first.stderr",
+        "sha256": "922de91b1cad19e2bc0be0a73fb54eacc6cde3592d088d5c49a0efb870a7ca16",
+        "bytes": 736
+      },
+      {
+        "name": "adjacent-first.execution.json",
+        "sha256": "0b1ac76ccce3da31b6ea87c3383379f27fc1f8524f3365ca04b78493fa79f1cb",
+        "bytes": 635
+      },
+      {
+        "name": "adjacent.native.json",
+        "sha256": "f87a830ea7dbc2831d92a3553196b9c59d442589da8a69e2e5db5dc87ced2f5a",
+        "bytes": 27755
+      },
+      {
+        "name": "adjacent.stdout",
+        "sha256": "c572e76ebb8b0edfe45f8ff745759d6bc40d46ed5167def883f1a23996235d90",
+        "bytes": 395
+      },
+      {
+        "name": "adjacent.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "adjacent.execution.json",
+        "sha256": "4021d55be0cf4da035ef7360d15b7b98e976d504fd94652c10f0d475e4249122",
+        "bytes": 604
+      },
+      {
+        "name": "typecheck.execution.json",
+        "sha256": "061d40e06a19fa599de57757f231b3ea1c6fc748e16b01d05bf56620ea702456",
+        "bytes": 314
+      },
+      {
+        "name": "raw-links.json",
+        "sha256": "57eb6d9a078efd7251a944fddaea766c16e50c8ea115c5c0aa86b0b5c2e6445b",
+        "bytes": 1108
+      },
+      {
+        "name": "source-body.json",
+        "sha256": "046a370bce884c8159df0e4288e327b327df05cc616c250a9308816910b5da04",
+        "bytes": 1160
+      },
+      {
+        "name": "source-body-final.json",
+        "sha256": "046a370bce884c8159df0e4288e327b327df05cc616c250a9308816910b5da04",
+        "bytes": 1160
+      },
+      {
+        "name": "counters.json",
+        "sha256": "71c0422165bc48cbae8e862ddd163fdacfe74b7042bc686ffd3f67fb08c5c025",
+        "bytes": 14227
+      },
+      {
+        "name": "object-fields-old.native.json",
+        "sha256": "684fdf2ee00bfa964a6177608599e67b410030857c32e2f2fd3b0723c329ed64",
+        "bytes": 2287
+      },
+      {
+        "name": "object-fields-old.stdout",
+        "sha256": "a830f84026dd64a47af25651b674a089422bb075fcdead21fcfa4ab756c78f36",
+        "bytes": 470
+      },
+      {
+        "name": "object-fields-old.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "object-fields-new.native.json",
+        "sha256": "08500cbead0f1d8913467fa2151b1dbdcbed807e88d4349426cc1371b4b80ad5",
+        "bytes": 3909
+      },
+      {
+        "name": "object-fields-new.stdout",
+        "sha256": "4eb654b036d53ea5167dd98fdfaf3784caacff87eee79e6c32cc630e1ba4b867",
+        "bytes": 839
+      },
+      {
+        "name": "object-fields-new.stderr",
+        "sha256": "80f3275301dd012b869bd72573fd51c1a6cac9dece1c512b068aed16a3c59922",
+        "bytes": 1053
+      },
+      {
+        "name": "zero-roles-old.native.json",
+        "sha256": "f7980ec839214a5b33ba2b5ff3b386a4368a152ddc0f1e3a676a4a2ec0e9d388",
+        "bytes": 2106
+      },
+      {
+        "name": "zero-roles-old.stdout",
+        "sha256": "0d874bd75a03ca8fdf6a5c9687dc7c20a4f328b012e0465aa248c657c5f5a851",
+        "bytes": 469
+      },
+      {
+        "name": "zero-roles-old.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "zero-roles-new.native.json",
+        "sha256": "4ecf988a7955de44728bd7c5680266b98b5e72774c0c8d1f9322f7d15258383a",
+        "bytes": 3763
+      },
+      {
+        "name": "zero-roles-new.stdout",
+        "sha256": "172479f596a2734e548236d75efe8bf6ce7db158cec505c0743d3c0d9b18b9bf",
+        "bytes": 798
+      },
+      {
+        "name": "zero-roles-new.stderr",
+        "sha256": "76c629b40b0559089c5e459f1c71f65fb9082eb19af70bbd39b3388a449d5e53",
+        "bytes": 812
+      },
+      {
+        "name": "counter-source-snapshot.json",
+        "sha256": "8a33ea9ceb2eddc7f851ec9df0566a011461d75c24f973bf44cf6bd1916e52d0",
+        "bytes": 23653
+      }
+    ]
+  },
+  "directed": {
+    "command": [
+      "../../node_modules/.bin/vitest",
+      "run",
+      "src/resources/parsers/__tests__/enemies.boundaries.test.ts",
+      "src/resources/parsers/__tests__/player-roles.boundaries.test.ts",
+      "src/resources/parsers/__tests__/player-roles.event-boundaries-1.test.ts",
+      "--reporter=default",
+      "--reporter=json",
+      "--outputFile=/tmp/type-pal-foundation-enemy-role/directed.native.json"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract",
+    "startedAt": "2026-10-19T15:01:49.923081+00:00",
+    "exitCode": 0,
+    "stdoutBytes": 598,
+    "stderrBytes": 0
+  },
+  "adjacent": {
+    "command": [
+      "../../node_modules/.bin/vitest",
+      "run",
+      "src/resources/tables.test.ts",
+      "--reporter=default",
+      "--reporter=json",
+      "--outputFile=/tmp/type-pal-foundation-enemy-role/adjacent.native.json"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract",
+    "startedAt": "2026-10-19T15:04:02.001253+00:00",
+    "exitCode": 0,
+    "stdoutBytes": 395,
+    "stderrBytes": 0,
+    "firstFailure": "adjacent-first.*",
+    "reason": "Current WORD dependency differs from GLM snapshot;rerun raw integration after adding only missing SSS input link."
+  },
+  "typecheck": {
+    "command": [
+      "node",
+      "node_modules/typescript/bin/tsc",
+      "--noEmit",
+      "-p",
+      "packages/pal-extract/tsconfig.json"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "startedAt": "2026-10-19T15:03:28.776054+00:00",
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "ledgerSnapshot": {
+    "tracked": 3316,
+    "closed": 230,
+    "review": 127,
+    "pending": 2959,
+    "newClosed": 0,
+    "reason": "2source B/E old-closure gaps reopened;2test previous unrecorded/pending→review;no other live row/status change",
+    "rows": {
+      "packages/pal-extract/src/resources/parsers/enemies.ts": "| `packages/pal-extract/src/resources/parsers/enemies.ts` | product | review | [GLM敌人/角色四文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-enemy-role.json) | 错注已纠正、逐文件八维补核；输入策略/DTO保持，整阶段质量门仍待 |",
+      "packages/pal-extract/src/resources/parsers/player-roles.ts": "| `packages/pal-extract/src/resources/parsers/player-roles.ts` | product | review | [GLM敌人/角色四文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-enemy-role.json) | 错注已纠正、逐文件八维补核；输入策略/DTO保持，整阶段质量门仍待 |",
+      "packages/pal-extract/src/resources/parsers/__tests__/enemies.boundaries.test.ts": "| `packages/pal-extract/src/resources/parsers/__tests__/enemies.boundaries.test.ts` | test | review | [GLM敌人/角色四文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-enemy-role.json) | 既有合同补强；旧绿/新红业务反控成立，统一门仍待 |",
+      "packages/pal-extract/src/resources/parsers/__tests__/player-roles.boundaries.test.ts": "| `packages/pal-extract/src/resources/parsers/__tests__/player-roles.boundaries.test.ts` | test | review | [GLM敌人/角色四文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-enemy-role.json) | 既有合同补强；旧绿/新红业务反控成立，统一门仍待 |"
+    }
+  },
+  "cardScope": {
+    "83cards": "56partial/27pending/0accept unchanged",
+    "route": "Pair has legacy ledger target entries without confirmed direct83card named owner;do not invent numbered card scope or promote it."
+  },
+  "glmChangedSourceProgress": {
+    "changedSourceTotal": 41,
+    "withDetailedCurrentFileMatrix": 7,
+    "remaining": 34,
+    "reviewedPaths": [
+      "packages/pal-extract/src/io/word.ts",
+      "packages/pal-extract/src/resources/parsers/enemies.ts",
+      "packages/pal-extract/src/resources/parsers/player-roles.ts",
+      "packages/shared/src/events.ts",
+      "packages/shared/src/index.ts",
+      "packages/shared/src/resources.ts",
+      "packages/shared/src/tables.ts"
+    ],
+    "remainingPaths": [
+      "packages/content/src/index.ts",
+      "packages/game/src/assets/loader.ts",
+      "packages/game/src/core/battle/actions/attack.ts",
+      "packages/game/src/core/battle/actions/magic.ts",
+      "packages/game/src/core/battle/battle-opcodes.ts",
+      "packages/game/src/core/battle/battle-state.ts",
+      "packages/game/src/core/battle/battle-system.ts",
+      "packages/game/src/core/command-bus.ts",
+      "packages/game/src/core/equip-effect.ts",
+      "packages/game/src/core/equipment-state.ts",
+      "packages/game/src/core/event-system.ts",
+      "packages/game/src/core/game-state.ts",
+      "packages/game/src/core/menu/item-select.ts",
+      "packages/game/src/core/menu/magic-script.ts",
+      "packages/game/src/core/menu/menu-driver.ts",
+      "packages/game/src/core/scene-system.ts",
+      "packages/game/src/dev/dev-panel.ts",
+      "packages/game/src/present/battle/draw-battle-sprites.ts",
+      "packages/game/src/present/battle/draw-battle-ui.ts",
+      "packages/game/src/present/battle/present-battle.ts",
+      "packages/game/src/present/dialog-box.ts",
+      "packages/game/src/present/draw-tilemap.ts",
+      "packages/game/src/present/menu/draw-equip.ts",
+      "packages/game/src/present/menu/draw-player-status.ts",
+      "packages/game/src/present/present.ts",
+      "packages/game/src/shell/bootstrap.ts",
+      "packages/game/src/shell/trademark-fallback.ts",
+      "packages/pal-extract/src/cli.ts",
+      "packages/pal-extract/src/events/disasm.ts",
+      "packages/pal-extract/src/events/opcodes.ts",
+      "packages/pal-extract/src/font/bdf-to-json.ts",
+      "packages/pal-extract/src/resources/parsers/rix.ts",
+      "packages/pal-extract/src/resources/parsers/sounds.ts",
+      "packages/reforge/src/audio/bgm.ts"
+    ],
+    "limits": "Not completed-file/closed count;not author unchanged-file package claims;19previous+4current detailed source/test matrices overlap only7actualGLMchanged source files."
+  },
+  "remainingIssues": [
+    {
+      "id": "EP-O1",
+      "class": "existing unknown input-policy boundary",
+      "disposition": "Keep parent review;short optional map input yields RangeError/emptyMap depending export. CLI validates complete OBJECT before map calls;no schema/input-policy change authorized or implemented."
+    },
+    {
+      "id": "EP-O2",
+      "class": "possible structure improvement",
+      "disposition": "Keep candidate in parent;local EnemyObject same-shape shared type could be consolidated after direct import/augmentation compatibility check;not a runtime duplicate decoder;no new public API introduced."
+    },
+    {
+      "id": "EP-O3",
+      "class": "known adjacent comment issue",
+      "disposition": "shared EnemyObject description says4AIhooks but actual contains3scripts+resistance;CLI PlayerRoles M3-subset comment stale. Outside current4file whitelist,carry forward to shared/CLI comment slices rather than silently claim clean callers."
+    },
+    {
+      "id": "EP-O4",
+      "class": "test-quality boundary",
+      "disposition": "tables whole89case E not reviewed by this finite4file slice;some presence/range/smoke assertions overlap exact binary fixtures. Current run supports integration,not whole-file acceptance."
+    }
+  ],
+  "notRun": [
+    "Whole pnpm check",
+    "Official coverage ratchet",
+    "Protected fast",
+    "Unrelated123/125docs tests",
+    "Runtime/E2E/visual"
+  ],
+  "mainMergeBlockedBy": [
+    "Existing editor runtime diagnostics not resolved by this slice",
+    "e2e-route reviewBy2026-10-18 remains expired;date not extended to bypass gate"
+  ],
+  "nextScope": "GLM actual executable changes not yet in detailed matrix:attack/battle-opcodes/magic-script/scene-system/BGM;reuse valid author evidence,expand only missing/risky axes.34changed-source remain,not restart unrelated tools.",
+  "quickVerify": {
+    "command": [
+      "node",
+      "-e",
+      "const fs=require('node:fs'),c=require('node:crypto'),z=require('node:zlib');const p=process.argv[1],d=JSON.parse(fs.readFileSync(p));const h=b=>c.createHash('sha256').update(b).digest('hex');for(const x of [...d.fileReviews,...d.callerPrimaryBindings,...d.reusedAuthorEvidence])if(h(fs.readFileSync(x.path))!==x.sha256)throw Error('stale:'+x.path);const b=fs.readFileSync(d.artifact.path);if(h(b)!==d.artifact.sha256)throw Error('attachment');const raw=z.gunzipSync(b);if(h(raw)!==d.artifact.decodedSha256)throw Error('raw');const m=JSON.parse(raw);for(const x of d.artifact.members)if(h(Buffer.from(m[x.name]))!==x.sha256)throw Error('member:'+x.name);for(const [n,count]of [['directed',11],['adjacent',89]]){const r=JSON.parse(m[n+'.native.json']),e=JSON.parse(m[n+'.execution.json']);if(e.exitCode!==0||e.stderrBytes!==0||r.numPassedTests!==count||r.numFailedTests||r.numFailedTestSuites||r.numPendingTests)throw Error(n);}const initial=JSON.parse(m['adjacent-first.native.json']);if(initial.numTotalTests!==0||initial.numFailedTestSuites!==1)throw Error('first');for(const r of JSON.parse(m['counters.json']).records){const n=JSON.parse(m[r.nativeFile]);const a=n.testResults.flatMap(f=>f.assertionResults).filter(a=>['passed','failed'].includes(a.status));const bad=r.id.endsWith('-new');if(a.length!==1||a[0].status!==(bad?'failed':'passed')||r.exitCode!==(bad?1:0)||bad&&!a[0].failureMessages.some(v=>v.includes('AssertionError')))throw Error(r.id);}if(!JSON.parse(m['source-body-final.json']).allEqual)throw Error('body');const ledger=fs.readFileSync('docs/ops/audits/code-quality-file-ledger.md','utf8');for(const [path,row]of Object.entries(d.ledgerSnapshot.rows)){if(ledger.split('\\n').find(v=>v.startsWith('| `'+path+'` |'))!==row)throw Error('ledger:'+path);}console.log('identity/native11+89/counters2 match; semantic quality remains human judgment');",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-enemy-role.json"
+    ],
+    "scope": "Read-only local SHA/raw/native/counter/4specificlive rows;exit0match,1mismatch/stale/missing. No network/tests/global-progress/semantic certification;other card totals can advance without invalidating this finite evidence."
+  },
+  "metadataBindings": [
+    {
+      "review": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "path": "docs/ops/board.md"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "path": "docs/ops/audits/code-quality-file-ledger.md"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"
+    }
+  ],
+  "quickVerifyValidation": [
+    {
+      "id": "current",
+      "commandRef": "quickVerify.command",
+      "exitCode": 0,
+      "stdout": "identity/native11+89/counters2 match; semantic quality remains human judgment\n",
+      "stderr": ""
+    },
+    {
+      "id": "stale-source",
+      "mutation": "FirstsourceSHA→64zeros in external tempfile only",
+      "commandRef": "quickVerify.command with external copy",
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "[eval]:1\n(crypto=>{{const fs=require('node:fs'),c=require('node:crypto'),z=require('node:zlib');const p=process.argv[1],d=JSON.parse(fs.readFileSync(p));const h=b=>c.createHash('sha256').update(b).digest('hex');for(const x of [...d.fileReviews,...d.callerPrimaryBindings,...d.reusedAuthorEvidence])if(h(fs.readFileSync(x.path))!==x.sha256)throw Error('stale:'+x.path);const b=fs.readFileSync(d.artifact.path);if(h(b)!==d.artifact.sha256)throw Error('attachment');const raw=z.gunzipSync(b);if(h(raw)!==d.artifact.decodedSha256)throw Error('raw');const m=JSON.parse(raw);for(const x of d.artifact.members)if(h(Buffer.from(m[x.name]))!==x.sha256)throw Error('member:'+x.name);for(const [n,count]of [['directed',11],['adjacent',89]]){const r=JSON.parse(m[n+'.native.json']),e=JSON.parse(m[n+'.execution.json']);if(e.exitCode!==0||e.stderrBytes!==0||r.numPassedTests!==count||r.numFailedTests||r.numFailedTestSuites||r.numPendingTests)throw Error(n);}const initial=JSON.parse(m['adjacent-first.native.json']);if(initial.numTotalTests!==0||initial.numFailedTestSuites!==1)throw Error('first');for(const r of JSON.parse(m['counters.json']).records){const n=JSON.parse(m[r.nativeFile]);const a=n.testResults.flatMap(f=>f.assertionResults).filter(a=>['passed','failed'].includes(a.status));const bad=r.id.endsWith('-new');if(a.length!==1||a[0].status!==(bad?'failed':'passed')||r.exitCode!==(bad?1:0)||bad&&!a[0].failureMessages.some(v=>v.includes('AssertionError')))throw Error(r.id);}if(!JSON.parse(m['source-body-final.json']).allEqual)throw Error('body');const ledger=fs.readFileSync('docs/ops/audits/code-quality-file-ledger.md','utf8');for(const [path,row]of Object.entries(d.ledgerSnapshot.rows)){if(ledger.split('\\n').find(v=>v.startsWith('| `'+path+'` |'))!==row)throw Error('ledger:'+path);}console.log('identity/native11+89/counters2 match; semantic quality remains human judgment');}})(require('node:crypto'))\n                                                                                                                                                                                                                                                                                                                                          ^\n\nError: stale:packages/pal-extract/src/resources/parsers/enemies.ts\n    at [eval]:1:337\n    at [eval]:1:1880\n    at runScriptInThisContext (node:internal/vm:209:10)\n    at node:internal/process/execution:446:12\n    at [eval]-wrapper:6:24\n    at runScriptInContext (node:internal/process/execution:444:60)\n    at evalFunction (node:internal/process/execution:279:30)\n    at evalTypeScript (node:internal/process/execution:291:3)\n    at node:internal/main/eval_string:74:3\n\nNode.js v22.23.2\n"
+    }
+  ],
+  "checks": {
+    "docs": {
+      "command": ["node", "scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-19T15:09:59.992086+00:00",
+      "exitCode": 0,
+      "stdout": "docs: 1653 Markdown / 9802 local links / 467 tasks / content22 SAVE12\ndocs: PASS (0 issues)\n",
+      "stderr": ""
+    },
+    "model": {
+      "command": ["node", "scripts/docs/check-document-model.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-19T15:09:59.992311+00:00",
+      "exitCode": 0,
+      "stdout": "document model: PASS (8 routes; 1264 body contracts; 0 issues; structure only)\n",
+      "stderr": ""
+    },
+    "phase": {
+      "command": ["node", "scripts/docs/check-phase-lore-governance.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-19T15:09:59.993074+00:00",
+      "exitCode": 0,
+      "stdout": "phase/lore governance: PASS (184 documents)\n",
+      "stderr": ""
+    },
+    "content": {
+      "command": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-19T15:09:59.994024+00:00",
+      "exitCode": 0,
+      "stdout": "content review: PASS (2346 documents; {\"content-reviewed\":2346})\n",
+      "stderr": ""
+    },
+    "lint": {
+      "command": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-19T15:10:00.071271+00:00",
+      "exitCode": 0,
+      "stdout": "\n> type-pal@ lint /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal\n> node scripts/quality/lint-zero.mjs\n\nlint: PASS — 5661 files; 0 errors / 0 warnings / 0 infos; complete report\n",
+      "stderr": ""
+    },
+    "diff": {
+      "command": ["git", "diff", "--cached", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-19T15:10:00.623571+00:00",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "ledger": {
+      "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-19T15:10:00.658592+00:00",
+      "exitCode": 0,
+      "stdout": "code-quality ledger: PASS — 3316 files; 230 closed / 127 review / 2959 pending; semantic review still required\n",
+      "stderr": ""
+    },
+    "testing": {
+      "command": ["pnpm", "check:testing-docs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-19T15:10:01.130774+00:00",
+      "exitCode": 1,
+      "stdout": "\n> type-pal@ check:testing-docs /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal\n> node scripts/docs/check-testing.mjs\n\ntesting docs: FAIL (1 issues)\n ELIFECYCLE  Command failed with exit code 1.\n",
+      "stderr": "- e2e-route: reviewBy 2026-10-18 is before 2026-10-19\n"
+    }
+  },
+  "processNotes": [
+    "Temporary documentation producer direct Python script load reported a UTF-8 tokenization error despite complete valid UTF-8;compile(read_text) succeeded,then used that execution path. No source/product effect.",
+    "Ledger authoring first placed2new test rows after an existing table break;machine correctly failed declared230/127/2959 vs actual230/125/2961. Only those2new rows moved into live table,then currentledger230/127/2959 PASS. First ledger stdout was observed in tool transcript,not retained as separate raw file;not represented as a passed gate. Existing historical/orphan rows were not merged or removed.",
+    "Metadata history/entry isolation asserted against startingcommit:5bindings only,unrelated entries and old history unchanged;1boardrow;ledger historical tail and83card state bytes unchanged."
+  ],
+  "currentGateConclusion": "11directed+89rawadjacent current0stderr;2actual oldgreen/newred business assertions;extract tsc0. docs/model/phase/content/ledger/diff pass;lint5661files0errors/0warnings/0infos. check:testing-docs fails1existing expired e2e-route reviewBy;aggregatecheck:docs not certified.125unchanged docs-tool tests/fullcheck/coverage/protected not rerun.0newclosed;no main merge."
+}

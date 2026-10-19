@@ -34,7 +34,7 @@ import {
 //   wElemResistance[5]: wind(54), thunder(56), water(58), fire(60), earth(62),
 //   wPhysicalResistance(64),  wDualMove(66),  wCollectValue(68)
 //
-// * = signed 语义(sdlpal fight.c:4634 `(SHORT)g_Battle.rgEnemy[i].e.wAttackStrength`)。
+// * = signed 语义(如 fight.c::PAL_BattleEnemyPerformAction 对 wAttackStrength 作 SHORT cast)。
 //   声音 5 个字段也在 tagENEMY 中定义为 SHORT。
 const ENEMY_SIZE = 70
 
@@ -44,14 +44,14 @@ const ENEMY_SIZE = 70
  *
  * **关键语义**(D28 / M3):
  * - `attackStrength / magicStrength / defense / dexterity` 用 `getInt16`(signed),
- *   sdlpal `fight.c:4634` 真实是 `int str = (SHORT)g_Battle.rgEnemy[i].e.wAttackStrength`。
+ *   例如 `fight.c::PAL_BattleEnemyPerformAction` 对 wAttackStrength 作 SHORT cast。
  *   `0xFFFF` 表示 `-1`(modifier),M1 简化版误把这些当 unsigned 直接 dump,会得到 65535。
  * - 5 个 SHORT 声音字段(attackSound 等)同样 signed dump(`-1` 表示"无声音")。
  * - `elemResistance[5]` 拆 wind/thunder/water/fire/earth 5 个具名字段。
  *
  * **id 是什么**:`id` = 该 enemy 在 DATA.MKF chunk 1 数组里的索引,直接 = sdlpal
- * `OBJECT_ENEMY.wEnemyID` 指向的位置(直接索引,index 0 是空 placeholder,sdlpal 数据
- * 从 index 1 起算 —— 见 fight.c:516 `lprgEnemy[obj.enemy.wEnemyID]`,没减 1)。
+ * `OBJECT_ENEMY.wEnemyID` 指向的位置(直接索引,不减 1)。本模块的 OBJECT
+ * 反查把 wEnemyID=0 当空槽;parseEnemies 本身仍保留 chunk 1 的第 0 条记录。
  * M3 战斗代码拿 `OBJECT_ENEMY.wEnemyID` 直接索引 `enemies[]` 即可。
  *
  * **_name**:可选,反向通过 OBJECT_ENEMY 段 + WORD.DAT enemies 表填(本函数会做)。
@@ -148,7 +148,6 @@ export function parseEnemies(enemyBuf: Uint8Array, objBuf?: Uint8Array, words?: 
  * 游戏侧 battle-system enemy turn 真做 scripted AI(B-w2.a)时,从此表
  * 取 scriptOnReady 喂 runScript。
  *
- * @returns 数组 length 153,index = 段内偏移(0..152),objectIndex 字段填 OBJECT 表绝对 index
  */
 export interface EnemyObject {
   /** OBJECT 表绝对 index(398+);EnemyTeam.enemyObjectIndexes[i] 直接对应。 */
@@ -167,6 +166,7 @@ export interface EnemyObject {
   _name?: string
 }
 
+/** 读取完整敌人段;返回 153 条,index 为段内偏移,objectIndex 为 OBJECT 绝对 index。 */
 export function parseEnemyObjects(objBuf: Uint8Array, words?: Words): EnemyObject[] {
   const need = (ENEMY_OBJ_START + ENEMY_OBJ_COUNT) * OBJ_SIZE
   if (objBuf.byteLength < need) {
@@ -198,8 +198,8 @@ export function parseEnemyObjects(objBuf: Uint8Array, words?: Words): EnemyObjec
  * 反向索引:OBJECT 数组中的绝对 index(OBJECT_ENEMY 段)→ 敌人显示名。
  * 给 parseEnemyTeams 做 `_names` 反查用。
  *
- * 实现:遍历 OBJECT_ENEMY 段(ENEMY_OBJ_START..),拿到该 OBJECT 的
- * `wEnemyID`(指向 DATA.MKF chunk 1 ENEMY 数组),再去 words.enemies[i] 拿名字。
+ * 实现:遍历 OBJECT_ENEMY 段(ENEMY_OBJ_START..),只为 wEnemyID 非零且有名称的
+ * OBJECT 建项;名字按 OBJECT 在该段的位置取 words.enemies[i],不按 enemyId 取。
  * 注意:返回的 Map key 是 OBJECT 数组的绝对 index(398..550),不是 enemyID。
  *
  * @param objBuf SSS.MKF chunk 2 原始字节

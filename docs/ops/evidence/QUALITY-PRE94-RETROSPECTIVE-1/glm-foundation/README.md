@@ -97,3 +97,5 @@ Codex继续本批缺失维度与83卡/测试成果映射，不再要求用户转
 低成本复验：从仓库根运行`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/verify-stage2.mjs`。该[只读快检](verify-stage2.mjs)核源/原件/无损迁移和14身份去向，不重跑测试，不认证设计语义；SHA失配与不可验证分别非零退出。
 
 当前[83卡实际范围路由](codex-pre94-scope.json)给出每卡当前范围锚、261个具名首要目标、显式live/243撤回候选和旧证据入口；493关联路径是路由/字节绑定，不是重读或验收数量。13份详细A–H仍属有限review。CODE3/3b的annotation/slice/SSS/MSG不能被GLM的disasm/WORD批替代，67–70测试卡不能被生产源码摘要代关闭，6a/82独立工具不在包级回执中。annotation两测试精确恢复既有撤回后，当前账本3316/234closed/120review/2962pending，0新关闭。后续先补确有缺口，不重复有效A/E。
+
+当前GLM解析器增量：[敌人/角色四文件八维与两业务反控](codex-enemy-role.json)。仅更正文案和补强原9测试中的断言/1标题；解析实现不变，11定向/89原盘相邻无stderr。GLM实际41个改动源码中已有7个详细矩阵、34个待补；该口径不包含未改动文件的作者包级主张，0新关闭。累计23个源码/测试矩阵也不等于GLM23/41。

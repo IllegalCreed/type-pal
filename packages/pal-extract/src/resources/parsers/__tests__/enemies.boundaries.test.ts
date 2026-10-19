@@ -1,6 +1,6 @@
 /**
- * TEST-FOUNDATION-COVERAGE-1 C1：DATA.MKF chunk 1 ENEMY 表解析边界（enemies.ts:22-136）。
- * 合成字节 fixture（70B/条,35×WORD 布局按源码注释）；真实资产集成在 PAL 组
+ * TEST-FOUNDATION-COVERAGE-1 C1：DATA.MKF chunk 1 ENEMY 与 SSS OBJECT_ENEMY 解析。
+ * 合成字节 fixture（70B/条,35×WORD 布局按 sdlpal global.h::tagENEMY）；真实资产集成在 PAL 组
  * （gitignored），本文件补 fast 域纯字节合同。区分 enemyId（chunk1 数组下标）与
  * objectId（OBJECT 表绝对 index 398+）。
  */
@@ -67,6 +67,10 @@ describe('parseEnemies · object→enemy 反查 _name', () => {
   test('OBJECT_ENEMY 段首个非零 wEnemyID 命中，重复 id 首见优先；enemyId 与 objectIndex 分开', () => {
     const objBuf = mkTable(OBJ_BYTES, [
       [398 * OBJ_SIZE + 0, 1], // object398 → enemyId 1
+      [398 * OBJ_SIZE + 2, 7], // resistanceToSorcery
+      [398 * OBJ_SIZE + 4, 101], // scriptOnTurnStart
+      [398 * OBJ_SIZE + 6, 202], // scriptOnBattleEnd
+      [398 * OBJ_SIZE + 8, 303], // scriptOnReady
       [(398 + 1) * OBJ_SIZE + 0, 1], // object399 也指 enemyId 1（重复，首见优先）
       [(398 + 2) * OBJ_SIZE + 0, 0], // object400 = 空槽
     ])
@@ -76,9 +80,16 @@ describe('parseEnemies · object→enemy 反查 _name', () => {
     expect(out[0]!._name).toBeUndefined()
 
     const objects = parseEnemyObjects(objBuf, words)
-    expect(objects[0]!.objectIndex).toBe(398)
-    expect(objects[0]!.enemyId).toBe(1)
-    expect(objects[0]!._name).toBe('敌0')
+    expect(objects).toHaveLength(ENEMY_OBJ_COUNT)
+    expect(objects[0]).toEqual({
+      objectIndex: 398,
+      enemyId: 1,
+      resistanceToSorcery: 7,
+      scriptOnTurnStart: 101,
+      scriptOnBattleEnd: 202,
+      scriptOnReady: 303,
+      _name: '敌0',
+    })
     expect(objects[2]!.enemyId).toBe(0)
 
     expect(buildObjectIndexToEnemyIdMap(objBuf).get(399)).toBe(1)

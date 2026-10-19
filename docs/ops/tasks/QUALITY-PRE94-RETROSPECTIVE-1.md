@@ -904,3 +904,17 @@ Codex premise verified/build allowed：同3y单Owner，五worktree四目标无�
 原13测试身份全部保留，新增7均对应反例或合法输入保真；删一条不可变string的无判别力自比，inventory变更检查仍保留。最终20/20、工具47/47（含该20）无stderr；初红5、helper红1、中途18绿与追加真实旧实现5红/helper2红均不覆写，快照/命令/原始TAP可核。既有quiet-import与out字节counter仅按未变谓词复用，不重跑旧大包；无新增TypeScript执行声明，全仓check/coverage/protected仍留大任务收尾。
 
 ledger工具遇直接counter、专测既有撤回与盲点各有证据，两旧closed精确重开review；inventory两文件原review保持。当前3316/232closed/123review/2961pending，0新关闭；243漂移子集67closed/129missing/46review/1rework。6a仍partial，全83卡56partial/27pending/0accept，详细矩阵累计19文件；分支仅3y，不合main。CC初筛四处>10均记录实际读域与可改善候选，不为指标拆分或新造万能helper。下一片回CODE3/3f annotation/slice欠缺的结构/可读/可测维度，复用有效A/E，94–102后置。
+
+
+## 2026-10-20 GLM敌人/角色解析四文件返工准入
+
+Codex premise verified/build allowed：从0b778bc0f续行同一3y，fetch完成、origin/main无新提交，主树/GLM冻结树干净且只读；本片单Owner=Codex。白名单为enemies.ts、player-roles.ts及各自boundaries.test.ts。复用作者已核二进制布局/原生回执，只展开遗留注释、职责/复用/命名/简洁/可测性及现存专测缺口；不重做其它包。只纠正注释与加强既有断言，不改实现、二进制输入策略、公共DTO、资产输出或规则。敌人OBJECT整条投影未测四字段、全零角色断言可空集恒真，需要真实旧/新测试业务反控；未改产品逻辑无需伪造产品red→green。定向实跑、既有相邻证据按源码/依赖匹配复用，昂贵门保留到大任务收尾。
+
+
+## 2026-10-20 GLM敌人/角色两解析实现与两专测返工回执
+
+[四文件证据与只读快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-enemy-role.json)补齐A–H逐项、真实CLI/barrel/共享类型/邻接敌队/fixture及一手结构锚；复用GLM已核布局，不重审其它包。主要质量整改：纠正角色名字按rgwName指针的参数说明、七音效读取说明、过时行号、OBJECT名字映射与测试首末槽表述。产品parse+print去注释相同，未改输出/接口/输入策略；未以拆文件或万能helper消除两种不同投影。
+
+测试不新增用例：原5敌人/4角色身份保留（其中全零标题收窄并映射），加强同一OBJECT fixture的巫抗/三脚本入口与数组长度；全零角色先断言六人再查0，消除空集真。相同实际产品mutant，旧用例各绿、新用例各一指定AssertionError；隔离临时副本清理，治理源/状态未变。11定向与89原盘相邻均0stderr，extract tsc0。因WORD依赖自作者原件后已改，89不直接继承而实跑；首次因缺SSS套件加载失败/0测试原件保留，随后只加本树ignored只读原盘链接。首次补链脚本还因WORD已存在而断言停止，未覆盖该文件，后续直接保留现有输入。
+
+两产品旧关闭存在B/E缺口，精确撤回review；两专测pending→review：3316tracked/230closed/127review/2959pending、0新关闭。83卡56partial/27pending/0accept完全不变（这对parser无已确认编号卡直接归属，不伪造映射）。详细矩阵共23文件；与GLM41实际改动源码交集7，余34，不拿其它工具/测试充数。两个短输入策略/类型同形候选只登记，不改资产合同；全仓check/coverage/protected仍待大任务窗口，e2e-route到期/editor诊断未解除，不合main。下一步优先核GLM实际正文变化的attack/battle-opcodes/magic-script/scene-system/BGM五文件之现有证据与缺口，不再旁出工具任务。
