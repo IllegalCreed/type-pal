@@ -1,0 +1,930 @@
+{
+  "numTotalTestSuites": 29,
+  "numPassedTestSuites": 29,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 80,
+  "numPassedTests": 80,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792375418527,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["D5 validateEnemyTeams · 结构边界"],
+          "fullName": "D5 validateEnemyTeams · 结构边界 合法列表通过（含 null 槽）；输入不变",
+          "status": "passed",
+          "title": "合法列表通过（含 null 槽）；输入不变",
+          "duration": 1.246707999999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D5 validateEnemyTeams · 结构边界"],
+          "fullName": "D5 validateEnemyTeams · 结构边界 非数组 拒绝",
+          "status": "passed",
+          "title": "非数组 拒绝",
+          "duration": 0.4748339999999871,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D5 validateEnemyTeams · 结构边界"],
+          "fullName": "D5 validateEnemyTeams · 结构边界 重复 id 拒绝",
+          "status": "passed",
+          "title": "重复 id 拒绝",
+          "duration": 0.08837500000001342,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D5 validateEnemyTeams · 结构边界"],
+          "fullName": "D5 validateEnemyTeams · 结构边界 槽位超上限 5 拒绝",
+          "status": "passed",
+          "title": "槽位超上限 5 拒绝",
+          "duration": 0.13112499999999727,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D5 validateEnemyTeams · 结构边界"],
+          "fullName": "D5 validateEnemyTeams · 结构边界 坏槽（数字） 拒绝",
+          "status": "passed",
+          "title": "坏槽（数字） 拒绝",
+          "duration": 0.08091699999999946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D5 validateEnemyTeams · 结构边界"],
+          "fullName": "D5 validateEnemyTeams · 结构边界 坏槽（空串） 拒绝",
+          "status": "passed",
+          "title": "坏槽（空串） 拒绝",
+          "duration": 0.06683300000000258,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D5 validateEnemyTeams · 结构边界"],
+          "fullName": "D5 validateEnemyTeams · 结构边界 未知字段 拒绝",
+          "status": "passed",
+          "title": "未知字段 拒绝",
+          "duration": 0.11583400000000665,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D5 validateEnemyTeams · 结构边界"],
+          "fullName": "D5 validateEnemyTeams · 结构边界 空 id 拒绝",
+          "status": "passed",
+          "title": "空 id 拒绝",
+          "duration": 0.1165409999999838,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D6 validateEnemyTeamReferences · 引用分层与可选 enemyIds"],
+          "fullName": "D6 validateEnemyTeamReferences · 引用分层与可选 enemyIds 缺省 enemyIds：不校验引用（传入时语义不同）",
+          "status": "passed",
+          "title": "缺省 enemyIds：不校验引用（传入时语义不同）",
+          "duration": 0.338374999999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D6 validateEnemyTeamReferences · 引用分层与可选 enemyIds"],
+          "fullName": "D6 validateEnemyTeamReferences · 引用分层与可选 enemyIds 传入 enemyIds：悬空槽引用精确拒绝（路径含槽位）",
+          "status": "passed",
+          "title": "传入 enemyIds：悬空槽引用精确拒绝（路径含槽位）",
+          "duration": 0.16300000000001091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D6 validateEnemyTeamReferences · 引用分层与可选 enemyIds"],
+          "fullName": "D6 validateEnemyTeamReferences · 引用分层与可选 enemyIds 全部命中时通过；原数组/槽位不污染",
+          "status": "passed",
+          "title": "全部命中时通过；原数组/槽位不污染",
+          "duration": 0.125583000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375418755,
+      "endTime": 1792375418758.3384,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/enemy-team.contracts.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["entity lifecycle table"],
+          "fullName": "entity lifecycle table accepts all four exact variants and treats a missing table as normal",
+          "status": "passed",
+          "title": "accepts all four exact variants and treats a missing table as normal",
+          "duration": 2.2161669999999845,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity lifecycle table"],
+          "fullName": "entity lifecycle table rejects an invalid remaining tick value 0",
+          "status": "passed",
+          "title": "rejects an invalid remaining tick value 0",
+          "duration": 0.2600840000000062,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity lifecycle table"],
+          "fullName": "entity lifecycle table rejects an invalid remaining tick value -1",
+          "status": "passed",
+          "title": "rejects an invalid remaining tick value -1",
+          "duration": 0.10837499999999523,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity lifecycle table"],
+          "fullName": "entity lifecycle table rejects an invalid remaining tick value 1.5",
+          "status": "passed",
+          "title": "rejects an invalid remaining tick value 1.5",
+          "duration": 0.2013330000000053,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity lifecycle table"],
+          "fullName": "entity lifecycle table rejects an invalid remaining tick value 9007199254740992",
+          "status": "passed",
+          "title": "rejects an invalid remaining tick value 9007199254740992",
+          "duration": 0.07958300000001373,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity lifecycle table"],
+          "fullName": "entity lifecycle table rejects an invalid remaining tick value 15",
+          "status": "passed",
+          "title": "rejects an invalid remaining tick value 15",
+          "duration": 0.07070799999999622,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity lifecycle table"],
+          "fullName": "entity lifecycle table rejects unknown phases, variant pollution, and malformed nesting",
+          "status": "passed",
+          "title": "rejects unknown phases, variant pollution, and malformed nesting",
+          "duration": 0.4551659999999913,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity lifecycle table"],
+          "fullName": "entity lifecycle table rejects unknown scene and entity references without mutating the input",
+          "status": "passed",
+          "title": "rejects unknown scene and entity references without mutating the input",
+          "duration": 0.2767499999999927,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entity lifecycle table"],
+          "fullName": "entity lifecycle table reference index rejects duplicate scene and entity identities",
+          "status": "passed",
+          "title": "reference index rejects duplicate scene and entity identities",
+          "duration": 0.8397919999999885,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375418733,
+      "endTime": 1792375418737.8398,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/entity-lifecycle.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["pixelDeltaToGridDelta(碎步增量,不取整)"],
+          "fullName": "pixelDeltaToGridDelta(碎步增量,不取整) 开场锅挥动 walkStep (+4,+2)px = (+0.25, 0) 格 —— round 版会吞成 0",
+          "status": "passed",
+          "title": "开场锅挥动 walkStep (+4,+2)px = (+0.25, 0) 格 —— round 版会吞成 0",
+          "duration": 1.1146669999999972,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["pixelDeltaToGridDelta(碎步增量,不取整)"],
+          "fullName": "pixelDeltaToGridDelta(碎步增量,不取整) 四步累积 = 整格(与原版 16,8px = 1 col 对齐)",
+          "status": "passed",
+          "title": "四步累积 = 整格(与原版 16,8px = 1 col 对齐)",
+          "duration": 0.16229099999998198,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["pixelDeltaToGridDelta(碎步增量,不取整)"],
+          "fullName": "pixelDeltaToGridDelta(碎步增量,不取整) 纯 y 位移 → col/row 各半(iso 轴)",
+          "status": "passed",
+          "title": "纯 y 位移 → col/row 各半(iso 轴)",
+          "duration": 0.08066699999997695,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["pixelDeltaToGridDelta(碎步增量,不取整)"],
+          "fullName": "pixelDeltaToGridDelta(碎步增量,不取整) 与 gridToPixel 互逆(任意增量往返)",
+          "status": "passed",
+          "title": "与 gridToPixel 互逆(任意增量往返)",
+          "duration": 0.15304199999999923,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["grid 坐标(菱形轴)"],
+          "fullName": "grid 坐标(菱形轴) 格 → 像素 = (16(col−row), 8(col+row))",
+          "status": "passed",
+          "title": "格 → 像素 = (16(col−row), 8(col+row))",
+          "duration": 0.1827910000000088,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["grid 坐标(菱形轴)"],
+          "fullName": "grid 坐标(菱形轴) 像素 → 格(唯一反解,站位必得整数)",
+          "status": "passed",
+          "title": "像素 → 格(唯一反解,站位必得整数)",
+          "duration": 0.14841599999999744,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["grid 坐标(菱形轴)"],
+          "fullName": "grid 坐标(菱形轴) height 不影响平面投影(独立轴)",
+          "status": "passed",
+          "title": "height 不影响平面投影(独立轴)",
+          "duration": 0.0962910000000079,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["grid 坐标(菱形轴)"],
+          "fullName": "grid 坐标(菱形轴) 走一格 = 单轴 ±1(四方向各一个轴,绝不对角)",
+          "status": "passed",
+          "title": "走一格 = 单轴 ±1(四方向各一个轴,绝不对角)",
+          "duration": 0.10883300000000418,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["grid 坐标(菱形轴)"],
+          "fullName": "grid 坐标(菱形轴) 任意整数 (col,row) 都合法(无 col+row 偶约束)",
+          "status": "passed",
+          "title": "任意整数 (col,row) 都合法(无 col+row 偶约束)",
+          "duration": 0.4014169999999808,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["spriteScreenY(height 显示上移)"],
+          "fullName": "spriteScreenY(height 显示上移) 地面(height=0)→ 与 gridToPixel().y 相同",
+          "status": "passed",
+          "title": "地面(height=0)→ 与 gridToPixel().y 相同",
+          "duration": 0.08841699999999264,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["spriteScreenY(height 显示上移)"],
+          "fullName": "spriteScreenY(height 显示上移) height 每级上移 16px(= 对角格 (col−h,row−h) 的屏幕 y)",
+          "status": "passed",
+          "title": "height 每级上移 16px(= 对角格 (col−h,row−h) 的屏幕 y)",
+          "duration": 0.11933400000000915,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375418742,
+      "endTime": 1792375418745.4014,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/grid.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["MapIndexV1"],
+          "fullName": "MapIndexV1 规范化安全相对路径，并保持 id/name/path",
+          "status": "passed",
+          "title": "规范化安全相对路径，并保持 id/name/path",
+          "duration": 1.08641700000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapIndexV1"],
+          "fullName": "MapIndexV1 拒绝非法版本、重复 id/path 和危险路径",
+          "status": "passed",
+          "title": "拒绝非法版本、重复 id/path 和危险路径",
+          "duration": 0.763499999999965,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapIndexV1"],
+          "fullName": "MapIndexV1 文件名可稳定派生 id stem",
+          "status": "passed",
+          "title": "文件名可稳定派生 id stem",
+          "duration": 0.21433400000000802,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MapIndexV1"],
+          "fullName": "MapIndexV1 新身份同时避开 id 与默认 path 冲突",
+          "status": "passed",
+          "title": "新身份同时避开 id 与默认 path 冲突",
+          "duration": 0.18741700000003902,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneDef 地图边界"],
+          "fullName": "SceneDef 地图边界 只接受直接稳定 mapId",
+          "status": "passed",
+          "title": "只接受直接稳定 mapId",
+          "duration": 0.2637500000000159,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375418914,
+      "endTime": 1792375418917.2637,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/map-index.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["migration diagnostics sidecar"],
+          "fullName": "migration diagnostics sidecar 合法 sidecar 原样返回",
+          "status": "passed",
+          "title": "合法 sidecar 原样返回",
+          "duration": 1.3778749999999889,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["migration diagnostics sidecar"],
+          "fullName": "migration diagnostics sidecar 拒绝重复 id、未知类别、空来源与非法目标能力",
+          "status": "passed",
+          "title": "拒绝重复 id、未知类别、空来源与非法目标能力",
+          "duration": 1.4235830000000078,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375418733,
+      "endTime": 1792375418735.4236,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/migration-diagnostic.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["current hostile policy"],
+          "fullName": "current hostile policy accepts the explicit victory and flee policies",
+          "status": "passed",
+          "title": "accepts the explicit victory and flee policies",
+          "duration": 1.0907080000000065,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current hostile policy"],
+          "fullName": "current hostile policy rejects legacy respawn/success fields and missing policies",
+          "status": "passed",
+          "title": "rejects legacy respawn/success fields and missing policies",
+          "duration": 0.3109579999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current hostile policy"],
+          "fullName": "current hostile policy rejects bad ticks 0",
+          "status": "passed",
+          "title": "rejects bad ticks 0",
+          "duration": 0.09558300000000486,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current hostile policy"],
+          "fullName": "current hostile policy rejects bad ticks -1",
+          "status": "passed",
+          "title": "rejects bad ticks -1",
+          "duration": 0.0643750000000125,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current hostile policy"],
+          "fullName": "current hostile policy rejects bad ticks 1.5",
+          "status": "passed",
+          "title": "rejects bad ticks 1.5",
+          "duration": 0.07470900000001279,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current hostile policy"],
+          "fullName": "current hostile policy rejects bad ticks 9007199254740992",
+          "status": "passed",
+          "title": "rejects bad ticks 9007199254740992",
+          "duration": 0.21129199999998605,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current hostile policy"],
+          "fullName": "current hostile policy rejects bad ticks 15",
+          "status": "passed",
+          "title": "rejects bad ticks 15",
+          "duration": 0.12250000000000227,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current hostile policy"],
+          "fullName": "current hostile policy rejects polluted discriminants and malformed chase",
+          "status": "passed",
+          "title": "rejects polluted discriminants and malformed chase",
+          "duration": 0.20712499999999068,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current hostile policy"],
+          "fullName": "current hostile policy recursively validates the defeat arm instead of accepting legacy vanish",
+          "status": "passed",
+          "title": "recursively validates the defeat arm instead of accepting legacy vanish",
+          "duration": 0.9037920000000099,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375418801,
+      "endTime": 1792375418803.9038,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/runtime-scene.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["SceneIndexV1"],
+          "fullName": "SceneIndexV1 规范化并保持稳定 id、作者名称与显式路径",
+          "status": "passed",
+          "title": "规范化并保持稳定 id、作者名称与显式路径",
+          "duration": 1.10204200000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneIndexV1"],
+          "fullName": "SceneIndexV1 拒绝非法版本、id、名称、重复路径和危险路径",
+          "status": "passed",
+          "title": "拒绝非法版本、id、名称、重复路径和危险路径",
+          "duration": 0.8680420000000026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneIndexV1"],
+          "fullName": "SceneIndexV1 新身份同时避开 id 与默认 path 冲突",
+          "status": "passed",
+          "title": "新身份同时避开 id 与默认 path 冲突",
+          "duration": 0.16662500000001046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375418914,
+      "endTime": 1792375418916.8682,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/scene-index.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["validateShops current table"],
+          "fullName": "validateShops current table empty tables, id0 and repeated stock occurrences remain intact",
+          "status": "passed",
+          "title": "empty tables, id0 and repeated stock occurrences remain intact",
+          "duration": 1.0561669999999879,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateShops current table"],
+          "fullName": "validateShops current table rejects malformed current tables null",
+          "status": "passed",
+          "title": "rejects malformed current tables null",
+          "duration": 0.4182920000000081,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateShops current table"],
+          "fullName": "validateShops current table rejects malformed current tables {}",
+          "status": "passed",
+          "title": "rejects malformed current tables {}",
+          "duration": 0.08574999999999022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateShops current table"],
+          "fullName": "validateShops current table rejects malformed current tables {\"id\":-1,\"items\":[]}",
+          "status": "passed",
+          "title": "rejects malformed current tables {\"id\":-1,\"items\":[]}",
+          "duration": 0.07858300000000895,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateShops current table"],
+          "fullName": "validateShops current table rejects malformed current tables {\"id\":0.5,\"items\":[]}",
+          "status": "passed",
+          "title": "rejects malformed current tables {\"id\":0.5,\"items\":[]}",
+          "duration": 0.0796670000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateShops current table"],
+          "fullName": "validateShops current table rejects malformed current tables {\"id\":9007199254740992,\"items\":[]}",
+          "status": "passed",
+          "title": "rejects malformed current tables {\"id\":9007199254740992,\"items\":[]}",
+          "duration": 0.06570899999999824,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateShops current table"],
+          "fullName": "validateShops current table rejects malformed current tables {\"id\":\"0\",\"items\":[]}",
+          "status": "passed",
+          "title": "rejects malformed current tables {\"id\":\"0\",\"items\":[]}",
+          "duration": 0.11658299999999144,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateShops current table"],
+          "fullName": "validateShops current table rejects malformed current tables {\"id\":0,\"items\":[]}",
+          "status": "passed",
+          "title": "rejects malformed current tables {\"id\":0,\"items\":[]}",
+          "duration": 0.11233400000000415,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateShops current table"],
+          "fullName": "validateShops current table rejects malformed current tables {\"id\":0,\"items\":[\"\"]}",
+          "status": "passed",
+          "title": "rejects malformed current tables {\"id\":0,\"items\":[\"\"]}",
+          "duration": 0.5460419999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateShops current table"],
+          "fullName": "validateShops current table rejects malformed current tables {\"id\":0,\"items\":[1]}",
+          "status": "passed",
+          "title": "rejects malformed current tables {\"id\":0,\"items\":[1]}",
+          "duration": 0.21308299999998326,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateShops current table"],
+          "fullName": "validateShops current table rejects malformed current tables {\"id\":0,\"items\":null}",
+          "status": "passed",
+          "title": "rejects malformed current tables {\"id\":0,\"items\":null}",
+          "duration": 0.12479200000001356,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["shopBuy(每次 1 个;钱不够 null)"],
+          "fullName": "shopBuy(每次 1 个;钱不够 null) 钱够:扣 buyPrice + 入包(已有叠加/新条目);源不变",
+          "status": "passed",
+          "title": "钱够:扣 buyPrice + 入包(已有叠加/新条目);源不变",
+          "duration": 0.21129199999998605,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["shopBuy(每次 1 个;钱不够 null)"],
+          "fullName": "shopBuy(每次 1 个;钱不够 null) 新物品入包为新条目",
+          "status": "passed",
+          "title": "新物品入包为新条目",
+          "duration": 0.12087500000001228,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["shopSell(按 sellPrice;不可卖/没货 null)"],
+          "fullName": "shopSell(按 sellPrice;不可卖/没货 null) 卖 1 个得 sellPrice;数量归零移除条目",
+          "status": "passed",
+          "title": "卖 1 个得 sellPrice;数量归零移除条目",
+          "duration": 0.1296660000000145,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["shopSell(按 sellPrice;不可卖/没货 null)"],
+          "fullName": "shopSell(按 sellPrice;不可卖/没货 null) 不可卖(sellable=false)/背包没有 → null",
+          "status": "passed",
+          "title": "不可卖(sellable=false)/背包没有 → null",
+          "duration": 0.04995800000000372,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "sellableItems:背包中可卖过滤(剧情品/零数排除)",
+          "status": "passed",
+          "title": "sellableItems:背包中可卖过滤(剧情品/零数排除)",
+          "duration": 0.06370799999999122,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375418733,
+      "endTime": 1792375418737.1296,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/shop.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["StampTemplate shared isometric content"],
+          "fullName": "StampTemplate shared isometric content 多层、多来源、相对高度与 nullable collision 确定性往返",
+          "status": "passed",
+          "title": "多层、多来源、相对高度与 nullable collision 确定性往返",
+          "duration": 2.130708999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["StampTemplate shared isometric content"],
+          "fullName": "StampTemplate shared isometric content null 与显式 0 碰撞不同，锚点可位于空格但不得越界",
+          "status": "passed",
+          "title": "null 与显式 0 碰撞不同，锚点可位于空格但不得越界",
+          "duration": 0.483791999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["StampTemplate shared isometric content"],
+          "fullName": "StampTemplate shared isometric content 拒绝重复 id、无视觉实例和来源 lockstep 破坏",
+          "status": "passed",
+          "title": "拒绝重复 id、无视觉实例和来源 lockstep 破坏",
+          "duration": 0.3009999999999877,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375418748,
+      "endTime": 1792375418750.484,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/stamp.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["validateTilesets(W7B)"],
+          "fullName": "validateTilesets(W7B) 合法条目原样返回",
+          "status": "passed",
+          "title": "合法条目原样返回",
+          "duration": 0.8584170000000029,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateTilesets(W7B)"],
+          "fullName": "validateTilesets(W7B) 重复 id / id 含斜杠 / 空字段 / 退役 tiles 字段 → 各自报错",
+          "status": "passed",
+          "title": "重复 id / id 含斜杠 / 空字段 / 退役 tiles 字段 → 各自报错",
+          "duration": 0.6935420000000079,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolveTilesetAsset"],
+          "fullName": "resolveTilesetAsset 注册表 id → AssetId；路径直通与未知 id 均报错",
+          "status": "passed",
+          "title": "注册表 id → AssetId；路径直通与未知 id 均报错",
+          "duration": 0.19974999999999454,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375418824,
+      "endTime": 1792375418825.6936,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/tileset.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["WorldVariableRegistryV1"],
+          "fullName": "WorldVariableRegistryV1 validates the exact discriminated registry and returns a detached value",
+          "status": "passed",
+          "title": "validates the exact discriminated registry and returns a detached value",
+          "duration": 1.9211249999999893,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldVariableRegistryV1"],
+          "fullName": "WorldVariableRegistryV1 rejects invalid author id \"\"",
+          "status": "passed",
+          "title": "rejects invalid author id \"\"",
+          "duration": 0.43641700000000583,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldVariableRegistryV1"],
+          "fullName": "WorldVariableRegistryV1 rejects invalid author id \" quest\"",
+          "status": "passed",
+          "title": "rejects invalid author id \" quest\"",
+          "duration": 0.0956250000000125,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldVariableRegistryV1"],
+          "fullName": "WorldVariableRegistryV1 rejects invalid author id \"2quest\"",
+          "status": "passed",
+          "title": "rejects invalid author id \"2quest\"",
+          "duration": 0.12070799999997917,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldVariableRegistryV1"],
+          "fullName": "WorldVariableRegistryV1 rejects invalid author id \"quest name\"",
+          "status": "passed",
+          "title": "rejects invalid author id \"quest name\"",
+          "duration": 0.07620800000000827,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldVariableRegistryV1"],
+          "fullName": "WorldVariableRegistryV1 rejects invalid author id \"sys:screenWave\"",
+          "status": "passed",
+          "title": "rejects invalid author id \"sys:screenWave\"",
+          "duration": 0.06520799999998417,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldVariableRegistryV1"],
+          "fullName": "WorldVariableRegistryV1 rejects unknown keys, malformed text and non-finite number defaults",
+          "status": "passed",
+          "title": "rejects unknown keys, malformed text and non-finite number defaults",
+          "duration": 0.29129199999999855,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["WorldVariableRegistryV1"],
+          "fullName": "WorldVariableRegistryV1 builds fresh runtime values from author defaults",
+          "status": "passed",
+          "title": "builds fresh runtime values from author defaults",
+          "duration": 0.2686659999999961,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375418737,
+      "endTime": 1792375418741.2686,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/world-variable.test.ts"
+    }
+  ]
+}
