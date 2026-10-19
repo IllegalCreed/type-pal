@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,316。
-当前已闭合核验：236；已读但待审：118；尚未逐文件核验：2,962；合计未闭合：3,080。
+当前已闭合核验：234；已读但待审：120；尚未逐文件核验：2,962；合计未闭合：3,082。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -28,13 +28,15 @@ Template: governance-index-v1 / 1.0.0
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
-2026-10-18 RLE校准仅恢复两条已撤回review，0新关闭。独立全表对账另发现89bf84e16合并时243条review记录在活动表丢失；当前尚有70条closed候选、130条未显式登记路径需逐项核后继证据，其余43条已处review/rework，不在本次批量改状态，也不得据本表冒称这些候选已重新验收。完整差异与范围见[RLE校准](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md)。
+2026-10-18 RLE校准仅恢复两条已撤回review，0新关闭。独立全表对账另发现89bf84e16合并时243条review记录在活动表丢失；当前尚有68条closed候选、130条未显式登记路径需逐项核后继证据，其余45条已处review/rework，不在本次批量改状态，也不得据本表冒称这些候选已重新验收。完整差异与范围见[RLE校准](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md)。
 
 2026-10-18 shared阶段1仅接收有限注释/证据；根据CODE2/2b既有撤回恢复4个测试文件为review，0新关闭，O-5输入域待核。见[阶段验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage1.json)。
 
 2026-10-19 Codex接手GLM后续大包返工：已修错注/格式、补word8/8；shared三份产品类型撤旧关闭为review，四份旧类型测试记录迁移为一个编译合同review（净减3文件），0新关闭。包级全绿不授逐文件八维信用；见[返工与逐文件矩阵](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage2-rework.json)。
 
 2026-10-19 WORD/GBK五文件八维返工：纠错注/私有名、抽共享定宽解码、8→7精简强化与九标点反例；两产品旧关闭撤review、三测试登记review，0新关闭。20独立合同与11新旧输出对比在有限域成立，短输入/旧字段/全仓门仍未收口。见[WORD/GBK逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage3-word.json)。
+
+2026-10-19 83卡实际范围对账另确认annotation两测试与既有撤回证据SHA精确一致，live仍旧已验证；只恢复这两行review，其它漂移候选逐项待核。当前范围路由不等于重读/accept，见[83卡范围对账](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-pre94-scope.json)。
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
@@ -48,8 +50,8 @@ Template: governance-index-v1 / 1.0.0
 | `packages/shared/src/rng.boundaries.test.ts` | test | review | [pre-94 CODE2 MKF/RNG复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/2/README.md)；opcode payload/surface 与连续 delta surface ownership | 新增同一 surface 连续 delta 累加合同；不扩展 runtime 语义，整卡/统一门仍待 |
 | `packages/editor/src/core/project-reference.pal.test.ts` | test | 已验证 | CODE-QUALITY-1b；collector 直接结果与历史提交证据 | 仅更新过期 oracle |
 | `packages/pal-extract/src/events/annotate.ts` | product | 已验证 | CODE-QUALITY-3a + Q3f；typed annotation 与 symbols sidecar boundary、全仓 gates | Q3f done |
-| `packages/pal-extract/src/events/annotate.test.ts` | test | 已验证 | CODE-QUALITY-3a；annotation 合同 | 纯转换输出 |
-| `packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts` | test | 已验证 | CODE-QUALITY-3a + Q3f；真实 annotation 与 symbols malformed contracts | Q3f done |
+| `packages/pal-extract/src/events/annotate.test.ts` | test | review | [CODE3/3f既有明文撤回](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md)；[83卡范围对账](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-pre94-scope.json) | 当前SHA与撤回证据精确相同；恢复既有review，不冒称本次重审/重跑或新增语义失败 |
+| `packages/pal-extract/src/events/annotate.glm-runtime-resource.test.ts` | test | review | [CODE3/3f既有明文撤回](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3-annotate/README.md)；[83卡范围对账](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-pre94-scope.json) | 当前SHA与撤回证据精确相同；恢复既有review，不冒称本次重审/重跑或新增语义失败 |
 | `packages/pal-extract/src/events/slice.ts` | product | 已验证 | CODE-QUALITY-3a；BFS/recompile round-trip、全包、全仓门 | typed visitor boundary |
 | `packages/pal-extract/src/events/slice.test.ts` | test | 已验证 | CODE-QUALITY-3a；scene/global/shared 合同 | 不以 coverage 单独验收 |
 | `packages/pal-extract/src/events/slice.boundaries.test.ts` | test | 已验证 | CODE-QUALITY-3a；切分边界反例 | 真实 caller |

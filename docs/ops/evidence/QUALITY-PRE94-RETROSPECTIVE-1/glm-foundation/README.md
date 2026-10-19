@@ -91,3 +91,5 @@ Codex继续本批缺失维度与83卡/测试成果映射，不再要求用户转
 [当前返工证据](codex-stage2-rework.json)：word漏跑8/8、shared114/114、地图名复用前后3/3；类型缺flags编译反控/恢复已证。修正BDF/对象ID/错排半格/装备槽序/队伍容量/具名对话参数错注，迁移14类型伪运行时例至编译合同，净减3文件。3316/238closed/113review/2965pending；资源/事件/表三份旧B/E关闭撤review，0新增关闭。R1其余模块缺维继续，E2E路线日期到期与原editor诊断均不冒称通过。
 
 低成本复验：从仓库根运行`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/verify-stage2.mjs`。该[只读快检](verify-stage2.mjs)核源/原件/无损迁移和14身份去向，不重跑测试，不认证设计语义；SHA失配与不可验证分别非零退出。
+
+当前[83卡实际范围路由](codex-pre94-scope.json)给出每卡当前范围锚、261个具名首要目标、显式live/243撤回候选和旧证据入口；493关联路径是路由/字节绑定，不是重读或验收数量。13份详细A–H仍属有限review。CODE3/3b的annotation/slice/SSS/MSG不能被GLM的disasm/WORD批替代，67–70测试卡不能被生产源码摘要代关闭，6a/82独立工具不在包级回执中。annotation两测试精确恢复既有撤回后，当前账本3316/234closed/120review/2962pending，0新关闭。后续先补确有缺口，不重复有效A/E。

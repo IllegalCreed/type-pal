@@ -240,3 +240,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 - 2026-10-19：[Codex接手后的逐文件返工证据](glm-foundation/codex-stage2-rework.json)——修正错注/格式、补8漏跑、14类型例转编译、共享存在性复用；其它缺维继续，0新关闭。
 
 - 2026-10-19：[WORD/GBK当前返工](glm-foundation/codex-stage3-word.json)——定宽解码复用、词条身份强化/排重、九标点与业务反控；五文件继续review，旧stage2三项WORD绑定已过期，新旧证据分开使用。
+
+- 2026-10-19：[83卡实际范围/旧撤回对账](glm-foundation/codex-pre94-scope.json)——83范围路由、493关联路径字节索引；不授逐文件/整卡accept。annotation两测试与既有review证据同SHA，live已恢复review；234closed/120review/2962pending。

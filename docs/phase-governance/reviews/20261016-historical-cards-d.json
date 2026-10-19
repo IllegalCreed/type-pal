@@ -3113,8 +3113,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Actual bounded current delta and cited previous withdrawal evidence inspected; historical and unrelated conclusions retained",
-      "coreConclusion": "Two WORD/GBK historical product closures withdrawn after direct B/E counters;three tests explicitly review.3316tracked/236closed/118review/2962pending;0new closed. Historical tail and70/130/43lost-review subset retained.",
+      "readMethod": "Current ledger two-row delta,prior explicit README decision and exact current/read-boundary SHA equality;no repeat product/test audit",
+      "coreConclusion": "Restore two annotation tests to existing review using exact unchanged source SHA and prior explicit withdrawal;3316tracked/234closed/120review/2962pending,0newclosed. Other243lost candidates remain individual follow-up;83scope routing is not A-H acceptance.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3265,11 +3265,35 @@
       "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "aa4899860a7de608ae604608c14f6400a349f1aba772c44d05dc77b65fcb65b8",
+      "afterSha256": "865a64d09a806711809ce8f4b214e21973061584eaec800c9432dbd84518e20b",
       "revision": {
         "currentSha": "addcb44c52fd00ab0fd3397e61ae316bf98d02e2aeef1d5533ed23a2c1e5845a",
-        "implementationSha": "aa4899860a7de608ae604608c14f6400a349f1aba772c44d05dc77b65fcb65b8",
+        "implementationSha": "865a64d09a806711809ce8f4b214e21973061584eaec800c9432dbd84518e20b",
         "history": [
+          {
+            "revision": "486570fa033277141d3279f54d99dd3be0bcd970",
+            "date": "2026-10-19",
+            "action": "83card owned-outcome routing and exact restoration of two previously withdrawn annotation-test ledger rows",
+            "previousAfterSha256": "aa4899860a7de608ae604608c14f6400a349f1aba772c44d05dc77b65fcb65b8",
+            "scope": "Only explicitly changed ledger outcome or its incoming binding;no new product/file/card semantic acceptance",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-pre94-scope.json",
+            "notRun": [
+              "product tests/typecheck in this doc-only slice",
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "runtime/E2E/visual"
+            ],
+            "previousCoreConclusion": "Two WORD/GBK historical product closures withdrawn after direct B/E counters;three tests explicitly review.3316tracked/236closed/118review/2962pending;0new closed. Historical tail and70/130/43lost-review subset retained.",
+            "previousEvidence": {
+              "kind": "codex-owned-first-slice-quality-rework-and-current-ledger-reconciliation",
+              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage3-word.json",
+              "afterSha256": "aa4899860a7de608ae604608c14f6400a349f1aba772c44d05dc77b65fcb65b8",
+              "lineCount": 753
+            },
+            "previousReadMethod": "Actual bounded current delta and cited previous withdrawal evidence inspected; historical and unrelated conclusions retained",
+            "previousNextStep": "Codex continues frozen GLM checkpoint rework in existing3y;shared-type/WORD slices preserved. Remaining missing axes/83card actual outcome scope require precise follow-up;unified/official final gates and unrelated route expiry remain unresolved."
+          },
           {
             "revision": "5e0cb847e2b590f9d319cf6662e37fe8424f79de",
             "date": "2026-10-19",
@@ -3938,10 +3962,10 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-first-slice-quality-rework-and-current-ledger-reconciliation",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage3-word.json",
-        "afterSha256": "aa4899860a7de608ae604608c14f6400a349f1aba772c44d05dc77b65fcb65b8",
-        "lineCount": 753
+        "kind": "existing-withdrawal-restoration-and-card-outcome-scope-routing",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-pre94-scope.json",
+        "afterSha256": "865a64d09a806711809ce8f4b214e21973061584eaec800c9432dbd84518e20b",
+        "lineCount": 755
       },
       "history": [
         {
@@ -4107,13 +4131,13 @@
       ],
       "successor": "Current route/workflow and original product task sources as explicitly linked; no old prompt executable.",
       "stopLine": "Do not infer current runtime/E2E/visual/coverage, product or old-test-quality acceptance from docs/record structure; preserve legal inputs and every original failure.",
-      "nextStep": "Codex continues frozen GLM checkpoint rework in existing3y;shared-type/WORD slices preserved. Remaining missing axes/83card actual outcome scope require precise follow-up;unified/official final gates and unrelated route expiry remain unresolved.",
+      "nextStep": "Continue actual pre94 missing dimensions/isolated tool slices using preserved valid evidence;do not inherit whole-package acceptance. Keep existing unified/route/editor blockers.",
       "userVisibleBeforeAfter": {
         "before": "Actual3300 tracked paths with predecessor declared3294; six new docs tools not yet represented; stale live3292 prose retained from earlier maintenance.",
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "1-753",
+      "reviewedLines": "1-755",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {
@@ -4836,7 +4860,7 @@
           "completePriorObjectRetrievedAndCompared": true
         }
       ],
-      "reviewNotes": "\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit."
+      "reviewNotes": "\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: Only two already-withdrawn same-SHA annotation tests restored toreview;no new runtime execution,source changes or semantic closure."
     },
     {
       "path": "docs/ops/audits/pre-e2e/coverage-determinism.md",

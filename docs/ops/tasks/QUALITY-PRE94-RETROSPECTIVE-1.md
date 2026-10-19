@@ -866,3 +866,14 @@ GLM93笔冻结候选通过7b4be88a0保留到唯一3y，非整包/整卡验收。
 WORD旧8→7：4保持/3增强更名/1严格蕴含删除；GBK既有一例补齐九配置标点，10例且一标题更正。当前20独立合同通过（复用post-helper10+当前GBK10），人物逆序/A142错误均单业务AssertionError，原件与精确字节恢复保留。extract必要typecheck与scoped静态零诊断；未重复整包/全仓/coverage/protected，仍留完整大任务收尾。原stage2快检补上遗漏WORD源码绑定后，正确报三项stale；冻结记录不改，新包仅接续这些claim，绝不把期望stale记静态门通过。
 
 两产品旧关闭撤review、三测试登记review，机器3316/236closed/118review/2962pending，0新关闭；83卡55partial/28pending/0accept未变。下一步把83卡的实际成果/旧逐文件关闭与243撤回路径对应清楚，保留作者有效证据，具体缺维继续返工；整包扩扫不能充数，也不据此要求重新全文复刻所有phase2。e2e-route到期/editor存量诊断未解，不合main。
+
+
+## 2026-10-19 83卡成果范围对账与两条明确撤回恢复
+
+[当前范围路由](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-pre94-scope.json)基于卡面当前Scope/范围白名单和明确旧撤回，不把grep命中或原全包库存指令当成果。83卡均有范围/停止线/证据入口，261个具名首要目标与显式live/243撤回候选合成493路径索引；这不是重读493文件，其他旧直接测试是否完备仍逐卡待核。当前八维详细矩阵仍仅13文件有限review，83卡55partial/28pending/0accept不变。GLM的36份附加/上下文包回执仍保留，可能关联旧content/migrate等已登记成果，不按“未归主目标”删除或否定，也不充数关闭83卡。
+
+关键缺口已分开：extract disasm/recompile四件并非CODE3 annotation/slice；WORD/GBK并非CODE3b SSS/MSG；PNG输入并非battle-sprite描述；67–70为测试文件卡，源码摘要/原生全绿不替代逐例E；CODE6a/82是独立工具；CODE90只收revive切片，完整chain/unsupported-op/input/step-limit与测试隔离仍待。CODE75原boundary文件已按当前卡102行退役，使用更强现有audio-midi.test而不复活旧FakeSequencer。工作范围据实际成果和旧显式记录，不扩大到GLM所有phase2源码重审，也不丢弃其既有明确成果。
+
+annotation两测试SHA与3-annotate/read-boundaries.json逐字一致，README明文“两测试旧关闭撤review”，live仍旧已验证；仅恢复这两行，不重跑旧六针或冒称新的语义失败。当前机器3316/234closed/120review/2962pending，0新关闭；243漂移子集68closed/130missing/44review/1rework，其余候选仍逐项核。旧Word片236/118是486570fa0时点，冻结原件不重写。
+
+本轮只读范围整理/窄账本修正，没有产品/测试代码修改；不新跑产品测试/typecheck/全仓check/coverage/protected。新scope快检0，外部旧SHA反控1并已清理；后续独立工具2文件或annotation缺失设计维度是可直接继续的小片。主树和GLM冻结树只读；e2e-route到期/editor诊断仍挡main。
