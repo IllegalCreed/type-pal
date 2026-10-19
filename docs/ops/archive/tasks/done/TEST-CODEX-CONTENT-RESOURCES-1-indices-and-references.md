@@ -1,55 +1,61 @@
 # TEST-CODEX-CONTENT-RESOURCES-1 — 五组资源索引与引用边界
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Codex（本接收对话）
+Phase: phase2
+Visual Verification Timing: N/A（纯数据/字节与索引合同）
+Production Base: `7cac1d72ac0b8a44521a353cc87dbe1d18d65fa5`
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 content 模块五组资源索引/引用边界的纯测试历史记录（2026-09-26 用户授权并行补覆盖）：R1 frame-sequence（容器 parse/encode/decode、UTF-8 与索引/块边界）、R2 script-library（index/chunk 校验、分桶/导入/所有者冲突）、R3 asset（目录/角色与 tagged/canonical 引用边）、R4 enemy-team-reference（JSON 树真实 tag 递归、完整 where、同名非 tag 不误报）、R5 project-map（公开校验/序列化/实例查询剩余轴）。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+为当前 content 公开入口补五组合同回归：合法对照与字节保真、CRUD 归一化与输入不变、非法输入明确防御域、同一 canonical 往返。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：五份新 `<模块>.resource-boundaries.test.ts` 与可选 codex-resource-contract-fixtures.ts、专属证据 codex-content-resources/**。
+- 范围外：产品/旧测试/配置/阈值；另一对话的 A3/B1 架构、GLM 三守卫叶、Cursor 八组命令文件；可达性未知的 156 臂不称可交付数量。
 
 ## 前提与证据
-- primary source：固定 source revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+一手真值=当前 content 公开入口/类型/现行 guard（原版/一阶段 N/A）；fast LCOV 与冻结机账的 codex 组仅定位未命中；最强替代解释（已测上层重复或守卫后不可达防御）先读旧测试去重。R4 公开 helper 暂无生产调用者，仅锁 API 合同不冒称产品缺陷；原始字节格式可在测试构造独立最小容器，不复制生产算法作唯一 oracle。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：五文件 65 项、定向 65/65、content 931/931 与 TC、5 代表业务负控通过；收口实现 d1e99a0d，全仓 check8896、ratchet 与保护 7d64de13 单次 strict-fast 8404/701 通过；与 GLM 已接收 91 项并集 +156 测试/+134 分支/+73 行，原生产分母与另六包基线不变。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡 Codex 实施自验如实披露、核定 done；其它覆盖缺口与 full/Q1/Q2 另排。无下一位 Agent 提示词。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `bb7b1d24e9e517e09730282b104ce51b4204cb0b`；本轮为 2026-10-17 R42。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-26 准入、实施与收口同日；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：五组资源索引/引用边界按纯测试批收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+五组缺口表（49/19、57/18、29/13、11/12、10/2 B/L）、冻结机账 coverage-parallel-wave3-evidence.json、并集机账 evidence.json。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。content 合同现行状态以当前代码与测试为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+同批系列 codex-* 批回执；现行 guard 以 content/src 各 validator 为准。
 
 ## 原文保全
-固定源 revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b`，source SHA `cb1fb6872a6bb4b653de7b942e126b10dd32936b14eb4ae6c1a6a5f9e561cd8b`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b`，source SHA `cb1fb6872a6bb4b653de7b942e126b10dd32936b14eb4ae6c1a6a5f9e561cd8b`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-CODEX-CONTENT-RESOURCES-1 — 五组资源索引与引用边界
 >

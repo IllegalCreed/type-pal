@@ -1,55 +1,65 @@
 # TEST-ENV-STABILITY-1 - 检查环境隔离与宿主测试负载
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: cross-phase
+Capability: 既有测试基础设施维护，不增产品能力
+Coding Owner: Codex
+Reviewer: Codex（用户本次批准独立完成）
+Visual Verification Owner: N/A
+Unavailable Agents: Kimi额度耗尽；GLM按用户本次安排不参与，不代签
+Revision: r1
+Base: 1b4cf055
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是检查环境稳定性维护的历史卡（2026-09-24，base 1b4cf055，用户单席授权）：宿主 NODE_COMPILE_CACHE 干扰检查进程、宿主 flows 并发不稳两问题的根因处理；不删测试/不放宽 5000ms/不减分母。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+检查进程不受宿主编译缓存干扰（覆盖子进程强制 NODE_DISABLE_COMPILE_CACHE=1、输入环境不变）；真实宿主 flows 在受控并发下稳定（限定 Reforge 测试 worker）。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：显式覆盖子进程环境 helper（原生捕获与 Vitest 收集均接入）、子进程真实启动回归+继承污染全覆盖自测、同树默认/受控并发性能对照、Reforge worker 限定、AST 链旧测试插桩的只读解析/编译工厂缓存修复（完整源+请求键缓存，执行仍新 env/闭包）。
+- 范围外：删/skip 测试、放宽 5000ms、减生产分母、改游戏业务、升级 Node/依赖。
 
 ## 前提与证据
-- primary source：固定 source revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+失败现场：/tmp/type-pal-check-full.log 与 check-r.log 两轮各 3 个 5000ms 超时（boot/menu/dialog/save/scene 五个首例）；22.19/22.23.2 开缓存均 9/10、禁用均 10/10；Reforge 未设 maxWorkers，installShellHost resetModules 后真 import main，11 核机默认多 worker+跨包并发。最强替代解释（业务 Promise 不收口）要求先做冷加载/全套并发与受控 worker 对照——首例从约 3.3-3.4s 降到 0.5-1.93s，不宣称严格性能基准。
+- 当前状态：done（历史终态；单席授权）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：污染环境下两 Node 版本工具自测 30/30、真实子进程缓存关闭；受控并发对照 1460/1460；首次 ratchet 发现 3 个 AST 链旧测试插桩超时未放行，新增 3 项隔离/源突变/缺失歧义回归后插桩 23 项通过；e17af240 完整 check8384、保护 1b4cf055 的 ratchet7893/633 及单次 strict7893/633 exit0。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+用户原文「glm你也不用管了先，你先独立完成工作吧」——单席授权仅本卡，缺签豁免不外推其它任务，可后续异步抽查。无下一位 Agent 提示词。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `bb7b1d24e9e517e09730282b104ce51b4204cb0b`；本轮为 2026-10-17 R42。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-24 准入、实施与收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：环境隔离+负载根因按单席授权收口；首次 ratchet 超时保留为失败记录、修复后才重跑整套，不择多数放行。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+[实施记录](../../../../testing/archive/legacy/quality/quality-gates/check-environment-stability.md)与[统一机账](../../../../testing/archive/legacy/quality/quality-gates/stability-fire-closeout-evidence.json)；Node 矩阵证据在临时 codex-cache-review-J14hpe。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。环境隔离与 worker 限定的现行状态以当前脚本为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+FIRE 产品修复另卡独立；worktree 清理另记运维回执（原卡交接）。
 
 ## 原文保全
-固定源 revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b`，source SHA `832e82753a956d2d57024037cadd6e51cd1ae5c481d75ba1d6e3cbe1c7bd1925`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b`，source SHA `832e82753a956d2d57024037cadd6e51cd1ae5c481d75ba1d6e3cbe1c7bd1925`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-ENV-STABILITY-1 - 检查环境隔离与宿主测试负载
 >

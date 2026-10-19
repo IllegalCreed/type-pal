@@ -1,55 +1,63 @@
 # JS1 - 酒神一生九次限用与移除(持久化计数器)
 
-Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Status: done（2026-08-05 Codex / Kimi / GLM 三方 accept 齐；实现提交 `19ce1ca7`）
+Phase: phase2
+Capability: B10 / skill / save
+Coding Owner: Codex
+Reviewer: Kimi + GLM(async)
+User Ruling: 2026-08-04 用户拍板并纠正真值
+Branch: chore/docs-migrate-cleanup
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是酒神(370)一生九次限用的历史功能卡：用户 2026-08-04 纠正原版真值并裁决持久化限制——scriptOnUse 先扣酒(item 86)、0x57 按当前剩余真气×8 计伤并清空真气、第 9 次成功后移除技能并提示 dlg.13366（原版引擎侧语义，sdlpal 无计数器）；旧注释“按饮酒数×8”错误表述已修正。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+持久化九次限制全链：SkillData.lifetimeLimit?、WorldState.skillUseCounts?（charInstanceId→skillId→count，旧档缺省空、不 bump SAVE_VERSION=8）；R13-6B overlay 370 增 lifetimeLimit:9（rewind 对称剥离）；battle-core 资源门全过后入账、满 9 removed+当步 notice、防御性门在一切消耗前拦截；session 写回计数并从 learnedSkills 移除；编辑器 SkillTab「一生限用」输入闭环（2026-08-05 追加）。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：content schema、迁移 overlay 与 canonical 重生成（一次写 1 文件、二次幂等 0 写）、battle-core/session/main/save 归一化、SkillTab 数字输入（空值删键）+单测。
+- 范围外：R13-Z 酒神 4 个 lossy 站点关闭（归 R13-Z 证据绑定另见 N3-1）；debug-owner.ts 调试脚本不入库。
 
 ## 前提与证据
-- primary source：固定 source revision `d85568172d5530903547770a30c2dab6a2a3dc3a` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+计数点口径“资源门全过=真实施放”：battle-core.ts:1064-1069 在限用门:1002/MP:1011/金钱:1018/物品:1043 全部通过且扣减完成后入账；防御性门 :1002-1009 在消耗前拦截旧档/计数漂移；满 9 :1203-1213 removed+notice+pendingWorldMutations 排队；writeBack battle-session.ts:2440-2453 写回并过滤 learnedSkills。
+- 当前状态：done（历史终态；等待用户验收/收口为原卡时点状态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：migrate fast 76/562+5skip（oracle manifest 仅 source fingerprint+content root +26B）；reforge 77 文件/781 过（新增 9 连放/第 10 次拦截/酒不足不计数/写回移除）；content 33/391；三包 typecheck；canonical 重迁 writes=1/0/0 后幂等 0 写；R13-Z dry-run 维持 fail-closed 208/208 无回归；编辑器 SkillTab 4/4、全量 798/798。三方 accept（Kimi 存档兼容/计数点/满 9 移除/防御门/overlay 对称六项一手核对；GLM schema 兼容/产物/门序/计数点/移除/writeBack/测试七项）。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡签字批次与 R13-Z 工作树提交时机由用户拍板（历史时点）；本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `d85568172d5530903547770a30c2dab6a2a3dc3a`；本轮为 2026-10-17 R44。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-08-04 用户裁决、2026-08-05 实现与三方 accept、同日编辑器闭环追加；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done（2026-08-05 Codex / Kimi / GLM 三方 accept 齐；实现提交 `19ce1ca7`，签字批次未提交）`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：九次限用全链（schema/迁移/战斗/写回/编辑器）按用户纠正真值实现并三方 accept。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+data/extracted/lookup/strings.json:13368、battle-core/session 各行锚点、三包测试数、overlay rewind 对称证据。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。限用机制现行行为以当前 content/reforge 代码为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+R13-Z 证据绑定与 N3-1 卡承接 lossy 站点关闭；技能作者面现行形态以 SkillTab 为准。
 
 ## 原文保全
-固定源 revision `d85568172d5530903547770a30c2dab6a2a3dc3a`，source SHA `0c2398f479b1a05a27932cadd840c9693283e96f686798ff7169c06b69760df0`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `d85568172d5530903547770a30c2dab6a2a3dc3a`，source SHA `0c2398f479b1a05a27932cadd840c9693283e96f686798ff7169c06b69760df0`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # JS1 - 酒神一生九次限用与移除(持久化计数器)
 >

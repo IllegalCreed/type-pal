@@ -1,55 +1,66 @@
 # TEST-RUNTIME-SHELL-COVERAGE-1 - 真实启动与菜单宿主流程补测
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: X1 / N6（既有运行时接线测试，不增能力格）
+Coding Owner: Codex
+Reviewer: both
+Visual Verification Timing: dev-functional
+Branch: codex/runtime-shell-coverage-r1
+Revision: r1
+Planning Base: f2592597
+Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是启动/菜单宿主流补测历史卡（7790 官方 fast 参考与 coverage-truth 四格基线的源卡）：36 项宿主自动化接线+8 负控；统一候选 b6286df0 三席签（Codex 自验/Kimi aa436d9f/GLM 326e4906），宿主原代码 1d3d3fb3 零改；check8317/ratchet7826/保护 c5569d1a 单次 strict7826+远端 Coverage ratchet success；后继卡 TEST-RUNTIME-SHELL-COVERAGE-2 为其二批。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+真实启动 boot→菜单执行/取消/确认/返回的宿主接线合同。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：启动/菜单宿主流新测+负控+证据。
+- 范围外：真实图像/布局/中文像素/完整 E2E；DEV-TOAST-1/full/Q1/Q2/GLM 战斗返工（各归各卡）。
 
 ## 前提与证据
-- primary source：固定 source revision `e0cd89727dd11af2502caa17200f6446478bb316` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+统计修复（coverage-truth）与本卡代码级准入分别收口不互相代签。本页未复跑。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录（2026-09-23）：三席核统一候选 accept、宿主零改、官方基线零 diff、仅登记 done 不重跑。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+coverage-truth 的四格基线（7790→7826）源于本卡+合并 patch 联验。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `e0cd89727dd11af2502caa17200f6446478bb316`；本轮为 2026-10-17 R47。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+Planning f2592597/Freeze 57dda7ed、2026-09-23 收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：36+8 宿主流补测经三席统一候选收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+b6286df0 三签、四格基线联验、CI。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。宿主流合同现行状态以当前测试为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+TEST-RUNTIME-SHELL-COVERAGE-2（二批）与 coverage-truth 卡。
 
 ## 原文保全
-固定源 revision `e0cd89727dd11af2502caa17200f6446478bb316`，source SHA `a5008e509918f34e53442bce5a16bafaeba418f7e62f1199bf4df4192e9a687b`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `e0cd89727dd11af2502caa17200f6446478bb316`，source SHA `a5008e509918f34e53442bce5a16bafaeba418f7e62f1199bf4df4192e9a687b`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-RUNTIME-SHELL-COVERAGE-1 - 真实启动与菜单宿主流程补测
 >

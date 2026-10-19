@@ -1,55 +1,60 @@
 # QUALITY-ZERO-1 — 全仓静态诊断清零与硬门收紧
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Codex
+Phase: ops
+Visual Verification Timing: dev-functional（若清理涉及CSS/JSX，保持用户可见表现并最小核验）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是全仓静态诊断清零与硬门收紧的历史质量卡（2026-09-27 用户裁决，基点 89485589）：开工前完整扫描 errors0/warnings90/infos7（5 warning 属未跟踪临时文件）；清理全部入库诊断并把 lint 入口收紧为拒绝任何非零诊断（含 info）与截断/不完整报告。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+全仓 lint/格式/typecheck 零诊断且机器门禁保证其不可回退：55 处反控/审查工具模板字面量告警保真修正（字符串求值/唯一针锚点/生成源码逐字保持）、未使用声明窄修、callback 返回契约明确（禁 any/unknown 避开）、CSS specificity 保层叠、lint-zero 门禁工具化。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：已登记诊断清理、零诊断工具/判据回归（27 项自测含真实 Biome 子进程）、必要保真证据（六生产模块编译 JS 与 89485589 逐字一致、CSS/JSX 在独立 6017 最小验证 RF14/RF17/RF23）。
+- 范围外：规则/排除/玩法/schema；无差别 unsafe --write 全仓修改；把清理后分母变化算补测贡献；两贡献者测试包的主线全局诊断（各自白名单返工）。
 
 ## 前提与证据
-- primary source：固定 source revision `cddbd73c682e3264e5d981ba84affab894986be4` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+原根 lint 是 biome check .（warning/info 可能 exit0，不能据此报全过）；开工扫描机账 quality-zero-inventory.json 含实际路径/行/规则，原始输出留 /tmp/codex-quality-zero-before.json。中间 `?? undefined` 适配曾被 ratchet 挡住、18 文件 53 处全部撤回——不弱化门槛的现场实例。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：清理 85 入库 warning+7 info（主树临时工具 5 warning 独立保真修订、原文件存 build/quality-zero-untracked-backup）；50 入库+5 临时字面量求值一致、两套反控仍业务红；最终 check 9712 项/972 文件、docs37/coverage30/quality27 工具回归、七包 TC、全仓严格 lint 全过；ratchet 9220/728（仅 content 删未用 record 函数致分母 S−3/B−5/F−1/L−3）；保护 89485589 单次 strict-fast 9220/9220 精确相同。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡保留边界：历史 done 报告与告警数字原样保留、不把旧 exit0 追认成零诊断；主树两份暂停帧编辑 WIP 未改未纳入；GLM/Cursor 原 counter 保持；未接收返工包、未重启 +5pp。无下一位 Agent 提示词。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `cddbd73c682e3264e5d981ba84affab894986be4`；本轮为 2026-10-17 R43。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-27 用户两次裁决与同日实施收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：全仓静态诊断清零+硬门工具化收口；第一次 ratchet 拒绝中间方案的失败记录保留，不取多数放行。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+quality-zero-inventory.json、build/quality-zero-evidence 备份（截图/样式快照/反控/门禁日志）、两次 ratchet 记录。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。现行零诊断门为 lint-zero 包装器（scripts/quality/lint-zero.mjs）；本卡的 0/0/0 结论以当时基点为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+零诊断现行合同见根 CLAUDE.md 与 lint-zero 工具；后续覆盖工作另卡。
 
 ## 原文保全
-固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `3bb6daa5f6dd299966214eb961585bfb7ea0b5fc1de3979e1e8f1370274e78a0`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `3bb6daa5f6dd299966214eb961585bfb7ea0b5fc1de3979e1e8f1370274e78a0`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # QUALITY-ZERO-1 — 全仓静态诊断清零与硬门收紧
 >

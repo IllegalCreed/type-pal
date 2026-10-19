@@ -1,55 +1,62 @@
 # TEST-COVERAGE85-GLM-REFORGE-1 — Reforge runtime branch-contract closure
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: GLM
+Reviewer: Codex
+Base: `b95a6947369bf5d32db5746df0c82acae27b3663`
+Branch: `codex/coverage85-glm-reforge-r1`
+Capability: test-quality / coverage branch closure
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 reforge 分支覆盖闭合历史卡（基线 branches 9657/12166，85% 需闭合约 685 edges）：main 启动/战斗 session-core/脚本 runner 族/实体运动四域公开合同；六轮返工后 r6 c835378e5（+6→118 测试/臂 80.49%）待验收，r5 已被 Codex 合入 main。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+以公开 runtime/caller 为边界闭合并存未覆盖分支；685 不是测试数量，不为覆盖率改产品或删旧合同。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：main.ts:284-937、battle-session.ts:385-803、battle-core.ts:328-1139、script-runner 族、entity-motion/project-core/world 域新专属测试。
+- 范围外：私有 caller 不可达臂留 ledger 附源码条件/调用图/反例；业务核心 mock/私有 state/扩 timeout 强行命中。
 
 ## 前提与证据
-- primary source：固定 source revision `a56963e9482fa2f8648b13e2729bef67a13c477f` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+六轮返工判例集：abort 保留 resume、entity 多拍持杖、B1 blocked 等（详见记忆与批回执）；重复同轴/toHaveBeenCalled/仅 collection 错不计入。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：r5 合入 main；r6 +6 测试→臂 80.49%/118 测试候选待 Codex 验收。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+85% 未达（80.49% 为 r6 时点）如实记录。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `a56963e9482fa2f8648b13e2729bef67a13c477f`；本轮为 2026-10-17 R45。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+基线 b95a6947 六轮返工与分批合入；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：reforge 分支闭合按公开合同边界推进，六轮返工判例留档。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+fresh file×fullName JSON、branch delta、existing-proof/unreachable 账。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。覆盖基线现行数字以官方账为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+后续 HOST-LIFECYCLE 窄波承接未闭臂。
 
 ## 原文保全
-固定源 revision `a56963e9482fa2f8648b13e2729bef67a13c477f`，source SHA `74dd25a8293275693873c5cfde2f95841510c42dd86d7abc5661035c6d1df4ef`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `a56963e9482fa2f8648b13e2729bef67a13c477f`，source SHA `74dd25a8293275693873c5cfde2f95841510c42dd86d7abc5661035c6d1df4ef`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-COVERAGE85-GLM-REFORGE-1 — Reforge runtime branch-contract closure
 >

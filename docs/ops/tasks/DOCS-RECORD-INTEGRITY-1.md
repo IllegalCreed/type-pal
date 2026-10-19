@@ -7,7 +7,7 @@ Coding Owner: Codex
 Contributor: Codex
 Reviewer: 固定58e899bf及23b62e97纠错包获非作者限定接收；全量语义与硬门仍未完成
 Branch: codex/docs-audit-rework
-Last reviewed: 2026-10-18
+Last reviewed: 2026-10-19
 Template: task-card-v1 / 1.0.0
 
 ## 目标
@@ -162,3 +162,11 @@ Template: task-card-v1 / 1.0.0
 - 新append-only补证包保留旧41文件；26新清单字节全匹配、七新回执身份为实际fb00cc89a58539969760c05737f9003ef7c80fa2，固定HEAD/干净tracked输入，完整原输出零诊断；root只重放显式base/candidate纯字节快检12/12。E01/E02仅对该新证据闭合，旧错误SHA/HEAD自比较/首版覆盖事故及旧执行未认证边界不改写。
 - 十二篇由[固定逐篇非作者裁定](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s14-root-fixed-body-acceptance/58b7d64051be696e12bd0a85094e19096202c065eebdb23b962d67c1791729c1.gz)获文档语义/模板限定接受；原R41/R42撤信entry完整保留在supersededBindings，不批量恢复旧信用。贡献者全文、root证据/三风险和新快检明确归因，旧业务执行不重授。
 - 用户批准后续用大包减少中转，父卡S15一次准入其余274篇历史卡；当前central组合和全量硬门仍分开，不将本次接入当整卡done或main合并。
+
+## 2026-10-19 S15 证据核验与独立限定接收
+
+- 固定f998fff7d6d746c2fbb3bc29b00b4137b2275dfe、base7ee，273正文改写与N3原文件保留均由真实Git/源SHA/quote-tail/逆回核验；53文件清单全符、实际55原件与外map保全。Owner据证与W7E/TB风险复核接受273篇，未默认再读273篇；N3只读既有codec声明和字节上下文，不算整篇语义或迁移完成。
+- 当前裁定见[逐篇源规则明确报告](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s15-root-source-rule-explicit-acceptance/b693b6492f1c4e273ca25378ee254be2f53e7bc2b4d917fdd813f5dad2a518f7.gz)。六cancelled元数据done错误由Owner按源/现正文纠正，原件保留；251个不同source revision的blob全部相同，无假漂移。42个结构性LF例外明确有条件相等，不冒直接exact。
+- N3“21处U+2420、全替换差40B”和before70965前缀为错误诊断。实际只有一个e290a0(U+2420)对ASCII空格，offset659166/line8711；21个e291a0(U+2460圈号)是两边相同原文。现封套早已明示单点规则，mapped inverse精确相等；after/before1714a48d...不变。文档仍blocked，下一包GLM完成其全文治理，不需凭错误诊断另起新模板/产品决策。
+- 旧14分区逐entry更新并保留原withdrawn entry，最大700110B，其他2158 native不变；不批量恢复旧R信用。Owner本轮pin日期常量错误以dateCorrection另附真实19操作日、保留旧date与真实命令原件，后续要求显式operationDate。五事故中间缺失raw不由最终绿补认证。
+- 当前接入与S16准入均不授全量、main、旧CI/runtime/E2E/视觉/coverage完成；两卡继续rework。

@@ -1794,6 +1794,32 @@
         "Whole docs governance and current runtime/E2E/visual/coverage remain separate and incomplete."
       ],
       "stopLine": "Do not convert historical done/CI/test counts or source-preserving document acceptance into current product, main or whole-goal completion."
+    },
+    {
+      "id": "S15-historical-card-source-and-current-boundaries",
+      "from": [
+        "docs/ops/archive/tasks/cancelled/W7E-map-library-scene-binding.md",
+        "docs/ops/archive/tasks/done/TEST-GAME-MENU-BOUNDARIES-1-navigation-requests.md",
+        "docs/ops/archive/tasks/done/TEST-REFORGE-ASSET-IO-1-read-cache-sfx.md",
+        "docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md"
+      ],
+      "to": [
+        "docs/ops/tasks/index.md",
+        "docs/ops/board.md",
+        "docs/testing/governance.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/lore/timeline.md"
+      ],
+      "relationship": "273 historical document bodies individually accepted through GLM full contribution and Codex evidence/risk review, no old signatures/current product/test/lore/phase1/phase2/phase3 credit renewed. Six cancelled statuses are authoritative from actual original/candidate, not erroneous author metadata. TB256116ee and W7E veto are historical; N3 exact existing codec does not complete its full document governance.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s15-root-source-rule-explicit-acceptance/b693b6492f1c4e273ca25378ee254be2f53e7bc2b4d917fdd813f5dad2a518f7.gz"
+      ],
+      "unresolved": [
+        "N3 full semantic/body rewrite unfinished, remains blocked; single U2420 byte map is known.",
+        "Intermediate author incident raw not recovered or retroactively authenticated; whole docs hard gate remains incomplete."
+      ],
+      "stopLine": "Do not turn original done or byte-preserved static document acceptance into current runtime/E2E/visual/coverage, main or whole-goal completion."
     }
   ],
   "acceptance": {

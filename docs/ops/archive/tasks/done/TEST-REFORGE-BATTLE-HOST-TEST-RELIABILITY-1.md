@@ -1,67 +1,62 @@
 # TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1 — 战斗宿主终局测试确定性与原子性
 
 Status: done
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Owner: GLM（新对话A，唯一测试写入者）
+Reviewer: Codex（独立验收）
+Phase: phase2
+Capability: reforge / test-contract-precision
+Visual Verification Timing: N/A（无UI变更，不宣称像素/剧情观感验收）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops archive task card 接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始目标、范围、状态、owner、证据、counter、日期、链接和交接在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是战斗宿主终局测试确定性修复历史卡：冻结 main CI 37560425624 的 BF-08/09 在 untilActive():184 失败（固定 100 轮 IO 等待不可靠）；R1-R8 有限清单修复——固定轮数等待器迁移 vi.waitFor、BF-09 拆分、四条收尾纪律（consume/cancel/释放 IO/恢复 spy）；b28ba0d81/9e902846d 交付。
 
 ## 目标
 
-- 保留原卡目标、用户可见范围、实现/测试边界和关闭时点结论；当前是否需要重新启用由 successor task card 与 fresh evidence 决定。
+终局测试确定性与原子性：以实际 IO 完成或公开发布端口事件同步，不增 timeout/sleep 掩盖/fake 成功/吞真实 error。
 
 ## 范围
 
-- 当前包含：原卡声明的实现、测试、证据、owner、状态和历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据、机器证据或历史状态。
+- 范围内：battle-host.finalization.test.ts（唯一可改旧测）+battle-finalization-reliability/ 专属 fixture+本卡证据。
+- 范围外：其它旧测/产品/官方基准/真实数据；开场 D-Q01-1 与试打 D-1 缺陷修复；剧情。
 
 ## 前提与证据
 
-- 行为/工程前提：原卡的 source:line、primary source、合法输入、caller、oracle 与 counter 由 quote 保留。
-- 一手证据：固定 source revision `b3c24c04ddb534b9e8195a074590bea8a233fc93`、原卡全文和原卡链接；本次不重跑原执行。
-- 最强替代解释与可证伪观察：若需要重新启用，必须用当前代码/数据、合法输入、业务 oracle、反例和独立 review 重新核验；不能以历史 done 或数量补齐。
-- 当前状态：done（历史快照）；本页治理检查口径要求 contentVersion=22 / SAVE12，源卡中的较早版本只属于其日期范围。
+CI 失败只证明准备期 active 未建立，未直接证明产品缺陷（最强替代解释：原生 IO 慢/固定轮数不足）；同次 CI 运行同链 vi.waitFor 兄弟文件全绿=等待器判别证据；coverage 时 json reporter 内嵌 coverageMap 超 biome 1MiB 须蒸馏判例；还原移出 finally（noUnsafeFinally）。
+- 当前状态：done（历史终态）
 
 ## 验收
 
-- 功能/文档：原卡的历史验收、失败、blocked、rework、未执行边界和交接保持原样。
-- 测试与证据：本次验收只包括 source/after SHA、模板章节、链接、history overlay 和 quote inverse。
-- 视觉或 E2E（如适用）：本次未执行 runtime、E2E、视觉或 coverage，信用为 0。
+原卡记录：r1 已推 b28ba0d81/工作提交 9e902846d，31/31、8786 全包、lint 0/0/0；BF-08/09 固定轮数根因+vi.waitFor 迁移+BF-09 拆分+BF-H1..H4 收尾纪律交付；反控 N1-N5 恰一针+N6 家族探针+N3 级联披露全 accepted。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
 
-- 当前 Owner：原任务 Owner/贡献者与历史 reviewer 保留于 quote；当前文档治理 owner 为 Codex。
-- 阻塞/决策：历史卡不可单独授权当前工作；重新启用必须创建/更新当前 task card。
-- 下一步：由对应 successor、当前 consumer 和 fresh receipt 重新核验；本次不推进状态。
+共享 harness 复原变异=家族级红走 judgeCascade 判例出此卡。本页治理不重授。
 
 ## 历史范围
 
-- 原始日期、版本、阶段：源文档固定于 `b3c24c04ddb534b9e8195a074590bea8a233fc93`；本轮为 R59。
-- 归档原因：已关闭任务只作为时点事实保留，避免历史状态冒充当前事实。
+CI 失败定位、实施与验收；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
 
-- TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1 — 战斗宿主终局测试确定性与原子性：原始顶部状态为 done；完整原始语义保留于下方 quote。
+`Status: done`：CI 等待器根因修复+收尾纪律经反控验收。原卡全文在下方 quote 保全。
 
 ## 当时证据
 
-- 原始命令、产物、SHA、签字、counter、链接和未决项保留于 quote。
+CI 37560425624、battle-host.finalization.test.ts:63-283 行锚、fixture:158-205。本页治理未新增执行。
 
 ## 当前有效性
 
-historical。do not promote historical task card to current build/runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：当前 task card、代码/consumer 和 fresh receipt 是事实权。
+historical。终局测试现行形态以当前文件为准。
 
 ## 继任文档
 
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+旧战斗包 TEST-GLM-REFORGE-BATTLE-FLOW-1。
 
 ## 原文保全
 
-固定 source revision `b3c24c04ddb534b9e8195a074590bea8a233fc93`，source SHA `d81fc97bafbdab5524d7eee1cf5bea5498a8a6c5364ca22ed73d22fbc1fdb965`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b3c24c04ddb534b9e8195a074590bea8a233fc93`，source SHA `d81fc97bafbdab5524d7eee1cf5bea5498a8a6c5364ca22ed73d22fbc1fdb965`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-REFORGE-BATTLE-HOST-TEST-RELIABILITY-1 — 战斗宿主终局测试确定性与原子性
 >

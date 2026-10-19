@@ -1,55 +1,65 @@
 # TEST-GEMINI-PHASE1-STATS-1 — 一阶段有效属性与战斗状态只读投影候选回归
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase1
+Capability: 一阶段非视觉测试准备；不改玩法、格式或能力格
+Coding Owner: Gemini（隔离候选）/ Codex（用户授权接手修订与正式集成）
+Reviewer: Codex（独立接收、质量门与收口）
+Visual Verification Owner: N/A
+Visual Verification Timing: N/A（只测结构化状态，不作视觉验收）
+Collaboration Mode: Codex 分派、Gemini 贡献、Codex 独立验收
+Branch: `codex/gemini-phase1-stats-r1`
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 Gemini 贡献的一阶段有效属性/装备脚本/战斗检查器候选回归历史卡（draft 隔离候选起步，Codex 用户授权接手修订与正式集成收口）：E1-E6（六 getter/装备效果写入清理/统计行/装备脚本/全装备重建/战斗回灌）+I1-I2（队伍/敌人只读投影）候选族。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+只补现行且已核实合同的用例：有效属性=运行时基础+装备效果叠加、检查器只读当前状态；未定原版政策列待证不写绿测。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：equip-effect.ts 与 battle-inspect.ts 候选测试（冻结起点 51d474e3+两源 SHA）；132+66 未命中分支只是选题依据。
+- 范围外：产品修改；借二阶段规则改一阶段；与 Grok/GLM/Cursor 并行包互斥文件。
 
 ## 前提与证据
-- primary source：固定 source revision `cddbd73c682e3264e5d981ba84affab894986be4` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+sdlpal getter=base+装备效果格（global.c:1736-1935）为参考不冒称原版实测；既有 getter base+两格、清角色/部位、0x18→0x1A、poison clamp、敌普攻毒等旧断言去重不换名复制。
+- 当前状态：done（历史终态；Codex 接手收口）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按 Codex 分派/Gemini 贡献/Codex 独立验收模式收口（接手修订与集成细节以证据目录为准）。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡 draft 起步不开放产品 build/done 的边界由 Codex 接手后按证据收口。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `cddbd73c682e3264e5d981ba84affab894986be4`；本轮为 2026-10-17 R43。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+Gemini 候选窗口与 Codex 接手收口（原卡未单列完成日期，按验收记录时点读取）；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：有效属性/检查器候选族经 Codex 接手修订与正式集成收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+equip-effect.ts/battle-inspect.ts 冻结 SHA、旧测试去重清单、E1-I2 候选族表。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。属性/检查器现行合同以当前测试为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+同窗 Grok present/GLM 架构实验/Cursor 文档包互斥并行。
 
 ## 原文保全
-固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `0a644800bb27e438584b8578b9089dc158af6a7b6a84539aa4cb70e48cf8a8b6`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `0a644800bb27e438584b8578b9089dc158af6a7b6a84539aa4cb70e48cf8a8b6`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-GEMINI-PHASE1-STATS-1 — 一阶段有效属性与战斗状态只读投影候选回归
 >

@@ -1,55 +1,60 @@
 # TEST-CODEX-FRAME-EDITOR-1 — 当前帧动画编辑五组工作流
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Codex
+Phase: phase2
+Visual Verification Timing: N/A（真实DOM与RGBA交付合同；宿主几何是显式夹具，不宣称浏览器布局验收）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是帧动画编辑器五组工作流补测+业务缺陷修复的历史卡（2026-09-26 准入、09-27 暂停、09-28 恢复并收口）：测试暴露异步归属缺陷（切源覆写、保存丢名、忙时草稿丢失、坏帧无提示/未处理异常），经用户补充授权一并修复。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+五组工作流合同（载入生命周期/编辑与撤销/播放定时/缩放平移接线/保存量化与 TPFS 逐字节核验）+异步归属修复：放弃后的结果零写回、操作期间锁定草稿写、损坏帧显式提示可恢复、保存改名不被旧 record 覆盖。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：ui/FrameAnimationEditor.{loading,editing,playback,viewport,save,async-ownership}.test.tsx、frame-editor-fixture.ts、codex-frame-editor/ 证据；产品仅改 FrameAnimationEditor.tsx 已证异步归属与错误处理。
+- 范围外：格式/资产/旧测试变更；布局像素/剧情/音轨/full/Q1/Q2；删除生产 safe-point 式全局合同。
 
 ## 前提与证据
-- primary source：固定 source revision `cddbd73c682e3264e5d981ba84affab894986be4` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+业务缺陷在当前产品直接复现：异步量化切源后新资源 2 帧被旧资源 3 帧覆写；保存 hash 等待中切源/卸载仍新增会话历史；保存中编辑控件仍可改草稿；坏 TPFS payload 三个未处理缩略图拒绝+空 Error.message 隐去提示；保存压缩期间 UpdateAssetLabelCommand 改名被旧 record 覆盖（/tmp 两个红日志：5+1 项业务断言红/3 未处理异常/精确名称断言红）。“父层禁止切换”替代解释被 CutsceneTab:359-375/969-977 真实入口反例推翻。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：六文件 33 项回归（原五组+异步归属）、相邻 19 文件 90/90、十绿对照+十针钉名业务 AssertionError；修复后完整 check10176、官方 ratchet 与保护 e8710f87 单次 strict-fast 9715/730；editor TC 零诊断、lint 2391 文件 0/0/0；产品修复新增 38 分支分母、覆盖分子净增 148，不冒充纯补测收益。暂停期 WIP 曾存 codex/frame-editor-wip 45421fdf 可恢复检查点。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡不需另席或用户手工复审；布局像素/剧情/音轨/full/Q1/Q2 范围外。无下一位 Agent 提示词。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `cddbd73c682e3264e5d981ba84affab894986be4`；本轮为 2026-10-17 R43。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-26 准入（基点 26479604）→09-27 用户优先级调整暂停→09-28 恢复+业务修复授权+收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：五组工作流+四类异步归属/错误处理缺陷按用户授权修复收口。原卡全文（含暂停/恢复史）在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+两个 /tmp 红日志、codex-frame-editor/README.md 前后红绿、e8710f87 保护链。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。帧编辑器现行行为以当前代码为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+队列母卡 TEST-COVERAGE-PLUS5-1；同窗暂停插曲见 E2E-R4-1（当时转向）。
 
 ## 原文保全
-固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `e1e123e395bc148fa95e44c31daaeb4c41f6ad85af4ad6239cc18344c92c9e28`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `e1e123e395bc148fa95e44c31daaeb4c41f6ad85af4ad6239cc18344c92c9e28`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-CODEX-FRAME-EDITOR-1 — 当前帧动画编辑五组工作流
 >

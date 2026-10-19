@@ -1,55 +1,64 @@
 # E2E-002-CHOREO-1 — 三苗人对白期间的显式接管
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: E2E-R4 / 002
+Coding Owner: Codex Root
+Reviewer: Codex（执行器独立验收） / e2e_002_runner（非作者只读复核）
+Visual Verification Owner: Codex
+Visual Verification Timing: e2e-consolidated
+Branch: codex/e2e-002-r1
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 s003/e56 三苗人首次演出编排修复的历史 E2E 卡：修旧派发顺序致首领在谢赏/奖励时已入房——三人可以先起步、参与交谈时显式接管停下、赏银后短停顿续走、最后一句关闭后进房隐藏；用既有 takeEntity/releaseEntity 局部暂停，不引入对白冻结全局 NPC 耦合。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+按一阶段演出次序（起步在 32 前、32→45 稳定、53 前短等待再位移、hide 晚于 53）重排 e56 trigger/default 初始 stage；对白读得慢不致头领提前隐藏。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：白名单仅 projects/pal/content/scenes/s003.json 的 e56 trigger/default 初始 stage 与新回归 pal-inn-choreography.test.ts；隔离树 e2e-002。
+- 范围外：schema/runtime/public API/存档/移动速度/NPC 路线/对白奖励阶段身份；复刻对话冻结全局 NPC；延长保存屏障。
 
 ## 前提与证据
-- primary source：固定 source revision `d85568172d5530903547770a30c2dab6a2a3dc3a` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+真值矩阵三方锚：L_285 派发三人 auto+wait（events/all.json:2071/2871/2911/2987）；一阶段真实 trace（order62/72/70 首移、95/104 对白、130 末句、185/329/336 隐藏）；二阶段 RF 首轮 trace（order176 隐藏先于 177 谢赏）。最强替代解释（take 取消 auto endpoint/永久卡住）由生产 coordinator 保留 autoSlots+宿主 2716 保留 Promise 续走反驳。2026-09-30 用户“你不是应该参考第一阶段么？”撤回先前产品选择。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：显式接管两段对白关闭后归还、最终真实进房隐藏；002 独立命令正常读真实 001 档、32/53 各停读 3 秒、完整 20 行/500 文、保存恢复合同（详见 002 阶段报告）。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+RF 第二轮正式保存屏障超时另定位（归 E2E-002-SAVE-1）；工具卡 E2E-002-1 与本卡白名单互斥。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `d85568172d5530903547770a30c2dab6a2a3dc3a`；本轮为 2026-10-17 R44。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-30 真值核验与用户裁决、实现与验收；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：三苗人显式接管编排按一阶段次序修复并通过两引擎对照验收。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+events/all.json L_285/L_406/411/420、game-002 inn-trace.json、RF 首轮 trace、author-script-core.ts:192-193 take/release。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。s003 编排现行形态以当前工程内容为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+保存安全点见[E2E-002-SAVE-1](E2E-002-SAVE-1-completed-auto-safe-point.md)；[002 阶段报告](../../../../testing/e2e/stages/002-inn-guests-and-reward/report.md)。
 
 ## 原文保全
-固定源 revision `d85568172d5530903547770a30c2dab6a2a3dc3a`，source SHA `ea46fd8d9ae22c817172d97f99090539b3e6d65d2e8eecef070ea5caf5b9a821`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `d85568172d5530903547770a30c2dab6a2a3dc3a`，source SHA `ea46fd8d9ae22c817172d97f99090539b3e6d65d2e8eecef070ea5caf5b9a821`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # E2E-002-CHOREO-1 — 三苗人对白期间的显式接管
 >

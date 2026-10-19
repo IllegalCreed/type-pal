@@ -516,7 +516,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "45d3ac468efc7d54f0e357b11afbc15fbb9f6473a373f47172d3f0bb692832a8",
-      "afterSha256": "8abe22b462c0336dcaef024114df9796698783fac0ed433d91d98ad5bf278bde",
+      "afterSha256": "90c4e5021e1622542eb8c2a58c6cf287d8f503fa5a0a167d74311c39e0fd72dc",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -783,6 +783,15 @@
           "previousAfterSha256": "0727458fc773c859d5828e66d8d71d948f507b25ac935b7dfee051c492f85b55",
           "afterSha256": "8abe22b462c0336dcaef024114df9796698783fac0ed433d91d98ad5bf278bde",
           "method": "Explicit S14 accepted-scope/counter-closure and S15 authorized274 scope writeback; no unrelated credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 final controls and S16 admission",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "8abe22b462c0336dcaef024114df9796698783fac0ed433d91d98ad5bf278bde",
+          "afterSha256": "90c4e5021e1622542eb8c2a58c6cf287d8f503fa5a0a167d74311c39e0fd72dc",
+          "method": "S15 accepted/N3 blocked/S16 exact123 admission and current matrix writeback, no full-goal credit",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -1273,7 +1282,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "e87d803406d5128df010599bd48ab9b5e1d4d8bac570642106cb1586f32c61b1",
+      "afterSha256": "5184e783471922879ffc626aee93a3216a23a9673a7ae207ab1484896fb41d24",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1458,6 +1467,15 @@
           "sourceRevision": "f8eaa07b07f1ee98ed31cbb3c6c45c5cd186be35",
           "previousAfterSha256": "852f65967a20418a939a89d7f561ac80cd72e0e2143164f8dc7e316e87268815",
           "afterSha256": "e87d803406d5128df010599bd48ab9b5e1d4d8bac570642106cb1586f32c61b1",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 final controls and S16 admission",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "e87d803406d5128df010599bd48ab9b5e1d4d8bac570642106cb1586f32c61b1",
+          "afterSha256": "5184e783471922879ffc626aee93a3216a23a9673a7ae207ab1484896fb41d24",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
@@ -3054,7 +3072,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-      "afterSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
+      "afterSha256": "4af5efdba3305f01fdead3730368b180a5040e02b3e7de2ab89da6e49621adee",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -3178,7 +3196,18 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 actual scoped e2e-route publication review 2026-10-19; no migration or execution promotion",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
+          "afterSha256": "4af5efdba3305f01fdead3730368b180a5040e02b3e7de2ab89da6e49621adee",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261015-contract-and-gate-pilot-batch.json",
@@ -3364,7 +3393,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
-      "afterSha256": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
+      "afterSha256": "046b450382e162907490bf53c94b73b608eb89e6c345ee371d9fe8b6921cf60a",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -3488,7 +3517,18 @@
         "scope": "semantic/template/independent acceptance withdrawn; historical source payload unchanged",
         "evidence": "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json",
         "reviewerRelationship": "same-actor-maintenance; no new independent acceptance"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 actual scoped e2e-route publication review 2026-10-19; no migration or execution promotion",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
+          "afterSha256": "046b450382e162907490bf53c94b73b608eb89e6c345ee371d9fe8b6921cf60a",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261015-historical-and-domain-pilot-batch.json",
@@ -11369,7 +11409,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "14a9e0ef8c6a85454ca6bea8ff01f6d312ead5b2f115f9002bca2d7960c4f1d0",
-      "afterSha256": "003fcf1842c9531fdf32419d4441ba2f70ed9164932579c770c71d52f3e5d6fc",
+      "afterSha256": "c66dae3f02faafd81c2c649ce7562b18494b0f5c2993c2d4287574192f2d5a27",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -11520,6 +11560,22 @@
           "afterSha256": "003fcf1842c9531fdf32419d4441ba2f70ed9164932579c770c71d52f3e5d6fc",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 273 accepted+N3 blocked existing partitions",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "003fcf1842c9531fdf32419d4441ba2f70ed9164932579c770c71d52f3e5d6fc",
+          "afterSha256": "c66dae3f02faafd81c2c649ce7562b18494b0f5c2993c2d4287574192f2d5a27",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false,
+          "dateCorrection": {
+            "recordedDate": "2026-10-18",
+            "actualOperationDate": "2026-10-19",
+            "timeZone": "Asia/Tokyo",
+            "rawExecutionStartedAt": "2026-10-19T00:54:39.948374+00:00",
+            "reason": "Owner private helper reused prior nominal-date constant. Original date/command originals retained; this annotation is the correction, not a past execution rewrite."
+          }
         }
       ]
     },
@@ -12913,7 +12969,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "060b272c76932bf21303d5089e963cf960ecafc0ab28c6210008d25d00eaab27",
-      "afterSha256": "3cd7544b6c8238573cc78030ef00b4e5de0211da73525928ce8a3d81fcacf62c",
+      "afterSha256": "c5da9adcd2aa36a7aac3684fe0dd15e0c8c8e98ac8168c02b6642e43752a1811",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -13055,6 +13111,22 @@
           "afterSha256": "3cd7544b6c8238573cc78030ef00b4e5de0211da73525928ce8a3d81fcacf62c",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 273 accepted+N3 blocked existing partitions",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "3cd7544b6c8238573cc78030ef00b4e5de0211da73525928ce8a3d81fcacf62c",
+          "afterSha256": "c5da9adcd2aa36a7aac3684fe0dd15e0c8c8e98ac8168c02b6642e43752a1811",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false,
+          "dateCorrection": {
+            "recordedDate": "2026-10-18",
+            "actualOperationDate": "2026-10-19",
+            "timeZone": "Asia/Tokyo",
+            "rawExecutionStartedAt": "2026-10-19T00:54:39.948374+00:00",
+            "reason": "Owner private helper reused prior nominal-date constant. Original date/command originals retained; this annotation is the correction, not a past execution rewrite."
+          }
         }
       ]
     },
@@ -13085,7 +13157,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "84d7779552d82739f741e6ca1b56849064b423681ca2c20825f420964d83ad3e",
-      "afterSha256": "50d3105150c934f351b6f2acf406fdaf020e9c2af1ef2b20a95fcc0d9e64689d",
+      "afterSha256": "5c69e54fdcddee5ac365a2b1e1f4c8c56dc4c030c5bd765657026796912621f1",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -13217,7 +13289,25 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 273 accepted+N3 blocked existing partitions",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "50d3105150c934f351b6f2acf406fdaf020e9c2af1ef2b20a95fcc0d9e64689d",
+          "afterSha256": "5c69e54fdcddee5ac365a2b1e1f4c8c56dc4c030c5bd765657026796912621f1",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false,
+          "dateCorrection": {
+            "recordedDate": "2026-10-18",
+            "actualOperationDate": "2026-10-19",
+            "timeZone": "Asia/Tokyo",
+            "rawExecutionStartedAt": "2026-10-19T00:54:39.948374+00:00",
+            "reason": "Owner private helper reused prior nominal-date constant. Original date/command originals retained; this annotation is the correction, not a past execution rewrite."
+          }
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r44-ops-archive-task.json",
@@ -13246,7 +13336,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6939fb03b04117f2176c33b9bfb98c667689245ed167040d4cc1dc7e10fc2173",
-      "afterSha256": "29ae7d6a68bf199923a91a2f97a111f6671e35ebceb64d849942fe52a889959b",
+      "afterSha256": "e80166ab9eec81a894941c6a2407f580c35ce44e3a77511ddf63b2796489a614",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -13378,7 +13468,25 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 273 accepted+N3 blocked existing partitions",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "29ae7d6a68bf199923a91a2f97a111f6671e35ebceb64d849942fe52a889959b",
+          "afterSha256": "e80166ab9eec81a894941c6a2407f580c35ce44e3a77511ddf63b2796489a614",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false,
+          "dateCorrection": {
+            "recordedDate": "2026-10-18",
+            "actualOperationDate": "2026-10-19",
+            "timeZone": "Asia/Tokyo",
+            "rawExecutionStartedAt": "2026-10-19T00:54:39.948374+00:00",
+            "reason": "Owner private helper reused prior nominal-date constant. Original date/command originals retained; this annotation is the correction, not a past execution rewrite."
+          }
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r45-ops-archive-task.json",
@@ -13407,7 +13515,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "53c5ff0559ea64781e65dbc0d2a4f6aadd174bddc916644966728a45c3975b13",
-      "afterSha256": "9fee20044346a9f374345d79ea3b1a8374940aa4077ab597392092910b1fa227",
+      "afterSha256": "674a2f7e3131625870cf3db28a02b4c7fe8ac5e03d20b588c2ee32cb6edc8720",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -13539,7 +13647,25 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 273 accepted+N3 blocked existing partitions",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "9fee20044346a9f374345d79ea3b1a8374940aa4077ab597392092910b1fa227",
+          "afterSha256": "674a2f7e3131625870cf3db28a02b4c7fe8ac5e03d20b588c2ee32cb6edc8720",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false,
+          "dateCorrection": {
+            "recordedDate": "2026-10-18",
+            "actualOperationDate": "2026-10-19",
+            "timeZone": "Asia/Tokyo",
+            "rawExecutionStartedAt": "2026-10-19T00:54:39.948374+00:00",
+            "reason": "Owner private helper reused prior nominal-date constant. Original date/command originals retained; this annotation is the correction, not a past execution rewrite."
+          }
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r46-ops-archive-task.json",
@@ -13568,7 +13694,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "83c4595773d2d238bea37d277b96a641e3579a1bc87926cec8024c17da751af7",
-      "afterSha256": "8d98415543a3c4cc7ad36d4e1b43f392328e263a6ff93a6a2bee908a145c4ca6",
+      "afterSha256": "2bfa40c59792a1839ea2227f2b41fad3896b10f9528c4c5bfc0357a554eaa7ed",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -13700,7 +13826,25 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 273 accepted+N3 blocked existing partitions",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "8d98415543a3c4cc7ad36d4e1b43f392328e263a6ff93a6a2bee908a145c4ca6",
+          "afterSha256": "2bfa40c59792a1839ea2227f2b41fad3896b10f9528c4c5bfc0357a554eaa7ed",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false,
+          "dateCorrection": {
+            "recordedDate": "2026-10-18",
+            "actualOperationDate": "2026-10-19",
+            "timeZone": "Asia/Tokyo",
+            "rawExecutionStartedAt": "2026-10-19T00:54:39.948374+00:00",
+            "reason": "Owner private helper reused prior nominal-date constant. Original date/command originals retained; this annotation is the correction, not a past execution rewrite."
+          }
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r47-ops-archive-task.json",
@@ -13729,7 +13873,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "4bef40336f7f9db13ba7eca467fd381b33fc4345c7731644c629457da3a187a3",
-      "afterSha256": "5cbc2f8300b13a16f82fd6d6a4b5eac5307287049aee16b55cd272c0ab3f58a8",
+      "afterSha256": "e8ee121e479b7d2d2a7fdc93ad0629e89cb53a3ceb76919c900c47b3f0d9472d",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -13861,7 +14005,25 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 273 accepted+N3 blocked existing partitions",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "5cbc2f8300b13a16f82fd6d6a4b5eac5307287049aee16b55cd272c0ab3f58a8",
+          "afterSha256": "e8ee121e479b7d2d2a7fdc93ad0629e89cb53a3ceb76919c900c47b3f0d9472d",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false,
+          "dateCorrection": {
+            "recordedDate": "2026-10-18",
+            "actualOperationDate": "2026-10-19",
+            "timeZone": "Asia/Tokyo",
+            "rawExecutionStartedAt": "2026-10-19T00:54:39.948374+00:00",
+            "reason": "Owner private helper reused prior nominal-date constant. Original date/command originals retained; this annotation is the correction, not a past execution rewrite."
+          }
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r48-ops-archive-task.json",
@@ -13890,7 +14052,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cb0d6073cc782cb9e3ea52bf353c9b4f8cc45eb828ba30d8c65df303ffdede33",
-      "afterSha256": "77b70e644896e6aadb0b5dbebdf39d55d97093581028cec37c7c5c1843a420f0",
+      "afterSha256": "706ee6498968b3adccbefce5f3feb0189feda863025294a1b803a88036090afb",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -14022,7 +14184,25 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 273 accepted+N3 blocked existing partitions",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "77b70e644896e6aadb0b5dbebdf39d55d97093581028cec37c7c5c1843a420f0",
+          "afterSha256": "706ee6498968b3adccbefce5f3feb0189feda863025294a1b803a88036090afb",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false,
+          "dateCorrection": {
+            "recordedDate": "2026-10-18",
+            "actualOperationDate": "2026-10-19",
+            "timeZone": "Asia/Tokyo",
+            "rawExecutionStartedAt": "2026-10-19T00:54:39.948374+00:00",
+            "reason": "Owner private helper reused prior nominal-date constant. Original date/command originals retained; this annotation is the correction, not a past execution rewrite."
+          }
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r49-ops-archive-task.json",
@@ -14051,7 +14231,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "c233a66a924aaf61a859a51122ca366f2028f30f1a9d7a047c51b85f0ffb0fd9",
-      "afterSha256": "c1fab406c85aa977bed538a47d5a583b7a1bfc4eb1158dd7a6cafebb2b373986",
+      "afterSha256": "28f599948f0e473150c3e0eb9cd748bdda8b92410ca3703bc8369dd0a4eedf05",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -14183,7 +14363,25 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 273 accepted+N3 blocked existing partitions",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "c1fab406c85aa977bed538a47d5a583b7a1bfc4eb1158dd7a6cafebb2b373986",
+          "afterSha256": "28f599948f0e473150c3e0eb9cd748bdda8b92410ca3703bc8369dd0a4eedf05",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false,
+          "dateCorrection": {
+            "recordedDate": "2026-10-18",
+            "actualOperationDate": "2026-10-19",
+            "timeZone": "Asia/Tokyo",
+            "rawExecutionStartedAt": "2026-10-19T00:54:39.948374+00:00",
+            "reason": "Owner private helper reused prior nominal-date constant. Original date/command originals retained; this annotation is the correction, not a past execution rewrite."
+          }
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r50-ops-archive-task.json",
@@ -14212,7 +14410,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "97f458e56601d80b7c8d9054b70aaad6e4af85a393ac9e6b4db3efd6f8874baa",
-      "afterSha256": "476329067570f27e6a32c15398b52d2152292e91f3759ec43f29c64410696bc7",
+      "afterSha256": "20e7ca832fc8e396968ed00c9fa19a91325a98ce2c7860828ef732c69d9b581a",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -14344,7 +14542,25 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 273 accepted+N3 blocked existing partitions",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "476329067570f27e6a32c15398b52d2152292e91f3759ec43f29c64410696bc7",
+          "afterSha256": "20e7ca832fc8e396968ed00c9fa19a91325a98ce2c7860828ef732c69d9b581a",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false,
+          "dateCorrection": {
+            "recordedDate": "2026-10-18",
+            "actualOperationDate": "2026-10-19",
+            "timeZone": "Asia/Tokyo",
+            "rawExecutionStartedAt": "2026-10-19T00:54:39.948374+00:00",
+            "reason": "Owner private helper reused prior nominal-date constant. Original date/command originals retained; this annotation is the correction, not a past execution rewrite."
+          }
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r51-ops-archive-task.json",
@@ -14373,7 +14589,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "f3a00f385634548c42bdafe44d882620c706327a9beed92e9d5b3422ddd94c68",
-      "afterSha256": "ffb99dd5591f767a0e897002b2bbff9ca9606b991c0410f6d95ac1a30c024717",
+      "afterSha256": "f962922dbd384c8bcdca2c59d41c09532ec4654cb47d90f7030ccbdf4665212c",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -14505,7 +14721,25 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 273 accepted+N3 blocked existing partitions",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "ffb99dd5591f767a0e897002b2bbff9ca9606b991c0410f6d95ac1a30c024717",
+          "afterSha256": "f962922dbd384c8bcdca2c59d41c09532ec4654cb47d90f7030ccbdf4665212c",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false,
+          "dateCorrection": {
+            "recordedDate": "2026-10-18",
+            "actualOperationDate": "2026-10-19",
+            "timeZone": "Asia/Tokyo",
+            "rawExecutionStartedAt": "2026-10-19T00:54:39.948374+00:00",
+            "reason": "Owner private helper reused prior nominal-date constant. Original date/command originals retained; this annotation is the correction, not a past execution rewrite."
+          }
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r52-ops-archive-task.json",
@@ -14534,7 +14768,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "0a1143e09d43d6d83d9fd6d6cbd3247ebc3a063f59784f06f785076c228d1d33",
-      "afterSha256": "aae5c269a10ebf91dc4d4583e1119ee4bc9f93f8f48ce3585e87280cf7093898",
+      "afterSha256": "6f2dfd35e4711357bd2070687069e4391228a7e4326b0c97e8e83332785b3341",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -14666,7 +14900,25 @@
         "method": "explicit changed-path byte/delta review only; no new semantic acceptance",
         "sourceRevision": "28fd9013e09e8792decbff2fa117aae14c36b196",
         "task": "DOCS-RECORD-INTEGRITY-1"
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 273 accepted+N3 blocked existing partitions",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "aae5c269a10ebf91dc4d4583e1119ee4bc9f93f8f48ce3585e87280cf7093898",
+          "afterSha256": "6f2dfd35e4711357bd2070687069e4391228a7e4326b0c97e8e83332785b3341",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false,
+          "dateCorrection": {
+            "recordedDate": "2026-10-18",
+            "actualOperationDate": "2026-10-19",
+            "timeZone": "Asia/Tokyo",
+            "rawExecutionStartedAt": "2026-10-19T00:54:39.948374+00:00",
+            "reason": "Owner private helper reused prior nominal-date constant. Original date/command originals retained; this annotation is the correction, not a past execution rewrite."
+          }
+        }
+      ]
     },
     {
       "path": "docs/phase-governance/reviews/20261017-r53-ops-archive-task.json",
@@ -14695,7 +14947,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "7f31b6c302882f5aa48fffcbf62f89845559fd2453f72a98ec468871ce6af57a",
-      "afterSha256": "2821f375e3b26fecfd7a2a7477e249b8a6697b659663d25b95938df19214c29a",
+      "afterSha256": "8c3bb6d509a7f3e2175a1068fd2f6875059fce5489e10fbf911437f212751dd8",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -14837,6 +15089,22 @@
           "afterSha256": "2821f375e3b26fecfd7a2a7477e249b8a6697b659663d25b95938df19214c29a",
           "method": "Explicit expanded-audit record/source/encoding correction or current task-state projection; no semantic/old-execution upgrade",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 273 accepted+N3 blocked existing partitions",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "2821f375e3b26fecfd7a2a7477e249b8a6697b659663d25b95938df19214c29a",
+          "afterSha256": "8c3bb6d509a7f3e2175a1068fd2f6875059fce5489e10fbf911437f212751dd8",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false,
+          "dateCorrection": {
+            "recordedDate": "2026-10-18",
+            "actualOperationDate": "2026-10-19",
+            "timeZone": "Asia/Tokyo",
+            "rawExecutionStartedAt": "2026-10-19T00:54:39.948374+00:00",
+            "reason": "Owner private helper reused prior nominal-date constant. Original date/command originals retained; this annotation is the correction, not a past execution rewrite."
+          }
         }
       ]
     },
@@ -15692,7 +15960,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "304a0ab05b84b8c60b1a5ed51b5618d2eb8370b3bf4467a6897fa50ad01b0f81",
-      "afterSha256": "b3cd1e56c7abbb2b35adb86b57e4075cc78920a3d6a115a0d8d81937e900b1a5",
+      "afterSha256": "f60deb58755300deeb0d792f5e628a2df2c25c97bc6915889fc1460563eb1b80",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -15834,6 +16102,22 @@
           "afterSha256": "b3cd1e56c7abbb2b35adb86b57e4075cc78920a3d6a115a0d8d81937e900b1a5",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 273 accepted+N3 blocked existing partitions",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "b3cd1e56c7abbb2b35adb86b57e4075cc78920a3d6a115a0d8d81937e900b1a5",
+          "afterSha256": "f60deb58755300deeb0d792f5e628a2df2c25c97bc6915889fc1460563eb1b80",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false,
+          "dateCorrection": {
+            "recordedDate": "2026-10-18",
+            "actualOperationDate": "2026-10-19",
+            "timeZone": "Asia/Tokyo",
+            "rawExecutionStartedAt": "2026-10-19T00:54:39.948374+00:00",
+            "reason": "Owner private helper reused prior nominal-date constant. Original date/command originals retained; this annotation is the correction, not a past execution rewrite."
+          }
         }
       ]
     },

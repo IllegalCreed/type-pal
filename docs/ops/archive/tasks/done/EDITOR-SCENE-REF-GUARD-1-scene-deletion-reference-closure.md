@@ -1,55 +1,64 @@
 # EDITOR-SCENE-REF-GUARD-1 - 场景删除前的引用保护补齐
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: ED-3既有引用图正确性 / 审计D-02（不改能力地图）
+Coding Owner: Codex
+Reviewer: Kimi / GLM
+Visual Verification Timing: dev-functional
+Branch: codex/editor-scene-ref-guard-r1
+Revision: r1，2026-09-18。前提冻结`3bc20273fe88e83da2dcb32f04ea132a0ada60d9`
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是场景删除引用保护历史功能卡（审计 D-02）：场景仍被其它作者脚本依赖时在引用列表与删除守卫一致显示并阻断（不等保存时才发现悬空）；只处理 selectSceneHooks 的 inherit/disabled 父场景依赖与 stateMachine 转换条件的 currentScene 依赖；冷删除 oracle+暖派生引用快照+真实成对删除+撤销重做+保存重开；实现候选 83598cc4e（对 build 准入基线 830db139），三席同候选 accept。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+删除守卫与引用列表一致阻断；use 钩子复合边既有计数语义保留。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：D-02 两类依赖+冷/暖 oracle+成对删除/undo/保存。
+- 范围外：schema/content20/SAVE8、collector 公共接口、迁移、D-06/07、额外 scene.stages/machine 未知字段升级。
 
 ## 前提与证据
-- primary source：固定 source revision `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+与 GLM 大包和运行时补测卡（TEST-REFORGE-RUNTIME-CONTRACTS-1）双线独立。本页未复跑。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录（2026-09-19）：三席同候选 accept、packages/scripts/锁零漂移、核定 done 归档。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+ARCH-BATTLE-FIELD-COMMANDS-1（GLM 候选 83833719）即本领域的 GLM 侧对偶卡。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8`；本轮为 2026-10-17 R48。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-18 冻结/2026-09-19 收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：D-02 场景删除引用保护经三席同候选收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+83598cc4e、冷/暖 oracle、三席记录。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。删除守卫现行形态以当前编辑器为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+ED-3 引用图与 ARCH-BATTLE-FIELD-COMMANDS-1。
 
 ## 原文保全
-固定源 revision `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8`，source SHA `c10e6f751e44e18d7f44e2c0243fc92bc1ed034dea5b602130450938bfc41b9a`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8`，source SHA `c10e6f751e44e18d7f44e2c0243fc92bc1ed034dea5b602130450938bfc41b9a`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # EDITOR-SCENE-REF-GUARD-1 - 场景删除前的引用保护补齐
 >

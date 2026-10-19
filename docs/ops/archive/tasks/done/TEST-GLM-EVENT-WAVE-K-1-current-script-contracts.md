@@ -1,55 +1,61 @@
 # TEST-GLM-EVENT-WAVE-K-1 — 一阶段事件系统六组当前脚本合同补测
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: GLM Wave K（本包唯一测试 Coding Owner）
+Reviewer: Codex（独立验收、选择性集成与官方覆盖结算）
+Phase: phase1
+Capability: current-script-contract / coverage
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是事件系统六组（K01 游标/子脚本/K02 auto/onEnter/K03 物品金钱商店队伍/K04 场景对象地图相机/K05 对话调色板音画/K06 战斗世界脚本失败门）补测历史卡：首轮 4ebea2b5 rework（K04“无 handler”对照仍保留 handler、三反控仅改答案且判据自测不足等），r2 1f26d421 四项返工闭合 accept，快进进入 main，官方 fast 基线净增 55 分支至 49584/63398（78.21%）。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+为 event-system.ts 当前公开合同（auto/事件/战斗脚本/物品/进场入口）补非重复可失败回归；595 未覆盖分支只是选题线索，旧 event-system.test.ts 约 6,000 行必须先逐项排重。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：冻结表六个新测试路径、glm-event-wave-k/** fixture 与证据；工作树复用 A–J 集成树。
+- 范围外：I wave 已领 event-opcode-player 重做；E2E-R4-1 与二阶段任务；产品/旧测/共享配置；未核实原版细节不固化为预期。
 
 ## 前提与证据
-- primary source：固定 source revision `d85568172d5530903547770a30c2dab6a2a3dc3a` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+opcode 操作数先核 SSS.MKF 或只读提取结果；sdlpal script.c:587,3140,3482 只证 SDL 路径不冒充 pal.exe 实测；CLAUDE 双解释器与帧序警戒必读；K03 卖出不读 operand、K06 须 createBattleState 合法夹具、K04 须真撤注入等判例在返工中确立。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：r2 20 个新增测试、3/3 合法输入反控与 8/8 判据自测；串行 pnpm check→coverage:ratchet→coverage:fast 均过、静态零诊断；目标源与生产分母不变、官方 fast 基线 +55 分支至 78.21%；85% 尚差 4305，0x12 符号表示疑点另证不在本包范围。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡无下一位 Agent 提示词。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `d85568172d5530903547770a30c2dab6a2a3dc3a`；本轮为 2026-10-17 R44。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-29 派发、首轮 rework、r2 验收与结算同日；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：六组事件合同经 r2 返工快进集成，+55 分支如实结算。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+codex-review-4ebea2b5.md、codex-accept-r2-1f26d421.md、targets.json（源 SHA c3332dd0）。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。事件合同现行状态以当前测试为准；0x12 疑点另证。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+相邻 I wave（event-opcode-player）；E2E 域归 E2E-R4-1。
 
 ## 原文保全
-固定源 revision `d85568172d5530903547770a30c2dab6a2a3dc3a`，source SHA `c65e2c36a47d964007883e8b4f44a90a9833ed958995fd88d8d7080db018d8a9`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `d85568172d5530903547770a30c2dab6a2a3dc3a`，source SHA `c65e2c36a47d964007883e8b4f44a90a9833ed958995fd88d8d7080db018d8a9`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-EVENT-WAVE-K-1 — 一阶段事件系统六组当前脚本合同补测
 >

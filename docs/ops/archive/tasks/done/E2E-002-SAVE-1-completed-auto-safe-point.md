@@ -1,55 +1,64 @@
 # E2E-002-SAVE-1 — 已完成 auto 的保存安全点
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: E2E-R4 / X1
+Coding Owner: Codex Root
+Reviewer: Codex（冻结E2E独立验收） / e2e_002_runner（非实现只读复核）
+Visual Verification Owner: Codex
+Visual Verification Timing: e2e-consolidated
+Branch: codex/e2e-002-r1
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是已完成 auto 保存安全点的历史 E2E 卡：修三人进房 state0 隐藏后已完成 auto 仍占活动租约致正式保存超时——只提交已完成 body 的 cursor 安全点，不让隐藏/暂停实体执行下一命令、不绕过保存屏障。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+区分“游戏命令可执行门”与“body 已完成只提交 cursor 的门”：后者仍须 modal/abort/epoch-CAS 检查，但不该被 body 末尾写入的 entityState0 永久拦截。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：script-runner-core.ts、script-project-core.ts、runtime-script-project.ts、main.ts 与新 main.auto-save-flows.test.ts 及针对性回归。
+- 范围外：schema/save 版本、timeout、质量规则；忽略活动 lease、把 state0 伪装 lifecycle hide/remove、保存含半执行 command/index/call stack；扩张为 body 中间随时存档。
 
 ## 前提与证据
-- primary source：固定 source revision `d85568172d5530903547770a30c2dab6a2a3dc3a` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+诊断 002-save-barrier-failure.json：三人 state0/no motion slot 但活动 lease 不退、awaitGate 在最终 cursor 前等 autoAllowed 永久阻塞（main.ts:1066/2900、script-runner-core.ts:183/257、script-world.ts:441/580/702）；替代解释（未达终点/nudge 漂移/pending touch/前台未关）被诊断逐项排除（终点已提交、slot 空、pendingTouch=false、前台全关）。原版 N/A：现代 flow 租约不属于原版机制。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：红回归在此门失败→修后隐藏实体不执行下一 command、modal 不被越过、旧 epoch cursor 不复活、active lease 不被直接删、屏障不再超时；正式保存与 002 新上下文恢复成功。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+与 E2E-002-CHOREO-1 白名单互斥（编排/运行时分卡）；lifecycle hide 的 ownEpoch abort 路径不误修。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `d85568172d5530903547770a30c2dab6a2a3dc3a`；本轮为 2026-10-17 R44。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-30 诊断、实现与验收；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：cursor 安全点与游戏命令门分离修复经主壳回归与 002 恢复合同验收。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+002-save-barrier-failure.json 诊断、game-002 快存报告、script-runner-core 行锚。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。保存安全点现行行为以当前代码为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+编排卡[E2E-002-CHOREO-1](E2E-002-CHOREO-1-trio-dialogue-authority.md)与 002 阶段报告。
 
 ## 原文保全
-固定源 revision `d85568172d5530903547770a30c2dab6a2a3dc3a`，source SHA `21c72f590eaed80ff41f259725562964b683e0ada508ae49def8e302df845cb5`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `d85568172d5530903547770a30c2dab6a2a3dc3a`，source SHA `21c72f590eaed80ff41f259725562964b683e0ada508ae49def8e302df845cb5`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # E2E-002-SAVE-1 — 已完成 auto 的保存安全点
 >

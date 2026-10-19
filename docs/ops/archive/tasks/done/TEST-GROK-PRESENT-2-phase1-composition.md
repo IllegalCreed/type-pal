@@ -1,55 +1,63 @@
 # TEST-GROK-PRESENT-2 — 一阶段画面合成与战斗呈现候选回归
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase1
+Capability: 只补隔离候选测试，不改变玩法或正式覆盖率范围
+Contribution Owner: Grok
+Coding/Review Owner: Codex（正式接入、产品缺陷与统一质量门）
+Branch: `codex/grok-present-composition-r1`
+Evidence freeze: `077516bb04c27b38865139a67d64b0c7eb3fd47`
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 Grok 一阶段呈现层候选回归历史卡（draft 隔离）：P11-P16 六组（大世界分层前景/叠层补帧/战斗命令提示寿命/渐变补帧/战斗 UI 多态/对话框绘制）；限定 present/** 真实渲染调用链，与 Codex A3/GLM G07/Cursor 文档包文件互斥；候选由 Codex 正式接入与质量门。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+把已核实的现有一阶段呈现行为钉成可鉴别回归；不主张新原版规则，三者冲突时登记 pending-contract 不改预期迁就实现。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：presentFrame/BattlePresent.draw/drawBattleUI/drawDialogBox 四公开入口的未证绘制差异轴；219 分支未命中只是定位线索。
+- 范围外：内部辅助函数直测冒称整帧装配；"有写入/不抛错"式弱证明；>3 队员当产品新需求。
 
 ## 前提与证据
-- primary source：固定 source revision `d85568172d5530903547770a30c2dab6a2a3dc3a` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+P01-P10 已入 game 25 项不能换标题再补；新旧每例列精确旧标题与差异；消费前后拍同一实际输入。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按 Codex 分派/Grok 贡献/Codex 验收模式收口（接入与质量门细节以证据目录为准）。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+产品缺陷留显式诊断不顺手修。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `d85568172d5530903547770a30c2dab6a2a3dc3a`；本轮为 2026-10-17 R44。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+Grok 候选窗口与 Codex 接入收口；Evidence freeze 077516bb；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：P11-P16 呈现候选经 Codex 正式接入与质量门收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+grok-present-integration.md（P01-P10 前批）、六组差异轴表。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。呈现层现行回归以当前测试为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+前批 grok-present P01-P10 集成记录。
 
 ## 原文保全
-固定源 revision `d85568172d5530903547770a30c2dab6a2a3dc3a`，source SHA `6dd29caa4040b9e31c264037cf13c5ae0bc92438ab3e35a3ed67bb9f105bb43e`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `d85568172d5530903547770a30c2dab6a2a3dc3a`，source SHA `6dd29caa4040b9e31c264037cf13c5ae0bc92438ab3e35a3ed67bb9f105bb43e`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-GROK-PRESENT-2 — 一阶段画面合成与战斗呈现候选回归
 >

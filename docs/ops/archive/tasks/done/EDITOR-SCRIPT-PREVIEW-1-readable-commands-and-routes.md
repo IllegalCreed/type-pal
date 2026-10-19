@@ -1,55 +1,63 @@
 # EDITOR-SCRIPT-PREVIEW-1 — 指令重点摘要、选中步骤播放与地图轨迹
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Codex Root
+Reviewer: editor_preview_audit（独立只读） / Codex Root（集成）
+Phase: phase2
+Capability: P3 / W7
+Visual Verification Timing: dev-functional
+Branch: codex/editor-script-preview
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是脚本编辑器预览三件套的历史功能卡（2026-10-01 用户要求三项）：指令摘要中文化（方案名/触发方式/目标坐标速度重点，不堆资产 ID）、播放从当前选中步骤开始（同一 FlowCursor 贯穿正文/播放/路线）、地图节点连线显示移动轨迹（纯派生，不冒充避障结果）。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+三项用户可见改进全链：cursor 链修复（旧播放永远从头）、摘要真源解析与缺失引用提示、路线层多 NPC/共享 self/分支循环/瞬移断线的纯派生渲染。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：ScriptEditor/FlowEditor/SceneScriptWorkspace/Playback/PreviewCanvas 的 UI 与纯派生预览及测试；movement_preview 贡献者在隔离树独占 script-movement-preview.ts 与 PreviewCanvas.tsx。
+- 范围外：canonical 脚本/save/schema/迁移/供应/运行时移动算法；parallel/join；OPENING-HANDOFF-1 另人执行。
 
 ## 前提与证据
-- primary source：固定 source revision `cddbd73c682e3264e5d981ba84affab894986be4` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+四向表锚点：ScriptEditor.tsx:821 原始 ID 直显、FlowEditor:3856 selectedId 未上报、playback.ts:447 runFlow 未传 cursor；可证伪观察（选第二步仍播第一步/切 NPC 沿用旧 cursor/条件两臂连成确定路线/地图线点与投影不重合）。839cad2a7 路线/停止语义 counter 闭合、739a02982 工具栏与简洁图例实际验证，完整 editor 3757 项通过闭旧 15 秒超时。
+- 当前状态：done（历史终态；清账收口）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录（2026-10-02 清账）：结构化 cursor 贯穿正文/真实 RuntimeScriptRunner 预览/路线并按场景/实体/入口/方案隔离；原红控第二步骤错误执行第一步骤修后真实奖励及单步反例通过；6012 e56/e62 中文摘要与 e56 六目标节点/线实际可见。除 004 认可外不补写用户逐项签名。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡 2026-10-02 清账收口；录像归 E2E-CAPTURE-1、全量 Q1/Q2 未完成；清账母卡 PRE-005-DEBT-1 继续。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `cddbd73c682e3264e5d981ba84affab894986be4`；本轮为 2026-10-17 R43。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-10-01 用户要求、实现与 counter 返工、2026-10-02 清账收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：摘要/选中播放/地图轨迹三件套经 counter 返工与实际验证后技术 accept 归档。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+四向真值表、红绿日志、6012 功能截图记录。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。预览功能现行形态以当前编辑器代码为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+同窗 OPENING-HANDOFF-1 与 PRE-005-DEBT-1。
 
 ## 原文保全
-固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `bb99e1cb25a9636f934f760dd012f3590595b8b004b568896471529490311092`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `bb99e1cb25a9636f934f760dd012f3590595b8b004b568896471529490311092`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # EDITOR-SCRIPT-PREVIEW-1 — 指令重点摘要、选中步骤播放与地图轨迹
 >

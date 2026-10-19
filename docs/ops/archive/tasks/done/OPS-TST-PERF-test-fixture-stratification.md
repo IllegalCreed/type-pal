@@ -1,55 +1,62 @@
 # OPS-TST-PERF - 迁移测试 fixture 分层与冷启动性能债
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: test infrastructure / N3-1 support
+Coding Owner: Codex
+Reviewer: Kimi + GLM
+Branch: chore/docs-migrate-cleanup（用户要求持续提交）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是迁移 fixture 分层历史功能卡：从"每个小功能触发真实 81k 源图冷构建"改为分层体系——普通行为/反例/守恒/anti-tamper 在秒级合成 fixture 运行、真实 PAL 只承担少量 source-backed 冷门与发布门禁；测试继续证明真实源图闭包，不跳过证明/放宽断言/无 digest 隐式缓存换速度。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+合成 fixture 秒级 + 真实源图门禁保留的分层。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：fixture 分层+冷门保留。
+- 范围外：跳过证明或隐式缓存。
 
 ## 前提与证据
-- primary source：固定 source revision `b2f67b288697614614d3e75d2470128bfa47d337` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+其 G1/G3/G6/G7 被 PARALLEL-GATES 引为合同。本页未复跑。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按三方流程收口。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+release 基建退役后其分层思想由现行测试继承。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `b2f67b288697614614d3e75d2470128bfa47d337`；本轮为 2026-10-17 R50。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+三方窗口与收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：fixture 分层经三方收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+分层体系、冷门保留。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。分层思想由现行测试继承。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+OPS-TST-PERF 母卡与 B/C 子卡。
 
 ## 原文保全
-固定源 revision `b2f67b288697614614d3e75d2470128bfa47d337`，source SHA `ca1f9a5ffc36faf6a7f4b6de68d0e1209bc8917029d9e6abf02fa56c0eb177c6`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `b2f67b288697614614d3e75d2470128bfa47d337`，source SHA `ca1f9a5ffc36faf6a7f4b6de68d0e1209bc8917029d9e6abf02fa56c0eb177c6`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # OPS-TST-PERF - 迁移测试 fixture 分层与冷启动性能债
 >

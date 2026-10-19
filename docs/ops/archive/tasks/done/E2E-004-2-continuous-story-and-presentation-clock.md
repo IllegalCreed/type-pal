@@ -1,55 +1,64 @@
 # E2E-004-2 - 连续剧情演示与呈现时钟修正
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: E2E-R4-1 / X3 / W1
+Coding Owner: entity_names（主壳呈现时钟）；e2e004_runner（004工具）；Root（独立反控/文档/接收），各文件单一Owner
+Reviewer: Codex Root独立验收；e2e004_phase1_premise独立一手前提/源码复核
+Visual Verification Owner: Codex
+Visual Verification Timing: e2e-consolidated
+Branch: codex/e2e-004-continuity（Root）；贡献者另从554b8a055隔离开分支
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 004 连续剧情演示与呈现时钟修正的历史 E2E 卡：两缺陷——演示夹杂取消/错误站位检查不连贯（专项测试分出去）、道士尾段站 17.3 秒（RF004 trace：完整邀约 80080.6→hidden 81997.1→完整旁白 99331.1）；根因=dither 起点用 performance 而 :5181 消费 frames.now、普通对白首次 open 误用 frames.now 的双计时域撕裂；修复仅恢复时钟归属（real 域），字速/720ms/72 步/GameplayClock/fade 不变。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+正常剧情不插技术反控；末尾 720ms 溶解不为不同计时域补追十几秒，不通过改作者等待掩盖。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：main 呈现时钟三处归属恢复+004 工具拆分连续演示六 case；一期 1.20s/二期 1.22s 对照确认。
+- 范围外：改作者等待/字速/预算后起算/取消/世界暂停/GameplayClock/fade 语义；6012 用户工程。
 
 ## 前提与证据
-- primary source：固定 source revision `d85568172d5530903547770a30c2dab6a2a3dc3a` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+一期 game004 05-39 trace（邀约→hidden→fade 结束→旁白 61979→63826ms 同 wall clock）为一手对照；hidden≠实际画面消失（无逐像素消失证据，不把 17 秒全归单 CPU 成本）；历史四笔 dither 时钟提交（bede6b14d/bdd35ff65/6a8296a15/8eb93bb72）的域归属逐一澄清，先前"起点/debug 改 gameplay"相邻猜测撤销未改产品。
+- 当前状态：done（历史终态；清账收口）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录（2026-10-02 清账）：9a488c02 六 case 通过、7a01ba090 回执模型复核不冒称新演出；一期 1.20 秒/二期 1.22 秒与用户"非常好"确认连续演示；原 comparison failed 与六 child 原字节保留。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+用户 2026-10-02 明确认可（除 004 外不补写逐项签名）；004 母卡转 rework 后由本卡闭合其连续性缺口。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `d85568172d5530903547770a30c2dab6a2a3dc3a`；本轮为 2026-10-17 R44。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-10-02 用户反馈、双 trace 前提核验、修复与清账收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：双计时域撕裂按历史域归属修复，连续演示经双引擎时长对照与用户确认收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+game004/RF004 两 trace、main.ts:1916/5049/5390、dither:5174/5181、四笔历史提交。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。呈现时钟现行行为以当前 reforge 代码为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+004 母卡 E2E-004-1 与清账母卡 PRE-005-DEBT-1。
 
 ## 原文保全
-固定源 revision `d85568172d5530903547770a30c2dab6a2a3dc3a`，source SHA `a8067605a7b0ee808d7495aab329fb68bb66d3eb1e729fbe18acc567453804c0`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `d85568172d5530903547770a30c2dab6a2a3dc3a`，source SHA `a8067605a7b0ee808d7495aab329fb68bb66d3eb1e729fbe18acc567453804c0`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # E2E-004-2 - 连续剧情演示与呈现时钟修正
 >

@@ -1,55 +1,61 @@
 # W7C-3 - 地图绘制:双层(layer1)+ 碰撞笔刷
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Codex
+Reviewer: Opus(视觉级复验)
+Phase: phase2
+Capability: W7c
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是地图双层绘制+碰撞笔刷历史功能卡（2026-07-09 用户"照惯例直接建"授权）：masked 子格写入（layer0 mask 0x000010ff/layer1 0x10ff0000 含 +1 偏移/碰撞 0x2000/高度位保留）、图层切换、碰撞叠加显示开关、undo/redo/round-trip；范围澄清节明确它只是旧 Tilemap 兼容层过渡补丁、不能代表最终 N 层 schema（D16）。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+画瓦不再破坏子格其他位；上层装饰与禁入格标记可用。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：SubTileEdit/paintCells 加 mask、图层切换、碰撞笔刷+叠加显示、undo/保存 round-trip、浏览器像素级验证。
+- 范围外：图尺寸编辑（W7c-4）、tileset 库（W7b）、高度位编辑；本卡因范围偏差不得作为"多层/无限图层已完成"收口（用户质疑记录在案）。
 
 ## 前提与证据
-- primary source：固定 source revision `d85568172d5530903547770a30c2dab6a2a3dc3a` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+子格模型钉死（勿再考证）：cell.lower/upper=两个错排菱形子格非图层；layer1 存储值=tileId+1；障碍=bit13/0x2000；W7c-1 现状整 word 覆盖必须改 masked 否则画 layer0 清掉 layer1+碰撞；PaintTilesCommand prev 整 word 捕获+masked apply+全量 invert 数学自洽。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按三方流程收口（Codex 实现+Opus 视觉级复验；N 层 schema 后续另行裁决）。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+范围偏差澄清（过渡补丁 vs N 层终态）是本卡最重要遗产。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `d85568172d5530903547770a30c2dab6a2a3dc3a`；本轮为 2026-10-17 R44。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-07-09 用户授权与范围质疑、实现与复验；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：masked 双层+碰撞笔刷按过渡补丁定位收口；N 层终态不由此卡宣称。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+render.ts:17/20/293、collision.ts:48、own-map.ts encode/paint、交互惯例（一笔一命令一撤销）。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。地图编辑现行行为以当前编辑器代码为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+W7c-4 图尺寸与 W7b tileset 卡；D16 N 层决策。
 
 ## 原文保全
-固定源 revision `d85568172d5530903547770a30c2dab6a2a3dc3a`，source SHA `6183dafde61496a82aad5ff385ceb601770925d49ae4c431ac21026437bf977d`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `d85568172d5530903547770a30c2dab6a2a3dc3a`，source SHA `6183dafde61496a82aad5ff385ceb601770925d49ae4c431ac21026437bf977d`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # W7C-3 - 地图绘制:双层(layer1)+ 碰撞笔刷
 >

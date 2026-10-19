@@ -1,55 +1,64 @@
 # E2E-002-FEEDBACK-1 - 主角遮挡反馈与连续方向输入
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: W1 / E2E-R4-1
+Coding Owner: Codex
+Reviewer: Codex（验收）/ e2e_002_runner（独立专项复核）
+Visual Verification Owner: Codex / User
+Visual Verification Timing: mixed
+Branch: codex/e2e-003（当前集成）；codex/002-feedback（历史）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是主角遮挡反馈历史 E2E 卡：旧方案"只收窄主动触发者"被用户 2026-10-01 实际检视否决（头领仍透出）；重做为只主角队伍可见透视、NPC 保持正常不透明遮挡（返工 fd2cd083→04eb9331 队伍局部透视）；21 项像素/独立 43 项及正式 RF002 通过后清账收口。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+受控队长主动触发 D27 前景透明，NPC/队友/编外跟随者不触发；连续方向输入不逐格停顿。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：局部合成/像素反控/独立验收重做。
+- 范围外：旧"只收窄主动触发者"实现与 accept（仅作历史不授权 build）。
 
 ## 前提与证据
-- primary source：固定 source revision `f5ae8e2fee437542e581fecd71cf80e12ada444d` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+旧 6051 未更新历史试玩页不作当前交付证明（判例）。本页未复跑。
+- 当前状态：done（历史终态；清账收口）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录（2026-10-02 清账）：返工 04eb9331 队伍局部透视+NPC 正常遮挡，21 项像素/独立 43 项/正式 RF002 通过。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+用户实检否决→重做的循环是本卡遗产。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `f5ae8e2fee437542e581fecd71cf80e12ada444d`；本轮为 2026-10-17 R46。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-10-01 用户反馈与重做、2026-10-02 清账收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：队伍局部透视重做经像素/独立/正式三线验收收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+返工链 fd2cd083→04eb9331、21+43 项验收。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。遮挡现行行为以当前 reforge 代码为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+PRE-005-DEBT-1 与 002 系列。
 
 ## 原文保全
-固定源 revision `f5ae8e2fee437542e581fecd71cf80e12ada444d`，source SHA `1d6b10a2cee2e8d80ac0fa55ffdd109f7450d031c3790f25fbca95b7a3dc25bb`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `f5ae8e2fee437542e581fecd71cf80e12ada444d`，source SHA `1d6b10a2cee2e8d80ac0fa55ffdd109f7450d031c3790f25fbca95b7a3dc25bb`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # E2E-002-FEEDBACK-1 - 主角遮挡反馈与连续方向输入
 >

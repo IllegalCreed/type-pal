@@ -1,67 +1,60 @@
 # TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 — Item use effect residual contracts
 
-Status: done
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Status: done（2026-10-11 Codex 独立验收 accept）
+Owner: GLM（贡献者）；验收：Codex
+Base/source freeze: `9aa3bed892728f17c70d2f86d1fe07db10a718b8`
+Branch: `codex/glm-editor-item-effect-residual-r1`
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops archive task card 接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始目标、范围、状态、owner、证据、counter、日期、链接和交接在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是物品使用效果编辑器残余合同的历史测试卡（2026-10-11 accept）：三轴裁决后仅 3 新合同（R1 失效实体引用的 ⚠ 保留/改选修复/保存门红绿极性翻转+单命令撤销；R3 healHp 转入 placeEntityInFront 跳空场景取首个有实体场景+完整 schema 单命令落库；R5 空白项目无实体时 EXCLUSIVE 直通致失败臂在场+onStatusNotice 精确报错零提交），候选 ce2d9cb0b。
 
 ## 目标
 
-- 保留原卡目标、用户可见范围、实现/测试边界和关闭时点结论；当前是否需要重新启用由 successor task card 与 fresh evidence 决定。
+仅补已接收 alchemy 批后仍未证的合法公开 UI 路径：失效引用修复、非消费型引用缺失恢复、效果类型转换的未覆盖 schema。
 
 ## 范围
 
-- 当前包含：原卡声明的实现、测试、证据、owner、状态和历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据、机器证据或历史状态。
+- 范围内：ItemUseEffectEditor.residual.glm.test.tsx（真实 ItemTab caller+真实 loader 场景）。
+- 范围外：默认值枚举/普通增删排序撤销/既有 poison/status/script/throw 合同/已撤 fake-parent B5/B10——裁决表逐项 zero-new/drop。
 
 ## 前提与证据
 
-- 行为/工程前提：原卡的 source:line、primary source、合法输入、caller、oracle 与 counter 由 quote 保留。
-- 一手证据：固定 source revision `b3c24c04ddb534b9e8195a074590bea8a233fc93`、原卡全文和原卡链接；本次不重跑原执行。
-- 最强替代解释与可证伪观察：若需要重新启用，必须用当前代码/数据、合法输入、业务 oracle、反例和独立 review 重新核验；不能以历史 done 或数量补齐。
-- 当前状态：done（历史快照）；本页治理检查口径要求 contentVersion=22 / SAVE12，源卡中的较早版本只属于其日期范围。
+真值核：checkEntityAddress 只查形状而 loader 接受失效地址（本卡 probe 实证）——保存门极性为 oracle 不虚构"失效静默合法"；P1 产品 counter：puppet 状态可选中且无 battleOnly 自动联动、提交到保存门才被拒（对照 hideParty 有联动），交裁决不修产品。资源池/配方引用缺失裁决 zero-new：本编辑器是只读镜像，修复责任在机制页。
+- 当前状态：done（历史终态）
 
 ## 验收
 
-- 功能/文档：原卡的历史验收、失败、blocked、rework、未执行边界和交接保持原样。
-- 测试与证据：本次验收只包括 source/after SHA、模板章节、链接、history overlay 和 quote inverse。
-- 视觉或 E2E（如适用）：本次未执行 runtime、E2E、视觉或 coverage，信用为 0。
+原卡记录：定向 3/3、三针三态全 VALID+自证、全包 4932/4933 唯一红=基线 adoption 门、lint 0/0/0；Codex 独立验收 accept（2026-10-11）。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
 
-- 当前 Owner：原任务 Owner/贡献者与历史 reviewer 保留于 quote；当前文档治理 owner 为 Codex。
-- 阻塞/决策：历史卡不可单独授权当前工作；重新启用必须创建/更新当前 task card。
-- 下一步：由对应 successor、当前 consumer 和 fresh receipt 重新核验；本次不推进状态。
+P1 puppet 无 battleOnly 联动留产品裁决；资源池/配方轴零新增。本页治理不重授。
 
 ## 历史范围
 
-- 原始日期、版本、阶段：源文档固定于 `b3c24c04ddb534b9e8195a074590bea8a233fc93`；本轮为 R59。
-- 归档原因：已关闭任务只作为时点事实保留，避免历史状态冒充当前事实。
+2026-10-11 前后实施与 accept；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
 
-- TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 — Item use effect residual contracts：原始顶部状态为 done；完整原始语义保留于下方 quote。
+`Status: done`：3 新合同+裁决表+P1 counter 经独立验收收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
 
-- 原始命令、产物、SHA、签字、counter、链接和未决项保留于 quote。
+逐项裁决表（keep/zero-new/drop+理由）、codex-review.md 底账。本页治理未新增执行。
 
 ## 当前有效性
 
-historical。do not promote historical task card to current build/runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：当前 task card、代码/consumer 和 fresh receipt 是事实权。
+historical。编辑器现行行为以当前代码为准；P1 裁决以中央账本为准。
 
 ## 继任文档
 
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+前置 ItemAlchemyTab B 批与 CONTRACT-BATCH codex-review。
 
 ## 原文保全
 
-固定 source revision `b3c24c04ddb534b9e8195a074590bea8a233fc93`，source SHA `a5cd59f1cffcc6c72e88349473c0e7b1cecf4370bc1aa6a1ed2d1958d652f631`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b3c24c04ddb534b9e8195a074590bea8a233fc93`，source SHA `a5cd59f1cffcc6c72e88349473c0e7b1cecf4370bc1aa6a1ed2d1958d652f631`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-EDITOR-ITEM-EFFECT-RESIDUAL-1 — Item use effect residual contracts
 >

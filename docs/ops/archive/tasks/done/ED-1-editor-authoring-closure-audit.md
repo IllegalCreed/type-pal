@@ -1,55 +1,63 @@
 # ED-1 - 编辑器一级模块与创作闭环审查
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: Editor / R6（已同步 W1/W7/E1/C1/W5/X2/B2/N8）
+Coding Owner: Codex（仅文档收口；实现由子任务另定）
+Reviewer: Opus + GLM
+Visual Verification Owner: Codex + User（后续子任务）
+Branch: main
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是编辑器一级模块与创作闭环审查历史卡：以"空白工程能创作完整 RPG"为标准、七环判据（发现/选择/创建/引用绑定/编辑/预览运行/保存重开/删除约束）统一审查 18 工作域；定案地图独立注册表/稳定 id/场景选择方向（驱动后续 W7E/W7F）；一级导航重组为场景/地图/剧情/角色/物品/战斗/资源/工程；交付审计共识与子任务边界不在本卡直接实现。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+退役"大杂烩数据页"一级信息架构；形成可分批实施、可验收、不重复返工路线。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：七环判据+18 域审查+导航重组定案+capability-map 同步+分期子任务。
+- 范围外：editor/content/reforge 实现文件修改。
 
 ## 前提与证据
-- primary source：固定 source revision `e0cd89727dd11af2502caa17200f6446478bb316` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+R1-R3（消费方清单/map index/临时反查收编）成为 W7E 设计输入；Opus 三轮审查意见入卡。本页未复跑。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按三签共识收口（子任务分期清单详见卡内）。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+W7E-0/W7E/W7F 与 ED 批次卡皆源于本卡定案。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `e0cd89727dd11af2502caa17200f6446478bb316`；本轮为 2026-10-17 R47。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+三方审查窗口与收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：闭环审查共识与子任务边界经三签收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+七环判据、18 域矩阵、R1-R3 定案。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。导航与模块现行形态以现行代码为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+W7E-0/W7E/W7F/ED 批次卡。
 
 ## 原文保全
-固定源 revision `e0cd89727dd11af2502caa17200f6446478bb316`，source SHA `3511901b3e1fa2808e24739a80c69c3ae51426ea898f8d9a536e41ed076d066a`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `e0cd89727dd11af2502caa17200f6446478bb316`，source SHA `3511901b3e1fa2808e24739a80c69c3ae51426ea898f8d9a536e41ed076d066a`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # ED-1 - 编辑器一级模块与创作闭环审查
 >

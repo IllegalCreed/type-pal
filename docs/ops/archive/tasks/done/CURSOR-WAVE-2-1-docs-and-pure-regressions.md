@@ -1,55 +1,62 @@
 # CURSOR-WAVE-2-1 — 五包连续文档纠偏与纯边界回归
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: ops / phase1 / phase2（文档与测试，生产代码冻结）
+Contribution Owner: Cursor
+Review / Integration Owner: Codex
+Base: `8ff22973`
+Branch: `codex/cursor-wave2-r1`
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 Cursor 五包连续工作历史卡（W1 三作者指南七处误导窄修/W2 根 CLAUDE.md 退役命令/W3 编辑器三纯边界/W4 一阶段工具边界/W5 文档工具安全边界）：首轮 7b4ec8fc W2 accept、W1/W3/W4/W5 窄 counter，返工后按包接收集成。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+文档纠偏（以 DOC-CURSOR-6 已证事实为据）+确实未钉住的纯边界回归；不授权产品实现/schema/存档/迁移/基线。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：W1 battlefield/shared-script/debug-tools 三指南、W2 CLAUDE.md 两处、W3 binary-signature/project-read-lock/play-url、W4 fps-overlay/display-scale/toast、W5 markdown/check/relocate 工具测试。
+- 范围外：把未实现保障写成已实现（C2-4 callScript 环检测缺口保留为约束）；产品缺陷顺手修；重复旧断言。
 
 ## 前提与证据
-- primary source：固定 source revision `cddbd73c682e3264e5d981ba84affab894986be4` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+首轮 counter 要点：一处未证实的“粘贴正文”入口；W3/W4 未执行隔离单点负控且 FPS 文本仅子串匹配；W5 临时目录未清理、围栏用例标题/证明对象错位——返工按最小范围闭合。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：W2 以 cbac3ca0 选择性接入；W1/W3/W4/W5 返工后由 Codex 逐包接收（详见 cursor-wave2-review 与后续接收记录）；整批末 editor/game typecheck、docs-tools、Biome、check:docs、diff 过。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡五包 W1→W5 连续执行不需逐包请示。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `cddbd73c682e3264e5d981ba84affab894986be4`；本轮为 2026-10-17 R43。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-25 派发、首轮接收与返工集成；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：五包经首轮分包裁定与返工后全部收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+cursor-wave2-review.md 逐包证据与最小返工清单。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。指南与工具现行状态以当前树为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+前置 DOC-CURSOR-6 审计与 cursor-tool-regressions 集成记录。
 
 ## 原文保全
-固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `ccd841bb9308da99cf7f140f04d0022bbee868b1b3f2ce43770be2c89eff7342`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `ccd841bb9308da99cf7f140f04d0022bbee868b1b3f2ce43770be2c89eff7342`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # CURSOR-WAVE-2-1 — 五包连续文档纠偏与纯边界回归
 >

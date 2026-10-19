@@ -1,55 +1,64 @@
 # REFORGE-BATTLE-EQUIP-1 — 装备常驻状态与临时状态分层
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: C3
+Coding Owner: Codex
+Reviewer: Codex（独立验收）
+Visual Verification Owner: N/A
+Visual Verification Timing: e2e-deferred
+Branch: main
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是装备状态分层的历史功能卡（2026-10-03 用户裁决）：装备授予的战斗状态建模为随装备实时派生的常驻能力（装备时有效/卸装失效/复活不清除），与技能道具的临时回合计数状态分离；废除 9999/9000 哨兵伪装。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+战斗队员持有独立装备派生能力集合：复活清临时状态但保留装备集合、removeStatus 不卸装备效果、重新建态/卸装派生正确；武器双攻任意多回合+复活后仍有效。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：Reforge 战斗队员状态模型、建态投影、双攻判定、复活/解状态语义、相关单测。
+- 范围外：第一阶段忠实实现、物品 grantStatus 数据表、存档 schema、parallel/join、006 剧情；不保留 32760/9999/9000 哨兵兼容、不给旧开发存档升级分支。
 
 ## 前提与证据
-- primary source：固定 source revision `d85568172d5530903547770a30c2dab6a2a3dc3a` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+原版机制：装备效果编码为超长状态、RemovePlayerStatus 仅清 <=999、复活遍历清状态故衰减后误清装备效果（global.c:2280-2308、script.c:1070-1075）——第一阶段保留该兼容，第二阶段明确不采用（用户 2026-10-03 批准装备 buff 随装备永久有效）。现网缺口：createBattleState 仍写 grantedStatuses=9999、复活以 <9000 判临时（battle-player-input.ts:20-58、battle-core.ts:278-356,598-615）。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：装备授予状态不进临时 status 计数器、临时 dualAttack 仍计时、复活清临时保装备、removeStatus 不卸装备、重建态/卸装派生正确；相关 content/reforge 测试过、typecheck/lint 零诊断。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡为明确偏离已核真值（yes）的用户裁决实现。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `d85568172d5530903547770a30c2dab6a2a3dc3a`；本轮为 2026-10-17 R44。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-10-03 用户裁决与实现验收；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：装备常驻/临时状态分层按用户裁决落地，哨兵兼容废除。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+global.c:2280-2308/script.c:1070-1075 原版锚、item.ts:448-463 live 派生入口、battle 两文件行锚。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。状态模型现行形态以当前 reforge 代码为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+C3 装备卡与 item.derived 测试为相邻域。
 
 ## 原文保全
-固定源 revision `d85568172d5530903547770a30c2dab6a2a3dc3a`，source SHA `d9904d817df4fac7d8968497e6953296f9ad06eb11ba351756d3bf386b3eed6a`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `d85568172d5530903547770a30c2dab6a2a3dc3a`，source SHA `d9904d817df4fac7d8968497e6953296f9ad06eb11ba351756d3bf386b3eed6a`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # REFORGE-BATTLE-EQUIP-1 — 装备常驻状态与临时状态分层
 >

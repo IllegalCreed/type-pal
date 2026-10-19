@@ -1,55 +1,64 @@
 # E2E-SCRIPT-NAMES-1 - 随剧情核验命名方案与步骤
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: W7 / P3
+Coding Owner: Codex Root
+Reviewer: Codex 独立只读专项复核
+Visual Verification Owner: Codex
+Visual Verification Timing: dev-functional
+Branch: codex/e2e-script-names
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是方案/步骤作者命名的历史功能卡（2026-10-02 用户要求命名 s003/e59 自动行为 3）：stage 增可选非空 label（未命名=尚未填写非旧版兼容），编号+剧情名称共同展示、详情可编辑、compiler 不携带 label、存档仍按 stable ID 与内容 digest 校验；19b68078b 独立 accept，5 方案 22 步骤元数据保真。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+方案说明剧情时期与用途、步骤说明当前执行内容并区分首次/复读/收尾；名称不替代稳定 ID。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：当前客栈已核内容（e59/e60/e61 进房）的普通步骤可选名称及编辑/展示/保存、E2E 命名验收规则。
+- 范围外：任何指令/对白/顺序/速度/等待/步骤去向/方案 ID/游标/编译节拍/存档合同变更；全 PAL 猜名、批量翻译未核后期、原版转换器复活、隐藏步骤、parallel/join。
 
 ## 前提与证据
-- primary source：固定 source revision `d85568172d5530903547770a30c2dab6a2a3dc3a` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+真值：author-script-core.ts:303-309/996 无 stage.label 且 exactKeys 拒绝、compiler:314-326 显式投影不含 label——补作者元数据而非改稳定 ID。e59 两段 move→显示→隐藏、e60/e61 开门进房换身的已核链（s003.json:5771-5831/7136/8638）。
+- 当前状态：done（历史终态；清账收口）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录（2026-10-02 清账）：19b68078b 独立 accept，5 方案 22 步骤元数据保真、当前加载重开与实际界面均有证据；后期命名继续 SCRIPT-AUTHOR-2。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡 2026-10-02 清账收口（除 004 认可外不补写用户逐项签名）。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `d85568172d5530903547770a30c2dab6a2a3dc3a`；本轮为 2026-10-17 R44。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-10-02 用户要求、实现与验收；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：方案/步骤命名（元数据不替代 ID）经独立 accept 收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+四向真值表、s003 已核链锚点、19b68078b 验收记录。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。命名功能现行形态以当前编辑器代码为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+后期命名归 SCRIPT-AUTHOR-2（活动卡）；清账母卡 PRE-005-DEBT-1。
 
 ## 原文保全
-固定源 revision `d85568172d5530903547770a30c2dab6a2a3dc3a`，source SHA `159868590f1c3285ea09084bb1be8deb16fca9198ae372e41efd3bc0d4f44ae0`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `d85568172d5530903547770a30c2dab6a2a3dc3a`，source SHA `159868590f1c3285ea09084bb1be8deb16fca9198ae372e41efd3bc0d4f44ae0`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # E2E-SCRIPT-NAMES-1 - 随剧情核验命名方案与步骤
 >

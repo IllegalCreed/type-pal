@@ -1,55 +1,61 @@
 # MIG-PAL-ITEM-SCHEME-LABEL-1 PAL 物品剧情方案作者命名收口
 
-Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Status: done（2026-08-31，Codex / Kimi / GLM 当前实现 accept + 用户功能验收齐）
+负责人: Codex（Coding Owner）
+参与审查: Kimi（迁移 / current-only 边界）、GLM（全量引用闭包 / 测试矩阵）
+阶段: phase2
+风险级别: 高（migration / canonical generated rewrite）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是物品剧情方案命名历史卡（2026-08-30 用户看到"物品剧情行为 731fd69bc3f42 个步骤"指出不可读）：旧迁移器把内部 SHA256 摘要当作者名称；census 发现 53 个精确匹配 `物品剧情行为 <12hex>` label 分布 17 scene（49 behavior/hook+4 state-machine）；收口=按物品真名生成（如紫金丹→紫金丹剧情方案），修上游重迁；另 DsButton 会包裹 children 的 UI 布局 bug 由同会话小修独立处理不授权本卡改数据。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+作者可读命名替换 SHA 摘要 label；current-only 边界（不回写历史）。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：迁移上游 label 生成+53 处重迁+引用闭包。
+- 范围外：UI 布局 bug（另案）；手改产物。
 
 ## 前提与证据
-- primary source：固定 source revision `e0cd89727dd11af2502caa17200f6446478bb316` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+两跳反向引用追到 273 紫金丹的定位法；49+4 双类分布。本页未复跑。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按三方+用户功能验收收口。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: historical（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+命名治理与 SCRIPT-AUTHOR-2 后续一脉。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `e0cd89727dd11af2502caa17200f6446478bb316`；本轮为 2026-10-17 R47。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-08-30/31 触发与收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `> **状态**：done（2026-08-31，Codex / Kimi / GLM 当前实现 accept + 用户功能验收齐）`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：53 处 SHA label 换作者命名经三方与用户收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+census 53/17/49+4、两跳反向引用、重迁 diff。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。命名现行形态以当前迁移器为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+SCRIPT-AUTHOR-2 与 E2E-SCRIPT-NAMES-1。
 
 ## 原文保全
-固定源 revision `e0cd89727dd11af2502caa17200f6446478bb316`，source SHA `6a91fb6fa6a5be769658e65866dcf8afebd653837243a17cb0147b6e0f8a52e4`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `e0cd89727dd11af2502caa17200f6446478bb316`，source SHA `6a91fb6fa6a5be769658e65866dcf8afebd653837243a17cb0147b6e0f8a52e4`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # MIG-PAL-ITEM-SCHEME-LABEL-1 PAL 物品剧情方案作者命名收口
 >

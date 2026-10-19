@@ -1,55 +1,62 @@
 # E2E-CAPTURE-1 — 001–004本地录制工具与节省空间验证
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: ops
+Owner: Codex Root
+Coding Owner: pre005_media_probe
+Reviewer: Codex Root
+Visual Verification Timing: E2E集中批次
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 001-004 本地录制工具与节省空间验证的历史卡：准入小样（11.01s 640×400、双 WebAudio context+独立 video 原声、40 项 verification、ffprobe H264/AAC 48k、音画边界偏差 51-77ms 如实不称零延迟）经 Root 接收；按用户删除录屏后的节省空间范围收口，不声称重录八段整片、不恢复完整媒体验收、不宣布 capture-ready。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+只建设本地碎片录像能力：原声输出不改，capture 独立节奏/回执，沿真实语义开始结束，不接 Content Studio 活动/发布。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：scripts/e2e/ capture 专属工具/测试+最小接入 browser-journey。
+- 范围外：麦克风/桌面录制；保存/取消专项夹入；Q1/Q2 完整结论。
 
 ## 前提与证据
-- primary source：固定 source revision `a56963e9482fa2f8648b13e2729bef67a13c477f` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+video.captureStream 实测不跟随元素 volume——记录支路须同步 volume/muted（首轮原始失败保留）；只录 canvas 或合并错误音频支路的替代解释须以真实视频层/双声源/音量静音断连见证反证。
+- 当前状态：done（历史终态；节省空间范围收口）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：录制工具代码与限空间短样经 Root 及独立审查接收、首部 counter 闭合；原八段程序 passed 与 RF001 片头反例保留为历史；已有录像由用户删除，仅在明确需要时按段重录。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+002-004 与普通 verify 不受 001 预热分支改变。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `a56963e9482fa2f8648b13e2729bef67a13c477f`；本轮为 2026-10-17 R45。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+PRE-005-DEBT-1 窗口内准入小样、实现与 2026-10-02 收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：本地录制工具按节省空间范围收口；媒体验收结论不随本卡恢复。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+/tmp/type-pal-media-probe.spidvu 小样（probe/run/verify+webm/mp4）、verification.json 40 项、ffprobe 记录。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。录制工具现行状态以当前 scripts/e2e 为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+清账母卡 PRE-005-DEBT-1；E2E 母卡 E2E-R4-1。
 
 ## 原文保全
-固定源 revision `a56963e9482fa2f8648b13e2729bef67a13c477f`，source SHA `a65198322ae91a988c9b85ad85037bbd47bd6e796bcfc6e712d1348bab62a346`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `a56963e9482fa2f8648b13e2729bef67a13c477f`，source SHA `a65198322ae91a988c9b85ad85037bbd47bd6e796bcfc6e712d1348bab62a346`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # E2E-CAPTURE-1 — 001–004本地录制工具与节省空间验证
 >

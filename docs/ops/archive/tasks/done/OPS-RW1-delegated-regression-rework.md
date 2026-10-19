@@ -1,55 +1,64 @@
 # OPS-RW1 - R13-3 后代班提交回归返工
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: multi（N3 / JS1 / B11 / ED-5J / D13 / E18 / D12 / D6 / D14）
+Coding Owner: Codex
+Reviewer: Kimi + GLM
+Visual Verification Owner: Codex（Kimi 复审 Debug/D6 观感；D14 剧情奖励集中 E2E）
+Visual Verification Timing: mixed
+Branch: `chore/docs-migrate-cleanup`
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 R13-3 后代班回归返工历史卡（2026-08-08 用户指定）：修 6 P1+14 P2+1 用户追加 Debug 面板视觉返工；恢复 append-only/canonical validator/SAVE8/资源闭包/编辑器保存撤销/战斗语义/音频竞态/Debug 与呈现 UX 的可验证契约，当前 HEAD 重新通过迁移 oracle/release/canary/全仓类型测试；done 增量复审未执行（用户 2026-08-09 签字豁免、历史设计签字保留）。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+20+1 项返工收口+全链契约恢复。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：multi 域 21 项修复+门禁复通。
+- 范围外：豁免外推。
 
 ## 前提与证据
-- primary source：固定 source revision `b6dda76d1b1ac5e38dec0c5387efd9e160ce8c3b` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+豁免仅本次增量复审（设计签字保留）。本页未复跑。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按用户豁免+既有验证收口。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+多域返工合卡样本。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `b6dda76d1b1ac5e38dec0c5387efd9e160ce8c3b`；本轮为 2026-10-17 R51。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-08-08 指定/2026-08-09 豁免收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：multi 域 21 项返工经用户豁免收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+6 P1+14 P2+1、全链门禁。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。各域现行行为以当前代码为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+R13-3 前卡与各域卡。
 
 ## 原文保全
-固定源 revision `b6dda76d1b1ac5e38dec0c5387efd9e160ce8c3b`，source SHA `e76eddbf8092302e1519074926119e93e95ee95a146578c922c5b08b7b64cf2f`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `b6dda76d1b1ac5e38dec0c5387efd9e160ce8c3b`，source SHA `e76eddbf8092302e1519074926119e93e95ee95a146578c922c5b08b7b64cf2f`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # OPS-RW1 - R13-3 后代班提交回归返工
 >

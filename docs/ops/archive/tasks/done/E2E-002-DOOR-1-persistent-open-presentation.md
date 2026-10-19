@@ -1,55 +1,64 @@
 # E2E-002-DOOR-1 — 开门呈现的持久语义
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: E2E-R4 / 002 / X1
+Coding Owner: Codex Root
+Reviewer: e2e_002_runner（非作者只读复核） / Codex（冻结E2E独立验收）
+Visual Verification Owner: Codex
+Visual Verification Timing: e2e-consolidated
+Branch: codex/e2e-002-r1
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 002 开门持久语义修复的历史 E2E 卡：三苗人进房后已开的 e73/e74 门在正式读档后变回关闭帧——开门仅依赖被恢复事务清除的瞬态 frame override；修复=持久门状态导出同一呈现意图（Page 持久化+SpriteActionBinding），不把演出期所有瞬态定帧自动持久化、不改 schema/SAVE9/通用瞬态语义。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+相同持久 World 还原已打开的门画面：原版 L3739 对一基 74/75 调 L35644（state1+gesture1）；一期两门 state1/scriptedFrame1 真实入档且恢复后 Canvas 与结束帧同 SHA。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：s003.json 两门页面+三处开门链、sprites.json sprite53/54 动作、pal-inn-door-save.test.ts 回归、project-reference.pal.test.ts 窄 fixture 同步（保留 parity/删除阻挡/payload 上限）、inn-trace-plugin 观测工具。
+- 范围外：转换器复活/作者正文重生成/一阶段/资产字节/NPC 速度路线/剧情奖励；过滤门区域或放宽 Canvas hash/等待阈值。
 
 ## 前提与证据
-- primary source：固定 source revision `a56963e9482fa2f8648b13e2729bef67a13c477f` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+二阶段缺口：end e73/e74 state1/visible/frame1 而 restore 相同 state/pos/sprite 但 frame0（frame 仅在呈现 Map、abortScript 清除——main.ts:2200/4287/4683、world-scene-presentation.ts:72-151）。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按 Root 实现+双通道复核收口（正式 002 恢复链含门画面验收，详见 002 阶段报告）。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+持久化只导出呈现意图而非瞬态定帧全集的边界是本卡核心遗产。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `a56963e9482fa2f8648b13e2729bef67a13c477f`；本轮为 2026-10-17 R45。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-30 正式 002 恢复发现、前提核验与修复（同 002 系列窗口）；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：持久门状态经 Page/Binding 呈现意图导出修复并验收。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+all.json:2911/2942/24051/233518、event-system.ts:4435/4018、一期 002.end.save Canvas SHA、二阶段双 trace。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。门持久语义现行行为以当前工程内容与代码为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+002 系列 CHOREO/SAVE 卡与 002 阶段报告。
 
 ## 原文保全
-固定源 revision `a56963e9482fa2f8648b13e2729bef67a13c477f`，source SHA `05bec342673e9c9bc8ab6573c9007160f27a61cebacde5aa36769e86d593190e`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `a56963e9482fa2f8648b13e2729bef67a13c477f`，source SHA `05bec342673e9c9bc8ab6573c9007160f27a61cebacde5aa36769e86d593190e`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # E2E-002-DOOR-1 — 开门呈现的持久语义
 >

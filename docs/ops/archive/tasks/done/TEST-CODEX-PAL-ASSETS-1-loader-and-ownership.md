@@ -1,55 +1,60 @@
 # TEST-CODEX-PAL-ASSETS-1 — 自包含资源加载与所有权八组回归
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Codex
+Phase: phase2
+Visual Verification Timing: N/A（解码像素/资源字节合同，不代表界面或剧情观感）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 +5pp 队列对 pal-assets 公开入口的八组纯测试历史记录（2026-09-26，基点 2838df42）：真实 PNG/WAV 解码、来源/摘要闭包、所有权保持、失败在首写之前拒绝。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+为 pal-assets.ts:361/601/1161/1201 公开入口与 content/src/asset.ts:136 catalog 守卫补八组合同回归（sound-metadata/sound-closure/palette/portraits/items/backgrounds/ownership/retirements）。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：八份新测试与专属 pal-asset-fixtures.ts、[证据目录](../../../../testing/archive/legacy/batches/codex-pal-assets/README.md)；只用自己 mktemp 根。
+- 范围外：产品/旧测试/配置/资产；旧 pal-assets.test.ts 与 pal-assets-paths.test.ts 已证的世界/战斗精灵全量 census、五头像映射、基础 authored 接管、链接竞态；不调用迁移 CLI、不写实际 projects/data。
 
 ## 前提与证据
-- primary source：固定 source revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+生产链锚点 pal-migration-io.ts:91 与 scripts/migrate-content.mts:85/110；合成提取树只证明格式/拒绝/像素合同，不冒充原盘真值；palette/portrait/items/background 固定数量不放宽。若合法数据过不了正式 guard 或产品有缺陷，单列诊断不改绿预期。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：84 新增、相邻 114/114、TC/Biome、八对照/八针全过；同一 shell 严格串行 check9272→ratchet→保护 2838df42 单次 strict8780 exit0；全仓 44993/63178=71.216…%，+102B/+139L/+163S/+22F；报告披露本席 fixture 及反控定位错误。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡 Codex accept/done；当前未发现新增产品缺陷、母目标差 1584B。无下一位 Agent 提示词。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `bb7b1d24e9e517e09730282b104ce51b4204cb0b`；本轮为 2026-10-17 R42。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-26 准入与收口同日；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：八组资源加载/所有权回归按纯测试批收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+四向真值段与旧测试排重清单、批回执（含本席错误披露）。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。资源管线现行行为以当前代码为准；71.22% 为时点数字。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+队列母卡[TEST-COVERAGE-PLUS5-1](TEST-COVERAGE-PLUS5-1-continuous-batches.md)；资产管线现行合同以 asset.ts 守卫为准。
 
 ## 原文保全
-固定源 revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b`，source SHA `46a19727fba88f82d0063f6fa1c425c0938129e72212772ae09bb13c80c09714`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b`，source SHA `46a19727fba88f82d0063f6fa1c425c0938129e72212772ae09bb13c80c09714`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-CODEX-PAL-ASSETS-1 — 自包含资源加载与所有权八组回归
 >

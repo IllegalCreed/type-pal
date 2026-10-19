@@ -1,55 +1,61 @@
 # E9 - 商店/当铺(openShop 全链:UI + 数据 + 结算)
 
-Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Status: done(作者点题「商店和当铺都没做」;引擎全链实测,观感对照作者提供的原版截图三轮校正)
+Owner: Opus
+Reviewer: 用户(原版截图对照:红框/阴影/定高框三处点破)
+Phase: phase2
+Capability: E9 商店/当铺(新格 —— openShop 曾是 toast 桩)
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是把 openShop 从 toast 桩做成全链商店/当铺的历史功能卡：content 结算模型+21 家店数据迁移+引擎 UI（坐标 1:1 uigame.c）+阻塞式 host+编辑器作者面；观感经用户原版截图三轮校正。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+商店/当铺全链可用：pal 16 场景在用的 0x26/0x27 指令落地为真实买卖 UI 与结算；一阶段 shop-menu/sell-menu 为 UX 真值。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：ShopDef{items[]} 与纯结算 shopBuy/shopSell/sellableItems（5 测）；stores.json→content/shops 21 家店迁移（oid→字符串 id，货单全校验）+manifest 声明+loader；shop-box.ts 买（PAL_BuyMenu 红框定高 190×190、8 行滚动、名/价/ITEMBOX 带影预览/「现有」「金钱」框）卖（全屏 picker noDesc+金钱/售价框）确认（默认否）；host.openShop void→Promise<void> 阻塞式、输入优先级链头插；编辑器 shops round-trip+ShopTab+openShop 表单。
+- 范围外：迁移器本体（0x26/0x27 已译、stores 一次性脚本同 C3 模式，MG2 红线）；一阶段菜单之外的机制再考证。
 
 ## 前提与证据
-- primary source：固定 source revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+观感三处点破均对照作者提供的原版截图修正：红框（iStyle1，曾误黄框）、ITEMBOX 预览带影（itemmenu.c:196 shadow+正色两笔，装备/使用/卖三处菜单一并补影违真值的 shadow:false）、定高框货少也撑到底。卖价用 sellPrice（pal 数据=原版半价，作者可自定义）。
+- 当前状态：done（历史终态；观感微调留用户）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录（Playwright,pal）：s050 米铺真买护心镜 2000（5000→3000、入包、留菜单续买、Esc 干净收尾）；s029 当铺真卖（3000→4000、出包、卖光重算列表）；观感三轮对照；pnpm check 全绿（3246 测：content+5）。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡遗留仅迁移器本体未动（MG2 红线内的一次性脚本）；观感终审归用户。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `bb7b1d24e9e517e09730282b104ce51b4204cb0b`；本轮为 2026-10-17 R42。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-07 前后 W/E 能力格推进窗口（原卡未单列日期，按其实测记录时点读取）；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done(作者点题「商店和当铺都没做」;引擎全链实测,观感对照作者提供的原版截图三轮校正)`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：openShop 全链（UI+数据+结算+编辑器）经引擎实测与三轮截图校正收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+uigame.c 坐标 1:1、itemmenu.c:196 阴影真值、PAL_Buy/Sell/ConfirmMenu 形态锚点；s050/s029 Playwright 实测。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。商店现行行为与数据以当前 content/reforge 代码为准；夜色等观感调校属当时用户验收。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+同窗口能力卡 W6/C3 等；编辑器商店作者面现行形态以 ShopTab 实现为准。
 
 ## 原文保全
-固定源 revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b`，source SHA `664233d4b50bd37ca38573adb38752700d05977c70ee18bb22b0444b8d83b3c8`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b`，source SHA `664233d4b50bd37ca38573adb38752700d05977c70ee18bb22b0444b8d83b3c8`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # E9 - 商店/当铺(openShop 全链:UI + 数据 + 结算)
 >

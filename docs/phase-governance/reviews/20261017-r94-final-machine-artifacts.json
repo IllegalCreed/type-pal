@@ -1200,7 +1200,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "c0ab34cda4c3498fa8344e5b1a49b52e58600e78e623f8a2b9cebfc4851d51f8",
+      "afterSha256": "eb4827f9a02c95a5c29b3b0413f276af4fa14948119800c81965bece3e969563",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1503,6 +1503,40 @@
           "sourceRevision": "f8eaa07b07f1ee98ed31cbb3c6c45c5cd186be35",
           "previousAfterSha256": "0814a35db92564edc1e3b084d4776b1cac565ff883c06b61098f0e7b32694cde",
           "afterSha256": "c0ab34cda4c3498fa8344e5b1a49b52e58600e78e623f8a2b9cebfc4851d51f8",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 273 accepted+N3 blocked existing partitions",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "c0ab34cda4c3498fa8344e5b1a49b52e58600e78e623f8a2b9cebfc4851d51f8",
+          "afterSha256": "ae4972e9826ea504a7387010fb11721c87087f1fed39e77bba2d2bf5f9de66b2",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false,
+          "dateCorrection": {
+            "recordedDate": "2026-10-18",
+            "actualOperationDate": "2026-10-19",
+            "timeZone": "Asia/Tokyo",
+            "rawExecutionStartedAt": "2026-10-19T00:54:39.948374+00:00",
+            "reason": "Owner private helper reused prior nominal-date constant. Original date/command originals retained; this annotation is the correction, not a past execution rewrite."
+          }
+        },
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 final controls and S16 admission",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "ae4972e9826ea504a7387010fb11721c87087f1fed39e77bba2d2bf5f9de66b2",
+          "afterSha256": "4ad0d720d19ac13a53dfd77cc5371ef538f32e0e181aaa88353ab3fd39aff013",
+          "method": "Explicit dateCorrection annotation for own S15 pin event; no native/semantic/body change",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 actual scoped e2e-route publication review 2026-10-19; no migration or execution promotion",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "4ad0d720d19ac13a53dfd77cc5371ef538f32e0e181aaa88353ab3fd39aff013",
+          "afterSha256": "eb4827f9a02c95a5c29b3b0413f276af4fa14948119800c81965bece3e969563",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
@@ -5543,7 +5577,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "4fb17545f82a8b3d16b5433e9df528ef2a554ee31694c54f801f85b8f18d0013",
+      "afterSha256": "df25ae4567b6c5d6157200b4e23008aa5e90c32c1ea9b5b4ecab18c9ca3ebd19",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -5966,6 +6000,40 @@
           "afterSha256": "4fb17545f82a8b3d16b5433e9df528ef2a554ee31694c54f801f85b8f18d0013",
           "method": "Record own initial consumer mapping failure and focused repair; no revised old gate numbers",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 273 accepted+N3 blocked existing partitions",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "4fb17545f82a8b3d16b5433e9df528ef2a554ee31694c54f801f85b8f18d0013",
+          "afterSha256": "d4e643dc39e7007f946ed99dcf743b65089855ddabe316f765841ace446c2a51",
+          "method": "Explicit S15 partition design, accepted scope and N3 correction; no whole-goal completion",
+          "grantsNewSemanticAcceptance": false,
+          "dateCorrection": {
+            "recordedDate": "2026-10-18",
+            "actualOperationDate": "2026-10-19",
+            "timeZone": "Asia/Tokyo",
+            "rawExecutionStartedAt": "2026-10-19T00:54:39.948374+00:00",
+            "reason": "Owner private helper reused prior nominal-date constant. Original date/command originals retained; this annotation is the correction, not a past execution rewrite."
+          }
+        },
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 final controls and S16 admission",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "d4e643dc39e7007f946ed99dcf743b65089855ddabe316f765841ace446c2a51",
+          "afterSha256": "a8fec4832f11a23f13af1b9bd297303d3333400e31f4b9d4d66370e39b265206",
+          "method": "S15 accepted/N3 blocked/S16 exact123 admission and current matrix writeback, no full-goal credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 actual scoped e2e-route publication review 2026-10-19; no migration or execution promotion",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "a8fec4832f11a23f13af1b9bd297303d3333400e31f4b9d4d66370e39b265206",
+          "afterSha256": "df25ae4567b6c5d6157200b4e23008aa5e90c32c1ea9b5b4ecab18c9ca3ebd19",
+          "method": "Actual scoped publication applicability review; proposal/lastVerified/revision/runtime fields and quote preserved. Exact publication-review record retained, no additional migrated count.",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -6133,7 +6201,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "2412bbad7a35d5770cf3e52df6e92221fb0f22c9ba0165bde364b9affe3e089d",
+      "afterSha256": "41e2e2ae65773b8f8e6e6db63d76fb8b54230ad39282d46558cbd7a60dbc1451",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -6424,6 +6492,22 @@
           "afterSha256": "2412bbad7a35d5770cf3e52df6e92221fb0f22c9ba0165bde364b9affe3e089d",
           "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 273 accepted+N3 blocked existing partitions",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "2412bbad7a35d5770cf3e52df6e92221fb0f22c9ba0165bde364b9affe3e089d",
+          "afterSha256": "41e2e2ae65773b8f8e6e6db63d76fb8b54230ad39282d46558cbd7a60dbc1451",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false,
+          "dateCorrection": {
+            "recordedDate": "2026-10-18",
+            "actualOperationDate": "2026-10-19",
+            "timeZone": "Asia/Tokyo",
+            "rawExecutionStartedAt": "2026-10-19T00:54:39.948374+00:00",
+            "reason": "Owner private helper reused prior nominal-date constant. Original date/command originals retained; this annotation is the correction, not a past execution rewrite."
+          }
         }
       ]
     },

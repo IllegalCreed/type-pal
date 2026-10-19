@@ -1,55 +1,64 @@
 # TESTING-DOC-GOVERNANCE-1 - 测试文档深度治理
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: ops
+Capability: ops / testing-docs
+Coding Owner: Codex
+Reviewer: Codex（独立验收）
+Visual Verification Owner: N/A
+Visual Verification Timing: e2e-deferred
+Branch: codex/testing-doc-legacy-full-closeout
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是测试文档深度治理历史卡（自 d02278dc 隔离）：把测试文档从"有入口"推进到可机器核验——catalog v2、metadata/evidence 配对、legacy 分类账、E2E 阶段名剧情用途、check-testing.mjs 及其测试；CI 可拒绝缺证据/过期依赖/旧链接/未分类 legacy 新增/claim-evidence 矛盾的测试文档。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+每个 canonical contract/report 追到 source file:line、公开 caller、合法输入、业务 oracle、排重结论、当前 SHA/version、evidence 与历史 revision。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：docs/testing catalog/索引/模板/E2E 元数据/legacy 分类账/check-testing.mjs。
+- 范围外：packages/**、scripts/e2e/**、旧测试、coverage/ratchet/baseline；未经 cwd/import/runner/清理核验移动 122 个工具。
 
 ## 前提与证据
-- primary source：固定 source revision `a56963e9482fa2f8648b13e2729bef67a13c477f` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+不把源码核读写成实跑、不把 E2E 治理转成 coverage 门槛；当前 canonical content/save 22/11、旧版本只作历史证据。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按 Codex 独立验收收口（catalog v2 与文档工具可复算，详见卡内与 check-testing 测试）。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+该治理体系的后续演进（review 撤信等）以 INTEGRITY 卡与现行账本为准。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `a56963e9482fa2f8648b13e2729bef67a13c477f`；本轮为 2026-10-17 R45。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+d02278dc 隔离建立、实施与验收；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：测试文档深度治理（catalog v2+机器核验门）经独立验收收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+真值矩阵、check-testing.mjs 及其测试、legacy 分类账。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。测试文档体系现行状态以现行 catalog 与工具为准；其记录信用以后续审计账本为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+现行[测试治理](../../../../testing/governance.md)与 INTEGRITY 卡。
 
 ## 原文保全
-固定源 revision `a56963e9482fa2f8648b13e2729bef67a13c477f`，source SHA `e12ac9561f8732997c34e430c4a723eac2389d7b1697e00d7547ad9fac46ccd7`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `a56963e9482fa2f8648b13e2729bef67a13c477f`，source SHA `e12ac9561f8732997c34e430c4a723eac2389d7b1697e00d7547ad9fac46ccd7`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TESTING-DOC-GOVERNANCE-1 - 测试文档深度治理
 >

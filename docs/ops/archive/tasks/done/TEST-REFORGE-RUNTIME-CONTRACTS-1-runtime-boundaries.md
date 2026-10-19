@@ -1,55 +1,64 @@
 # TEST-REFORGE-RUNTIME-CONTRACTS-1 - 运行时基础功能五组非视觉补测
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: 已有运行时合同与测试覆盖率（不改变能力地图）
+Coding Owner: GLM（仅新测试与薄fixture）
+Integration Owner: Codex
+Reviewer: Codex / Kimi
+Branch: main（源分支codex/glm-reforge-runtime-contracts-r1）
+Revision: r1，2026-09-18。生产冻结`3bc20273`
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 reforge 运行时基础五组十模块补测历史卡（TB 前身大包，一次设计签字连续完成）：60 定向/1190 全包、两见证工具/原 15 跑/补充 lazy 输入反控；源 3dfec190 收窄返工集成为候选 62a18137（D1 实际输入保真与看板 counter 闭环）；主线串行 check7538/ratchet/受保护单次 fast7049；三席 accept 齐、用户确认"签了"，2026-09-19 核定 done。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+运行时基础五组十模块非视觉合同。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：工作包五组+30 族账。
+- 范围外：生产/旧测试修改。
 
 ## 前提与证据
-- primary source：固定 source revision `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+与 EDITOR-SCENE-REF-GUARD-1 双线独立（该卡引用本卡为独立线）。本页未复跑。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：三席 accept、用户"签了"、零 diff 收口。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+GLM 测试贡献者身份（自验非独立第三方）。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8`；本轮为 2026-10-17 R48。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-18 设计/2026-09-19 收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：五组运行时补测经三席与用户确认收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+62a18137、60/1190、reforge-runtime-contracts-review.md。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。运行时合同现行状态以当前测试为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+后续 RUNTIME-SESSION/WORLD-LIFECYCLE 等卡。
 
 ## 原文保全
-固定源 revision `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8`，source SHA `9f9589125936cc00195668d957f306f73624a40217eaccaea34329f95889eeee`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8`，source SHA `9f9589125936cc00195668d957f306f73624a40217eaccaea34329f95889eeee`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-REFORGE-RUNTIME-CONTRACTS-1 - 运行时基础功能五组非视觉补测
 >

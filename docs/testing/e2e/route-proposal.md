@@ -12,7 +12,7 @@ evidence: e2e/evidence/e2e-route.json
 
 Status: proposed
 Owner: Codex（路线设计与核验；实施按原任务卡分派）
-Last reviewed: 2026-10-18
+Last reviewed: 2026-10-19
 Template: design-spec-v1 / 1.0.0
 
 ## 问题与目标
@@ -91,6 +91,8 @@ verify 用正常消费输入和断言证明流程；visual sample 保留需要�
 visual sample 的用户观感、capture 的正常节奏、音视频同步、无 debug UI、DOM 清单与窄录制适配器分别核验；达到[自动录像门槛](contract.md#8-自动录像准入门槛)后，才按对应范围对接 Content Studio。Type Pal 维护 fragment 事实，Content Studio 维护 activity/clip/成品及发布，二者显式映射；E2E 不自动授素材发布权或新活动授权。
 
 Owner 由原任务卡指定，Codex 负责核来源、具体范围、证据缺口和独立验收；用户保留真实产品/视觉取舍。下一步先在当前卡选定待推进片段或公共问题，再核现行输入、前驱与实际证据；本页 proposal 不自行扩范围。本轮仅改写设计正文、保全原文并验文档 consumer，未运行产品、E2E、编辑器预览、视觉或 coverage，也不宣布全量治理完成。
+
+2026-10-19 发布适用性复审：完整核读本页当前方案正文与配对 document-audit evidence，复核前驱校验、版本常量、两个公开 caller 的相关片段及 R4/005/006 卡的当前准入。现行 content22/minimumSave12 与历史发布审计 minimumSave11 分轴成立；前驱 revision 仅校验 SHA 语法，不能证明当前候选或真实执行。方案继续 proposed/catalog proposal，R4 build、005 review、006 rework 及演出/编辑器预览停止线均保留。catalog 的复审期限由 2026-10-18 设为 2026-10-26，七天后再查发布适用性；来源、共同合同或实施准入变化须提前复审。lastVerified=2026-10-04、历史 revision/版本和 performed=false 全部保留，本轮未运行产品、E2E、视觉、编辑器预览或 coverage。
 
 ## 历史与原文保全
 

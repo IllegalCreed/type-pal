@@ -6566,7 +6566,7 @@
       "sourceSha256": "ca3e4b0df58b2f6f6bfbfe8a153a62aea806120646195b65904fa1bfe06a1906",
       "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
       "sourceGitObject": "0c2a24d1bda687916de1a5bded20a251cab9e5ba",
-      "afterSha256": "ff9a5f791dea83e8e11b89649c888742e0509c45995aeb6f0eb5e8539dd6821e",
+      "afterSha256": "4f2a1639f8c608fd4e0a5fc5bf2e20609bcf391b90ee3dc0f1b4b256fe56c510",
       "revision": {
         "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
         "implementationSha": "ff9a5f791dea83e8e11b89649c888742e0509c45995aeb6f0eb5e8539dd6821e",
@@ -6901,6 +6901,17 @@
             "version": "1.4.0",
             "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
           }
+        }
+      ],
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 actual scoped e2e-route publication review 2026-10-19; no migration or execution promotion",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "ff9a5f791dea83e8e11b89649c888742e0509c45995aeb6f0eb5e8539dd6821e",
+          "afterSha256": "4f2a1639f8c608fd4e0a5fc5bf2e20609bcf391b90ee3dc0f1b4b256fe56c510",
+          "method": "Actual scoped publication applicability review; proposal/lastVerified/revision/runtime fields and quote preserved. Exact publication-review record retained, no additional migrated count.",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },

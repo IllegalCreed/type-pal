@@ -1,55 +1,65 @@
 # TEST-COVERAGE-TRUTH-1 - 类初始化覆盖率合并真值修复
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: ops
+Capability: ops / coverage
+Coding Owner: Codex
+Reviewer: both
+Branch: codex/coverage-initializer-truth-r1
+Revision: r1
+Planning Base: 3f1b111d
+Production Freeze: 57dda7ed2376fc25f07756be117bb4a058d09915
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是覆盖率合并真值修复历史卡：类初始化器（constructor/字段初始化在 v8 coverage 无独立 span）导致 fast/full 合并身份冲突——patch 安装（sha 2f8a8ecf）+10/10 回归+8 针 GLM 复跑绿；统一候选 b6286df0 三席签（Codex 自验/Kimi aa436d9f/GLM 326e4906）；check8317/ratchet7826/单次 strict7826+远端 Coverage ratchet 35863778645 success；四格基线 7790→7826（+36 host only）验证。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+initializer 合并身份冲突修复；字段逐语句归因等其它同 span 盲点不作全量担保。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：coverage 合并 patch+回归+针+基线验证。
+- 范围外：DEV-TOAST-1/GLM 战斗返工/视觉/full/Q1/Q2。
 
 ## 前提与证据
-- primary source：固定 source revision `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+done 仅关闭已证冲突；四格基线法（fast/full/host only 增量分列）。本页未复跑。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录（2026-09-23）：用户确认后同步 326e4906、三席 accept 无 counter、packages/scripts 零 diff、远端 ratchet success；只核准入与归档不重跑。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+合并真值修复为覆盖率账本基础设施。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8`；本轮为 2026-10-17 R48。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+Planning 3f1b111d/Freeze 57dda7ed、2026-09-23 收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：initializer 合并真值经三席+远端 ratchet 收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+patch sha 2f8a8ecf、8 针、四格基线 7790→7826、CI 35863778645。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。合并工具现行形态以现行 coverage 脚本为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+glm-coverage-* 系列与 coverage-plus5 账。
 
 ## 原文保全
-固定源 revision `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8`，source SHA `10ffa2581962451182c15a2862896e0d83190e50b9c44df932c7bd4c571c8f4e`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8`，source SHA `10ffa2581962451182c15a2862896e0d83190e50b9c44df932c7bd4c571c8f4e`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-COVERAGE-TRUTH-1 - 类初始化覆盖率合并真值修复
 >

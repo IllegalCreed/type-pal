@@ -1,55 +1,63 @@
 # ED-FIELD-COMMIT-1 - 编辑器字段草稿、提交与撤销边界统一
 
-Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Status: done（2026-08-24 Codex / Kimi / GLM review accept + User accept）
+Phase: phase2
+Capability: 编辑器公共表单能力（不改变 capability-map 状态）
+Coding Owner: Codex
+Reviewer: Kimi + GLM
+Visual Verification Timing: dev-functional
+Branch: `codex/ed-audio-workbench-1`（用户交接的共享集成分支）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是字段草稿/提交/撤销边界统一历史卡：text/number 字段输入/IME 合成/字段切换即时响应，编辑期只更新本地草稿，提交（blur/Enter）才产生一次命令/一次撤销/一次通知——系统性消除"每字符派发全局命令"卡顿；Escape 撤销草稿；无变化不派发不制造 dirty；静态门禁阻止连续值字段 onChange 直接派发项目命令（例外登记语义与删除条件）。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+共享 draft→validate→commit/cancel→resync 合同与公共实现；首批项目概览/物品/敌人/技能/战场+census 找齐连续值字段。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：公共合同/实现/静态门禁/首批采用。
+- 范围外：checkbox/select/toggle/拖拽/颜色等离散操作立即提交保留。
 
 ## 前提与证据
-- primary source：固定 source revision `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+IME composition/对象切换/外部 undo-redo 正确处理为合同核心。本页未复跑。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按三方 review+User accept 收口。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+draft/commit 合同为后续所有表单字段基础（含 no-op 抑制双层持有判例源）。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8`；本轮为 2026-10-17 R48。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-08-24 收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done（2026-08-24 Codex / Kimi / GLM review accept + User accept）`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：字段草稿/提交边界统一+静态门禁经三方与用户收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+draft→commit 合同、census、门禁。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。字段合同现行形态以当前编辑器为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+ED-FIELD-LABEL-TRACK-WIDE 与 adoption registry。
 
 ## 原文保全
-固定源 revision `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8`，source SHA `c59715c0be6edbbbe811876163ed80921e7710c0b14e49f7c7457417dcfa5422`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `dc67827ccc68e3951c845268aa72f9e8bfa3c2f8`，source SHA `c59715c0be6edbbbe811876163ed80921e7710c0b14e49f7c7457417dcfa5422`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # ED-FIELD-COMMIT-1 - 编辑器字段草稿、提交与撤销边界统一
 >

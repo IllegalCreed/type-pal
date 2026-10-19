@@ -5,9 +5,9 @@ Execution: rework（R23–R36追加撤信与R39后原撤信已纠错；逐篇语
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: 原纠错、fa63单篇中央组合及固定23b扩大纠错获非作者限定接收；全量硬验收未完成
+Reviewer: 原纠错限定接受保留；Codex对GLM S15据证非作者接受273篇，N3未完成；全量硬验收未完成
 Branch: codex/docs-audit-rework
-Last reviewed: 2026-10-18
+Last reviewed: 2026-10-19
 Template: task-card-v1 / 1.0.0
 
 > 2026-10-18 当前裁定：全量 done 已撤回。下方 R39–R96 的深审、非作者接受和完成数字为被纠正的历史声明，不是当前信用。见[返工卡](DOCS-RECORD-INTEGRITY-1.md)与[完整降档清单](../evidence/DOCS-RECORD-INTEGRITY-1/correction-scope.json)。原文保真有效不等于语义审阅完成。
@@ -90,7 +90,7 @@ Template: task-card-v1 / 1.0.0
 - 链接/索引批量变更破坏；缓解：批次后 check:docs 与悬链扫描。
 
 ## 下一位 Agent 提示词
-S13既有三导航接受保留；S14固定fb00cc89a58539969760c05737f9003ef7c80fa2已补齐E01/E02，12篇获基于证据与风险复核的逐篇限定接受并按本次显式计划中央接入。下一包为最新S15剩余274篇历史任务卡：单次大包授权，GLM内部自行分段推进，最终集中回交。全量仍rework，不合main、不done；旧R批信用不恢复。
+S13/S14既有接受保留；S15固定f998fff7d6d746c2fbb3bc29b00b4137b2275dfe的273篇获据证非作者文档限定接受，N3原字节保留且blocked。中央使用原14分区；下一包S16一次准入123篇历史Markdown/导航候选（含N3补齐），内部自行分段推进、集中回交。全量仍rework，不合main、不done；旧R批信用不恢复。
 
 ## 用户裁决记录
 
@@ -2004,3 +2004,33 @@ root非作者实际核固定de423正文SHA1e50d535c2b16aa466207da22e698768bd5abb
 - 每篇保留原终态、日期、counter、来源/quote精确字节和实际codec声明，写具体目的/结论/边界/继任及独立review草稿。合同不适配、真源未知或冲突仅停该篇，保留原件并给解除条件，继续其余白名单；新模板/产品取舍交Codex。无需为单篇blocked中断整个大包。
 - GLM只写白名单正文与包外追加证据，不写中央registry/routing/review/matrix、父卡、看板、索引、模板/规则、产品/旧测试/coverage。内部按影响跑快检，最终同候选集中跑保全/合同/导航/索引/lint/diff，回执身份自动取Git并固定真实输入；review与manifest按体积拆片，单片小于512KiB，不复制源码/日志凑证据。整仓181/checkdocs留中央组合执行。
 - 一次回交所有完成与blocked路径、真实base/final candidate、分片索引/逐篇具体结论与证据/快检/原始诊断/事故。Codex默认机器核全包、集中看具体结论与高风险，异常只扩受影响claim，不默认再全文治理274篇。全卡持续rework，不合main、不推main、不done。
+
+### S15 中央接入分区方案 v1（2026-10-19，Codex build allowed）
+
+- 固定候选f998fff7d6d746c2fbb3bc29b00b4137b2275dfe，base7ee72caa，白名单274；实际273正文改写、N3-1整文件等base。Owner按document-delivery-acceptance/1.0.0据证验收，复用贡献者逐篇全文与自验；root核全包身份/源/保全/索引/回执，风险定向看W7E、TB菜单/资源IO及N3字节上下文，未重做273篇全文或旧执行。
+- 现semantic-rework总账574733B，继续追加大包会接近或超过1MiB。冻结本次存储方案：保留现有R32/R42–R53/R59共14个review文件作为物理分区，在原路径逐条写fresh S15记录，并把旧withdrawn entry完整附入supersededBindings；原根metadata/日期/旧回执保留历史，新记录单列实际2026-10-19接受日和作者/Owner读域。currentIntake明确当前范围，不能把旧根的历史policy或签字当新整批信用。
+- 逐篇迁移映射固定before/source/after SHA、原分区与同路径新记录、旧entry保留位置、Owner独立裁定原件及format后pin；不追加新canonical review文件，不改现有消费者、模板或registry schema。每个格式化分区须小于1MiB；实际大小与完整source-before-image、唯一binding及pin依赖核验落原件。若超限则停出版重新设计，不能字节压缩或ignore救急。
+- 六篇cancelled正文/原源均正确，作者manifest/review却写documentStatus=done；新中央记录按实际cancelled纠正，保留作者原字段与原件，不改其候选。交接口述1264/8322为陈旧数，真实回执1265合同/8382链接均零问题。251处不同source revision锚点另核Git blob全部等同，不把文本revision不同误报内容漂移。batch1的PENDING-FINAL及五起事故过程只按现存Git和作者原件归因，不补造中间失败输出。
+- N3原文件before/after为1714a48d...，原源c369eaf3...；逆回840328B对源840326B，唯一差异offset659166为U+2420(e290a0)对ASCII空格，精确单点映射后完全相等。21个U+2460(e291a0)在两边原义相同；作者“21处U+2420/全替换差40B/规则非均匀”和before70965ef8前缀无效，原件保留另行纠正。现封套已明确第8711行映射，无新模板/产品取舍；N3仍blocked/needs-migration，因为整篇语义与正文改写未完成，不由codec字节核验授完成。
+- 本方案只准入273条fresh接受与N3 blocked记录、必要分区currentIntake/索引/矩阵/父卡/after pin维护。根Owner自验不冒称中央出版另有非作者复审；贡献者正文的非作者裁定与中央组合质量门分开。最终全卡仍rework，不合main、不推main、不done。
+
+### S15 实际中央接入与边界（2026-10-19）
+
+- 逐篇裁定见[Owner固定源规则明确版报告](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s15-root-source-rule-explicit-acceptance/b693b6492f1c4e273ca25378ee254be2f53e7bc2b4d917fdd813f5dad2a518f7.gz)。273条接受、N3一条blocked，2432唯一binding的全部after pin实核相符；其余2158条native有序对象不变，旧274条withdrawn entry完整保留。六篇取消卡中央documentStatus按原源/candidate的cancelled写入，不沿用作者done误填。
+- 42篇sep-lf-1只在精确剔除end marker前最后一个结构性LF后等原源，明确directInverseEqual=false；该LF不必单独占空行，不做trim。231篇直接逆回相等。N3的一个U+2420映射与21个原义圈号分别记录；源码全文与新正文未完成，不授迁移完成。
+- 原14物理分区实际最大700110B，未向574733B的semantic-rework根追加；未新造canonical记录文件、未改consumer/schema/模板或大小门。旧根metadata保留历史，currentIntake与逐entry的2026-10-19日期/actor/实际读域承载本次信用。私有工具的错body与错partition两负例均在写盘前拒绝；首轮dry-run因36条R59旧native缺templateVersion被拒，原失败保留，显式补既有1.0.0后dry/apply通过，未降门。
+- 本轮首次pin维护复用旧工具日期常量18，实际操作为19；仅对本轮新delta追加dateCorrection并保留原date，真实命令原件不改。后续工具要求显式operationDate，不再用固定日期。此为Owner记录勘误，不恢复任何旧执行真实性。
+- 作者55文件及外freeze map原样保留；五起事故的最终修复由现树/Git/终验支持，中间缺失的失败raw不事后补真。作者六门原件有效，root只重放保全并补全包源/状态/pin核验；中央组合门另存真实输出。最终硬门未过不得合main或done。
+
+### S16 GLM 一百二十三篇历史Markdown大包准入（2026-10-19）
+
+- Codex build allowed：GLM单一正文Owner，一次负责123篇约4.94MB：ops/archive剩余25篇（含N3）、phase1/plans42篇、phase1/status7篇、phase2/archive49篇。白名单为[冻结源清单](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-123-source-white-list-and-N3-map/88f5b8a86557e96eb25846d4cf7b9c28c0ae193384983dc1190f33e4a1b59c71.gz)，payload SHA 88f5b8a86557e96eb25846d4cf7b9c28c0ae193384983dc1190f33e4a1b59c71；本机/tmp/type-pal-S16-GLM-history-md-large-cg_56q9z，实际base取后续execution-manifest中的本准入提交。旧7ee源快照仅证同字节，不能当实际执行base。
+- 路径/旧docType只排期。逐篇实际核其职责与适用性，复用冻结17类及已合格pilot；目录README的当前导航与所指历史材料分开，不一律historical或强套task-card。历史报告保留原日期/结论/未知；引用旧规不恢复退役三签或兼容。生成器拥有的文件须核真实source/consumer；需要越界修源或新合同只停该篇，继续其余白名单。
+- N3可先用Owner已给显式byte map：inverse offset659166，e290a0→ASCII20，第8711行，其余21个e291a0圈号保留；原封套已声明该规则，不需新模板/产品裁决。GLM仍须全文核读并写出具体历史正文、明确codec，quote零改动后另交文档验收。不得把本次字节分析当全文已审。
+- GLM只改白名单Markdown和/tmp/s16-glm-evidence追加证据；不改HTML/JSON机器文档、中央账本/路由/矩阵、父卡/看板/索引/模板/规则、产品/旧测/coverage。不import生成器试探。不合main、不推main、不done。普通文档按篇幅自行分段续办，不逐批请求用户中转；每篇最终有完成或具体blocked集合记录。
+- 按document-delivery-acceptance/1.0.0交分片manifest/review、具体结论与primary锚点、保全与真实consumer/链接/索引映射、实际命令输入身份/完整原件/事故。作者nonAuthorReviewer=false，Git身份/SHA自动取得。对误分类须交拟绑定合同的真实定向检查与旧routing归因，不为旧路由绿强套错误模板；共享routing由Owner接入。片小于512KiB，原件纠正另附，不自嵌哈希。
+- 最终同一候选集中跑全包保全/拟模板合同/导航/索引byte-equal/lint/base..candidate diff，诊断必须按实际如实归因；181/整仓checkdocs及产品/历史执行留中央按影响安排。集中一次回交全部123篇完成/blocked、候选/base、索引SHA、快检/原件与未跑边界，Owner据证审并集中看风险，不默认重新全文治理。全量目标持续rework。
+
+### S15 中央门的跨日发布复审（2026-10-19）
+
+本次实际 `pnpm check:docs` 的 181 工具检查全部通过，随后 testing consumer 因 `e2e-route.reviewBy=2026-10-18` 在 UTC 2026-10-19 到期而退出；原始失败保留，不宣称组合门通过。Owner 完整核读该方案现行正文和配对 document-audit evidence，并核前驱/版本源码、公开 caller 片段、共同合同及 R4/005/006 当前状态，执行有界发布适用性复审：维持 proposal、lastVerified=2026-10-04、原 revision/版本及 performed=false；七天后于 2026-10-26 再审，来源/准入变化提前复审。仅同步本条 catalog 的复审期限、正文复审说明和 evidence 新增复审记录，历史 quote 与机器执行字段不变；生成器已实际重生九个视图且无派生字节变化。这是 Owner 存量文档发布维护，不属于 GLM S15 白名单，也不新增语义迁移数量；原始复审记录和后续 consumer 实跑分别存入中央 raw，工具/产品/E2E/视觉/coverage 不互代。

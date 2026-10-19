@@ -101,7 +101,7 @@
       "reviewedSourceSha256": "713e50a305c0b864183de71871bd41d969ed701dbc41b3a17f243857237fc72c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "05b2319a738e2f780abb160226b9d31f2946c6b2",
-      "afterSha256": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0",
+      "afterSha256": "3b1604c8586eafb31123000d8f8a906f04328d505d23985cda3241a48d8065fa",
       "publicCallers": [
         "node scripts/docs/check-document-model.mjs",
         "node scripts/docs/check-testing.mjs",
@@ -494,7 +494,18 @@
         }
       ],
       "reviewedSourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
-      "reviewedSourceGitObject": "05b2319a738e2f780abb160226b9d31f2946c6b2"
+      "reviewedSourceGitObject": "05b2319a738e2f780abb160226b9d31f2946c6b2",
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 actual scoped e2e-route publication review 2026-10-19; no migration or execution promotion",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "f35e1598b434cabeb732115b375a2ac928740150ec5cb70b786bfd65b9224ae0",
+          "afterSha256": "3b1604c8586eafb31123000d8f8a906f04328d505d23985cda3241a48d8065fa",
+          "method": "Actual scoped publication applicability review; proposal/lastVerified/revision/runtime fields and quote preserved. Exact publication-review record retained, no additional migrated count.",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/testing/_templates/README.md",

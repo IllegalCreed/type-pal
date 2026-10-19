@@ -1872,7 +1872,7 @@
       ],
       "stopLine": "No bulk R60/1896 restoration, source→runtime credit, historical version/status renewal, or full hard/main/done credit.",
       "sourceSha256": "0a4c69cd404c5fd171fe9801080b18db3b17ed1ff00db49aa6cee10abd155376",
-      "afterSha256": "7311da4e0920a21b2df42091e7f547fcc8687aa4c51f207c66e8717555bd45b6",
+      "afterSha256": "7a7b6a11f10f744a1480453bb01247b52c18ca8210a4d4173a81f63b91265224",
       "sourceGitRevision": "1f2749f31e28ce176bdddcd3c91ce3dba21c6180",
       "reviewedLines": "Non-author complete source1-174/before1-219/new1-274; dependency scopes explicitly bounded in primarySource and native original report.",
       "historyOverlay": false,
@@ -1936,7 +1936,27 @@
         "nonAuthorReviewer": true,
         "scope": "Only fixed4ddd actual S05 central binding/data/history/transport accepted; later acknowledgment, design, S06/S07 and new records separate.",
         "additionalBodyCredit": 0
-      }
+      },
+      "maintenanceDeltas": [
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 actual scoped e2e-route publication review 2026-10-19; no migration or execution promotion",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "7311da4e0920a21b2df42091e7f547fcc8687aa4c51f207c66e8717555bd45b6",
+          "afterSha256": "c8d1fd0a122366afe4c05738c09f7969dac2985c4111123c6f111ce2af29196f",
+          "method": "Actual scoped publication applicability review; proposal/lastVerified/revision/runtime fields and quote preserved. Exact publication-review record retained, no additional migrated count.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 actual scoped e2e-route publication review 2026-10-19; no migration or execution promotion",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "c8d1fd0a122366afe4c05738c09f7969dac2985c4111123c6f111ce2af29196f",
+          "afterSha256": "7a7b6a11f10f744a1480453bb01247b52c18ca8210a4d4173a81f63b91265224",
+          "method": "Actual scoped publication applicability review; proposal/lastVerified/revision/runtime fields and quote preserved. Exact publication-review record retained, no additional migrated count.",
+          "grantsNewSemanticAcceptance": false
+        }
+      ]
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-002.json",

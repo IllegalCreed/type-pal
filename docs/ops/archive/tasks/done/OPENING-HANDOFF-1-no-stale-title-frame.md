@@ -1,55 +1,62 @@
 # OPENING-HANDOFF-1 — 开场视频结束不露出旧标题菜单
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: opening_handoff（受委派贡献者）
+Reviewer: Codex Root（独立验收）
+Phase: phase2
+Capability: E1
+Visual Verification Timing: mixed
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是标题→入口视频→首场景画面所有权交接窄修的历史卡（2026-10-01 用户要求，2026-10-02 清账收口）：根因=opening-menu.ts:107-110 cleanup 仅停 rAF/键盘，菜单像素残留画布；视频撤层时首场景未呈现，旧标题露出。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+修标题→入口视频→首场景交接：视频后不露旧菜单、随后正常显示 s000；只修画面所有权，不改存档/正文/移动/跳过时延/其它视频语义。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：reforge 启动/标题呈现+相邻回归、RF001 交接瞬间反控；实现=标题 cleanup 时同步填满 canvas 为不透明黑（保存/恢复 context、重置变换），在 Promise 返回与视频撤层前完成——产品实现仅 9 行。
+- 范围外：编辑器文件、6012 服务、main.ts、通用 video-player、500ms 跳过规则、存档。
 
 ## 前提与证据
-- primary source：固定 source revision `cddbd73c682e3264e5d981ba84affab894986be4` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+一阶段同型残帧先例：bootstrap.ts:1607-1618 AVI 返回清 framebuffer 并 flush 黑屏。“菜单重新打开”替代解释被实际撤层证据推翻：native ended 后 runtime 未 ready 时真实 canvas 仍为原菜单像素。红控 report status failed（406480 非黑像素，001-video-handoff.png 实显旧标题菜单）；RF001 新增只读 DOM 撤层 observer 读真实 RGBA，要求自然结束+runtime 未 ready+标题非黑+撤层全黑不透明，不能靠永黑过门。
+- 当前状态：done（历史终态；除 004 明确认可外不补写用户逐项签名）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：候选 b7784da3a（实现/测试 6 文件 194 行插入，产品仅 9 行）经 Root 读 diff、核报告、看图独立接收；相邻 4 文件 16 tests、完整 reforge check 257/2178、tsc 零诊断、lint 2727 文件 0/0/0、E2E 工具 94 绿、冻结 RF001 passed（撤层 nonBlack=0/opaque=1024000/runtimeReady=false）；集成 839cad2a7 后全仓七包 typecheck 零诊断、lint 2732 零、editor 486/3721 绿。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡 2026-10-02 清账收口（Codex 技术 accept 归档）；原声录像归 E2E-CAPTURE-1、全量 Q1/Q2 未因此完成；清账母卡 PRE-005-DEBT-1 继续未完事项。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `cddbd73c682e3264e5d981ba84affab894986be4`；本轮为 2026-10-17 R43。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-10-01 用户要求与红控、2026-10-01 实现冻结、2026-10-02 清账收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：标题残帧 9 行窄修+真实像素红绿证据经 Root 独立接收。原卡全文（含过程 pending 记录）在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+opening-menu.ts:107-110、video-player.ts:70-72、main.ts:530-536、bootstrap.ts:1607-1618；红绿日志与冻结 RF001 report/PNG。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。开场交接现行行为以当前 reforge 代码为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+清账母卡[PRE-005-DEBT-1](PRE-005-DEBT-1-current-edge-closeout.md)；录像归 E2E-CAPTURE-1。
 
 ## 原文保全
-固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `e17272fc44e45dfa7c535a2d14b6d4ffd281426e1de5e8e2139f7e565a56d526`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `e17272fc44e45dfa7c535a2d14b6d4ffd281426e1de5e8e2139f7e565a56d526`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # OPENING-HANDOFF-1 — 开场视频结束不露出旧标题菜单
 >

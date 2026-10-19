@@ -1,55 +1,63 @@
 # ED-2 - 编辑器八个一级模块与稳定深链
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: Editor / R6
+Coding Owner: Codex
+Reviewer: Opus + GLM
+Visual Verification Owner: Codex + User
+Branch: main
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是编辑器一级模块重组历史功能卡：退役顶层"大杂烩数据页"，重组为 scene/map/story/actor/item/battle/asset/project 八模块（可折叠 ModuleNav 替换 52px rail）；(module+subpage+objectId?) 稳定深链契约统一既有跳转入口；记住各模块最后子页/选中/滚动状态；底栏改"已检查的引用无问题"避免过度承诺；业务组件/Command/undo/保存行为不变。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+作者从引用处准确跳到唯一权威编辑页；工作上下文返回恢复。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：EditorModuleId 定义、ModuleNav、15 个 DataMode 页迁移、深链契约、状态记忆、底栏措辞。
+- 范围外：content schema/loader/迁移器；角色/物品/战场 CRUD 补齐；W7E 注册表/ED-3 引用图/A7R7 资源注册表。
 
 ## 前提与证据
-- primary source：固定 source revision `e0cd89727dd11af2502caa17200f6446478bb316` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+同一业务组件只挂载一个权威位置；720px 允许收起次要面板。本页未复跑。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按三方流程收口。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+深链协议为后续编辑器导航基础（W7E/ED-3 等依赖）。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `e0cd89727dd11af2502caa17200f6446478bb316`；本轮为 2026-10-17 R47。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+三方窗口与收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：八模块+稳定深链经三方收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+EditorModuleId/ModuleNav/深链契约实现。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。模块导航现行形态以现行代码为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+ED-1（审查母卡）与后续 ED 批次。
 
 ## 原文保全
-固定源 revision `e0cd89727dd11af2502caa17200f6446478bb316`，source SHA `f06e5028910e52a49e03764df5456c34d1ca72de5ea0b124e6e4629b2ca8356a`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `e0cd89727dd11af2502caa17200f6446478bb316`，source SHA `f06e5028910e52a49e03764df5456c34d1ca72de5ea0b124e6e4629b2ca8356a`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # ED-2 - 编辑器八个一级模块与稳定深链
 >

@@ -1,55 +1,66 @@
 # ED-SHOP-LIFECYCLE-1 - 商店生命周期闭环
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: E9 / Editor shop lifecycle
+Coding Owner: Codex
+Reviewer: Kimi + GLM
+Visual Verification Owner: Codex（1280×720）+ Kimi（720宽补验）
+Visual Verification Timing: dev-functional
+Branch: main
+Design Revision: shop-design-r1（2026-09-05；实现基线 dc332df4）
+Implementation Revision: shop-impl-r1 / 7e6f935a
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是商店生命周期历史功能卡：商店 CRUD 与安全删除闭环（E9 编辑器侧，与引擎 E9-shop-pawnshop 互补）；设计/实现双修订记录；Codex 1280×720+Kimi 720 宽补验双视觉。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+商店工作台 CRUD+引用+删除。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：商店编辑/保存重开/引用/删除。
+- 范围外：引擎结算（另卡）。
 
 ## 前提与证据
-- primary source：固定 source revision `134a3cf12e377e11c722004ad8f00f3d052a0627` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+与 STORE0 迁移边界卡互补。本页未复跑。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按三方+双视觉收口。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+E9 编辑器侧闭合。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `134a3cf12e377e11c722004ad8f00f3d052a0627`；本轮为 2026-10-17 R52。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-05 设计/实现与收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：商店生命周期经三方与双视觉收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+dc332df4/7e6f935a、双视觉。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。商店工作台现行形态以当前编辑器为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+E9-shop-pawnshop 与 STORE0 卡。
 
 ## 原文保全
-固定源 revision `134a3cf12e377e11c722004ad8f00f3d052a0627`，source SHA `20b96b3aad90f9dd2aa5febf77e2795e2d7aba003db159b3406d045e21ef8579`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `134a3cf12e377e11c722004ad8f00f3d052a0627`，source SHA `20b96b3aad90f9dd2aa5febf77e2795e2d7aba003db159b3406d045e21ef8579`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # ED-SHOP-LIFECYCLE-1 - 商店生命周期闭环
 >

@@ -1,55 +1,62 @@
 # DOC-CURSOR-5 — 包说明三文件确定错误窄修
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: ops documentation
+Capability: 修正式说明；不改变产品/脚本/资源行为
+Contribution Owner: Cursor（三份 Markdown 白名单）
+Review/Integration Owner: Codex
+Branch: `codex/cursor-confirmed-doc-fixes-r1`（独立 worktree）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 Cursor 承接的四处包说明文字窄修历史卡（2026-09-25）：DOC-CURSOR-2 只读报告的 W2-C03-1/W2-C07-1/W2-C11-1 三处确定不符加 game README 遗留的旧 e2e 命令；同一事实不算四个新产品缺陷，只改描述不刷新历史数字。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+把三份 README 的四处确定文字错误对齐现行事实：game README 的架构治理政策句与已退役 e2e/6001 命令、migrate README:61 把 PAL 发布入口与 engine-chrome bake 拆准、data/raw README:43 补 README/unifont-cn.bdf 两个 Git 跟踪例外。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：packages/game/README.md、packages/migrate/README.md、data/raw/README.md 三份白名单；每处给原句→最终句与一手 file:line。
+- 范围外：CLAUDE.md、已完成指南、DOC-CURSOR-2 回执、其它包说明、产品、测试、脚本、锁文件、资产、基线；NB1/NB2 回执精度观察与 W2-C05-1 待证项不变成确定修订；不运行 extract/migrate/bake/deploy/E2E/覆盖率。
 
 ## 前提与证据
-- primary source：固定 source revision `cddbd73c682e3264e5d981ba84affab894986be4` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+Codex 独立读现行一手定义后准许（build allowed）：CLAUDE.md:20-23 已授权一阶段架构治理、package.json 已无 e2e 脚本、dev-servers.md:30-48 已删 6001、E2E=1 仅供 HTTP dev；content-publication.md 只列 PAL 导入/发布入口、bake 说明在 dev-servers.md:24-26；.gitignore:14-17 排除原版输入但 README 与 OFL 字体 bdf 是跟踪例外。最强替代解释（旧版历史说明）被三处均处现行操作段、无日期历史标记排除。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：候选 76fdab78 相对 b95f218a 只改三份白名单 README；Codex 对照 CLAUDE.md:22、package.json、vite.config.ts:9,85、dev-servers.md:24-47、.gitignore:14-17 与已跟踪 BDF 许可证头确认一致；check.mjs PASS、git diff --check b95f218a..HEAD PASS；两提交选择性接入 main 为 69053296/f7d6475f。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡无待返工、无下一位 Agent 提示词（卡内 Cursor 提示词为历史交接）。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `cddbd73c682e3264e5d981ba84affab894986be4`；本轮为 2026-10-17 R43。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-25 准入、实施与 Codex 接收；Evidence freeze 4594f0a5；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：四处文字窄修经 Codex 独立核对现行事实后接入。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+三文件锚点表、cursor-docs-wave2 报告、接入提交对。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。三份 README 现行内容以当前树为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+后续批次见[DOC-CURSOR-6](DOC-CURSOR-6-author-guide-fact-batch.md)；dev-servers.md 为现行维护说明入口。
 
 ## 原文保全
-固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `40d8d5e4f22ac3a383de298225aa7f4d7d75158999e24901106ad7f0c2ea94cd`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `cddbd73c682e3264e5d981ba84affab894986be4`，source SHA `40d8d5e4f22ac3a383de298225aa7f4d7d75158999e24901106ad7f0c2ea94cd`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # DOC-CURSOR-5 — 包说明三文件确定错误窄修
 >

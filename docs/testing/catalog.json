@@ -95,7 +95,7 @@
       "evidence": "e2e/evidence/e2e-route.json",
       "tags": ["e2e", "route", "checkpoint"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-10-18",
+      "reviewBy": "2026-10-26",
       "dependsOn": ["e2e-contract"],
       "sourceRefs": [
         {
@@ -1998,6 +1998,63 @@
     ],
     "supersedes": [],
     "stopLine": "Do not move entries to payload, alter candidate/versions/status/dates, infer full-docs completion or current runtime readiness from this static catalog audit.",
-    "nextStep": "Regenerate derived indexes, verify reversible equality and all real consumers; continue per-document report/evidence/template migration and artifact ownership."
+    "nextStep": "Regenerate derived indexes, verify reversible equality and all real consumers; continue per-document report/evidence/template migration and artifact ownership.",
+    "publicationReviews": [
+      {
+        "id": "e2e-route",
+        "date": "2026-10-19",
+        "owner": "Codex /root",
+        "kind": "scoped-publication-review",
+        "previousReviewBy": "2026-10-18",
+        "nextReviewBy": "2026-10-26",
+        "rationale": "Full current route-design body and paired document-audit evidence reviewed; proposal remains useful as a route-admission design. Seven-day editorial recheck is bounded to continued publication applicability, earlier on source/contract/admission changes. No implementation or execution acceptance.",
+        "actuallyRead": [
+          "route-proposal.md: complete current five-section design and preservation declaration, not a renewed full historical-quote audit",
+          "evidence/e2e-route.json: complete object",
+          "catalog unique e2e-route entry and testing governance publication-expiry rules",
+          "inn-contract.mjs:67-116; character.ts:155-173; reforge save version declaration",
+          "opening-both/inn-both caller and checkpoint/revision excerpts",
+          "e2e/contract.md: current common-contract/input and save-isolation excerpts",
+          "R4/005/006 task current status/prerequisite headers"
+        ],
+        "findings": [
+          "Current content22/minimumSave12 and SAVE12 source constants match the design; historical publication revision remains content22/minimumSave11.",
+          "validatePredecessor checks passed same-engine 001 input, exact checkpoint byte hash and RF SAVE12/content22/pal, but only validates revision syntax; it does not establish actual execution or current HEAD.",
+          "Route plan remains proposed/catalog proposal; R4 build, 005 review and 006 rework do not grant complete route or presentation acceptance.",
+          "Unknown routes, unclassified battles, missing actual-draw or editor-preview evidence remain stop lines; source review does not close them."
+        ],
+        "sourcePins": [
+          {
+            "path": "scripts/e2e/inn-contract.mjs",
+            "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41",
+            "scopeRead": "67-111"
+          },
+          {
+            "path": "packages/content/src/character.ts",
+            "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93",
+            "scopeRead": "168-170"
+          }
+        ],
+        "unchangedExecutionIdentity": {
+          "status": "proposal",
+          "lastVerified": "2026-10-04",
+          "revision": {
+            "currentSha": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+            "contentVersion": 22,
+            "minimumSaveVersion": 11,
+            "history": [
+              {
+                "revision": "d02278dc0154dd73b5db24388a35c30bb096cc81",
+                "date": "2026-10-04",
+                "action": "source-and-publication-audit",
+                "notRun": ["runtime", "E2E", "coverage"]
+              }
+            ]
+          }
+        },
+        "notRun": ["runtime", "E2E", "visual", "editor-preview", "coverage"],
+        "semanticMigrationCreditAdded": 0
+      }
+    ]
   }
 }

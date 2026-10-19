@@ -2005,7 +2005,7 @@
       "supersedes": [],
       "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
       "sourceSha256": "af84d2340f368b60efd099fceb387cfd57d50e5a8c285a03a091009799a64e35",
-      "afterSha256": "e69e5720117580db7c146d6144d185168f2b68b9d4e5fcf2425c76286aeb8e58",
+      "afterSha256": "f2ba409c40d8b881f5ba69dc1537b9bcdec693f5a5f004f25028c90787755ba2",
       "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only",
       "maintenanceDeltas": [
         {
@@ -2042,6 +2042,15 @@
           "previousAfterSha256": "5b052c79d672eb45711239d15aead8190c48a8042750e65de947693e90bc3409",
           "afterSha256": "e69e5720117580db7c146d6144d185168f2b68b9d4e5fcf2425c76286aeb8e58",
           "method": "Explicit S14 accepted-scope/counter-closure and S15 authorized274 scope writeback; no unrelated credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 final controls and S16 admission",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "e69e5720117580db7c146d6144d185168f2b68b9d4e5fcf2425c76286aeb8e58",
+          "afterSha256": "f2ba409c40d8b881f5ba69dc1537b9bcdec693f5a5f004f25028c90787755ba2",
+          "method": "S15 accepted/N3 blocked/S16 exact123 admission and current matrix writeback, no full-goal credit",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -2372,7 +2381,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "b3c20da11069254425ad06ae340f970db9f0b8764832ddf1c59618f9e76c22c6",
-      "afterSha256": "2ffdba64a03f5515c9784ec0385cf6ed1e67286f05cf896f09167b450d9372ee",
+      "afterSha256": "6d271a0b538ee3dd6a93074477f76e7e0452fe22e6c4b05a46744de26ce0a419",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -2491,6 +2500,22 @@
           "afterSha256": "2ffdba64a03f5515c9784ec0385cf6ed1e67286f05cf896f09167b450d9372ee",
           "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-18",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 273 accepted+N3 blocked existing partitions",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "2ffdba64a03f5515c9784ec0385cf6ed1e67286f05cf896f09167b450d9372ee",
+          "afterSha256": "6d271a0b538ee3dd6a93074477f76e7e0452fe22e6c4b05a46744de26ce0a419",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false,
+          "dateCorrection": {
+            "recordedDate": "2026-10-18",
+            "actualOperationDate": "2026-10-19",
+            "timeZone": "Asia/Tokyo",
+            "rawExecutionStartedAt": "2026-10-19T00:54:39.948374+00:00",
+            "reason": "Owner private helper reused prior nominal-date constant. Original date/command originals retained; this annotation is the correction, not a past execution rewrite."
+          }
         }
       ]
     },

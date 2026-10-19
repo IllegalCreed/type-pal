@@ -1,55 +1,61 @@
 # TEST-CODEX-MIGRATE-SCENES-1 — 当前场景迁移六组回归
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Codex
+Phase: phase2
+Visual Verification Timing: N/A（内存数据转换，无剧情观感或生成工程写盘）
+Production Base: `20544351`
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 +5pp 队列第三批的纯测试历史记录（2026-09-26，Production Base 20544351）：对现行 current-r13-6b/stable-id 场景迁移管线（migrate-content.ts:2078-3313、pal-migration.ts:390）补六组真实内存入口回归。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+验证真实场景迁移产物的六组合同：入口/实体/遇敌/脚本同步/会话/战场传播——真实产物、同一输入保真与可证伪反控。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：六新测试 migrate-scenes.{entries,entities,encounters,bindings,sessions,defaults}.test.ts、typed fixture scene-migration-fixtures.ts、证据目录 codex-migrate-scenes/。
+- 范围外：产品/旧测试/配置/资产；原盘玩法与资源真值再裁定（已有 full-only golden 保留）；产品策略争议另记。
 
 ## 前提与证据
-- primary source：固定 source revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+四向证据表以 source-facts.ts:12-20/66-73（typed SourceCmd、0x46 像素/菱形换算不变）与现行调用链为锚；最强替代解释（部分臂已有 full-only 原盘证明）成立——新增矩阵补独立优先级、拒绝边界、完整输出与隔离性，不把 fast 执行包装成新机制发现。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡记录：六文件 53 项、相邻 13 文件 165 项、TC/Biome/docs 通过；六单点反控 12 跑业务鉴别通过且产品 hash 不变；初次 14 测试红与 TC 误用字段按真实源码修正（失败记录见[回执](../../../../testing/archive/legacy/batches/codex-migrate-scenes/README.md)）；完整 check9081、官方 ratchet、保护 20544351 单次 strict8589/701 通过；全仓 44441/63178=70.3425…%，+327B/+250L/+297S/+39F。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+原卡 Codex 核定 accept/done，纯测试包收口；无下一位 Agent 提示词。本页治理不重授。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `bb7b1d24e9e517e09730282b104ce51b4204cb0b`；本轮为 2026-10-17 R42。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-09-26 准入、实施与收口同日；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：六组场景迁移回归按纯测试批收口。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+四向证据表、日志三次推进与失败修正记录、批回执。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。迁移管线现行行为以当前代码为准；70.34% 为时点数字。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+队列母卡[TEST-COVERAGE-PLUS5-1](TEST-COVERAGE-PLUS5-1-continuous-batches.md)；同系列见 codex-migrate-assembly/codex-migrate-pure 等批回执。
 
 ## 原文保全
-固定源 revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b`，source SHA `c83ac12c38a8a3e860bda6a718b146045e7df04c67f7f63d16bac93ac1800f85`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `bb7b1d24e9e517e09730282b104ce51b4204cb0b`，source SHA `c83ac12c38a8a3e860bda6a718b146045e7df04c67f7f63d16bac93ac1800f85`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # TEST-CODEX-MIGRATE-SCENES-1 — 当前场景迁移六组回归
 >

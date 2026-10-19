@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "2ee56b9b5e97aceef276e6687c55f39666dc637a5667c373f8afee584e89d286",
+      "afterSha256": "53ff639833b0970c9305dd1e0fe6b9e46c82f8813e8109ce9f35126f4ccaadcb",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -932,6 +932,15 @@
           "previousAfterSha256": "b087b71c466cf1509689dbbf4abe87ae8b2d8fbd7e19591191a389dde614c0a5",
           "afterSha256": "2ee56b9b5e97aceef276e6687c55f39666dc637a5667c373f8afee584e89d286",
           "method": "Explicit S14 accepted-scope/counter-closure and S15 authorized274 scope writeback; no unrelated credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S15 final controls and S16 admission",
+          "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "previousAfterSha256": "2ee56b9b5e97aceef276e6687c55f39666dc637a5667c373f8afee584e89d286",
+          "afterSha256": "53ff639833b0970c9305dd1e0fe6b9e46c82f8813e8109ce9f35126f4ccaadcb",
+          "method": "S15 accepted/N3 blocked/S16 exact123 admission and current matrix writeback, no full-goal credit",
           "grantsNewSemanticAcceptance": false
         }
       ]

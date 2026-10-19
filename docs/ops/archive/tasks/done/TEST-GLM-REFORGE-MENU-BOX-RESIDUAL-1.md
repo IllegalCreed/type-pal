@@ -1,67 +1,63 @@
 # TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1 — MenuBox 未证明公开绘制合同审计
 
 Status: done
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Owner: GLM（Coding Owner）
+Reviewer: Codex（独立验收）
+Phase: phase2
+Capability: reforge / menu（menu-box.ts 公开绘制）
+源冻结: `9aa3bed892728f17c70d2f86d1fe07db10a718b8`
+Visual Verification Timing: e2e-deferred（纯绘制合同，功能性界面轴以 draw-call oracle 闭环）
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops archive task card 接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始目标、范围、状态、owner、证据、counter、日期、链接和交接在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是 MenuBox 未证绘制合同历史审计卡：四份已接收测试外仅 5 新合同（R1 级联层框几何+金钱条坐标/nLen/阴影、R2 选中颜色四残余臂含 blink %6 回绕/openPanel 让位/禁用选中、R3-R5 布局与 dispatch 轴）；候选 5f11dcb0a（5 合同/5 针隔离树严格反控/全包 8963/lint 0）。
 
 ## 目标
 
-- 保留原卡目标、用户可见范围、实现/测试边界和关闭时点结论；当前是否需要重新启用由 successor task card 与 fresh evidence 决定。
+主菜单/级联菜单布局与选中颜色、装备/属性面板数据驱动布局、有效 MenuAssets 下未证 draw dispatch；排除九宫格/数字对齐/scroll/confirm/状态板/资源失败已接收家族。
 
 ## 范围
 
-- 当前包含：原卡声明的实现、测试、证据、owner、状态和历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据、机器证据或历史状态。
+- 范围内：menu-box.residual.glm.test.ts 唯一测试文件+本卡证据。
+- 范围外：redBox/magicPlayerBox/cursor*/battleIcons 等 MenuBox 零消费资产（REG 登记）；loadMenuAssets 资源轴。
 
 ## 前提与证据
 
-- 行为/工程前提：原卡的 source:line、primary source、合法输入、caller、oracle 与 counter 由 quote 保留。
-- 一手证据：固定 source revision `b3c24c04ddb534b9e8195a074590bea8a233fc93`、原卡全文和原卡链接；本次不重跑原执行。
-- 最强替代解释与可证伪观察：若需要重新启用，必须用当前代码/数据、合法输入、业务 oracle、反例和独立 review 重新核验；不能以历史 done 或数量补齐。
-- 当前状态：done（历史快照）；本页治理检查口径要求 contentVersion=22 / SAVE12，源卡中的较早版本只属于其日期范围。
+全部合同经 MenuBox.render（main.ts:5872）公开入口；renderSpans 记录跨 render 累加须 mockClear、blink 双处同文锚点带注释、并行 vitest 互扰 migrate 假失败判例出此卡。
+- 当前状态：done（历史终态）
 
 ## 验收
 
-- 功能/文档：原卡的历史验收、失败、blocked、rework、未执行边界和交接保持原样。
-- 测试与证据：本次验收只包括 source/after SHA、模板章节、链接、history overlay 和 quote inverse。
-- 视觉或 E2E（如适用）：本次未执行 runtime、E2E、视觉或 coverage，信用为 0。
+原卡记录：5 合同/5 针隔离树严格反控/全包 8963/lint 0；docs FAIL(3) 全非本卡域留 Codex。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
 
-- 当前 Owner：原任务 Owner/贡献者与历史 reviewer 保留于 quote；当前文档治理 owner 为 Codex。
-- 阻塞/决策：历史卡不可单独授权当前工作；重新启用必须创建/更新当前 task card。
-- 下一步：由对应 successor、当前 consumer 和 fresh receipt 重新核验；本次不推进状态。
+原卡无下一位实现 Agent。本页治理不重授。
 
 ## 历史范围
 
-- 原始日期、版本、阶段：源文档固定于 `b3c24c04ddb534b9e8195a074590bea8a233fc93`；本轮为 R59。
-- 归档原因：已关闭任务只作为时点事实保留，避免历史状态冒充当前事实。
+源冻结 9aa3bed8 窗口实施与验收；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
 
-- TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1 — MenuBox 未证明公开绘制合同审计：原始顶部状态为 done；完整原始语义保留于下方 quote。
+`Status: done`：5 新绘制合同+REG 排除账经独立验收。原卡全文在下方 quote 保全。
 
 ## 当时证据
 
-- 原始命令、产物、SHA、签字、counter、链接和未决项保留于 quote。
+逐合同 ledger（source/caller/输入/旧证明/oracle/裁决）、四相位反控。本页治理未新增执行。
 
 ## 当前有效性
 
-historical。do not promote historical task card to current build/runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：当前 task card、代码/consumer 和 fresh receipt 是事实权。
+historical。MenuBox 绘制合同现行状态以当前测试为准。
 
 ## 继任文档
 
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+已接收四测试家族为排重基线。
 
 ## 原文保全
 
-固定 source revision `b3c24c04ddb534b9e8195a074590bea8a233fc93`，source SHA `6df0ec36a5c5865a742a983a207096a70dc03ead41b12d9c7e33a265f06e7717`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b3c24c04ddb534b9e8195a074590bea8a233fc93`，source SHA `6df0ec36a5c5865a742a983a207096a70dc03ead41b12d9c7e33a265f06e7717`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1 — MenuBox 未证明公开绘制合同审计
 >

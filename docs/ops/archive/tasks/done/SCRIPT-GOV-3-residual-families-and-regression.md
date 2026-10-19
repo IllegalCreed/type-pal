@@ -1,55 +1,64 @@
 # SCRIPT-GOV-3 剩余问题族治理与开场回归
 
 Status: done
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Phase: phase2
+Capability: W7 / P3 / Q1
+Coding Owner: 下文分域独占
+Reviewer: Codex Root
+Visual Verification Owner: Codex
+Visual Verification Timing: mixed
+Branch: codex/script-governance-closeout
+Last reviewed: 2026-10-18
+Governance Owner: Codex（历史卡文档治理；不代签原执行）
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本卡是脚本共性治理收口历史卡（2026-10-03 用户要求持续完成治理后回归 001-005）：承接 GOV-1/2（基线 8efe0486），收口已登记七类共性问题+同族全量核查；直接线索=只读安装边普查（639 原指令：580 安装/53 清绑定/6 无操作、554 唯一非零绑定、9 风险边对应 8 绑定仅为候选）；不开始 006、不把未来逐段验收伪装已完成。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+每个待核项有已修/已核无问题/明确后期视觉入口证据；无法核定且影响当前修复的关键前提不留给猜测。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：七类共性问题收口、同族核查、001-005 回归准备。
+- 范围外：006 开始；候选在隔离树验证、批次冻结后统一重建前驱。
 
 ## 前提与证据
-- primary source：固定 source revision `f5ae8e2fee437542e581fecd71cf80e12ada444d` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+指纹映射/作者保护/多上下文/unknown 是扫描能力口径不能直接换算缺陷数；原初扫 29 边/28 绑定与已核交接反例保留历史不覆盖旧台账。
+- 当前状态：done（历史终态）
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+原卡按分域独占+Root 收口（淡出收尾/等待时间单位/剧情主链/瞬态外观/命名/浏览器 RPC 挂起各待核项闭合，详见卡内）。本页未复跑。本页治理验收：quote 字节保全与模板合同。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+6012 运行/.zcodeignore 用户文件纪律沿用。本页治理不重开。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `f5ae8e2fee437542e581fecd71cf80e12ada444d`；本轮为 2026-10-17 R46。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+2026-10-03 用户要求、治理与回归收口；固定源 bb7b1d24e9e517e09730282b104ce51b4204cb0b。2026-10-17 R42 泛化封套，2026-10-18 S15 改写。
 
 ## 原始结论
-- `Status: done`；原始任务语义完整保留于下方 quote。
+
+`Status: done`：七类共性族+同族核查收口、001-005 回归条件达成。原卡全文在下方 quote 保全。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+安装边普查账、9 风险边清单、四向真值门。本页治理未新增执行。
 
 ## 当前有效性
-historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+
+historical。治理成果由现行 content 与 E2E 系列承接。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+SCRIPT-GOV-1/2 与 E2E-R4-1。
 
 ## 原文保全
-固定源 revision `f5ae8e2fee437542e581fecd71cf80e12ada444d`，source SHA `7afec785d69569460d4690600564087569923df6d9635ff9f1ae18f1268118eb`；下方 quote 可逆回原始 UTF-8 字节。
+
+固定源 revision `f5ae8e2fee437542e581fecd71cf80e12ada444d`，source SHA `7afec785d69569460d4690600564087569923df6d9635ff9f1ae18f1268118eb`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # SCRIPT-GOV-3 剩余问题族治理与开场回归
 >
