@@ -43,6 +43,7 @@ Status: build；以下只记有限模块结果，不声明全专项完成
 - 模块11批27作者原件：[inspect+save+analytics七文件](game-inspect-save-analytics/README.md)（同线，review待验收）。零整改批(battle-inspect双消费方/E04池/IDB commitWrite语义/analytics consent三态);9文件20套件50/50+typecheck 0。game余量:tools八件→dev两件。
 - 模块11批28作者原件：[tools+speedrun十七文件](game-tools/README.md)（同线，review待验收）。零整改批(checkpoints PARTYOFFSET考证/timer暂停双轨/minimap引用判失效/tools-panel battleSig范围声明);21文件52套件106/106+typecheck 0。game余量终批:dev两件(state-dump 117/dev-panel 2342)。
 - 模块11批29作者原件：[dev两文件](game-dev/README.md)（同线，review待验收）。纯注释1处:applySceneJump"tile/palette留首屏M5升"半过时注(tile已T17路由,palette仍真);BOSS_ROSTER三方考证/t37复刻/彩依pan锚等2338行零缺陷;body-invariance恒真+typecheck 0。**game 包生产源码全部收口**(125文件,b1-b29)。下一站:content→migrate→reforge→editor→94-102返工。
+- 模块12批30作者原件：[content微型件14文件](content-small/README.md)（同线，review待验收）。零整改批(ambience W6乘色考证/provenance判例/rich-text合同);11文件30套件85/85+typecheck 0。content余量:中件(author-dialogue/runtime-script/battle-sprite/skill/rewards等)→大件(item/author-script-core/validate/validate-refs)。
 
 集成修正：MKF仅首offset/表长4对齐、并非所有chunk偏移；SDL坏档结果/全原盘保证不能泛化；readChunk生产注释保留借用合同、去掉测试治理措辞。RNG跳帧保留基面继续解码，不保证缺帧后的画面等价。正常资产对拍不代替坏帧策略证明。
 
