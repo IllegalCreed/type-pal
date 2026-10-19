@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "base": "HEAD",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/game/src/core/command-bus.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "02ac6a1855a1484609f7743f5f5c9fdce162cc36cdb3fb4b38310279a36b80a2",
+        "current": "02ac6a1855a1484609f7743f5f5c9fdce162cc36cdb3fb4b38310279a36b80a2"
+      },
+      "printedBytes": {
+        "base": 1940,
+        "current": 1940
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/core/equip-effect.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "bcc5eb26ad8ccd0900cbcb967ed318df80a101093936a5b61dc601593fff24e8",
+        "current": "bcc5eb26ad8ccd0900cbcb967ed318df80a101093936a5b61dc601593fff24e8"
+      },
+      "printedBytes": {
+        "base": 7114,
+        "current": 7114
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/core/equipment-state.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "250db9bb1cf8c8792e1748ddda5c043bf114696a98a6c74be8a06dcf8c9fc71b",
+        "current": "250db9bb1cf8c8792e1748ddda5c043bf114696a98a6c74be8a06dcf8c9fc71b"
+      },
+      "printedBytes": {
+        "base": 11025,
+        "current": 11025
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}
