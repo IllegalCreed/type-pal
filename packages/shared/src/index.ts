@@ -29,7 +29,6 @@ export const FRAME_MS_BATTLE = 1000 / FPS_BATTLE
  * 该设计已于 2026-05-30 替换——副作用是 fade 期间每 tick 推进的逻辑(走步/打字/
  * frame-wait)被一起加速 6×。现实现:逻辑 tick 固定 FRAME_MS_EXPLORE/_BATTLE,
  * fade 平滑由 startRafLoop 在 fade 进行中每 rAF 帧 present 实现(见 game
- * main-loop.ts `logicIntervalMs` 的旧设计注释)。保留导出仅因公共出口删除须
- * Codex 裁定;新代码不得使用。
+ * main-loop.ts `logicIntervalMs` 的旧设计注释)。该常量不参与现行运行时调度。
  */
 export const FRAME_MS_FADE = 1000 / 60

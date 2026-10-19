@@ -73,14 +73,11 @@ export interface ActiveMenuEntry {
   state: unknown
 }
 
-  /**
-   * 背包物品条目(itemId = OBJECT 全局 wObjectID,61..294;count 归 0 不剔除,
-   * 由 add/sub 命令决定)。原版同字段最多 5 名队员在队,与本条目无关(此注防误挂)。
-   */
-  export interface InventoryEntry {
-    itemId: number
-    count: number
-  }
+/** itemId 使用 OBJECT 全局 wObjectID,不能替换为物品子表内的局部下标。 */
+export interface InventoryEntry {
+  itemId: number
+  count: number
+}
 
 export interface NpcState {
   id: number

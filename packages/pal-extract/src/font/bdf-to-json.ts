@@ -47,8 +47,8 @@ export function parseBdf(text: string): BdfGlyph[] {
         if (row === 'ENDCHAR') break
         for (let b = 0; b < bytesPerRow; b++) {
           const hex = row.substr(b * 2, 2)
-          // 短行/非 hex 行降级为 0 行:输入是仓库内置的固定 Unifont BDF,此处选择容错
-          // 而非 fail-loud;换用不受信 BDF 源时须先收紧(登记:输入域候选族)。
+          // 每字节独立解析:单个 hex 位或有效前缀也会被接受。
+          // 空串/无有效前缀得到 NaN 后写 0;这里不校验整行长度或字符。
           bitmap[rowIdx * bytesPerRow + b] = parseInt(hex, 16) || 0
         }
         rowIdx++

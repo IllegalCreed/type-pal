@@ -607,8 +607,8 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
       fetchSceneTileImages(sceneId, tilemapJson),
     ])
 
-    // SceneAssets.npcSprites 当前没人消费(loadScene 只 mutate gs;present 走 closure 的
-    // npcSprites 共享 map — 定案的架构,不再计划切到从 sceneAssets 取)。此处传空 map 仅满足接口。
+    // loadScene 当前不读取 SceneAssets.npcSprites;present 使用 closure 中共享的
+    // npcSprites map。此处空 map 仅满足现有接口,不承担精灵缓存的所有权。
     return {
       sceneId,
       mapNum: sceneJson.mapNum, // 场景名按 mapNum 命名(tools/map-names) + scene-system.getCurrentMapNum

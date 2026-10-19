@@ -62,7 +62,7 @@ const PLAYER_ROLES_BYTES =
   PLAYER_MAGICS * PLAYER_FIELD_SIZE // = 900
 
 /**
- * 从 DATA.MKF chunk 3 解析角色组(PLAYERROLES,M2 半解扩到 M3 战斗子集)。
+ * 从 DATA.MKF chunk 3 按 SoA 布局解析角色组(PLAYERROLES)。
  *
  * 对照 sdlpal `global.h::tagPLAYERROLES`(SoA 布局,sizeof = 900 B),
  * 由 sdlpal `global.c LOAD_DATA(... fpDATA 3)` 加载为一整条 PLAYERROLES 记录。
@@ -70,9 +70,9 @@ const PLAYER_ROLES_BYTES =
  * **数据布局 SoA**(非 AoS):每个 PLAYERS 字段是 6 个 u16 一行(同字段连续),
  * 然后下一个字段又一行。`readPlayers(offset, signed)` 在固定 cursor 处提取一个
  * NUM_ROLES 长的数组。3 个 2D 矩阵(equipment / elemRes / magic)占
- * `N × MAX_PLAYER_ROLES × 2` 字节,本函数仅消费 elemRes(战斗用),其他跳过。
+ * `N × MAX_PLAYER_ROLES × 2` 字节,依序读出装备、抗性与已学法术。
  *
- * **dump 范围(M4 起全字段,2025 verified;早于 M3 曾只出战斗子集)**:
+ * **dump 范围(M4 起全字段)**:
  * 战斗 stats / 显示 / 抗性 / 5 个 sound / walkFrames / attackAll 之外,
  * equipment / magic learned / coveredBy / cooperativeMagic / 6 个 sdlpal FIXME
  * unknown / coverSound / dyingSound 全部按真值顺序 dump(下方 cursor 走完全部
@@ -109,7 +109,7 @@ export function parsePlayerRoles(dataMkfBytes: Uint8Array, words?: Words): Playe
     return arr
   }
 
-  // **按 sdlpal `tagPLAYERROLES` 真字段顺序** cursor(M4 全字段 dump,2025 verified):
+  // 按 sdlpal `tagPLAYERROLES` 字段顺序推进 cursor,含三组二维表。
   let cursor = 0
   const avatar = readPlayers(cursor)
   cursor += PLAYER_FIELD_SIZE
