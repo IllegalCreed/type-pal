@@ -22,6 +22,7 @@ test('code-quality inventory emits deterministic scoped records with caller and 
     cwd: root,
     encoding: 'utf8',
     maxBuffer: 32 * 1024 * 1024,
+    timeout: 15000,
   })
   assert.equal(run.status, 0, run.stderr)
   assert.equal(run.stderr, '')
@@ -32,6 +33,7 @@ test('code-quality inventory emits deterministic scoped records with caller and 
     cwd: directory,
     encoding: 'utf8',
     maxBuffer: 32 * 1024 * 1024,
+    timeout: 15000,
   })
   assert.equal(written.status, 0, written.stderr)
   assert.equal(written.stdout, '')
@@ -119,6 +121,23 @@ function largePathFixture(t) {
   const pathBytes = git(['ls-files', '-z'])
   assert.ok(pathBytes.length > 1024 * 1024)
   assert.equal(pathBytes.at(-1), 0)
+  const copyFromRepository = (path) => {
+    mkdirSync(dirname(join(directory, path)), { recursive: true })
+    copyFileSync(join(root, path), join(directory, path))
+  }
+  const run = (path, args = []) =>
+    spawnSync(process.execPath, [join(directory, path), ...args], {
+      cwd: directory,
+      env,
+      encoding: 'utf8',
+      maxBuffer: 8 * 1024 * 1024,
+      timeout: 15000,
+    })
+  return { directory, first, last, task, put, run, copyFromRepository }
+}
+
+test('actual docs index CLI consumes over1MiB Git paths and still rejects an invalid tail task', (t) => {
+  const fixture = largePathFixture(t)
   for (const path of [
     'scripts/docs/check.mjs',
     'scripts/docs/config.mjs',
@@ -128,27 +147,13 @@ function largePathFixture(t) {
     'scripts/docs/terminal-git.mjs',
     'scripts/docs/terminal-namespace.mjs',
     'scripts/docs/terminal-contract.mjs',
-    'scripts/quality/code-quality-inventory.mjs',
   ]) {
-    mkdirSync(dirname(join(directory, path)), { recursive: true })
-    copyFileSync(join(root, path), join(directory, path))
+    fixture.copyFromRepository(path)
   }
-  put(
+  fixture.put(
     'packages/content/src/character.ts',
     'export const CONTENT_VERSION = 22 as const\nexport const CURRENT_PROJECT_MINIMUM_SAVE_VERSION = 12 as const\n',
   )
-  const run = (path, args = []) =>
-    spawnSync(process.execPath, [join(directory, path), ...args], {
-      cwd: directory,
-      env,
-      encoding: 'utf8',
-      maxBuffer: 8 * 1024 * 1024,
-    })
-  return { directory, first, last, task, put, run }
-}
-
-test('actual docs index CLI consumes over1MiB Git paths and still rejects an invalid tail task', (t) => {
-  const fixture = largePathFixture(t)
   const generated = fixture.run('scripts/docs/check.mjs', ['--print-task-index'])
   assert.equal(generated.error, undefined)
   assert.equal(generated.signal, null)
@@ -166,6 +171,7 @@ test('actual docs index CLI consumes over1MiB Git paths and still rejects an inv
 
 test('actual quality inventory CLI consumes over1MiB Git paths and preserves exact tail records and callers', (t) => {
   const fixture = largePathFixture(t)
+  fixture.copyFromRepository('scripts/quality/code-quality-inventory.mjs')
   const result = fixture.run('scripts/quality/code-quality-inventory.mjs')
   assert.equal(result.error, undefined)
   assert.equal(result.signal, null)

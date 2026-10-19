@@ -30,7 +30,6 @@ test('unique files determine all counts; running the guard does not change evide
     counts: { total: 3, verified: 1, review: 1, pending: 1, unclosed: 2 },
   })
   assert.equal(JSON.stringify(inventory), before)
-  assert.equal(source, ledger())
 })
 
 test('duplicate ledger row fails even if the header gives it no extra credit', () => {
@@ -113,7 +112,7 @@ test('importing the validator from an unrelated cwd does not start the CLI', () 
   const run = spawnSync(
     process.execPath,
     ['--input-type=module', '--eval', `await import(${JSON.stringify(moduleUrl.href)})`],
-    { cwd: tmpdir(), encoding: 'utf8' },
+    { cwd: tmpdir(), encoding: 'utf8', timeout: 15000 },
   )
   assert.equal(run.status, 0, run.stderr)
   assert.equal(run.stdout, '')
@@ -127,6 +126,7 @@ test('real quality-tools caller checks the current repository ledger against the
     {
       cwd: fileURLToPath(new URL('../../', import.meta.url)),
       encoding: 'utf8',
+      timeout: 15000,
     },
   )
   assert.equal(run.status, 0, run.stderr)

@@ -70,12 +70,11 @@ function scopeFor(path) {
   }
 }
 
-function importSpecifiers(source) {
-  const specs = new Set()
+function dependencySpecifiers(source, reExports) {
+  const specs = new Set(reExports)
   const patterns = [
     /\bimport\s+(?:[^'";]*?\s+from\s+)?['"]([^'"]+)['"]/g,
     /\bimport\s*\(\s*['"]([^'"]+)['"]\s*\)/g,
-    /\bexport\s+(?:\*|\{[\s\S]*?\})\s+from\s+['"]([^'"]+)['"]/g,
   ]
   for (const pattern of patterns) {
     for (const match of source.matchAll(pattern)) {
@@ -138,17 +137,20 @@ function main(args) {
     return inScope && (codeExtensions.has(extname(path)) || path.endsWith('.json'))
   })
   const known = new Set(files)
+  const reExportsByPath = new Map()
   const records = files.map((path) => {
     const source = readFileSync(join(root, path), 'utf8')
     const scope = scopeFor(path)
-    const imports = importSpecifiers(source)
+    const reExports = exportSpecifiers(source)
+    reExportsByPath.set(path, reExports)
+    const dependencies = dependencySpecifiers(source, reExports)
     return {
       path,
       category: categoryFor(path),
       ...scope,
       lines: source.split(/\r?\n/).length - (source.endsWith('\n') ? 1 : 0),
       publicExports: publicExports(source),
-      directDependencies: imports,
+      directDependencies: dependencies,
       productionCallers: [],
       stateOwnership: '待核',
       qualityIssues: [],
@@ -161,35 +163,31 @@ function main(args) {
   })
   const byPath = new Map(records.map((record) => [record.path, record]))
   for (const record of records) {
-    const source = readFileSync(join(root, record.path), 'utf8')
-    for (const specifier of importSpecifiers(source)) {
+    for (const specifier of record.directDependencies) {
       const target =
         resolveRelative(record.path, specifier, known) ?? resolvePackageEntry(specifier, known)
       if (!target) continue
-      const caller = byPath.get(target)
+      const dependency = byPath.get(target)
       if (
-        caller &&
         !['test', 'fixture', 'vendor/reference', 'generated'].includes(record.category) &&
-        !caller.productionCallers.includes(record.path)
+        !dependency.productionCallers.includes(record.path)
       ) {
-        caller.productionCallers.push(record.path)
+        dependency.productionCallers.push(record.path)
       }
     }
   }
-  // Package imports land on the public barrel first. Propagate only through
-  // explicit re-exports so a package-level caller is also visible on the leaf
-  // file that owns the exported symbol.
+  // Each source is read once; graph expansion uses those captured lexical facts.
+  // Barrel callers propagate to every explicit re-export path. These are path-level
+  // hints, not imported-symbol bindings or proof of runtime reachability.
   let changed = true
   while (changed) {
     changed = false
     for (const record of records) {
       if (record.productionCallers.length === 0) continue
-      const source = readFileSync(join(root, record.path), 'utf8')
-      for (const specifier of exportSpecifiers(source)) {
+      for (const specifier of reExportsByPath.get(record.path)) {
         const target = resolveRelative(record.path, specifier, known)
         if (!target) continue
         const exported = byPath.get(target)
-        if (!exported) continue
         for (const caller of record.productionCallers) {
           if (!exported.productionCallers.includes(caller)) {
             exported.productionCallers.push(caller)
