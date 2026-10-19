@@ -11,9 +11,11 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
 ## 当前用户要求、范围与准入
 
+用户2026-10-20收紧当前执行：只完成GLM foundation基点53db76bbb→5af1b6372的全部交付返工。其它83卡治理、94–102后续和无关工具切片暂不扩展，不作为本次返工结束条件；本批文件内GLM漏审的已证缺陷仍修复，未知明确登记，代码接受与统一合并门分开。
+
 用户2026-10-16重申“复审94号之前的所有卡的成果”，本卡当前覆盖全部83张CODE-QUALITY编号小于94的卡，包含字母后缀，不是抽样。77张历史done、1张build、4张review、1张draft仅是原卡状态；本轮重新accept为0。当前复审队列已推进为56张partial、27张pending；partial只表示有限证据切片，不是验收。按当前Git tracked路径收集，大小写敏感编号规则排除行政卡CODE-QUALITY-3Y-CLOSEOUT-1；不按编号空缺虚构卡。完整83行清单与卡SHA见[复审队列](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)。原36卡结构/8卡全文抽查是历史部分证据，不能替代任何整卡成果复验。3y的58差异卡矩阵也不是全部83卡。
 
-唯一治理集成工作树/分支codex/code-quality-3y；主树和其它Owner只读，不再新建长期治理分支。贡献者仅按下方准入建立临时隔离worktree。94–102及editor既有返工继续保留；C10未完成检查点bea19f80c已提交推送，当前先推进本卡。工程→模块→功能→文件；先6a的账本/清单四文件，再核92的受保护门证据，继而逐卡回到shared/extract/game等模块。活跃53/57/79/80/81/90只读协调，未核前不抢写其实现。
+唯一治理集成工作树/分支codex/code-quality-3y；主树和其它Owner只读，不再新建长期治理分支。当前只按GLM冻结交付处理已证返工与具体证据缺口；6a/CODE82旧片保留，94–102及editor其它工作不在本次扩大推进。既有活跃卡的其它实现边界仍只读；本轮battle-opcodes仅由Codex按已准入的复活补项写入，不据此接收53/79整卡或修改其其它opcode。
 
 Codex premise verified / design agree / build allowed：完整读取任务卡、实现、真实caller/出口/类型/生命周期，核注释事实、可复用代码边界、内聚耦合、输入/错误/异步取消/清理/ownership；测试核合法输入、真实oracle、排重、判别力与隔离。只读复核、隔离反控、测试与治理证据允许；发现需修复时先钉有限白名单和反例，低风险工具/测试补证逐批准入。产品机制、schema/save/migration/资产、公共接口或可感知行为变化立即停线专卡，不用本卡泛化授权。
 
@@ -918,3 +920,13 @@ Codex premise verified/build allowed：从0b778bc0f续行同一3y，fetch完成�
 测试不新增用例：原5敌人/4角色身份保留（其中全零标题收窄并映射），加强同一OBJECT fixture的巫抗/三脚本入口与数组长度；全零角色先断言六人再查0，消除空集真。相同实际产品mutant，旧用例各绿、新用例各一指定AssertionError；隔离临时副本清理，治理源/状态未变。11定向与89原盘相邻均0stderr，extract tsc0。因WORD依赖自作者原件后已改，89不直接继承而实跑；首次因缺SSS套件加载失败/0测试原件保留，随后只加本树ignored只读原盘链接。首次补链脚本还因WORD已存在而断言停止，未覆盖该文件，后续直接保留现有输入。
 
 两产品旧关闭存在B/E缺口，精确撤回review；两专测pending→review：3316tracked/230closed/127review/2959pending、0新关闭。83卡56partial/27pending/0accept完全不变（这对parser无已确认编号卡直接归属，不伪造映射）。详细矩阵共23文件；与GLM41实际改动源码交集7，余34，不拿其它工具/测试充数。两个短输入策略/类型同形候选只登记，不改资产合同；全仓check/coverage/protected仍待大任务窗口，e2e-route到期/editor诊断未解除，不合main。下一步优先核GLM实际正文变化的attack/battle-opcodes/magic-script/scene-system/BGM五文件之现有证据与缺口，不再旁出工具任务。
+
+## 2026-10-20 GLM五处正文变化验收与遗漏缺陷返工
+
+[本轮六文件证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json)分开记录：phase1四文件删除、phase2单BGM Owner、战内复活两文件窄修。GLM原六处非注释变化（含先前shared类型重复声明）至此均有明确删除/行为依据；机器AST只证明列名删除与其它正文无额外变化，不认证代码设计。原作者已全文的A/历史E保留，Codex仅展开实际差异和具体缺口，不再独立全文重做。
+
+文案已分提交：0b2d45b3a/a670ff82f说明magic runner的同步子集/成功位/成本Owner、装备状态例外与attack返回值实际消费，并去掉scene生产注释中的治理日期/grep结论；c9e1b16c3纠正BGM把按需加载误称零开销。后续独立行为提交修GLM漏审的0x22：原全体例加强后及新单体例先红，再保留>999装备状态；两错误与原件不覆写。当前103定向+181相邻+24BGM共308独立身份无stderr；game tsc0。旧335game/95audio原生结果按范围复用，不追溯认定缺console的旧运行零诊断，也不把旧/新运行相加充数。
+
+实际GLM41改动源码的详细记录增至12，余29均为注释改动。累计29源码/测试矩阵并非GLM29/41。scene的纯逻辑/全维关闭和cov85的装备状态E存在缺口，各一旧closed撤review；BGM原pending登记review，其余三源原review保持。机器3316/228closed/130review/2958pending，0新关闭；243漂移子集未变，83卡56partial/27pending/0accept字节不动。映射3v/3t/90/3q仅定位旧范围，53/79关联的其它opcode不因此复审或扩权；BGM作为实际GLM交付保留，无编号卡归属不伪造。
+
+当前只收GLM返工；costMP/casterRoleId未用参数是公共签名候选，scene多世界/并发load设计和其它cov85测试全E不在本片强关。全仓check/coverage/protected仅GLM整批收尾；旧editor诊断/E2E审核到期保持，当前不合main。下一片处理29个仅注释文件的真实文案与缺失设计依据，不另开无关工具或其它83卡治理。

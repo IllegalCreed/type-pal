@@ -31,3 +31,7 @@ node "$WT/node_modules/.bin/tsc" --noEmit -p "$WT/packages/game/tsconfig.json"
 ```
 
 失效条件:触发 zone 公式/碰撞语义变化 → 3q 证据重估;本批 diff 之外的实现变化 → 重测。
+
+## Codex 2026-10-20 当前有限裁定
+
+两私有函数删除成立，原grep命令会受注释命中影响，改以AST引用/声明证据。生产注释去治理日期；本模块有_ctx及异步loadScene，不再把整模块描述成确定性纯逻辑。132原生结果复用，旧3q467含诊断事实保留。 [逐文件依据与原件](../codex-dead-removals.json)。文件保持review，未授整卡/整包accept。

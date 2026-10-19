@@ -69,13 +69,13 @@ Template: governance-index-v1 / 1.0.0
 | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 | [C03查看器宿主与迟到读取](tasks/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md) | build | Codex / 续Wizard与Uploader | C09五例0诊断；editor全包仍759act/243环境及1表单告警，0关闭 |
 | QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 | [C03向导真实异步等待](tasks/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | build | Codex / 保存C10恢复，余诊断待稳定窗口 | Wizard28零诊断/两业务反控；相邻6act、editor624act/243环境，0关闭不合main |
 | QUALITY-DOCS-GIT-PATH-ENUMERATION-1 | [Git全路径枚举容量](tasks/QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md) | review | Codex / 三文件窄修，待统一门 | 两真实CLI>1MiB先红后绿，完整枚举16MiB/固定namespace4MiB不变；随后接回3u/3w |
-| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex接手GLM大包返工 | 83卡56partial/27pending/0accept；RLE文案已接收、文件仍review；GLM93笔候选保留、非整包验收；Codex类型合同/WORD解码复用及19文件八维/CODE82与CODE6a治理门返工；WORD/GBK20定向与两反控；GLM实际改动源码7/41已有详细矩阵、34待补，另敌人/角色4文件与两反控；其余缺维继续；e2e-route到期/旧诊断未清；4旧撤回/O-5待核；RLE两行恢复review，合并账本漂移候选待核；3w原盘影响域/特殊胜利与六反控补证；队列/三机制窄修已测；十组已列错注已纠正；minimap分类/数值与毒列表/两UI仍待；旧门rework，未合main |
+| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex接手GLM大包返工 | 当前仅收GLM93笔返工；实际源码12/41有详细记录、29注释文件待补；复活装备状态漏审先红后绿，308当前定向/相邻0stderr；贵门集中收尾、诊断未清不合main；其它83卡/94–102暂不扩展 |
 | GAME-ACTION-QUEUE-TIE-ORDER-1 | [第一阶段同速队列](tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | Codex / 批准窄修已测，统一门/视觉待续 | 先7红后绿、真实Confirm/RNG、38/942与六单红反控；整文件不关闭 |
 | GAME-PLAYER-POISON-SLOT-COMPACTION-1 | [卸装备毒列表压缩](tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md) | draft | Codex / 只读完整生命周期，无产品build allowed | C前移幸存毒、TS原地清零，角色身份不变；因果待核 |
 | GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1 | [非队员Extra可达性](tasks/GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md) | draft | Codex / 只读核完整生产写入链 | C全role/TS party不同，但开战换队全量重建；未证剧情缺陷，不改行为 |
 | GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 | [GA失败安装归属](tasks/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md) | review | Codex / A窄修已测，待统一门 | 五先红后绿、30相邻/两单针；失败撤监听UI、刷新重试已本地实跑，0关闭 |
 | GAME-MAGIC-NUMERIC-ASSIGNMENT-1 | [第一阶段法术数值赋值](tasks/GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) | draft | Codex / 已复现160/161，等裁决再改数值 | 原C O0/O2与真实TS/PRNG/caller；不改随机算法、次数或接口 |
-| QUALITY-BATTLE-MAGIC-PARITY-1 | [pre-94战斗机制三项counter](tasks/QUALITY-BATTLE-MAGIC-PARITY-1.md) | review | Codex / 窄修及反控已测，等待统一门/视觉 | 上次目标、裸武术、非伤害预掷与防御姿；不关闭整文件 |
+| QUALITY-BATTLE-MAGIC-PARITY-1 | [pre-94战斗机制counter](tasks/QUALITY-BATTLE-MAGIC-PARITY-1.md) | review | Codex / 新增复活装备状态窄修已测 | 原三项保留；0x22两红后修、284game相邻0stderr；统一门/视觉仍待，不关闭整文件 |
 | QUALITY-BOOT-FAILURE-PROGRESS-1 | [启动失败进度所有权](tasks/QUALITY-BOOT-FAILURE-PROGRESS-1.md) | review | Codex / 窄功能完成，等待统一集成门 | 四旧单红新绿、相邻58绿/原红重放1绿、PROD失败稳定及正常按钮进场已实跑看图；全仓/coverage/protected未跑，不合main |
 | QUALITY-FETCH-ABORT-LIFECYCLE-1 | [重试等待与Request取消](tasks/QUALITY-FETCH-ABORT-LIFECYCLE-1.md) | build | Codex / 同步main后复跑并收口 | 取消反例旧23/3红、控制26绿、变异3枚各单红；当前修复26例绿，统一门未清 |
 | QUALITY-GAME-RUNTIME-DIAGNOSTICS-1 | [game运行时诊断核清](tasks/QUALITY-GAME-RUNTIME-DIAGNOSTICS-1.md) | build | Codex / 逐file归因后选有限包 | C2 两装备负输入测试已逐文件核验；8/8 绿、0 stderr，game typecheck 与相邻6文件66 tests通过；两行保留review，其余15块stderr仍未全文验收 |

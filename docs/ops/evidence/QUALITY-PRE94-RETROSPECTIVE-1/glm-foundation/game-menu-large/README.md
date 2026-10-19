@@ -27,3 +27,7 @@
 ## 登记项
 
 无新增。
+
+## Codex 2026-10-20 当前有限裁定
+
+常量+void删除成立；修正文案中的完整port、always-success、成本Owner与复活装备例外。castOverworldMagic仍有两个未用公共参数，登记候选而非“无新增”；当前41magic测试在103内，非整文件测试质量重验。 [逐文件依据与原件](../codex-dead-removals.json)。文件保持review，未授整卡/整包accept。

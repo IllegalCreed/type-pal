@@ -35,3 +35,7 @@ cd "$WT/packages/game" && ../../node_modules/.bin/vitest run src/core/battle/act
 ```
 
 失效条件:attack.ts 实现变化 → 重测;公式/动画合同变化 → 3v 证据重估。
+
+## Codex 2026-10-20 当前有限裁定
+
+casterLevel删除按精确AST/实际DTO caller成立；发现返回注释“本批仅用damage”漏改，现说明fCritical被攻击音效消费。32原生身份复用，无新动作行为变更。 [逐文件依据与原件](../codex-dead-removals.json)。文件保持review，未授整卡/整包accept。

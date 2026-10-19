@@ -5,15 +5,14 @@
  * 上下文(`g_Battle.fInBattle == TRUE`)只跑特定子集 — 对 enemy 的 wScriptOnReady /
  * wScriptOnTurnStart bytecode 解释。
  *
- * 本模块实现 40+ 个 battle-context opcode(伤害/毒/状态/召唤/分裂/变身/偷窃/复活/终态等,
- * 随各修复批持续扩容;opcode 常量区逐条带 sdlpal script.c/fight.c 行锚),event-system
- * runScript 的 raw case 在 runtimeMode='battle' 时 dispatch 到这里。其余未具名 opcode
- * 仍走 console.debug skip(D26 兜底)。
+ * 本模块处理战斗伤害、毒、状态、召唤、分裂、变身、偷窃、复活与终态等opcode。
+ * event-system的runScript在runtimeMode='battle'时优先dispatch到这里;
+ * 未消费的opcode交回event-system的通用解释器。
  *
  * 处理逻辑:
- *  - 返回 `newIp`:opcode 改了 ip(jump),caller 应跳到返回值
- *  - 返回 undefined:opcode 未消费(caller 走原 skip + ip++)
- *  - 返回 -1:opcode 消费但不改 ip(caller 应 ip++,等价于默认)
+ *  - consumed=true 且带 newIp:caller 跳到指定 ip
+ *  - consumed=true 且无 newIp:caller 递增 ip
+ *  - consumed=false:交回 caller 的通用 opcode 解释器
  */
 
 import {
@@ -1083,32 +1082,34 @@ export function dispatchBattleOpcode(
 
     case OP_REVIVE_PLAYER: {
       // sdlpal `script.c:1052-1102`:revive。operand[0]!=0 → 全体;否则 wEventObjectID = target 队员。
-      //   仅 HP==0 者:rgwHP = maxHP * operand[1] / 10;CurePoisonByLevel(role,3) + 清所有 status。
+      //   仅 HP==0 者:rgwHP = maxHP * operand[1] / 10;CurePoisonByLevel(role,3)。
+      //   PAL_RemovePlayerStatus 遍历各状态,只清<=999,保留>999装备授予效果。
       //   g_fScriptSuccess:applyAll → 任一复活 TRUE(否则 1061 FALSE);单体 → 活着的 → FALSE(1099)。
       // 战斗语境:写 ctx.playerRoles.roles[roleId].hp + 清 state.players[pIdx].status(战内状态)
       //   + 清该 role 的 level<=3 毒(M11 对齐 script.c:1071 CurePoisonByLevel(w,3),level>3 保留)。
       if (!ctx.playerRoles) return { consumed: true }
       const applyAll = (operands[0] ?? 0) !== 0
       const ratioTenths = operands[1] ?? 0
+      const equipmentStatusOrZero = (turns = 0): number => (turns > 999 ? turns : 0)
       const reviveOne = (pIdx: number): boolean => {
         const roleId = state.players[pIdx]?.roleId
         const role = roleId !== undefined ? ctx.playerRoles!.roles[roleId] : undefined
         if (!role || role.hp !== 0) return false
         role.hp = Math.floor((role.maxHP * ratioTenths) / 10)
-        // 清战斗内状态(sdlpal script.c:1052-1102 revive 清**所有** kStatus,全 9 项)+ 毒(CurePoisonByLevel 3)。
+        // 保持战内状态视图字段,只清临时状态(global.c::PAL_RemovePlayerStatus)。
         const p = state.players[pIdx]
         if (p) {
           p.status = {
-            sleep: 0,
-            paralyzed: 0,
-            confused: 0,
-            haste: 0,
-            slow: 0,
-            silence: 0,
-            puppet: 0,
-            bravery: 0,
-            protect: 0,
-            dualAttack: 0,
+            sleep: equipmentStatusOrZero(p.status.sleep),
+            paralyzed: equipmentStatusOrZero(p.status.paralyzed),
+            confused: equipmentStatusOrZero(p.status.confused),
+            haste: equipmentStatusOrZero(p.status.haste),
+            slow: equipmentStatusOrZero(p.status.slow),
+            silence: equipmentStatusOrZero(p.status.silence),
+            puppet: equipmentStatusOrZero(p.status.puppet),
+            bravery: equipmentStatusOrZero(p.status.bravery),
+            protect: equipmentStatusOrZero(p.status.protect),
+            dualAttack: equipmentStatusOrZero(p.status.dualAttack),
           }
           // 复活后刷新静止帧:死员 currentFrame 停在死帧 2,复活只改 hp 不刷帧 → 后续动画期(别人行动 /
           //   结算)仍按 currentFrame=2 画倒下,直到该队员轮到行动才被 resetFightersAfterAction 复位

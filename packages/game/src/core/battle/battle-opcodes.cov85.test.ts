@@ -889,17 +889,21 @@ describe('cov85 0x1B/0x1C/0x1D 战内 HP/MP delta', () => {
 })
 
 describe('cov85 0x22 战内 RevivePlayer', () => {
-  it('applyAll:复活死人(比例+清战内全部状态+currentFrame 复位+清≤3级毒);fScriptSuccess=anyRevived', () => {
+  it('applyAll:复活死人(比例+清临时状态但保留装备状态+currentFrame复位+清≤3级毒);fScriptSuccess=anyRevived', () => {
     const { state, gs, playerRoles } = makeBattle({
       roles: [makeRole(0, { hp: 0 }), makeRole(1, { hp: 80 })],
     })
-    state.players[0]!.status.bravery = 9
+    state.players[0]!.status.bravery = 999
+    state.players[0]!.status.protect = 1000
+    state.players[0]!.status.dualAttack = 32760
     state.players[0]!.currentFrame = 2
     gs.rgPoisonStatus[`0_0`] = { wPoisonID: 77, wPoisonScript: 0 }
     const ctx: BattleCtx = { state, gs, playerRoles }
     dispatchBattleOpcode(0x22, [1, 5, 0], ctx)
     expect(playerRoles.roles[0]!.hp).toBe(250)
     expect(state.players[0]!.status.bravery).toBe(0)
+    expect(state.players[0]!.status.protect).toBe(1000)
+    expect(state.players[0]!.status.dualAttack).toBe(32760)
     expect(state.players[0]!.currentFrame).not.toBe(2)
     expect(playerRoles.roles[1]!.hp).toBe(80)
     expect(gs.fScriptSuccess).toBe(true)
@@ -907,6 +911,30 @@ describe('cov85 0x22 战内 RevivePlayer', () => {
     // 全员活着再跑 → false
     dispatchBattleOpcode(0x22, [1, 5, 0], ctx)
     expect(gs.fScriptSuccess).toBe(false)
+  })
+
+  it('单体复活按目标队伍位置选择角色：保留装备状态，不修改活队友状态', () => {
+    const { state, gs, playerRoles } = makeBattle({
+      roles: [makeRole(0, { hp: 0 }), makeRole(1, { hp: 80 })],
+      party: [1, 0],
+    })
+    const dead = state.players[1]!
+    dead.status.sleep = 999
+    dead.status.protect = 1000
+    dead.status.dualAttack = 32760
+    state.players[0]!.status.bravery = 9
+    const ctx: BattleCtx = {
+      state,
+      gs,
+      playerRoles,
+      target: { type: 'player', idx: 1 },
+      caster: { type: 'player', idx: 0 },
+    }
+    dispatchBattleOpcode(0x22, [0, 5, 0], ctx)
+    expect(playerRoles.roles[0]!.hp).toBe(250)
+    expect(dead.status).toMatchObject({ sleep: 0, protect: 1000, dualAttack: 32760 })
+    expect(playerRoles.roles[1]!.hp).toBe(80)
+    expect(state.players[0]!.status.bravery).toBe(9)
   })
 
   it('单体复活活人 → fScriptSuccess=false;无 player 上下文 → 空目标 no-op', () => {

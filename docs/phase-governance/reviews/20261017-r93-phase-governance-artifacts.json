@@ -1040,7 +1040,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "61a580f352b0216d66b50e305c6f42a0970b231960dd3a70fa741b2e2d3ef65d",
+      "afterSha256": "ba257d0c27128a1a717bbb655bfe8b4a6411fa131ef40fa7168178f6b8a84720",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1064,8 +1064,23 @@
       },
       "revision": {
         "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "implementationSha": "61a580f352b0216d66b50e305c6f42a0970b231960dd3a70fa741b2e2d3ef65d",
+        "implementationSha": "ba257d0c27128a1a717bbb655bfe8b4a6411fa131ef40fa7168178f6b8a84720",
         "history": [
+          {
+            "revision": "58589d26397be3980f0a968c3d01b0dd24a363b8",
+            "date": "2026-10-20",
+            "action": "GLM5dead-source evidence and authorized revive equipment-status repair;preserve other scope",
+            "previousAfterSha256": "61a580f352b0216d66b50e305c6f42a0970b231960dd3a70fa741b2e2d3ef65d",
+            "scope": "Only incoming binding for explicitly changed current reviews;no unrelated semantic acceptance",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "unchanged125docs-tools",
+              "runtime/E2E/visual"
+            ]
+          },
           {
             "revision": "0b778bc0f0d49190e63c9f11fd32b0b263e7b460",
             "date": "2026-10-20",
@@ -1661,8 +1676,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "61a580f352b0216d66b50e305c6f42a0970b231960dd3a70fa741b2e2d3ef65d",
-        "lineCount": 3340,
+        "afterSha256": "ba257d0c27128a1a717bbb655bfe8b4a6411fa131ef40fa7168178f6b8a84720",
+        "lineCount": 3372,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -1696,14 +1711,14 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-3340",
+      "reviewedLines": "1-3372",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "61a580f352b0216d66b50e305c6f42a0970b231960dd3a70fa741b2e2d3ef65d",
+      "candidateSha256": "ba257d0c27128a1a717bbb655bfe8b4a6411fa131ef40fa7168178f6b8a84720",
       "primarySource": [
         {
           "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
@@ -5431,7 +5446,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "33c04988868a160f4cf30a2ebbc9fdba3f0cfff1fd0b83d130a0955cd010e237",
+      "afterSha256": "c29f641793078c4861aaef89da98b85cfaaba63254e54ad159dc06eb24e0df2c",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5455,8 +5470,23 @@
       },
       "revision": {
         "currentSha": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "implementationSha": "33c04988868a160f4cf30a2ebbc9fdba3f0cfff1fd0b83d130a0955cd010e237",
+        "implementationSha": "c29f641793078c4861aaef89da98b85cfaaba63254e54ad159dc06eb24e0df2c",
         "history": [
+          {
+            "revision": "58589d26397be3980f0a968c3d01b0dd24a363b8",
+            "date": "2026-10-20",
+            "action": "GLM5dead-source evidence and authorized revive equipment-status repair;preserve other scope",
+            "previousAfterSha256": "33c04988868a160f4cf30a2ebbc9fdba3f0cfff1fd0b83d130a0955cd010e237",
+            "scope": "Only incoming binding for explicitly changed current reviews;no unrelated semantic acceptance",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json",
+            "notRun": [
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "unchanged125docs-tools",
+              "runtime/E2E/visual"
+            ]
+          },
           {
             "revision": "0b778bc0f0d49190e63c9f11fd32b0b263e7b460",
             "date": "2026-10-20",
@@ -6026,8 +6056,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "33c04988868a160f4cf30a2ebbc9fdba3f0cfff1fd0b83d130a0955cd010e237",
-        "lineCount": 5824,
+        "afterSha256": "c29f641793078c4861aaef89da98b85cfaaba63254e54ad159dc06eb24e0df2c",
+        "lineCount": 5848,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -6061,14 +6091,14 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-5824",
+      "reviewedLines": "1-5848",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "33c04988868a160f4cf30a2ebbc9fdba3f0cfff1fd0b83d130a0955cd010e237",
+      "candidateSha256": "c29f641793078c4861aaef89da98b85cfaaba63254e54ad159dc06eb24e0df2c",
       "primarySource": [
         {
           "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",

@@ -1,0 +1,849 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-20",
+  "owner": "Codex",
+  "base": "58589d26397be3980f0a968c3d01b0dd24a363b8",
+  "authorCandidate": "5af1b6372130138cef00b54de4ccfa9322ec5741",
+  "scope": "Only GLM93commit checkpoint rework. Three slices:phase1 four dead-removal source files;phase2 single BGM owner;approved0x22 source/test repair. Other pre94 cards94–102 and tools deferred.",
+  "decision": "Five changed-source records added;known GLM missed revive defect repaired;no source/test closure or main merge.",
+  "commentCommits": ["0b2d45b3a", "a670ff82f", "c9e1b16c3"],
+  "fileReviews": [
+    {
+      "path": "packages/game/src/core/battle/actions/attack.ts",
+      "sha256": "0b7e853d2b4f24fcb828a505fb372ac61d3fd46b4abe8895b5c073388d0175b5",
+      "lines": 610,
+      "readScope": "Author full file A-H/older Codex A/E retained;Codex exact actual deltas and focused named callers/design gaps;no second whole-file semantic reimplementation.",
+      "dimensions": {
+        "A": "Author3v functional evidence reused. Exact AST difference removes only local casterLevel declaration,two DTO level reads and void read;actual producer supplies plain role/enemy DTOs,not accessor/proxy contracts. No RNG/HP/timeline/public signature change.",
+        "B": "Corrected return comment:mod.fCritical actually selects attackSound/criticalSound;not a damage-only return. Other functional source claims remain bounded by old3v and author snapshot,not freshly rederived SDL math.",
+        "C": "Action mutates BattleState and emits through injected bus/animation driver;runtime stat projection is owned by battle-system/game-state caller. Wide EquivPoisonCtx is explicit,not hidden global;not claimed a pure function.",
+        "D": "Existing formula/timeline builders reused. Private SHORT/dying3line primitives remain small;an internal utility is an option,not necessarily a public formulas export. No demonstrated benefit warrants new layer for this tiny duplication.",
+        "E": "Author32 native identities retained and sources/test paths bound. Prior3v154 is historical scoped oracle evidence,not a fresh whole-test quality certification. Deleted local had no result consumer,so no artificial red test needed for pure removal.",
+        "F": "actor/target branches and str owner remain visible;removing casterLevel eliminates misleading implication level feeds all attack branches.",
+        "G": "Only unused local/assignments/void removed;no export/parameter/validation deletion. Remaining helpers have actual callers;no metrics-driven decomposition.",
+        "H": "RNG,bus,roles and poison context are explicit;deterministic fixtures/real timeline consumers remain usable. No new testing API or core mock introduced."
+      },
+      "disposition": "review;finite source A-H evidence/authorized repair,not file closure or whole-card acceptance"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.ts",
+      "sha256": "4b8393b092fad51666e6bcadf9bc348b638d0b8d87bc47557fbf4a4f72ae037e",
+      "lines": 1534,
+      "readScope": "Author full file A-H/older Codex A/E retained;Codex exact actual deltas and focused named callers/design gaps;no second whole-file semantic reimplementation.",
+      "dimensions": {
+        "A": "Dead beforeHealth void removed but live maxHealth fallback remains. Found additional0x22 bug:seed retains equipment counts>999 but revival zeroed them. User already required retention;primary script.c→PAL_RemovePlayerStatus confirms threshold. Fix changes only revive status values.",
+        "B": "Header now describes actual consumed/newIp result and generic fallback. Removed stale opcode count/skip story;revive comments now distinguish temporary from equipment state. No broad claim all numeric line anchors were revalidated.",
+        "C": "Dispatcher owns battle-local views;caller runScript owns IP/runtime fallback. Ten-field revive output shape and new-object ownership preserved. Local duration predicate has no IO/global mutation;poison/HP/frame ownership unchanged.",
+        "D": "One local equipmentStatusOrZero predicate has10real uses with same duration semantics. Keeps explicit field mapping,does not export generic status framework or mix phase2 grant-source model.",
+        "E": "Two actual pre-fix business failures(single/all) followed by103current+181adjacent green,0stderr.56prior cov85 cases retained with1title mapping;1new single-dead case. Other opcode/source contracts not globally accepted by these counts.",
+        "F": "Predicate names returned count,ten mappings remain direct;current header matches actual return type and caller. Long case dispatch remains a phase1 boundary;no unsupported claim optimal architecture.",
+        "G": "beforeHealth still required by split maxHealth. No new ignored diagnostics/casts/config/compatibility paths. Ten zeros become retention predicates only,verified against exact frozen AST with authorized fix reversed.",
+        "H": "Public factory/context used;real role slots and nonordered party [1,0] distinguish roleID from target slot. No private state/core mocks;red failures are AssertionError on1000/32760 retention,not environment failure."
+      },
+      "disposition": "review;finite source A-H evidence/authorized repair,not file closure or whole-card acceptance"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-script.ts",
+      "sha256": "ea4d7dce03a1f38122b8dff0ceb9437e74cf8db03aba1cbb455aeacb73088d52",
+      "lines": 256,
+      "readScope": "Author full file A-H/older Codex A/E retained;Codex exact actual deltas and focused named callers/design gaps;no second whole-file semantic reimplementation.",
+      "dimensions": {
+        "A": "Author native110 and earlier CODE90 facts reused at stated scope. Removal is literal6 constant plus void only;runner script catalog/state mutations unchanged. Missing labels/IP/step limit return false;unsupported operations keep existing policy.",
+        "B": "Corrected full-port/always-success/cost ownership claims and revive equipment exception. menu-driver checks result and deducts MP;runner only performs two script stages. No new game truth invented.",
+        "C": "runMagicScriptSync uses global catalog getter and explicit gs;menu-driver owns UI/cost/target selection. Singleton catalog is an existing phase1 boundary and tests reset it;not called globally pure or phase2 design.",
+        "D": "Local HP/MP single/all and revive helpers encode distinct mutation/failure rules;not blindly merged. Poison handling shared. Sign extension remains tiny primitive;no new public helper.",
+        "E": "Current37+4magic tests within103 cover failure/success/goto limits and state outcomes. Code unchanged after tests except comments,removeComments proof matches. Test files not newly closed or full E reread.",
+        "F": "Named script stages and result state readable;new comments expose cost ownership. Avoided hiding ignored parameters behind a new abstraction.",
+        "G": "Dead MAX_PLAYER_ROLES/void removed. costMP/casterRoleId remain unused public parameters:recorded API simplification candidate,not silently deleted under comment cleanup.",
+        "H": "Real command catalog and typed runtime permit deterministic direct tests;cleanup setGlobalEvents/spy restore preserved. No new dependency injection layer required."
+      },
+      "disposition": "review;finite source A-H evidence/authorized repair,not file closure or whole-card acceptance"
+    },
+    {
+      "path": "packages/game/src/core/scene-system.ts",
+      "sha256": "861d2e43437970d01a59a4507f8165e954057c343c35739b51ec226e812a1cdf",
+      "lines": 639,
+      "readScope": "Author full file A-H/older Codex A/E retained;Codex exact actual deltas and focused named callers/design gaps;no second whole-file semantic reimplementation.",
+      "dimensions": {
+        "A": "Author3q functional review and132native cases reused;exact AST removes two unreferenced module-private functions only. Live inline trigger path retained;current comments do not alter movement/loading.",
+        "B": "Removed governance date/grep narrative from production and retained trigger-distance invariant. AST identifiers establish liveness;raw grep would also match comments and is not proof of zero semantic use.",
+        "C": "Module has _ctx singleton plus explicit ctxOverride;loadScene performs async assets and state/context replacement,so not globally pure. Current production lifecycle/caller remains phase1 single active world;multiworld/concurrent-load design not certified.",
+        "D": "Live search delegated to scene-system-search;dead direct-position/search alternatives removed instead of duplicating lookup policies. Existing asset cache is reused;no new scene framework.",
+        "E": "132same native identities remain supported at author snapshot. Existing3q467receipt explicitly contains diagnostics;not inherited as zero-diagnostic. No needless132rerun for two private deletions/current comments.",
+        "F": "Trigger update,blocker pushing,input and loading boundaries remain named;source comment now describes actual side effects of updateEventObjectsAndTrigger.",
+        "G": "Two private declarations have only their declaration identifier at base;no exports or dynamic references. Deleted code not used as oracle;remaining load/context APIs retained.",
+        "H": "ctxOverride enables isolated pure tick cases;asset adapter enables controlled async tests. Global context reset remains test lifecycle obligation;current slice does not certify every async race."
+      },
+      "disposition": "review;finite source A-H evidence/authorized repair,not file closure or whole-card acceptance"
+    },
+    {
+      "path": "packages/reforge/src/audio/bgm.ts",
+      "sha256": "23de6a662e77b50d58dfbf99c89f24159419b86996da038201cfcff15a784e35",
+      "lines": 289,
+      "readScope": "Codex full BGM/current exact diff and focused callers/tests;author other audio evidence reused.",
+      "dimensions": {
+        "A": "Frozen BGM removal has no behavioral consumer:local inflightTarget writes and an if guarding only another write. Request serial/last/enabled gates still reject late commits across async reads/fades. No claim network IO is aborted.",
+        "B": "Corrected false zero-overhead/lazy claim:AudioContext is constructed with player;MIDI library/worklet/soundfont initialize on first play. Deleted misleading inflight ownership comment remains retired.",
+        "C": "Player closure owns seq,last,serial,enabled,dispose;runtime owns browser AudioContext and sequencer adapter owns gain operations. Different requests supersede commit ownership without a redundant parallel target state.",
+        "D": "Browser Spessa initialization stays centralized;injected runtime used by deterministic tests. No cross-phase numeric/identity scheme reused or new global audio state.",
+        "E": "Author95native includes24BGM identities. Current same24rerun solely to obtain previously missing finite diagnostics:0stderr. Other71audio cases not rerun or newly accepted;no real-device playback claim.",
+        "F": "isCurrent/current/serial express state ownership;removing write-only variable reduces competing explanations for cancellation. Construction/loading costs now explicit.",
+        "G": "AST plan accounts for every deleted local write/guard;no called function or external property writes removed. Public interfaces/exports unchanged.",
+        "H": "Runtime/resolver injection controls resume,read,fade and disposal without synth core mock. Current24tests exercise same-curve takeover/late initialization/read failure/dispose;browser hardware/worklet smoke is separate."
+      },
+      "disposition": "review;finite source A-H evidence/authorized repair,not file closure or whole-card acceptance"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.cov85.test.ts",
+      "sha256": "6cfaf5feea8fb23581040665047633920412992c42f258f1458aa9f3ee30c412",
+      "lines": 1217,
+      "readScope": "Codex full0x22 original/enhanced/new cases,imports/factory/cleanup;remaining unchanged test file relies on prior3t/author bounded evidence,not repeated full review.",
+      "dimensions": {
+        "A": "Legal factory/state inputs;new single target [1,0] tests target slot1→role0 versus live caster slot0→role1. Counts999/1000/32760 are real duration contracts,not impossible typed values.",
+        "B": "All-target title corrected from clear all to clear temporary/retain equipment.1identity rename explicitly mapped;new single-case title names actual target/teammate contract.",
+        "C": "New cases use existing makeBattle factory and local state only;existing poison registry afterEach cleanup retained. No global mock/mutation added.",
+        "D": "Same factory produces legal state;literal expected duration/HP values from C contract,not copied output generator. All and single dispatch branches are distinct inputs,not duplicated names.",
+        "E": "Two pre-fix AssertionErrors prove missed equipment axis. Old56identities retain55exact+1rename,add1single-dead case;other old assertions kept. Remaining54cases have prior/historical evidence plus new execution,not a new full E audit.",
+        "F": "dead/live target locals and explicit party order make slot/role distinction visible. New assertions observe HP/status/teammate results rather than mock counts.",
+        "G": "Only1necessary case added and one enhanced;no skips/only/todo/config/timeout/assertion weakening. Red54skipped are -t filtering only and not credited as execution.",
+        "H": "Real exported dispatcher and public factory,zero core mocks/casts. Red/green use same changed test bytes;production pre-fix source is recoverable at58589d263;native/console retained."
+      },
+      "disposition": "review;0x22 E gap repaired,other-case prior evidence retained only at original scope"
+    }
+  ],
+  "callerTestBindings": [
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "8ec82f40df3806820afd9ef05211ee1c391ccf0826fb0751c178871ef3a524ff",
+      "readScope": "Focused actual menu/event/attack/scene/BGM callers,role/status seed and primary revive threshold;fingerprint is invalidation scope,not full-file reading claim."
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "0f3e6c35bb2257e6fe08f68a5bff99533d50d7e924f43454e6fde4755a7b7a0b",
+      "readScope": "Focused actual menu/event/attack/scene/BGM callers,role/status seed and primary revive threshold;fingerprint is invalidation scope,not full-file reading claim."
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "d6fd349f95fe4489d255e4286c29a94e52146508022d84289de125de6f7f2b87",
+      "readScope": "Focused actual menu/event/attack/scene/BGM callers,role/status seed and primary revive threshold;fingerprint is invalidation scope,not full-file reading claim."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "d4d85c2c72109a3436edee6da6171fbfa5557823b2cd7cad0d3ca02ca0816ef6",
+      "readScope": "Focused actual menu/event/attack/scene/BGM callers,role/status seed and primary revive threshold;fingerprint is invalidation scope,not full-file reading claim."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "fad0e3266a940243ac9605d8f6e474baac850be029e3697f549c1ba5f04a3270",
+      "readScope": "Focused actual menu/event/attack/scene/BGM callers,role/status seed and primary revive threshold;fingerprint is invalidation scope,not full-file reading claim."
+    },
+    {
+      "path": "packages/game/src/core/mode.ts",
+      "sha256": "96128a2ee924f28d49b4383e6cd521c34b9382d7f353d3b2dd21277a58cdaf15",
+      "readScope": "Focused actual menu/event/attack/scene/BGM callers,role/status seed and primary revive threshold;fingerprint is invalidation scope,not full-file reading claim."
+    },
+    {
+      "path": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+      "sha256": "38ec76a9d15ce74f8eba10a911d951a30b37469b78d055a07bb95fee6a40a5c3",
+      "readScope": "Focused actual menu/event/attack/scene/BGM callers,role/status seed and primary revive threshold;fingerprint is invalidation scope,not full-file reading claim."
+    },
+    {
+      "path": "packages/reforge/src/main.ts",
+      "sha256": "089fd2bf41c03eccf02846ddaa314cbfabe22772f8334bb0fe9b16f494c2a260",
+      "readScope": "Focused actual menu/event/attack/scene/BGM callers,role/status seed and primary revive threshold;fingerprint is invalidation scope,not full-file reading claim."
+    },
+    {
+      "path": "packages/reforge/src/battle-trial-host.ts",
+      "sha256": "8051d0cde032352903e1a096ea8bb279924675d383201ef58ed3e14b7bbad627",
+      "readScope": "Focused actual menu/event/attack/scene/BGM callers,role/status seed and primary revive threshold;fingerprint is invalidation scope,not full-file reading claim."
+    },
+    {
+      "path": "packages/reforge/src/audio/spessa-browser-runtime.ts",
+      "sha256": "a0732a6291c7ac83ef4d05753a700da1439644cddcb95f1804c61451027d96ba",
+      "readScope": "Focused actual menu/event/attack/scene/BGM callers,role/status seed and primary revive threshold;fingerprint is invalidation scope,not full-file reading claim."
+    },
+    {
+      "path": "reference/sdlpal/script.c",
+      "sha256": "f5332e015b27018ad03385b4ceab6c44dc0509e81ace7e8785d1843ae88cd017",
+      "readScope": "Focused actual menu/event/attack/scene/BGM callers,role/status seed and primary revive threshold;fingerprint is invalidation scope,not full-file reading claim."
+    },
+    {
+      "path": "reference/sdlpal/global.c",
+      "sha256": "6e7162374dca7af62e3e67b5ab1359f1dc0e040ac3a94612ae32f3ca37d82ddc",
+      "readScope": "Focused actual menu/event/attack/scene/BGM callers,role/status seed and primary revive threshold;fingerprint is invalidation scope,not full-file reading claim."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts",
+      "sha256": "c1ae5dbf2fbd93074fddde52d5f0b8980bae77d292cb311363313bf48e4203ba",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.cov85.test.ts",
+      "sha256": "348bfaecc82391aee2975ca5ea1ebc2325f6b07ba3e0ac71b45bf20afd0d117b",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts",
+      "sha256": "46bc9913fd1ae91d03ed6f923920614bab64aab11a3c1e2e4db24962fa244995",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/coop-magic.glm-next-wave.test.ts",
+      "sha256": "5f9a47e4e36314c6aa4f31e58c5ff5fa1bec3a7d67e702e77ca570fa1665dfa8",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/magic.glm-next-wave.test.ts",
+      "sha256": "c548405293d7262949852da273417fc57fa8a81182a268f0b72bcec1187bdf04",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.glm-next-wave.test.ts",
+      "sha256": "385d783e2f94188d251140e5abd8f7ebbc94f4453c339ab06452b57bab3d5b8b",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+      "sha256": "698aef7c01dde3c0d8a276ae97cf314ad13960359485b4a86d2b867170c941f0",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+      "sha256": "1bc0e6cf67c0905d0608884e756c61baa97bde5d1e51d7f1eeae8639922984d9",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+      "sha256": "e8345b4bc17166791060983c3f73c9e0882b055ee6cb02a2da599c9e91814f99",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+      "sha256": "8b5090115089be7fea06da73b794bf27a090654e07690bc0719d00d4c2725967",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
+      "sha256": "e6e6fea658e4d97e6bf801750cf8833e8894a79b7fae6c239dae3813b16b5072",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.test.ts",
+      "sha256": "55bd19ae8f4be2cf77c982ec600dfb91298fdaab614292967a2a134905f5391e",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-script.glm-next-wave.test.ts",
+      "sha256": "a9c3811c76d24ecce78d276d804b5905f97e7f5ea41246a412e7e9cc8eecb8ec",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-script.test.ts",
+      "sha256": "93562bae505511e00a03cfeea02796aa1ed037a039c980f80b3d0601f2a724b4",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/game/src/core/mode.test.ts",
+      "sha256": "d217442b8f62df651d8f828171085efd2c1330dbfcc90ae28411baf836739609",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/game/src/core/scene-system-search.test.ts",
+      "sha256": "66c2ec403245adb410bfd8a4dc69ff1f4c69b2d5496c9cb4b08ed248429a2f58",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/game/src/core/scene-system.test.ts",
+      "sha256": "81c48be848ff01b58060c7fe7e5f37c08b754c1ffa4277a5dd53c4ea5553231e",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/reforge/src/audio-spessa-runtime.glm-q.test.ts",
+      "sha256": "5f1f78ff0eda105bb476df7d812dc943f639c2b009c1edef6148286a1f7feb5b",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/reforge/src/audio/bgm.dispose.test.ts",
+      "sha256": "c248c746a8a81a6a5bf3578323068d3112adbda97462634dcdc29b6fcfbc8b74",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/reforge/src/audio/bgm.glm-audio-lifecycle.test.ts",
+      "sha256": "6da62fbb3c71b3fc42a8be133b72811041a193b728493a06337876ed56aaac7f",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/reforge/src/audio/bgm.glm-n.test.ts",
+      "sha256": "9f6043129e48e71f1b7d846a4445c093c5db03e974b919ad18482f98ec07509d",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/reforge/src/audio/bgm.runtime-boundaries.test.ts",
+      "sha256": "cc0135312f20582e302ffa43e9539ad7c49bc1497d362b0c463b18d7b7699b1f",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/reforge/src/audio/bgm.test.ts",
+      "sha256": "f7da2c4424f8ced7fe8eb4f4febf1a7f8ef370d30056f5fa478fc3a96af2d4b5",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/reforge/src/audio/midi-preview.glm-audio-lifecycle.test.ts",
+      "sha256": "bb2c45987d1e7e3ec12f2ea3f61eef8d8745092846136718aeabdf4def58f2fb",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/reforge/src/audio/midi-preview.glm-n.test.ts",
+      "sha256": "cc4e040ecc97e5fed506a85d1eb5cfbd0815aeaf84d3fcb80828a54ba1104cca",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/reforge/src/audio/midi-preview.glm-runtime-resource.test.ts",
+      "sha256": "4965f5012989168bbea692a6c76b810638febfaa47b54bd697a0a984f2fc3d61",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/reforge/src/audio/midi-preview.lifecycle-boundaries.test.ts",
+      "sha256": "6cac1957b468df055f41891125c4cc523e2263b157133ed54563228259eb3b19",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/reforge/src/audio/midi-preview.play-guards.glm-n.test.ts",
+      "sha256": "f2cdc3163b278a69f6d27c04c35b6caf28693a775ba43c95f0f1b9bc3fc4717d",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/reforge/src/audio/midi-preview.test.ts",
+      "sha256": "87449ba5d2093739126b887a561a277df2c89f41f96fae5261f49e6e2402be0c",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/reforge/src/audio/sfx-readiness.collections.test.ts",
+      "sha256": "1dc075c45994d912b2423c3697efbc89765d63117cadadcf1221dd4a212cdbe8",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/reforge/src/audio/sfx-readiness.glm-audio-lifecycle.test.ts",
+      "sha256": "54be501aa109ef11c0325cb7d4ef953c951bd88e9afdf0ecd30c2e20cdad1a59",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/reforge/src/audio/sfx-readiness.test.ts",
+      "sha256": "654da74a771097e463323b108be772c02ab7f0f8df842a67639dd24a085fbfaf",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/reforge/src/audio/sfx.staged-failures.test.ts",
+      "sha256": "49959f1b99a7aa49abb5aa1060dfb05f06103f90ceda0cc98aaa8255783ecd0c",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "packages/reforge/src/audio/sfx.test.ts",
+      "sha256": "dc8048a4fc7224c83ab51578972b00e725e2566d82a298da72c232ba016c59e6",
+      "readScope": "Frozen test file identity checked;unchanged cases not all reread. Author execution retained at exact supported scope."
+    },
+    {
+      "path": "package.json",
+      "sha256": "259820fcdc312e11ce297a83074ce168e5a9612f2016ae6d2acb5a308dd62224",
+      "readScope": "Actual test/compiler configuration and dependency identity;not new config/API audit or change"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "3e9c669950c68c0f996a7007fdd198270a079630e277b1e6de575ec1d738da65",
+      "readScope": "Actual test/compiler configuration and dependency identity;not new config/API audit or change"
+    },
+    {
+      "path": "tsconfig.base.json",
+      "sha256": "9c29504dad2a45fb1c4e260b590372a8221ef27303f7fff1654554c90b57931c",
+      "readScope": "Actual test/compiler configuration and dependency identity;not new config/API audit or change"
+    },
+    {
+      "path": "packages/game/package.json",
+      "sha256": "43ade8421eaeac4be984c3f17eb7cae1ca4b241c9cd3dde5d8e26f1a79f24dba",
+      "readScope": "Actual test/compiler configuration and dependency identity;not new config/API audit or change"
+    },
+    {
+      "path": "packages/game/tsconfig.json",
+      "sha256": "3dd47beddd01f2fc24f3389ed59ba5e60184d9952dac0db523dd6d90367c8309",
+      "readScope": "Actual test/compiler configuration and dependency identity;not new config/API audit or change"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "eebb89f531c5ae56b8b3e2b0971605f22d4739feba33f8008b5178fff0897d43",
+      "readScope": "Actual test/compiler configuration and dependency identity;not new config/API audit or change"
+    },
+    {
+      "path": "packages/game/vitest.setup.ts",
+      "sha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e",
+      "readScope": "Actual test/compiler configuration and dependency identity;not new config/API audit or change"
+    },
+    {
+      "path": "packages/reforge/package.json",
+      "sha256": "4b399a4b7fce86e561b9bb1368da23534aa00baa58c8ae2047af538bdbe4339c",
+      "readScope": "Actual test/compiler configuration and dependency identity;not new config/API audit or change"
+    },
+    {
+      "path": "packages/reforge/tsconfig.json",
+      "sha256": "259b6b195023b3c2ae163a8c58b35016156b5e9db9a57523f7609aad966cd3d3",
+      "readScope": "Actual test/compiler configuration and dependency identity;not new config/API audit or change"
+    }
+  ],
+  "reusedAuthorEvidence": [
+    {
+      "module": "game-actions-batch1",
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-actions-batch1/directed.json",
+      "sha256": "4d2a37bd1d39e81e046393a5b2d79675daebf14c260882888a32109bec147370",
+      "credit": "Native status/file×fullName only at frozen checkpoint;historical console not supplied,not retrospective zero-diagnostic certification."
+    },
+    {
+      "module": "game-battleopcodes",
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-battleopcodes/directed.json",
+      "sha256": "d8bc166f5d795392ab1f1781418dcfe6c23ba7cb47e67b56b481f4558deb288e",
+      "credit": "Native status/file×fullName only at frozen checkpoint;historical console not supplied,not retrospective zero-diagnostic certification."
+    },
+    {
+      "module": "game-menu-large",
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-menu-large/directed.json",
+      "sha256": "e7e4e9381a8bf7dc8757a2d280a46229b192d0ec1c3f48f52796aa10ca1b52f8",
+      "credit": "Native status/file×fullName only at frozen checkpoint;historical console not supplied,not retrospective zero-diagnostic certification."
+    },
+    {
+      "module": "game-core-scenesystem",
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/game-core-scenesystem/directed.json",
+      "sha256": "c87801c4f201827b099c825cf04a91ef198b307ac346701516460b08bde41050",
+      "credit": "Native status/file×fullName only at frozen checkpoint;historical console not supplied,not retrospective zero-diagnostic certification."
+    },
+    {
+      "module": "reforge-audio",
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/reforge-audio/directed.json",
+      "sha256": "dbd6420483300507dc704433fb882207178283ffb65c9f403aae2ff558f24ac0",
+      "credit": "Native status/file×fullName only at frozen checkpoint;historical console not supplied,not retrospective zero-diagnostic certification."
+    }
+  ],
+  "artifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/dead-removals-native.json.gz",
+    "sha256": "d9d865f9455b37a1bdf2034803ea5c20613999809e4114b821704dd942bcee8e",
+    "decodedSha256": "e726545ef6113107bc9ff4dc383465a55f7e0a27bd9624973df6f43a4a235713",
+    "decodedBytes": 177979,
+    "members": [
+      {
+        "name": "revive-red.native.json",
+        "sha256": "a266c7bc0963f7a76616bf0e90244bc1ec7dd79e886ffca5869c011db71c6790",
+        "bytes": 23462
+      },
+      {
+        "name": "revive-red.stdout",
+        "sha256": "a04ee7f29be05e0756371dcc75348cd9edc8771c4214b8c95e5cc705e8dbda0e",
+        "bytes": 5085
+      },
+      {
+        "name": "revive-red.stderr",
+        "sha256": "9c838cfa5a2915ccb74cb31e0788a187de68a4a657cb7c549db76be132f375f9",
+        "bytes": 1844
+      },
+      {
+        "name": "revive-red.execution.json",
+        "sha256": "5bb7c484975aac02134f735bc7f0c3a3c98b496c633fecd531e7afcabc7d16c3",
+        "bytes": 425
+      },
+      {
+        "name": "revive-green.native.json",
+        "sha256": "49999e639434ecdafe397e97bc1f1aa956945b08fc2d336ea7e95b93bc2e08c2",
+        "bytes": 38993
+      },
+      {
+        "name": "revive-green.stdout",
+        "sha256": "c256773742af4036fb3ed1d8532f82702fc71e1494b9c9ff2ca52ce4e68c9d64",
+        "bytes": 601
+      },
+      {
+        "name": "revive-green.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "revive-green.execution.json",
+        "sha256": "406eb464cfedd33a4427060776e32c30ca836fd823391368d0872e1d887e554f",
+        "bytes": 557
+      },
+      {
+        "name": "revive-adjacent.native.json",
+        "sha256": "21f7bddc5df89d002548908d5ce6215e56534d6fb3e444b69f7dcccbeadf6f45",
+        "bytes": 63953
+      },
+      {
+        "name": "revive-adjacent.stdout",
+        "sha256": "4e1cab7255affd4fdbe76175c47746125faf11636dad447055f68f6be25dbb0c",
+        "bytes": 540
+      },
+      {
+        "name": "revive-adjacent.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "revive-adjacent.execution.json",
+        "sha256": "5be20efd10fc926c4680c2ca49e9b32797f09bc8f1a336df470cea8e4e8f94d6",
+        "bytes": 508
+      },
+      {
+        "name": "bgm.native.json",
+        "sha256": "b973fa913c60633a29d3cc5bf53b992380c6e79b8e0aa6488ea4fe78c51b4991",
+        "bytes": 10922
+      },
+      {
+        "name": "bgm.stdout",
+        "sha256": "fce0ffc2fc4233c230f0663af4cbc53263c147208f35bf2ec16ba443fc40328f",
+        "bytes": 599
+      },
+      {
+        "name": "bgm.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "bgm.execution.json",
+        "sha256": "51c68f23713bf473bc908064b715b3b28f2f551014c8596d6114230236d2a1ed",
+        "bytes": 670
+      },
+      {
+        "name": "game-tsc.execution.json",
+        "sha256": "2ab74b52bc708948a46b9ad0f954e4bf3803619bc4dc865a85fbe8119ed55369",
+        "bytes": 307
+      },
+      {
+        "name": "comment-bodies-final.json",
+        "sha256": "d73270e2988acd2ca4ee695f23c350570cb3d64107015a26ee0ca5e40f8c46b8",
+        "bytes": 1597
+      },
+      {
+        "name": "bgm-comment-body.json",
+        "sha256": "4fc5e65ba868da0a6d27714311420ab2a60141085eddc205c61278b3ebb77b32",
+        "bytes": 666
+      },
+      {
+        "name": "dead-removals-final.json",
+        "sha256": "6a7efca8f7ff43e8bf61dae3db102bf8ab4a151f6f0788c3e15a07cf955bd455",
+        "bytes": 11972
+      },
+      {
+        "name": "revive-red-source-identities.json",
+        "sha256": "bcfc4ef27ddb58f7b708ded2d3fb895bbca8403c77e3658ffc9e37a2e52b7e63",
+        "bytes": 466
+      },
+      {
+        "name": "screen.json",
+        "sha256": "fca0a5f38d39f05f220e4e670d342cd6105e61703907e103f2956c1f6a67a273",
+        "bytes": 3559
+      }
+    ]
+  },
+  "bodyProofLimits": "AST proves exact allowed deletions only. Removing caster DTO reads relies on actual plain-data caller contract,not arbitrary JS getters. Current approved revive is deliberately noninvariant;normalizer only establishes other code unchanged,not helper semantics. Source direct diff and failed cases establish threshold/field mapping.",
+  "testMapping": {
+    "oldCov": 56,
+    "newCov": 57,
+    "retainedExact": 55,
+    "renamed": {
+      "before": "cov85 0x22 战内 RevivePlayer applyAll:复活死人(比例+清战内全部状态+currentFrame 复位+清≤3级毒);fScriptSuccess=anyRevived",
+      "after": "cov85 0x22 战内 RevivePlayer applyAll:复活死人(比例+清临时状态但保留装备状态+currentFrame复位+清≤3级毒);fScriptSuccess=anyRevived"
+    },
+    "added": [
+      "cov85 0x22 战内 RevivePlayer 单体复活按目标队伍位置选择角色：保留装备状态，不修改活队友状态"
+    ],
+    "red": "2business failures/1pass/54filtered;no new skip flags",
+    "current": "103current+181adjacent+24BGM=308distinct cases;not added to author335+95 as independent new tests"
+  },
+  "ledgerSnapshot": {
+    "tracked": 3316,
+    "closed": 228,
+    "review": 130,
+    "pending": 2958,
+    "newClosed": 0,
+    "rows": {
+      "packages/game/src/core/battle/actions/attack.ts": "| `packages/game/src/core/battle/actions/attack.ts` | product | review | [GLM正文删除与复活返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json) | 按作者有效证据补逐文件八维；文案/授权复活窄修已核，不改其它卡状态 |",
+      "packages/game/src/core/battle/battle-opcodes.ts": "| `packages/game/src/core/battle/battle-opcodes.ts` | product | review | [GLM正文删除与复活返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json) | 按作者有效证据补逐文件八维；文案/授权复活窄修已核，不改其它卡状态 |",
+      "packages/game/src/core/menu/magic-script.ts": "| `packages/game/src/core/menu/magic-script.ts` | product | review | [GLM正文删除与复活返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json) | 按作者有效证据补逐文件八维；文案/授权复活窄修已核，不改其它卡状态 |",
+      "packages/game/src/core/scene-system.ts": "| `packages/game/src/core/scene-system.ts` | product | review | [GLM正文删除与复活返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json) | 按作者有效证据补逐文件八维；文案/授权复活窄修已核，不改其它卡状态 |",
+      "packages/reforge/src/audio/bgm.ts": "| `packages/reforge/src/audio/bgm.ts` | product | review | [GLM正文删除与复活返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json) | 按作者有效证据补逐文件八维；文案/授权复活窄修已核，不改其它卡状态 |",
+      "packages/game/src/core/battle/battle-opcodes.cov85.test.ts": "| `packages/game/src/core/battle/battle-opcodes.cov85.test.ts` | test | review | [GLM正文删除与复活返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json) | 两真实红例后修复；旧56身份保留加1，整体E与统一门未代签 |"
+    },
+    "reason": "scene source B/H overclaim and cov85 E equipment gap restore2historicalclosures toreview;BGM pending→review;other3alreadyreview"
+  },
+  "cardMapping": {
+    "90": "magic-script finite source evidence;not remaining CODE90/test whole re-audit",
+    "3v": "attack finite source evidence;no whole card accept",
+    "3t": "battle-opcodes/cov85 finite changes;no whole card accept",
+    "53/79": "Same source appears in frozen scope;unrelated poison/state outcomes not accepted or modified",
+    "3q": "scene finite source evidence;no whole card accept",
+    "BGM": "Actual GLM changed source;no confirmed named83card route,retained without invented mapping"
+  },
+  "glmChangedSourceProgress": {
+    "total": 41,
+    "withDetailedMatrix": 12,
+    "remaining": 29,
+    "reviewedPaths": [
+      "packages/game/src/core/battle/actions/attack.ts",
+      "packages/game/src/core/battle/battle-opcodes.ts",
+      "packages/game/src/core/menu/magic-script.ts",
+      "packages/game/src/core/scene-system.ts",
+      "packages/pal-extract/src/io/word.ts",
+      "packages/pal-extract/src/resources/parsers/enemies.ts",
+      "packages/pal-extract/src/resources/parsers/player-roles.ts",
+      "packages/reforge/src/audio/bgm.ts",
+      "packages/shared/src/events.ts",
+      "packages/shared/src/index.ts",
+      "packages/shared/src/resources.ts",
+      "packages/shared/src/tables.ts"
+    ],
+    "remainingPaths": [
+      "packages/content/src/index.ts",
+      "packages/game/src/assets/loader.ts",
+      "packages/game/src/core/battle/actions/magic.ts",
+      "packages/game/src/core/battle/battle-state.ts",
+      "packages/game/src/core/battle/battle-system.ts",
+      "packages/game/src/core/command-bus.ts",
+      "packages/game/src/core/equip-effect.ts",
+      "packages/game/src/core/equipment-state.ts",
+      "packages/game/src/core/event-system.ts",
+      "packages/game/src/core/game-state.ts",
+      "packages/game/src/core/menu/item-select.ts",
+      "packages/game/src/core/menu/menu-driver.ts",
+      "packages/game/src/dev/dev-panel.ts",
+      "packages/game/src/present/battle/draw-battle-sprites.ts",
+      "packages/game/src/present/battle/draw-battle-ui.ts",
+      "packages/game/src/present/battle/present-battle.ts",
+      "packages/game/src/present/dialog-box.ts",
+      "packages/game/src/present/draw-tilemap.ts",
+      "packages/game/src/present/menu/draw-equip.ts",
+      "packages/game/src/present/menu/draw-player-status.ts",
+      "packages/game/src/present/present.ts",
+      "packages/game/src/shell/bootstrap.ts",
+      "packages/game/src/shell/trademark-fallback.ts",
+      "packages/pal-extract/src/cli.ts",
+      "packages/pal-extract/src/events/disasm.ts",
+      "packages/pal-extract/src/events/opcodes.ts",
+      "packages/pal-extract/src/font/bdf-to-json.ts",
+      "packages/pal-extract/src/resources/parsers/rix.ts",
+      "packages/pal-extract/src/resources/parsers/sounds.ts"
+    ],
+    "limits": "Detailed matrix count does not mean all files closed. Unchanged author package claims remain qualified and require only their specific missing evidence;no new83card audit mandate."
+  },
+  "unfixed": [
+    {
+      "id": "D-O1",
+      "kind": "candidate",
+      "path": "packages/game/src/core/menu/magic-script.ts",
+      "note": "Unused public costMP/casterRoleId parameters;keep signature in this limited refactoring,possible narrow API simplification after caller contract approval."
+    },
+    {
+      "id": "D-O2",
+      "kind": "candidate/limits",
+      "path": "packages/game/src/core/scene-system.ts",
+      "note": "Global scene context/multiworld and concurrent asyncload design not newly certified;current accepted app lifecycle remains one world. No behavior expansion in dead-function cleanup."
+    },
+    {
+      "id": "D-O3",
+      "kind": "test scope",
+      "path": "packages/game/src/core/battle/battle-opcodes.cov85.test.ts",
+      "note": "Other54cov85 cases preserve prior bounded evidence+current execution;not new full E review or runtime coverage closure."
+    }
+  ],
+  "notRun": [
+    "Whole pnpm check",
+    "Official coverage ratchet",
+    "Protected fast",
+    "Whole game/reforge tests",
+    "Real browser/audio hardware/visual/E2E",
+    "Unchanged docs-tools125"
+  ],
+  "integration": "Global editor diagnostics and expired e2e-route remain outside current GLM fixes;no unified gate completion or main merge.",
+  "quickVerify": {
+    "command": [
+      "node",
+      "-e",
+      "const f=require('node:fs'),c=require('node:crypto'),z=require('node:zlib');const d=JSON.parse(f.readFileSync(process.argv[1])),h=b=>c.createHash('sha256').update(b).digest('hex');for(const b of [...d.fileReviews,...d.callerTestBindings,...d.reusedAuthorEvidence])if(h(f.readFileSync(b.path))!==b.sha256)throw Error('stale:'+b.path);const gz=f.readFileSync(d.artifact.path);if(h(gz)!==d.artifact.sha256)throw Error('attachment');const raw=z.gunzipSync(gz);if(h(raw)!==d.artifact.decodedSha256)throw Error('raw');const m=JSON.parse(raw);for(const b of d.artifact.members)if(h(Buffer.from(m[b.name]))!==b.sha256)throw Error(b.name);for(const [n,count]of [['revive-green',103],['revive-adjacent',181],['bgm',24]]){const r=JSON.parse(m[n+'.native.json']),e=JSON.parse(m[n+'.execution.json']);if(e.exitCode!==0||r.numPassedTests!==count||r.numFailedTests||r.numFailedTestSuites||r.numPendingTests||m[n+'.stderr'].length)throw Error(n);}const t=JSON.parse(m['game-tsc.execution.json']);if(t.exitCode||t.stdout||t.stderr)throw Error('tsc');const re=JSON.parse(m['revive-red.execution.json']);if(re.exitCode!==1)throw Error('redexit');const red=JSON.parse(m['revive-red.native.json']);const failed=red.testResults.flatMap(t=>t.assertionResults).filter(t=>t.status==='failed');if(red.numPassedTests!==1||red.numPendingTests!==54||failed.length!==2||!failed.every(t=>t.failureMessages.some(v=>v.includes('AssertionError'))))throw Error('red');const ids=JSON.parse(m['revive-red-source-identities.json']);for(const [path,x]of Object.entries(ids)){const b=path.endsWith('.test.ts')?f.readFileSync(path):require('node:child_process').execFileSync('git',['show',d.base+':'+path]);if(h(b)!==x.sha256)throw Error('red-input:'+path);}const p=JSON.parse(m['dead-removals-final.json']);if(p.results.length!==5||!p.results.every(v=>v.allowedDeletionOnly&&v.currentOtherwiseAuthorBodyEqual))throw Error('proof');const l=f.readFileSync('docs/ops/audits/code-quality-file-ledger.md','utf8').split('\\n');for(const [path,row]of Object.entries(d.ledgerSnapshot.rows))if(l.find(v=>v.startsWith('| `'+path+'` |'))!==row)throw Error('ledger:'+path);console.log('five source/308native/two business failures match;not whole-file semantic certification');",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json"
+    ],
+    "scope": "Read-only local fingerprints,raw/native,case mappings and6specific live rows;0match/1stale-missing-mismatch. No tests/network/semantic automation."
+  },
+  "quickVerifyValidation": [
+    {
+      "id": "current",
+      "exitCode": 0,
+      "stdout": "five source/308native/two business failures match;not whole-file semantic certification\n",
+      "stderr": ""
+    },
+    {
+      "id": "stale-source",
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": "[eval]:1\n(crypto=>{{const f=require('node:fs'),c=require('node:crypto'),z=require('node:zlib');const d=JSON.parse(f.readFileSync(process.argv[1])),h=b=>c.createHash('sha256').update(b).digest('hex');for(const b of [...d.fileReviews,...d.callerTestBindings,...d.reusedAuthorEvidence])if(h(f.readFileSync(b.path))!==b.sha256)throw Error('stale:'+b.path);const gz=f.readFileSync(d.artifact.path);if(h(gz)!==d.artifact.sha256)throw Error('attachment');const raw=z.gunzipSync(gz);if(h(raw)!==d.artifact.decodedSha256)throw Error('raw');const m=JSON.parse(raw);for(const b of d.artifact.members)if(h(Buffer.from(m[b.name]))!==b.sha256)throw Error(b.name);for(const [n,count]of [['revive-green',103],['revive-adjacent',181],['bgm',24]]){const r=JSON.parse(m[n+'.native.json']),e=JSON.parse(m[n+'.execution.json']);if(e.exitCode!==0||r.numPassedTests!==count||r.numFailedTests||r.numFailedTestSuites||r.numPendingTests||m[n+'.stderr'].length)throw Error(n);}const red=JSON.parse(m['revive-red.native.json']);const failed=red.testResults.flatMap(t=>t.assertionResults).filter(t=>t.status==='failed');if(failed.length!==2||!failed.every(t=>t.failureMessages.some(v=>v.includes('AssertionError'))))throw Error('red');const ids=JSON.parse(m['revive-red-source-identities.json']);for(const [path,x]of Object.entries(ids)){const b=path.endsWith('.test.ts')?f.readFileSync(path):require('node:child_process').execFileSync('git',['show',d.base+':'+path]);if(h(b)!==x.sha256)throw Error('red-input:'+path);}const p=JSON.parse(m['dead-removals-final.json']);if(p.results.length!==5||!p.results.every(v=>v.allowedDeletionOnly&&v.currentOtherwiseAuthorBodyEqual))throw Error('proof');const l=f.readFileSync('docs/ops/audits/code-quality-file-ledger.md','utf8').split('\\n');for(const [path,row]of Object.entries(d.ledgerSnapshot.rows))if(l.find(v=>v.startsWith('| `'+path+'` |'))!==row)throw Error('ledger:'+path);console.log('five source/308native/two business failures match;not whole-file semantic certification');}})(require('node:crypto'))\n                                                                                                                                                                                                                                                                                                                          ^\n\nError: stale:packages/game/src/core/battle/actions/attack.ts\n    at [eval]:1:321\n    at [eval]:1:1991\n    at runScriptInThisContext (node:internal/vm:209:10)\n    at node:internal/process/execution:446:12\n    at [eval]-wrapper:6:24\n    at runScriptInContext (node:internal/process/execution:444:60)\n    at evalFunction (node:internal/process/execution:279:30)\n    at evalTypeScript (node:internal/process/execution:291:3)\n    at node:internal/main/eval_string:74:3\n\nNode.js v22.23.2\n",
+      "mutation": "External copy first SHA→64zeros;temp removed"
+    },
+    {
+      "id": "final-current-with-redinput-tsc-checks",
+      "exitCode": 0,
+      "stdout": "five source/308native/two business failures match;not whole-file semantic certification\n",
+      "stderr": ""
+    }
+  ],
+  "metadataBindings": [
+    {
+      "review": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "path": "docs/ops/board.md"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "path": "docs/ops/audits/code-quality-file-ledger.md"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"
+    }
+  ],
+  "complexityScreen": [
+    {
+      "path": "packages/game/src/core/battle/actions/attack.ts",
+      "name": "performAttack",
+      "line": 117,
+      "cc": 85
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/attack.ts",
+      "name": "buildAttackTimeline",
+      "line": 527,
+      "cc": 17
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.ts",
+      "name": "pushThrowOffMagicAnim",
+      "line": 141,
+      "cc": 11
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-opcodes.ts",
+      "name": "dispatchBattleOpcode",
+      "line": 396,
+      "cc": 388
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-script.ts",
+      "name": "applyHPMPDeltaSingle",
+      "line": 52,
+      "cc": 12
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-script.ts",
+      "name": "runMagicScriptSync",
+      "line": 125,
+      "cc": 29
+    },
+    {
+      "path": "packages/game/src/core/scene-system.ts",
+      "name": "updateEventObjectsAndTrigger",
+      "line": 164,
+      "cc": 27
+    },
+    {
+      "path": "packages/game/src/core/scene-system.ts",
+      "name": "isWalkable",
+      "line": 348,
+      "cc": 14
+    },
+    {
+      "path": "packages/game/src/core/scene-system.ts",
+      "name": "tickSceneInput",
+      "line": 445,
+      "cc": 15
+    },
+    {
+      "path": "packages/reforge/src/audio/bgm.ts",
+      "name": "doPlay",
+      "line": 141,
+      "cc": 11
+    }
+  ],
+  "complexityDisposition": "Branch-heavy action/opcode/scene/runner/audio orchestration are explicit retained boundaries,not proof of new defect or quality acceptance. Concrete current delta/design gaps reviewed;no metric-target splitting or whole-function reread repeated.",
+  "toolVersions": {
+    "node": "v22.23.2",
+    "typescript": "6.0.3",
+    "vitest": "4.1.7"
+  },
+  "checks": {
+    "docs": {
+      "command": ["node", "scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-19T15:35:30.461255+00:00",
+      "exitCode": 0,
+      "stdout": "docs: 1653 Markdown / 9815 local links / 467 tasks / content22 SAVE12\ndocs: PASS (0 issues)\n",
+      "stderr": ""
+    },
+    "model": {
+      "command": ["node", "scripts/docs/check-document-model.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-19T15:35:30.462112+00:00",
+      "exitCode": 0,
+      "stdout": "document model: PASS (8 routes; 1264 body contracts; 0 issues; structure only)\n",
+      "stderr": ""
+    },
+    "phase": {
+      "command": ["node", "scripts/docs/check-phase-lore-governance.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-19T15:35:30.462326+00:00",
+      "exitCode": 0,
+      "stdout": "phase/lore governance: PASS (184 documents)\n",
+      "stderr": ""
+    },
+    "content": {
+      "command": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-19T15:35:30.463082+00:00",
+      "exitCode": 0,
+      "stdout": "content review: PASS (2346 documents; {\"content-reviewed\":2346})\n",
+      "stderr": ""
+    },
+    "lint": {
+      "command": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-19T15:35:30.535693+00:00",
+      "exitCode": 0,
+      "stdout": "\n> type-pal@ lint /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal\n> node scripts/quality/lint-zero.mjs\n\nlint: PASS — 5662 files; 0 errors / 0 warnings / 0 infos; complete report\n",
+      "stderr": ""
+    },
+    "diff": {
+      "command": ["git", "diff", "--cached", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-19T15:35:31.087848+00:00",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "ledger": {
+      "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "startedAt": "2026-10-19T15:35:31.123408+00:00",
+      "exitCode": 0,
+      "stdout": "code-quality ledger: PASS — 3316 files; 228 closed / 130 review / 2958 pending; semantic review still required\n",
+      "stderr": ""
+    }
+  },
+  "aggregateDocsGate": {
+    "status": "not-passed;unchanged testing-docs expiry outside finiteGLM rework",
+    "priorActualCommandReceipt": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-enemy-role.json#/checks/testing",
+    "execution": "Not rerun unchanged125docs tests or expired-route gate. Component docs/model/phase/content0issues recorded separately. No aggregate pnpm check:docs success claimed."
+  },
+  "currentGateConclusion": "Current308 distinct cases0stderr;true pre-fix2business failures then fix;game tsc0. docs/model/phase/content/ledger/diff pass;lint5662files0errors/0warnings/0infos. Wholecheck/coverage/protected held to completeGLM window. Existing route/editor blockers retained,no main merge;0newclosed.",
+  "processNotes": [
+    "Initial temporary docs producer hit UTF-8 tokenizer error before editing card;card changes then applied explicitly. Initial evidence builder had a parse-time parenthesis typo;corrected before writes. Neither was a passed validation or product change.",
+    "Current game green/typecheck ran before final comment-only corrections;all executable statements unchanged after that execution,as exact current normalization shows. Tests and production threshold fix were stable;no extra rerun solely for comments.",
+    "Five metadata bindings/two board rows only;all83card status bytes,task index,andledger historical tail checked unchanged from58589d263."
+  ]
+}

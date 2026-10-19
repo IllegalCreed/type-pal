@@ -36,3 +36,7 @@ grep -cn 'void beforeHealth' "$WT/packages/game/src/core/battle/battle-opcodes.t
 ```
 
 失效条件:实现变化 → 重测;dispatch 合同(consumed/newIp)变化 → 3t 证据重估。
+
+## Codex 2026-10-20 当前有限裁定
+
+void beforeHealth删除成立，但“其余注释准确/未发现缺陷”信用撤回：头部返回协议/通用fallback错注和0x22清全部状态漏报。复活的999/1000/32760两红后窄修已测；当前103+181game无stderr，其余opcode不因此整体签收。 [逐文件依据与原件](../codex-dead-removals.json)。文件保持review，未授整卡/整包accept。

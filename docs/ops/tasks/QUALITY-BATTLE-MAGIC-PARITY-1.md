@@ -11,6 +11,14 @@ Visual Verification Timing: e2e-deferred
 Contributor: Codex
 Branch: codex/code-quality-3y
 
+## 2026-10-20 GLM交付续审的高风险补项
+
+当前build新增战内0x22保留装备状态；原三项结果保持。Coding Owner=Codex，同3y从58589d263续行。用户此前明确“持续时间超过999是武器和装备buff，不清除”，本项落实既有裁决，不新增产品取舍。
+
+四向真值：原盘数据不定义清除算法，不冒称已测原版运行；primary为script.c:1052-1102的单/全体0x22与global.c:2280-2307的PAL_RemovePlayerStatus（仅清<=999）；第一阶段seedBattleStatus复制装备>999，而reviveOne无条件重建全部状态为0；二阶段N/A（独立grantedStatuses模型不动）；目标只清复活者<=999，保留>999，活人/未选队友不变。最强替代解释“战内恒小于999”被实际seed及既有0x2F的32760合同推翻。GLM game-battleopcodes回执漏报此行为并将全清注释认作准确。
+
+Codex premise verified/build allowed：先停实现、保留原全体例增强及单体非顺序队伍的真实失败，再保持输出字段形状地修复阈值。两实现/测试白名单为battle-opcodes.ts及cov85专测；不改毒等级、HP公式、死亡/入战/衰减、公共接口或其它卡。定向/相邻/game tsc及静态门，贵门留GLM整批收尾。当前补项不授予整opcode或原三项统一门信用，仍非done。
+
 ## 目标
 
 修复用户转交 GLM 独立审计指出的三条第一阶段分叉：模拟法术优先上次存活目标、0x66 使用运行时基础武术、敌方非伤害法术也预掷自动防御并传递防御姿。三条均先落失败反例再改生产实现；不把局部修复当作整文件或波次验收。
@@ -122,3 +130,9 @@ H01测试判别力另修一行：敌B入口ip2=end→ip3=对话；漏终态break
 770f9168e不是仅修三处之一，而是对应GLM完整审计第二节全部三条：①simulateMagic选靶偏好（含0x42伤害与FIRE共用同次目标、零伤/致死反例）；②真实performThrowItem→runScript 0x66读裸runtime攻击，装备/Extra不改变伤害、真实0不回退；③真实performMagic敌方非伤害法术也先预掷autoDefend，名单继续进入frame3及advanceBattleAnimFrames消费。直接caller三层均覆盖，未只测新helper。
 
 先红后修：改生产前保留初版反例日志，修正错误FIRE帧数oracle后为8红6绿；最终合法15例对原基点0e3的三份旧生产源精确回放为9红6绿、零runtime error suite，不冒称整个旧checkout。全灭场景限定attackWhole，normal无目标assert域仍pending。当前15定向/37文件935相邻通过，五枚指定业务AssertionError反控分别拦回三机制、漏防御姿与致死后重选靶；完整未裁剪raw、spec、恢复SHA与命令见[既有证据](../evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md)的red-legal.json、controls.json和gates.json。本次只是补交接映射，没有为说明重跑这些不变测试。统一门/浏览器视觉仍未执行，不恢复53波次收口信用、不宣布整文件完成。
+
+## 2026-10-20 战内复活装备状态补项回执
+
+[GLM正文删除与复活返工原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json)保存两条实际修前AssertionError（1000/32760被清零）、原源/测试身份及当前103定向+181相邻。原全体例只加强与更正标题，新增1个单体非顺序队伍例：party[1,0]、目标slot1是role0，确认不影响活队友。修复保持十字段新对象形状，只用同一本地数值谓词保留>999；HP、毒等级、目标优先级和帧刷新不变。两侧临界999/1000与真实32760有直接业务断言，未用mock次数代替。无公共接口/schema/save/二阶段或资产变化。
+
+当前284game用例无stderr、game tsc0；与本缺陷无关的BGM24另记，不把它们充战斗覆盖。本卡恢复review，局部源码/反例完成，统一门和视觉未签收。原三项证据保留，未重跑其旧935套件。无下一位Agent提示词；Codex继续本批GLM剩余交付返工。
