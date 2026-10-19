@@ -633,9 +633,8 @@ const KEY_ICON_FRAME = 0
  * 绘一帧 dialog:画所有 shownLines(完整)+ currentLineText 的 charsRevealed 截断。
  * 行布局:`pos.y + lineIdx * LINE_HEIGHT_PX`。
  *
- * key icon 显示条件:phase != 'typing' && (有下个动作可期待)。
- *   waiting-page-key / waiting-end-key:必须 blink(玩家必须按键)
- *   line-done:也 blink(玩家可按 Confirm 跳过 fUserSkip,但本来就完了 — 显示 hint)
+ * key icon 仅 waiting-page-key / waiting-end-key 显示(shouldShowKeyIcon;center 排除,
+ * line-done 行间自动推进不显)。"闪烁"由 present 层 palette 0xF9-0xFE 轮转产生,icon 常显。
  */
 export function drawDialogBox(
   fb: Framebuffer,
