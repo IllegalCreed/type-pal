@@ -1,4 +1,7 @@
-import { getPalAuthoredMapName, hasPalAuthoredMapName } from '@type-pal/shared/pal-authored-map-names'
+import {
+  getPalAuthoredMapName,
+  hasPalAuthoredMapName,
+} from '@type-pal/shared/pal-authored-map-names'
 
 /** mapNum → 人读地名；缺名保持一阶段工具既有的 `地图N` 回退。 */
 export function getMapName(mapNum: number): string {
