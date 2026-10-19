@@ -1,7 +1,7 @@
 export interface TileCell {
-  /** 下层 tile bitmap 索引 + 属性位(从 u32 低 16 bit 切)*/
+  /** Tiles[row][col][0],h=0 错排半格的完整 u32;含底层/覆盖层及属性位。 */
   lower: number
-  /** 上层 tile bitmap 索引 + 属性位(从 u32 低 16 bit 切)*/
+  /** Tiles[row][col][1],h=1 错排半格的完整 u32;不是覆盖层的单独字段。 */
   upper: number
 }
 
