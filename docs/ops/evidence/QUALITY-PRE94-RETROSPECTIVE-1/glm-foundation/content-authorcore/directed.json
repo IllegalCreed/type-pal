@@ -1,0 +1,399 @@
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 4,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 35,
+  "numPassedTests": 35,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792375823238,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C1 author-script-core 剩余合同"],
+          "fullName": "C1 author-script-core 剩余合同 initialPage 未命中 page 精确拒绝，页与 behavior 输入不变",
+          "status": "passed",
+          "title": "initialPage 未命中 page 精确拒绝，页与 behavior 输入不变",
+          "duration": 1.932957999999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375823594,
+      "endTime": 1792375823595.9329,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/author-script-core.cursor-pure-wave2.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema mountParty accepts a carrier alone or distinct same-scene riders with optional finite offsets",
+          "status": "passed",
+          "title": "mountParty accepts a carrier alone or distinct same-scene riders with optional finite offsets",
+          "duration": 1.4993329999999787,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema mountParty rejects 'a non-array rider list'",
+          "status": "passed",
+          "title": "mountParty rejects 'a non-array rider list'",
+          "duration": 0.2980000000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema mountParty rejects 'a rider in another scene'",
+          "status": "passed",
+          "title": "mountParty rejects 'a rider in another scene'",
+          "duration": 0.09695800000002919,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema mountParty rejects 'the carrier as its own rider'",
+          "status": "passed",
+          "title": "mountParty rejects 'the carrier as its own rider'",
+          "duration": 0.08591599999999744,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema mountParty rejects 'a repeated rider'",
+          "status": "passed",
+          "title": "mountParty rejects 'a repeated rider'",
+          "duration": 0.09025000000002592,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema mountParty rejects 'an infinite horizontal offset'",
+          "status": "passed",
+          "title": "mountParty rejects 'an infinite horizontal offset'",
+          "duration": 0.07687500000002956,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema mountParty rejects 'a non-finite vertical offset'",
+          "status": "passed",
+          "title": "mountParty rejects 'a non-finite vertical offset'",
+          "duration": 0.12254100000001245,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema faceEntityToParty has only a canonical entity address, not a fixed facing or bare id",
+          "status": "passed",
+          "title": "faceEntityToParty has only a canonical entity address, not a fixed facing or bare id",
+          "duration": 0.4570420000000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema step names are optional author metadata, but supplied names must be non-empty strings",
+          "status": "passed",
+          "title": "step names are optional author metadata, but supplied names must be non-empty strings",
+          "duration": 0.7506669999999644,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema completion edges and owner-bound completed cursors have exact shapes",
+          "status": "passed",
+          "title": "completion edges and owner-bound completed cursors have exact shapes",
+          "duration": 0.510832999999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema world state uses composite entity maps and has no flat stage/binding authority",
+          "status": "passed",
+          "title": "world state uses composite entity maps and has no flat stage/binding authority",
+          "duration": 0.35812500000002956,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema validates persisted behavior selections and owner-bound cursors",
+          "status": "passed",
+          "title": "validates persisted behavior selections and owner-bound cursors",
+          "duration": 0.2520829999999705,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema rejects inherit persistence and cursors without stable owners",
+          "status": "passed",
+          "title": "rejects inherit persistence and cursors without stable owners",
+          "duration": 0.15216600000002245,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema rejects unknown, non-finite and flat legacy world state",
+          "status": "passed",
+          "title": "rejects unknown, non-finite and flat legacy world state",
+          "duration": 0.1510420000000181,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema accepts stable entity selections, composite conditions and structured loops",
+          "status": "passed",
+          "title": "accepts stable entity selections, composite conditions and structured loops",
+          "duration": 0.3979580000000169,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema rejects legacy author command {\"kind\":\"jumpScript\",\"ref\":{\"chunk\":\"scene/s001\",\"id\":\"legacy\"}}",
+          "status": "passed",
+          "title": "rejects legacy author command {\"kind\":\"jumpScript\",\"ref\":{\"chunk\":\"scene/s001\",\"id\":\"legacy\"}}",
+          "duration": 0.7907500000000027,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema rejects legacy author command {\"kind\":\"setEntityAuto\",\"entity\":\"e1\",\"stages\":[]}",
+          "status": "passed",
+          "title": "rejects legacy author command {\"kind\":\"setEntityAuto\",\"entity\":\"e1\",\"stages\":[]}",
+          "duration": 0.5967499999999859,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema rejects legacy author command {\"kind\":\"setEntityState\",\"entity\":\"e1\",\"state\":2}",
+          "status": "passed",
+          "title": "rejects legacy author command {\"kind\":\"setEntityState\",\"entity\":\"e1\",\"state\":2}",
+          "duration": 0.2723750000000109,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema rejects legacy author command {\"kind\":\"callScript\",\"ref\":{\"chunk\":\"shared/c00\",\"id\":\"shared/user/x\"}}",
+          "status": "passed",
+          "title": "rejects legacy author command {\"kind\":\"callScript\",\"ref\":{\"chunk\":\"shared/c00\",\"id\":\"shared/user/x\"}}",
+          "duration": 0.18874999999997044,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema rejects legacy author command {\"kind\":\"madeUpCommand\"}",
+          "status": "passed",
+          "title": "rejects legacy author command {\"kind\":\"madeUpCommand\"}",
+          "duration": 1.1585000000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema rejects unknown and malformed canonical conditions",
+          "status": "passed",
+          "title": "rejects unknown and malformed canonical conditions",
+          "duration": 0.8946669999999699,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema startBattle choreography 只接受穷尽的 battle context 动作",
+          "status": "passed",
+          "title": "startBattle choreography 只接受穷尽的 battle context 动作",
+          "duration": 2.728334000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema openShop accepts exact non-negative ids and validates mode independently of reference use",
+          "status": "passed",
+          "title": "openShop accepts exact non-negative ids and validates mode independently of reference use",
+          "duration": 1.162417000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema canonical command unknown boundary rejects malformed control {\"kind\":\"startBattle\",\"enemyTeamId\":\"team-1\",\"partyPreset\":42}",
+          "status": "passed",
+          "title": "canonical command unknown boundary rejects malformed control {\"kind\":\"startBattle\",\"enemyTeamId\":\"team-1\",\"partyPreset\":42}",
+          "duration": 0.6245840000000271,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema canonical command unknown boundary rejects malformed control {\"kind\":\"startBattle\",\"enemyTeamId\":\"team-1\",\"enemyOverride\":[\"enemy-1\"]}",
+          "status": "passed",
+          "title": "canonical command unknown boundary rejects malformed control {\"kind\":\"startBattle\",\"enemyTeamId\":\"team-1\",\"enemyOverride\":[\"enemy-1\"]}",
+          "duration": 0.2342079999999669,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema canonical command unknown boundary rejects malformed control {\"kind\":\"holdScreen\",\"color\":\"red\",\"token\":\"night\"}",
+          "status": "passed",
+          "title": "canonical command unknown boundary rejects malformed control {\"kind\":\"holdScreen\",\"color\":\"red\",\"token\":\"night\"}",
+          "duration": 0.17133300000000418,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema canonical command unknown boundary rejects malformed control {\"kind\":\"holdScreen\",\"color\":\"black\",\"token\":\"\"}",
+          "status": "passed",
+          "title": "canonical command unknown boundary rejects malformed control {\"kind\":\"holdScreen\",\"color\":\"black\",\"token\":\"\"}",
+          "duration": 0.15237500000000637,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema canonical command unknown boundary rejects malformed control {\"kind\":\"revealScreen\",\"token\":123}",
+          "status": "passed",
+          "title": "canonical command unknown boundary rejects malformed control {\"kind\":\"revealScreen\",\"token\":123}",
+          "duration": 0.13970800000004147,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema canonical command unknown boundary rejects malformed control {\"kind\":\"loadScene\",\"scene\":\"s002\",\"transition\":{\"kind\":\"source\",\"outMs\":-1,\"inMs\":0,\"color\":\"black\",\"evidenceId\":\"source-1\"}}",
+          "status": "passed",
+          "title": "canonical command unknown boundary rejects malformed control {\"kind\":\"loadScene\",\"scene\":\"s002\",\"transition\":{\"kind\":\"source\",\"outMs\":-1,\"inMs\":0,\"color\":\"black\",\"evidenceId\":\"source-1\"}}",
+          "duration": 0.27762500000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema canonical command unknown boundary rejects malformed control {\"kind\":\"loadScene\",\"scene\":\"s002\",\"transition\":{\"kind\":\"modern\",\"outMs\":260,\"inMs\":260,\"color\":\"black\",\"extra\":true}}",
+          "status": "passed",
+          "title": "canonical command unknown boundary rejects malformed control {\"kind\":\"loadScene\",\"scene\":\"s002\",\"transition\":{\"kind\":\"modern\",\"outMs\":260,\"inMs\":260,\"color\":\"black\",\"extra\":true}}",
+          "duration": 0.22449999999997772,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema canonical schema accepts exact transient screen and source transition shapes",
+          "status": "passed",
+          "title": "canonical schema accepts exact transient screen and source transition shapes",
+          "duration": 0.44854099999997743,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema validates stable stage ids and slot-aware entry",
+          "status": "passed",
+          "title": "validates stable stage ids and slot-aware entry",
+          "duration": 1.5629579999999805,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema validates pages against local behavior registries",
+          "status": "passed",
+          "title": "validates pages against local behavior registries",
+          "duration": 0.5970839999999953,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical author script schema"],
+          "fullName": "canonical author script schema scene hook entry belongs only to onEnter and shared scripts cannot own flows",
+          "status": "passed",
+          "title": "scene hook entry belongs only to onEnter and shared scripts cannot own flows",
+          "duration": 0.39837499999998727,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375823594,
+      "endTime": 1792375823612.5972,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/author-script-core.test.ts"
+    }
+  ]
+}
