@@ -446,7 +446,8 @@ function dispatchOpeningMenu(gs: GameState, top: ActiveMenuEntry, input: InputSn
       // sdlpal uigame.c:143 真值:VIDEO_BackupScreen → PAL_SaveSlotMenu(1) → Restore。
       // ts 端 push 'save-slot' kind menu;选完 slot 由 dispatchSaveSlotMenu 调 bootstrap
       // 注入的 loadGameHandler 真做整套 load(Save.loadSlot + gs 替换 + scene reload)。
-      // Cancel 回 OpeningMenu = closeTopMenu(save-slot)pop 回 opening — sdlpal uigame.c:146-151 等价。
+      // Cancel 由 dispatchSaveSlotMenu 弹回 opening 并把光标复位到新游戏
+      // (sdlpal uigame.c:143-150 wDefaultItem=0)。
       const state = createSaveSlotMenu('load')
       void fetchSlotMetas(state)
       openMenu(gs, { kind: 'save-slot', state })
@@ -1047,7 +1048,7 @@ function dispatchSaveSlotMenu(
   }
 }
 
-// ── helper export(equip / save-slot 用 — W0.e/f task 内引用) ─────────────
+// ── 装备菜单 entry 工厂(当前无生产 caller) ─────────────────────────────
 
 export function makeEquipMenuEntry(gs: GameState): ActiveMenuEntry {
   return { kind: 'equip', state: createEquipMenu(gs, requireCatalogs().items) }

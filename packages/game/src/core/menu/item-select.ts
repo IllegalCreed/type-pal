@@ -4,8 +4,8 @@
  * 分类标签:equip / potion / battle / important 4 类切换;数量 / 价格列开关
  * (mode='inventory'/'buy'/'sell')。
  *
- * 数据层只生成 visible SelectionMenuItem 列表(本身 reuse primitives.SelectionMenu);
- * 渲染层 draw-item-select.ts 后续接入。
+ * createItemSelectMenu 只生成 SelectionMenuState,当前无生产 caller。
+ * matchesFilter 仍由 equip-menu / sell-menu / draw-inventory 复用。
  */
 
 import type { Item } from '@type-pal/shared'
