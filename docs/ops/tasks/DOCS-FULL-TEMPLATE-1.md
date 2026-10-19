@@ -5,7 +5,7 @@ Execution: rework（R23–R36追加撤信与R39后原撤信已纠错；逐篇语
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: 原纠错限定接受保留；Codex对GLM S15据证非作者接受273篇，N3未完成；全量硬验收未完成
+Reviewer: 原纠错/S15接收保留；Codex对S16非作者据证复核：123保全/六门通过，语义与模板返工；全量硬验收未完成
 Branch: codex/docs-audit-rework
 Last reviewed: 2026-10-19
 Template: task-card-v1 / 1.0.0
@@ -2034,3 +2034,14 @@ root非作者实际核固定de423正文SHA1e50d535c2b16aa466207da22e698768bd5abb
 ### S15 中央门的跨日发布复审（2026-10-19）
 
 本次实际 `pnpm check:docs` 的 181 工具检查全部通过，随后 testing consumer 因 `e2e-route.reviewBy=2026-10-18` 在 UTC 2026-10-19 到期而退出；原始失败保留，不宣称组合门通过。Owner 完整核读该方案现行正文和配对 document-audit evidence，并核前驱/版本源码、公开 caller 片段、共同合同及 R4/005/006 当前状态，执行有界发布适用性复审：维持 proposal、lastVerified=2026-10-04、原 revision/版本及 performed=false；七天后于 2026-10-26 再审，来源/准入变化提前复审。仅同步本条 catalog 的复审期限、正文复审说明和 evidence 新增复审记录，历史 quote 与机器执行字段不变；生成器已实际重生九个视图且无派生字节变化。这是 Owner 存量文档发布维护，不属于 GLM S15 白名单，也不新增语义迁移数量；原始复审记录和后续 consumer 实跑分别存入中央 raw，工具/产品/E2E/视觉/coverage 不互代。
+
+### S16 固定76dd候选非作者复核与返工（2026-10-19）
+
+- Codex `/root` 对 base `69c47cac8f4ab810d1d28c6feaa83b45eccf8473`、candidate `76dd738b63c3c06c4d31bc1db90e90a0d2fa24b0` 作 `rework` 裁定。13提交恰123白名单正文、tracked干净、零共享域/产品/旧测/coverage改动；123份before/source/after及blob均取Git相等，tail全保真。94direct/23sep-lf-1/5已声明U2420 codec/N3单点codec全部独立验证；N3唯一e290a0@659166→20后840326B，21个e291a0圈号保留，直接inverse不相等为预期。保全通过不补全文信用。
+- 按用户要求实际重跑六门：保全123/123、model7路由/1265合同/0issue、导航1302MD/8678链接/364任务/0issue、生成索引对候选blob字节相等、lint4511文件E/W/I均0、base..candidate diff0。固定HEAD+clean tracked和157项外部原件/准入指纹前后不变；原作者六门output SHA/字节也匹配。未跑181/整仓checkdocs/产品/旧测/coverage，不授全量/main/done。
+- S16-C01：批3–12恰99篇读域明确为table-summary、intro/headers/key-sections/tail或局部历史日志；不满足已授权逐篇全文。由GLM补读实际未读段并校正文义/读域，Owner不重做99篇；只换“全文”标签或以字节保全代读不解除。N3仍blocked，已知codec不再是阻塞理由。
+- S16-C02：批13八篇ops归档README为适配旧central绑定强改archive-record/evidence-receipt。逐篇目录原文只导航，且上述两类状态词无current，Owner裁定本八篇采用governance-index-v1/1.0.0、historyOverlay=false、current仅指导航；GLM修白名单正文与拟模板检查，Owner在接受后改中央路由/绑定。两篇phase1 README补archive overlay本身不列为此反例。
+- S16-C03：B10 census正文把104个0空槽误写104支零语义槽敌队；861=757有效槽+104空槽，68为含空槽队伍，56为含空槽且≥2有效敌的交集，20为含空槽且summon/divide定义的交集。须纠单位与条件，保留时点数字和输入pin。S16-C04：2026-07验收清单实际15项=7已划+8未划；新正文写九项且仅述A4未划，遗漏其余历史未划义务。须完整列明15/7/8，未划项仍不自动成为当前待办。
+- S16-E01：review index的SHA58b2c3f7正确，133行/123唯一path+10历史修订有说明；仅bytes85061陈旧，实际112186，另附更正，不倒改原件。S16-E02：原包缺所报25/1/58失败原始stdout；reflog/未amend与amend blob可证batch10真实改一条roadmap链接，batch13可证10白名单改动，不能据此补真所有历史数字。可补现存原件；丢失则明确撤回其已认证声明并保留原说法，不补造。作者旧输入清单只pin四份交接文件；Owner新重放才认证当前固定候选的六门输入，不倒认证旧执行。
+- 其余14篇具体正文与支撑证据保留，不要求重写；批1/2“fully read”和逐篇统一partial readDomain的矛盾须据实际澄清，若确有漏读才补读。完整集合、逐项解除条件及Owner八篇定向读域见[不可变裁定原件](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-owner-fixed76dd-evidence-and-counters/a2b2cc1631a6e648e1669443b83aac502f979d5f36b593a11b851d20ff81dd06.gz)。123机械信用保留，本轮新增中央content-reviewed为0，S15已接收273篇及其他既有信用不撤回；全卡仍rework。
+- GLM继续原分支，base仍69c47、从76dd追加提交，证据写新/tmp/s16-glm-evidence-correction；旧153文件已冻结，禁止覆盖更正。先处理C01–C04/E01–E02，全部完成或逐篇blocked后一次回交。拟绑定八篇的旧routing失败须如实归因，不为绿门再强套错误类型。

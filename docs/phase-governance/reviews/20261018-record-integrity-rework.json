@@ -2005,7 +2005,7 @@
       "supersedes": [],
       "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
       "sourceSha256": "af84d2340f368b60efd099fceb387cfd57d50e5a8c285a03a091009799a64e35",
-      "afterSha256": "f2ba409c40d8b881f5ba69dc1537b9bcdec693f5a5f004f25028c90787755ba2",
+      "afterSha256": "7f02ac8fab8b8fb90f32341a805ccc0cb1578fb9f51d53058f97c6b46aa349d1",
       "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only",
       "maintenanceDeltas": [
         {
@@ -2051,6 +2051,15 @@
           "previousAfterSha256": "e69e5720117580db7c146d6144d185168f2b68b9d4e5fcf2425c76286aeb8e58",
           "afterSha256": "f2ba409c40d8b881f5ba69dc1537b9bcdec693f5a5f004f25028c90787755ba2",
           "method": "S15 accepted/N3 blocked/S16 exact123 admission and current matrix writeback, no full-goal credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S16 fixed76dd independent counters and retained mechanical credit; no candidate body/native acceptance",
+          "sourceRevision": "69c47cac8f4ab810d1d28c6feaa83b45eccf8473",
+          "previousAfterSha256": "f2ba409c40d8b881f5ba69dc1537b9bcdec693f5a5f004f25028c90787755ba2",
+          "afterSha256": "7f02ac8fab8b8fb90f32341a805ccc0cb1578fb9f51d53058f97c6b46aa349d1",
+          "method": "Existing Owner control writes exactS16 nonauthor scope/counters; no new semantic/runtime or global/main/done credit; old review entries preserved.",
           "grantsNewSemanticAcceptance": false
         }
       ]

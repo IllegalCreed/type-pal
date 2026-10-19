@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "53ff639833b0970c9305dd1e0fe6b9e46c82f8813e8109ce9f35126f4ccaadcb",
+      "afterSha256": "49d696895590610efc94f1c23cbe9deb496d51f9823ff15f5c9b0c8b121a4184",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -941,6 +941,15 @@
           "previousAfterSha256": "2ee56b9b5e97aceef276e6687c55f39666dc637a5667c373f8afee584e89d286",
           "afterSha256": "53ff639833b0970c9305dd1e0fe6b9e46c82f8813e8109ce9f35126f4ccaadcb",
           "method": "S15 accepted/N3 blocked/S16 exact123 admission and current matrix writeback, no full-goal credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S16 fixed76dd independent counters and retained mechanical credit; no candidate body/native acceptance",
+          "sourceRevision": "69c47cac8f4ab810d1d28c6feaa83b45eccf8473",
+          "previousAfterSha256": "53ff639833b0970c9305dd1e0fe6b9e46c82f8813e8109ce9f35126f4ccaadcb",
+          "afterSha256": "49d696895590610efc94f1c23cbe9deb496d51f9823ff15f5c9b0c8b121a4184",
+          "method": "Existing Owner control writes exactS16 nonauthor scope/counters; no new semantic/runtime or global/main/done credit; old review entries preserved.",
           "grantsNewSemanticAcceptance": false
         }
       ]

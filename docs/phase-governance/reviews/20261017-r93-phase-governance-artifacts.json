@@ -516,7 +516,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "45d3ac468efc7d54f0e357b11afbc15fbb9f6473a373f47172d3f0bb692832a8",
-      "afterSha256": "90c4e5021e1622542eb8c2a58c6cf287d8f503fa5a0a167d74311c39e0fd72dc",
+      "afterSha256": "41349a5371848008f67c4723eff9cbcae640627b287fdd79d95f80a3373bf69f",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -792,6 +792,15 @@
           "previousAfterSha256": "8abe22b462c0336dcaef024114df9796698783fac0ed433d91d98ad5bf278bde",
           "afterSha256": "90c4e5021e1622542eb8c2a58c6cf287d8f503fa5a0a167d74311c39e0fd72dc",
           "method": "S15 accepted/N3 blocked/S16 exact123 admission and current matrix writeback, no full-goal credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S16 fixed76dd independent counters and retained mechanical credit; no candidate body/native acceptance",
+          "sourceRevision": "69c47cac8f4ab810d1d28c6feaa83b45eccf8473",
+          "previousAfterSha256": "90c4e5021e1622542eb8c2a58c6cf287d8f503fa5a0a167d74311c39e0fd72dc",
+          "afterSha256": "41349a5371848008f67c4723eff9cbcae640627b287fdd79d95f80a3373bf69f",
+          "method": "Existing Owner control writes exactS16 nonauthor scope/counters; no new semantic/runtime or global/main/done credit; old review entries preserved.",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -1282,7 +1291,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "5184e783471922879ffc626aee93a3216a23a9673a7ae207ab1484896fb41d24",
+      "afterSha256": "a161601de86c9f6e3fc1660a403b26d8b11cf93aacddb79cf7a972c019e91271",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1476,6 +1485,15 @@
           "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
           "previousAfterSha256": "e87d803406d5128df010599bd48ab9b5e1d4d8bac570642106cb1586f32c61b1",
           "afterSha256": "5184e783471922879ffc626aee93a3216a23a9673a7ae207ab1484896fb41d24",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S16 fixed76dd independent counters and retained mechanical credit; no candidate body/native acceptance",
+          "sourceRevision": "69c47cac8f4ab810d1d28c6feaa83b45eccf8473",
+          "previousAfterSha256": "5184e783471922879ffc626aee93a3216a23a9673a7ae207ab1484896fb41d24",
+          "afterSha256": "a161601de86c9f6e3fc1660a403b26d8b11cf93aacddb79cf7a972c019e91271",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }

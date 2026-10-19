@@ -1200,7 +1200,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "eb4827f9a02c95a5c29b3b0413f276af4fa14948119800c81965bece3e969563",
+      "afterSha256": "5ecb3e4ce8cf0fad559d200432e972fd32d5d916bb8455610025833b0f9f4bac",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1537,6 +1537,15 @@
           "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
           "previousAfterSha256": "4ad0d720d19ac13a53dfd77cc5371ef538f32e0e181aaa88353ab3fd39aff013",
           "afterSha256": "eb4827f9a02c95a5c29b3b0413f276af4fa14948119800c81965bece3e969563",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S16 fixed76dd independent counters and retained mechanical credit; no candidate body/native acceptance",
+          "sourceRevision": "69c47cac8f4ab810d1d28c6feaa83b45eccf8473",
+          "previousAfterSha256": "eb4827f9a02c95a5c29b3b0413f276af4fa14948119800c81965bece3e969563",
+          "afterSha256": "5ecb3e4ce8cf0fad559d200432e972fd32d5d916bb8455610025833b0f9f4bac",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
@@ -5577,7 +5586,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "df25ae4567b6c5d6157200b4e23008aa5e90c32c1ea9b5b4ecab18c9ca3ebd19",
+      "afterSha256": "5067ddb3b423ff80e99d11a5a883537538e0a9b6b15b740b7327580cd887d64c",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -6033,6 +6042,15 @@
           "previousAfterSha256": "a8fec4832f11a23f13af1b9bd297303d3333400e31f4b9d4d66370e39b265206",
           "afterSha256": "df25ae4567b6c5d6157200b4e23008aa5e90c32c1ea9b5b4ecab18c9ca3ebd19",
           "method": "Actual scoped publication applicability review; proposal/lastVerified/revision/runtime fields and quote preserved. Exact publication-review record retained, no additional migrated count.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S16 fixed76dd independent counters and retained mechanical credit; no candidate body/native acceptance",
+          "sourceRevision": "69c47cac8f4ab810d1d28c6feaa83b45eccf8473",
+          "previousAfterSha256": "df25ae4567b6c5d6157200b4e23008aa5e90c32c1ea9b5b4ecab18c9ca3ebd19",
+          "afterSha256": "5067ddb3b423ff80e99d11a5a883537538e0a9b6b15b740b7327580cd887d64c",
+          "method": "Existing Owner control writes exactS16 nonauthor scope/counters; no new semantic/runtime or global/main/done credit; old review entries preserved.",
           "grantsNewSemanticAcceptance": false
         }
       ]

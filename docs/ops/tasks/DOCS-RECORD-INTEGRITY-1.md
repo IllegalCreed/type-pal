@@ -170,3 +170,7 @@ Template: task-card-v1 / 1.0.0
 - N3“21处U+2420、全替换差40B”和before70965前缀为错误诊断。实际只有一个e290a0(U+2420)对ASCII空格，offset659166/line8711；21个e291a0(U+2460圈号)是两边相同原文。现封套早已明示单点规则，mapped inverse精确相等；after/before1714a48d...不变。文档仍blocked，下一包GLM完成其全文治理，不需凭错误诊断另起新模板/产品决策。
 - 旧14分区逐entry更新并保留原withdrawn entry，最大700110B，其他2158 native不变；不批量恢复旧R信用。Owner本轮pin日期常量错误以dateCorrection另附真实19操作日、保留旧date与真实命令原件，后续要求显式operationDate。五事故中间缺失raw不由最终绿补认证。
 - 当前接入与S16准入均不授全量、main、旧CI/runtime/E2E/视觉/coverage完成；两卡继续rework。
+
+### S16 据证验收边界与新反例（2026-10-19）
+
+固定76dd候选123份quote/源pin与六门通过保留，未按结构绿授全文信用。批3–12的99篇局部读域退回补读；八篇目录因旧central绑定被强套回执/归档类退回governance-index；B10空槽单位与历史清单15/7/8两个具体语义反例由作者定点修复，其他14篇正文保留仅澄清读域记录。原review shard的SHA正确而bytes85061应为112186；133行是123唯一path+10早期修订，不能误报为丢篇。原失败stdout未提供，原25/1/58声明需附现存原件或标未认证，不能补造历史输出。Owner保存原153文件、实际六门重跑与分项counter原件，旧作者输入身份不倒授；未中央迁入任何S16正文，S15及旧独立接受范围保持。
