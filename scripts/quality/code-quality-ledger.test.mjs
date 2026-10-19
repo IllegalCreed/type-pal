@@ -95,6 +95,52 @@ test('fenced examples give no credit; duplicate/missing summary or table fails c
   }
 })
 
+for (const [name, hidden] of [
+  ['fenced example with an info-bearing marker', (body) => `~~~md\n~~~still-code\n${body}\n~~~`],
+  ['HTML comment', (body) => `<!--\n${body}\n-->`],
+]) {
+  test(`hidden ${name} cannot publish reviewed-file counts`, () => {
+    const result = auditCodeQualityLedger(hidden(ledger()), inventory)
+    assert.deepEqual(result.counts, {
+      total: 3,
+      verified: 0,
+      review: 0,
+      pending: 3,
+      unclosed: 3,
+    })
+    assert.ok(result.issues.includes('expected exactly one file ledger table'))
+  })
+}
+
+test('a fenced block terminates the contiguous machine ledger', () => {
+  const source = ledger().replace(rowB, `~~~md\nhistorical text\n~~~\n${rowB}`)
+  const result = auditCodeQualityLedger(source, inventory)
+  assert.deepEqual(result.counts, {
+    total: 3,
+    verified: 1,
+    review: 0,
+    pending: 2,
+    unclosed: 2,
+  })
+  assert.match(result.issues.join('\n'), /status count mismatch/)
+})
+
+test('comment markers in fenced code do not hide the following live ledger', () => {
+  const source = `~~~md\n<!-- literal comment marker\n~~~\n${ledger()}\n-->`
+  assert.deepEqual(auditCodeQualityLedger(source, inventory), {
+    issues: [],
+    counts: { total: 3, verified: 1, review: 1, pending: 1, unclosed: 2 },
+  })
+})
+
+test('comment markers in inline code do not hide the following live ledger', () => {
+  const source = `Use \`<!--\` as literal text.\n${ledger()}\n-->`
+  assert.deepEqual(auditCodeQualityLedger(source, inventory), {
+    issues: [],
+    counts: { total: 3, verified: 1, review: 1, pending: 1, unclosed: 2 },
+  })
+})
+
 test('malformed or duplicate inventory is rejected before claiming success', () => {
   for (const invalid of [
     null,

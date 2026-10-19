@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { execFileSync, spawnSync } from 'node:child_process'
 import {
   copyFileSync,
+  existsSync,
   mkdirSync,
   mkdtempSync,
   readFileSync,
@@ -16,6 +17,30 @@ import { fileURLToPath } from 'node:url'
 
 const script = fileURLToPath(new URL('./code-quality-inventory.mjs', import.meta.url))
 const root = fileURLToPath(new URL('../../', import.meta.url))
+
+for (const [name, options] of [
+  ['an empty output path', () => ['--out=']],
+  ['duplicate output options', (destination) => [`--out=${destination}`, `--out=${destination}`]],
+]) {
+  test(`inventory rejects ${name} without publishing output`, (t) => {
+    const directory = mkdtempSync(join(tmpdir(), 'type-pal-quality-invalid-output-'))
+    t.after(() => rmSync(directory, { recursive: true, force: true }))
+    const destination = join(directory, 'inventory.json')
+    const run = spawnSync(process.execPath, [script, ...options(destination)], {
+      cwd: directory,
+      encoding: 'utf8',
+      maxBuffer: 32 * 1024 * 1024,
+      timeout: 15000,
+    })
+    assert.equal(run.status, 1, run.stderr)
+    assert.equal(run.stdout, '')
+    assert.match(
+      run.stderr,
+      /usage: node scripts\/quality\/code-quality-inventory\.mjs \[--out=PATH\]/,
+    )
+    assert.equal(existsSync(destination), false)
+  })
+}
 
 test('code-quality inventory emits deterministic scoped records with caller and category fields', (t) => {
   const run = spawnSync(process.execPath, [script], {

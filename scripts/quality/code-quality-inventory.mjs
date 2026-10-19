@@ -128,8 +128,8 @@ function resolvePackageEntry(specifier, known) {
 }
 
 function main(args) {
-  const outArg = args.find((arg) => arg.startsWith('--out='))?.slice('--out='.length)
-  if (args.some((arg) => arg !== `--out=${outArg}`))
+  const outArg = args[0]?.startsWith('--out=') ? args[0].slice('--out='.length) : undefined
+  if (args.length > 1 || (args.length === 1 && !outArg))
     throw new Error('usage: node scripts/quality/code-quality-inventory.mjs [--out=PATH]')
 
   const files = trackedFiles().filter((path) => {
