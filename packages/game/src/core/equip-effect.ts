@@ -97,8 +97,7 @@ function setPersistentPlayerStatus(
 /**
  * sdlpal `PAL_RunTriggerScript(scriptOnEquip, role)` 同步消费 scriptOnEquip chain。
  *
- * scriptOnEquip 实测只含 5 opcode(0x17/0x18/0x19/0x1A/0x2D + end + goto),所有
- * 都是同步纯数据写入,不会有 dialog / fade / waiting。我们写 mini sync runner
+ * 此 runner 处理同步装备数据写入,不推进 dialog / fade / waiting。使用独立同步循环,
  * 而非走 tickEventSystem(async)或 runScript(battle ctx)。
  *
  * 支持 opcode(sdlpal script.c case):
@@ -106,6 +105,7 @@ function setPersistentPlayerStatus(
  *  - 0x18 Equip item → 在 update 上下文是 noop swap(item 已装备),只更新 iCurEquipPart + removeEquipmentEffect
  *  - 0x19 increase player attr → PlayerRoles += SHORT(operand[1])
  *  - 0x1A set player stat → PlayerRoles = SHORT(operand[1])
+ *  - 0x2D / 0x29 → 装备授予玩家状态 / 毒状态
  *  - end → return
  *  - goto → 跳到 label
  *  - 其它 → log skip + ip++

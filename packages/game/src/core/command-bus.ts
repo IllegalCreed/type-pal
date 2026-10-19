@@ -1,8 +1,8 @@
 /**
  * Core → Present 单向命令通道(02 架构 + D15)。
- * Core 系统在 tick 内 emit、tick 末 Present 一把 drain。
- * complete(cmdId) 异步回执接口从未被激活 —— 转场/视频实际走 suspendRaf + 每帧 drain,
- * 零生产消费方(仅自身 no-op 测试);接口保留为兼容,清理候选已登记。
+ * Core 系统在 tick 内 emit;shell 在 tick 末 drain 后分发给音频/画面消费者。
+ * complete(cmdId) 当前为 no-op,不跟踪异步资源完成,无生产调用。
+ * 回执接口的退役候选见 glm-foundation/game-core-residual 评审记录。
  */
 
 import type { DialogBoxStyle } from '@type-pal/shared'
@@ -83,7 +83,7 @@ export function createCommandBus(): CommandBus {
       return out
     },
     complete(_cmdId) {
-      // 保留的异步回执接口 — 从未激活(见模块头),现 no-op。
+      // 当前不关联待完成资源;调用不会改变队列。
     },
   }
 }
