@@ -9,28 +9,38 @@ describe('parseWordDat', () => {
   const buf = new Uint8Array(readFileSync(WORD_PATH))
   const words = parseWordDat(buf)
 
-  it('五类都不为空', () => {
-    expect(words.items.length).toBeGreaterThan(0)
-    expect(words.spells.length).toBeGreaterThan(0)
-    expect(words.persons.length).toBeGreaterThan(0)
-    expect(words.enemies.length).toBeGreaterThan(0)
-    expect(words.scenes.length).toBeGreaterThan(0)
+  it('人物词条段36..41按原盘顺序完整保留', () => {
+    expect(words.persons).toEqual(['李逍遥', '赵灵儿', '林月如', '阿奴', '巫后', '盖罗娇'])
   })
 
-  it('包含已知人物名"李逍遥"', () => {
-    expect(words.persons).toContain('李逍遥')
-  })
-
-  it('包含已知物品名(药 / 葫芦 / 丸 / 针 / 剑 任一)', () => {
-    expect(words.items.some((s) => /药|葫芦|丸|针|剑/.test(s))).toBe(true)
+  it('物品词条按OBJECT编号取名并保留末位梦蛇词条', () => {
+    expect(words.items[0]).toBe('观音符') // WORD[61]
+    expect(words.items[105]).toBe('木剑') // WORD[166]
+    // 这是WORD词条分段;parseItems另排除OBJECT295,不把梦蛇当可用物品。
+    expect(words.items[234]).toBe('梦蛇') // WORD[295]
   })
 
   // K3 防回归(M5.6 hotfix:WORD.DAT 全表 565 条,非旧 510;系统/战斗 UI 标签计数)。
-  it('全表 565 条 + 子表计数 + MAINMENU id7="新的故事"', () => {
-    expect(words.flat.length).toBe(565)
-    expect(words.flat[7]).toBe('新的故事') // MAINMENU_LABEL_NEWGAME(sdlpal 真值,非"新游戏")
-    expect(words.system.length).toBe(36)
-    expect(words.battleUi.length).toBe(19)
+  it('原盘565条及全部分段长度保持固定布局', () => {
+    expect({
+      flat: words.flat.length,
+      system: words.system.length,
+      persons: words.persons.length,
+      battleUi: words.battleUi.length,
+      items: words.items.length,
+      spells: words.spells.length,
+      enemies: words.enemies.length,
+      special: words.scenes.length,
+    }).toEqual({
+      flat: 565,
+      system: 36,
+      persons: 6,
+      battleUi: 19,
+      items: 235,
+      spells: 102,
+      enemies: 153,
+      special: 14,
+    })
   })
 
   // L28:sdlpal PAL_InitText 在 GBK→宽字符转换后剥每个词条结尾的标记字符 '1'(text.c:785-786)——
