@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "base": "HEAD",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/content/src/index.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "4a05c16156edb2b598113a5e0531e64ab7e2483a11ee3dcfacb662f922bc291e",
+        "current": "4a05c16156edb2b598113a5e0531e64ab7e2483a11ee3dcfacb662f922bc291e"
+      },
+      "printedBytes": {
+        "base": 3707,
+        "current": 3707
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}

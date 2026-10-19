@@ -47,6 +47,7 @@ Status: build；以下只记有限模块结果，不声明全专项完成
 - 模块12批31作者原件：[content中件四文件](content-medium1/README.md)（同线，review待验收）。零整改批(skill逐kind opcode考证/召唤两字段混淆修正史/battle-sprite三段连续守卫);12文件32套件86/86+typecheck 0。content余量:rewards/command-target-reference/battle-formulas/actor-reference/character/actor-condition/project-map→enemy/enemy-script/script-library/frame-sequence→大件。
 - 模块12批32作者原件：[content中件七文件](content-medium2/README.md)（同线，review待验收）。零整改批(rewards B7a/B7c逐行锚/battle-formulas与一阶段逐式一致/19-kind policy表);12文件43套件125/125+typecheck 0。content余量:enemy/enemy-script/script-library/frame-sequence/index→大件asset/script/item/author-script-core/validate/validate-refs。
 - 模块12批33作者原件：[content领域模型层20文件](content-domain/README.md)（同线，review待验收）。零整改批(grid菱形轴D16/poison指针化序列+可解度分层/enemy M4c二分层/sprite布局归属);16文件29套件80/80+typecheck 0。content余量:enemy-ai/enemy-script/script-library/frame-sequence/index→大件asset/script/item/author-script-core/validate/validate-refs。
+- 模块12批34作者原件：[content核心五文件](content-core5/README.md)（同线，review待验收）。纯注释1处:index.ts孤儿docblock"交互触发的对话id"(字段已删pages接管);enemy-ai难度预设/enemy-script continue图闭包/script-library FNV-1a/frame-sequence TPFS合同零缺陷;body-invariance恒真,5文件11套件47/47+typecheck 0。content余量:大件script/asset→item→author-script-core→validate+validate-refs。
 
 集成修正：MKF仅首offset/表长4对齐、并非所有chunk偏移；SDL坏档结果/全原盘保证不能泛化；readChunk生产注释保留借用合同、去掉测试治理措辞。RNG跳帧保留基面继续解码，不保证缺帧后的画面等价。正常资产对拍不代替坏帧策略证明。
 
