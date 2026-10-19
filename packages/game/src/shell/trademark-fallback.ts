@@ -14,7 +14,7 @@
  *  1. palette 切到 chunk 3(caller 已加载并传入)
  *  2. 播 RNG.MKF chunk 6 全帧,iSpeed=25 → 帧间隔 1000/25 = 40ms
  *  3. 1 秒 delay 让 user 看清最后一帧
- *  4. 1 秒淡出到全黑(palette rgb 缩放 1.0 → 0.0)
+ *  4. 600ms 淡出到全黑(PAL_FadeOut(1) = iDelay*10*60,palette.c:163;L43 修正,非 1 秒)
  *
  * 设计:复用 [playRng](rng-player.ts);fadeOut 内嵌(scalePalette + flushToCanvas
  * loop)— 简版,跟 splash-fallback.ts 一致。
@@ -68,8 +68,8 @@ function scalePalette(base: Palette, factor: number): Palette {
 }
 
 /**
- * 1 秒 fadeOut — palette rgb 从 100% 缩放到 0%。
- * sdlpal `PAL_FadeOut(1)` 等价(细节 fadescreen.c 略)。
+ * fadeOut — palette rgb 从 100% 缩放到 0%(时长由调用方传;默认 600ms,
+ * sdlpal `PAL_FadeOut(1)` 真值 = iDelay*10*60 = 600ms,L43)。
  */
 async function fadeOut(
   fb: Framebuffer,
