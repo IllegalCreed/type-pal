@@ -78,7 +78,7 @@ export interface BattleAssets {
   /**
    * D17a:lpEffectSprite(DATA.MKF chunk 10)全 frame —— 物理攻击命中特效 overlay 用
    * (state.battleAnim.overlay.spriteChunk=10,frameIdx 取帧)。缺省则 overlay 不画
-   * (loader 注入留后续叶子)。
+   * (loader 加载 effect.rle 后经 bootstrap 注入)。
    */
   effectSprite?: SpriteAsset
   /**

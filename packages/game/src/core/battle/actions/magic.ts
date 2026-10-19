@@ -119,10 +119,10 @@ export interface PerformMagicInput {
  * 执行一次法术:
  *  1. 查 spell + magic(Spell.magicNumber 指向 Magic 表 index)
  *  2. 队员 cast → 检查 + 扣 MP(敌人不 track mp,跳过)
- *  3. emit playMagicAnim(通知性 bus op:当前 present 层跳过、audio 解析为 0,无渲染消费方;
- *     真实法术动画由下方 buildAndStart* 时间线链驱动)
- *  4. 若 spell.scriptOnUse !== 0 → 走 runScript(runtimeMode='battle' + battleCtx)
- *     target='all' → battleCtx.target = undefined(handler 自己判 magic.type=attackAll)
+ *  3. 敌方先预掷 autoDefend,再运行 scriptOnUse;失败则保留已扣 MP 并早退。
+ *  4. 成功后 emit playMagicAnim 并运行 scriptOnSuccess,再构建实际动画时间线。
+ *     playMagicAnim 当前无视觉消费方、audio 解析为 0;画面由 buildAndStart* 驱动。
+ *     脚本经 runScript(runtimeMode='battle' + battleCtx);全体目标不指定单个 target。
  *
  * spell / magic 找不到 → console.warn + 早退;MP 不足 → console.warn + 早退(不扣 + 不 emit + 不 runScript)。
  */

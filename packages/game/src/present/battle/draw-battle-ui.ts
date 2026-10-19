@@ -233,7 +233,7 @@ function hasBoxFrames(uiSpriteFrames: IndexedImage[] | undefined, style: 0 | 1):
  *
  * @param uiSpriteFrames SPRITEUI 全 frame(图标/box/cursor/箭头/数字);缺省 → 跳过 sprite 相关绘制。
  * @param _enemyPos      现未使用 —— 敌方目标选择无箭头(高亮走 draw-battle-sprites
- *   ColorShift);保留参数仅为调用方(present-battle 传 assets.enemyPos)兼容,清理候选已登记。
+ *   ColorShift);present-battle 当前传 assets.enemyPos,本函数不读取此参数。
  */
 export function drawBattleUI(
   fb: Framebuffer,
