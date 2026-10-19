@@ -835,3 +835,14 @@ C1–C3闭合，按原顺序拣选四笔候选；源码/证据映射及定向只
 O-5登记在本卡输入域候选族：YJ2 u32 uncompLen可请求至4294967295输出字节，宿主可能先拒绝；当前caller/可信域及支持上限待核，不实际做巨量分配，不认定生产漏洞，不准直接加cap或改codec/API/资产格式。其与RLE O-1同族，但不混同格式真值结论。
 
 继续既有大goal，GLM保持foundation worktree并同步最新3y，下一模块shared纯类型/合同；开工自核Owner，不需逐片再请示。跨包或typecheck验证前完成自有依赖图，主树链接只能提供被明确限定的已有共享测试结果，不能作为候选跨包验收。缺少历史console的native结果只给身份/状态信用，后续必要的新执行保存原件，不为补造历史重跑。全仓/coverage/protected仍留完整阶段窗口，不合main。
+
+
+## 2026-10-19 GLM foundation后续大包：据证验收rework
+
+冻结候选5af1b6372130138cef00b54de4ccfa9322ec5741、基点53db76bbbb5729ba8bc6525bd7ad2ad4bb425c02，93笔/64模块回执/41源码变化。[集中返工及原生快检](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage2-review.json)保存实际检查范围、68份原生报告计数/失败身份与当前scoped静态失败全文。Codex核完整差异和证明/结果，未重复全文审查或产品测试；35源码去注释打印保持，6项为死代码/状态/void或重复类型删除，零测试实现变化。此范围未证新产品行为缺陷，不把证据返工扩大成全盘否定。
+
+S2-R1要求用既有笔记补逐文件八维/具体caller与设计依据、测试oracle/排重及83卡成果映射；后段包级功能摘要+全绿不能算八维全部通过。S2-R2 WORD.DAT导致word.test.ts加载失败却写14/14，后续tables89/89仅补两个tables失败，不涵盖word；保存失败，已有合格结果可复用，否则只补漏跑的word定向。S2-R3候选game-state.ts一项格式错误，当前41文件scoped Biome exit1，与该片零诊断声明冲突。S2-R4 editor M05原红/单套件绿/后续全量2505绿分别保留，根因未知，不能只凭重跑认定并行假失败；相同small/medium原件是一次复用。S2-R5源码去审批噪音与无来源的“定案架构”措辞，保留已核领域事实，不授权删API或重组产品。
+
+结论rework，未拣选候选、不改中央账本或83卡状态；3319/245closed/109review/2965pending，0新增关闭/accept。GLM仍为原foundation树Coding Owner，在93候选上追加窄返工，不能reset切回上游丢候选；fetch对照最新3y，独立工作继续，不恢复逐片用户转话门。缺失历史console如实缺失，不补造；无具体需要不重跑既有绿结果，check/coverage/protected继续留大任务完整窗口。主树与其它Owner只读，不合main。
+
+用户随后明确“返工你来做”：本候选返工Owner改派Codex，GLM93笔冻结记录保留，Codex在唯一3y集成树修正；不再要求用户转交GLM。旧返工清单中的GLM下一步为当时建议，被本次指令替代。缺证维度保持review/unknown，不以接管自动升格。
