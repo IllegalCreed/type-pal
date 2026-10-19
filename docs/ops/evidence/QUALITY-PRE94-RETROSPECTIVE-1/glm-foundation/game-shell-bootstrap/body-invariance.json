@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "base": "HEAD",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/game/src/shell/bootstrap.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "ca49273d37c2fd217e36fe37943ec85fb9e48683d14b569ed094e86c8edb2da8",
+        "current": "ca49273d37c2fd217e36fe37943ec85fb9e48683d14b569ed094e86c8edb2da8"
+      },
+      "printedBytes": {
+        "base": 53291,
+        "current": 53291
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}
