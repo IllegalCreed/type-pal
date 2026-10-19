@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "base": "HEAD",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/game/src/core/menu/magic-script.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "e23052c6dd3c71c010a4c0e2ec5d15d3024db90657eccc98403f46d7b74a0148",
+        "current": "d0c128f1bbd8bbf213e9fb9a72994e58e6defb4e084ac0670d90424cb44b44fd"
+      },
+      "printedBytes": {
+        "base": 5948,
+        "current": 5897
+      },
+      "printedEqual": false
+    }
+  ],
+  "allEqual": false
+}

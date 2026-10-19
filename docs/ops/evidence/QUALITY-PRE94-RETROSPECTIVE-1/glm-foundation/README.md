@@ -37,6 +37,7 @@ Status: build；以下只记有限模块结果，不声明全专项完成
 - 模块9批21作者原件：[shell交互/循环四文件](game-shell-loop/README.md)（同线，review待验收）。零整改批(input WASD还原/DM30抑制集/main-loop DM31不补帧考证/boot-loading 810预估校准史/precache-ui四相状态机);10文件28套件112/112+typecheck 0。shell余量终批:bootstrap.ts 1934行+audio.ts大文件。
 - 模块9批22作者原件：[bootstrap.ts+audio.ts](game-shell-bootstrap/README.md)（同线，review待验收）。纯注释3处:双"M5真做时"未来注定谳(walkFrames链在present/npcSprites closure为定案)+~3200请求数过时(实810);audio.ts零缺陷(L46去重/L47loop/DM29);body-invariance恒真,8文件23套件41/41+typecheck 0。**shell 模块全部收口**(audio/io+players+loop+bootstrap=22文件,三零整改批)。下一模块 menu(core)→content/migrate/reforge/editor。
 - 模块10批23作者原件：[menu小中件15文件](game-menu-small/README.md)（同线，review待验收）。纯注释2处:item-select"follow-up精细"过时注定谳(卖路径灰显已在sell-menu实现,工厂零生产caller)+battle-state:514错指builder(buildBattleMagicSelect,批12漏网);其余13文件零缺陷;body-invariance恒真,28文件105套件340/340+typecheck 0。新增登记:createItemSelectMenu死导出。menu余量:magic-script/inventory-menu/in-game-magic-menu三件→menu-driver 1054行大文件。
+- 模块10批24作者原件：[menu大件三文件](game-menu-large/README.md)（同线，review待验收）。死代码删除1项:magic-script MAX_PLAYER_ROLES+void消lint(批11判例);inventory-menu/in-game-magic-menu零缺陷(L39圣灵珠/L40static记忆/DL22/L35/L37/L41锚全对);混合批协议:定向8文件110/110+typecheck 0+diff恰两块删除。menu终章:menu-driver.ts 1054行。
 
 集成修正：MKF仅首offset/表长4对齐、并非所有chunk偏移；SDL坏档结果/全原盘保证不能泛化；readChunk生产注释保留借用合同、去掉测试治理措辞。RNG跳帧保留基面继续解码，不保证缺帧后的画面等价。正常资产对拍不代替坏帧策略证明。
 
