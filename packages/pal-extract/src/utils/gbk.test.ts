@@ -48,8 +48,14 @@ describe('fixupTranscodeResidue(转码残留还原)', () => {
   })
 
   it('BIG5 标点残留 PUA → 标准标点', () => {
+    expect(fixupTranscodeResidue(`甲${P(0xe4c6)}乙`)).toBe('甲　乙') // A140
     expect(fixupTranscodeResidue(`刃部锋利${P(0xe4c7)}`)).toBe('刃部锋利，') // A141
+    expect(fixupTranscodeResidue(`甲${P(0xe4c8)}乙`)).toBe('甲、乙') // A142
     expect(fixupTranscodeResidue(`使死者复活${P(0xe4c9)}`)).toBe('使死者复活。') // A143
+    expect(fixupTranscodeResidue(`甲${P(0xe4ca)}乙`)).toBe('甲．乙') // A144
+    expect(fixupTranscodeResidue(`甲${P(0xe4cc)}乙`)).toBe('甲；乙') // A146
+    expect(fixupTranscodeResidue(`甲${P(0xe4cd)}乙`)).toBe('甲：乙') // A147
+    expect(fixupTranscodeResidue(`甲${P(0xe4ce)}乙`)).toBe('甲？乙') // A148
     expect(fixupTranscodeResidue(`什么${P(0xe4cf)}`)).toBe('什么！') // A149
   })
 
