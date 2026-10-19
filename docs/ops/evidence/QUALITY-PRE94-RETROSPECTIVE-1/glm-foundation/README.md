@@ -28,6 +28,7 @@ Status: build；以下只记有限模块结果，不声明全专项完成
 - 模块7批12作者原件：[battle-state+runtime-context](game-battlestate-ctx/README.md)（同线，review待验收）。零整改批(过时模式扫描零命中,3u 返工后高地);13套件25/25+typecheck 0。battle余量续:anim-driver/turn-queue/formulas/magic-damage/enemy-ai/status/magic-object/simulated-magic-target。
 - 模块7批13作者原件：[anim-timeline+driver+turn-queue](game-animtimeline/README.md)（同线，review待验收）。零整改批(24导出census全有消费者,queue头经队列批准修复后高地);19套件44/44+typecheck 0。battle余量续:formulas/magic-damage/enemy-ai/status/magic-object/simulated-magic-target/battle-positions/settlement/finalization。
 - 模块7批14作者原件：[battle七小文件收口](game-battlecore-misc/README.md)（同线，review待验收）。零整改批(battle家族三连零整改=3m+数值审计后高地,160/161数值裁决维持pending);23套件90/90+typecheck 0。**battle 家族全部收口**(actions 8/8+opcodes+state/ctx+anim三件+七小件),下一模块 present(L198 修正起)→shell→menu。
+- 模块8批15作者原件：[present.ts+present-battle.ts](game-present-core/README.md)（同线，review待验收）。纯注释5处:L198 op去向定谳(三op声音由shell消费/playMagicAnim无消费方/四op无emit方/对话框不经bus)+头部"M3简版/留M5"过时清单删除+L104跨帧状态+present.ts脆行号;body-invariance恒真,9文件112/112+typecheck 0。新增登记:flashEnemy/flashPlayer/showBattleUI/clearDialogBox四死union成员、showDialogBox与gs.dialogBox双通道归约。present余量续:dialog-box/font/draw-*/follower/screen-*/framebuffer家族。
 
 集成修正：MKF仅首offset/表长4对齐、并非所有chunk偏移；SDL坏档结果/全原盘保证不能泛化；readChunk生产注释保留借用合同、去掉测试治理措辞。RNG跳帧保留基面继续解码，不保证缺帧后的画面等价。正常资产对拍不代替坏帧策略证明。
 
