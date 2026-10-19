@@ -34,6 +34,7 @@ Status: build；以下只记有限模块结果，不声明全专项完成
 - 模块8批18作者原件：[present/menu九文件](game-present-menu/README.md)（同线，review待验收）。纯注释2处:equip头"留follow-up"过时(已复用完整grid)、player-status头"毒row首版skip"过时(C6已实现);其余7文件零缺陷(shadow真值修正史/WIN95-ASCII双布局互斥等);body-invariance恒真,21文件47套件154/154+typecheck 0。**present 目录全部收口**(root+battle+menu=29文件),下一模块 shell → menu(core)→ content/migrate/reforge/editor。
 - 模块9批19作者原件：[shell音频/io八小件](game-shell-audio/README.md)（同线，review待验收）。零整改批(fetch-retry GOAWAY根因考证/audio-midi RIFF守卫/precache补发机制等真值锚全对);13文件26套件72/72+typecheck 0。shell余量续:播放器批(avi/fbp/rng/ending/splash/trademark)→交互循环批→bootstrap.ts大文件。
 - 模块9批20作者原件：[shell播放器六文件](game-shell-players/README.md)（同线，review待验收）。纯注释2处:trademark-fallback双"1秒淡出"过时注同步L43定谳(PAL_FadeOut(1)=600ms);其余5件零缺陷(avi键泄漏分析/rng in-flight去重/splash L42正解);body-invariance恒真,14文件36套件73/73+typecheck 0。shell余量续:交互循环批(input/main-loop/boot-loading/precache-ui)→bootstrap.ts+audio.ts大文件批。
+- 模块9批21作者原件：[shell交互/循环四文件](game-shell-loop/README.md)（同线，review待验收）。零整改批(input WASD还原/DM30抑制集/main-loop DM31不补帧考证/boot-loading 810预估校准史/precache-ui四相状态机);10文件28套件112/112+typecheck 0。shell余量终批:bootstrap.ts 1934行+audio.ts大文件。
 
 集成修正：MKF仅首offset/表长4对齐、并非所有chunk偏移；SDL坏档结果/全原盘保证不能泛化；readChunk生产注释保留借用合同、去掉测试治理措辞。RNG跳帧保留基面继续解码，不保证缺帧后的画面等价。正常资产对拍不代替坏帧策略证明。
 
