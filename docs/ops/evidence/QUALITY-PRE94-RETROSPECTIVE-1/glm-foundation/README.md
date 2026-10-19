@@ -40,6 +40,7 @@ Status: build；以下只记有限模块结果，不声明全专项完成
 - 模块10批24作者原件：[menu大件三文件](game-menu-large/README.md)（同线，review待验收）。死代码删除1项:magic-script MAX_PLAYER_ROLES+void消lint(批11判例);inventory-menu/in-game-magic-menu零缺陷(L39圣灵珠/L40static记忆/DL22/L35/L37/L41锚全对);混合批协议:定向8文件110/110+typecheck 0+diff恰两块删除。menu终章:menu-driver.ts 1054行。
 - 模块10批25作者原件：[menu-driver.ts](game-menu-driver/README.md)（同线，review待验收）。纯注释1处:"M6真做load现stub console.debug"过时注(handler注入已真做);1054行全锚(DL20/21/DM23/24/DH9族谱)零缺陷;body-invariance恒真,5文件31套件83/83+typecheck 0。新增登记:makeEquipMenuEntry死导出。**menu(core) 18文件全部收口**(b23-25三批)。下一模块:game余量目录(inspect/save/tools/dev)→content/migrate/reforge/editor→94-102。
 - 模块11批26作者原件：[core残余六件](game-core-residual/README.md)（同线，review待验收）。纯注释5处:command-bus"M3激活"死接口定谳(suspendRaf取代,零消费方)、equip-effect双过时注(0x2D/0x29已实现/0x18已真做swap非noop)、equipment-state"简版留follow-up"与实现矛盾;rng/inventory-state/event-opcode-player零缺陷;body-invariance恒真,10文件51套件127/127+typecheck 0。新增登记:CommandBus.complete死接口。**core/全目录收口**(46文件)。game余量:inspect/save→analytics→tools→dev。
+- 模块11批27作者原件：[inspect+save+analytics七文件](game-inspect-save-analytics/README.md)（同线，review待验收）。零整改批(battle-inspect双消费方/E04池/IDB commitWrite语义/analytics consent三态);9文件20套件50/50+typecheck 0。game余量:tools八件→dev两件。
 
 集成修正：MKF仅首offset/表长4对齐、并非所有chunk偏移；SDL坏档结果/全原盘保证不能泛化；readChunk生产注释保留借用合同、去掉测试治理措辞。RNG跳帧保留基面继续解码，不保证缺帧后的画面等价。正常资产对拍不代替坏帧策略证明。
 
