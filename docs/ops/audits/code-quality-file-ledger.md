@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,316。
-当前已闭合核验：234；已读但待审：120；尚未逐文件核验：2,962；合计未闭合：3,082。
+当前已闭合核验：234；已读但待审：121；尚未逐文件核验：2,961；合计未闭合：3,082。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -28,7 +28,7 @@ Template: governance-index-v1 / 1.0.0
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
-2026-10-18 RLE校准仅恢复两条已撤回review，0新关闭。独立全表对账另发现89bf84e16合并时243条review记录在活动表丢失；当前尚有68条closed候选、130条未显式登记路径需逐项核后继证据，其余45条已处review/rework，不在本次批量改状态，也不得据本表冒称这些候选已重新验收。完整差异与范围见[RLE校准](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md)。
+2026-10-18 RLE校准仅恢复两条已撤回review，0新关闭。独立全表对账另发现89bf84e16合并时243条review记录在活动表丢失；当前尚有68条closed候选、129条未显式登记路径需逐项核后继证据，其余46条已处review/rework，不在本次批量改状态，也不得据本表冒称这些候选已重新验收。完整差异与范围见[RLE校准](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/calibration-20261018/README.md)。
 
 2026-10-18 shared阶段1仅接收有限注释/证据；根据CODE2/2b既有撤回恢复4个测试文件为review，0新关闭，O-5输入域待核。见[阶段验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage1.json)。
 
@@ -37,6 +37,8 @@ Template: governance-index-v1 / 1.0.0
 2026-10-19 WORD/GBK五文件八维返工：纠错注/私有名、抽共享定宽解码、8→7精简强化与九标点反例；两产品旧关闭撤review、三测试登记review，0新关闭。20独立合同与11新旧输出对比在有限域成立，短输入/旧字段/全仓门仍未收口。见[WORD/GBK逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage3-word.json)。
 
 2026-10-19 83卡实际范围对账另确认annotation两测试与既有撤回证据SHA精确一致，live仍旧已验证；只恢复这两行review，其它漂移候选逐项待核。当前范围路由不等于重读/accept，见[83卡范围对账](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-pre94-scope.json)。
+
+2026-10-19 CODE82两文件A–H续审：私有offset-only长度诊断、字段命名/计数复用；原8身份/测试字节保持，定向8与相邻3、原盘等价及有效反控成立。既有脚本review保持、测试从pending登记review；0新关闭，见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json)。
 
 | 文件 | 类别 | 状态 | 证据 / 验证 | 备注 |
 |---|---|---|---|---|
@@ -158,7 +160,8 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/scripts/grep-sdlpal-chunks.ts` | product | 已验证 | execFile 参数数组、reference-only read helper | 无写盘 |
 | `packages/pal-extract/scripts/extract-videos.ts` | product | review | [输出入口补审](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/entrypoint-followup/README.md)；132→136行全文、包脚本/Node IO/真实子进程与六mp4字节oracle | 两共享输出穿透先红后修，复用同一guard且ffmpeg前拒绝；自有增量/raw链接保留，编码/全部失败路径待核 |
 | `packages/pal-extract/scripts/find-scenes-without-setpartypos.mjs` | product | review | scene/event/tilemap BFS 与写盘脚本直接读过 | 诊断生成器需后续 path/input 复核 |
-| `packages/pal-extract/audit-data-mkf.mjs` | product | review | DATA.MKF diagnostic census 直接读过；发现绝对 repo path 与 shared MKF duplicate | 仅诊断脚本，Q6/CLI tool audit 待核 |
+| `packages/pal-extract/audit-data-mkf.mjs` | product | review | [CODE82八维续审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json)；完整源码/Node入口/C结构与原盘byte-equal | 私有offset-only长度诊断、明确字段名/复用计数；保留standalone宿主边界；8定向+3相邻/真实业务反控，统一门待 |
+| `packages/pal-extract/src/audit-data-mkf.test.ts` | test | review | [CODE82八维续审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json)；全文8真实Node进程合同、精确身份/原件 | fixture/断言/8身份字节保持；STORE18→20触发指定业务AssertionError，隔离目录finally清理；不以绿灯关闭 |
 | `packages/game/src/assets/loader.ts` | product | 已验证 | CODE-QUALITY-3h；全量读取 loadAll/fetchPalette/SceneAssetsCache，真实 bootstrap caller、asset tests、game 定向测试 | fetch/status 与可选资源降级均有 caller；cache LRU/protect 合同保留，未发现直接缺陷 |
 | `packages/game/src/assets/tileset-blob.ts` | product | 已验证 | CODE-QUALITY-3h；gzip/raw blob、shared parseSpriteChunk、tileset/NPC/battle/magic callers 与 snapshot/load tests | gzip 魔数防双解压、HTTP 状态和帧 key 合同已有反例；未改资源格式 |
 | `packages/game/src/assets/png.ts` | product | 已验证 | CODE-QUALITY-3h；createImageBitmap/canvas/alpha mask caller 与 PNG failure/close tests | 解码失败保留 cause，bitmap finally close；未发现直接缺陷 |

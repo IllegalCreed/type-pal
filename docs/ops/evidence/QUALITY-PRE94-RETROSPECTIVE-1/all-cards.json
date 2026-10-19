@@ -2980,7 +2980,7 @@
       "sha256": "76f60a6392d8d68ec8371fe93d049726444c4dfdb481ea8d2a06062c6da3e700",
       "lines": 49,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -3004,7 +3004,14 @@
           "text": "本批不触碰 schema/save/migration/asset pipeline、公共 API、raw/extracted 生成物或用户可见行为；standalone parser duplication 作为执行方式边界保留并登记。全仓未完成；本批不得关闭未读的 Q3 文件。无下一位 Agent 提示词，继续由 Codex 单 Agent 执行。下一批选择未被活动卡占用的 Q3 pending 或 Q6 非 E2E 工具。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json",
+      "findings": "Full two-file A-H;private offset-only diagnostic refactor,readable metadata fields/reused count;8unchanged process identities+3adjacent reused,real raw output byte-equal,precise STORE business counter. Unified gates pending;files review,no closure.",
+      "currentCardBinding": {
+        "sha256": "76f60a6392d8d68ec8371fe93d049726444c4dfdb481ea8d2a06062c6da3e700",
+        "lines": 49,
+        "scope": "Current card fully read;historical sha/lines above remain frozen inventory fields."
+      }
     },
     {
       "id": "83",
@@ -3873,7 +3880,14 @@
   ],
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
-    "partial": 55,
-    "pending": 28
+    "partial": 56,
+    "pending": 27
+  },
+  "lastIncrementalReview": {
+    "date": "2026-10-19",
+    "card": "82",
+    "base": "59a4b439ea99e7253b2c10a68d4f69cb01e73b97",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json",
+    "scope": "Only CODE82 pending→partial;other82states unchanged,no accept"
   }
 }

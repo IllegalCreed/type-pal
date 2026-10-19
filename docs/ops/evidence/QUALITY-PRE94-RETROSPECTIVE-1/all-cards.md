@@ -1,6 +1,6 @@
 # 94前全部83卡复审队列
 
-2026-10-18，结构基点bea19f80c；当前检查点7fc92e98及本批72批准窄修；47–52统一门信用撤回。77历史done/1build/4review/1draft。本轮accept=0，partial=55，pending=28。pending表示本轮语义复审未完成；partial只表示有限证据，不能作整卡验收。当前计数由all-cards.json逐行核对，旧卡done和旧全仓门不自动继承。
+2026-10-19，结构基点bea19f80c；7fc92e98与72批准窄修为旧检查点，本次新增CODE82两文件八维有限续审；47–52统一门信用撤回。77历史done/1build/4review/1draft。本轮accept=0，partial=56，pending=27。pending表示本轮语义复审未完成；partial只表示有限证据，不能作整卡验收。当前计数由all-cards.json逐行核对，旧卡done和旧全仓门不自动继承。
 
 | 卡 | 原卡状态 | 当前复审 | 范围/证据 |
 |---|---|---|---|
@@ -75,7 +75,7 @@
 | [CODE-QUALITY-79](../../tasks/CODE-QUALITY-79-battle-poison-level-boundary.md) | draft | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-80](../../tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md) | review | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-81](../../tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md) | review | pending | 待全文核定真实交付文件及当前caller/oracle |
-| [CODE-QUALITY-82](../../archive/tasks/done/CODE-QUALITY-82-data-mkf-diagnostic.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
+| [CODE-QUALITY-82](../../archive/tasks/done/CODE-QUALITY-82-data-mkf-diagnostic.md) | done | partial | [两文件八维/真实CLI](glm-foundation/codex-code82.json)：私有长度诊断、字段命名/计数复用；8身份不变、原盘等价与业务反控；统一门待 |
 | [CODE-QUALITY-83](../../archive/tasks/done/CODE-QUALITY-83-game-menu-stack.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-84](../../archive/tasks/done/CODE-QUALITY-84-game-inventory-menu-contract.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-85](../../archive/tasks/done/CODE-QUALITY-85-game-shop-menu-contract.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |

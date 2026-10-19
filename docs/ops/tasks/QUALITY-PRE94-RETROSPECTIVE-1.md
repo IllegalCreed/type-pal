@@ -11,7 +11,7 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
 ## 当前用户要求、范围与准入
 
-用户2026-10-16重申“复审94号之前的所有卡的成果”，本卡当前覆盖全部83张CODE-QUALITY编号小于94的卡，包含字母后缀，不是抽样。77张历史done、1张build、4张review、1张draft仅是原卡状态；本轮重新accept为0。当前复审队列已推进为55张partial、28张pending；partial只表示有限证据切片，不是验收。按当前Git tracked路径收集，大小写敏感编号规则排除行政卡CODE-QUALITY-3Y-CLOSEOUT-1；不按编号空缺虚构卡。完整83行清单与卡SHA见[复审队列](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)。原36卡结构/8卡全文抽查是历史部分证据，不能替代任何整卡成果复验。3y的58差异卡矩阵也不是全部83卡。
+用户2026-10-16重申“复审94号之前的所有卡的成果”，本卡当前覆盖全部83张CODE-QUALITY编号小于94的卡，包含字母后缀，不是抽样。77张历史done、1张build、4张review、1张draft仅是原卡状态；本轮重新accept为0。当前复审队列已推进为56张partial、27张pending；partial只表示有限证据切片，不是验收。按当前Git tracked路径收集，大小写敏感编号规则排除行政卡CODE-QUALITY-3Y-CLOSEOUT-1；不按编号空缺虚构卡。完整83行清单与卡SHA见[复审队列](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)。原36卡结构/8卡全文抽查是历史部分证据，不能替代任何整卡成果复验。3y的58差异卡矩阵也不是全部83卡。
 
 唯一治理集成工作树/分支codex/code-quality-3y；主树和其它Owner只读，不再新建长期治理分支。贡献者仅按下方准入建立临时隔离worktree。94–102及editor既有返工继续保留；C10未完成检查点bea19f80c已提交推送，当前先推进本卡。工程→模块→功能→文件；先6a的账本/清单四文件，再核92的受保护门证据，继而逐卡回到shared/extract/game等模块。活跃53/57/79/80/81/90只读协调，未核前不抢写其实现。
 
@@ -25,7 +25,7 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 
 ## 当前推进
 
-83卡当前全量accept=0、55partial/28pending；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3b SSS/MSG、3c动画清理、3d PNG、3g CLI、3h assets/shell、CODE71 fetch取消与测试、CODE3/3f切分与标注已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
+83卡当前全量accept=0、56partial/27pending；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3b SSS/MSG、3c动画清理、3d PNG、3g CLI、3h assets/shell、CODE71 fetch取消与测试、CODE3/3f切分与标注已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。CODE82两文件八维续审与私有诊断重构见末尾。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
 
 原[大型持续任务](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-pre94-foundation-goal.md)范围保留，当前本批由Codex接手GLM后续大包返工并继续pre94缺维；内部小片连续执行，不逐片等用户转话。RLE文案终验已接收，高风险算法/格式与未知仍冻结，不批量升格。唯一集成分支仍为codex/code-quality-3y，贡献者使用一个新鲜临时detached worktree，避免新增长期分支。
 
@@ -877,3 +877,16 @@ WORD旧8→7：4保持/3增强更名/1严格蕴含删除；GBK既有一例补齐
 annotation两测试SHA与3-annotate/read-boundaries.json逐字一致，README明文“两测试旧关闭撤review”，live仍旧已验证；仅恢复这两行，不重跑旧六针或冒称新的语义失败。当前机器3316/234closed/120review/2962pending，0新关闭；243漂移子集68closed/130missing/44review/1rework，其余候选仍逐项核。旧Word片236/118是486570fa0时点，冻结原件不重写。
 
 本轮只读范围整理/窄账本修正，没有产品/测试代码修改；不新跑产品测试/typecheck/全仓check/coverage/protected。新scope快检0，外部旧SHA反控1并已清理；后续独立工具2文件或annotation缺失设计维度是可直接继续的小片。主树和GLM冻结树只读；e2e-route到期/editor诊断仍挡main。
+
+
+## 2026-10-19 CODE82独立诊断工具八维续审准入
+
+Codex premise verified/build allowed，同3y单Owner；五worktree两目标无未提交冲突，最新origin/main与当前0behind。完整读audit-data-mkf.mjs/test、shared MKF/re-export与测试、barrel/package和CODE82历史卡，真实入口为stock Node standalone CLI，无产品import/export。只改脚本私有偏移读取/长度统计：去掉不消费内容的chunk视图及内部循环不可达索引防御，保留输入校验/错误文本、stdout/路径合同。测试文件字节冻结，沿用8实际进程合同；不引入公共helper/资产生产或新输入策略。真实DATA输入初缺已保留ENOENT与控制脚本失误，随后仅在自有治理树补指向原盘的只读文件链接。新旧raw输出/相邻测试、业务反控和八维证据随后记录；不跑coverage/全仓，文件与卡暂不关闭。
+
+## 2026-10-19 CODE82两文件八维与私有诊断重构交付
+
+[CODE82证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json)逐文件记录A–H、真实入口/一手结构/完整原件与8身份。4c6988c3a移除只统计长度时不消费的块视图/私有archive对象及内部循环不可达索引分支；59a4b439e用chunkCount/label/recordSize/recordCount揭示意图并复用除法结果。输入校验/错误文本、输出格式与路径、测试字节保持，无公共接口/schema/save/资产生产或产品行为变化。stock Node直接导入当前TS source package会缺events.js，保留standalone校验边界有实际宿主依据，不为消重扩建API或改构建。
+
+定向最终8/8，沿用未变shared/re-export三相邻，独立身份总11；中间长度重构11/11也保留，不把多轮执行累计成新增测试。STORE18→20使固定census合同恰一业务AssertionError；最终快照仅筛该例，另7为筛选未执行，源码/状态逐字节恢复。真实63978B/15chunk原盘stdout前后逐字节相同、输入不变；初次缺DATA的ENOENT和控制脚本取hash失误如实保留，补的仅本树只读raw链接。AST初筛parseChunkOffsets为8，不以指标收口；TS图未变，沿用486570fa0的extract tsc0，root.mjs不在src/scripts include，Node实跑验证语法。
+
+CODE82 pending→partial，两文件八维均有陈述、统一门仍待；83卡56partial/27pending/0accept。脚本review保持，测试从pending登记review，机器3316/234closed/121review/2961pending，0新关闭；243漂移子集68closed/129missing/45review/1rework。旧493索引冻结，唯一代码delta为诊断脚本，all-cards/ledger当前绑定因此过期，新片明确接续，不刷新旧SHA消警。大任务check/coverage/protected未跑，editor/E2E到期阻塞未解，不合main。下一片回CODE3/3f缺失的设计/命名/简洁/可测维度或CODE6a，复用有效A/E，不转后置94–102。
