@@ -1,0 +1,2749 @@
+{
+  "numTotalTestSuites": 77,
+  "numPassedTestSuites": 77,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 243,
+  "numPassedTests": 243,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792388099904,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["B8 HTTP 透传合同（真 fetch 替身；无 FSA 式逐 await 门）"],
+          "fullName": "B8 HTTP 透传合同（真 fetch 替身；无 FSA 式逐 await 门） 同一 AbortSignal 实例原样到达 fetch（identity 不复制不重建）",
+          "status": "passed",
+          "title": "同一 AbortSignal 实例原样到达 fetch（identity 不复制不重建）",
+          "duration": 9.996082999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B8 HTTP 透传合同（真 fetch 替身；无 FSA 式逐 await 门）"],
+          "fullName": "B8 HTTP 透传合同（真 fetch 替身；无 FSA 式逐 await 门） urlFor 零 fetch：纯拼接不产生网络 IO；读取轨迹见证",
+          "status": "passed",
+          "title": "urlFor 零 fetch：纯拼接不产生网络 IO；读取轨迹见证",
+          "duration": 0.6090410000000048,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B8 HTTP 透传合同（真 fetch 替身；无 FSA 式逐 await 门）"],
+          "fullName": "B8 HTTP 透传合同（真 fetch 替身；无 FSA 式逐 await 门） Response 原样消费：text 逐字节、json 解析值、arrayBuffer 字节数；坏 JSON 透传原生错误",
+          "status": "passed",
+          "title": "Response 原样消费：text 逐字节、json 解析值、arrayBuffer 字节数；坏 JSON 透传原生错误",
+          "duration": 1.2296670000000063,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388101785,
+      "endTime": 1792388101796.2297,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/file-source.cancel-windows.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["httpSource"],
+          "fullName": "httpSource readJson / readText:base 拼 rel 后 fetch,返回解析结果",
+          "status": "passed",
+          "title": "readJson / readText:base 拼 rel 后 fetch,返回解析结果",
+          "duration": 10.073707999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["httpSource"],
+          "fullName": "httpSource 所有读取都拒绝绝对路径",
+          "status": "passed",
+          "title": "所有读取都拒绝绝对路径",
+          "duration": 0.8163750000000078,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["httpSource"],
+          "fullName": "httpSource readBytes 返回 ArrayBuffer",
+          "status": "passed",
+          "title": "readBytes 返回 ArrayBuffer",
+          "duration": 0.48687500000001194,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["httpSource"],
+          "fullName": "httpSource 非 200 抛错带 url + 状态码",
+          "status": "passed",
+          "title": "非 200 抛错带 url + 状态码",
+          "duration": 0.29920799999999304,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["httpSource"],
+          "fullName": "httpSource AbortSignal 透传 fetch，取消未完成读取",
+          "status": "passed",
+          "title": "AbortSignal 透传 fetch，取消未完成读取",
+          "duration": 0.5477089999999976,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["httpSource"],
+          "fullName": "httpSource urlFor:相对拼 base，绝对路径被拒绝",
+          "status": "passed",
+          "title": "urlFor:相对拼 base，绝对路径被拒绝",
+          "duration": 0.18729199999999935,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["httpSource"],
+          "fullName": "httpSource 恢复状态读取绕过缓存，缺文件以明确 NotFoundError 区分 HTTP 故障",
+          "status": "passed",
+          "title": "恢复状态读取绕过缓存，缺文件以明确 NotFoundError 区分 HTTP 故障",
+          "duration": 0.23383300000000418,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["httpSource"],
+          "fullName": "httpSource 恢复状态的 HTTP 403/500 不伪装成缺文件",
+          "status": "passed",
+          "title": "恢复状态的 HTTP 403/500 不伪装成缺文件",
+          "duration": 0.39154200000000117,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388101702,
+      "endTime": 1792388101715.3916,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/file-source.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["B9 FSA 逐 await 取消门（进入见证 + 中止点 + 后续 IO 零开始）"],
+          "fullName": "B9 FSA 逐 await 取消门（进入见证 + 中止点 + 后续 IO 零开始） 目录段之后、文件段之前取消 → AbortError 且文件段 IO 未开始（可控门见证）",
+          "status": "passed",
+          "title": "目录段之后、文件段之前取消 → AbortError 且文件段 IO 未开始（可控门见证）",
+          "duration": 1.287791999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B9 FSA 逐 await 取消门（进入见证 + 中止点 + 后续 IO 零开始）"],
+          "fullName": "B9 FSA 逐 await 取消门（进入见证 + 中止点 + 后续 IO 零开始） 预取消 signal：任何目录访问之前即拒（零 IO 见证）",
+          "status": "passed",
+          "title": "预取消 signal：任何目录访问之前即拒（零 IO 见证）",
+          "duration": 0.7283329999999921,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B9 FSA 逐 await 取消门（进入见证 + 中止点 + 后续 IO 零开始）"],
+          "fullName": "B9 FSA 逐 await 取消门（进入见证 + 中止点 + 后续 IO 零开始） readJson 的 JSON 解析错误透传（text 已成功读取后；坏 JSON 真实到达解析器）",
+          "status": "passed",
+          "title": "readJson 的 JSON 解析错误透传（text 已成功读取后；坏 JSON 真实到达解析器）",
+          "duration": 0.3019160000000056,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388101513,
+      "endTime": 1792388101515.302,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/fsa-source.cancel-windows.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["fsaSource"],
+          "fullName": "fsaSource readText / readJson 逐段进目录取文件",
+          "status": "passed",
+          "title": "readText / readJson 逐段进目录取文件",
+          "duration": 1.2980419999999953,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fsaSource"],
+          "fullName": "fsaSource readBytes 返回 ArrayBuffer",
+          "status": "passed",
+          "title": "readBytes 返回 ArrayBuffer",
+          "duration": 0.20516699999998878,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fsaSource"],
+          "fullName": "fsaSource urlFor 同路径缓存，dispose 统一 revoke",
+          "status": "passed",
+          "title": "urlFor 同路径缓存，dispose 统一 revoke",
+          "duration": 0.7127919999999932,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fsaSource"],
+          "fullName": "fsaSource 拒绝越界与绝对路径",
+          "status": "passed",
+          "title": "拒绝越界与绝对路径",
+          "duration": 0.6899580000000043,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fsaSource"],
+          "fullName": "fsaSource 缺文件 → 抛(NotFound 透传)",
+          "status": "passed",
+          "title": "缺文件 → 抛(NotFound 透传)",
+          "duration": 0.15337499999999693,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fsaSource"],
+          "fullName": "fsaSource 已取消读取立即抛 AbortError",
+          "status": "passed",
+          "title": "已取消读取立即抛 AbortError",
+          "duration": 0.35137500000000443,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388101816,
+      "endTime": 1792388101819.3513,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/fsa-source.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["ProjectImageCache 解码生命周期"],
+          "fullName": "ProjectImageCache 解码生命周期 解码失败：消息含工程/asset/底层原因；失败不缓存，修复后重试成功（重读+重解码双见证）",
+          "status": "passed",
+          "title": "解码失败：消息含工程/asset/底层原因；失败不缓存，修复后重试成功（重读+重解码双见证）",
+          "duration": 2.1454999999999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ProjectImageCache 解码生命周期"],
+          "fullName": "ProjectImageCache 解码生命周期 解码输入保真：createImageBitmap 收到的 Blob 携带 catalog mediaType 且字节与 readBytes 相符",
+          "status": "passed",
+          "title": "解码输入保真：createImageBitmap 收到的 Blob 携带 catalog mediaType 且字节与 readBytes 相符",
+          "duration": 0.40800000000000125,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ProjectImageCache 解码生命周期"],
+          "fullName": "ProjectImageCache 解码生命周期 登记支持的四种 image kind 全部可经 cache 载入（正面枚举）",
+          "status": "passed",
+          "title": "登记支持的四种 image kind 全部可经 cache 载入（正面枚举）",
+          "duration": 0.3492090000000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388101423,
+      "endTime": 1792388101426.349,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/project-image-cache.decode-lifecycle.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["ProjectImageCache 在途 dispose"],
+          "fullName": "ProjectImageCache 在途 dispose dispose 不取消在途；窗口内新 load 真重解码（不复活已清 pending）；二次 dispose 只关闭最后回填位图",
+          "status": "passed",
+          "title": "dispose 不取消在途；窗口内新 load 真重解码（不复活已清 pending）；二次 dispose 只关闭最后回填位图",
+          "duration": 3.0937919999999934,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ProjectImageCache 在途 dispose"],
+          "fullName": "ProjectImageCache 在途 dispose 完成回填后命中同一 bitmap（零新 IO）；二次 dispose 关闭回填位图",
+          "status": "passed",
+          "title": "完成回填后命中同一 bitmap（零新 IO）；二次 dispose 关闭回填位图",
+          "duration": 1.5113339999999909,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388101525,
+      "endTime": 1792388101529.5112,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/project-image-cache.inflight-dispose.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["B5/B6 ProjectImageCache 生命周期"],
+          "fullName": "B5/B6 ProjectImageCache 生命周期 不支持 kind 在任何读取前拒绝（resolver.record 零调用 → 零 bytes 读取）",
+          "status": "passed",
+          "title": "不支持 kind 在任何读取前拒绝（resolver.record 零调用 → 零 bytes 读取）",
+          "duration": 1.416832999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B5/B6 ProjectImageCache 生命周期"],
+          "fullName": "B5/B6 ProjectImageCache 生命周期 pending 复用：并发同 asset 只解码一次、同一 bitmap 身份；命中后零新读取",
+          "status": "passed",
+          "title": "pending 复用：并发同 asset 只解码一次、同一 bitmap 身份；命中后零新读取",
+          "duration": 0.7083329999999961,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B5/B6 ProjectImageCache 生命周期"],
+          "fullName": "B5/B6 ProjectImageCache 生命周期 读取失败不缓存失败：同 reader 修复后重试成功（真实重读见证）",
+          "status": "passed",
+          "title": "读取失败不缓存失败：同 reader 修复后重试成功（真实重读见证）",
+          "duration": 0.6143749999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B5/B6 ProjectImageCache 生命周期"],
+          "fullName": "B5/B6 ProjectImageCache 生命周期 完成态 dispose 关闭全部位图；dispose 后重载产生新 bitmap",
+          "status": "passed",
+          "title": "完成态 dispose 关闭全部位图；dispose 后重载产生新 bitmap",
+          "duration": 0.32904199999998696,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B5/B6 ProjectImageCache 生命周期"],
+          "fullName": "B5/B6 ProjectImageCache 生命周期 实例隔离：同 catalog 两个 cache 实例互不预热（各自解码）",
+          "status": "passed",
+          "title": "实例隔离：同 catalog 两个 cache 实例互不预热（各自解码）",
+          "duration": 0.2360829999999936,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B5/B6 ProjectImageCache 生命周期"],
+          "fullName": "B5/B6 ProjectImageCache 生命周期 kind 门在 decoded 命中时仍拦截（复用语义校验路径与首载一致）",
+          "status": "passed",
+          "title": "kind 门在 decoded 命中时仍拦截（复用语义校验路径与首载一致）",
+          "duration": 0.0975830000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388101087,
+      "endTime": 1792388101090.329,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/project-image-cache.lifecycle.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["ProjectImageCache"],
+          "fullName": "ProjectImageCache pending 与 decoded 命中前都重新校验 expected kind",
+          "status": "passed",
+          "title": "pending 与 decoded 命中前都重新校验 expected kind",
+          "duration": 2.0134999999999934,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388102049,
+      "endTime": 1792388102051.0134,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/project-image-cache.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["D1 多场景批读：author 身份与 runtime 投影"],
+          "fullName": "D1 多场景批读：author 身份与 runtime 投影 三个 indexed 场景：loadAllAuthorScenes 保 author 形态；loadAllScenes 解析完整对话投影",
+          "status": "passed",
+          "title": "三个 indexed 场景：loadAllAuthorScenes 保 author 形态；loadAllScenes 解析完整对话投影",
+          "duration": 5.986958999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D1 多场景批读：author 身份与 runtime 投影"],
+          "fullName": "D1 多场景批读：author 身份与 runtime 投影 实际输入保真：project 纯数据（含 actorsById）与读取边界捕获的实际 author 对象消费后不变",
+          "status": "passed",
+          "title": "实际输入保真：project 纯数据（含 actorsById）与读取边界捕获的实际 author 对象消费后不变",
+          "duration": 1.9122920000000079,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D1 多场景批读：author 身份与 runtime 投影"],
+          "fullName": "D1 多场景批读：author 身份与 runtime 投影 读取确定性：同一工程二次独立读取得到逐值相等的 author 树",
+          "status": "passed",
+          "title": "读取确定性：同一工程二次独立读取得到逐值相等的 author 树",
+          "duration": 0.49312499999999204,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D2 批读顺序与失败传播"],
+          "fullName": "D2 批读顺序与失败传播 返回顺序 = sceneIds 顺序（与文件表写入顺序无关）",
+          "status": "passed",
+          "title": "返回顺序 = sceneIds 顺序（与文件表写入顺序无关）",
+          "duration": 0.3019170000000031,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D2 批读顺序与失败传播"],
+          "fullName": "D2 批读顺序与失败传播 中间场景读取失败：整批拒绝（不返回部分数组）；IO 轨迹证明确实读过前序场景",
+          "status": "passed",
+          "title": "中间场景读取失败：整批拒绝（不返回部分数组）；IO 轨迹证明确实读过前序场景",
+          "duration": 1.74837500000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D3 stamps 路径读取"],
+          "fullName": "D3 stamps 路径读取 合法非空内容 → loadStampTemplates 过守卫返回模板；缺席 → []（对照）",
+          "status": "passed",
+          "title": "合法非空内容 → loadStampTemplates 过守卫返回模板；缺席 → []（对照）",
+          "duration": 0.7467919999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D3 stamps 路径读取"],
+          "fullName": "D3 stamps 路径读取 坏内容只坏一轴：origin 非法即拒；读失败传播底层错误",
+          "status": "passed",
+          "title": "坏内容只坏一轴：origin 非法即拒；读失败传播底层错误",
+          "duration": 1.0069999999999908,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388100483,
+      "endTime": 1792388100495.007,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/project-loader.current-boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "loadCurrentProjectFrom 绑定：imageCache 经 manifest catalog 登记路径读字节，与 assetResolver 同源",
+          "status": "passed",
+          "title": "loadCurrentProjectFrom 绑定：imageCache 经 manifest catalog 登记路径读字节，与 assetResolver 同源",
+          "duration": 4.7705839999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388101926,
+      "endTime": 1792388101930.7705,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/project-loader.image-cache-binding.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C8 入口场景 IO 错误上下文"],
+          "fullName": "C8 入口场景 IO 错误上下文 外部 IO 对入口场景抛非 Error：entry id、indexed path 与 String detail 保留且整批拒绝",
+          "status": "passed",
+          "title": "外部 IO 对入口场景抛非 Error：entry id、indexed path 与 String detail 保留且整批拒绝",
+          "duration": 1.950499999999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C9 地图公开入口闭环"],
+          "fullName": "C9 地图公开入口闭环 未登记 mapId 零 IO 精确拒绝；已登记 mapId 经真实 loadProjectMap 读 indexed path",
+          "status": "passed",
+          "title": "未登记 mapId 零 IO 精确拒绝；已登记 mapId 经真实 loadProjectMap 读 indexed path",
+          "duration": 3.1999169999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C9 地图公开入口闭环"],
+          "fullName": "C9 地图公开入口闭环 loadAllProjectMaps 乱序完成仍按稳定 id 归位",
+          "status": "passed",
+          "title": "loadAllProjectMaps 乱序完成仍按稳定 id 归位",
+          "duration": 53.023792,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C9 地图公开入口闭环"],
+          "fullName": "C9 地图公开入口闭环 loadAllProjectMaps 单个 IO 拒绝整批，不返回部分成功",
+          "status": "passed",
+          "title": "loadAllProjectMaps 单个 IO 拒绝整批，不返回部分成功",
+          "duration": 0.7794579999999769,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10 optional 表保真"],
+          "fullName": "C10 optional 表保真 可缺表缺席时公开字段为空默认",
+          "status": "passed",
+          "title": "可缺表缺席时公开字段为空默认",
+          "duration": 0.6259170000000154,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C10 optional 表保真"],
+          "fullName": "C10 optional 表保真 合法非空当前表逐表保真到工程公开字段",
+          "status": "passed",
+          "title": "合法非空当前表逐表保真到工程公开字段",
+          "duration": 0.867083000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388100919,
+      "endTime": 1792388100979.8672,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/project-loader.io-boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C2 场景 mapId 引用接线"],
+          "fullName": "C2 场景 mapId 引用接线 入口 mapId 悬空精确拒绝，登记同一 mapId 后装配成功",
+          "status": "passed",
+          "title": "入口 mapId 悬空精确拒绝，登记同一 mapId 后装配成功",
+          "duration": 4.706707999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C2 场景 mapId 引用接线"],
+          "fullName": "C2 场景 mapId 引用接线 惰性场景 mapId 悬空精确拒绝，登记同一 mapId 后加载成功",
+          "status": "passed",
+          "title": "惰性场景 mapId 悬空精确拒绝，登记同一 mapId 后加载成功",
+          "duration": 1.7681249999999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C3 入口场景条件引用接线"],
+          "fullName": "C3 入口场景条件引用接线 入口 'actor' 引用悬空精确拒绝，闭合同链绿",
+          "status": "passed",
+          "title": "入口 'actor' 引用悬空精确拒绝，闭合同链绿",
+          "duration": 1.3250419999999963,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C3 入口场景条件引用接线"],
+          "fullName": "C3 入口场景条件引用接线 入口 'poison' 引用悬空精确拒绝，闭合同链绿",
+          "status": "passed",
+          "title": "入口 'poison' 引用悬空精确拒绝，闭合同链绿",
+          "duration": 0.9223329999999947,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C4 item-private 使用脚本条件接线"],
+          "fullName": "C4 item-private 使用脚本条件接线 item 脚本 actor 引用悬空精确拒绝，闭合同链绿",
+          "status": "passed",
+          "title": "item 脚本 actor 引用悬空精确拒绝，闭合同链绿",
+          "duration": 1.750833,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C6 sharedScripts 条件接线"],
+          "fullName": "C6 sharedScripts 条件接线 shared 'actor' 引用悬空精确拒绝，闭合同链绿",
+          "status": "passed",
+          "title": "shared 'actor' 引用悬空精确拒绝，闭合同链绿",
+          "duration": 0.5510000000000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C6 sharedScripts 条件接线"],
+          "fullName": "C6 sharedScripts 条件接线 shared 'poison' 引用悬空精确拒绝，闭合同链绿",
+          "status": "passed",
+          "title": "shared 'poison' 引用悬空精确拒绝，闭合同链绿",
+          "duration": 0.47870799999999747,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C7 装备战斗精灵引用接线"],
+          "fullName": "C7 装备战斗精灵引用接线 悬空 battle sprite 后置接线拒收，补登记同链绿",
+          "status": "passed",
+          "title": "悬空 battle sprite 后置接线拒收，补登记同链绿",
+          "duration": 0.8030420000000049,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388100812,
+      "endTime": 1792388100824.803,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/project-loader.reference-boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["current project loader"],
+          "fullName": "current project loader rejects an interrupted author save before reading any manifest or author table",
+          "status": "passed",
+          "title": "rejects an interrupted author save before reading any manifest or author table",
+          "duration": 1.75408299999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current project loader"],
+          "fullName": "current project loader rejects a complete generation change during actual project assembly",
+          "status": "passed",
+          "title": "rejects a complete generation change during actual project assembly",
+          "duration": 3.6963329999999814,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current project loader"],
+          "fullName": "current project loader retains author identity and creates the runtime dialogue projection directly",
+          "status": "passed",
+          "title": "retains author identity and creates the runtime dialogue projection directly",
+          "duration": 1.0467080000000237,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current project loader"],
+          "fullName": "current project loader fails invalid author identity before runtime projection",
+          "status": "passed",
+          "title": "fails invalid author identity before runtime projection",
+          "duration": 0.393209000000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current project loader"],
+          "fullName": "current project loader 拒绝角色唯一出厂技能种子中的悬空 skill id",
+          "status": "passed",
+          "title": "拒绝角色唯一出厂技能种子中的悬空 skill id",
+          "duration": 0.46104199999996354,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current project loader"],
+          "fullName": "current project loader loads only current content without reading a migration sidecar",
+          "status": "passed",
+          "title": "loads only current content without reading a migration sidecar",
+          "duration": 0.6161250000000109,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current project loader"],
+          "fullName": "current project loader loads entry and lazy scenes only from explicit SceneIndex paths",
+          "status": "passed",
+          "title": "loads entry and lazy scenes only from explicit SceneIndex paths",
+          "duration": 0.9562090000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current project loader"],
+          "fullName": "current project loader lazy scene path missing or body id mismatch fails loud at the indexed path",
+          "status": "passed",
+          "title": "lazy scene path missing or body id mismatch fails loud at the indexed path",
+          "duration": 0.5506249999999682,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current project loader"],
+          "fullName": "current project loader loads and validates every real entry while deriving runtime cache from defaultEntryId",
+          "status": "passed",
+          "title": "loads and validates every real entry while deriving runtime cache from defaultEntryId",
+          "duration": 0.6446250000000191,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current project loader"],
+          "fullName": "current project loader rejects a broken non-default entry world reference",
+          "status": "passed",
+          "title": "rejects a broken non-default entry world reference",
+          "duration": 0.6120839999999816,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current project loader"],
+          "fullName": "current project loader reports a missing non-default entry scene with the stable entry id",
+          "status": "passed",
+          "title": "reports a missing non-default entry scene with the stable entry id",
+          "duration": 0.3350419999999872,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current project loader"],
+          "fullName": "current project loader rejects pre-current content at the only product boundary",
+          "status": "passed",
+          "title": "rejects pre-current content at the only product boundary",
+          "duration": 0.16479199999997718,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388100357,
+      "endTime": 1792388100368.335,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/project-loader.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 空 placements 不物化 authoring；非空 placements 过守卫后可读回",
+          "status": "passed",
+          "title": "Q02 空 placements 不物化 authoring；非空 placements 过守卫后可读回",
+          "duration": 1.8314590000000095,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 placements 非法轴被地图守卫拒绝：负 row anchor / 空 visualSlots",
+          "status": "passed",
+          "title": "Q02 placements 非法轴被地图守卫拒绝：负 row anchor / 空 visualSlots",
+          "duration": 0.5289580000000029,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 resize 放大：内容保留、新区为空且 heights 存在时重建",
+          "status": "passed",
+          "title": "Q02 resize 放大：内容保留、新区为空且 heights 存在时重建",
+          "duration": 0.3133330000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 resize 缩小：行列截断且 collision 一并重建",
+          "status": "passed",
+          "title": "Q02 resize 缩小：行列截断且 collision 一并重建",
+          "duration": 0.4274589999999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 resize 会破坏组合时精确拒绝并点名组合 id",
+          "status": "passed",
+          "title": "Q02 resize 会破坏组合时精确拒绝并点名组合 id",
+          "duration": 0.17849999999999966,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 removeProjectMapLayer 会破坏组合时精确拒绝；无关图层可删",
+          "status": "passed",
+          "title": "Q02 removeProjectMapLayer 会破坏组合时精确拒绝；无关图层可删",
+          "duration": 0.225332999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 insertProjectMapLayer 重复 id 原引用返回；越界 index 钳制",
+          "status": "passed",
+          "title": "Q02 insertProjectMapLayer 重复 id 原引用返回；越界 index 钳制",
+          "duration": 0.12429199999999696,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 moveProjectMapLayer 未知 id 与同位不动；越界钳制后落位",
+          "status": "passed",
+          "title": "Q02 moveProjectMapLayer 未知 id 与同位不动；越界钳制后落位",
+          "duration": 0.16258299999999792,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q02 updateProjectMapLayer 未知 id 原引用返回；命名 patch 生效且不改图层序",
+          "status": "passed",
+          "title": "Q02 updateProjectMapLayer 未知 id 原引用返回；命名 patch 生效且不改图层序",
+          "duration": 0.38666700000000276,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388101319,
+      "endTime": 1792388101323.3867,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/project-map-stamp-resize.glm-q.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["B03 project-map 剩余合同"],
+          "fullName": "B03 project-map 剩余合同 隐藏层不进入 tilesInView，同格可见层完整保留 layerId/tileset/height",
+          "status": "passed",
+          "title": "隐藏层不进入 tilesInView，同格可见层完整保留 layerId/tileset/height",
+          "duration": 1.6813750000000027,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388102107,
+      "endTime": 1792388102108.6814,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/project-map.cursor-boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["N01 lattice 边界与界外裁剪"],
+          "fullName": "N01 lattice 边界与界外裁剪 isLatticeInside 四边精确拒绝；界外像素命中最近格",
+          "status": "passed",
+          "title": "isLatticeInside 四边精确拒绝；界外像素命中最近格",
+          "duration": 1.1140419999999978,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N01 lattice 边界与界外裁剪"],
+          "fullName": "N01 lattice 边界与界外裁剪 latticeInRect 全图外矩形与 -0 规范化",
+          "status": "passed",
+          "title": "latticeInRect 全图外矩形与 -0 规范化",
+          "duration": 0.3299999999999983,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N01 lattice 边界与界外裁剪"],
+          "fullName": "N01 lattice 边界与界外裁剪 latticeInMapRect 先裁到图内再枚举，不产出界外格",
+          "status": "passed",
+          "title": "latticeInMapRect 先裁到图内再枚举，不产出界外格",
+          "duration": 0.21670799999999701,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N01 瓦片/碰撞编辑非法输入 fail-loud"],
+          "fullName": "N01 瓦片/碰撞编辑非法输入 fail-loud 负高度、空瓦片带来源、非整数 tileId、缺来源分别精确拒绝",
+          "status": "passed",
+          "title": "负高度、空瓦片带来源、非整数 tileId、缺来源分别精确拒绝",
+          "duration": 0.6392499999999899,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N01 瓦片/碰撞编辑非法输入 fail-loud"],
+          "fullName": "N01 瓦片/碰撞编辑非法输入 fail-loud 高度归零时 heights 层整体退役；非零时随行写入",
+          "status": "passed",
+          "title": "高度归零时 heights 层整体退役；非零时随行写入",
+          "duration": 0.18645899999999926,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N01 填充/视图的退化输入"],
+          "fullName": "N01 填充/视图的退化输入 floodFill：目标层缺席、起点图外、起点已是目标态均返回空",
+          "status": "passed",
+          "title": "floodFill：目标层缺席、起点图外、起点已是目标态均返回空",
+          "duration": 0.1789580000000086,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N01 填充/视图的退化输入"],
+          "fullName": "N01 填充/视图的退化输入 tilesInView 缺行缺列与隐藏层都不产出；null 瓦片跳过",
+          "status": "passed",
+          "title": "tilesInView 缺行缺列与隐藏层都不产出；null 瓦片跳过",
+          "duration": 0.737290999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N01 图层操作幂等与保护"],
+          "fullName": "N01 图层操作幂等与保护 插入重名 id 幂等、移动未知层/原位移动幂等、更新未知层返回原图",
+          "status": "passed",
+          "title": "插入重名 id 幂等、移动未知层/原位移动幂等、更新未知层返回原图",
+          "duration": 0.17983300000000213,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N01 缩放保护与作者态"],
+          "fullName": "N01 缩放保护与作者态 同尺寸缩放返回原引用；空作者态不物化 authoring 字段",
+          "status": "passed",
+          "title": "同尺寸缩放返回原引用；空作者态不物化 authoring 字段",
+          "duration": 0.3717500000000058,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388101191,
+      "endTime": 1792388101195.3718,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/project-map.glm-n.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R25 nextProjectMapLayerId"],
+          "fullName": "R25 nextProjectMapLayerId 仅 floor 层 → layer-1；已有 layer-1/2 → layer-3",
+          "status": "passed",
+          "title": "仅 floor 层 → layer-1；已有 layer-1/2 → layer-3",
+          "duration": 1.1112499999999983,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R25 nextProjectMapLayerId"],
+          "fullName": "R25 nextProjectMapLayerId id 序列有空洞（layer-2 缺席，layer-1 已占）→ 回填最小空位 layer-2",
+          "status": "passed",
+          "title": "id 序列有空洞（layer-2 缺席，layer-1 已占）→ 回填最小空位 layer-2",
+          "duration": 0.16004099999999255,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388102152,
+      "endTime": 1792388102154.1602,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/project-map.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["buildBlankProjectMap"],
+          "fullName": "buildBlankProjectMap 产出当前 canonical 地图与 lockstep 空矩阵",
+          "status": "passed",
+          "title": "产出当前 canonical 地图与 lockstep 空矩阵",
+          "duration": 1.6573749999999876,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["lattice 几何"],
+          "fullName": "lattice 几何 中心命中往返；奇数行右错半格",
+          "status": "passed",
+          "title": "中心命中往返；奇数行右错半格",
+          "duration": 0.3599169999999958,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["lattice 几何"],
+          "fullName": "lattice 几何 矩形枚举两类错排行，端点反序等价",
+          "status": "passed",
+          "title": "矩形枚举两类错排行，端点反序等价",
+          "duration": 0.16033299999999429,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["lattice 几何"],
+          "fullName": "lattice 几何 命中矩形与 tile blit 几何规范化负零",
+          "status": "passed",
+          "title": "命中矩形与 tile blit 几何规范化负零",
+          "duration": 0.14441700000000424,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["lattice 几何"],
+          "fullName": "lattice 几何 地图边界矩形先裁剪再枚举",
+          "status": "passed",
+          "title": "地图边界矩形先裁剪再枚举",
+          "duration": 0.1665830000000028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["瓦片来源、高度与碰撞编辑"],
+          "fullName": "瓦片来源、高度与碰撞编辑 同 tileId 可在同层指向不同来源，新增来源稳定排序并重映射旧 source",
+          "status": "passed",
+          "title": "同 tileId 可在同层指向不同来源，新增来源稳定排序并重映射旧 source",
+          "duration": 0.5058329999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["瓦片来源、高度与碰撞编辑"],
+          "fullName": "瓦片来源、高度与碰撞编辑 擦除同步清空 tile/source/height，全零高度重新省略",
+          "status": "passed",
+          "title": "擦除同步清空 tile/source/height，全零高度重新省略",
+          "duration": 0.1426660000000055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["瓦片来源、高度与碰撞编辑"],
+          "fullName": "瓦片来源、高度与碰撞编辑 非法 tile/source 组合 fail loud",
+          "status": "passed",
+          "title": "非法 tile/source 组合 fail loud",
+          "duration": 0.3210410000000081,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["瓦片来源、高度与碰撞编辑"],
+          "fullName": "瓦片来源、高度与碰撞编辑 碰撞写入不触碰视觉层",
+          "status": "passed",
+          "title": "碰撞写入不触碰视觉层",
+          "duration": 0.3719999999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["瓦片来源、高度与碰撞编辑"],
+          "fullName": "瓦片来源、高度与碰撞编辑 填充区域身份包含 tileId、来源和高度；空格同样可填充",
+          "status": "passed",
+          "title": "填充区域身份包含 tileId、来源和高度；空格同样可填充",
+          "duration": 0.28829199999999844,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["图层、缩放与作者态"],
+          "fullName": "图层、缩放与作者态 图层稳定 id 支持增、移、改、删",
+          "status": "passed",
+          "title": "图层稳定 id 支持增、移、改、删",
+          "duration": 0.25037500000000534,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["图层、缩放与作者态"],
+          "fullName": "图层、缩放与作者态 缩放同步处理 tiles/sources/heights/collision",
+          "status": "passed",
+          "title": "缩放同步处理 tiles/sources/heights/collision",
+          "duration": 0.25933299999999804,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["图层、缩放与作者态"],
+          "fullName": "图层、缩放与作者态 authoring 可选但版本始终保持 current",
+          "status": "passed",
+          "title": "authoring 可选但版本始终保持 current",
+          "duration": 0.5418750000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388100809,
+      "endTime": 1792388100814.542,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/project-map.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission rejects invalid records: null",
+          "status": "passed",
+          "title": "rejects invalid records: null",
+          "duration": 0.9972500000000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission rejects invalid records: undefined",
+          "status": "passed",
+          "title": "rejects invalid records: undefined",
+          "duration": 0.15187499999999687,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission rejects invalid records: {}",
+          "status": "passed",
+          "title": "rejects invalid records: {}",
+          "duration": 0.07566700000000282,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":0,\"operationId\":\"cf448da8-601d-4c9c-bbdc-235b7d61d483\",\"phase\":\"committed\",\"planHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+          "status": "passed",
+          "title": "rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":0,\"operationId\":\"cf448da8-601d-4c9c-bbdc-235b7d61d483\",\"phase\":\"committed\",\"planHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+          "duration": 0.0750409999999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":1,\"operationId\":\"cf448da8-601d-4c9c-bbdc-235b7d61d483\",\"phase\":\"committed\",\"planHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"extra\":true}",
+          "status": "passed",
+          "title": "rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":1,\"operationId\":\"cf448da8-601d-4c9c-bbdc-235b7d61d483\",\"phase\":\"committed\",\"planHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"extra\":true}",
+          "duration": 0.07416700000000276,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission rejects invalid records: {\"kind\":\"other\",\"version\":1,\"operationId\":\"cf448da8-601d-4c9c-bbdc-235b7d61d483\",\"phase\":\"committed\",\"planHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+          "status": "passed",
+          "title": "rejects invalid records: {\"kind\":\"other\",\"version\":1,\"operationId\":\"cf448da8-601d-4c9c-bbdc-235b7d61d483\",\"phase\":\"committed\",\"planHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+          "duration": 0.059166999999995085,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":1,\"operationId\":\"../escape\",\"phase\":\"committed\",\"planHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+          "status": "passed",
+          "title": "rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":1,\"operationId\":\"../escape\",\"phase\":\"committed\",\"planHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+          "duration": 0.1314999999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":1,\"operationId\":1,\"phase\":\"committed\",\"planHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+          "status": "passed",
+          "title": "rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":1,\"operationId\":1,\"phase\":\"committed\",\"planHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+          "duration": 0.10641600000000295,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":1,\"operationId\":\"cf448da8-601d-4c9c-bbdc-235b7d61d483\",\"phase\":\"ready\",\"planHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+          "status": "passed",
+          "title": "rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":1,\"operationId\":\"cf448da8-601d-4c9c-bbdc-235b7d61d483\",\"phase\":\"ready\",\"planHash\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+          "duration": 0.4838330000000042,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":1,\"operationId\":\"cf448da8-601d-4c9c-bbdc-235b7d61d483\",\"phase\":\"committed\",\"planHash\":\"abc\"}",
+          "status": "passed",
+          "title": "rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":1,\"operationId\":\"cf448da8-601d-4c9c-bbdc-235b7d61d483\",\"phase\":\"committed\",\"planHash\":\"abc\"}",
+          "duration": 0.10858299999999588,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":1,\"operationId\":\"cf448da8-601d-4c9c-bbdc-235b7d61d483\",\"phase\":\"committed\",\"planHash\":null}",
+          "status": "passed",
+          "title": "rejects invalid records: {\"kind\":\"type-pal-author-save\",\"version\":1,\"operationId\":\"cf448da8-601d-4c9c-bbdc-235b7d61d483\",\"phase\":\"committed\",\"planHash\":null}",
+          "duration": 0.11400000000000432,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission recognizes missing, committed and pending without granting writes",
+          "status": "passed",
+          "title": "recognizes missing, committed and pending without granting writes",
+          "duration": 1.2532499999999942,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission does not swallow a successful invalid response: \"\"",
+          "status": "passed",
+          "title": "does not swallow a successful invalid response: \"\"",
+          "duration": 0.1096250000000083,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission does not swallow a successful invalid response: \"<html>SPA</html>\"",
+          "status": "passed",
+          "title": "does not swallow a successful invalid response: \"<html>SPA</html>\"",
+          "duration": 0.0833329999999961,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission does not swallow a successful invalid response: \"{\"",
+          "status": "passed",
+          "title": "does not swallow a successful invalid response: \"{\"",
+          "duration": 0.07062500000000682,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission does not swallow a successful invalid response: \"null\"",
+          "status": "passed",
+          "title": "does not swallow a successful invalid response: \"null\"",
+          "duration": 0.06570800000000077,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission preserves NotAllowedError",
+          "status": "passed",
+          "title": "preserves NotAllowedError",
+          "duration": 0.10462499999999864,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission preserves AbortError",
+          "status": "passed",
+          "title": "preserves AbortError",
+          "duration": 0.29812499999999886,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission preserves TypeMismatchError",
+          "status": "passed",
+          "title": "preserves TypeMismatchError",
+          "duration": 0.08387500000000614,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission pending stops consumption before any project read",
+          "status": "passed",
+          "title": "pending stops consumption before any project read",
+          "duration": 0.22195800000000077,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission detects a save during the read: pending",
+          "status": "passed",
+          "title": "detects a save during the read: pending",
+          "duration": 0.11587500000000261,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission detects a save during the read: committed",
+          "status": "passed",
+          "title": "detects a save during the read: committed",
+          "duration": 0.07354199999998912,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission detects a save during the read: missing",
+          "status": "passed",
+          "title": "detects a save during the read: missing",
+          "duration": 0.11537500000000023,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["author save read admission"],
+          "fullName": "author save read admission stable reads return the value; failed reads preserve their cause",
+          "status": "passed",
+          "title": "stable reads return the value; failed reads preserve their cause",
+          "duration": 0.10633299999999224,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388101602,
+      "endTime": 1792388101607.222,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/project-save-state.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "混合截止时间的等待按到期子集逆向结算,零毫秒等待在下一帧边界先行完成",
+          "status": "passed",
+          "title": "混合截止时间的等待按到期子集逆向结算,零毫秒等待在下一帧边界先行完成",
+          "duration": 1.4028749999999945,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "暂停后恢复的淡入从 gameplay 时间推进,不采用墙钟时间",
+          "status": "passed",
+          "title": "暂停后恢复的淡入从 gameplay 时间推进,不采用墙钟时间",
+          "duration": 0.22699999999998965,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388102005,
+      "endTime": 1792388102006.4028,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/runtime-frame-session.runtime-session-1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "frame phases preserve synchronous order and route once after world advancement",
+          "status": "passed",
+          "title": "frame phases preserve synchronous order and route once after world advancement",
+          "duration": 1.2079169999999948,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "battle ownership is sampled after world advancement and consumes rendering and input",
+          "status": "passed",
+          "title": "battle ownership is sampled after world advancement and consumes rendering and input",
+          "duration": 0.10508400000000506,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "modal activation freezes the current frame while key consumption and world presentation continue",
+          "status": "passed",
+          "title": "modal activation freezes the current frame while key consumption and world presentation continue",
+          "duration": 0.16962499999999636,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "pause consumes wall time without catch-up and ordinary long frames stay capped",
+          "status": "passed",
+          "title": "pause consumes wall time without catch-up and ordinary long frames stay capped",
+          "duration": 0.21258299999999508,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "single step is consumed once and advances world but not fade or entity presentation",
+          "status": "passed",
+          "title": "single step is consumed once and advances world but not fade or entity presentation",
+          "duration": 0.33424999999999727,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "disable step mode clears a queued step without replay",
+          "status": "passed",
+          "title": "disable step mode clears a queued step without replay",
+          "duration": 0.07770800000000122,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "reset step mode clears a queued step without replay",
+          "status": "passed",
+          "title": "reset step mode clears a queued step without replay",
+          "duration": 0.10420900000001154,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "step request under a modal preserves existing lifecycle arguments without advancing presentation",
+          "status": "passed",
+          "title": "step request under a modal preserves existing lifecycle arguments without advancing presentation",
+          "duration": 0.13599999999999568,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "waits settle once in reverse registration order at the gameplay deadline and detach abort listeners",
+          "status": "passed",
+          "title": "waits settle once in reverse registration order at the gameplay deadline and detach abort listeners",
+          "duration": 1.0212499999999949,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "aborted wait rejects with the existing protocol while unrelated pending wait can finish",
+          "status": "passed",
+          "title": "aborted wait rejects with the existing protocol while unrelated pending wait can finish",
+          "duration": 0.37820899999999824,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a paused timer retains its remainder across repeated ownership notifications and detaches on abort",
+          "status": "passed",
+          "title": "a paused timer retains its remainder across repeated ownership notifications and detaches on abort",
+          "duration": 0.3244589999999903,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "pre-aborted signal never leaves a waiter and clear keeps that rejection identity",
+          "status": "passed",
+          "title": "pre-aborted signal never leaves a waiter and clear keeps that rejection identity",
+          "duration": 0.13933399999999097,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "clear resolves remaining waits without waiting for time and never replaces an existing abort error",
+          "status": "passed",
+          "title": "clear resolves remaining waits without waiting for time and never replaces an existing abort error",
+          "duration": 0.16716699999999207,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "modal freezes wait completion; leaving it does not accumulate hidden wall time",
+          "status": "passed",
+          "title": "modal freezes wait completion; leaving it does not accumulate hidden wall time",
+          "duration": 0.09483299999999417,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a failed frame rejects without later input or render work",
+          "status": "passed",
+          "title": "a failed frame rejects without later input or render work",
+          "duration": 0.27866699999999867,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "new frame sessions have independent clocks, single-step requests and wait queues",
+          "status": "passed",
+          "title": "new frame sessions have independent clocks, single-step requests and wait queues",
+          "duration": 0.1436250000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388100574,
+      "endTime": 1792388100579.2786,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/runtime-frame-session.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "菜单层原样接收完整按键集合,路由器不预滤也不旁路派发任何键",
+          "status": "passed",
+          "title": "菜单层原样接收完整按键集合,路由器不预滤也不旁路派发任何键",
+          "duration": 1.096749999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388102182,
+      "endTime": 1792388102183.0967,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/runtime-input-router.runtime-session-1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "all 128 active-layer combinations give the complete frame to exactly the highest owner",
+          "status": "passed",
+          "title": "all 128 active-layer combinations give the complete frame to exactly the highest owner",
+          "duration": 4.071375000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "confirmation modal priorities for [\"ArrowUp\",\"Enter\",\"Escape\",\"F5\"]",
+          "status": "passed",
+          "title": "confirmation modal priorities for [\"ArrowUp\",\"Enter\",\"Escape\",\"F5\"]",
+          "duration": 0.08762500000000273,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "confirmation modal priorities for [\"ArrowLeft\"]",
+          "status": "passed",
+          "title": "confirmation modal priorities for [\"ArrowLeft\"]",
+          "duration": 0.04512499999999875,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "confirmation modal priorities for [\"ArrowDown\"]",
+          "status": "passed",
+          "title": "confirmation modal priorities for [\"ArrowDown\"]",
+          "duration": 0.09729200000001015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "confirmation modal priorities for [\"ArrowRight\"]",
+          "status": "passed",
+          "title": "confirmation modal priorities for [\"ArrowRight\"]",
+          "duration": 0.46812500000000057,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "confirmation modal priorities for [\"Enter\",\"Escape\",\"F5\"]",
+          "status": "passed",
+          "title": "confirmation modal priorities for [\"Enter\",\"Escape\",\"F5\"]",
+          "duration": 0.05237499999999784,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "confirmation modal priorities for [\" \",\"F5\"]",
+          "status": "passed",
+          "title": "confirmation modal priorities for [\" \",\"F5\"]",
+          "duration": 0.09787500000000193,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "confirmation modal priorities for [\"Escape\",\"F5\"]",
+          "status": "passed",
+          "title": "confirmation modal priorities for [\"Escape\",\"F5\"]",
+          "duration": 0.061666999999999916,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "confirmation modal priorities for [\"F5\"]",
+          "status": "passed",
+          "title": "confirmation modal priorities for [\"F5\"]",
+          "duration": 0.3567920000000129,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "confirmation modal priorities for [\"F9\"]",
+          "status": "passed",
+          "title": "confirmation modal priorities for [\"F9\"]",
+          "duration": 0.07058299999999917,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "confirmation modal priorities for []",
+          "status": "passed",
+          "title": "confirmation modal priorities for []",
+          "duration": 0.10979199999999878,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "exploration priorities for [\"F5\",\"F9\",\"Escape\",\"Enter\"]",
+          "status": "passed",
+          "title": "exploration priorities for [\"F5\",\"F9\",\"Escape\",\"Enter\"]",
+          "duration": 0.05683299999999747,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "exploration priorities for [\"F9\",\"Escape\",\"Enter\"]",
+          "status": "passed",
+          "title": "exploration priorities for [\"F9\",\"Escape\",\"Enter\"]",
+          "duration": 0.03120900000000404,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "exploration priorities for [\"Escape\",\"Enter\"]",
+          "status": "passed",
+          "title": "exploration priorities for [\"Escape\",\"Enter\"]",
+          "duration": 0.03037499999999227,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "exploration priorities for [\"Enter\"]",
+          "status": "passed",
+          "title": "exploration priorities for [\"Enter\"]",
+          "duration": 0.023541999999991958,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "exploration priorities for [\" \"]",
+          "status": "passed",
+          "title": "exploration priorities for [\" \"]",
+          "duration": 0.07862499999998818,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "exploration priorities for [\"x\"]",
+          "status": "passed",
+          "title": "exploration priorities for [\"x\"]",
+          "duration": 0.02400000000000091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "opening a menu or dialogue immediately blocks same-frame debug navigation",
+          "status": "passed",
+          "title": "opening a menu or dialogue immediately blocks same-frame debug navigation",
+          "duration": 0.06125000000000114,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "debug navigation uses the same key set after exploration and permits both bracket directions",
+          "status": "passed",
+          "title": "debug navigation uses the same key set after exploration and permits both bracket directions",
+          "duration": 0.11583299999999497,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "closing a shop or reward consumes the key without exposing the layer beneath",
+          "status": "passed",
+          "title": "closing a shop or reward consumes the key without exposing the layer beneath",
+          "duration": 0.06262499999999704,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "dialogue ignores save, escape and debug keys and receives real rather than gameplay time",
+          "status": "passed",
+          "title": "dialogue ignores save, escape and debug keys and receives real rather than gameplay time",
+          "duration": 0.04333300000000406,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "quick save is available exactly where the manual-save menu can open, across all active layers",
+          "status": "passed",
+          "title": "quick save is available exactly where the manual-save menu can open, across all active layers",
+          "duration": 1.049625000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388101592,
+      "endTime": 1792388101600.0496,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/runtime-input-router.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["B4 page/trigger/auto 有→无→有刷新"],
+          "fullName": "B4 page/trigger/auto 有→无→有刷新 字段精确删除/恢复；活体位置保留；hook 投影保持；canonical 输入不变",
+          "status": "passed",
+          "title": "字段精确删除/恢复；活体位置保留；hook 投影保持；canonical 输入不变",
+          "duration": 3.6392919999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B5 hook 游标选择的入场投影"],
+          "fullName": "B5 hook 游标选择的入场投影 hook 步骤游标选择对应呈现，投影正文一律为空",
+          "status": "passed",
+          "title": "hook 步骤游标选择对应呈现，投影正文一律为空",
+          "duration": 0.5638330000000025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B6 依赖捕获稳定性与差分"],
+          "fullName": "B6 依赖捕获稳定性与差分 实体换序输出稳定（按 id 排序）；相关变化有差、无关场景不误报",
+          "status": "passed",
+          "title": "实体换序输出稳定（按 id 排序）；相关变化有差、无关场景不误报",
+          "duration": 6.140625,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B7 items/scratch 可选分支与双向别名"],
+          "fullName": "B7 items/scratch 可选分支与双向别名 外部脚本/私有脚本/throw 完整投影；裸物品无 use/throw；输入与嵌套别名隔离",
+          "status": "passed",
+          "title": "外部脚本/私有脚本/throw 完整投影；裸物品无 use/throw；输入与嵌套别名隔离",
+          "duration": 1.3960419999999942,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B7 items/scratch 可选分支与双向别名"],
+          "fullName": "B7 items/scratch 可选分支与双向别名 scratch 可选分支缺席与在场：flags/vars/entityState 深拷贝不别名",
+          "status": "passed",
+          "title": "scratch 可选分支缺席与在场：flags/vars/entityState 深拷贝不别名",
+          "duration": 0.18304099999998868,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388100688,
+      "endTime": 1792388100700.183,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/runtime-project-view.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换"],
+          "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 运行时视图剥离 hostile onLose 命令体,gameOver 与其余 hostile 字段逐字保留",
+          "status": "passed",
+          "title": "运行时视图剥离 hostile onLose 命令体,gameOver 与其余 hostile 字段逐字保留",
+          "duration": 2.3651669999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换"],
+          "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 刷新跳过 canonical 缺席的视图实体,保留其活体绑定",
+          "status": "passed",
+          "title": "刷新跳过 canonical 缺席的视图实体,保留其活体绑定",
+          "duration": 1.7422920000000062,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换"],
+          "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 scratch 对 followers/mapOverride/entityLayer 逐腿深拷贝,缺席不造空对象",
+          "status": "passed",
+          "title": "scratch 对 followers/mapOverride/entityLayer 逐腿深拷贝,缺席不造空对象",
+          "duration": 0.25129100000000903,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换"],
+          "fullName": "TEST-GLM-REFORGE-RUNTIME-SESSION-1 world-view 替换 runtimeProjectView 整体替换:入口场景重投影、items 适配、scriptStore 显式置空、其余透传",
+          "status": "passed",
+          "title": "runtimeProjectView 整体替换:入口场景重投影、items 适配、scriptStore 显式置空、其余透传",
+          "duration": 26.776250000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388100960,
+      "endTime": 1792388100990.7764,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/runtime-project-view.runtime-session-1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["current runtime projection"],
+          "fullName": "current runtime projection completed owners lose executable bindings while their page animation and live fields survive",
+          "status": "passed",
+          "title": "completed owners lose executable bindings while their page animation and live fields survive",
+          "duration": 1.468332999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current runtime projection"],
+          "fullName": "current runtime projection projects canonical page/behavior/hook selection without copying script bodies",
+          "status": "passed",
+          "title": "projects canonical page/behavior/hook selection without copying script bodies",
+          "duration": 0.4095829999999978,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current runtime projection"],
+          "fullName": "current runtime projection adapts stable shared and item-private refs only inside the runtime shell",
+          "status": "passed",
+          "title": "adapts stable shared and item-private refs only inside the runtime shell",
+          "duration": 0.30450000000000443,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current runtime projection"],
+          "fullName": "current runtime projection flattens only the active scene into a non-persistent scratch view",
+          "status": "passed",
+          "title": "flattens only the active scene into a non-persistent scratch view",
+          "duration": 0.3734579999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current runtime projection"],
+          "fullName": "current runtime projection keeps the default-entry scene projection read-only and never writes startup mirrors",
+          "status": "passed",
+          "title": "keeps the default-entry scene projection read-only and never writes startup mirrors",
+          "duration": 0.2785420000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388100698,
+      "endTime": 1792388100701.2786,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/runtime-project-view.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["F1 reveal 失配分维度与错误后保持"],
+          "fullName": "F1 reveal 失配分维度与错误后保持 fade out/in 与 dither ms/kind 分别失配即拒；cut 正控；错误后当前 session 保持",
+          "status": "passed",
+          "title": "fade out/in 与 dither ms/kind 分别失配即拒；cut 正控；错误后当前 session 保持",
+          "duration": 1.3379170000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["F2 token 隔离与旧 complete"],
+          "fullName": "F2 token 隔离与旧 complete 同场景同配置二次 begin 产生新 token；旧 token complete 不能清新事务",
+          "status": "passed",
+          "title": "同场景同配置二次 begin 产生新 token；旧 token complete 不能清新事务",
+          "duration": 0.4707080000000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388101682,
+      "endTime": 1792388101683.4707,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/scene-entry-session.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["SceneEntrySession"],
+          "fullName": "SceneEntrySession prepare 保持旧帧，reveal 后由 token 精确收口",
+          "status": "passed",
+          "title": "prepare 保持旧帧，reveal 后由 token 精确收口",
+          "duration": 1.2480000000000047,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneEntrySession"],
+          "fullName": "SceneEntrySession fade prepare 仍冻结 source，compositor 可在其上叠加黑幕",
+          "status": "passed",
+          "title": "fade prepare 仍冻结 source，compositor 可在其上叠加黑幕",
+          "duration": 0.14458299999999724,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneEntrySession"],
+          "fullName": "SceneEntrySession reveal 中二次 loadScene 替换旧事务，旧 token 不能清掉新事务",
+          "status": "passed",
+          "title": "reveal 中二次 loadScene 替换旧事务，旧 token 不能清掉新事务",
+          "duration": 0.08504100000000392,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneEntrySession"],
+          "fullName": "SceneEntrySession prepare 中 abort 均由宿主 cancel 收口冻结帧",
+          "status": "passed",
+          "title": "prepare 中 abort 均由宿主 cancel 收口冻结帧",
+          "duration": 0.13583400000000267,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneEntrySession"],
+          "fullName": "SceneEntrySession prepare 命令抛错 均由宿主 cancel 收口冻结帧",
+          "status": "passed",
+          "title": "prepare 命令抛错 均由宿主 cancel 收口冻结帧",
+          "duration": 0.06870800000000088,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneEntrySession"],
+          "fullName": "SceneEntrySession 读档或 quitToTitle 均由宿主 cancel 收口冻结帧",
+          "status": "passed",
+          "title": "读档或 quitToTitle 均由宿主 cancel 收口冻结帧",
+          "duration": 0.052333999999994774,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneEntrySession"],
+          "fullName": "SceneEntrySession 目标资产加载失败 均由宿主 cancel 收口冻结帧",
+          "status": "passed",
+          "title": "目标资产加载失败 均由宿主 cancel 收口冻结帧",
+          "duration": 0.09895899999999358,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneEntrySession"],
+          "fullName": "SceneEntrySession boot 无旧帧时 reveal 安全跳过",
+          "status": "passed",
+          "title": "boot 无旧帧时 reveal 安全跳过",
+          "duration": 0.10183299999999917,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SceneEntrySession"],
+          "fullName": "SceneEntrySession 目标场景或 reveal 契约失配 fail-loud",
+          "status": "passed",
+          "title": "目标场景或 reveal 契约失配 fail-loud",
+          "duration": 0.6416660000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388101946,
+      "endTime": 1792388101948.6416,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/scene-entry-session.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "preparer creates a complete legal plan including hidden sprites and page actions without mutation or pruning",
+          "status": "passed",
+          "title": "preparer creates a complete legal plan including hidden sprites and page actions without mutation or pruning",
+          "duration": 38.407,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "world and explicit script are frozen before the first scene read can resume",
+          "status": "passed",
+          "title": "world and explicit script are frozen before the first scene read can resume",
+          "duration": 10.547500000000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "actor override definitions are cloned on entry while the selected world can opt out",
+          "status": "passed",
+          "title": "actor override definitions are cloned on entry while the selected world can opt out",
+          "duration": 10.02208299999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "map preparation failure propagates exact error without renderer creation",
+          "status": "passed",
+          "title": "map preparation failure propagates exact error without renderer creation",
+          "duration": 7.6240840000000105,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "palette preparation failure propagates exact error without renderer creation",
+          "status": "passed",
+          "title": "palette preparation failure propagates exact error without renderer creation",
+          "duration": 6.32095799999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "loadSprite preparation failure propagates exact error without renderer creation",
+          "status": "passed",
+          "title": "loadSprite preparation failure propagates exact error without renderer creation",
+          "duration": 5.2175829999999905,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "prepareSounds preparation failure propagates exact error without renderer creation",
+          "status": "passed",
+          "title": "prepareSounds preparation failure propagates exact error without renderer creation",
+          "duration": 5.029874999999976,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "sound readiness is awaited before plan publication, not detached from the scene barrier",
+          "status": "passed",
+          "title": "sound readiness is awaited before plan publication, not detached from the scene barrier",
+          "duration": 4.496250000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "inventory changes invalidate only the captured dependency footprint",
+          "status": "passed",
+          "title": "inventory changes invalidate only the captured dependency footprint",
+          "duration": 3.661042000000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "equipment changes invalidate only the captured dependency footprint",
+          "status": "passed",
+          "title": "equipment changes invalidate only the captured dependency footprint",
+          "duration": 3.0263750000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "followers changes invalidate only the captured dependency footprint",
+          "status": "passed",
+          "title": "followers changes invalidate only the captured dependency footprint",
+          "duration": 3.0574169999999867,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "appearance changes invalidate only the captured dependency footprint",
+          "status": "passed",
+          "title": "appearance changes invalidate only the captured dependency footprint",
+          "duration": 3.3542909999999893,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "unrelated money and flags remain allowed and missing script is not filled into the caller",
+          "status": "passed",
+          "title": "unrelated money and flags remain allowed and missing script is not filled into the caller",
+          "duration": 5.619209000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "explicit fractional spawn and facing remain precise without modifying scene entry or caller spawn",
+          "status": "passed",
+          "title": "explicit fractional spawn and facing remain precise without modifying scene entry or caller spawn",
+          "duration": 4.820249999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388101108,
+      "endTime": 1792388101219.8203,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/scene-preparer.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "scene resource owner seeds the real entry and caches successful canonical reads only",
+          "status": "passed",
+          "title": "scene resource owner seeds the real entry and caches successful canonical reads only",
+          "duration": 35.02799999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "scene failure is not cached and a fresh request can recover",
+          "status": "passed",
+          "title": "scene failure is not cached and a fresh request can recover",
+          "duration": 8.722707999999983,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "map failure is not cached and a fresh request can recover",
+          "status": "passed",
+          "title": "map failure is not cached and a fresh request can recover",
+          "duration": 9.166333000000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "palette has one project-scoped promise and repeated successful callers share its value",
+          "status": "passed",
+          "title": "palette has one project-scoped promise and repeated successful callers share its value",
+          "duration": 7.131957999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "palette rejection keeps the existing memo policy and exact error",
+          "status": "passed",
+          "title": "palette rejection keeps the existing memo policy and exact error",
+          "duration": 4.844375000000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "references rejection keeps the existing memo policy and exact error",
+          "status": "passed",
+          "title": "references rejection keeps the existing memo policy and exact error",
+          "duration": 2.632083999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "complete reference loading warms all canonical scenes without changing its returned index",
+          "status": "passed",
+          "title": "complete reference loading warms all canonical scenes without changing its returned index",
+          "duration": 6.991834000000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "map LRU touches hits and evicts the least recent key at the seventeenth completed map",
+          "status": "passed",
+          "title": "map LRU touches hits and evicts the least recent key at the seventeenth completed map",
+          "duration": 10.717167000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cold concurrent scene reads preserve completion-order caching rather than inventing coalescing",
+          "status": "passed",
+          "title": "cold concurrent scene reads preserve completion-order caching rather than inventing coalescing",
+          "duration": 3.468125000000015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "cold concurrent map reads preserve completion-order caching rather than inventing coalescing",
+          "status": "passed",
+          "title": "cold concurrent map reads preserve completion-order caching rather than inventing coalescing",
+          "duration": 4.734791999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "separate project owners never reuse another project scene or map cache",
+          "status": "passed",
+          "title": "separate project owners never reuse another project scene or map cache",
+          "duration": 12.679625000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388101306,
+      "endTime": 1792388101412.6797,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/scene-resources.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["scene switch dependency guard"],
+          "fullName": "scene switch dependency guard 所有预检依赖变化都拒绝陈旧 plan，无关世界字段不误伤",
+          "status": "passed",
+          "title": "所有预检依赖变化都拒绝陈旧 plan，无关世界字段不误伤",
+          "duration": 2.557209000000057,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["scene switch dependency guard"],
+          "fullName": "scene switch dependency guard 读档计划显式忽略活动 actor override",
+          "status": "passed",
+          "title": "读档计划显式忽略活动 actor override",
+          "duration": 0.18974999999988995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolved canonical scene dependencies"],
+          "fullName": "resolved canonical scene dependencies page/animation changes the actual target projection footprint",
+          "status": "passed",
+          "title": "page/animation changes the actual target projection footprint",
+          "duration": 0.17162499999994907,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolved canonical scene dependencies"],
+          "fullName": "resolved canonical scene dependencies trigger selection changes the actual target projection footprint",
+          "status": "passed",
+          "title": "trigger selection changes the actual target projection footprint",
+          "duration": 0.2037920000000213,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolved canonical scene dependencies"],
+          "fullName": "resolved canonical scene dependencies trigger disabled changes the actual target projection footprint",
+          "status": "passed",
+          "title": "trigger disabled changes the actual target projection footprint",
+          "duration": 0.09029199999997672,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolved canonical scene dependencies"],
+          "fullName": "resolved canonical scene dependencies auto disabled changes the actual target projection footprint",
+          "status": "passed",
+          "title": "auto disabled changes the actual target projection footprint",
+          "duration": 0.08595800000000509,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolved canonical scene dependencies"],
+          "fullName": "resolved canonical scene dependencies activation changes the actual target projection footprint",
+          "status": "passed",
+          "title": "activation changes the actual target projection footprint",
+          "duration": 0.12829099999999016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolved canonical scene dependencies"],
+          "fullName": "resolved canonical scene dependencies activation disabled changes the actual target projection footprint",
+          "status": "passed",
+          "title": "activation disabled changes the actual target projection footprint",
+          "duration": 0.08233399999994617,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolved canonical scene dependencies"],
+          "fullName": "resolved canonical scene dependencies same resolved IDs/cursor order and unrelated entity cursors do not introduce false invalidation",
+          "status": "passed",
+          "title": "same resolved IDs/cursor order and unrelated entity cursors do not introduce false invalidation",
+          "duration": 0.4237080000000333,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolved canonical scene dependencies"],
+          "fullName": "resolved canonical scene dependencies empty target and disabled hook ignore state that is not consumed",
+          "status": "passed",
+          "title": "empty target and disabled hook ignore state that is not consumed",
+          "duration": 0.12895900000000893,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolved canonical scene dependencies"],
+          "fullName": "resolved canonical scene dependencies onTeleport selection is also a target scene view dependency",
+          "status": "passed",
+          "title": "onTeleport selection is also a target scene view dependency",
+          "duration": 0.13924999999994725,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["prepareAndCommitSceneSwitch"],
+          "fullName": "prepareAndCommitSceneSwitch scene 预检失败零提交并清理当前呈现",
+          "status": "passed",
+          "title": "scene 预检失败零提交并清理当前呈现",
+          "duration": 0.8868750000000318,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["prepareAndCommitSceneSwitch"],
+          "fullName": "prepareAndCommitSceneSwitch map 预检失败零提交并清理当前呈现",
+          "status": "passed",
+          "title": "map 预检失败零提交并清理当前呈现",
+          "duration": 0.21833300000002964,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["prepareAndCommitSceneSwitch"],
+          "fullName": "prepareAndCommitSceneSwitch palette 预检失败零提交并清理当前呈现",
+          "status": "passed",
+          "title": "palette 预检失败零提交并清理当前呈现",
+          "duration": 0.11387500000000728,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["prepareAndCommitSceneSwitch"],
+          "fullName": "prepareAndCommitSceneSwitch sprite 预检失败零提交并清理当前呈现",
+          "status": "passed",
+          "title": "sprite 预检失败零提交并清理当前呈现",
+          "duration": 0.10562499999991815,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["prepareAndCommitSceneSwitch"],
+          "fullName": "prepareAndCommitSceneSwitch sound 预检失败零提交并清理当前呈现",
+          "status": "passed",
+          "title": "sound 预检失败零提交并清理当前呈现",
+          "duration": 0.14962500000001455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["prepareAndCommitSceneSwitch"],
+          "fullName": "prepareAndCommitSceneSwitch A 淡出时 B 预检失败：只由当前 B 收口黑幕，A 不得提交或二次清理",
+          "status": "passed",
+          "title": "A 淡出时 B 预检失败：只由当前 B 收口黑幕，A 不得提交或二次清理",
+          "duration": 0.35466699999994944,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["prepareAndCommitSceneSwitch"],
+          "fullName": "prepareAndCommitSceneSwitch A 正在淡出时 B 成功接管：A 立即收敛且仅 B 提交一次",
+          "status": "passed",
+          "title": "A 正在淡出时 B 成功接管：A 立即收敛且仅 B 提交一次",
+          "duration": 0.5326250000000528,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["prepareAndCommitSceneSwitch"],
+          "fullName": "prepareAndCommitSceneSwitch A 已提交并淡入时 B 成功接管：A 后置检查失败，B 正常提交",
+          "status": "passed",
+          "title": "A 已提交并淡入时 B 成功接管：A 后置检查失败，B 正常提交",
+          "duration": 51.994958,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["prepareAndCommitSceneSwitch"],
+          "fullName": "prepareAndCommitSceneSwitch 切场 fade 被非 scene owner 接管后，旧 cleanup 不得取消新演出",
+          "status": "passed",
+          "title": "切场 fade 被非 scene owner 接管后，旧 cleanup 不得取消新演出",
+          "duration": 0.22020800000007057,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["prepareAndCommitSceneSwitch"],
+          "fullName": "prepareAndCommitSceneSwitch fade-out 完成后后置校验失败，呈现 owner 的 cleanup 仍会复位黑幕",
+          "status": "passed",
+          "title": "fade-out 完成后后置校验失败，呈现 owner 的 cleanup 仍会复位黑幕",
+          "duration": 0.16212500000006003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["prepareAndCommitSceneSwitch"],
+          "fullName": "prepareAndCommitSceneSwitch 切场预检失败时，旧 cleanup 不得取消并行启动的新 dither owner",
+          "status": "passed",
+          "title": "切场预检失败时，旧 cleanup 不得取消并行启动的新 dither owner",
+          "duration": 0.1951250000000755,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["prepareAndCommitSceneSwitch"],
+          "fullName": "prepareAndCommitSceneSwitch 停止旧 auto 会失效已经进入资源 await 的 host 提交",
+          "status": "passed",
+          "title": "停止旧 auto 会失效已经进入资源 await 的 host 提交",
+          "duration": 0.15141600000004019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388100538,
+      "endTime": 1792388100598.1514,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/scene-switch-transaction.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["canonical startup entry resolution"],
+          "fullName": "canonical startup entry resolution defaultEntryId, not array order, selects direct startup",
+          "status": "passed",
+          "title": "defaultEntryId, not array order, selects direct startup",
+          "duration": 0.8059999999999974,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical startup entry resolution"],
+          "fullName": "canonical startup entry resolution explicit and invalid query preserve the boot contract",
+          "status": "passed",
+          "title": "explicit and invalid query preserve the boot contract",
+          "duration": 0.6128330000000091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical startup entry resolution"],
+          "fullName": "canonical startup entry resolution scene override does not replace the selected entry world",
+          "status": "passed",
+          "title": "scene override does not replace the selected entry world",
+          "duration": 0.1599999999999966,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical startup entry resolution"],
+          "fullName": "canonical startup entry resolution menu、entry 与 scene 参数按直达优先级决定是否显示标题菜单",
+          "status": "passed",
+          "title": "menu、entry 与 scene 参数按直达优先级决定是否显示标题菜单",
+          "duration": 0.20541699999999707,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["canonical startup entry resolution"],
+          "fullName": "canonical startup entry resolution 入口 intro 仅在菜单选择新局时播放",
+          "status": "passed",
+          "title": "入口 intro 仅在菜单选择新局时播放",
+          "duration": 0.0819580000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388101871,
+      "endTime": 1792388101873.2053,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/startup-entry.test.ts"
+    }
+  ]
+}
