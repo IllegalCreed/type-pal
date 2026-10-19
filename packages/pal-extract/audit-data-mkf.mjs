@@ -2,7 +2,8 @@ import { readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-function openMkf(buffer) {
+// 诊断只消费块长;先校验完整偏移表,不创建块内容视图。
+function parseChunkOffsets(buffer) {
   if (buffer.byteLength < 4) {
     throw new Error('MKF: buffer too small for header')
   }
@@ -28,27 +29,20 @@ function openMkf(buffer) {
     offsets.push(offset)
     previous = offset
   }
-  return { buffer, offsets }
-}
-const chunkCount = (m) => m.offsets.length - 1
-const readChunk = (m, i) => {
-  if (!Number.isInteger(i) || i < 0 || i >= chunkCount(m)) {
-    throw new Error(`MKF: chunk ${i} out of range (count=${chunkCount(m)})`)
-  }
-  return m.buffer.subarray(m.offsets[i], m.offsets[i + 1])
+  return offsets
 }
 
 const here = dirname(fileURLToPath(import.meta.url))
 const dataPath = resolve(here, '../../data/raw/DATA.MKF')
 const buf = new Uint8Array(readFileSync(dataPath))
-const mkf = openMkf(buf)
-const n = chunkCount(mkf)
+const offsets = parseChunkOffsets(buf)
+const n = offsets.length - 1
 console.log('DATA.MKF chunkCount =', n)
 console.log(
   'offsets.length =',
-  mkf.offsets.length,
+  offsets.length,
   'last offset =',
-  mkf.offsets[mkf.offsets.length - 1],
+  offsets[offsets.length - 1],
   'fileSize =',
   buf.byteLength,
 )
@@ -84,7 +78,7 @@ const meaning = {
 }
 
 for (let i = 0; i < n; i++) {
-  const size = readChunk(mkf, i).byteLength
+  const size = offsets[i + 1] - offsets[i]
   const m = meaning[i] || ['?', 0]
   let recInfo = ''
   if (m[1] > 0) {
