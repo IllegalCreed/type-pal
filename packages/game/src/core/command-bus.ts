@@ -1,7 +1,8 @@
 /**
  * Core → Present 单向命令通道(02 架构 + D15)。
- * M2 同步语义:Core 系统在 tick 内 emit、tick 末 Present 一把 drain。
- * 异步回执机制(complete cmdId)接口留下,M3 转场 / 视频时激活。
+ * Core 系统在 tick 内 emit、tick 末 Present 一把 drain。
+ * complete(cmdId) 异步回执接口从未被激活 —— 转场/视频实际走 suspendRaf + 每帧 drain,
+ * 零生产消费方(仅自身 no-op 测试);接口保留为兼容,清理候选已登记。
  */
 
 import type { DialogBoxStyle } from '@type-pal/shared'
@@ -82,7 +83,7 @@ export function createCommandBus(): CommandBus {
       return out
     },
     complete(_cmdId) {
-      // TODO(M3): 把异步资源跟 cmdId 关联,完成时调此回调;M2 内同步语义不需要。
+      // 保留的异步回执接口 — 从未激活(见模块头),现 no-op。
     },
   }
 }

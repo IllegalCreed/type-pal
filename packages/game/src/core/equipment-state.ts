@@ -355,7 +355,8 @@ export function setPlayerStatRow(
  * 额外副作用(sdlpal global.c:1406-1455):
  *  - Hand(part 3)卸下 → reset DualAttack status(`rgPlayerStatus[role][kStatusDualAttack] = 0`)
  *  - Wear(part 5)卸下 → 清 poison level 99(rgPoisonStatus where level == 99)
- * ts 简版:DualAttack status 模型未做(留 follow-up),poison level 99 清留 D15 poison 整组做时一并。
+ * ts:两项副作用均已实现(见函数末 partIdx 3/5 分支:DualAttack status reset +
+ * removePoisonLevel99 清 level≥99 毒)。
  */
 export function removeEquipmentEffect(gs: GameState, roleId: number, partIdx: number): void {
   if (partIdx < 0 || partIdx > MAX_PLAYER_EQUIPMENTS) return
