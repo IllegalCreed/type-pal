@@ -76,7 +76,6 @@ export interface EntityBase {
   pos: GridPos
   /** 是否挡路（碰撞） */
   collide?: boolean
-  /** 交互触发的对话 id */
   /** 初始隐藏(原版 sState=0;脚本届时显形 = M3/B2 状态页)。隐藏 = 不渲染不碰撞。 */
   hidden?: boolean
   /** 画序偏置(原版 sLayer 人工覆盖;叠加进 Y-sort 基线,防遮挡漂移)。 */
