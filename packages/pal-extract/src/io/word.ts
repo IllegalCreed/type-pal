@@ -22,12 +22,13 @@ export interface Words {
   spells: string[]
   persons: string[]
   enemies: string[]
+  /** 遗留输出字段名:实际是[551..564]毒素/特殊词条,不是场景地名。 */
   scenes: string[]
   /**
    * M5.6 T14 hotfix(2026-05-27)— audit doc 第 5 漏洞:之前只 dump 5 category(510 条),
    * 丢了 [0..35] 系统/UI 36 条 + [42..60] 战斗/UI 19 条 = 55 条 sdlpal `#define LABEL_X = N`
    * 引用的 word(eg. `MAINMENU_LABEL_NEWGAME=7` / `LOADGAME=8` / `LOADMENU_LABEL_SLOT_FIRST=43-47`
-   * / `CASH_LABEL=10` 等)。
+   * / `CASH_LABEL=21` 等)。
    *
    * 真值 flat:`flat[i]` 直接对应 sdlpal `PAL_GetWord(i)`,index = sdlpal word id。
    * 565 条全 dump,运行时按需取。
@@ -55,11 +56,11 @@ const SPELLS_COUNT = 102
 const ENEMIES_OFFSET = 398 // 敌人名
 const ENEMIES_COUNT = 153
 
-const SCENES_OFFSET = 551 // 毒素/特殊条目（测试只要非空即可）
-const SCENES_COUNT = 14
+const SPECIAL_WORDS_OFFSET = 551 // 对外仍使用遗留字段Words.scenes
+const SPECIAL_WORDS_COUNT = 14
 
 // L28:sdlpal PAL_InitText 在 GBK→宽字符转换后剥每个词条结尾的标记字符 '1'(text.c:785-786)——
-//   BIG5→GBK 不彻底简体化遗留的标记字节。在解码后(字符串层)剥,避免误剥 GBK 双字节的 trail 0x31。
+//   在解码后的字符串层处理标记;词条的补齐空格先在字节层剥除。
 function stripTrailingOne(s: string): string {
   return s.endsWith('1') ? s.slice(0, -1) : s
 }
@@ -85,8 +86,7 @@ const BATTLE_UI_COUNT = 19
 const TOTAL_WORD_COUNT = 565 // sdlpal Win9x 版实测
 
 export function parseWordDat(buf: Uint8Array): Words {
-  // M5.6 hotfix:之前只 5 category dump 漏 55 条 sys/UI/battle label,user 怼 5 次。
-  // 现 flat[i] 直对 sdlpal `PAL_GetWord(i)`,运行时按 id lookup;同时保留 category
+  // flat[i]直对PAL_GetWord(i),保留系统/UI与战斗标签等全部词条;同时保留category
   // 切片便于 game runtime 按用途取(eg. items / spells / enemies)。
   const flat: string[] = []
   for (let i = 0; i < TOTAL_WORD_COUNT; i++) {
@@ -101,7 +101,7 @@ export function parseWordDat(buf: Uint8Array): Words {
     items: readBlock(buf, ITEMS_OFFSET, ITEMS_COUNT),
     spells: readBlock(buf, SPELLS_OFFSET, SPELLS_COUNT),
     enemies: readBlock(buf, ENEMIES_OFFSET, ENEMIES_COUNT),
-    scenes: readBlock(buf, SCENES_OFFSET, SCENES_COUNT),
+    scenes: readBlock(buf, SPECIAL_WORDS_OFFSET, SPECIAL_WORDS_COUNT),
     flat,
     system: readBlock(buf, SYSTEM_OFFSET, SYSTEM_COUNT),
     battleUi: readBlock(buf, BATTLE_UI_OFFSET, BATTLE_UI_COUNT),
