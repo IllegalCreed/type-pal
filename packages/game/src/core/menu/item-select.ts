@@ -85,7 +85,9 @@ export function createItemSelectMenu(cfg: ItemSelectMenuConfig): SelectionMenuSt
       id: item.id,
       label: name,
       rightText,
-      // M5 简版 — 全可选;sell mode 下 important 类应该 disabled,买卖菜单 follow-up 精细
+      // 恒全可选 — 卖路径的不可卖灰显/拒确认由 sell-menu(createInventoryMenu
+      // 'sellable' filter)+ draw-inventory pickItemRowColor / sellSelectItem 实现,
+      // 不经本工厂(本工厂现无生产 caller,清理候选已登记)。
       disabled: false,
     }
   })

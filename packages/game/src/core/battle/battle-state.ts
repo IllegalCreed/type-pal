@@ -511,7 +511,7 @@ export interface BattleState {
   /** 物品二级光标(= sdlpal g_iCurSubMenuItem),同样持久(uibattle.c:1374 `//disabled`)。 */
   miscSubMenuCursor: number
   /**
-   * 当前法术选择网格状态(进 magicSelect 时 createMagicSelectMenu 建;退出清)。
+   * 当前法术选择网格状态(进 magicSelect 时 buildBattleMagicSelect 建;退出清)。
    * = sdlpal magicmenu.c 的 g_iCurrentItem / rgMagicItem(战斗与大世界共用 PAL_MagicSelectionMenuUpdate)。
    */
   magicSelect?: SelectionMenuState
