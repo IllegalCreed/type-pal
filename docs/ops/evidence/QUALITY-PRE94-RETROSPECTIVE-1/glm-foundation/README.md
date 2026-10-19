@@ -67,7 +67,8 @@ Status: build；以下只记有限模块结果，不声明全专项完成
 - 模块14批50作者原件：[reforge main.ts 6710行](reforge-main/README.md)（同线，review待验收）。零整改批,reforge包生产代码全量收口(组合根:七类intent/canonical单一权威/世界拍六段线性化/存档三态R2/呈现栈定序注释全对齐);216/216零失败套件。
 - 模块15批51作者原件：[editor core微/小件74文件](editor-core-small/README.md)（同线，review待验收）。零整改批(Command族纪律统一/保存崩溃恢复对账/stamp双所有权表/zip可复现打包);2366/2366零失败套件。
 - 模块15批52作者原件：[editor core中件38文件](editor-core-medium/README.md)（同线，review待验收）。零整改批(保存恢复计划对账/历史协调单时间线/map-patch三ownership域/OverlayLookupMap有界差分/引用扫描只认kind判别/替换proof消费者快照);2331/2331零失败套件。
-- 模块15批53作者原件：[editor core大件13文件](editor-core-large/README.md)（同线，review待验收）。零整改批,core包125文件全量收口(保存日志逐步观测-复核/workspace capability相位机/script-editor单遍visits材料化/引用快照五表编码/有界视觉投影三预算);2331/2331零失败套件。editor余量:ui族(67k,132文件)→design-lab。
+- 模块15批53作者原件：[editor core大件13文件](editor-core-large/README.md)（同线，review待验收）。零整改批,core包125文件全量收口(保存日志逐步观测-复核/workspace capability相位机/script-editor单遍visits材料化/引用快照五表编码/有界视觉投影三预算);2331/2331零失败套件。
+- 模块15批54作者原件：[editor ui微/小件58文件](editor-ui-small/README.md)（同线，review待验收）。零整改批(design-system全控件无分叉/draft事务统一/Cmd+S消费防浏览器存页/overlay共享边抵消);ui全量2504/2505唯一红=并行互扰(单套件重跑2/2绿已登记)。ui余量:中件(151-600)→大件(App 4766/ScriptEditor 4417等)→design-lab。
 集成修正：MKF仅首offset/表长4对齐、并非所有chunk偏移；SDL坏档结果/全原盘保证不能泛化；readChunk生产注释保留借用合同、去掉测试治理措辞。RNG跳帧保留基面继续解码，不保证缺帧后的画面等价。正常资产对拍不代替坏帧策略证明。
 
 旧撤回恢复：mkf.boundaries.test.ts、rng.test.ts、yj2.boundaries.test.ts、rle.glm-o.test.ts四行恢复review，不是本批重新发现代码失败。中央ledger3319/245closed/109review/2965pending，0新关闭；CODE2/2b仍partial。
