@@ -857,3 +857,12 @@ GLM93笔冻结候选通过7b4be88a0保留到唯一3y，非整包/整卡验收。
 账本净减3测试文件为3316/238closed/113review/2965pending：resources/events/tables三份产品类型发现直接B/E counter，撤旧关闭为review；四旧测试记录映射至一个编译合同review，历史表不改，0新关闭、83卡55partial/28pending/0accept不变。官方coverage/protected仍在大任务收尾按精确身份映射重建基准，不以缺少此门声称统一收口。
 
 新观察的文档门阻塞为e2e-route.reviewBy=2026-10-18在10-19到期；该E2E路线复核非本次类型返工范围，不延期消警，保存失败事实。原editor act/环境诊断也未清，仍不合main。Codex继续本批未解维度，无下一位Agent提示词。
+
+
+## 2026-10-19 Codex WORD/GBK实际质量返工
+
+同3y单Owner，五文件全文A–H、具体caller/原盘/SDL和独立OS解码来源见[本片](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage3-word.json)。修CASH/遗留特殊词条/字符串与扫描成本错注、私有名；将相同定宽解码提取私有helper，保留flat与分类不同短输入策略。不是纯注释提交，未改公共字段/输出策略/格式/schema/save/产品行为。11组新旧实际函数输出/输入ownership相同仅是有限回归，不当独立真值。
+
+WORD旧8→7：4保持/3增强更名/1严格蕴含删除；GBK既有一例补齐九配置标点，10例且一标题更正。当前20独立合同通过（复用post-helper10+当前GBK10），人物逆序/A142错误均单业务AssertionError，原件与精确字节恢复保留。extract必要typecheck与scoped静态零诊断；未重复整包/全仓/coverage/protected，仍留完整大任务收尾。原stage2快检补上遗漏WORD源码绑定后，正确报三项stale；冻结记录不改，新包仅接续这些claim，绝不把期望stale记静态门通过。
+
+两产品旧关闭撤review、三测试登记review，机器3316/236closed/118review/2962pending，0新关闭；83卡55partial/28pending/0accept未变。下一步把83卡的实际成果/旧逐文件关闭与243撤回路径对应清楚，保留作者有效证据，具体缺维继续返工；整包扩扫不能充数，也不据此要求重新全文复刻所有phase2。e2e-route到期/editor存量诊断未解，不合main。

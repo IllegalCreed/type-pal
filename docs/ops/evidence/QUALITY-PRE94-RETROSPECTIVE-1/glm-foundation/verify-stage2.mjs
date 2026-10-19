@@ -34,6 +34,8 @@ function check(label, action) {
 }
 for (const binding of [...record.fileReviews, ...record.callerPrimaryBindings])
   check(`current source ${binding.path}`, () => hash(read(binding.path)) === binding.sha256)
+for (const [path, expected] of Object.entries(record.wordRecovery.sourceSha256))
+  check(`wordRecovery source ${path}`, () => hash(read(path)) === expected)
 for (const row of record.fileReviews)
   check(`eight-axis shape ${row.path}`, () =>
     'ABCDEFGH'.split('').every((axis) => typeof row['A-H'][axis] === 'string'),

@@ -42,3 +42,5 @@ cd "$WT/packages/pal-extract" && ../../node_modules/.bin/vitest run src/io/word.
 ## Codex当前勘误与接管（2026-10-19）
 
 旧14/14仅指已收集的断言，success=false且word.test.ts因WORD.DAT缺失未加载，原“0 fail”与flat原盘执行信用撤回。Codex已只读连接原盘并补跑word8/8，stdout/stderr/native/input/source身份见当前返工记录；原失败JSON保持。 [当前返工与限制](../codex-stage2-rework.json)。
+
+当前续片以[Codex五文件返工](../codex-stage3-word.json)为准：原漏跑word已补，之后实际结构/测试整改另存原件；20独立合同、五文件review，不将原14/14或包级摘要当逐文件验收。

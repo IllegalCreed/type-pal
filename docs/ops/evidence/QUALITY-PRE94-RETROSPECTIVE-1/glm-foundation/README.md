@@ -5,6 +5,8 @@ Status: build；以下只记有限模块结果，不声明全专项完成
 
 当前执行（用户2026-10-19）：Codex接手本批返工，GLM的5af1b6372/93提交已作为作者冻结点保留到同一3y。以下模块列表/原README为作者交付范围，不是当前逐文件或整包八维验收。以[返工与逐文件矩阵](codex-stage2-rework.json)核当前修正、14类型用例去向、实际门与未解项；[首次审查](codex-stage2-review.json)保留原始失败。0新文件关闭、83卡0accept。
 
+当前续片：[WORD/GBK五文件返工](codex-stage3-word.json)记录真实结构/测试整改和20合同；未关闭文件。`verify-stage2.mjs`现补查当时漏验的wordRecovery源码绑定，旧包预期报这三项stale，不能刷新旧SHA消警；新包中的`quickVerify.command`是WORD/GBK当前只读快检，旧包其它来源与14编译身份仍分别有效。
+
 - [持续任务准入](../glm-pre94-foundation-goal.md)：pre94全部剩余复审/获准整改，随后94–102既有返工；内部小片、阶段交付。
 - [阶段1终验记录](codex-stage1.json)：MKF/RNG/YJ2六笔候选已集成；正文保持、定向原生34/34、34/34、41/41已据证核对，52个独立身份，未重跑这些测试。
 - 作者原件：[MKF](mkf/README.md)、[RNG](rng/README.md)、[YJ2](yj2/README.md)。作者审查与Codex实际核过的差异/证明/原件分开记，不把摘要当日志。

@@ -459,7 +459,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Actual bounded current delta and cited previous withdrawal evidence inspected; historical and unrelated conclusions retained",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Only pre94 row changes to Codex-owned foundation checkpoint rework;93author commits retained,first8file A-H/counter/type-migration results recorded. Remaining axes and e2e-date/editor gates unresolved;83card states/unrelated rows retained.",
+      "coreConclusion": "Only pre94 row adds finite WORD/GBK structural/test rework and13explicit A-H files;83card state,remaining missing axes and unrelated blockers unchanged.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -468,14 +468,14 @@
       "unresolved": [
         "Historical product/coverage/unified gates remain outside this documentation-only integration."
       ],
-      "nextStep": "Codex continues frozen GLM checkpoint rework in existing3y;first shared type slice and real repairs preserved. Remaining missing axes/83card semantic scope require precise follow-up;unified/official final gates and unrelated route expiry remain unresolved.",
+      "nextStep": "Codex continues frozen GLM checkpoint rework in existing3y;shared-type/WORD slices preserved. Remaining missing axes/83card actual outcome scope require precise follow-up;unified/official final gates and unrelated route expiry remain unresolved.",
       "phase": "ops",
       "module": "board.md",
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "295db0cbb6e360b72cc3ded724ba5f28a1f90584e20ce1640821ff9c668654e5",
+      "afterSha256": "c3f3942d7ca6d3b69fced83a4d20d841222297eaaf4c40983f28cd0d642890ba",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -493,7 +493,7 @@
       "businessOracle": {
         "type": "authorized-document-content-and-real-route-template-consumers",
         "assertions": [
-          "Only pre94 row changes to Codex-owned foundation checkpoint rework;93author commits retained,first8file A-H/counter/type-migration results recorded. Remaining axes and e2e-date/editor gates unresolved;83card states/unrelated rows retained.",
+          "Only pre94 row adds finite WORD/GBK structural/test rework and13explicit A-H files;83card state,remaining missing axes and unrelated blockers unchanged.",
           "One canonical cross-phase quality contract; entry/form instructions preserve actual task state and risk boundaries",
           "Current delta does not claim historical byte preservation or independent third-party/product execution acceptance"
         ]
@@ -504,10 +504,43 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "295db0cbb6e360b72cc3ded724ba5f28a1f90584e20ce1640821ff9c668654e5",
+        "implementationSha": "c3f3942d7ca6d3b69fced83a4d20d841222297eaaf4c40983f28cd0d642890ba",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "5e0cb847e2b590f9d319cf6662e37fe8424f79de",
+            "date": "2026-10-19",
+            "action": "WORD/GBK finite structural and test-quality rework;old claims preserved separately",
+            "previousAfterSha256": "295db0cbb6e360b72cc3ded724ba5f28a1f90584e20ce1640821ff9c668654e5",
+            "scope": "Only pre94 row adds finite WORD/GBK structural/test rework and13explicit A-H files;83card state,remaining missing axes and unrelated blockers unchanged.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage3-word.json",
+            "notRun": [
+              "duplicate34/41directed tests",
+              "125unchanged docs-tool tests",
+              "whole repository check",
+              "official coverage ratchet",
+              "protected fast",
+              "runtime/E2E/visual"
+            ],
+            "previousCoreConclusion": "Only pre94 row changes to Codex-owned foundation checkpoint rework;93author commits retained,first8file A-H/counter/type-migration results recorded. Remaining axes and e2e-date/editor gates unresolved;83card states/unrelated rows retained.",
+            "previousEvidence": {
+              "kind": "codex-owned-first-slice-quality-rework-and-current-ledger-reconciliation",
+              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage2-rework.json",
+              "afterSha256": "295db0cbb6e360b72cc3ded724ba5f28a1f90584e20ce1640821ff9c668654e5",
+              "lineCount": 97
+            },
+            "previousReadMethod": "Actual bounded current delta and cited previous withdrawal evidence inspected; historical and unrelated conclusions retained",
+            "previousNextStep": "Codex continues frozen GLM checkpoint rework in existing3y;first shared type slice and real repairs preserved. Remaining missing axes/83card semantic scope require precise follow-up;unified/official final gates and unrelated route expiry remain unresolved.",
+            "previousBusinessOracle": {
+              "type": "authorized-document-content-and-real-route-template-consumers",
+              "assertions": [
+                "Only pre94 row changes to Codex-owned foundation checkpoint rework;93author commits retained,first8file A-H/counter/type-migration results recorded. Remaining axes and e2e-date/editor gates unresolved;83card states/unrelated rows retained.",
+                "One canonical cross-phase quality contract; entry/form instructions preserve actual task state and risk boundaries",
+                "Current delta does not claim historical byte preservation or independent third-party/product execution acceptance"
+              ]
+            }
+          },
           {
             "revision": "c9a979f4c3957f2d123b3e75f2cde7e368a45098",
             "date": "2026-10-18",
@@ -1434,8 +1467,8 @@
       },
       "evidence": {
         "kind": "codex-owned-first-slice-quality-rework-and-current-ledger-reconciliation",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage2-rework.json",
-        "afterSha256": "295db0cbb6e360b72cc3ded724ba5f28a1f90584e20ce1640821ff9c668654e5",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage3-word.json",
+        "afterSha256": "c3f3942d7ca6d3b69fced83a4d20d841222297eaaf4c40983f28cd0d642890ba",
         "lineCount": 97
       },
       "history": [
@@ -1524,7 +1557,7 @@
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
       "reviewedLines": "1-97",
-      "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-18: user requests one large delegated task to reduce relays; no quality/risk rule weakened.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.",
+      "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-18: user requests one large delegated task to reduce relays; no quality/risk rule weakened.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-12",

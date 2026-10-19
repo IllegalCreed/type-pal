@@ -1,0 +1,946 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-19",
+  "owner": "Codex",
+  "decision": "finite-rework-preserved;5files-review;0newClosed",
+  "base": "7a6c450049b922cab6e562d0fdad06c8009c58b1",
+  "sourceCommits": [
+    "a393a706cd659a6441de2d025df5eb0775bd4030",
+    "cd3c3da98b5803a01c2c163856a77dd8e77772a4",
+    "477eec16a5ad3972e231c0f3886e12be4457f16b",
+    "6e410535876ec2770dec9f57bb978a6775342eec",
+    "5e0cb847e2b590f9d319cf6662e37fe8424f79de"
+  ],
+  "scope": "WORD/GBK actual implementation,comments,duplication and tests;not a new83card or full-package acceptance",
+  "fileReviews": [
+    {
+      "path": "packages/pal-extract/src/io/word.ts",
+      "sha256": "dbcd851a23f10829f2f04ef7fd7ec427c0362ea3d0796714a7186da9f35323a6",
+      "lines": 110,
+      "readScope": "full current file;caller/primary focused ranges below",
+      "dimensions": {
+        "A": "WORD IDs and 10-byte records match raw5650B and SDL PAL_InitText trailing-marker order. flat requires complete records;category arrays deliberately retain previous short-input behavior. Synchronous,borrowed input is not mutated;new output arrays own decoded strings.",
+        "B": "Correct CASH_LABEL21 and legacy scenes=poison/special words;remove misleading GBK trail0x31 explanation and test-only category rationale. Caller/public name retained.",
+        "C": "parseWordDat owns segmentation;decodeWordAt owns exactly trim/decode/terminal-marker logic;no IO,game state or presentation dependency. Flat/category iteration retains separate input policies.",
+        "D": "Two previously identical decoding blocks now share private decodeWordAt with same byte input/decoder/marker semantics. No mode boolean,generic validator,new export or public type change.",
+        "E": "7 raw contracts+3 generated-boundary contracts exercise actual parser. Direct raw slices decoded by independent OS iconv pin nine names,not product outputs as expectations;finite old/new proof is regression only.",
+        "F": "Private SCENES constants renamed SPECIAL_WORDS to express actual content;public Words.scenes remains legacy/API debt. Fixed-width decoder now visible in one named function.",
+        "G": "Duplicate decoding removed;no exported category/public Words member removed. No additional cap/strict parser/fallback layer invented.",
+        "H": "Pure byte-to-words transform,deterministic,injected Uint8Array. No filesystem or clock in implementation. Existing raw-data tests remain environment-dependent;synthetic boundary tests isolate layout."
+      },
+      "currentAcceptance": "review;finite scope repaired,no full-file/global gate closure",
+      "unknowns": [
+        "Whole-stage unified gates pending",
+        "Input-policy decision at CLI boundary remains unchanged"
+      ]
+    },
+    {
+      "path": "packages/pal-extract/src/utils/gbk.ts",
+      "sha256": "cf74eb8e8b37ab04e8746a9c42391c699f85af9cc02b8e4f1b08b7d7c9ea1a8b",
+      "lines": 98,
+      "readScope": "full current file;caller/primary focused ranges below",
+      "dimensions": {
+        "A": "decodeGbk uses input byteOffset and NUL bound;residue replacement order and unknown-PUA policy unchanged. MSG caller uses this decoder;no resource/async lifecycle introduced.",
+        "B": "JavaScript string replaces false UTF8 result description;no-PUA branch still scans,so zero-overhead claim removed. Existing 46-location/user-curation claims are historical sources,not newly re-executed full-corpus certification.",
+        "C": "Encoding and one existing domain residue policy remain co-located;word/msg own record slicing. No game/runtime import or mutable external owner.",
+        "D": "WORD and MSG already share decodeGbk. Similar loops in WORD are record framing and not merged with residue iteration;their units/failure semantics differ.",
+        "E": "10 exact decoder/residue contracts retained;existing punctuation case now checks all9 configured entries rather than3. Independent OS BIG5 decoding agrees for9 configured punctuation bytes;user-approved normalization/noise decisions retain historical oracle scope.",
+        "F": "Existing full-line and per-character maps express domain exceptions;remove false performance comment. No new generic transliterator/future encoding switch.",
+        "G": "No current dead branch/export proven here;whole-line special cases cannot be dropped on visual similarity to character replacements. No new mappings or case-count growth.",
+        "H": "Pure deterministic input,codec dependency installed locally,no time/network/state. Direct PUA tests isolate policy;4 byte-decoder cases also execute actual iconv-lite boundary."
+      },
+      "currentAcceptance": "review;finite scope repaired,no full-file/global gate closure",
+      "unknowns": [
+        "Whole-stage unified gates pending;historical broad author claims are not inherited"
+      ]
+    },
+    {
+      "path": "packages/pal-extract/src/io/word.test.ts",
+      "sha256": "451ffeb0872156a1ff2660ba039d087642f08efdc596cddf1f38f073e986a760",
+      "lines": 150,
+      "readScope": "full current file;caller/primary focused ranges below",
+      "dimensions": {
+        "A": "Reads frozen target raw WORD.DAT,not arbitrary mutated fixture. Exact dictionary order is distinct from roleId order. No test changes input data.",
+        "B": "Comments explain WORD295 is a retained name slot while parseItems excludes it from usable items;cash label binding corrected in producer. Existing line-specific caller comments retained with scope limited to cited label usage.",
+        "C": "One file owns raw corpus identity/layout/content pins;no shared mutable mock,global clocks or runtime setup.",
+        "D": "Delete one nonempty case fully subsumed by complete exact lengths. Keep synthetic tests separate because their deliberately chosen segment markers diagnose offset errors independent of raw names.",
+        "E": "8→7:4 unchanged,3 strengthened+renamed,1subsumed. Reverse actual persons output produces one exact business AssertionError;old contains李 could not distinguish reordering. Expected names independently decoded from raw bytes.",
+        "F": "Titles now state dictionary order/exact layout instead of vague existence;asserted object lists segment counts directly.",
+        "G": "No added parameterized duplicate tests. Removed only proven subsumed case;all old flat-label assertions remain or have explicit mapping.",
+        "H": "Raw corpus access at collection requires local file;raw SHA recorded and synthetic suite remains separately runnable. No filesystem mock/fallback hiding absent data."
+      },
+      "currentAcceptance": "review;finite scope repaired,no full-file/global gate closure",
+      "unknowns": [
+        "Whole-stage unified gates pending;historical broad author claims are not inherited"
+      ]
+    },
+    {
+      "path": "packages/pal-extract/src/io/word.boundaries.test.ts",
+      "sha256": "2f169f1fe001832e42d3483ea6be2dffb07a22cefe5a23ecc8cdd0759f0f8e0b",
+      "lines": 66,
+      "readScope": "full current file;caller/primary focused ranges below",
+      "dimensions": {
+        "A": "Full 565x10 synthetic table is legal for target layout;all mutated records stay≤10B. Uses real parseWordDat and shared GBK encoder only to serialize fixture,not product parser to build expected output.",
+        "B": "Header now explains intentional raw/synthetic overlap and each fixture role;no unsupported blanket no-duplication claim.",
+        "C": "Local entry helper owns fixed-width padding;shared WORD builder owns known segment text. No runtime/network/temp resource ownership.",
+        "D": "Segment endpoints plus flat completeness are distinct contracts with some useful overlap;not enough evidence to delete either. Test-local entry helper is small and has one domain.",
+        "E": "3 contracts:distinct boundary text on both sides of every partition;all565flat identifiers;internal-space/marker/full-record. wordEntryText expectation is shared with fixture serialization,so flat test proves indexing/decoding,not independent table truth;raw suite supplies separate oracle.",
+        "F": "Explicit boundary literals identify which partition drifted;legacy scenes name explained by production interface.",
+        "G": "No dead export or subsumed whole case proven;length checks are supporting assertions of boundary case,not new weak standalone cases.",
+        "H": "Pure generated data and deterministic actual parser;no raw-file requirement for this suite. Fixture helper read scope is WORD-specific region,not entire helper-file certification."
+      },
+      "currentAcceptance": "review;finite scope repaired,no full-file/global gate closure",
+      "unknowns": [
+        "Whole-stage unified gates pending;historical broad author claims are not inherited"
+      ]
+    },
+    {
+      "path": "packages/pal-extract/src/utils/gbk.test.ts",
+      "sha256": "6efac88e323fdeaf028e282874efaf3b8a437665b511d658fa0dbd162f7a0dfe",
+      "lines": 79,
+      "readScope": "full current file;caller/primary focused ranges below",
+      "dimensions": {
+        "A": "4 byte-input decoder cases+6 residue contracts exercise legal bytes/Unicode inputs;unchanged unknown-PUA deletion and all full-line special cases. No environmental mocks.",
+        "B": "Correct GBK test title to JavaScript string;existing titles describe case contracts,not claim whole codec correctness.",
+        "C": "P helper constructs visible code points only;actual production decoder/fixup called directly. No helper reimplements normalization.",
+        "D": "Existing punctuation case gains6missing mappings instead of6duplicate tests;other Chinese/noise/full-line cases keep different policy oracles.",
+        "E": "All9 configured punctuation values now exact. Corrupt only A142 mapping yields the intended甲？乙 vs甲、乙 AssertionError;other old3punctuation values remain unaffected. Native identities show one title rename,10 cases unchanged in count.",
+        "F": "Byte/source annotations connect literals to BIG5 entries;one title rename corrects misleading output encoding.",
+        "G": "No skip/only/ignore/relaxed assertion introduced;no new case count or product mapping. No assertion removed.",
+        "H": "Inputs fixed and local,no clock/IO side effect;direct policy and byte-end-to-end assertions test different dependency boundaries."
+      },
+      "currentAcceptance": "review;finite scope repaired,no full-file/global gate closure",
+      "unknowns": [
+        "Whole-stage unified gates pending;historical broad author claims are not inherited"
+      ]
+    }
+  ],
+  "callerPrimaryBindings": [
+    {
+      "path": "packages/pal-extract/src/io/msg.ts",
+      "sha256": "19e388664b8bd602d1b94e6bfe72de00beb8f1fd7f7df476e89a57e8495edc0a",
+      "readScope": "full;message offsets/slicing,decoder caller"
+    },
+    {
+      "path": "packages/pal-extract/src/io/msg.test.ts",
+      "sha256": "564ffa152841040b412826e238291103fa69756e6cef236557776cfeb24d4816",
+      "readScope": "full;adjacent real MSG raw digest/ownership contract,reused existing evidence,no new execution"
+    },
+    {
+      "path": "packages/pal-extract/src/cli.ts",
+      "sha256": "c9a67cc73e40584b99fab28dd7f5cbd4acd218894db2daf7cb96bd1464dca9f6",
+      "readScope": "208-227 WORD raw load→parseWordDat;not full CLI acceptance"
+    },
+    {
+      "path": "packages/pal-extract/src/__tests__/glm-tb04-fixtures.ts",
+      "sha256": "0fc1d1c37d118bf3fced22d140804e0f395ab7a3156deaeabede3a41d796000a",
+      "readScope": "WORD_SEGMENT_TABLE/wordEntryText/wordDat/gbk regions only"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/misc-guards.kimi-r1.test.ts",
+      "sha256": "cf730e725e7131806402f962e5f390a2d21bbb828ae510e330bfeb97754ea1f4",
+      "readScope": "87-96 existing100byte-short-input contract only"
+    },
+    {
+      "path": "reference/sdlpal/ui.h",
+      "sha256": "a62d0df9fb689afe5636cc1578e67185c5f2d0900838d72b9808dc5052df19ce",
+      "readScope": "CASH_LABEL21 definition"
+    },
+    {
+      "path": "reference/sdlpal/text.c",
+      "sha256": "8e3c1be5111ea6bed1d0a8a480a2818235d0b3c22a6f73540f5701ac26cbc456",
+      "readScope": "770-790 PAL_InitText decode then terminal1 handling"
+    },
+    {
+      "path": "packages/pal-extract/src/resources/parsers/items.ts",
+      "sha256": "ce10629b77c6ca18c32e755e1b9f7dfd57287558da7eed0e27528fbac52ba7dc",
+      "readScope": "WORD295 exclusion context;not full item-parser acceptance"
+    }
+  ],
+  "input": {
+    "path": "data/raw/WORD.DAT",
+    "sha256": "be56e77c7ecd61306133913a1987b1dddf656528ae870c2de1ee8ccda7ff3ebf",
+    "byteLength": 5650,
+    "ownership": "read-only shared raw link;not generated output"
+  },
+  "independentOracle": {
+    "recordedAt": "2026-10-19T13:21:57.306366+00:00",
+    "dataSha256": "be56e77c7ecd61306133913a1987b1dddf656528ae870c2de1ee8ccda7ff3ebf",
+    "iconvExecutableSha256": "ab193efd6f9e984e42d2fc3c2e30018f612cb605713879526ebf4b6bb63412b1",
+    "rows": [
+      {
+        "kind": "word",
+        "wordId": 36,
+        "inputHex": "c0eee5d0d2a320202020",
+        "command": ["/usr/bin/iconv", "-f", "GBK", "-t", "UTF-8"],
+        "exitCode": 0,
+        "stdout": "李逍遥    ",
+        "stderr": ""
+      },
+      {
+        "kind": "word",
+        "wordId": 37,
+        "inputHex": "d5d4c1e9b6f920202020",
+        "command": ["/usr/bin/iconv", "-f", "GBK", "-t", "UTF-8"],
+        "exitCode": 0,
+        "stdout": "赵灵儿    ",
+        "stderr": ""
+      },
+      {
+        "kind": "word",
+        "wordId": 38,
+        "inputHex": "c1d6d4c2c8e720202020",
+        "command": ["/usr/bin/iconv", "-f", "GBK", "-t", "UTF-8"],
+        "exitCode": 0,
+        "stdout": "林月如    ",
+        "stderr": ""
+      },
+      {
+        "kind": "word",
+        "wordId": 39,
+        "inputHex": "b0a2c5ab202020202020",
+        "command": ["/usr/bin/iconv", "-f", "GBK", "-t", "UTF-8"],
+        "exitCode": 0,
+        "stdout": "阿奴      ",
+        "stderr": ""
+      },
+      {
+        "kind": "word",
+        "wordId": 40,
+        "inputHex": "ced7baf3202020202020",
+        "command": ["/usr/bin/iconv", "-f", "GBK", "-t", "UTF-8"],
+        "exitCode": 0,
+        "stdout": "巫后      ",
+        "stderr": ""
+      },
+      {
+        "kind": "word",
+        "wordId": 41,
+        "inputHex": "b8c7c2debdbf20202020",
+        "command": ["/usr/bin/iconv", "-f", "GBK", "-t", "UTF-8"],
+        "exitCode": 0,
+        "stdout": "盖罗娇    ",
+        "stderr": ""
+      },
+      {
+        "kind": "word",
+        "wordId": 61,
+        "inputHex": "b9dbd2f4b7fb20202020",
+        "command": ["/usr/bin/iconv", "-f", "GBK", "-t", "UTF-8"],
+        "exitCode": 0,
+        "stdout": "观音符    ",
+        "stderr": ""
+      },
+      {
+        "kind": "word",
+        "wordId": 166,
+        "inputHex": "c4bebda3202020202020",
+        "command": ["/usr/bin/iconv", "-f", "GBK", "-t", "UTF-8"],
+        "exitCode": 0,
+        "stdout": "木剑      ",
+        "stderr": ""
+      },
+      {
+        "kind": "word",
+        "wordId": 295,
+        "inputHex": "c3cec9df202020202020",
+        "command": ["/usr/bin/iconv", "-f", "GBK", "-t", "UTF-8"],
+        "exitCode": 0,
+        "stdout": "梦蛇      ",
+        "stderr": ""
+      },
+      {
+        "kind": "punctuation",
+        "inputHex": "a140",
+        "command": ["/usr/bin/iconv", "-f", "BIG5", "-t", "UTF-8"],
+        "exitCode": 0,
+        "stdout": "　",
+        "stderr": ""
+      },
+      {
+        "kind": "punctuation",
+        "inputHex": "a141",
+        "command": ["/usr/bin/iconv", "-f", "BIG5", "-t", "UTF-8"],
+        "exitCode": 0,
+        "stdout": "，",
+        "stderr": ""
+      },
+      {
+        "kind": "punctuation",
+        "inputHex": "a142",
+        "command": ["/usr/bin/iconv", "-f", "BIG5", "-t", "UTF-8"],
+        "exitCode": 0,
+        "stdout": "、",
+        "stderr": ""
+      },
+      {
+        "kind": "punctuation",
+        "inputHex": "a143",
+        "command": ["/usr/bin/iconv", "-f", "BIG5", "-t", "UTF-8"],
+        "exitCode": 0,
+        "stdout": "。",
+        "stderr": ""
+      },
+      {
+        "kind": "punctuation",
+        "inputHex": "a144",
+        "command": ["/usr/bin/iconv", "-f", "BIG5", "-t", "UTF-8"],
+        "exitCode": 0,
+        "stdout": "．",
+        "stderr": ""
+      },
+      {
+        "kind": "punctuation",
+        "inputHex": "a146",
+        "command": ["/usr/bin/iconv", "-f", "BIG5", "-t", "UTF-8"],
+        "exitCode": 0,
+        "stdout": "；",
+        "stderr": ""
+      },
+      {
+        "kind": "punctuation",
+        "inputHex": "a147",
+        "command": ["/usr/bin/iconv", "-f", "BIG5", "-t", "UTF-8"],
+        "exitCode": 0,
+        "stdout": "：",
+        "stderr": ""
+      },
+      {
+        "kind": "punctuation",
+        "inputHex": "a148",
+        "command": ["/usr/bin/iconv", "-f", "BIG5", "-t", "UTF-8"],
+        "exitCode": 0,
+        "stdout": "？",
+        "stderr": ""
+      },
+      {
+        "kind": "punctuation",
+        "inputHex": "a149",
+        "command": ["/usr/bin/iconv", "-f", "BIG5", "-t", "UTF-8"],
+        "exitCode": 0,
+        "stdout": "！",
+        "stderr": ""
+      }
+    ],
+    "scope": "Direct byte slices and independent installed OS decoder;not production parseWordDat/iconv-lite output used as oracle."
+  },
+  "refactorBeforeAfter": {
+    "base": "7a6c450049b922cab6e562d0fdad06c8009c58b1",
+    "currentSourceSha256": "dbcd851a23f10829f2f04ef7fd7ec427c0362ea3d0796714a7186da9f35323a6",
+    "baseSourceSha256": "5254a5b9f6b6515fa13f81422ac0209c34a5a60e40c20b9e649a4fdea73330c1",
+    "command": ["node_modules/.bin/tsx", "/tmp/type-pal-word-refactor-proof.mts"],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "recordedAt": "2026-10-19T13:10:45.116413+00:00",
+    "producerSource": "import {createHash} from 'node:crypto';\nimport {readFileSync} from 'node:fs';\nimport {pathToFileURL} from 'node:url';\nconst root=process.cwd();\nconst {parseWordDat:before}=await import(pathToFileURL(root+'/packages/pal-extract/src/io/__quality_word_before.ts').href);\nconst {parseWordDat:after}=await import(pathToFileURL(root+'/packages/pal-extract/src/io/word.ts').href);\nconst raw=new Uint8Array(readFileSync(root+'/data/raw/WORD.DAT'));\nconst sha=(bytes)=>createHash('sha256').update(bytes).digest('hex');\nconst cases=[0,1,9,10,11,100,5649,5650].map(n=>({name:'raw-prefix-'+n,bytes:raw.slice(0,n)}));\nconst extra=new Uint8Array(raw.length+1);extra.set(raw);extra[raw.length]=32;cases.push({name:'extra-byte',bytes:extra});\nconst framed=new Uint8Array(raw.length+8).fill(0xa5);framed.set(raw,4);cases.push({name:'nonzero-byteOffset',bytes:framed.subarray(4,4+raw.length)});\nconst markers=raw.slice();markers.fill(32,0,10);markers.set([65,32,67,49],0);markers.set(new TextEncoder().encode('BBBBBBBBBB'),360);cases.push({name:'inner-space-marker-and-full-record',bytes:markers});\nconst results=cases.map(({name,bytes})=>{const input=sha(bytes);const b=JSON.stringify(before(bytes));const a=JSON.stringify(after(bytes));if(a!==b||sha(bytes)!==input)throw new Error('behavior/ownership mismatch '+name);return {name,inputSha256:input,outputSha256:sha(a),equal:true,inputUnchanged:true};});\nprocess.stdout.write(JSON.stringify({results,allEqual:true,limits:'Finite old-implementation regression,not an independent correctness oracle;short/extra inputs retain the previous policy without newly approving that input domain.'})+'\\n');\n",
+    "exitCode": 0,
+    "stdout": "{\"results\":[{\"name\":\"raw-prefix-0\",\"inputSha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"outputSha256\":\"0fe44d04bfafa773300c00b1ddb7403448e65f154b69a35f29c1f7d87bbf103b\",\"equal\":true,\"inputUnchanged\":true},{\"name\":\"raw-prefix-1\",\"inputSha256\":\"6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d\",\"outputSha256\":\"0fe44d04bfafa773300c00b1ddb7403448e65f154b69a35f29c1f7d87bbf103b\",\"equal\":true,\"inputUnchanged\":true},{\"name\":\"raw-prefix-9\",\"inputSha256\":\"3e7077fd2f66d689e0cee6a7cf5b37bf2dca7c979af356d0a31cbc5c85605c7d\",\"outputSha256\":\"0fe44d04bfafa773300c00b1ddb7403448e65f154b69a35f29c1f7d87bbf103b\",\"equal\":true,\"inputUnchanged\":true},{\"name\":\"raw-prefix-10\",\"inputSha256\":\"01d448afd928065458cf670b60f5a594d735af0172c8d67f22a81680132681ca\",\"outputSha256\":\"0932635ed3c953f9a75573ebcc9c9b9305eacbe294c868afa4c2525d07c6a069\",\"equal\":true,\"inputUnchanged\":true},{\"name\":\"raw-prefix-11\",\"inputSha256\":\"6346dd022a6fb3148b8f1176ab8669eebc8615973134069579d62ebf08f29d21\",\"outputSha256\":\"2aa7ce3cc86e45b6e07a70b5d8fe830e91e61a863e668c1e5951eb655bbf5b2c\",\"equal\":true,\"inputUnchanged\":true},{\"name\":\"raw-prefix-100\",\"inputSha256\":\"1797ebd3e6bf0a557f3f488a81521ce01e9f9e08374dd6ded2531fce40eaad23\",\"outputSha256\":\"f2d1a89a8b8e8a7da1787d06bbf1020919ac5e80b18c9f764c1f456e1f6a82ef\",\"equal\":true,\"inputUnchanged\":true},{\"name\":\"raw-prefix-5649\",\"inputSha256\":\"580ca1ad9f967713ae7739dafe8e355edb7f8bfda2b1b13f968a62f5239a57da\",\"outputSha256\":\"0e3304d4ed5a3e6a6b6414e0c507979a31437425b89091bf3347fd0fa368663d\",\"equal\":true,\"inputUnchanged\":true},{\"name\":\"raw-prefix-5650\",\"inputSha256\":\"be56e77c7ecd61306133913a1987b1dddf656528ae870c2de1ee8ccda7ff3ebf\",\"outputSha256\":\"430b6ef72cf86707b1a8b1ca5eb9d7ea84cb7d268212c1d2aee666b0b45225dd\",\"equal\":true,\"inputUnchanged\":true},{\"name\":\"extra-byte\",\"inputSha256\":\"5e6f4cbb206b4a16641a3940bc4f3dc895e56f26d62edc1bd6c5d289e3aefc90\",\"outputSha256\":\"430b6ef72cf86707b1a8b1ca5eb9d7ea84cb7d268212c1d2aee666b0b45225dd\",\"equal\":true,\"inputUnchanged\":true},{\"name\":\"nonzero-byteOffset\",\"inputSha256\":\"be56e77c7ecd61306133913a1987b1dddf656528ae870c2de1ee8ccda7ff3ebf\",\"outputSha256\":\"430b6ef72cf86707b1a8b1ca5eb9d7ea84cb7d268212c1d2aee666b0b45225dd\",\"equal\":true,\"inputUnchanged\":true},{\"name\":\"inner-space-marker-and-full-record\",\"inputSha256\":\"a42b0ffd8b5ce3b916af534d860e67d30f3163698cfdf90686022c3591b14116\",\"outputSha256\":\"ee11f5a10fd9bc5736e1a5bb130f0cbd43c41c823744ce6d594c58d8fd3622a9\",\"equal\":true,\"inputUnchanged\":true}],\"allEqual\":true,\"limits\":\"Finite old-implementation regression,not an independent correctness oracle;short/extra inputs retain the previous policy without newly approving that input domain.\"}\n",
+    "stderr": "",
+    "temporaryFileRemoved": true,
+    "statusBeforeAfterEqual": true
+  },
+  "complexityScreen": {
+    "tool": "typescript@6.0.3 AST local branch count",
+    "method": "1+if/loop/catch/case/conditional/&&/||/??;nested functions separate;optional-chain not counted;screening only",
+    "rows": [
+      {
+        "path": "packages/pal-extract/src/io/word.ts",
+        "name": "stripTrailingOne",
+        "line": 64,
+        "cyclomatic": 2,
+        "flag": false
+      },
+      {
+        "path": "packages/pal-extract/src/io/word.ts",
+        "name": "decodeWordAt",
+        "line": 69,
+        "cyclomatic": 3,
+        "flag": false
+      },
+      {
+        "path": "packages/pal-extract/src/io/word.ts",
+        "name": "readBlock",
+        "line": 75,
+        "cyclomatic": 2,
+        "flag": false
+      },
+      {
+        "path": "packages/pal-extract/src/io/word.ts",
+        "name": "parseWordDat",
+        "line": 91,
+        "cyclomatic": 3,
+        "flag": false
+      },
+      {
+        "path": "packages/pal-extract/src/utils/gbk.ts",
+        "name": "decodeGbk",
+        "line": 17,
+        "cyclomatic": 2,
+        "flag": false
+      },
+      {
+        "path": "packages/pal-extract/src/utils/gbk.ts",
+        "name": "<arrow>",
+        "line": 41,
+        "cyclomatic": 1,
+        "flag": false
+      },
+      {
+        "path": "packages/pal-extract/src/utils/gbk.ts",
+        "name": "fixupTranscodeResidue",
+        "line": 78,
+        "cyclomatic": 10,
+        "flag": false
+      }
+    ]
+  },
+  "oldWordCaseMapping": [
+    {
+      "old": "parseWordDat 五类都不为空",
+      "new": "parseWordDat 原盘565条及全部分段长度保持固定布局",
+      "decision": "strictly-subsumed-delete",
+      "why": "Full eight segment lengths prove all original five arrays nonempty;no unique oracle lost."
+    },
+    {
+      "old": "parseWordDat 包含已知人物名\"李逍遥\"",
+      "new": "parseWordDat 人物词条段36..41按原盘顺序完整保留",
+      "decision": "renamed-and-strengthened",
+      "why": "Six exact WORD36..41 dictionary names/order replace contains李;not roleId order."
+    },
+    {
+      "old": "parseWordDat 包含已知物品名(药 / 葫芦 / 丸 / 针 / 剑 任一)",
+      "new": "parseWordDat 物品词条按OBJECT编号取名并保留末位梦蛇词条",
+      "decision": "renamed-and-strengthened",
+      "why": "Exact WORD61/166/295 replace any regex match;295 is a word-table slot,not a usable item."
+    },
+    {
+      "old": "parseWordDat 全表 565 条 + 子表计数 + MAINMENU id7=\"新的故事\"",
+      "new": "parseWordDat 原盘565条及全部分段长度保持固定布局",
+      "decision": "renamed-and-strengthened",
+      "why": "All eight exact lengths;old flat7 assertion retained by existing flat-label content-pin."
+    },
+    {
+      "old": "parseWordDat L28:剥词条结尾标记「1」(风雪冰天/弦月斩/御剑伏魔 等 8 条)",
+      "new": "parseWordDat L28:剥词条结尾标记「1」(风雪冰天/弦月斩/御剑伏魔 等 8 条)",
+      "decision": "unchanged"
+    },
+    {
+      "old": "parseWordDat content-pin:system 全 36 条内容(GBK byte-truth)",
+      "new": "parseWordDat content-pin:system 全 36 条内容(GBK byte-truth)",
+      "decision": "unchanged"
+    },
+    {
+      "old": "parseWordDat content-pin:battleUi 全 19 条内容(GBK byte-truth)",
+      "new": "parseWordDat content-pin:battleUi 全 19 条内容(GBK byte-truth)",
+      "decision": "unchanged"
+    },
+    {
+      "old": "parseWordDat content-pin:代码引用的 flat[id] 菜单/UI 文案",
+      "new": "parseWordDat content-pin:代码引用的 flat[id] 菜单/UI 文案",
+      "decision": "unchanged"
+    }
+  ],
+  "gbkTitleMapping": {
+    "old": "decodeGbk GBK \"李逍遥\" → UTF-8",
+    "new": "decodeGbk GBK \"李逍遥\"字节解码为JavaScript字符串",
+    "effect": "title-only;10 identities,9same+1renamed"
+  },
+  "currentIdentities": [
+    {
+      "file": "packages/pal-extract/src/io/word.boundaries.test.ts",
+      "fullName": "P02 parseWordDat 合成全表段界 persons36..41 / battleUi42..60 / items61..295 / spells296..397 / enemies398..550 / scenes551..564 / system0..35 段界精确",
+      "status": "passed"
+    },
+    {
+      "file": "packages/pal-extract/src/io/word.boundaries.test.ts",
+      "fullName": "P02 parseWordDat 合成全表段界 flat 全 565 条逐条等于手列文本",
+      "status": "passed"
+    },
+    {
+      "file": "packages/pal-extract/src/io/word.boundaries.test.ts",
+      "fullName": "P02 parseWordDat 合成全表段界 内部空格保留；尾空格剥除；尾标记 1 剥除；满 10B 不截",
+      "status": "passed"
+    },
+    {
+      "file": "packages/pal-extract/src/io/word.test.ts",
+      "fullName": "parseWordDat 人物词条段36..41按原盘顺序完整保留",
+      "status": "passed"
+    },
+    {
+      "file": "packages/pal-extract/src/io/word.test.ts",
+      "fullName": "parseWordDat 物品词条按OBJECT编号取名并保留末位梦蛇词条",
+      "status": "passed"
+    },
+    {
+      "file": "packages/pal-extract/src/io/word.test.ts",
+      "fullName": "parseWordDat 原盘565条及全部分段长度保持固定布局",
+      "status": "passed"
+    },
+    {
+      "file": "packages/pal-extract/src/io/word.test.ts",
+      "fullName": "parseWordDat L28:剥词条结尾标记「1」(风雪冰天/弦月斩/御剑伏魔 等 8 条)",
+      "status": "passed"
+    },
+    {
+      "file": "packages/pal-extract/src/io/word.test.ts",
+      "fullName": "parseWordDat content-pin:system 全 36 条内容(GBK byte-truth)",
+      "status": "passed"
+    },
+    {
+      "file": "packages/pal-extract/src/io/word.test.ts",
+      "fullName": "parseWordDat content-pin:battleUi 全 19 条内容(GBK byte-truth)",
+      "status": "passed"
+    },
+    {
+      "file": "packages/pal-extract/src/io/word.test.ts",
+      "fullName": "parseWordDat content-pin:代码引用的 flat[id] 菜单/UI 文案",
+      "status": "passed"
+    },
+    {
+      "file": "packages/pal-extract/src/utils/gbk.test.ts",
+      "fullName": "decodeGbk 单字符 ASCII 不动",
+      "status": "passed"
+    },
+    {
+      "file": "packages/pal-extract/src/utils/gbk.test.ts",
+      "fullName": "decodeGbk GBK \"李逍遥\"字节解码为JavaScript字符串",
+      "status": "passed"
+    },
+    {
+      "file": "packages/pal-extract/src/utils/gbk.test.ts",
+      "fullName": "decodeGbk 遇到 0x00 截断(C 字符串语义)",
+      "status": "passed"
+    },
+    {
+      "file": "packages/pal-extract/src/utils/gbk.test.ts",
+      "fullName": "decodeGbk GBK 正文 + 造字区残留字节 端到端还原(余杭镇 婶婶房◆传来声音)",
+      "status": "passed"
+    },
+    {
+      "file": "packages/pal-extract/src/utils/gbk.test.ts",
+      "fullName": "fixupTranscodeResidue(转码残留还原) 正常文本无 PUA → 原样快速返回",
+      "status": "passed"
+    },
+    {
+      "file": "packages/pal-extract/src/utils/gbk.test.ts",
+      "fullName": "fixupTranscodeResidue(转码残留还原) 繁体字残留 PUA → 用户确认的简体正字",
+      "status": "passed"
+    },
+    {
+      "file": "packages/pal-extract/src/utils/gbk.test.ts",
+      "fullName": "fixupTranscodeResidue(转码残留还原) BIG5 标点残留 PUA → 标准标点",
+      "status": "passed"
+    },
+    {
+      "file": "packages/pal-extract/src/utils/gbk.test.ts",
+      "fullName": "fixupTranscodeResidue(转码残留还原) 颜文字 / 噪声 PUA → 删(对齐 sdlpal 缺字空白)",
+      "status": "passed"
+    },
+    {
+      "file": "packages/pal-extract/src/utils/gbk.test.ts",
+      "fullName": "fixupTranscodeResidue(转码残留还原) 整条未转码 BIG5 → 正确简体",
+      "status": "passed"
+    },
+    {
+      "file": "packages/pal-extract/src/utils/gbk.test.ts",
+      "fullName": "fixupTranscodeResidue(转码残留还原) 未在映射表的 PUA → 删(空白,不残留方块)",
+      "status": "passed"
+    }
+  ],
+  "attachments": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage3-word-baseline.vitest.json.gz",
+      "originalSha256": "91d817c30f8d7ff4906ecf19aa15ecd8e94f71c2bc2796aa52fa6697dbb58a98",
+      "gzipSha256": "e91d7782e1f46f22afb54565f6d28fd8aa333acf3cd0160f6eda86a5d4efcbed",
+      "kind": "green-before-private-helper",
+      "total": 7,
+      "passed": 7,
+      "failed": 0,
+      "pending": 0
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage3-word-after.vitest.json.gz",
+      "originalSha256": "6623c6db315e5e99d80a2d05bc8d7271ed33ce3e31d531eed226649e4cbec48f",
+      "gzipSha256": "689453cec452349f5e369879307a580262e51fd70414b4d9499543ce42d9fcfb",
+      "kind": "green-after-private-helper;GBK assertions/title superseded by gbk-final",
+      "total": 20,
+      "passed": 20,
+      "failed": 0,
+      "pending": 0
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage3-gbk-final.vitest.json.gz",
+      "originalSha256": "e85f38d016edb425a3fce4441856b4471e2aca4d9f38d5f7fb54a495014e13fa",
+      "gzipSha256": "a03ba86300cb34e096d80203bbf530a3e5fefa4772e1eae9f4300881ab3bfa53",
+      "kind": "current-green",
+      "total": 10,
+      "passed": 10,
+      "failed": 0,
+      "pending": 0
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage3-word-person-counter.vitest.json.gz",
+      "originalSha256": "a6e0181f71fc55bb36b992b5854f4ada3fce1f11e02ae317b3bdf3e4ea9eaaf4",
+      "gzipSha256": "04174041c3be0f8f262659ad4f8b57dfb307baa951bb17f15a6b2b35a7f9d7a8",
+      "kind": "intended-business-assertion-failure",
+      "total": 7,
+      "passed": 0,
+      "failed": 1,
+      "pending": 6
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage3-gbk-punctuation-counter.vitest.json.gz",
+      "originalSha256": "67ae229c56b5ae25373d7e9f2d0cddd3d0f91d62fa6faf2c8f1772c9d62eb4e7",
+      "gzipSha256": "a999cd8d4a6e0ee83c229d2aa6e5d7f2da97af51dc42846b088df7922d486f32",
+      "kind": "intended-business-assertion-failure",
+      "total": 10,
+      "passed": 0,
+      "failed": 1,
+      "pending": 9
+    }
+  ],
+  "executionLogs": {
+    "beforeHelper": {
+      "command": [
+        "../../node_modules/.bin/vitest",
+        "run",
+        "src/io/word.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-word-quality-baseline.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract",
+      "recordedAt": "2026-10-19T13:07:21.176119+00:00",
+      "exitCode": 0,
+      "stdout": "\n RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract\n\n ✓ src/io/word.test.ts (7 tests) 3ms\n\n Test Files  1 passed (1)\n      Tests  7 passed (7)\n   Start at  22:07:21\n   Duration  136ms (transform 35ms, setup 0ms, import 61ms, tests 3ms, environment 0ms)\n\nJSON report written to /tmp/type-pal-word-quality-baseline.json\n",
+      "stderr": ""
+    },
+    "afterHelper": {
+      "command": [
+        "../../node_modules/.bin/vitest",
+        "run",
+        "src/io/word.test.ts",
+        "src/io/word.boundaries.test.ts",
+        "src/utils/gbk.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-word-quality-after.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract",
+      "recordedAt": "2026-10-19T13:09:41.396987+00:00",
+      "exitCode": 0,
+      "stdout": "\n RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract\n\n ✓ src/utils/gbk.test.ts (10 tests) 12ms\n ✓ src/io/word.test.ts (7 tests) 3ms\n ✓ src/io/word.boundaries.test.ts (3 tests) 24ms\n\n Test Files  3 passed (3)\n      Tests  20 passed (20)\n   Start at  22:09:41\n   Duration  160ms (transform 117ms, setup 0ms, import 182ms, tests 39ms, environment 0ms)\n\nJSON report written to /tmp/type-pal-word-quality-after.json\n",
+      "stderr": ""
+    },
+    "finalGbk": {
+      "command": [
+        "../../node_modules/.bin/vitest",
+        "run",
+        "src/utils/gbk.test.ts",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-gbk-quality-final.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract",
+      "recordedAt": "2026-10-19T13:25:09.158689+00:00",
+      "exitCode": 0,
+      "stdout": "\n RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract\n\n ✓ src/utils/gbk.test.ts (10 tests) 10ms\n\n Test Files  1 passed (1)\n      Tests  10 passed (10)\n   Start at  22:25:08\n   Duration  125ms (transform 28ms, setup 0ms, import 42ms, tests 10ms, environment 0ms)\n\nJSON report written to /tmp/type-pal-gbk-quality-final.json\n",
+      "stderr": ""
+    },
+    "typecheck": {
+      "command": [
+        "node",
+        "node_modules/typescript/bin/tsc",
+        "--noEmit",
+        "-p",
+        "packages/pal-extract/tsconfig.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T13:10:43.446541+00:00",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "wordCounter": {
+      "recordedAt": "2026-10-19T13:25:54.651047+00:00",
+      "source": "packages/pal-extract/src/io/word.ts",
+      "sourceSha256": "dbcd851a23f10829f2f04ef7fd7ec427c0362ea3d0796714a7186da9f35323a6",
+      "mutation": "Reverse the actual production persons array;names remain present but order is wrong.",
+      "command": [
+        "../../node_modules/.bin/vitest",
+        "run",
+        "src/io/word.test.ts",
+        "-t",
+        "人物词条段36..41按原盘顺序完整保留",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-word-person-counter.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract",
+      "exitCode": 1,
+      "stdout": "\n RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract\n\n ❯ src/io/word.test.ts (7 tests | 1 failed | 6 skipped) 5ms\n     × 人物词条段36..41按原盘顺序完整保留 5ms\n     ↓ 物品词条按OBJECT编号取名并保留末位梦蛇词条\n     ↓ 原盘565条及全部分段长度保持固定布局\n     ↓ L28:剥词条结尾标记「1」(风雪冰天/弦月斩/御剑伏魔 等 8 条)\n     ↓ content-pin:system 全 36 条内容(GBK byte-truth)\n     ↓ content-pin:battleUi 全 19 条内容(GBK byte-truth)\n     ↓ content-pin:代码引用的 flat[id] 菜单/UI 文案\n\n Test Files  1 failed (1)\n      Tests  1 failed | 6 skipped (7)\n   Start at  22:25:54\n   Duration  143ms (transform 35ms, setup 0ms, import 60ms, tests 5ms, environment 0ms)\n\nJSON report written to /tmp/type-pal-word-person-counter.json\n",
+      "stderr": "\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/io/word.test.ts > parseWordDat > 人物词条段36..41按原盘顺序完整保留\nAssertionError: expected [ '盖罗娇', '巫后', '阿奴', '林月如', …(2) ] to deeply equal [ '李逍遥', '赵灵儿', '林月如', '阿奴', …(2) ]\n\n- Expected\n+ Received\n\n  [\n-   \"李逍遥\",\n-   \"赵灵儿\",\n-   \"林月如\",\n-   \"阿奴\",\n-   \"巫后\",\n    \"盖罗娇\",\n+   \"巫后\",\n+   \"阿奴\",\n+   \"林月如\",\n+   \"赵灵儿\",\n+   \"李逍遥\",\n  ]\n\n ❯ src/io/word.test.ts:13:27\n     11|\n     12|   it('人物词条段36..41按原盘顺序完整保留', () => {\n     13|     expect(words.persons).toEqual(['李逍遥', '赵灵儿', '林月如', '阿奴', '巫后', '盖…\n       |                           ^\n     14|   })\n     15|\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+      "restoredBytes": true,
+      "statusBeforeAfterEqual": true
+    },
+    "gbkCounter": {
+      "recordedAt": "2026-10-19T13:25:55.265411+00:00",
+      "source": "packages/pal-extract/src/utils/gbk.ts",
+      "sourceSha256": "cf74eb8e8b37ab04e8746a9c42391c699f85af9cc02b8e4f1b08b7d7c9ea1a8b",
+      "mutation": "Corrupt only existing A142 residue mapping from 、 to ？;old three punctuation assertions did not exercise A142.",
+      "command": [
+        "../../node_modules/.bin/vitest",
+        "run",
+        "src/utils/gbk.test.ts",
+        "-t",
+        "BIG5 标点残留 PUA → 标准标点",
+        "--reporter=default",
+        "--reporter=json",
+        "--outputFile.json=/tmp/type-pal-gbk-punctuation-counter.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract",
+      "exitCode": 1,
+      "stdout": "\n RUN  v4.1.7 /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/packages/pal-extract\n\n ❯ src/utils/gbk.test.ts (10 tests | 1 failed | 9 skipped) 4ms\n     ↓ 单字符 ASCII 不动\n     ↓ GBK \"李逍遥\"字节解码为JavaScript字符串\n     ↓ 遇到 0x00 截断(C 字符串语义)\n     ↓ GBK 正文 + 造字区残留字节 端到端还原(余杭镇 婶婶房◆传来声音)\n     ↓ 正常文本无 PUA → 原样快速返回\n     ↓ 繁体字残留 PUA → 用户确认的简体正字\n     × BIG5 标点残留 PUA → 标准标点 3ms\n     ↓ 颜文字 / 噪声 PUA → 删(对齐 sdlpal 缺字空白)\n     ↓ 整条未转码 BIG5 → 正确简体\n     ↓ 未在映射表的 PUA → 删(空白,不残留方块)\n\n Test Files  1 failed (1)\n      Tests  1 failed | 9 skipped (10)\n   Start at  22:25:55\n   Duration  94ms (transform 19ms, setup 0ms, import 28ms, tests 4ms, environment 0ms)\n\nJSON report written to /tmp/type-pal-gbk-punctuation-counter.json\n",
+      "stderr": "\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  src/utils/gbk.test.ts > fixupTranscodeResidue(转码残留还原) > BIG5 标点残留 PUA → 标准标点\nAssertionError: expected '甲？乙' to be '甲、乙' // Object.is equality\n\nExpected: \"甲、乙\"\nReceived: \"甲？乙\"\n\n ❯ src/utils/gbk.test.ts:53:53\n     51|     expect(fixupTranscodeResidue(`甲${P(0xe4c6)}乙`)).toBe('甲　乙') // A140\n     52|     expect(fixupTranscodeResidue(`刃部锋利${P(0xe4c7)}`)).toBe('刃部锋利，') //…\n     53|     expect(fixupTranscodeResidue(`甲${P(0xe4c8)}乙`)).toBe('甲、乙') // A142\n       |                                                     ^\n     54|     expect(fixupTranscodeResidue(`使死者复活${P(0xe4c9)}`)).toBe('使死者复活。') …\n     55|     expect(fixupTranscodeResidue(`甲${P(0xe4ca)}乙`)).toBe('甲．乙') // A144\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n",
+      "restoredBytes": true,
+      "statusBeforeAfterEqual": true
+    }
+  },
+  "executionAccounting": "Current distinct20contracts=7WORD+3boundary+10GBK. Reuse post-helper10WORD/boundary with comment-only later header;finalGBK10includes6new assertions/title. Baseline7/post20/final10/counters are executions,not added case identities. No claim new full pal-extract package execution.",
+  "stage2CheckerDelta": {
+    "reason": "Previously omitted wordRecovery hashes from actual checker;now explicitly checked,detecting3genuinely stale bindings. Original stage2 packet untouched;this packet supersedes only current WORD/GBK claims.",
+    "producerPath": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/verify-stage2.mjs",
+    "producerSha256": "7f4bc933df9eb39af3a5663d90d9eb40692f0e37317d64d6be096821239aeda6",
+    "control": {
+      "recordedAt": "2026-10-19T13:26:09.596241+00:00",
+      "actualFrozenStage2": {
+        "command": [
+          "node",
+          "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/verify-stage2.mjs"
+        ],
+        "exitCode": 1,
+        "stdout": "{\"outcome\":\"stale-or-mismatch\",\"issues\":[\"wordRecovery source packages/pal-extract/src/io/word.ts\",\"wordRecovery source packages/pal-extract/src/io/word.test.ts\",\"wordRecovery source packages/pal-extract/src/utils/gbk.ts\"],\"unavailable\":[],\"semanticAcceptance\":\"Not certified by this checker; remaining R1 review and unified gates stay open.\",\"runtimeCasesMovedToCompiler\":14}\n",
+        "stderr": ""
+      },
+      "syntheticProducerControl": {
+        "limits": "External copy changes only the three already-stale wordRecovery source hashes for a producer positive control;not an updated acceptance record.",
+        "positive": {
+          "command": [
+            "node",
+            "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/verify-stage2.mjs",
+            "--record",
+            "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-word-checker-4kn2tb0j.json"
+          ],
+          "exitCode": 0,
+          "stdout": "{\"outcome\":\"identities-match\",\"issues\":[],\"unavailable\":[],\"semanticAcceptance\":\"Not certified by this checker; remaining R1 review and unified gates stay open.\",\"runtimeCasesMovedToCompiler\":14}\n",
+          "stderr": ""
+        },
+        "negative": {
+          "command": [
+            "node",
+            "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/verify-stage2.mjs",
+            "--record",
+            "/var/folders/f3/8n7sqr293cl0rtxknfv8x4sc0000gn/T/type-pal-word-checker-4kn2tb0j.json"
+          ],
+          "exitCode": 1,
+          "stdout": "{\"outcome\":\"stale-or-mismatch\",\"issues\":[\"wordRecovery source packages/pal-extract/src/io/word.ts\"],\"unavailable\":[],\"semanticAcceptance\":\"Not certified by this checker; remaining R1 review and unified gates stay open.\",\"runtimeCasesMovedToCompiler\":14}\n",
+          "stderr": ""
+        }
+      },
+      "frozenRecordUnchanged": true,
+      "temporaryInputRemoved": true,
+      "statusBeforeAfterEqual": true
+    }
+  },
+  "quickVerify": {
+    "command": [
+      "node",
+      "-e",
+      "const f=require('node:fs'),c=require('node:crypto'),z=require('node:zlib'),a=require('node:assert/strict');const d=JSON.parse(f.readFileSync(process.argv[1]));const h=b=>c.createHash('sha256').update(b).digest('hex');for(const b of [...d.fileReviews,...d.callerPrimaryBindings,d.input])a.equal(h(f.readFileSync(b.path)),b.sha256,b.path);for(const b of d.attachments){const p=f.readFileSync(b.path);a.equal(h(p),b.gzipSha256);const r=z.gunzipSync(p);a.equal(h(r),b.originalSha256);const n=JSON.parse(r);a.deepEqual([n.numTotalTests,n.numPassedTests,n.numFailedTests,n.numPendingTests],[b.total,b.passed,b.failed,b.pending]);}const ids=n=>n.testResults.flatMap(f=>f.assertionResults.map(x=>({file:f.name.slice(f.name.indexOf('/packages/')+1),fullName:x.fullName,status:x.status})));const nd=i=>JSON.parse(z.gunzipSync(f.readFileSync(d.attachments[i].path)));const actual=[...ids(nd(1)).filter(x=>!x.file.endsWith('/utils/gbk.test.ts')),...ids(nd(2))];a.deepEqual(actual,d.currentIdentities);for(const r of d.fileReviews)a.ok('ABCDEFGH'.split('').every(x=>typeof r.dimensions[x]==='string'));a.equal(d.currentIdentities.length,20);a.equal(new Set(d.currentIdentities.map(x=>x.file+'\\0'+x.fullName)).size,20);a.ok(d.currentIdentities.every(x=>x.status==='passed'));console.log('identity-and-receipt-match; semantic judgments not certified');",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage3-word.json"
+    ],
+    "scope": "read-only stock Node source/input/gzip/case-identity fingerprints;not tests or semantic acceptance",
+    "producerValidation": {
+      "positive": {
+        "exitCode": 0,
+        "stdout": "identity-and-receipt-match; semantic judgments not certified\n",
+        "stderr": ""
+      },
+      "sourceHashCounter": {
+        "change": "Only first source SHA in external temporary record replaced by64zeroes;repository and native inputs unchanged",
+        "exitCode": 1,
+        "stdout": "",
+        "stderr": "node:assert:150\n  throw new AssertionError(obj);\n  ^\n\nAssertionError [ERR_ASSERTION]: packages/pal-extract/src/io/word.ts\n+ actual - expected\n\n+ 'dbcd851a23f10829f2f04ef7fd7ec427c0362ea3d0796714a7186da9f35323a6'\n- '0000000000000000000000000000000000000000000000000000000000000000'\n\n    at [eval]:1:300\n    at [eval]:1:1352\n    at runScriptInThisContext (node:internal/vm:209:10)\n    at node:internal/process/execution:446:12\n    at [eval]-wrapper:6:24\n    at runScriptInContext (node:internal/process/execution:444:60)\n    at evalFunction (node:internal/process/execution:279:30)\n    at evalTypeScript (node:internal/process/execution:291:3)\n    at node:internal/main/eval_string:74:3 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: 'dbcd851a23f10829f2f04ef7fd7ec427c0362ea3d0796714a7186da9f35323a6',\n  expected: '0000000000000000000000000000000000000000000000000000000000000000',\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v22.23.2\n"
+      },
+      "temporaryInputRemoved": true,
+      "statusBeforeAfterEqual": true,
+      "limits": "Codex producer self-control,not third-party or semantic review."
+    }
+  },
+  "limits": [
+    "No product behavior/API/schema/save/asset policy changed;decodeWordAt is private behavior-preserving refactor;SCENES→SPECIAL_WORDS is private naming refactor,not comments-only.",
+    "Short input reachability is not disproven:CLI reads file without5650-byte guard;fixed category arrays may decode empty/partial records whileflatstops. PriorCODE3b explicitly froze this policy;do not addrejectwithoutnewscope.",
+    "Words.scenes remains public/schema naming debt;no rename approved here.",
+    "Independent OS decoder proves9chosenWORD and9punctuation observations only,not all user-normalized46residues.",
+    "No new adjacent MSG/table package run;use unchanged prior native at its exact source scope.",
+    "Full check/official coverage/protected deferred to complete large task closeout;editor act/environment and expired e2e-route review remain blockers.",
+    "83cards55partial/28pending/0acceptunchanged;card→actual outcomes mappingstillopen."
+  ],
+  "ledger": {
+    "before": {
+      "tracked": 3316,
+      "closed": 238,
+      "review": 113,
+      "pending": 2965
+    },
+    "newClosed": 0,
+    "plannedWithdrawals": [
+      "packages/pal-extract/src/io/word.ts",
+      "packages/pal-extract/src/utils/gbk.ts"
+    ],
+    "plannedReviewTests": [
+      "packages/pal-extract/src/io/word.test.ts",
+      "packages/pal-extract/src/io/word.boundaries.test.ts",
+      "packages/pal-extract/src/utils/gbk.test.ts"
+    ],
+    "after": {
+      "tracked": 3316,
+      "closed": 236,
+      "review": 118,
+      "pending": 2962
+    },
+    "regressionSubset": {
+      "missing": 130,
+      "review": 42,
+      "已验证": 70,
+      "rework": 1
+    },
+    "historicalTailSha256": "b59824baa8dad3728c7dd9cf5378bdb7366202527ad7ef397f677ad5ef76cc6b"
+  },
+  "nextScope": "Complete explicit83card→actual outcome/live-ledger/lost-review scope map;reuse author evidence,inspect only missing/contradictory axes. No new103+ governance scope.",
+  "producerDraftNote": "Report assembly initially referenced wrong items.ts directory and stopped with FileNotFoundError;corrected to resources/parsers/items.ts before writing report. Ledger assembly initially counted later document tables too and stopped before writing;recounted only the unique live table,then official ledger tool verifies it. No product changes from these producer mistakes.",
+  "metadataBindings": [
+    {
+      "review": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "path": "docs/ops/board.md"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "path": "docs/ops/audits/code-quality-file-ledger.md"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json"
+    },
+    {
+      "review": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"
+    }
+  ],
+  "checks": {
+    "docs": {
+      "command": ["node", "scripts/docs/check.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T13:31:14.113447+00:00",
+      "exitCode": 0,
+      "stdout": "docs: 1653 Markdown / 9772 local links / 467 tasks / content22 SAVE12\ndocs: PASS (0 issues)\n",
+      "stderr": ""
+    },
+    "model": {
+      "command": ["node", "scripts/docs/check-document-model.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T13:31:15.380503+00:00",
+      "exitCode": 0,
+      "stdout": "document model: PASS (8 routes; 1264 body contracts; 0 issues; structure only)\n",
+      "stderr": ""
+    },
+    "phase": {
+      "command": ["node", "scripts/docs/check-phase-lore-governance.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T13:31:12.909926+00:00",
+      "exitCode": 0,
+      "stdout": "phase/lore governance: PASS (184 documents)\n",
+      "stderr": ""
+    },
+    "content": {
+      "command": ["node", "scripts/docs/check-content-review.mjs", "--strict"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T13:31:13.613752+00:00",
+      "exitCode": 0,
+      "stdout": "content review: PASS (2346 documents; {\"content-reviewed\":2346})\n",
+      "stderr": ""
+    },
+    "lint": {
+      "command": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T13:31:16.240216+00:00",
+      "exitCode": 0,
+      "stdout": "\n> type-pal@ lint /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal\n> node scripts/quality/lint-zero.mjs\n\nlint: PASS — 5657 files; 0 errors / 0 warnings / 0 infos; complete report\n",
+      "stderr": ""
+    },
+    "extract": {
+      "command": [
+        "node",
+        "node_modules/typescript/bin/tsc",
+        "--noEmit",
+        "-p",
+        "packages/pal-extract/tsconfig.json"
+      ],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T13:31:15.129187+00:00",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "diff": {
+      "command": ["git", "diff", "--check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T13:31:12.858872+00:00",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "ledger": {
+      "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T13:31:15.662569+00:00",
+      "exitCode": 0,
+      "stdout": "code-quality ledger: PASS — 3316 files; 236 closed / 118 review / 2962 pending; semantic review still required\n",
+      "stderr": ""
+    }
+  },
+  "knownTestingDocsBlocker": {
+    "reusedRaw": {
+      "command": ["node", "scripts/docs/check-testing.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "recordedAt": "2026-10-19T12:47:24.324187+00:00",
+      "exitCode": 1,
+      "stdout": "testing docs: FAIL (1 issues)\n",
+      "stderr": "- e2e-route: reviewBy 2026-10-18 is before 2026-10-19\n"
+    },
+    "scope": "No rerun because unchanged expiry input/checker;not passing combined check:docs",
+    "sourceBindings": {
+      "docs/testing/catalog.json": "6ea0c8b5a91703483d7002b6e9a1662231bb90636b5d00cff7241dd4d35fa595",
+      "scripts/docs/check-testing.mjs": "15aa96323821b771107b7b372880af8469a9310bc545bfd56c852c95e449a166"
+    }
+  },
+  "currentGateConclusion": "Directed20cases/2validbusinesscounters/finite11case refactor regression and listedstatic gates pass. No full pnpm check/coverage/protected;expiredroute review and editor diagnostics unresolved. No main integration.",
+  "finalPacketFormatBeforeCorrection": {
+    "command": [
+      "pnpm",
+      "exec",
+      "biome",
+      "check",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage3-word.json"
+    ],
+    "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+    "recordedAt": "2026-10-19T13:32:48.042437+00:00",
+    "exitCode": 1,
+    "stdout": "Checked 1 file in 18ms. No fixes applied.\nFound 1 error.\n",
+    "stderr": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage3-word.json format ━━━━━━━━━━\n\n  × Formatter would have printed the following content:\n  \n     173 173 │           \"wordId\": 36,\n     174 174 │           \"inputHex\": \"c0eee5d0d2a320202020\",\n     175     │ - ········\"command\":·[\n     176     │ - ··········\"/usr/bin/iconv\",\n     177     │ - ··········\"-f\",\n     178     │ - ··········\"GBK\",\n     179     │ - ··········\"-t\",\n     180     │ - ··········\"UTF-8\"\n     181     │ - ········],\n         175 │ + ········\"command\":·[\"/usr/bin/iconv\",·\"-f\",·\"GBK\",·\"-t\",·\"UTF-8\"],\n     182 176 │           \"exitCode\": 0,\n     183 177 │           \"stdout\": \"李逍遥    \",\n    ········ │ \n     188 182 │           \"wordId\": 37,\n     189 183 │           \"inputHex\": \"d5d4c1e9b6f920202020\",\n     190     │ - ········\"command\":·[\n     191     │ - ··········\"/usr/bin/iconv\",\n     192     │ - ··········\"-f\",\n     193     │ - ··········\"GBK\",\n     194     │ - ··········\"-t\",\n     195     │ - ··········\"UTF-8\"\n     196     │ - ········],\n         184 │ + ········\"command\":·[\"/usr/bin/iconv\",·\"-f\",·\"GBK\",·\"-t\",·\"UTF-8\"],\n     197 185 │           \"exitCode\": 0,\n     198 186 │           \"stdout\": \"赵灵儿    \",\n    ········ │ \n     203 191 │           \"wordId\": 38,\n     204 192 │           \"inputHex\": \"c1d6d4c2c8e720202020\",\n     205     │ - ········\"command\":·[\n     206     │ - ··········\"/usr/bin/iconv\",\n     207     │ - ··········\"-f\",\n     208     │ - ··········\"GBK\",\n     209     │ - ··········\"-t\",\n     210     │ - ··········\"UTF-8\"\n     211     │ - ········],\n         193 │ + ········\"command\":·[\"/usr/bin/iconv\",·\"-f\",·\"GBK\",·\"-t\",·\"UTF-8\"],\n     212 194 │           \"exitCode\": 0,\n     213 195 │           \"stdout\": \"林月如    \",\n    ········ │ \n     218 200 │           \"wordId\": 39,\n     219 201 │           \"inputHex\": \"b0a2c5ab202020202020\",\n     220     │ - ········\"command\":·[\n     221     │ - ··········\"/usr/bin/iconv\",\n     222     │ - ··········\"-f\",\n     223     │ - ··········\"GBK\",\n     224     │ - ··········\"-t\",\n     225     │ - ··········\"UTF-8\"\n     226     │ - ········],\n         202 │ + ········\"command\":·[\"/usr/bin/iconv\",·\"-f\",·\"GBK\",·\"-t\",·\"UTF-8\"],\n     227 203 │           \"exitCode\": 0,\n     228 204 │           \"stdout\": \"阿奴      \",\n    ········ │ \n     233 209 │           \"wordId\": 40,\n     234 210 │           \"inputHex\": \"ced7baf3202020202020\",\n     235     │ - ········\"command\":·[\n     236     │ - ··········\"/usr/bin/iconv\",\n     237     │ - ··········\"-f\",\n     238     │ - ··········\"GBK\",\n     239     │ - ··········\"-t\",\n     240     │ - ··········\"UTF-8\"\n     241     │ - ········],\n         211 │ + ········\"command\":·[\"/usr/bin/iconv\",·\"-f\",·\"GBK\",·\"-t\",·\"UTF-8\"],\n     242 212 │           \"exitCode\": 0,\n     243 213 │           \"stdout\": \"巫后      \",\n    ········ │ \n     248 218 │           \"wordId\": 41,\n     249 219 │           \"inputHex\": \"b8c7c2debdbf20202020\",\n     250     │ - ········\"command\":·[\n     251     │ - ··········\"/usr/bin/iconv\",\n     252     │ - ··········\"-f\",\n     253     │ - ··········\"GBK\",\n     254     │ - ··········\"-t\",\n     255     │ - ··········\"UTF-8\"\n     256     │ - ········],\n         220 │ + ········\"command\":·[\"/usr/bin/iconv\",·\"-f\",·\"GBK\",·\"-t\",·\"UTF-8\"],\n     257 221 │           \"exitCode\": 0,\n     258 222 │           \"stdout\": \"盖罗娇    \",\n    ········ │ \n     263 227 │           \"wordId\": 61,\n     264 228 │           \"inputHex\": \"b9dbd2f4b7fb20202020\",\n     265     │ - ········\"command\":·[\n     266     │ - ··········\"/usr/bin/iconv\",\n     267     │ - ··········\"-f\",\n     268     │ - ··········\"GBK\",\n     269     │ - ··········\"-t\",\n     270     │ - ··········\"UTF-8\"\n     271     │ - ········],\n         229 │ + ········\"command\":·[\"/usr/bin/iconv\",·\"-f\",·\"GBK\",·\"-t\",·\"UTF-8\"],\n     272 230 │           \"exitCode\": 0,\n     273 231 │           \"stdout\": \"观音符    \",\n    ········ │ \n     278 236 │           \"wordId\": 166,\n     279 237 │           \"inputHex\": \"c4bebda3202020202020\",\n     280     │ - ········\"command\":·[\n     281     │ - ··········\"/usr/bin/iconv\",\n     282     │ - ··········\"-f\",\n     283     │ - ··········\"GBK\",\n     284     │ - ··········\"-t\",\n     285     │ - ··········\"UTF-8\"\n     286     │ - ········],\n         238 │ + ········\"command\":·[\"/usr/bin/iconv\",·\"-f\",·\"GBK\",·\"-t\",·\"UTF-8\"],\n     287 239 │           \"exitCode\": 0,\n     288 240 │           \"stdout\": \"木剑      \",\n    ········ │ \n     293 245 │           \"wordId\": 295,\n     294 246 │           \"inputHex\": \"c3cec9df202020202020\",\n     295     │ - ········\"command\":·[\n     296     │ - ··········\"/usr/bin/iconv\",\n     297     │ - ··········\"-f\",\n     298     │ - ··········\"GBK\",\n     299     │ - ··········\"-t\",\n     300     │ - ··········\"UTF-8\"\n     301     │ - ········],\n         247 │ + ········\"command\":·[\"/usr/bin/iconv\",·\"-f\",·\"GBK\",·\"-t\",·\"UTF-8\"],\n     302 248 │           \"exitCode\": 0,\n     303 249 │           \"stdout\": \"梦蛇      \",\n    ········ │ \n     307 253 │           \"kind\": \"punctuation\",\n     308 254 │           \"inputHex\": \"a140\",\n     309     │ - ········\"command\":·[\n     310     │ - ··········\"/usr/bin/iconv\",\n     311     │ - ··········\"-f\",\n     312     │ - ··········\"BIG5\",\n     313     │ - ··········\"-t\",\n     314     │ - ··········\"UTF-8\"\n     315     │ - ········],\n         255 │ + ········\"command\":·[\"/usr/bin/iconv\",·\"-f\",·\"BIG5\",·\"-t\",·\"UTF-8\"],\n     316 256 │           \"exitCode\": 0,\n     317 257 │           \"stdout\": \"␠\",\n    ········ │ \n     321 261 │           \"kind\": \"punctuation\",\n     322 262 │           \"inputHex\": \"a141\",\n     323     │ - ········\"command\":·[\n     324     │ - ··········\"/usr/bin/iconv\",\n     325     │ - ··········\"-f\",\n     326     │ - ··········\"BIG5\",\n     327     │ - ··········\"-t\",\n     328     │ - ··········\"UTF-8\"\n     329     │ - ········],\n         263 │ + ········\"command\":·[\"/usr/bin/iconv\",·\"-f\",·\"BIG5\",·\"-t\",·\"UTF-8\"],\n     330 264 │           \"exitCode\": 0,\n     331 265 │           \"stdout\": \"，\",\n    ········ │ \n     335 269 │           \"kind\": \"punctuation\",\n     336 270 │           \"inputHex\": \"a142\",\n     337     │ - ········\"command\":·[\n     338     │ - ··········\"/usr/bin/iconv\",\n     339     │ - ··········\"-f\",\n     340     │ - ··········\"BIG5\",\n     341     │ - ··········\"-t\",\n     342     │ - ··········\"UTF-8\"\n     343     │ - ········],\n         271 │ + ········\"command\":·[\"/usr/bin/iconv\",·\"-f\",·\"BIG5\",·\"-t\",·\"UTF-8\"],\n     344 272 │           \"exitCode\": 0,\n     345 273 │           \"stdout\": \"、\",\n    ········ │ \n     349 277 │           \"kind\": \"punctuation\",\n     350 278 │           \"inputHex\": \"a143\",\n     351     │ - ········\"command\":·[\n     352     │ - ··········\"/usr/bin/iconv\",\n     353     │ - ··········\"-f\",\n     354     │ - ··········\"BIG5\",\n  149 more lines truncated\n  \n\ncheck ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n  × Some errors were emitted while running checks.\n  \n\n",
+    "note": "Full lint was zero before final log/control JSON insertions;subsequent scoped check correctly found JSON formatting only. Full current diagnostic text retained here,then formatter applied. Do not treat earlier full lint as including later report-byte changes."
+  }
+}
