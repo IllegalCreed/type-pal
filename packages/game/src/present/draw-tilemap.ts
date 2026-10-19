@@ -1,13 +1,13 @@
 import type { Tilemap } from '@type-pal/shared'
 import type { Framebuffer } from './framebuffer.js'
 
-/** Y-sort エントリ。present.ts の sortedDraw ループに渡す。 */
+/** Y-sort 绘制条目。present.ts 收集后按 baseY 排序、依序执行 draw 回调。 */
 export interface DrawEntry {
-  /** Y-sort キー(sdlpal PAL_Y(pos) 相当の world-pixel 値)。 */
+  /** Y-sort key(≈ sdlpal PAL_Y(pos) 的 world-pixel 值)。 */
   baseY: number
-  /** 実際の描画コールバック。 */
+  /** 实际绘制回调。 */
   draw: (fb: Framebuffer) => void
-  /** デバッグ / テスト用 id。 */
+  /** 调试 / 测试用 id。 */
   id: string
 }
 
@@ -79,7 +79,7 @@ function blitTile(
   }
 }
 
-/** 内部 blitTile を外部に公開(cover-tile 単体描画用)。 */
+/** 对外公开内部 blitTile(测试/单瓦片绘制用,draw-tilemap-pixels 直测)。 */
 export function blitTileAt(fb: Framebuffer, tile: TileImage, dstX: number, dstY: number): void {
   blitTile(fb, tile, dstX, dstY)
 }

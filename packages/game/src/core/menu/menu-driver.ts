@@ -444,9 +444,9 @@ function dispatchOpeningMenu(gs: GameState, top: ActiveMenuEntry, input: InputSn
     }
     if (choice === 'load-game') {
       // sdlpal uigame.c:143 真值:VIDEO_BackupScreen → PAL_SaveSlotMenu(1) → Restore。
-      // ts 端 push 'save-slot' kind menu,SaveSlot dispatcher 选完 slot 后由 M6 真做
-      // load(现 stub 在 dispatchSaveSlotMenu 内 console.debug)。Cancel 回 OpeningMenu
-      // = closeTopMenu(save-slot)pop 回 opening — sdlpal uigame.c:146-151 等价。
+      // ts 端 push 'save-slot' kind menu;选完 slot 由 dispatchSaveSlotMenu 调 bootstrap
+      // 注入的 loadGameHandler 真做整套 load(Save.loadSlot + gs 替换 + scene reload)。
+      // Cancel 回 OpeningMenu = closeTopMenu(save-slot)pop 回 opening — sdlpal uigame.c:146-151 等价。
       const state = createSaveSlotMenu('load')
       void fetchSlotMetas(state)
       openMenu(gs, { kind: 'save-slot', state })

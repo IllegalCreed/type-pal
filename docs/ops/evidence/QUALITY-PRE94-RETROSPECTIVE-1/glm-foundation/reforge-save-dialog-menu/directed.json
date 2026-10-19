@@ -1,0 +1,1973 @@
+{
+  "numTotalTestSuites": 31,
+  "numPassedTestSuites": 31,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 182,
+  "numPassedTests": 182,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792377198388,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "actual main battle adapters preserve the exact signal through nested save activity",
+          "status": "passed",
+          "title": "actual main battle adapters preserve the exact signal through nested save activity",
+          "duration": 127.53920800000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "actual main exit adapters preserve the exact signal through nested save activity",
+          "status": "passed",
+          "title": "actual main exit adapters preserve the exact signal through nested save activity",
+          "duration": 46.82670799999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "standalone current host battle must wait outside a ready save gate",
+          "status": "passed",
+          "title": "standalone current host battle must wait outside a ready save gate",
+          "duration": 1.1645839999999907,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377199576,
+      "endTime": 1792377199752.1646,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/save-lineage.chain.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["layoutLines"],
+          "fullName": "layoutLines 短句(≤16字)→ 单 DisplayLine,isLineStart",
+          "status": "passed",
+          "title": "短句(≤16字)→ 单 DisplayLine,isLineStart",
+          "duration": 1.4173749999999927,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["layoutLines"],
+          "fullName": "layoutLines 长句(17字)→ 折成 2 DisplayLine(16+1),第二行 isLineStart=false",
+          "status": "passed",
+          "title": "长句(17字)→ 折成 2 DisplayLine(16+1),第二行 isLineStart=false",
+          "duration": 0.4860000000000042,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["layoutLines"],
+          "fullName": "layoutLines 显式换行强制另起一行，并保留下一行缩进",
+          "status": "passed",
+          "title": "显式换行强制另起一行，并保留下一行缩进",
+          "duration": 0.47283400000000597,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["layoutLines"],
+          "fullName": "layoutLines 多个 DialogueRow → srcRowIdx 递增,各自 isRowStart=true",
+          "status": "passed",
+          "title": "多个 DialogueRow → srcRowIdx 递增,各自 isRowStart=true",
+          "duration": 0.19470900000000313,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["layoutLines"],
+          "fullName": "layoutLines 跨 span 折行:前 span 满 + 后 span 接下一行",
+          "status": "passed",
+          "title": "跨 span 折行:前 span 满 + 后 span 接下一行",
+          "duration": 0.12808300000000372,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["layoutLines"],
+          "fullName": "layoutLines 空句 → 单个空 DisplayLine(不崩)",
+          "status": "passed",
+          "title": "空句 → 单个空 DisplayLine(不崩)",
+          "duration": 0.17099999999999227,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D14-1 冻结语义折行矩阵"],
+          "fullName": "D14-1 冻结语义折行矩阵 bottom 有头像(usable 300px=18 字):18 字单行、19 字折行",
+          "status": "passed",
+          "title": "bottom 有头像(usable 300px=18 字):18 字单行、19 字折行",
+          "duration": 0.32204199999999616,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D14-1 冻结语义折行矩阵"],
+          "fullName": "D14-1 冻结语义折行矩阵 top 有头像(usable 224px=14 字):14 字单行、15 字折行",
+          "status": "passed",
+          "title": "top 有头像(usable 224px=14 字):14 字单行、15 字折行",
+          "duration": 0.20045799999999758,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D14-1 冻结语义折行矩阵"],
+          "fullName": "D14-1 冻结语义折行矩阵 无头像 bottom/top(usable 276px=17 字):17 字单行、18 字折行",
+          "status": "passed",
+          "title": "无头像 bottom/top(usable 276px=17 字):17 字单行、18 字折行",
+          "duration": 0.4357920000000064,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D14-1 冻结语义折行矩阵"],
+          "fullName": "D14-1 冻结语义折行矩阵 center(usable 240px=15 字):15 字单行、16 字折行",
+          "status": "passed",
+          "title": "center(usable 240px=15 字):15 字单行、16 字折行",
+          "duration": 0.14566600000000562,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D14-1 冻结语义折行矩阵"],
+          "fullName": "D14-1 冻结语义折行矩阵 D14-1 用户报障样例:14-15 字带头像行不再折 1-2 字孤儿行",
+          "status": "passed",
+          "title": "D14-1 用户报障样例:14-15 字带头像行不再折 1-2 字孤儿行",
+          "duration": 0.18666699999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377199862,
+      "endTime": 1792377199867.1868,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/dialog/layout.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["D14-3 · reward-gain queue"],
+          "fullName": "D14-3 · reward-gain queue 无输入时每条固定展示 1400ms，并按原顺序自动推进",
+          "status": "passed",
+          "title": "无输入时每条固定展示 1400ms，并按原顺序自动推进",
+          "duration": 2.3942910000000097,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D14-3 · reward-gain queue"],
+          "fullName": "D14-3 · reward-gain queue Enter / Space 每次只跳当前条，后续条继续且按键不会漏出模态分支",
+          "status": "passed",
+          "title": "Enter / Space 每次只跳当前条，后续条继续且按键不会漏出模态分支",
+          "duration": 0.6843329999999952,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D14-3 · reward-gain queue"],
+          "fullName": "D14-3 · reward-gain queue Esc 不跳过也不被模态层吞掉，保留给外层关闭 / 菜单语义",
+          "status": "passed",
+          "title": "Esc 不跳过也不被模态层吞掉，保留给外层关闭 / 菜单语义",
+          "duration": 0.8250829999999922,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D14-3 · reward-gain queue"],
+          "fullName": "D14-3 · reward-gain queue 非跳过键仍由模态层消费，但不提前完成当前条",
+          "status": "passed",
+          "title": "非跳过键仍由模态层消费，但不提前完成当前条",
+          "duration": 0.3148750000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D14-3 · reward-gain queue"],
+          "fullName": "D14-3 · reward-gain queue AbortSignal 取消当前序列时清理 current、timer 与 resolver",
+          "status": "passed",
+          "title": "AbortSignal 取消当前序列时清理 current、timer 与 resolver",
+          "duration": 0.27233400000000074,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377199964,
+      "endTime": 1792377199969.2722,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/menu/reward-gain-queue.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["save 浏览状态机"],
+          "fullName": "save 浏览状态机 open：30 槽元数据对齐 ALL_SLOT_IDS；cursor clamp",
+          "status": "passed",
+          "title": "open：30 槽元数据对齐 ALL_SLOT_IDS；cursor clamp",
+          "duration": 1.110749999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["save 浏览状态机"],
+          "fullName": "save 浏览状态机 move：↑↓ ±1、←→ ±3，clamp 不 wrap",
+          "status": "passed",
+          "title": "move：↑↓ ±1、←→ ±3，clamp 不 wrap",
+          "duration": 0.24141600000000096,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["save 浏览状态机"],
+          "fullName": "save 浏览状态机 confirm·save：空手动槽→write；已存手动槽→覆盖确认；auto/quick→no-op",
+          "status": "passed",
+          "title": "confirm·save：空手动槽→write；已存手动槽→覆盖确认；auto/quick→no-op",
+          "duration": 0.35362500000000807,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["save 浏览状态机"],
+          "fullName": "save 浏览状态机 confirm·load：已存槽→load(含 auto/quick)；空槽→no-op",
+          "status": "passed",
+          "title": "confirm·load：已存槽→load(含 auto/quick)；空槽→no-op",
+          "duration": 0.15879200000000537,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["save 浏览状态机"],
+          "fullName": "save 浏览状态机 覆盖确认：是→write；否→退确认",
+          "status": "passed",
+          "title": "覆盖确认：是→write；否→退确认",
+          "duration": 0.10858299999999588,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["save 浏览状态机"],
+          "fullName": "save 浏览状态机 close：active false",
+          "status": "passed",
+          "title": "close：active false",
+          "duration": 0.05316700000000196,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377200048,
+      "endTime": 1792377200050.1587,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/save/browser-state.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此）"],
+          "fullName": "current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此） 空角色 ID 拒绝",
+          "status": "passed",
+          "title": "空角色 ID 拒绝",
+          "duration": 1.6941659999999956,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此）"],
+          "fullName": "current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此） 空技能 ID 拒绝",
+          "status": "passed",
+          "title": "空技能 ID 拒绝",
+          "duration": 0.27829200000002174,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此）"],
+          "fullName": "current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此） 负数计数拒绝（非负条件）",
+          "status": "passed",
+          "title": "负数计数拒绝（非负条件）",
+          "duration": 0.21741700000001174,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此）"],
+          "fullName": "current-codec · skillUseCounts 语义（结构层只验有限数，真值层在此） 超出安全整数边界拒绝（MAX_SAFE_INTEGER+1 是整数但不安全）",
+          "status": "passed",
+          "title": "超出安全整数边界拒绝（MAX_SAFE_INTEGER+1 是整数但不安全）",
+          "duration": 0.24970899999999574,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-codec · 可省略容器缺省（当前 schema 唯一允许的缺省）"],
+          "fullName": "current-codec · 可省略容器缺省（当前 schema 唯一允许的缺省） skillUseCounts 缺席：clone 内补空 {}，原件保持缺席不变",
+          "status": "passed",
+          "title": "skillUseCounts 缺席：clone 内补空 {}，原件保持缺席不变",
+          "duration": 0.8466250000000173,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-codec · 可省略容器缺省（当前 schema 唯一允许的缺省）"],
+          "fullName": "current-codec · 可省略容器缺省（当前 schema 唯一允许的缺省） entityLifecycles 缺席：clone 内补空 {}，原件保持缺席不变",
+          "status": "passed",
+          "title": "entityLifecycles 缺席：clone 内补空 {}，原件保持缺席不变",
+          "duration": 0.3375000000000057,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "current-codec · hostileAwareness 正数性（结构层只验有限数，0 由此层拒绝）"
+          ],
+          "fullName": "current-codec · hostileAwareness 正数性（结构层只验有限数，0 由此层拒绝） remainingMs=0 拒绝（期望正有限毫秒）",
+          "status": "passed",
+          "title": "remainingMs=0 拒绝（期望正有限毫秒）",
+          "duration": 0.38537499999998204,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-codec · script 深层语义接线（结构层只验 record）"],
+          "fullName": "current-codec · script 深层语义接线（结构层只验 record） vars 非有限数由 checkWorldScriptState 拒绝，路径锚在 payload.world.script",
+          "status": "passed",
+          "title": "vars 非有限数由 checkWorldScriptState 拒绝，路径锚在 payload.world.script",
+          "duration": 0.15891600000000494,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377199175,
+      "endTime": 1792377199179.3853,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/save/current-codec.contracts.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["current SAVE12/content22 contract"],
+          "fullName": "current SAVE12/content22 contract round-trips the current envelope without mutating input or resetting world values",
+          "status": "passed",
+          "title": "round-trips the current envelope without mutating input or resetting world values",
+          "duration": 2.5275409999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current SAVE12/content22 contract"],
+          "fullName": "current SAVE12/content22 contract rejects non-current SAVE11/content22 before normalization",
+          "status": "passed",
+          "title": "rejects non-current SAVE11/content22 before normalization",
+          "duration": 0.2922089999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current SAVE12/content22 contract"],
+          "fullName": "current SAVE12/content22 contract rejects non-current SAVE12/content21 before normalization",
+          "status": "passed",
+          "title": "rejects non-current SAVE12/content21 before normalization",
+          "duration": 0.08320899999999654,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current SAVE12/content22 contract"],
+          "fullName": "current SAVE12/content22 contract rejects non-current SAVE11/content21 before normalization",
+          "status": "passed",
+          "title": "rejects non-current SAVE11/content21 before normalization",
+          "duration": 0.0748750000000058,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current SAVE12/content22 contract"],
+          "fullName": "current SAVE12/content22 contract rejects a resolver whose identity does not match the payload before cloning",
+          "status": "passed",
+          "title": "rejects a resolver whose identity does not match the payload before cloning",
+          "duration": 0.3492079999999902,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current SAVE12/content22 contract"],
+          "fullName": "current SAVE12/content22 contract rejects malformed or dangling current lifecycle references",
+          "status": "passed",
+          "title": "rejects malformed or dangling current lifecycle references",
+          "duration": 0.20262500000001182,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377199974,
+      "endTime": 1792377199977.349,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/save/current-save.current-characterization.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "scene runtime rejects an array masquerading as source",
+          "status": "passed",
+          "title": "scene runtime rejects an array masquerading as source",
+          "duration": 1.7484170000000177,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "scene runtime rejects an array masquerading as speed",
+          "status": "passed",
+          "title": "scene runtime rejects an array masquerading as speed",
+          "duration": 0.18287499999996726,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 合法载荷（正边界）"],
+          "fullName": "current-structure · 合法载荷（正边界） 现行保存器产物通过；分数坐标/负坐标原样放行",
+          "status": "passed",
+          "title": "现行保存器产物通过；分数坐标/负坐标原样放行",
+          "duration": 0.24408399999998664,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 合法载荷（正边界）"],
+          "fullName": "current-structure · 合法载荷（正边界） 全部可选子树缺席合法（world 级九项 + 实例级五项，typed 缺席即合法）",
+          "status": "passed",
+          "title": "全部可选子树缺席合法（world 级九项 + 实例级五项，typed 缺席即合法）",
+          "duration": 0.16212499999994634,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 合法载荷（正边界）"],
+          "fullName": "current-structure · 合法载荷（正边界） 合法零值与空容器：HP=0、空 equipment/tags/inventory/learnedSkills、空 reserve/skillUseCounts/entityLifecycles",
+          "status": "passed",
+          "title": "合法零值与空容器：HP=0、空 equipment/tags/inventory/learnedSkills、空 reserve/skillUseCounts/entityLifecycles",
+          "duration": 0.16358400000001438,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 合法载荷（正边界）"],
+          "fullName": "current-structure · 合法载荷（正边界） audio.currentMusic=null 为显式静音，合法",
+          "status": "passed",
+          "title": "audio.currentMusic=null 为显式静音，合法",
+          "duration": 0.20637499999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 合法载荷（正边界）"],
+          "fullName": "current-structure · 合法载荷（正边界） hiddenExp 全部七个隐藏成长属性键通过（HIDDEN_STAT_KEYS 真源，含分数经验）",
+          "status": "passed",
+          "title": "hiddenExp 全部七个隐藏成长属性键通过（HIDDEN_STAT_KEYS 真源，含分数经验）",
+          "duration": 0.22233300000004874,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 合法载荷（正边界）"],
+          "fullName": "current-structure · 合法载荷（正边界） appearance 三可选字段全为字符串 AssetId 通过",
+          "status": "passed",
+          "title": "appearance 三可选字段全为字符串 AssetId 通过",
+          "duration": 0.14770800000002282,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 合法载荷（正边界）"],
+          "fullName": "current-structure · 合法载荷（正边界） extraStatuses 合法可携带状态 id（protect）通过",
+          "status": "passed",
+          "title": "extraStatuses 合法可携带状态 id（protect）通过",
+          "duration": 1.0732919999999808,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 合法载荷（正边界）"],
+          "fullName": "current-structure · 合法载荷（正边界） R4：错误携带完整路径 message 与固定短中文 shortMessage（像素宽度回归见 chain 测试）",
+          "status": "passed",
+          "title": "R4：错误携带完整路径 message 与固定短中文 shortMessage（像素宽度回归见 chain 测试）",
+          "duration": 0.4287919999999872,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 合法载荷（正边界）"],
+          "fullName": "current-structure · 合法载荷（正边界） guard 通过后输入与原对象无别名关系（不修改输入）",
+          "status": "passed",
+          "title": "guard 通过后输入与原对象无别名关系（不修改输入）",
+          "duration": 0.19845800000001645,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） automatic chase claims retain only stable addresses and behavior IDs",
+          "status": "passed",
+          "title": "automatic chase claims retain only stable addresses and behavior IDs",
+          "duration": 1.0413749999999595,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: null",
+          "status": "passed",
+          "title": "malformed automatic chase claims are rejected before cloning: null",
+          "duration": 0.1570419999999899,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {}",
+          "status": "passed",
+          "title": "malformed automatic chase claims are rejected before cloning: {}",
+          "duration": 0.08033399999999347,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: null",
+          "status": "passed",
+          "title": "malformed automatic chase claims are rejected before cloning: null",
+          "duration": 0.07324999999997317,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: undefined",
+          "status": "passed",
+          "title": "malformed automatic chase claims are rejected before cloning: undefined",
+          "duration": 0.06870799999995825,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {\"owner\":null,\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\"}",
+          "status": "passed",
+          "title": "malformed automatic chase claims are rejected before cloning: {\"owner\":null,\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\"}",
+          "duration": 0.06662499999998772,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"\",\"entity\":\"owner\"},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\"}",
+          "status": "passed",
+          "title": "malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"\",\"entity\":\"owner\"},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\"}",
+          "duration": 0.05750000000000455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"s001\",\"entity\":\"owner\"},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"\"}",
+          "status": "passed",
+          "title": "malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"s001\",\"entity\":\"owner\"},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"\"}",
+          "duration": 0.11583299999995234,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"s001\",\"entity\":\"owner\",\"epoch\":1},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\"}",
+          "status": "passed",
+          "title": "malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"s001\",\"entity\":\"owner\",\"epoch\":1},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\"}",
+          "duration": 0.06758400000001075,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"s001\",\"entity\":\"owner\"},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\",\"commandEpoch\":1}",
+          "status": "passed",
+          "title": "malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"s001\",\"entity\":\"owner\"},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\",\"commandEpoch\":1}",
+          "duration": 0.07483299999995552,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"s001\",\"entity\":\"owner\"},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\"}",
+          "status": "passed",
+          "title": "malformed automatic chase claims are rejected before cloning: {\"owner\":{\"scene\":\"s001\",\"entity\":\"owner\"},\"target\":{\"scene\":\"s001\",\"entity\":\"npc\"},\"behavior\":\"chase\"}",
+          "duration": 0.14629100000001927,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） Envelope 坏形状 载荷=null 带路径拒绝",
+          "status": "passed",
+          "title": "Envelope 坏形状 载荷=null 带路径拒绝",
+          "duration": 0.07875000000001364,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） Envelope 坏形状 载荷=数组 带路径拒绝",
+          "status": "passed",
+          "title": "Envelope 坏形状 载荷=数组 带路径拒绝",
+          "duration": 0.05124999999998181,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） Envelope 坏形状 world 缺席 带路径拒绝",
+          "status": "passed",
+          "title": "Envelope 坏形状 world 缺席 带路径拒绝",
+          "duration": 0.05525000000000091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） Envelope 坏形状 position 缺席 带路径拒绝",
+          "status": "passed",
+          "title": "Envelope 坏形状 position 缺席 带路径拒绝",
+          "duration": 0.052500000000009095,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） Envelope 坏形状 version 非当前 SAVE 常量 带路径拒绝",
+          "status": "passed",
+          "title": "Envelope 坏形状 version 非当前 SAVE 常量 带路径拒绝",
+          "duration": 0.05333300000000918,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） Envelope 坏形状 projectId 空串 带路径拒绝",
+          "status": "passed",
+          "title": "Envelope 坏形状 projectId 空串 带路径拒绝",
+          "duration": 0.052416999999991276,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） Envelope 坏形状 contentVersion 非数字 带路径拒绝",
+          "status": "passed",
+          "title": "Envelope 坏形状 contentVersion 非数字 带路径拒绝",
+          "duration": 0.056166999999959444,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） world 坏形状 money=字符串 带路径拒绝",
+          "status": "passed",
+          "title": "world 坏形状 money=字符串 带路径拒绝",
+          "duration": 0.19191699999998946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） world 坏形状 money=NaN（有限数条件代表；Infinity 同层同 oracle） 带路径拒绝",
+          "status": "passed",
+          "title": "world 坏形状 money=NaN（有限数条件代表；Infinity 同层同 oracle） 带路径拒绝",
+          "duration": 0.07408399999997073,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） world 坏形状 party=null（数组条件代表） 带路径拒绝",
+          "status": "passed",
+          "title": "world 坏形状 party=null（数组条件代表） 带路径拒绝",
+          "duration": 0.08979099999999107,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） world 坏形状 learnedSkills 值非数组 带路径拒绝",
+          "status": "passed",
+          "title": "world 坏形状 learnedSkills 值非数组 带路径拒绝",
+          "duration": 0.1263330000000451,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） world 坏形状 inventory 元素缺 itemId 带路径拒绝",
+          "status": "passed",
+          "title": "world 坏形状 inventory 元素缺 itemId 带路径拒绝",
+          "duration": 0.10787499999997863,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） world 坏形状 inventory count=NaN 带路径拒绝",
+          "status": "passed",
+          "title": "world 坏形状 inventory count=NaN 带路径拒绝",
+          "duration": 0.08829199999996717,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） position 坏形状 sceneId 空串 带路径拒绝",
+          "status": "passed",
+          "title": "position 坏形状 sceneId 空串 带路径拒绝",
+          "duration": 0.09233299999999645,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） position 坏形状 pos 非对象 带路径拒绝",
+          "status": "passed",
+          "title": "position 坏形状 pos 非对象 带路径拒绝",
+          "duration": 0.06520800000004101,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） position 坏形状 pos.col=NaN 带路径拒绝",
+          "status": "passed",
+          "title": "position 坏形状 pos.col=NaN 带路径拒绝",
+          "duration": 0.069500000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） position 坏形状 pos.row=字符串 带路径拒绝",
+          "status": "passed",
+          "title": "position 坏形状 pos.row=字符串 带路径拒绝",
+          "duration": 0.07200000000000273,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） position 坏形状 缺 height（独立接线，B-R1-01 归还） 带路径拒绝",
+          "status": "passed",
+          "title": "position 坏形状 缺 height（独立接线，B-R1-01 归还） 带路径拒绝",
+          "duration": 0.07054200000004585,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） position 坏形状 facing=sideways（四方向枚举条件代表） 带路径拒绝",
+          "status": "passed",
+          "title": "position 坏形状 facing=sideways（四方向枚举条件代表） 带路径拒绝",
+          "duration": 0.06791700000002265,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：inventory[0]（记录型元素数组代表），不被 forEach 跳过",
+          "status": "passed",
+          "title": "R3：稀疏空洞逐下标拒绝：inventory[0]（记录型元素数组代表），不被 forEach 跳过",
+          "duration": 0.06904099999997015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：tags[0]（字符串元素数组代表），不被 forEach 跳过",
+          "status": "passed",
+          "title": "R3：稀疏空洞逐下标拒绝：tags[0]（字符串元素数组代表），不被 forEach 跳过",
+          "duration": 0.07133400000003576,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：extraStatuses[0]（独立回调接线，B-R2-01 归还），不被 forEach 跳过",
+          "status": "passed",
+          "title": "R3：稀疏空洞逐下标拒绝：extraStatuses[0]（独立回调接线，B-R2-01 归还），不被 forEach 跳过",
+          "duration": 0.06466599999998834,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · Envelope / world / position（负边界）"],
+          "fullName": "current-structure · Envelope / world / position（负边界） R3：稀疏空洞逐下标拒绝：poisons[0]（独立回调接线，B-R2-01 归还），不被 forEach 跳过",
+          "status": "passed",
+          "title": "R3：稀疏空洞逐下标拒绝：poisons[0]（独立回调接线，B-R2-01 归还），不被 forEach 跳过",
+          "duration": 0.10479100000003427,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 可选子树存在时的形状检查"],
+          "fullName": "current-structure · 可选子树存在时的形状检查 可选子树 resources 值非有限数 拒绝",
+          "status": "passed",
+          "title": "可选子树 resources 值非有限数 拒绝",
+          "duration": 0.11129200000004857,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 可选子树存在时的形状检查"],
+          "fullName": "current-structure · 可选子树存在时的形状检查 可选子树 skillUseCounts 内层值非有限数（独立接线，B-R1-01 归还） 拒绝",
+          "status": "passed",
+          "title": "可选子树 skillUseCounts 内层值非有限数（独立接线，B-R1-01 归还） 拒绝",
+          "duration": 0.06687499999998181,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 可选子树存在时的形状检查"],
+          "fullName": "current-structure · 可选子树存在时的形状检查 可选子树 audio.currentMusic=数字 拒绝",
+          "status": "passed",
+          "title": "可选子树 audio.currentMusic=数字 拒绝",
+          "duration": 0.19095800000002328,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 可选子树存在时的形状检查"],
+          "fullName": "current-structure · 可选子树存在时的形状检查 可选子树 hostileAwareness.rangeMultiplier=1（外层 0/3 检查；深层正数性见 codec 合同） 拒绝",
+          "status": "passed",
+          "title": "可选子树 hostileAwareness.rangeMultiplier=1（外层 0/3 检查；深层正数性见 codec 合同） 拒绝",
+          "duration": 0.100166999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 可选子树存在时的形状检查"],
+          "fullName": "current-structure · 可选子树存在时的形状检查 可选子树 hostileAwareness.remainingMs=Infinity（外层有限数） 拒绝",
+          "status": "passed",
+          "title": "可选子树 hostileAwareness.remainingMs=Infinity（外层有限数） 拒绝",
+          "duration": 0.06487499999997226,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 可选子树存在时的形状检查"],
+          "fullName": "current-structure · 可选子树存在时的形状检查 可选子树 script=数组（深层语义留给 codec，外层形状仍拒） 拒绝",
+          "status": "passed",
+          "title": "可选子树 script=数组（深层语义留给 codec，外层形状仍拒） 拒绝",
+          "duration": 0.05779200000000628,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 可选子树存在时的形状检查"],
+          "fullName": "current-structure · 可选子树存在时的形状检查 可选子树 ambience=数字 拒绝",
+          "status": "passed",
+          "title": "可选子树 ambience=数字 拒绝",
+          "duration": 0.06337500000000773,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · 可选子树存在时的形状检查"],
+          "fullName": "current-structure · 可选子树存在时的形状检查 可选子树 collectValue=NaN（标量有限数代表） 拒绝",
+          "status": "passed",
+          "title": "可选子树 collectValue=NaN（标量有限数代表） 拒绝",
+          "duration": 0.0569590000000062,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 id 空串 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 id 空串 带路径拒绝",
+          "duration": 0.0731670000000122,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 template 非字符串 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 template 非字符串 带路径拒绝",
+          "duration": 0.04795799999999417,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 hp=NaN（十一条数值字段共用有限数循环；luck=字符串 为类型条件代表） 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 hp=NaN（十一条数值字段共用有限数循环；luck=字符串 为类型条件代表） 带路径拒绝",
+          "duration": 0.05754100000001472,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 maxMP=Infinity（字段数组成员资格，B-R2-01 归还） 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 maxMP=Infinity（字段数组成员资格，B-R2-01 归还） 带路径拒绝",
+          "duration": 0.0899159999999597,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 luck=字符串 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 luck=字符串 带路径拒绝",
+          "duration": 0.048749999999984084,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 equipment 值非字符串 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 equipment 值非字符串 带路径拒绝",
+          "duration": 0.058708000000024185,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 tags 元素非字符串 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 tags 元素非字符串 带路径拒绝",
+          "duration": 0.04887500000000955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 hiddenExp 未知键 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 hiddenExp 未知键 带路径拒绝",
+          "duration": 0.05670900000001211,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 poisons 元素缺 tickIndex 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 poisons 元素缺 tickIndex 带路径拒绝",
+          "duration": 0.052125000000046384,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 extraStatuses.turns=Infinity 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 extraStatuses.turns=Infinity 带路径拒绝",
+          "duration": 0.05720800000000281,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 extraStatuses 未知状态 id（复用 content 枚举真源） 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 extraStatuses 未知状态 id（复用 content 枚举真源） 带路径拒绝",
+          "duration": 0.04795799999999417,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 extraPoisonRes=字符串 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 extraPoisonRes=字符串 带路径拒绝",
+          "duration": 0.04979200000002493,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 appearance.spriteId=数字（独立接线，B-R1-01 归还） 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 appearance.spriteId=数字（独立接线，B-R1-01 归还） 带路径拒绝",
+          "duration": 0.053541999999993095,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） 实例坏形状 appearance.battleSprite=null（非可选 null；独立接线，B-R1-01 归还） 带路径拒绝",
+          "status": "passed",
+          "title": "实例坏形状 appearance.battleSprite=null（非可选 null；独立接线，B-R1-01 归还） 带路径拒绝",
+          "duration": 0.04837499999996453,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） appearance.portrait=null 不在合同内（AssetId | undefined；portrait 自有接线）",
+          "status": "passed",
+          "title": "appearance.portrait=null 不在合同内（AssetId | undefined；portrait 自有接线）",
+          "duration": 0.05945800000000645,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current-structure · CharacterInstance（party 与 reserve 同型）"],
+          "fullName": "current-structure · CharacterInstance（party 与 reserve 同型） reserve 元素坏形状同样拒绝（同型 guard 单代表，路径含 reserve）",
+          "status": "passed",
+          "title": "reserve 元素坏形状同样拒绝（同型 guard 单代表，路径含 reserve）",
+          "duration": 0.08700000000004593,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377198820,
+      "endTime": 1792377198831.087,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/save/current-structure.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["current save operations"],
+          "fullName": "current save operations buildMeta creates the slot summary with injected time",
+          "status": "passed",
+          "title": "buildMeta creates the slot summary with injected time",
+          "duration": 1.0928749999999923,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current save operations"],
+          "fullName": "current save operations the only builder writes SAVE12/content22 without startup-entry identity",
+          "status": "passed",
+          "title": "the only builder writes SAVE12/content22 without startup-entry identity",
+          "duration": 0.5852079999999944,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current save operations"],
+          "fullName": "current save operations restored music never leaks the pre-load track",
+          "status": "passed",
+          "title": "restored music never leaks the pre-load track",
+          "duration": 0.11970900000000029,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current save operations"],
+          "fullName": "current save operations captureThumbnail rejects when 2d context is unavailable",
+          "status": "passed",
+          "title": "captureThumbnail rejects when 2d context is unavailable",
+          "duration": 0.6225840000000034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377200165,
+      "endTime": 1792377200167.6226,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/save/ops.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）"],
+          "fullName": "SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体） 合法载荷：loaded、世界替换、完整提交事件序列",
+          "status": "passed",
+          "title": "合法载荷：loaded、世界替换、完整提交事件序列",
+          "duration": 5.888541999999916,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）"],
+          "fullName": "SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体） 坏载荷 money=字符串：提交前拒绝、稳定文案、零活动态污染",
+          "status": "passed",
+          "title": "坏载荷 money=字符串：提交前拒绝、稳定文案、零活动态污染",
+          "duration": 0.9625840000001062,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）"],
+          "fullName": "SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体） 坏载荷 party=null：提交前拒绝、稳定文案、零活动态污染",
+          "status": "passed",
+          "title": "坏载荷 party=null：提交前拒绝、稳定文案、零活动态污染",
+          "duration": 0.40141700000003766,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）"],
+          "fullName": "SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体） 坏载荷 position=null：提交前拒绝、稳定文案、零活动态污染",
+          "status": "passed",
+          "title": "坏载荷 position=null：提交前拒绝、稳定文案、零活动态污染",
+          "duration": 0.44662499999981264,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）"],
+          "fullName": "SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体） 坏载荷 facing=sideways：提交前拒绝、稳定文案、零活动态污染",
+          "status": "passed",
+          "title": "坏载荷 facing=sideways：提交前拒绝、稳定文案、零活动态污染",
+          "duration": 0.38037499999995816,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）"],
+          "fullName": "SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体） 坏载荷 R3：inventory 稀疏空洞（new Array(1)）：提交前拒绝、稳定文案、零活动态污染",
+          "status": "passed",
+          "title": "坏载荷 R3：inventory 稀疏空洞（new Array(1)）：提交前拒绝、稳定文案、零活动态污染",
+          "duration": 0.44050000000015643,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）"],
+          "fullName": "SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体） R3 链路层：稀疏 inventory 拒绝后世界保持旧态，合法 shopBuy 仍正常",
+          "status": "passed",
+          "title": "R3 链路层：稀疏 inventory 拒绝后世界保持旧态，合法 shopBuy 仍正常",
+          "duration": 0.39487499999995634,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）"],
+          "fullName": "SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体） R4：结构错误的 toast 为固定短中文文案（完整路径只进 message/console）",
+          "status": "passed",
+          "title": "R4：结构错误的 toast 为固定短中文文案（完整路径只进 message/console）",
+          "duration": 0.30187499999988177,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）"],
+          "fullName": "SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体） R4：toast 文案按真实字形宽度可完整显示（200px 可用；上一版动态文案实测超限）",
+          "status": "passed",
+          "title": "R4：toast 文案按真实字形宽度可完整显示（200px 可用；上一版动态文案实测超限）",
+          "duration": 192.64270800000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）"],
+          "fullName": "SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体） position=null 不再暴露裸 TypeError 文案（探针历史记录的稳定化）",
+          "status": "passed",
+          "title": "position=null 不再暴露裸 TypeError 文案（探针历史记录的稳定化）",
+          "duration": 1.2863750000001346,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）"],
+          "fullName": "SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体） 空数组队伍：保留「队伍为空」具体提示，quickLoad 不得用「无快速存档」覆盖",
+          "status": "passed",
+          "title": "空数组队伍：保留「队伍为空」具体提示，quickLoad 不得用「无快速存档」覆盖",
+          "duration": 0.5256660000000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）"],
+          "fullName": "SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体） F9 形态（void quickLoad()）坏槽：quickLoad 不 reject、稳定提示可见",
+          "status": "passed",
+          "title": "F9 形态（void quickLoad()）坏槽：quickLoad 不 reject、稳定提示可见",
+          "duration": 0.5271250000000691,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）"],
+          "fullName": "SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体） 较新读档胜出：旧请求静默让位，最终世界/场景为新载荷",
+          "status": "passed",
+          "title": "较新读档胜出：旧请求静默让位，最终世界/场景为新载荷",
+          "duration": 0.7914590000000317,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）",
+            "R2：旧失败提示不覆盖新成功（读 / normalize / prepare 三阶段）"
+          ],
+          "fullName": "SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体） R2：旧失败提示不覆盖新成功（读 / normalize / prepare 三阶段） 旧读取失败（晚到）不覆盖新成功提示",
+          "status": "passed",
+          "title": "旧读取失败（晚到）不覆盖新成功提示",
+          "duration": 0.5913749999999709,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）",
+            "R2：旧失败提示不覆盖新成功（读 / normalize / prepare 三阶段）"
+          ],
+          "fullName": "SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体） R2：旧失败提示不覆盖新成功（读 / normalize / prepare 三阶段） 旧 normalize 失败（晚到）不覆盖新成功提示（gate 在 getLifecycleReferences 内部 await）",
+          "status": "passed",
+          "title": "旧 normalize 失败（晚到）不覆盖新成功提示（gate 在 getLifecycleReferences 内部 await）",
+          "duration": 0.7611249999999927,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）",
+            "R2：旧失败提示不覆盖新成功（读 / normalize / prepare 三阶段）"
+          ],
+          "fullName": "SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体） R2：旧失败提示不覆盖新成功（读 / normalize / prepare 三阶段） 负控制：仅移除 normalize catch 的 isCurrent 后，旧归一化失败覆盖新成功（防护为必需）",
+          "status": "passed",
+          "title": "负控制：仅移除 normalize catch 的 isCurrent 后，旧归一化失败覆盖新成功（防护为必需）",
+          "duration": 0.9379999999998745,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）",
+            "R2：旧失败提示不覆盖新成功（读 / normalize / prepare 三阶段）"
+          ],
+          "fullName": "SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体） R2：旧失败提示不覆盖新成功（读 / normalize / prepare 三阶段） 旧 prepare 失败（晚到）不覆盖新成功提示（entered 信号，不用 sleep 猜阶段）",
+          "status": "passed",
+          "title": "旧 prepare 失败（晚到）不覆盖新成功提示（entered 信号，不用 sleep 猜阶段）",
+          "duration": 1.1142909999998665,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）"],
+          "fullName": "SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体） prepare 中调用方取消：AbortError 上抛、live 世界与旧脚本保留",
+          "status": "passed",
+          "title": "prepare 中调用方取消：AbortError 上抛、live 世界与旧脚本保留",
+          "duration": 0.6041670000001886,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）"],
+          "fullName": "SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体） 合法载荷带有限分数坐标：guard 不取整、不移动输入坐标",
+          "status": "passed",
+          "title": "合法载荷带有限分数坐标：guard 不取整、不移动输入坐标",
+          "duration": 0.5402909999997974,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体）"],
+          "fullName": "SAVE-PREFLIGHT-1 真实调用链（AST 抽取 main.ts 原函数体） 读档后真实 shopBuy 不再得到 NaN（B-04 money 污染链闭合）",
+          "status": "passed",
+          "title": "读档后真实 shopBuy 不再得到 NaN（B-04 money 污染链闭合）",
+          "duration": 0.36850000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377199676,
+      "endTime": 1792377199886.3684,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/save/restore-preflight.chain.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 0 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 0 without inventing a project scope",
+          "duration": 1.1404169999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 1 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 1 without inventing a project scope",
+          "duration": 0.15533400000001052,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 2 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 2 without inventing a project scope",
+          "duration": 0.08029200000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 3 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 3 without inventing a project scope",
+          "duration": 0.07383299999999338,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 4 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 4 without inventing a project scope",
+          "duration": 0.07920800000000838,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 5 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 5 without inventing a project scope",
+          "duration": 0.06295900000000643,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 6 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 6 without inventing a project scope",
+          "duration": 0.11241600000001029,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 7 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 7 without inventing a project scope",
+          "duration": 0.11037500000000477,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 8 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 8 without inventing a project scope",
+          "duration": 0.4577910000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 9 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 9 without inventing a project scope",
+          "duration": 0.10208399999999074,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 10 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 10 without inventing a project scope",
+          "duration": 0.11708300000000804,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 11 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 11 without inventing a project scope",
+          "duration": 0.04866699999999469,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 12 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 12 without inventing a project scope",
+          "duration": 0.05145799999999667,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 13 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 13 without inventing a project scope",
+          "duration": 0.04154199999999264,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 14 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 14 without inventing a project scope",
+          "duration": 0.044832999999997014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 15 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 15 without inventing a project scope",
+          "duration": 0.0810419999999965,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 16 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 16 without inventing a project scope",
+          "duration": 0.04145900000000324,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 17 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 17 without inventing a project scope",
+          "duration": 0.03620899999999949,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 18 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 18 without inventing a project scope",
+          "duration": 0.03620899999999949,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 19 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 19 without inventing a project scope",
+          "duration": 0.037082999999995536,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 20 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 20 without inventing a project scope",
+          "duration": 0.03650000000000375,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 21 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 21 without inventing a project scope",
+          "duration": 0.0362920000000031,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 22 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 22 without inventing a project scope",
+          "duration": 0.04025000000000034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 23 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 23 without inventing a project scope",
+          "duration": 0.038167000000001394,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope rejects invalid identity 24 without inventing a project scope",
+          "status": "passed",
+          "title": "rejects invalid identity 24 without inventing a project scope",
+          "duration": 0.03766699999999901,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope captures exact {\"kind\":\"project\",\"projectId\":\" p \"} identity without mutating the caller",
+          "status": "passed",
+          "title": "captures exact {\"kind\":\"project\",\"projectId\":\" p \"} identity without mutating the caller",
+          "duration": 0.38049999999999784,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope captures exact {\"kind\":\"workspace\",\"projectId\":\"p\",\"workspaceId\":\" W \"} identity without mutating the caller",
+          "status": "passed",
+          "title": "captures exact {\"kind\":\"workspace\",\"projectId\":\"p\",\"workspaceId\":\" W \"} identity without mutating the caller",
+          "duration": 0.16262499999999136,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope project agreement is required before boot or storage",
+          "status": "passed",
+          "title": "project agreement is required before boot or storage",
+          "duration": 0.0991250000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SaveScope"],
+          "fullName": "SaveScope tagged tuples have no separator/escaping/case/whitespace collisions",
+          "status": "passed",
+          "title": "tagged tuples have no separator/escaping/case/whitespace collisions",
+          "duration": 0.44225000000000136,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377200054,
+      "endTime": 1792377200058.4421,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/save/scope.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["scoped save store"],
+          "fullName": "scoped save store the default browser factory is scoped and an unavailable factory cannot pretend to persist",
+          "status": "passed",
+          "title": "the default browser factory is scoped and an unavailable factory cannot pretend to persist",
+          "duration": 3.644790999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["scoped save store"],
+          "fullName": "scoped save store different projects keep all three records and counts for quick",
+          "status": "passed",
+          "title": "different projects keep all three records and counts for quick",
+          "duration": 2.8156669999999906,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["scoped save store"],
+          "fullName": "scoped save store different projects keep all three records and counts for auto",
+          "status": "passed",
+          "title": "different projects keep all three records and counts for auto",
+          "duration": 1.4681659999999965,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["scoped save store"],
+          "fullName": "scoped save store different projects keep all three records and counts for m01",
+          "status": "passed",
+          "title": "different projects keep all three records and counts for m01",
+          "duration": 1.9329589999999826,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["scoped save store"],
+          "fullName": "scoped save store workspace, project and same workspace id in a different project are separate",
+          "status": "passed",
+          "title": "workspace, project and same workspace id in a different project are separate",
+          "duration": 1.4753330000000062,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["scoped save store"],
+          "fullName": "scoped save store reopening the same workspace reads its records; returned snapshots cannot mutate storage",
+          "status": "passed",
+          "title": "reopening the same workspace reads its records; returned snapshots cannot mutate storage",
+          "duration": 0.7713750000000061,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["scoped save store"],
+          "fullName": "scoped save store scope is captured before the caller changes it",
+          "status": "passed",
+          "title": "scope is captured before the caller changes it",
+          "duration": 0.738125000000025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["scoped save store"],
+          "fullName": "scoped save store put snapshots both records before asynchronous open",
+          "status": "passed",
+          "title": "put snapshots both records before asynchronous open",
+          "duration": 0.5430839999999932,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["scoped save store"],
+          "fullName": "scoped save store wrong project and invalid scope fail before any database opens",
+          "status": "passed",
+          "title": "wrong project and invalid scope fail before any database opens",
+          "duration": 1.4505829999999946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["scoped save store"],
+          "fullName": "scoped save store a clone failure never partly replaces a good memory slot",
+          "status": "passed",
+          "title": "a clone failure never partly replaces a good memory slot",
+          "duration": 0.41979200000000105,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["scoped save store"],
+          "fullName": "scoped save store an uncloneable third record aborts the real transaction and preserves the good slot",
+          "status": "passed",
+          "title": "an uncloneable third record aborts the real transaction and preserves the good slot",
+          "duration": 0.756875000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["scoped save store"],
+          "fullName": "scoped save store abort without a request error settles as rejection and does not create a slot",
+          "status": "passed",
+          "title": "abort without a request error settles as rejection and does not create a slot",
+          "duration": 1.0607499999999845,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["scoped save store"],
+          "fullName": "scoped save store factory errors reject instead of inventing successful memory persistence",
+          "status": "passed",
+          "title": "factory errors reject instead of inventing successful memory persistence",
+          "duration": 0.24241700000001742,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["scoped save store"],
+          "fullName": "scoped save store a native open request failure rejects without a version fallback",
+          "status": "passed",
+          "title": "a native open request failure rejects without a version fallback",
+          "duration": 0.30066700000000424,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["scoped save store"],
+          "fullName": "scoped save store readonly request failures reject payload, thumbnail and metadata reads",
+          "status": "passed",
+          "title": "readonly request failures reject payload, thumbnail and metadata reads",
+          "duration": 1.571333999999979,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["scoped save store"],
+          "fullName": "scoped save store an asynchronous provider request error rolls back every record",
+          "status": "passed",
+          "title": "an asynchronous provider request error rolls back every record",
+          "duration": 0.9753750000000139,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["scoped save store"],
+          "fullName": "scoped save store an already-aborted transaction preserves the original enqueue error",
+          "status": "passed",
+          "title": "an already-aborted transaction preserves the original enqueue error",
+          "duration": 0.8552090000000021,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["scoped save store"],
+          "fullName": "scoped save store old unpartitioned records remain untouched and are never read as scoped slots",
+          "status": "passed",
+          "title": "old unpartitioned records remain untouched and are never read as scoped slots",
+          "duration": 0.7765420000000063,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377198980,
+      "endTime": 1792377199002.7766,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/save/store.isolation.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["MemorySaveStore"],
+          "fullName": "MemorySaveStore putSlot → listMeta/getPayload/getThumb 往返",
+          "status": "passed",
+          "title": "putSlot → listMeta/getPayload/getThumb 往返",
+          "duration": 1.4660419999999874,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MemorySaveStore"],
+          "fullName": "MemorySaveStore 缺失槽 → null",
+          "status": "passed",
+          "title": "缺失槽 → null",
+          "duration": 0.22449999999999193,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MemorySaveStore"],
+          "fullName": "MemorySaveStore 覆盖写：同槽 putSlot 二次 → listMeta 仍 1 条、payload 更新",
+          "status": "passed",
+          "title": "覆盖写：同槽 putSlot 二次 → listMeta 仍 1 条、payload 更新",
+          "duration": 0.476333000000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792377200174,
+      "endTime": 1792377200176.4763,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/save/store.test.ts"
+    }
+  ]
+}

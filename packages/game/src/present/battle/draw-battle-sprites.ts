@@ -5,8 +5,11 @@
  *   - 我方:F.MKF chunk[role.spriteNumInBattle](sdlpal `battle.c:856`)
  *   - 敌方:ABC.MKF chunk[enemy.id](sdlpal 同函数 `wEnemyID` 真值)
  *
- * M3 简版:位置硬编码(5 个槽位)。M5 时按 sdlpal ENEMYPOS / 队列位置真值。
- * blit 规则同 draw-sprite:anchor 在底部中心,索引 0 透明,屏外 clip。
+ * 位置:sdlpal 真值 —— 敌方 ENEMYPOS 表(DATA.MKF chunk 13,缺则 5 槽 fallback)+
+ *   队员 g_rgPlayerPos 表(battle-positions.ts 单一来源);精灵与伤害数字共用
+ *   computeEnemyAnchor / computePlayerAnchor 锚点,杜绝漂移。
+ * blit 规则:anchor 在底部中心;透明走 opaque mask(RLE-skip run,0 = 跳过,
+ *   同 draw-sprite 约定);屏外像素经 fb.writePixel 边界检查裁剪。
  */
 import type { EnemyPosTable, PlayerRoles } from '@type-pal/shared'
 import { ENEMY_POSITIONS_FALLBACK, getPlayerBasePos } from '../../core/battle/battle-positions.js'
@@ -58,7 +61,10 @@ export interface SpriteFrame {
 }
 
 export interface SpriteAsset {
-  /** 帧列表(M3 静态先画 frame[0]);M4 / 后续按 phase 切帧。 */
+  /**
+   * 帧列表;绘制帧由 render-state currentFrame(动画期,anim-driver 写)或 idle 轮播
+   * 决定(computeIdleFrameIndex / computePlayerBattleIdleFrame),资源缺帧兜底 frames[0]。
+   */
   frames: SpriteFrame[]
 }
 

@@ -1,0 +1,315 @@
+{
+  "numTotalTestSuites": 14,
+  "numPassedTestSuites": 14,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 23,
+  "numPassedTests": 23,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792330836385,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R08 parseBdf codepoint 门与默认值"],
+          "fullName": "R08 parseBdf codepoint 门与默认值 ENCODING -1（未编码字形）与 ENCODING 0：均排除（codepoint > 0 门）",
+          "status": "passed",
+          "title": "ENCODING -1（未编码字形）与 ENCODING 0：均排除（codepoint > 0 门）",
+          "duration": 1.8460000000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R08 parseBdf codepoint 门与默认值"],
+          "fullName": "R08 parseBdf codepoint 门与默认值 缺 ENCODING 行：codepoint 保持 -1 → 排除",
+          "status": "passed",
+          "title": "缺 ENCODING 行：codepoint 保持 -1 → 排除",
+          "duration": 0.1998749999999916,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R08 parseBdf codepoint 门与默认值"],
+          "fullName": "R08 parseBdf codepoint 门与默认值 缺 BBX：默认 16×16（bytesPerRow 2，bitmap 32B），位图行按 2 字节装填",
+          "status": "passed",
+          "title": "缺 BBX：默认 16×16（bytesPerRow 2，bitmap 32B），位图行按 2 字节装填",
+          "duration": 0.5698329999999885,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R08 parseBdf codepoint 门与默认值"],
+          "fullName": "R08 parseBdf codepoint 门与默认值 位图行短于 bytesPerRow：缺位补 0（parseInt(hex,16) || 0）；无 ENDCHAR 以 EOF 终止",
+          "status": "passed",
+          "title": "位图行短于 bytesPerRow：缺位补 0（parseInt(hex,16) || 0）；无 ENDCHAR 以 EOF 终止",
+          "duration": 0.14266699999998878,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R08 parseBdf codepoint 门与默认值"],
+          "fullName": "R08 parseBdf codepoint 门与默认值 空输入与无 STARTCHAR 文本：空表；glyphsToJson 空表 count=0",
+          "status": "passed",
+          "title": "空输入与无 STARTCHAR 文本：空表；glyphsToJson 空表 count=0",
+          "duration": 0.28233399999999165,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792330836546,
+      "endTime": 1792330836548.5698,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/font/bdf-to-json.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["parseMap"],
+          "fullName": "parseMap 合成 fixture:64×128 全零格 + 空 GOP",
+          "status": "passed",
+          "title": "合成 fixture:64×128 全零格 + 空 GOP",
+          "duration": 1.9530419999999822,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMap"],
+          "fullName": "parseMap 尺寸不对抛错",
+          "status": "passed",
+          "title": "尺寸不对抛错",
+          "duration": 0.35633300000000645,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMap"],
+          "fullName": "parseMap 真实 MAP.MKF chunk 1 解出 cells + 真实 GOP.MKF chunk 1 解出 tiles",
+          "status": "passed",
+          "title": "真实 MAP.MKF chunk 1 解出 cells + 真实 GOP.MKF chunk 1 解出 tiles",
+          "duration": 15.821959000000021,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792330836585,
+      "endTime": 1792330836603.822,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/resources/map.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R04 dumpAllEventObjects（此前零覆盖）"],
+          "fullName": "R04 dumpAllEventObjects（此前零覆盖） 全局 id = eventObjects 下标；每景区间 [start,end)，末景兜底 eventObjects.length",
+          "status": "passed",
+          "title": "全局 id = eventObjects 下标；每景区间 [start,end)，末景兜底 eventObjects.length",
+          "duration": 1.1655409999999904,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R04 dumpAllEventObjects（此前零覆盖）"],
+          "fullName": "R04 dumpAllEventObjects（此前零覆盖） scenes/objects 输入零突变（structuredClone 前后相等）",
+          "status": "passed",
+          "title": "scenes/objects 输入零突变（structuredClone 前后相等）",
+          "duration": 0.5688749999999914,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R04 dumpScene 未占用切片轴"],
+          "fullName": "R04 dumpScene 未占用切片轴 入口 0：sceneId=0 从 0 切片；onEnter=0 → undefined；onTeleport 非 0 → L_ip",
+          "status": "passed",
+          "title": "入口 0：sceneId=0 从 0 切片；onEnter=0 → undefined；onTeleport 非 0 → L_ip",
+          "duration": 0.25341600000001563,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R04 dumpScene 未占用切片轴"],
+          "fullName": "R04 dumpScene 未占用切片轴 中间场景非零起点：区间 [2,4)，全局 id 保留为 2/3",
+          "status": "passed",
+          "title": "中间场景非零起点：区间 [2,4)，全局 id 保留为 2/3",
+          "duration": 0.40229199999998855,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R04 dumpScene 未占用切片轴"],
+          "fullName": "R04 dumpScene 未占用切片轴 未知 sceneId 抛错并带 scenes.length",
+          "status": "passed",
+          "title": "未知 sceneId 抛错并带 scenes.length",
+          "duration": 0.5174590000000023,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792330836545,
+      "endTime": 1792330836548.5176,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/resources/scene.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["dumpScene"],
+          "fullName": "dumpScene scene 1 含两个 NPC",
+          "status": "passed",
+          "title": "scene 1 含两个 NPC",
+          "duration": 1.5779170000000136,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["dumpScene"],
+          "fullName": "dumpScene triggerScript=0 → triggerLabel undefined",
+          "status": "passed",
+          "title": "triggerScript=0 → triggerLabel undefined",
+          "duration": 0.19879200000002584,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["dumpScene"],
+          "fullName": "dumpScene 末场景兜底:sceneId = scenes.length - 1 → toIdx = eventObjects.length",
+          "status": "passed",
+          "title": "末场景兜底:sceneId = scenes.length - 1 → toIdx = eventObjects.length",
+          "duration": 0.12512499999999704,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["dumpScene triggerMode 字段(M3.5)"],
+          "fullName": "dumpScene triggerMode 字段(M3.5) SceneEventObject dump 含 triggerMode raw u16",
+          "status": "passed",
+          "title": "SceneEventObject dump 含 triggerMode raw u16",
+          "duration": 0.07495799999998098,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["dumpScene triggerMode 字段(M3.5)"],
+          "fullName": "dumpScene triggerMode 字段(M3.5) triggerMode=0 正确 dump(不是 undefined)",
+          "status": "passed",
+          "title": "triggerMode=0 正确 dump(不是 undefined)",
+          "duration": 0.07141700000002515,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792330836545,
+      "endTime": 1792330836547.1252,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/resources/scene.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R08 parseBdf 完整字形"],
+          "fullName": "R08 parseBdf 完整字形 两字形完整 bitmap/宽高/码点手列精确；BBX 宽高生效",
+          "status": "passed",
+          "title": "两字形完整 bitmap/宽高/码点手列精确；BBX 宽高生效",
+          "duration": 2.1835829999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R08 parseBdf 完整字形"],
+          "fullName": "R08 parseBdf 完整字形 LF / CRLF / 行尾多余空白三种文本等价解析",
+          "status": "passed",
+          "title": "LF / CRLF / 行尾多余空白三种文本等价解析",
+          "duration": 0.49012500000000614,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R08 parseBdf 完整字形"],
+          "fullName": "R08 parseBdf 完整字形 glyphsToJson 完整 count/字段/base64（手算 base64 oracle）",
+          "status": "passed",
+          "title": "glyphsToJson 完整 count/字段/base64（手算 base64 oracle）",
+          "duration": 0.2760419999999897,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792330836546,
+      "endTime": 1792330836549.2761,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/font/__tests__/bdf-to-json.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["parseBdf"],
+          "fullName": "parseBdf extracts 16x16 glyph from BDF fragment",
+          "status": "passed",
+          "title": "extracts 16x16 glyph from BDF fragment",
+          "duration": 1.4727910000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseBdf"],
+          "fullName": "parseBdf parses ASCII 8-wide glyph",
+          "status": "passed",
+          "title": "parses ASCII 8-wide glyph",
+          "duration": 0.210708000000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792330836545,
+      "endTime": 1792330836546.473,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/font/__tests__/bdf-to-json.test.ts"
+    }
+  ]
+}

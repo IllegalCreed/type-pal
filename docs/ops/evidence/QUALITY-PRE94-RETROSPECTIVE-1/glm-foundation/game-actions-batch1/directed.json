@@ -1,0 +1,416 @@
+{
+  "numTotalTestSuites": 20,
+  "numPassedTestSuites": 20,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 32,
+  "numPassedTests": 32,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792340818052,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts)"
+          ],
+          "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556)",
+          "status": "passed",
+          "title": "haste 状态队员行动 dex ×3 进队列:同 dex 队员被压到其后(formulas 单测已有,queue 构建接线未证;fight.c:336-389 × :1556)",
+          "duration": 2.555500000000052,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts)"
+          ],
+          "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 行动选择与队列 wiring(battle-system.ts) DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证)",
+          "status": "passed",
+          "title": "DH3 未学法术(rgwMagic 有数据但查无该 spell)→ 攻击系降普攻 / 辅助系降防御(MP 都不扣;fight.c:3290-3301 known 臂,silence/MP 臂旧测已证)",
+          "duration": 1.8807920000000422,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts)"],
+          "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 敌方 AI(enemy-ai.ts) DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658)",
+          "status": "passed",
+          "title": "DL7:被沉默敌仍消费一次魔法掷骰再落物理(RNG 流与未沉默一致,不因 silence 少抽;fight.c:4656-4658)",
+          "duration": 0.29849999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526)"
+          ],
+          "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 scriptOnReady re-arm 回写(battle-system.ts:2526) 0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证)",
+          "status": "passed",
+          "title": "0x01 advance end → scriptOnReady 回写 end 行+1(show-once;fight.c:1226-1227;turnStart 侧已证,ready 侧未证)",
+          "duration": 0.5088329999999814,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction)"
+          ],
+          "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言)",
+          "status": "passed",
+          "title": "defend action → rgDefenseExp.wCount += 2(fight.c:4116,无 RNG;旧测只有负向 0 断言)",
+          "duration": 0.17241699999999582,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction)"
+          ],
+          "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 E04 隐藏经验累积臂(battle-system.ts performBattleAction) 玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证)",
+          "status": "passed",
+          "title": "玩家施法 → rgMagicExp += R(2,3) 且 rgMagicPowerExp += 1(fight.c:4328-4329;敌方 0 掷骰 BUG-1 已证,玩家正向累积未证)",
+          "duration": 0.5681670000000167,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts)"],
+          "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1)",
+          "status": "passed",
+          "title": "expGained=0 → 无 exp-cash 屏;cash 仍无条件入账(battle.c:1025 `if iExpGained>0` 门 + 1054 无条件;旧测均 exp≥1)",
+          "duration": 0.4012079999999969,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts)"],
+          "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 胜利结算(battle-settlement.ts) Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反)",
+          "status": "passed",
+          "title": "Phase E:defeated 槽照跑 scriptOnBattleEnd 且返回值不回写(battle.c:1334-1337 对 i=0..max 不按 health 过滤;与 turnStart/ready 回写语义相反)",
+          "duration": 0.23883299999999963,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts)"
+          ],
+          "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂)",
+          "status": "passed",
+          "title": "rgwMagic 32 槽全满 → 不再学新法术(learnedMagics 空、槽位不变;global.c:2084 PAL_AddMagic 槽满 false 臂)",
+          "duration": 0.5762500000000728,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts)"
+          ],
+          "fullName": "TEST-GLM-GAME-BATTLE-STATE-1 升级学法术与快照(battle-progression.ts) 升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备)",
+          "status": "passed",
+          "title": "升级快照有效值含装备加成:attack.old/cur 都带装备项(battle.c:1184-1212 PAL_GetPlayerXxx;旧快照测全无装备)",
+          "duration": 0.1520420000000513,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792340819059,
+      "endTime": 1792340819066.5762,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/battle-state-machine.glm-battle.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["cov85 startBattle 倒地队员复活(276-277)"],
+          "fullName": "cov85 startBattle 倒地队员复活(276-277) hp=0 队员进战斗 → 复活到 1(roles+runtime)且傀儡态清 0",
+          "status": "passed",
+          "title": "hp=0 队员进战斗 → 复活到 1(roles+runtime)且傀儡态清 0",
+          "duration": 1.6480000000000246,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 startBattle 倒地队员复活(276-277)"],
+          "fullName": "cov85 startBattle 倒地队员复活(276-277) 屏波交接:prevWaveLevel/wScreenWave 写入 + sWaveProgression 清 0(299-305)",
+          "status": "passed",
+          "title": "屏波交接:prevWaveLevel/wScreenWave 写入 + sWaveProgression 清 0(299-305)",
+          "duration": 0.3519579999999678,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 tickEnemyIdleGestures(370-390)"],
+          "fullName": "cov85 tickEnemyIdleGestures(370-390) defeated / health<=0 敌不推进;sleep/paralyzed 定格 idleFrame=0 且计数不动",
+          "status": "passed",
+          "title": "defeated / health<=0 敌不推进;sleep/paralyzed 定格 idleFrame=0 且计数不动",
+          "duration": 0.38095899999996163,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 tickEnemyIdleGestures(370-390)"],
+          "fullName": "cov85 tickEnemyIdleGestures(370-390) idleAnimSpeed 倒数:到 0 → idleFrame++ 并恢复计数;帧数到顶回绕 0",
+          "status": "passed",
+          "title": "idleAnimSpeed 倒数:到 0 → idleFrame++ 并恢复计数;帧数到顶回绕 0",
+          "duration": 0.18475000000000819,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 tickEnemyIdleGestures(370-390)"],
+          "fullName": "cov85 tickEnemyIdleGestures(370-390) currentFrame 链帧敌:推 currentFrame 并按 idleFrames 回绕(不动 idleFrame)",
+          "status": "passed",
+          "title": "currentFrame 链帧敌:推 currentFrame 并按 idleFrames 回绕(不动 idleFrame)",
+          "duration": 0.21191699999997127,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 tickBattle 顶层守卫(392-418)"],
+          "fullName": "cov85 tickBattle 顶层守卫(392-418) 无 battleState → no-op;资源缺失 → 强制退出 explore + console.error",
+          "status": "passed",
+          "title": "无 battleState → no-op;资源缺失 → 强制退出 explore + console.error",
+          "duration": 1.0272079999999733,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 tickBattle 顶层守卫(392-418)"],
+          "fullName": "cov85 tickBattle 顶层守卫(392-418) phase stall 兜底:phaseStallTicks 超 1500 → 强制 finalize 回 explore(selectAction 不计)",
+          "status": "passed",
+          "title": "phase stall 兜底:phaseStallTicks 超 1500 → 强制 finalize 回 explore(selectAction 不计)",
+          "duration": 0.6379170000000158,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 tickBattle phase 路由(496-533)"],
+          "fullName": "cov85 tickBattle phase 路由(496-533) roundEndDelayTicks>0 → 递减且不起菜单;归零后 selectionStartedForTurn 帧起菜单",
+          "status": "passed",
+          "title": "roundEndDelayTicks>0 → 递减且不起菜单;归零后 selectionStartedForTurn 帧起菜单",
+          "duration": 0.45012500000007094,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 tickBattle phase 路由(496-533)"],
+          "fullName": "cov85 tickBattle phase 路由(496-533) 全员失能(睡)→ 起手落空(无手动选择)+ 自动占位 action 填满进 perform(583-595)",
+          "status": "passed",
+          "title": "全员失能(睡)→ 起手落空(无手动选择)+ 自动占位 action 填满进 perform(583-595)",
+          "duration": 0.7356669999999212,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 tickBattle phase 路由(496-533)"],
+          "fullName": "cov85 tickBattle phase 路由(496-533) 活队员全死 → selectAction 兜底转 lost(651-655)",
+          "status": "passed",
+          "title": "活队员全死 → selectAction 兜底转 lost(651-655)",
+          "duration": 0.26820900000006986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 tickBattle phase 路由(496-533)"],
+          "fullName": "cov85 tickBattle phase 路由(496-533) won:无 settlement → 建;已有 → 不重建(523-527)",
+          "status": "passed",
+          "title": "won:无 settlement → 建;已有 → 不重建(523-527)",
+          "duration": 0.4490409999999656,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 tickBattle hold 守卫(420-449)"],
+          "fullName": "cov85 tickBattle hold 守卫(420-449) 战斗调色板 fade 进行中 → 暂停推进(426)",
+          "status": "passed",
+          "title": "战斗调色板 fade 进行中 → 暂停推进(426)",
+          "duration": 0.14679200000000492,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85r3 selectAction 目标落账 / flee 拒绝(r5 排重后旧测未证臂)"],
+          "fullName": "cov85r3 selectAction 目标落账 / flee 拒绝(r5 排重后旧测未证臂) 多敌 Confirm 攻击后:目标选择 Confirm → pendingActions 落账指定敌(2359 停留之后的增量)",
+          "status": "passed",
+          "title": "多敌 Confirm 攻击后:目标选择 Confirm → pendingActions 落账指定敌(2359 停留之后的增量)",
+          "duration": 0.6754580000000487,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85r3 selectAction 目标落账 / flee 拒绝(r5 排重后旧测未证臂)"],
+          "fullName": "cov85r3 selectAction 目标落账 / flee 拒绝(r5 排重后旧测未证臂) flee 拒绝:roll > str → 失败演出,不入 fleed,战斗继续(1495-1575 只证成功臂)",
+          "status": "passed",
+          "title": "flee 拒绝:roll > str → 失败演出,不入 fleed,战斗继续(1495-1575 只证成功臂)",
+          "duration": 0.22070799999994506,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792340819059,
+      "endTime": 1792340819066.6755,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/battle-system.cov85.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["performAttack × battleEffectIndex(fight.c:2055-2056 命中特效帧基号)"],
+          "fullName": "performAttack × battleEffectIndex(fight.c:2055-2056 命中特效帧基号) sprite0 → flat[sprite*2+1]=2 → base=6,特效帧 frameIdx 6/7/8",
+          "status": "passed",
+          "title": "sprite0 → flat[sprite*2+1]=2 → base=6,特效帧 frameIdx 6/7/8",
+          "duration": 2.122459000000049,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["performAttack × battleEffectIndex(fight.c:2055-2056 命中特效帧基号)"],
+          "fullName": "performAttack × battleEffectIndex(fight.c:2055-2056 命中特效帧基号) 表缺省(undefined)→ base=0,特效帧 frameIdx 0/1/2(缺表防御语义)",
+          "status": "passed",
+          "title": "表缺省(undefined)→ base=0,特效帧 frameIdx 0/1/2(缺表防御语义)",
+          "duration": 0.39533400000004804,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792340818992,
+      "endTime": 1792340818995.3953,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 → 3756-3757)"
+          ],
+          "fullName": "performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 → 3756-3757) healthy≤1(仅发起者活)→ 退化普攻:敌掉血、不付 HP 代价、attackExp+1/healthExp+=R(2,3)",
+          "status": "passed",
+          "title": "healthy≤1(仅发起者活)→ 退化普攻:敌掉血、不付 HP 代价、attackExp+1/healthExp+=R(2,3)",
+          "duration": 2.112707999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 → 3756-3757)"
+          ],
+          "fullName": "performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 → 3756-3757) RNG 序:普攻修饰(jitter→crit→李逍遥→float)先消耗,(2,3) 隐藏经验最后(C 同序)",
+          "status": "passed",
+          "title": "RNG 序:普攻修饰(jitter→crit→李逍遥→float)先消耗,(2,3) 隐藏经验最后(C 同序)",
+          "duration": 0.6134169999999131,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 → 3756-3757)"
+          ],
+          "fullName": "performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 → 3756-3757) 双人健康(≥2 contributors)→ 正常合击,无 attackExp 累计、付 HP 代价",
+          "status": "passed",
+          "title": "双人健康(≥2 contributors)→ 正常合击,无 attackExp 累计、付 HP 代价",
+          "duration": 0.3677910000000111,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792340818992,
+      "endTime": 1792340818995.6135,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/actions/coop-magic.glm-next-wave.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["DM6:敌方法术自动防御预掷先于脚本(fight.c:4719-4775 → 4761/4768)"],
+          "fullName": "DM6:敌方法术自动防御预掷先于脚本(fight.c:4719-4775 → 4761/4768) 实时交错轨迹:首掷 range(0,3) 早于 scriptOnUse,整条轨迹逐项吻合",
+          "status": "passed",
+          "title": "实时交错轨迹:首掷 range(0,3) 早于 scriptOnUse,整条轨迹逐项吻合",
+          "duration": 2.2004160000000184,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["DM6:敌方法术自动防御预掷先于脚本(fight.c:4719-4775 → 4761/4768)"],
+          "fullName": "DM6:敌方法术自动防御预掷先于脚本(fight.c:4719-4775 → 4761/4768) 脚本施睡不剥夺预掷资格:与「不施睡」孪生战斗伤害逐位一致",
+          "status": "passed",
+          "title": "脚本施睡不剥夺预掷资格:与「不施睡」孪生战斗伤害逐位一致",
+          "duration": 0.5232090000000653,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["DM6:敌方法术自动防御预掷先于脚本(fight.c:4719-4775 → 4761/4768)"],
+          "fullName": "DM6:敌方法术自动防御预掷先于脚本(fight.c:4719-4775 → 4761/4768) 预掷未中(range(0,3)!=0)→ 无 +1 减伤除数,伤害高于预掷命中(可证伪对照)",
+          "status": "passed",
+          "title": "预掷未中(range(0,3)!=0)→ 无 +1 减伤除数,伤害高于预掷命中(可证伪对照)",
+          "duration": 0.39429199999995035,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792340818922,
+      "endTime": 1792340818925.3943,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/actions/magic.glm-next-wave.test.ts"
+    }
+  ]
+}

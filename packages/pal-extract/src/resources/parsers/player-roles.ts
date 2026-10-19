@@ -72,10 +72,11 @@ const PLAYER_ROLES_BYTES =
  * NUM_ROLES 长的数组。3 个 2D 矩阵(equipment / elemRes / magic)占
  * `N × MAX_PLAYER_ROLES × 2` 字节,本函数仅消费 elemRes(战斗用),其他跳过。
  *
- * **M3 dump 字段子集**(对照 PlayerRole interface):
- * - 战斗 stats / 显示 / 抗性 / 5 个 sound / walkFrames / attackAll
- * - **跳过**:equipment / magic learned / coveredBy / cooperativeMagic /
- *   6 个 sdlpal FIXME unknown / coverSound / dyingSound(留 M5)
+ * **dump 范围(M4 起全字段,2025 verified;早于 M3 曾只出战斗子集)**:
+ * 战斗 stats / 显示 / 抗性 / 5 个 sound / walkFrames / attackAll 之外,
+ * equipment / magic learned / coveredBy / cooperativeMagic / 6 个 sdlpal FIXME
+ * unknown / coverSound / dyingSound 全部按真值顺序 dump(下方 cursor 走完全部
+ * 字段并以 sizeof 校验收尾);可选字段仅为兼容旧 fixture,不再是"留 M5"。
  *
  * **leader spriteNum=2 实证**:M2 实施过程发现 #5,parser 实测 6 个 spriteNum =
  * `[2, 3, 7, 525, 5, 26]`(测试断言)。T9 删 cli.ts 里的 `PARTY_LEADER_SPRITE=2`

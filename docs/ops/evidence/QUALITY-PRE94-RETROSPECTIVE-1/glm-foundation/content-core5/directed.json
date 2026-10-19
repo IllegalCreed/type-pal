@@ -1,0 +1,537 @@
+{
+  "numTotalTestSuites": 11,
+  "numPassedTestSuites": 11,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 47,
+  "numPassedTests": 47,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792375627933,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["evalAiCond"],
+          "fullName": "evalAiCond hpBelow/hpAbove/turn/aloneAlive/firstOfKind",
+          "status": "passed",
+          "title": "hpBelow/hpAbove/turn/aloneAlive/firstOfKind",
+          "duration": 1.014333000000022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["evalAiCond"],
+          "fullName": "evalAiCond chance 用注入 rng;战场感知与难度",
+          "status": "passed",
+          "title": "chance 用注入 rng;战场感知与难度",
+          "duration": 0.3051669999999831,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["evalAiCond"],
+          "fullName": "evalAiCond playerInParty:角色在队(0x79 门 —— 绿叶小妖赵灵儿在队才退下)",
+          "status": "passed",
+          "title": "playerInParty:角色在队(0x79 门 —— 绿叶小妖赵灵儿在队才退下)",
+          "duration": 0.07633400000000279,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["evalAiCond"],
+          "fullName": "evalAiCond 组合子 all/any/not",
+          "status": "passed",
+          "title": "组合子 all/any/not",
+          "duration": 0.11020800000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decideByRules(首条命中 / once / 沉默跳 cast)"],
+          "fullName": "decideByRules(首条命中 / once / 沉默跳 cast) 顺序匹配:满血 → 概率中 → 施法",
+          "status": "passed",
+          "title": "顺序匹配:满血 → 概率中 → 施法",
+          "duration": 0.31416600000000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decideByRules(首条命中 / once / 沉默跳 cast)"],
+          "fullName": "decideByRules(首条命中 / once / 沉默跳 cast) 低血优先变身;once 已触发则跳过",
+          "status": "passed",
+          "title": "低血优先变身;once 已触发则跳过",
+          "duration": 0.1214999999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decideByRules(首条命中 / once / 沉默跳 cast)"],
+          "fullName": "decideByRules(首条命中 / once / 沉默跳 cast) 沉默:cast 跳过继续匹配 → 普攻兜底",
+          "status": "passed",
+          "title": "沉默:cast 跳过继续匹配 → 普攻兜底",
+          "duration": 0.11208300000001259,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decideByRules(首条命中 / once / 沉默跳 cast)"],
+          "fullName": "decideByRules(首条命中 / once / 沉默跳 cast) 概率不中落到兜底;无命中返回 null",
+          "status": "passed",
+          "title": "概率不中落到兜底;无命中返回 null",
+          "duration": 0.07974999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["pickAiTarget(目标策略)"],
+          "fullName": "pickAiTarget(目标策略) random 走 rng;lowestHp 集火残血;strongest 打高攻",
+          "status": "passed",
+          "title": "random 走 rng;lowestHp 集火残血;strongest 打高攻",
+          "duration": 0.4284580000000062,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375628094,
+      "endTime": 1792375628096.4285,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/enemy-ai.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["contentVersion 10 enemy script schema"],
+          "fullName": "contentVersion 10 enemy script schema 接受具名 hook state、真实 effect outcome、battle action 与受限 onDefeated",
+          "status": "passed",
+          "title": "接受具名 hook state、真实 effect outcome、battle action 与受限 onDefeated",
+          "duration": 2.1785830000000033,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["contentVersion 10 enemy script schema"],
+          "fullName": "contentVersion 10 enemy script schema 法术抗性接受完全免疫值 10，拒绝越界值与非整数",
+          "status": "passed",
+          "title": "法术抗性接受完全免疫值 10，拒绝越界值与非整数",
+          "duration": 0.6310000000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["contentVersion 10 enemy script schema"],
+          "fullName": "contentVersion 10 enemy script schema 拒绝悬空 state、跨 state effect id 与未知字段",
+          "status": "passed",
+          "title": "拒绝悬空 state、跨 state effect id 与未知字段",
+          "duration": 0.2514160000000061,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["contentVersion 10 enemy script schema"],
+          "fullName": "contentVersion 10 enemy script schema 拒绝空 random、非正权重、continue SCC 与过长同步 closure",
+          "status": "passed",
+          "title": "拒绝空 random、非正权重、continue SCC 与过长同步 closure",
+          "duration": 0.8095830000000035,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["contentVersion 10 enemy script schema"],
+          "fullName": "contentVersion 10 enemy script schema 拒绝同一同步路径上的多个 terminal action",
+          "status": "passed",
+          "title": "拒绝同一同步路径上的多个 terminal action",
+          "duration": 0.13108299999998962,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["contentVersion 10 enemy script schema"],
+          "fullName": "contentVersion 10 enemy script schema battle choreography 与 onDefeated 都拒绝宽泛世界命令",
+          "status": "passed",
+          "title": "battle choreography 与 onDefeated 都拒绝宽泛世界命令",
+          "duration": 0.27641599999998334,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375628195,
+      "endTime": 1792375628199.2764,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/enemy-script.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TPFS v1 完整帧 round-trip"],
+          "fullName": "TPFS v1 完整帧 round-trip 跨 32 帧块逐像素恢复，alpha 与逐帧时长不丢失",
+          "status": "passed",
+          "title": "跨 32 帧块逐像素恢复，alpha 与逐帧时长不丢失",
+          "duration": 3.377666000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TPFS v1 完整帧 round-trip"],
+          "fullName": "TPFS v1 完整帧 round-trip 编码同输入两次字节完全一致",
+          "status": "passed",
+          "title": "编码同输入两次字节完全一致",
+          "duration": 4.021749999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TPFS v1 完整帧 round-trip"],
+          "fullName": "TPFS v1 完整帧 round-trip 完整帧提供器逐块编码且与普通编码器产出相同字节",
+          "status": "passed",
+          "title": "完整帧提供器逐块编码且与普通编码器产出相同字节",
+          "duration": 1.616041999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TPFS v1 完整帧 round-trip"],
+          "fullName": "TPFS v1 完整帧 round-trip 播放区间 fail-loud，frameRate 优先于逐帧和默认时长",
+          "status": "passed",
+          "title": "播放区间 fail-loud，frameRate 优先于逐帧和默认时长",
+          "duration": 0.8678329999999903,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TPFS v1 坏容器 fail-loud"],
+          "fullName": "TPFS v1 坏容器 fail-loud 魔数",
+          "status": "passed",
+          "title": "魔数",
+          "duration": 0.16166699999999423,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TPFS v1 坏容器 fail-loud"],
+          "fullName": "TPFS v1 坏容器 fail-loud 版本",
+          "status": "passed",
+          "title": "版本",
+          "duration": 0.16620800000001168,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TPFS v1 坏容器 fail-loud"],
+          "fullName": "TPFS v1 坏容器 fail-loud 保留位",
+          "status": "passed",
+          "title": "保留位",
+          "duration": 0.21904200000000174,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TPFS v1 坏容器 fail-loud"],
+          "fullName": "TPFS v1 坏容器 fail-loud 索引长度端序或越界",
+          "status": "passed",
+          "title": "索引长度端序或越界",
+          "duration": 0.12454199999999105,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TPFS v1 坏容器 fail-loud"],
+          "fullName": "TPFS v1 坏容器 fail-loud 坏尺寸",
+          "status": "passed",
+          "title": "坏尺寸",
+          "duration": 0.6934169999999824,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TPFS v1 坏容器 fail-loud"],
+          "fullName": "TPFS v1 坏容器 fail-loud 帧覆盖断裂",
+          "status": "passed",
+          "title": "帧覆盖断裂",
+          "duration": 0.35575000000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TPFS v1 坏容器 fail-loud"],
+          "fullName": "TPFS v1 坏容器 fail-loud payload 空洞",
+          "status": "passed",
+          "title": "payload 空洞",
+          "duration": 0.28583399999999415,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TPFS v1 坏容器 fail-loud"],
+          "fullName": "TPFS v1 坏容器 fail-loud rawBytes 不符",
+          "status": "passed",
+          "title": "rawBytes 不符",
+          "duration": 0.6690420000000188,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TPFS v1 坏容器 fail-loud"],
+          "fullName": "TPFS v1 坏容器 fail-loud payload 越界、尾随数据和解压长度不符各自失败",
+          "status": "passed",
+          "title": "payload 越界、尾随数据和解压长度不符各自失败",
+          "duration": 0.7747090000000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375628107,
+      "endTime": 1792375628120.7747,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/frame-sequence.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["script library schema"],
+          "fullName": "script library schema auto stages 递归拒绝 loadScene，trigger stages 仍允许剧情切场",
+          "status": "passed",
+          "title": "auto stages 递归拒绝 loadScene，trigger stages 仍允许剧情切场",
+          "duration": 1.4557080000000155,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["script library schema"],
+          "fullName": "script library schema 按稳定 id 重算 scene/shared/global chunk",
+          "status": "passed",
+          "title": "按稳定 id 重算 scene/shared/global chunk",
+          "duration": 0.38820799999999167,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["script library schema"],
+          "fullName": "script library schema ScriptRef 需要完整 chunk 和稳定 id",
+          "status": "passed",
+          "title": "ScriptRef 需要完整 chunk 和稳定 id",
+          "duration": 0.08941699999999742,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["script library schema"],
+          "fullName": "script library schema index 只接受元数据与有效分桶配置",
+          "status": "passed",
+          "title": "index 只接受元数据与有效分桶配置",
+          "duration": 0.4398750000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["script library schema"],
+          "fullName": "script library schema 作者目录只接受 shared/user 稳定 id 与合法 self 契约",
+          "status": "passed",
+          "title": "作者目录只接受 shared/user 稳定 id 与合法 self 契约",
+          "duration": 0.31270900000001234,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["script library schema"],
+          "fullName": "script library schema 归一化保留作者目录并统一重算 imports/bytes/hash",
+          "status": "passed",
+          "title": "归一化保留作者目录并统一重算 imports/bytes/hash",
+          "duration": 6.8056250000000205,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["script library schema"],
+          "fullName": "script library schema 作者脚本可初始化、更新、定位和删除且不留空 chunk",
+          "status": "passed",
+          "title": "作者脚本可初始化、更新、定位和删除且不留空 chunk",
+          "duration": 0.6185419999999908,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["script library schema"],
+          "fullName": "script library schema 完整校验拒绝有元数据无 body 和作者 body 放错 chunk",
+          "status": "passed",
+          "title": "完整校验拒绝有元数据无 body 和作者 body 放错 chunk",
+          "duration": 0.2852499999999907,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["script library schema"],
+          "fullName": "script library schema stage 同时支持 inline、call/jump 与 ref 换页",
+          "status": "passed",
+          "title": "stage 同时支持 inline、call/jump 与 ref 换页",
+          "duration": 0.4609999999999843,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["script library schema"],
+          "fullName": "script library schema scene entry 只准用于 onEnter，prepare 复用穷尽能力目录",
+          "status": "passed",
+          "title": "scene entry 只准用于 onEnter，prepare 复用穷尽能力目录",
+          "duration": 0.5638339999999857,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["script library schema"],
+          "fullName": "script library schema scene entry reveal 参数 fail-loud，普通旧 stage 仍兼容",
+          "status": "passed",
+          "title": "scene entry reveal 参数 fail-loud，普通旧 stage 仍兼容",
+          "duration": 0.18579199999999219,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["script library schema"],
+          "fullName": "script library schema 拒绝旧工程的 unmigrated 节点并提示重新迁移",
+          "status": "passed",
+          "title": "拒绝旧工程的 unmigrated 节点并提示重新迁移",
+          "duration": 0.06954200000001265,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["script library schema"],
+          "fullName": "script library schema 过场命令只接受稳定 AssetId，并拒绝退役的 playRng",
+          "status": "passed",
+          "title": "过场命令只接受稳定 AssetId，并拒绝退役的 playRng",
+          "duration": 0.1618750000000091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["script library schema"],
+          "fullName": "script library schema playSound 只接受稳定 AssetId，并拒绝旧 soundId",
+          "status": "passed",
+          "title": "playSound 只接受稳定 AssetId，并拒绝旧 soundId",
+          "duration": 0.1542919999999981,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["script library schema"],
+          "fullName": "script library schema setFollowers 只接受稳定 SpriteDef.id，拒绝旧数字精灵号",
+          "status": "passed",
+          "title": "setFollowers 只接受稳定 SpriteDef.id，拒绝旧数字精灵号",
+          "duration": 0.14983399999999847,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["script library schema"],
+          "fullName": "script library schema 对话与持久形象只接受立绘 AssetId，拒绝旧数字字段",
+          "status": "passed",
+          "title": "对话与持久形象只接受立绘 AssetId，拒绝旧数字字段",
+          "duration": 0.21475000000000932,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["script library schema"],
+          "fullName": "script library schema loadScene 只允许默认、命名落点、显式坐标三种互斥目标",
+          "status": "passed",
+          "title": "loadScene 只允许默认、命名落点、显式坐标三种互斥目标",
+          "duration": 0.2536659999999813,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["script library schema"],
+          "fullName": "script library schema loadScene 支持有证据的过渡 profile，hold/reveal 必须有 token",
+          "status": "passed",
+          "title": "loadScene 支持有证据的过渡 profile，hold/reveal 必须有 token",
+          "duration": 0.1472919999999931,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["script library schema"],
+          "fullName": "script library schema 动作命令与页默认绑定 fail-loud，循环动作不能等待",
+          "status": "passed",
+          "title": "动作命令与页默认绑定 fail-loud，循环动作不能等待",
+          "duration": 0.21945800000000304,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375628137,
+      "endTime": 1792375628150.2537,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/script-library.test.ts"
+    }
+  ]
+}

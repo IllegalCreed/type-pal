@@ -130,11 +130,9 @@ export function performAttack(
 ): void {
   // —— 算 str ——
   let str: number
-  let casterLevel: number
   if (actor.isEnemy) {
     const enemy: Enemy = state.enemies[actor.idx]!.e
     str = asShort(enemy.attackStrength) + (enemy.level + 6) * 6
-    casterLevel = enemy.level
     if (str < 0) str = 0 // sdlpal fight.c:4920
   } else {
     const role = playerRoles.roles[state.players[actor.idx]!.roleId]!
@@ -142,9 +140,7 @@ export function performAttack(
     //   (等级项是敌方专属,fight.c:4917)。role.attackStrength 已由 projectRuntimeToBattleRoles
     //   合入 runtime base + 装备效果,直接用,不再加 (level+6)*6(2026-06-02 审计核源订正)。
     str = asShort(role.attackStrength)
-    casterLevel = role.level
   }
-  void casterLevel
 
   // —— 群攻(attackAll 武器):player 且 targetIdx<0(=-1 全体)——
   // sdlpal kBattleActionAttack sTarget==-1 分支(fight.c:3681-3748):

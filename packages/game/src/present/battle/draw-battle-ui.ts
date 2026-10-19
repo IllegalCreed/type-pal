@@ -130,7 +130,8 @@ const ITEMBOX_X = 0
 const ITEMBOX_Y = 140
 const ITEM_DESC_COLOR = 0x3c
 
-// 底部队员状态栏(M3 文字版,PAL_PlayerInfoBox sprite 化是独立函数,非本任务范围)
+// 底部队员状态栏 —— 无 sprite 资源(单测)时的文字兜底;sprite 化真值在下方
+//   drawPlayerInfoBoxes(PAL_PlayerInfoBox port,uibattle.c:30-269)。
 const PARTY_STATUS_BASE_X = 5
 const PARTY_STATUS_BASE_Y = 175
 const PARTY_STATUS_STRIDE_X = 60
@@ -231,7 +232,8 @@ function hasBoxFrames(uiSpriteFrames: IndexedImage[] | undefined, style: 0 | 1):
  * 画战斗 UI。每帧调用一次(在 bg + sprites 之上)。
  *
  * @param uiSpriteFrames SPRITEUI 全 frame(图标/box/cursor/箭头/数字);缺省 → 跳过 sprite 相关绘制。
- * @param enemyPos       ENEMYPOS 表(敌方 target 箭头定位);缺省 → fallback 表。
+ * @param _enemyPos      现未使用 —— 敌方目标选择无箭头(高亮走 draw-battle-sprites
+ *   ColorShift);保留参数仅为调用方(present-battle 传 assets.enemyPos)兼容,清理候选已登记。
  */
 export function drawBattleUI(
   fb: Framebuffer,
@@ -329,8 +331,9 @@ export function drawBattleUI(
 }
 
 /**
- * 底部队员状态栏:每个 party 成员显示 名字 / HP / MP(M3 文字版)。
- * sdlpal PAL_PlayerInfoBox(sprite 头像 + 时间槽)是独立函数,sprite 化非本任务范围。
+ * 底部队员状态栏(文字兜底):每个 party 成员显示 名字 / HP / MP。
+ * 仅在 uiSpriteFrames 不足(单测/缺资源)时由 drawPlayerInfoBoxes 调用;
+ * sprite 化真值(box+头像+slash 数字+状态字)在同文件 drawPlayerInfoBoxes。
  */
 function drawPartyStatus(
   fb: Framebuffer,
@@ -349,13 +352,6 @@ function drawPartyStatus(
   })
 }
 
-/**
- * 底部队员信息框 —— port sdlpal `PAL_PlayerInfoBox`(uibattle.c:30-269,PAL_CLASSIC)。
- *   每队员 PAL_XY(91+77*i, 165):box 背景(frame 18)+ 头像(frame 48+roleId,(x-2,y-4))
- *   + HP/MP(CLASSIC 布局 uibattle.c:210-238):slash + maxHP/HP(yellow)+ maxMP/MP(cyan)。
- *   中毒头像变色 + 状态字(乱/定/眠/封)已实现;CLASSIC 无 time-meter bar。
- * HP/MP 读 **战斗 playerRoles**(战内活值);无 uiSpriteFrames(单测)→ 文字版兜底。
- */
 /**
  * 头像染色色号 —— port sdlpal `PAL_PlayerInfoBox`(uibattle.c:114-162)bPoisonColor 逻辑:
  *   默认 0xFF(满色,正常 blit);遍历该队员 16 毒槽(gs.rgPoisonStatus 全局)取**最高 level(≤3)**毒的
@@ -386,6 +382,13 @@ export function computePlayerFaceColor(
   return bPoisonColor
 }
 
+/**
+ * 底部队员信息框 —— port sdlpal `PAL_PlayerInfoBox`(uibattle.c:30-269,PAL_CLASSIC)。
+ *   每队员 PAL_XY(91+77*i, 165):box 背景(frame 18)+ 头像(frame 48+roleId,(x-2,y-4))
+ *   + HP/MP(CLASSIC 布局 uibattle.c:210-238):slash + maxHP/HP(yellow)+ maxMP/MP(cyan)。
+ *   中毒头像变色 + 状态字(乱/定/眠/封)已实现;CLASSIC 无 time-meter bar。
+ * HP/MP 读 **战斗 playerRoles**(战内活值);无 uiSpriteFrames(单测)→ 文字版兜底。
+ */
 function drawPlayerInfoBoxes(
   fb: Framebuffer,
   state: BattleState,

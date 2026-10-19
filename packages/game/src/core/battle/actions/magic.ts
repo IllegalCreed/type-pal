@@ -119,7 +119,8 @@ export interface PerformMagicInput {
  * 执行一次法术:
  *  1. 查 spell + magic(Spell.magicNumber 指向 Magic 表 index)
  *  2. 队员 cast → 检查 + 扣 MP(敌人不 track mp,跳过)
- *  3. emit playMagicAnim(Present 层消费;M3 phase 1 简版可能不实播,只表示发生过)
+ *  3. emit playMagicAnim(通知性 bus op:当前 present 层跳过、audio 解析为 0,无渲染消费方;
+ *     真实法术动画由下方 buildAndStart* 时间线链驱动)
  *  4. 若 spell.scriptOnUse !== 0 → 走 runScript(runtimeMode='battle' + battleCtx)
  *     target='all' → battleCtx.target = undefined(handler 自己判 magic.type=attackAll)
  *

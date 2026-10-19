@@ -104,45 +104,23 @@ function pickFacing(input: InputSnapshot): Facing | null {
   return null
 }
 
-function _npcAt(npcs: NpcState[], x: number, y: number): NpcState | undefined {
-  return npcs.find((n) => n.x === x && n.y === y)
-}
-
 /**
- * sdlpal play.c:107-165(PAL_GameUpdate fTrigger 段)真值 — 自动 trigger zone 检测。
+ * sdlpal global.h:88-92 kTriggerTouchNear..Farthest = 4..8(自动触发区间)。
  *
+ * trigger zone 真值(play.c:107-165 PAL_GameUpdate fTrigger 段;实际实现内联于
+ * updateEventObjectsAndTrigger,带 in-place 转向 + state 修;独立 findTriggerZoneNpc
+ * 已随之退役删除 —— 2026-10-19 零调用方,全仓 grep 核):
  *   if (p->sState > 0 && p->wTriggerMode >= kTriggerTouchNear) {
  *      if (abs(viewport.x + partyoffset.x - p->x) +
  *          abs(viewport.y + partyoffset.y - p->y) * 2 <
  *          (p->wTriggerMode - kTriggerTouchNear) * 32 + 16)
  *      { ... PAL_RunTriggerScript ... }
  *   }
- *
- * sdlpal 真值 4 个常量(global.h:88-92):
- *   kTriggerTouchNear=4(threshold 16)/ Normal=5(48)/ Far=6(80)/ Farther=7(112)/ Farthest=8(144)
- *
- * **不区分** contact monster vs trigger NPC — 同一机制:wTriggerScript 跑 script,
- * script 内部用 opcode 决定动作(startBattle / loadScene / showDialog / openShop 等)。
- *
- * M3.5 旧版 findContactNpc 只对 mode 4 用 < 16(把所有 mode>=4 都按 16 处理),
- * 导致出口 / 远距离 trigger NPC(mode 5-8)走过去也不触发 → 用户报"走到地图边缘不切场景"。
- *
- * M5.6 W1.b 修:按 sdlpal 真值距离公式,每 mode 不同 threshold。
+ * 各 mode threshold:4→16 / 5→48 / 6→80 / 7→112 / 8→144。
+ * **不区分** contact monster vs trigger NPC —— 同一机制,script 内 opcode 决定动作。
+ * M3.5 旧版 findContactNpc 只对 mode 4 用 < 16 → 出口/远距 NPC 不触发
+ * (用户报"走到地图边缘不切场景");M5.6 W1.b 修:按真值公式,每 mode 不同 threshold。
  */
-function _findTriggerZoneNpc(npcs: NpcState[], x: number, y: number): NpcState | undefined {
-  for (const n of npcs) {
-    if (n.triggerMode === undefined || n.triggerMode < TRIGGER_MODE_AUTO_MIN) continue
-    // sdlpal global.h:77 EventObject.sState <=0 (Hidden / Vanishing) 不参与 trigger;
-    // NpcState.sState 可能 undefined(老 dump 数据);视 undefined 为 1(Normal)。
-    if ((n.sState ?? 1) <= 0) continue
-    // sdlpal play.c:113-115 真值距离公式
-    const threshold = (n.triggerMode - TRIGGER_MODE_AUTO_MIN) * 32 + 16
-    if (Math.abs(n.x - x) + Math.abs(n.y - y) * 2 < threshold) return n
-  }
-  return undefined
-}
-
-/** sdlpal global.h:88-92 kTriggerTouchNear..Farthest = 4..8(自动触发区间)。 */
 const TRIGGER_MODE_AUTO_MIN = 4
 
 // sdlpal palcommon.h:kDirSouth=0, kDirWest=1, kDirNorth=2, kDirEast=3

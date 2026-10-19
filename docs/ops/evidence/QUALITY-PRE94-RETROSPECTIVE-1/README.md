@@ -223,6 +223,8 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 
 最新[GLM foundation YJ2切片](glm-foundation/yj2/README.md)：CODE2b YJ2 两文件八维复审完成，仅注释1处（脆弱行号引用），41/41定向含glm-o消费方相邻；新登记O-5输入域分配族候选；候选待Codex验收。
 
+最新[GLM foundation shared类型切片](glm-foundation/shared-types/README.md)：六纯类型文件八维复审完成；修 FRAME_MS_FADE 已废弃设计注释、loadScene 过时 stub 注释、tables 重复 LevelUpMagicEntry 声明（d.ts 恒等证明）与 cells 措辞；shared 128/128、typecheck、biome 0；登记 5 个 0 消费公共出口待 Codex 裁定；候选待Codex验收。
+
 - 2026-10-18：[3w结算复审](3w-settlement/README.md)——两源/测旧关闭撤回复审；事实注释、合法宿主、5→8合同迁移、六有效反控和8直接/221相邻，未统一收口。
 
 - 2026-10-18：[3w战后脚本/特殊结局](3w-post-scripts/README.md)——原SSS15对象/10leaf与四0x89静态域；两测试共享正式宿主、原11合同保留→16，六有效反控，237恢复/相邻与TC零诊断，0关闭。当前3318/251closed/102review/2965pending；83卡55/28/0accept不变。统一门仍待；随后先处理用户补审三项提取输出/入口/注释。

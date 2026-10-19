@@ -1,7 +1,7 @@
 import { decodeGbk } from '../utils/gbk.js'
 
 /**
- * WORD.DAT —— 目标游戏(1998 Win9x 版)(WIN95)内嵌名称表。
+ * WORD.DAT —— 目标游戏(1998 Win9x 版,即 sdlpal fIsWIN95 分支)内嵌名称表。
  *
  * 文件为扁平字节流，每条记录固定 10 字节 GBK，按对象 ID 顺序排列：
  *

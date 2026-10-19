@@ -1,6 +1,6 @@
 import { chunkCount, openMkf, readChunk } from '../../io/mkf.js'
 
-/** Validate the music archive before publishing it; keep sparse script track IDs. */
+/** Validate the music archive before publishing it; keep sparse track IDs (skip empty chunks). */
 export function inspectRixArchive(bytes: Uint8Array): number[] {
   const mkf = openMkf(bytes)
   const tracks: number[] = []

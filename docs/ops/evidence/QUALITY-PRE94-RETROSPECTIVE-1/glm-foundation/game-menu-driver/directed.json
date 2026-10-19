@@ -1,0 +1,911 @@
+{
+  "numTotalTestSuites": 31,
+  "numPassedTestSuites": 31,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 83,
+  "numPassedTests": 83,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792372381483,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["cov85 requireCatalogs 未注入守卫"],
+          "fullName": "cov85 requireCatalogs 未注入守卫 setMenuCatalogs 未调用 → openOverworldShortcutMenu 经 requireCatalogs 抛错",
+          "status": "passed",
+          "title": "setMenuCatalogs 未调用 → openOverworldShortcutMenu 经 requireCatalogs 抛错",
+          "duration": 4.348416999999927,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 dispatchMenuInput 空栈"],
+          "fullName": "cov85 dispatchMenuInput 空栈 menuStack 空 → 直接返回不炸",
+          "status": "passed",
+          "title": "menuStack 空 → 直接返回不炸",
+          "duration": 0.32541700000001583,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 商店买菜单(shop-buy)"],
+          "fullName": "cov85 商店买菜单(shop-buy) list:Up/Left 上移、Down/Right 下移、买不起 Confirm 留 list、Menu 关店",
+          "status": "passed",
+          "title": "list:Up/Left 上移、Down/Right 下移、买不起 Confirm 留 list、Menu 关店",
+          "duration": 0.7728329999999914,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 商店买菜单(shop-buy)"],
+          "fullName": "cov85 商店买菜单(shop-buy) list:Left/Right 也位移(DL21);买得起 Confirm → confirm 阶段",
+          "status": "passed",
+          "title": "list:Left/Right 也位移(DL21);买得起 Confirm → confirm 阶段",
+          "duration": 0.2632499999999709,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 商店买菜单(shop-buy)"],
+          "fullName": "cov85 商店买菜单(shop-buy) confirm:方向 toggle 到 是;Menu 回 list;Confirm 是 → 扣钱+入库",
+          "status": "passed",
+          "title": "confirm:方向 toggle 到 是;Menu 回 list;Confirm 是 → 扣钱+入库",
+          "duration": 0.5446249999999964,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 商店买菜单(shop-buy)"],
+          "fullName": "cov85 商店买菜单(shop-buy) confirm:Up/Left 也 toggle;Confirm 否 → 不交易",
+          "status": "passed",
+          "title": "confirm:Up/Left 也 toggle;Confirm 否 → 不交易",
+          "duration": 0.203708000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 商店买菜单(shop-buy)"],
+          "fullName": "cov85 商店买菜单(shop-buy) confirm 期间钱变少(price>cash)→ 交易被拒(applyShopTransaction 再判)",
+          "status": "passed",
+          "title": "confirm 期间钱变少(price>cash)→ 交易被拒(applyShopTransaction 再判)",
+          "duration": 0.19204100000001745,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 商店卖菜单(shop-sell)"],
+          "fullName": "cov85 商店卖菜单(shop-sell) list:8 键导航 + PgUp/PgDn/Home/End 精确落点 + Menu 关店(11 条库存,列宽 3)",
+          "status": "passed",
+          "title": "list:8 键导航 + PgUp/PgDn/Home/End 精确落点 + Menu 关店(11 条库存,列宽 3)",
+          "duration": 0.5817499999999427,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 商店卖菜单(shop-sell)"],
+          "fullName": "cov85 商店卖菜单(shop-sell) 不可卖物 Confirm 留 list;可卖 Confirm → confirm,方向 toggle + Menu 回 list",
+          "status": "passed",
+          "title": "不可卖物 Confirm 留 list;可卖 Confirm → confirm,方向 toggle + Menu 回 list",
+          "duration": 0.5618329999999787,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 商店卖菜单(shop-sell)"],
+          "fullName": "cov85 商店卖菜单(shop-sell) confirm 是 → 卖 1 个:+floor(price/2) 钱、库存刷新;否 → 不动",
+          "status": "passed",
+          "title": "confirm 是 → 卖 1 个:+floor(price/2) 钱、库存刷新;否 → 不动",
+          "duration": 0.2114169999999831,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 系统菜单(system)"],
+          "fullName": "cov85 系统菜单(system) music → switch 阶段;方向 toggle;Menu 关整栈;Confirm → fMusicEnabled=开",
+          "status": "passed",
+          "title": "music → switch 阶段;方向 toggle;Menu 关整栈;Confirm → fMusicEnabled=开",
+          "duration": 0.37962500000003274,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 系统菜单(system)"],
+          "fullName": "cov85 系统菜单(system) sound switch:Up toggle;Menu 取消关整栈(保持当前态)",
+          "status": "passed",
+          "title": "sound switch:Up toggle;Menu 取消关整栈(保持当前态)",
+          "duration": 0.1264170000000604,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 系统菜单(system)"],
+          "fullName": "cov85 系统菜单(system) quit → confirm 阶段;Menu 关整栈;否 → 关整栈;是 → systemQuitHandler",
+          "status": "passed",
+          "title": "quit → confirm 阶段;Menu 关整栈;否 → 关整栈;是 → systemQuitHandler",
+          "duration": 0.2420000000000755,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 系统菜单(system)"],
+          "fullName": "cov85 系统菜单(system) save/load → push save-slot;Menu 阶段 Up/Left、Down/Right 位移",
+          "status": "passed",
+          "title": "save/load → push save-slot;Menu 阶段 Up/Left、Down/Right 位移",
+          "duration": 0.406708999999978,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 系统菜单(system)"],
+          "fullName": "cov85 系统菜单(system) Left/Right 在 menu 阶段也位移(DL21)",
+          "status": "passed",
+          "title": "Left/Right 在 menu 阶段也位移(DL21)",
+          "duration": 0.0767919999999549,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 物品一级子菜单(inventory-action)"],
+          "fullName": "cov85 物品一级子菜单(inventory-action) Menu → 关整栈;Up/Down 位移;Confirm 装备 → equip;Confirm 使用 → inventory",
+          "status": "passed",
+          "title": "Menu → 关整栈;Up/Down 位移;Confirm 装备 → equip;Confirm 使用 → inventory",
+          "duration": 0.3881250000000591,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 物品菜单(inventory,use 路由)"],
+          "fullName": "cov85 物品菜单(inventory,use 路由) list 8 键导航精确落点(11 条库存,列宽 3,PgDn=21 钳尾)+ gs.iCurInvMenuItem 写回",
+          "status": "passed",
+          "title": "list 8 键导航精确落点(11 条库存,列宽 3,PgDn=21 钳尾)+ gs.iCurInvMenuItem 写回",
+          "duration": 0.26441700000009405,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 物品菜单(inventory,use 路由)"],
+          "fullName": "cov85 物品菜单(inventory,use 路由) Confirm 可用单体物 → use-target;Left/Right 换目标;Menu 回 list;再 Menu 关整栈",
+          "status": "passed",
+          "title": "Confirm 可用单体物 → use-target;Left/Right 换目标;Menu 回 list;再 Menu 关整栈",
+          "duration": 0.39320900000006986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 物品菜单(inventory,use 路由)"],
+          "fullName": "cov85 物品菜单(inventory,use 路由) applyToAll 可用物 Confirm → 起世界脚本(mode=event)并 return",
+          "status": "passed",
+          "title": "applyToAll 可用物 Confirm → 起世界脚本(mode=event)并 return",
+          "duration": 0.19725000000005366,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 装备菜单(equip)"],
+          "fullName": "cov85 装备菜单(equip) list 导航 + Confirm → pick-role 且 wLastUnequippedItem=选中物(DM23 入口值)",
+          "status": "passed",
+          "title": "list 导航 + Confirm → pick-role 且 wLastUnequippedItem=选中物(DM23 入口值)",
+          "duration": 0.29137500000001637,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 装备菜单(equip)"],
+          "fullName": "cov85 装备菜单(equip) pick-role Confirm 可装备角色 → 跑 scriptOnEquip 后仍 pick-role(换出旧物=同物)",
+          "status": "passed",
+          "title": "pick-role Confirm 可装备角色 → 跑 scriptOnEquip 后仍 pick-role(换出旧物=同物)",
+          "duration": 0.2163749999999709,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 装备菜单(equip)"],
+          "fullName": "cov85 装备菜单(equip) 不可装备角色 Confirm → no-op 留 pick-role",
+          "status": "passed",
+          "title": "不可装备角色 Confirm → no-op 留 pick-role",
+          "duration": 0.21100000000001273,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 大世界法术菜单(in-game-magic)"],
+          "fullName": "cov85 大世界法术菜单(in-game-magic) 单人队:直接 pick-spell;8 键导航;Menu 关整栈",
+          "status": "passed",
+          "title": "单人队:直接 pick-spell;8 键导航;Menu 关整栈",
+          "duration": 0.6202499999999418,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 大世界法术菜单(in-game-magic)"],
+          "fullName": "cov85 大世界法术菜单(in-game-magic) Confirm single-target spell → pick-target;Left/Up 换人;Confirm → 扣 MP、留菜单",
+          "status": "passed",
+          "title": "Confirm single-target spell → pick-target;Left/Up 换人;Confirm → 扣 MP、留菜单",
+          "duration": 0.382541999999944,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 大世界法术菜单(in-game-magic)"],
+          "fullName": "cov85 大世界法术菜单(in-game-magic) Confirm applyToAll spell → 扣 MP 留 pick-spell;MP 剩余不足时 pick-target 确认后退回",
+          "status": "passed",
+          "title": "Confirm applyToAll spell → 扣 MP 留 pick-spell;MP 剩余不足时 pick-target 确认后退回",
+          "duration": 0.16795799999999872,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 角色状态屏(player-status)"],
+          "fullName": "cov85 角色状态屏(player-status) Left/Up → 前一人;Right/Down/Confirm → 后一人;到头 → 关整栈;Menu → 关",
+          "status": "passed",
+          "title": "Left/Up → 前一人;Right/Down/Confirm → 后一人;到头 → 关整栈;Menu → 关",
+          "duration": 0.21954200000004676,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 存档槽菜单(save-slot)"],
+          "fullName": "cov85 存档槽菜单(save-slot) in-game 上下文 Menu → 关整栈;opening 上下文 Menu → pop 回 opening",
+          "status": "passed",
+          "title": "in-game 上下文 Menu → 关整栈;opening 上下文 Menu → pop 回 opening",
+          "duration": 0.24120800000002873,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 存档槽菜单(save-slot)"],
+          "fullName": "cov85 存档槽菜单(save-slot) save 模式 Confirm 存档:写 currentSaveSlot 并关整栈(Up/Down 位移旧 menu-driver.test.ts 已证,不重复)",
+          "status": "passed",
+          "title": "save 模式 Confirm 存档:写 currentSaveSlot 并关整栈(Up/Down 位移旧 menu-driver.test.ts 已证,不重复)",
+          "duration": 0.7628750000000082,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85 存档槽菜单(save-slot)"],
+          "fullName": "cov85 存档槽菜单(save-slot) load 模式:有 handler → 调用;无 handler → pop 顶 + 警告",
+          "status": "passed",
+          "title": "load 模式:有 handler → 调用;无 handler → pop 顶 + 警告",
+          "duration": 0.5751249999999573,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85r3 菜单栈恢复与生命周期"],
+          "fullName": "cov85r3 菜单栈恢复与生命周期 shop 菜单关闭 → resumeAfterMenusClosed 清 shop 等待并切回 event 续跑脚本",
+          "status": "passed",
+          "title": "shop 菜单关闭 → resumeAfterMenusClosed 清 shop 等待并切回 event 续跑脚本",
+          "duration": 1.3674169999999322,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85r3 菜单栈恢复与生命周期"],
+          "fullName": "cov85r3 菜单栈恢复与生命周期 法术菜单 MP 不足禁用项 Confirm → no-op 留 pick-spell(禁用项)",
+          "status": "passed",
+          "title": "法术菜单 MP 不足禁用项 Confirm → no-op 留 pick-spell(禁用项)",
+          "duration": 0.1284170000000131,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85r3 菜单栈恢复与生命周期"],
+          "fullName": "cov85r3 菜单栈恢复与生命周期 equip pick-role 确认时 item 已不在 catalog → 错误返回不动状态(错误返回)",
+          "status": "passed",
+          "title": "equip pick-role 确认时 item 已不在 catalog → 错误返回不动状态(错误返回)",
+          "duration": 0.10966700000005858,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85r3 菜单栈恢复与生命周期"],
+          "fullName": "cov85r3 菜单栈恢复与生命周期 save-slot load 异步 handler:fire-and-forget 不阻塞关栈,promise 照常完成(异步生命周期)",
+          "status": "passed",
+          "title": "save-slot load 异步 handler:fire-and-forget 不阻塞关栈,promise 照常完成(异步生命周期)",
+          "duration": 1.369083000000046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85r3 菜单栈恢复与生命周期"],
+          "fullName": "cov85r3 菜单栈恢复与生命周期 save-slot load handler 异步 reject:被 dispatcher catch 吞掉,不产生 unhandled 且栈态不被破坏",
+          "status": "passed",
+          "title": "save-slot load handler 异步 reject:被 dispatcher catch 吞掉,不产生 unhandled 且栈态不被破坏",
+          "duration": 1.7592499999999518,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85r3 菜单栈恢复与生命周期"],
+          "fullName": "cov85r3 菜单栈恢复与生命周期 save-slot load handler 同步 throw:穿透 dispatchMenuInput(Promise.resolve 不裹同步域)",
+          "status": "passed",
+          "title": "save-slot load handler 同步 throw:穿透 dispatchMenuInput(Promise.resolve 不裹同步域)",
+          "duration": 0.17612499999995634,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85r3 菜单栈恢复与生命周期"],
+          "fullName": "cov85r3 菜单栈恢复与生命周期 system save 异步落盘:同步关栈,wSavedTimes 在微任务后更新(异步生命周期)",
+          "status": "passed",
+          "title": "system save 异步落盘:同步关栈,wSavedTimes 在微任务后更新(异步生命周期)",
+          "duration": 1.5053749999999582,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cov85r3 菜单栈恢复与生命周期"],
+          "fullName": "cov85r3 菜单栈恢复与生命周期 system switch 阶段 Down/Left 也 toggle(535-536 补臂)",
+          "status": "passed",
+          "title": "system switch 阶段 Down/Left 也 toggle(535-536 补臂)",
+          "duration": 0.1929170000000795,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372382308,
+      "endTime": 1792372382329.5054,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/menu/menu-driver.cov85.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["M5.6 W0.b dispatchInGameMenu hub"],
+          "fullName": "M5.6 W0.b dispatchInGameMenu hub Up/Down 移动 selection cursor",
+          "status": "passed",
+          "title": "Up/Down 移动 selection cursor",
+          "duration": 1.4789590000000317,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W0.b dispatchInGameMenu hub"],
+          "fullName": "M5.6 W0.b dispatchInGameMenu hub Menu 键 → 关 hub + 切回 explore",
+          "status": "passed",
+          "title": "Menu 键 → 关 hub + 切回 explore",
+          "duration": 0.2852500000000191,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W0.b dispatchInGameMenu hub"],
+          "fullName": "M5.6 W0.b dispatchInGameMenu hub Confirm \"system\" → push system 子菜单",
+          "status": "passed",
+          "title": "Confirm \"system\" → push system 子菜单",
+          "duration": 0.2509589999999662,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W0.b dispatchInGameMenu hub"],
+          "fullName": "M5.6 W0.b dispatchInGameMenu hub Confirm \"物品\" → push inventory-action(sdlpal uigame.c:878-919 真值修)",
+          "status": "passed",
+          "title": "Confirm \"物品\" → push inventory-action(sdlpal uigame.c:878-919 真值修)",
+          "duration": 0.24624999999991815,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W0.b dispatchInGameMenu hub"],
+          "fullName": "M5.6 W0.b dispatchInGameMenu hub Confirm \"status\" → push player-status",
+          "status": "passed",
+          "title": "Confirm \"status\" → push player-status",
+          "duration": 0.26416699999992943,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W0.b dispatchSystemMenu"],
+          "fullName": "M5.6 W0.b dispatchSystemMenu Up/Down 移动 + Menu 键关闭",
+          "status": "passed",
+          "title": "Up/Down 移动 + Menu 键关闭",
+          "duration": 0.18737500000008822,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W0.b dispatchSystemMenu"],
+          "fullName": "M5.6 W0.b dispatchSystemMenu Confirm \"quit\" → 进 confirm 阶段(默认 No),**不**清 menuStack",
+          "status": "passed",
+          "title": "Confirm \"quit\" → 进 confirm 阶段(默认 No),**不**清 menuStack",
+          "duration": 0.13029200000005403,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W0.b dispatchSystemMenu"],
+          "fullName": "M5.6 W0.b dispatchSystemMenu confirm 阶段方向键 toggle 是/否",
+          "status": "passed",
+          "title": "confirm 阶段方向键 toggle 是/否",
+          "duration": 0.1522499999999809,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W0.b dispatchSystemMenu"],
+          "fullName": "M5.6 W0.b dispatchSystemMenu confirm 选 否(Confirm@No)→ 关整个菜单回 explore(sdlpal goto out)",
+          "status": "passed",
+          "title": "confirm 选 否(Confirm@No)→ 关整个菜单回 explore(sdlpal goto out)",
+          "duration": 0.4119999999999209,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W0.b dispatchSystemMenu"],
+          "fullName": "M5.6 W0.b dispatchSystemMenu confirm 按 Menu(取消,等价 PAL_ConfirmMenu CANCELLED→FALSE)→ 同「否」关整个菜单回 explore",
+          "status": "passed",
+          "title": "confirm 按 Menu(取消,等价 PAL_ConfirmMenu CANCELLED→FALSE)→ 同「否」关整个菜单回 explore",
+          "duration": 0.13570800000002237,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W0.b dispatchSystemMenu"],
+          "fullName": "M5.6 W0.b dispatchSystemMenu 选「音乐」(cursor 2)→ switch 阶段(默认高亮当前态);Left 切关 + Confirm 写 gs.fMusicEnabled + 回 menu",
+          "status": "passed",
+          "title": "选「音乐」(cursor 2)→ switch 阶段(默认高亮当前态);Left 切关 + Confirm 写 gs.fMusicEnabled + 回 menu",
+          "duration": 0.2807080000000042,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W0.b dispatchSystemMenu"],
+          "fullName": "M5.6 W0.b dispatchSystemMenu 选「音效」(cursor 3)→ switch;Menu 取消 → 保持当前态、回 menu(不写)",
+          "status": "passed",
+          "title": "选「音效」(cursor 3)→ switch;Menu 取消 → 保持当前态、回 menu(不写)",
+          "duration": 0.09458399999994072,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W0.b dispatchSystemMenu"],
+          "fullName": "M5.6 W0.b dispatchSystemMenu confirm 选 是(Confirm@Yes)→ 调 systemQuitHandler(回标题),不复用 0xA0 结局 handler",
+          "status": "passed",
+          "title": "confirm 选 是(Confirm@Yes)→ 调 systemQuitHandler(回标题),不复用 0xA0 结局 handler",
+          "duration": 0.08395800000005238,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "M5.6 T10b 修 dispatchInventoryActionMenu — sdlpal uigame.c:878-919 PAL_InventoryMenu"
+          ],
+          "fullName": "M5.6 T10b 修 dispatchInventoryActionMenu — sdlpal uigame.c:878-919 PAL_InventoryMenu Menu 键 → close",
+          "status": "passed",
+          "title": "Menu 键 → close",
+          "duration": 0.13716599999997925,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "M5.6 T10b 修 dispatchInventoryActionMenu — sdlpal uigame.c:878-919 PAL_InventoryMenu"
+          ],
+          "fullName": "M5.6 T10b 修 dispatchInventoryActionMenu — sdlpal uigame.c:878-919 PAL_InventoryMenu Up/Down 切换装备/使用 + iCurInvActionMenuItem 写回(sdlpal uigame.c:896 static w)",
+          "status": "passed",
+          "title": "Up/Down 切换装备/使用 + iCurInvActionMenuItem 写回(sdlpal uigame.c:896 static w)",
+          "duration": 0.08341700000005403,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "M5.6 T10b 修 dispatchInventoryActionMenu — sdlpal uigame.c:878-919 PAL_InventoryMenu"
+          ],
+          "fullName": "M5.6 T10b 修 dispatchInventoryActionMenu — sdlpal uigame.c:878-919 PAL_InventoryMenu Confirm \"装备\"(cursor=0)→ close action + open equip menu(sdlpal play.c:328-359 PAL_GameEquipItem)",
+          "status": "passed",
+          "title": "Confirm \"装备\"(cursor=0)→ close action + open equip menu(sdlpal play.c:328-359 PAL_GameEquipItem)",
+          "duration": 0.12579200000004676,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "M5.6 T10b 修 dispatchInventoryActionMenu — sdlpal uigame.c:878-919 PAL_InventoryMenu"
+          ],
+          "fullName": "M5.6 T10b 修 dispatchInventoryActionMenu — sdlpal uigame.c:878-919 PAL_InventoryMenu Confirm \"使用\"(cursor=1)→ close action + open inventory(filter=usable,sdlpal play.c:266)",
+          "status": "passed",
+          "title": "Confirm \"使用\"(cursor=1)→ close action + open inventory(filter=usable,sdlpal play.c:266)",
+          "duration": 0.07287499999995362,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T9 dispatchInventoryMenu"],
+          "fullName": "M5.6 T9 dispatchInventoryMenu Menu 键 → close 菜单",
+          "status": "passed",
+          "title": "Menu 键 → close 菜单",
+          "duration": 0.12495799999999235,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T9 dispatchInventoryMenu"],
+          "fullName": "M5.6 T9 dispatchInventoryMenu Up/Down → cursor 变 + iCurInvMenuItem 写回",
+          "status": "passed",
+          "title": "Up/Down → cursor 变 + iCurInvMenuItem 写回",
+          "duration": 0.14095900000006623,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T9 dispatchInventoryMenu"],
+          "fullName": "M5.6 T9 dispatchInventoryMenu PgDn → 翻页",
+          "status": "passed",
+          "title": "PgDn → 翻页",
+          "duration": 0.14470800000003692,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T9 dispatchEquipMenu"],
+          "fullName": "M5.6 T9 dispatchEquipMenu Menu 键 → close",
+          "status": "passed",
+          "title": "Menu 键 → close",
+          "duration": 0.11704099999997197,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T9 dispatchEquipMenu"],
+          "fullName": "M5.6 T9 dispatchEquipMenu 换装后回 list:grid 用当前背包重建(旧装备入列、新装备出列)",
+          "status": "passed",
+          "title": "换装后回 list:grid 用当前背包重建(旧装备入列、新装备出列)",
+          "duration": 0.6762079999999742,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T9 dispatchInGameMagicMenu"],
+          "fullName": "M5.6 T9 dispatchInGameMagicMenu Menu 键 → close",
+          "status": "passed",
+          "title": "Menu 键 → close",
+          "duration": 0.1754999999999427,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T9 dispatchInGameMagicMenu"],
+          "fullName": "M5.6 T9 dispatchInGameMagicMenu L38:pick-spell 阶段 Right 走法术网格逐项移动",
+          "status": "passed",
+          "title": "L38:pick-spell 阶段 Right 走法术网格逐项移动",
+          "duration": 0.28654199999994034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T10d dispatchPlayerStatusMenu — sdlpal uigame.c:1265-1284 真值"],
+          "fullName": "M5.6 T10d dispatchPlayerStatusMenu — sdlpal uigame.c:1265-1284 真值 Right/Down/Confirm 都 cursor++(sdlpal kKeyRight|kKeyDown|kKeySearch)",
+          "status": "passed",
+          "title": "Right/Down/Confirm 都 cursor++(sdlpal kKeyRight|kKeyDown|kKeySearch)",
+          "duration": 0.10054200000001856,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T10d dispatchPlayerStatusMenu — sdlpal uigame.c:1265-1284 真值"],
+          "fullName": "M5.6 T10d dispatchPlayerStatusMenu — sdlpal uigame.c:1265-1284 真值 Left/Up cursor--,从 0 再 -- → done 关菜单",
+          "status": "passed",
+          "title": "Left/Up cursor--,从 0 再 -- → done 关菜单",
+          "duration": 0.07974999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T10d dispatchPlayerStatusMenu — sdlpal uigame.c:1265-1284 真值"],
+          "fullName": "M5.6 T10d dispatchPlayerStatusMenu — sdlpal uigame.c:1265-1284 真值 Menu 键 → 直接 close(sdlpal iCurrent=-1)",
+          "status": "passed",
+          "title": "Menu 键 → 直接 close(sdlpal iCurrent=-1)",
+          "duration": 0.05520899999999074,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T17 dispatchOpeningMenu"],
+          "fullName": "M5.6 T17 dispatchOpeningMenu Up/Down 切换 new-game / load-game cursor",
+          "status": "passed",
+          "title": "Up/Down 切换 new-game / load-game cursor",
+          "duration": 0.1004169999999931,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T17 dispatchOpeningMenu"],
+          "fullName": "M5.6 T17 dispatchOpeningMenu Confirm new-game → 调 startGameHandler({kind:\"new-game\"})",
+          "status": "passed",
+          "title": "Confirm new-game → 调 startGameHandler({kind:\"new-game\"})",
+          "duration": 0.10379100000000108,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T17 dispatchOpeningMenu"],
+          "fullName": "M5.6 T17 dispatchOpeningMenu Menu(Cancel)键 → 同新游戏(sdlpal uigame.c:129 真值)",
+          "status": "passed",
+          "title": "Menu(Cancel)键 → 同新游戏(sdlpal uigame.c:129 真值)",
+          "duration": 0.06962499999997362,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T17 dispatchOpeningMenu"],
+          "fullName": "M5.6 T17 dispatchOpeningMenu Confirm load-game → push save-slot(mode=load)",
+          "status": "passed",
+          "title": "Confirm load-game → push save-slot(mode=load)",
+          "duration": 0.14695900000003803,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T17 dispatchOpeningMenu"],
+          "fullName": "M5.6 T17 dispatchOpeningMenu 未注入 handler 时 Confirm new-game 不抛错(noop)",
+          "status": "passed",
+          "title": "未注入 handler 时 Confirm new-game 不抛错(noop)",
+          "duration": 0.3191669999999931,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T9 dispatchSaveSlotMenu"],
+          "fullName": "M5.6 T9 dispatchSaveSlotMenu Up/Down → cursor 变",
+          "status": "passed",
+          "title": "Up/Down → cursor 变",
+          "duration": 0.11533399999996163,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 T9 dispatchSaveSlotMenu"],
+          "fullName": "M5.6 T9 dispatchSaveSlotMenu Confirm → close save-slot(pop 一层)",
+          "status": "passed",
+          "title": "Confirm → close save-slot(pop 一层)",
+          "duration": 0.6986670000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C4 ItemUseMenu INNER loop(play.c:288-303 revert/auto-cancel)"],
+          "fullName": "C4 ItemUseMenu INNER loop(play.c:288-303 revert/auto-cancel) 用后 phase revert use-target(非 done) — INNER loop picker 不关",
+          "status": "passed",
+          "title": "用后 phase revert use-target(非 done) — INNER loop picker 不关",
+          "duration": 0.25870800000006966,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C4 ItemUseMenu INNER loop(play.c:288-303 revert/auto-cancel)"],
+          "fullName": "C4 ItemUseMenu INNER loop(play.c:288-303 revert/auto-cancel) 用消耗道具:无演出脚本 confirm 当帧跑完回 menu(消除露一帧大世界)— tickByMode 同帧步进",
+          "status": "passed",
+          "title": "用消耗道具:无演出脚本 confirm 当帧跑完回 menu(消除露一帧大世界)— tickByMode 同帧步进",
+          "duration": 1.4640420000000631,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C4 ItemUseMenu INNER loop(play.c:288-303 revert/auto-cancel)"],
+          "fullName": "C4 ItemUseMenu INNER loop(play.c:288-303 revert/auto-cancel) count→0 → auto-cancel 回 list(uigame.c:1468)",
+          "status": "passed",
+          "title": "count→0 → auto-cancel 回 list(uigame.c:1468)",
+          "duration": 0.06629199999997581,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372382397,
+      "endTime": 1792372382407.464,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/menu/menu-driver.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["M5.6 W0.a tickMenu 骨架"],
+          "fullName": "M5.6 W0.a tickMenu 骨架 menuStack 空 → 切回 explore mode",
+          "status": "passed",
+          "title": "menuStack 空 → 切回 explore mode",
+          "duration": 1.0795420000000604,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W0.a tickMenu 骨架"],
+          "fullName": "M5.6 W0.a tickMenu 骨架 按 Menu 键 → pop 栈顶 + 栈空时切回 explore",
+          "status": "passed",
+          "title": "按 Menu 键 → pop 栈顶 + 栈空时切回 explore",
+          "duration": 0.5024590000000444,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W0.a tickMenu 骨架"],
+          "fullName": "M5.6 W0.a tickMenu 骨架 栈非空 + 无 Menu 键 → mode 保持 menu(等待子菜单 dispatcher)",
+          "status": "passed",
+          "title": "栈非空 + 无 Menu 键 → mode 保持 menu(等待子菜单 dispatcher)",
+          "duration": 0.1544579999999769,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W0.a tickMenu 骨架"],
+          "fullName": "M5.6 W0.a tickMenu 骨架 栈两层(hub+system)+ Menu 键 → pop 一层(仍在 menu mode;sdlpal SystemMenu CANCELLED 留 hub)",
+          "status": "passed",
+          "title": "栈两层(hub+system)+ Menu 键 → pop 一层(仍在 menu mode;sdlpal SystemMenu CANCELLED 留 hub)",
+          "duration": 0.37158400000009806,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W0.a tickMenu 骨架"],
+          "fullName": "M5.6 W0.a tickMenu 骨架 DH9:物品列表 Menu 键 → goto out 关整个菜单栈(uigame.c:1024-1026,非 pop 回 hub)",
+          "status": "passed",
+          "title": "DH9:物品列表 Menu 键 → goto out 关整个菜单栈(uigame.c:1024-1026,非 pop 回 hub)",
+          "duration": 0.2846670000000131,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["openMenu / closeTopMenu"],
+          "fullName": "openMenu / closeTopMenu openMenu push + 切 menu mode",
+          "status": "passed",
+          "title": "openMenu push + 切 menu mode",
+          "duration": 0.11279099999990194,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["openMenu / closeTopMenu"],
+          "fullName": "openMenu / closeTopMenu closeTopMenu pop(不切 mode — 留 tickMenu 下帧处理)",
+          "status": "passed",
+          "title": "closeTopMenu pop(不切 mode — 留 tickMenu 下帧处理)",
+          "duration": 0.15812500000004093,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372382307,
+      "endTime": 1792372382310.1582,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/menu/menu-mode.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "TEST-GLM-GAME-MENU-SAVE-IO-1 menu-driver 同帧优先级与存档真链",
+            "MSIO-A3 hub 同帧 Menu+Confirm:取消优先"
+          ],
+          "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 menu-driver 同帧优先级与存档真链 MSIO-A3 hub 同帧 Menu+Confirm:取消优先 同帧 Menu+Confirm → 关整栈回 explore,不先开状态屏(终态栈空,非 pop 回 hub)",
+          "status": "passed",
+          "title": "同帧 Menu+Confirm → 关整栈回 explore,不先开状态屏(终态栈空,非 pop 回 hub)",
+          "duration": 1.6649580000000697,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "TEST-GLM-GAME-MENU-SAVE-IO-1 menu-driver 同帧优先级与存档真链",
+            "MSIO-C1 save-slot dispatcher 跨槽 max+1 真链"
+          ],
+          "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 menu-driver 同帧优先级与存档真链 MSIO-C1 save-slot dispatcher 跨槽 max+1 真链 slot3 已存 savedTimes=7 → 存 slot1:gs.wSavedTimes=8,slot1 meta=8 且 slot3 不被改写(uigame.c:589-597)",
+          "status": "passed",
+          "title": "slot3 已存 savedTimes=7 → 存 slot1:gs.wSavedTimes=8,slot1 meta=8 且 slot3 不被改写(uigame.c:589-597)",
+          "duration": 2.8692080000000715,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792372382307,
+      "endTime": 1792372382311.8691,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/menu/menu-save-chain.glm-msio.test.ts"
+    }
+  ]
+}

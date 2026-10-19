@@ -1,0 +1,527 @@
+{
+  "numTotalTestSuites": 23,
+  "numPassedTestSuites": 23,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 41,
+  "numPassedTests": 41,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792371781320,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["audio-volume"],
+          "fullName": "audio-volume setVolume 钳制上下界与区间内值，同步目标、sink 和持久值",
+          "status": "passed",
+          "title": "setVolume 钳制上下界与区间内值，同步目标、sink 和持久值",
+          "duration": 2.1696670000001177,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["audio-volume"],
+          "fullName": "audio-volume 静音只屏蔽输出，期间更新目标音量后取消静音恢复新值",
+          "status": "passed",
+          "title": "静音只屏蔽输出，期间更新目标音量后取消静音恢复新值",
+          "duration": 0.645958999999948,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["audio-volume"],
+          "fullName": "audio-volume 启动读回 localStorage(音量 + 静音)并即时应用",
+          "status": "passed",
+          "title": "启动读回 localStorage(音量 + 静音)并即时应用",
+          "duration": 0.24404099999992468,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371782514,
+      "endTime": 1792371782517.2441,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/audio-volume.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L24 setOggVolumeScale 即时刷新"],
+          "fullName": "L24 setOggVolumeScale 即时刷新 先调 scale 再 play：新元素 volume = 0.6·scale；播放中改 scale：当前元素即时跟随",
+          "status": "passed",
+          "title": "先调 scale 再 play：新元素 volume = 0.6·scale；播放中改 scale：当前元素即时跟随",
+          "duration": 1.408040999999912,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L24 audio-midi 无 Web Audio 端口"],
+          "fullName": "L24 audio-midi 无 Web Audio 端口 无 AudioContext（SSR/测试）→ no-op backend，play/stop 安全空实现",
+          "status": "passed",
+          "title": "无 AudioContext（SSR/测试）→ no-op backend，play/stop 安全空实现",
+          "duration": 0.8532500000001164,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371782571,
+      "endTime": 1792371782573.8533,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/audio.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["M6 audio url 映射(纯)"],
+          "fullName": "M6 audio url 映射(纯) sfxUrl → {base}/sounds/{id}.wav",
+          "status": "passed",
+          "title": "sfxUrl → {base}/sounds/{id}.wav",
+          "duration": 1.515416999999843,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 audio url 映射(纯)"],
+          "fullName": "M6 audio url 映射(纯) musicUrl → {base}/music/{NNN}.mid(3 位零填充,sdlpal midi.c:67 Musics/%.3d.mid)",
+          "status": "passed",
+          "title": "musicUrl → {base}/music/{NNN}.mid(3 位零填充,sdlpal midi.c:67 Musics/%.3d.mid)",
+          "duration": 0.6169169999998303,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 audio url 映射(纯)"],
+          "fullName": "M6 audio url 映射(纯) pickMusicTrack:战斗中→wNumBattleMusic,否则→wNumMusic(battle.c:728/1849)",
+          "status": "passed",
+          "title": "pickMusicTrack:战斗中→wNumBattleMusic,否则→wNumMusic(battle.c:728/1849)",
+          "duration": 0.185416000000032,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 audio url 映射(纯)"],
+          "fullName": "M6 audio url 映射(纯) battleVictoryTrack:won 且 exp>0 → isBoss?2:3,其余 -1(battle.c:1030-1032)",
+          "status": "passed",
+          "title": "battleVictoryTrack:won 且 exp>0 → isBoss?2:3,其余 -1(battle.c:1030-1032)",
+          "duration": 0.45558299999993324,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 AudioManager.sync"],
+          "fullName": "M6 AudioManager.sync drain gs.pendingSounds → 就地清空队列(core 复用同引用)",
+          "status": "passed",
+          "title": "drain gs.pendingSounds → 就地清空队列(core 复用同引用)",
+          "duration": 0.4466659999998228,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 AudioManager.sync"],
+          "fullName": "M6 AudioManager.sync BGM:track 变化 → backend.play(track, loop);track=0 → stop;同号 → 不重复",
+          "status": "passed",
+          "title": "BGM:track 变化 → backend.play(track, loop);track=0 → stop;同号 → 不重复",
+          "duration": 0.12379099999998289,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 AudioManager.sync"],
+          "fullName": "M6 AudioManager.sync setMusicEnabled(false) → stop;(true) → 重播当前 track",
+          "status": "passed",
+          "title": "setMusicEnabled(false) → stop;(true) → 重播当前 track",
+          "duration": 0.19720799999981864,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 AudioManager.sync"],
+          "fullName": "M6 AudioManager.sync setMusicBackend 注入时若已有当前 track → 立即起播(补 M6a no-op 期间漏播)",
+          "status": "passed",
+          "title": "setMusicBackend 注入时若已有当前 track → 立即起播(补 M6a no-op 期间漏播)",
+          "duration": 0.07950000000005275,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound)"
+          ],
+          "fullName": "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound) 敌死 → enemy.deathSound(fight.c:756)",
+          "status": "passed",
+          "title": "敌死 → enemy.deathSound(fight.c:756)",
+          "duration": 0.3875000000000455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound)"
+          ],
+          "fullName": "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound) 敌攻 → enemy.attackSound",
+          "status": "passed",
+          "title": "敌攻 → enemy.attackSound",
+          "duration": 0.07816699999989396,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound)"
+          ],
+          "fullName": "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound) 我攻 → partyMembers[idx]→role.weaponSound(fight.c:2124)",
+          "status": "passed",
+          "title": "我攻 → partyMembers[idx]→role.weaponSound(fight.c:2124)",
+          "duration": 0.09275000000002365,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound)"
+          ],
+          "fullName": "M6 sfxForBattleEvent(战斗视觉 bus 事件 → SFX id,fight.c/battle.c AUDIO_PlaySound) 无音:deathSound=0 / weaponSound=0 / 非战斗事件 → 0(不播)",
+          "status": "passed",
+          "title": "无音:deathSound=0 / weaponSound=0 / 非战斗事件 → 0(不播)",
+          "duration": 0.060291000000006534,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位)"
+          ],
+          "fullName": "L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位) 同号未播完 → 第二次 tryPlay false(去重);markEnded 复位后再放行",
+          "status": "passed",
+          "title": "同号未播完 → 第二次 tryPlay false(去重);markEnded 复位后再放行",
+          "duration": 0.0648750000000291,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位)"
+          ],
+          "fullName": "L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位) lastSFX 只压制紧邻同号,异号放行",
+          "status": "passed",
+          "title": "lastSFX 只压制紧邻同号,异号放行",
+          "duration": 0.052999999999883585,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位)"
+          ],
+          "fullName": "L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 复位) markEnded 仅当 id 仍是 lastSFX 时复位(被异号覆盖后旧 id 完成不误清)",
+          "status": "passed",
+          "title": "markEnded 仅当 id 仍是 lastSFX 时复位(被异号覆盖后旧 id 完成不误清)",
+          "duration": 0.03862500000013824,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 OGG 音乐后端:释放旧 HTMLAudioElement(内存泄露修复)"],
+          "fullName": "M6 OGG 音乐后端:释放旧 HTMLAudioElement(内存泄露修复) 切歌:旧元素 pause + 清空 src + load(释放解码资源,不游离在内存)",
+          "status": "passed",
+          "title": "切歌:旧元素 pause + 清空 src + load(释放解码资源,不游离在内存)",
+          "duration": 0.3545839999999316,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M6 OGG 音乐后端:释放旧 HTMLAudioElement(内存泄露修复)"],
+          "fullName": "M6 OGG 音乐后端:释放旧 HTMLAudioElement(内存泄露修复) stop:释放当前元素 src",
+          "status": "passed",
+          "title": "stop:释放当前元素 src",
+          "duration": 0.07808299999987867,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371782510,
+      "endTime": 1792371782516.0781,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/audio.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["syncShellAudio"],
+          "fullName": "syncShellAudio suspendRaf/modal CG 期间仍同步 BGM/SFX,不等画面 present 恢复后才 flush",
+          "status": "passed",
+          "title": "suspendRaf/modal CG 期间仍同步 BGM/SFX,不等画面 present 恢复后才 flush",
+          "duration": 1.3515419999998812,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371783082,
+      "endTime": 1792371783083.3516,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/bootstrap-audio.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["load palette transition helpers"],
+          "fullName": "load palette transition helpers 读档黑屏 palette 不会污染存档恢复用的原 palette",
+          "status": "passed",
+          "title": "读档黑屏 palette 不会污染存档恢复用的原 palette",
+          "duration": 1.3522080000000187,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371783082,
+      "endTime": 1792371783083.3523,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/bootstrap-load.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["grok-mid-1 bootstrap barriers"],
+          "fullName": "grok-mid-1 bootstrap barriers loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立",
+          "status": "passed",
+          "title": "loadAssets 拒绝保持原错误对象，soundfont 仍可成功且 settle 独立",
+          "duration": 1.6752500000000055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["grok-mid-1 bootstrap barriers"],
+          "fullName": "grok-mid-1 bootstrap barriers loadDialogAssets 拒绝保持原错误对象，resourcesReady 的成功回调不跑",
+          "status": "passed",
+          "title": "loadDialogAssets 拒绝保持原错误对象，resourcesReady 的成功回调不跑",
+          "duration": 0.3634999999999309,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["grok-mid-1 bootstrap barriers"],
+          "fullName": "grok-mid-1 bootstrap barriers soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用",
+          "status": "passed",
+          "title": "soundfont 先 settle 时 resourcesReady 仍等待，随后装配同一引用",
+          "duration": 0.37216699999999037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["grok-mid-1 bootstrap barriers"],
+          "fullName": "grok-mid-1 bootstrap barriers dialog 未兑现时 resourcesReady 保持未就绪",
+          "status": "passed",
+          "title": "dialog 未兑现时 resourcesReady 保持未就绪",
+          "duration": 0.18545799999992596,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["grok-mid-1 bootstrap barriers"],
+          "fullName": "grok-mid-1 bootstrap barriers assets 未兑现时 resourcesReady 保持未就绪",
+          "status": "passed",
+          "title": "assets 未兑现时 resourcesReady 保持未就绪",
+          "duration": 0.20204200000011951,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["grok-mid-1 bootstrap barriers"],
+          "fullName": "grok-mid-1 bootstrap barriers glyph 失败后 resourcesReady 仍等待 assets 与 dialog",
+          "status": "passed",
+          "title": "glyph 失败后 resourcesReady 仍等待 assets 与 dialog",
+          "duration": 0.692792000000054,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["grok-mid-1 bootstrap barriers"],
+          "fullName": "grok-mid-1 bootstrap barriers 默认端口用真实 Response 读出 soundfont 字节，且真实加载器已发出请求",
+          "status": "passed",
+          "title": "默认端口用真实 Response 读出 soundfont 字节，且真实加载器已发出请求",
+          "duration": 2.263249999999971,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["grok-mid-1 bootstrap barriers"],
+          "fullName": "grok-mid-1 bootstrap barriers 默认 soundfont HTTP 503 保留原文，settle 完成且资源仍未就绪",
+          "status": "passed",
+          "title": "默认 soundfont HTTP 503 保留原文，settle 完成且资源仍未就绪",
+          "duration": 1.0102919999999358,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["grok-mid-1 bootstrap barriers"],
+          "fullName": "grok-mid-1 bootstrap barriers 两轮 boot 的拒绝与成功资产互不穿越",
+          "status": "passed",
+          "title": "两轮 boot 的拒绝与成功资产互不穿越",
+          "duration": 0.8243749999999181,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371782607,
+      "endTime": 1792371782614.8245,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/bootstrap-resources.grok-mid-1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["showError 启动失败显示(bootstrap.ts)"],
+          "fullName": "showError 启动失败显示(bootstrap.ts) 绘制时序:fillRect 时 fillStyle=#400 铺满画布;fillText 时 fillStyle=#f88、font=10px monospace 于 (8,32)",
+          "status": "passed",
+          "title": "绘制时序:fillRect 时 fillStyle=#400 铺满画布;fillText 时 fillStyle=#f88、font=10px monospace 于 (8,32)",
+          "duration": 2.42712500000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["showError 启动失败显示(bootstrap.ts)"],
+          "fullName": "showError 启动失败显示(bootstrap.ts) 无 2D 上下文(canvas.getContext 返回 null)→ 静默返回不抛错",
+          "status": "passed",
+          "title": "无 2D 上下文(canvas.getContext 返回 null)→ 静默返回不抛错",
+          "duration": 0.5344159999999647,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371783082,
+      "endTime": 1792371783085.5344,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/bootstrap.glm-next-wave.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-GAME-SHELL-BOOTSTRAP-1 shell bootstrap 边界"],
+          "fullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 shell bootstrap 边界 SB1 战斗胜利结算期 BGM 覆盖:track=胜利曲且不循环(battle.c:1030-1032 FALSE)",
+          "status": "passed",
+          "title": "SB1 战斗胜利结算期 BGM 覆盖:track=胜利曲且不循环(battle.c:1030-1032 FALSE)",
+          "duration": 1.4225420000000213,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-GAME-SHELL-BOOTSTRAP-1 shell bootstrap 边界"],
+          "fullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 shell bootstrap 边界 SB2 揭场 introFade 期静默(DM29),揭场后切战斗曲并循环",
+          "status": "passed",
+          "title": "SB2 揭场 introFade 期静默(DM29),揭场后切战斗曲并循环",
+          "duration": 0.4264580000001388,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-GAME-SHELL-BOOTSTRAP-1 shell bootstrap 边界"],
+          "fullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 shell bootstrap 边界 SB3 战斗帧 bus SFX drain:playSound 正 id 与 per-单位声播出,explore 不消费",
+          "status": "passed",
+          "title": "SB3 战斗帧 bus SFX drain:playSound 正 id 与 per-单位声播出,explore 不消费",
+          "duration": 0.2523750000000291,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-GAME-SHELL-BOOTSTRAP-1 precache-client 边界"],
+          "fullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 precache-client 边界 SB4 SW 进度消息路由:progress→onProgress(原对象)、done/error→onDone、未知类型忽略",
+          "status": "passed",
+          "title": "SB4 SW 进度消息路由:progress→onProgress(原对象)、done/error→onDone、未知类型忽略",
+          "duration": 1.1882500000001528,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-GAME-SHELL-BOOTSTRAP-1 precache-client 边界"],
+          "fullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 precache-client 边界 SB5 storage.persist 失败不降级注册:onReady 与 startPrecache 照常(best-effort)",
+          "status": "passed",
+          "title": "SB5 storage.persist 失败不降级注册:onReady 与 startPrecache 照常(best-effort)",
+          "duration": 0.43466699999999037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-GAME-SHELL-BOOTSTRAP-1 主循环生命周期"],
+          "fullName": "TEST-GLM-GAME-SHELL-BOOTSTRAP-1 主循环生命周期 SB6 startRafLoop 帧链:每帧回调驱动推进并自续订,cancel 停链",
+          "status": "passed",
+          "title": "SB6 startRafLoop 帧链:每帧回调驱动推进并自续订,cancel 停链",
+          "duration": 1.1297500000000582,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792371783083,
+      "endTime": 1792371783088.1296,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/shell/shell-bootstrap.glm-shell.test.ts"
+    }
+  ]
+}

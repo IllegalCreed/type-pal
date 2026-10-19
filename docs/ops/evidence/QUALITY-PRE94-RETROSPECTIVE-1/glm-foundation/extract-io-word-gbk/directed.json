@@ -1,0 +1,206 @@
+{
+  "numTotalTestSuites": 7,
+  "numPassedTestSuites": 6,
+  "numFailedTestSuites": 1,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 14,
+  "numPassedTests": 14,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792330299072,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "parseMessages 原盘固定文本：精确条数、首中末样本、控制标记和输入所有权",
+          "status": "passed",
+          "title": "parseMessages 原盘固定文本：精确条数、首中末样本、控制标记和输入所有权",
+          "duration": 33.70933400000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792330299289,
+      "endTime": 1792330299322.7092,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/io/msg.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["P02 parseWordDat 合成全表段界"],
+          "fullName": "P02 parseWordDat 合成全表段界 persons36..41 / battleUi42..60 / items61..295 / spells296..397 / enemies398..550 / scenes551..564 / system0..35 段界精确",
+          "status": "passed",
+          "title": "persons36..41 / battleUi42..60 / items61..295 / spells296..397 / enemies398..550 / scenes551..564 / system0..35 段界精确",
+          "duration": 17.83095799999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P02 parseWordDat 合成全表段界"],
+          "fullName": "P02 parseWordDat 合成全表段界 flat 全 565 条逐条等于手列文本",
+          "status": "passed",
+          "title": "flat 全 565 条逐条等于手列文本",
+          "duration": 5.947000000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["P02 parseWordDat 合成全表段界"],
+          "fullName": "P02 parseWordDat 合成全表段界 内部空格保留；尾空格剥除；尾标记 1 剥除；满 10B 不截",
+          "status": "passed",
+          "title": "内部空格保留；尾空格剥除；尾标记 1 剥除；满 10B 不截",
+          "duration": 1.970166000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792330299239,
+      "endTime": 1792330299264.9702,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/io/word.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [],
+      "startTime": 1792330299072,
+      "endTime": 1792330299072,
+      "status": "failed",
+      "message": "ENOENT: no such file or directory, open '/Users/zhangxu/.glm-worktrees/pre94-foundation/data/raw/WORD.DAT'",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/io/word.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["decodeGbk"],
+          "fullName": "decodeGbk 单字符 ASCII 不动",
+          "status": "passed",
+          "title": "单字符 ASCII 不动",
+          "duration": 15.394625000000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeGbk"],
+          "fullName": "decodeGbk GBK \"李逍遥\" → UTF-8",
+          "status": "passed",
+          "title": "GBK \"李逍遥\" → UTF-8",
+          "duration": 0.27804199999999923,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeGbk"],
+          "fullName": "decodeGbk 遇到 0x00 截断(C 字符串语义)",
+          "status": "passed",
+          "title": "遇到 0x00 截断(C 字符串语义)",
+          "duration": 0.17958300000000804,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeGbk"],
+          "fullName": "decodeGbk GBK 正文 + 造字区残留字节 端到端还原(余杭镇 婶婶房◆传来声音)",
+          "status": "passed",
+          "title": "GBK 正文 + 造字区残留字节 端到端还原(余杭镇 婶婶房◆传来声音)",
+          "duration": 0.43729200000001356,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fixupTranscodeResidue(转码残留还原)"],
+          "fullName": "fixupTranscodeResidue(转码残留还原) 正常文本无 PUA → 原样快速返回",
+          "status": "passed",
+          "title": "正常文本无 PUA → 原样快速返回",
+          "duration": 0.17979099999999448,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fixupTranscodeResidue(转码残留还原)"],
+          "fullName": "fixupTranscodeResidue(转码残留还原) 繁体字残留 PUA → 用户确认的简体正字",
+          "status": "passed",
+          "title": "繁体字残留 PUA → 用户确认的简体正字",
+          "duration": 0.22083299999999895,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fixupTranscodeResidue(转码残留还原)"],
+          "fullName": "fixupTranscodeResidue(转码残留还原) BIG5 标点残留 PUA → 标准标点",
+          "status": "passed",
+          "title": "BIG5 标点残留 PUA → 标准标点",
+          "duration": 0.12004199999998377,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fixupTranscodeResidue(转码残留还原)"],
+          "fullName": "fixupTranscodeResidue(转码残留还原) 颜文字 / 噪声 PUA → 删(对齐 sdlpal 缺字空白)",
+          "status": "passed",
+          "title": "颜文字 / 噪声 PUA → 删(对齐 sdlpal 缺字空白)",
+          "duration": 0.08812500000001933,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fixupTranscodeResidue(转码残留还原)"],
+          "fullName": "fixupTranscodeResidue(转码残留还原) 整条未转码 BIG5 → 正确简体",
+          "status": "passed",
+          "title": "整条未转码 BIG5 → 正确简体",
+          "duration": 0.4760419999999783,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fixupTranscodeResidue(转码残留还原)"],
+          "fullName": "fixupTranscodeResidue(转码残留还原) 未在映射表的 PUA → 删(空白,不残留方块)",
+          "status": "passed",
+          "title": "未在映射表的 PUA → 删(空白,不残留方块)",
+          "duration": 0.18579199999999219,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792330299235,
+      "endTime": 1792330299253.1858,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/utils/gbk.test.ts"
+    }
+  ]
+}

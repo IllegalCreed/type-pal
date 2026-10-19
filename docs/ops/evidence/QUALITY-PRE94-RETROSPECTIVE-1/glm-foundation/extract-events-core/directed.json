@@ -1,0 +1,909 @@
+{
+  "numTotalTestSuites": 31,
+  "numPassedTestSuites": 31,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 77,
+  "numPassedTests": 77,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792329988346,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["annotate"],
+          "fullName": "annotate giveItem 加 _item 注释(wObjectID 63 → index 2)",
+          "status": "passed",
+          "title": "giveItem 加 _item 注释(wObjectID 63 → index 2)",
+          "duration": 1.2618750000000034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["annotate"],
+          "fullName": "annotate symbols.json 优先于 WORD.DAT",
+          "status": "passed",
+          "title": "symbols.json 优先于 WORD.DAT",
+          "duration": 0.27300000000002456,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["annotate"],
+          "fullName": "annotate sceneId 仅在 symbols.json 中存在时才注释(WORD.DAT 不作为来源)",
+          "status": "passed",
+          "title": "sceneId 仅在 symbols.json 中存在时才注释(WORD.DAT 不作为来源)",
+          "duration": 0.200333999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["annotate"],
+          "fullName": "annotate 结构化命令 sequence 递归",
+          "status": "passed",
+          "title": "结构化命令 sequence 递归",
+          "duration": 0.16591600000000994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["annotate"],
+          "fullName": "annotate if 命令递归 then/else",
+          "status": "passed",
+          "title": "if 命令递归 then/else",
+          "duration": 0.1620409999999879,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["annotate"],
+          "fullName": "annotate startBattle _enemyTeam 仅来自 symbols(enemyTeamId 非 wObjectID,无 WORD 映射)",
+          "status": "passed",
+          "title": "startBattle _enemyTeam 仅来自 symbols(enemyTeamId 非 wObjectID,无 WORD 映射)",
+          "duration": 0.1435419999999965,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792329988553,
+      "endTime": 1792329988555.273,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/events/annotate.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R03 disasm 字面向量"],
+          "fullName": "R03 disasm 字面向量 giveItem count 0x8000/0xffff 保持 32768/65535（u16 不转 signed）；raw 三 operand 全位型",
+          "status": "passed",
+          "title": "giveItem count 0x8000/0xffff 保持 32768/65535（u16 不转 signed）；raw 三 operand 全位型",
+          "duration": 3.884999999999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R03 disasm 字面向量"],
+          "fullName": "R03 disasm 字面向量 messageIndex 直取文本；越界回退空串；entry 与 jump 同目标只标一次",
+          "status": "passed",
+          "title": "messageIndex 直取文本；越界回退空串；entry 与 jump 同目标只标一次",
+          "duration": 0.8943749999999966,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792329988561,
+      "endTime": 1792329988565.8943,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/events/disasm.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R05 disasm 0xA2 随机跳标签收集"],
+          "fullName": "R05 disasm 0xA2 随机跳标签收集 op0=2：目标 i+1..i+2 打 L_ 标签，fall-through i+3 不标",
+          "status": "passed",
+          "title": "op0=2：目标 i+1..i+2 打 L_ 标签，fall-through i+3 不标",
+          "duration": 2.1383329999999887,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R05 disasm 0xA2 随机跳标签收集"],
+          "fullName": "R05 disasm 0xA2 随机跳标签收集 op0=0：无相对目标，不标任何后续指令",
+          "status": "passed",
+          "title": "op0=0：无相对目标，不标任何后续指令",
+          "duration": 0.4527909999999906,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R05 disasm 脚本入口类 raw 目标收集"],
+          "fullName": "R05 disasm 脚本入口类 raw 目标收集 0x04 call-script 目标 = op0；0x24 setAutoScript 目标 = op1",
+          "status": "passed",
+          "title": "0x04 call-script 目标 = op0；0x24 setAutoScript 目标 = op1",
+          "duration": 0.2733750000000157,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R05 disasm 具名未处理 op 的 raw fallback"],
+          "fullName": "R05 disasm 具名未处理 op 的 raw fallback startBattle(0x0007, named) 无专用 emit：保号落 raw，operand 原样",
+          "status": "passed",
+          "title": "startBattle(0x0007, named) 无专用 emit：保号落 raw，operand 原样",
+          "duration": 0.6530419999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R05 disasm 标签越界与 subarray"],
+          "fullName": "R05 disasm 标签越界与 subarray 跳转目标 ≥ 指令数：不标、不崩（第 2 遍越界丢弃）",
+          "status": "passed",
+          "title": "跳转目标 ≥ 指令数：不标、不崩（第 2 遍越界丢弃）",
+          "duration": 0.5525829999999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R05 disasm 标签越界与 subarray"],
+          "fullName": "R05 disasm 标签越界与 subarray bytecode 为大缓冲奇数偏移 subarray：与独立缓冲结果全等",
+          "status": "passed",
+          "title": "bytecode 为大缓冲奇数偏移 subarray：与独立缓冲结果全等",
+          "duration": 0.14520799999999667,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792329988563,
+      "endTime": 1792329988568.1453,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/events/disasm.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["KIMI-R1 disasm setPalette case 与具名 raw 回退"],
+          "fullName": "KIMI-R1 disasm setPalette case 与具名 raw 回退 setPalette(0x008B) 反汇编为具名 Command 且字节级 round-trip",
+          "status": "passed",
+          "title": "setPalette(0x008B) 反汇编为具名 Command 且字节级 round-trip",
+          "duration": 4.03645800000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["KIMI-R1 disasm setPalette case 与具名 raw 回退"],
+          "fullName": "KIMI-R1 disasm setPalette case 与具名 raw 回退 具名但未结构化 opcode（startBattle 0x0007）落 raw 保字节，label operand 目标打标签",
+          "status": "passed",
+          "title": "具名但未结构化 opcode（startBattle 0x0007）落 raw 保字节，label operand 目标打标签",
+          "duration": 1.17458400000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["KIMI-R1 disasm setPalette case 与具名 raw 回退"],
+          "fullName": "KIMI-R1 disasm setPalette case 与具名 raw 回退 表外未知 opcode（0x0100）落 raw 且字节级 round-trip",
+          "status": "passed",
+          "title": "表外未知 opcode（0x0100）落 raw 且字节级 round-trip",
+          "duration": 0.9702920000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["KIMI-R1 disasm setPalette case 与具名 raw 回退"],
+          "fullName": "KIMI-R1 disasm setPalette case 与具名 raw 回退 JUMP_TARGET_OPERAND raw 条件跳目标入 BFS 标签集；0xA2 随机跳收 i+1..i+op0",
+          "status": "passed",
+          "title": "JUMP_TARGET_OPERAND raw 条件跳目标入 BFS 标签集；0xA2 随机跳收 i+1..i+op0",
+          "duration": 0.9072079999999971,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["KIMI-R1 disasm setPalette case 与具名 raw 回退"],
+          "fullName": "KIMI-R1 disasm setPalette case 与具名 raw 回退 entryIps 越界入口不打标签、范围内入口打标签（disasm.ts:91 双向）",
+          "status": "passed",
+          "title": "entryIps 越界入口不打标签、范围内入口打标签（disasm.ts:91 双向）",
+          "duration": 0.4535840000000064,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792329988577,
+      "endTime": 1792329988584.4536,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/events/disasm.kimi-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["disasm"],
+          "fullName": "disasm end(0x0000)",
+          "status": "passed",
+          "title": "end(0x0000)",
+          "duration": 1.082290999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["disasm"],
+          "fullName": "disasm goto(0x0003) 跳到指令 5,产 label \"L_5\"",
+          "status": "passed",
+          "title": "goto(0x0003) 跳到指令 5,产 label \"L_5\"",
+          "duration": 0.23958300000001032,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["disasm"],
+          "fullName": "disasm showDialog(0xFFFF) 内联文本(messageIndex 是 operand[0])",
+          "status": "passed",
+          "title": "showDialog(0xFFFF) 内联文本(messageIndex 是 operand[0])",
+          "duration": 0.285665999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["disasm"],
+          "fullName": "disasm giveItem(0x001F)",
+          "status": "passed",
+          "title": "giveItem(0x001F)",
+          "duration": 0.20649999999997704,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["disasm"],
+          "fullName": "disasm 未具名 opcode → raw",
+          "status": "passed",
+          "title": "未具名 opcode → raw",
+          "duration": 0.24183299999998553,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["disasm"],
+          "fullName": "disasm L29:13 个 raw 条件跳转 opcode 的目标会打 L_ 标签",
+          "status": "passed",
+          "title": "L29:13 个 raw 条件跳转 opcode 的目标会打 L_ 标签",
+          "duration": 0.8567910000000154,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["disasm"],
+          "fullName": "disasm bytecode 长度不是 8 倍数 → 报错",
+          "status": "passed",
+          "title": "bytecode 长度不是 8 倍数 → 报错",
+          "duration": 0.6348750000000223,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["disasm entry-ip labeling"],
+          "fullName": "disasm entry-ip labeling 未被跳转的入口 ip 也会打 label",
+          "status": "passed",
+          "title": "未被跳转的入口 ip 也会打 label",
+          "duration": 0.1628340000000037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["setDialogStyle round-trip"],
+          "fullName": "setDialogStyle round-trip 四个 setDialogStyle 反汇编为具名 Command",
+          "status": "passed",
+          "title": "四个 setDialogStyle 反汇编为具名 Command",
+          "duration": 0.5123339999999814,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["setDialogStyle round-trip"],
+          "fullName": "setDialogStyle round-trip round-trip 字节级一致",
+          "status": "passed",
+          "title": "round-trip 字节级一致",
+          "duration": 0.41029100000000085,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["setDialogStyle round-trip"],
+          "fullName": "setDialogStyle round-trip 非 0 operand 进 arg0/arg1/arg2 并 round-trip 一致",
+          "status": "passed",
+          "title": "非 0 operand 进 arg0/arg1/arg2 并 round-trip 一致",
+          "duration": 0.17812499999999432,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["loadScene round-trip(M3.5,opcode 0x0059)"],
+          "fullName": "loadScene round-trip(M3.5,opcode 0x0059) loadScene opcode 反汇编为具名 Command",
+          "status": "passed",
+          "title": "loadScene opcode 反汇编为具名 Command",
+          "duration": 0.07191699999998491,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["loadScene round-trip(M3.5,opcode 0x0059)"],
+          "fullName": "loadScene round-trip(M3.5,opcode 0x0059) loadScene round-trip 字节级一致",
+          "status": "passed",
+          "title": "loadScene round-trip 字节级一致",
+          "duration": 0.09745799999998894,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792329988576,
+      "endTime": 1792329988581.4104,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/events/disasm.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry 包含 script.c opcode 范围(0x0000-0x00A7 + 0xFFFF)",
+          "status": "passed",
+          "title": "包含 script.c opcode 范围(0x0000-0x00A7 + 0xFFFF)",
+          "duration": 2.103499999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(showDialog ↔ 0xFFFF)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(showDialog ↔ 0xFFFF)",
+          "duration": 0.2768339999999796,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(goto ↔ 0x0003)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(goto ↔ 0x0003)",
+          "duration": 0.07725000000002069,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry 未具名的 opcode 仍有 3 个 kind 占位",
+          "status": "passed",
+          "title": "未具名的 opcode 仍有 3 个 kind 占位",
+          "duration": 0.6278339999999787,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry end 命令三种形态(0x0000 / 0x0001 / 0x0002)",
+          "status": "passed",
+          "title": "end 命令三种形态(0x0000 / 0x0001 / 0x0002)",
+          "duration": 0.1639170000000263,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry 未具名 opcode 不进入 lookupOpcode",
+          "status": "passed",
+          "title": "未具名 opcode 不进入 lookupOpcode",
+          "duration": 0.355624999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(startBattle ↔ 0x0007)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(startBattle ↔ 0x0007)",
+          "duration": 0.10925000000000296,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(waitFrames ↔ 0x0009)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(waitFrames ↔ 0x0009)",
+          "duration": 0.061499999999995225,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(setObjectState ↔ 0x0049)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(setObjectState ↔ 0x0049)",
+          "duration": 0.33762500000000273,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(setScriptEntry ↔ 0x0025)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(setScriptEntry ↔ 0x0025)",
+          "duration": 0.25950000000000273,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(playMusic ↔ 0x0043)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(playMusic ↔ 0x0043)",
+          "duration": 0.25629200000000196,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(playSfx ↔ 0x0047)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(playSfx ↔ 0x0047)",
+          "duration": 0.04879199999999173,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(ifItemLess ↔ 0x0058)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(ifItemLess ↔ 0x0058)",
+          "duration": 0.03891699999999787,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(loadScene ↔ 0x0059,M3.5 重命名)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(loadScene ↔ 0x0059,M3.5 重命名)",
+          "duration": 0.039500000000003865,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(giveItem ↔ 0x001F)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(giveItem ↔ 0x001F)",
+          "duration": 0.038832999999982576,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(setDialogStyleCenter ↔ 0x003B)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(setDialogStyleCenter ↔ 0x003B)",
+          "duration": 0.07987499999998704,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(setDialogStyleTop ↔ 0x003C)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(setDialogStyleTop ↔ 0x003C)",
+          "duration": 0.03937500000000682,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(setDialogStyleBottom ↔ 0x003D)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(setDialogStyleBottom ↔ 0x003D)",
+          "duration": 0.0362920000000031,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb / lookupOpcode 双向(setDialogStyleNarration ↔ 0x003E)",
+          "status": "passed",
+          "title": "lookupVerb / lookupOpcode 双向(setDialogStyleNarration ↔ 0x003E)",
+          "duration": 0.0362920000000031,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry 具名 opcode 的 named 标志为 true",
+          "status": "passed",
+          "title": "具名 opcode 的 named 标志为 true",
+          "duration": 0.04712499999999409,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["opcode registry"],
+          "fullName": "opcode registry lookupVerb 对未登记 opcode 返回 raw",
+          "status": "passed",
+          "title": "lookupVerb 对未登记 opcode 返回 raw",
+          "duration": 0.030624999999986358,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792329988561,
+      "endTime": 1792329988567.0798,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/events/opcodes.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R04 recompile 独立字节 oracle"],
+          "fullName": "R04 recompile 独立字节 oracle 八类命令各 8B 手列：opcode 与 operand 位型精确",
+          "status": "passed",
+          "title": "八类命令各 8B 手列：opcode 与 operand 位型精确",
+          "duration": 2.9022500000000093,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R04 recompile 独立字节 oracle"],
+          "fullName": "R04 recompile 独立字节 oracle 同文本不同 messageIndex 字节不同（文本不参与、messageIndex 保真）",
+          "status": "passed",
+          "title": "同文本不同 messageIndex 字节不同（文本不参与、messageIndex 保真）",
+          "duration": 0.19204100000000324,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792329988668,
+      "endTime": 1792329988671.1921,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/events/recompile.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R05 recompile authored 结构化命令拒绝"],
+          "fullName": "R05 recompile authored 结构化命令拒绝 sequence 不是字节码命令：抛 unsupported op",
+          "status": "passed",
+          "title": "sequence 不是字节码命令：抛 unsupported op",
+          "duration": 1.1949999999999932,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R05 recompile authored 结构化命令拒绝"],
+          "fullName": "R05 recompile authored 结构化命令拒绝 if 不是字节码命令：抛 unsupported op",
+          "status": "passed",
+          "title": "if 不是字节码命令：抛 unsupported op",
+          "duration": 0.17608400000000302,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R05 recompile authored 结构化命令拒绝"],
+          "fullName": "R05 recompile authored 结构化命令拒绝 choice 不是字节码命令：抛 unsupported op",
+          "status": "passed",
+          "title": "choice 不是字节码命令：抛 unsupported op",
+          "duration": 0.07979100000000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R05 混合脚本往返（入口 ip + goto + raw + 样式）"],
+          "fullName": "R05 混合脚本往返（入口 ip + goto + raw + 样式） disasm(entryIps) → recompile 与原始字节逐字节相等；entry 标签参与 goto 定位",
+          "status": "passed",
+          "title": "disasm(entryIps) → recompile 与原始字节逐字节相等；entry 标签参与 goto 定位",
+          "duration": 1.6209580000000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792329988576,
+      "endTime": 1792329988579.6208,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/events/recompile.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["recompile + round-trip"],
+          "fullName": "recompile + round-trip end / goto / showDialog / giveItem / raw 单条往返",
+          "status": "passed",
+          "title": "end / goto / showDialog / giveItem / raw 单条往返",
+          "duration": 1.3625830000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["recompile + round-trip"],
+          "fullName": "recompile + round-trip 空命令清单 → 空字节",
+          "status": "passed",
+          "title": "空命令清单 → 空字节",
+          "duration": 0.16924999999999102,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["recompile + round-trip"],
+          "fullName": "recompile + round-trip end advance / reset",
+          "status": "passed",
+          "title": "end advance / reset",
+          "duration": 0.3146249999999924,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792329988674,
+      "endTime": 1792329988675.3625,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/events/recompile.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["KIMI-R1 roundtripCheck 合成输入"],
+          "fullName": "KIMI-R1 roundtripCheck 合成输入 合法事件 round-trip：ok=true 且尺寸相等（合成 bytes/hash 锚）",
+          "status": "passed",
+          "title": "合法事件 round-trip：ok=true 且尺寸相等（合成 bytes/hash 锚）",
+          "duration": 14.15383300000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["KIMI-R1 roundtripCheck 合成输入"],
+          "fullName": "KIMI-R1 roundtripCheck 合成输入 内容不一致：ok=false 报告首个差异 offset/instruction/opcode",
+          "status": "passed",
+          "title": "内容不一致：ok=false 报告首个差异 offset/instruction/opcode",
+          "duration": 0.5134160000000065,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792329988640,
+      "endTime": 1792329988654.5134,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/events/roundtrip.kimi-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["全量 events round-trip"],
+          "fullName": "全量 events round-trip 真实 SSS.MKF chunk 4 字节完全一致",
+          "status": "passed",
+          "title": "真实 SSS.MKF chunk 4 字节完全一致",
+          "duration": 171.87570900000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792329988640,
+      "endTime": 1792329988811.8757,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/events/roundtrip.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["sliceByScene"],
+          "fullName": "sliceByScene 单场景:可达的命令进 scene-0;不可达不出现",
+          "status": "passed",
+          "title": "单场景:可达的命令进 scene-0;不可达不出现",
+          "duration": 1.667207999999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceByScene"],
+          "fullName": "sliceByScene 两场景独占的命令分别进 scene-0 / scene-1",
+          "status": "passed",
+          "title": "两场景独占的命令分别进 scene-0 / scene-1",
+          "duration": 0.3516249999999843,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceByScene"],
+          "fullName": "sliceByScene 两场景都能 reach 的命令进 shared,跳转改写为 shared#L_X",
+          "status": "passed",
+          "title": "两场景都能 reach 的命令进 shared,跳转改写为 shared#L_X",
+          "duration": 0.3462499999999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceByScene"],
+          "fullName": "sliceByScene goto 目标在同一场景内不改写",
+          "status": "passed",
+          "title": "goto 目标在同一场景内不改写",
+          "duration": 0.6295829999999967,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceByScene"],
+          "fullName": "sliceByScene eventObject triggerScript 作为入口参与 BFS",
+          "status": "passed",
+          "title": "eventObject triggerScript 作为入口参与 BFS",
+          "duration": 0.10779099999999175,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceByScene"],
+          "fullName": "sliceByScene objects 文件 M1 下为空",
+          "status": "passed",
+          "title": "objects 文件 M1 下为空",
+          "duration": 0.06675000000001319,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceByScene"],
+          "fullName": "sliceByScene SceneFile 有正确的 scene 字段",
+          "status": "passed",
+          "title": "SceneFile 有正确的 scene 字段",
+          "duration": 0.27316600000000335,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceByScene"],
+          "fullName": "sliceByScene 0x0001 end advance:收 fall-through i+1(autoscript 续行)",
+          "status": "passed",
+          "title": "0x0001 end advance:收 fall-through i+1(autoscript 续行)",
+          "duration": 0.38349999999999795,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceByScene"],
+          "fullName": "sliceByScene 0x0002 end reset:收 resetTo 目标 + fall-through i+1",
+          "status": "passed",
+          "title": "0x0002 end reset:收 resetTo 目标 + fall-through i+1",
+          "duration": 1.0574169999999867,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceByScene"],
+          "fullName": "sliceByScene 0x95 jumpIfScene:跳转目标(op1)被 BFS 收集进 scene",
+          "status": "passed",
+          "title": "0x95 jumpIfScene:跳转目标(op1)被 BFS 收集进 scene",
+          "duration": 0.16458299999999326,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceByScene"],
+          "fullName": "sliceByScene 0xA2 randomJump:相对目标 i+1..i+op0 全被 BFS 收集",
+          "status": "passed",
+          "title": "0xA2 randomJump:相对目标 i+1..i+op0 全被 BFS 收集",
+          "duration": 0.17229199999999878,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceByScene"],
+          "fullName": "sliceByScene L29:13 个条件跳转 opcode 的跳转目标被 BFS 收集(script.c wScriptEntry=rgwOperand[N])",
+          "status": "passed",
+          "title": "L29:13 个条件跳转 opcode 的跳转目标被 BFS 收集(script.c wScriptEntry=rgwOperand[N])",
+          "duration": 2.569833000000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792329988566,
+      "endTime": 1792329988573.5698,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/events/slice.test.ts"
+    }
+  ]
+}

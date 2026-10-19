@@ -30,7 +30,6 @@ import type { GameState } from '../game-state.js'
 import { curePlayerPoisonByLevel } from '../player-poison-state.js'
 import { getGlobalCommands, getGlobalLabelMap } from '../script-catalog.js'
 
-const MAX_PLAYER_ROLES = 6
 const SCRIPT_TICK_LIMIT = 256
 
 /** SHORT signed 16-bit cast(sdlpal `(SHORT)operand[N]` 真值)。 */
@@ -253,6 +252,3 @@ export function castOverworldMagic(
   const sidSuccess = (spell as { scriptOnSuccess?: number }).scriptOnSuccess ?? 0
   return runMagicScriptSync(gs, sidSuccess, targetIdOrAll)
 }
-
-// roleId max check helper(防越界)
-void MAX_PLAYER_ROLES

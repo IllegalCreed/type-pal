@@ -1,0 +1,813 @@
+{
+  "numTotalTestSuites": 16,
+  "numPassedTestSuites": 16,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 71,
+  "numPassedTests": 71,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792388375539,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Debug battle request construction"],
+          "fullName": "Debug battle request construction empty party and absent team are rejected before preset allocation",
+          "status": "passed",
+          "title": "empty party and absent team are rejected before preset allocation",
+          "duration": 82.33683399999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug battle request construction"],
+          "fullName": "Debug battle request construction existing team uses real preset construction without changing live world or project",
+          "status": "passed",
+          "title": "existing team uses real preset construction without changing live world or project",
+          "duration": 21.73350000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug battle request construction"],
+          "fullName": "Debug battle request construction overrides apply only to the selected generated member and parse each free-form boundary",
+          "status": "passed",
+          "title": "overrides apply only to the selected generated member and parse each free-form boundary",
+          "duration": 25.500750000000153,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug battle request construction"],
+          "fullName": "Debug battle request construction template identity resolves overridden instance when preset owner allocates a distinct instance id",
+          "status": "passed",
+          "title": "template identity resolves overridden instance when preset owner allocates a distinct instance id",
+          "duration": 11.399999999999864,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug battle request construction"],
+          "fullName": "Debug battle request construction custom enemy selection preserves registration order and no-field project omits fieldId",
+          "status": "passed",
+          "title": "custom enemy selection preserves registration order and no-field project omits fieldId",
+          "duration": 12.191417000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug battle request construction"],
+          "fullName": "Debug battle request construction clear form removes per-member overrides and restores existing-team mode",
+          "status": "passed",
+          "title": "clear form removes per-member overrides and restores existing-team mode",
+          "duration": 15.546416000000136,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug battle request construction"],
+          "fullName": "Debug battle request construction battle failure reports error and dispose cancels only a pending battle signal",
+          "status": "passed",
+          "title": "battle failure reports error and dispose cancels only a pending battle signal",
+          "duration": 14.373082999999951,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388376593,
+      "endTime": 1792388376776.373,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/debug-tools.battle.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Debug console public commands"],
+          "fullName": "Debug console public commands scene b reaches the real runtime with exact effect arguments",
+          "status": "passed",
+          "title": "scene b reaches the real runtime with exact effect arguments",
+          "duration": 83.57475,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug console public commands"],
+          "fullName": "Debug console public commands   ScEnE b 1.5,-2 left  reaches the real runtime with exact effect arguments",
+          "status": "passed",
+          "title": "  ScEnE b 1.5,-2 left  reaches the real runtime with exact effect arguments",
+          "duration": 14.341875000000073,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug console public commands"],
+          "fullName": "Debug console public commands scene b bad right reaches the real runtime with exact effect arguments",
+          "status": "passed",
+          "title": "scene b bad right reaches the real runtime with exact effect arguments",
+          "duration": 16.134290999999962,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug console public commands"],
+          "fullName": "Debug console public commands pos 3,4 reaches the real runtime with exact effect arguments",
+          "status": "passed",
+          "title": "pos 3,4 reaches the real runtime with exact effect arguments",
+          "duration": 11.011792000000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug console public commands"],
+          "fullName": "Debug console public commands pos -1.5,8 up reaches the real runtime with exact effect arguments",
+          "status": "passed",
+          "title": "pos -1.5,8 up reaches the real runtime with exact effect arguments",
+          "duration": 14.103959000000032,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug console public commands"],
+          "fullName": "Debug console public commands give tonic reaches the real runtime with exact effect arguments",
+          "status": "passed",
+          "title": "give tonic reaches the real runtime with exact effect arguments",
+          "duration": 11.84258299999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug console public commands"],
+          "fullName": "Debug console public commands give tonic 3 reaches the real runtime with exact effect arguments",
+          "status": "passed",
+          "title": "give tonic 3 reaches the real runtime with exact effect arguments",
+          "duration": 10.820375000000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug console public commands"],
+          "fullName": "Debug console public commands money 20 reaches the real runtime with exact effect arguments",
+          "status": "passed",
+          "title": "money 20 reaches the real runtime with exact effect arguments",
+          "duration": 9.845124999999939,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug console public commands"],
+          "fullName": "Debug console public commands scene rejects incomplete input before host IO",
+          "status": "passed",
+          "title": "scene rejects incomplete input before host IO",
+          "duration": 10.850625000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug console public commands"],
+          "fullName": "Debug console public commands pos rejects incomplete input before host IO",
+          "status": "passed",
+          "title": "pos rejects incomplete input before host IO",
+          "duration": 8.571332999999981,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug console public commands"],
+          "fullName": "Debug console public commands pos 1 rejects incomplete input before host IO",
+          "status": "passed",
+          "title": "pos 1 rejects incomplete input before host IO",
+          "duration": 8.951749999999947,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug console public commands"],
+          "fullName": "Debug console public commands pos 1,2,3 rejects incomplete input before host IO",
+          "status": "passed",
+          "title": "pos 1,2,3 rejects incomplete input before host IO",
+          "duration": 7.499000000000024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug console public commands"],
+          "fullName": "Debug console public commands pos NaN,2 rejects incomplete input before host IO",
+          "status": "passed",
+          "title": "pos NaN,2 rejects incomplete input before host IO",
+          "duration": 8.897874999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug console public commands"],
+          "fullName": "Debug console public commands pos 1,Infinity rejects incomplete input before host IO",
+          "status": "passed",
+          "title": "pos 1,Infinity rejects incomplete input before host IO",
+          "duration": 7.453708000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug console public commands"],
+          "fullName": "Debug console public commands give rejects incomplete input before host IO",
+          "status": "passed",
+          "title": "give rejects incomplete input before host IO",
+          "duration": 7.185625000000073,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug console public commands"],
+          "fullName": "Debug console public commands money Infinity rejects incomplete input before host IO",
+          "status": "passed",
+          "title": "money Infinity rejects incomplete input before host IO",
+          "duration": 9.057917000000089,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug console public commands"],
+          "fullName": "Debug console public commands party , rejects incomplete input before host IO",
+          "status": "passed",
+          "title": "party , rejects incomplete input before host IO",
+          "duration": 8.198582999999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug console public commands"],
+          "fullName": "Debug console public commands skill hero rejects incomplete input before host IO",
+          "status": "passed",
+          "title": "skill hero rejects incomplete input before host IO",
+          "duration": 7.033625000000029,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug console public commands"],
+          "fullName": "Debug console public commands battle rejects incomplete input before host IO",
+          "status": "passed",
+          "title": "battle rejects incomplete input before host IO",
+          "duration": 7.637625000000071,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug console public commands"],
+          "fullName": "Debug console public commands run-script rejects incomplete input before host IO",
+          "status": "passed",
+          "title": "run-script rejects incomplete input before host IO",
+          "duration": 7.218833000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug console public commands"],
+          "fullName": "Debug console public commands run-trigger rejects incomplete input before host IO",
+          "status": "passed",
+          "title": "run-trigger rejects incomplete input before host IO",
+          "duration": 6.968250000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug console public commands"],
+          "fullName": "Debug console public commands party and skill preserve identities and hand off to their dedicated owners",
+          "status": "passed",
+          "title": "party and skill preserve identities and hand off to their dedicated owners",
+          "duration": 7.205290999999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug console public commands"],
+          "fullName": "Debug console public commands real shared script changes a world flag and retains author input",
+          "status": "passed",
+          "title": "real shared script changes a world flag and retains author input",
+          "duration": 9.044499999999971,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug console public commands"],
+          "fullName": "Debug console public commands empty and non-Enter input never dispatch; unknown command reports its own name",
+          "status": "passed",
+          "title": "empty and non-Enter input never dispatch; unknown command reports its own name",
+          "duration": 10.831457999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388377244,
+      "endTime": 1792388377548.8315,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/debug-tools.commands.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Debug operation failures"],
+          "fullName": "Debug operation failures scene b reports rejected detached ownership without invoking the runtime",
+          "status": "passed",
+          "title": "scene b reports rejected detached ownership without invoking the runtime",
+          "duration": 74.07991600000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug operation failures"],
+          "fullName": "Debug operation failures pos 3,4 reports rejected detached ownership without invoking the runtime",
+          "status": "passed",
+          "title": "pos 3,4 reports rejected detached ownership without invoking the runtime",
+          "duration": 10.999875000000031,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug operation failures"],
+          "fullName": "Debug operation failures give tonic 2 reports rejected detached ownership without invoking the runtime",
+          "status": "passed",
+          "title": "give tonic 2 reports rejected detached ownership without invoking the runtime",
+          "duration": 12.352958999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug operation failures"],
+          "fullName": "Debug operation failures money 80 reports rejected detached ownership without invoking the runtime",
+          "status": "passed",
+          "title": "money 80 reports rejected detached ownership without invoking the runtime",
+          "duration": 10.143500000000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug operation failures"],
+          "fullName": "Debug operation failures run-script mark reports rejected detached ownership without invoking the runtime",
+          "status": "passed",
+          "title": "run-script mark reports rejected detached ownership without invoking the runtime",
+          "duration": 11.562832999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug operation failures"],
+          "fullName": "Debug operation failures run-trigger zone reports rejected detached ownership without invoking the runtime",
+          "status": "passed",
+          "title": "run-trigger zone reports rejected detached ownership without invoking the runtime",
+          "duration": 9.74954200000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug operation failures"],
+          "fullName": "Debug operation failures a synchronous detached throw is caught by the panel operation boundary",
+          "status": "passed",
+          "title": "a synchronous detached throw is caught by the panel operation boundary",
+          "duration": 8.410833000000025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug operation failures"],
+          "fullName": "Debug operation failures scene b requires presentation confirmation and cancellation performs no work",
+          "status": "passed",
+          "title": "scene b requires presentation confirmation and cancellation performs no work",
+          "duration": 10.821374999999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug operation failures"],
+          "fullName": "Debug operation failures run-script mark requires presentation confirmation and cancellation performs no work",
+          "status": "passed",
+          "title": "run-script mark requires presentation confirmation and cancellation performs no work",
+          "duration": 11.580749999999966,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug operation failures"],
+          "fullName": "Debug operation failures run-trigger zone requires presentation confirmation and cancellation performs no work",
+          "status": "passed",
+          "title": "run-trigger zone requires presentation confirmation and cancellation performs no work",
+          "duration": 9.789667000000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug operation failures"],
+          "fullName": "Debug operation failures battle console reports typed result and later rejection independently",
+          "status": "passed",
+          "title": "battle console reports typed result and later rejection independently",
+          "duration": 8.916375000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug operation failures"],
+          "fullName": "Debug operation failures completed operation is removed from disposal abort set",
+          "status": "passed",
+          "title": "completed operation is removed from disposal abort set",
+          "duration": 7.6544999999999845,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug operation failures"],
+          "fullName": "Debug operation failures late completion cannot overwrite the status of a replacement panel",
+          "status": "passed",
+          "title": "late completion cannot overwrite the status of a replacement panel",
+          "duration": 11.983916999999906,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388378542,
+      "endTime": 1792388378740.984,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/debug-tools.failures.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G05 debug-tools 残差"],
+          "fullName": "G05 debug-tools 残差 控制台输入 keydown 隔离：窗口监听者看不到键入，Enter 仍派发命令",
+          "status": "passed",
+          "title": "控制台输入 keydown 隔离：窗口监听者看不到键入，Enter 仍派发命令",
+          "duration": 78.51858399999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05 debug-tools 残差"],
+          "fullName": "G05 debug-tools 残差 hidePanel blur 焦点元素；Backquote 重开恢复活动 tab 焦点",
+          "status": "passed",
+          "title": "hidePanel blur 焦点元素；Backquote 重开恢复活动 tab 焦点",
+          "duration": 12.09166700000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05 debug-tools 残差"],
+          "fullName": "G05 debug-tools 残差 presentationBusy 时控制台 scene 命令经 confirm 门：拒绝不执行、确认才执行",
+          "status": "passed",
+          "title": "presentationBusy 时控制台 scene 命令经 confirm 门：拒绝不执行、确认才执行",
+          "duration": 18.24420900000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388377714,
+      "endTime": 1792388377823.2441,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/debug-tools.glm-next-wave.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Debug inspection projections"],
+          "fullName": "Debug inspection projections state refresh projects statuses, poison and script counts from one actual world without mutation",
+          "status": "passed",
+          "title": "state refresh projects statuses, poison and script counts from one actual world without mutation",
+          "duration": 72.93783299999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug inspection projections"],
+          "fullName": "Debug inspection projections registered script movement renders exact ownerless metadata, fractional coordinates and all-closed gates",
+          "status": "passed",
+          "title": "registered script movement renders exact ownerless metadata, fractional coordinates and all-closed gates",
+          "duration": 16.43662500000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug inspection projections"],
+          "fullName": "Debug inspection projections follower display omits redundant template and exposes ready extra sprite",
+          "status": "passed",
+          "title": "follower display omits redundant template and exposes ready extra sprite",
+          "duration": 12.880083000000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388378258,
+      "endTime": 1792388378360.8801,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/debug-tools.inspect.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Debug layer and navigation actions"],
+          "fullName": "Debug layer and navigation actions console and checkbox layer toggles share one model and do not enable frame stepping implicitly",
+          "status": "passed",
+          "title": "console and checkbox layer toggles share one model and do not enable frame stepping implicitly",
+          "duration": 81.618833,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug layer and navigation actions"],
+          "fullName": "Debug layer and navigation actions tab keyboard wraps left/up, supports Home/End/down and leaves unrelated keys alone",
+          "status": "passed",
+          "title": "tab keyboard wraps left/up, supports Home/End/down and leaves unrelated keys alone",
+          "duration": 18.339165999999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug layer and navigation actions"],
+          "fullName": "Debug layer and navigation actions select keyup is isolated but tab keyup propagates to game listener",
+          "status": "passed",
+          "title": "select keyup is isolated but tab keyup propagates to game listener",
+          "duration": 11.778708999999935,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug layer and navigation actions"],
+          "fullName": "Debug layer and navigation actions live busy badges refresh on real interval and close-button pauses polling",
+          "status": "passed",
+          "title": "live busy badges refresh on real interval and close-button pauses polling",
+          "duration": 16.168541000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388378003,
+      "endTime": 1792388378131.1685,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/debug-tools.navigation.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Reforge debug tools"],
+          "fullName": "Reforge debug tools 样式幂等，五个语义 tab 使用 roving focus，切换后表单与 console 状态不丢",
+          "status": "passed",
+          "title": "样式幂等，五个语义 tab 使用 roving focus，切换后表单与 console 状态不丢",
+          "duration": 64.6390409999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Reforge debug tools"],
+          "fullName": "Reforge debug tools 战场 option 使用显式有限 id；非法值 fail-closed，不启动战斗",
+          "status": "passed",
+          "title": "战场 option 使用显式有限 id；非法值 fail-closed，不启动战斗",
+          "duration": 11.226750000000038,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Reforge debug tools"],
+          "fullName": "Reforge debug tools 状态页按四类对象显示唯一快照，区分控制权、partyMove、epoch 与已注册 motion",
+          "status": "passed",
+          "title": "状态页按四类对象显示唯一快照，区分控制权、partyMove、epoch 与已注册 motion",
+          "duration": 12.778667000000041,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Reforge debug tools"],
+          "fullName": "Reforge debug tools Backquote 只在隐藏态和安全目标重开，Esc capture 不泄漏到关闭态",
+          "status": "passed",
+          "title": "Backquote 只在隐藏态和安全目标重开，Esc capture 不泄漏到关闭态",
+          "duration": 8.31454199999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Reforge debug tools"],
+          "fullName": "Reforge debug tools 三轮 hide/show 与重复安装始终单实例，dispose 幂等且 stale disposer 不碰新实例",
+          "status": "passed",
+          "title": "三轮 hide/show 与重复安装始终单实例，dispose 幂等且 stale disposer 不碰新实例",
+          "duration": 14.99533400000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Reforge debug tools"],
+          "fullName": "Reforge debug tools hide 保留在途调试操作，dispose 才集中 abort",
+          "status": "passed",
+          "title": "hide 保留在途调试操作，dispose 才集中 abort",
+          "duration": 6.869333999999981,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Reforge debug tools"],
+          "fullName": "Reforge debug tools Esc 隐藏并 reset 帧步进，Backquote 重显；dispose 才移除根节点与样式",
+          "status": "passed",
+          "title": "Esc 隐藏并 reset 帧步进，Backquote 重显；dispose 才移除根节点与样式",
+          "duration": 5.4812500000000455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388376470,
+      "endTime": 1792388376594.4812,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/debug-tools.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Debug trigger current runtime"],
+          "fullName": "Debug trigger current runtime shared/mark runs its actual channel and removes only its temporary running button",
+          "status": "passed",
+          "title": "shared/mark runs its actual channel and removes only its temporary running button",
+          "duration": 86.03729200000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug trigger current runtime"],
+          "fullName": "Debug trigger current runtime zone [interact r2] runs its actual channel and removes only its temporary running button",
+          "status": "passed",
+          "title": "zone [interact r2] runs its actual channel and removes only its temporary running button",
+          "duration": 14.168999999999983,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug trigger current runtime"],
+          "fullName": "Debug trigger current runtime zone [auto] runs its actual channel and removes only its temporary running button",
+          "status": "passed",
+          "title": "zone [auto] runs its actual channel and removes only its temporary running button",
+          "duration": 14.31941699999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug trigger current runtime"],
+          "fullName": "Debug trigger current runtime a onEnter runs its actual channel and removes only its temporary running button",
+          "status": "passed",
+          "title": "a onEnter runs its actual channel and removes only its temporary running button",
+          "duration": 13.584917000000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug trigger current runtime"],
+          "fullName": "Debug trigger current runtime a onTeleport runs its actual channel and removes only its temporary running button",
+          "status": "passed",
+          "title": "a onTeleport runs its actual channel and removes only its temporary running button",
+          "duration": 13.92491700000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug trigger current runtime"],
+          "fullName": "Debug trigger current runtime same running trigger click aborts entered wait, drops tail command and can start again",
+          "status": "passed",
+          "title": "same running trigger click aborts entered wait, drops tail command and can start again",
+          "duration": 14.959083000000078,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug trigger current runtime"],
+          "fullName": "Debug trigger current runtime busy trigger confirms separately from console and rejection leaves list unchanged",
+          "status": "passed",
+          "title": "busy trigger confirms separately from console and rejection leaves list unchanged",
+          "duration": 11.58829199999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug trigger current runtime"],
+          "fullName": "Debug trigger current runtime zone [interact r2] reports scene loss after enumeration instead of executing stale scene",
+          "status": "passed",
+          "title": "zone [interact r2] reports scene loss after enumeration instead of executing stale scene",
+          "duration": 9.63237499999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug trigger current runtime"],
+          "fullName": "Debug trigger current runtime a onEnter reports scene loss after enumeration instead of executing stale scene",
+          "status": "passed",
+          "title": "a onEnter reports scene loss after enumeration instead of executing stale scene",
+          "duration": 11.030999999999949,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Debug trigger current runtime"],
+          "fullName": "Debug trigger current runtime run-trigger distinguishes executed, missing behavior, and absent current scene",
+          "status": "passed",
+          "title": "run-trigger distinguishes executed, missing behavior, and absent current scene",
+          "duration": 15.010208999999918,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388377063,
+      "endTime": 1792388377267.0103,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/debug-tools.triggers.test.ts"
+    }
+  ]
+}

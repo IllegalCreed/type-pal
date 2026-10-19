@@ -454,31 +454,16 @@ export interface Store {
  * 6 个角色的同名字段连续存放,然后下一个字段又一行 6 个角色。本 interface 是反 SoA
  * 后的每条角色视图。
  *
- * **M3 dump 范围**(对照本 milestone dev panel 战斗需要):
- * - 战斗 stats:level / hp / maxHP / mp / maxMP / attack* / magic* / defense / dexterity
- * - 显示:avatar / spriteNumInBattle / spriteNum / name(WORD.DAT 索引)
- * - 抗性:fleeRate / poisonResistance / elemResistance / 5 个 sound
- * - 其他:attackAll / walkFrames
- *
- * **M3 不 dump**(留 M5):equipment / magic learned / coveredBy / cooperativeMagic /
- * 6 个 sdlpal 注释 FIXME unknown / coverSound / dyingSound。
+ * **dump 范围(M4 起全字段)**:战斗 stats / 显示 / 抗性 / 5 个 sound /
+ * attackAll / walkFrames 之外,equipment / magic learned / coveredBy /
+ * cooperativeMagic / 6 个 sdlpal 注释 FIXME unknown / coverSound / dyingSound
+ * 均已 dump;下列字段的可选标记仅为兼容可不填的旧 fixture。
  *
  * **signed 字段**(同 Enemy D28,对照 sdlpal `fight.c` SHORT cast):
  * `attackStrength / magicStrength / defense / dexterity` 是 stat modifier,可负。
  * 5 个 sound 字段在 sdlpal `tagPLAYERROLES` 中也是 PLAYERS = WORD,但 `fight.c` /
  * `sound.c` 实际播放时按 SHORT 处理(-1 = 无声音),与 Enemy 5 个 sound 行为一致。
  */
-/**
- * level-up-magic 一格 —— sdlpal `global.h::LEVELUPMAGICENTRY.m[role]`(20 级 × 5 角色)。
- * 战斗胜利升级时按 `{ level }<=新等级 && magic!=0 && 未学` 学新法术(battle.c:1300-1321)。
- */
-export interface LevelUpMagicEntry {
-  /** 学得所需等级。 */
-  level: number
-  /** spell object id(0 = 空)。 */
-  magic: number
-}
-
 export interface PlayerRole {
   /** 在 player-roles.json 数组里的索引(0..MAX_PLAYER_ROLES-1 = 0..5)。 */
   id: number

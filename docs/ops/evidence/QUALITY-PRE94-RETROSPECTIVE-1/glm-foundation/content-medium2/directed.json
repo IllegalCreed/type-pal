@@ -1,0 +1,1391 @@
+{
+  "numTotalTestSuites": 43,
+  "numPassedTestSuites": 43,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 125,
+  "numPassedTests": 125,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792375304232,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "condition seed rejects root array without rewriting its input",
+          "status": "passed",
+          "title": "condition seed rejects root array without rewriting its input",
+          "duration": 2.039332999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "condition seed rejects root null without rewriting its input",
+          "status": "passed",
+          "title": "condition seed rejects root null without rewriting its input",
+          "duration": 0.5889160000000118,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "condition seed rejects poison list without rewriting its input",
+          "status": "passed",
+          "title": "condition seed rejects poison list without rewriting its input",
+          "duration": 0.22116700000000833,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "condition seed rejects poison type without rewriting its input",
+          "status": "passed",
+          "title": "condition seed rejects poison type without rewriting its input",
+          "duration": 0.16816600000001358,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "condition seed rejects poison duplicate without rewriting its input",
+          "status": "passed",
+          "title": "condition seed rejects poison duplicate without rewriting its input",
+          "duration": 0.1306250000000091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "condition seed rejects status list without rewriting its input",
+          "status": "passed",
+          "title": "condition seed rejects status list without rewriting its input",
+          "duration": 0.10895800000000122,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "condition seed rejects status record without rewriting its input",
+          "status": "passed",
+          "title": "condition seed rejects status record without rewriting its input",
+          "duration": 0.16275000000001683,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "condition seed rejects status duplicate without rewriting its input",
+          "status": "passed",
+          "title": "condition seed rejects status duplicate without rewriting its input",
+          "duration": 0.2357499999999959,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "condition seed rejects fractional resistance without rewriting its input",
+          "status": "passed",
+          "title": "condition seed rejects fractional resistance without rewriting its input",
+          "duration": 0.5572909999999922,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "condition seed rejects unsafe resistance without rewriting its input",
+          "status": "passed",
+          "title": "condition seed rejects unsafe resistance without rewriting its input",
+          "duration": 0.3946250000000191,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "condition command rejects wrong command at the exact boundary",
+          "status": "passed",
+          "title": "condition command rejects wrong command at the exact boundary",
+          "duration": 0.7956250000000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "condition command rejects actor whitespace at the exact boundary",
+          "status": "passed",
+          "title": "condition command rejects actor whitespace at the exact boundary",
+          "duration": 0.2522920000000113,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "condition command rejects condition null at the exact boundary",
+          "status": "passed",
+          "title": "condition command rejects condition null at the exact boundary",
+          "duration": 0.20116600000000062,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "condition command rejects poison zero at the exact boundary",
+          "status": "passed",
+          "title": "condition command rejects poison zero at the exact boundary",
+          "duration": 0.21658300000001418,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "condition command rejects uncarryable status at the exact boundary",
+          "status": "passed",
+          "title": "condition command rejects uncarryable status at the exact boundary",
+          "duration": 0.2418750000000216,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "condition command rejects unknown condition at the exact boundary",
+          "status": "passed",
+          "title": "condition command rejects unknown condition at the exact boundary",
+          "duration": 0.3624159999999961,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "invalid seed resistance rejects before replacing existing poison or status carriers",
+          "status": "passed",
+          "title": "invalid seed resistance rejects before replacing existing poison or status carriers",
+          "duration": 0.5108340000000169,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "status refresh preserves unrelated entries and clearing is idempotent without materializing absent fields",
+          "status": "passed",
+          "title": "status refresh preserves unrelated entries and clearing is idempotent without materializing absent fields",
+          "duration": 0.28583400000002257,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "poison add and selective clear preserve the other poison tick cursor",
+          "status": "passed",
+          "title": "poison add and selective clear preserve the other poison tick cursor",
+          "duration": 0.17145800000000122,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375304484,
+      "endTime": 1792375304492.286,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/actor-condition.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C2 actor-condition 剩余合同"],
+          "fullName": "C2 actor-condition 剩余合同 死者 apply confused 成功；好状态对照仍拒，毒表与命令不变",
+          "status": "passed",
+          "title": "死者 apply confused 成功；好状态对照仍拒，毒表与命令不变",
+          "duration": 1.4531670000000076,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375304601,
+      "endTime": 1792375304602.4531,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/actor-condition.cursor-pure-wave2.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["O08 applyCarriedStatus：叠加规则"],
+          "fullName": "O08 applyCarriedStatus：叠加规则 坏状态（confused）已有不刷新；为 0 时可设",
+          "status": "passed",
+          "title": "坏状态（confused）已有不刷新；为 0 时可设",
+          "duration": 1.2460829999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyCarriedStatus：叠加规则"],
+          "fullName": "O08 applyCarriedStatus：叠加规则 好状态（bravery）仅活人：hp 0 拒绝；活人取更长回合",
+          "status": "passed",
+          "title": "好状态（bravery）仅活人：hp 0 拒绝；活人取更长回合",
+          "duration": 0.2973749999999882,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyCarriedStatus：叠加规则"],
+          "fullName": "O08 applyCarriedStatus：叠加规则 非法回合 fail-loud（不可携带 puppet 轴对 typed 调用方不可构造，登记 unreachable）",
+          "status": "passed",
+          "title": "非法回合 fail-loud（不可携带 puppet 轴对 typed 调用方不可构造，登记 unreachable）",
+          "duration": 0.3619170000000054,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyTemporaryPoisonResistance：取大语义"],
+          "fullName": "O08 applyTemporaryPoisonResistance：取大语义 首次设置返回 true；更小值不覆盖返回 false；更大值覆盖",
+          "status": "passed",
+          "title": "首次设置返回 true；更小值不覆盖返回 false；更大值覆盖",
+          "duration": 0.15591700000001651,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyTemporaryPoisonResistance：取大语义"],
+          "fullName": "O08 applyTemporaryPoisonResistance：取大语义 非正整数 fail-loud",
+          "status": "passed",
+          "title": "非正整数 fail-loud",
+          "duration": 0.13016700000000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyActorConditionSeed：新建世界物化"],
+          "fullName": "O08 applyActorConditionSeed：新建世界物化 毒从 tickIndex=0 物化 + 状态 + 毒抗全落地",
+          "status": "passed",
+          "title": "毒从 tickIndex=0 物化 + 状态 + 毒抗全落地",
+          "duration": 0.26062500000000455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyActorConditionSeed：新建世界物化"],
+          "fullName": "O08 applyActorConditionSeed：新建世界物化 未知毒 id fail-loud（缺表）",
+          "status": "passed",
+          "title": "未知毒 id fail-loud（缺表）",
+          "duration": 0.13037499999998658,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyActorConditionSeed：新建世界物化"],
+          "fullName": "O08 applyActorConditionSeed：新建世界物化 毒 id 非正整数 fail-loud（形状轴）",
+          "status": "passed",
+          "title": "毒 id 非正整数 fail-loud（形状轴）",
+          "duration": 0.08229199999999537,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyActorCondition / clearActorCondition：宿主命令轴"],
+          "fullName": "O08 applyActorCondition / clearActorCondition：宿主命令轴 apply poison：未知毒 → 精确 applyActorCondition.poisonId 诊断",
+          "status": "passed",
+          "title": "apply poison：未知毒 → 精确 applyActorCondition.poisonId 诊断",
+          "duration": 0.36012499999998226,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyActorCondition / clearActorCondition：宿主命令轴"],
+          "fullName": "O08 applyActorCondition / clearActorCondition：宿主命令轴 apply poison 三段链经统一入口（cured 路径）",
+          "status": "passed",
+          "title": "apply poison 三段链经统一入口（cured 路径）",
+          "duration": 0.13862500000001887,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyActorCondition / clearActorCondition：宿主命令轴"],
+          "fullName": "O08 applyActorCondition / clearActorCondition：宿主命令轴 apply status：好状态仅活人；坏状态直接生效",
+          "status": "passed",
+          "title": "apply status：好状态仅活人；坏状态直接生效",
+          "duration": 0.15554199999999696,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["O08 applyActorCondition / clearActorCondition：宿主命令轴"],
+          "fullName": "O08 applyActorCondition / clearActorCondition：宿主命令轴 clear poison：移除匹配毒；clear status：移除匹配状态；未命中 false",
+          "status": "passed",
+          "title": "clear poison：移除匹配毒；clear status：移除匹配状态；未命中 false",
+          "duration": 0.12445800000000418,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375304488,
+      "endTime": 1792375304491.36,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/actor-condition.glm-o.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["actor condition registry"],
+          "fullName": "actor condition registry 全部 StatusId 只有傀儡不可作为大世界携带状态",
+          "status": "passed",
+          "title": "全部 StatusId 只有傀儡不可作为大世界携带状态",
+          "duration": 1.6635829999999885,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["actor condition shape guards"],
+          "fullName": "actor condition shape guards 快照拒绝重复、傀儡、超界回合与内部字段",
+          "status": "passed",
+          "title": "快照拒绝重复、傀儡、超界回合与内部字段",
+          "duration": 0.5702090000000055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["actor condition shape guards"],
+          "fullName": "actor condition shape guards 剧情命令完整覆盖 apply/clear 三类 condition 并拒绝多余字段",
+          "status": "passed",
+          "title": "剧情命令完整覆盖 apply/clear 三类 condition 并拒绝多余字段",
+          "duration": 0.545125000000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyCarriedStatus"],
+          "fullName": "applyCarriedStatus 坏状态已有时不刷新",
+          "status": "passed",
+          "title": "坏状态已有时不刷新",
+          "duration": 0.3362500000000068,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyCarriedStatus"],
+          "fullName": "applyCarriedStatus 好状态只施加给活人且取更长回合",
+          "status": "passed",
+          "title": "好状态只施加给活人且取更长回合",
+          "duration": 0.12299999999999045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyCarriedStatus"],
+          "fullName": "applyCarriedStatus 傀儡与非正整数回合 fail-loud",
+          "status": "passed",
+          "title": "傀儡与非正整数回合 fail-loud",
+          "duration": 0.11529099999998493,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entry condition seed"],
+          "fullName": "entry condition seed 三种 carrier 一次性播种，毒统一从 tickIndex=0 开始",
+          "status": "passed",
+          "title": "三种 carrier 一次性播种，毒统一从 tickIndex=0 开始",
+          "duration": 0.3140000000000214,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entry condition seed"],
+          "fullName": "entry condition seed 未知/重复毒、重复/不可携带状态在任何写入前 fail-loud",
+          "status": "passed",
+          "title": "未知/重复毒、重复/不可携带状态在任何写入前 fail-loud",
+          "duration": 0.22170800000000668,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["entry condition seed"],
+          "fullName": "entry condition seed 入口死亡角色拒绝好状态，并在任何 carrier 写入前 fail-loud",
+          "status": "passed",
+          "title": "入口死亡角色拒绝好状态，并在任何 carrier 写入前 fail-loud",
+          "duration": 0.34841599999998607,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["story condition operations"],
+          "fullName": "story condition operations 剧情施毒必中，复用自毒相克/致死链",
+          "status": "passed",
+          "title": "剧情施毒必中，复用自毒相克/致死链",
+          "duration": 0.19050000000001432,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["story condition operations"],
+          "fullName": "story condition operations 临时毒抗取高，三种 condition 可分别清除",
+          "status": "passed",
+          "title": "临时毒抗取高，三种 condition 可分别清除",
+          "duration": 0.20954100000000153,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375304486,
+      "endTime": 1792375304490.3484,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/actor-condition.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["E3 actorTaggedReferencesAtNode · 各 tag 完整 kind/actorId/where"],
+          "fullName": "E3 actorTaggedReferencesAtNode · 各 tag 完整 kind/actorId/where inParty/setActorSprite/dialog 各输出精确三元组",
+          "status": "passed",
+          "title": "inParty/setActorSprite/dialog 各输出精确三元组",
+          "duration": 2.004084000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E3 actorTaggedReferencesAtNode · 各 tag 完整 kind/actorId/where"],
+          "fullName": "E3 actorTaggedReferencesAtNode · 各 tag 完整 kind/actorId/where setParty 逐成员（含索引 where）；空串/非字符串成员不产出",
+          "status": "passed",
+          "title": "setParty 逐成员（含索引 where）；空串/非字符串成员不产出",
+          "duration": 0.6074579999999798,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E3 actorTaggedReferencesAtNode · 各 tag 完整 kind/actorId/where"],
+          "fullName": "E3 actorTaggedReferencesAtNode · 各 tag 完整 kind/actorId/where 非对象/数组/空 kind 返回空数组；不误收普通字符串字段",
+          "status": "passed",
+          "title": "非对象/数组/空 kind 返回空数组；不误收普通字符串字段",
+          "duration": 0.6815839999999866,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E4 整树递归 vs canonical 单叶 · 不互当替身"],
+          "fullName": "E4 整树递归 vs canonical 单叶 · 不互当替身 collectActorTaggedReferences 整树递归命中两处（含嵌套 then 臂）",
+          "status": "passed",
+          "title": "collectActorTaggedReferences 整树递归命中两处（含嵌套 then 臂）",
+          "duration": 0.7686659999999961,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E4 整树递归 vs canonical 单叶 · 不互当替身"],
+          "fullName": "E4 整树递归 vs canonical 单叶 · 不互当替身 collectCanonicalActorTaggedReferences 只取单命令叶+cond，不递归嵌套臂",
+          "status": "passed",
+          "title": "collectCanonicalActorTaggedReferences 只取单命令叶+cond，不递归嵌套臂",
+          "duration": 0.33004199999999173,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "E5 collectDialoguePortraitReferences · actor/unbound 区分与其它角色不误收"
+          ],
+          "fullName": "E5 collectDialoguePortraitReferences · actor/unbound 区分与其它角色不误收 actor 默认/表情引用与 unbound 全局 asset 各自产出；其它角色不误收",
+          "status": "passed",
+          "title": "actor 默认/表情引用与 unbound 全局 asset 各自产出；其它角色不误收",
+          "duration": 0.35608300000001236,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375304478,
+      "endTime": 1792375304484.3562,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/actor-reference.contracts.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["实体引用判别 + 精灵解析"],
+          "fullName": "实体引用判别 + 精灵解析 isActorEntity:actor 实体 true / prop 实体 false",
+          "status": "passed",
+          "title": "isActorEntity:actor 实体 true / prop 实体 false",
+          "duration": 0.7810419999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["实体引用判别 + 精灵解析"],
+          "fullName": "实体引用判别 + 精灵解析 resolveEntitySpriteId:actor 实体经表解析到 spriteId",
+          "status": "passed",
+          "title": "resolveEntitySpriteId:actor 实体经表解析到 spriteId",
+          "duration": 0.12991699999999184,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["实体引用判别 + 精灵解析"],
+          "fullName": "实体引用判别 + 精灵解析 resolveEntitySpriteId:prop 实体直取 sprite",
+          "status": "passed",
+          "title": "resolveEntitySpriteId:prop 实体直取 sprite",
+          "duration": 0.06045899999999449,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["实体引用判别 + 精灵解析"],
+          "fullName": "实体引用判别 + 精灵解析 resolveEntitySpriteId:actor 不在表 → undefined",
+          "status": "passed",
+          "title": "resolveEntitySpriteId:actor 不在表 → undefined",
+          "duration": 0.11816699999999969,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375304574,
+      "endTime": 1792375304575.13,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/actor.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["calcBaseDamage (fight.c:131-171)"],
+          "fullName": "calcBaseDamage (fight.c:131-171) atk>def / 中间段 / 0 段 / SHORT 溢出",
+          "status": "passed",
+          "title": "atk>def / 中间段 / 0 段 / SHORT 溢出",
+          "duration": 0.8946660000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["calcPhysicalAttackDamage (fight.c:253-285)"],
+          "fullName": "calcPhysicalAttackDamage (fight.c:253-285) resist 1/2/3/0",
+          "status": "passed",
+          "title": "resist 1/2/3/0",
+          "duration": 0.27649999999999864,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["calcMagicDamage (fight.c:174-249)"],
+          "fullName": "calcMagicDamage (fight.c:174-249) 非元素 base/4+magicBase",
+          "status": "passed",
+          "title": "非元素 base/4+magicBase",
+          "duration": 0.10029199999999605,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["calcMagicDamage (fight.c:174-249)"],
+          "fullName": "calcMagicDamage (fight.c:174-249) 元素 wind 无抗无场 → ×2",
+          "status": "passed",
+          "title": "元素 wind 无抗无场 → ×2",
+          "duration": 0.054249999999996135,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["calcMagicDamage (fight.c:174-249)"],
+          "fullName": "calcMagicDamage (fight.c:174-249) 半抗 50 → 减半;满抗 100 → 免疫 0",
+          "status": "passed",
+          "title": "半抗 50 → 减半;满抗 100 → 免疫 0",
+          "duration": 0.0740419999999915,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["calcMagicDamage (fight.c:174-249)"],
+          "fullName": "calcMagicDamage (fight.c:174-249) 各元素类型(thunder/water/fire/earth)无抗 → ×2(对齐 fight.c:193-201)",
+          "status": "passed",
+          "title": "各元素类型(thunder/water/fire/earth)无抗 → ×2(对齐 fight.c:193-201)",
+          "duration": 0.14433299999998894,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["calcMagicDamage (fight.c:174-249)"],
+          "fullName": "calcMagicDamage (fight.c:174-249) 毒系(elem=6)走 poisonRes 非 elemRes(对齐 fight.c:189-192)",
+          "status": "passed",
+          "title": "毒系(elem=6)走 poisonRes 非 elemRes(对齐 fight.c:189-192)",
+          "duration": 0.16012500000002206,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["calcMagicDamage (fight.c:174-249)"],
+          "fullName": "calcMagicDamage (fight.c:174-249) 元素场效加成(fieldEffect.wind=5 → ×1.5,对齐 fight.c:206-213)",
+          "status": "passed",
+          "title": "元素场效加成(fieldEffect.wind=5 → ×1.5,对齐 fight.c:206-213)",
+          "duration": 0.13833299999998871,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["calcMagicDamage (fight.c:174-249)"],
+          "fullName": "calcMagicDamage (fight.c:174-249) rngFactor=0.5 法术强度折半(对齐 fight.c:182)",
+          "status": "passed",
+          "title": "rngFactor=0.5 法术强度折半(对齐 fight.c:182)",
+          "duration": 0.9382499999999823,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["magicDefenseDivisor (fight.c:4801-4803/4836-4838)"],
+          "fullName": "magicDefenseDivisor (fight.c:4801-4803/4836-4838) 乘加结构:(防御2)×(护体2)+(格挡1)",
+          "status": "passed",
+          "title": "乘加结构:(防御2)×(护体2)+(格挡1)",
+          "duration": 0.28158399999998096,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["dexterity (fight.c:289-389)"],
+          "fullName": "dexterity (fight.c:289-389) 敌:(level+6)*3 + dex",
+          "status": "passed",
+          "title": "敌:(level+6)*3 + dex",
+          "duration": 0.13320799999999622,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["dexterity (fight.c:289-389)"],
+          "fullName": "dexterity (fight.c:289-389) 队员:haste ×3,上限 999",
+          "status": "passed",
+          "title": "队员:haste ×3,上限 999",
+          "duration": 0.071708000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildActionQueue (fight.c:1451-1584)"],
+          "fullName": "buildActionQueue (fight.c:1451-1584) dex 降序;同 dex 敌人在前",
+          "status": "passed",
+          "title": "dex 降序;同 dex 敌人在前",
+          "duration": 0.33304200000000606,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildActionQueue (fight.c:1451-1584)"],
+          "fullName": "buildActionQueue (fight.c:1451-1584) dualMove:小 dex 二抽标 fIsSecond",
+          "status": "passed",
+          "title": "dualMove:小 dex 二抽标 fIsSecond",
+          "duration": 0.6202499999999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildActionQueue (fight.c:1451-1584)"],
+          "fullName": "buildActionQueue (fight.c:1451-1584) dualMove 无 dex2:回退 dex-1 恒第二动",
+          "status": "passed",
+          "title": "dualMove 无 dex2:回退 dex-1 恒第二动",
+          "duration": 0.1160419999999931,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["status (fight.c:1632-1661)"],
+          "fullName": "status (fight.c:1632-1661) 回合末全计数器 -1(含 boolean 类 haste/protect)",
+          "status": "passed",
+          "title": "回合末全计数器 -1(含 boolean 类 haste/protect)",
+          "duration": 0.09195799999997689,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["status (fight.c:1632-1661)"],
+          "fullName": "status (fight.c:1632-1661) 全部 10 种 status 逐回合 -1(对齐一阶段 status.test 真值)",
+          "status": "passed",
+          "title": "全部 10 种 status 逐回合 -1(对齐一阶段 status.test 真值)",
+          "duration": 0.11487499999998363,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["status (fight.c:1632-1661)"],
+          "fullName": "status (fight.c:1632-1661) sleep=3 → 2 → 1 → 0 → 0(到 0 不再衰减,一阶段 status.test 真值)",
+          "status": "passed",
+          "title": "sleep=3 → 2 → 1 → 0 → 0(到 0 不再衰减,一阶段 status.test 真值)",
+          "duration": 0.06316699999999287,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["status (fight.c:1632-1661)"],
+          "fullName": "status (fight.c:1632-1661) paralyzed 同 sleep 衰减(一阶段 status.test 真值)",
+          "status": "passed",
+          "title": "paralyzed 同 sleep 衰减(一阶段 status.test 真值)",
+          "duration": 0.040625000000005684,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["status (fight.c:1632-1661)"],
+          "fullName": "status (fight.c:1632-1661) canAct:sleep/paralyzed 阻断;canCastMagic:silence 阻断",
+          "status": "passed",
+          "title": "canAct:sleep/paralyzed 阻断;canCastMagic:silence 阻断",
+          "duration": 0.08762500000000273,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyPlayerStatus (global.c:2221-2276 PAL_SetPlayerStatus)"],
+          "fullName": "applyPlayerStatus (global.c:2221-2276 PAL_SetPlayerStatus) 坏状态已有不刷新(global.c:2234)",
+          "status": "passed",
+          "title": "坏状态已有不刷新(global.c:2234)",
+          "duration": 0.08170800000002032,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyPlayerStatus (global.c:2221-2276 PAL_SetPlayerStatus)"],
+          "fullName": "applyPlayerStatus (global.c:2221-2276 PAL_SetPlayerStatus) 好状态取较长且仅活人",
+          "status": "passed",
+          "title": "好状态取较长且仅活人",
+          "duration": 0.06445899999999938,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyPlayerStatus (global.c:2221-2276 PAL_SetPlayerStatus)"],
+          "fullName": "applyPlayerStatus (global.c:2221-2276 PAL_SetPlayerStatus) 傀儡仅死者可设(global.c:2240-2255)",
+          "status": "passed",
+          "title": "傀儡仅死者可设(global.c:2240-2255)",
+          "duration": 0.04691700000000765,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyPlayerStatus (global.c:2221-2276 PAL_SetPlayerStatus)"],
+          "fullName": "applyPlayerStatus (global.c:2221-2276 PAL_SetPlayerStatus) 加速↔迟缓互斥(非 CLASSIC 语义;引擎超集)",
+          "status": "passed",
+          "title": "加速↔迟缓互斥(非 CLASSIC 语义;引擎超集)",
+          "duration": 0.05604199999999082,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applyPlayerStatus (global.c:2221-2276 PAL_SetPlayerStatus)"],
+          "fullName": "applyPlayerStatus (global.c:2221-2276 PAL_SetPlayerStatus) 敌方状态 = 直接赋值(script.c:1391;短回合可覆写长回合)",
+          "status": "passed",
+          "title": "敌方状态 = 直接赋值(script.c:1391;短回合可覆写长回合)",
+          "duration": 0.036167000000006055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375304486,
+      "endTime": 1792375304491.116,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/battle-formulas.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["角色 schema(ActorDef)"],
+          "fullName": "角色 schema(ActorDef) instantiate 角色 → 实例(读 battler;初始值拷贝;exp=0,tags 空)",
+          "status": "passed",
+          "title": "instantiate 角色 → 实例(读 battler;初始值拷贝;exp=0,tags 空)",
+          "duration": 1.5301670000000058,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["角色 schema(ActorDef)"],
+          "fullName": "角色 schema(ActorDef) instantiate 每次独立(不共享引用)",
+          "status": "passed",
+          "title": "instantiate 每次独立(不共享引用)",
+          "duration": 0.2007499999999709,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["角色 schema(ActorDef)"],
+          "fullName": "角色 schema(ActorDef) 无 battler 的 actor → instantiate throw(含 id)",
+          "status": "passed",
+          "title": "无 battler 的 actor → instantiate throw(含 id)",
+          "duration": 0.8818330000000287,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildWorld(入口 startWorld 数据化)"],
+          "fullName": "buildWorld(入口 startWorld 数据化) 组装:party instantiate + seedStats 覆盖当前 hp/mp + 角色定义播种技能",
+          "status": "passed",
+          "title": "组装:party instantiate + seedStats 覆盖当前 hp/mp + 角色定义播种技能",
+          "duration": 0.6234999999999786,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildWorld(入口 startWorld 数据化)"],
+          "fullName": "buildWorld(入口 startWorld 数据化) 运行时技能深拷贝，学习或遗忘不回写角色定义",
+          "status": "passed",
+          "title": "运行时技能深拷贝，学习或遗忘不回写角色定义",
+          "duration": 0.15362500000003365,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildWorld(入口 startWorld 数据化)"],
+          "fullName": "buildWorld(入口 startWorld 数据化) 无 seedStats → 用 battler.baseStats 的 hp/mp",
+          "status": "passed",
+          "title": "无 seedStats → 用 battler.baseStats 的 hp/mp",
+          "duration": 0.0735000000000241,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildWorld(入口 startWorld 数据化)"],
+          "fullName": "buildWorld(入口 startWorld 数据化) 只在新建世界时为开局队员播种三种 condition carrier",
+          "status": "passed",
+          "title": "只在新建世界时为开局队员播种三种 condition carrier",
+          "duration": 0.5244579999999814,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildWorld(入口 startWorld 数据化)"],
+          "fullName": "buildWorld(入口 startWorld 数据化) 不同入口的 condition seed 完全隔离，未配置时不物化空 carrier",
+          "status": "passed",
+          "title": "不同入口的 condition seed 完全隔离，未配置时不物化空 carrier",
+          "duration": 0.31799999999998363,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildWorld(入口 startWorld 数据化)"],
+          "fullName": "buildWorld(入口 startWorld 数据化) 入口 condition 未知/重复引用 fail-loud",
+          "status": "passed",
+          "title": "入口 condition 未知/重复引用 fail-loud",
+          "duration": 0.47116599999998243,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildWorld(入口 startWorld 数据化)"],
+          "fullName": "buildWorld(入口 startWorld 数据化) seedStats 的 0 是有效当前值，单字段覆盖不固化另一项",
+          "status": "passed",
+          "title": "seedStats 的 0 是有效当前值，单字段覆盖不固化另一项",
+          "duration": 0.10600000000005139,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildWorld(入口 startWorld 数据化)"],
+          "fullName": "buildWorld(入口 startWorld 数据化) 入口当前 HP 为 0 时不能同时播种好状态",
+          "status": "passed",
+          "title": "入口当前 HP 为 0 时不能同时播种好状态",
+          "duration": 0.150291999999979,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildWorld(入口 startWorld 数据化)"],
+          "fullName": "buildWorld(入口 startWorld 数据化) 同一角色的不同入口只改当前 hp/mp，最大值与初始技能稳定继承定义",
+          "status": "passed",
+          "title": "同一角色的不同入口只改当前 hp/mp，最大值与初始技能稳定继承定义",
+          "duration": 0.1517090000000394,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildWorld(入口 startWorld 数据化)"],
+          "fullName": "buildWorld(入口 startWorld 数据化) 缺角色 → throw",
+          "status": "passed",
+          "title": "缺角色 → throw",
+          "duration": 0.0724999999999909,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildWorld(入口 startWorld 数据化)"],
+          "fullName": "buildWorld(入口 startWorld 数据化) party 引无 battler 的 actor → throw(经 instantiate)",
+          "status": "passed",
+          "title": "party 引无 battler 的 actor → throw(经 instantiate)",
+          "duration": 0.06716599999998607,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildWorld(入口 startWorld 数据化)"],
+          "fullName": "buildWorld(入口 startWorld 数据化) 新档直接构造 canonical script 与 lifecycle 空容器",
+          "status": "passed",
+          "title": "新档直接构造 canonical script 与 lifecycle 空容器",
+          "duration": 0.16312499999997954,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildWorld variable defaults"],
+          "fullName": "buildWorld variable defaults seeds only a fresh world and keeps definition metadata out of runtime state",
+          "status": "passed",
+          "title": "seeds only a fresh world and keeps definition metadata out of runtime state",
+          "duration": 0.2394170000000031,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applySetParty —— C7 队伍变更(D22 reserve 暂存区)"],
+          "fullName": "applySetParty —— C7 队伍变更(D22 reserve 暂存区) 新成员首次入队:从模板实例化",
+          "status": "passed",
+          "title": "新成员首次入队:从模板实例化",
+          "duration": 0.11612500000001091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applySetParty —— C7 队伍变更(D22 reserve 暂存区)"],
+          "fullName": "applySetParty —— C7 队伍变更(D22 reserve 暂存区) 已有空技能键表示运行进度，首次入队也不重播",
+          "status": "passed",
+          "title": "已有空技能键表示运行进度，首次入队也不重播",
+          "duration": 0.04229099999997743,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applySetParty —— C7 队伍变更(D22 reserve 暂存区)"],
+          "fullName": "applySetParty —— C7 队伍变更(D22 reserve 暂存区) 离队进 reserve,状态不丢;再入队原样搬回",
+          "status": "passed",
+          "title": "离队进 reserve,状态不丢;再入队原样搬回",
+          "duration": 0.2508330000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applySetParty —— C7 队伍变更(D22 reserve 暂存区)"],
+          "fullName": "applySetParty —— C7 队伍变更(D22 reserve 暂存区) setParty 后的显式 condition 命令独立生效，离队归队仍保留",
+          "status": "passed",
+          "title": "setParty 后的显式 condition 命令独立生效，离队归队仍保留",
+          "duration": 0.11495800000000145,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applySetParty —— C7 队伍变更(D22 reserve 暂存区)"],
+          "fullName": "applySetParty —— C7 队伍变更(D22 reserve 暂存区) 离队后的学习/遗忘进度在归队时不被出厂技能覆盖",
+          "status": "passed",
+          "title": "离队后的学习/遗忘进度在归队时不被出厂技能覆盖",
+          "duration": 0.05583299999995006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applySetParty —— C7 队伍变更(D22 reserve 暂存区)"],
+          "fullName": "applySetParty —— C7 队伍变更(D22 reserve 暂存区) members 顺序 = 站位序(队长在前)",
+          "status": "passed",
+          "title": "members 顺序 = 站位序(队长在前)",
+          "duration": 0.03941700000001447,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applySetParty —— C7 队伍变更(D22 reserve 暂存区)"],
+          "fullName": "applySetParty —— C7 队伍变更(D22 reserve 暂存区) 在队成员保留原实例(引用不变)",
+          "status": "passed",
+          "title": "在队成员保留原实例(引用不变)",
+          "duration": 0.04425000000003365,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applySetParty —— C7 队伍变更(D22 reserve 暂存区)"],
+          "fullName": "applySetParty —— C7 队伍变更(D22 reserve 暂存区) 未知角色 id 抛错",
+          "status": "passed",
+          "title": "未知角色 id 抛错",
+          "duration": 0.06958300000002282,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["applySetParty —— C7 队伍变更(D22 reserve 暂存区)"],
+          "fullName": "applySetParty —— C7 队伍变更(D22 reserve 暂存区) 入队中途失败不留队伍或技能半提交",
+          "status": "passed",
+          "title": "入队中途失败不留队伍或技能半提交",
+          "duration": 0.12129099999998516,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375304539,
+      "endTime": 1792375304546.1213,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/character.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["E6 commandTargetReferences · typed tag 与 EntityAddress"],
+          "fullName": "E6 commandTargetReferences · typed tag 与 EntityAddress 显式 EntityAddress 产出 entity 目标；loadScene 产出 scene+scene-entry 双边",
+          "status": "passed",
+          "title": "显式 EntityAddress 产出 entity 目标；loadScene 产出 scene+scene-entry 双边",
+          "duration": 1.6637499999999932,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E6 commandTargetReferences · typed tag 与 EntityAddress"],
+          "fullName": "E6 commandTargetReferences · typed tag 与 EntityAddress currentScene 条件边；空值/错型不产生假边",
+          "status": "passed",
+          "title": "currentScene 条件边；空值/错型不产生假边",
+          "duration": 0.3871249999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E6 commandTargetReferences · typed tag 与 EntityAddress"],
+          "fullName": "E6 commandTargetReferences · typed tag 与 EntityAddress 整树 vs canonical 分域：canonical 只取叶+target/cond，不递归嵌套数组臂",
+          "status": "passed",
+          "title": "整树 vs canonical 分域：canonical 只取叶+target/cond，不递归嵌套数组臂",
+          "duration": 1.6245000000000118,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E7 rewriteExplicitSceneReferences · 只改 typed 自身 scene"],
+          "fullName": "E7 rewriteExplicitSceneReferences · 只改 typed 自身 scene typed scene 全部改写；普通文字/外部 scene 不改；输入不被污染；完整树预期",
+          "status": "passed",
+          "title": "typed scene 全部改写；普通文字/外部 scene 不改；输入不被污染；完整树预期",
+          "duration": 1.1968750000000057,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375304485,
+      "endTime": 1792375304490.1968,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/command-target-reference.contracts.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["ProjectMap current canonical schema"],
+          "fullName": "ProjectMap current canonical schema 同层同号 tileId 可来自不同瓦片集且解析无歧义",
+          "status": "passed",
+          "title": "同层同号 tileId 可来自不同瓦片集且解析无歧义",
+          "duration": 1.923249999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ProjectMap current canonical schema"],
+          "fullName": "ProjectMap current canonical schema tiles/sources lockstep、来源下标和稳定来源表 fail-loud",
+          "status": "passed",
+          "title": "tiles/sources lockstep、来源下标和稳定来源表 fail-loud",
+          "duration": 0.6540410000000065,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ProjectMap current canonical schema"],
+          "fullName": "ProjectMap current canonical schema 空瓦片高度必须为零，全零高度矩阵规范化为省略",
+          "status": "passed",
+          "title": "空瓦片高度必须为零，全零高度矩阵规范化为省略",
+          "duration": 0.20795800000001918,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ProjectMap current canonical schema"],
+          "fullName": "ProjectMap current canonical schema 作者放置身份与普通内容共同按当前单版本往返",
+          "status": "passed",
+          "title": "作者放置身份与普通内容共同按当前单版本往返",
+          "duration": 1.0687499999999943,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ProjectMap current canonical schema"],
+          "fullName": "ProjectMap current canonical schema 单来源逐格来源矩阵以唯一可还原的省略形态落盘",
+          "status": "passed",
+          "title": "单来源逐格来源矩阵以唯一可还原的省略形态落盘",
+          "duration": 0.39354099999999903,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["ProjectMap current canonical schema"],
+          "fullName": "ProjectMap current canonical schema 拒绝旧开发版本、重复层和错误矩阵尺寸",
+          "status": "passed",
+          "title": "拒绝旧开发版本、重复层和错误矩阵尺寸",
+          "duration": 0.19254100000000562,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375304479,
+      "endTime": 1792375304484.1926,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/project-map.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "reward learning initializes the instance list and deduplicates only skills at crossed levels",
+          "status": "passed",
+          "title": "reward learning initializes the instance list and deduplicates only skills at crossed levels",
+          "duration": 2.70637499999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "reward level cap still consumes thresholds without growth, skill grants or random calls",
+          "status": "passed",
+          "title": "reward level cap still consumes thresholds without growth, skill grants or random calls",
+          "duration": 0.4441659999999956,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "reward upgrade without a levelUp registry never creates an empty learned-skills entry",
+          "status": "passed",
+          "title": "reward upgrade without a levelUp registry never creates an empty learned-skills entry",
+          "duration": 0.31816700000001674,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "hidden exp floors before doubling and preserves existing pools without input-count mutation",
+          "status": "passed",
+          "title": "hidden exp floors before doubling and preserves existing pools without input-count mutation",
+          "duration": 0.2919170000000122,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "hidden exp stops at an absent threshold and preserves the WORD remainder",
+          "status": "passed",
+          "title": "hidden exp stops at an absent threshold and preserves the WORD remainder",
+          "duration": 0.26037500000001046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "hidden exp stops at an zero threshold and preserves the WORD remainder",
+          "status": "passed",
+          "title": "hidden exp stops at an zero threshold and preserves the WORD remainder",
+          "duration": 0.12754200000000537,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375304602,
+      "endTime": 1792375304606.2603,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/rewards.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["B7a 战后结算"],
+          "fullName": "B7a 战后结算 通用成长在 99 级仍掷上界属性并把七项钳到 999",
+          "status": "passed",
+          "title": "通用成长在 99 级仍掷上界属性并把七项钳到 999",
+          "duration": 1.0445000000000277,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B7a 战后结算"],
+          "fullName": "B7a 战后结算 升级:扣减式 exp、成长下限、HP/MP 回满、学技能",
+          "status": "passed",
+          "title": "升级:扣减式 exp、成长下限、HP/MP 回满、学技能",
+          "duration": 1.1546670000000177,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B7a 战后结算"],
+          "fullName": "B7a 战后结算 不升级:exp 累计 + Phase F 半恢复",
+          "status": "passed",
+          "title": "不升级:exp 累计 + Phase F 半恢复",
+          "duration": 0.12512500000002547,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B7a 战后结算"],
+          "fullName": "B7a 战后结算 死者不获经验,但吃 Phase F 半恢复(调用方先回 1 血 = 原版战后复活观感)",
+          "status": "passed",
+          "title": "死者不获经验,但吃 Phase F 半恢复(调用方先回 1 血 = 原版战后复活观感)",
+          "duration": 0.08883400000001984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B7c 隐藏经验(CHECK_HIDDEN_EXP)"],
+          "fullName": "B7c 隐藏经验(CHECK_HIDDEN_EXP) 比例分配 ×2 + 过阈值 +R(1,2) + 余数回存;零行为跳过",
+          "status": "passed",
+          "title": "比例分配 ×2 + 过阈值 +R(1,2) + 余数回存;零行为跳过",
+          "duration": 0.2987499999999841,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B7c 隐藏经验(CHECK_HIDDEN_EXP)"],
+          "fullName": "B7c 隐藏经验(CHECK_HIDDEN_EXP) grantBattleRewards 集成:hiddenCounts 走通 → hiddenUps 报告",
+          "status": "passed",
+          "title": "grantBattleRewards 集成:hiddenCounts 走通 → hiddenUps 报告",
+          "duration": 0.34433400000000347,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375304536,
+      "endTime": 1792375304539.3442,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/rewards.test.ts"
+    }
+  ]
+}

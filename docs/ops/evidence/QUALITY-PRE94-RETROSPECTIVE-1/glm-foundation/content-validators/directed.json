@@ -1,0 +1,1449 @@
+{
+  "numTotalTestSuites": 16,
+  "numPassedTestSuites": 16,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 140,
+  "numPassedTests": 140,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792375875492,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "干净 bundle → 无 issue",
+          "status": "passed",
+          "title": "干净 bundle → 无 issue",
+          "duration": 2.694874999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "敌 hook/fallback/演出/战后脚本的逻辑引用完整时无 issue",
+          "status": "passed",
+          "title": "敌 hook/fallback/演出/战后脚本的逻辑引用完整时无 issue",
+          "duration": 0.9190000000000111,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "敌方可达 cast 对有效 execution fail-closed，override 可隔离玩家专属公共效果",
+          "status": "passed",
+          "title": "敌方可达 cast 对有效 execution fail-closed，override 可隔离玩家专属公共效果",
+          "duration": 1.002082999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "技能 execution 分支的 summon/trance 进入 BattleSpriteDef 静态引用闭包",
+          "status": "passed",
+          "title": "技能 execution 分支的 summon/trance 进入 BattleSpriteDef 静态引用闭包",
+          "duration": 0.21520900000001575,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "canonical shared 与 item-private 的世界/动作/战斗精灵叶进入保存闭包",
+          "status": "passed",
+          "title": "canonical shared 与 item-private 的世界/动作/战斗精灵叶进入保存闭包",
+          "duration": 1.3566250000000082,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "敌脚本逻辑引用递归保留精确路径并拒绝非战斗角色",
+          "status": "passed",
+          "title": "敌脚本逻辑引用递归保留精确路径并拒绝非战斗角色",
+          "duration": 0.5961250000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "组合模板 tilesetRefs 悬空 → 报 error",
+          "status": "passed",
+          "title": "组合模板 tilesetRefs 悬空 → 报 error",
+          "duration": 0.350166999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "levelUp.skillId 不在 skills → 报 warn(demo 已知未迁全)",
+          "status": "passed",
+          "title": "levelUp.skillId 不在 skills → 报 warn(demo 已知未迁全)",
+          "duration": 0.2885830000000169,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "prop 实体 sprite 不在 sprites 注册表 → 报 error",
+          "status": "passed",
+          "title": "prop 实体 sprite 不在 sprites 注册表 → 报 error",
+          "duration": 0.5719160000000159,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "actor 实体指向不存在角色 → 报 error(C0)",
+          "status": "passed",
+          "title": "actor 实体指向不存在角色 → 报 error(C0)",
+          "duration": 0.1761250000000132,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "actor.spriteId 不在 sprites 注册表 → 报 error(C0)",
+          "status": "passed",
+          "title": "actor.spriteId 不在 sprites 注册表 → 报 error(C0)",
+          "duration": 0.17608400000000302,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "嵌套场景/chunk 命令中的换装与 followers 共用 SpriteDef 语义闭包",
+          "status": "passed",
+          "title": "嵌套场景/chunk 命令中的换装与 followers 共用 SpriteDef 语义闭包",
+          "duration": 0.39187499999999886,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "页绑定与嵌套命令按 (sprite, action) 复合引用校验",
+          "status": "passed",
+          "title": "页绑定与嵌套命令按 (sprite, action) 复合引用校验",
+          "duration": 0.30320800000001213,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "动作引用保留场景页与嵌套命令的精确校验路径",
+          "status": "passed",
+          "title": "动作引用保留场景页与嵌套命令的精确校验路径",
+          "duration": 0.1804159999999797,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "未登记的内部共享脚本动作引用仍进入校验闭包",
+          "status": "passed",
+          "title": "未登记的内部共享脚本动作引用仍进入校验闭包",
+          "duration": 0.0887920000000122,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "canonical 行为、hooks 与共享脚本动作可校验且不会把 behavior id 当 inline stages",
+          "status": "passed",
+          "title": "canonical 行为、hooks 与共享脚本动作可校验且不会把 behavior id 当 inline stages",
+          "duration": 0.11212500000002024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "动态脚本绑定内联 stages 的动作仍进入校验与删除保护",
+          "status": "passed",
+          "title": "动态脚本绑定内联 stages 的动作仍进入校验与删除保护",
+          "duration": 0.19425000000001091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "页动作声明的 sprite 也进入定义级引用门禁",
+          "status": "passed",
+          "title": "页动作声明的 sprite 也进入定义级引用门禁",
+          "duration": 0.116375000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "current 可见存档 appearance/followers 也进入删除与校验引用图",
+          "status": "passed",
+          "title": "current 可见存档 appearance/followers 也进入删除与校验引用图",
+          "duration": 0.31287499999999113,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "actor.battler.initialEquipment 指向不存在物品 → 报 warn",
+          "status": "passed",
+          "title": "actor.battler.initialEquipment 指向不存在物品 → 报 warn",
+          "duration": 0.10416600000002063,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "E18-1:coveredBy 指向不存在角色 → error;指向纯 NPC → error",
+          "status": "passed",
+          "title": "E18-1:coveredBy 指向不存在角色 → error;指向纯 NPC → error",
+          "duration": 0.1610419999999806,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "E18-1:coveredBy 指向自己 → warn 不 error;互护合法零 issue",
+          "status": "passed",
+          "title": "E18-1:coveredBy 指向自己 → warn 不 error;互护合法零 issue",
+          "duration": 0.1579590000000053,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "E18-1:cooperativeMagicSkillId 不在 skills → error",
+          "status": "passed",
+          "title": "E18-1:cooperativeMagicSkillId 不在 skills → error",
+          "duration": 0.09066699999999628,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "E18-1:casualty 台词文本 id 不在 locale → warn;空壳 → warn",
+          "status": "passed",
+          "title": "E18-1:casualty 台词文本 id 不在 locale → warn;空壳 → warn",
+          "duration": 0.21349999999998204,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "E18-1:合法三字段(gates+fallback+互护)→ 零 issue",
+          "status": "passed",
+          "title": "E18-1:合法三字段(gates+fallback+互护)→ 零 issue",
+          "duration": 0.11941699999999855,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "entryPoint.startWorld.party 指向不存在角色 → 报 error",
+          "status": "passed",
+          "title": "entryPoint.startWorld.party 指向不存在角色 → 报 error",
+          "duration": 0.0887909999999863,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "entryPoint.startWorld.party 引无 battler 的 actor → 报 error(C0:入队必须可战斗)",
+          "status": "passed",
+          "title": "entryPoint.startWorld.party 引无 battler 的 actor → 报 error(C0:入队必须可战斗)",
+          "duration": 0.11170799999999304,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "entryPoint.startWorld.seedConditions 只能引用该入口队员与已登记毒",
+          "status": "passed",
+          "title": "entryPoint.startWorld.seedConditions 只能引用该入口队员与已登记毒",
+          "duration": 0.1951660000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "entryPoint.startWorld.seedConditions 拒绝给当前 HP 为 0 的角色播种好状态",
+          "status": "passed",
+          "title": "entryPoint.startWorld.seedConditions 拒绝给当前 HP 为 0 的角色播种好状态",
+          "duration": 0.19879099999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "entryPoint.startWorld.seedConditions 的死亡角色未知状态不会让引用诊断崩溃",
+          "status": "passed",
+          "title": "entryPoint.startWorld.seedConditions 的死亡角色未知状态不会让引用诊断崩溃",
+          "duration": 0.35533399999999915,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "ActorDef.battler.initialMagic 指向不存在技能 → 报 error",
+          "status": "passed",
+          "title": "ActorDef.battler.initialMagic 指向不存在技能 → 报 error",
+          "duration": 0.11095800000001077,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "EquipSpec.equipableBy 指向不存在角色 → 报 warn",
+          "status": "passed",
+          "title": "EquipSpec.equipableBy 指向不存在角色 → 报 warn",
+          "duration": 0.11808399999998187,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "EquipEffect.grantSkill.skillId 不在 skills → 报 warn",
+          "status": "passed",
+          "title": "EquipEffect.grantSkill.skillId 不在 skills → 报 warn",
+          "duration": 0.16687499999997613,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "EquipEffect.battleSprite 按角色校验 actor/equipableBy/资源/profile 并保留逐角色路径",
+          "status": "passed",
+          "title": "EquipEffect.battleSprite 按角色校验 actor/equipableBy/资源/profile 并保留逐角色路径",
+          "duration": 0.8513750000000186,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "SkillCost.items[].itemId 不在 items → 报 warn",
+          "status": "passed",
+          "title": "SkillCost.items[].itemId 不在 items → 报 warn",
+          "duration": 0.14879200000001447,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "C8 use/throw 的配方、奖励、毒与共享脚本引用全部进入闭包",
+          "status": "passed",
+          "title": "C8 use/throw 的配方、奖励、毒与共享脚本引用全部进入闭包",
+          "duration": 0.3709170000000199,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "迁移诊断 target.item 也必须存在",
+          "status": "passed",
+          "title": "迁移诊断 target.item 也必须存在",
+          "duration": 0.19558299999999917,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Actor typed 引用补齐外观、队伍与当前状态命令，并保留精确路径",
+          "status": "passed",
+          "title": "Actor typed 引用补齐外观、队伍与当前状态命令，并保留精确路径",
+          "duration": 0.18924999999998704,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "剧情 apply/clear condition 拒绝存在但不可参战的角色",
+          "status": "passed",
+          "title": "剧情 apply/clear condition 拒绝存在但不可参战的角色",
+          "duration": 0.14337499999999181,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "剧情 apply/clear condition 的数值毒 id 进入跨表闭包",
+          "status": "passed",
+          "title": "剧情 apply/clear condition 的数值毒 id 进入跨表闭包",
+          "duration": 0.15545900000000756,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "levelUp 悬空引用仍是 warn",
+          "status": "passed",
+          "title": "levelUp 悬空引用仍是 warn",
+          "duration": 0.48816600000000676,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateReferences · battleField 三层引用(B2-1)"],
+          "fullName": "validateReferences · battleField 三层引用(B2-1) 场景默认、hostile 与递归 startBattle 都会拒绝 dangling id",
+          "status": "passed",
+          "title": "场景默认、hostile 与递归 startBattle 都会拒绝 dangling id",
+          "duration": 0.23958300000001032,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateReferences · battleField 三层引用(B2-1)"],
+          "fullName": "validateReferences · battleField 三层引用(B2-1) 三层引用全部命中已声明表时不产生战场问题",
+          "status": "passed",
+          "title": "三层引用全部命中已声明表时不产生战场问题",
+          "duration": 0.131416999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateReferences · battle data closure"],
+          "fullName": "validateReferences · battle data closure checks skill layers, poison relations and runtime world references from typed leaves",
+          "status": "passed",
+          "title": "checks skill layers, poison relations and runtime world references from typed leaves",
+          "duration": 0.3199159999999779,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateReferences · ED-3 command target closure"],
+          "fullName": "validateReferences · ED-3 command target closure rejects missing scene/map/buy-shop/team/entity/entry/hook and warns missing ambience",
+          "status": "passed",
+          "title": "rejects missing scene/map/buy-shop/team/entity/entry/hook and warns missing ambience",
+          "duration": 0.48854199999999537,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateReferences · ED-3 command target closure"],
+          "fullName": "validateReferences · ED-3 command target closure accepts declared targets and never treats sell shop as a ShopDef edge",
+          "status": "passed",
+          "title": "accepts declared targets and never treats sell shop as a ShopDef edge",
+          "duration": 0.3237079999999821,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375875739,
+      "endTime": 1792375875755.4885,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/validate-refs.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["validateScenes · 实体 actor ⊕ sprite(C0)"],
+          "fullName": "validateScenes · 实体 actor ⊕ sprite(C0) actor 形态 / sprite 形态 → 各自通过",
+          "status": "passed",
+          "title": "actor 形态 / sprite 形态 → 各自通过",
+          "duration": 1.2957079999999905,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateScenes · 实体 actor ⊕ sprite(C0)"],
+          "fullName": "validateScenes · 实体 actor ⊕ sprite(C0) 两者都有 → throw(M3a:恰一 actor/sprite/zone)",
+          "status": "passed",
+          "title": "两者都有 → throw(M3a:恰一 actor/sprite/zone)",
+          "duration": 0.16316699999998718,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateScenes · 实体 actor ⊕ sprite(C0)"],
+          "fullName": "validateScenes · 实体 actor ⊕ sprite(C0) 两者都无 → throw",
+          "status": "passed",
+          "title": "两者都无 → throw",
+          "duration": 0.09899999999998954,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateScenes · 实体 actor ⊕ sprite(C0)"],
+          "fullName": "validateScenes · 实体 actor ⊕ sprite(C0) zone 触发区:zone:true 单独合法",
+          "status": "passed",
+          "title": "zone 触发区:zone:true 单独合法",
+          "duration": 0.13270900000003394,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateScenes · 实体 actor ⊕ sprite(C0)"],
+          "fullName": "validateScenes · 实体 actor ⊕ sprite(C0) zone 触发区拒绝无意义朝向，可见实体仍可声明朝向",
+          "status": "passed",
+          "title": "zone 触发区拒绝无意义朝向，可见实体仍可声明朝向",
+          "duration": 0.11899999999997135,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateScenes · 实体 actor ⊕ sprite(C0)"],
+          "fullName": "validateScenes · 实体 actor ⊕ sprite(C0) zone 类型契约同样拒绝朝向字段",
+          "status": "passed",
+          "title": "zone 类型契约同样拒绝朝向字段",
+          "duration": 0.1437909999999647,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateActors · E18-1 三字段结构校验(K2)"],
+          "fullName": "validateActors · E18-1 三字段结构校验(K2) 合法三字段 → 通过",
+          "status": "passed",
+          "title": "合法三字段 → 通过",
+          "duration": 0.3151659999999765,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateActors · E18-1 三字段结构校验(K2)"],
+          "fullName": "validateActors · E18-1 三字段结构校验(K2) coveredBy / cooperativeMagicSkillId 空串 → throw",
+          "status": "passed",
+          "title": "coveredBy / cooperativeMagicSkillId 空串 → throw",
+          "duration": 0.21954099999999244,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateActors · E18-1 三字段结构校验(K2)"],
+          "fullName": "validateActors · E18-1 三字段结构校验(K2) chance 越界(0 / 101 / 非整数)→ throw",
+          "status": "passed",
+          "title": "chance 越界(0 / 101 / 非整数)→ throw",
+          "duration": 0.44566599999996015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateActors · E18-1 三字段结构校验(K2)"],
+          "fullName": "validateActors · E18-1 三字段结构校验(K2) style 非法 / effect kind 非法 / percent <1 → throw",
+          "status": "passed",
+          "title": "style 非法 / effect kind 非法 / percent <1 → throw",
+          "duration": 0.18274999999999864,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateSprites(含 layout,C0)"],
+          "fullName": "validateSprites(含 layout,C0) 合法数组 → 原样返回",
+          "status": "passed",
+          "title": "合法数组 → 原样返回",
+          "duration": 0.44433300000002873,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateSprites(含 layout,C0)"],
+          "fullName": "validateSprites(含 layout,C0) 非数组 → throw",
+          "status": "passed",
+          "title": "非数组 → throw",
+          "duration": 0.06024999999999636,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateSprites(含 layout,C0)"],
+          "fullName": "validateSprites(含 layout,C0) 缺 asset → throw",
+          "status": "passed",
+          "title": "缺 asset → throw",
+          "duration": 0.05779200000000628,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateSprites(含 layout,C0)"],
+          "fullName": "validateSprites(含 layout,C0) 旧 spriteNum/path 与空 asset → throw",
+          "status": "passed",
+          "title": "旧 spriteNum/path 与空 asset → throw",
+          "duration": 0.11620899999996936,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateSprites(含 layout,C0)"],
+          "fullName": "validateSprites(含 layout,C0) 缺 layout → throw",
+          "status": "passed",
+          "title": "缺 layout → throw",
+          "duration": 0.05283299999996416,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateSprites(含 layout,C0)"],
+          "fullName": "validateSprites(含 layout,C0) layout.kind 非法 → throw",
+          "status": "passed",
+          "title": "layout.kind 非法 → throw",
+          "duration": 0.049832999999978256,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateSprites(含 layout,C0)"],
+          "fullName": "validateSprites(含 layout,C0) directional 缺 framesPerDir → throw",
+          "status": "passed",
+          "title": "directional 缺 framesPerDir → throw",
+          "duration": 0.048499999999989996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateSprites(含 layout,C0)"],
+          "fullName": "validateSprites(含 layout,C0) v4 拒绝旧 layout.loop 第二真值",
+          "status": "passed",
+          "title": "v4 拒绝旧 layout.loop 第二真值",
+          "duration": 0.047416999999995824,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateSprites(含 layout,C0)"],
+          "fullName": "validateSprites(含 layout,C0) 布局计数必须是正整数，动作时间线完整校验",
+          "status": "passed",
+          "title": "布局计数必须是正整数，动作时间线完整校验",
+          "duration": 0.2953749999999786,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateSprites(含 layout,C0)"],
+          "fullName": "validateSprites(含 layout,C0) id 唯一，且可与 catalog 的 sprite kind 交叉校验",
+          "status": "passed",
+          "title": "id 唯一，且可与 catalog 的 sprite kind 交叉校验",
+          "duration": 0.24475000000001046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateActors(C0)"],
+          "fullName": "validateActors(C0) 合法(带/不带 battler)→ 原样返回",
+          "status": "passed",
+          "title": "合法(带/不带 battler)→ 原样返回",
+          "duration": 0.044208000000026004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateActors(C0)"],
+          "fullName": "validateActors(C0) 缺 spriteId → throw",
+          "status": "passed",
+          "title": "缺 spriteId → throw",
+          "duration": 0.0504579999999919,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateActors(C0)"],
+          "fullName": "validateActors(C0) name 非 string → throw",
+          "status": "passed",
+          "title": "name 非 string → throw",
+          "duration": 0.04958399999998164,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateActors(C0)"],
+          "fullName": "validateActors(C0) battler 缺 baseStats → throw",
+          "status": "passed",
+          "title": "battler 缺 baseStats → throw",
+          "duration": 0.05141699999995808,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateActors(C0)"],
+          "fullName": "validateActors(C0) 战斗音效只接受可选 AssetId，拒绝旧数字",
+          "status": "passed",
+          "title": "战斗音效只接受可选 AssetId，拒绝旧数字",
+          "duration": 0.06324999999998226,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateActors(C0)"],
+          "fullName": "validateActors(C0) 初始仙术必须是非空、不重复的 skill id 数组",
+          "status": "passed",
+          "title": "初始仙术必须是非空、不重复的 skill id 数组",
+          "duration": 0.15241699999995717,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateActors(C0)"],
+          "fullName": "validateActors(C0) 立绘组与 face 只接受 AssetId，expressions 全量检查",
+          "status": "passed",
+          "title": "立绘组与 face 只接受 AssetId，expressions 全量检查",
+          "duration": 0.26258300000000645,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "技能、物品和敌人音效 guard 拒绝旧数字与负号协议",
+          "status": "passed",
+          "title": "技能、物品和敌人音效 guard 拒绝旧数字与负号协议",
+          "duration": 0.6124169999999935,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "技能执行分支、直接资源变化、前置震屏与剩余 MP 语义可校验",
+          "status": "passed",
+          "title": "技能执行分支、直接资源变化、前置震屏与剩余 MP 语义可校验",
+          "duration": 0.2490420000000313,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "敌方 execution 只允许 runtime 已实现效果且拒绝 prepare",
+          "status": "passed",
+          "title": "敌方 execution 只允许 runtime 已实现效果且拒绝 prepare",
+          "duration": 0.14729099999999562,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "SkillCost.items 只接受非空物品 ID 与正安全整数数量",
+          "status": "passed",
+          "title": "SkillCost.items 只接受非空物品 ID 与正安全整数数量",
+          "duration": 0.2189170000000331,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "技能 lifetimeLimit 只接受正安全整数，缺席表示不限",
+          "status": "passed",
+          "title": "技能 lifetimeLimit 只接受正安全整数，缺席表示不限",
+          "duration": 0.7307920000000081,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "物品图标和战场背景拒绝旧数字/路径字段，缺席语义合法",
+          "status": "passed",
+          "title": "物品图标和战场背景拒绝旧数字/路径字段，缺席语义合法",
+          "duration": 0.19941599999998516,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateBattleFields · 持久表严格边界"],
+          "fullName": "validateBattleFields · 持久表严格边界 id 必须是唯一的非负安全整数",
+          "status": "passed",
+          "title": "id 必须是唯一的非负安全整数",
+          "duration": 0.1398330000000101,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateBattleFields · 持久表严格边界"],
+          "fullName": "validateBattleFields · 持久表严格边界 顶层与五行效果都拒绝未知/缺失字段",
+          "status": "passed",
+          "title": "顶层与五行效果都拒绝未知/缺失字段",
+          "duration": 0.11604099999999562,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · 装备战斗形象按角色覆写"],
+          "fullName": "validateItems · 装备战斗形象按角色覆写 空映射与多角色映射合法，旧 sprite 字段 fail-closed",
+          "status": "passed",
+          "title": "空映射与多角色映射合法，旧 sprite 字段 fail-closed",
+          "duration": 0.1316250000000423,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · 装备战斗形象按角色覆写"],
+          "fullName": "validateItems · 装备战斗形象按角色覆写 映射键值与单效果约束完整校验",
+          "status": "passed",
+          "title": "映射键值与单效果约束完整校验",
+          "duration": 0.18795799999998053,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 合法的世界、战斗和剧情用途均通过，gate 缺省 chance 表示原版 100 阈值",
+          "status": "passed",
+          "title": "合法的世界、战斗和剧情用途均通过，gate 缺省 chance 表示原版 100 阈值",
+          "duration": 0.3026249999999777,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 傀儡不能成为大世界携带状态，显式 battleOnly 仍可用",
+          "status": "passed",
+          "title": "傀儡不能成为大世界携带状态，显式 battleOnly 仍可用",
+          "duration": 0.23533399999996618,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 拒绝非法用途 0",
+          "status": "passed",
+          "title": "拒绝非法用途 0",
+          "duration": 0.05604199999999082,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 拒绝非法用途 1",
+          "status": "passed",
+          "title": "拒绝非法用途 1",
+          "duration": 0.04066700000004175,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 拒绝非法用途 2",
+          "status": "passed",
+          "title": "拒绝非法用途 2",
+          "duration": 0.0367909999999938,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 拒绝非法用途 3",
+          "status": "passed",
+          "title": "拒绝非法用途 3",
+          "duration": 0.04158300000000281,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 拒绝非法用途 4",
+          "status": "passed",
+          "title": "拒绝非法用途 4",
+          "duration": 0.04033299999997553,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 拒绝非法用途 5",
+          "status": "passed",
+          "title": "拒绝非法用途 5",
+          "duration": 0.03612500000002683,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 拒绝非法用途 6",
+          "status": "passed",
+          "title": "拒绝非法用途 6",
+          "duration": 0.09866699999997763,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 拒绝非法用途 7",
+          "status": "passed",
+          "title": "拒绝非法用途 7",
+          "duration": 0.03899999999998727,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 拒绝非法用途 8",
+          "status": "passed",
+          "title": "拒绝非法用途 8",
+          "duration": 0.10779200000001765,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 拒绝非法用途 9",
+          "status": "passed",
+          "title": "拒绝非法用途 9",
+          "duration": 0.04579200000000583,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 拒绝非法用途 10",
+          "status": "passed",
+          "title": "拒绝非法用途 10",
+          "duration": 0.20333299999998644,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 拒绝非法用途 11",
+          "status": "passed",
+          "title": "拒绝非法用途 11",
+          "duration": 0.038000000000010914,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 拒绝非法用途 12",
+          "status": "passed",
+          "title": "拒绝非法用途 12",
+          "duration": 0.04166699999996126,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 拒绝非法用途 13",
+          "status": "passed",
+          "title": "拒绝非法用途 13",
+          "duration": 0.051458000000025095,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 用途允许暂存空效果链，但投掷必须至少有一个效果",
+          "status": "passed",
+          "title": "用途允许暂存空效果链，但投掷必须至少有一个效果",
+          "duration": 0.13554200000004357,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 投掷全部数值边界拒绝非安全整数 0",
+          "status": "passed",
+          "title": "投掷全部数值边界拒绝非安全整数 0",
+          "duration": 0.1349580000000401,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 投掷全部数值边界拒绝非安全整数 1",
+          "status": "passed",
+          "title": "投掷全部数值边界拒绝非安全整数 1",
+          "duration": 0.03683300000000145,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 投掷全部数值边界拒绝非安全整数 2",
+          "status": "passed",
+          "title": "投掷全部数值边界拒绝非安全整数 2",
+          "duration": 0.035750000000007276,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 投掷全部数值边界拒绝非安全整数 3",
+          "status": "passed",
+          "title": "投掷全部数值边界拒绝非安全整数 3",
+          "duration": 0.03633300000001327,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 投掷全部数值边界拒绝非安全整数 4",
+          "status": "passed",
+          "title": "投掷全部数值边界拒绝非安全整数 4",
+          "duration": 0.035708999999997104,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 投掷全部数值边界拒绝非安全整数 5",
+          "status": "passed",
+          "title": "投掷全部数值边界拒绝非安全整数 5",
+          "duration": 0.034583999999995285,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 投掷全部数值边界拒绝非安全整数 6",
+          "status": "passed",
+          "title": "投掷全部数值边界拒绝非安全整数 6",
+          "duration": 0.03266600000000608,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 投掷全部数值边界拒绝非安全整数 7",
+          "status": "passed",
+          "title": "投掷全部数值边界拒绝非安全整数 7",
+          "duration": 0.03274999999996453,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 运行时投影允许当前物品私有脚本与普通效果组合",
+          "status": "passed",
+          "title": "运行时投影允许当前物品私有脚本与普通效果组合",
+          "duration": 0.2179580000000101,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 合法 item: 前缀共享脚本仍是外部效果，不因同名 owner 获得私有混合权限",
+          "status": "passed",
+          "title": "合法 item: 前缀共享脚本仍是外部效果，不因同名 owner 获得私有混合权限",
+          "duration": 0.08283399999999119,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 配方与资源池完整校验，投掷拒绝世界专用效果",
+          "status": "passed",
+          "title": "配方与资源池完整校验，投掷拒绝世界专用效果",
+          "duration": 0.2336249999999609,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateItems · C8 用途能力契约"],
+          "fullName": "validateItems · C8 用途能力契约 消耗型配方工具不能又把自身列为材料",
+          "status": "passed",
+          "title": "消耗型配方工具不能又把自身列为材料",
+          "duration": 0.07437500000003183,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateStartWorldResources"],
+          "fullName": "validateStartWorldResources 允许零值与自定义非负安全整数",
+          "status": "passed",
+          "title": "允许零值与自定义非负安全整数",
+          "duration": 0.08045799999996461,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateStartWorldResources"],
+          "fullName": "validateStartWorldResources 拒绝非法资源池 0",
+          "status": "passed",
+          "title": "拒绝非法资源池 0",
+          "duration": 0.04820799999998826,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateStartWorldResources"],
+          "fullName": "validateStartWorldResources 拒绝非法资源池 1",
+          "status": "passed",
+          "title": "拒绝非法资源池 1",
+          "duration": 0.03566699999998946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateStartWorldResources"],
+          "fullName": "validateStartWorldResources 拒绝非法资源池 2",
+          "status": "passed",
+          "title": "拒绝非法资源池 2",
+          "duration": 0.033415999999988344,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateStartWorldResources"],
+          "fullName": "validateStartWorldResources 拒绝非法资源池 3",
+          "status": "passed",
+          "title": "拒绝非法资源池 3",
+          "duration": 0.03300000000001546,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateStartWorldResources"],
+          "fullName": "validateStartWorldResources 拒绝非法资源池 4",
+          "status": "passed",
+          "title": "拒绝非法资源池 4",
+          "duration": 0.03200000000003911,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateStartWorldResources"],
+          "fullName": "validateStartWorldResources 拒绝非法资源池 5",
+          "status": "passed",
+          "title": "拒绝非法资源池 5",
+          "duration": 0.0605419999999981,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateStartWorldResources"],
+          "fullName": "validateStartWorldResources 拒绝非法资源池 6",
+          "status": "passed",
+          "title": "拒绝非法资源池 6",
+          "duration": 0.03212500000000773,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateStartWorld · 入口角色当前状态"],
+          "fullName": "validateStartWorld · 入口角色当前状态 接受稀疏空值与三类 carrier",
+          "status": "passed",
+          "title": "接受稀疏空值与三类 carrier",
+          "duration": 0.2622920000000022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateStartWorld · 入口角色当前状态"],
+          "fullName": "validateStartWorld · 入口角色当前状态 拒绝非队员、重复/内部字段与非法值 0",
+          "status": "passed",
+          "title": "拒绝非队员、重复/内部字段与非法值 0",
+          "duration": 0.05083300000001145,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateStartWorld · 入口角色当前状态"],
+          "fullName": "validateStartWorld · 入口角色当前状态 拒绝非队员、重复/内部字段与非法值 1",
+          "status": "passed",
+          "title": "拒绝非队员、重复/内部字段与非法值 1",
+          "duration": 0.0378329999999778,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateStartWorld · 入口角色当前状态"],
+          "fullName": "validateStartWorld · 入口角色当前状态 拒绝非队员、重复/内部字段与非法值 2",
+          "status": "passed",
+          "title": "拒绝非队员、重复/内部字段与非法值 2",
+          "duration": 0.03649999999998954,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateStartWorld · 入口角色当前状态"],
+          "fullName": "validateStartWorld · 入口角色当前状态 拒绝非队员、重复/内部字段与非法值 3",
+          "status": "passed",
+          "title": "拒绝非队员、重复/内部字段与非法值 3",
+          "duration": 0.040334000000029846,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateStartWorld · 入口角色当前状态"],
+          "fullName": "validateStartWorld · 入口角色当前状态 拒绝非队员、重复/内部字段与非法值 4",
+          "status": "passed",
+          "title": "拒绝非队员、重复/内部字段与非法值 4",
+          "duration": 0.03649999999998954,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateStartWorld · 入口角色当前状态"],
+          "fullName": "validateStartWorld · 入口角色当前状态 拒绝非队员、重复/内部字段与非法值 5",
+          "status": "passed",
+          "title": "拒绝非队员、重复/内部字段与非法值 5",
+          "duration": 0.09375,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateStartWorld · 入口角色当前状态"],
+          "fullName": "validateStartWorld · 入口角色当前状态 拒绝非队员、重复/内部字段与非法值 6",
+          "status": "passed",
+          "title": "拒绝非队员、重复/内部字段与非法值 6",
+          "duration": 0.040582999999969616,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateStartWorld · 入口角色当前状态"],
+          "fullName": "validateStartWorld · 入口角色当前状态 拒绝非队员、重复/内部字段与非法值 7",
+          "status": "passed",
+          "title": "拒绝非队员、重复/内部字段与非法值 7",
+          "duration": 0.037916999999993095,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateLocale · 对话行边界"],
+          "fullName": "validateLocale · 对话行边界 新内容禁止 locale 内换行；loader 兼容边界可显式保留旧软换行",
+          "status": "passed",
+          "title": "新内容禁止 locale 内换行；loader 兼容边界可显式保留旧软换行",
+          "duration": 0.10158400000000256,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateCurrentManifestStartup · canonical content22 startup model"],
+          "fullName": "validateCurrentManifestStartup · canonical content22 startup model 接受非首项 default，并按稳定 id 返回真实入口",
+          "status": "passed",
+          "title": "接受非首项 default，并按稳定 id 返回真实入口",
+          "duration": 0.2686249999999859,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateCurrentManifestStartup · canonical content22 startup model"],
+          "fullName": "validateCurrentManifestStartup · canonical content22 startup model 拒绝旧形状或破坏 canonical invariant 0",
+          "status": "passed",
+          "title": "拒绝旧形状或破坏 canonical invariant 0",
+          "duration": 0.08179100000000972,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateCurrentManifestStartup · canonical content22 startup model"],
+          "fullName": "validateCurrentManifestStartup · canonical content22 startup model 拒绝旧形状或破坏 canonical invariant 1",
+          "status": "passed",
+          "title": "拒绝旧形状或破坏 canonical invariant 1",
+          "duration": 0.05858300000005556,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateCurrentManifestStartup · canonical content22 startup model"],
+          "fullName": "validateCurrentManifestStartup · canonical content22 startup model 拒绝旧形状或破坏 canonical invariant 2",
+          "status": "passed",
+          "title": "拒绝旧形状或破坏 canonical invariant 2",
+          "duration": 0.04516599999999471,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateCurrentManifestStartup · canonical content22 startup model"],
+          "fullName": "validateCurrentManifestStartup · canonical content22 startup model 拒绝旧形状或破坏 canonical invariant 3",
+          "status": "passed",
+          "title": "拒绝旧形状或破坏 canonical invariant 3",
+          "duration": 0.03554100000002336,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateCurrentManifestStartup · canonical content22 startup model"],
+          "fullName": "validateCurrentManifestStartup · canonical content22 startup model 拒绝旧形状或破坏 canonical invariant 4",
+          "status": "passed",
+          "title": "拒绝旧形状或破坏 canonical invariant 4",
+          "duration": 0.03466600000001563,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateCurrentManifestStartup · canonical content22 startup model"],
+          "fullName": "validateCurrentManifestStartup · canonical content22 startup model 拒绝旧形状或破坏 canonical invariant 5",
+          "status": "passed",
+          "title": "拒绝旧形状或破坏 canonical invariant 5",
+          "duration": 0.034958000000017364,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateCurrentManifestStartup · canonical content22 startup model"],
+          "fullName": "validateCurrentManifestStartup · canonical content22 startup model 拒绝旧形状或破坏 canonical invariant 6",
+          "status": "passed",
+          "title": "拒绝旧形状或破坏 canonical invariant 6",
+          "duration": 0.043000000000006366,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateCurrentManifestStartup · canonical content22 startup model"],
+          "fullName": "validateCurrentManifestStartup · canonical content22 startup model 非默认入口错误使用稳定入口 id 定位，数组重排不改变路径",
+          "status": "passed",
+          "title": "非默认入口错误使用稳定入口 id 定位，数组重排不改变路径",
+          "duration": 0.3025840000000244,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateCurrentManifestStartup · canonical content22 startup model"],
+          "fullName": "validateCurrentManifestStartup · canonical content22 startup model 所有入口场景都必须存在于索引，包括非默认入口",
+          "status": "passed",
+          "title": "所有入口场景都必须存在于索引，包括非默认入口",
+          "duration": 0.08283299999999372,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375875772,
+      "endTime": 1792375875785.3025,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/validate.test.ts"
+    }
+  ]
+}

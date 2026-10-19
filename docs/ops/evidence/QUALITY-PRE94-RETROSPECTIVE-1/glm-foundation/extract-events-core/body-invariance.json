@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "base": "53db76bbbb5729ba8bc6525bd7ad2ad4bb425c02",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/pal-extract/src/events/opcodes.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "6b257a0448e029b93397a4c642eee6ea7ebc6edffc6d7f7f6489dd5c5b6d4215",
+        "current": "6b257a0448e029b93397a4c642eee6ea7ebc6edffc6d7f7f6489dd5c5b6d4215"
+      },
+      "printedBytes": {
+        "base": 5232,
+        "current": 5232
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/pal-extract/src/events/disasm.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "bfeda80228d8b6f82f1e55af770d8bc9ea9fc6a9c367b048f9f47469620e0c1f",
+        "current": "bfeda80228d8b6f82f1e55af770d8bc9ea9fc6a9c367b048f9f47469620e0c1f"
+      },
+      "printedBytes": {
+        "base": 5740,
+        "current": 5740
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/pal-extract/src/events/recompile.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "1a4bd553bbc18f042426e2a86a68a66c580f6e1bbe1f75570dbad063aa4fb245",
+        "current": "1a4bd553bbc18f042426e2a86a68a66c580f6e1bbe1f75570dbad063aa4fb245"
+      },
+      "printedBytes": {
+        "base": 3003,
+        "current": 3003
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/pal-extract/src/events/roundtrip.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "311d4a19083ab83e2c80ca02bd94dfdff4b03add314deeb002eda9610c4a978d",
+        "current": "311d4a19083ab83e2c80ca02bd94dfdff4b03add314deeb002eda9610c4a978d"
+      },
+      "printedBytes": {
+        "base": 1622,
+        "current": 1622
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}

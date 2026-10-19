@@ -110,7 +110,8 @@ function setPersistentPlayerStatus(
  *  - goto → 跳到 label
  *  - 其它 → log skip + ip++
  *
- * 注:0x2D set player status / 0x29 (待 identify):scriptOnEquip 占 5/2 次,留 follow-up。
+ * 注:0x2D set player status / 0x29 apply poison 已实现(见下方 case:仙女剑等授
+ * DualAttack=32760;寿葫芦 Wear 授 level-99 正面"毒" 563/564)。
  */
 function runEquipScriptSync(gs: GameState, scriptOnEquip: number, roleId: number): void {
   if (scriptOnEquip === 0) return
@@ -275,20 +276,11 @@ export function updateAllEquipments(gs: GameState, items: Item[]): void {
  * 装备脚本 chain 内含 opcode 0x18(swap 装备 + 写 wLastUnequippedItem),所以 dispatcher
  * 直接调此 fn 即等价 sdlpal 整套 swap 流程。
  *
- * 注:**与 updateAllEquipments 区别**:此 fn 跑的是 EquipItemMenu 装备时,opcode 0x18
- * 内 sdlpal 真值 rgwEquipment 还没装 → 会真 swap inventory(`PAL_AddItemToInventory` ±1)+
- * wLastUnequippedItem 写。runEquipScriptSync 当前是 `update 上下文`(假定已装备),swap
- * 路径不真做 — 我们让 EquipItemMenu dispatcher 用 event-system 的 opcode 0x18 真 swap
- * handler(已 port),所以这里独立 path:dispatcher 自己处理 0x18 真 swap,scriptOnEquip
- * 内 0x18 走 runEquipScriptSync 等价 noop。
- *
- * 等价:dispatcher 流程是:
- *   1. 设置 currentEventObjectId = roleId
- *   2. 跑 scriptOnEquip chain → 内含 0x18 真做 swap(走 event-system 现有 handler)+
- *      多个 0x17 写 rgEquipmentEffect。
- *
- * 简单起见,本 fn 用 runEquipScriptSync 同步跑(0x18 当 noop)+ wLastUnequippedItem 由
- * dispatcher 手动管理(读 rgwEquipment 旧值,赋 wLastUnequippedItem)。
+ * 注:**与 updateAllEquipments 区别**:本 fn 服务 EquipItemMenu 单次装备 — scriptOnEquip
+ * 内 0x18 在 runEquipScriptSync 里**真做 swap**(rgwEquipment 写 + inventory ±1 +
+ * wLastUnequippedItem,见 case 0x18 的 cur!==newItem 分支);updateAllEquipments 上下文中
+ * 该槽已装着自己 → cur===newItem → 不 swap,只重算 effect。dispatcher 另按 DM23 在进
+ * pick-role 时写 wLastUnequippedItem 入口值(uigame.c:1820,menu-driver 已做)。
  */
 export function runEquipScript(gs: GameState, scriptOnEquip: number, roleId: number): void {
   runEquipScriptSync(gs, scriptOnEquip, roleId)

@@ -3,25 +3,24 @@
  * pal-extract CLI —— 总装入口。
  * 调用:pnpm extract (从仓库根)
  *
- * 产出目录:data/extracted/
- *   events/   scene-NNN.json, shared.json, objects.json
- *   images/
- *     world/tileset/map-{mapNum}/tile-{XXXX}.png  (per-mapNum tile PNG)
- *     world/npc/{spriteId}/frame-{NN}.png          (NPC / character sprites)
- *     battle/bg/{NNN}.png                           (battle backgrounds)
- *     battle/{enemy,player}/{id}/frame-{NN}.png    (battle sprites)
- *     ui/frame-{NN}.png                            (DATA.MKF chunk 9 SPRITEUI frames)
- *     magic/frame-{NN}.png                         (DATA.MKF chunk 10 battle effect frames)
- *     magic/fire-{NN}/frame-{NN}.png               (FIRE.MKF per-chunk sprite group frames)
- *     splash/splash-up-win95.png                   (FBP.MKF chunk 3 title screen upper)
- *     splash/splash-down-win95.png                 (FBP.MKF chunk 4 title screen lower)
+ * 产出目录:data/extracted/(2026-06-22 资源管线优化后的现状)
+ *   events/   scene-NNN.json, shared.json, objects.json, all.json(全局兜底命令)
  *   data/
- *     {tilemap,scene,sprite,palette,battle-sprite}/...json  (子目录结构)
- *     enemies.json, items.json, spells.json, magic.json,
- *     enemy-teams.json, battle-fields.json, enemy-pos.json,
- *     player-roles.json, battle-bgs.json, battle-sprites.json  (平铺数据表)
- *     rng-frames.json                              (RNG.MKF 逐帧 PNG manifest;RGM/BALL 已改 PNG 解码,不再 raw dump)
- *     fire-sprites.json                            (FIRE.MKF sprite manifest, M4 P2 T4)
+ *     tileset/{mapNum}.rle、sprite/{id}.rle、battle-sprite/{kind}/{id}.rle、
+ *     magic/{effect,fire-NN}.rle、animation/rng-NN.rle
+ *       (以上均为 gzip 的 RLE/YJ2-解压后 chunk blob,后缀 .rle 避开
+ *        Content-Encoding 双解压;取代旧 per-tile/per-frame RGBA PNG)
+ *     各数据表 json:items/spells/magic/enemies/enemy-teams/battle-fields/
+ *     stores/enemy-pos/player-roles/level-up-exp 与 level-up-magic/battle-effect-index/
+ *     object-{magics,poisons,players}/enemy-objects/dialog-icons-raw 等
+ *     manifest:portraits/items-icons/rng-frames/fire-sprites/sounds-metadata/
+ *     music-manifest/battle-bgs/battle-sprites
+ *   images/
+ *     portraits/{NN}.png(RGM)、items/{NNN}.png(BALL)、battle/bg/{NNN}.png、
+ *     ui/frame-NN.png(chunk 9)、splash/(FBP 3/4)——仍为 PNG 的只有这些
+ *   sounds/{i}.wav、music/(MIDI/OGG/mus.mkf)、lookup/{words,strings}.json、
+ *   font/glyphs.json、asset-manifest.json
+ *   (rng-frames.json 为 frameCount manifest,不含 PNG;RGM/BALL 亦 PNG 解码)
  */
 import {
   existsSync,
@@ -573,7 +572,8 @@ async function main(): Promise<void> {
   // 音乐:data/raw/Musics/(独立文件,非 MKF)→ data/extracted/music/(纯拷贝)。
   //   - {NNN}.MID = MIDI 曲,编号 = sdlpal wNumMusic(midi.c:69 `PAL_va("Musics/%.3d.mid", iNumRIX)`)→ 归一化 .mid。
   //   - TRACKxx.ogg = CD 音轨(sdlpal AUDIO_PlayCDTrack)→ 原名保留。
-  // 2026-05-29 user 要求全提(M6 音频接入前先落地,数据齐)。runtime 播放系统仍留 M6。
+  // 2026-05-29 user 要求全提。runtime 消费现状:MIDI 经 game audio-midi/spessasynth,
+  //   RIX 经 audio-rix worklet(下述 mus.mkf),音频系统已接入非"留 M6"。
   {
     const musicsDir = resolve(RAW, 'Musics')
     const midiNums: number[] = []
@@ -598,6 +598,7 @@ async function main(): Promise<void> {
     }
     midiNums.sort((a, b) => a - b)
     // Preserve the original RIX archive and sparse track numbering for DOS FM playback.
+    // (文件名在盘上即小写 mus.mkf,与其余大写 *.MKF 不同;此处按实际名读,勿"纠正"为大写。)
     const rixBytes = new Uint8Array(readFileSync(resolve(RAW, 'mus.mkf')))
     const rixTracks = inspectRixArchive(rixBytes)
     writeBinary(resolve(OUT, 'music', 'mus.mkf'), rixBytes)

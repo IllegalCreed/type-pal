@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "base": "0f65375d1b67629b1b393e8180f4648031755119",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/pal-extract/src/resources/parsers/spells.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "cadcd126115c6b43f9994a7bb415eb93de27a4fc4b716e6df9eef709a5b121ba",
+        "current": "cadcd126115c6b43f9994a7bb415eb93de27a4fc4b716e6df9eef709a5b121ba"
+      },
+      "printedBytes": {
+        "base": 6407,
+        "current": 6407
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/pal-extract/src/resources/parsers/enemy-teams.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "b2657488501168d087ccf37bfb3c3c325f800ac73f228ea408f56638379e6d4f",
+        "current": "b2657488501168d087ccf37bfb3c3c325f800ac73f228ea408f56638379e6d4f"
+      },
+      "printedBytes": {
+        "base": 2459,
+        "current": 2459
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/pal-extract/src/resources/parsers/items.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "ab22063c4822b1209917c4b993ca5e413c8f0443ab57c16cf8ce8b234f2d3734",
+        "current": "ab22063c4822b1209917c4b993ca5e413c8f0443ab57c16cf8ce8b234f2d3734"
+      },
+      "printedBytes": {
+        "base": 2240,
+        "current": 2240
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}

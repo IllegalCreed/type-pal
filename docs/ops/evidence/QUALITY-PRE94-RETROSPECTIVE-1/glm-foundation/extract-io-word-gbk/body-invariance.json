@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "base": "53db76bbbb5729ba8bc6525bd7ad2ad4bb425c02",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/pal-extract/src/io/word.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "64d7f187c7baf6b1be141978f144c7c39e2efd1bd41415887c26af7f28011256",
+        "current": "64d7f187c7baf6b1be141978f144c7c39e2efd1bd41415887c26af7f28011256"
+      },
+      "printedBytes": {
+        "base": 2083,
+        "current": 2083
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/pal-extract/src/utils/gbk.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "8ed287795521198c0c16c87af722320ca210442ef65714528ac83e47eb1f3170",
+        "current": "8ed287795521198c0c16c87af722320ca210442ef65714528ac83e47eb1f3170"
+      },
+      "printedBytes": {
+        "base": 1653,
+        "current": 1653
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}

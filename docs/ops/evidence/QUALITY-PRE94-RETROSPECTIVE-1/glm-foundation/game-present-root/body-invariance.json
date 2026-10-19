@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "base": "HEAD",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/game/src/present/draw-tilemap.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "ee8ba51e8a10f3830345e1aae32d5c9b35298693031b89706c3750c03bd1c2c2",
+        "current": "ee8ba51e8a10f3830345e1aae32d5c9b35298693031b89706c3750c03bd1c2c2"
+      },
+      "printedBytes": {
+        "base": 8064,
+        "current": 8064
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/game/src/present/dialog-box.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "cec4b9cca56d3f0cff69fdd78f7aefcfe3a9bf69f4128c79036a64aaaf9f47d2",
+        "current": "cec4b9cca56d3f0cff69fdd78f7aefcfe3a9bf69f4128c79036a64aaaf9f47d2"
+      },
+      "printedBytes": {
+        "base": 20204,
+        "current": 20204
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}

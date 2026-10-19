@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "base": "HEAD",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/game/src/core/menu/menu-driver.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "cbf9e6e0dac55badd44ad9cd94ce8015b0bed458ff6a8f757f7da3ec7942a86b",
+        "current": "cbf9e6e0dac55badd44ad9cd94ce8015b0bed458ff6a8f757f7da3ec7942a86b"
+      },
+      "printedBytes": {
+        "base": 27333,
+        "current": 27333
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}

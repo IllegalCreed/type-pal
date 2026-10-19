@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "base": "53db76bbbb5729ba8bc6525bd7ad2ad4bb425c02",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/shared/src/resources.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "f1b7e3970851f0670d02aa093088d4e62e704c089739db262bbc6f46441feb7c",
+        "current": "f1b7e3970851f0670d02aa093088d4e62e704c089739db262bbc6f46441feb7c"
+      },
+      "printedBytes": {
+        "base": 1661,
+        "current": 1661
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/shared/src/input.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "ee56f937444a385112d1deb6622c4ddec32bf5255e3ea717a80a8b8d5ce20cc3",
+        "current": "ee56f937444a385112d1deb6622c4ddec32bf5255e3ea717a80a8b8d5ce20cc3"
+      },
+      "printedBytes": {
+        "base": 464,
+        "current": 464
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/shared/src/index.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "cdc2e5e63d5d810d2329ba7b1622dafce3ebf0eab7794a3d8203cadd780e1a07",
+        "current": "cdc2e5e63d5d810d2329ba7b1622dafce3ebf0eab7794a3d8203cadd780e1a07"
+      },
+      "printedBytes": {
+        "base": 458,
+        "current": 458
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/shared/src/events.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "35f15ffa00b770d395a0324bfe3aaaf46da85c0d18b53f9e02c88fb4300c219d",
+        "current": "35f15ffa00b770d395a0324bfe3aaaf46da85c0d18b53f9e02c88fb4300c219d"
+      },
+      "printedBytes": {
+        "base": 2734,
+        "current": 2734
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}

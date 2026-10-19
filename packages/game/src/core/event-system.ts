@@ -166,15 +166,15 @@ export const OP_PLAY_CD_MUSIC = 0x00a3 // 163
 export const OP_SET_SCENE_OBJECT_STATE = 0x0049 // 73
 // case 0x001E(30):  Increase or decrease cash(sdlpal script.c:952-968)
 //   operand[0] = signed amount;若 < 0 且 dwCash 不够 → 跳 operand[1] label。
-//   我们简版:cash 不够时也加(让 negative)+ 不跳 — 注释标注但不做 goto fallback
-//   (chest 用 add positive 主要 case;dec 多在 buy 用走 menu 路径)。
+//   已按真值实现负数不足即跳(handler 见下方;旧"M2 简版不跳"已于 2026-05-31 补全)。
 export const OP_ADD_CASH = 0x001e // 30
 // case 0x001F(31):  Add item to inventory(sdlpal script.c:970-975)
 //   operand[0] = itemId, operand[1] = qty(signed,负值 = remove)。
 export const OP_ADD_ITEM = 0x001f // 31
-// case 0x0020(32):  Remove item from inventory(sdlpal script.c:977-...)
-//   operand[0] = itemId, operand[1] = qty(0 → 1), operand[2] = consumeEquipped flag。
-//   简版:只从 inventory remove;equipment 不消费(M5 装备表未真做)。
+// case 0x0020(32): Remove item from inventory(sdlpal script.c:977-1024)
+//   operand[0] = itemId, operand[1] = qty(0 → 1), operand[2] = 失败跳转目标。
+//   已完整实现:库存移除 + 不足时遍历全队装备槽撤效果补足 + 库存不足且有失败分支 → 跳 op2
+//   (旧"简版只从 inventory remove"是历史,见下方 handler 审计注)。
 export const OP_REMOVE_ITEM = 0x0020 // 32
 // case 0x0047(71):  Play sound effect(sdlpal script.c:1704-1709)
 //   operand[0] = soundId → gs.pendingSounds; shell AudioManager drain 播放。
@@ -203,7 +203,7 @@ export const OP_TRANSFORM_COLLECTED = 0x0034 // 52
 export const OP_TELEPORT_OUT = 0x0038 // 56
 // case 0x0026(38): Buy menu(sdlpal script.c:1157)— PAL_BuyMenu(operand[0]=shop id)
 //   显示购买菜单,operand[0] 是 shop OBJECT id;阻塞等用户选完。
-// M-w3.a 简版:event-system stub console.debug + ip++(真做接 dev panel BuyMenu)。
+// 已真接入(2026-05-29):_shopMenuHandler(bootstrap 注入)开 menu + waiting='shop'(见 handler)。
 export const OP_BUY_MENU = 0x0026 // 38
 // case 0x0027(39): Sell menu(script.c:1166)— PAL_SellMenu(),无 operand。
 export const OP_SELL_MENU = 0x0027 // 39
@@ -231,7 +231,8 @@ export const OP_ENABLE_AUTO_BATTLE = 0x008a // 138
 //   有 dialog → 等 Confirm 翻页(走 pendingStyle = undefined 路径,纯 clear 不切 style)
 //   无 dialog → 直接 ip++(no-op)
 // 注:operand[1] = delay 倍数 60(UTIL_Delay),operand[2] != 0 → PAL_UpdatePartyGestures(FALSE)
-//     M5 简版:delay / gesture update 暂不实现(playback 节奏由 typing + frame-wait 覆盖)
+//     均已实现:operand[2] 站立帧复位在 handler 入口;UTIL_Delay((op1||1)*60ms) 走 waiting='delay'
+//     (2026-06-06 补,修张四上船瞬移;见下方 handler)。
 export const OP_REDRAW_SCREEN = 0x0005 // 5
 // case 0x0008(8):   Advance entry and keep running(sdlpal PAL_RunTriggerScript script.c:3335-3341)
 //   `wScriptEntry++; wNextScriptEntry = wScriptEntry;` — 推进 ip **且继续跑**,把持久化 resume 点
@@ -484,12 +485,13 @@ export const OP_GOTO_IF_NO = 0x000a // 10
 //   遍历 rgPoisonStatus,wPoisonID == operand[1] 清 0
 
 // case 0x002C(44): Cure player poison by level(script.c:1349-1365)
-//   遍历 rgPoisonStatus,items[wPoisonID].poison.wPoisonLevel <= operand[1] 清 0
-//   ts:items.poison 字段未完整 plumb — fallback 全清(简化,等 M5.5 poison plumb 真做)
+//   遍历 rgPoisonStatus,poison.wPoisonLevel <= operand[1] 清 0。
+//   已真实现:event-opcode-player 走 curePlayerPoisonByLevel(毒表经 setObjectPoisons 注入,
+//   有真 level;旧"fallback 全清等 M5.5"已由 poison plumb 收口)。
 
 // case 0x002D(45): Set player status(script.c:1367-1375)
 //   PAL_SetPlayerStatus(role, statusId, duration)
-//   ts:无大世界 player status 模型(battle-only)— log skip(M6 大世界 status 真做时补)
+//   已真实现:写持久 gs.rgPlayerStatus(event-opcode-player;CODE53/80 治理后的现状)。
 
 // case 0x002E(46): Set enemy status — 战斗 only,log skip
 

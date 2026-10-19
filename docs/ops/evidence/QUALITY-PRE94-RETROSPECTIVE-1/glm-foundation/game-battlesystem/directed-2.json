@@ -1,0 +1,374 @@
+{
+  "numTotalTestSuites": 14,
+  "numPassedTestSuites": 14,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 29,
+  "numPassedTests": 29,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792340131516,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Q08-8b performMagic caster 缺失臂"],
+          "fullName": "Q08-8b performMagic caster 缺失臂 caster 索引越界：warn + 不扣 MP + 不 emit + 不跑脚本",
+          "status": "passed",
+          "title": "caster 索引越界：warn + 不扣 MP + 不 emit + 不跑脚本",
+          "duration": 2.520249999999919,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q08-8b performMagic caster 缺失臂"],
+          "fullName": "Q08-8b performMagic caster 缺失臂 caster role 不在 playerRoles：warn + 不扣 MP + 不 emit + 不跑脚本",
+          "status": "passed",
+          "title": "caster role 不在 playerRoles：warn + 不扣 MP + 不 emit + 不跑脚本",
+          "duration": 0.3342079999999896,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "Q08-8b 无 inventory 资源臂（throw-item；performItem 同族由 actions.test.ts:2317-2371 已证，Q-R5-02 删重）"
+          ],
+          "fullName": "Q08-8b 无 inventory 资源臂（throw-item；performItem 同族由 actions.test.ts:2317-2371 已证，Q-R5-02 删重） performThrowItem 队员无 inventory：warn + 不跑 scriptOnThrow + 不 emit",
+          "status": "passed",
+          "title": "performThrowItem 队员无 inventory：warn + 不跑 scriptOnThrow + 不 emit",
+          "duration": 0.5809580000000096,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q08-8b selectAutoTargetFrom 未覆盖条件臂"],
+          "fullName": "Q08-8b selectAutoTargetFrom 未覆盖条件臂 begin<0 规范化为从 0 起扫首个活敌",
+          "status": "passed",
+          "title": "begin<0 规范化为从 0 起扫首个活敌",
+          "duration": 0.19729199999994762,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q08-8b selectAutoTargetFrom 未覆盖条件臂"],
+          "fullName": "Q08-8b selectAutoTargetFrom 未覆盖条件臂 prevTarget 越界(≥n)时回 begin 起扫，不读越界槽",
+          "status": "passed",
+          "title": "prevTarget 越界(≥n)时回 begin 起扫，不读越界槽",
+          "duration": 0.14154200000007222,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
+          ],
+          "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 公开投影链把 rgwMagic 槽位真实投影为 role.magic（caller 同路）",
+          "status": "passed",
+          "title": "公开投影链把 rgwMagic 槽位真实投影为 role.magic（caller 同路）",
+          "duration": 0.49500000000000455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
+          ],
+          "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） silence>0 → 直接返回 0（物理攻击），不查法术表",
+          "status": "passed",
+          "title": "silence>0 → 直接返回 0（物理攻击），不查法术表",
+          "duration": 0.21083299999997962,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
+          ],
+          "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） selectingPlayerIdx 缺席（undefined）→ 返回 0",
+          "status": "passed",
+          "title": "selectingPlayerIdx 缺席（undefined）→ 返回 0",
+          "duration": 0.12266699999997854,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
+          ],
+          "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 已学槽法术 resolve 失败（spell 不在表）→ 该槽跳过，返回 0",
+          "status": "passed",
+          "title": "已学槽法术 resolve 失败（spell 不在表）→ 该槽跳过，返回 0",
+          "duration": 0.377083999999968,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
+          ],
+          "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） costMP=1 极限技门（sdlpal uibattle.c:763-766 筛除极限技）→ 跳过不选；合法耗魔法术正常入选",
+          "status": "passed",
+          "title": "costMP=1 极限技门（sdlpal uibattle.c:763-766 筛除极限技）→ 跳过不选；合法耗魔法术正常入选",
+          "duration": 0.16029099999991558,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
+          ],
+          "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 唯一已学法术 MP 不足（costMP>role.mp）→ 跳过返回 0",
+          "status": "passed",
+          "title": "唯一已学法术 MP 不足（costMP>role.mp）→ 跳过返回 0",
+          "duration": 0.18370900000002166,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
+          ],
+          "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 威力择优（range=0 消随机项）：更高 baseDamage 者替换先遇者",
+          "status": "passed",
+          "title": "威力择优（range=0 消随机项）：更高 baseDamage 者替换先遇者",
+          "duration": 0.14270799999997053,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
+          ],
+          "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 同威力保留先遇（strict power>maxPower）：range=0 下两法术 baseDamage 相同 → 返回先遇到的 296",
+          "status": "passed",
+          "title": "同威力保留先遇（strict power>maxPower）：range=0 下两法术 baseDamage 相同 → 返回先遇到的 296",
+          "duration": 0.15837499999997817,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792340132409,
+      "endTime": 1792340132414.1836,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/battle-action-error-arms.glm-q.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "settlementScreenTimeoutMs(battle.c:1048/1218/1272/1324 PAL_WaitForAnyKey)"
+          ],
+          "fullName": "settlementScreenTimeoutMs(battle.c:1048/1218/1272/1324 PAL_WaitForAnyKey) exp 屏 boss 5500ms / 普通战 3000ms;升级/隐藏涨点/练成屏一律 3000ms",
+          "status": "passed",
+          "title": "exp 屏 boss 5500ms / 普通战 3000ms;升级/隐藏涨点/练成屏一律 3000ms",
+          "duration": 0.8257919999999785,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["won首tick的结算装配"],
+          "fullName": "won首tick的结算装配 先回写战斗HP/MP再按存活角色入经验,未升级仅一屏且现金只入账一次",
+          "status": "passed",
+          "title": "先回写战斗HP/MP再按存活角色入经验,未升级仅一屏且现金只入账一次",
+          "duration": 2.383459000000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["won首tick的结算装配"],
+          "fullName": "won首tick的结算装配 按[1,0]队伍逐人排主升级/隐藏涨点/练成屏,名字与roleId匹配",
+          "status": "passed",
+          "title": "按[1,0]队伍逐人排主升级/隐藏涨点/练成屏,名字与roleId匹配",
+          "duration": 1.0226249999999482,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["逐屏输入与时间边界"],
+          "fullName": "逐屏输入与时间边界 每屏首tick吞残键,长按不翻页,次tick可由非Confirm按键翻页",
+          "status": "passed",
+          "title": "每屏首tick吞残键,长按不翻页,次tick可由非Confirm按键翻页",
+          "duration": 0.6622080000000778,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["逐屏输入与时间边界"],
+          "fullName": "逐屏输入与时间边界 isBoss=false:超时前一tick不翻页,下一tick翻页并清stall",
+          "status": "passed",
+          "title": "isBoss=false:超时前一tick不翻页,下一tick翻页并清stall",
+          "duration": 0.37258300000007694,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["逐屏输入与时间边界"],
+          "fullName": "逐屏输入与时间边界 isBoss=true:超时前一tick不翻页,下一tick翻页并清stall",
+          "status": "passed",
+          "title": "isBoss=true:超时前一tick不翻页,下一tick翻页并清stall",
+          "duration": 0.38245899999992616,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Phase E→对话→恢复与释放"],
+          "fullName": "Phase E→对话→恢复与释放 真实战后脚本仅执行一次,队列转active box后仍hold,关框后才半恢复/释放",
+          "status": "passed",
+          "title": "真实战后脚本仅执行一次,队列转active box后仍hold,关框后才半恢复/释放",
+          "duration": 2.0022500000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Phase E→对话→恢复与释放"],
+          "fullName": "Phase E→对话→恢复与释放 无对话时脚本观察到未恢复的HP/MP,返回后才恢复和释放",
+          "status": "passed",
+          "title": "无对话时脚本观察到未恢复的HP/MP,返回后才恢复和释放",
+          "duration": 0.4002499999999145,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["原盘战后掉落分支与特殊非胜利接回"],
+          "fullName": "原盘战后掉落分支与特殊非胜利接回 黑毛球战后0x06:roll=21,掉落1棵止血草,分支只执行一次",
+          "status": "passed",
+          "title": "黑毛球战后0x06:roll=21,掉落1棵止血草,分支只执行一次",
+          "duration": 1.8160830000000487,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["原盘战后掉落分支与特殊非胜利接回"],
+          "fullName": "原盘战后掉落分支与特殊非胜利接回 黑毛球战后0x06:roll=22,掉落+0棵止血草,分支只执行一次",
+          "status": "passed",
+          "title": "黑毛球战后0x06:roll=22,掉落+0棵止血草,分支只执行一次",
+          "duration": 0.6064999999999827,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["原盘战后掉落分支与特殊非胜利接回"],
+          "fullName": "原盘战后掉落分支与特殊非胜利接回 0x89 result=+0不跑战后掉落/半恢复,接回ip5",
+          "status": "passed",
+          "title": "0x89 result=+0不跑战后掉落/半恢复,接回ip5",
+          "duration": 0.4557920000000877,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["原盘战后掉落分支与特殊非胜利接回"],
+          "fullName": "原盘战后掉落分支与特殊非胜利接回 0x89 result=1不跑战后掉落/半恢复,接回ip6",
+          "status": "passed",
+          "title": "0x89 result=1不跑战后掉落/半恢复,接回ip6",
+          "duration": 0.3029579999999896,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["原盘战后掉落分支与特殊非胜利接回"],
+          "fullName": "原盘战后掉落分支与特殊非胜利接回 0x89 result=65535不跑战后掉落/半恢复,接回ip7",
+          "status": "passed",
+          "title": "0x89 result=65535不跑战后掉落/半恢复,接回ip7",
+          "duration": 0.1838749999999436,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792340132409,
+      "endTime": 1792340132421.1838,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/battle-settlement.glm-next-wave.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "scriptOnTurnStart 与 battleDialogPendingClear(battle-opcodes 0x05/0x8E 消费链)"
+          ],
+          "fullName": "scriptOnTurnStart 与 battleDialogPendingClear(battle-opcodes 0x05/0x8E 消费链) turnStart 脚本内 0x05 → 首句对话带 clearBefore;脚本结束标记复位(不跨脚本泄漏)",
+          "status": "passed",
+          "title": "turnStart 脚本内 0x05 → 首句对话带 clearBefore;脚本结束标记复位(不跨脚本泄漏)",
+          "duration": 3.690334000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "scriptOnTurnStart 与 battleDialogPendingClear(battle-opcodes 0x05/0x8E 消费链)"
+          ],
+          "fullName": "scriptOnTurnStart 与 battleDialogPendingClear(battle-opcodes 0x05/0x8E 消费链) 敌 A 的 0x05(无对话)不泄漏到敌 B 的对话(每脚本起手重置,battle-system.ts:2187)",
+          "status": "passed",
+          "title": "敌 A 的 0x05(无对话)不泄漏到敌 B 的对话(每脚本起手重置,battle-system.ts:2187)",
+          "duration": 0.5627500000000509,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "DL23:turn-start 置终态 → break(battle.c:747-750 BattleResult != PreBattle)"
+          ],
+          "fullName": "DL23:turn-start 置终态 → break(battle.c:747-750 BattleResult != PreBattle) 敌 A turnStart 0x89 [3] won → 敌 B turnStart 不跑、无对话;phase 进 won",
+          "status": "passed",
+          "title": "敌 A turnStart 0x89 [3] won → 敌 B turnStart 不跑、无对话;phase 进 won",
+          "duration": 2.0066249999999854,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792340132408,
+      "endTime": 1792340132414.0066,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/battle-system.glm-next-wave.test.ts"
+    }
+  ]
+}

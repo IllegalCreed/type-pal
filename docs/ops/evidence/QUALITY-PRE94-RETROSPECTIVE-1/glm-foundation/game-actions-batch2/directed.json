@@ -1,0 +1,350 @@
+{
+  "numTotalTestSuites": 13,
+  "numPassedTestSuites": 13,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 25,
+  "numPassedTests": 25,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792341385057,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Q08-8b performMagic caster 缺失臂"],
+          "fullName": "Q08-8b performMagic caster 缺失臂 caster 索引越界：warn + 不扣 MP + 不 emit + 不跑脚本",
+          "status": "passed",
+          "title": "caster 索引越界：warn + 不扣 MP + 不 emit + 不跑脚本",
+          "duration": 2.5117089999998825,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q08-8b performMagic caster 缺失臂"],
+          "fullName": "Q08-8b performMagic caster 缺失臂 caster role 不在 playerRoles：warn + 不扣 MP + 不 emit + 不跑脚本",
+          "status": "passed",
+          "title": "caster role 不在 playerRoles：warn + 不扣 MP + 不 emit + 不跑脚本",
+          "duration": 0.33150000000000546,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "Q08-8b 无 inventory 资源臂（throw-item；performItem 同族由 actions.test.ts:2317-2371 已证，Q-R5-02 删重）"
+          ],
+          "fullName": "Q08-8b 无 inventory 资源臂（throw-item；performItem 同族由 actions.test.ts:2317-2371 已证，Q-R5-02 删重） performThrowItem 队员无 inventory：warn + 不跑 scriptOnThrow + 不 emit",
+          "status": "passed",
+          "title": "performThrowItem 队员无 inventory：warn + 不跑 scriptOnThrow + 不 emit",
+          "duration": 0.5802499999999782,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q08-8b selectAutoTargetFrom 未覆盖条件臂"],
+          "fullName": "Q08-8b selectAutoTargetFrom 未覆盖条件臂 begin<0 规范化为从 0 起扫首个活敌",
+          "status": "passed",
+          "title": "begin<0 规范化为从 0 起扫首个活敌",
+          "duration": 0.19870800000012423,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q08-8b selectAutoTargetFrom 未覆盖条件臂"],
+          "fullName": "Q08-8b selectAutoTargetFrom 未覆盖条件臂 prevTarget 越界(≥n)时回 begin 起扫，不读越界槽",
+          "status": "passed",
+          "title": "prevTarget 越界(≥n)时回 begin 起扫，不读越界槽",
+          "duration": 0.1461669999998776,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
+          ],
+          "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 公开投影链把 rgwMagic 槽位真实投影为 role.magic（caller 同路）",
+          "status": "passed",
+          "title": "公开投影链把 rgwMagic 槽位真实投影为 role.magic（caller 同路）",
+          "duration": 0.5184999999999036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
+          ],
+          "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） silence>0 → 直接返回 0（物理攻击），不查法术表",
+          "status": "passed",
+          "title": "silence>0 → 直接返回 0（物理攻击），不查法术表",
+          "duration": 0.2117920000000595,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
+          ],
+          "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） selectingPlayerIdx 缺席（undefined）→ 返回 0",
+          "status": "passed",
+          "title": "selectingPlayerIdx 缺席（undefined）→ 返回 0",
+          "duration": 0.12087500000006912,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
+          ],
+          "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 已学槽法术 resolve 失败（spell 不在表）→ 该槽跳过，返回 0",
+          "status": "passed",
+          "title": "已学槽法术 resolve 失败（spell 不在表）→ 该槽跳过，返回 0",
+          "duration": 0.38362499999993815,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
+          ],
+          "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） costMP=1 极限技门（sdlpal uibattle.c:763-766 筛除极限技）→ 跳过不选；合法耗魔法术正常入选",
+          "status": "passed",
+          "title": "costMP=1 极限技门（sdlpal uibattle.c:763-766 筛除极限技）→ 跳过不选；合法耗魔法术正常入选",
+          "duration": 0.15466699999979028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
+          ],
+          "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 唯一已学法术 MP 不足（costMP>role.mp）→ 跳过返回 0",
+          "status": "passed",
+          "title": "唯一已学法术 MP 不足（costMP>role.mp）→ 跳过返回 0",
+          "duration": 0.1818749999999909,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
+          ],
+          "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 威力择优（range=0 消随机项）：更高 baseDamage 者替换先遇者",
+          "status": "passed",
+          "title": "威力择优（range=0 消随机项）：更高 baseDamage 者替换先遇者",
+          "duration": 0.14241600000013932,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input）"
+          ],
+          "fullName": "Q08-8b pickAutoMagic 展开批（typed rgwMagic 投影链；Q-R5-03 撤回 blocked-input） 同威力保留先遇（strict power>maxPower）：range=0 下两法术 baseDamage 相同 → 返回先遇到的 296",
+          "status": "passed",
+          "title": "同威力保留先遇（strict power>maxPower）：range=0 下两法术 baseDamage 相同 → 返回先遇到的 296",
+          "duration": 0.15262500000017099,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792341386170,
+      "endTime": 1792341386176.182,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/battle-action-error-arms.glm-q.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位）"],
+          "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用槽非空毒残留被清零、对象身份替换（旧证之外的独立轴）",
+          "status": "passed",
+          "title": "复用槽非空毒残留被清零、对象身份替换（旧证之外的独立轴）",
+          "duration": 2.095250000000078,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位）"],
+          "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 同席两死亡槽只复用一间：另一间保持 defeated 与残留身份",
+          "status": "passed",
+          "title": "同席两死亡槽只复用一间：另一间保持 defeated 与残留身份",
+          "duration": 0.7021660000000338,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位）"],
+          "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 活敌槽绝不复用：满员 3 活 0 死 → room=0 走 fail 跳转",
+          "status": "passed",
+          "title": "活敌槽绝不复用：满员 3 活 0 死 → room=0 走 fail 跳转",
+          "duration": 0.22862499999996544,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位）"],
+          "fullName": "Q08 0x9E 正向死亡空槽复用（战中击败槽，非初始 0 占位） 复用后全体敌人底锚按新阵容重算（PAL_BattleMakeScene 等价）",
+          "status": "passed",
+          "title": "复用后全体敌人底锚按新阵容重算（PAL_BattleMakeScene 等价）",
+          "duration": 0.5273750000000064,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792341385954,
+      "endTime": 1792341385957.5273,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/battle-summon-slot-reuse.glm-q.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["performAttack × battleEffectIndex(fight.c:2055-2056 命中特效帧基号)"],
+          "fullName": "performAttack × battleEffectIndex(fight.c:2055-2056 命中特效帧基号) sprite0 → flat[sprite*2+1]=2 → base=6,特效帧 frameIdx 6/7/8",
+          "status": "passed",
+          "title": "sprite0 → flat[sprite*2+1]=2 → base=6,特效帧 frameIdx 6/7/8",
+          "duration": 2.4872080000000096,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["performAttack × battleEffectIndex(fight.c:2055-2056 命中特效帧基号)"],
+          "fullName": "performAttack × battleEffectIndex(fight.c:2055-2056 命中特效帧基号) 表缺省(undefined)→ base=0,特效帧 frameIdx 0/1/2(缺表防御语义)",
+          "status": "passed",
+          "title": "表缺省(undefined)→ base=0,特效帧 frameIdx 0/1/2(缺表防御语义)",
+          "duration": 0.4012910000000147,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792341386092,
+      "endTime": 1792341386095.4014,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/actions/attack.glm-next-wave.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 → 3756-3757)"
+          ],
+          "fullName": "performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 → 3756-3757) healthy≤1(仅发起者活)→ 退化普攻:敌掉血、不付 HP 代价、attackExp+1/healthExp+=R(2,3)",
+          "status": "passed",
+          "title": "healthy≤1(仅发起者活)→ 退化普攻:敌掉血、不付 HP 代价、attackExp+1/healthExp+=R(2,3)",
+          "duration": 2.486582999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 → 3756-3757)"
+          ],
+          "fullName": "performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 → 3756-3757) RNG 序:普攻修饰(jitter→crit→李逍遥→float)先消耗,(2,3) 隐藏经验最后(C 同序)",
+          "status": "passed",
+          "title": "RNG 序:普攻修饰(jitter→crit→李逍遥→float)先消耗,(2,3) 隐藏经验最后(C 同序)",
+          "duration": 0.6261250000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 → 3756-3757)"
+          ],
+          "fullName": "performCoopMagic 退化普攻 × DL6 隐藏经验(fight.c:3374-3378 → 3756-3757) 双人健康(≥2 contributors)→ 正常合击,无 attackExp 累计、付 HP 代价",
+          "status": "passed",
+          "title": "双人健康(≥2 contributors)→ 正常合击,无 attackExp 累计、付 HP 代价",
+          "duration": 0.36341700000002675,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792341386092,
+      "endTime": 1792341386095.3635,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/actions/coop-magic.glm-next-wave.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["DM6:敌方法术自动防御预掷先于脚本(fight.c:4719-4775 → 4761/4768)"],
+          "fullName": "DM6:敌方法术自动防御预掷先于脚本(fight.c:4719-4775 → 4761/4768) 实时交错轨迹:首掷 range(0,3) 早于 scriptOnUse,整条轨迹逐项吻合",
+          "status": "passed",
+          "title": "实时交错轨迹:首掷 range(0,3) 早于 scriptOnUse,整条轨迹逐项吻合",
+          "duration": 2.5345000000000937,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["DM6:敌方法术自动防御预掷先于脚本(fight.c:4719-4775 → 4761/4768)"],
+          "fullName": "DM6:敌方法术自动防御预掷先于脚本(fight.c:4719-4775 → 4761/4768) 脚本施睡不剥夺预掷资格:与「不施睡」孪生战斗伤害逐位一致",
+          "status": "passed",
+          "title": "脚本施睡不剥夺预掷资格:与「不施睡」孪生战斗伤害逐位一致",
+          "duration": 0.8437920000000076,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["DM6:敌方法术自动防御预掷先于脚本(fight.c:4719-4775 → 4761/4768)"],
+          "fullName": "DM6:敌方法术自动防御预掷先于脚本(fight.c:4719-4775 → 4761/4768) 预掷未中(range(0,3)!=0)→ 无 +1 减伤除数,伤害高于预掷命中(可证伪对照)",
+          "status": "passed",
+          "title": "预掷未中(range(0,3)!=0)→ 无 +1 减伤除数,伤害高于预掷命中(可证伪对照)",
+          "duration": 0.4212079999999787,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792341385955,
+      "endTime": 1792341385958.8438,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/battle/actions/magic.glm-next-wave.test.ts"
+    }
+  ]
+}

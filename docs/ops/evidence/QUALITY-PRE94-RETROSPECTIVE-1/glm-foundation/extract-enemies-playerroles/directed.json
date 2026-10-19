@@ -1,0 +1,210 @@
+{
+  "numTotalTestSuites": 10,
+  "numPassedTestSuites": 9,
+  "numFailedTestSuites": 1,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 14,
+  "numPassedTests": 14,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792331710190,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [],
+      "startTime": 1792331710190,
+      "endTime": 1792331710190,
+      "status": "failed",
+      "message": "ENOENT: no such file or directory, open '/Users/zhangxu/.glm-worktrees/pre94-foundation/data/raw/WORD.DAT'",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/resources/tables.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["decodeRgmPortrait"],
+          "fullName": "decodeRgmPortrait empty chunk(0 byte)→ null",
+          "status": "passed",
+          "title": "empty chunk(0 byte)→ null",
+          "duration": 0.724458999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeRgmPortrait"],
+          "fullName": "decodeRgmPortrait real RGM.MKF — 92 chunks，88张头像身份/尺寸/SDLPal全部RGBA",
+          "status": "passed",
+          "title": "real RGM.MKF — 92 chunks，88张头像身份/尺寸/SDLPal全部RGBA",
+          "duration": 85.83100000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeBallIcon"],
+          "fullName": "decodeBallIcon empty chunk(0 byte)→ null",
+          "status": "passed",
+          "title": "empty chunk(0 byte)→ null",
+          "duration": 0.12133299999999281,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["decodeBallIcon"],
+          "fullName": "decodeBallIcon real BALL.MKF — 252 chunks，251图标身份/尺寸/SDLPal全部RGBA",
+          "status": "passed",
+          "title": "real BALL.MKF — 252 chunks，251图标身份/尺寸/SDLPal全部RGBA",
+          "duration": 58.008249999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseFirSprite"],
+          "fullName": "parseFirSprite one-byte raw input preserves chunkIndex and returns no frames",
+          "status": "passed",
+          "title": "one-byte raw input preserves chunkIndex and returns no frames",
+          "duration": 0.257000000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseFirSprite"],
+          "fullName": "parseFirSprite fake raw sprite chunk after YJ2 failure returns two exact PNG frames",
+          "status": "passed",
+          "title": "fake raw sprite chunk after YJ2 failure returns two exact PNG frames",
+          "duration": 0.9506660000000124,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseFirSprite"],
+          "fullName": "parseFirSprite real FIRE.MKF — 55 chunks，837帧身份/尺寸/SDLPal全部RGBA",
+          "status": "passed",
+          "title": "real FIRE.MKF — 55 chunks，837帧身份/尺寸/SDLPal全部RGBA",
+          "duration": 1351.167125,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["FIRE.MKF chunks — parseSpriteChunk after YJ2 decompress"],
+          "fullName": "FIRE.MKF chunks — parseSpriteChunk after YJ2 decompress chunk 0 decompresses → valid sprite with frames",
+          "status": "passed",
+          "title": "chunk 0 decompresses → valid sprite with frames",
+          "duration": 6.527084000000059,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792331710393,
+      "endTime": 1792331711897.527,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/resources/parsers/__tests__/misc-mkf.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["parsePlayerRoles · SoA 布局合同"],
+          "fullName": "parsePlayerRoles · SoA 布局合同 行=字段 列=角色：标量/signed/五行抗/装备轴向/仙术槽/走帧/声音",
+          "status": "passed",
+          "title": "行=字段 列=角色：标量/signed/五行抗/装备轴向/仙术槽/走帧/声音",
+          "duration": 2.695166999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles · SoA 布局合同"],
+          "fullName": "parsePlayerRoles · SoA 布局合同 chunk 3 尺寸门：898B 拒绝（sizeof=900）",
+          "status": "passed",
+          "title": "chunk 3 尺寸门：898B 拒绝（sizeof=900）",
+          "duration": 0.4504579999999976,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles · SoA 布局合同"],
+          "fullName": "parsePlayerRoles · SoA 布局合同 零值全表合法（全零 900B → 全部角色字段为 0/无 -1 语义）",
+          "status": "passed",
+          "title": "零值全表合法（全零 900B → 全部角色字段为 0/无 -1 语义）",
+          "duration": 0.24370799999999804,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parsePlayerRoles · SoA 布局合同"],
+          "fullName": "parsePlayerRoles · SoA 布局合同 rgwName 指针反查 _name：按 name 值指向 word36+k，role3/4 故意对调不写反",
+          "status": "passed",
+          "title": "rgwName 指针反查 _name：按 name 值指向 word36+k，role3/4 故意对调不写反",
+          "duration": 0.16645800000000577,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792331710373,
+      "endTime": 1792331710376.4504,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/resources/parsers/__tests__/player-roles.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射"
+          ],
+          "fullName": "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 rgwName 指针越 persons 表或 0 哨兵 → 该 role 安全缺省 _name，表内命中与 3/4 对调不受污染",
+          "status": "passed",
+          "title": "rgwName 指针越 persons 表或 0 哨兵 → 该 role 安全缺省 _name，表内命中与 3/4 对调不受污染",
+          "duration": 2.061040999999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射"
+          ],
+          "fullName": "TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 · parsePlayerRoles 名称缺省与元素键映射 elemResistance water 与 earth 两键行列映射判别补全（手写字面量 5 键钉死）",
+          "status": "passed",
+          "title": "elemResistance water 与 earth 两键行列映射判别补全（手写字面量 5 键钉死）",
+          "duration": 0.4202499999999816,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792331710372,
+      "endTime": 1792331710374.4202,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/pal-extract/src/resources/parsers/__tests__/player-roles.event-boundaries-1.test.ts"
+    }
+  ]
+}

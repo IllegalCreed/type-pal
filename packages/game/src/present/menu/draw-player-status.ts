@@ -19,7 +19,8 @@
  *           + curHP/MP(yellow 4)+ maxHP/MP(blue 4)
  *  9. 5 stat 数字:PAL_GetPlayerAttackStrength / MagicStrength / Defense / Dexterity / FleeRate
  *           各 4 位 yellow at RoleStatusValues[i]
- * 10. poison row(uigame.c:1245-1253)— 首版 skip,留 follow-up(需 items poison 字段 + gs.rgPoisonStatus 接入)
+ * 10. poison row(uigame.c:1245-1253)— 已实现(C6:objectPoisons + gs.rgPoisonStatus,
+ *     见函数末 step 10;level<=3 显示,名 = getWord(wPoisonID),色 = wColor+10)
  *
  * v1 ts 简版 page='attribute'|'equipment'|'magic' 3 页签是错的 — sdlpal 一屏整布局,无页切换。
  * 已删,见 [player-status.ts](../../core/menu/player-status.ts) state machine 重写。

@@ -1,0 +1,3824 @@
+{
+  "numTotalTestSuites": 122,
+  "numPassedTestSuites": 122,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 337,
+  "numPassedTests": 337,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792388271417,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "N05 snapshot 按 catalog 登记校验字节；urlFor 一律拒绝",
+          "status": "passed",
+          "title": "N05 snapshot 按 catalog 登记校验字节；urlFor 一律拒绝",
+          "duration": 1.5475419999999929,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "N05 预取消的试打准备在任何 IO 前拒绝",
+          "status": "passed",
+          "title": "N05 预取消的试打准备在任何 IO 前拒绝",
+          "duration": 20.24200000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "N05 asset 音乐与实体特效精灵进入冻结准备；soundfont 只在真有音乐时读取",
+          "status": "passed",
+          "title": "N05 asset 音乐与实体特效精灵进入冻结准备；soundfont 只在真有音乐时读取",
+          "duration": 16.768500000000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "N05 silent 配置不读取任何音乐角色字节",
+          "status": "passed",
+          "title": "N05 silent 配置不读取任何音乐角色字节",
+          "duration": 5.271165999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "N05 缓存路径 seal 后可复读；dispose 后同路径拒绝",
+          "status": "passed",
+          "title": "N05 缓存路径 seal 后可复读；dispose 后同路径拒绝",
+          "duration": 0.2703329999999937,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388274127,
+      "endTime": 1792388274171.2712,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/battle-trial-assets.glm-n.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "abortableTrial pre-aborted rejects before its original source is released",
+          "status": "passed",
+          "title": "abortableTrial pre-aborted rejects before its original source is released",
+          "duration": 1.0127090000000862,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "abortableTrial in-flight rejects before its original source is released",
+          "status": "passed",
+          "title": "abortableTrial in-flight rejects before its original source is released",
+          "duration": 0.2275000000000773,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "abortableTrial preserves success and the exact source rejection",
+          "status": "passed",
+          "title": "abortableTrial preserves success and the exact source rejection",
+          "duration": 0.47545800000000327,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "readText/readJson use frozen bytes after source mutation and seal rejects uncached paths",
+          "status": "passed",
+          "title": "readText/readJson use frozen bytes after source mutation and seal rejects uncached paths",
+          "duration": 1.4380000000001019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "readText aborts while the same byte read is pending and late bytes never restore access",
+          "status": "passed",
+          "title": "readText aborts while the same byte read is pending and late bytes never restore access",
+          "duration": 0.4355829999999514,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "complete trial preparation freezes real project resources and dispose closes only project-owned bitmaps",
+          "status": "passed",
+          "title": "complete trial preparation freezes real project resources and dispose closes only project-owned bitmaps",
+          "duration": 36.074749999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "trial preparation rejects wrong save-token before any asset IO",
+          "status": "passed",
+          "title": "trial preparation rejects wrong save-token before any asset IO",
+          "duration": 3.158749999999941,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "trial preparation rejects wrong revision before any asset IO",
+          "status": "passed",
+          "title": "trial preparation rejects wrong revision before any asset IO",
+          "duration": 1.9887090000000853,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "post-resource save-token drift rejects and releases already-created project bitmaps",
+          "status": "passed",
+          "title": "post-resource save-token drift rejects and releases already-created project bitmaps",
+          "duration": 6.179250000000025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "post-resource data drift rejects and releases already-created project bitmaps",
+          "status": "passed",
+          "title": "post-resource data drift rejects and releases already-created project bitmaps",
+          "duration": 5.4321670000000495,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "real project resource IO rejection never returns a prepared trial",
+          "status": "passed",
+          "title": "real project resource IO rejection never returns a prepared trial",
+          "duration": 2.8029169999999795,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388273766,
+      "endTime": 1792388273824.803,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/battle-trial-assets.wave2.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R20 trial 原语校验器"],
+          "fullName": "R20 trial 原语校验器 trialInteger：合法回读；非整数/越界拒绝且消息带 where 与范围",
+          "status": "passed",
+          "title": "trialInteger：合法回读；非整数/越界拒绝且消息带 where 与范围",
+          "duration": 1.1909590000000065,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R20 trial 原语校验器"],
+          "fullName": "R20 trial 原语校验器 trialBoolean：true/false 回读；非布尔拒绝带 where",
+          "status": "passed",
+          "title": "trialBoolean：true/false 回读；非布尔拒绝带 where",
+          "duration": 0.21791699999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R20 trial 原语校验器"],
+          "fullName": "R20 trial 原语校验器 trialId：非空无首尾空白回读；空串/带空白/非字符串拒绝",
+          "status": "passed",
+          "title": "trialId：非空无首尾空白回读；空串/带空白/非字符串拒绝",
+          "duration": 0.16575000000000273,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R20 isBattleAbort 分类矩阵"],
+          "fullName": "R20 isBattleAbort 分类矩阵 AbortError 名分类：trialAbortError/DOMException 真；普通错误/字符串/null 假",
+          "status": "passed",
+          "title": "AbortError 名分类：trialAbortError/DOMException 真；普通错误/字符串/null 假",
+          "duration": 0.12354200000000048,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388276900,
+      "endTime": 1792388276902.1235,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/battle-trial-config.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract preserves explicit zero/empty/silence and enemy holes; detaches actual input",
+          "status": "passed",
+          "title": "preserves explicit zero/empty/silence and enemy holes; detaches actual input",
+          "duration": 1.6369169999999968,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract accepts each source/resource mode and removes only zero inventory rows",
+          "status": "passed",
+          "title": "accepts each source/resource mode and removes only zero inventory rows",
+          "duration": 0.613790999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract accepts 1 unique members without reducing the five enemy slots",
+          "status": "passed",
+          "title": "accepts 1 unique members without reducing the five enemy slots",
+          "duration": 0.16629199999999855,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract accepts 2 unique members without reducing the five enemy slots",
+          "status": "passed",
+          "title": "accepts 2 unique members without reducing the five enemy slots",
+          "duration": 0.21887499999999704,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract accepts 3 unique members without reducing the five enemy slots",
+          "status": "passed",
+          "title": "accepts 3 unique members without reducing the five enemy slots",
+          "duration": 0.14841699999999491,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract rejects 4 members at the shared launch/document boundary",
+          "status": "passed",
+          "title": "rejects 4 members at the shared launch/document boundary",
+          "duration": 0.48537499999999056,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract rejects 5 members at the shared launch/document boundary",
+          "status": "passed",
+          "title": "rejects 5 members at the shared launch/document boundary",
+          "duration": 0.2759160000000094,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract rejects 6 members at the shared launch/document boundary",
+          "status": "passed",
+          "title": "rejects 6 members at the shared launch/document boundary",
+          "duration": 0.22441700000000253,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract rejects unknown field without modifying the input",
+          "status": "passed",
+          "title": "rejects unknown field without modifying the input",
+          "duration": 0.42991600000000574,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract rejects wrong boolean without modifying the input",
+          "status": "passed",
+          "title": "rejects wrong boolean without modifying the input",
+          "duration": 0.15500000000000114,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract rejects future enemy input without modifying the input",
+          "status": "passed",
+          "title": "rejects future enemy input without modifying the input",
+          "duration": 0.22887499999998795,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract rejects mixed music sources without modifying the input",
+          "status": "passed",
+          "title": "rejects mixed music sources without modifying the input",
+          "duration": 0.12587499999999352,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract rejects bad music tag without modifying the input",
+          "status": "passed",
+          "title": "rejects bad music tag without modifying the input",
+          "duration": 0.15766699999998934,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract rejects invalid ID without modifying the input",
+          "status": "passed",
+          "title": "rejects invalid ID without modifying the input",
+          "duration": 0.1041670000000039,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract rejects fractional money without modifying the input",
+          "status": "passed",
+          "title": "rejects fractional money without modifying the input",
+          "duration": 0.10645900000000097,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract rejects overflow without modifying the input",
+          "status": "passed",
+          "title": "rejects overflow without modifying the input",
+          "duration": 0.13445900000000677,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract rejects NaN without modifying the input",
+          "status": "passed",
+          "title": "rejects NaN without modifying the input",
+          "duration": 0.10029099999999858,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract rejects infinity without modifying the input",
+          "status": "passed",
+          "title": "rejects infinity without modifying the input",
+          "duration": 0.1143329999999878,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract rejects short slots without modifying the input",
+          "status": "passed",
+          "title": "rejects short slots without modifying the input",
+          "duration": 0.0941660000000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract rejects sparse slots without modifying the input",
+          "status": "passed",
+          "title": "rejects sparse slots without modifying the input",
+          "duration": 0.10824999999999818,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract rejects duplicate inventory without modifying the input",
+          "status": "passed",
+          "title": "rejects duplicate inventory without modifying the input",
+          "duration": 0.1075829999999911,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract rejects malformed member field 0",
+          "status": "passed",
+          "title": "rejects malformed member field 0",
+          "duration": 0.06566600000000733,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract rejects malformed member field 1",
+          "status": "passed",
+          "title": "rejects malformed member field 1",
+          "duration": 0.04579199999999162,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract rejects malformed member field 2",
+          "status": "passed",
+          "title": "rejects malformed member field 2",
+          "duration": 0.04650000000000887,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract rejects malformed member field 3",
+          "status": "passed",
+          "title": "rejects malformed member field 3",
+          "duration": 0.04845799999999656,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract rejects malformed member field 4",
+          "status": "passed",
+          "title": "rejects malformed member field 4",
+          "duration": 0.05358300000000327,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract rejects malformed member field 5",
+          "status": "passed",
+          "title": "rejects malformed member field 5",
+          "duration": 0.048208999999999946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract rejects malformed member field 6",
+          "status": "passed",
+          "title": "rejects malformed member field 6",
+          "duration": 0.0837500000000091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract rejects malformed member field 7",
+          "status": "passed",
+          "title": "rejects malformed member field 7",
+          "duration": 0.042541999999997415,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["battle trial JSON contract"],
+          "fullName": "battle trial JSON contract rejects duplicate templates and sparse members instead of silently filtering them",
+          "status": "passed",
+          "title": "rejects duplicate templates and sparse members instead of silently filtering them",
+          "duration": 0.1454999999999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388275019,
+      "endTime": 1792388275025.1455,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/battle-trial-config.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["W2-B B01 trial-config 剩余拒绝臂"],
+          "fullName": "W2-B B01 trial-config 剩余拒绝臂 trialObject 拒绝非普通 JSON 对象（原型链实例）",
+          "status": "passed",
+          "title": "trialObject 拒绝非普通 JSON 对象（原型链实例）",
+          "duration": 1.057083999999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-B B01 trial-config 剩余拒绝臂"],
+          "fullName": "W2-B B01 trial-config 剩余拒绝臂 trialArray 拒绝稀疏数组；trialId 拒绝空串与首尾空白",
+          "status": "passed",
+          "title": "trialArray 拒绝稀疏数组；trialId 拒绝空串与首尾空白",
+          "duration": 0.6267919999999947,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-B B01 trial-config 剩余拒绝臂"],
+          "fullName": "W2-B B01 trial-config 剩余拒绝臂 percent 上界：100 合法、101 拒绝；value 无上界整数仍合法",
+          "status": "passed",
+          "title": "percent 上界：100 合法、101 拒绝；value 无上界整数仍合法",
+          "duration": 0.278624999999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-B B01 trial-config 剩余拒绝臂"],
+          "fullName": "W2-B B01 trial-config 剩余拒绝臂 装备槽未知键拒绝；skills.kind 无效拒绝；replace 重复技能拒绝",
+          "status": "passed",
+          "title": "装备槽未知键拒绝；skills.kind 无效拒绝；replace 重复技能拒绝",
+          "duration": 0.4201660000000089,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-B B01 trial-config 剩余拒绝臂"],
+          "fullName": "W2-B B01 trial-config 剩余拒绝臂 enemies：非 5 槽拒绝、空 id 拒绝、恰 5 槽含 null 合法；music asset 缺 assetId 拒绝",
+          "status": "passed",
+          "title": "enemies：非 5 槽拒绝、空 id 拒绝、恰 5 槽含 null 合法；music asset 缺 assetId 拒绝",
+          "duration": 0.3580840000000052,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-B B01 trial-config 剩余拒绝臂"],
+          "fullName": "W2-B B01 trial-config 剩余拒绝臂 合法全集 round-trip：数组/对象输入不被原地修改（深快照保真）",
+          "status": "passed",
+          "title": "合法全集 round-trip：数组/对象输入不被原地修改（深快照保真）",
+          "duration": 0.5053340000000048,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388275448,
+      "endTime": 1792388275451.5054,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/battle-trial-config.wave2.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "无 #screen 画布时入口精确 fail-loud（battle-trial-host.ts:33）",
+          "status": "passed",
+          "title": "无 #screen 画布时入口精确 fail-loud（battle-trial-host.ts:33）",
+          "duration": 14.077041000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "F5/F9 只更新状态栏存读档提示；真实战斗打到 victory 并回调 onResult(胜利)",
+          "status": "passed",
+          "title": "F5/F9 只更新状态栏存读档提示；真实战斗打到 victory 并回调 onResult(胜利)",
+          "duration": 136.19049999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "停止按钮：abort 取消真实会话、runBattleTrial 兑现、restart 复位并回调 onRestart",
+          "status": "passed",
+          "title": "停止按钮：abort 取消真实会话、runBattleTrial 兑现、restart 复位并回调 onRestart",
+          "duration": 81.48654199999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "onRestart 抛错时错误消息回显状态栏（错误恢复臂）",
+          "status": "passed",
+          "title": "onRestart 抛错时错误消息回显状态栏（错误恢复臂）",
+          "duration": 78.55483400000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388273282,
+      "endTime": 1792388273592.555,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/battle-trial-host.glm-next-wave.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["W2-B B02 collectBattleTrialIssues 剩余定位臂"],
+          "fullName": "W2-B B02 collectBattleTrialIssues 剩余定位臂 悬空战场/角色/技能/敌队/背包逐条带 path 定位；不静默换候选",
+          "status": "passed",
+          "title": "悬空战场/角色/技能/敌队/背包逐条带 path 定位；不静默换候选",
+          "duration": 3.2440409999999815,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-B B02 collectBattleTrialIssues 剩余定位臂"],
+          "fullName": "W2-B B02 collectBattleTrialIssues 剩余定位臂 maxHP/maxMP 无效与 value 超上限、全员 HP0 各自定位",
+          "status": "passed",
+          "title": "maxHP/maxMP 无效与 value 超上限、全员 HP0 各自定位",
+          "duration": 0.8940839999999923,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-B B02 collectBattleTrialIssues 剩余定位臂"],
+          "fullName": "W2-B B02 collectBattleTrialIssues 剩余定位臂 装备槽位/可穿者不符与 grantSkill 悬空定位；maxPool 呈 warning 不阻断",
+          "status": "passed",
+          "title": "装备槽位/可穿者不符与 grantSkill 悬空定位；maxPool 呈 warning 不阻断",
+          "duration": 0.8672499999999843,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-B B02 collectBattleTrialIssues 剩余定位臂"],
+          "fullName": "W2-B B02 collectBattleTrialIssues 剩余定位臂 敌队五槽：空敌队/悬空敌人/越界槽位各自定位",
+          "status": "passed",
+          "title": "敌队五槽：空敌队/悬空敌人/越界槽位各自定位",
+          "duration": 0.20912500000000023,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-B B02 collectBattleTrialIssues 剩余定位臂"],
+          "fullName": "W2-B B02 collectBattleTrialIssues 剩余定位臂 非法 config 原样落入 config 单条 error（不抛出）",
+          "status": "passed",
+          "title": "非法 config 原样落入 config 单条 error（不抛出）",
+          "duration": 0.4130830000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-B B02 previewBattleTrialParty"],
+          "fullName": "W2-B B02 previewBattleTrialParty 覆写 stats、null 脱装、replace 技能、value/full/percent 池全应用",
+          "status": "passed",
+          "title": "覆写 stats、null 脱装、replace 技能、value/full/percent 池全应用",
+          "duration": 0.6191249999999968,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["W2-B B02 previewBattleTrialParty"],
+          "fullName": "W2-B B02 previewBattleTrialParty 同输入多次 preview 互不别名：两次输出的 players 数值独立",
+          "status": "passed",
+          "title": "同输入多次 preview 互不别名：两次输出的 players 数值独立",
+          "duration": 0.3982910000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388274908,
+      "endTime": 1792388274914.6191,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/battle-trial-prepare.wave2.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["E1 分支真实参数与同 signal"],
+          "fullName": "E1 分支真实参数与同 signal clearDialog/cameraSnap/video/frameAnimation 各进对应分支；async 分支收到同一 signal",
+          "status": "passed",
+          "title": "clearDialog/cameraSnap/video/frameAnimation 各进对应分支；async 分支收到同一 signal",
+          "duration": 1.301249999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E2 挂起/拒绝时序"],
+          "fullName": "E2 挂起/拒绝时序 单个 await intent 挂起时不进下一条；resolve 后按序；同输入正控完整执行",
+          "status": "passed",
+          "title": "单个 await intent 挂起时不进下一条；resolve 后按序；同输入正控完整执行",
+          "duration": 0.28708300000000975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E2 挂起/拒绝时序"],
+          "fullName": "E2 挂起/拒绝时序 executor 拒绝 → run 拒绝、busy 收尾清零、后续 intent 不执行",
+          "status": "passed",
+          "title": "executor 拒绝 → run 拒绝、busy 收尾清零、后续 intent 不执行",
+          "duration": 1.0458330000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E3 显式零值与可选缺席传递"],
+          "fullName": "E3 显式零值与可选缺席传递 frameAnimation startFrame:0 显式保留；fade ms 缺省 300 / 显式 0 保留",
+          "status": "passed",
+          "title": "frameAnimation startFrame:0 显式保留；fade ms 缺省 300 / 显式 0 保留",
+          "duration": 0.21770899999999926,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388275239,
+      "endTime": 1792388275242.2178,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/cutscene-controller.dispatch-boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["CutsceneController (D14-2)"],
+          "fullName": "CutsceneController (D14-2) run 按序执行 intent 且 busy() 期间为 true(K1)",
+          "status": "passed",
+          "title": "run 按序执行 intent 且 busy() 期间为 true(K1)",
+          "duration": 1.2776249999999933,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CutsceneController (D14-2)"],
+          "fullName": "CutsceneController (D14-2) K1:runner 活跃但无 intent 时 busy() 仍 true",
+          "status": "passed",
+          "title": "K1:runner 活跃但无 intent 时 busy() 仍 true",
+          "duration": 0.18333299999999042,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CutsceneController (D14-2)"],
+          "fullName": "CutsceneController (D14-2) 后台 wait 不占用呈现锁，auto 环境脚本不会冻结明雷与生命周期世界拍",
+          "status": "passed",
+          "title": "后台 wait 不占用呈现锁，auto 环境脚本不会冻结明雷与生命周期世界拍",
+          "duration": 0.20316599999999596,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CutsceneController (D14-2)"],
+          "fullName": "CutsceneController (D14-2) K3:取消 → 中止后续 intent 且 activeRuns 清理;cancelAll 调 resetPresentation",
+          "status": "passed",
+          "title": "K3:取消 → 中止后续 intent 且 activeRuns 清理;cancelAll 调 resetPresentation",
+          "duration": 0.9658749999999969,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CutsceneController (D14-2)"],
+          "fullName": "CutsceneController (D14-2) K5:并发 run 不全局 supersede(资源分域)——两个 run 顺序交错均执行",
+          "status": "passed",
+          "title": "K5:并发 run 不全局 supersede(资源分域)——两个 run 顺序交错均执行",
+          "duration": 0.2493340000000046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["CutsceneController (D14-2)"],
+          "fullName": "CutsceneController (D14-2) K7:同 cutscene 两次回放调用序列逐帧一致",
+          "status": "passed",
+          "title": "K7:同 cutscene 两次回放调用序列逐帧一致",
+          "duration": 0.14954200000001094,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388275703,
+      "endTime": 1792388275706.2493,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/cutscene-controller.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Q-NEXT2 dither palette plan / apply / controller"],
+          "fullName": "Q-NEXT2 dither palette plan / apply / controller Q-NEXT2-01 duplicate exact RGB chooses first palette identity",
+          "status": "passed",
+          "title": "Q-NEXT2-01 duplicate exact RGB chooses first palette identity",
+          "duration": 1.130749999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q-NEXT2 dither palette plan / apply / controller"],
+          "fullName": "Q-NEXT2 dither palette plan / apply / controller Q-NEXT2-02 nearest RGB uses green and blue distance",
+          "status": "passed",
+          "title": "Q-NEXT2-02 nearest RGB uses green and blue distance",
+          "duration": 0.2775000000000034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q-NEXT2 dither palette plan / apply / controller"],
+          "fullName": "Q-NEXT2 dither palette plan / apply / controller Q-NEXT2-03 nearest distance tie keeps earlier index",
+          "status": "passed",
+          "title": "Q-NEXT2-03 nearest distance tie keeps earlier index",
+          "duration": 0.11941700000001276,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q-NEXT2 dither palette plan / apply / controller"],
+          "fullName": "Q-NEXT2 dither palette plan / apply / controller Q-NEXT2-04 cached nonexact zero identity is preserved",
+          "status": "passed",
+          "title": "Q-NEXT2-04 cached nonexact zero identity is preserved",
+          "duration": 0.37854099999999846,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q-NEXT2 dither palette plan / apply / controller"],
+          "fullName": "Q-NEXT2 dither palette plan / apply / controller Q-NEXT2-05 palette snapshot is detached",
+          "status": "passed",
+          "title": "Q-NEXT2-05 palette snapshot is detached",
+          "duration": 0.7234160000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q-NEXT2 dither palette plan / apply / controller"],
+          "fullName": "Q-NEXT2 dither palette plan / apply / controller Q-NEXT2-06 output capacity bounds writes",
+          "status": "passed",
+          "title": "Q-NEXT2-06 output capacity bounds writes",
+          "duration": 0.14008299999998997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q-NEXT2 dither palette plan / apply / controller"],
+          "fullName": "Q-NEXT2 dither palette plan / apply / controller Q-NEXT2-07 real plan capacity bounds later apply",
+          "status": "passed",
+          "title": "Q-NEXT2-07 real plan capacity bounds later apply",
+          "duration": 0.1690410000000071,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q-NEXT2 dither palette plan / apply / controller"],
+          "fullName": "Q-NEXT2 dither palette plan / apply / controller Q-NEXT2-08 nonzero endpoint and output views use own offsets",
+          "status": "passed",
+          "title": "Q-NEXT2-08 nonzero endpoint and output views use own offsets",
+          "duration": 0.32458299999998985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q-NEXT2 dither palette plan / apply / controller"],
+          "fullName": "Q-NEXT2 dither palette plan / apply / controller Q-NEXT2-09 distinct endpoint-buffer views are rejected",
+          "status": "passed",
+          "title": "Q-NEXT2-09 distinct endpoint-buffer views are rejected",
+          "duration": 0.7054159999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q-NEXT2 dither palette plan / apply / controller"],
+          "fullName": "Q-NEXT2 dither palette plan / apply / controller Q-NEXT2-10 zero requested pixels leave output untouched",
+          "status": "passed",
+          "title": "Q-NEXT2-10 zero requested pixels leave output untouched",
+          "duration": 0.18291599999999164,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q-NEXT2 dither palette plan / apply / controller"],
+          "fullName": "Q-NEXT2 dither palette plan / apply / controller Q-NEXT2-11 ragged two-dimensional grid maps logical rows",
+          "status": "passed",
+          "title": "Q-NEXT2-11 ragged two-dimensional grid maps logical rows",
+          "duration": 0.25670900000000074,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q-NEXT2 dither palette plan / apply / controller"],
+          "fullName": "Q-NEXT2 dither palette plan / apply / controller Q-NEXT2-12 owned cancellation accepts matching owner",
+          "status": "passed",
+          "title": "Q-NEXT2-12 owned cancellation accepts matching owner",
+          "duration": 0.41174999999999784,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q-NEXT2 dither palette plan / apply / controller"],
+          "fullName": "Q-NEXT2 dither palette plan / apply / controller Q-NEXT2-13 snapshot capture failure preserves active effect",
+          "status": "passed",
+          "title": "Q-NEXT2-13 snapshot capture failure preserves active effect",
+          "duration": 0.20891699999999958,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Q-NEXT2 dither palette plan / apply / controller"],
+          "fullName": "Q-NEXT2 dither palette plan / apply / controller Q-NEXT2-14 explicit cancellation reason preserves object identity",
+          "status": "passed",
+          "title": "Q-NEXT2-14 explicit cancellation reason preserves object identity",
+          "duration": 0.07345800000000224,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388271861,
+      "endTime": 1792388271866.4119,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/dither-next2.glm-q.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["buildDitherPalettePlan / applyDitherPaletteTransition"],
+          "fullName": "buildDitherPalettePlan / applyDitherPaletteTransition 旧文字的亮度轮廓进入新场景色系，再向 target 逐级溶解",
+          "status": "passed",
+          "title": "旧文字的亮度轮廓进入新场景色系，再向 target 逐级溶解",
+          "duration": 1.8604169999999982,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildDitherPalettePlan / applyDitherPaletteTransition"],
+          "fullName": "buildDitherPalettePlan / applyDitherPaletteTransition 六相位按 RG_INDEX={0,3,1,5,2,4} 错峰换入 target 色系",
+          "status": "passed",
+          "title": "六相位按 RG_INDEX={0,3,1,5,2,4} 错峰换入 target 色系",
+          "duration": 0.4143750000000068,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildDitherPalettePlan / applyDitherPaletteTransition"],
+          "fullName": "buildDitherPalettePlan / applyDitherPaletteTransition visits 边界覆盖首次、第二次与各相位第十二次访问",
+          "status": "passed",
+          "title": "visits 边界覆盖首次、第二次与各相位第十二次访问",
+          "duration": 0.3847499999999968,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildDitherPalettePlan / applyDitherPaletteTransition"],
+          "fullName": "buildDitherPalettePlan / applyDitherPaletteTransition 单像素保留 source 层级后每趟向 target 移一格，最终帧精确切 target",
+          "status": "passed",
+          "title": "单像素保留 source 层级后每趟向 target 移一格，最终帧精确切 target",
+          "duration": 0.2049159999999972,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildDitherPalettePlan / applyDitherPaletteTransition"],
+          "fullName": "buildDitherPalettePlan / applyDitherPaletteTransition 4× 点阵网格按逻辑像素整块使用同一级别",
+          "status": "passed",
+          "title": "4× 点阵网格按逻辑像素整块使用同一级别",
+          "duration": 0.4271669999999972,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildDitherPalettePlan / applyDitherPaletteTransition"],
+          "fullName": "buildDitherPalettePlan / applyDitherPaletteTransition 未访问像素保持 source alpha，访问后属于 target 画面",
+          "status": "passed",
+          "title": "未访问像素保持 source alpha，访问后属于 target 画面",
+          "duration": 0.10941700000000765,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["buildDitherPalettePlan / applyDitherPaletteTransition"],
+          "fullName": "buildDitherPalettePlan / applyDitherPaletteTransition 色表/pixelCount/数组长度钳边界，并拒绝 output 与端点共用缓冲",
+          "status": "passed",
+          "title": "色表/pixelCount/数组长度钳边界，并拒绝 output 与端点共用缓冲",
+          "duration": 0.8545840000000027,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["DitherTransitionController"],
+          "fullName": "DitherTransitionController 场景 entry 显式提供 previous presented frame",
+          "status": "passed",
+          "title": "场景 entry 显式提供 previous presented frame",
+          "duration": 0.16916700000000162,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["DitherTransitionController"],
+          "fullName": "DitherTransitionController 独立站点走命令内 snapshot；cancel 清状态并以 AbortError 收敛 Promise",
+          "status": "passed",
+          "title": "独立站点走命令内 snapshot；cancel 清状态并以 AbortError 收敛 Promise",
+          "duration": 1.1464169999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["DitherTransitionController"],
+          "fullName": "DitherTransitionController 新请求接管时旧 owner 退出，新 effect 保持活动直至正常完成",
+          "status": "passed",
+          "title": "新请求接管时旧 owner 退出，新 effect 保持活动直至正常完成",
+          "duration": 0.26070800000000816,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["DitherTransitionController"],
+          "fullName": "DitherTransitionController 旧事务 cleanup 不能取消较新的 dither owner",
+          "status": "passed",
+          "title": "旧事务 cleanup 不能取消较新的 dither owner",
+          "duration": 0.21554200000001345,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388273676,
+      "endTime": 1792388273682.2607,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/dither-transition.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["current lifecycle command adapter"],
+          "fullName": "current lifecycle command adapter writes a non-current scene without touching script/entityState",
+          "status": "passed",
+          "title": "writes a non-current scene without touching script/entityState",
+          "duration": 1.4281660000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current lifecycle command adapter"],
+          "fullName": "current lifecycle command adapter supports all four leaves through one reducer boundary",
+          "status": "passed",
+          "title": "supports all four leaves through one reducer boundary",
+          "duration": 0.22733399999999904,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current lifecycle command adapter"],
+          "fullName": "current lifecycle command adapter manual restore emits the only explicit frame-reset notification",
+          "status": "passed",
+          "title": "manual restore emits the only explicit frame-reset notification",
+          "duration": 0.20070799999999167,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current lifecycle command adapter"],
+          "fullName": "current lifecycle command adapter rejects unknown target before writing: { scene: 'missing', entity: 'e001' }",
+          "status": "passed",
+          "title": "rejects unknown target before writing: { scene: 'missing', entity: 'e001' }",
+          "duration": 0.3572500000000076,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["current lifecycle command adapter"],
+          "fullName": "current lifecycle command adapter rejects unknown target before writing: { scene: 's001', entity: 'missing' }",
+          "status": "passed",
+          "title": "rejects unknown target before writing: { scene: 's001', entity: 'missing' }",
+          "duration": 0.09404199999998752,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388275343,
+      "endTime": 1792388275345.3572,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/entity-lifecycle-command.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["A03 equip-menu-state 残差"],
+          "fullName": "A03 equip-menu-state 残差 非 pick-role 阶段 apply：world 与 state 均原引用",
+          "status": "passed",
+          "title": "非 pick-role 阶段 apply：world 与 state 均原引用",
+          "duration": 0.8586660000000137,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A03 equip-menu-state 残差"],
+          "fullName": "A03 equip-menu-state 残差 selectedItemId 指向无 equip 块物品：不换装、回 list",
+          "status": "passed",
+          "title": "selectedItemId 指向无 equip 块物品：不换装、回 list",
+          "duration": 0.19762500000000216,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A03 equip-menu-state 残差"],
+          "fullName": "A03 equip-menu-state 残差 casterId 不在 party：回 list 且 items 为空",
+          "status": "passed",
+          "title": "casterId 不在 party：回 list 且 items 为空",
+          "duration": 0.2869169999999883,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A03 equip-menu-state 残差"],
+          "fullName": "A03 equip-menu-state 残差 equipConfirmItem cursor 越界：同引用不变",
+          "status": "passed",
+          "title": "equipConfirmItem cursor 越界：同引用不变",
+          "duration": 0.07083399999999074,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A03 equip-menu-state 残差"],
+          "fullName": "A03 equip-menu-state 残差 equipBackToList list 阶段 no-op：同引用不变",
+          "status": "passed",
+          "title": "equipBackToList list 阶段 no-op：同引用不变",
+          "duration": 0.07483399999999563,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A03 equip-menu-state 残差"],
+          "fullName": "A03 equip-menu-state 残差 inventory count=0 不可装",
+          "status": "passed",
+          "title": "inventory count=0 不可装",
+          "duration": 0.1373750000000058,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A03 equip-menu-state 残差"],
+          "fullName": "A03 equip-menu-state 残差 EQUIP_GRID_COLS === 3；closeEquipMenu 完整对象",
+          "status": "passed",
+          "title": "EQUIP_GRID_COLS === 3；closeEquipMenu 完整对象",
+          "duration": 0.14954199999999673,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388276706,
+      "endTime": 1792388276707.2869,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/equip-menu-state.glm-boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["B1 装备列表四方向真实 clamp"],
+          "fullName": "B1 装备列表四方向真实 clamp 4 项/3 列：末行不满；↑↓±3、←→±1，越界吸附首/尾不环绕",
+          "status": "passed",
+          "title": "4 项/3 列：末行不满；↑↓±3、←→±1，越界吸附首/尾不环绕",
+          "duration": 1.5560839999999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B2 list→pick-role→返回 阶段往返"],
+          "fullName": "B2 list→pick-role→返回 阶段往返 确认只记选中进 pick-role 不换装；返回重读背包重置阶段/光标；传入 world 全程不变",
+          "status": "passed",
+          "title": "确认只记选中进 pick-role 不换装；返回重读背包重置阶段/光标；传入 world 全程不变",
+          "duration": 0.6577920000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B3 多角色合法装备过滤"],
+          "fullName": "B3 多角色合法装备过滤 hero-b 只见自己的可装件（稳定身份对照）；party 外角色 → 空列表；传入 world 不变",
+          "status": "passed",
+          "title": "hero-b 只见自己的可装件（稳定身份对照）；party 外角色 → 空列表；传入 world 不变",
+          "duration": 0.5482500000000101,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388276138,
+      "endTime": 1792388276141.5483,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/equip-menu-state.navigation-boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["装备菜单状态机"],
+          "fullName": "装备菜单状态机 openEquipMenu:list 阶段,列出可装物(土灵珠),cursor 0",
+          "status": "passed",
+          "title": "openEquipMenu:list 阶段,列出可装物(土灵珠),cursor 0",
+          "duration": 1.111417000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["装备菜单状态机"],
+          "fullName": "装备菜单状态机 equipConfirmItem:list → pick-role,记下选中物(不换)",
+          "status": "passed",
+          "title": "equipConfirmItem:list → pick-role,记下选中物(不换)",
+          "duration": 0.1829579999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["装备菜单状态机"],
+          "fullName": "装备菜单状态机 equipApply:满槽换装 → 留 pick-role + 选中变换下的旧件(可空格来回切换对比)",
+          "status": "passed",
+          "title": "equipApply:满槽换装 → 留 pick-role + 选中变换下的旧件(可空格来回切换对比)",
+          "duration": 0.30450000000000443,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["装备菜单状态机"],
+          "fullName": "装备菜单状态机 equipApply:空槽换装 → 回 list(原版 wLastUnequippedItem==0)",
+          "status": "passed",
+          "title": "equipApply:空槽换装 → 回 list(原版 wLastUnequippedItem==0)",
+          "duration": 0.1282499999999942,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["装备菜单状态机"],
+          "fullName": "装备菜单状态机 equipBackToList:pick-role → list(重算背包),清选中",
+          "status": "passed",
+          "title": "equipBackToList:pick-role → list(重算背包),清选中",
+          "duration": 0.08924999999999272,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["装备菜单状态机"],
+          "fullName": "装备菜单状态机 equipMoveCursor:list 越界 clamp 不动;空列表不崩;pick-role 不动",
+          "status": "passed",
+          "title": "equipMoveCursor:list 越界 clamp 不动;空列表不崩;pick-role 不动",
+          "duration": 0.10004200000000196,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["装备菜单状态机"],
+          "fullName": "装备菜单状态机 closeEquipMenu:active false",
+          "status": "passed",
+          "title": "closeEquipMenu:active false",
+          "duration": 0.09466700000000117,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388276428,
+      "endTime": 1792388276431.0947,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/equip-menu-state.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["SupersedingFadeDriver"],
+          "fullName": "SupersedingFadeDriver 新 fade 以 AbortError 收敛旧 Promise，并从当前亮度连续接管",
+          "status": "passed",
+          "title": "新 fade 以 AbortError 收敛旧 Promise，并从当前亮度连续接管",
+          "duration": 1.9800829999999934,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SupersedingFadeDriver"],
+          "fullName": "SupersedingFadeDriver 连续两次接管与 cancel 后所有 Promise 都以 AbortError 收敛",
+          "status": "passed",
+          "title": "连续两次接管与 cancel 后所有 Promise 都以 AbortError 收敛",
+          "duration": 0.32895900000001177,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SupersedingFadeDriver"],
+          "fullName": "SupersedingFadeDriver runner 取消会以 AbortError 收敛当前 fade 并清掉半截幕布",
+          "status": "passed",
+          "title": "runner 取消会以 AbortError 收敛当前 fade 并清掉半截幕布",
+          "duration": 0.3119170000000082,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SupersedingFadeDriver"],
+          "fullName": "SupersedingFadeDriver 旧 signal 在请求被接管后不再能取消新 effect",
+          "status": "passed",
+          "title": "旧 signal 在请求被接管后不再能取消新 effect",
+          "duration": 0.27683299999999633,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SupersedingFadeDriver"],
+          "fullName": "SupersedingFadeDriver 旧事务 cleanup 不能取消已经接管的较新 owner",
+          "status": "passed",
+          "title": "旧事务 cleanup 不能取消已经接管的较新 owner",
+          "duration": 0.26029200000000685,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SupersedingFadeDriver"],
+          "fullName": "SupersedingFadeDriver fade 正常完成后仍可由呈现 owner 复位幕布",
+          "status": "passed",
+          "title": "fade 正常完成后仍可由呈现 owner 复位幕布",
+          "duration": 0.1652079999999927,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388276214,
+      "endTime": 1792388276217.2769,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/fade-driver.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["D1 容器首读失败→修复→成功"],
+          "fullName": "D1 容器首读失败→修复→成功 失败 Promise 不永久缓存；同 reader 重试真正读取并解码出实际字节",
+          "status": "passed",
+          "title": "失败 Promise 不永久缓存；同 reader 重试真正读取并解码出实际字节",
+          "duration": 2.7774160000000165,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D2 block inflate 首败→重试"],
+          "fullName": "D2 block inflate 首败→重试 inflight 回零后同 block 重读成功；合法字节真实 decode",
+          "status": "passed",
+          "title": "inflight 回零后同 block 重读成功；合法字节真实 decode",
+          "duration": 0.4982909999999947,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D3 frameLimit 与帧索引守卫"],
+          "fullName": "D3 frameLimit 与帧索引守卫 frameLimit 非正/非整数拒绝；帧索引负/非整数/上界拒绝；0/末帧正控",
+          "status": "passed",
+          "title": "frameLimit 非正/非整数拒绝；帧索引负/非整数/上界拒绝；0/末帧正控",
+          "duration": 0.5784170000000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D4 invalidate 选择性清除（双 asset + 同 id 换字节）"],
+          "fullName": "D4 invalidate 选择性清除（双 asset + 同 id 换字节） invalidate(a) 只清 a 保留 b；invalidate() 全清；同 id 换字节后读到新内容",
+          "status": "passed",
+          "title": "invalidate(a) 只清 a 保留 b；invalidate() 全清；同 id 换字节后读到新内容",
+          "duration": 0.8809160000000134,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D5 小 frameLimit LRU：命中/淘汰以解码轨迹见证"],
+          "fullName": "D5 小 frameLimit LRU：命中/淘汰以解码轨迹见证 命中刷新触点：最近命中者存活、被淘汰者重解码；解码计数精确",
+          "status": "passed",
+          "title": "命中刷新触点：最近命中者存活、被淘汰者重解码；解码计数精确",
+          "duration": 0.45491699999996627,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D6 三处 await 分别 abort（真实在途取消 + 进入见证 + 同步结局观察）"],
+          "fullName": "D6 三处 await 分别 abort（真实在途取消 + 进入见证 + 同步结局观察） sequence 在途 abort：真实 entered 后取消即拒绝；finally 释放同一底层并消费原播放，迟到零提交",
+          "status": "passed",
+          "title": "sequence 在途 abort：真实 entered 后取消即拒绝；finally 释放同一底层并消费原播放，迟到零提交",
+          "duration": 4.584541999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D6 三处 await 分别 abort（真实在途取消 + 进入见证 + 同步结局观察）"],
+          "fullName": "D6 三处 await 分别 abort（真实在途取消 + 进入见证 + 同步结局观察） sequence 主断言失败仍释放实际读取并消费原播放，保留最初断言错误",
+          "status": "passed",
+          "title": "sequence 主断言失败仍释放实际读取并消费原播放，保留最初断言错误",
+          "duration": 4.142667000000017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D6 三处 await 分别 abort（真实在途取消 + 进入见证 + 同步结局观察）"],
+          "fullName": "D6 三处 await 分别 abort（真实在途取消 + 进入见证 + 同步结局观察） frame 在途 abort：进入 inflate 后取消仍及时拒绝、迟到帧不提交；底层 finally 放行",
+          "status": "passed",
+          "title": "frame 在途 abort：进入 inflate 后取消仍及时拒绝、迟到帧不提交；底层 finally 放行",
+          "duration": 52.712041,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D6 三处 await 分别 abort（真实在途取消 + 进入见证 + 同步结局观察）"],
+          "fullName": "D6 三处 await 分别 abort（真实在途取消 + 进入见证 + 同步结局观察） wait 在途 abort：第一帧已提交、等待期 abort → 不进第二帧",
+          "status": "passed",
+          "title": "wait 在途 abort：第一帧已提交、等待期 abort → 不进第二帧",
+          "duration": 52.165167000000054,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["D7 非目标 key 与在途 skip"],
+          "fullName": "D7 非目标 key 与在途 skip 非目标 key 不吞；目标 key 消费并结束；onFrame 抛错也清监听",
+          "status": "passed",
+          "title": "非目标 key 不吞；目标 key 消费并结束；onFrame 抛错也清监听",
+          "duration": 52.059833000000026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388271777,
+      "endTime": 1792388271948.0598,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/frame-animation-player.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["FrameSequenceReader"],
+          "fullName": "FrameSequenceReader 容器 Promise 在 await 前缓存，并发读取只访问一次文件",
+          "status": "passed",
+          "title": "容器 Promise 在 await 前缓存，并发读取只访问一次文件",
+          "duration": 2.454250000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["FrameSequenceReader"],
+          "fullName": "FrameSequenceReader 同 block 并发 seek 只解压一次，完整帧 LRU 不超过 64 张",
+          "status": "passed",
+          "title": "同 block 并发 seek 只解压一次，完整帧 LRU 不超过 64 张",
+          "duration": 53.221458,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playFrameAnimation"],
+          "fullName": "playFrameAnimation 首帧先同步呈现，等待显式首帧揭示后才等待62.5ms并进入下一帧",
+          "status": "passed",
+          "title": "首帧先同步呈现，等待显式首帧揭示后才等待62.5ms并进入下一帧",
+          "duration": 104.1055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playFrameAnimation"],
+          "fullName": "playFrameAnimation 按闭合区间和 frameRate 顺序输出完整帧，返回最后一帧",
+          "status": "passed",
+          "title": "按闭合区间和 frameRate 顺序输出完整帧，返回最后一帧",
+          "duration": 0.509208000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playFrameAnimation"],
+          "fullName": "playFrameAnimation 越界区间与加载失败均 fail-loud",
+          "status": "passed",
+          "title": "越界区间与加载失败均 fail-loud",
+          "duration": 0.9231659999999806,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playFrameAnimation"],
+          "fullName": "playFrameAnimation 剧情默认不可用空格跳过，仍输出完整帧序列",
+          "status": "passed",
+          "title": "剧情默认不可用空格跳过，仍输出完整帧序列",
+          "duration": 0.2797909999999888,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playFrameAnimation"],
+          "fullName": "playFrameAnimation 开发预览显式声明 skipKeys 后才允许空格提前结束",
+          "status": "passed",
+          "title": "开发预览显式声明 skipKeys 后才允许空格提前结束",
+          "duration": 0.31695799999999963,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playFrameAnimation"],
+          "fullName": "playFrameAnimation runner signal 取消会立即终止等待且不再提交后续帧",
+          "status": "passed",
+          "title": "runner signal 取消会立即终止等待且不再提交后续帧",
+          "duration": 51.08249999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388273796,
+      "endTime": 1792388274009.0825,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/frame-animation-player.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["FrameAnimationPresentationState"],
+          "fullName": "FrameAnimationPresentationState 播放帧走 Cinematic Layer，播完只缓存，对话时重新显示在 World Layer 上方",
+          "status": "passed",
+          "title": "播放帧走 Cinematic Layer，播完只缓存，对话时重新显示在 World Layer 上方",
+          "duration": 0.9321669999999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["FrameAnimationPresentationState"],
+          "fullName": "FrameAnimationPresentationState 连续动画在新首帧前保持旧画面，新帧替换后由场景边界统一清除",
+          "status": "passed",
+          "title": "连续动画在新首帧前保持旧画面，新帧替换后由场景边界统一清除",
+          "duration": 0.267165999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["FrameAnimationPresentationState"],
+          "fullName": "FrameAnimationPresentationState 新段没有显示任何帧时丢弃旧备份，不能让后续对话误用旧动画",
+          "status": "passed",
+          "title": "新段没有显示任何帧时丢弃旧备份，不能让后续对话误用旧动画",
+          "duration": 0.0818750000000037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["FrameAnimationPresentationState"],
+          "fullName": "FrameAnimationPresentationState 明确保持成功末帧，直到显式reset，旧owner不能复活已清层",
+          "status": "passed",
+          "title": "明确保持成功末帧，直到显式reset，旧owner不能复活已清层",
+          "duration": 0.0934999999999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["FrameAnimationPresentationState"],
+          "fullName": "FrameAnimationPresentationState 旧decode和finally不能覆盖新播放，失败不能保持本次或旧fallback",
+          "status": "passed",
+          "title": "旧decode和finally不能覆盖新播放，失败不能保持本次或旧fallback",
+          "duration": 0.1042500000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388276041,
+      "endTime": 1792388276042.267,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/frame-animation-presentation.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["C8 · executeWorldItemUse 外部事务边界"],
+          "fullName": "C8 · executeWorldItemUse 外部事务边界 已取消的请求在规划前即失败，不进入纯效果或外部宿主",
+          "status": "passed",
+          "title": "已取消的请求在规划前即失败，不进入纯效果或外部宿主",
+          "duration": 1.8423330000000533,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · executeWorldItemUse 外部事务边界"],
+          "fullName": "C8 · executeWorldItemUse 外部事务边界 共享脚本成功后从 host 最新世界提交消耗，不覆盖脚本产生的变化",
+          "status": "passed",
+          "title": "共享脚本成功后从 host 最新世界提交消耗，不覆盖脚本产生的变化",
+          "duration": 1.2442500000000223,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · executeWorldItemUse 外部事务边界"],
+          "fullName": "C8 · executeWorldItemUse 外部事务边界 外部脚本已移除消费品时按已消费成功收口，不伪报 consumed false",
+          "status": "passed",
+          "title": "外部脚本已移除消费品时按已消费成功收口，不伪报 consumed false",
+          "duration": 0.3493339999999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · executeWorldItemUse 外部事务边界"],
+          "fullName": "C8 · executeWorldItemUse 外部事务边界 物品私有脚本可与纯效果按原顺序执行，最后只消耗一次",
+          "status": "passed",
+          "title": "物品私有脚本可与纯效果按原顺序执行，最后只消耗一次",
+          "duration": 0.39183399999996027,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · executeWorldItemUse 外部事务边界"],
+          "fullName": "C8 · executeWorldItemUse 外部事务边界 '未持有物品'时私有脚本不会先产生副作用",
+          "status": "passed",
+          "title": "'未持有物品'时私有脚本不会先产生副作用",
+          "duration": 0.25387499999999363,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · executeWorldItemUse 外部事务边界"],
+          "fullName": "C8 · executeWorldItemUse 外部事务边界 '缺少角色目标'时私有脚本不会先产生副作用",
+          "status": "passed",
+          "title": "'缺少角色目标'时私有脚本不会先产生副作用",
+          "duration": 0.10808400000001939,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · executeWorldItemUse 外部事务边界"],
+          "fullName": "C8 · executeWorldItemUse 外部事务边界 空效果链不可使用且不会消耗物品",
+          "status": "passed",
+          "title": "空效果链不可使用且不会消耗物品",
+          "duration": 0.14912500000002638,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · executeWorldItemUse 外部事务边界"],
+          "fullName": "C8 · executeWorldItemUse 外部事务边界 场景没有 onTeleport 时失败、保留物品并强制保留菜单",
+          "status": "passed",
+          "title": "场景没有 onTeleport 时失败、保留物品并强制保留菜单",
+          "duration": 0.17599999999998772,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · executeWorldItemUse 外部事务边界"],
+          "fullName": "C8 · executeWorldItemUse 外部事务边界 场景 onTeleport 成功后按最新世界提交消耗并遵循 close 菜单配置",
+          "status": "passed",
+          "title": "场景 onTeleport 成功后按最新世界提交消耗并遵循 close 菜单配置",
+          "duration": 0.49062500000002274,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · executeWorldItemUse 外部事务边界"],
+          "fullName": "C8 · executeWorldItemUse 外部事务边界 外部脚本抛错时拒绝 Promise，执行器不会提前扣物品",
+          "status": "passed",
+          "title": "外部脚本抛错时拒绝 Promise，执行器不会提前扣物品",
+          "duration": 0.4881660000000352,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · executeWorldItemUse 外部事务边界"],
+          "fullName": "C8 · executeWorldItemUse 外部事务边界 宿主忽略中途取消时，执行器也不会在外部动作返回后继续扣物品",
+          "status": "passed",
+          "title": "宿主忽略中途取消时，执行器也不会在外部动作返回后继续扣物品",
+          "duration": 0.2059590000000071,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · executeWorldItemUse 外部事务边界"],
+          "fullName": "C8 · executeWorldItemUse 外部事务边界 配方结果携带首条满足的材料、产物与 item-box presentation",
+          "status": "passed",
+          "title": "配方结果携带首条满足的材料、产物与 item-box presentation",
+          "duration": 0.2454169999999749,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · executeWorldItemUse 外部事务边界"],
+          "fullName": "C8 · executeWorldItemUse 外部事务边界 资源池 value=+0 的执行结果可供 UI 呈现",
+          "status": "passed",
+          "title": "资源池 value=+0 的执行结果可供 UI 呈现",
+          "duration": 0.2518330000000333,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · executeWorldItemUse 外部事务边界"],
+          "fullName": "C8 · executeWorldItemUse 外部事务边界 资源池 value=1 的执行结果可供 UI 呈现",
+          "status": "passed",
+          "title": "资源池 value=1 的执行结果可供 UI 呈现",
+          "duration": 0.1775000000000091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · executeWorldItemUse 外部事务边界"],
+          "fullName": "C8 · executeWorldItemUse 外部事务边界 资源池 value=9 的执行结果可供 UI 呈现",
+          "status": "passed",
+          "title": "资源池 value=9 的执行结果可供 UI 呈现",
+          "duration": 0.3564169999999649,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · executeWorldItemUse 外部事务边界"],
+          "fullName": "C8 · executeWorldItemUse 外部事务边界 资源池 value=18 的执行结果可供 UI 呈现",
+          "status": "passed",
+          "title": "资源池 value=18 的执行结果可供 UI 呈现",
+          "duration": 0.10899999999998045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["C8 · executeWorldItemUse 外部事务边界"],
+          "fullName": "C8 · executeWorldItemUse 外部事务边界 场景放置失败不消耗，成功才从宿主最新世界提交",
+          "status": "passed",
+          "title": "场景放置失败不消耗，成功才从宿主最新世界提交",
+          "duration": 0.20004199999999628,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388271777,
+      "endTime": 1792388271785.2,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/item-use-executor.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["E1 learnedSkills 混合过滤"],
+          "fullName": "E1 learnedSkills 混合过滤 缺 id 与非 outdoor 剔除、保留序 = 作者声明序；world/skills 定义不变",
+          "status": "passed",
+          "title": "缺 id 与非 outdoor 剔除、保留序 = 作者声明序；world/skills 定义不变",
+          "duration": 1.6137920000000037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E2 真实导航进入 phase 后其他 phase 操作 no-op"],
+          "fullName": "E2 真实导航进入 phase 后其他 phase 操作 no-op 经真实入口进 pick-spell：caster 导航不动；进 pick-target：网格导航不动、返回恢复",
+          "status": "passed",
+          "title": "经真实入口进 pick-spell：caster 导航不动；进 pick-target：网格导航不动、返回恢复",
+          "duration": 0.44429200000000435,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E3 施法人缺席/死亡/无技能/缺选中技能 guard"],
+          "fullName": "E3 施法人缺席/死亡/无技能/缺选中技能 guard 死人确认不动（同输入正控：活人进入 pick-spell）；空列表确认 null",
+          "status": "passed",
+          "title": "死人确认不动（同输入正控：活人进入 pick-spell）；空列表确认 null",
+          "duration": 0.20216599999999119,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E4 请求/扣费语义（magicConfirmSpell 按合同原地改菜单 state）"],
+          "fullName": "E4 请求/扣费语义（magicConfirmSpell 按合同原地改菜单 state） castAll 完整返回选中技能；toTarget 后 targetIdx 重置；MP 恰好足够通过、不足 null；各分支实际 world 快照不变",
+          "status": "passed",
+          "title": "castAll 完整返回选中技能；toTarget 后 targetIdx 重置；MP 恰好足够通过、不足 null；各分支实际 world 快照不变",
+          "duration": 0.3790419999999983,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388274283,
+      "endTime": 1792388274285.4443,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/magic-menu-state.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["A01 castOutdoorSkill 残差"],
+          "fullName": "A01 castOutdoorSkill 残差 healMp：活人回蓝 clamp 到 maxMP，扣 MP",
+          "status": "passed",
+          "title": "healMp：活人回蓝 clamp 到 maxMP，扣 MP",
+          "duration": 0.9563749999999942,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A01 castOutdoorSkill 残差"],
+          "fullName": "A01 castOutdoorSkill 残差 healMp：满 MP 无效果不扣 MP",
+          "status": "passed",
+          "title": "healMp：满 MP 无效果不扣 MP",
+          "duration": 0.1607920000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A01 castOutdoorSkill 残差"],
+          "fullName": "A01 castOutdoorSkill 残差 curePoison poisonId 点名：只解匹配毒",
+          "status": "passed",
+          "title": "curePoison poisonId 点名：只解匹配毒",
+          "duration": 0.3178750000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A01 castOutdoorSkill 残差"],
+          "fullName": "A01 castOutdoorSkill 残差 curePoison curesTier：common 解 common、缺 def 的毒保留",
+          "status": "passed",
+          "title": "curePoison curesTier：common 解 common、缺 def 的毒保留",
+          "duration": 0.16741700000000037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A01 castOutdoorSkill 残差"],
+          "fullName": "A01 castOutdoorSkill 残差 revive：死人复活半血并清毒（severe 解、缺 def 保留）",
+          "status": "passed",
+          "title": "revive：死人复活半血并清毒（severe 解、缺 def 保留）",
+          "duration": 0.22750000000000625,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A01 castOutdoorSkill 残差"],
+          "fullName": "A01 castOutdoorSkill 残差 未知效果 kind no-op 不扣 MP",
+          "status": "passed",
+          "title": "未知效果 kind no-op 不扣 MP",
+          "duration": 0.07554199999999867,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A01 castOutdoorSkill 残差"],
+          "fullName": "A01 castOutdoorSkill 残差 casterIdx 越界和 target 越界都 false",
+          "status": "passed",
+          "title": "casterIdx 越界和 target 越界都 false",
+          "duration": 0.11404199999999776,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A01 magicConfirmSpell 残差"],
+          "fullName": "A01 magicConfirmSpell 残差 casterIdx 越界 → null 不动",
+          "status": "passed",
+          "title": "casterIdx 越界 → null 不动",
+          "duration": 0.17354199999999764,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A01 magicConfirmSpell 残差"],
+          "fullName": "A01 magicConfirmSpell 残差 cursor 越界（spells 非空）→ null 不动",
+          "status": "passed",
+          "title": "cursor 越界（spells 非空）→ null 不动",
+          "duration": 0.35299999999999443,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A01 magicConfirmSpell 残差"],
+          "fullName": "A01 magicConfirmSpell 残差 cost 无 mp 字段 → mpCost 0 恒过门",
+          "status": "passed",
+          "title": "cost 无 mp 字段 → mpCost 0 恒过门",
+          "duration": 0.13049999999999784,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A01 其它残差"],
+          "fullName": "A01 其它残差 magicMoveCaster 空队：同引用不变",
+          "status": "passed",
+          "title": "magicMoveCaster 空队：同引用不变",
+          "duration": 0.10520800000000463,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A01 其它残差"],
+          "fullName": "A01 其它残差 MAGIC_GRID_COLS === 3；closeMagicMenu 完整对象",
+          "status": "passed",
+          "title": "MAGIC_GRID_COLS === 3；closeMagicMenu 完整对象",
+          "duration": 0.12241699999999867,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388275133,
+      "endTime": 1792388275136.353,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/magic-menu-state.glm-boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G05 magic-menu-state 残差"],
+          "fullName": "G05 magic-menu-state 残差 curePoison 缺 curesTier 走缺省 common：解 common 毒并扣 MP",
+          "status": "passed",
+          "title": "curePoison 缺 curesTier 走缺省 common：解 common 毒并扣 MP",
+          "duration": 1.1373329999999982,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05 magic-menu-state 残差"],
+          "fullName": "G05 magic-menu-state 残差 curePoison 缺 curesTier 对 severe 毒：保留毒、零效果不扣 MP",
+          "status": "passed",
+          "title": "curePoison 缺 curesTier 对 severe 毒：保留毒、零效果不扣 MP",
+          "duration": 0.25925000000000864,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G05 magic-menu-state 残差"],
+          "fullName": "G05 magic-menu-state 残差 单人队 magicMoveCaster：返回新对象、casterIdx 值不变",
+          "status": "passed",
+          "title": "单人队 magicMoveCaster：返回新对象、casterIdx 值不变",
+          "duration": 0.34458399999999756,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388276532,
+      "endTime": 1792388276533.3445,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/magic-menu-state.glm-next-wave.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["resolveOutdoorSkills"],
+          "fullName": "resolveOutdoorSkills 李逍遥 demo:learnedSkills → skills,全 outdoor",
+          "status": "passed",
+          "title": "李逍遥 demo:learnedSkills → skills,全 outdoor",
+          "duration": 1.0856670000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["resolveOutdoorSkills"],
+          "fullName": "resolveOutdoorSkills 未知角色 → 空",
+          "status": "passed",
+          "title": "未知角色 → 空",
+          "duration": 0.13204199999999844,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["openMagicMenu(单人跳过选人/多人选施法人 + 光标记忆)"],
+          "fullName": "openMagicMenu(单人跳过选人/多人选施法人 + 光标记忆) 单人队直进 pick-spell,技能已解析(uigame.c:677-681)",
+          "status": "passed",
+          "title": "单人队直进 pick-spell,技能已解析(uigame.c:677-681)",
+          "duration": 0.17541600000001267,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["openMagicMenu(单人跳过选人/多人选施法人 + 光标记忆)"],
+          "fullName": "openMagicMenu(单人跳过选人/多人选施法人 + 光标记忆) 多人队进 pick-caster;光标 = 上次记忆,越界归 0(DL22 static w)",
+          "status": "passed",
+          "title": "多人队进 pick-caster;光标 = 上次记忆,越界归 0(DL22 static w)",
+          "duration": 0.09499999999999886,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["openMagicMenu(单人跳过选人/多人选施法人 + 光标记忆)"],
+          "fullName": "openMagicMenu(单人跳过选人/多人选施法人 + 光标记忆) closeMagicMenu:active false",
+          "status": "passed",
+          "title": "closeMagicMenu:active false",
+          "duration": 0.11566700000000196,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["pick-caster(上下循环;死人确认拦)"],
+          "fullName": "pick-caster(上下循环;死人确认拦) 光标上下循环(一阶段 moveSelection % n)",
+          "status": "passed",
+          "title": "光标上下循环(一阶段 moveSelection % n)",
+          "duration": 0.0870829999999927,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["pick-caster(上下循环;死人确认拦)"],
+          "fullName": "pick-caster(上下循环;死人确认拦) 确认活人 → pick-spell + 解析其技能;死人不动(uigame.c:707 fEnabled)",
+          "status": "passed",
+          "title": "确认活人 → pick-spell + 解析其技能;死人不动(uigame.c:707 fEnabled)",
+          "duration": 0.14083300000000065,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["pick-caster(上下循环;死人确认拦)"],
+          "fullName": "pick-caster(上下循环;死人确认拦) 确认无 outdoor 技的活人:进 pick-spell 空列表(原版 L37 仍可进)",
+          "status": "passed",
+          "title": "确认无 outdoor 技的活人:进 pick-spell 空列表(原版 L37 仍可进)",
+          "duration": 0.12341700000000344,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["仙术网格导航"],
+          "fullName": "仙术网格导航 ↓ = +3(列数),↑ 边界 clamp 不动",
+          "status": "passed",
+          "title": "↓ = +3(列数),↑ 边界 clamp 不动",
+          "duration": 0.37862499999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["仙术网格导航"],
+          "fullName": "仙术网格导航 → = +1,← 边界 clamp;下越界吸附尾",
+          "status": "passed",
+          "title": "→ = +1,← 边界 clamp;下越界吸附尾",
+          "duration": 0.100166999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["仙术网格导航"],
+          "fullName": "仙术网格导航 空列表导航不崩",
+          "status": "passed",
+          "title": "空列表导航不崩",
+          "duration": 0.12024999999999864,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["magicConfirmSpell(MP 门/单体进选目标/全体直放)"],
+          "fullName": "magicConfirmSpell(MP 门/单体进选目标/全体直放) oneAlly → toTarget + phase 切 pick-target;MP 不足 → null 不动",
+          "status": "passed",
+          "title": "oneAlly → toTarget + phase 切 pick-target;MP 不足 → null 不动",
+          "duration": 0.1247499999999917,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["magicConfirmSpell(MP 门/单体进选目标/全体直放)"],
+          "fullName": "magicConfirmSpell(MP 门/单体进选目标/全体直放) allAllies → castAll 返回技能,phase 留 pick-spell(连放)",
+          "status": "passed",
+          "title": "allAllies → castAll 返回技能,phase 留 pick-spell(连放)",
+          "duration": 0.19037500000000307,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["pick-target(±1 不 wrap;返回回选技能)"],
+          "fullName": "pick-target(±1 不 wrap;返回回选技能) 边界 noop(uigame.c:841/849)",
+          "status": "passed",
+          "title": "边界 noop(uigame.c:841/849)",
+          "duration": 0.08429200000000492,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["pick-target(±1 不 wrap;返回回选技能)"],
+          "fullName": "pick-target(±1 不 wrap;返回回选技能) 返回 → pick-spell",
+          "status": "passed",
+          "title": "返回 → pick-spell",
+          "duration": 0.03970800000000452,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["castOutdoorSkill(fSuccess 语义:有真实变化才扣 MP)"],
+          "fullName": "castOutdoorSkill(fSuccess 语义:有真实变化才扣 MP) 奶伤员:HP 涨 clamp 到 max,扣 MP",
+          "status": "passed",
+          "title": "奶伤员:HP 涨 clamp 到 max,扣 MP",
+          "duration": 0.12024999999999864,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["castOutdoorSkill(fSuccess 语义:有真实变化才扣 MP)"],
+          "fullName": "castOutdoorSkill(fSuccess 语义:有真实变化才扣 MP) 满血奶 → 无效果不扣 MP(global.c:1324 avoid over treatment)",
+          "status": "passed",
+          "title": "满血奶 → 无效果不扣 MP(global.c:1324 avoid over treatment)",
+          "duration": 0.04229200000000333,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["castOutdoorSkill(fSuccess 语义:有真实变化才扣 MP)"],
+          "fullName": "castOutdoorSkill(fSuccess 语义:有真实变化才扣 MP) 死人奶 → 无效果不扣 MP(仅活人,global.c:1287)",
+          "status": "passed",
+          "title": "死人奶 → 无效果不扣 MP(仅活人,global.c:1287)",
+          "duration": 0.04191600000000051,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["castOutdoorSkill(fSuccess 语义:有真实变化才扣 MP)"],
+          "fullName": "castOutdoorSkill(fSuccess 语义:有真实变化才扣 MP) 还魂咒:死人 HP = trunc(max×%) + 扣 MP;复活活人无效果不扣",
+          "status": "passed",
+          "title": "还魂咒:死人 HP = trunc(max×%) + 扣 MP;复活活人无效果不扣",
+          "duration": 0.0812090000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["castOutdoorSkill(fSuccess 语义:有真实变化才扣 MP)"],
+          "fullName": "castOutdoorSkill(fSuccess 语义:有真实变化才扣 MP) 全体奶('all'):部分满血部分残 → success,MP 只扣一次",
+          "status": "passed",
+          "title": "全体奶('all'):部分满血部分残 → success,MP 只扣一次",
+          "duration": 0.13554100000000346,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["castOutdoorSkill(fSuccess 语义:有真实变化才扣 MP)"],
+          "fullName": "castOutdoorSkill(fSuccess 语义:有真实变化才扣 MP) MP 不够 → 直接 false 无副作用(状态机已拦,守卫兜底)",
+          "status": "passed",
+          "title": "MP 不够 → 直接 false 无副作用(状态机已拦,守卫兜底)",
+          "duration": 0.041667000000003895,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388273933,
+      "endTime": 1792388273937.1355,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/magic-menu-state.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["A4 记忆 cursor 重开与边界"],
+          "fullName": "A4 记忆 cursor 重开与边界 非零记忆重开定位该项；合法末项保持；越界（正/负）归 0",
+          "status": "passed",
+          "title": "非零记忆重开定位该项；合法末项保持；越界（正/负）归 0",
+          "duration": 0.8572500000000076,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A5 多步真实导航往返"],
+          "fullName": "A5 多步真实导航往返 物品→使用子菜单→退回父层：完整 stack、父 cursor 保持、原始状态不可变",
+          "status": "passed",
+          "title": "物品→使用子菜单→退回父层：完整 stack、父 cursor 保持、原始状态不可变",
+          "duration": 1.1232919999999922,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A5 多步真实导航往返"],
+          "fullName": "A5 多步真实导航往返 同起点两次走相同路径得到等价终态（各自独立 state 对象；节点按合同共享）",
+          "status": "passed",
+          "title": "同起点两次走相同路径得到等价终态（各自独立 state 对象；节点按合同共享）",
+          "duration": 0.20266700000000526,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A6 关闭/重开隔离"],
+          "fullName": "A6 关闭/重开隔离 单层 back 关菜单 = CLOSED 常量；重开不污染 CLOSED；关闭态导航不变",
+          "status": "passed",
+          "title": "单层 back 关菜单 = CLOSED 常量；重开不污染 CLOSED；关闭态导航不变",
+          "duration": 0.12229099999998994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388276319,
+      "endTime": 1792388276321.2026,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/menu-state.navigation-boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["多级菜单(树 + 级联栈)"],
+          "fullName": "多级菜单(树 + 级联栈) openMenu:主菜单单层,cursor 0",
+          "status": "passed",
+          "title": "openMenu:主菜单单层,cursor 0",
+          "duration": 1.175541999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["多级菜单(树 + 级联栈)"],
+          "fullName": "多级菜单(树 + 级联栈) moveCursor 末层环绕",
+          "status": "passed",
+          "title": "moveCursor 末层环绕",
+          "duration": 0.15449999999999875,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["多级菜单(树 + 级联栈)"],
+          "fullName": "多级菜单(树 + 级联栈) confirm 叶子(状态)→ 开 panel",
+          "status": "passed",
+          "title": "confirm 叶子(状态)→ 开 panel",
+          "duration": 0.07850000000000534,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["多级菜单(树 + 级联栈)"],
+          "fullName": "多级菜单(树 + 级联栈) confirm 子菜单(物品)→ 压栈级联,不开 panel",
+          "status": "passed",
+          "title": "confirm 子菜单(物品)→ 压栈级联,不开 panel",
+          "duration": 0.3780830000000037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["多级菜单(树 + 级联栈)"],
+          "fullName": "多级菜单(树 + 级联栈) 子菜单选装备 → 开 equip panel",
+          "status": "passed",
+          "title": "子菜单选装备 → 开 equip panel",
+          "duration": 0.06879100000000449,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["多级菜单(树 + 级联栈)"],
+          "fullName": "多级菜单(树 + 级联栈) back:面板→关面板 / 多层→弹栈 / 单层→关",
+          "status": "passed",
+          "title": "back:面板→关面板 / 多层→弹栈 / 单层→关",
+          "duration": 0.17304200000000947,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["多级菜单(树 + 级联栈)"],
+          "fullName": "多级菜单(树 + 级联栈) enabled 叶子(系统)开 panel",
+          "status": "passed",
+          "title": "enabled 叶子(系统)开 panel",
+          "duration": 0.15791699999999764,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["多级菜单(树 + 级联栈)"],
+          "fullName": "多级菜单(树 + 级联栈) 面板打开时 moveCursor/confirm 不动",
+          "status": "passed",
+          "title": "面板打开时 moveCursor/confirm 不动",
+          "duration": 0.06825000000000614,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388277050,
+      "endTime": 1792388277052.173,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/menu-state.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "H2 ArrowDown chooses second entry and completion removes frame and key owner",
+          "status": "passed",
+          "title": "H2 ArrowDown chooses second entry and completion removes frame and key owner",
+          "duration": 57.021833000000015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H2 ArrowRight chooses second entry and completion removes frame and key owner",
+          "status": "passed",
+          "title": "H2 ArrowRight chooses second entry and completion removes frame and key owner",
+          "duration": 21.164125000000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H2 empty load slot stays unresolved; Escape returns to title and new entry still works",
+          "status": "passed",
+          "title": "H2 empty load slot stays unresolved; Escape returns to title and new entry still works",
+          "duration": 21.298333000000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "H2 real load browser crosses pages and returns selected nonempty slot after thumbnail reads",
+          "status": "passed",
+          "title": "H2 real load browser crosses pages and returns selected nonempty slot after thumbnail reads",
+          "duration": 21.99312500000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388275841,
+      "endTime": 1792388275961.9932,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/opening-menu.flows.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 菜单相位未处理键不拦截：不 preventDefault、光标不动、不选定",
+          "status": "passed",
+          "title": "Q01 菜单相位未处理键不拦截：不 preventDefault、光标不动、不选定",
+          "duration": 55.49437499999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 末项 ArrowDown 环绕回首项并选定第一入口",
+          "status": "passed",
+          "title": "Q01 末项 ArrowDown 环绕回首项并选定第一入口",
+          "duration": 21.919916999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 菜单相位 Enter/Space 之外的中排键不触发选定；Escape 不拦截",
+          "status": "passed",
+          "title": "Q01 菜单相位 Enter/Space 之外的中排键不触发选定；Escape 不拦截",
+          "duration": 19.679958,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 读档相位未处理键早退且不 preventDefault；← 在首页钳制不 wrap",
+          "status": "passed",
+          "title": "Q01 读档相位未处理键早退且不 preventDefault；← 在首页钳制不 wrap",
+          "duration": 22.224959000000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 读档相位缩略图逐槽恰读一次：多帧渲染不重读 store",
+          "status": "passed",
+          "title": "Q01 读档相位缩略图逐槽恰读一次：多帧渲染不重读 store",
+          "duration": 23.896124999999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388275284,
+      "endTime": 1792388275426.8962,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/opening-menu.glm-q.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "O5 读档IO在途时选新局退出：菜单退休后迟到IO不复活帧键与绘制",
+          "status": "passed",
+          "title": "O5 读档IO在途时选新局退出：菜单退休后迟到IO不复活帧键与绘制",
+          "duration": 146.15283399999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "O6 退出读档相位后重新进入：消费真实store更新后的新数据并完成读档",
+          "status": "passed",
+          "title": "O6 退出读档相位后重新进入：消费真实store更新后的新数据并完成读档",
+          "duration": 102.92408300000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "O8 一槽有图一槽无图：无图占位可渲染可选档，选档独立于缩略图解码",
+          "status": "passed",
+          "title": "O8 一槽有图一槽无图：无图占位可渲染可选档，选档独立于缩略图解码",
+          "duration": 41.25937500000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388272693,
+      "endTime": 1792388272983.2593,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/opening-menu.io-lifecycle.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "opening observation follows actual frames and keys, cannot alter selection, and exposes load phase",
+          "status": "passed",
+          "title": "opening observation follows actual frames and keys, cannot alter selection, and exposes load phase",
+          "duration": 103.93791599999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388277174,
+      "endTime": 1792388277277.938,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/opening-menu.observation.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["标题菜单音乐生命周期"],
+          "fullName": "标题菜单音乐生命周期 进入时循环播放，读档结果返回前先停止且不污染世界音乐",
+          "status": "passed",
+          "title": "进入时循环播放，读档结果返回前先停止且不污染世界音乐",
+          "duration": 1.333042000000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["标题菜单音乐生命周期"],
+          "fullName": "标题菜单音乐生命周期 菜单异常退出也停止，无角色的工程保持静默",
+          "status": "passed",
+          "title": "菜单异常退出也停止，无角色的工程保持静默",
+          "duration": 0.9563749999999942,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388277237,
+      "endTime": 1792388277238.9563,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/opening-menu.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["R02 quantizeToRleFrame alpha 恰界"],
+          "fullName": "R02 quantizeToRleFrame alpha 恰界 alpha=127 透明；alpha=128 不透明（ALPHA_OPAQUE 半开区间）",
+          "status": "passed",
+          "title": "alpha=127 透明；alpha=128 不透明（ALPHA_OPAQUE 半开区间）",
+          "duration": 1.0361249999999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R02 quantizeToRleFrame 稀疏调色盘与平局"],
+          "fullName": "R02 quantizeToRleFrame 稀疏调色盘与平局 hole 槽被扫描跳过：最近色落在真实槽，其余 index 不错位",
+          "status": "passed",
+          "title": "hole 槽被扫描跳过：最近色落在真实槽，其余 index 不错位",
+          "duration": 0.16125000000000256,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R02 quantizeToRleFrame 稀疏调色盘与平局"],
+          "fullName": "R02 quantizeToRleFrame 稀疏调色盘与平局 两盘色等距：严格小于保序 → 取低 index",
+          "status": "passed",
+          "title": "两盘色等距：严格小于保序 → 取低 index",
+          "duration": 0.10416699999999679,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R02 Uint8ClampedArray 输入（canvas ImageData 同型）"],
+          "fullName": "R02 Uint8ClampedArray 输入（canvas ImageData 同型） quantize 与 sliceAtlasGrid 均接受 Uint8ClampedArray 且结果与 Uint8Array 一致",
+          "status": "passed",
+          "title": "quantize 与 sliceAtlasGrid 均接受 Uint8ClampedArray 且结果与 Uint8Array 一致",
+          "duration": 0.8530420000000021,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R02 sliceAtlasGrid 行裁剪与空输出"],
+          "fullName": "R02 sliceAtlasGrid 行裁剪与空输出 imgH=5, tileH=2, imgW=1：产 2 行、第 3 行裁掉；tile 行主序 + 全通道保真",
+          "status": "passed",
+          "title": "imgH=5, tileH=2, imgW=1：产 2 行、第 3 行裁掉；tile 行主序 + 全通道保真",
+          "duration": 0.43158400000000086,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R02 sliceAtlasGrid 行裁剪与空输出"],
+          "fullName": "R02 sliceAtlasGrid 行裁剪与空输出 imgW < tileW → 0 列：返回空数组不抛错",
+          "status": "passed",
+          "title": "imgW < tileW → 0 列：返回空数组不抛错",
+          "duration": 0.054999999999999716,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["R02 输入保真（可变对象零突变）"],
+          "fullName": "R02 输入保真（可变对象零突变） quantize/slice 只读输入：structuredClone 前后逐字节相等",
+          "status": "passed",
+          "title": "quantize/slice 只读输入：structuredClone 前后逐字节相等",
+          "duration": 0.1462500000000091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388275626,
+      "endTime": 1792388275629.1462,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/quantize.glm-runtime-resource.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["quantizeToRleFrame(W7B · D25 上传量化)"],
+          "fullName": "quantizeToRleFrame(W7B · D25 上传量化) 精确命中盘色 → 对应索引;近似色 → 最近邻;alpha<128 → RLE 透明",
+          "status": "passed",
+          "title": "精确命中盘色 → 对应索引;近似色 → 最近邻;alpha<128 → RLE 透明",
+          "duration": 1.2016670000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["quantizeToRleFrame(W7B · D25 上传量化)"],
+          "fullName": "quantizeToRleFrame(W7B · D25 上传量化) 全透明图 → opaque 全 0;单色图 → 全同索引;数据不足报错",
+          "status": "passed",
+          "title": "全透明图 → opaque 全 0;单色图 → 全同索引;数据不足报错",
+          "duration": 0.5492500000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sliceAtlasGrid"],
+          "fullName": "sliceAtlasGrid 4×2 图按 2×2 切 → 2 块,行优先,像素归位;余量裁掉",
+          "status": "passed",
+          "title": "4×2 图按 2×2 切 → 2 块,行优先,像素归位;余量裁掉",
+          "duration": 0.2613330000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388276692,
+      "endTime": 1792388276694.2612,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/quantize.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G06 screen-fx 波动背景缓存残差"],
+          "fullName": "G06 screen-fx 波动背景缓存残差 shift ≥ w（小画布大波幅）走整行复制 else 臂；0<shift<w 对照两段卷行",
+          "status": "passed",
+          "title": "shift ≥ w（小画布大波幅）走整行复制 else 臂；0<shift<w 对照两段卷行",
+          "duration": 1.7474160000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388276775,
+      "endTime": 1792388276776.7473,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/screen-fx.glm-next-wave.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["当前波动背景缓存的画面消费合同"],
+          "fullName": "当前波动背景缓存的画面消费合同 关闭态直接返回原背景；活动态按波形左右两段卷行并按相位/源身份重新烘焙",
+          "status": "passed",
+          "title": "关闭态直接返回原背景；活动态按波形左右两段卷行并按相位/源身份重新烘焙",
+          "duration": 2.044833000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["当前波动背景缓存的画面消费合同"],
+          "fullName": "当前波动背景缓存的画面消费合同 波幅零位移走整行复制；无 2D context 时返回源且不把失败烘焙记作缓存命中",
+          "status": "passed",
+          "title": "波幅零位移走整行复制；无 2D context 时返回源且不把失败烘焙记作缓存命中",
+          "duration": 0.734375,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388276603,
+      "endTime": 1792388276605.7344,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/screen-fx.residual.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["screen-fx(scene.c:364-450 / video.c:571-616 RGBA 等效)"],
+          "fullName": "screen-fx(scene.c:364-450 / video.c:571-616 RGBA 等效) waveOffsets 偏移表(scene.c:404-417 递推 oracle,amp=128)",
+          "status": "passed",
+          "title": "waveOffsets 偏移表(scene.c:404-417 递推 oracle,amp=128)",
+          "duration": 1.1135420000000025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["screen-fx(scene.c:364-450 / video.c:571-616 RGBA 等效)"],
+          "fullName": "screen-fx(scene.c:364-450 / video.c:571-616 RGBA 等效) waveOffsets amp 线性缩放(amp=8 鬼降级:首相位 trunc(60·8/256)=1;a 递推末位收敛 0)",
+          "status": "passed",
+          "title": "waveOffsets amp 线性缩放(amp=8 鬼降级:首相位 trunc(60·8/256)=1;a 递推末位收敛 0)",
+          "duration": 0.19795799999999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["screen-fx(scene.c:364-450 / video.c:571-616 RGBA 等效)"],
+          "fullName": "screen-fx(scene.c:364-450 / video.c:571-616 RGBA 等效) wavePhase:40ms 一拍,32 相位循环(原版 static index 的 time-based 等效)",
+          "status": "passed",
+          "title": "wavePhase:40ms 一拍,32 相位循环(原版 static index 的 time-based 等效)",
+          "duration": 0.0952090000000041,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["screen-fx(scene.c:364-450 / video.c:571-616 RGBA 等效)"],
+          "fullName": "screen-fx(scene.c:364-450 / video.c:571-616 RGBA 等效) shakeOffsetY:活跃期 40ms 拍奇偶交替 ±level,过期/空 = 0",
+          "status": "passed",
+          "title": "shakeOffsetY:活跃期 40ms 拍奇偶交替 ±level,过期/空 = 0",
+          "duration": 0.09804099999999494,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388277123,
+      "endTime": 1792388277124.198,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/screen-fx.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["0x71 世界屏波(一阶段 applyScreenWave 表/推进 1:1)"],
+          "fullName": "0x71 世界屏波(一阶段 applyScreenWave 表/推进 1:1) 32 相位表:a/b 递推峰值 wave[7]=W、谷 wave[15]=0、后半镜像 320−前半",
+          "status": "passed",
+          "title": "32 相位表:a/b 递推峰值 wave[7]=W、谷 wave[15]=0、后半镜像 320−前半",
+          "duration": 1.0361660000000015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["0x71 世界屏波(一阶段 applyScreenWave 表/推进 1:1)"],
+          "fullName": "0x71 世界屏波(一阶段 applyScreenWave 表/推进 1:1) 推进:W += 推进量;==0 或 ≥256 → 双清零关闭(scene.c:391-398)",
+          "status": "passed",
+          "title": "推进:W += 推进量;==0 或 ≥256 → 双清零关闭(scene.c:391-398)",
+          "duration": 0.2181670000000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["0x71 世界屏波(一阶段 applyScreenWave 表/推进 1:1)"],
+          "fullName": "0x71 世界屏波(一阶段 applyScreenWave 表/推进 1:1) 补帧读取不推进:advance=false 保持当前波幅与 progression",
+          "status": "passed",
+          "title": "补帧读取不推进:advance=false 保持当前波幅与 progression",
+          "duration": 0.29008400000000023,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388276971,
+      "endTime": 1792388276972.29,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/screen-wave.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 白名单伴随参数（project/workspace/save-workspace）接受并精确解析",
+          "status": "passed",
+          "title": "Q01 白名单伴随参数（project/workspace/save-workspace）接受并精确解析",
+          "duration": 15.036125000000027,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 初始 fit 按 320×200 逻辑分辨率取 1..4 整数倍；resize 后重新钳制",
+          "status": "passed",
+          "title": "Q01 初始 fit 按 320×200 逻辑分辨率取 1..4 整数倍；resize 后重新钳制",
+          "duration": 93.98195800000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 blur 清空未释放按键：blur 后同帧不产生二次输入",
+          "status": "passed",
+          "title": "Q01 blur 清空未释放按键：blur 后同帧不产生二次输入",
+          "duration": 22.987707999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "Q01 Escape 结束试买：终态 role=status 文本、画布隐藏、帧循环与键盘监听全部移除",
+          "status": "passed",
+          "title": "Q01 Escape 结束试买：终态 role=status 文本、画布隐藏、帧循环与键盘监听全部移除",
+          "duration": 27.692125000000033,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388276461,
+      "endTime": 1792388276621.6921,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/shop-trial.glm-q.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["isolated shop trial"],
+          "fullName": "isolated shop trial strict parameters distinguish id0 from no trial and reject other boot modes",
+          "status": "passed",
+          "title": "strict parameters distinguish id0 from no trial and reject other boot modes",
+          "duration": 7.821542000000079,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["isolated shop trial"],
+          "fullName": "isolated shop trial real bootGame buys with project scope, never creates save/world/scenes, and disposes input/frame",
+          "status": "passed",
+          "title": "real bootGame buys with project scope, never creates save/world/scenes, and disposes input/frame",
+          "duration": 65.72649999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["isolated shop trial"],
+          "fullName": "isolated shop trial real bootGame buys with workspace scope, never creates save/world/scenes, and disposes input/frame",
+          "status": "passed",
+          "title": "real bootGame buys with workspace scope, never creates save/world/scenes, and disposes input/frame",
+          "duration": 54.090333999999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["isolated shop trial"],
+          "fullName": "isolated shop trial boot rejects a mismatched or missing scope before any world, assets or storage work",
+          "status": "passed",
+          "title": "boot rejects a mismatched or missing scope before any world, assets or storage work",
+          "duration": 1.18587500000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["isolated shop trial"],
+          "fullName": "isolated shop trial missing shops/items fail before assets; empty stock exits and pagehide stops rendering",
+          "status": "passed",
+          "title": "missing shops/items fail before assets; empty stock exits and pagehide stops rendering",
+          "duration": 51.33133299999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["isolated shop trial"],
+          "fullName": "isolated shop trial draw errors also dispose frame and keyboard listener",
+          "status": "passed",
+          "title": "draw errors also dispose frame and keyboard listener",
+          "duration": 51.60108300000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388274638,
+      "endTime": 1792388274869.601,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/shop-trial.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame)"],
+          "fullName": "sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame) deriveStepCycle:3→[0,1,0,2](站/迈左/站/迈右);4→[0,1,2,3]",
+          "status": "passed",
+          "title": "deriveStepCycle:3→[0,1,0,2](站/迈左/站/迈右);4→[0,1,2,3]",
+          "duration": 0.9284580000000062,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame)"],
+          "fullName": "sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame) settleWalkAnimation:剧情接管后切站立并按原版归整相位",
+          "status": "passed",
+          "title": "settleWalkAnimation:剧情接管后切站立并按原版归整相位",
+          "duration": 0.26362499999999045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame)"],
+          "fullName": "sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame) idleFrameIndex:directional 按 dir*framesPerDir;static/loop 恒 0",
+          "status": "passed",
+          "title": "idleFrameIndex:directional 按 dir*framesPerDir;static/loop 恒 0",
+          "duration": 0.2350409999999954,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame)"],
+          "fullName": "sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame) walkFrameIndex:3 帧步序逐拍 = 与旧 WALK_FRAMES/STEP_CYCLE 硬编码等值",
+          "status": "passed",
+          "title": "walkFrameIndex:3 帧步序逐拍 = 与旧 WALK_FRAMES/STEP_CYCLE 硬编码等值",
+          "duration": 0.1635830000000027,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame)"],
+          "fullName": "sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame) walkFrameIndex:4 帧原始步序;非 directional 同站立",
+          "status": "passed",
+          "title": "walkFrameIndex:4 帧原始步序;非 directional 同站立",
+          "duration": 0.07370800000001054,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame)"],
+          "fullName": "sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame) 实际解码帧数收口历史 layout 债，任何越界候选统一回首帧",
+          "status": "passed",
+          "title": "实际解码帧数收口历史 layout 债，任何越界候选统一回首帧",
+          "duration": 0.11916700000000446,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame)"],
+          "fullName": "sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame) PAL layout 债 #627 的真实 4 帧在所有方向/步相均不越界",
+          "status": "passed",
+          "title": "PAL layout 债 #627 的真实 4 帧在所有方向/步相均不越界",
+          "duration": 0.6779579999999896,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame)"],
+          "fullName": "sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame) PAL layout 债 #361 的真实 5 帧在所有方向/步相均不越界",
+          "status": "passed",
+          "title": "PAL layout 债 #361 的真实 5 帧在所有方向/步相均不越界",
+          "duration": 0.6144999999999925,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame)"],
+          "fullName": "sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame) PAL layout 债 #242 的真实 5 帧在所有方向/步相均不越界",
+          "status": "passed",
+          "title": "PAL layout 债 #242 的真实 5 帧在所有方向/步相均不越界",
+          "duration": 0.7775840000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame)"],
+          "fullName": "sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame) PAL layout 债 #273 的真实 4 帧在所有方向/步相均不越界",
+          "status": "passed",
+          "title": "PAL layout 债 #273 的真实 4 帧在所有方向/步相均不越界",
+          "duration": 0.4473339999999979,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame)"],
+          "fullName": "sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame) PAL layout 债 #394 的真实 2 帧在所有方向/步相均不越界",
+          "status": "passed",
+          "title": "PAL layout 债 #394 的真实 2 帧在所有方向/步相均不越界",
+          "duration": 0.4733749999999901,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame)"],
+          "fullName": "sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame) PAL layout 债 #385 的真实 2 帧在所有方向/步相均不越界",
+          "status": "passed",
+          "title": "PAL layout 债 #385 的真实 2 帧在所有方向/步相均不越界",
+          "duration": 0.39987499999999443,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame)"],
+          "fullName": "sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame) PAL layout 债 #379 的真实 5 帧在所有方向/步相均不越界",
+          "status": "passed",
+          "title": "PAL layout 债 #379 的真实 5 帧在所有方向/步相均不越界",
+          "duration": 0.3945410000000038,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame)"],
+          "fullName": "sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame) PAL layout 债 #550 的真实 2 帧在所有方向/步相均不越界",
+          "status": "passed",
+          "title": "PAL layout 债 #550 的真实 2 帧在所有方向/步相均不越界",
+          "duration": 0.7515829999999966,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame)"],
+          "fullName": "sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame) PAL layout 债 #541 的真实 1 帧在所有方向/步相均不越界",
+          "status": "passed",
+          "title": "PAL layout 债 #541 的真实 1 帧在所有方向/步相均不越界",
+          "duration": 0.37766600000000494,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame)"],
+          "fullName": "sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame) PAL layout 债 #630 的真实 4 帧在所有方向/步相均不越界",
+          "status": "passed",
+          "title": "PAL layout 债 #630 的真实 4 帧在所有方向/步相均不越界",
+          "duration": 0.4257089999999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame)"],
+          "fullName": "sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame) PAL layout 债 #631 的真实 7 帧在所有方向/步相均不越界",
+          "status": "passed",
+          "title": "PAL layout 债 #631 的真实 7 帧在所有方向/步相均不越界",
+          "duration": 0.40612500000000296,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame)"],
+          "fullName": "sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame) PAL layout 债 #632 的真实 7 帧在所有方向/步相均不越界",
+          "status": "passed",
+          "title": "PAL layout 债 #632 的真实 7 帧在所有方向/步相均不越界",
+          "duration": 0.3755419999999958,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame)"],
+          "fullName": "sprite-anim(帧布局数据化;语义 = 原版通式 dir*framesPerDir+frame) PAL layout 债 #236 的真实 1 帧在所有方向/步相均不越界",
+          "status": "passed",
+          "title": "PAL layout 债 #236 的真实 1 帧在所有方向/步相均不越界",
+          "duration": 0.3668750000000074,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["loopFrameIndex(E5 环境动画自循环)"],
+          "fullName": "loopFrameIndex(E5 环境动画自循环) 按壁钟 250ms/帧循环 0..n-1",
+          "status": "passed",
+          "title": "按壁钟 250ms/帧循环 0..n-1",
+          "duration": 0.07929199999999526,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["loopFrameIndex(E5 环境动画自循环)"],
+          "fullName": "loopFrameIndex(E5 环境动画自循环) 非 loop 布局恒 0;frameCount 0 防除零",
+          "status": "passed",
+          "title": "非 loop 布局恒 0;frameCount 0 防除零",
+          "duration": 0.03670900000000188,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["loopFrameIndex(E5 环境动画自循环)"],
+          "fullName": "loopFrameIndex(E5 环境动画自循环) 声明循环帧数大于实际帧数时只在实际帧内循环",
+          "status": "passed",
+          "title": "声明循环帧数大于实际帧数时只在实际帧内循环",
+          "duration": 0.03408299999999542,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388275959,
+      "endTime": 1792388275968.0793,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/sprite-anim.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["E5 四方向与记忆 cursor 边界"],
+          "fullName": "E5 四方向与记忆 cursor 边界 left/up 同为 -1、right/down 同为 +1；首尾环绕",
+          "status": "passed",
+          "title": "left/up 同为 -1、right/down 同为 +1；首尾环绕",
+          "duration": 0.8305840000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E5 四方向与记忆 cursor 边界"],
+          "fullName": "E5 四方向与记忆 cursor 边界 openSystemMenu 记忆恢复与越界 clamp",
+          "status": "passed",
+          "title": "openSystemMenu 记忆恢复与越界 clamp",
+          "duration": 0.1771669999999972,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E5 四方向与记忆 cursor 边界"],
+          "fullName": "E5 四方向与记忆 cursor 边界 非 menu 阶段确认不重复 action（confirm/switch 上 systemConfirm no-op）",
+          "status": "passed",
+          "title": "非 menu 阶段确认不重复 action（confirm/switch 上 systemConfirm no-op）",
+          "duration": 0.37966699999999776,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["E6 music/sound 显式开关与 audio 缺席默认"],
+          "fullName": "E6 music/sound 显式开关与 audio 缺席默认 显式 on/off 落定完整 state/action；audio 缺席默认 true；save/load 只核返回请求",
+          "status": "passed",
+          "title": "显式 on/off 落定完整 state/action；audio 缺席默认 true；save/load 只核返回请求",
+          "duration": 0.44966699999999804,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388275882,
+      "endTime": 1792388275883.4497,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/system-menu-state.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["A02 system-menu-state 残差"],
+          "fullName": "A02 system-menu-state 残差 空列表导航：同引用不变",
+          "status": "passed",
+          "title": "空列表导航：同引用不变",
+          "duration": 0.7377499999999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A02 system-menu-state 残差"],
+          "fullName": "A02 system-menu-state 残差 cursor 越界确认：同引用无 action",
+          "status": "passed",
+          "title": "cursor 越界确认：同引用无 action",
+          "duration": 0.2143340000000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A02 system-menu-state 残差"],
+          "fullName": "A02 system-menu-state 残差 menu 阶段 toggleConfirm：同引用不变",
+          "status": "passed",
+          "title": "menu 阶段 toggleConfirm：同引用不变",
+          "duration": 0.08204200000000128,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A02 system-menu-state 残差"],
+          "fullName": "A02 system-menu-state 残差 switchCommit 无 switchTarget：同引用不变",
+          "status": "passed",
+          "title": "switchCommit 无 switchTarget：同引用不变",
+          "duration": 0.12441700000000111,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A02 system-menu-state 残差"],
+          "fullName": "A02 system-menu-state 残差 confirmYes 非 confirm 阶段：同引用不变",
+          "status": "passed",
+          "title": "confirmYes 非 confirm 阶段：同引用不变",
+          "duration": 0.07612499999999756,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A02 system-menu-state 残差"],
+          "fullName": "A02 system-menu-state 残差 SYSTEM_ITEMS 引用同一性及 label 值",
+          "status": "passed",
+          "title": "SYSTEM_ITEMS 引用同一性及 label 值",
+          "duration": 0.3194169999999943,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A02 system-menu-state 残差"],
+          "fullName": "A02 system-menu-state 残差 closeSystemMenu 完整对象",
+          "status": "passed",
+          "title": "closeSystemMenu 完整对象",
+          "duration": 0.1269580000000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388276764,
+      "endTime": 1792388276766.127,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/system-menu-state.glm-boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["系统菜单状态机"],
+          "fullName": "系统菜单状态机 openSystemMenu:5 项全可用(音频开关已落);cursor 0",
+          "status": "passed",
+          "title": "openSystemMenu:5 项全可用(音频开关已落);cursor 0",
+          "duration": 1.0489589999999964,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["系统菜单状态机"],
+          "fullName": "系统菜单状态机 systemMoveCursor:单列环绕(末项↓→0、首项↑→4),对齐 primitives.moveSelection",
+          "status": "passed",
+          "title": "systemMoveCursor:单列环绕(末项↓→0、首项↑→4),对齐 primitives.moveSelection",
+          "duration": 0.21800000000000352,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["系统菜单状态机"],
+          "fullName": "系统菜单状态机 systemConfirm:save/load→open-save/open-load;music/sound→进 switch;quit→进 confirm",
+          "status": "passed",
+          "title": "systemConfirm:save/load→open-save/open-load;music/sound→进 switch;quit→进 confirm",
+          "duration": 0.12295800000001122,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["系统菜单状态机"],
+          "fullName": "系统菜单状态机 music/sound 进 switch:默认高亮当前开关态(PAL_SwitchMenu(fEnabled))",
+          "status": "passed",
+          "title": "music/sound 进 switch:默认高亮当前开关态(PAL_SwitchMenu(fEnabled))",
+          "duration": 0.16945800000000588,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["系统菜单状态机"],
+          "fullName": "系统菜单状态机 switch 阶段:四方向 toggle 关/开;commit 落定 set-music/set-sound 并关菜单(回 hub)",
+          "status": "passed",
+          "title": "switch 阶段:四方向 toggle 关/开;commit 落定 set-music/set-sound 并关菜单(回 hub)",
+          "duration": 0.14741600000000687,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["系统菜单状态机"],
+          "fullName": "系统菜单状态机 systemSwitchCommit 非 switch 阶段 no-op",
+          "status": "passed",
+          "title": "systemSwitchCommit 非 switch 阶段 no-op",
+          "duration": 0.05741700000000094,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["系统菜单状态机"],
+          "fullName": "系统菜单状态机 confirm 阶段:四方向 toggle;选是→quit action;选否→关菜单",
+          "status": "passed",
+          "title": "confirm 阶段:四方向 toggle;选是→quit action;选否→关菜单",
+          "duration": 0.13083299999999554,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["系统菜单状态机"],
+          "fullName": "系统菜单状态机 cursor 跨调用记忆(原版 iCurSystemMenuItem)",
+          "status": "passed",
+          "title": "cursor 跨调用记忆(原版 iCurSystemMenuItem)",
+          "duration": 0.0973329999999919,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["系统菜单状态机"],
+          "fullName": "系统菜单状态机 closeSystemMenu:active false",
+          "status": "passed",
+          "title": "closeSystemMenu:active false",
+          "duration": 0.3157910000000044,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388276036,
+      "endTime": 1792388276039.3157,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/system-menu-state.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["A04 use-menu-state 残差"],
+          "fullName": "A04 use-menu-state 残差 useApply：pick-item 阶段 undefined；pick-target 无 selectedItemId undefined",
+          "status": "passed",
+          "title": "useApply：pick-item 阶段 undefined；pick-target 无 selectedItemId undefined",
+          "duration": 0.864333000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A04 use-menu-state 残差"],
+          "fullName": "A04 use-menu-state 残差 useConfirm pick-target 重复确认：同引用返回",
+          "status": "passed",
+          "title": "useConfirm pick-target 重复确认：同引用返回",
+          "duration": 0.2241250000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A04 use-menu-state 残差"],
+          "fullName": "A04 use-menu-state 残差 useConfirm cursor 越界：同引用返回",
+          "status": "passed",
+          "title": "useConfirm cursor 越界：同引用返回",
+          "duration": 0.13949999999999818,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A04 use-menu-state 残差"],
+          "fullName": "A04 use-menu-state 残差 useBackFromTarget pick-item 阶段 no-op：同引用不变",
+          "status": "passed",
+          "title": "useBackFromTarget pick-item 阶段 no-op：同引用不变",
+          "duration": 0.07549999999999102,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A04 use-menu-state 残差"],
+          "fullName": "A04 use-menu-state 残差 useConfirm 空队 execute targetCharId 为空字符串",
+          "status": "passed",
+          "title": "useConfirm 空队 execute targetCharId 为空字符串",
+          "duration": 0.140625,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A04 use-menu-state 残差"],
+          "fullName": "A04 use-menu-state 残差 finishUseExecution status:external 按非成功处理，返回原 state",
+          "status": "passed",
+          "title": "finishUseExecution status:external 按非成功处理，返回原 state",
+          "duration": 0.1157089999999954,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A04 use-menu-state 残差"],
+          "fullName": "A04 use-menu-state 残差 battleOnly 物品不入列",
+          "status": "passed",
+          "title": "battleOnly 物品不入列",
+          "duration": 0.4170840000000027,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A04 use-menu-state 残差"],
+          "fullName": "A04 use-menu-state 残差 USE_GRID_COLS === 3；closeUseMenu 完整对象",
+          "status": "passed",
+          "title": "USE_GRID_COLS === 3；closeUseMenu 完整对象",
+          "duration": 0.34258299999999053,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388275807,
+      "endTime": 1792388275810.3425,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/use-menu-state.glm-boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["B4 使用列表网格导航"],
+          "fullName": "B4 使用列表网格导航 6 项/3 列两行：四方向 clamp 到首/尾；selected 与 cursor 对应",
+          "status": "passed",
+          "title": "6 项/3 列两行：四方向 clamp 到首/尾；selected 与 cursor 对应",
+          "duration": 1.6017499999999956,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B4 使用列表网格导航"],
+          "fullName": "B4 使用列表网格导航 initialCursor 记忆恢复并 clamp 到末项；空列表 cursor 0",
+          "status": "passed",
+          "title": "initialCursor 记忆恢复并 clamp 到末项；空列表 cursor 0",
+          "duration": 0.27004200000000367,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B5 finishUseExecution keep 重建与钳位（请求由真实入口产生）"],
+          "fullName": "B5 finishUseExecution keep 重建与钳位（请求由真实入口产生） pick-item：sc-1 经 useConfirm 产 execute 请求；keep 按 outcome 世界重建并钳 cursor",
+          "status": "passed",
+          "title": "pick-item：sc-1 经 useConfirm 产 execute 请求；keep 按 outcome 世界重建并钳 cursor",
+          "duration": 0.5542090000000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B5 finishUseExecution keep 重建与钳位（请求由真实入口产生）"],
+          "fullName": "B5 finishUseExecution keep 重建与钳位（请求由真实入口产生） pick-target：u-2 经 useConfirm→useApply 产请求（itemId↔selectedItemId 一致）；用光重建",
+          "status": "passed",
+          "title": "pick-target：u-2 经 useConfirm→useApply 产请求（itemId↔selectedItemId 一致）；用光重建",
+          "duration": 0.32337499999999864,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B6 失败保持原菜单；pick-target 往返与副作用边界"],
+          "fullName": "B6 失败保持原菜单；pick-target 往返与副作用边界 失败结果原样返回原状态；真正传入的 world 在全链后逐值不变；close 轴关闭",
+          "status": "passed",
+          "title": "失败结果原样返回原状态；真正传入的 world 在全链后逐值不变；close 轴关闭",
+          "duration": 0.40562500000000057,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["B6 失败保持原菜单；pick-target 往返与副作用边界"],
+          "fullName": "B6 失败保持原菜单；pick-target 往返与副作用边界 pick-target Esc 回 pick-item 光标留在该物",
+          "status": "passed",
+          "title": "pick-target Esc 回 pick-item 光标留在该物",
+          "duration": 0.11654199999999548,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388274114,
+      "endTime": 1792388274117.4055,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/use-menu-state.navigation-boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["使用菜单状态机"],
+          "fullName": "使用菜单状态机 openUseMenu:pick-item,列出可用物 + initialCursor 恢复光标(越界 clamp)",
+          "status": "passed",
+          "title": "openUseMenu:pick-item,列出可用物 + initialCursor 恢复光标(越界 clamp)",
+          "duration": 1.088791999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["使用菜单状态机"],
+          "fullName": "使用菜单状态机 useConfirm:单体(观音符)→ pick-target;脚本类(土灵珠)→ 直接执行不选目标",
+          "status": "passed",
+          "title": "useConfirm:单体(观音符)→ pick-target;脚本类(土灵珠)→ 直接执行不选目标",
+          "duration": 0.36708299999999383,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["使用菜单状态机"],
+          "fullName": "使用菜单状态机 useConfirm:场景钩子道具(引路蜂)→ 统一 execute 请求,菜单层不再识别 effect kind",
+          "status": "passed",
+          "title": "useConfirm:场景钩子道具(引路蜂)→ 统一 execute 请求,菜单层不再识别 effect kind",
+          "duration": 0.08758299999999508,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["使用菜单状态机"],
+          "fullName": "使用菜单状态机 useApply:单体用完留 pick-target 可连用,用光才回 pick-item",
+          "status": "passed",
+          "title": "useApply:单体用完留 pick-target 可连用,用光才回 pick-item",
+          "duration": 0.5202079999999967,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["使用菜单状态机"],
+          "fullName": "使用菜单状态机 useBackFromTarget:pick-target → pick-item",
+          "status": "passed",
+          "title": "useBackFromTarget:pick-target → pick-item",
+          "duration": 0.09008299999999281,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["使用菜单状态机"],
+          "fullName": "使用菜单状态机 closeUseMenu:active false",
+          "status": "passed",
+          "title": "closeUseMenu:active false",
+          "duration": 0.05808299999999633,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["使用菜单状态机"],
+          "fullName": "使用菜单状态机 finishUseExecution:失败保持原位；成功且 menu=close 关闭整个使用菜单",
+          "status": "passed",
+          "title": "finishUseExecution:失败保持原位；成功且 menu=close 关闭整个使用菜单",
+          "duration": 0.3496250000000032,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388275552,
+      "endTime": 1792388275555.3496,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/use-menu-state.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["N03 视频覆盖层生命周期"],
+          "fullName": "N03 视频覆盖层生命周期 自然播完：全屏样式、清理视频层、按键监听移除、Promise 兑现",
+          "status": "passed",
+          "title": "自然播完：全屏样式、清理视频层、按键监听移除、Promise 兑现",
+          "duration": 15.376459000000011,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N03 视频覆盖层生命周期"],
+          "fullName": "N03 视频覆盖层生命周期 加载失败：仅 warn 不抛出，Promise resolve 且视频层移除",
+          "status": "passed",
+          "title": "加载失败：仅 warn 不抛出，Promise resolve 且视频层移除",
+          "duration": 1.9063749999999686,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N03 视频覆盖层生命周期"],
+          "fullName": "N03 视频覆盖层生命周期 跳过键消费键事件并延迟 500ms 清理；非跳过键不消费",
+          "status": "passed",
+          "title": "跳过键消费键事件并延迟 500ms 清理；非跳过键不消费",
+          "duration": 1.5711670000000026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N03 视频覆盖层生命周期"],
+          "fullName": "N03 视频覆盖层生命周期 自定义 skipKeys 与 container：仅自定义键生效，video 挂在给定容器",
+          "status": "passed",
+          "title": "自定义 skipKeys 与 container：仅自定义键生效，video 挂在给定容器",
+          "duration": 1.16537500000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N03 视频覆盖层生命周期"],
+          "fullName": "N03 视频覆盖层生命周期 autoplay 被拒：点击 overlay 后重试成功并移除 overlay",
+          "status": "passed",
+          "title": "autoplay 被拒：点击 overlay 后重试成功并移除 overlay",
+          "duration": 12.670457999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N03 视频覆盖层生命周期"],
+          "fullName": "N03 视频覆盖层生命周期 runner 取消：信号已 abort 时立即清理；播放中 abort 同样即时兑现",
+          "status": "passed",
+          "title": "runner 取消：信号已 abort 时立即清理；播放中 abort 同样即时兑现",
+          "duration": 1.5049999999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["N03 视频覆盖层生命周期"],
+          "fullName": "N03 视频覆盖层生命周期 结束后的迟到 error 事件不产生第二次清理或告警副作用",
+          "status": "passed",
+          "title": "结束后的迟到 error 事件不产生第二次清理或告警副作用",
+          "duration": 0.6581669999999917,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792388274701,
+      "endTime": 1792388274735.6582,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/reforge/src/video-player.glm-n.test.ts"
+    }
+  ]
+}

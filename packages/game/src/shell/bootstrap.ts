@@ -353,8 +353,9 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
   if (partyData.frames.length === 0) throw new Error('队长 sprite 无 frame')
   // 逐帧 anchor(sdlpal scene.c:224/358 PAL_RLEGetWidth/Height 用当前帧)— 见 toSpriteImages。
   const partyFrames = toSpriteImages(partyData.frames)
-  // playerRoles.rgwWalkFrames[role]:M4 简版 fallback 3(sdlpal `scene.c:752 if (i == 0) i = 3`)。
-  // M5 真做时按 PlayerRoles[leaderRole].walkFrames 取。
+  // ctx 兜底 walkFrames = 3(sdlpal scene.c:752 `if (i == 0) i = 3` 默认)。真值按 per-role 查:
+  // present.getPartyWalkFrames 优先 runtime rgwWalkFrames[role] → playerRoles.walkFrames[role],
+  // 都缺才回落本值。
   const partyWalkFrames = 3
   type NpcSprite = (typeof partyFrames)[number]
   const npcSprites = new Map<number, NpcSprite>()
@@ -607,8 +608,7 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     ])
 
     // SceneAssets.npcSprites 当前没人消费(loadScene 只 mutate gs;present 走 closure 的
-    // npcSprites)。M3.5 简版传空 map,接口形式上满足即可;M5 把 sprite 数据装这里,
-    // present 切到从 sceneAssets 取。
+    // npcSprites 共享 map — 定案的架构,不再计划切到从 sceneAssets 取)。此处传空 map 仅满足接口。
     return {
       sceneId,
       mapNum: sceneJson.mapNum, // 场景名按 mapNum 命名(tools/map-names) + scene-system.getCurrentMapNum
@@ -1857,8 +1857,8 @@ export async function bootstrap(canvas: HTMLCanvasElement, deps?: BootstrapDeps)
     }
   }
 
-  // soundfont 收尾等待:其余 boot 资源(~3200 个请求)完成后,慢网下进度计数会停在最后一格
-  // 等这单个大文件请求 —— 注明在等什么;到手(或失败)即清。必须在视频/菜单发起**之前**等,
+  // soundfont 收尾等待:其余 boot 资源(~800 个请求,2026-06-22 资源管线优化后;曾 ~3200)完成后,
+  // 慢网下进度计数会停在最后一格等这单个大文件请求 —— 注明在等什么;到手(或失败)即清。必须在视频/菜单发起**之前**等,
   // 否则 1.mp4 在 loading 覆盖层底下开播。(大小不写死:音色库可换,2026-06-12 已从 32MB
   // GeneralUser GS 换 6MB TimGM6mb,见 public/soundfont-LICENSE.txt)
   if (initialMusicSource === 'midi') setBootLoadingNote('音色库')

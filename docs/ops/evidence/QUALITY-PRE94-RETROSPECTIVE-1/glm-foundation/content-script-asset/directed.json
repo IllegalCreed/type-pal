@@ -1,0 +1,589 @@
+{
+  "numTotalTestSuites": 9,
+  "numPassedTestSuites": 9,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 54,
+  "numPassedTests": 54,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792375715600,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["A1 validateProjectRelativePath · fail-loud 且返回原值不规范化"],
+          "fullName": "A1 validateProjectRelativePath · fail-loud 且返回原值不规范化 合法值原样返回（不 trim/不消除段）",
+          "status": "passed",
+          "title": "合法值原样返回（不 trim/不消除段）",
+          "duration": 0.7207920000000172,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A1 validateProjectRelativePath · fail-loud 且返回原值不规范化"],
+          "fullName": "A1 validateProjectRelativePath · fail-loud 且返回原值不规范化 NUL 拒绝且消息含类别",
+          "status": "passed",
+          "title": "NUL 拒绝且消息含类别",
+          "duration": 0.45770899999999415,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A1 validateProjectRelativePath · fail-loud 且返回原值不规范化"],
+          "fullName": "A1 validateProjectRelativePath · fail-loud 且返回原值不规范化 绝对路径 拒绝且消息含类别",
+          "status": "passed",
+          "title": "绝对路径 拒绝且消息含类别",
+          "duration": 0.10195799999999622,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A1 validateProjectRelativePath · fail-loud 且返回原值不规范化"],
+          "fullName": "A1 validateProjectRelativePath · fail-loud 且返回原值不规范化 盘符 拒绝且消息含类别",
+          "status": "passed",
+          "title": "盘符 拒绝且消息含类别",
+          "duration": 0.08724999999998317,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A1 validateProjectRelativePath · fail-loud 且返回原值不规范化"],
+          "fullName": "A1 validateProjectRelativePath · fail-loud 且返回原值不规范化 scheme 拒绝且消息含类别",
+          "status": "passed",
+          "title": "scheme 拒绝且消息含类别",
+          "duration": 0.09099999999997976,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A1 validateProjectRelativePath · fail-loud 且返回原值不规范化"],
+          "fullName": "A1 validateProjectRelativePath · fail-loud 且返回原值不规范化 反斜杠 拒绝且消息含类别",
+          "status": "passed",
+          "title": "反斜杠 拒绝且消息含类别",
+          "duration": 0.06866600000000744,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A1 validateProjectRelativePath · fail-loud 且返回原值不规范化"],
+          "fullName": "A1 validateProjectRelativePath · fail-loud 且返回原值不规范化 query 拒绝且消息含类别",
+          "status": "passed",
+          "title": "query 拒绝且消息含类别",
+          "duration": 0.11216699999999946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A1 validateProjectRelativePath · fail-loud 且返回原值不规范化"],
+          "fullName": "A1 validateProjectRelativePath · fail-loud 且返回原值不规范化 fragment 拒绝且消息含类别",
+          "status": "passed",
+          "title": "fragment 拒绝且消息含类别",
+          "duration": 0.11129200000002015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A1 validateProjectRelativePath · fail-loud 且返回原值不规范化"],
+          "fullName": "A1 validateProjectRelativePath · fail-loud 且返回原值不规范化 空段 拒绝且消息含类别",
+          "status": "passed",
+          "title": "空段 拒绝且消息含类别",
+          "duration": 0.34466699999998696,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A1 validateProjectRelativePath · fail-loud 且返回原值不规范化"],
+          "fullName": "A1 validateProjectRelativePath · fail-loud 且返回原值不规范化 点段 拒绝且消息含类别",
+          "status": "passed",
+          "title": "点段 拒绝且消息含类别",
+          "duration": 0.18937499999998408,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A1 validateProjectRelativePath · fail-loud 且返回原值不规范化"],
+          "fullName": "A1 validateProjectRelativePath · fail-loud 且返回原值不规范化 上跳段 拒绝且消息含类别",
+          "status": "passed",
+          "title": "上跳段 拒绝且消息含类别",
+          "duration": 0.1264579999999853,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A1 validateProjectRelativePath · fail-loud 且返回原值不规范化"],
+          "fullName": "A1 validateProjectRelativePath · fail-loud 且返回原值不规范化 与 map-index 规范化合同不同：本 API 不接受带空格段的原值改造",
+          "status": "passed",
+          "title": "与 map-index 规范化合同不同：本 API 不接受带空格段的原值改造",
+          "duration": 0.04308399999999324,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A2 validateAssetCatalog · 单字段反例 + origin 前缀门"],
+          "fullName": "A2 validateAssetCatalog · 单字段反例 + origin 前缀门 合法 sprite 记录通过并保真返回；深快照不改原输入",
+          "status": "passed",
+          "title": "合法 sprite 记录通过并保真返回；深快照不改原输入",
+          "duration": 0.47237499999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A2 validateAssetCatalog · 单字段反例 + origin 前缀门"],
+          "fullName": "A2 validateAssetCatalog · 单字段反例 + origin 前缀门 非法 kind 拒绝",
+          "status": "passed",
+          "title": "非法 kind 拒绝",
+          "duration": 0.07650000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A2 validateAssetCatalog · 单字段反例 + origin 前缀门"],
+          "fullName": "A2 validateAssetCatalog · 单字段反例 + origin 前缀门 空 mediaType 拒绝",
+          "status": "passed",
+          "title": "空 mediaType 拒绝",
+          "duration": 0.05412500000002751,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A2 validateAssetCatalog · 单字段反例 + origin 前缀门"],
+          "fullName": "A2 validateAssetCatalog · 单字段反例 + origin 前缀门 负 bytes 拒绝",
+          "status": "passed",
+          "title": "负 bytes 拒绝",
+          "duration": 0.05183300000001623,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A2 validateAssetCatalog · 单字段反例 + origin 前缀门"],
+          "fullName": "A2 validateAssetCatalog · 单字段反例 + origin 前缀门 非整数 bytes 拒绝",
+          "status": "passed",
+          "title": "非整数 bytes 拒绝",
+          "duration": 0.0962080000000185,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A2 validateAssetCatalog · 单字段反例 + origin 前缀门"],
+          "fullName": "A2 validateAssetCatalog · 单字段反例 + origin 前缀门 大写 sha 拒绝",
+          "status": "passed",
+          "title": "大写 sha 拒绝",
+          "duration": 0.06687500000001023,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A2 validateAssetCatalog · 单字段反例 + origin 前缀门"],
+          "fullName": "A2 validateAssetCatalog · 单字段反例 + origin 前缀门 非字符串 label 拒绝",
+          "status": "passed",
+          "title": "非字符串 label 拒绝",
+          "duration": 0.047584000000000515,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A2 validateAssetCatalog · 单字段反例 + origin 前缀门"],
+          "fullName": "A2 validateAssetCatalog · 单字段反例 + origin 前缀门 非法 origin 拒绝",
+          "status": "passed",
+          "title": "非法 origin 拒绝",
+          "duration": 0.059042000000005146,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A2 validateAssetCatalog · 单字段反例 + origin 前缀门"],
+          "fullName": "A2 validateAssetCatalog · 单字段反例 + origin 前缀门 origin 前缀违例 拒绝",
+          "status": "passed",
+          "title": "origin 前缀违例 拒绝",
+          "duration": 0.08729199999999082,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A3 validateManifestAssetConfig · 角色 kind 门与音频要求"],
+          "fullName": "A3 validateManifestAssetConfig · 角色 kind 门与音频要求 无音频角色的最小配置通过；非音频角色+匹配 kind 通过；有音频 kind 时强制音频角色齐备",
+          "status": "passed",
+          "title": "无音频角色的最小配置通过；非音频角色+匹配 kind 通过；有音频 kind 时强制音频角色齐备",
+          "duration": 0.261209000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A3 validateManifestAssetConfig · 角色 kind 门与音频要求"],
+          "fullName": "A3 validateManifestAssetConfig · 角色 kind 门与音频要求 未知角色拒绝",
+          "status": "passed",
+          "title": "未知角色拒绝",
+          "duration": 0.058624999999977945,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A3 validateManifestAssetConfig · 角色 kind 门与音频要求"],
+          "fullName": "A3 validateManifestAssetConfig · 角色 kind 门与音频要求 引用不存在 AssetId",
+          "status": "passed",
+          "title": "引用不存在 AssetId",
+          "duration": 0.06024999999999636,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A3 validateManifestAssetConfig · 角色 kind 门与音频要求"],
+          "fullName": "A3 validateManifestAssetConfig · 角色 kind 门与音频要求 kind 不匹配",
+          "status": "passed",
+          "title": "kind 不匹配",
+          "duration": 0.11879200000001333,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A5 validateAssetReferenceClosure · severity/code/where 完整断言"],
+          "fullName": "A5 validateAssetReferenceClosure · severity/code/where 完整断言 正常引用零 issue；未引用资产 warn；两者同时出现完整并列",
+          "status": "passed",
+          "title": "正常引用零 issue；未引用资产 warn；两者同时出现完整并列",
+          "duration": 0.2098749999999825,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["A5 validateAssetReferenceClosure · severity/code/where 完整断言"],
+          "fullName": "A5 validateAssetReferenceClosure · severity/code/where 完整断言 missing-asset error 且 where 精确；kind-mismatch 与 unused 并列不吞并",
+          "status": "passed",
+          "title": "missing-asset error 且 where 精确；kind-mismatch 与 unused 并列不吞并",
+          "duration": 0.0870830000000069,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375715748,
+      "endTime": 1792375715752.2612,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/asset-catalog.contracts.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["validateProjectRelativePath"],
+          "fullName": "validateProjectRelativePath 规范工程相对路径通过",
+          "status": "passed",
+          "title": "规范工程相对路径通过",
+          "duration": 0.790333000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateProjectRelativePath"],
+          "fullName": "validateProjectRelativePath 拒绝 \"\"",
+          "status": "passed",
+          "title": "拒绝 \"\"",
+          "duration": 0.4030840000000069,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateProjectRelativePath"],
+          "fullName": "validateProjectRelativePath 拒绝 \"/assets/a.mid\"",
+          "status": "passed",
+          "title": "拒绝 \"/assets/a.mid\"",
+          "duration": 0.08483300000000327,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateProjectRelativePath"],
+          "fullName": "validateProjectRelativePath 拒绝 \"https://example.com/a.mid\"",
+          "status": "passed",
+          "title": "拒绝 \"https://example.com/a.mid\"",
+          "duration": 0.09787499999998772,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateProjectRelativePath"],
+          "fullName": "validateProjectRelativePath 拒绝 \"file:a.mid\"",
+          "status": "passed",
+          "title": "拒绝 \"file:a.mid\"",
+          "duration": 0.08270799999999667,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateProjectRelativePath"],
+          "fullName": "validateProjectRelativePath 拒绝 \"C:/assets/a.mid\"",
+          "status": "passed",
+          "title": "拒绝 \"C:/assets/a.mid\"",
+          "duration": 0.0645420000000172,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateProjectRelativePath"],
+          "fullName": "validateProjectRelativePath 拒绝 \"assets\\\\a.mid\"",
+          "status": "passed",
+          "title": "拒绝 \"assets\\\\a.mid\"",
+          "duration": 0.10504199999999742,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateProjectRelativePath"],
+          "fullName": "validateProjectRelativePath 拒绝 \"assets/../a.mid\"",
+          "status": "passed",
+          "title": "拒绝 \"assets/../a.mid\"",
+          "duration": 0.1144999999999925,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateProjectRelativePath"],
+          "fullName": "validateProjectRelativePath 拒绝 \"assets/./a.mid\"",
+          "status": "passed",
+          "title": "拒绝 \"assets/./a.mid\"",
+          "duration": 0.34595899999999347,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateProjectRelativePath"],
+          "fullName": "validateProjectRelativePath 拒绝 \"assets//a.mid\"",
+          "status": "passed",
+          "title": "拒绝 \"assets//a.mid\"",
+          "duration": 0.1869999999999834,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateProjectRelativePath"],
+          "fullName": "validateProjectRelativePath 拒绝 \"assets/a.mid?raw\"",
+          "status": "passed",
+          "title": "拒绝 \"assets/a.mid?raw\"",
+          "duration": 0.1137910000000204,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateProjectRelativePath"],
+          "fullName": "validateProjectRelativePath 拒绝 \"assets/a.mid#x\"",
+          "status": "passed",
+          "title": "拒绝 \"assets/a.mid#x\"",
+          "duration": 0.050499999999999545,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["validateProjectRelativePath"],
+          "fullName": "validateProjectRelativePath 拒绝 \"assets/\\u0000a.mid\"",
+          "status": "passed",
+          "title": "拒绝 \"assets/\\u0000a.mid\"",
+          "duration": 0.04241700000000037,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["catalog 与当前 manifest"],
+          "fullName": "catalog 与当前 manifest 合法目录、音频与视觉角色通过",
+          "status": "passed",
+          "title": "合法目录、音频与视觉角色通过",
+          "duration": 0.5649579999999901,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["catalog 与当前 manifest"],
+          "fullName": "catalog 与当前 manifest 未知角色、角色 kind 错、缺角色均 fail-loud",
+          "status": "passed",
+          "title": "未知角色、角色 kind 错、缺角色均 fail-loud",
+          "duration": 0.4134999999999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["catalog 与当前 manifest"],
+          "fullName": "catalog 与当前 manifest catalog 与 roles 之外的资源配置 fail-loud",
+          "status": "passed",
+          "title": "catalog 与 roles 之外的资源配置 fail-loud",
+          "duration": 0.09274999999999523,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "PAL 数字号只在迁移边界确定性映射",
+          "status": "passed",
+          "title": "PAL 数字号只在迁移边界确定性映射",
+          "duration": 0.6531669999999963,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "项目 schema 不再接受 catalog 外资源族",
+          "status": "passed",
+          "title": "项目 schema 不再接受 catalog 外资源族",
+          "duration": 0.10495800000001054,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "命令级 walker 与全工程 walker 共用深层递归",
+          "status": "passed",
+          "title": "命令级 walker 与全工程 walker 共用深层递归",
+          "duration": 0.3059159999999963,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["typed 资源引用与文件闭包"],
+          "fullName": "typed 资源引用与文件闭包 静态图 walker 覆盖立绘表情、对话、形象命令、face、物品、战场与存档世界",
+          "status": "passed",
+          "title": "静态图 walker 覆盖立绘表情、对话、形象命令、face、物品、战场与存档世界",
+          "duration": 0.6373749999999916,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["typed 资源引用与文件闭包"],
+          "fullName": "typed 资源引用与文件闭包 walker 覆盖 roles、场景、嵌套命令",
+          "status": "passed",
+          "title": "walker 覆盖 roles、场景、嵌套命令",
+          "duration": 1.4241660000000138,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["typed 资源引用与文件闭包"],
+          "fullName": "typed 资源引用与文件闭包 walker 收集 SpriteDef 二进制与动作音效 cue 的 typed 资产边",
+          "status": "passed",
+          "title": "walker 收集 SpriteDef 二进制与动作音效 cue 的 typed 资产边",
+          "duration": 0.12912500000001614,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["typed 资源引用与文件闭包"],
+          "fullName": "typed 资源引用与文件闭包 文件缺失、大小与 hash 不符均有独立错误",
+          "status": "passed",
+          "title": "文件缺失、大小与 hash 不符均有独立错误",
+          "duration": 6.090499999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["typed 资源引用与文件闭包"],
+          "fullName": "typed 资源引用与文件闭包 文件闭包也校验未引用 catalog 记录",
+          "status": "passed",
+          "title": "文件闭包也校验未引用 catalog 记录",
+          "duration": 0.10079199999998423,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["typed 资源引用与文件闭包"],
+          "fullName": "typed 资源引用与文件闭包 同一脚本内多次调用同一过场资源时，原始边表保留命令次数，引用站点只显示一处",
+          "status": "passed",
+          "title": "同一脚本内多次调用同一过场资源时，原始边表保留命令次数，引用站点只显示一处",
+          "duration": 0.40579199999999105,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "walker 按敌 hook 通道保留深层资源的精确路径与站点",
+          "status": "passed",
+          "title": "walker 按敌 hook 通道保留深层资源的精确路径与站点",
+          "duration": 0.13829199999997854,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "walker 按 canonical 场景 hook 方案保留精确资源路径与站点",
+          "status": "passed",
+          "title": "walker 按 canonical 场景 hook 方案保留精确资源路径与站点",
+          "duration": 0.1929580000000044,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792375715748,
+      "endTime": 1792375715762.1929,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/content/src/asset.test.ts"
+    }
+  ]
+}

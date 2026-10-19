@@ -9,7 +9,7 @@ export interface Tilemap {
   /** 单位:逻辑格子。目标游戏固定 64 列 × 128 行(实际渲染会做菱形错排)*/
   width: number
   height: number
-  /** [row][col] = TileCell;长度 = height × width 行 × width 列 */
+  /** [row][col] = TileCell;外层 height 行,每行 width 列。 */
   cells: TileCell[][]
   /**
    * 对应 tileset 资源的相对路径(由 CLI 总装时填)。

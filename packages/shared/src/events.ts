@@ -72,9 +72,10 @@ export interface StartBattleCommand {
 /** Scene 切换命令 —— 对应 sdlpal opcode 0x0059(script.c:1870 "Change to the specified scene")。
  *  字节布局:operand[0] = sceneId(目标场景号);operand[1] / [2] sdlpal 该 case 未读。
  *
- *  **运行时语义**:M3.5 内 EventSystem handler 是 stub(no-op skip + console.debug);
- *  真 scene 切换通过 dev panel 直调 `loadScene()` 函数实现(D34/B 路线)。M5 真做剧情链时
- *  升级 handler 为可等待命令(emit + Shell 处理 async loadScene + complete cmdId)。
+ *  **运行时语义**:EventSystem handler 异步切场景——tick 在本 opcode 上置
+ *  `cursor.waiting='scene-load'` 并让出,由注入的异步 loadScene callback 完成后
+ *  恢复执行(见 game event-system.ts 的 loadScene opcode 注释块);不再是早期
+ *  M3.5 的 stub 跳过。
  */
 export interface LoadSceneCommand {
   op: 'loadScene'

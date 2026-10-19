@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "base": "c81352b02d9d7fc799cf73f8aaf4d273d8ad3420",
+  "method": "typescript@6.0.3 parse + createPrinter({removeComments:true}); test titles masked with \"<TITLE>\" in both versions",
+  "files": [
+    {
+      "file": "packages/pal-extract/src/cli.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "561d6a4cc4932ed817f00c1e0616f564305d53c32e1597725fd550a861b2f718",
+        "current": "561d6a4cc4932ed817f00c1e0616f564305d53c32e1597725fd550a861b2f718"
+      },
+      "printedBytes": {
+        "base": 28401,
+        "current": 28401
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/pal-extract/src/resources/battle-sprite.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "97afbcaa5b228d45fc2b6a8bbe4a78d680bcfd03274296d9a3fdf5c3bf660bf3",
+        "current": "97afbcaa5b228d45fc2b6a8bbe4a78d680bcfd03274296d9a3fdf5c3bf660bf3"
+      },
+      "printedBytes": {
+        "base": 812,
+        "current": 812
+      },
+      "printedEqual": true
+    },
+    {
+      "file": "packages/pal-extract/src/output-boundary.ts",
+      "titleCallCount": {
+        "base": 0,
+        "current": 0
+      },
+      "printedSha256": {
+        "base": "016f3e85ebd609d70bfc3d839a0510320e4f96ceb6679f922fff1104cbfb6d08",
+        "current": "016f3e85ebd609d70bfc3d839a0510320e4f96ceb6679f922fff1104cbfb6d08"
+      },
+      "printedBytes": {
+        "base": 641,
+        "current": 641
+      },
+      "printedEqual": true
+    }
+  ],
+  "allEqual": true
+}
