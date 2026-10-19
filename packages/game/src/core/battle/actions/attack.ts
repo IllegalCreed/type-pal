@@ -82,7 +82,7 @@ function asShort(n: number): number {
  * 注:`RandomLong(0,5)` 即使 bravery>0 也照样消费一次(C `==0 || bravery` 左操作数先求值),
  *     故 RNG 调用序固定为 jitter→crit→(role0)李逍遥→float,测试脚本化 rng 按此序喂值。
  *
- * @returns damage(钳后)+ fCritical(暴击 flag,供 D17 暴击演出;本批仅用 damage)。
+ * @returns damage(钳后)与fCritical;caller用暴击标记选择攻击音效。
  */
 function applyPlayerAttackModifiers(
   base: number,

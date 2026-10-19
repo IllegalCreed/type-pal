@@ -22,8 +22,8 @@
  * 但本 runner 通用支持 scriptOnUse 非零情况(battle-only spell 真值 chain 含其它 opcode,
  * 但 battle ctx 由 runScript / dispatchBattleOpcode 处理,本 runner 仅大世界用)。
  *
- * scriptSuccess 默认 true;HP/MP未发生变化、没有目标实际复活或脚本无法完成时
- * 按各分支返回 false。menu-driver 仅在成功后扣 MP,本 runner 不扣施法成本。
+ * scriptSuccess 默认 true,HP/MP与复活分支按各自规则更新;入口或跳转无效、
+ * 越界或达到步数上限时返回false。menu-driver仅在成功后扣MP,本runner不扣成本。
  */
 
 import type { Spell } from '@type-pal/shared'
