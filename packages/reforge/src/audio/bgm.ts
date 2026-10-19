@@ -9,7 +9,7 @@
  * - 仙剑原 OPL/MIDI 偏干 → CC91 混响 = 0 并 lockController(防 MIDI 自带 CC91 拉高)
  * - skipToFirstNoteOn: false —— 曲头静音是作曲者设的循环间隔,跳掉会循环显赶
  * - autoplay:play 记 last,ctx 解锁(用户手势 resume)后补播;resume 防重入
- * - 懒初始化:首次 play 才拉 worklet+soundfont —— 不放曲的工程(demo)零开销
+ * - 合成器/worklet/soundfont在首次play时加载;播放器建立时仍创建AudioContext
  */
 import type { AssetId, AssetKind, AssetRole } from '@type-pal/content'
 import { initializeBrowserSpessaSynth } from './spessa-browser-runtime.js'
@@ -185,8 +185,8 @@ export function createBgmPlayerWithRuntime(
     void doPlay(current.asset, current.loop, serial, current.fadeInMs)
   }
 
-  // 懒初始化:首次真要播才拉合成器库 + worklet + soundfont(~6MB)——不放曲的工程(demo)
-  // 零开销,放曲工程首屏 bundle 也不背合成器。
+  // 首次播放才加载合成器库、worklet和soundfont;AudioContext由runtime提前持有,
+  // 不把后端按需加载误认为播放器建立时没有资源开销。
   let initP: Promise<void> | null = null
   const ensureInit = (): Promise<void> => {
     initP ??= runtime
