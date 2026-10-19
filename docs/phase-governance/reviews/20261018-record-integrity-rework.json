@@ -2005,7 +2005,7 @@
       "supersedes": [],
       "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
       "sourceSha256": "af84d2340f368b60efd099fceb387cfd57d50e5a8c285a03a091009799a64e35",
-      "afterSha256": "7f02ac8fab8b8fb90f32341a805ccc0cb1578fb9f51d53058f97c6b46aa349d1",
+      "afterSha256": "45ce5430ce51261ad16545f9507ccbd76909bb11494f59935fd4d933b661cc44",
       "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only",
       "maintenanceDeltas": [
         {
@@ -2060,6 +2060,15 @@
           "previousAfterSha256": "f2ba409c40d8b881f5ba69dc1537b9bcdec693f5a5f004f25028c90787755ba2",
           "afterSha256": "7f02ac8fab8b8fb90f32341a805ccc0cb1578fb9f51d53058f97c6b46aa349d1",
           "method": "Existing Owner control writes exactS16 nonauthor scope/counters; no new semantic/runtime or global/main/done credit; old review entries preserved.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S16 fixed347 individual114 body-only acceptance and9affected rework; no central native or routing adoption",
+          "sourceRevision": "b31682c46fcfe5bd66d4f10b9b74f39ba91608eb",
+          "previousAfterSha256": "7f02ac8fab8b8fb90f32341a805ccc0cb1578fb9f51d53058f97c6b46aa349d1",
+          "afterSha256": "45ce5430ce51261ad16545f9507ccbd76909bb11494f59935fd4d933b661cc44",
+          "method": "Owner exact fixed347 nonauthor decisions/counters and preserved reuse scope; control after-pin maintenance only, no new native/product/full-goal credit.",
           "grantsNewSemanticAcceptance": false
         }
       ]

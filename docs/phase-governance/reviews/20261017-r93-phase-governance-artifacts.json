@@ -516,7 +516,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "45d3ac468efc7d54f0e357b11afbc15fbb9f6473a373f47172d3f0bb692832a8",
-      "afterSha256": "41349a5371848008f67c4723eff9cbcae640627b287fdd79d95f80a3373bf69f",
+      "afterSha256": "cb243b9c806897dcebb392ac5b5be68f9fe7b8e0b91590bdef3edd4f7356eb81",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -801,6 +801,15 @@
           "previousAfterSha256": "90c4e5021e1622542eb8c2a58c6cf287d8f503fa5a0a167d74311c39e0fd72dc",
           "afterSha256": "41349a5371848008f67c4723eff9cbcae640627b287fdd79d95f80a3373bf69f",
           "method": "Existing Owner control writes exactS16 nonauthor scope/counters; no new semantic/runtime or global/main/done credit; old review entries preserved.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S16 fixed347 individual114 body-only acceptance and9affected rework; no central native or routing adoption",
+          "sourceRevision": "b31682c46fcfe5bd66d4f10b9b74f39ba91608eb",
+          "previousAfterSha256": "41349a5371848008f67c4723eff9cbcae640627b287fdd79d95f80a3373bf69f",
+          "afterSha256": "cb243b9c806897dcebb392ac5b5be68f9fe7b8e0b91590bdef3edd4f7356eb81",
+          "method": "Owner exact fixed347 nonauthor decisions/counters and preserved reuse scope; control after-pin maintenance only, no new native/product/full-goal credit.",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -1291,7 +1300,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "a161601de86c9f6e3fc1660a403b26d8b11cf93aacddb79cf7a972c019e91271",
+      "afterSha256": "a4da84ef33a33eb5c33b4c4b37d3d4c8f66ec404ade971b3f55de44a5df906d2",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1494,6 +1503,15 @@
           "sourceRevision": "69c47cac8f4ab810d1d28c6feaa83b45eccf8473",
           "previousAfterSha256": "5184e783471922879ffc626aee93a3216a23a9673a7ae207ab1484896fb41d24",
           "afterSha256": "a161601de86c9f6e3fc1660a403b26d8b11cf93aacddb79cf7a972c019e91271",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S16 fixed347 individual114 body-only acceptance and9affected rework; no central native or routing adoption",
+          "sourceRevision": "b31682c46fcfe5bd66d4f10b9b74f39ba91608eb",
+          "previousAfterSha256": "a161601de86c9f6e3fc1660a403b26d8b11cf93aacddb79cf7a972c019e91271",
+          "afterSha256": "a4da84ef33a33eb5c33b4c4b37d3d4c8f66ec404ade971b3f55de44a5df906d2",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }

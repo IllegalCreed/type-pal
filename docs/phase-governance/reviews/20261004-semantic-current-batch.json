@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "49d696895590610efc94f1c23cbe9deb496d51f9823ff15f5c9b0c8b121a4184",
+      "afterSha256": "2a5baebd1b64646139a487d55ef91d792b836842e0fa9479adb33291dd45e64f",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -950,6 +950,15 @@
           "previousAfterSha256": "53ff639833b0970c9305dd1e0fe6b9e46c82f8813e8109ce9f35126f4ccaadcb",
           "afterSha256": "49d696895590610efc94f1c23cbe9deb496d51f9823ff15f5c9b0c8b121a4184",
           "method": "Existing Owner control writes exactS16 nonauthor scope/counters; no new semantic/runtime or global/main/done credit; old review entries preserved.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S16 fixed347 individual114 body-only acceptance and9affected rework; no central native or routing adoption",
+          "sourceRevision": "b31682c46fcfe5bd66d4f10b9b74f39ba91608eb",
+          "previousAfterSha256": "49d696895590610efc94f1c23cbe9deb496d51f9823ff15f5c9b0c8b121a4184",
+          "afterSha256": "2a5baebd1b64646139a487d55ef91d792b836842e0fa9479adb33291dd45e64f",
+          "method": "Owner exact fixed347 nonauthor decisions/counters and preserved reuse scope; control after-pin maintenance only, no new native/product/full-goal credit.",
           "grantsNewSemanticAcceptance": false
         }
       ]

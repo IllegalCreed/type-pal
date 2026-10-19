@@ -1200,7 +1200,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "5ecb3e4ce8cf0fad559d200432e972fd32d5d916bb8455610025833b0f9f4bac",
+      "afterSha256": "a3b83590254670ff24c94b9724eb92b57952f1f1ddfaaa9df79ff48541b3e670",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1546,6 +1546,15 @@
           "sourceRevision": "69c47cac8f4ab810d1d28c6feaa83b45eccf8473",
           "previousAfterSha256": "eb4827f9a02c95a5c29b3b0413f276af4fa14948119800c81965bece3e969563",
           "afterSha256": "5ecb3e4ce8cf0fad559d200432e972fd32d5d916bb8455610025833b0f9f4bac",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S16 fixed347 individual114 body-only acceptance and9affected rework; no central native or routing adoption",
+          "sourceRevision": "b31682c46fcfe5bd66d4f10b9b74f39ba91608eb",
+          "previousAfterSha256": "5ecb3e4ce8cf0fad559d200432e972fd32d5d916bb8455610025833b0f9f4bac",
+          "afterSha256": "a3b83590254670ff24c94b9724eb92b57952f1f1ddfaaa9df79ff48541b3e670",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
@@ -5586,7 +5595,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "5067ddb3b423ff80e99d11a5a883537538e0a9b6b15b740b7327580cd887d64c",
+      "afterSha256": "1ea53e2c6ce221ed04112828a88b4ce9e433c08f13f7b448a19340f8a425231f",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -6051,6 +6060,15 @@
           "previousAfterSha256": "df25ae4567b6c5d6157200b4e23008aa5e90c32c1ea9b5b4ecab18c9ca3ebd19",
           "afterSha256": "5067ddb3b423ff80e99d11a5a883537538e0a9b6b15b740b7327580cd887d64c",
           "method": "Existing Owner control writes exactS16 nonauthor scope/counters; no new semantic/runtime or global/main/done credit; old review entries preserved.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-19",
+          "task": "DOCS-FULL-TEMPLATE-1 / S16 fixed347 individual114 body-only acceptance and9affected rework; no central native or routing adoption",
+          "sourceRevision": "b31682c46fcfe5bd66d4f10b9b74f39ba91608eb",
+          "previousAfterSha256": "5067ddb3b423ff80e99d11a5a883537538e0a9b6b15b740b7327580cd887d64c",
+          "afterSha256": "1ea53e2c6ce221ed04112828a88b4ce9e433c08f13f7b448a19340f8a425231f",
+          "method": "Owner exact fixed347 nonauthor decisions/counters and preserved reuse scope; control after-pin maintenance only, no new native/product/full-goal credit.",
           "grantsNewSemanticAcceptance": false
         }
       ]
