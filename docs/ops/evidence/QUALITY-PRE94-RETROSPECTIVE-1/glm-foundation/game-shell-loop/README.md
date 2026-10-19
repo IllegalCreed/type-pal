@@ -1,5 +1,7 @@
 # game-shell-loop(shell 交互/循环四文件)八维复审批
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 - 批次:pre-94 foundation 模块 9 批 21(shell 模块批 3)
 - 基线:origin/codex/code-quality-3y @ 53db76bbbb(候选线 49+ 提交)
 - Coding Owner:GLM;四文件全文读毕(input 164/main-loop 181/boot-loading 159/precache-ui 189)

@@ -1,5 +1,7 @@
 # reforge-save-dialog-menu(save/dialog/menu-box 已读件)八维复审批
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 - 批次:pre-94 foundation 模块 14 批 42(reforge 包批 3)
 - 基线:origin/codex/code-quality-3y @ 53db76bbbb(候选线 77+ 提交)
 - Coding Owner:GLM;save 全 7 文件 + dialog/layout + dialog/slot + narration-scroll + menu 已读件全文读毕(save scope 44/types 54/ops 82/browser-state 89/store 141/current-codec 147/current-structure 389;dialog/layout 93;menu item-list 140/equip-box 主体/system-box 95/reward-gain 族)

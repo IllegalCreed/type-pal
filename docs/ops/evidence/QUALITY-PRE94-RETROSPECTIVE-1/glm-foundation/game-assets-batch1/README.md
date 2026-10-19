@@ -1,5 +1,7 @@
 # game assets 三文件复审（glm-foundation 模块 4 批 1）
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 Status: review（候选待 Codex 据证验收）
 Owner: GLM；基点 `53db76bbb` 线（body 基准=extract 尾批提交后 HEAD；本轮 fetch 一次 SSL 瞬断已记录,origin 仍 53db76bbb）
 范围：`game/src/assets/{loader,dialog-assets,tileset-blob}.ts`（501/118/150 行）。开工核对四个已登记 worktree 无 game 未提交修改。

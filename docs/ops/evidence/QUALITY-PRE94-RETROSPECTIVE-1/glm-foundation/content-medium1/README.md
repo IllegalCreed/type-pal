@@ -1,5 +1,7 @@
 # content-medium1(author-dialogue + runtime-script + battle-sprite + skill)八维复审批
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 - 批次:pre-94 foundation 模块 12 批 31(content 包批 2)
 - 基线:origin/codex/code-quality-3y @ 53db76bbbb(候选线 65+ 提交)
 - Coding Owner:GLM;四文件全文读毕(author-dialogue 216/runtime-script 221/battle-sprite 226/skill 241)

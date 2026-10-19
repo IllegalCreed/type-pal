@@ -1,5 +1,7 @@
 # game-present-root(present 根目录 11 文件)八维复审批
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 - 批次:pre-94 foundation 模块 8 批 17(present 根目录家族,present 模块收官)
 - 基线:origin/codex/code-quality-3y @ 53db76bbbb(候选线 42+ 提交)
 - Coding Owner:GLM;11 文件全文读毕(2071 行:dither-fade 44/draw-sprite 49/framebuffer 49/screen-shake 54/follower-render 64/screen-wave 73/follower-pos 84/draw-number 109/font 202/draw-tilemap 382/dialog-box 961)

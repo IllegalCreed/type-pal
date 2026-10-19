@@ -1,5 +1,7 @@
 # extract events 核心四文件复审（glm-foundation 模块 3 批 1）
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 Status: review（候选待 Codex 据证验收）
 Owner: GLM；基点 `53db76bbbb5729ba8bc6525bd7ad2ad4bb425c02`（与模块 2 同线，模块 2 三笔尚未被上游集成，本批叠加其上）
 范围：`packages/pal-extract/src/events/{opcodes,disasm,recompile,roundtrip}.ts`（311/239/95/58 行）。开工核对：看板/四个已登记 worktree 无 pal-extract 未提交修改；worktree 自有依赖图（离线安装）+ data/raw 逐文件软链（SSS.MKF/M.MSG，只读消费）。

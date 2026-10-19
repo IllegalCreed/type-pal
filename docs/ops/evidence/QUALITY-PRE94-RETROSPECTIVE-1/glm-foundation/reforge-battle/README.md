@@ -1,5 +1,7 @@
 # reforge-battle(battle/ 全目录 20 文件)八维复审批
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 - 批次:pre-94 foundation 模块 14 批 40(reforge 包批 1)
 - 基线:origin/codex/code-quality-3y @ 53db76bbbb(候选线 75+ 提交)
 - Coding Owner:GLM;battle/ 全部 20 生产文件全文读毕(~11.2k 行,含 battle-core 2754 / battle-session 2593 / battle-anim 1789 三大件)

@@ -1,5 +1,7 @@
 # content-small(content 微型件 14 文件)八维复审批
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 - 批次:pre-94 foundation 模块 12 批 30(content 包批 1)
 - 基线:origin/codex/code-quality-3y @ 53db76bbbb(候选线 64+ 提交)
 - Coding Owner:GLM;14 文件全文读毕(author-enemy 5/author-scene 5/author-item 6/cursor-pure-fixtures 6/locale 9/item-script-runtime-ref 13/command-validation-options 16/rich-text 24/enemy-validation-shapes 37/enemy-team-reference 42/scene-core 43/validate-author 47/validate-runtime 47/ambience 49)

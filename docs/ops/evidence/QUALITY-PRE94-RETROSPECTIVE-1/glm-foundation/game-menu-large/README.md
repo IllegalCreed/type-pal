@@ -1,5 +1,7 @@
 # game-menu-large(magic-script + inventory-menu + in-game-magic-menu)八维复审批
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 - 批次:pre-94 foundation 模块 10 批 24(menu(core) 批 2)
 - 基线:origin/codex/code-quality-3y @ 53db76bbbb(候选线 54+ 提交)
 - Coding Owner:GLM;三文件全文读毕(magic-script 258/inventory-menu 280/in-game-magic-menu 306)

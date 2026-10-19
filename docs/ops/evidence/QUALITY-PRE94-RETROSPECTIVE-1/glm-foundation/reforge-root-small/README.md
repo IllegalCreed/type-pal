@@ -1,5 +1,7 @@
 # reforge-root-small(reforge 根目录微/小件 ~45 文件)八维复审批
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 - 批次:pre-94 foundation 模块 14 批 41(reforge 包批 2)
 - 基线:origin/codex/code-quality-3y @ 53db76bbbb(候选线 76+ 提交)
 - Coding Owner:GLM;~45 文件全文读毕(defined/hash/entity-proximity/runtime-script-runner/game-over-dialog/ambience-compositor/dialogue/runnable-project-loader/cursor-pure-fixtures/movement/collision/scene-map/palette-color/typewriter/slot/item-use-session/item-use-result/reward-gain/async-intent/boot/dev-preset/item-use-placement/presentation-intent/gameplay-clock/scene-runtime-state/script-wake-gate/script-execution-gate/script-execution-budget/automatic-target-command/scene-transition/screen-hold-transaction/actor-condition-runtime/actor-condition-lifecycle/author-io/save-scope/menu-system-box/engine-chrome-registry/reward-gain-queue/narration-scroll/dialog-assets/glyph/text-render/save-types/save-ops/menu-item-list/menu-equip-box)

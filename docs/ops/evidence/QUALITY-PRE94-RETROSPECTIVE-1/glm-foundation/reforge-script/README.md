@@ -1,5 +1,7 @@
 # 批45:reforge script 族 13 文件（零整改批 + 1 登记候选）
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 范围：`script-activity-lineage.ts`(94)、`script-continuation.ts`(125)、`runtime-script-compiler.ts`(128)、`script-work-queue.ts`(134)、`script-confirm-modal.ts`(161)、`script-chunk-store.ts`(167)、`script-compiler-core.ts`(285)、`script-host-adapter.ts`(364)、`script-project-core.ts`(608)、`script-runner-core.ts`(671)、`script-world.ts`(838)、`script-runner.ts`(852)、`runtime-script-project.ts`(1000)。全文读毕;`script-wake-gate`/`script-execution-gate`/`script-execution-budget`/`runtime-script-runner` 四小件已在批41。八维审查（A–H）全部通过,零源码改动、零 diff。
 
 ## 逐件结论（要点）

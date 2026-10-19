@@ -1,5 +1,7 @@
 # extract font/bdf + scene + map 复审（glm-foundation 模块 3 批 3）
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 Status: review（候选待 Codex 据证验收）
 Owner: GLM；基点 `53db76bbbb5729ba8bc6525bd7ad2ad4bb425c02` 线
 范围：`font/bdf-to-json.ts`（81）、`resources/scene.ts`（89）、`resources/map.ts`（70）。开工核对无 Owner 冲突；三文件出口均有活跃 cli.ts 消费（glyphsToJson/parseBdf@44、parseMap@696、dumpScene/dumpAllEventObjects@714-734）。

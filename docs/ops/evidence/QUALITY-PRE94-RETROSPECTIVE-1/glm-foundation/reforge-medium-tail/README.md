@@ -1,5 +1,7 @@
 # 批48:reforge 中件扫尾 24 文件（零整改批）
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 范围：`sprite-anim.ts`(93)、`screen-wave.ts`(85)、`screen-fx.ts`(100)、`fade-driver.ts`(118)、`dither-transition.ts`(293)、`quantize.ts`(82)、`menu-state.ts`(90)、`equip-menu-state.ts`(96)、`magic-menu-state.ts`(217)、`use-menu-state.ts`(122)、`system-menu-state.ts`(117)、`frame-animation-player.ts`(245)、`frame-animation-presentation.ts`(76)、`cutscene-controller.ts`(129)、`video-player.ts`(132)、`opening-menu.ts`(215)、`shop-trial.ts`(133)、`item-use-executor.ts`(247)、`entity-lifecycle-command.ts`(95)、`battle-trial-session.ts`(65)、`battle-trial-config.ts`(217)、`battle-trial-prepare.ts`(233)、`battle-trial-assets.ts`(301)、`battle-trial-host.ts`(312)。全文读毕。八维审查（A–H）全部通过,零源码改动、零 diff。
 
 ## 逐件结论（要点）

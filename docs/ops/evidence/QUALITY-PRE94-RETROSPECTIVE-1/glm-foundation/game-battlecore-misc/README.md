@@ -1,5 +1,7 @@
 # battle 七小文件 B–G 补维收口（glm-foundation 模块 7 批 14 · battle 家族终批）
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 Status: review（候选待 Codex 据证验收）
 Owner: GLM；基点 `53db76bbb` 线
 范围：`core/battle/{formulas,magic-damage,magic-object,simulated-magic-target,enemy-ai,status,battle-positions}.ts`（223/333/75/23/129/54/93 行，**七文件全部全文读毕**，共 930 行）。A 维引用 3m 深切片（formulas/magic-damage/status/turn-queue/rng 逐文件对照 fight.c/global.c）+ 2026-10-18 formula-numeric-audit 批（第七组错注已修、TS/C 数值边界声明重写）+ 3m status 死槽递减修复批;本批 B–G 补维,handler 现状定谳法。

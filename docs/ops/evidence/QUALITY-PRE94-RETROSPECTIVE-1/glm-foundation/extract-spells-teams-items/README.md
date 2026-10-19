@@ -1,5 +1,7 @@
 # extract spells + enemy-teams + items 复审（glm-foundation 模块 3 批 6）
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 Status: review（候选待 Codex 据证验收）
 Owner: GLM；基点 `53db76bbb` 线（body-invariance 基准=批5提交后 HEAD）
 范围：`parsers/spells.ts`（309）、`parsers/enemy-teams.ts`（111）、`parsers/items.ts`（104）。

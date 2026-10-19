@@ -1,5 +1,7 @@
 # game assets png + rle-decode 复审（glm-foundation 模块 4 批 2 · assets 家族收口）
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 Status: review（候选待 Codex 据证验收）
 Owner: GLM；基点 `53db76bbb` 线（body 基准=game 批1提交后 HEAD）
 范围：`game/src/assets/png.ts`（49）、`rle-decode.ts`（19）。批 1+2 合计覆盖 assets 全部 5 个生产文件。

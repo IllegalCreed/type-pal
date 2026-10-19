@@ -1,5 +1,7 @@
 # 批46:reforge render/assets/world 族 15 文件（零整改批）
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 范围：`render-scene.ts`(42)、`deferred-trigger.ts`(82)、`motion-batch.ts`(82)、`entity-walk.ts`(95)、`world-camera.ts`(118)、`follower.ts`(158)、`entity-lifecycle.ts`(208)、`motion-runtime-coordinator.ts`(211)、`motion-runtime-wiring.ts`(222)、`world-scene-presentation.ts`(370)、`render.ts`(619)、`assets.ts`(621)、`entity-action-player.ts`(781)、`world-motion-runtime.ts`(783)、`entity-motion.ts`(1403)。全文读毕。八维审查（A–H）全部通过,零源码改动、零 diff。
 
 ## 逐件结论（要点）

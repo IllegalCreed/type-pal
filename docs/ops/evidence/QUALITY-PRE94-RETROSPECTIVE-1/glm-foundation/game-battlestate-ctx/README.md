@@ -1,5 +1,7 @@
 # battle-state + battle-runtime-context B–G 补维（glm-foundation 模块 7 批 12）
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 Status: review（候选待 Codex 据证验收）
 Owner: GLM；基点 `53db76bbb` 线
 范围：`core/battle/battle-state.ts`（917 行）+ `core/battle/battle-runtime-context.ts`（99 行），**全文读毕**。A 维引用 Codex 3u 深切片（2026-10-18 state factory 专测返工,typed 工厂/九状态 role 映射/零槽活敌布局刚补强）+ 3u/w 清理链 caller;本批 B–G 补维,handler 现状定谳法。

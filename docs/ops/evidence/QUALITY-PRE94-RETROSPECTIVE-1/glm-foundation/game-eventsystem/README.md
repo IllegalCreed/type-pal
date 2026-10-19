@@ -1,5 +1,7 @@
 # game core event-system.ts 大文件补维（glm-foundation 模块 5 批 7）
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 Status: review（候选待 Codex 据证验收）
 Owner: GLM；基点 `53db76bbb` 线（body 基准=批6提交后 HEAD）
 范围：`core/event-system.ts`（5117 行**全文读毕**）。A 维引用 Codex 3r 深切片（5973 行主测试全文对照 script.c/play.c/scene.c/text.c/global.h）+ 后续多轮注释审计批;本批 B–G 补维。

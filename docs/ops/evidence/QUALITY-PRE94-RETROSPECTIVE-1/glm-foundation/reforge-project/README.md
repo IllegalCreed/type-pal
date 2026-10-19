@@ -1,5 +1,7 @@
 # 批47:reforge project/IO 族 15 文件（零整改批）
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 范围：`file-source.ts`(54)、`fsa-source.ts`(66)、`project-image-cache.ts`(65)、`project-save-state.ts`(76)、`startup-entry.ts`(63)、`scene-resources.ts`(72)、`scene-entry-session.ts`(82)、`scene-switch-transaction.ts`(105)、`runtime-input-router.ts`(56)、`scene-preparer.ts`(218)、`runtime-frame-session.ts`(189)、`runtime-project-view.ts`(288)、`project-map.ts`(463)、`project-loader.ts`(532)、`index.ts`(362)。全文读毕。八维审查（A–H）全部通过,零源码改动、零 diff。
 
 ## 逐件结论（要点）

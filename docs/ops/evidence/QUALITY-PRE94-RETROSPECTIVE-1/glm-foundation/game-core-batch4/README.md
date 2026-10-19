@@ -1,5 +1,7 @@
 # game core 3o/3n 余量四件复审（glm-foundation 模块 5 批 4）
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 Status: review（候选待 Codex 据证验收）
 Owner: GLM；基点 `53db76bbb` 线（body 基准=批3提交后 HEAD）
 范围：`core/{player-poison-state,scene-system-search,palette-fade,scene-identity}.ts`（142/98/328/13 行）。均处 Codex 3o/3n+后续审计深切片范围（palette-fade 另经数值审计与 ColorFade 输入域两轮），本批为 B–G 补维轮。

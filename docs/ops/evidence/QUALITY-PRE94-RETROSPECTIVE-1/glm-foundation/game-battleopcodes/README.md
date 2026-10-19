@@ -1,5 +1,7 @@
 # battle-opcodes.ts 大文件 B–G 补维（glm-foundation 模块 7 批 11）
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 Status: review（候选待 Codex 据证验收）
 Owner: GLM；基点 `53db76bbb` 线（diff 基准=批10提交后 HEAD）
 范围：`core/battle/battle-opcodes.ts`（1534 行**全文读毕**）。A 维引用 Codex 3t 深切片（4 专属测试 + summon slot reuse/cross-module/actions/magic-damage/throw-item/coop-magic/anim-timeline caller 对照 script.c/fight.c/battle.c）;本批 B–G 补维,handler 现状定谳法。

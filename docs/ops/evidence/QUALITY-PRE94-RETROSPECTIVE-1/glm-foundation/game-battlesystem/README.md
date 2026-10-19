@@ -1,5 +1,7 @@
 # game core battle-system.ts 大文件轮终章（glm-foundation 模块 5 批 8）
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 Status: review（候选待 Codex 据证验收）
 Owner: GLM；基点 `53db76bbb` 线（body 基准=批7提交后 HEAD）
 范围：`core/battle/battle-system.ts`（3131 行**全文读毕**）。A 维引用 Codex 3s 深切片（主 lifecycle/UI 测试 + cov85/GLM/runtime-context/finalization/settlement/state 全家对照 battle.c/fight.c/script.c/global.h）+ 2026-10-18 补审（supplementary-audit 含 save 排重漏迁修复）;本批 B–G 补维。

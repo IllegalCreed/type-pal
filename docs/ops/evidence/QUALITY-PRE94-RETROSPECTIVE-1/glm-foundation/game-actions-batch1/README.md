@@ -1,5 +1,7 @@
 # battle actions 家族四文件 B–G 补维（glm-foundation 模块 6 批 9）
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 Status: review（候选待 Codex 据证验收）
 Owner: GLM；基点 `53db76bbb` 线
 范围：`actions/{attack,attack-mate,defend,flee}.ts`（614/111/20/81 行全文读毕）。A 维引用 Codex 3v 深切片（attack/attack-mate/defend/flee 逐文件对照 fight.c/battle.c）;本批 B–G 补维,沿用 handler 现状定谳法。

@@ -1,5 +1,7 @@
 # 批44:reforge audio 族（1 处代码整改 + 3 文件零整改）
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 范围：`packages/reforge/src/audio/` 全部生产文件——`bgm.ts`（297行）、`sfx.ts`（297行）、`sfx-readiness.ts`（377行）、`midi-preview.ts`（353行）；`spessa-browser-runtime.ts`（43行）已在批41覆盖。八维审查（A正确性/B注释/C内聚/D复用/E测试/F可读/G简单/H可测）。
 
 ## 整改（1 处,G 简单性）

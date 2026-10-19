@@ -1,5 +1,7 @@
 # content-domain(领域模型层 20 文件)八维复审批
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 - 批次:pre-94 foundation 模块 12 批 33(content 包批 4)
 - 基线:origin/codex/code-quality-3y @ 53db76bbbb(候选线 67+ 提交)
 - Coding Owner:GLM;20 文件全文读毕(battle-field-reference 52/enemy-team 53/author-item-core 54/enemy-ai-condition-guard 58/shop 62/tileset 62/grid 66/stamp 77/migration-diagnostic 96/scene-index 97/map-index 107/entity-lifecycle 112/sprite 112/world-variable 116/enemy 128/runtime-scene 134/actor 138/poison 139/battle-choreography 146/author-script 159)

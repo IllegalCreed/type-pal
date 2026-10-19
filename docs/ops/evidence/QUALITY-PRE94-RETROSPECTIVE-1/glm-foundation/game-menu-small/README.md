@@ -1,5 +1,7 @@
 # game-menu-small(menu 小中件 11 文件 + battle-state 一注)八维复审批
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 - 批次:pre-94 foundation 模块 10 批 23(menu(core) 批 1,含原批 23/24 合并)
 - 基线:origin/codex/code-quality-3y @ 53db76bbbb(候选线 52+ 提交)
 - Coding Owner:GLM;11 文件全文读毕(menu-stack 32/menu-mode 33/script-desc 39/magic-select 56/player-status 58/opening-menu 74/inventory-action-menu 79/save-slot-menu 93/item-select 94/shop-menu 103/equip-menu 111/sell-menu 139/in-game-menu 141/primitives 176 — 实 15 文件)

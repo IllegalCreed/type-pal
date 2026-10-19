@@ -1,5 +1,7 @@
 # shared 纯类型/合同六文件复审（glm-foundation 模块 2）
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 Status: review（候选待 Codex 据证验收）
 Owner: GLM；基点 `53db76bbbb5729ba8bc6525bd7ad2ad4bb425c02`（阶段1集成后的最新 3y，fetch 后锁定；worktree 离线安装自建依赖图，跨包解析已修复）
 范围：`resources.ts`、`input.ts`、`index.ts`、`events.ts`、`tables.ts`、`pal-authored-map-names.ts`。开工核对：看板/四个已登记 worktree 无该范围未提交修改。

@@ -1,5 +1,7 @@
 # game core 小文件四件复审（glm-foundation 模块 5 批 3）
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 Status: review（候选待 Codex 据证验收）
 Owner: GLM；基点 `53db76bbb` 线（body 基准=assets 批2提交后 HEAD）
 范围：`core/{mode,dialog-history,word-lookup,script-catalog}.ts`（93/44/27/98 行）。开工核对无 Owner 冲突。四文件均处 Codex 3n/3o 深切片范围,本批为任务文件指定的 B–G 补维轮。

@@ -1,5 +1,7 @@
 # migrate-all(migrate 全包 34 生产文件)八维复审批 —— migrate 包收口批
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 - 批次:pre-94 foundation 模块 13 批 39(migrate 包唯一批,全文读毕后整包定谳)
 - 基线:origin/codex/code-quality-3y @ 53db76bbbb(候选线 74+ 提交)
 - Coding Owner:GLM;34 生产文件全文读毕(6032 行:io/供应/地图转换/事务/合并/发布/资产全链)

@@ -1,5 +1,7 @@
 # anim-timeline + battle-anim-driver + turn-queue B–G 补维（glm-foundation 模块 7 批 13）
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 Status: review（候选待 Codex 据证验收）
 Owner: GLM；基点 `53db76bbb` 线
 范围：`core/battle/{anim-timeline,battle-anim-driver,turn-queue}.ts`（2066/254/126 行）。anim-timeline 逐 builder 抽样精读（头/物理/PreMagic/OffMagic/EnemyMagic/召唤段）+ 全量导出 census;另两文件**全文读毕**。A 维引用既有深切片（3m/3t 期 fight.c 逐帧对照 + DL/DM/M6-M9/L12-22/W4/DH6 历次演出修复批）;本批 B–G 补维。

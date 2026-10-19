@@ -1,5 +1,7 @@
 # extract parsers 小件四文件复审（glm-foundation 模块 3 批 4）
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 Status: review（候选待 Codex 据证验收）
 Owner: GLM；基点 `53db76bbbb5729ba8bc6525bd7ad2ad4bb425c02` 线
 范围：`resources/parsers/{rix,sounds,rng-frames,data-misc}.ts`（16/29/36/102 行）。开工核对无 Owner 冲突；本轮 fetch 一次 SSL 瞬断（origin 仍 53db76bbb，自有线不受影响，模块收口重试）。

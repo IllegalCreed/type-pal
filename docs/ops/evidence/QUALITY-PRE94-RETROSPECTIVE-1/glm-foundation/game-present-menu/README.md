@@ -1,5 +1,7 @@
 # game-present-menu(present/menu 九文件)八维复审批
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 - 批次:pre-94 foundation 模块 8 批 18(present/menu 家族)
 - 基线:origin/codex/code-quality-3y @ 53db76bbbb(候选线 44+ 提交)
 - Coding Owner:GLM;九文件全文读毕(2401 行:confirm 48/opening-menu 70/box 191/shop 241/equip 279/magic 359/player-status 375/inventory 390/menu 448)

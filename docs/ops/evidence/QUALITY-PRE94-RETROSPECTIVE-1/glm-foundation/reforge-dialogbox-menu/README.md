@@ -1,5 +1,7 @@
 # 批43:reforge dialog-box / menu-box / menu-session（零整改批）
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 范围：`packages/reforge/src/dialog/dialog-box.ts`（490行全文）、`packages/reforge/src/menu/menu-box.ts`（652行全文）、`packages/reforge/src/menu/menu-session.ts`（544行全文）。八维审查（A正确性/B注释/C内聚/D复用/E测试/F可读/G简单/H可测）全部通过，零整改、零 diff。
 
 ## 逐文件结论

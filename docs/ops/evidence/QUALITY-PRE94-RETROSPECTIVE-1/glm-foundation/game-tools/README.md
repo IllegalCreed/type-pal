@@ -1,5 +1,7 @@
 # game-tools(tools 8 件 + speedrun 9 件 = 17 文件)八维复审批
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 - 批次:pre-94 foundation 模块 11 批 28
 - 基线:origin/codex/code-quality-3y @ 53db76bbbb(候选线 61+ 提交)
 - Coding Owner:GLM;17 文件全文读毕(map-names 11/save-io 26/display-scale 51/quick-save 61/toast 81/fps-overlay 110/minimap 487/tools-panel 1107 + speedrun: countdown 29/time-format 36/store 58/snapshot 58/detectors 76/checkpoints 110/index 116/overlay 120/timer 218)

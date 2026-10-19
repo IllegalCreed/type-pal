@@ -1,5 +1,7 @@
 # battle actions 续批四文件 B–G 补维（glm-foundation 模块 6 批 10）
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 Status: review（候选待 Codex 据证验收）
 Owner: GLM；基点 `53db76bbb` 线（body 基准=批9提交后 HEAD）
 范围：`actions/{magic,item,throw-item,coop-magic}.ts`（1076/118/158/387 行全文读毕）。A 维引用既有深切片(3m formulas/magic-damage + 后续 DL/DM/M6-M9/L17-L22/W4 修复批);本批 B–G 补维,handler 现状定谳法。

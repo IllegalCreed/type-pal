@@ -1,5 +1,7 @@
 # extract enemies + player-roles 复审（glm-foundation 模块 3 批 5）
 
+> Codex当前裁定（2026-10-19）：本页保留作者阶段证据，未获整包/全维收口验收；可复用范围、逐文件依据与未知项见[当前返工记录](../codex-stage2-rework.json)。
+
 Status: review（候选待 Codex 据证验收）
 Owner: GLM；基点 `53db76bbb` 线（body-invariance 基准=批4提交 c596dc89f,即三文件整改前状态）
 范围：`parsers/enemies.ts`（250）、`parsers/player-roles.ts`（275）,连带修 `shared/tables.ts` PlayerRole docblock 同源过时。开工核对无 Owner 冲突。
