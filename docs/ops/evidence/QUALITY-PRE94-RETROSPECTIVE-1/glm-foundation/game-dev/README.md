@@ -26,3 +26,12 @@
 ## 模块收口
 
 **game 包生产源码全部收口**(assets 5 + core 46 + present 29 + shell 22 + analytics 4 + tools 17 + dev 2 = 125 文件,b1-b29 累计)。下一站:content → migrate → reforge → editor 四包 → 94-102 返工。
+
+
+## Codex 剩余29文件返工（2026-10-20）
+
+原文“dev-panel无独立测试文件”错误；现有pure29与glm-next-wave4均实际运行，UI例含battle禁编辑/explore可编辑。仍不认证整个picker异步卸载；palette文案改为保持跳转前当前色表。
+
+逐文件八维、原件与限制见[本轮回执](../codex-final29.json)。本节不接收原文整包/模块收口宣称。
+
+补核pure.test旧574行后发现大量any/双强转夹具与私有stash访问，现以现成typed Enemy/Role工厂、完整Magic/Item、真cache及公开getBattleResources替换；物品样本改用合法61/62并同步等价库存oracle。29身份/断言合同保留，4UI+29pure重跑0stderr、三包typecheck0。1配置自检只给fixture输入信用，不单独计玩法验收。此前两次全仓覆盖率门均在这份夹具修复前执行且失败；未拿旧19,979绿数认证新夹具，未再跑昂贵门。

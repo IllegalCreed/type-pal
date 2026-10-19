@@ -43,3 +43,10 @@ A:presentFrame 七短路序(suspendRaf→paletteFade→deathHold→gameOver→bl
 1. `playMagicAnim` op 清理候选(magic.ts:278 emit 零消费)— 沿用前批登记
 2. `flashEnemy`/`flashPlayer`/`showBattleUI`/`clearDialogBox` 四死 union 成员(零 emit)清理候选 — 新增
 3. `showDialogBox`(event-system.ts:2111 emit、零消费)与 gs.dialogBox 直写通道并存的归约候选 — 新增
+
+
+## Codex 剩余29文件返工（2026-10-20）
+
+presentFrame会推进palette/wave等渲染态，不能沿用“只读gs，只有一处例外”的无界表述；BattlePresent.clearFloatingNums只清弹幕/消息条。逐文件C/H与时钟候选已登记。
+
+逐文件八维、原件与限制见[本轮回执](../codex-final29.json)。本节不接收原文整包/模块收口宣称。

@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,316。
-当前已闭合核验：228；已读但待审：130；尚未逐文件核验：2,958；合计未闭合：3,088。
+当前已闭合核验：215；已读但待审：154；尚未逐文件核验：2,947；合计未闭合：3,101。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -29,6 +29,8 @@ Template: governance-index-v1 / 1.0.0
 2026-10-20 GLM敌人/角色四文件：纠正名字索引/带版本行号等错注，补强OBJECT完整投影和非空全零角色断言；两旧产品关闭撤review，两专测从pending登记review，0新关闭。2个GLM实际改动源码补齐有限八维，累计7/41；不是83卡或包级验收。[原件与合同映射](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-enemy-role.json)。
 
 2026-10-20 GLM五处正文变化补证，战内复活漏审两红后修；两旧closed撤review，BGM从pending登记review，0新关闭。当前GLM12/41源码有详细记录，其余29注释源待核。[本轮返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json)。
+
+2026-10-20 GLM最后29个实际改动源已逐文件补有限八维/原件边界；13源文案纠正、event私有dither去重与两例测试补强。12个旧产品关闭和1个旧测试关闭遇具体B/E反证撤review，10个原未列产品pending及1个相邻dev测试pending登记review，0新关闭；41/41仅表示本次GLM变更源有详细记录，非全部83卡/全仓或文件accept。[本轮入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json)。
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
@@ -103,14 +105,14 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/src/resources/parsers/player-roles.ts` | product | review | [GLM敌人/角色四文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-enemy-role.json) | 错注已纠正、逐文件八维补核；输入策略/DTO保持，整阶段质量门仍待 |
 | `packages/pal-extract/src/resources/parsers/rgm.ts` | product | 已验证 | RGM header/RLE/PNG caller 与 tests | 空 chunk skip |
 | `packages/pal-extract/src/resources/parsers/rng-frames.ts` | product | 已验证 | shared RNG decoder + PNG adapter caller/fixtures | 不复制 codec |
-| `packages/pal-extract/src/resources/parsers/sounds.ts` | product | 已验证 | metadata pure mapping、SOUNDS caller/tests | 不解析 WAV 内容 |
+| `packages/pal-extract/src/resources/parsers/sounds.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；有限范围成立，统一门/原卡剩余项不授关闭；不升closed |
 | `packages/pal-extract/src/resources/parsers/spells.ts` | product | 已验证 | OBJECT magic/union fields、DATA magic callers/tests | 保持 scriptDesc offset contract |
 | `packages/pal-extract/src/resources/parsers/stores.ts` | product | 已验证 | 18B STORE guard、zero sentinel/real DATA tests | 不改 store IDs |
-| `packages/pal-extract/src/events/disasm.ts` | product | 已验证 | SSS raw disasm/roundtrip callers、事件全包与真实 bytecode | 未改 opcode 语义 |
+| `packages/pal-extract/src/events/disasm.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；有限范围成立，统一门/原卡剩余项不授关闭；不升closed |
 | `packages/pal-extract/src/events/recompile.ts` | product | 已验证 | roundtrip inverse 与全量 bytecode digest | 结构命令 fail-loud |
-| `packages/pal-extract/src/events/opcodes.ts` | product | 已验证 | opcode table 与 primary script.c、disasm/slice callers | raw fallback 保持 |
+| `packages/pal-extract/src/events/opcodes.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: opcode-type-exports；不升closed |
 | `packages/pal-extract/src/events/roundtrip.ts` | product | 已验证 | parseSss/parseMessages/disasm/recompile 真实入口 | mismatch 报告合同 |
-| `packages/pal-extract/src/font/bdf-to-json.ts` | product | 已验证 | BDF parser/glyph JSON tests 与 optional CLI caller | 非法行宽容合同已有反例 |
+| `packages/pal-extract/src/font/bdf-to-json.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: bdf-untrusted-input；不升closed |
 | `packages/pal-extract/src/io/mkf.ts` | product | 已验证 | shared MKF re-export、2,373 raw chunks、shared check | 无重复 codec |
 | `packages/pal-extract/src/io/rle.ts` | product | 已验证 | shared RLE re-export、extractor callers | 无重复 codec |
 | `packages/pal-extract/src/io/word.ts` | product | review | [WORD/GBK逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-stage3-word.json)；真实CLI/MSG/SDL与raw词条、11组新旧回归 | 修CASH/特殊词条注释、私有名与重复解码；flat/分类短输入策略及公共scenes字段保持，旧关闭不继承 |
@@ -122,7 +124,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/src/resources/palette.ts` | product | 已验证 | VGA/night color pins、short-input宽容既有合同、CLI caller | 不改变 palette mapping |
 | `packages/pal-extract/src/resources/scene.ts` | product | 已验证 | scene range dump/real resource tests、CLI caller | dense scene bounds |
 | `packages/pal-extract/src/resources/tables.ts` | product | 已验证 | parser barrel exports、all table callers/typecheck | 无运行时实现 |
-| `packages/pal-extract/src/cli.ts` | product | rework | [输出入口补审](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/entrypoint-followup/README.md)；911→919行全文、根命令/实际Node+tsx子进程、Node realpath primary | argv链接组件静默0先红后修；既有输出守卫保留，整CLI/统一门未闭合 |
+| `packages/pal-extract/src/cli.ts` | product | rework | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；有限范围成立，统一门/原卡剩余项不授关闭；不升closed |
 | `packages/pal-extract/src/cli-error-exits.kimi-r1.test.ts` | test | review | [C1共享输出反控](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/c1/README.md)；公开CLI子进程、symlink/marker/exit oracle | 新增OUT根与data父symlink两个轴；定向9/9、相邻包72/434通过；仍保留review，未以全绿自动关闭 |
 | `packages/pal-extract/src/output-boundary.ts` | product | review | [输出入口补审](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/entrypoint-followup/README.md)；25行全文、CLI及视频两真实caller、lstat合同 | 只纠正raw另检的失实注释；两输出节点守卫执行不变，不认证所有子项/TOCTOU |
 | `packages/pal-extract/src/output-boundary.test.ts` | test | review | [C1输出所有权合同](../tasks/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1.md)；prepareOutputRoot 与真实临时 symlink/marker oracle | 3 个合法/拒绝合同；不以独立单元绿灯替代 CLI 全链和统一门 |
@@ -168,12 +170,12 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/scripts/find-scenes-without-setpartypos.mjs` | product | review | scene/event/tilemap BFS 与写盘脚本直接读过 | 诊断生成器需后续 path/input 复核 |
 | `packages/pal-extract/audit-data-mkf.mjs` | product | review | [CODE82八维续审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json)；完整源码/Node入口/C结构与原盘byte-equal | 私有offset-only长度诊断、明确字段名/复用计数；保留standalone宿主边界；8定向+3相邻/真实业务反控，统一门待 |
 | `packages/pal-extract/src/audit-data-mkf.test.ts` | test | review | [CODE82八维续审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json)；全文8真实Node进程合同、精确身份/原件 | fixture/断言/8身份字节保持；STORE18→20触发指定业务AssertionError，隔离目录finally清理；不以绿灯关闭 |
-| `packages/game/src/assets/loader.ts` | product | 已验证 | CODE-QUALITY-3h；全量读取 loadAll/fetchPalette/SceneAssetsCache，真实 bootstrap caller、asset tests、game 定向测试 | fetch/status 与可选资源降级均有 caller；cache LRU/protect 合同保留，未发现直接缺陷 |
+| `packages/game/src/assets/loader.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: loader-six-skips；不升closed |
 | `packages/game/src/assets/tileset-blob.ts` | product | 已验证 | CODE-QUALITY-3h；gzip/raw blob、shared parseSpriteChunk、tileset/NPC/battle/magic callers 与 snapshot/load tests | gzip 魔数防双解压、HTTP 状态和帧 key 合同已有反例；未改资源格式 |
 | `packages/game/src/assets/png.ts` | product | 已验证 | CODE-QUALITY-3h；createImageBitmap/canvas/alpha mask caller 与 PNG failure/close tests | 解码失败保留 cause，bitmap finally close；未发现直接缺陷 |
 | `packages/game/src/assets/rle-decode.ts` | product | 已验证 | CODE-QUALITY-3h；shared codec re-export、dialog-assets base64 caller、identity tests | 无重复 codec；base64 非法输入继续 fail-loud |
 | `packages/game/src/shell/fetch-retry.ts` | product | rework | [CODE71/C1取消生命周期反例](../evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md)；main.ts唯一生产安装caller、audio-midi signal caller、Fetch Request/Abort primary | 旧实现退避不可取消、Request自定义reason会重复attempt；当前私有waitForRetry已修，最新main同步后待复跑；不关闭文件 |
-| `packages/game/src/shell/bootstrap.ts` | product | review | [工具缩略图/快捷键返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/tools-thumbnail-hotkeys/README.md)；1944行原源全文/两公开helper测试/真实main与tools caller；尺寸/F8-F4-F2/过时stub说明修正 | 原未列pending转review；AST/JS不变，CODE57 seam/色板/完整启动生命周期仍review，不授关闭 |
+| `packages/game/src/shell/bootstrap.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: bootstrap-context-design；不升closed |
 | `packages/game/src/shell/bootstrap-resources.ts` | product | 已验证 | CODE-QUALITY-3h；bootstrap.ts 真实 soundfont/resourcesReady caller、并发屏障和 rejection/degradation tests | soundfont 原始 rejection 与 settle barrier 分离；glyph 仅显式 tofu 降级；未发现直接缺陷 |
 | `packages/game/src/shell/fetch-retry.boundaries.test.ts` | test | review | [CODE71/C1取消生命周期反例](../evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md)；不同attempt Error/Response身份、Request/init signal与timer/listener oracle | 旧关闭撤回；当前修复待最新main同步后复跑，过期网关“拒绝”注释已校正 |
 | `packages/game/src/shell/fetch-retry.cancellation.test.ts` | test | review | [C1取消生命周期反控](../evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/README.md)；真实Request/AbortController、typed transport、原生构造错误与listener/timer oracle | 新增7例覆盖已取消Request、退避取消、显式signal/null覆盖；最新main同步后待复跑 |
@@ -186,7 +188,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/shell/boot-loading-host.grok-r1.test.ts` | test | 已验证 | [CODE72测试合同](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/README.md)；235行全文、合法typed IO/真实DOM、20例排重 | Request/init/Response、错误身份、分母、缺节点/定时与隔离；三枚旧绿新单红、相邻54绿/typecheck；无新统一门 |
 | `packages/game/src/shell/precache-ui.test.ts` | test | review | [CODE72失败进度反例](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/72-boot-loading/approved-fix/README.md)；全文/公开typed UI，necessary/full各指定单红→新绿 | 新两例有直接判别力；既有复合用例、真实timer清理及与host排重继续待核，不因58绿闭合 |
 | `packages/game/src/shell/audio-volume.ts` | product | 已验证 | CODE-QUALITY-3i；bootstrap 三通道 caller、storage/key tests、NaN negative control | 修复 NaN 音量进入 sink/localStorage；有限/0..1 合法行为不变 |
-| `packages/game/src/shell/trademark-fallback.ts` | product | 已验证 | CODE-QUALITY-3i；reference/sdlpal main.c:197-203、rng-player caller、trademark/splash framebuffer/timing tests | 只纠正过时 skipKeys 注释；DOS chunk 6/1000ms/600ms 行为未改 |
+| `packages/game/src/shell/trademark-fallback.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；有限范围成立，统一门/原卡剩余项不授关闭；不升closed |
 | `packages/game/src/shell/audio-volume.test.ts` | test | 已验证 | [CODE70音量测试](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/70-audio-volume/README.md)；49行全文、真实bootstrap/tools-panel caller、sink/state/storage oracle | clamp各输出/持久值、静音中改目标归main、取消恢复与启动回读；前后清理；相邻36绿/typecheck通过，无新统一门 |
 | `packages/game/src/shell/audio-volume.boundaries.test.ts` | test | 已验证 | [CODE70边界与key ownership](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/70-audio-volume/README.md)；100行全文、NaN/0/default/key独立合同 | 改正共享键读写注释、去除重复静音状态机；忽略keyMute旧6绿新7绿1指定AssertionError，恢复8绿；不改生产API |
 | `packages/game/src/tools/display-scale.ts` | product | 已验证 | [pre-94 CODE3j display-scale/fps复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3j-scale-fps/README.md)；canvas/localStorage/fullscreen callers、scale tests；NaN negative control | 修复 NaN 百分比写入 NaN CSS/storage；有限百分比 clamp/居中形态不变；本片未发现新缺陷 |
@@ -260,7 +262,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/present/menu/draw-inventory.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-49；49-draw-inventory；未知目录/filter/use-target 缺依赖反例 | 124 行全文核验三分支反例；范围执行通过；无弱化断言 |
 | `packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts` | test | review | CODE-QUALITY-49；49-draw-inventory；列表/live-zero/framebuffer/canvas pixel oracle | 全文核验约400行、12 tests；11通过，G06-A12 直接 `document.createElement` 在 node 环境 `ReferenceError: document is not defined`；未改环境/未静音，保留 review |
 | `packages/game/src/present/menu/inventory-desc-filter.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-49；49-draw-inventory；description/noDesc/filter framebuffer oracle | 全文核验描述行距、scriptDesc=0、noDesc、sellable/potion/important 过滤；与 P01/P02职责排重，执行通过 |
-| `packages/game/src/present/menu/draw-equip.ts` | product | 已验证 | CODE-QUALITY-48 当前复审；48-draw-equip；SDLPal `uigame.c:1793-2055`/`itemmenu.c:28-224`/`play.c:328-359`/`global.c:1175-1225`；draw-menu/present/equip-menu/menu-driver/inventory callers；P03 oracle | 279 行实现全文核验 list/pick-role/done ownership、equipable role 位、6 槽/5 stat、数量/颜色、资源缺失、party 顺序和 framebuffer 边界；直接3 files/16 tests、相邻9 files/167 tests、game typecheck通过；零数量差异只在不可达防御输入，未发现 direct defect |
+| `packages/game/src/present/menu/draw-equip.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: equip-single-party-rows；不升closed |
 | `packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts` | test | 已验证 | CODE-QUALITY-48；48-draw-equip；drawEquipMenu role/party/catalog 反例 | 124 行全文核验非顺序 party、roleId equipable 位、未知已装备/空槽/缺 role；直接3 files/16 tests通过；与 P03/像素职责不重复 |
 | `packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-48；48-draw-equip；真实 framebuffer/typed role/equipment oracle | 367 行全文核验单人框、done/未选/未知 id、越界 cursor、数量 0、灵力/防御/身法/吉运与 runtime count；直接3 files/16 tests通过；未弱化断言 |
 | `packages/game/src/present/menu/draw-box.ts` | product | 已验证 | CODE-QUALITY-47 当前复审；47-draw-box；SDLPal `ui.c:131-340,762-833`/`ui.h:195-254`；draw-menu/confirm/shop/magic/inventory/equip/battle-ui/dialog/settlement callers；framebuffer owner | 191 行实现全文核验 9-slice/single-line frame identity、几何、shadow/opaque 顺序、palette-0/透明孔、屏外裁剪、缺帧与宽度 helper；直接3 files/22 tests、相邻10 files/127 tests、game typecheck通过；未发现 direct defect；统一门待模块收口 |
@@ -286,9 +288,9 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/present/battle/draw-battle-effect.ts` | product | 已验证 | CODE-QUALITY-3l 当前复审；present-battle overlay caller、fight.c:2183/2188/2760、effect/pixel tests | 底中 anchor、opaque mask、缺资源/坏 frame no-op 逐文件核验；未发现直接缺陷 |
 | `packages/game/src/present/battle/draw-battle-num.ts` | product | 已验证 | CODE-QUALITY-3l 当前复审；present-battle showDamageNum caller、uibattle.c:1746-1767,1770-1808、num/pixel tests | 40ms age、0..10 寿命、y上移、5位 right align/颜色合同逐文件核验；未发现新直接缺陷 |
 | `packages/game/src/present/battle/draw-battle-settlement.ts` | product | 已验证 | CODE-QUALITY-3l 当前复审；present-battle caller、battle.c:991-1373、ui.c:640-732、settlement pixel tests | exp/cash/level/hidden-exp/learn-magic screens 的布局、文字、数字、mask 逐文件核验；未发现直接缺陷 |
-| `packages/game/src/present/battle/draw-battle-sprites.ts` | product | 已验证 | CODE-QUALITY-3l 当前复审；present-battle/battle-positions caller、battle/fight/uibattle/palcommon primary、sprite pixel/leaves tests | target highlight、idle/death/fade、color shift、Y-sort/opaque mask/边缘裁剪逐文件核验；未发现直接缺陷 |
-| `packages/game/src/present/battle/draw-battle-ui.ts` | product | 已验证 | CODE-QUALITY-3l 当前复审；present-battle caller、player-poison-state mapper、uibattle/magicmenu/itemmenu primary、UI pixel/leaves tests | dialog/escape/auto early return、menu/target/status layers、party-slot poison color、grid/MP/amount layout 逐文件核验；未发现直接缺陷 |
-| `packages/game/src/present/battle/present-battle.ts` | product | 已验证 | CODE-QUALITY-3l；battle.c scene order、screen-wave/shake/dither callers、present-battle tests | bg→wave→sprites→nums→UI→fade/shake 装配顺序直接核对 |
+| `packages/game/src/present/battle/draw-battle-sprites.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；有限范围成立，统一门/原卡剩余项不授关闭；不升closed |
+| `packages/game/src/present/battle/draw-battle-ui.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: draw-ui-unused-param；不升closed |
+| `packages/game/src/present/battle/present-battle.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: render-clock-design、bus-contract-cleanup；不升closed |
 | `packages/game/src/present/battle/__tests__/draw-battle-bg.test.ts` | test | 已验证 | CODE-QUALITY-3l；背景写入/低 nibble shift 合同 | 直接 framebuffer oracle |
 | `packages/game/src/present/battle/__tests__/draw-battle-effect.test.ts` | test | 已验证 | CODE-QUALITY-3l；overlay anchor/mask/缺资源合同 | 直接 framebuffer oracle |
 | `packages/game/src/present/battle/__tests__/draw-battle-num.test.ts` | test | 已验证 | CODE-QUALITY-3l；floating nums age/position/clear 合同 | 真实 layer caller |
@@ -305,7 +307,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/present/battle/battle-ui-pixels.grok-r1.test.ts` | test | 已验证 | CODE-QUALITY-3l；battle UI pixel/early-return 证据 | 高判别力像素 oracle |
 | `packages/game/src/core/battle/formulas.ts` | product | review | [公式数值/注释与测试返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/formula-numeric-audit/README.md)；源全文/原C FLOAT与WORD中间赋值/真实caller；1:1和玩家等级坏注撤回 | 正常域TS160/C161直接counter另开GAME-MAGIC-NUMERIC-ASSIGNMENT-1；执行未改、旧关闭转review |
 | `packages/game/src/core/battle/magic-damage.ts` | product | review | [公式数值/注释与测试返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/formula-numeric-audit/README.md)；源全文/真实公开GS hydrate→projection→createBattleState→applyMagicDamage与真实SeedableRng | 随机半开与C端点分清、抗性倍率[0,5]及投影前提订正；去注释TS/JS不变，既有review保持 |
-| `packages/game/src/core/battle/actions/magic.ts` | product | review | [pre-94机制返工](../evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md) | 完整读取；预掷与防御姿不受伤害门控，脚本失败/其它演出边界和整文件仍review |
+| `packages/game/src/core/battle/actions/magic.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: bus-contract-cleanup、large-action-design；不升closed |
 | `packages/game/src/core/battle/simulated-magic-target.ts` | product | review | [pre-94机制返工](../evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md) | 内部模拟选靶共用helper；显式/全体/上次活敌/全灭分支定向已测；统一门仍待 |
 | `packages/game/src/core/battle/__tests__/magic-parity.test.ts` | test | review | [pre-94机制返工](../evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md) | 真实runScript/throw/performMagic及动画driver；合法typed输入、手算伤害、15定向与五精确反控；统一门仍待 |
 | `packages/game/src/core/battle/status.ts` | product | 已验证 | CODE-QUALITY-3m 3m-status；fight.c:1632-1661、battle-system turn-end caller、battle-finalization、status/actions/state-machine tests | 全 status counter tick；敌方按 SDLPal 全槽位递减（含死槽）；canAct/canCast 与 <=999 清理边界已核；3m 整卡仍 partial |
@@ -332,17 +334,17 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/player-poison-state.ts` | product | review | [毒/升级注释与夹具](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md)；全文/真实装备与opcode caller/原C；CureKind及Wear/首空槽注释勘误 | 非压缩/全槽去重差异保持review，GAME-PLAYER-POISON-SLOT-COMPACTION-1只读；未改状态、schema或接口 |
 | `packages/game/src/core/scene-system-search.ts` | product | review | [本片直接证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/README.md)；完整源码/专测、生产caller与原C | 阈值方向坏注释已修，可执行代码不变；本片源码/primary/caller重读，统一门/整文件待续 |
 | `packages/game/src/core/scene-system.ts` | product | review | [GLM正文删除与复活返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json) | 按作者有效证据补逐文件八维；文案/授权复活窄修已核，不改其它卡状态 |
-| `packages/game/src/present/dialog-box.ts` | product | 已验证 | CODE-QUALITY-42 当前复审；42-dialog-box；SDLPal text.c:1208-1815/uigame.c:878-930；event-system/menu/present callers | 958 行实现全文核验；先行 narration `~NN` 反例失败后修复为 `!isDialog` 才计尾暂停；分页、title/portrait、Confirm/userSkip、key icon、narration/item-box、资源降级与 framebuffer ownership 对齐；定向83例、game typecheck通过；相邻像素环境诊断保留，coverage/全仓门未在本小批运行 |
+| `packages/game/src/present/dialog-box.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；有限范围成立，统一门/原卡剩余项不授关闭；不升closed |
 | `packages/game/src/present/dialog-box.test.ts` | test | 已验证 | CODE-QUALITY-42 当前复审；42-dialog-box；真实 dialog-box public exports、framebuffer/font/present oracle | 761 行全文核验；控制符/分页/墙钟/尾暂停/Confirm、像素/头像/icon/item-box 合同；定向83例通过；未发现重复或弱断言 |
 | `packages/game/src/present/dialog-box.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-42 当前复审；42-dialog-box；公开 parser/title/reset caller 与 text.c oracle | 84 行全文核验；新增 narration `~NN` 反例在修复后通过，title/reset 合同保持；定向83例通过 |
-| `packages/game/src/core/event-system.ts` | product | 已验证 | CODE-QUALITY-3r 当前复审；3r-event-system；script.c:30-307,608-750,1140-1410,1600-1815,1850-1990,2050-2145,2290-2385,2385-2555,2570-2775,2970-3070；play.c:56-238；scene.c:779-930；mode/bootstrap/scene/menu callers | 5,117 行完整读取；global ip、auto/event/runScript、waiting/fade/modal、scene/battle/menu resume、raw opcode、对象解析与移动逐段核验；game package 321 files/3,619 tests、typecheck通过，未发现新 direct defect；coverage/ratchet/protected/full check 未在本小批运行 |
+| `packages/game/src/core/event-system.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: event-wide-context；不升closed |
 | `packages/game/src/core/battle/battle-opcodes.ts` | product | review | [GLM正文删除与复活返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json) | 按作者有效证据补逐文件八维；文案/授权复活窄修已核，不改其它卡状态 |
 | `packages/game/src/core/battle/__tests__/battle-opcodes.test.ts` | test | review | [pre-94机制返工](../evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md)；SDL fight.c/script.c、真实runScript/action caller、手算oracle | 全文重读；投掷fixture补真实runtime，精确伤害断言保留；其余any/无崩类oracle与排重待核 |
 | `packages/game/src/core/battle/battle-opcodes.cov85.test.ts` | test | review | [GLM正文删除与复活返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json) | 两真实红例后修复；旧56身份保留加1，整体E与统一门未代签 |
 | `packages/game/src/core/battle/battle-opcodes.glm-next-wave.test.ts` | test | 已验证 | CODE-QUALITY-3t；70 行全文、0x05/0x8E dialog clear 与 0x6B signed blow-away primary contract | 清框只影响下一段对白、SHORT 负值边界与 negative control |
 | `packages/game/src/battle-summon-slot-reuse.glm-q.test.ts` | test | 已验证 | CODE-QUALITY-3t；203 行全文、0x9E 战中死亡空槽复用/对象身份/阵型重算 oracle | 活槽不复用、毒/身份清理与阵型锚点反例 |
-| `packages/game/src/core/game-state.ts` | product | review | [投影与宿主错注](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/runtime-projection-comments/README.md)；2111行全文及公开投影/HPMP回写、实际caller/原C | 裸基础值/effect快照/状态ownership错注更正，无执行或schema变化；其余场景/存档/异步字段与旧测试强转继续待核 |
-| `packages/game/src/core/battle/battle-state.ts` | product | review | [state工厂复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/README.md)；916行实现全文；真实startBattle/九状态/快照/坐标与C | 实现字节未改；动画/UI类型全caller、元数据与极端域仍待，不关闭 |
+| `packages/game/src/core/game-state.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；有限范围成立，统一门/原卡剩余项不授关闭；不升closed |
+| `packages/game/src/core/battle/battle-state.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；有限范围成立，统一门/原卡剩余项不授关闭；不升closed |
 | `packages/game/src/core/battle/battle-runtime-context.ts` | product | review | [pre94 finalization/runtime复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-3w-finalization/README.md)；98行全文、真实start/finalize及资源/可写投影/runner归属 | 只修“只读表”坏注；公开stash结构不改，跨owner反控支持有限隔离，整卡未闭合 |
 | `packages/game/src/core/battle/__tests__/battle-state.test.ts` | test | review | [state工厂复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/README.md)；383行原测全文，现340行；九状态role/局部owner/资源隔离与typed工厂 | 枚举无业务撤销，JSON改真实隔离，快照合并保全；六旧绿新单红，整卡未完 |
 | `packages/game/src/core/battle/battle-state.glm-next-wave.test.ts` | test | review | [state工厂复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/README.md)；81行原测全文，现82行；合法MP/零槽与实际活敌layout oracle | 快照迁主测有双红保全，4→3排重；旧关闭重开review，0新增关闭 |
@@ -360,8 +362,8 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/core/mode.test.ts` | test | 已验证 | CODE-QUALITY-3o；mode/frame/autoScript/event dispatch contracts | main loop dispatch oracle |
 | `packages/game/src/core/scene-system-search.test.ts` | test | review | [本片直接证据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/README.md)；完整源码/专测、生产caller与原C | 旧normal/far/first-hit声明不实；现12例及六旧绿新单红，保持review不以通过数恢复整文件 |
 | `packages/game/src/core/scene-system.test.ts` | test | 已验证 | CODE-QUALITY-3q 3q-scene-system；真实 tickSceneSystem/tickEventSystem/SceneAssetsCache/setGlobalEvents caller，play.c/scene.c/map.c oracle | 2064行全文重读；方向/顺序、4..8 trigger、vanish/revive、blocker push、tile h/bit13、trail/步态、loadScene/cache/onEnter、TouchFar 死锁和 invalid-label 反例均有高判别力合同；相邻warning仍待统一清零 |
-| `packages/game/src/core/event-system.test.ts` | test | 已验证 | CODE-QUALITY-3r 当前复审；3r-event-system；真实 tickEventSystem/tickAutoScripts/runScript/runEnterScript callers，script.c/play.c/scene.c/text.c oracle | 5,974 行主测试全文核验；dialog/wait/confirm/end、battle fallback、global ip/call、移动/镜头/fade、scene/item/poison/object 条件与特效生命周期合同完整；当前 package test 321 files/3,619 tests通过，未以覆盖率或旧全仓回执替代本轮证据 |
-| `packages/game/src/core/battle/battle-system.ts` | product | review | [投影与宿主错注](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/runtime-projection-comments/README.md)；3141行全文及bootstrap/effect/状态/cleanup caller；自动评分/选靶/入场/队列错注已修 | 删除虚假快照/音效时序等价信用，186例只回归；生命周期其余轴/视觉/统一门仍待，旧源关闭转review |
+| `packages/game/src/core/event-system.test.ts` | test | review | [两例oracle返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 原329门带2stderr；缺标签精确告警/合法音效等待结果补强，身份329不增；不代表其余324主测逐例再审，原closed撤review |
+| `packages/game/src/core/battle/battle-system.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: battle-system-count、large-state-machine-design；不升closed |
 | `packages/game/src/core/battle/__tests__/battle-system.test.ts` | test | review | [pre-94机制返工](../evidence/QUALITY-BATTLE-MAGIC-PARITY-1/README.md)；SDL fight.c/script.c、真实runScript/action caller、手算oracle | 3s本会话全文读取后SHA未变；本次补读caller/投掷场景并补裸runtime，未重新认证全4248行 |
 | `packages/game/src/core/battle/battle-system.cov85.test.ts` | test | 已验证 | CODE-QUALITY-3s 当前复审；3s-battle-system；公开 startBattle/tickBattle/tickEnemyIdleGestures callers，battle.c/fight.c oracle | 330 行 branch guard/phase/idle/资源缺失/settlement contracts；两个 console.error spy 已用 try/finally 恢复；定向9 files/242 tests通过，coverage/全仓门未在本小批运行 |
 | `packages/game/src/core/battle/battle-system.glm-next-wave.test.ts` | test | review | [3w战后脚本复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md)；123→153行全文、三原例保持、真实turnStart/won/PhaseE/dialog/finalize | DL23补活敌双脚本/零击杀奖励/槽caster/掉落一次；四旧3绿新2绿1指定红，不冒充原盘result3可达 |
@@ -379,7 +381,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/reforge/src/menu/menu-box.residual.glm.test.ts` | test | review | CODE-QUALITY-105；Codex 当前逐文件复核 MenuBox.render 公开 caller、R1/R2/S1/S2/S3 合同与 K1–K5 反控 | 25/25 定向通过；menu 相邻 118/118 但 reward-gain 未 await 诊断；coverage/unified 门仍阻塞，保持 review |
 | `packages/reforge/src/menu/reward-gain-queue.boundaries.test.ts` | test | review | CODE-QUALITY-106；真实 RewardGainQueue.present/handleRewardGainInput caller、Promise resolve/AbortError oracle | 定向5/5、相邻21/118零 stderr；全仓 coverage 仍待批次收口，保持 review |
 | `packages/game/src/core/menu/primitives.ts` | product | review | CODE-QUALITY-107；SDLPal ui.c:510-572 cursor、真实 menu/battle/inventory caller、E-4 test-only page API | 纯状态 helper 已完整读取；定向/相邻证据待批次收口，E-4 不删公共出口 |
-| `packages/game/src/core/menu/item-select.ts` | product | review | CODE-QUALITY-107；SDLPal itemmenu/play/uigame filter caller、typed Item/Inventory oracle、E-5 无生产 caller | filter/建表合同已完整读取；important 为工程近似，E-5 不删公共出口 |
+| `packages/game/src/core/menu/item-select.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: menu-factory-cleanup；不升closed |
 | `packages/game/src/core/menu/__tests__/primitives.test.ts` | test | review | CODE-QUALITY-107；Selection/Confirm/Triple/Switch 主干与公开 helper oracle | 7 文件定向 78 tests；相邻有 2 条白名单外预期 stderr，保持 review |
 | `packages/game/src/core/menu/primitives.boundaries.test.ts` | test | review | CODE-QUALITY-107；空表/单项/跨页视窗/输入不改写 oracle | 7 文件定向 78 tests；未将 test-only page API 当产品真值 |
 | `packages/game/src/core/menu/primitives.glm-phase1-leaves.test.ts` | test | review | CODE-QUALITY-107；pageUp/down 现状、全 disabled、负 cursor、identity oracle | 7 文件定向 78 tests；E-4 保留待另卡 |
@@ -406,6 +408,17 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/src/resources/parsers/__tests__/enemies.boundaries.test.ts` | test | review | [GLM敌人/角色四文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-enemy-role.json) | 既有合同补强；旧绿/新红业务反控成立，统一门仍待 |
 | `packages/pal-extract/src/resources/parsers/__tests__/player-roles.boundaries.test.ts` | test | review | [GLM敌人/角色四文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-enemy-role.json) | 既有合同补强；旧绿/新红业务反控成立，统一门仍待 |
 | `packages/reforge/src/audio/bgm.ts` | product | review | [GLM正文删除与复活返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json) | 按作者有效证据补逐文件八维；文案/授权复活窄修已核，不改其它卡状态 |
+| `packages/content/src/index.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；有限范围成立，统一门/原卡剩余项不授关闭；不升closed |
+| `packages/game/src/core/command-bus.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: bus-contract-cleanup；不升closed |
+| `packages/game/src/core/equip-effect.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；有限范围成立，统一门/原卡剩余项不授关闭；不升closed |
+| `packages/game/src/core/equipment-state.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: poison-compaction；不升closed |
+| `packages/game/src/core/menu/menu-driver.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: menu-factory-cleanup；不升closed |
+| `packages/game/src/dev/dev-panel.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: dev-lifecycle-design；不升closed |
+| `packages/game/src/present/draw-tilemap.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；有限范围成立，统一门/原卡剩余项不授关闭；不升closed |
+| `packages/game/src/present/menu/draw-player-status.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；有限范围成立，统一门/原卡剩余项不授关闭；不升closed |
+| `packages/game/src/present/present.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: render-clock-design；不升closed |
+| `packages/pal-extract/src/resources/parsers/rix.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；有限范围成立，统一门/原卡剩余项不授关闭；不升closed |
+| `packages/game/src/dev/dev-panel.pure.test.ts` | test | review | [GLM29相邻夹具返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 574行旧测全文补核；typed完整资源/真cache/公开runtime getter/联合类型替代any，29身份及业务断言保留；不授其它dev测试或产品关闭 |
 
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 CanonicalScriptBodyEditor→EntityAddressEditor caller、合法 EntityAddress 与自动改绑 oracle | 1合同/4定向测试通过；相邻测试有22条 React act诊断，保持 review，不标已验证 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 ItemTab/loader/EditSession/save-gate caller、R1/R3/R5 oracle | 3合同/4定向测试通过；相邻测试有22条 React act诊断，P1 puppet/battleOnly仍是产品裁决，保持 review |

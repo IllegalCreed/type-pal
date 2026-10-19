@@ -3113,8 +3113,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Focused GLM actual source deltas/caller/primary and existing author evidence;source5 A-H indexed,not another full83card audit",
-      "coreConclusion": "Six finite rows gain current evidence;scene B/H overclaim and cov85 missed equipment axis restore2closures toreview;BGM pending->review.3316tracked/228closed/130review/2958pending,0newclosed. Lost243subset unchanged;historical tail preserved.",
+      "readMethod": "Evidence-first actual GLM diff and named caller/oracle gaps;29per-file A-H. No repeated full83card reading.",
+      "coreConclusion": "Only29source rows and2adjacenttest rows advanced.12sourceBcounter+1testEcounter reopen historicalclosed;11previousunlisted pending gainreview.3316tracked/215closed/154review/2947pending,0newclosed. Source41records is not fileclosure. Historical tail preserved.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3265,11 +3265,31 @@
       "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "e218a3b5836eeb6bb28fadb13f2f0ade71c8e2e328a27a06cb909d4b58b69547",
+      "afterSha256": "159869d52edca0c8917e8590c720edf062c4ee685cfbc644c01748c5cd83de4e",
       "revision": {
         "currentSha": "addcb44c52fd00ab0fd3397e61ae316bf98d02e2aeef1d5533ed23a2c1e5845a",
-        "implementationSha": "e218a3b5836eeb6bb28fadb13f2f0ade71c8e2e328a27a06cb909d4b58b69547",
+        "implementationSha": "159869d52edca0c8917e8590c720edf062c4ee685cfbc644c01748c5cd83de4e",
         "history": [
+          {
+            "revision": "0de4844b2098767d0b88556aed36236b99c055dc",
+            "date": "2026-10-20",
+            "action": "GLM remaining29 finite A-H and current-ledger rework;preserve historical conclusions",
+            "previousAfterSha256": "e218a3b5836eeb6bb28fadb13f2f0ade71c8e2e328a27a06cb909d4b58b69547",
+            "scope": "Only29source rows and1adjacenttest row advanced.12sourceBcounter+1testEcounter reopen historicalclosed;10previousunlisted pending gainreview.3316tracked/215closed/153review/2948pending,0newclosed. Source41records is not fileclosure. Historical tail preserved.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json",
+            "notRun": [
+              "runtime/E2E/visual acceptance;wholewavegate results recorded separately in linked receipt"
+            ],
+            "previousCoreConclusion": "Six finite rows gain current evidence;scene B/H overclaim and cov85 missed equipment axis restore2closures toreview;BGM pending->review.3316tracked/228closed/130review/2958pending,0newclosed. Lost243subset unchanged;historical tail preserved.",
+            "previousEvidence": {
+              "kind": "codex-owned-glm-checkpoint-rework-and-current-ledger",
+              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json",
+              "afterSha256": "e218a3b5836eeb6bb28fadb13f2f0ade71c8e2e328a27a06cb909d4b58b69547",
+              "lineCount": 767
+            },
+            "previousReadMethod": "Focused GLM actual source deltas/caller/primary and existing author evidence;source5 A-H indexed,not another full83card audit",
+            "previousNextStep": "Continue remaining29comment-source GLM files and specific evidence gaps only;reuse supported native/A-E facts. Existing global editor/route blockers remain outside this finite fix;no main merge before unified clean."
+          },
           {
             "revision": "58589d26397be3980f0a968c3d01b0dd24a363b8",
             "date": "2026-10-20",
@@ -4060,10 +4080,10 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-glm-checkpoint-rework-and-current-ledger",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json",
-        "afterSha256": "e218a3b5836eeb6bb28fadb13f2f0ade71c8e2e328a27a06cb909d4b58b69547",
-        "lineCount": 767
+        "kind": "codex-owned-glm29-rework-and-current-ledger",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json",
+        "afterSha256": "159869d52edca0c8917e8590c720edf062c4ee685cfbc644c01748c5cd83de4e",
+        "lineCount": 780
       },
       "history": [
         {
@@ -4229,13 +4249,13 @@
       ],
       "successor": "Current route/workflow and original product task sources as explicitly linked; no old prompt executable.",
       "stopLine": "Do not infer current runtime/E2E/visual/coverage, product or old-test-quality acceptance from docs/record structure; preserve legal inputs and every original failure.",
-      "nextStep": "Continue remaining29comment-source GLM files and specific evidence gaps only;reuse supported native/A-E facts. Existing global editor/route blockers remain outside this finite fix;no main merge before unified clean.",
+      "nextStep": "Report closeout gates truthfully;keep explicit unknowns and other83/94-102work deferred. No main merge before unified0diagnostics.",
       "userVisibleBeforeAfter": {
         "before": "Actual3300 tracked paths with predecessor declared3294; six new docs tools not yet represented; stale live3292 prose retained from earlier maintenance.",
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "1-767",
+      "reviewedLines": "1-780",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {
@@ -4958,7 +4978,7 @@
           "completePriorObjectRetrievedAndCompared": true
         }
       ],
-      "reviewNotes": "\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: Only two already-withdrawn same-SHA annotation tests restored toreview;no new runtime execution,source changes or semantic closure.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit.\n2026-10-20: GLM enemy/role4file A-H,5+4old identities retained(one title mapping),11currentdirect/89rawadjacent0stderr;2oldgreen/newred assertion counters and first missing-SSS failure retained;0newclosed or unified gate credit.\n2026-10-20: GLM remaining5noncomment deltas accounted;revive2actual failures before fix;103+181+24current cases0stderr;oldconsole not invented. Only41-source checkpoint rework continues,0newclosed."
+      "reviewNotes": "\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: Only two already-withdrawn same-SHA annotation tests restored toreview;no new runtime execution,source changes or semantic closure.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit.\n2026-10-20: GLM enemy/role4file A-H,5+4old identities retained(one title mapping),11currentdirect/89rawadjacent0stderr;2oldgreen/newred assertion counters and first missing-SSS failure retained;0newclosed or unified gate credit.\n2026-10-20: GLM remaining5noncomment deltas accounted;revive2actual failures before fix;103+181+24current cases0stderr;oldconsole not invented. Only41-source checkpoint rework continues,0newclosed.\n2026-10-20 finite29changedsource+2testcase rework;41source records complete,0newclosed;test identity/native/limitations in linked receipt.\nLate dev pure574line E gap repaired:full typed fixtures/public runtime getter;33currentdev0stderr;wholecoverage receipts predate this test-only repair and remain failed,not final-green."
     },
     {
       "path": "docs/ops/audits/pre-e2e/coverage-determinism.md",

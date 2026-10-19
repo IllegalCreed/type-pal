@@ -457,9 +457,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Focused GLM actual source deltas/caller/primary and existing author evidence;source5 A-H indexed,not another full83card audit",
+      "readMethod": "Evidence-first actual GLM diff and named caller/oracle gaps;29per-file A-H. No repeated full83card reading.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Only pre94 and battle-counter current rows updated: user restricts active work to GLM checkpoint rework;12of41 changed sources have detailed records,29comments remain. Revive equipment retention red-first repaired;308current cases0stderr. Other83card/94-102 work not advanced;no whole-stage acceptance/main merge.",
+      "coreConclusion": "Only pre94 current row advances:29GLM changed sources now have finiteA-H records;41/41records,0newclosed.13comment sources repaired,private dither extraction/two-test oracle repairs. Whole-wave gates separately recorded;no83card/94-102expansion/main merge.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -468,14 +468,14 @@
       "unresolved": [
         "Historical product/coverage/unified gates remain outside this documentation-only integration."
       ],
-      "nextStep": "Continue remaining29comment-source GLM files and specific evidence gaps only;reuse supported native/A-E facts. Existing global editor/route blockers remain outside this finite fix;no main merge before unified clean.",
+      "nextStep": "Report closeout gates truthfully;keep explicit unknowns and other83/94-102work deferred. No main merge before unified0diagnostics.",
       "phase": "ops",
       "module": "board.md",
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "726874fc0d3e0752806b7799bf4a75cc37c2f7e1f631ea0a0ecea812e731c183",
+      "afterSha256": "161b638606d351720cc94aff49c0df3d4b7cf4c4ad96e1fa61f646f2b249c6ac",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -493,7 +493,7 @@
       "businessOracle": {
         "type": "authorized-document-content-and-real-route-template-consumers",
         "assertions": [
-          "Only pre94 and battle-counter current rows updated: user restricts active work to GLM checkpoint rework;12of41 changed sources have detailed records,29comments remain. Revive equipment retention red-first repaired;308current cases0stderr. Other83card/94-102 work not advanced;no whole-stage acceptance/main merge.",
+          "Only pre94 current row advances:29GLM changed sources now have finiteA-H records;41/41records,0newclosed.13comment sources repaired,private dither extraction/two-test oracle repairs. Whole-wave gates separately recorded;no83card/94-102expansion/main merge.",
           "One canonical cross-phase quality contract; entry/form instructions preserve actual task state and risk boundaries",
           "Current delta does not claim historical byte preservation or independent third-party/product execution acceptance"
         ]
@@ -504,10 +504,38 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "726874fc0d3e0752806b7799bf4a75cc37c2f7e1f631ea0a0ecea812e731c183",
+        "implementationSha": "161b638606d351720cc94aff49c0df3d4b7cf4c4ad96e1fa61f646f2b249c6ac",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "0de4844b2098767d0b88556aed36236b99c055dc",
+            "date": "2026-10-20",
+            "action": "GLM remaining29 finite A-H and current-ledger rework;preserve historical conclusions",
+            "previousAfterSha256": "726874fc0d3e0752806b7799bf4a75cc37c2f7e1f631ea0a0ecea812e731c183",
+            "scope": "Only pre94 current row advances:29GLM changed sources now have finiteA-H records;41/41records,0newclosed.13comment sources repaired,private dither extraction/two-test oracle repairs. Whole-wave gates separately recorded;no83card/94-102expansion/main merge.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json",
+            "notRun": [
+              "runtime/E2E/visual acceptance;wholewavegate results recorded separately in linked receipt"
+            ],
+            "previousCoreConclusion": "Only pre94 and battle-counter current rows updated: user restricts active work to GLM checkpoint rework;12of41 changed sources have detailed records,29comments remain. Revive equipment retention red-first repaired;308current cases0stderr. Other83card/94-102 work not advanced;no whole-stage acceptance/main merge.",
+            "previousEvidence": {
+              "kind": "codex-owned-glm-checkpoint-rework-and-current-ledger",
+              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json",
+              "afterSha256": "726874fc0d3e0752806b7799bf4a75cc37c2f7e1f631ea0a0ecea812e731c183",
+              "lineCount": 97
+            },
+            "previousReadMethod": "Focused GLM actual source deltas/caller/primary and existing author evidence;source5 A-H indexed,not another full83card audit",
+            "previousNextStep": "Continue remaining29comment-source GLM files and specific evidence gaps only;reuse supported native/A-E facts. Existing global editor/route blockers remain outside this finite fix;no main merge before unified clean.",
+            "previousBusinessOracle": {
+              "type": "authorized-document-content-and-real-route-template-consumers",
+              "assertions": [
+                "Only pre94 and battle-counter current rows updated: user restricts active work to GLM checkpoint rework;12of41 changed sources have detailed records,29comments remain. Revive equipment retention red-first repaired;308current cases0stderr. Other83card/94-102 work not advanced;no whole-stage acceptance/main merge.",
+                "One canonical cross-phase quality contract; entry/form instructions preserve actual task state and risk boundaries",
+                "Current delta does not claim historical byte preservation or independent third-party/product execution acceptance"
+              ]
+            }
+          },
           {
             "revision": "58589d26397be3980f0a968c3d01b0dd24a363b8",
             "date": "2026-10-20",
@@ -1596,9 +1624,9 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-glm-checkpoint-rework-and-current-ledger",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json",
-        "afterSha256": "726874fc0d3e0752806b7799bf4a75cc37c2f7e1f631ea0a0ecea812e731c183",
+        "kind": "codex-owned-glm29-rework-and-current-ledger",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json",
+        "afterSha256": "161b638606d351720cc94aff49c0df3d4b7cf4c4ad96e1fa61f646f2b249c6ac",
         "lineCount": 97
       },
       "history": [
@@ -1687,7 +1715,7 @@
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
       "reviewedLines": "1-97",
-      "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-18: user requests one large delegated task to reduce relays; no quality/risk rule weakened.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit.\n2026-10-20: GLM enemy/role4file A-H,5+4old identities retained(one title mapping),11currentdirect/89rawadjacent0stderr;2oldgreen/newred assertion counters and first missing-SSS failure retained;0newclosed or unified gate credit.\n2026-10-20: GLM remaining5noncomment deltas accounted;revive2actual failures before fix;103+181+24current cases0stderr;oldconsole not invented. Only41-source checkpoint rework continues,0newclosed.",
+      "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-18: user requests one large delegated task to reduce relays; no quality/risk rule weakened.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit.\n2026-10-20: GLM enemy/role4file A-H,5+4old identities retained(one title mapping),11currentdirect/89rawadjacent0stderr;2oldgreen/newred assertion counters and first missing-SSS failure retained;0newclosed or unified gate credit.\n2026-10-20: GLM remaining5noncomment deltas accounted;revive2actual failures before fix;103+181+24current cases0stderr;oldconsole not invented. Only41-source checkpoint rework continues,0newclosed.\n2026-10-20 finite29changedsource+2testcase rework;41source records complete,0newclosed;test identity/native/limitations in linked receipt.",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-12",

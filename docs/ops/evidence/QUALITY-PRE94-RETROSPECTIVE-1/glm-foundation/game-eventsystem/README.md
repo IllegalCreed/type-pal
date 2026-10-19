@@ -31,3 +31,10 @@ grep -n '已真实现\|已按真值实现\|已完整实现' "$WT/packages/game/s
 ```
 
 失效条件:实现变化 → 重测;六处对应 handler 语义再变 → 常量注复核;3r 证据链依赖变化 → 重估。
+
+
+## Codex 剩余29文件返工（2026-10-20）
+
+已提取0x73/0x9B相同dither起点为私有startDitherFade，speed/墙钟/清理/IP协议不变；不是仅注释批。先329基线带2stderr，再窄修两例fixture/oracle，329零stderr后重构，重构后329零stderr。首条新断言把undefined误认[]的作者失败保留，不冒称产品red。
+
+逐文件八维、原件与限制见[本轮回执](../codex-final29.json)。本节不接收原文整包/模块收口宣称。

@@ -45,3 +45,10 @@ cd "$WT/packages/pal-extract" && ../../node_modules/.bin/vitest run src/resource
 ## Codex当前勘误与接管（2026-10-19）
 
 本片原tables加载失败保持，不作为整门通过。后续extract-spells-teams-items的89/89原生报告只恢复tables.ts套件本身；不能据其补word.test.ts信用，word另由Codex当前8例恢复。历史缺console的静态/运行时零诊断不补造。 [当前返工与限制](../codex-stage2-rework.json)。
+
+
+## Codex 剩余29文件返工（2026-10-20）
+
+本片34例原件并未运行rix/sounds直接测试，不能给两文件直接测试信用；Codex现补两文件4+1=5例，0stderr。旧tables加载失败保持，不改写历史。
+
+逐文件八维、原件与限制见[本轮回执](../codex-final29.json)。本节不接收原文整包/模块收口宣称。

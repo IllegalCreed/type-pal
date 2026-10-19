@@ -27,6 +27,10 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 
 ## 当前推进
 
+本轮收尾：定向最终406次执行（404唯一文件/完整名称，RIX三参数行同名有映射），三包typecheck与lint静态零诊断。全仓check在125文档工具测试后因e2e-route复核日期过期退出1；official ratchet与protected fast均在7包19,979例通过后因pal-extract/reforge六项比例回退退出1，基线/规则未改。这两次昂贵门早于最后dev typed夹具修复，不认证新夹具全仓覆盖；新夹具33例与typecheck单独实跑。统一门未过，未合main；其它83卡/94–102保持暂停扩展。
+
+用户2026-10-20明确设定当前有限目标：处理GLM剩余29个实际改动源码。Codex为唯一Coding Owner，仍在codex/code-quality-3y；依证验收，不重复全部全文/定向测试。29文件逐项八维与具体caller/oracle现已登记，28源正文不变、event-system仅私有同合同抽取；2相邻测试文件返工（主测两例oracle；dev pure29用例typed夹具），13源文案修正。41/41是GLM改动源详细记录分母，零文件新关闭，原未修候选仍review；整体昂贵门在本波结束集中执行，结果与限制见[本轮回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json)。其它83卡及94–102不展开。
+
 83卡当前全量accept=0、56partial/27pending；6a、92、CODE1 RLE、CODE2 MKF/RNG、CODE2b YJ2、3b SSS/MSG、3c动画清理、3d PNG、3g CLI、3h assets/shell、CODE71 fetch取消与测试、CODE3/3f切分与标注已有逐文件证据与有限返工，仍partial、统一门待续。CODE75已有MIDI重复退役局部证据，仍不等于该卡整文件复审结束。CODE82两文件八维续审与私有诊断重构见末尾。其它卡既有抽查/旧卡证据按历史保留，当前未完成项仍pending/partial。每卡范围须由全文读取后人工核定；清单生成只抽取文本和字节SHA，不伪装为语义阅读。
 
 原[大型持续任务](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-pre94-foundation-goal.md)范围保留，当前本批由Codex接手GLM后续大包返工并继续pre94缺维；内部小片连续执行，不逐片等用户转话。RLE文案终验已接收，高风险算法/格式与未知仍冻结，不批量升格。唯一集成分支仍为codex/code-quality-3y，贡献者使用一个新鲜临时detached worktree，避免新增长期分支。

@@ -37,3 +37,10 @@ node "$WT/docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/prove-b
 ```
 
 失效条件:三文件实现变化 → 重证;blob 管线/CDN 行为变化 → 双解压防御注释复核。
+
+
+## Codex 剩余29文件返工（2026-10-20）
+
+原生 directed.json 实为38passed+6pending；此前0failed不等于零skip。新增文案只描述loadAll当前warn+skip，不再称既定可玩策略。缺blob输入的6项不取得对拍信用。
+
+逐文件八维、原件与限制见[本轮回执](../codex-final29.json)。本节不接收原文整包/模块收口宣称。

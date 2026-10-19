@@ -32,3 +32,10 @@ grep -n 'scriptOnReady 在 performAction 期' "$WT/packages/game/src/core/battle
 ```
 
 失效条件:实现变化 → 重测;phase/hold 优先级或 ValidateAction 链变化 → 3s 证据重估。
+
+
+## Codex 剩余29文件返工（2026-10-20）
+
+本目录可核附件只有39passed/3files，不能支撑正文68例；多出的29例没有对应原件，撤回该数字的本片信用，保留原README与原件。此前3s与后续复活各有独立有限证据，不合计冒称新跑全包。
+
+逐文件八维、原件与限制见[本轮回执](../codex-final29.json)。本节不接收原文整包/模块收口宣称。
