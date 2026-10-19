@@ -129,8 +129,6 @@ export function createBgmPlayerWithRuntime(
   let ready = false
   let last: { asset: AssetId; loop: boolean; fadeInMs: number } | undefined
   let playing: AssetId | undefined
-  /** K5:进行中的换曲目标(readBytes/fade-out 窗口);同曲守卫命中时用于取消换向其他曲的请求。 */
-  let inflightTarget: AssetId | undefined
   let resuming = false
   let enabled = true // 音乐开关(系统菜单);关时 play 只记账不出声
   let requestSerial = 0
@@ -147,7 +145,6 @@ export function createBgmPlayerWithRuntime(
     fadeInMs: number,
   ): Promise<void> {
     if (!seq || !enabled) return
-    inflightTarget = asset
     if (ctx.state === 'suspended') await ctx.resume().catch(() => {})
     if (!isCurrent(serial, asset, loop)) return
     let binary: ArrayBuffer
@@ -161,7 +158,6 @@ export function createBgmPlayerWithRuntime(
     const swap = (): void => {
       const sequencer = seq
       if (!sequencer) return
-      inflightTarget = undefined
       sequencer.loadNewSongList([{ binary, fileName: asset }])
       sequencer.loopCount = loop ? Infinity : 0
       sequencer.play()
@@ -218,7 +214,6 @@ export function createBgmPlayerWithRuntime(
         // 同曲也是一次完整接管：取消换曲/stop 的旧 serial 与仍在 AudioParam 上的 ramp，
         // 恢复全增益，但绝不 reload/restart 当前 MIDI。
         requestSerial++
-        if (inflightTarget !== undefined) inflightTarget = undefined
         seq?.cancelFade()
         seq?.fadeTo(1, 0)
         return // 同曲不重启(场景间共曲不打断)
@@ -231,7 +226,6 @@ export function createBgmPlayerWithRuntime(
     stop(fadeOutMs = 0) {
       if (disposed) return
       const serial = ++requestSerial
-      inflightTarget = undefined
       last = undefined
       if (!seq || playing === undefined || fadeOutMs <= 0) {
         if (seq) seq.pause()
@@ -253,7 +247,6 @@ export function createBgmPlayerWithRuntime(
       enabled = on
       if (!on) {
         requestSerial++
-        inflightTarget = undefined
         seq?.cancelFade() // G2:fade 期间关音乐不残留 ramp
         seq?.fadeTo(0, 0)
         seq?.pause()
@@ -283,7 +276,6 @@ export function createBgmPlayerWithRuntime(
       requestSerial++
       last = undefined
       playing = undefined
-      inflightTarget = undefined
       seq?.cancelFade()
       seq?.pause()
       disposal = Promise.resolve().then(() => runtime.dispose?.())
