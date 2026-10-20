@@ -1026,9 +1026,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full phase-governance JSON/derived index read and artifact envelope",
+      "readMethod": "Read exact owned descendant entry diff and current SHA/line-count dependency; unchanged artifact/history uses prior fixed-Git review, no renewed whole-artifact read claim.",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261004-semantic-current-batch.json machine artifact：historical phase-governance artifact；保留原内容、日期和边界，不单独证明当前通过。",
+      "coreConclusion": "Only named final task/ledger records and descendant current bindings changed; prior unrelated content and frozen provenance retained. Product acceptance comes from external explicit A-H and complete clean gates.",
       "truthAnchors": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -1049,7 +1049,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "f110b8c4771cab668e22e979986d00d3bb9b423b42d5516d7a9313421f3c970d",
+      "afterSha256": "107fb66ae67c5352d1c3ad8e018c58f174796b77b6f247154e2bfeb3ea04bb3b",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1072,8 +1072,8 @@
         "against": ["docs/phase-governance/reviews/20261004-semantic-current-batch.json"]
       },
       "revision": {
-        "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "implementationSha": "f110b8c4771cab668e22e979986d00d3bb9b423b42d5516d7a9313421f3c970d",
+        "currentSha": "107fb66ae67c5352d1c3ad8e018c58f174796b77b6f247154e2bfeb3ea04bb3b",
+        "implementationSha": "107fb66ae67c5352d1c3ad8e018c58f174796b77b6f247154e2bfeb3ea04bb3b",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1736,8 +1736,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "f110b8c4771cab668e22e979986d00d3bb9b423b42d5516d7a9313421f3c970d",
-        "lineCount": 3592,
+        "afterSha256": "107fb66ae67c5352d1c3ad8e018c58f174796b77b6f247154e2bfeb3ea04bb3b",
+        "lineCount": 3646,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -1910,6 +1910,36 @@
           "afterSha256": "f110b8c4771cab668e22e979986d00d3bb9b423b42d5516d7a9313421f3c970d",
           "scope": "Incoming hash of exactly this bounded review-record update;other entries unchanged.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "b7fc0524ad8cfe28a1272206d00410073993acd1",
+          "action": "bounded artifact SHA dependency maintenance for present/speedrun candidate",
+          "previousAfterSha256": "f110b8c4771cab668e22e979986d00d3bb9b423b42d5516d7a9313421f3c970d",
+          "afterSha256": "9c13747a04d582c40fe44c48c4b977459fa0cfca0da1e913d20378c256ad7ec1",
+          "scope": "Only owned descendant entries/after-SHA pointers changed; no new product/old-test/runtime acceptance."
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "b7fc0524ad8cfe28a1272206d00410073993acd1",
+          "action": "Owned present/speedrun final descendant SHA and paired current line-count maintenance",
+          "previousAfterSha256": "3beb81d57103cc0dcc7dce5420d812131c2278d4a34ad887893f77c605a46667",
+          "afterSha256": "fd9abaa6c50ea4013cdbf3b534c3ea0cca1173bdeb2d3977db0f5999f7eb124e",
+          "previousLineCount": 3592,
+          "currentLineCount": 3628,
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+          "scope": "Original sourceSha256/candidateSha256/originalPreservation remain frozen history; only current descendant binding changes."
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "b7fc0524ad8cfe28a1272206d00410073993acd1",
+          "action": "Owned present/speedrun final descendant SHA and paired current line-count maintenance",
+          "previousAfterSha256": "fd9abaa6c50ea4013cdbf3b534c3ea0cca1173bdeb2d3977db0f5999f7eb124e",
+          "afterSha256": "107fb66ae67c5352d1c3ad8e018c58f174796b77b6f247154e2bfeb3ea04bb3b",
+          "previousLineCount": 3628,
+          "currentLineCount": 3646,
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+          "scope": "Original sourceSha256/candidateSha256/originalPreservation remain frozen history; only current descendant binding changes."
         }
       ],
       "supersedes": [
@@ -1917,7 +1947,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-3450",
+      "reviewedLines": "Owned descendant entries and paired current after-SHA/line count only; remaining artifact body reused.",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -1951,7 +1981,7 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "reviewNotes": "\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Scoped pre94 review/board delta incoming binding; historical source facts unchanged. See codex-pending27-review.json."
+      "reviewNotes": "\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Scoped pre94 review/board delta incoming binding; historical source facts unchanged. See codex-pending27-review.json.\n2026-10-21: Current afterSha256 now paired with the actual formatted entry.path artifact lineCount. Earlier candidate updater kept the old lineCount; this precise bookkeeping erratum grants no additional product/file acceptance. OriginalPreservation is historical and not rewritten.\n2026-10-21: Current afterSha256 now paired with the actual formatted entry.path artifact lineCount. Earlier candidate updater kept the old lineCount; this precise bookkeeping erratum grants no additional product/file acceptance. OriginalPreservation is historical and not rewritten."
     },
     {
       "path": "docs/phase-governance/reviews/20261004-structured-content-new-01.json",
@@ -5811,9 +5841,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full phase-governance JSON/derived index read and artifact envelope",
+      "readMethod": "Read exact owned descendant entry diff and current SHA/line-count dependency; unchanged artifact/history uses prior fixed-Git review, no renewed whole-artifact read claim.",
       "reviewDepth": "structured-content",
-      "coreConclusion": "docs/phase-governance/reviews/20261016-historical-cards-d.json machine artifact：historical phase-governance artifact；保留原内容、日期和边界，不单独证明当前通过。",
+      "coreConclusion": "Only named final task/ledger records and descendant current bindings changed; prior unrelated content and frozen provenance retained. Product acceptance comes from external explicit A-H and complete clean gates.",
       "truthAnchors": ["docs/phase-governance/reviews/20261016-historical-cards-d.json:1"],
       "unresolved": [
         "Historical phase-governance material requires current catalog/registry/routing and fresh review before reuse."
@@ -5834,7 +5864,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "a2b404d4297e3805475bee8d4d7b15968d5646bd4b671a67d0793d3ef4bc514e",
+      "afterSha256": "7018d6b9e772a4a03791f2f53d105590c650db7e35cefa022b0b26fedcc6fd3d",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5857,8 +5887,8 @@
         "against": ["docs/phase-governance/reviews/20261016-historical-cards-d.json"]
       },
       "revision": {
-        "currentSha": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "implementationSha": "a2b404d4297e3805475bee8d4d7b15968d5646bd4b671a67d0793d3ef4bc514e",
+        "currentSha": "7018d6b9e772a4a03791f2f53d105590c650db7e35cefa022b0b26fedcc6fd3d",
+        "implementationSha": "7018d6b9e772a4a03791f2f53d105590c650db7e35cefa022b0b26fedcc6fd3d",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -6526,8 +6556,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "a2b404d4297e3805475bee8d4d7b15968d5646bd4b671a67d0793d3ef4bc514e",
-        "lineCount": 6055,
+        "afterSha256": "7018d6b9e772a4a03791f2f53d105590c650db7e35cefa022b0b26fedcc6fd3d",
+        "lineCount": 6073,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -6727,6 +6757,25 @@
           "afterSha256": "a2b404d4297e3805475bee8d4d7b15968d5646bd4b671a67d0793d3ef4bc514e",
           "scope": "Incoming hash of exactly this bounded review-record update;other entries unchanged.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "b7fc0524ad8cfe28a1272206d00410073993acd1",
+          "action": "bounded artifact SHA dependency maintenance for present/speedrun candidate",
+          "previousAfterSha256": "a2b404d4297e3805475bee8d4d7b15968d5646bd4b671a67d0793d3ef4bc514e",
+          "afterSha256": "c3dd977c13a023b59f5aa40b66ca69daac13113ef10841572199e3175a8e43fa",
+          "scope": "Only owned descendant entries/after-SHA pointers changed; no new product/old-test/runtime acceptance."
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "b7fc0524ad8cfe28a1272206d00410073993acd1",
+          "action": "Owned present/speedrun final descendant SHA and paired current line-count maintenance",
+          "previousAfterSha256": "8d50c95d019f00456770298a23e8fc55b057033d45a4878aa888014699960e0d",
+          "afterSha256": "7018d6b9e772a4a03791f2f53d105590c650db7e35cefa022b0b26fedcc6fd3d",
+          "previousLineCount": 6055,
+          "currentLineCount": 6073,
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+          "scope": "Original sourceSha256/candidateSha256/originalPreservation remain frozen history; only current descendant binding changes."
         }
       ],
       "supersedes": [
@@ -6734,7 +6783,7 @@
       ],
       "stopLine": "do not promote historical phase-governance artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 phase-governance artifact 保持 → 增加 archive-record artifact envelope、SHA 和历史停止线。",
-      "reviewedLines": "1-5950",
+      "reviewedLines": "Owned descendant entries and paired current after-SHA/line count only; remaining artifact body reused.",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
@@ -6768,7 +6817,7 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "reviewNotes": "\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json"
+      "reviewNotes": "\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-21: Current afterSha256 now paired with the actual formatted entry.path artifact lineCount. Earlier candidate updater kept the old lineCount; this precise bookkeeping erratum grants no additional product/file acceptance. OriginalPreservation is historical and not rewritten."
     },
     {
       "path": "docs/phase-governance/reviews/20261016-historical-cards-f.json",

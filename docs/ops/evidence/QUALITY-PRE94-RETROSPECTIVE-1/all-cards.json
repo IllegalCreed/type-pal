@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 15,
+  "currentAccepted": 27,
   "cards": [
     {
       "id": "1",
@@ -1808,8 +1808,8 @@
       "sha256": "dd7492a6560ead1ba911c9ebb77bf3ed3643f0278671a0110b57cf42b2482cc8",
       "lines": 69,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 12,
@@ -1844,7 +1844,13 @@
           "text": "- 2026-10-12 Codex：从最新 `origin/main` 同步后建立窄批。当前分支与 `origin/main` 为 ahead 14 / behind 0；基线 ledger 为 3266 files / 259 closed / 5 review / 3002 pending。已完整读取 3 个范围文件、`draw-menu.ts`、`present.ts`、`equip-menu.ts`、`menu-driver.ts`、P03 caller/oracle 与 `reference/sdlpal/uigame.c:1793-2055`、`itemmenu.c:28-224`、`play.c:350-357`。发现的问题：未发现直接缺陷；未修问题：无。定向 Vitest 3 files/16 tests、game typecheck、game 311 files/3519 tests、全仓 `pnpm check`（content149/1498、shared16/131、game311/3519、pal-extract70/423、reforge359/8964、editor631/4951、migrate96/739）均通过；coverage ratchet 通过且基线保持，protected fast 通过且 0 项下降；lint-zero 3994 files，error/warning/info 全 0；docs/content review、git diff --check、ledger 均通过。未触碰高风险边界；菜单观感登记集中 E2E 延后。账本更新为 3266 files / 262 closed / 5 review / 2999 pending。下一批候选：`packages/game/src/present/menu/draw-inventory.ts` 及其专属测试，或 `draw-tilemap.ts`（需另开卡并重新核 primary source）。"
         }
       ],
-      "scopeConfirmed": true
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "dd7492a6560ead1ba911c9ebb77bf3ed3643f0278671a0110b57cf42b2482cc8",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+      "findings": "原卡实际白名单逐文件A–H、caller/oracle/合同排重与必要整改成立；具体36文件依据及红/绿/有效反控见本窗口入口，集中全仓门零诊断。上下文文件不附带接受。"
     },
     {
       "id": "49",
@@ -1854,8 +1860,8 @@
       "sha256": "daee67ea54de0726e692a0c46ab6ef28c50cc1eaa96eb9c16eedb9549854cc9e",
       "lines": 78,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 12,
@@ -1886,7 +1892,13 @@
           "text": "请你做：下一批另开任务卡并从最新 origin/main 重新核对范围与账本"
         }
       ],
-      "scopeConfirmed": true
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "daee67ea54de0726e692a0c46ab6ef28c50cc1eaa96eb9c16eedb9549854cc9e",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+      "findings": "原卡实际白名单逐文件A–H、caller/oracle/合同排重与必要整改成立；具体36文件依据及红/绿/有效反控见本窗口入口，集中全仓门零诊断。上下文文件不附带接受。"
     },
     {
       "id": "50",
@@ -1896,8 +1908,8 @@
       "sha256": "f274c525cdbc83b4e0d66551ed0ec0b5924f3a7fd6dfd03205afe03d96dcb051",
       "lines": 69,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 12,
@@ -1936,7 +1948,13 @@
           "text": "无下一位 Agent；本批已完成并归档，下一批先累积相邻菜单只读核验再统一跑质量门。"
         }
       ],
-      "scopeConfirmed": true
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "aefcfd2eec8ab7147555dd44c9b72c2e3932346c2195e08a8125fe7d8788ca6d",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+      "findings": "原卡实际白名单逐文件A–H、caller/oracle/合同排重与必要整改成立；具体36文件依据及红/绿/有效反控见本窗口入口，集中全仓门零诊断。上下文文件不附带接受。"
     },
     {
       "id": "51",
@@ -2348,8 +2366,8 @@
       "sha256": "196ac0a8cb38927c9fdda1cbbddcebba86326ef2c15a3fd220839e7be7067393",
       "lines": 57,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 12,
@@ -2364,7 +2382,13 @@
           "text": "- 原版/primary source：PalTimer 成绩存储无直接仓库源码，N/A；当前 type-pal 设计以 `BestTimes`/checkpoint defaults 为唯一工具合同。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "196ac0a8cb38927c9fdda1cbbddcebba86326ef2c15a3fd220839e7be7067393",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+      "findings": "原卡实际白名单逐文件A–H、caller/oracle/合同排重与必要整改成立；具体36文件依据及红/绿/有效反控见本窗口入口，集中全仓门零诊断。上下文文件不附带接受。"
     },
     {
       "id": "62",
@@ -2374,8 +2398,8 @@
       "sha256": "f878eb8184d99becca6d788bda095c43efb11de459a05dd842ae7c9abc1c17e0",
       "lines": 56,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 12,
@@ -2394,7 +2418,13 @@
           "text": "- `before -> after`：文件仍待逐文件核验 -> 通过 caller/oracle/状态边界登记已验证；不改变 checkpoint 数据或计时产品形态。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "f878eb8184d99becca6d788bda095c43efb11de459a05dd842ae7c9abc1c17e0",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+      "findings": "原卡实际白名单逐文件A–H、caller/oracle/合同排重与必要整改成立；具体36文件依据及红/绿/有效反控见本窗口入口，集中全仓门零诊断。上下文文件不附带接受。"
     },
     {
       "id": "63",
@@ -2404,8 +2434,8 @@
       "sha256": "eddb96d97d1ab5dfa8d570c29fd4cb16602b6c7db7345e7b2a162a66ebf9c127",
       "lines": 53,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 12,
@@ -2416,7 +2446,13 @@
           "text": "## 范围"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "eddb96d97d1ab5dfa8d570c29fd4cb16602b6c7db7345e7b2a162a66ebf9c127",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+      "findings": "原卡实际白名单逐文件A–H、caller/oracle/合同排重与必要整改成立；具体36文件依据及红/绿/有效反控见本窗口入口，集中全仓门零诊断。上下文文件不附带接受。"
     },
     {
       "id": "64",
@@ -2426,8 +2462,8 @@
       "sha256": "3781722ecb4ec5458629d168744cf37d219ae54decf74edd793ed6d511fb57a6",
       "lines": 48,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 12,
@@ -2438,7 +2474,13 @@
           "text": "## 范围"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "3781722ecb4ec5458629d168744cf37d219ae54decf74edd793ed6d511fb57a6",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+      "findings": "原卡实际白名单逐文件A–H、caller/oracle/合同排重与必要整改成立；具体36文件依据及红/绿/有效反控见本窗口入口，集中全仓门零诊断。上下文文件不附带接受。"
     },
     {
       "id": "65",
@@ -2448,8 +2490,8 @@
       "sha256": "b243b5a2db4f8bc6daedbb721056ce217a945606a9c94a9b346371a88caed653",
       "lines": 54,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 12,
@@ -2460,7 +2502,13 @@
           "text": "## 范围"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "b243b5a2db4f8bc6daedbb721056ce217a945606a9c94a9b346371a88caed653",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+      "findings": "原卡实际白名单逐文件A–H、caller/oracle/合同排重与必要整改成立；具体36文件依据及红/绿/有效反控见本窗口入口，集中全仓门零诊断。上下文文件不附带接受。"
     },
     {
       "id": "66",
@@ -2470,8 +2518,8 @@
       "sha256": "76c13da27d9027255655b849013fe02086d6b09d70296abbccaacc333571d0dd",
       "lines": 48,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 12,
@@ -2482,7 +2530,13 @@
           "text": "## 范围"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "76c13da27d9027255655b849013fe02086d6b09d70296abbccaacc333571d0dd",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+      "findings": "原卡实际白名单逐文件A–H、caller/oracle/合同排重与必要整改成立；具体36文件依据及红/绿/有效反控见本窗口入口，集中全仓门零诊断。上下文文件不附带接受。"
     },
     {
       "id": "67",
@@ -2492,8 +2546,8 @@
       "sha256": "357c2e91803355f0f5ceeed8888943a282b2391109c76aeb5d55548cdc065e01",
       "lines": 47,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 12,
@@ -2504,7 +2558,13 @@
           "text": "## 范围"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "357c2e91803355f0f5ceeed8888943a282b2391109c76aeb5d55548cdc065e01",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+      "findings": "原卡实际白名单逐文件A–H、caller/oracle/合同排重与必要整改成立；具体36文件依据及红/绿/有效反控见本窗口入口，集中全仓门零诊断。上下文文件不附带接受。 本卡仅静态checkpoint测试合同；坐标/BGM生产校准与checkpoints.ts整体仍review，未拿静态断言冒称运行校准。"
     },
     {
       "id": "68",
@@ -2514,15 +2574,21 @@
       "sha256": "51f2cfc1e621c3a256ca1530e70248dd3df1428016af12b9652303fe3134095a",
       "lines": 35,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 10,
           "text": "## 范围"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "51f2cfc1e621c3a256ca1530e70248dd3df1428016af12b9652303fe3134095a",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+      "findings": "原卡实际白名单逐文件A–H、caller/oracle/合同排重与必要整改成立；具体36文件依据及红/绿/有效反控见本窗口入口，集中全仓门零诊断。上下文文件不附带接受。"
     },
     {
       "id": "69",
@@ -2532,15 +2598,21 @@
       "sha256": "cfa5360c9cdabd54b6139eca75d7d70194fcb330443ae210eebd11703803222b",
       "lines": 36,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 10,
           "text": "## 范围"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "cfa5360c9cdabd54b6139eca75d7d70194fcb330443ae210eebd11703803222b",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
+      "findings": "原卡实际白名单逐文件A–H、caller/oracle/合同排重与必要整改成立；具体36文件依据及红/绿/有效反控见本窗口入口，集中全仓门零诊断。上下文文件不附带接受。"
     },
     {
       "id": "70",
@@ -4007,19 +4079,19 @@
   ],
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
-    "partial": 68,
+    "partial": 56,
     "pending": 0,
-    "accept": 15
+    "accept": 27
   },
   "lastIncrementalReview": {
-    "date": "2026-10-20",
-    "base": "615622b4ccf443d9d2b59704b52485bb5b083015",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+    "date": "2026-10-21",
+    "base": "b7fc0524ad8cfe28a1272206d00410073993acd1",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
     "previousCounts": {
-      "partial": 77,
+      "partial": 68,
       "pending": 0,
-      "accept": 6
+      "accept": 15
     },
-    "limits": "Nine original menu-card contracts accepted with36 explicit file judgments. No94-102,other68cards or broadcaller acceptance."
+    "limits": "Twelve original cards48/49/50/61-69,36 explicit file judgments. Prior diagnostic claim corrected; new clean gates reestablish integration evidence. No other56cards, broad callers, checkpoint calibration or94-102 acceptance."
   }
 }

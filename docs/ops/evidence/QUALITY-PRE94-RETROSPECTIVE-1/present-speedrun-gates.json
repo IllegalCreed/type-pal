@@ -1,0 +1,1083 @@
+{
+  "schemaVersion": 1,
+  "task": "QUALITY-PRE94-RETROSPECTIVE-1",
+  "base": "b7fc0524ad8cfe28a1272206d00410073993acd1",
+  "status": "accepted:12 original pre94 cards/36 files; all prescribed runtime and static gates passed",
+  "localEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-local.json",
+  "erratum": {
+    "archive": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-gate-native.json.gz",
+    "archiveSha256": "d51c0a5fa525916d9d13d97f645392ff481f90fba2ce04aad00e60d41af30224",
+    "rows": [
+      {
+        "member": "menu-check-c04-owned.stdout.raw",
+        "sha256": "cfbf99eaf27ff485107b7023ac21acea2a82529febae928f41674cfc2f5992a2",
+        "restoreDiagnostics": 2,
+        "lines": [
+          "event-system: skip raw opcode=0x008e [ 0, 0, 0 ]",
+          "event-system: skip raw opcode=0x008e [ 0, 0, 0 ]"
+        ]
+      },
+      {
+        "member": "menu-check-clean-final.stdout.raw",
+        "sha256": "4ca75248fc5e87377b9b07dc57640afe1f7e04242ec21be94e0290367cfdaaa9",
+        "restoreDiagnostics": 2,
+        "lines": [
+          "event-system: skip raw opcode=0x008e [ 0, 0, 0 ]",
+          "event-system: skip raw opcode=0x008e [ 0, 0, 0 ]"
+        ]
+      },
+      {
+        "member": "menu-check-explicit-default.stdout.raw",
+        "sha256": "ee466bd3716ee29b7f773881543e9cb0f9251ad901c539f313de3579bebc7214",
+        "restoreDiagnostics": 2,
+        "lines": [
+          "event-system: skip raw opcode=0x008e [ 0, 0, 0 ]",
+          "event-system: skip raw opcode=0x008e [ 0, 0, 0 ]"
+        ]
+      },
+      {
+        "member": "menu-check-final-visible.stdout.raw",
+        "sha256": "8adc5d4d69fd2ea0e4c6309d02ab1251e85f2cbe1e0887ec73e0dcc34ecbfb0c",
+        "restoreDiagnostics": 2,
+        "lines": [
+          "event-system: skip raw opcode=0x008e [ 0, 0, 0 ]",
+          "event-system: skip raw opcode=0x008e [ 0, 0, 0 ]"
+        ]
+      },
+      {
+        "member": "menu-check-final.stdout.raw",
+        "sha256": "dc0fa84a05b4781d0e1cb833bcebe26d5f186eb8b9f4135e1fbd6efc41717908",
+        "restoreDiagnostics": 0,
+        "lines": []
+      },
+      {
+        "member": "menu-check-observable.stdout.raw",
+        "sha256": "a4d30a97d767ff692c85932f76e0680a0f482c1c571a2da0855a919bbd87ad4d",
+        "restoreDiagnostics": 2,
+        "lines": [
+          "event-system: skip raw opcode=0x008e [ 0, 0, 0 ]",
+          "event-system: skip raw opcode=0x008e [ 0, 0, 0 ]"
+        ]
+      },
+      {
+        "member": "menu-check-owned-io.stdout.raw",
+        "sha256": "c901f6e07ea0e19352ba805b52f3ce367bb262d364d382b98a0895637b6e219f",
+        "restoreDiagnostics": 2,
+        "lines": [
+          "event-system: skip raw opcode=0x008e [ 0, 0, 0 ]",
+          "event-system: skip raw opcode=0x008e [ 0, 0, 0 ]"
+        ]
+      },
+      {
+        "member": "menu-check.stdout.raw",
+        "sha256": "bac48e0b7178aeecabfc2427ce55395c91da4b94258d1a5d99ccabce2d9142b6",
+        "restoreDiagnostics": 0,
+        "lines": []
+      },
+      {
+        "member": "menu-protected-c04-owned.stdout.raw",
+        "sha256": "5b6ffd372b48914c48914f51f0e064a783fcce9f843fd35da4f02cfffade8a82",
+        "restoreDiagnostics": 2,
+        "lines": [
+          "event-system: skip raw opcode=0x008e [ 0, 0, 0 ]",
+          "event-system: skip raw opcode=0x008e [ 0, 0, 0 ]"
+        ]
+      },
+      {
+        "member": "menu-ratchet-adjusted.stdout.raw",
+        "sha256": "ae7e82ca8fb616867a47f071418705d395d8469e7806977f2b9605270bf68bc6",
+        "restoreDiagnostics": 2,
+        "lines": [
+          "event-system: skip raw opcode=0x008e [ 0, 0, 0 ]",
+          "event-system: skip raw opcode=0x008e [ 0, 0, 0 ]"
+        ]
+      },
+      {
+        "member": "menu-ratchet-c04-owned.stdout.raw",
+        "sha256": "23f88a1d01c58f4b377f5b2335578d62f065807e74e7cdf310dfc3b57dcbd495",
+        "restoreDiagnostics": 2,
+        "lines": [
+          "event-system: skip raw opcode=0x008e [ 0, 0, 0 ]",
+          "event-system: skip raw opcode=0x008e [ 0, 0, 0 ]"
+        ]
+      },
+      {
+        "member": "menu-ratchet.stdout.raw",
+        "sha256": "0c887dd329446fcb058edff0ff2a98b416c009a16b53d7fcbdd9a4a07aa48910",
+        "restoreDiagnostics": 0,
+        "lines": []
+      }
+    ],
+    "decision": "Original bytes/count fields retained. Zero-runtime-diagnostic claim withdrawn where restoreDiagnostics>0; static/results remain limited evidence. This does not by itself reverse scoped A-H review or valid test result credit."
+  },
+  "diagnosticRepair": {
+    "scope": [
+      "packages/game/src/core/event-system.ts:tickEventSystem/raw dispatch",
+      "packages/game/src/core/event-system.test.ts:dream sequence",
+      "packages/game/src/core/event-dialogue-pagination.test.ts:three boundary rows"
+    ],
+    "owner": "Codex",
+    "source": "reference/sdlpal/script.c:PAL_RunTriggerScript case0x008E; current TS pre-op line-done/partial-clear branches already own restore handling",
+    "classification": "False fallback diagnostic after implemented outer handling; trigger consumes opcode without calling generic raw dispatcher. No new screen restoration, state/save/schema/public interface behavior. Other interpreter modes and unknown fallback unchanged.",
+    "red": "present-restore-routing-red:336 tests, exactly2 diagnostic assertion failures after all existing state/history/cash assertions succeed; console.debug remains passthrough, complete raw/native retained",
+    "green": "present-restore-routing-green:358/358, including exact unknown0xb9 diagnostic contract; no stdout/stderr diagnostics",
+    "typecheck": "present-restore-typecheck exit0, stderr0",
+    "acceptanceLimit": "Scoped delta only; CODE3r and whole event-system.ts/test files remain review/partial.",
+    "assertionPreservation": {
+      "base": "b7fc0524ad8cfe28a1272206d00410073993acd1",
+      "rows": [
+        {
+          "path": "packages/game/src/core/event-system.test.ts",
+          "baseAssertions": 840,
+          "currentAssertions": 841,
+          "baseAssertionDigest": "714b6eedbe71515c73d840ace2de3bd804be4eb7d77fe0cf7e348b15f1949a30",
+          "added": ["expect(debug).not.toHaveBeenCalled()"],
+          "previousAllPreserved": true
+        },
+        {
+          "path": "packages/game/src/core/event-dialogue-pagination.test.ts",
+          "baseAssertions": 9,
+          "currentAssertions": 10,
+          "baseAssertionDigest": "463eb4d6c4fff406477e674f96578ac481bae46a28f0c8603bcda123ca6f58da",
+          "added": ["expect(debug).not.toHaveBeenCalled()"],
+          "previousAllPreserved": true
+        }
+      ],
+      "limits": "Canonical assertion preservation only; scoped diff also reviewed, full files not accepted."
+    },
+    "dimensions": {
+      "A": "Current trigger pre-op branches already implement line-done wait/body partial-clear; 0x8E is consumed there and no longer falls through to generic unknown handler. Other modes/raw dispatcher unchanged.336 actual old cases had exactly2 newly added diagnostic failures;358 recover.",
+      "B": "New comment names the actual owner and reason for bypassing the generic interpreter; does not claim framebuffer backup parity beyond old port.",
+      "C": "Trigger-only screen/dialog instruction stays with its outer lifecycle owner; no broadened generic dispatcher responsibilities or new global.",
+      "D": "Reuses existing partial-clear/wait state; no duplicate restore handler, helper or injected interface.",
+      "E": "Original visible lines/history/cash/mode/no-key assertions retained; passthrough debug spy adds absence assertion, finally restores it. Actual0xb9 negative fixture still checks exact message/operands/count. No new cases or console interception.",
+      "F": "Named OP_RESTORE_SCREEN early consumption sits next to existing outer screen operations; flow directly matches trigger-owned handling.",
+      "G": "Removes redundant dispatch of an already processed trigger instruction; original fallback remains for genuinely unknown instructions. No new compatibility or dead export.",
+      "H": "Existing public tickEventSystem scenarios reproduce both0-count and page-clear routes; logger observable without suppressing output; no private test API."
+    }
+  },
+  "next": "Push the complete governed branch and verify0behind after fetch before FF main. Continue CODE51 opening-menu oracle/dedup gap, then remaining56partial pre94 cards.",
+  "uniformGates": [
+    {
+      "id": "present-speedrun-check-clean",
+      "role": "check",
+      "exit": 0,
+      "diagnostics": {
+        "unimplementedOpcode": 0,
+        "reactAct": 0,
+        "controlledInput": 0,
+        "actEnvironment": 0,
+        "testStderrBlocks": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioContextUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "stderrBytes": 0
+      },
+      "packages": [
+        {
+          "id": "content",
+          "files": 149,
+          "tests": {
+            "passed": 1498,
+            "skipped": 0,
+            "total": 1498
+          }
+        },
+        {
+          "id": "shared",
+          "files": 13,
+          "tests": {
+            "passed": 114,
+            "skipped": 0,
+            "total": 114
+          }
+        },
+        {
+          "id": "game",
+          "files": 326,
+          "tests": {
+            "passed": 3677,
+            "skipped": 0,
+            "total": 3677
+          }
+        },
+        {
+          "id": "pal-extract",
+          "files": 74,
+          "tests": {
+            "passed": 441,
+            "skipped": 0,
+            "total": 441
+          }
+        },
+        {
+          "id": "reforge",
+          "files": 360,
+          "tests": {
+            "passed": 8965,
+            "skipped": 0,
+            "total": 8965
+          }
+        },
+        {
+          "id": "editor",
+          "files": 631,
+          "tests": {
+            "passed": 4943,
+            "skipped": 0,
+            "total": 4943
+          }
+        },
+        {
+          "id": "migrate",
+          "files": 96,
+          "tests": {
+            "passed": 739,
+            "skipped": 0,
+            "total": 739
+          }
+        }
+      ],
+      "start": "2026-10-20T16:48:55.273Z",
+      "end": "2026-10-20T17:03:29.315Z"
+    },
+    {
+      "id": "present-speedrun-ratchet-clean",
+      "role": "ratchet",
+      "exit": 0,
+      "diagnostics": {
+        "unimplementedOpcode": 0,
+        "reactAct": 0,
+        "controlledInput": 0,
+        "actEnvironment": 0,
+        "testStderrBlocks": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioContextUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "stderrBytes": 0
+      },
+      "packages": [
+        {
+          "id": "shared",
+          "files": 13,
+          "tests": {
+            "passed": 114,
+            "skipped": 0,
+            "total": 114
+          }
+        },
+        {
+          "id": "content",
+          "files": 149,
+          "tests": {
+            "passed": 1498,
+            "skipped": 0,
+            "total": 1498
+          }
+        },
+        {
+          "id": "pal-extract",
+          "files": 63,
+          "tests": {
+            "passed": 301,
+            "skipped": 0,
+            "total": 301
+          }
+        },
+        {
+          "id": "migrate",
+          "files": 80,
+          "tests": {
+            "passed": 671,
+            "skipped": 0,
+            "total": 671
+          }
+        },
+        {
+          "id": "reforge",
+          "files": 360,
+          "tests": {
+            "passed": 8965,
+            "skipped": 0,
+            "total": 8965
+          }
+        },
+        {
+          "id": "game",
+          "files": 321,
+          "tests": {
+            "passed": 3649,
+            "skipped": 0,
+            "total": 3649
+          }
+        },
+        {
+          "id": "editor",
+          "files": 612,
+          "tests": {
+            "passed": 4781,
+            "skipped": 0,
+            "total": 4781
+          }
+        }
+      ],
+      "start": "2026-10-20T16:27:39.572Z",
+      "end": "2026-10-20T16:36:54.775Z"
+    },
+    {
+      "id": "present-speedrun-protected-clean",
+      "role": "protected",
+      "exit": 0,
+      "diagnostics": {
+        "unimplementedOpcode": 0,
+        "reactAct": 0,
+        "controlledInput": 0,
+        "actEnvironment": 0,
+        "testStderrBlocks": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioContextUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "stderrBytes": 0
+      },
+      "packages": [
+        {
+          "id": "shared",
+          "files": 13,
+          "tests": {
+            "passed": 114,
+            "skipped": 0,
+            "total": 114
+          }
+        },
+        {
+          "id": "content",
+          "files": 149,
+          "tests": {
+            "passed": 1498,
+            "skipped": 0,
+            "total": 1498
+          }
+        },
+        {
+          "id": "pal-extract",
+          "files": 63,
+          "tests": {
+            "passed": 301,
+            "skipped": 0,
+            "total": 301
+          }
+        },
+        {
+          "id": "migrate",
+          "files": 80,
+          "tests": {
+            "passed": 671,
+            "skipped": 0,
+            "total": 671
+          }
+        },
+        {
+          "id": "reforge",
+          "files": 360,
+          "tests": {
+            "passed": 8965,
+            "skipped": 0,
+            "total": 8965
+          }
+        },
+        {
+          "id": "game",
+          "files": 321,
+          "tests": {
+            "passed": 3649,
+            "skipped": 0,
+            "total": 3649
+          }
+        },
+        {
+          "id": "editor",
+          "files": 612,
+          "tests": {
+            "passed": 4781,
+            "skipped": 0,
+            "total": 4781
+          }
+        }
+      ],
+      "start": "2026-10-20T16:39:49.699Z",
+      "end": "2026-10-20T16:48:54.493Z"
+    }
+  ],
+  "sourceBindings": [
+    {
+      "path": "packages/game/src/core/event-dialogue-pagination.test.ts",
+      "sha256": "e46ae518cae2f7b7967835d5d7d9808ee10b2fb85bb3ed2a682dc9d7db835f0c"
+    },
+    {
+      "path": "packages/game/src/core/event-system.test.ts",
+      "sha256": "dc235dcc5fdf4e77cd4c7620042918d8f5df8db6db18cef5ef7077ca80512589"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "26dbd7a749476bcf9029c3edbf06aa9f1afaa004e12016a5a646d0e25e3eb840"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/world.ts",
+      "sha256": "94f9d8d2bf8f295ab30faab1e0a4c8740d2bb80e1a37a92d3ca543eca0f09aeb"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-ui.ts",
+      "sha256": "78ddfc12ad048965decb88318ef794af708808cf6a54206442e434b2fa1915c8"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+      "sha256": "36fec8d2f4235f47ad51b396af216aab4c32bcaffd7f1b02325e91029769dc77"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-equip.ts",
+      "sha256": "ad4b54f5a381d4ca5ada430613acd1e47304b516f8e88a270f07c771140ba86d"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.glm-phase1-leaves.test.ts",
+      "sha256": "ac6b9b743f291a3af65e23d730ab51abfdafa48f93b7c24062b8f18e7f2495e6"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.ts",
+      "sha256": "dbe556919b3f7130a9d844c79833c8ec1be02d014789477a1fc4c3ccd32a2cd8"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-magic.glm-phase1-leaves.test.ts",
+      "sha256": "6809a92780779b772279a90fa9acf775ccb847d0e97f205c1bcd26b353d17846"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-magic.test.ts",
+      "sha256": "288717bce445eef0522536b4fab32905b851929330e82a94fbec1733a56bf0a1"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-magic.ts",
+      "sha256": "bef155f696ff4ead5bbec2fb32d1ee802821df8b595150ae24dfd6f8306ec222"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "sha256": "a9b335aa4ae48b530acb5cad9e146a5659b22adfcd8cb08c22ec1a303d12e0eb"
+    },
+    {
+      "path": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "sha256": "68fd0d1db984eb1689d4faabc97e011e7ace0a8d1ac512a62d870c7a0225ae21"
+    },
+    {
+      "path": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "sha256": "64dd8c71f90ccd213d485c12a428e808a3af44a9fe4b040ac083f3c3b3d22fff"
+    },
+    {
+      "path": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "sha256": "5cad30584be5d43a1d2073da5fa3bdf78df3d41d26e07538dfdf460dbcdbda58"
+    },
+    {
+      "path": "packages/game/src/present/menu/magic-player-info.integration.test.ts",
+      "sha256": "5cb596c0788222fc1fa89981d878c20ae68a19f5fcae329cc5a2a03f8a208b86"
+    },
+    {
+      "path": "packages/game/src/present/player-info-box.ts",
+      "sha256": "297896c477336d55145626a533c6b8f479c01ee631a7867f9e0764d31fbf8363"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/checkpoints.test.ts",
+      "sha256": "892636edd42fbc2de200468950fb83789ad7930818db0bc050299db536a3b363"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+      "sha256": "c13eaf0ad4f95c7e0d4cddcaa71824b9b685872ff7a3b7098089b8928ea5eacc"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.test.ts",
+      "sha256": "23e36b32f9edd8c89bf318ec65b9077d564838048ad0645f386a6499ff48f227"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/detectors.ts",
+      "sha256": "c2209367f139dd37dbc77bf11d59c76a63fe687b90de607b35e152d4e48cb60c"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts",
+      "sha256": "65beee9b2b0d8d5d45305beef9e0076aec111e32d52243ba3c02d2ce63d037ac"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/index.test.ts",
+      "sha256": "0fe566225d01c12455a9b4f2e5f29881966b630f428651dc676b45180aae7cf7"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts",
+      "sha256": "44f2d9135e744b3686bde3dc28bf83ab4ae0ad692c1d658878dc164597a5ec54"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/overlay.test.ts",
+      "sha256": "463f8c9b9b6e77391e3f050708671aa596238141519a9e74c4d534a903c1c5eb"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/snapshot.ts",
+      "sha256": "496c27dbc9eedfc5a9e87eb00018ddad506886796b7cf4c4cd46a8784520cd62"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts",
+      "sha256": "25b0d4cf610529a4fc67bf97a1c488a3ce53233883c51a4c0003e987aa349d77"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/store.test.ts",
+      "sha256": "cbedef3506732da37ffe8651638e7611df18cde49044cfb5f09dd1784f2a1e45"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.boundaries.test.ts",
+      "sha256": "d23e3b3a2e5cf85515c7769c4c8587b28f65e8ea429da916c7151110349b6d90"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts",
+      "sha256": "41a4ca45cfedac0abc4a68c8f3393676238e7a3bb672e2a292d7bfc46c37abad"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.test.ts",
+      "sha256": "7745df1232e6aa9f06b0256fe3fd1d641fb872ba81ab2e75fe44fc4fb5ac61a4"
+    },
+    {
+      "path": "packages/game/src/tools/speedrun/timer.ts",
+      "sha256": "a5fcf2a7380eca2afc4e93832075b2847671ffba597c5f12e1b8e8a1cf252f2c"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "29c18d0c707b4245c861dd6d18bf09689a99a4f8f88a7a4afbd52f40e6944b76"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "0ede522dd7b10811035555c48ebb0ff249f899926e625df030847cda7ad200d9"
+    },
+    {
+      "path": "scripts/coverage/baseline.fast.json",
+      "sha256": "76384e7b0d8901b37ad5240ee4d89f336eba9ba56b599878f0de17bb54cab188"
+    }
+  ],
+  "baselineOfficialDelta": {
+    "path": "scripts/coverage/baseline.fast.json",
+    "beforeSha256": "ecb42a553918f746ff9c9cee64f2e0d0edb6ff38123effd16c289b2db1c28540",
+    "afterSha256": "76384e7b0d8901b37ad5240ee4d89f336eba9ba56b599878f0de17bb54cab188",
+    "beforeSourceFiles": 741,
+    "afterSourceFiles": 742,
+    "beforeTestCount": 19979,
+    "afterTestCount": 19979,
+    "authority": "Official ratchet emitted final data; two exact approval-table entries covering four retired cases with contract transfers have standing user de-dup authority and finite source/identity approval. No coverage rule/matcher/selection change.",
+    "beforeMember": "baseline.before.json",
+    "afterMember": "baseline.after.json"
+  },
+  "artifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates-native.json.gz",
+    "sha256": "dbce2f3dc5305af2f4a1aa472bd2ca25c196bdd6202406c856bf83cb79515272",
+    "members": [
+      {
+        "name": "final-review-maintenance-first.json",
+        "bytes": 2416,
+        "sha256": "bcef53c148eb67c47a227fa72bb7b388199366fc3c3c5c4cbc1488b01bbe60a6"
+      },
+      {
+        "name": "final-review-maintenance.json",
+        "bytes": 1659,
+        "sha256": "bd1fe0391d12e258726f37d800c8e6ca37d1f5ab726185db19adceb6a1a96338"
+      },
+      {
+        "name": "present-speedrun-check-clean.diagnostics-v2.json",
+        "bytes": 1938,
+        "sha256": "0fd230c57a166de65eac58ab75948779c463936171a5b3bfd83c2ac3eab401b7"
+      },
+      {
+        "name": "present-speedrun-check-clean.execution.json",
+        "bytes": 10190,
+        "sha256": "2fd64a5dee242127bdd658681c831854a7ee58217ac63c7f987ef3dc692aec40"
+      },
+      {
+        "name": "present-speedrun-check-clean.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-speedrun-check-clean.stdout-inventory.json",
+        "bytes": 100868,
+        "sha256": "2476fa7d533e889332f6db5a5c263e0d7c691c85299ca1f6d7962733bafcabb2"
+      },
+      {
+        "name": "present-speedrun-check-clean.stdout.raw",
+        "bytes": 369034,
+        "sha256": "b4777908061bb228366d62774817e16d779d9528a8788d5293e8444470865f29"
+      },
+      {
+        "name": "present-speedrun-check-final.diagnostics-v2.json",
+        "bytes": 1938,
+        "sha256": "5ca621a62977cb458378fd5bea8b927bfbe83485eebee23bec852de9b3fb0c15"
+      },
+      {
+        "name": "present-speedrun-check-final.execution.json",
+        "bytes": 9083,
+        "sha256": "e2b0072b404034d2fb8c9a0ee827bcd7a8ed1fe54f5cba32282f85b87916d7dd"
+      },
+      {
+        "name": "present-speedrun-check-final.scan.json",
+        "bytes": 1908,
+        "sha256": "60b3623bd1aa710b564f32231361250be4e65028829eb0719d01c7d94d94ea02"
+      },
+      {
+        "name": "present-speedrun-check-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-speedrun-check-final.stdout.raw",
+        "bytes": 369045,
+        "sha256": "b3048d94308e536eaab4fa81e873097b3bd29c8a30d2f7f344e7e041ab551517"
+      },
+      {
+        "name": "present-speedrun-check.execution.json",
+        "bytes": 8773,
+        "sha256": "2238aba6c20ec324f92abb71a42e35c58bd1cd9e0f6fe2b2ae802d8004182a88"
+      },
+      {
+        "name": "present-speedrun-check.stderr.raw",
+        "bytes": 143,
+        "sha256": "e2ab19b130b128aec7fe5d166854ecb05dd8aea3265a7aa0abb924ac168359c2"
+      },
+      {
+        "name": "present-speedrun-check.stdout.raw",
+        "bytes": 30884,
+        "sha256": "c64fa14adc876ee39f1b4dc0c2a3299502fe0fa67caa54f1bb7466fddfbf3110"
+      },
+      {
+        "name": "present-speedrun-docs-before-final.execution.json",
+        "bytes": 10211,
+        "sha256": "d7da52d7fd46e45a506939290f2f956e1c0262a102b9821a128f1f8065c0660b"
+      },
+      {
+        "name": "present-speedrun-docs-before-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-speedrun-docs-before-final.stdout.raw",
+        "bytes": 30523,
+        "sha256": "a1751067264a451f82fb88935d7dffb295a60351571badbeebe0bc0740d1a932"
+      },
+      {
+        "name": "present-speedrun-final-diff.execution.json",
+        "bytes": 10428,
+        "sha256": "9e4830d3da66ef816e5b5122b4f6a6b0cb7bc733f67a5fc700482e7cc8c2fa87"
+      },
+      {
+        "name": "present-speedrun-final-diff.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-speedrun-final-diff.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-speedrun-final-docs-fixed.execution.json",
+        "bytes": 10430,
+        "sha256": "a21751b6a52995085c460dac55e8a8391437fe8346bdcc0477f02a83d0662c15"
+      },
+      {
+        "name": "present-speedrun-final-docs-fixed.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-speedrun-final-docs-fixed.stdout.raw",
+        "bytes": 30497,
+        "sha256": "0da11036040beff27e8fdc2fed714eafee9ca4583e967de58537762a4c62c480"
+      },
+      {
+        "name": "present-speedrun-final-docs.execution.json",
+        "bytes": 10414,
+        "sha256": "c8c57ec8c50eafc18c19c9f224b4f93fb7149b83de9115505aa24407d287a925"
+      },
+      {
+        "name": "present-speedrun-final-docs.stderr.raw",
+        "bytes": 300,
+        "sha256": "ba3e71af73920f357697d354bef9ab16f5feed3225ed69134ef1bb94aaa6414c"
+      },
+      {
+        "name": "present-speedrun-final-docs.stdout.raw",
+        "bytes": 30208,
+        "sha256": "2434b680734c25f3d377028969d96051ac8d80c727441a52d71b14130d82045d"
+      },
+      {
+        "name": "present-speedrun-final-ledger.execution.json",
+        "bytes": 10447,
+        "sha256": "ba446212632bd9b31634a284957a2f9bb9c794a1c79c70ae957e93e1a83f144c"
+      },
+      {
+        "name": "present-speedrun-final-ledger.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-speedrun-final-ledger.stdout.raw",
+        "bytes": 113,
+        "sha256": "42a8ea08fe3fd9417661fd2cda8904b6bb9bb533e4b741bdd8661e4641f5bf85"
+      },
+      {
+        "name": "present-speedrun-final-lint.execution.json",
+        "bytes": 10404,
+        "sha256": "51fa6f541c0148578c7bea111e4aafc2decb490d53ceb3bc44f1fb6556020221"
+      },
+      {
+        "name": "present-speedrun-final-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-speedrun-final-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "c1d9a8647475df22dc93d10551919ab6116e5e0b4f9b1a8b21ca13d71278b4f9"
+      },
+      {
+        "name": "present-speedrun-protected-clean.coverage-summary.json",
+        "bytes": 8471507,
+        "sha256": "2ec512bdd0f74fc94c477575c48b2d2d3ffe91dccb45afb702f32683571691dd"
+      },
+      {
+        "name": "present-speedrun-protected-clean.diagnostics-v2.json",
+        "bytes": 2283,
+        "sha256": "7edcac7393f37810e88e46c4e7b4db8b0aaa95586c63037a32f308d8cd98455b"
+      },
+      {
+        "name": "present-speedrun-protected-clean.execution.json",
+        "bytes": 10288,
+        "sha256": "bb5ee1dbd28bd8073e95319c4231b73a9185ef6ac459b340afca6b99d1b6fad2"
+      },
+      {
+        "name": "present-speedrun-protected-clean.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-speedrun-protected-clean.stdout-inventory.json",
+        "bytes": 98225,
+        "sha256": "c2e9cdfb4c0b8971fd5c5949f814e83cb8313090a9287d2b19f48a44022de3e7"
+      },
+      {
+        "name": "present-speedrun-protected-clean.stdout.raw",
+        "bytes": 181118,
+        "sha256": "5a1e1a30e7d789a10966921b81c33bc2f0fdf649315f8ed9ae11e45ea5b866d4"
+      },
+      {
+        "name": "present-speedrun-ratchet-clean.coverage-summary.json",
+        "bytes": 8471507,
+        "sha256": "df98a2e27c2c8cbab1b4b12dac867e16556846a3593da362ab0506a50c162a54"
+      },
+      {
+        "name": "present-speedrun-ratchet-clean.diagnostics-v2.json",
+        "bytes": 2278,
+        "sha256": "814396252d91a01adabbbe225e01eaf53bf8cf7d0085e61137437854123dc2c6"
+      },
+      {
+        "name": "present-speedrun-ratchet-clean.execution.json",
+        "bytes": 10158,
+        "sha256": "ef33cf4ca8fa22cb0d4bf60a97de1852699cfebe07492ff797c6cd2455b3fe88"
+      },
+      {
+        "name": "present-speedrun-ratchet-clean.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-speedrun-ratchet-clean.stdout-inventory.json",
+        "bytes": 98583,
+        "sha256": "e322529a87f225cd368786638a0a73ef13bff1eea3d5d45995b26b4d41d2bc12"
+      },
+      {
+        "name": "present-speedrun-ratchet-clean.stdout.raw",
+        "bytes": 199585,
+        "sha256": "e8cc5d8f87b6a47b01a90bbb29954e3700d826634ca6c2444274b752b2b43b6d"
+      },
+      {
+        "name": "present-speedrun-ratchet.coverage-summary.json",
+        "bytes": 8471507,
+        "sha256": "8496b26aa70025ae063351f9657d7991e51533f7cfdd29194ba326c41d8083ff"
+      },
+      {
+        "name": "present-speedrun-ratchet.diagnostics-v2.json",
+        "bytes": 2272,
+        "sha256": "419a600affa5d70793f222a3566eee2f5caaf245ed3fe94bfd7285707a739d39"
+      },
+      {
+        "name": "present-speedrun-ratchet.execution.json",
+        "bytes": 9320,
+        "sha256": "828a7f4d7846a75563284f15789b02f1d717ae0128b5dea752a4a3427102b478"
+      },
+      {
+        "name": "present-speedrun-ratchet.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-speedrun-ratchet.stdout.raw",
+        "bytes": 199403,
+        "sha256": "2f5316378c6706ee8849a80b8f24531b760b7d266e9396aa5fd9bda3e37f9bf6"
+      },
+      {
+        "name": "present-speedrun-seal-consumers.execution.json",
+        "bytes": 10753,
+        "sha256": "11b0be18b635cf6fbcff627e4c2c29a35ee583dc76ebfe0a6d7f5b28879d3ba8"
+      },
+      {
+        "name": "present-speedrun-seal-consumers.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-speedrun-seal-consumers.stdout.raw",
+        "bytes": 311,
+        "sha256": "7b16fd54ce3414a2dedc98ce8d89cbee165d6278d92a59ebd3293cab0e1cfd4f"
+      },
+      {
+        "name": "present-speedrun-seal-lint.execution.json",
+        "bytes": 10401,
+        "sha256": "6eb13b5061e85b754d354ed09c9f6577edc90d458e9135abb7e1ad6d95017087"
+      },
+      {
+        "name": "present-speedrun-seal-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "present-speedrun-seal-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "c1d9a8647475df22dc93d10551919ab6116e5e0b4f9b1a8b21ca13d71278b4f9"
+      },
+      {
+        "name": "prior-debug-scan-erratum.json",
+        "bytes": 3933,
+        "sha256": "70738fd9e1c1446ff74c544624dc6e6a8b394c2d9c8c1c8fa7e84032f5b991e5"
+      },
+      {
+        "name": "scan-v2.mjs",
+        "bytes": 2265,
+        "sha256": "bd867c9e610910069cea73ef72e888fcbf0ad75f2163f618553ca062857a1ca9"
+      },
+      {
+        "name": "source-commits.json",
+        "bytes": 268,
+        "sha256": "00eb95302d1b7780cb4d707b5aabc9379fe2d50cdde54f5496311c78eda57503"
+      },
+      {
+        "name": "baseline.before.json",
+        "bytes": 527846,
+        "sha256": "ecb42a553918f746ff9c9cee64f2e0d0edb6ff38123effd16c289b2db1c28540"
+      },
+      {
+        "name": "baseline.after.json",
+        "bytes": 528226,
+        "sha256": "76384e7b0d8901b37ad5240ee4d89f336eba9ba56b599878f0de17bb54cab188"
+      }
+    ]
+  },
+  "initialNonCleanRuns": {
+    "check": "present-speedrun-check-final: exit0, two stdout restore diagnostics; not clean credit",
+    "ratchet": "present-speedrun-ratchet: exit0, two stdout restore diagnostics; valid measured metrics only, not clean gate credit"
+  },
+  "decision": {
+    "reviewer": "Codex",
+    "cards": ["48", "49", "50", "61", "62", "63", "64", "65", "66", "67", "68", "69"],
+    "files": [
+      "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
+      "packages/game/src/present/menu/draw-equip.ts",
+      "packages/game/src/present/menu/draw-inventory.glm-phase1-leaves.test.ts",
+      "packages/game/src/present/menu/draw-inventory.ts",
+      "packages/game/src/present/menu/draw-magic.glm-phase1-leaves.test.ts",
+      "packages/game/src/present/menu/draw-magic.test.ts",
+      "packages/game/src/present/menu/draw-magic.ts",
+      "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
+      "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
+      "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+      "packages/game/src/present/menu/magic-player-info.integration.test.ts",
+      "packages/game/src/present/player-info-box.ts",
+      "packages/game/src/tools/speedrun/checkpoints.test.ts",
+      "packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts",
+      "packages/game/src/tools/speedrun/countdown.test.ts",
+      "packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
+      "packages/game/src/tools/speedrun/detectors.test.ts",
+      "packages/game/src/tools/speedrun/detectors.ts",
+      "packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts",
+      "packages/game/src/tools/speedrun/index.test.ts",
+      "packages/game/src/tools/speedrun/index.ts",
+      "packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts",
+      "packages/game/src/tools/speedrun/overlay.test.ts",
+      "packages/game/src/tools/speedrun/overlay.ts",
+      "packages/game/src/tools/speedrun/snapshot.test.ts",
+      "packages/game/src/tools/speedrun/snapshot.ts",
+      "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts",
+      "packages/game/src/tools/speedrun/store.test.ts",
+      "packages/game/src/tools/speedrun/store.ts",
+      "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
+      "packages/game/src/tools/speedrun/time-format.glm-phase1-leaves.test.ts",
+      "packages/game/src/tools/speedrun/time-format.test.ts",
+      "packages/game/src/tools/speedrun/timer.boundaries.test.ts",
+      "packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts",
+      "packages/game/src/tools/speedrun/timer.test.ts",
+      "packages/game/src/tools/speedrun/timer.ts"
+    ],
+    "cardCounts": {
+      "partial": 56,
+      "pending": 0,
+      "accept": 27
+    },
+    "remainingPartialCards": [
+      "1",
+      "2",
+      "2b",
+      "3",
+      "3b",
+      "3c",
+      "3d",
+      "3f",
+      "3g",
+      "3h",
+      "3i",
+      "3j",
+      "3k",
+      "3l",
+      "3m",
+      "3n",
+      "3o",
+      "3p",
+      "3q",
+      "3r",
+      "3s",
+      "3t",
+      "3u",
+      "3v",
+      "3w",
+      "3x",
+      "3y",
+      "3z",
+      "40",
+      "41",
+      "42",
+      "43",
+      "44",
+      "45",
+      "46",
+      "47",
+      "51",
+      "52",
+      "53",
+      "54",
+      "55",
+      "56",
+      "57",
+      "58",
+      "59",
+      "60",
+      "70",
+      "71",
+      "72",
+      "73",
+      "74",
+      "75",
+      "76",
+      "77",
+      "78",
+      "92"
+    ],
+    "liveLedger": {
+      "tracked": 3325,
+      "closed": 277,
+      "review": 173,
+      "pending": 2875
+    },
+    "netNewGlobalClosed": 5,
+    "explanation": "36 explicit current file acceptances rebuild31 withdrawn legacy closed credits, close3 previous review files and accept2 new files. No pending file forced closed."
+  },
+  "consoleOutput": {
+    "check": {
+      "blocks": 260,
+      "inventoryMember": "present-speedrun-check-clean.stdout-inventory.json",
+      "classification": "All complete bodies inspected:253 known ordinary operational blocks plus6 tilemap byte/pixel comparisons reporting0diff and1 actual author-read benchmark. Neither is a failure/warning. No unidentified messages."
+    },
+    "ratchet": {
+      "blocks": 253,
+      "inventoryMember": "present-speedrun-ratchet-clean.stdout-inventory.json",
+      "classification": "Full ordinary-message bodies inspected against existing logger sites:room playable, dev-panel setup/fixture,save-success,state-dump enabled."
+    },
+    "protected": {
+      "blocks": 253,
+      "inventoryMember": "present-speedrun-protected-clean.stdout-inventory.json",
+      "classification": "All complete bodies equal the inspected clean-ratchet body set."
+    },
+    "limits": "Message classification is scoped semantic review, not a new console ignore/allow rule. All raw remains visible. New/unclassified text must be reviewed; scanner alone cannot certify arbitrary future messages."
+  },
+  "risk": {
+    "userVisibleDisplay": "Yes, expressly approved poison/four statuses/HP0 defensive portrait/equip height/item-target shadow; real pixel reds before fix.",
+    "mechanism": "No change to HP/revival/buffs/poison ownership mechanisms; trigger restore routing only avoids duplicate generic fallback.",
+    "schemaSaveAssetPipelinePublicCrossPackageApi": "No changes.",
+    "notRun": "No new browser visual/E2E this window; original concentrated-e2e deferral remains. Pixel/native results do not claim browser appearance or battle-escape production-path verification."
+  },
+  "bookkeeping": {
+    "currentReviewMaintenance": "final-review-maintenance.json preserved with gate originals; current after-SHA paired with actual formatted line count. Earlier candidate inherited lineCount corrected, frozen originals/history not rewritten.",
+    "verifierEditingNote": "Intermediate local verifier lint rejected a control-character regex; replaced with node:util.stripVTControlCharacters without ignores. That development invocation is only in the tool transcript, not claimed as a captured gate. Current scoped and full-repo lint are0/0/0.",
+    "finalDocsErratum": "Initial final docs run exit1 with3 issues: terminal tasks remained on active board and index was not regenerated. Exactly2 terminal board rows removed, official task index regenerated; successor complete check:docs exits0, stderr0. Both raw originals preserved. No runtime/coverage rerun for documentation-only fix.",
+    "finalVerifierScope": "After complete runtime gates, read-only verifier additionally checks actual final-static raw/exit/outcomes; actual verifier execution and scoped lint cover this docs-tool delta. No production/test changes."
+  },
+  "finalStatic": [
+    {
+      "id": "present-speedrun-final-docs-fixed",
+      "role": "docs",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "present-speedrun-seal-consumers",
+      "role": "docs-consumers",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "present-speedrun-seal-lint",
+      "role": "lint",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "present-speedrun-final-ledger",
+      "role": "ledger",
+      "exit": 0,
+      "stderrBytes": 0
+    },
+    {
+      "id": "present-speedrun-final-diff",
+      "role": "diff",
+      "exit": 0,
+      "stderrBytes": 0
+    }
+  ],
+  "sourceCommits": [
+    "7a8c097428a30f68fedf5df561fb039f4b7e606e",
+    "ead58d030f89f5a5915be1e68d7c4116339d3753",
+    "bcd358b7e8ec3a8ac18246edc6662a04efdf39d4",
+    "74d86b7274d5f5a6d5f16279208b88b4eaf0de61"
+  ],
+  "candidateSourceCommit": "74d86b7274d5f5a6d5f16279208b88b4eaf0de61",
+  "integration": {
+    "branch": "codex/code-quality-3y",
+    "source": "Four source commits above; this receipt is committed separately. Current Git ancestry/refs establish actual push and FF-main completion; do not infer remote state from a pending authoring note.",
+    "scope": "Only12 original cards/36 explicit files,27accept/56partial. No94-102 expansion."
+  }
+}

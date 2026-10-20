@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-20T14:28:45.155Z",
+  "generatedAt": "2026-10-20T16:36:54.471Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 741,
+  "sourceFileCount": 742,
   "testCount": 19979,
   "packages": {
     "shared": {
@@ -4545,7 +4545,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 144,
+      "sourceFileCount": 145,
       "sourceFiles": [
         "packages/game/src/analytics/analytics-consent-ui.ts",
         "packages/game/src/analytics/analytics-consent.ts",
@@ -4649,6 +4649,7 @@
         "packages/game/src/present/menu/draw-opening-menu.ts",
         "packages/game/src/present/menu/draw-player-status.ts",
         "packages/game/src/present/menu/draw-shop.ts",
+        "packages/game/src/present/player-info-box.ts",
         "packages/game/src/present/present.ts",
         "packages/game/src/present/screen-shake.ts",
         "packages/game/src/present/screen-wave.ts",
@@ -4692,10 +4693,10 @@
         "packages/game/src/tools/tools-panel.test-fixtures.ts",
         "packages/game/src/tools/tools-panel.ts"
       ],
-      "scopeDigest": "3d2a37677a6915652346f0ab336ce6db7aafdceae80d1a1a015c9e4c109dc676",
+      "scopeDigest": "cb4239332d38150679e18bc5510e05198f434b331e8992559dfacaf9d20ab937",
       "fastTests": {
         "testCount": 3649,
-        "testFileCount": 320,
+        "testFileCount": 321,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
           "packages/game/src/analytics/analytics-consent.boundaries.test.ts",
@@ -4928,6 +4929,7 @@
           "packages/game/src/present/menu/inventory-desc-filter.grok-r1.test.ts",
           "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
           "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
+          "packages/game/src/present/menu/magic-player-info.integration.test.ts",
           "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
           "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
           "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
@@ -6112,7 +6114,7 @@
           {
             "file": "packages/game/src/present/menu/draw-magic.glm-phase1-leaves.test.ts",
             "testCount": 4,
-            "identityDigest": "4a81bc1b1b2f1314c8157e76836f216cfd97c900bd19d6e231bfc87b31dc6c5a"
+            "identityDigest": "404c2527ab0931e6bf39e2637d2dd09a06a1a99dbeb57c7e4114e38586d0755c"
           },
           {
             "file": "packages/game/src/present/menu/draw-magic.test.ts",
@@ -6157,7 +6159,7 @@
           {
             "file": "packages/game/src/present/menu/equip-role-pixels.grok-r1.test.ts",
             "testCount": 11,
-            "identityDigest": "8062439c248a6962d059d11c38036bf68a199346adba3c35f699313fa12c8ee1"
+            "identityDigest": "d73210950fdffb96a75ba66e8075bed2ba3da5cd72982bc3052a7e92070c999d"
           },
           {
             "file": "packages/game/src/present/menu/inventory-desc-filter.grok-r1.test.ts",
@@ -6167,12 +6169,17 @@
           {
             "file": "packages/game/src/present/menu/inventory-list-pixels.grok-r1.test.ts",
             "testCount": 12,
-            "identityDigest": "e9111d666a5186d10f6c19f7edbffff02fb47a427b551d6313a5060b4863a509"
+            "identityDigest": "970a7909dbc7ce7109405f550fdfbc63224b3a1994d09a368af532eafb00b6a6"
           },
           {
             "file": "packages/game/src/present/menu/magic-menu-pixels.grok-r1.test.ts",
             "testCount": 15,
-            "identityDigest": "be7cbb16458341c680f8643b127a6d4a8bbf83741bfa79ce9189d7f3ff40e9ed"
+            "identityDigest": "d5790bddfcc662a5e7f07cedb42c23f2216165cb3d664afb8e9137ef9a19449a"
+          },
+          {
+            "file": "packages/game/src/present/menu/magic-player-info.integration.test.ts",
+            "testCount": 3,
+            "identityDigest": "cc02f05d0df34381ec99acfcaed1eaf02fe161b8d46696abbc9fd3565de8389e"
           },
           {
             "file": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
@@ -6512,7 +6519,7 @@
           {
             "file": "packages/game/src/tools/speedrun/checkpoints.test.ts",
             "testCount": 3,
-            "identityDigest": "a1908d753ad7e11f7ca63ab8229e5f48514753cced1d4e1ba2ab42a3acffcb1f"
+            "identityDigest": "fc1491ec4b1d646142dfef30224861bb8cf54de230dd00f39122b03c7ebd9301"
           },
           {
             "file": "packages/game/src/tools/speedrun/countdown.glm-phase1-leaves.test.ts",
@@ -6526,13 +6533,13 @@
           },
           {
             "file": "packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts",
-            "testCount": 4,
-            "identityDigest": "e9d38b19b402b9c9d27a5c4bfbbc09d523beef0622e11327334731bd5cad96a1"
+            "testCount": 3,
+            "identityDigest": "cf5817d2ba128fa2454d2414c2e3ce7996ed3198339a9fc1f7099ff606061248"
           },
           {
             "file": "packages/game/src/tools/speedrun/detectors.test.ts",
-            "testCount": 8,
-            "identityDigest": "3416db45cceb4691c9937bd64937cb1e6a0c011f5d427a70b62a886ddc095cf3"
+            "testCount": 9,
+            "identityDigest": "db601c3d7001c47b05ee48103e4bb7d503bf74d931e0ec31c46eb0f6d2a28786"
           },
           {
             "file": "packages/game/src/tools/speedrun/index.glm-phase1-leaves.test.ts",
@@ -6547,12 +6554,12 @@
           {
             "file": "packages/game/src/tools/speedrun/overlay.glm-phase1-leaves.test.ts",
             "testCount": 2,
-            "identityDigest": "00f0d7515ed8129110b11e6f516e1b9b190ab4b32cfcc7b35d29b503b5188457"
+            "identityDigest": "223c894facf46378d86a9743d26e120d06d87c705f272429caf11ed0692e974b"
           },
           {
             "file": "packages/game/src/tools/speedrun/overlay.test.ts",
             "testCount": 4,
-            "identityDigest": "8cc1f65e2755febd9cd061d933ecf058d549e05acc2713594a0b5cedb153d668"
+            "identityDigest": "19e75cb2055770e7d35f2dcdad423b6fb6854de81c07a5cf5e18d1d16af882f4"
           },
           {
             "file": "packages/game/src/tools/speedrun/snapshot.test.ts",
@@ -6562,12 +6569,12 @@
           {
             "file": "packages/game/src/tools/speedrun/store.glm-phase1-leaves.test.ts",
             "testCount": 4,
-            "identityDigest": "91b573c5a7a1e73c12f7c811dd50114f15d7f657d57842c4bf2a14e447442684"
+            "identityDigest": "e9a0e3acd2469c813a3ae8333b45fe14f53c63c1c744bf2b7430069985821650"
           },
           {
             "file": "packages/game/src/tools/speedrun/store.test.ts",
             "testCount": 5,
-            "identityDigest": "59aa4795057b5e963435e985cec334d88a07737612637e9cea4eea5403e48ec3"
+            "identityDigest": "0959cfa3ba8ec746b95da38cd9153f64ee8bc0caea9b67d54429e5c58dd844f3"
           },
           {
             "file": "packages/game/src/tools/speedrun/time-format.boundaries.test.ts",
@@ -6586,18 +6593,18 @@
           },
           {
             "file": "packages/game/src/tools/speedrun/timer.boundaries.test.ts",
-            "testCount": 6,
-            "identityDigest": "663e4d930277b1e9f7c28485439836454d9c19035766385e7560d5747f07ac0c"
+            "testCount": 3,
+            "identityDigest": "37a51262d5836e57f22ee399b9ce714585eab39e92ca2a22b7f60aedaca04283"
           },
           {
             "file": "packages/game/src/tools/speedrun/timer.glm-phase1-leaves.test.ts",
             "testCount": 2,
-            "identityDigest": "4eeaa7ecd08319153a0f7e2e9b6191b662b32763b2f591416519b46a68ec3b80"
+            "identityDigest": "00f48e6450fbba813f5426ff0ae74bcf516a440f7ade9b068a6d5226ce9e21b4"
           },
           {
             "file": "packages/game/src/tools/speedrun/timer.test.ts",
             "testCount": 14,
-            "identityDigest": "0f1dc0b224dbab97b888bc7611ffb745a70117a4a918ce98c8c95b3910045557"
+            "identityDigest": "59b6b6fc61c1bdf23c462731160394bcab4714fbb952ed1b29c71778a2326dab"
           },
           {
             "file": "packages/game/src/tools/toast.glm-phase1-leaves.test.ts",
@@ -6620,26 +6627,26 @@
             "identityDigest": "1e1868d0d636dbcd794649a3970d6f09897d3c1b05c7540656cf1a8adce7b18e"
           }
         ],
-        "identityDigest": "eb4f032696977e1d122d7bd7ed81c6702e178b7ca69c4e7a1d7d1db2a2f3fe0e",
+        "identityDigest": "fba2de195f85b475f329ac428f004820bd491f2e30d352f4197bd93f396abd13",
         "duplicateIdentityCount": 0,
-        "executionDigest": "027e7a09146cbf29b46a309a59104ae1c1382bc9e49179c3b5448e05e5f27fb7"
+        "executionDigest": "354d603a7c51bd6a9d27c829fd4764076641a639ad9469d01ee7655833b9d7eb"
       },
       "metrics": {
         "statements": {
-          "covered": 14346,
-          "total": 16083
+          "covered": 14349,
+          "total": 16085
         },
         "branches": {
-          "covered": 9333,
-          "total": 11634
+          "covered": 9338,
+          "total": 11632
         },
         "functions": {
-          "covered": 1677,
-          "total": 1966
+          "covered": 1679,
+          "total": 1968
         },
         "lines": {
           "covered": 12795,
-          "total": 14097
+          "total": 14096
         }
       }
     },
@@ -10658,20 +10665,20 @@
   },
   "total": {
     "statements": {
-      "covered": 71426,
-      "total": 79279
+      "covered": 71429,
+      "total": 79281
     },
     "branches": {
-      "covered": 51846,
-      "total": 61897
+      "covered": 51851,
+      "total": 61895
     },
     "functions": {
-      "covered": 13553,
-      "total": 15103
+      "covered": 13555,
+      "total": 15105
     },
     "lines": {
       "covered": 63802,
-      "total": 69374
+      "total": 69373
     }
   }
 }

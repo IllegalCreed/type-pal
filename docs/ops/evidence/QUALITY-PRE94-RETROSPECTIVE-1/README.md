@@ -1,5 +1,9 @@
 # 94前全部治理成果复审
 
+2026-10-21追加门诊断勘误：[当前门与历史原件复算](present-speedrun-gates.json)。原菜单check/ratchet/protected原件各有两条stdout的0x008E未实现诊断，旧扫描漏计；下文历史“零运行诊断”门信用撤回，原raw/数值不改。九卡逐文件代码结论独立保留，统一门待当前窗口重新建立。trigger已在外层处理该指令，却误入generic fallback；两指定红例与358相邻绿证明当前窄修，未静音console、放宽规则或改变画面机制。
+
+2026-10-21当前present/speedrun窗口：[36文件A–H与实际合同迁移](present-speedrun-local.json)、[完整本地原件](present-speedrun-native.json.gz)、[默认只读快检](verify-present-speedrun.mjs)。运行 `node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/verify-present-speedrun.mjs` 只核输入/附件/运行身份与精确body，不写树或重跑测试；可显式加 `--replay=speedrun-timer-memory-new` 在新临时目录重放指定业务反控。当前31文件163定向/相邻通过、零运行诊断；36文件为候选，12张卡仍partial，集中门未跑，不提前授关闭。HP0只作批准的防御显示，坐标/BGM校准仍未知。
+
 当前菜单模块CODE83–89/91/93：[36文件八维与整改](menu-core-closeout.json)、[完整定向原件](menu-native.json.gz)。只读快检：`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/verify-menu-closeout.mjs`。中央状态按回执integration的实际门通过后更新：本窗口九卡/36文件接受；相邻广域文件不附带关闭。
 
 本窗口集中门：[诊断根因、断言不变与可见性](menu-gate-diagnostics.json)、[完整原件（含失败与探针）](menu-gate-native.json.gz)。editor原631 act/243环境诊断已归零；44份改动测试的2159条原expect和标题不变，C04专用宿主另保留11条原expect。Reforge最终由统一原生事务/缩略图IO的异步关闭收口，先前局部等待已撤回。真实对话夹具修正导致的精确game重计数已按用户授权和旧测试/LCOV原件登记。完整check20377例、official ratchet/protected各19979例均零运行诊断；当前最终文档/静态门见同回执。仅36菜单文件正式关闭，相邻广域文件不附带接受。
@@ -265,3 +269,7 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 - 2026-10-19：[83卡实际范围/旧撤回对账](glm-foundation/codex-pre94-scope.json)——83范围路由、493关联路径字节索引；不授逐文件/整卡accept。annotation两测试与既有review证据同SHA，live已恢复review；234closed/120review/2962pending。
 
 2026-10-20 [C1–C3有限接收与Codex窄返工](codex-pending27-acceptance.json)：69身份/8读域撤回/五单红与恢复，修四测试夹具及RNG跳过oracle；78partial/5pending/0accept，缺维仍review、0新关闭，主门已集中实跑，最终静态门与原件见同一回执。
+
+2026-10-21 present/speedrun正式裁定：48/49/50/61–69共12卡/36文件接受，累计27accept/56partial/0pending；[当前完整门、旧诊断勘误与原件](present-speedrun-gates.json)为本窗口收口依据。上下文大文件、checkpoint运行校准和94–102不随门通过升格；本窗口未新跑浏览器E2E。
+
+本窗口集中门完整字节原件：[present/speedrun门原件](present-speedrun-gates-native.json.gz)；原始失败/非干净回执和后继干净结果并存，正文勘误不倒写历史计数。

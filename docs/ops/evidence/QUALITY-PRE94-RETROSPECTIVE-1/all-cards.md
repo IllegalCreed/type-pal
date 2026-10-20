@@ -1,6 +1,6 @@
 # 94前全部83卡复审队列
 
-2026-10-20当前：15 accept / 68 partial / 0 pending。首六卡与本轮九张菜单卡按各自原合同正式接收；[菜单36文件裁定](menu-core-closeout.json)含逐文件八维/整改/原件和集中门，历史done或包绿不自动继承。
+2026-10-21当前：27 accept / 56 partial / 0 pending。首15卡与本轮48/49/50/61–69共12卡按原合同接收；[36文件A–H](present-speedrun-local.json)与[当前集中门/历史诊断勘误](present-speedrun-gates.json)可复验。共享广域文件与checkpoint运行校准不附带接受。
 
 | 卡 | 原卡状态 | 当前复审 | 范围/证据 |
 |---|---|---|---|
@@ -41,9 +41,9 @@
 | [CODE-QUALITY-45](../../archive/tasks/done/CODE-QUALITY-45-game-follower-render.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
 | [CODE-QUALITY-46](../../archive/tasks/done/CODE-QUALITY-46-game-draw-confirm.md) | done | partial | [既有复审切片](46-draw-confirm/README.md)：只同步 JSON 中已登记的 partial；有限证据不等于整卡 accept |
 | [CODE-QUALITY-47](../../archive/tasks/done/CODE-QUALITY-47-game-draw-box.md) | done | partial | [draw-box 复审](47-draw-box/README.md)：四文件全文、box caller/SDL primary、22 直接 + 127 相邻通过；未发现直接缺陷，统一门仍待 |
-| [CODE-QUALITY-48](../../archive/tasks/done/CODE-QUALITY-48-game-draw-equip.md) | done | partial | [draw-equip 复审](48-draw-equip/README.md)：三文件全文、equip/menu caller/SDL primary、16 直接 + 167 相邻通过；零数量差异为不可达防御输入，统一门仍待 |
-| [CODE-QUALITY-49](../../archive/tasks/done/CODE-QUALITY-49-game-draw-inventory.md) | done | partial | [draw-inventory 复审](49-draw-inventory/README.md)：实现/三测试、P01/P02、menu caller/SDL primary 已核；live-zero 已对齐；像素测试 1 条 node DOM 诊断保留 review，统一门仍待 |
-| [CODE-QUALITY-50](../../archive/tasks/done/CODE-QUALITY-50-game-draw-magic.md) | done | partial | [draw-magic 复审](50-draw-magic/README.md)：四文件/P06/SDL primary、25 直接 + 136 相邻通过；PlayerInfoBox 状态/毒色缺口开高风险卡，统一门仍待 |
+| [CODE-QUALITY-48](../../archive/tasks/done/CODE-QUALITY-48-game-draw-equip.md) | done | accept | [本轮36文件与集中门](present-speedrun-gates.json)：原白名单A–H、整改/排重和完整原件成立；不附带上下文文件或运行校准信用 |
+| [CODE-QUALITY-49](../../archive/tasks/done/CODE-QUALITY-49-game-draw-inventory.md) | done | accept | [本轮36文件与集中门](present-speedrun-gates.json)：原白名单A–H、整改/排重和完整原件成立；不附带上下文文件或运行校准信用 |
+| [CODE-QUALITY-50](../../archive/tasks/done/CODE-QUALITY-50-game-draw-magic.md) | done | accept | [本轮36文件与集中门](present-speedrun-gates.json)：原白名单A–H、整改/排重和完整原件成立；不附带上下文文件或运行校准信用 |
 | [CODE-QUALITY-51](../../archive/tasks/done/CODE-QUALITY-51-game-draw-opening-menu.md) | done | partial | [draw-opening-menu 复审](51-draw-opening-menu/README.md)：三文件/SDL primary/P06相邻、17 直接 + 107 相邻通过；未发现 direct defect，wave 统一门仍待 |
 | [CODE-QUALITY-52](../../archive/tasks/done/CODE-QUALITY-52-game-draw-shop-wave-member.md) | done | partial | [draw-shop 复审](52-draw-shop/README.md)：实现/三测试/P04/SDL primary，18/19 直接 + 117 相邻通过；shop-preview 保留 1 条 node DOM 诊断，wave 统一门仍待 |
 | [CODE-QUALITY-53](../../tasks/CODE-QUALITY-53-player-status-runtime-zero.md) | build | partial | [五卡八维/返工](five-cards/README.md)：runtime0/显示槽与role入口、正式换队/读档caller已复核；inspect合法工厂及状态页图标/双早退测试补强；Wear压缩/入口重入和广域状态机仍review，视觉未新跑。 |
@@ -54,15 +54,15 @@
 | [CODE-QUALITY-58](../../archive/tasks/done/CODE-QUALITY-58-game-tools-panel-audit.md) | done | partial | [夹具/隔离勘误](58-tools-panel-fixtures/README.md)：更正核心强转/窗口监听跨例，正式19绿/相邻199绿；无新统一门，save边界不认证 |
 | [CODE-QUALITY-59](../../archive/tasks/done/CODE-QUALITY-59-game-save-import-version-boundary.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
 | [CODE-QUALITY-60](../../archive/tasks/done/CODE-QUALITY-60-game-quick-save-lifecycle.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
-| [CODE-QUALITY-61](../../archive/tasks/done/CODE-QUALITY-61-game-speedrun-store-boundary.md) | done | partial | [speedrun store 复审](61-speedrun-store/README.md)：2 文件/9 直接，index/overlay/tools-panel 30 相邻；非法 localStorage 与小数毫秒 PB 合同已核 |
-| [CODE-QUALITY-62](../../archive/tasks/done/CODE-QUALITY-62-game-speedrun-timer-boundary.md) | done | partial | [speedrun timer 复审](62-speedrun-timer/README.md)：3 文件/22 tests 通过；起表/暂停/倒计时/setStep/PB/detector 边界已核 |
-| [CODE-QUALITY-63](../../archive/tasks/done/CODE-QUALITY-63-game-speedrun-snapshot-boundary.md) | done | partial | [合法夹具/解绑勘误](63-65-speedrun-fixtures/README.md)：正式构造器，静默重置反控旧20绿新单红；正式20绿，无新统一门 |
-| [CODE-QUALITY-64](../../archive/tasks/done/CODE-QUALITY-64-game-speedrun-detectors-boundary.md) | done | partial | [speedrun detectors 复审](64-speedrun-detectors/README.md)：实现/两测试与 timer/snapshot/checkpoints caller 已核；六文件/42 tests、game typecheck通过 |
-| [CODE-QUALITY-65](../../archive/tasks/done/CODE-QUALITY-65-game-speedrun-index-orchestration.md) | done | partial | [合法夹具/解绑勘误](63-65-speedrun-fixtures/README.md)：正式构造器，静默重置反控旧20绿新单红；正式20绿，无新统一门 |
-| [CODE-QUALITY-66](../../archive/tasks/done/CODE-QUALITY-66-game-speedrun-overlay-boundary.md) | done | partial | [speedrun overlay 复审](66-speedrun-overlay/README.md)：实现/两测试与 index/timer/store/time-format caller 已核；补差值/ETA oracle，5文件/25 tests、game typecheck通过 |
-| [CODE-QUALITY-67](../../archive/tasks/done/CODE-QUALITY-67-game-speedrun-checkpoint-boundary-tests.md) | done | partial | [speedrun checkpoint tests 复审](67-speedrun-checkpoint-tests/README.md)：checkpoint/timer boundary 与 detector/index caller 已核；四文件/31 tests、game typecheck通过，运行时校准仍 unknown |
-| [CODE-QUALITY-68](../../archive/tasks/done/CODE-QUALITY-68-game-speedrun-countdown-tests.md) | done | partial | [countdown 测试复审](68-countdown-tests/README.md)：合并重复生命周期oracle、补同文字DOM变更/SSR合同；旧绿新单红，20文件104例通过；新统一门未运行 |
-| [CODE-QUALITY-69](../../archive/tasks/done/CODE-QUALITY-69-game-speedrun-time-format-tests.md) | done | partial | [time-format复审](69-time-format-tests/README.md)：去重/纠错标题/拆合同；两枚旧10绿新单红；相邻20文件108例通过，生产源仍review，新统一门未跑 |
+| [CODE-QUALITY-61](../../archive/tasks/done/CODE-QUALITY-61-game-speedrun-store-boundary.md) | done | accept | [本轮36文件与集中门](present-speedrun-gates.json)：原白名单A–H、整改/排重和完整原件成立；不附带上下文文件或运行校准信用 |
+| [CODE-QUALITY-62](../../archive/tasks/done/CODE-QUALITY-62-game-speedrun-timer-boundary.md) | done | accept | [本轮36文件与集中门](present-speedrun-gates.json)：原白名单A–H、整改/排重和完整原件成立；不附带上下文文件或运行校准信用 |
+| [CODE-QUALITY-63](../../archive/tasks/done/CODE-QUALITY-63-game-speedrun-snapshot-boundary.md) | done | accept | [本轮36文件与集中门](present-speedrun-gates.json)：原白名单A–H、整改/排重和完整原件成立；不附带上下文文件或运行校准信用 |
+| [CODE-QUALITY-64](../../archive/tasks/done/CODE-QUALITY-64-game-speedrun-detectors-boundary.md) | done | accept | [本轮36文件与集中门](present-speedrun-gates.json)：原白名单A–H、整改/排重和完整原件成立；不附带上下文文件或运行校准信用 |
+| [CODE-QUALITY-65](../../archive/tasks/done/CODE-QUALITY-65-game-speedrun-index-orchestration.md) | done | accept | [本轮36文件与集中门](present-speedrun-gates.json)：原白名单A–H、整改/排重和完整原件成立；不附带上下文文件或运行校准信用 |
+| [CODE-QUALITY-66](../../archive/tasks/done/CODE-QUALITY-66-game-speedrun-overlay-boundary.md) | done | accept | [本轮36文件与集中门](present-speedrun-gates.json)：原白名单A–H、整改/排重和完整原件成立；不附带上下文文件或运行校准信用 |
+| [CODE-QUALITY-67](../../archive/tasks/done/CODE-QUALITY-67-game-speedrun-checkpoint-boundary-tests.md) | done | accept | [本轮36文件与集中门](present-speedrun-gates.json)：原白名单A–H、整改/排重和完整原件成立；不附带上下文文件或运行校准信用 |
+| [CODE-QUALITY-68](../../archive/tasks/done/CODE-QUALITY-68-game-speedrun-countdown-tests.md) | done | accept | [本轮36文件与集中门](present-speedrun-gates.json)：原白名单A–H、整改/排重和完整原件成立；不附带上下文文件或运行校准信用 |
+| [CODE-QUALITY-69](../../archive/tasks/done/CODE-QUALITY-69-game-speedrun-time-format-tests.md) | done | accept | [本轮36文件与集中门](present-speedrun-gates.json)：原白名单A–H、整改/排重和完整原件成立；不附带上下文文件或运行校准信用 |
 | [CODE-QUALITY-70](../../archive/tasks/done/CODE-QUALITY-70-game-audio-volume-boundary.md) | done | partial | [音量两测试](70-audio-volume/README.md)：排重/拆合同、共享key注释与独立oracle；忽略key旧6绿新单红，相邻36绿，无新统一门 |
 | [CODE-QUALITY-71](../../archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md) | done | partial | [源/三测试与真实取消反证](3h/fetch-retry/README.md)：三旧绿新红、族19；取消生命周期draft/完整game17块未清 |
 | [CODE-QUALITY-72](../../archive/tasks/done/CODE-QUALITY-72-game-boot-loading-lifecycle.md) | done | partial | [启动加载](72-boot-loading/README.md)：20例排重/三枚旧绿新单红、相邻54绿；实际失败覆盖反例另卡，产品review/rework，无新统一门 |

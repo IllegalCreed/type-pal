@@ -1,5 +1,9 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
+> 2026-10-21最新：27accept/56partial/0pending。本窗口新增12卡/36明确文件接受；下面原时点数字与回执保留为历史，当前唯一计数以all-cards.json及live ledger机器输出为准。
+
+> 2026-10-21追加勘误：上一菜单窗口的完整check/ratchet/protected原件各有两条stdout的0x008E诊断，旧扫描漏计，原“零运行诊断”统一门信用撤回。原件与旧计数不改，九卡逐文件代码结论独立保留。当前窄修与集中补门见[present/speedrun门记录](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)；未过门前不合main或新增关闭。
+
 > 2026-10-18 波次门勘误：本页引用的 [47–52统一门回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/README.md) 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据。本页原逐文件/定向结果按各自证据保留，旧计数不改写为0。
 
 Status: build
@@ -993,3 +997,27 @@ Codex premise verified/build allowed：从0b778bc0f续行同一3y，fetch完成�
 实际GLM41改动源码的详细记录增至12，余29均为注释改动。累计29源码/测试矩阵并非GLM29/41。scene的纯逻辑/全维关闭和cov85的装备状态E存在缺口，各一旧closed撤review；BGM原pending登记review，其余三源原review保持。机器3316/228closed/130review/2958pending，0新关闭；243漂移子集未变，83卡56partial/27pending/0accept字节不动。映射3v/3t/90/3q仅定位旧范围，53/79关联的其它opcode不因此复审或扩权；BGM作为实际GLM交付保留，无编号卡归属不伪造。
 
 当前只收GLM返工；costMP/casterRoleId未用参数是公共签名候选，scene多世界/并发load设计和其它cov85测试全E不在本片强关。全仓check/coverage/protected仅GLM整批收尾；旧editor诊断/E2E审核到期保持，当前不合main。下一片处理29个仅注释文件的真实文案与缺失设计依据，不另开无关工具或其它83卡治理。
+
+## 2026-10-21 present批准返工与下一片准入
+
+沿用3y，fetch后b7fc0524a与origin/main同点；Codex唯一Owner。批准的仙术毒色/四状态/HP0兜底、装备单人框、物品目标框阴影已按真实像素红例先行。共享PlayerInfoBox纯提取冻结两文件patch，原battle compute出口/函数体保持；world三阶段经真实菜单确认推进，另有漏传poison依赖的单红反控。初始第二头像横坐标错一像素的红运行不授信用，修正后保留三业务红；旧Grok正常头像未hydrate的问题修正夹具，保留原像素断言。装备/物品旧23例中恰两业务红，修复后7文件38绿；最终13文件76绿、stderr为空，包含真实canvas那一例，后者过去node环境失败不倒写为通过。game typecheck亦通过。
+
+三份仙术测试去掉冗余强转与重复Magic字段，普通角色MP与runtime显式初始化；撤回GLM末例未执行的角色名回退声明，仅保留实际spell label回退合同。此处仍为局部返工证据，48/49/50及83卡计数15accept/68partial未升级；统一check/coverage/protected留present与speedrun大窗口，未推送/合main。原件暂存于/tmp/type-pal-pre94-present-20261020-GIXlJf，收口前打包到本卡evidence并给默认只读快检。
+
+下一片build allowed：CODE61/66的store与overlay测试补强，必要时以等价布尔表达式删除detectors现有ignore；Owner仍仅Codex。复用前轮8源码及11测试/overlay主测完整阅读，不重推有效A/oracle。只修已证defaults别名盲点、错误style清理ID/空操作幂等和不完整splits夹具；未知checkpoint运行时坐标校准不冒充已验证，产品参数/UI/存储合同不改。先旧绿/新指定业务红再恢复，补A–H具体缺口。
+
+CODE64同片E补充准入：hasItem/bgmIs原例只有命中断言，隔离变异把两者恒返true后原12例全绿。Codex仅补实际成员/音乐号不匹配反例，把原一例两函数拆为各自合同；不改checkpoint配置或运行机制。原型计数不用于验收，反控须落在两条业务断言。
+
+## 2026-10-21 present/speedrun候选冻结
+
+[36文件逐项A–H/33运行/合同迁移](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-local.json)与完整原件已落仓，默认只读快检通过。当前31文件163定向/相邻零诊断；三个timer新反控分别针对未tick已有倒计时、reset改PB与setStep漏清mem，旧22各绿、新19各单业务红。speedrun没有产品机制改动；detector只做等价布尔表达式且移旧ignore，timer仅修错误注释。四个重复detector用例迁回各factory，数量/身份/字节授权严格钉在两条新增退役快照，不改变判据。正常菜单夹具共享已hydrate且数值合法的factory，缺资源/角色等防御输入仍单独标明；不会为显示修复恢复错误HP/MP回退。
+
+只关闭明确原卡合同，广域battle/UI/引擎及checkpoint生产校准不附带接受；12卡门后才裁定，当前83卡仍15accept/68partial。本次不扩94–102。下一步静态/文档与账本对账后，一次集中跑check、official ratchet和protected；零诊断前不推送/合main。
+
+2026-10-21 可见门追加勘误与窄build allowed：原扫描未计stdout中的 `event-system: skip raw opcode=0x008e`，当前全仓check与ratchet原件各含两条，不能作为零诊断门；此前菜单窗口相同日志需逐原件补记，旧扫描数值不倒写。Codex独占event-system.ts的trigger/raw分发与两份既有对话测试的相关用例，先以真实梦境/跨页后继状态断言加未实现诊断反例，再将已在外层完成对话处理的0x8E直接消费，避免误入通用未实现分发；未知指令诊断保留。只修实际分发所有权，不新增画面/状态机制，不授大文件整体接受；通过完整原件和反控核清后集中补门。
+
+## 2026-10-21 present/speedrun模块收口
+
+本窗口48/49/50/61–69共12卡、36文件按原白名单A–H接受，当前27accept/56partial/0pending；[逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-local.json)与[统一门/诊断勘误/原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)。共享PlayerInfoBox消除world/battle重复且只读显式输入；批准的毒/四状态/HP0防御显示、单人装备高度和物品目标阴影均先业务红后修。速度工具补强defaults别名、style创建、detector负例、timer时钟/PB/记忆隔离，四个旧例合同迁移并精简。全局账本实测277closed/173review/2875pending，新增36当前逐文件接受中31是旧closed重建信用，净增5。
+
+原菜单窗口与本窗口初跑各两条stdout的0x8E诊断已逐原件勘误，未倒写历史0数值；trigger外层已完成该指令而generic fallback误报，窄路由修复保留真正未知指令诊断，原有状态/历史/金钱断言全保留。新完整check、official ratchet、protected fast与最终静态门分别留原件；提交/推送/合main以交接记录及实际Git为准，不提前写已合并。当前未新跑浏览器视觉/E2E，延后范围沿原卡，不泛化framebuffer原件；checkpoint坐标/BGM校准、whole battle/event/draw-menu/world等上下文不附带关闭，94–102未扩展。

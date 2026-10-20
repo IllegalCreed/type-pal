@@ -1,6 +1,6 @@
 # GAME-PRE94-MENU-PIXEL-PARITY-1 — pre94三处既有菜单显示分歧
 
-Status: draft
+Status: done
 Owner: Codex
 Reviewer: Codex（不冒充第三方）
 Coding Owner: Codex
@@ -11,7 +11,7 @@ Visual Verification Timing: e2e-deferred
 
 ## 范围与停止线
 
-仅pre94 CODE48/49/50已登记的三处显示分歧，非94–102扩展。当前菜单九卡集中门期间不改实现。三项均已获用户裁决；后续先真实framebuffer红例，再修复显示；不改状态机制、存档、资源或公共跨包接口。其它独立pre94工作继续。
+仅pre94 CODE48/49/50已登记的三处显示分歧，非94–102扩展。菜单九卡已在b7fc0524a合入main，现按当前白名单开工。三项均已获用户裁决；后续先真实framebuffer红例，再修复显示；不改状态机制、存档、资源或公共跨包接口。其它独立pre94工作继续。
 
 ## 当前源码与primary
 
@@ -28,3 +28,15 @@ Visual Verification Timing: e2e-deferred
 ## 交接
 
 与GAME-MAGIC-PLAYERINFO-STATUS-1协调到同一后续present窗口；当前已获三项显示授权，仍不授三文件验收，不提前把48/49/50升级。
+
+## 2026-10-20 build allowed
+
+Codex唯一Owner；与GAME-MAGIC-PLAYERINFO-STATUS-1共用present窗口。①死亡黑白兜底纳入同一PlayerInfoBox显示合同，保留“防御夹具、未声称完整逃跑路径”的边界；②装备选人和③物品目标阴影分别以独立真实像素红例先行。内部显示依赖接线/共享叶属于已批准显示的技术落地，不扩展跨包公共API、状态机制或资产。当前83卡仍15accept/68partial，48/49/50不提前关闭。
+
+## 2026-10-21 本地修复与验证
+
+当前实现已完成用户批准范围，原始先红后修与后继重放、共享纯提取快照、真实菜单三阶段接线、必要测试夹具/标题修正均见[窗口唯一入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-local.json)。本卡不授48/49/50整卡信用；31文件163定向/相邻通过、无运行诊断，game typecheck通过。全仓check/official coverage ratchet/protected仍待集中收尾，浏览器视觉/E2E未新跑，不把framebuffer原件泛化为观感验收。
+
+## 2026-10-21 完成裁定
+
+批准显示范围已完成；共享纯提取与行为修复分别提交，红/绿/真实菜单三阶段、相邻回归和本次完整质量门见[集中回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)。只授本卡显示合同与明确文件结论；HP0为批准的防御显示，未声称完整逃跑生产路径已测；浏览器观感/E2E仍沿原卡集中延后，不改状态机制/存档/资产或跨包公共接口。

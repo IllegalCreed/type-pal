@@ -1,6 +1,6 @@
 # GAME-MAGIC-PLAYERINFO-STATUS-1 — 大世界仙术页 PlayerInfoBox 状态显示边界
 
-Status: draft
+Status: done
 Phase: phase1
 Capability: Q3 present/menu / first-phase user-visible behavior
 Coding Owner: Codex
@@ -8,14 +8,14 @@ Reviewer: Codex（独立复核）
 Branch: codex/code-quality-3y
 Visual Verification Timing: e2e-deferred
 
-> 2026-10-20用户已批准：按SDLPal补齐第一阶段大世界仙术页的中毒头像染色与乱/定/眠/封状态字，先失败像素反例再实现；只补显示，不改状态机制或存档。当前菜单九卡集中门期间冻结实现，本卡仍draft，待该窗口合入后核当前caller/只读适配/primary并进入build。Codex唯一Coding Owner，不再重复申请同一产品裁决。
+> 2026-10-20用户已批准：按SDLPal补齐第一阶段大世界仙术页的中毒头像染色与乱/定/眠/封状态字，先失败像素反例再实现；只补显示，不改状态机制或存档。菜单九卡已在b7fc0524a合入main，现核现有caller/只读适配/primary后进入build。Codex唯一Coding Owner，不再重复申请同一产品裁决。
 
 ## 发现
 
 `packages/game/src/present/menu/draw-magic.ts` 的 `drawPlayerInfoBox` 只绘制 frame 18、角色头像、HP/MP 和 slash，并在注释中明确省略中毒染色与状态字。SDLPal `reference/sdlpal/uibattle.c:31-269` 的 `PAL_PlayerInfoBox` 会：
 
 - 读取当前队伍位置的 `rgPoisonStatus`，按毒色重染头像；死亡角色改黑白；
-- 在活人信息框中绘制 confused/slow/sleep/silence 四类状态字；
+- 在活人信息框中绘制 confused/paralyzed/sleep/silence 四类状态字；
 - 这些是大世界仙术页 `magicmenu.c:413-484` / `uigame.c:684-693` 复用的用户可见信息框。
 
 第一阶段文档 `docs/phase1/plans/2026-06-06-battle-system-current-audit.md` 记录该 `PAL_PlayerInfoBox` 状态字与中毒头像变色已修复。当前绘制输入没有明确的 `objectPoisons`/status 显示依赖，不能在本卡内擅自新增公共输入或改变 UI 形态。
@@ -40,3 +40,15 @@ Visual Verification Timing: e2e-deferred
 ## 下一步
 
 当前菜单九卡收口后，按已给裁决先写一个能区分“缺状态字/缺头像染色”的 framebuffer 失败反例，再决定是否进入实现；随后跑 magic direct、menu/status 相邻和统一质量门。未裁决前可继续不重叠的 pre-94 文件复审。
+
+## 2026-10-20 当前 build allowed
+
+Codex唯一Coding Owner；基点b7fc0524a，与origin/main同点且主树干净。先保留真实drawMenuStack→drawInGameMagicMenu的三个像素红例，覆盖非canonical队序的party-slot毒色、四状态字、已批准的HP0防御显示。允许提取独立present PlayerInfoBox叶，角色状态/数值由各自world/battle adapter只读投影；保留battle computePlayerFaceColor既有出口与签名，不引入world→battle渲染反向依赖。纯共享重构与显示修复分别留源码快照/提交；统一门仍集中整个present大窗口收尾。生命周期/资源缺帧/透明像素与既有world/battle相邻测试必须核验，不以新三个例子代替50卡整体验收。
+
+## 2026-10-21 本地修复与验证
+
+当前实现已完成用户批准范围，原始先红后修与后继重放、共享纯提取快照、真实菜单三阶段接线、必要测试夹具/标题修正均见[窗口唯一入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-local.json)。本卡不授48/49/50整卡信用；31文件163定向/相邻通过、无运行诊断，game typecheck通过。全仓check/official coverage ratchet/protected仍待集中收尾，浏览器视觉/E2E未新跑，不把framebuffer原件泛化为观感验收。
+
+## 2026-10-21 完成裁定
+
+批准显示范围已完成；共享纯提取与行为修复分别提交，红/绿/真实菜单三阶段、相邻回归和本次完整质量门见[集中回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)。只授本卡显示合同与明确文件结论；HP0为批准的防御显示，未声称完整逃跑生产路径已测；浏览器观感/E2E仍沿原卡集中延后，不改状态机制/存档/资产或跨包公共接口。
