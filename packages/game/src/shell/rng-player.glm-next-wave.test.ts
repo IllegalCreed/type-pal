@@ -30,7 +30,6 @@ function rngFrame(fill: number): IndexedImage {
   }
 }
 
-/** DOM 替身:原型链正确的 2D 上下文,只实现 flushToCanvas 声明的 putImageData 端口。 */
 /** DOM 替身:原型取自环境自身 2D 上下文,只实现 flushToCanvas 声明的 putImageData 端口。 */
 function ctxSpy(): CanvasRenderingContext2D {
   const probe = document.createElement('canvas').getContext('2d')
