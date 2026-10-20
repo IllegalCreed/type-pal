@@ -457,9 +457,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Actual scoped delta and explicitly bounded C1-C3/native evidence;not another whole83card review.",
+      "readMethod": "Reuse prior body assessment;read actual five-card scoped diff/caller/evidence. Do not infer whole-file execution or broad new review from new afterSHA.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Only pre94 row:Codex accepts finite9fecC1-C3 candidate and directly repairs4tests;78partial/5pending/0accept,0newclosed,major gates separately recorded in the linked current receipt;94-102excluded.",
+      "coreConclusion": "Five existing task rows and parent updated for scoped eight-axis rework;review status,whole gates separately recorded,no94-102scope.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -468,14 +468,14 @@
       "unresolved": [
         "Historical product/coverage/unified gates remain outside this documentation-only integration."
       ],
-      "nextStep": "Integrate only this batch after linked zero-diagnostic gates and 0behind;remainingpre94unknowns stayopen.",
+      "nextStep": "Use linked five-card per-file decisions and actual integration gates;no whole83card acceptance.",
       "phase": "ops",
       "module": "board.md",
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "d5d5b934dd069f374ce56cb8ccf0f009c1fbc6aed68c1cbc5cdab0e696432d73",
+      "afterSha256": "6ee005ffe419fa8ee372ee458c2315df4b2a3c22e507326a200a74e8340d3c32",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -504,7 +504,7 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "d5d5b934dd069f374ce56cb8ccf0f009c1fbc6aed68c1cbc5cdab0e696432d73",
+        "implementationSha": "6ee005ffe419fa8ee372ee458c2315df4b2a3c22e507326a200a74e8340d3c32",
         "contentVersion": 24,
         "minimumSaveVersion": 12,
         "history": [
@@ -1649,9 +1649,9 @@
         ]
       },
       "evidence": {
-        "kind": "codex-scoped-C1-C3-admission",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-        "afterSha256": "d5d5b934dd069f374ce56cb8ccf0f009c1fbc6aed68c1cbc5cdab0e696432d73",
+        "kind": "five-card-scoped-source-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
+        "afterSha256": "6ee005ffe419fa8ee372ee458c2315df4b2a3c22e507326a200a74e8340d3c32",
         "lineCount": 97
       },
       "history": [
@@ -1807,6 +1807,24 @@
           "notRun": [
             "Whole gates are separately captured in this batch record;no browser/E2E/visual acceptance."
           ]
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+          "action": "five-card scoped source binding",
+          "previousAfterSha256": "d5d5b934dd069f374ce56cb8ccf0f009c1fbc6aed68c1cbc5cdab0e696432d73",
+          "afterSha256": "ca0a53f5507bdf851518d9cff46fe4b56f4b1cdf80c621fe967d3b527916e446",
+          "scope": "Only actual five-card scope/status/evidence,mechanics erratum or paired comment source binding;no new broad body/runtime acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+          "action": "five-card scoped source binding",
+          "previousAfterSha256": "ca0a53f5507bdf851518d9cff46fe4b56f4b1cdf80c621fe967d3b527916e446",
+          "afterSha256": "6ee005ffe419fa8ee372ee458c2315df4b2a3c22e507326a200a74e8340d3c32",
+          "scope": "Only actual five-card scope/status/evidence,mechanics erratum or paired comment source binding;no new broad body/runtime acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json"
         }
       ],
       "supersedes": [],
@@ -2098,7 +2116,7 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full-text-read-plus-template-migration-20261017",
+      "readMethod": "Reuse prior body assessment;read actual five-card scoped diff/caller/evidence. Do not infer whole-file execution or broad new review from new afterSHA.",
       "reviewDepth": "deep-semantic",
       "coreConclusion": "生成任务索引：保留官方生成器的活动/完成/取消任务分组，并补齐 governance-index-v1 元数据；生成索引不单独证明任何产品或测试通过。 任务索引将 DOCS-CATALOG-SPLIT-1 投影到 historical done 任务索引已投影 catalog split historical done；不代表全 docs 或产品执行完成。 任务索引已投影 catalog split historical done；不代表全 docs 或产品执行完成。",
       "truthAnchors": ["docs/ops/tasks/index.md:1", "scripts/docs/check.mjs:67"],
@@ -2112,7 +2130,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "dfbf0addad258e8bfbfa476ac3d46d3504aa63a856bf229536cae03de24ab1e8",
+      "afterSha256": "9f58708b5959584fcbe9765db91ac52ed03435184c040b005e3723f255215fba",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -2133,7 +2151,7 @@
       },
       "revision": {
         "currentSha": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
-        "implementationSha": "dfbf0addad258e8bfbfa476ac3d46d3504aa63a856bf229536cae03de24ab1e8",
+        "implementationSha": "9f58708b5959584fcbe9765db91ac52ed03435184c040b005e3723f255215fba",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2506,7 +2524,7 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "dfbf0addad258e8bfbfa476ac3d46d3504aa63a856bf229536cae03de24ab1e8",
+        "afterSha256": "9f58708b5959584fcbe9765db91ac52ed03435184c040b005e3723f255215fba",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
@@ -2746,6 +2764,15 @@
           "previousAfterSha256": "8cff3b3a651969563db1fb783d693e9f75ac82caab087887c285d9471b3723ae",
           "afterSha256": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+          "action": "five-card scoped source binding",
+          "previousAfterSha256": "dfbf0addad258e8bfbfa476ac3d46d3504aa63a856bf229536cae03de24ab1e8",
+          "afterSha256": "9f58708b5959584fcbe9765db91ac52ed03435184c040b005e3723f255215fba",
+          "scope": "Only actual five-card scope/status/evidence,mechanics erratum or paired comment source binding;no new broad body/runtime acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json"
         }
       ],
       "supersedes": [],

@@ -549,7 +549,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
-      "afterSha256": "a81d17a63ff80031ab257eb38dd4db03320f33eb8e33b74d1df401a10eba6c89",
+      "afterSha256": "dad5b0c7f8042db2c9914ad0404eb07fd1d75afc386f72dc44bdd0c1436b5052",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/battle/battle-system.ts",
@@ -746,6 +746,15 @@
           "revision": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
           "action": "glm coop-section upgrade",
           "status": "current"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+          "action": "five-card bounded current erratum",
+          "previousAfterSha256": "a81d17a63ff80031ab257eb38dd4db03320f33eb8e33b74d1df401a10eba6c89",
+          "afterSha256": "dad5b0c7f8042db2c9914ad0404eb07fd1d75afc386f72dc44bdd0c1436b5052",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
+          "scope": "Only added explicit risk-item/per-party-slot erratum based on raw79/caller facts;prior historical body/sourceRefs/runtime/versions retained. Not a new whole-mechanics acceptance."
         }
       ],
       "supersedes": [],

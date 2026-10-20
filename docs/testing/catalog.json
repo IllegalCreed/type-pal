@@ -1799,7 +1799,7 @@
           "lines": "12-19",
           "anchor": "export function setObjectPoisons",
           "role": "owner",
-          "sha256": "3c7ed5879374144001595a6bc1c6d1ef1a71ab63a6407c55fd94bd89ec7bfa5a"
+          "sha256": "98a08d77f9a738a7f5945278624e87033569f927914d6ddbd0e3194d980a5ad8"
         },
         {
           "path": "packages/game/src/core/scene-identity.ts",
@@ -1842,6 +1842,17 @@
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
+          {
+            "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+            "date": "2026-10-20",
+            "action": "five-card poison-comment binding only",
+            "sourceRef": "packages/game/src/core/player-poison-state.ts",
+            "sourceSha256": "98a08d77f9a738a7f5945278624e87033569f927914d6ddbd0e3194d980a5ad8",
+            "scope": "Only correct separate cure/heal prose;helper emitted JavaScript and owner signature identical to prior CODE53 proof. No new D1 SCC/token/needles/browser/execution credit;historical publication/versions/candidate/dates retained.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
+            "notRun": ["historical D1 audit/needles", "browser/story E2E"],
+            "previousSourceSha256": "3c7ed5879374144001595a6bc1c6d1ef1a71ab63a6407c55fd94bd89ec7bfa5a"
+          },
           {
             "date": "2026-10-20",
             "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",

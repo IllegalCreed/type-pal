@@ -36,12 +36,12 @@ Template: governance-index-v1 / 1.0.0
 | REFORGE-OPENING-LOAD-ERROR-1 | [标题读档IO失败的悬空拒绝](tasks/REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 等待前提核验 | 不得开始实现 |
 | SCRIPT-AUTHOR-2 | [客栈脚本语义命名与坐标走位](tasks/SCRIPT-AUTHOR-2-readable-inn-choreography.md) | build | Codex / 后续语义命名治理 | 保存 counter 已闭合，剩余命名治理未完成 |
 | CODE-QUALITY-3Y-CLOSEOUT-1 | [统一治理分支与3y复审](tasks/CODE-QUALITY-3Y-CLOSEOUT-1.md) | build | Codex / 先统一3y，逐卡复审 | 65差异/58卡，未知review；未合main |
-| CODE-QUALITY-53 | [game player status runtime-zero ownership conflict](tasks/CODE-QUALITY-53-player-status-runtime-zero.md) | build | Codex / ownership测试已补；0x61与毒键边界仍待独立收口 | 重复角色候选已修；CODE80裁决与质量门已过，但本卡自身状态/机制核验未完成，禁止合main |
+| CODE-QUALITY-53 | [game player status runtime-zero ownership conflict](tasks/CODE-QUALITY-53-player-status-runtime-zero.md) | review | Codex / 五卡八维补审及必要返工已核 | runtime0/显示槽与role入口、正式换队/读档caller已复核；inspect合法工厂及状态页图标/双早退测试补强；Wear压缩/入口重入和广域状态机仍review，视觉未新跑。 指定代码接受与余项分开，统一门/提交落点见唯一回执及Git refs。 |
 | CODE-QUALITY-57 | [game bootstrap thumbnail seam boundary](tasks/CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | review | Codex / 缺 thumbnail 像素 oracle 与视觉裁决，禁止实现 | bootstrap 两层直绘未调用 seam repair；与 gameplay 补偿边界待核 |
-| CODE-QUALITY-79 | [战斗0x61装备伪毒判定边界](tasks/CODE-QUALITY-79-battle-poison-level-boundary.md) | draft | Codex / 只读核原始脚本与后期真值 | 不与CODE53键迁移混改；未授权实现 |
-| CODE-QUALITY-80 | [game Dev Panel 换队生命周期](tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md) | review | Codex / 行为切片已验收；CODE81 收 observer/thumbnail | 用户裁决已实现且该批质量门通过；listener/observer/thumbnail 风险分拆，dev-panel 仍不整文件关闭 |
-| CODE-QUALITY-81 | [game Dev Panel picker 生命周期](tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md) | review | Codex / 新增生命周期测试可收口；复合 dev-panel 继续待核 | 5 个真实夹具反例与两项精确反控；全量 check、ratchet、protected fast、lint、ledger 均通过 |
-| CODE-QUALITY-90 | [magic revive status clearing boundary](tasks/CODE-QUALITY-90-magic-revive-status-boundary.md) | review | Codex / 两文件整文件审查继续 | 行为切片的全仓 check/ratchet/protected fast 已通过；spell-chain、输入与测试隔离仍未闭合 |
+| CODE-QUALITY-79 | [战斗0x61装备伪毒判定边界](tasks/CODE-QUALITY-79-battle-poison-level-boundary.md) | review | Codex / 五卡八维补审及必要返工已核 | 原盘SSS+生产解析器与真实performItem/runScript核实；2个目标HP业务红后复用isPlayerPoisoned修0x61，242相邻通过；大dispatcher仍review。 指定代码接受与余项分开，统一门/提交落点见唯一回执及Git refs。 |
+| CODE-QUALITY-80 | [game Dev Panel 换队生命周期](tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md) | review | Codex / 五卡八维补审及必要返工已核 | 真实战斗/旧卡guard与探索装备重建有效；F1嵌套字面量补强，浅克隆旧绿新单红；fake-mode重复例由真实四例承接，测试清理安装监听。 指定代码接受与余项分开，统一门/提交落点见唯一回执及Git refs。 |
+| CODE-QUALITY-81 | [game Dev Panel picker 生命周期](tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md) | review | Codex / 五卡八维补审及必要返工已核 | 旧picker原件按同执行代码及selector-only变化复用；page单次装配Owner已证，不改voidAPI；旧check:fast伪protected信用已撤，复合Dev模块仍review。 指定代码接受与余项分开，统一门/提交落点见唯一回执及Git refs。 |
+| CODE-QUALITY-90 | [magic revive status clearing boundary](tasks/CODE-QUALITY-90-magic-revive-status-boundary.md) | review | Codex / 五卡八维补审及必要返工已核 | 当前7个大世界spell链/完整runner与真实menu caller已核；测试清双单例、7退役/3更名/1非零use新增，35最终例通过；level3阈值及use阶段旧绿新单红。 指定代码接受与余项分开，统一门/提交落点见唯一回执及Git refs。 |
 | CODE-QUALITY-95 | [menu合法夹具](tasks/CODE-QUALITY-95-menu-fixture-legality-counter.md) | review | Codex / 等统一门 | 三份局部accept保持，不关闭文件 |
 | CODE-QUALITY-94 | [menu阶段集成](tasks/CODE-QUALITY-94-menu-integration-window.md) | rework | Codex / 已接手返工 | 两项获批行为已修；完整门带诊断，第三项法术显示未动 |
 | CODE-QUALITY-97 | [menu基础helper](tasks/CODE-QUALITY-97-menu-helper-primitives-item-select.md) | review | Codex / 已修注释 | 撤回伪原版锚；test-only合同仍待核 |
@@ -69,7 +69,7 @@ Template: governance-index-v1 / 1.0.0
 | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 | [C03查看器宿主与迟到读取](tasks/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md) | build | Codex / 续Wizard与Uploader | C09五例0诊断；editor全包仍759act/243环境及1表单告警，0关闭 |
 | QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 | [C03向导真实异步等待](tasks/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | build | Codex / 保存C10恢复，余诊断待稳定窗口 | Wizard28零诊断/两业务反控；相邻6act、editor624act/243环境，0关闭不合main |
 | QUALITY-DOCS-GIT-PATH-ENUMERATION-1 | [Git全路径枚举容量](tasks/QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md) | review | Codex / 三文件窄修，待统一门 | 两真实CLI>1MiB先红后绿，完整枚举16MiB/固定namespace4MiB不变；随后接回3u/3w |
-| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex接手C1–C3返工与集中门 | 9作者提交/四测试窄修已推送；78partial/5pending/0accept、缺维仍review/0新关闭；5活跃实现未触碰；集中门见本批回执，94–102不扩展 |
+| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex / 先完成53/79/80/81/90复审欠账 | C1–C3已合main；五卡避让解除，复用证据补八维与必要返工，昂贵门集中收尾，94–102不扩展 |
 | GAME-ACTION-QUEUE-TIE-ORDER-1 | [第一阶段同速队列](tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | Codex / 批准窄修已测，统一门/视觉待续 | 先7红后绿、真实Confirm/RNG、38/942与六单红反控；整文件不关闭 |
 | GAME-PLAYER-POISON-SLOT-COMPACTION-1 | [卸装备毒列表压缩](tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md) | draft | Codex / 只读完整生命周期，无产品build allowed | C前移幸存毒、TS原地清零，角色身份不变；因果待核 |
 | GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1 | [非队员Extra可达性](tasks/GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md) | draft | Codex / 只读核完整生产写入链 | C全role/TS party不同，但开战换队全量重建；未证剧情缺陷，不改行为 |

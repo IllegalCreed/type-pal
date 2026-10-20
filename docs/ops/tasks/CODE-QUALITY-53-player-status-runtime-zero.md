@@ -1,11 +1,21 @@
 # CODE-QUALITY-53 — game player status runtime-zero ownership conflict
 
-Status: build
+> 2026-10-20当前：本卡五卡复审/必要返工已完成源码与证据审查，统一门结果以五卡唯一回执为准；以本页当前节和[五卡回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)为准。旧时点的build/停止线/门失败保留，不作今天的阻塞或通过声明。
+
+Status: review
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase1 game
 Capability: Q3 present/menu
 Visual Verification Timing: mixed（状态数值为用户可见行为；视觉布局留集中 E2E）
+
+## 2026-10-20 当前复审
+
+runtime0/显示槽与role入口、正式换队/读档caller已复核；inspect合法工厂及状态页图标/双早退测试补强；Wear压缩/入口重入和广域状态机仍review，视觉未新跑。
+
+18份本轮文件记录分别列A–H，广域上下文复用原A–H并核版本/适用域；原件、主caller、原始/SDL/TS真值、反控和测试退役映射见[五卡唯一入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。量化初筛只指向重点阅读，不作指标验收。本轮已明确接受16个文件，见唯一回执closedFiles逐项清单；本卡复合/视觉/设计边界仍review，不把整卡升accept/done。
+
+同一3y，唯一Owner Codex；未写主树/GLM原树，94–102不扩展。当前无新产品选择待答；既有用户runtime0/party-slot/战中禁换队/第一阶段999装备边界沿用。本批门以回执integration状态和完整原件为准；不复用历史全仓绿，覆盖率仅大批收尾。
 
 ## 目标
 

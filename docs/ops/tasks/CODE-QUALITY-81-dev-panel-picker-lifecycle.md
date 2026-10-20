@@ -1,10 +1,20 @@
 # CODE-QUALITY-81 — game Dev Panel picker 生命周期
 
+> 2026-10-20当前：本卡五卡复审/必要返工已完成源码与证据审查，统一门结果以五卡唯一回执为准；以本页当前节和[五卡回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)为准。旧时点的build/停止线/门失败保留，不作今天的阻塞或通过声明。
+
 Status: review
 Owner: Codex
 Phase: phase1 game
 Capability: Q3 dev picker resource ownership
 Visual Verification Timing: functional-minimal
+
+## 2026-10-20 当前复审
+
+旧picker原件按同执行代码及selector-only变化复用；page单次装配Owner已证，不改voidAPI；旧check:fast伪protected信用已撤，复合Dev模块仍review。
+
+18份本轮文件记录分别列A–H，广域上下文复用原A–H并核版本/适用域；原件、主caller、原始/SDL/TS真值、反控和测试退役映射见[五卡唯一入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。量化初筛只指向重点阅读，不作指标验收。本轮已明确接受16个文件，见唯一回执closedFiles逐项清单；本卡复合/视觉/设计边界仍review，不把整卡升accept/done。
+
+同一3y，唯一Owner Codex；未写主树/GLM原树，94–102不扩展。当前无新产品选择待答；既有用户runtime0/party-slot/战中禁换队/第一阶段999装备边界沿用。本批门以回执integration状态和完整原件为准；不复用历史全仓绿，覆盖率仅大批收尾。
 
 ## 范围与停止线
 

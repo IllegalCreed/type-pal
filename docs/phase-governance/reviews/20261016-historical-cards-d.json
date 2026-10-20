@@ -3113,8 +3113,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Actual scoped delta and explicitly bounded C1-C3/native evidence;not another whole83card review.",
-      "coreConclusion": "Only69scope ledger registrations:61previously implicitpending nowreview;oldclosed preserved unless directcounter;214closed/218review/2886pending,0newclosure;unknownaxes retained.",
+      "readMethod": "Reuse prior body assessment;read actual five-card scoped diff/caller/evidence. Do not infer whole-file execution or broad new review from new afterSHA.",
+      "coreConclusion": "Only18reviewed file rows plus3finite gate-support rows coordinated inside consumed machine table;actual counts from code-quality-ledger. Named closure decisions and final gates are separately recorded;broader review retained.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3265,10 +3265,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "d98151091a88906d69da8bcb8ea5bea65b9b17de8b83314c88ba6a388ccf4c40",
+      "afterSha256": "1887f49eb3d4982b6d1ab9cfc34bdd71d0e575b243a1d76b1327da559177bac1",
       "revision": {
         "currentSha": "addcb44c52fd00ab0fd3397e61ae316bf98d02e2aeef1d5533ed23a2c1e5845a",
-        "implementationSha": "d98151091a88906d69da8bcb8ea5bea65b9b17de8b83314c88ba6a388ccf4c40",
+        "implementationSha": "1887f49eb3d4982b6d1ab9cfc34bdd71d0e575b243a1d76b1327da559177bac1",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4121,10 +4121,10 @@
         ]
       },
       "evidence": {
-        "kind": "codex-scoped-C1-C3-admission",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-        "afterSha256": "d98151091a88906d69da8bcb8ea5bea65b9b17de8b83314c88ba6a388ccf4c40",
-        "lineCount": 851
+        "kind": "five-card-scoped-source-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
+        "afterSha256": "1887f49eb3d4982b6d1ab9cfc34bdd71d0e575b243a1d76b1327da559177bac1",
+        "lineCount": 865
       },
       "history": [
         {
@@ -4333,6 +4333,33 @@
           "notRun": [
             "Whole gates are separately captured in this batch record;no browser/E2E/visual acceptance."
           ]
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+          "action": "five-card scoped source binding",
+          "previousAfterSha256": "d98151091a88906d69da8bcb8ea5bea65b9b17de8b83314c88ba6a388ccf4c40",
+          "afterSha256": "0143494f2df21b2d85967c7836b7ab01d91afaf6fd7bccb713c7d1bd79c21ba7",
+          "scope": "Only actual five-card scope/status/evidence,mechanics erratum or paired comment source binding;no new broad body/runtime acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+          "action": "five-card scoped source binding",
+          "previousAfterSha256": "0143494f2df21b2d85967c7836b7ab01d91afaf6fd7bccb713c7d1bd79c21ba7",
+          "afterSha256": "7cbab9c91523f340fcb19cd9980139d59d1f5b9ae5a027554ac5f773e6a7fcac",
+          "scope": "Only actual five-card scope/status/evidence,mechanics erratum or paired comment source binding;no new broad body/runtime acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+          "action": "five-card scoped source binding",
+          "previousAfterSha256": "7cbab9c91523f340fcb19cd9980139d59d1f5b9ae5a027554ac5f773e6a7fcac",
+          "afterSha256": "1887f49eb3d4982b6d1ab9cfc34bdd71d0e575b243a1d76b1327da559177bac1",
+          "scope": "Only actual five-card scope/status/evidence,mechanics erratum or paired comment source binding;no new broad body/runtime acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json"
         }
       ],
       "supersedes": [
@@ -4343,7 +4370,7 @@
       ],
       "successor": "Current route/workflow and original product task sources as explicitly linked; no old prompt executable.",
       "stopLine": "Do not infer current runtime/E2E/visual/coverage, product or old-test-quality acceptance from docs/record structure; preserve legal inputs and every original failure.",
-      "nextStep": "Finish only this batch full gates and main integration if zero diagnostics;remainingpre94unknowns stayopen.",
+      "nextStep": "Use linked five-card per-file decisions and actual integration gates;no whole83card acceptance.",
       "userVisibleBeforeAfter": {
         "before": "Actual3300 tracked paths with predecessor declared3294; six new docs tools not yet represented; stale live3292 prose retained from earlier maintenance.",
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",

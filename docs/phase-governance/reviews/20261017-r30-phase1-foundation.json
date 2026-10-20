@@ -960,7 +960,7 @@
         }
       ],
       "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
-      "afterSha256": "a81d17a63ff80031ab257eb38dd4db03320f33eb8e33b74d1df401a10eba6c89",
+      "afterSha256": "dad5b0c7f8042db2c9914ad0404eb07fd1d75afc386f72dc44bdd0c1436b5052",
       "publicCallers": ["docs navigation"],
       "legalInputs": ["current repository documentation", "docs/phase1/game-mechanics.md"],
       "businessOracle": {
@@ -978,7 +978,7 @@
       },
       "revision": {
         "currentSha": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
-        "implementationSha": "a81d17a63ff80031ab257eb38dd4db03320f33eb8e33b74d1df401a10eba6c89",
+        "implementationSha": "dad5b0c7f8042db2c9914ad0404eb07fd1d75afc386f72dc44bdd0c1436b5052",
         "history": [
           {
             "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
@@ -1014,8 +1014,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r30-phase1-foundation-20261017.json",
         "sourceSha256": "8fe59be7ab0dbd53bd8bb9f3a7cfd93443acffd6a4b991fd632e4681e2904f93",
         "candidateSha256": "3e4738107975e29760162afae239829baba28bd77faee2ca11d06a7e0cf2d2e5",
-        "afterSha256": "a81d17a63ff80031ab257eb38dd4db03320f33eb8e33b74d1df401a10eba6c89",
-        "lineCount": 1655,
+        "afterSha256": "dad5b0c7f8042db2c9914ad0404eb07fd1d75afc386f72dc44bdd0c1436b5052",
+        "lineCount": 1681,
         "originalPreservation": {
           "method": "line-by-line blockquote quote",
           "sourceBytes": 134500,
@@ -1040,6 +1040,15 @@
           "action": "R30 readonly proposal accepted then root migration",
           "reviewer": "r30_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+          "action": "five-card scoped source binding",
+          "previousAfterSha256": "a81d17a63ff80031ab257eb38dd4db03320f33eb8e33b74d1df401a10eba6c89",
+          "afterSha256": "dad5b0c7f8042db2c9914ad0404eb07fd1d75afc386f72dc44bdd0c1436b5052",
+          "scope": "Only actual five-card scope/status/evidence,mechanics erratum or paired comment source binding;no new broad body/runtime acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json"
         }
       ],
       "supersedes": ["governed-legacy presentation; historical claims remain date-scoped"],
@@ -1050,7 +1059,7 @@
       "templateId": "reference-canon-v1",
       "template": "docs/phase-governance/templates/reference-canon.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full-text UTF-8 source read and R30 semantic migration; quote inverse checked",
+      "readMethod": "Reuse prior body assessment;read actual five-card scoped diff/caller/evidence. Do not infer whole-file execution or broad new review from new afterSHA.",
       "reviewDepth": "deep-semantic",
       "templateVersion": "1.0.0",
       "historyOverlay": true,

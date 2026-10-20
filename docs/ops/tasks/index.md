@@ -44,9 +44,9 @@ Template: governance-index-v1 / 1.0.0
 | [CODE-QUALITY-109 — game analytics 安装器生命周期复核](CODE-QUALITY-109-game-analytics-install-review.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-110 — game present draw-sprite 逐文件复核](CODE-QUALITY-110-game-draw-sprite-review.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-3Y-CLOSEOUT-1 — 统一治理分支与3y复审集成](CODE-QUALITY-3Y-CLOSEOUT-1.md) | build | 以任务卡当前准入与看板分工为准。 |
-| [CODE-QUALITY-53 — game player status runtime-zero ownership conflict](CODE-QUALITY-53-player-status-runtime-zero.md) | build | 以任务卡当前准入与看板分工为准。 |
+| [CODE-QUALITY-53 — game player status runtime-zero ownership conflict](CODE-QUALITY-53-player-status-runtime-zero.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-57 — game bootstrap thumbnail seam boundary](CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | review | 以任务卡当前准入与看板分工为准。 |
-| [CODE-QUALITY-79 — 战斗0x61装备伪毒判定边界](CODE-QUALITY-79-battle-poison-level-boundary.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [CODE-QUALITY-79 — 战斗0x61装备伪毒判定边界](CODE-QUALITY-79-battle-poison-level-boundary.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-80 — game Dev Panel 换队生命周期](CODE-QUALITY-80-dev-party-edit-lifecycle.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-81 — game Dev Panel picker 生命周期](CODE-QUALITY-81-dev-panel-picker-lifecycle.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [CODE-QUALITY-90 — magic revive status clearing boundary](CODE-QUALITY-90-magic-revive-status-boundary.md) | review | 以任务卡当前准入与看板分工为准。 |

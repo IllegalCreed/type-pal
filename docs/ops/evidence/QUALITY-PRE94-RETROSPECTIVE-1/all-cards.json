@@ -2018,7 +2018,7 @@
       "sha256": "675f192bbb974f8a61fde21f5b917a63b63d9ffc0c5c91a2936352902a4b3d80",
       "lines": 175,
       "historicalStatus": "build",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -2090,7 +2090,10 @@
           "text": "- 本轮没有关闭文件。ledger机器结果仍3267 /338 closed /10 review /2919 pending。player-poison-state、battle-opcodes继续review；两份测试及dev-panel/状态页/battle-system/inspect等未完成整文件证据的文件继续pending。待CODE80裁决后先写失败反例再修改，集中运行全部质量门；CODE79另行推进。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
+      "findings": "runtime0/显示槽与role入口、正式换队/读档caller已复核；inspect合法工厂及状态页图标/双早退测试补强；Wear压缩/入口重入和广域状态机仍review，视觉未新跑。 Explicit scopedA-H,not whole-card acceptance;whole gates separate.",
+      "currentReviewSha256": "720b2303c89e5426f14839ff7aefb7e79c107e08eff0dd0f2e6f9ee22053e1da"
     },
     {
       "id": "54",
@@ -2896,7 +2899,7 @@
       "sha256": "69a88763c8b756c20f7fbd5b2a8d2b808c5d04b422e955b01891dab2d9aa63e0",
       "lines": 36,
       "historicalStatus": "draft",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -2908,7 +2911,10 @@
           "text": "## 范围与验收"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
+      "findings": "原盘SSS+生产解析器与真实performItem/runScript核实；2个目标HP业务红后复用isPlayerPoisoned修0x61，242相邻通过；大dispatcher仍review。 Explicit scopedA-H,not whole-card acceptance;whole gates separate.",
+      "currentReviewSha256": "7d28b8049f089ea65bf63812da0ab447ffca18c1a3a44325851fcc44a362172c"
     },
     {
       "id": "80",
@@ -2918,7 +2924,7 @@
       "sha256": "7f71c707284ac6c1aff684982bee2f83ca46389fb80c36368d9fe27079a4df29",
       "lines": 60,
       "historicalStatus": "review",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -2950,7 +2956,10 @@
           "text": "- CODE80 从 `build` 进入 `review`：用户裁决、行为修复和本批门禁已完成，Codex 独立验收记录在本卡；剩余 dev-panel 的全局 listener disposer、picker IntersectionObserver 与异步 thumbnail 取消/关闭生命周期仍 pending，另需后续小批，不影响本批行为合同。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
+      "findings": "真实战斗/旧卡guard与探索装备重建有效；F1嵌套字面量补强，浅克隆旧绿新单红；fake-mode重复例由真实四例承接，测试清理安装监听。 Explicit scopedA-H,not whole-card acceptance;whole gates separate.",
+      "currentReviewSha256": "6ac6851459494d537f8efbabbd06b4a1e2a90070670dcdb81af5b8a043a40659"
     },
     {
       "id": "81",
@@ -2960,7 +2969,7 @@
       "sha256": "178d18d9432ed2443b8cbb5a31fcafb71fcff97efdc94fbfdc832e88f7cd1903",
       "lines": 58,
       "historicalStatus": "review",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -3008,7 +3017,10 @@
           "text": "无下一位 Agent 提示词；本批可由 Codex 独立验收，新增生命周期测试文件已具备关闭证据，复合生产文件与既有 GLM 测试不得随本卡一并关闭。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
+      "findings": "旧picker原件按同执行代码及selector-only变化复用；page单次装配Owner已证，不改voidAPI；旧check:fast伪protected信用已撤，复合Dev模块仍review。 Explicit scopedA-H,not whole-card acceptance;whole gates separate.",
+      "currentReviewSha256": "9a40af91aeca7f934d3a771b533fb89ec80e748412d8f86c51d8ee9df7121239"
     },
     {
       "id": "82",
@@ -3555,7 +3567,7 @@
       "sha256": "254e96c1bbaaac2c7234c921534ad57cdce16fdfcc6daba1237f03c182909b5f",
       "lines": 160,
       "historicalStatus": "review",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -3651,7 +3663,10 @@
           "text": "- 官方工具只升不降地更新 `scripts/coverage/baseline.fast.json`（SHA-256 `aabca727e834ab4f3c5700ca940208a78a7cc81ee60c8fb4eaa866efd4dc15ce`），提升6个指标、范围变化2项；没有降阈值、加排除或手工拼 baseline。原始 receipt：`evidence/CODE-QUALITY-90/gate-ratchet-after-boundary.txt`。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
+      "findings": "当前7个大世界spell链/完整runner与真实menu caller已核；测试清双单例、7退役/3更名/1非零use新增，35最终例通过；level3阈值及use阶段旧绿新单红。 Explicit scopedA-H,not whole-card acceptance;whole gates separate.",
+      "currentReviewSha256": "6659169a0cfe36fade8bfa10c00e4d87eed67b34c8aa391587122d10d88bb744"
     },
     {
       "id": "91",
@@ -3936,19 +3951,20 @@
   ],
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
-    "partial": 78,
-    "pending": 5,
+    "partial": 83,
+    "pending": 0,
     "accept": 0
   },
   "lastIncrementalReview": {
     "date": "2026-10-20",
-    "base": "89800a1c1",
-    "candidate": "9fec7ac4f26d3c71f7b671537e3bb1fcdd8e4a31",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+    "base": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+    "candidate": "Gate-time b9bf6f776 working snapshot;full current file SHA bindings in linked record,committed refs independently verifiable",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
     "previousCounts": {
-      "partial": 56,
-      "pending": 27
+      "partial": 78,
+      "pending": 5,
+      "accept": 0
     },
-    "limits": "22pending now have scoped evidence and explicit A-H unknowns;5active cards untouched;0whole-card acceptance."
+    "limits": "83partial/0pending/0whole-card accept.16named files accepted on concreteA-H evidence;broader review/visual/compaction remain. New gate results only in linked integration record."
   }
 }

@@ -1,0 +1,2846 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-20",
+  "task": "QUALITY-PRE94-RETROSPECTIVE-1",
+  "base": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+  "owner": "Codex",
+  "scope": [53, 79, 80, 81, 90],
+  "state": "Five-card scoped A-H audit/rework and unified gates accepted;16explicit file closures;83partial/0pending/0whole-card accept. Named design/mechanism/visual boundaries retained.",
+  "slices": {
+    "53": {
+      "state": "current owner/caller and test gaps addressed;no save/schema change;broader design and visual boundaries retained",
+      "files": [
+        {
+          "path": "packages/game/src/core/inspect/battle-inspect.ts",
+          "sha256": "b0febbfa204ee8637cecca4305555e7426a7ec7bc8030254587c55bb56069819",
+          "lines": 399,
+          "read": "Full399line source;both direct tests full;tools-panel444-452/dev-panel collect caller;prior53 slot controls retained",
+          "dimensions": {
+            "A": "Pure readout:role-index HP/MP/status vs direct slot-index poison;duplicate roles use actual display slot. Battle source follows slot role;nonbattle uses persistent status.",
+            "B": "Comments distinguish structured tags/detail strings and >999 permanence. No new claim SDL has a DEV panel;synthetic fixtures below prove projection only.",
+            "C": "One module owns read-only projection for two consumers;equipment getters own derived stats. No state write,IO,timer or callback lifecycle. Full GameState input is broad but actually reads runtime/status/exp/party/battle.",
+            "D": "Two poison outputs have distinct detail/tag contracts;private definition arrays centralize status names. Rebuilding tiny per-role maps is optional bounded optimization,not a measured blocker or universal formatter justification.",
+            "E": "Main6 cases repaired to public factory/hydration;leaf9 directly verifies persistent/battle/poison/steal/field/nonmutation. Duplicate-slot case retained,not replaced by first-role helper tests.",
+            "F": "Role/slot/source named explicitly;small collectors separate field/enemy/party outputs. Definition tables make name/index mapping visible.",
+            "G": "No dead public export:both panel consumers call these collectors. No speculative abstraction;per-row formatting remains necessary for actual UI.",
+            "H": "Explicit state/tables and pure return arrays allow independent literal oracles;no DOM/RNG/core mock. Input-preservation assertions guard accidental writes."
+          },
+          "disposition": "accept:bounded per-file A-H/caller/oracle and necessary rework complete;current7gates zero diagnostics;not whole-card/browser certification"
+        },
+        {
+          "path": "packages/game/src/core/inspect/battle-inspect.test.ts",
+          "sha256": "4ea35bf6d7faad7c189760cbdaacadf34ba542503785ada3f9728a7df4134842",
+          "lines": 173,
+          "read": "Full old218line + full rewritten current file and real factory/hydration;6 runtime cases",
+          "dimensions": {
+            "A": "All fixtures now satisfy real GameState/BattleState/Enemy/PlayerRole contracts. Explore guard uses real initial state;party[4,5,4] is raw-proven legal.",
+            "B": "Removed false license for as never;collectValue title now says zero/nonzero,not missing mandatory field;hidden exp levels initialized explicitly.",
+            "C": "Factory owns state shape;test only sets observable fields. Replaced Record<string,unknown> subtree replacement with one Partial<Enemy> seam.",
+            "D": "Reuses existing typed makeBattle/makeRole/makeEnemy;no new generic state builder. Same6 business cases retained.",
+            "E": "HP/name/negative field effect/status rounds/attribute/EXP/poison-slot oracles preserved;strong casts removed. Missing-name fallback and both zero gates remain explicit. One corrected identity mapped below.",
+            "F": "Explicit hydrated fixture makes role and equipment source visible;removed long duplicated partial BattleState literals.",
+            "G": "No case dropped or runtime type-only checks added;old unsupported absent-field claim withdrawn,zero contract retained.",
+            "H": "No mocks/singletons/time;real collectors and factories. Typed setup catches missing runtime matrices before execution."
+          },
+          "disposition": "accept:bounded per-file A-H/caller/oracle and necessary rework complete;current7gates zero diagnostics;not whole-card/browser certification"
+        },
+        {
+          "path": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+          "sha256": "3551a652625b7dd3e3806f1473e2848d1e9811f88bf8b08e83f8a64e06ca2e26",
+          "lines": 393,
+          "read": "Full393line file read in two ranges;producer-only synthetic typed catalog cases distinguished from actual ROM",
+          "dimensions": {
+            "A": "Typed shape complete;world state hydrated explicitly. Mismatched battle/party and missing battle slot are explicit defensive-input tests,not normal startBattle fixtures. Synthetic named poison fixture is not claimed original ROM.",
+            "B": "Head accurately limits to projection,not damage. Unknown poison name/level and fallback branches are explicit;maxHp test proves prevHp fallback,not missing required prevHp.",
+            "C": "Local fixture builders,explicit inputs,no global setters. Each collector only reads;final case snapshots consumed subtrees and catches mutations.",
+            "D": "Nine leaf cases exclude main HP/name/field facts and add persistent statuses,hidden exp,poison details,steal and read preservation.",
+            "E": "Literal names/counts/IDs/thresholds are independent oracles;structured clones only check nonmutation after real calls. Does not claim raw script execution or battle sorting.",
+            "F": "Describes data-source and fallback intent;helper names mkBattleState/oneEnemy reveal setup. No test copies collector algorithms.",
+            "G": "9 identities unchanged;no weak coverage-only additions. Valid synthetic API domain is explicit rather than extending it into ROM truth.",
+            "H": "Pure functions with supplied arrays;no fake core implementations,listener lifecycle or nondeterministic clock."
+          },
+          "disposition": "accept:bounded per-file A-H/caller/oracle and necessary rework complete;current7gates zero diagnostics;not whole-card/browser certification"
+        },
+        {
+          "path": "packages/game/src/present/menu/draw-player-status.ts",
+          "sha256": "2cd9d0bffe7f280be166efcdff2cb3dcc244774c127b095375c1e70cfdcc491a",
+          "lines": 376,
+          "read": "Reuse full GLM/Codex A-H codex-final29 file record/current exact SHA and prior53 full source/caller;current delta none",
+          "dimensions": {
+            "A": "Hydrated runtime0 remains0;poison address is displayed cursor,not role ID. Runtime/status/menu caller and formal load normalization rechecked in scoped current code.",
+            "B": "Existing canonical constants/source layout retained;prior B correction valid. Current mechanics erratum clarifies slot domain and two separate risk-item effects.",
+            "C": "Renderer only reads gs/menu/catalog,draws framebuffer;bootstrap owns hydration/assets,menu driver owns snapshot/cursor/close. No fetch or state mutation.",
+            "D": "Shares number/font/equipment getters;poison filtering <=3 differs from battle avatar highest-poison color,so no shared mode boolean helper.",
+            "E": "Main5 emission/slot oracles,leaf4 zero/catalog/early return,pixel15 coordinate/color cases have separate observations. Updated main fixtures hydrate;leaf guard now checks both named defensive inputs and whole framebuffer.",
+            "F": "Numbered screen sections and layout constants expose fixed screen.30-branch scout is mainly asset/row guards,not a requirement to split by number.",
+            "G": "All passed inputs have actual drawing consumers;no runtimeReady guessed from zero. Existing static role/catalog input retained as public dependency.",
+            "H": "Framebuffer/palette-independent glyph fixtures permit direct pixels and no-write checks. Not a browser screenshot or full story-E2E claim."
+          },
+          "disposition": "accept:bounded per-file A-H/caller/oracle and necessary rework complete;current7gates zero diagnostics;not whole-card/browser certification"
+        },
+        {
+          "path": "packages/game/src/present/menu/draw-player-status.test.ts",
+          "sha256": "ef5974c4d5c5953832b43f5e8d32b452d07779509480f4993d819b4883d84211",
+          "lines": 166,
+          "read": "Full main5 cases/current hydrate helper;prior raw negative controls retained within poison-selection contract",
+          "dimensions": {
+            "A": "Explicit hydration replaces cold runtime fixtures;full typed roles6. Nonordered/duplicate party domains agree with raw0x75 and actual cursor contract.",
+            "B": "Header describes font call coordinates/color/shadow;no claim text spy proves all framebuffer rendering.",
+            "C": "Test sets word lookup only locally and restores it and spies in afterEach. Source runner leaves GameState untouched.",
+            "D": "Main covers exact renderText shadow/name and slot isolation;pixel suite checks geometry/color output. These are distinct layer contracts,not five copies of one package-green claim.",
+            "E": "Positive exact font args and negative absence assertions genuinely execute renderer. Zero-ID/catalog and duplicate-slot decisions remain distinguishable;current main5 green.",
+            "F": "Small statusGs helper names required hydration once rather than five partial state literals.",
+            "G": "5 identities unchanged;no new cases or assertion removals. Minimal roles are complete declared PlayerRole,not any/never.",
+            "H": "Only text output is spied;business renderer and runtime remain real. Resettable lookup prevents inter-test name leakage."
+          },
+          "disposition": "accept:bounded per-file A-H/caller/oracle and necessary rework complete;current7gates zero diagnostics;not whole-card/browser certification"
+        },
+        {
+          "path": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+          "sha256": "2b62e7610e11be7bf435540e728d7d42ff95f546ff7f18dfa5bc952a14a8cc01",
+          "lines": 116,
+          "read": "Full4cases plus current strengthening;current native status-leaf-sealed",
+          "dimensions": {
+            "A": "Hydrate then set five numeric fields to0;oracle tests real0 rather than uninitialized fallback. Missing item/catalog and cursor/missing-role are explicit failure domains.",
+            "B": "Original missing-role title now actually executes missing-role input. Unknown-equipment icon/title claim now also checks icon coordinate with supplied sentinel icon.",
+            "C": "Each case owns framebuffer/state;no global mutation or fixture borrowing. Source field/runtime ownership comes from public status call.",
+            "D": "Zero and nonzero/base divergence differ;unknown-item vs missing-role early return differ. No new duplicate cases.",
+            "E": "All4 identities retained;early return checks whole byte buffer for both inputs instead of one incidental blank pixel. Existing numeric pixel assertions remain.",
+            "F": "Two named invalid-input records in one early-return case explain why result must remain unchanged.",
+            "G": "No added runtime type assertions;unsupported input guard cases remain bounded,not counted as production story coverage.",
+            "H": "No mock renderer;actual framebuffer and glyph frames. Fake icon is only output resource input and would reveal a fallback bitmap0 draw."
+          },
+          "disposition": "accept:bounded per-file A-H/caller/oracle and necessary rework complete;current7gates zero diagnostics;not whole-card/browser certification"
+        },
+        {
+          "path": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+          "sha256": "ce687bd8e9979db67da774d18de118250ef7be44519844bb4e39baee6428bd6c",
+          "lines": 385,
+          "read": "Full15cases/current file;shared world/font/image fixtures as already reviewed by pre94 present evidence",
+          "dimensions": {
+            "A": "Independent indexed-image/glyph resources;explicit runtime digits,element/equipment arithmetic,poison<=3 filtering/cap10 and fallback resource inputs.",
+            "B": "Corrected stale header claiming glm runtime0 fallback. Titles match15 concrete visible pixel axes;no whole-screen/browser equivalence claim.",
+            "C": "Each owns framebuffer/menu/gs;afterEach resets host singleton tables. No core mock or state write by renderer accepted.",
+            "D": "Primary purpose is color/coordinate/filter geometry;main font spy adds shadow call contract,leaf adds true0/invalid input boundaries.",
+            "E": "Exact digit/color/blank positions contrast expected alternatives. Snapshot only guards input nonmutation after real draw;not clone-as-business-oracle.",
+            "F": "Helpers name digit/font coordinate rules;synthetic resource palettes deliberately make wrong colors discriminate.",
+            "G": "15 identities and assertions unchanged;only obsolete prose corrected. No coverage-driven expansion.",
+            "H": "Explicit byte framebuffer is deterministic and independent of browser timing;no timers,network or GC proof."
+          },
+          "disposition": "accept:bounded per-file A-H/caller/oracle and necessary rework complete;current7gates zero diagnostics;not whole-card/browser certification"
+        }
+      ],
+      "checks": ["status-inspect", "inspect-typed", "status-leaf-sealed", "status-main-sealed"],
+      "limits": [
+        "No new browser screenshots/story-E2E. Existing concentrated visual obligation stays explicit;functional code/input/pixel acceptance is separate.",
+        "Poison add-entry reentrancy and Wear first-gap compaction are not certified by normal slot tests;helper stays review under existing GAME-PLAYER-POISON-SLOT-COMPACTION-1.",
+        "Whole battle/event/state-machine quality is not closed by this narrow caller-domain audit."
+      ]
+    },
+    "79": {
+      "state": "known canonical bug repaired after actual caller business red;no new product choice",
+      "files": [
+        {
+          "path": "packages/game/src/core/battle/battle-opcodes.ts",
+          "sha256": "b50112e57b47b92cf629560d43e4fc44886958afde9886730100de5599797b86",
+          "lines": 1527,
+          "read": "Full current implementation in bounded consecutive ranges;actual item action full;runScript target dispatch scoped;raw79 parser/primary sources scoped",
+          "dimensions": {
+            "A": "0x61 now uses canonical isPlayerPoisoned ByLevel(role,0);target player priority/caster fallback/no-gs/operand0 remain unchanged. New nonordered party item pipeline reproduces old two failures.",
+            "B": "Corrected false operand1 constant comment and described shared level0/99 policy. Other opcode historical line citations are not all re-certified by this task.",
+            "C": "Dispatch stays battle-context state owner;removes duplicate16slot/nonzero scan so global poison-definition knowledge belongs to player-poison-state. Broad BattleCtx/large switch remains explicit design debt.",
+            "D": "Reuses existing public canonical helper with matching input,level filtering,slot mapping and failure policy;no new mode helper/export or duplicated poison metadata.",
+            "E": "New4 real performItem/runScript cases;242 adjacent cases zero diagnostics. Legacy main dispatch tests have other synthetic casts and are context only,not whole-file acceptance.",
+            "F": "0x61 branch now reads selection→role→one semantic query→jump. Large switch scout >10 remains evidence to scope a later design change,not metric-driven rewrite.",
+            "G": "Removed duplicated poison loop/import only. Other compatibility fallbacks/overwide context not silently removed by this finite fix.",
+            "H": "Real state/context/supplied bus/RNG enable direct testing;global poison catalog is initialized by bootstrap and reset in tests. No core mock used for red case."
+          },
+          "disposition": "review:large dispatcher/legacy tests remain beyond closed0x61 contract"
+        },
+        {
+          "path": "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+          "sha256": "d7cee8005fa0fce17cad4aecb38e23d2b2e5d705f1b94a44796c108633cb1755",
+          "lines": 127,
+          "read": "New full typed4case file;actual production item.ts full,runScript scoped;raw SSS/production parsers and canonical policy verified",
+          "dimensions": {
+            "A": "WIN95 typed items136/278 and reachable commands match raw WORDs. Party[4,0],caster1,target0 have distinct role/slot/poison identities;all6 roles are factory-valid.",
+            "B": "Header says only reachable frozen fragments,not full ROM. Nine-yin heal and dragon cure are explicitly separate;no fantasy combined effect.",
+            "C": "Only public makeBattle/performItem/runScript and poison-definition Owner;afterEach clears singleton. Commands/items are read-only inputs in this pipeline;no global script override.",
+            "D": "Two parameter rows represent two different real item continuations;the other two cases preserve level0 vs3/4/99/target/caster distinctions. No duplicate pure-helper-only poison check.",
+            "E": "Before2 business AssertionErrors+2 green;after4 green. Exact six-role HP,full poison ID/script table,and consuming count discriminate action target/result/cleanup. No mock-call count masquerading as effect.",
+            "F": "fixture/use helper names show one caller contract;global indices stay actual raw values,not hidden remapping logic.",
+            "G": "4 cases only;one real failing case per affected product path plus two nonregression branches. No runtime type-only checks.",
+            "H": "No core mocks,randomness or browser fixture;real synchronous interpreter state makes both incorrect healing and incorrect survival observable."
+          },
+          "disposition": "accept:bounded per-file A-H/caller/oracle and necessary rework complete;current7gates zero diagnostics;not whole-card/browser certification"
+        }
+      ],
+      "checks": ["poison-item-before", "poison-item-after"],
+      "authority": "Standing phase1 later-original equipment-poison policy recorded in engineering-notes/game-mechanics;user2026-10-20 five-card necessary-rework instruction. CODE79 narrow build allowed recorded before changing handler.",
+      "primary": [
+        "reference/sdlpal/script.c:1957-1965",
+        "reference/sdlpal/global.c:1617-1685",
+        "reference/sdlpal/fight.c:4378-4407",
+        "raw79.json"
+      ],
+      "unfixed": [
+        "Battle opcode large context and legacy wide tests remain review;no save/schema/assets changed."
+      ]
+    },
+    "80": {
+      "files": [
+        {
+          "path": "packages/game/src/dev/dev-panel.ts",
+          "sha256": "d23f4cceda7b457573c00f64f4ca8c19ce96874e7323cabebc67ac127eaf91e0",
+          "lines": 2347,
+          "read": "Reuse current whole-file A-H/full reading codex-final29;targeted setup/picker/party/scene jump/close blocks,full main.ts and bootstrap startup caller",
+          "dimensions": {
+            "A": "Existing battle party lock+stale card guard and explore clear→equip replay remain. Picker disconnect/generation/rejection runtime exactly matches571 except false tooltip correction. Global listener is page-owned:main chooses one mutually exclusive boot path,bootstrap installs once.",
+            "B": "Fixed B modes and Spell.id/magicNumber header;removed unsupported Esc tooltip instead of adding unapproved hotkey. Retained existing ImportMeta adapter after tsc showed env is not declared by this node-only project;not a new assertion.",
+            "C": "Page owns global keydown;picker owns observers/late DOM/cache rules;tests now remove their installed native listeners. Private scene jump takes Pick of actual gs/cache/callback dependencies;public DevPanelDeps unchanged.2345line DOM+orchestration remains design review.",
+            "D": "Party editing delegates to canonical membership/equipment state;picker thumbnail cache has specific lifetime,not generic fetch cancellation. No new universal helper.",
+            "E": "Old picker controls reused via exact runtime proof and selector-only test change. Existing realstartBattle party4 is stronger than retired fake-mode case. F1 now rejects shallow clone that old4 accepted.",
+            "F": "Named fixture/state/readout functions remain navigable,but DOM assembly is long. Header and narrowed private dependency type improve actual intent without cosmetic file splitting.",
+            "G": "Retired no product path. Public void setup kept because real host has no teardown/reinstall contract;not an invented disposer API. Private argument surface reduced to actual reads.",
+            "H": "Injected renderer/resources/public DOM allow race/ownership observations;environment DEV=false is compile-time only,not stubbed as runtime coverage. Tests dispose their native listener ownership."
+          },
+          "disposition": "review:large DEV assembly/decomposition candidate retained;page-lifetime uncertainty resolved"
+        },
+        {
+          "path": "packages/game/src/dev/dev-panel.glm-next-wave.test.ts",
+          "sha256": "ba9b3b17067c32305fc1f1dec50e7fc26bb6f2011da56a6171c9987f020f9c9f",
+          "lines": 128,
+          "read": "Full old4/current3 and current source;native old-green/new-one-business-red shallow-clone control",
+          "dimensions": {
+            "A": "Real setup event path and typed deps;B correct modes/defaultPrevented and F1 output snapshot,not manual private field access.",
+            "B": "Head now limits scope to3 actual controls;real party tests identified instead of claiming duplicate fake-mode case as full battle lifecycle.",
+            "C": "One beforeAll setup;captures exact addEventListener calls and removes them afterAll. afterEach closes via owner Close handler and restores spies.",
+            "D": "Fake gs.mode-only party test removed in favor of realstartBattle party file;retirement map identifies both battle and exploration replacements.",
+            "E": "F1 expected literal nested party/inventory fields,not JSON clone self-oracle. Mutate top-level and nested object+array;old4 pass shallow clone,new3 exactly F1 AssertionError.",
+            "F": "Small named makeDeps and literal expected snapshot show ownership;no any/unknown test cast.",
+            "G": "4→3 exact identities/digest/current hash registered under current user test-quality scope,not old OPQ approval.",
+            "H": "Only console IO observed;actual DOM listeners/runtime dump run. No mock of business clone or setup."
+          },
+          "disposition": "accept:bounded per-file A-H/caller/oracle and necessary rework complete;current7gates zero diagnostics;not whole-card/browser certification"
+        },
+        {
+          "path": "packages/game/src/dev/dev-panel.test.ts",
+          "sha256": "ad7cdc33e52173e681b22511f5f838258436ab4002b5b492ed8c485f83b2dd91",
+          "lines": 39,
+          "read": "Full2cases actual extracted enemy/team records;TS now verifies resource types",
+          "dimensions": {
+            "A": "All roster entries resolve real team/enemy ID and membership;duplicate team IDs independently rejected. Full profile needs real resource files;missing data now fails plainly.",
+            "B": "Head states full-only extracted roster truth;removed false conditional skip posture. Historical18 entry comment is historical,loop always visits actual roster.",
+            "C": "Only fs fixture reads;no runtime state/global/DOM listener install. EnemyTeam[]/Enemy[] replace any arrays.",
+            "D": "Production BOSS_ROSTER is imported rather than copied;actual resources are independent oracle. No fixture reuse with mutable combat state.",
+            "E": "Name presence+team membership+unique team set are concrete data contracts. Optional team guard preserves diagnostic assertion without unsafe property access.",
+            "F": "Each failure names boss/team/enemy;resource path is relative to this test source,not ambient cwd.",
+            "G": "2 identities unchanged;removed dead existsSync/skip selector that did not actually protect describe-time file reads.",
+            "H": "No stubs/core mock;real data requirement explicit and fast exclusion already current classification,not changed to get a green."
+          },
+          "disposition": "accept:bounded per-file A-H/caller/oracle and necessary rework complete;current7gates zero diagnostics;not whole-card/browser certification"
+        },
+        {
+          "path": "packages/game/src/dev/dev-panel.pure.test.ts",
+          "sha256": "99a30801793fab0b8819b719e7750261426ac4e5c7f00b2a3e5e86cd17746b04",
+          "lines": 623,
+          "read": "Reuse exact full623line typed-repair/A-H evidence codex-final29;current29 native inputs match fixed snapshot",
+          "dimensions": {
+            "A": "Public helper contracts use complete role/resources/cache/state factory and valid fixture config. Existing user party policy unchanged;not async thumbnail proof.",
+            "B": "Prior repaired fixture/palette descriptions remain current;new evidence does not claim29 cases are full Dev Panel browser coverage.",
+            "C": "Pure fixture helpers call actual state/startBattle seam;prior typed resources eliminate core partial object casts. Local state per case,spies restored.",
+            "D": "29 unique fixture/custom/boss/membership/magic-grant axes preserved;no merge with DOM ownership tests because call layers differ.",
+            "E": "Old full body review in codex-final29 retained;current dev-five-final reruns29 successfully. Real outcomes/fields retained,not mock frequency alone.",
+            "F": "Named role/battle fixture builders replace opaque as any setup;proof source version unchanged.",
+            "G": "No identity/body changes in this batch;needed helper exports have actual UI callers,not exposed for coverage.",
+            "H": "Existing typed injected cache/readonly resources make setup deterministic. DEV compile path not conflated with pure helper tests."
+          },
+          "disposition": "accept:bounded per-file A-H/caller/oracle and necessary rework complete;current7gates zero diagnostics;not whole-card/browser certification"
+        },
+        {
+          "path": "packages/game/src/dev/dev-panel-party-lifecycle.test.ts",
+          "sha256": "16344f4a175edd588d998ce20be1a4e2307930f421b819593650809e997e59dd",
+          "lines": 209,
+          "read": "Full4case file/current source;only Close selector changed;old implementation-controls retained for original repair history",
+          "dimensions": {
+            "A": "Real applyFixture→startBattle battle with full resources;tests both disabled fresh cards and cards opened before mode transition. Explore join/leave replays gourd into new slot.",
+            "B": "Titles claim exact live state/equipment outcomes,not just toggling gs.mode. No unsupported visual/screenshot claim.",
+            "C": "Each setup captures/removes native window listeners and closes owner;mutable party/poison/runtime/queue snapshots scoped to actual fixture.",
+            "D": "4 cases distinct:real battle controls,stale-card guard,explore leave,explore join. This subsumes the retired fake-mode GLM case.",
+            "E": "Explicit party/battlePlayers/action/runtime no-change and equipment-poison/HP20 oracles. Prior repair red controls retained;current4 pass. Counts are not stand-alone quality proof.",
+            "F": "Fixture real item269/563/564 and selectors reveal the feature being exercised;typed helpers avoid partial BattleState construction.",
+            "G": "4 identities/assertions unchanged;only truthful Close locator changed. No coverage-motivated duplicates added.",
+            "H": "DOM events and real public battle path isolate control ownership;no battle state/core mock. Listener cleanup is explicit rather than GC."
+          },
+          "disposition": "accept:bounded per-file A-H/caller/oracle and necessary rework complete;current7gates zero diagnostics;not whole-card/browser certification"
+        }
+      ],
+      "checks": ["dev-before", "dev-five-final", "dev-dump-old-mutant", "dev-dump-new-mutant"],
+      "unfixed": [
+        "Large dev-panel organization remains review;no public disposer/new shortcut/interface introduced."
+      ]
+    },
+    "81": {
+      "sharedSource": "dev/dev-panel.ts review in80",
+      "files": [
+        {
+          "path": "packages/game/src/dev/dev-panel-picker-lifecycle.test.ts",
+          "sha256": "f09432cb5f7e93ddd4f9b79f9897fb45fb892fc998887ec68539eaf7b334330f",
+          "lines": 303,
+          "read": "Full303line current test and actual picker callbacks;571 candidate/native tests identical except Close locator",
+          "dimensions": {
+            "A": "Real setup/resources and real scene-jump catalog;typed observer+deferred renderer controls actual close/filter/cached/null/fallback/rejected outcomes.",
+            "B": "Head accurately limits to picker lifetime;source/readout independence and placeholder behavior explicit. Old README protected-fast mislabel withdrawn without editing raw logs.",
+            "C": "Each case owns/removes mounted listeners and DOM;observer disposal/generation/writeback belongs to picker. Renderer Promise belongs to injected IO,not cancelled with fictional AbortSignal.",
+            "D": "5 axes differ in ownership/race/failure policy. Shared successful cache survives close by contract;not a leak assertion for every reachable entry.",
+            "E": "Old5 tests/2 single-business-red controls reusable by compile equality and test-selector-only proof. Current5 green;deferred results prove stale DOM fence without sleeping.",
+            "F": "Typed fakeobserver and named deferred helper make temporal ordering explicit;no copied production algorithm.",
+            "G": "5 identities/assertions unchanged;no broad timeout or suppression. No new production callback API to make test possible.",
+            "H": "Observer/renderer are external seams;real picker handles them. Unhandled-rejection baseline remains historical failure,not a current warning waiver."
+          },
+          "disposition": "accept:bounded per-file A-H/caller/oracle and necessary rework complete;current7gates zero diagnostics;not whole-card/browser certification"
+        }
+      ],
+      "checks": ["dev-five-final"],
+      "reuse": "CODE81 mutation-runner.json sourceSHA matches571fbeb18;current source exactly same emitted runtime except one false close tooltip;current picker test only corresponding selector change."
+    },
+    "90": {
+      "state": "Implementation/test quality rework accepted;full current check and official ratchet/protected passed",
+      "files": [
+        {
+          "path": "packages/game/src/core/menu/magic-script.ts",
+          "sha256": "7607a00b0f4eb06a11ab1292795e7957c975c1a8e9135117349bf77caeec3979",
+          "read": "Full implementation (line count field);production menu-driver875-952;Spell107-123;script-catalog full and player-poison-state full;primary selected paths below.",
+          "dimensions": {
+            "A": "Synchronous supported-op interpreter;WORD entries and role/sentinel targets come from current Spell/menu dispatcher.256-step bound and invalid catalog failure return false;prior partial effects intentionally remain. No async/cancellation/resource Owner exists in this leaf.",
+            "B": "Raw unsupported op silently skips;non-raw warns. Corrected false log-skip prose;documented retained caller cost ownership. Known seven outside spells/use=0 still match current extracted census.",
+            "C": "Catalog/poison tables have dedicated module Owners;runner mutates supplied runtime/status,never reads DOM or spends MP. Menu-driver owns picker/MP cost. Private HPMP/revive helpers share actual single/all semantics.",
+            "D": "Uses canonical poison cure and script catalog;no copy of equipment/role projection. Array status cleanup differs from battle status object shape;no universal mode helper introduced.",
+            "E": "Full current main+leaf tests read;7 redundant/invalid cases retired,3 misleading names corrected;mixed alive/dead applyAll retained with valid504,all-dead multi-target case remains. Two old-green/new-single-business-red controls for use execution and poison level3.",
+            "F": "Named single/all helpers and bounded raw/goto dispatch expose the flow. Rejected type assertions removed without changing emitted runtime code;no boolean mode framework.",
+            "G": "Kept public cast signature and its two unused cost/caster arguments because existing production callers expose that signature and user freezes public API. This is explicit optional API simplification debt,not a claimed cleanup. No new fallback or compatibility code. The third raw operand binding _c is explicitly ignored;its three-word spelling is a minor expression-cleanup candidate,not an asserted necessary runtime feature or completed removal of every unused local.",
+            "H": "Catalog injection and supplied state enable direct pure assertions;new use fixture is noncommutative and checks MP Owner. Test scopes clear both globals;no core mocks."
+          },
+          "disposition": "accept:bounded per-file A-H/caller/oracle and necessary rework complete;current7gates zero diagnostics;not whole-card/browser certification",
+          "lines": 256
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-script.test.ts",
+          "sha256": "e9128ddd85480e1230c2bde6b7eb809d1a28116d4b67266451a0d9afe1a4d796",
+          "read": "Full current test file plus actual runner and production caller;not title-only.",
+          "dimensions": {
+            "A": "Real typed factory state,declared synthetic raw commands and real seven-spell entry fragments. Mixed/dead/out-of-party roles stay distinct;bad label-map is explicit invalid-catalog injection.",
+            "B": "Corrected HP-200/log-skip names and stale shared-event comment. No claim native fixtures prove original engine behavior.",
+            "C": "Imports concrete catalog/poison Owners;one file-wide afterEach releases both singletons and spies,including failure paths.",
+            "D": "31 main cases,7 retiring cases have named stronger replacements;one new successful nonzero use-phase oracle. Keeps mixed alive/dead case because all-dead and all-alive do not subsume it.",
+            "E": "Complete31case review and assertion transfer map;M11 now observes exact3 threshold and full ID/script cleanup while preserving5. Poison2 mutant old41 green/newone red;use-validation-only old41green/newone red. Native failure identities preserved.",
+            "F": "Public fixtures use explicit WORD labels and named mkGs/mkSpell;warnings assert exact message and one emission.",
+            "G": "No redundant Command[] casts;removed weaker repeats without restoring deleted tests for coverage. Invalid77778 repaired to504 with same test identity.",
+            "H": "No runtime/runner mock;state/actual return/errors observed. Catalog out-of-bounds injection is marked failure-domain input,not a legitimate play state."
+          },
+          "disposition": "accept:bounded per-file A-H/caller/oracle and necessary rework complete;current7gates zero diagnostics;not whole-card/browser certification",
+          "lines": 459
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-script.glm-next-wave.test.ts",
+          "sha256": "70b257f07528c82723c1aab2bc3491e1aeaf0181bf9fddb282a386382473c059",
+          "read": "Full current test file plus actual runner and production caller;not title-only.",
+          "dimensions": {
+            "A": "Four direct cases:bounded goto,missing goto target,non-raw skip,sentinel no-op. Clock/RNG/async not part of leaf.",
+            "B": "Removed unsupported current-zero-coverage claim;exact warnings align with production templates.",
+            "C": "Registers local command catalog and clears it plus all spies in afterEach. No fixture/core state cast.",
+            "D": "Sentinel case is stronger replacement for retired one-cell main oracle. Other three axes are not duplicated in main.",
+            "E": "Real HP178 proves128 effects under256 raw/goto steps before limit failure;HP51 proves partial effects before bad target;HP55 proves continuation after named op. Warnings now exactly once with full message.",
+            "F": "Short independent cases and named state builder;no copied interpreter oracle.",
+            "G": "4identities unchanged;no new runtime type tests or snapshots.",
+            "H": "Only console IO observed;all business work uses real runner and actual state."
+          },
+          "disposition": "accept:bounded per-file A-H/caller/oracle and necessary rework complete;current7gates zero diagnostics;not whole-card/browser certification",
+          "lines": 93
+        }
+      ],
+      "conservation": {
+        "before": 41,
+        "current": 35,
+        "retired": 7,
+        "renamed": 3,
+        "new": 1,
+        "retainedMixedCase": "revive applyToAll 至少 1 死 → return true;77778 replaced by valid504,whole HP vector asserted"
+      },
+      "mapping": [
+        {
+          "old": {
+            "file": "src/core/menu/magic-script.test.ts",
+            "fullName": "runMagicScriptSync - opcode 0x1B OP_INCREASE_HP single target=0xFFFF 但 applyAll=false → skip(防越界)",
+            "status": "passed"
+          },
+          "replacement": {
+            "file": "src/core/menu/magic-script.glm-next-wave.test.ts",
+            "fullName": "runMagicScriptSync goto / 具名 op / 0xFFFF 目标分支 single-target 0x1B 在 target=0xFFFF(applyToAll 语境)→ no-op 且 success=true(不误报失败)",
+            "status": "passed"
+          },
+          "reason": "Stronger leaf preserves return=true and full HP vector;old only one HP cell."
+        },
+        {
+          "old": {
+            "file": "src/core/menu/magic-script.test.ts",
+            "fullName": "runMagicScriptSync - opcode 0x1C OP_INCREASE_MP MP +20 single target → clamp maxMP",
+            "status": "passed"
+          },
+          "replacement": {
+            "file": "src/core/menu/magic-script.test.ts",
+            "fullName": "runMagicScriptSync - opcode 0x1C OP_INCREASE_MP MP +20 single target → 仅目标回蓝",
+            "status": "passed"
+          },
+          "reason": "Rename matches non-clamping input;full MP vector now proves target ownership."
+        },
+        {
+          "old": {
+            "file": "src/core/menu/magic-script.test.ts",
+            "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 还魂咒 HP==0 → 复活 maxHP * 1/10 = 20",
+            "status": "passed"
+          },
+          "replacement": {
+            "file": "src/core/menu/magic-script.test.ts",
+            "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 单体复活：清 <=999 状态、保留 >999 装备状态，并按 roleId 作用于非顺序队伍",
+            "status": "passed"
+          },
+          "reason": "HP20 moved into the retained status/role/return contract."
+        },
+        {
+          "old": {
+            "file": "src/core/menu/magic-script.test.ts",
+            "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER HP > 0 时不复活(sdlpal 真值 PAL_RevivePlayer 检 HP==0)",
+            "status": "passed"
+          },
+          "replacement": {
+            "file": "src/core/menu/magic-script.test.ts",
+            "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 活人复活失败：状态与 HP 均保持不变",
+            "status": "passed"
+          },
+          "reason": "Retained case also asserts false and no temporary/equipment status mutation."
+        },
+        {
+          "old": {
+            "file": "src/core/menu/magic-script.test.ts",
+            "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 复活时清 poison(rgPoisonStatus sparse 清 0)",
+            "status": "passed"
+          },
+          "replacement": {
+            "file": "src/core/menu/magic-script.test.ts",
+            "fullName": "runMagicScriptSync - opcode 0x1B OP_INCREASE_HP M11:大世界复活只清 level<=3 毒,level>3 保留(script.c:1071)",
+            "status": "passed"
+          },
+          "reason": "Undeclared poison99/default metadata fixture retired;retained typed poison definitions exercise levels0/3 clear and5 retain with script continuation checks. Unknown-metadata fallback is not claimed equivalent production coverage."
+        },
+        {
+          "old": {
+            "file": "src/core/menu/magic-script.test.ts",
+            "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER revive 选活人 target → runner return false(g_fScriptSuccess=FALSE)",
+            "status": "passed"
+          },
+          "replacement": {
+            "file": "src/core/menu/magic-script.test.ts",
+            "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 活人复活失败：状态与 HP 均保持不变",
+            "status": "passed"
+          },
+          "reason": "Same false/HP50 assertions plus status ownership."
+        },
+        {
+          "old": {
+            "file": "src/core/menu/magic-script.test.ts",
+            "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER revive 选死人 target → runner return true",
+            "status": "passed"
+          },
+          "replacement": {
+            "file": "src/core/menu/magic-script.test.ts",
+            "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER 单体复活：清 <=999 状态、保留 >999 装备状态，并按 roleId 作用于非顺序队伍",
+            "status": "passed"
+          },
+          "reason": "True and HP20 preserved;retained nonsequential role domain also proves status ownership."
+        },
+        {
+          "old": {
+            "file": "src/core/menu/magic-script.test.ts",
+            "fullName": "runMagicScriptSync - revive applyToAll g_fScriptSuccess revive applyToAll 全活 → return false",
+            "status": "passed"
+          },
+          "replacement": {
+            "file": "src/core/menu/magic-script.test.ts",
+            "fullName": "runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER revive applyToAll 全活 → return false 且不清活人状态",
+            "status": "passed"
+          },
+          "reason": "Retires invalid WORD77777 and weaker duplicate;retained valid504 also guards no status mutation."
+        },
+        {
+          "old": {
+            "file": "src/core/menu/magic-script.test.ts",
+            "fullName": "runMagicScriptSync - 流程控制 多 op chain HP-200 后 revive 真触发(HP=0 → maxHP * 1/10)",
+            "status": "passed"
+          },
+          "replacement": {
+            "file": "src/core/menu/magic-script.test.ts",
+            "fullName": "runMagicScriptSync - 流程控制 多 op chain 扣尽最后 50 HP 后复活(HP=0 → maxHP * 1/10)",
+            "status": "passed"
+          },
+          "reason": "Rename corrects false amount;return success assertion strengthened."
+        },
+        {
+          "old": {
+            "file": "src/core/menu/magic-script.test.ts",
+            "fullName": "runMagicScriptSync - 流程控制 未知 opcode log skip 不阻流",
+            "status": "passed"
+          },
+          "replacement": {
+            "file": "src/core/menu/magic-script.test.ts",
+            "fullName": "runMagicScriptSync - 流程控制 未知 raw opcode 静默跳过，不阻断后续治疗",
+            "status": "passed"
+          },
+          "reason": "Rename matches actual silent raw-op skip;no logging behavior added."
+        }
+      ],
+      "newIdentities": [
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - opcode 0x1C OP_INCREASE_MP MP +20 single target → 仅目标回蓝",
+          "status": "passed"
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - 流程控制 多 op chain 扣尽最后 50 HP 后复活(HP=0 → maxHP * 1/10)",
+          "status": "passed"
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "runMagicScriptSync - 流程控制 未知 raw opcode 静默跳过，不阻断后续治疗",
+          "status": "passed"
+        },
+        {
+          "file": "src/core/menu/magic-script.test.ts",
+          "fullName": "castOverworldMagic - 双层 script 非零 scriptOnUse 先执行再跑 success，runner 不代扣施法者 MP",
+          "status": "passed"
+        }
+      ],
+      "sourceProof": {
+        "compiler": "6.0.3",
+        "options": {
+          "target": 9,
+          "module": 99,
+          "removeComments": true
+        },
+        "baseSourceSha256": "ea4d7dce03a1f38122b8dff0ceb9437e74cf8db03aba1cbb455aeacb73088d52",
+        "currentSourceSha256": "7607a00b0f4eb06a11ab1292795e7957c975c1a8e9135117349bf77caeec3979",
+        "beforeJSSha256": "c432b6031566fb18ea07c3d4c30ad914fc4896e95686d4e3cb0302d59708c2cf",
+        "currentJSSha256": "c432b6031566fb18ea07c3d4c30ad914fc4896e95686d4e3cb0302d59708c2cf",
+        "equal": true
+      },
+      "checks": [
+        "magic-before",
+        "magic-after",
+        "magic-final",
+        "magic-tsc",
+        "magic-use-old-mutant",
+        "magic-use-new-mutant",
+        "magic-poison-old-mutant",
+        "magic-poison-new-mutant",
+        "magic-use-final-mutant",
+        "magic-recovery",
+        "magic-poison-sealed-mutant",
+        "magic-use-sealed-mutant",
+        "magic-sealed"
+      ],
+      "limits": [
+        "Early magic-tsc/108adjacent preceded final fixture/case strengthening;check-final subsequently validated final source/test bytes in full game typecheck and7package checks.",
+        "Old CODE90 revive<=999/>999 primary and mutation evidence reused;new tests do not repeat that repair.",
+        "Public extra parameters retained as explicit optional API debt,not silently removed."
+      ]
+    }
+  },
+  "reuseProof": "reuse-proof.json in native archive",
+  "reusedArtifacts": [
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-53/ownership-controls.json",
+      "sha256": "46eb212c7705d03751849d4257cad616b776f559ca77b2d3b6922d959cd52512"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-53/slot-negative-controls.json",
+      "sha256": "149204ef9b976b3ee85a790323ba499a06d93d2ae767a206386ddbe78a07ab62"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-53/reconstructed-negative-control.json",
+      "sha256": "09c718a60d8c6bc40568e1bc7c4325bcfed5fd16118354c88fa5ae17a929dc9b"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-53/first-poison-entry.json",
+      "sha256": "e368d8c98042195128cb6de2f708772ad635eb80ea336faf8358e5194cb01fbc"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-80/implementation-controls.json",
+      "sha256": "2e7af1571a80d3c519a100257168726e593a36c8fdf6fbe8fe38797c4bf2ae91"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-81/mutation-runner.json",
+      "sha256": "8783ece719a71d832c0b7b4c845232cad61be067f917e67fe080a9c44b18d036"
+    },
+    {
+      "path": "docs/ops/evidence/CODE-QUALITY-90/mutation-legal-script-id-result.json",
+      "sha256": "c57eb79c05d06af59f4634e80370e554d9a407295b88f14dbffa6715ef781ccd"
+    }
+  ],
+  "currentContext": [
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "d6fd349f95fe4489d255e4286c29a94e52146508022d84289de125de6f7f2b87",
+      "scope": "full GLM/Codex A-H and current bootstrap/save caller;no source delta;source preservation/delta proof in reuse-proof.json,not automatic hash-based semantic certification",
+      "disposition": "review;not closure by context reuse",
+      "dimensions": {
+        "A": "Real0 remains data;runtime role arrays are hydrated at bootstrap. Dialog history saved/restored via deep clone. Save format/serialization unchanged in this batch.",
+        "B": "Inventory objectID comment already fixed by earlier Codex;history persistence and moved postBattleResume block retained. Does not certify every prose claim as zero-redundancy.",
+        "C": "Model plus hydration/projection/default-reset in one module;broad GameState passed across layers. Phase1 explicit owner map retained,not a phase2 architecture endorsement.",
+        "D": "Projection centralizes equipment/base rules;private exp/matrix helpers share identical initialization contract. Do not merge live projection and save DTO blindly.",
+        "E": "Author71 is61 state+mode. Prior save roundtrip six-field/read-clone fixes live elsewhere;not credited to these71 automatically.",
+        "F": "Type sections make broad state navigable;projection anonymous branch29 clue marks concentration,not proof file must split immediately.",
+        "G": "Optional transient fields have production consumers;no mass optional/default removal. Inventory.count0 policy from earlier Codex is not reintroduced.",
+        "H": "Construction/hydration/projection direct tests use typed state;provider injection explicit. External save IO tested at save owner,not by cloning gs alone."
+      },
+      "reusedReview": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json#fileReviews:packages/game/src/core/game-state.ts"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "4bdfc8e1fa9347d6bcb3531dbd74a01e700ce517b77fe76ddedcafc3d55e04dc",
+      "scope": "full A-H codex-final29 +0x75 case preservation;private prior dither change not re-audited;source preservation/delta proof in reuse-proof.json,not automatic hash-based semantic certification",
+      "disposition": "review;not closure by context reuse",
+      "dimensions": {
+        "A": "Old waiting/IP/call-stack evidence reused. Refactor only two identical dither start paths;speed0x73 operand vs0x9B constant2,time/clear/wait order preserved by exact extraction proof.",
+        "B": "Constant stub comments corrected;also removed fixed-rAF approximation contradicting wall-clock code. Shared helper explains old-frame dialog ownership and leaves IP to wait consumer.",
+        "C": "Private startDitherFade now owns common dither state/cleanup instead of two interpreter copies. Existing11 singleton service setters are explicit coupling debt;not called globally pure.",
+        "D": "Exact six-statement duplicate screen found same fade contract. One private three-arg helper shares knowledge without mode flag or public API;palette ramp remains separate.",
+        "E": "329 cases before/after refactor;two test gaps repaired:exact once warning with finally restoration;legal sound sentinel verifies no early effect then77 after delay. Old329 baseline had2 stderr blocks,not clean.",
+        "F": "tickEventSystem321/applyRawOpcode368 branch clues remain;small extraction improves one real repeated responsibility,does not make5100line interpreter ideal.",
+        "G": "No instruction/export/validation removal.2helper calls and1private declaration;old repeated blocks eliminated,not hidden behind config/ignore.",
+        "H": "Direct cursor/clock-state assertions;no mock of helper. Pre-fix test expectation mistake(undefined queue vs[]) preserved as test-author failure,not product red."
+      },
+      "reusedReview": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json#fileReviews:packages/game/src/core/event-system.ts"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-system.ts",
+      "sha256": "a3fed8fc2206af344a9eef7836bfa9ac3e3dd5f9187e92e2cb84d760518dccb5",
+      "scope": "full A-H codex-final29 +player-poison callback/current item callers;only new comment correction;source preservation/delta proof in reuse-proof.json,not automatic hash-based semantic certification",
+      "disposition": "review;not closure by context reuse",
+      "dimensions": {
+        "A": "Intro fade gates preBattle;turnStart precedes menus;enemy scriptOnReady runs on action. Prior lifecycle/counter evidence retained;no claim all visual paths revalidated.",
+        "B": "New tickPreBattle comment matches actual phase and scriptOnReady owner. Other historical literal-line references are not automatically certified.",
+        "C": "Routes phases and emits actions with explicit state but also handles dialog/casualty/selection. Author claim only routing is too narrow;decomposition candidate needs lifecycle split,not filename limit.",
+        "D": "Actions/progression/settlement already separate;grid/dialog primitives resemble event helpers but input/state rules differ. Keep actual reexports verified by ownership identity test.",
+        "E": "Author attachment contains39 passed;68 README lacks matching raw report. Current recent181/103 regressions are not a replacement all-system quality audit.",
+        "F": "tickPerformAction92 branch clue identifies heavy state sequencing;named phase handlers aid navigation but do not prove low coupling.",
+        "G": "Legacy reexport names have actual production/test binding consumers;not removed simply because label says legacy.",
+        "H": "Input/RNG/time supplied through state and seams,plus global script services. Testing can drive real phase state;singleton restoration remains required."
+      },
+      "reusedReview": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json#fileReviews:packages/game/src/core/battle/battle-system.ts"
+    },
+    {
+      "path": "packages/game/src/core/player-poison-state.ts",
+      "sha256": "98a08d77f9a738a7f5945278624e87033569f927914d6ddbd0e3194d980a5ad8",
+      "scope": "full read;executable identical to CODE53 controls;known compaction/reentry review remains",
+      "disposition": "review;not closure by context reuse",
+      "dimensions": {
+        "A": "Role entry→first matching party slot,16slots;off-party returns/no mutation. Direct slot consumers must not reuse role mapper. Exact old helper executable proof+five controls reused;arbitrary poison-entry reentry/first-gap compaction not certified.",
+        "B": "Full source comments reviewed against C functions;corrected combined risk-item phrasing to separate cure/heal. Existing documented Wear/first-gap discrepancy remains truthful.",
+        "C": "Module owns poison metadata singleton;bootstrap supplies current object table,callers supply synchronous entry runner. Caller retains resistance gate/lifecycle;tests must reset singleton. No save or renderer writes here.",
+        "D": "One canonical query/cure/add/wear owner for event/battle/equipment;79 now reuses query. CureByKind and ByLevel have different criteria,not merged through a boolean mode.",
+        "E": "Current16helper tests+37event/ownership total and seven old one-business-red controls;source bodies preserved. They do not prove novel compressed-list/reentrant scripts.",
+        "F": "Role vs party-slot names explicit;short bounded loops and named operations expose contracts. Key string format is existing state representation,no duplicate mapper.",
+        "G": "All exports have actual current opcode/equip callers. Unknown metadata fallback retained as existing API behavior,not newly added to pass. No unused helper invented.",
+        "H": "Supplied state and entry-runner seam allow direct ID/script table assertions without event mock. Global definition Owner is explicit isolation requirement;known reentry risk remains review."
+      }
+    }
+  ],
+  "eligibleClosures": [
+    "packages/game/src/core/inspect/battle-inspect.ts",
+    "packages/game/src/core/inspect/battle-inspect.test.ts",
+    "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+    "packages/game/src/present/menu/draw-player-status.ts",
+    "packages/game/src/present/menu/draw-player-status.test.ts",
+    "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+    "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+    "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+    "packages/game/src/dev/dev-panel.glm-next-wave.test.ts",
+    "packages/game/src/dev/dev-panel.test.ts",
+    "packages/game/src/dev/dev-panel.pure.test.ts",
+    "packages/game/src/dev/dev-panel-party-lifecycle.test.ts",
+    "packages/game/src/dev/dev-panel-picker-lifecycle.test.ts",
+    "packages/game/src/core/menu/magic-script.ts",
+    "packages/game/src/core/menu/magic-script.test.ts",
+    "packages/game/src/core/menu/magic-script.glm-next-wave.test.ts"
+  ],
+  "processDisclosure": [
+    "dev-five initial ReferenceError snapshot was test-author typo,not a product red;corrected before shallow-clone business control. It also used a misspelled pure test path;later dev-five-final collected correct5files/43.",
+    "First five-typecheck failed2 errors:undeclared ImportMeta.env and possibly missing roster team;kept existing environment adapter unchanged and narrowed team access,no ignore/config/interface added. Recovery0.",
+    "Temporary inspect producer typo index vs indexOf failed before writing source;status-inspect thus serves as unchanged76 baseline. Fixed producer then inspect-typed15 green.",
+    "raw79 producer initially used two wrong extracted item paths and failed ENOENT before emitting evidence;final read-only run uses actual data/items.json and raw source decoding. No asset output command was run.",
+    "No native failure above is claimed red-first production evidence except poison-item-before two HP AssertionErrors. Existing90/80/81 original red chronology stays in original evidence.",
+    "The CODE79 new file was untracked during first red/green captures,so codeChanges did not include its SHA;same test body was retained after initial formatting. Native file×fullName/result and current file binding are preserved;the later staged/full gates bind final bytes. No claim of a contemporaneous untracked-file digest.",
+    "Temporary documentation producer also failed index-vs-indexOf before writing;fixed before final task/board update. It is not product failure evidence.",
+    "First pnpm check passed docs125 then failed the explicit registry-total test:two new approvals were added but test constants31/66 not updated. Corrected exact33unique/73net,kept all14refusal axes. First complete failure is check.execution/raw;final check uses a distinct immutable ID.",
+    "Initial paired binding writer updated report first then stopped on evidence history shape;completed catalog/report/evidence sourceRef+bounded history coordination before final gate. Frozen execution/publication status/dates/versions unchanged.",
+    "A supplementary baseline-diff producer initially used nonexistent fastTests.fileCounts rather than canonical fileEntries,failed TypeError before writing any repository/proof data;corrected after inspecting actual schema. Not a product counter or coverage failure.",
+    "Before future costly gates,run exact retirement registry accounting test first when metadata changes;the initial omitted33/73 sync is retained as an avoidable author error,not a gate waiver."
+  ],
+  "limits": [
+    "No full83card acceptance;review queue goes83partial/0pending only for scoped evidence,0accept.",
+    "No94–102 expansion;no primary tree writes/new long branch/new GLM worktree changes.",
+    "Browser screenshots/story E2E not newly executed;DOM/native pixels cover specific functional contracts only.",
+    "Eligible file closure will be decided after native whole-batch zero-diagnostic gates,not this script."
+  ],
+  "retirements": {
+    "authority": "User2026-10-20 complete five-card necessary rework;standing2026-10-03 test quality/dedup and later no weak-test restoration. Codex decision,not individual historic OPQ approval.",
+    "entries": [
+      {
+        "file": "packages/game/src/core/menu/magic-script.test.ts",
+        "previous": 37,
+        "current": 31,
+        "previousIdentityDigest": "b54cf21e965db09f3701c947dbb2401a5b4cd9ab1676d2e77a542cf41df4b9ba",
+        "currentIdentityDigest": "b0cd51bab955bbc043143ffe6608ffd9a856f5e190cb85a66a313b49b2ecb228",
+        "fileSha256": "e9128ddd85480e1230c2bde6b7eb809d1a28116d4b67266451a0d9afe1a4d796"
+      },
+      {
+        "file": "packages/game/src/dev/dev-panel.glm-next-wave.test.ts",
+        "previous": 4,
+        "current": 3,
+        "previousIdentityDigest": "6e91e1d96388458d039cbc139fd7c10147c9c2b8d64d52cf06be428e753c8ac0",
+        "currentIdentityDigest": "e4afc9331554032827966b60d868476397d5d8538d3e5f721eaa728484d28a70",
+        "fileSha256": "ba9b3b17067c32305fc1f1dec50e7fc26bb6f2011da56a6171c9987f020f9c9f"
+      }
+    ],
+    "nativeIdentityMethod": "Actual reporter ancestorTitles+title joined with >;official collectTestInventory file::project root::name sorting/digest. Before digests independently match exact existing baseline.",
+    "extraMapping": [
+      {
+        "file": "packages/game/src/dev/dev-panel.glm-next-wave.test.ts",
+        "old": "battle 中队伍卡不可入队/离队；explore 中同一卡仍可切换",
+        "replacementFile": "packages/game/src/dev/dev-panel-party-lifecycle.test.ts",
+        "replacements": [
+          "真实战斗中入队与离队卡均禁用，点击不改变队伍和战斗状态",
+          "探索面板打开后启战，旧卡片点击也不能改变战斗队伍",
+          "探索'离队'后清旧真毒，并在新队伍位置重建寿葫芦效果",
+          "探索'入队'后清旧真毒，并在新队伍位置重建寿葫芦效果"
+        ],
+        "reason": "old case only assigned mode,no BattleState;real four cover actual battle and both exploration operations with full output ownership"
+      },
+      {
+        "file": "packages/game/src/core/inspect/battle-inspect.test.ts",
+        "old": "collectEnemyStatusReadouts:灵葫值 collectValue(无字段→0;有则原样,供灵葫咒判定)",
+        "current": "collectEnemyStatusReadouts:灵葫值 collectValue(零与非零原样,供灵葫咒判定)",
+        "reason": "mandatory Enemy field is now declared0 in legal typed fixture;retained actual zero/nonzero assertion,no type-erased missing-field runtime case"
+      }
+    ]
+  },
+  "integration": {
+    "status": "passed",
+    "gates": [
+      {
+        "role": "check",
+        "id": "check-final"
+      },
+      {
+        "role": "ratchet",
+        "id": "ratchet-final"
+      },
+      {
+        "role": "protected",
+        "id": "protected"
+      },
+      {
+        "role": "docs",
+        "id": "docs-final"
+      },
+      {
+        "role": "lint",
+        "id": "lint-final"
+      },
+      {
+        "role": "ledger",
+        "id": "ledger-final"
+      },
+      {
+        "role": "diff",
+        "id": "diff-final"
+      }
+    ],
+    "failedAttempts": ["check", "ratchet"],
+    "scopeDeltaAfterCheck": "Finite baseline-adjustment data entry only;official ratchet-generated baseline snapshot;bounded docs/evidence. Existing matcher unchanged;81coverage tools/default approval controls+official ratchet/protected+finalstatic cover these deltas.",
+    "supplemental": [
+      {
+        "role": "coverage-tools",
+        "id": "coverage-recount-tests",
+        "scope": "Metadata-only delta aftercheck-final;81tests and default-entry native controls;does not claim repeated7package check."
+      }
+    ],
+    "coreGates": [
+      {
+        "role": "check",
+        "id": "check-final"
+      },
+      {
+        "role": "ratchet",
+        "id": "ratchet-final"
+      },
+      {
+        "role": "protected",
+        "id": "protected"
+      }
+    ],
+    "byteReuseProof": "check-byte-reuse.json",
+    "acceptance": "Seven current official/static gates exit0 with explicit diagnostic scans all0. Source/test checks and exact metadata supplement separately bound. Git commits/push/main merge are independently verifiable refs,not inferred from this record."
+  },
+  "nativeArtifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/native.json.gz",
+    "sha256": "472c607283220e069289c3e15b9bb4480552d8c5bf5792dba2f4a1b78c63d72c",
+    "bytes": 4461560,
+    "members": [
+      {
+        "name": "baseline-before.json",
+        "sha256": "2b4e3c2f429df7c4b3928dc882517a7f5cf29114405d011638c14570c9df31d8",
+        "bytes": 527216
+      },
+      {
+        "name": "baseline-diff-proof.json",
+        "sha256": "a40b7b3e7c34a638e206b7cc21dfe486ddb8e961bce7c26c6a973dba57f00bf8",
+        "bytes": 1781
+      },
+      {
+        "name": "baseline-diff-proof.mjs",
+        "sha256": "8d4f1151b54070ce940902b82ef0fb7b204e759bae95b1b4bc560bfacd648eb5",
+        "bytes": 2600
+      },
+      {
+        "name": "blank-dimension.json",
+        "sha256": "8a3f892d008175b9cb43275327fd506eef47aa4ccff3fbcd47a160cecadd1a6c",
+        "bytes": 84124
+      },
+      {
+        "name": "capture.mjs",
+        "sha256": "659199d2153da7eea1e085c4d04d998ee2f91b79d876dc31610ebe4d3de55cac",
+        "bytes": 3509
+      },
+      {
+        "name": "check-byte-reuse.json",
+        "sha256": "259156ea2ccd895b031f81676a645fc30d5a35b4676c1a2d9271b314c476dd42",
+        "bytes": 3102
+      },
+      {
+        "name": "check-byte-reuse.mjs",
+        "sha256": "f38f14cd60d20d9ec93146ea577c6f5812aaba0f248cb086d9bb83f1221caefc",
+        "bytes": 1716
+      },
+      {
+        "name": "check-final.execution.json",
+        "sha256": "9a8cd4273c19c866196801dcfa0861c9d75dec4d261c3785dc78da24def37f07",
+        "bytes": 6762
+      },
+      {
+        "name": "check-final.scan.json",
+        "sha256": "e598469a00100145e455a5ca82615feaef9eb17b4988418e00b37604102ee061",
+        "bytes": 1860
+      },
+      {
+        "name": "check-final.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "check-final.stdout.raw",
+        "sha256": "4d4dfed077acb81ab2d147219d6eb290237463009ff606101ff45cc33ebf702e",
+        "bytes": 184724
+      },
+      {
+        "name": "check.execution.json",
+        "sha256": "23ad1e537fc737b8bab2739c8d40dc6783f62c7a37502ee42bd1c7897854cfe2",
+        "bytes": 6522
+      },
+      {
+        "name": "check.scan.json",
+        "sha256": "36790dcd1b7a2cd1de24277aa82d3d2dace4610824bff81074a6abbaac4e2cd8",
+        "bytes": 583
+      },
+      {
+        "name": "check.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "check.stdout.raw",
+        "sha256": "1d5b3eb5080cefa01c32fbb159c2faaddb1eb212e36b6841f14a0edcc5975185",
+        "bytes": 49561
+      },
+      {
+        "name": "commit-five.mjs",
+        "sha256": "b5600549eb707ec4ef0451c8156cbe4142e8b4c83082218bee25384fbcfdd03e",
+        "bytes": 2451
+      },
+      {
+        "name": "content-pre.stderr.raw",
+        "sha256": "846ba1bafb39dcfb993062ff3cf5a46803941b6200ae109c01de43c292587b33",
+        "bytes": 192
+      },
+      {
+        "name": "content-pre.stdout.raw",
+        "sha256": "c58e802d648f260d8bb455874fd684c4f3057699d00a33c0e0863d748e2c0b91",
+        "bytes": 65
+      },
+      {
+        "name": "corrupt-archive.json",
+        "sha256": "8c8ce0ee4014f41c2e2af71b7c0d8aeb62a8322515e28517f4a09c065f0d5f36",
+        "bytes": 84279
+      },
+      {
+        "name": "coverage-recount-tests.execution.json",
+        "sha256": "f7d6e5c3f37112c7d322d76a053ffe89de7b432154a94847ad4e632336b2e18c",
+        "bytes": 7036
+      },
+      {
+        "name": "coverage-recount-tests.scan.json",
+        "sha256": "8356677f60e4bfbf4abc39cc30a1ccb1fdac80deebf064a509bdc3c59269f69e",
+        "bytes": 517
+      },
+      {
+        "name": "coverage-recount-tests.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "coverage-recount-tests.stdout.raw",
+        "sha256": "dab235e4364f50e635c7323184d5fa53419159d8d5847d6475d74e578d7eeb7a",
+        "bytes": 17918
+      },
+      {
+        "name": "dev-before.execution.json",
+        "sha256": "2b71680fa27786c173b1f2246deaacb1ecbf8698a8410fd32108146853af7f0f",
+        "bytes": 2286
+      },
+      {
+        "name": "dev-before.native.json",
+        "sha256": "191195de75ef9f3c45ce9b8d19dfa6338420e82d095a1eec5606f5c85d0a2031",
+        "bytes": 2350
+      },
+      {
+        "name": "dev-before.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "dev-before.stdout.raw",
+        "sha256": "b859f9c31e6cdedf484cadd7da093099ddaea9120fabcafec4250fc1460f2432",
+        "bytes": 647
+      },
+      {
+        "name": "dev-control.mjs",
+        "sha256": "17483ba21489a97aeb2b6cb73b254365e21de4ed652f083c44fb404ef4daad05",
+        "bytes": 2095
+      },
+      {
+        "name": "dev-dump-control.identity.json",
+        "sha256": "73cddc30f1c14638aa83aaececcd45388f422cb037eb51a947fbb4e567b570d5",
+        "bytes": 1229
+      },
+      {
+        "name": "dev-dump-new-mutant.execution.json",
+        "sha256": "6d5cd90ef93caed1f54e8bd9c23cfb481a95331c3366a395d7b365ef9e8a8de1",
+        "bytes": 3393
+      },
+      {
+        "name": "dev-dump-new-mutant.native.json",
+        "sha256": "5d3acf5bd15ca8d751331b41df193e4e7940d306e51be12c847ccd77fb97cf32",
+        "bytes": 3695
+      },
+      {
+        "name": "dev-dump-new-mutant.stderr.raw",
+        "sha256": "e154a788f2333c7fb5e1d4400ccf6be117fd26fdd56c1e3cb2dc8850e799de68",
+        "bytes": 951
+      },
+      {
+        "name": "dev-dump-new-mutant.stdout.raw",
+        "sha256": "5381dc9c3b931702c29371693cc9c58192c80b1c88c06412bb05c7506374b759",
+        "bytes": 953
+      },
+      {
+        "name": "dev-dump-old-mutant.execution.json",
+        "sha256": "27b71e5ed938f7d9205329ec7731ea2f928886eaa8c469e2dd39202f77bb3471",
+        "bytes": 3166
+      },
+      {
+        "name": "dev-dump-old-mutant.native.json",
+        "sha256": "7893f783582d9490b26ef668628fd31517d2a8b2f9fcc67ae2ca4684d95caa37",
+        "bytes": 2352
+      },
+      {
+        "name": "dev-dump-old-mutant.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "dev-dump-old-mutant.stdout.raw",
+        "sha256": "9b636d9713bd07c6e0da61659caa99af2214d262504812bdffe3e904aeea4aca",
+        "bytes": 656
+      },
+      {
+        "name": "dev-edit.identity.json",
+        "sha256": "e9b3083df7903a40b6ee41b3d820e82090902f93a533d40ea72e597e5f19ed31",
+        "bytes": 831
+      },
+      {
+        "name": "dev-five-final.execution.json",
+        "sha256": "580d4ef650fe2255edb69f8109461b5445157c1eb49cbf43b43301a370b9720a",
+        "bytes": 3542
+      },
+      {
+        "name": "dev-five-final.native.json",
+        "sha256": "717c2dedd3651cfe7018bfdd8c95f3c79541df40938db7fc0731356e8302f1ff",
+        "bytes": 18664
+      },
+      {
+        "name": "dev-five-final.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "dev-five-final.stdout.raw",
+        "sha256": "73c732c17d3207016b25b960ee16610d9d92e2044a0f52e9c060ff56a576a421",
+        "bytes": 7453
+      },
+      {
+        "name": "dev-five.execution.json",
+        "sha256": "8fdf58a0228d344be4d22bbfb6adc5409b833088ecbcff950b42ce89db9cf770",
+        "bytes": 3520
+      },
+      {
+        "name": "dev-five.native.json",
+        "sha256": "05ef252cdb45e835502135f301442145243c380b3fff98520a4b79d26eaef73f",
+        "bytes": 7733
+      },
+      {
+        "name": "dev-five.stderr.raw",
+        "sha256": "93120efede3332a81032c85bd3e0053ff2c54cd49ecf282a978169c95cc711e1",
+        "bytes": 626
+      },
+      {
+        "name": "dev-five.stdout.raw",
+        "sha256": "e5cd9ef91d09c0efc09ef8ce18070695a498542e37044afd1733416c64d8195a",
+        "bytes": 3622
+      },
+      {
+        "name": "diff-final.execution.json",
+        "sha256": "b8e903d15350f4ab15db303d655c61dab0d574c4b9bef238a1868bc3cf9f4f28",
+        "bytes": 7186
+      },
+      {
+        "name": "diff-final.scan.json",
+        "sha256": "1f5be90ccc0c9b7d070d5089bf03fd4ca43403c67cf654fb7627817e98db74d2",
+        "bytes": 334
+      },
+      {
+        "name": "diff-final.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "diff-final.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "docs-final.execution.json",
+        "sha256": "c6b896256ae329d40223819183bc0bf8fa8cafe1106accd8ea03d5bf6ea53740",
+        "bytes": 7170
+      },
+      {
+        "name": "docs-final.scan.json",
+        "sha256": "c72435fb857a1c3bae68818242957d0bf09fcf0323487fe04d98ead46730d5f7",
+        "bytes": 771
+      },
+      {
+        "name": "docs-final.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "docs-final.stdout.raw",
+        "sha256": "d03f1914a2fcac73e98529ea82b2ea2801fae29f115c168c8cd210b4cdc58c7c",
+        "bytes": 30519
+      },
+      {
+        "name": "docs-pre.execution.json",
+        "sha256": "3c1ab3ed2801c02927e59903346df5e4090dfb23ef35c0564e3443836593d48b",
+        "bytes": 5740
+      },
+      {
+        "name": "docs-pre.stderr.raw",
+        "sha256": "f6c3a59d4a66203184b5972f19dfdb33dbc067f01f30e3060f49c8a241a3edaf",
+        "bytes": 211
+      },
+      {
+        "name": "docs-pre.stdout.raw",
+        "sha256": "7fa114e8143d813e470c112c8edad13d50ba2c70545357077e9fc8617053697c",
+        "bytes": 30497
+      },
+      {
+        "name": "docs-preflight.json",
+        "sha256": "64aee78efc9d4deac454a4e3f1e234dcc9799e0507cdb89d11fa925817d8af88",
+        "bytes": 58
+      },
+      {
+        "name": "empty-native.json",
+        "sha256": "83db6faf38393a19856e14fdbc96cb7cfae376e606534d8a6c30db7bc46955e2",
+        "bytes": 81093
+      },
+      {
+        "name": "empty-passed-gates.json",
+        "sha256": "39c35238e162a0a56f8d2176901f50a24d6f28494f58bfa02d5a87e528e6a6b4",
+        "bytes": 84251
+      },
+      {
+        "name": "final-record.mjs",
+        "sha256": "6849e3dc48c11027ee90e1b043f0162584f90c623b1cc8b0cfde59b5ec4f09b7",
+        "bytes": 2547
+      },
+      {
+        "name": "finalize-core.mjs",
+        "sha256": "68dcb1f05cab652d01930a3065f79c5352673438db475e770a62a059fdbdeee1",
+        "bytes": 7885
+      },
+      {
+        "name": "five-typecheck-recovery.execution.json",
+        "sha256": "b9ed48090492fb4e18661981b2b9eed1aeaca3b08e9c07aed9b5e42732ff022f",
+        "bytes": 4482
+      },
+      {
+        "name": "five-typecheck-recovery.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "five-typecheck-recovery.stdout.raw",
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80",
+        "bytes": 125
+      },
+      {
+        "name": "five-typecheck.execution.json",
+        "sha256": "359763c1fd0be9527601d7051bc394bcbd18eb9093384a6215a28cbca4f50f0b",
+        "bytes": 4455
+      },
+      {
+        "name": "five-typecheck.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "five-typecheck.stdout.raw",
+        "sha256": "ae0903e390909154eeec593aae11cf6baa5ddcf64205f18a97f715cf695b0a7c",
+        "bytes": 478
+      },
+      {
+        "name": "fix-ledger-placement.mjs",
+        "sha256": "47522d16f1b7535550e79c6a8f4cc539c76827b29356e11e29578baacbb224a7",
+        "bytes": 1491
+      },
+      {
+        "name": "inspect-typed.execution.json",
+        "sha256": "5b97f1159055c17322f1abd43fe5e30af3fa99143b1a9b5783f8bdd516d94220",
+        "bytes": 3941
+      },
+      {
+        "name": "inspect-typed.native.json",
+        "sha256": "6802edcc434db9b12f6ecd47a5e50e79478b1f9a2b2f047da4124b7ceeeca976",
+        "bytes": 7058
+      },
+      {
+        "name": "inspect-typed.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "inspect-typed.stdout.raw",
+        "sha256": "2e8236e0a590a606156c2bb4163843243a7cb1c08a3de34eacf1605a6a7c8c98",
+        "bytes": 496
+      },
+      {
+        "name": "ledger-final.execution.json",
+        "sha256": "ae391c5ff3a4cf9f4d5845e8f0d4ba3c322c83b21c019898b7ced4021102dcb8",
+        "bytes": 7205
+      },
+      {
+        "name": "ledger-final.scan.json",
+        "sha256": "1b7b0c68d1c71a61b3316ebc4eb17cc1127da7800464a1999572c94368e3c61f",
+        "bytes": 456
+      },
+      {
+        "name": "ledger-final.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "ledger-final.stdout.raw",
+        "sha256": "0c09b666aa49f609d8b855fa3d897d129ccf24e285dd659c75e6ba791563b15d",
+        "bytes": 113
+      },
+      {
+        "name": "lint-final.execution.json",
+        "sha256": "c575c4ca8644cf89d61338fc1f773fd1e59204d1e7fd994feecf18b2370decb3",
+        "bytes": 7162
+      },
+      {
+        "name": "lint-final.scan.json",
+        "sha256": "38d9129730b0164bb4dd16eaa1c07bfb2ab7103a865cafdff35af390cb287140",
+        "bytes": 647
+      },
+      {
+        "name": "lint-final.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "lint-final.stdout.raw",
+        "sha256": "b2dc23b8fc3dcd51ae8650676047416e805eab91fab951f303dee6431ec57834",
+        "bytes": 193
+      },
+      {
+        "name": "magic-after.execution.json",
+        "sha256": "a9f60cd40e19ad60ff438f0c289ec153f24cf1e0e716ca2cfaaa98fe149c0356",
+        "bytes": 2341
+      },
+      {
+        "name": "magic-after.native.json",
+        "sha256": "83786f0fd356e262f77241d5a8a6e037d0f088bc9629d7cd6bddfe3de3805c63",
+        "bytes": 13019
+      },
+      {
+        "name": "magic-after.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "magic-after.stdout.raw",
+        "sha256": "0ba32d7b60e2df9e92666ca65c50eb6a54694245e6ea8442144350b617ae85f3",
+        "bytes": 479
+      },
+      {
+        "name": "magic-before.execution.json",
+        "sha256": "28162ffc09a80a8c997cff7b3994cab30a8589243c502d56225c3330be542a7c",
+        "bytes": 1680
+      },
+      {
+        "name": "magic-before.native.json",
+        "sha256": "0d9514ef3773382f463256690b9d2d84ff992ff853b16ad4cbdf06df55ac4c8b",
+        "bytes": 15363
+      },
+      {
+        "name": "magic-before.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "magic-before.stdout.raw",
+        "sha256": "c9944feeec3352a3be816ff2a96b81d42dad93abed1dad5d3390b9d8c67b2cdc",
+        "bytes": 482
+      },
+      {
+        "name": "magic-boundary-controls.identity.json",
+        "sha256": "9cb9ebd84c4f67ea424fdc2011a3cd4eeab943eafa6dd7834c909b3ff257b77a",
+        "bytes": 1433
+      },
+      {
+        "name": "magic-boundary-controls.mjs",
+        "sha256": "997e4f005e205801e143a5734285809e1d8210c825918149904a56178df54938",
+        "bytes": 2781
+      },
+      {
+        "name": "magic-control.mjs",
+        "sha256": "6fe0d8fbcb0be64a98247e3ad29b23c9dab76db24a8eb7168d09f02842b021ca",
+        "bytes": 2684
+      },
+      {
+        "name": "magic-edit.identity.json",
+        "sha256": "f121ba648e7d48e31ff4a151b7cc4cd1ffcc99c658e4ecf54a56f381b6cc0b01",
+        "bytes": 327
+      },
+      {
+        "name": "magic-final.execution.json",
+        "sha256": "bc4d780260bcbbf95155501aab268982826d3936de7a6faf9e0d320f76482444",
+        "bytes": 2429
+      },
+      {
+        "name": "magic-final.native.json",
+        "sha256": "3fdd13c27c7fea5eb9c8f32d0436ffeeae2664f657d4e2d2a10ed17351ad16a5",
+        "bytes": 39416
+      },
+      {
+        "name": "magic-final.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "magic-final.stdout.raw",
+        "sha256": "65ee766dcbc973c7ac0d1c5991ba521c838ef384c7ba0945f624eb977aa1d7dd",
+        "bytes": 984
+      },
+      {
+        "name": "magic-poison-new-mutant.execution.json",
+        "sha256": "1113668bbe4fb1d549f28996b417ec3e13df4de50c7eb7e857d21c0c2caa2d5b",
+        "bytes": 2392
+      },
+      {
+        "name": "magic-poison-new-mutant.native.json",
+        "sha256": "58e0aaf74d54e32295cd951590b8f05499d93fb97c8984cd8dd29bc495039032",
+        "bytes": 14865
+      },
+      {
+        "name": "magic-poison-new-mutant.stderr.raw",
+        "sha256": "bf653fa0ccc78e4940645524b74e4abf5bef7313908d0b0764bb2762780d7751",
+        "bytes": 765
+      },
+      {
+        "name": "magic-poison-new-mutant.stdout.raw",
+        "sha256": "5b777ffbcb8135d008ccb33f0ec55444397e20b0d9b535d00b77a26fc16433c2",
+        "bytes": 2765
+      },
+      {
+        "name": "magic-poison-old-mutant.execution.json",
+        "sha256": "24c9560f185871f6de0b40eb2b8b95c51603cf477a9d488de0c3a3199156fea2",
+        "bytes": 1931
+      },
+      {
+        "name": "magic-poison-old-mutant.native.json",
+        "sha256": "41bfd94c94719049fa1eac7314d456e89c5053bd06c44600cec1332d7bff925d",
+        "bytes": 15366
+      },
+      {
+        "name": "magic-poison-old-mutant.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "magic-poison-old-mutant.stdout.raw",
+        "sha256": "93019c828ca536c7f16ea58d64f68a806951f7d94ac2ab674b4ecb09c717f8eb",
+        "bytes": 493
+      },
+      {
+        "name": "magic-poison-sealed-mutant.execution.json",
+        "sha256": "f4a78406b7bac8216b3ffd6f5ed70b84f4608ba40db51302cd3c39f09377dc30",
+        "bytes": 2405
+      },
+      {
+        "name": "magic-poison-sealed-mutant.native.json",
+        "sha256": "e50c7cf492068c45745509f5e44b560f2019b6521cb4646d820ba80184886019",
+        "bytes": 14899
+      },
+      {
+        "name": "magic-poison-sealed-mutant.stderr.raw",
+        "sha256": "95cab28720a2222b1d4fd9d0cb42123a7b357edf7bd0222a6b1b052b6c30827c",
+        "bytes": 1050
+      },
+      {
+        "name": "magic-poison-sealed-mutant.stdout.raw",
+        "sha256": "d34f09efe04b1c0a82189970f6ede9a49506e9ee2ea4071ab9415122d59d525e",
+        "bytes": 2773
+      },
+      {
+        "name": "magic-recovery.execution.json",
+        "sha256": "730f0922c08266379c4d68ec0415386f3b1e75b9cfecb203cfb9a8aabd836165",
+        "bytes": 2353
+      },
+      {
+        "name": "magic-recovery.native.json",
+        "sha256": "c1f1387e1dddf123bc9feeef9dcbb37d92085c8a8e392c3ada78b6db8c76a6f2",
+        "bytes": 13355
+      },
+      {
+        "name": "magic-recovery.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "magic-recovery.stdout.raw",
+        "sha256": "6108e9ae378ad726abe992db60b397343821d8e238c013f70d9889ababff6c9c",
+        "bytes": 482
+      },
+      {
+        "name": "magic-sealed-controls.identity.json",
+        "sha256": "51928097ac24dd3fb9075ef543b279d8027bea01864ec3b489fd80b0f7a8de53",
+        "bytes": 1320
+      },
+      {
+        "name": "magic-sealed-controls.mjs",
+        "sha256": "48e231970794382544edcd6eb52127a9998f23694899dc1fed7433cde4c836a4",
+        "bytes": 2665
+      },
+      {
+        "name": "magic-sealed.execution.json",
+        "sha256": "1e3469f3e1054dcd813b7bf09d78eaf7a439187c20a756029f375dd58f8793b5",
+        "bytes": 2345
+      },
+      {
+        "name": "magic-sealed.native.json",
+        "sha256": "7ae7f2bd704dabfc7f96f3bea0fc675b0121d23a6aa2342764ed377be82da422",
+        "bytes": 13357
+      },
+      {
+        "name": "magic-sealed.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "magic-sealed.stdout.raw",
+        "sha256": "534047e3d44200478f73f730a79e9410754e802f1aefe6ac9fad4368fa3b571a",
+        "bytes": 482
+      },
+      {
+        "name": "magic-tsc.execution.json",
+        "sha256": "bbfe96de45bad5ab14c75e76a56d16c377fd49b489543f41e124e52e01a9b380",
+        "bytes": 2049
+      },
+      {
+        "name": "magic-tsc.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "magic-tsc.stdout.raw",
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80",
+        "bytes": 125
+      },
+      {
+        "name": "magic-use-control.identity.json",
+        "sha256": "595a58c1b4e22fafad538d18768174227b98433ec3909474a1925951be752a29",
+        "bytes": 2311
+      },
+      {
+        "name": "magic-use-final-mutant.execution.json",
+        "sha256": "6e769eadd8f7490e3a5c7ac82a69d705d0aef6e2f66a8023c754c7c90c67232a",
+        "bytes": 2388
+      },
+      {
+        "name": "magic-use-final-mutant.native.json",
+        "sha256": "33839f8475d2775525d73793c5b617fe8ccd1dfcbd4eeb727140b7fe05d65528",
+        "bytes": 14865
+      },
+      {
+        "name": "magic-use-final-mutant.stderr.raw",
+        "sha256": "06c9def722c49c1e845af0ba0d69e4b88920434bf1321803b780be74a3355c9a",
+        "bytes": 769
+      },
+      {
+        "name": "magic-use-final-mutant.stdout.raw",
+        "sha256": "2ac7961c33c58428428d3769201837abb64893b54bc35b812ae4b6fb82e12c33",
+        "bytes": 2764
+      },
+      {
+        "name": "magic-use-mutation.patch",
+        "sha256": "eb87d3298e377b8e1f4c38f7286daa35f984ca018c2326ee920c96d186e4363f",
+        "bytes": 243
+      },
+      {
+        "name": "magic-use-new-mutant.execution.json",
+        "sha256": "cb514167495d14be31afda188cb9cc2fb3625e4cdbe585caab3ce792ae2d2ddf",
+        "bytes": 2380
+      },
+      {
+        "name": "magic-use-new-mutant.native.json",
+        "sha256": "de77c1d4d57ff078298e57cb0a2e8496e316b414e9187c88bc58986ac878c177",
+        "bytes": 14521
+      },
+      {
+        "name": "magic-use-new-mutant.stderr.raw",
+        "sha256": "84ca57da8e77b42a97fc5207a94e572462b886f0492c8f9cb62c5c15c5db4ddc",
+        "bytes": 769
+      },
+      {
+        "name": "magic-use-new-mutant.stdout.raw",
+        "sha256": "9dd6ef70d2a91fe472f3b9797d15965f5eca5623808f040f56849cb481cf1715",
+        "bytes": 2702
+      },
+      {
+        "name": "magic-use-old-mutant.execution.json",
+        "sha256": "7365f4a0d2e0d61f86dfdc08e86bbc27ccdb7f14e441cde529b721a878f3111c",
+        "bytes": 1919
+      },
+      {
+        "name": "magic-use-old-mutant.native.json",
+        "sha256": "31e1eb88ac244fa7f3bacbcde87a9dcfd5f3ef9a76b0e4ff703a160e63abed3c",
+        "bytes": 15353
+      },
+      {
+        "name": "magic-use-old-mutant.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "magic-use-old-mutant.stdout.raw",
+        "sha256": "dbc89ca892c1b072d1f3089190044f909a9819decb2aa74858033b08af228d93",
+        "bytes": 490
+      },
+      {
+        "name": "magic-use-sealed-mutant.execution.json",
+        "sha256": "6bb2cf9ba56f92ede06f86b6399b8af1f5736fe6dfd43c646c3419223abe3342",
+        "bytes": 2392
+      },
+      {
+        "name": "magic-use-sealed-mutant.native.json",
+        "sha256": "62713c14f90d8aa677e6732bdddab4579c47ccf2ae171d99409f7a2b7ba6a795",
+        "bytes": 14882
+      },
+      {
+        "name": "magic-use-sealed-mutant.stderr.raw",
+        "sha256": "ae49e888705d488c6b897d5e2a47aecb74145c87121c827411bc7a3a6e1aab68",
+        "bytes": 769
+      },
+      {
+        "name": "magic-use-sealed-mutant.stdout.raw",
+        "sha256": "2fe1f1a97425e60960daba6af4bd823ba75024e297ef1a5026eaaab5422030af",
+        "bytes": 2769
+      },
+      {
+        "name": "missing-input.json",
+        "sha256": "165c64acbefb47de3585ff0aba98170f773e4154d303ffb38b2b56169ed3e19e",
+        "bytes": 84308
+      },
+      {
+        "name": "missing-manifest-member.json",
+        "sha256": "48f379e84733479abf49e9b12a50d6dc3247cce2111075ac99c0452ea708acfd",
+        "bytes": 84154
+      },
+      {
+        "name": "phase-pre.stderr.raw",
+        "sha256": "61f35c63d6ffa83a4226585c741a689042173bffb43599cced8c9612aadb0da3",
+        "bytes": 49
+      },
+      {
+        "name": "phase-pre.stdout.raw",
+        "sha256": "b7e617719f2439c72e20e11dafea9e67c1ed48c020a7352f63148d9789c6f776",
+        "bytes": 44
+      },
+      {
+        "name": "poison-item-after.execution.json",
+        "sha256": "210bb6469f38d35a13fcbe83813f272056909fa6f617db06aadadd40dc3955a3",
+        "bytes": 3893
+      },
+      {
+        "name": "poison-item-after.native.json",
+        "sha256": "8f6ee45d245ba9ea059ac99b2afdb9bcaa70eeebc5d3c9911a3c55ed3fdf899c",
+        "bytes": 88332
+      },
+      {
+        "name": "poison-item-after.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "poison-item-after.stdout.raw",
+        "sha256": "52a7674049c822204b37fc1701599c4b35ffcb8f6cf8e7be2b27fee2d686ba2d",
+        "bytes": 706
+      },
+      {
+        "name": "poison-item-before.execution.json",
+        "sha256": "898e9cc1b718df345b87294089186082a3f61fd0ad53815cfb6d0cb6fd4e6380",
+        "bytes": 3474
+      },
+      {
+        "name": "poison-item-before.native.json",
+        "sha256": "0a22dab6e33ee7efe0b8de0514a1e74db999b139ec0de5c8712fc77b485c6f4b",
+        "bytes": 5467
+      },
+      {
+        "name": "poison-item-before.stderr.raw",
+        "sha256": "c5dd5dcf391d48e0fb2dba7d31c871f19bab956e2b6626a58abca1b2776181ba",
+        "bytes": 1897
+      },
+      {
+        "name": "poison-item-before.stdout.raw",
+        "sha256": "9b20b66ef3807657e5994099110653c01b5a1660f4a3e5053728868a0b6451ee",
+        "bytes": 860
+      },
+      {
+        "name": "prepare-gates.mjs",
+        "sha256": "34a1e5af93e89585f74c3e6c50685ac0068ca6b855db4d0fb03f9bb716f9ccb3",
+        "bytes": 5109
+      },
+      {
+        "name": "protected.coverage-summary.json",
+        "sha256": "bffadf7a0707a8df56b8e835ddb0647afa70793793d610bdab2415e7873a2804",
+        "bytes": 8470535
+      },
+      {
+        "name": "protected.execution.json",
+        "sha256": "3f35d567ca7ff8b835505842a1eedafda2b1241e56eac0386a6ede9184d31cee",
+        "bytes": 7248
+      },
+      {
+        "name": "protected.scan.json",
+        "sha256": "3393c6e477e10a7b779ce278ff26c57fe7cc6e325f86a65de2b5b2d8093482cc",
+        "bytes": 2217
+      },
+      {
+        "name": "protected.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "protected.stdout.raw",
+        "sha256": "d854e743c6c02b4c813baf91463e414386f4eba5908f10bcbd17b3cfe5eb06bf",
+        "bytes": 6204
+      },
+      {
+        "name": "prove-recount.mjs",
+        "sha256": "f4e45e7d38680a4e65bcf95fc5772e1590487b2285e1868f304599effbbb17af",
+        "bytes": 2408
+      },
+      {
+        "name": "quick-controls.mjs",
+        "sha256": "d508a6c8d01fb1e9507aeb11205f3347dccd945316e300c3fadb61f15ae42e04",
+        "bytes": 1630
+      },
+      {
+        "name": "quick-controls.result.json",
+        "sha256": "f06d25e22b71476b6f1b1618cb772b0baae91bd46ddc6833038044ca44e5e979",
+        "bytes": 3299
+      },
+      {
+        "name": "ratchet-final.coverage-summary.json",
+        "sha256": "25ad4d31ef8f032b1e29477ee340acc63c4c411ac4ed163c0111aa05e4548972",
+        "bytes": 8470535
+      },
+      {
+        "name": "ratchet-final.execution.json",
+        "sha256": "f1b89cb8b2e8d826a2af184b5d665ad59b22a494e1c1daf54411c267014c0804",
+        "bytes": 7028
+      },
+      {
+        "name": "ratchet-final.scan.json",
+        "sha256": "13c598fa19d81fadf93f28ce27a7e623dd840597142b9ebe4460874b77372d6d",
+        "bytes": 2240
+      },
+      {
+        "name": "ratchet-final.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "ratchet-final.stdout.raw",
+        "sha256": "6701de6f975577ac1017ab9ea4dfe07c7ca75bb053e090efd948edbada2d9e03",
+        "bytes": 24222
+      },
+      {
+        "name": "ratchet-game-per-file.json",
+        "sha256": "0a4fd805ead14431c17723cc6e682759e038a65475a2cafacabd0649ef15b4ec",
+        "bytes": 50538
+      },
+      {
+        "name": "ratchet.coverage-summary.json",
+        "sha256": "2ebb7656e98c18bd573d949a9b9e20c5b53496249df16cb3bb8fad2b6625c0a9",
+        "bytes": 8470535
+      },
+      {
+        "name": "ratchet.execution.json",
+        "sha256": "13e80344cc5ac982bf0df62521c360085c5d9fe5d0fa5b56ebbadeb817c1783e",
+        "bytes": 6793
+      },
+      {
+        "name": "ratchet.stderr.raw",
+        "sha256": "e763b59bc78e09e6489f1a80f1f68d8495f6f86005186efd7908d049b329d99e",
+        "bytes": 283
+      },
+      {
+        "name": "ratchet.stdout.raw",
+        "sha256": "202680976ed76cc1793d9da0eae86df0e980ad749f1c836d0b56e41beb0efa8e",
+        "bytes": 24020
+      },
+      {
+        "name": "raw79.json",
+        "sha256": "b53a5d66ca0f982cee7f6fbb7d33df58b6b8a358de7f4a780baf2a283479d7ef",
+        "bytes": 6670
+      },
+      {
+        "name": "raw79.ts",
+        "sha256": "851833de3c48ae459ec77bb4e57f937cb9f7b852f21245ffb30d8a493d1bb148",
+        "bytes": 2362
+      },
+      {
+        "name": "record-five.mjs",
+        "sha256": "bbce60cc25580311ecc7dd20a7a91475c29bb7296b07e0eb52d4d216aa0923a2",
+        "bytes": 26987
+      },
+      {
+        "name": "record-magic.mjs",
+        "sha256": "4e20f4d1a16d4bf782feba41a7188d05746f83bf0b36e75eb4c3fc2cbd8a540f",
+        "bytes": 10188
+      },
+      {
+        "name": "recount-five.mjs",
+        "sha256": "e3d44994f23ec76dd585a5ad3f3118ff8a8fbe76f3d5c5ec0259f4d5106e4f49",
+        "bytes": 5029
+      },
+      {
+        "name": "recount-proof.json",
+        "sha256": "53485f4d05582dd084a2b684ba21bec473db19c11e5e9d79afb992a5ebf0e8c3",
+        "bytes": 1085
+      },
+      {
+        "name": "recount-support.mjs",
+        "sha256": "17eede447fc30a29460b86494052db905a16c831df3f609ddfb1ea4843657e56",
+        "bytes": 3411
+      },
+      {
+        "name": "repair-dev.cjs",
+        "sha256": "3a824b3f06fba6305528d9926ea3bc3721001f2b4928984f531d2c4af46b2c1c",
+        "bytes": 5231
+      },
+      {
+        "name": "repair-inspect.cjs",
+        "sha256": "b4d15127011b57f0509d4929da3653b9bd59e8687c6893422d4efe736761a415",
+        "bytes": 3811
+      },
+      {
+        "name": "repair-magic.cjs",
+        "sha256": "8d39992d5105e2a0b093412dcd4988611512ba029c4e9cfc398e8bfd7c81590d",
+        "bytes": 6107
+      },
+      {
+        "name": "retire-five.mjs",
+        "sha256": "b1c1770d5b1dcca1fdd24a7eac2ef5692aa225a715fe2db4ccafb845bbd5b69a",
+        "bytes": 4115
+      },
+      {
+        "name": "retirement-test.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "retirement-test.stdout.raw",
+        "sha256": "6f1f70113190488455e5a1a453e1f1453e27d1a4884a0cd68da9cdbf85c2e9ee",
+        "bytes": 10453
+      },
+      {
+        "name": "reuse-proof.json",
+        "sha256": "101aadc7a9e16b3a1be6730bef3089e2441cc26c150ab537a2534fedd2b81a64",
+        "bytes": 7884
+      },
+      {
+        "name": "reuse-proof.mjs",
+        "sha256": "1cb1268dac1cdbb555dc622e39d4600b17ca9691b10918bcdb6ae7b2fd4d9279",
+        "bytes": 3959
+      },
+      {
+        "name": "scan.mjs",
+        "sha256": "6a4d2b80b38c0354fecf43b9e75b89c3cfb6ea114b526003990002c0b75a4949",
+        "bytes": 1958
+      },
+      {
+        "name": "scout-five.json",
+        "sha256": "7955f4341efbde3fb930831d54235bcc74c5c7ca5d5f1db81b641ad99404e2d5",
+        "bytes": 2529
+      },
+      {
+        "name": "scout-five.mjs",
+        "sha256": "dc80d2c7b8e31cdbc09ccdfc8c30b64e24bd41bc3359b1902d860f8951580ea8",
+        "bytes": 1802
+      },
+      {
+        "name": "seal.mjs",
+        "sha256": "d32a696958dfdade83388f20cb7145bd5dc33b176c9e4b4b6c842d4512fe5d10",
+        "bytes": 3354
+      },
+      {
+        "name": "stale-input.json",
+        "sha256": "ac542c2f9d755146385bf3a778f8b50e551a5defee5134dcda1be5534ab68154",
+        "bytes": 84279
+      },
+      {
+        "name": "stale-source.json",
+        "sha256": "264b07d231fad62dcb6fe65605d0608eb26dec89b638b6892f80e466ac0984bb",
+        "bytes": 84279
+      },
+      {
+        "name": "status-inspect.execution.json",
+        "sha256": "6785bc59db127c4cdf2b14e246d0171297008cd2d8cb83c3d0d4f5744defe9ba",
+        "bytes": 3990
+      },
+      {
+        "name": "status-inspect.native.json",
+        "sha256": "db11900b916e78dd70589615ff54a18bd0697a1c0c1a4a54305b478d51bec887",
+        "bytes": 29267
+      },
+      {
+        "name": "status-inspect.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "status-inspect.stdout.raw",
+        "sha256": "4bd1f065a995022f5707c2aab90911e9996968271fa56cfe92abd642daa89c6b",
+        "bytes": 833
+      },
+      {
+        "name": "status-leaf-sealed.execution.json",
+        "sha256": "92a2a0099fcf7a0d48c6b7e9e43eb7ea6ca6992bfa3de19bf2b47c9854e2827b",
+        "bytes": 4731
+      },
+      {
+        "name": "status-leaf-sealed.native.json",
+        "sha256": "53bc67a2018dd012bdefe9bad04ebc52a6dfdd3b0edd7a8700ece63535477d11",
+        "bytes": 2116
+      },
+      {
+        "name": "status-leaf-sealed.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "status-leaf-sealed.stdout.raw",
+        "sha256": "27f3dc7695ff51ad829ded0201d616cbfa999d7402d306ecf3f78c6a2365b016",
+        "bytes": 447
+      },
+      {
+        "name": "status-main-sealed.execution.json",
+        "sha256": "a486c2c686edb95c5cba7480a79e8e9f44b837284e6e4caf494f3d0ea26a8f39",
+        "bytes": 5157
+      },
+      {
+        "name": "status-main-sealed.native.json",
+        "sha256": "048597bb0e93a381b1d72645bbac1ea3bcbda947df4637f1605fc36c7f015fa3",
+        "bytes": 2407
+      },
+      {
+        "name": "status-main-sealed.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "status-main-sealed.stdout.raw",
+        "sha256": "18e76f1fe49c5eeddcbd6949c77d75839e4afcabadea72042707fb1cac3b1e9f",
+        "bytes": 425
+      },
+      {
+        "name": "support-review.mjs",
+        "sha256": "aa38778e98aa2f44527a0842adb8c22a847333d76e7af13440159ab4a54ef14b",
+        "bytes": 5042
+      },
+      {
+        "name": "update-bindings.mjs",
+        "sha256": "ec709b2b102b72f8c269861b7274e70888a6244b27de61b178f708dedf44318f",
+        "bytes": 6113
+      },
+      {
+        "name": "update-five-docs.mjs",
+        "sha256": "c9e199b4baecfbc9e72ac3833beafdef2a36c40b13d3e97ba76ebb7fc83da797",
+        "bytes": 7010
+      },
+      {
+        "name": "wrong-business-red.json",
+        "sha256": "04650c241a3f097f6c8c642c2027227d8ad5bce766b31bc35803ce6b4f695f22",
+        "bytes": 84155
+      }
+    ]
+  },
+  "nativeChecks": [
+    {
+      "id": "dev-before",
+      "exit": 0,
+      "passed": 4,
+      "failedFullNames": [],
+      "businessRed": false
+    },
+    {
+      "id": "dev-dump-new-mutant",
+      "exit": 1,
+      "passed": 2,
+      "failedFullNames": [
+        "setupDevPanel 显式控制与释放(DEV-only debug overlay) F1(全局)dump gs 深拷贝:内容等于当时快照,后改 gs 不影响 dump,且非同引用"
+      ],
+      "businessRed": true
+    },
+    {
+      "id": "dev-dump-old-mutant",
+      "exit": 0,
+      "passed": 4,
+      "failedFullNames": [],
+      "businessRed": false
+    },
+    {
+      "id": "dev-five-final",
+      "exit": 0,
+      "passed": 43,
+      "failedFullNames": [],
+      "businessRed": false
+    },
+    {
+      "id": "dev-five",
+      "exit": 1,
+      "passed": 13,
+      "failedFullNames": [
+        "setupDevPanel 显式控制与释放(DEV-only debug overlay) F1(全局)dump gs 深拷贝:内容等于当时快照,后改 gs 不影响 dump,且非同引用"
+      ],
+      "businessRed": false
+    },
+    {
+      "id": "inspect-typed",
+      "exit": 0,
+      "passed": 15,
+      "failedFullNames": [],
+      "businessRed": false
+    },
+    {
+      "id": "magic-after",
+      "exit": 0,
+      "passed": 34,
+      "failedFullNames": [],
+      "businessRed": false
+    },
+    {
+      "id": "magic-before",
+      "exit": 0,
+      "passed": 41,
+      "failedFullNames": [],
+      "businessRed": false
+    },
+    {
+      "id": "magic-final",
+      "exit": 0,
+      "passed": 108,
+      "failedFullNames": [],
+      "businessRed": false
+    },
+    {
+      "id": "magic-poison-new-mutant",
+      "exit": 1,
+      "passed": 34,
+      "failedFullNames": [
+        "runMagicScriptSync - opcode 0x1B OP_INCREASE_HP M11:大世界复活只清 level<=3 毒,level>3 保留(script.c:1071)"
+      ],
+      "businessRed": true
+    },
+    {
+      "id": "magic-poison-old-mutant",
+      "exit": 0,
+      "passed": 41,
+      "failedFullNames": [],
+      "businessRed": false
+    },
+    {
+      "id": "magic-poison-sealed-mutant",
+      "exit": 1,
+      "passed": 34,
+      "failedFullNames": [
+        "runMagicScriptSync - opcode 0x1B OP_INCREASE_HP M11:大世界复活只清 level<=3 毒,level>3 保留(script.c:1071)"
+      ],
+      "businessRed": true
+    },
+    {
+      "id": "magic-recovery",
+      "exit": 0,
+      "passed": 35,
+      "failedFullNames": [],
+      "businessRed": false
+    },
+    {
+      "id": "magic-sealed",
+      "exit": 0,
+      "passed": 35,
+      "failedFullNames": [],
+      "businessRed": false
+    },
+    {
+      "id": "magic-use-final-mutant",
+      "exit": 1,
+      "passed": 34,
+      "failedFullNames": [
+        "castOverworldMagic - 双层 script 非零 scriptOnUse 先执行再跑 success，runner 不代扣施法者 MP"
+      ],
+      "businessRed": true
+    },
+    {
+      "id": "magic-use-new-mutant",
+      "exit": 1,
+      "passed": 33,
+      "failedFullNames": [
+        "castOverworldMagic - 双层 script 非零 scriptOnUse 先执行再跑 success，runner 不代扣施法者 MP"
+      ],
+      "businessRed": true
+    },
+    {
+      "id": "magic-use-old-mutant",
+      "exit": 0,
+      "passed": 41,
+      "failedFullNames": [],
+      "businessRed": false
+    },
+    {
+      "id": "magic-use-sealed-mutant",
+      "exit": 1,
+      "passed": 34,
+      "failedFullNames": [
+        "castOverworldMagic - 双层 script 非零 scriptOnUse 先执行再跑 success，runner 不代扣施法者 MP"
+      ],
+      "businessRed": true
+    },
+    {
+      "id": "poison-item-after",
+      "exit": 0,
+      "passed": 242,
+      "failedFullNames": [],
+      "businessRed": false
+    },
+    {
+      "id": "poison-item-before",
+      "exit": 1,
+      "passed": 2,
+      "failedFullNames": [
+        "风险道具的战斗中毒门（CODE79） 只有装备伪毒时，物品 136 杀死目标角色而非中毒的施用者，仍消费一次",
+        "风险道具的战斗中毒门（CODE79） 只有装备伪毒时，物品 278 杀死目标角色而非中毒的施用者，仍消费一次"
+      ],
+      "businessRed": true
+    },
+    {
+      "id": "status-inspect",
+      "exit": 0,
+      "passed": 76,
+      "failedFullNames": [],
+      "businessRed": false
+    },
+    {
+      "id": "status-leaf-sealed",
+      "exit": 0,
+      "passed": 4,
+      "failedFullNames": [],
+      "businessRed": false
+    },
+    {
+      "id": "status-main-sealed",
+      "exit": 0,
+      "passed": 5,
+      "failedFullNames": [],
+      "businessRed": false
+    }
+  ],
+  "dependencyBindings": [
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "d6fd349f95fe4489d255e4286c29a94e52146508022d84289de125de6f7f2b87"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-driver.ts",
+      "sha256": "7b3b23839864c9405e91692b42be697c2baa47f11536ea823acde33e722687a2"
+    },
+    {
+      "path": "packages/game/src/core/menu/player-status.ts",
+      "sha256": "6f531c53952accde2f9990e9a815e945508fa307140b0dcbdc6ecb30d9218f37"
+    },
+    {
+      "path": "packages/game/src/core/event-opcode-player.ts",
+      "sha256": "aaa871cb7a4a2ee1ff86dc9ccfea798c4ec9a8c7f42b577af593e21cc114354d"
+    },
+    {
+      "path": "packages/game/src/core/equipment-state.ts",
+      "sha256": "ab572e2c6f238f2f90d1e3835dbd3c03265aadc67884ac7dda17ef8798ac5081"
+    },
+    {
+      "path": "packages/game/src/core/battle/battle-state.ts",
+      "sha256": "d4d85c2c72109a3436edee6da6171fbfa5557823b2cd7cad0d3ca02ca0816ef6"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/item.ts",
+      "sha256": "95396fb42b8e3650c6eaa59701c26ed5690a3be168da438b4a83511cf8f6d460"
+    },
+    {
+      "path": "packages/game/src/core/script-catalog.ts",
+      "sha256": "f58bbfb50322211cb3d7e149cf4ee5ea3db32a3ec6a8c3abb2aa3bdea5038bf0"
+    },
+    {
+      "path": "packages/game/src/core/equip-effect.ts",
+      "sha256": "84fba11f3597e362fea558feb1ba4c9279c33d7b4ed3ead64b21303acbf9da1a"
+    },
+    {
+      "path": "packages/game/src/core/rng.ts",
+      "sha256": "a1b685dd3851cdda39012481c7dd0ddda1cffa5761c15a82a045060e56b9fd4c"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "3105b7f3b24e6986e035ab023a86d0562673c6174ea13cbf6e7d0341b9d859a1"
+    },
+    {
+      "path": "packages/game/src/main.ts",
+      "sha256": "2c2632eb6015f250cf31157769a569aa419dec8e7060f3e17cd0e096498b9c91"
+    },
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "sha256": "c6a03533ff265905ed00cc838fb1f7bd3bdeb077af5a62a81dfb81e30adc2443"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "sha256": "93ddabfd8ce8b6f2dd38c94bee5925e52fd1444d6809d53c6e52af631dace54f"
+    },
+    {
+      "path": "packages/game/src/core/command-bus.ts",
+      "sha256": "df16ed45836068c71835fcbdc8aa979ea37b87f9d256c0a4c9fe4e886d8f7a06"
+    },
+    {
+      "path": "packages/game/src/__tests__/coverage85-glm-game/harness.ts",
+      "sha256": "38ec76a9d15ce74f8eba10a911d951a30b37469b78d055a07bb95fee6a40a5c3"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-phase1-leaves/present-fixtures.ts",
+      "sha256": "4f8701a4dddcdae4010bdbd9b23eee56dd2d20335e906a5249a488308edaedea"
+    },
+    {
+      "path": "packages/shared/src/tables.ts",
+      "sha256": "efc0ed3c6cd2b50e002f783a738be1306bde0b727d3f3701a2aee18b55279828"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "eebb89f531c5ae56b8b3e2b0971605f22d4739feba33f8008b5178fff0897d43"
+    },
+    {
+      "path": "packages/game/vitest.setup.ts",
+      "sha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e"
+    },
+    {
+      "path": "packages/game/tsconfig.json",
+      "sha256": "3dd47beddd01f2fc24f3389ed59ba5e60184d9952dac0db523dd6d90367c8309"
+    },
+    {
+      "path": "package.json",
+      "sha256": "259820fcdc312e11ce297a83074ce168e5a9612f2016ae6d2acb5a308dd62224"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "3e9c669950c68c0f996a7007fdd198270a079630e277b1e6de575ec1d738da65"
+    },
+    {
+      "path": "scripts/coverage/run.mjs",
+      "sha256": "eee5fee0fd4e1a9fc995b553d54cdfb0967975009c0f4887c601032eab71baa3"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "be7ccf13711c763c909061bc37ee7d5bf2938e93d94f24bd6a0b8a4661fdd2c3"
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+      "sha256": "c93e6aaeb5dd643deb9c48887d93691d0a4d27aa1b0e8bafce2d875ba4363ed6"
+    },
+    {
+      "path": "scripts/coverage/baseline.fast.json",
+      "sha256": "2c6907bb8b178bbdb72519f2b89633075f974daed3502490e0f97b3db605bd05"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/verify.mjs",
+      "sha256": "3e12b890cf2d2051557c88391230f18ae8e68dd2de9984231f1b1438a3747349"
+    }
+  ],
+  "scout": "scout-five.json in native archive;method/version/threshold explicit;not an acceptance certificate",
+  "quickVerify": {
+    "command": "node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/verify.mjs",
+    "expected": "matched;gateStatus separate;semantic quality remains bounded human judgment",
+    "notRun": "No source edits,network,coverage or browser"
+  },
+  "gateSupport": [
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "be7ccf13711c763c909061bc37ee7d5bf2938e93d94f24bd6a0b8a4661fdd2c3",
+      "read": "Only current2metadata entry delta;matcher full read;31historical authorization meanings not independently re-audited",
+      "dimensions": {
+        "A": "Pure exact file/count/identity/SHA matcher and frozen entries;new two entries old native digests match existing baseline,current bytes exact. No generic scope bypass.",
+        "B": "Current entry comments name current user instruction and contract map;oldOPQ not blanket authority. Test comment now explains33entries/73net difference.",
+        "C": "Frozen data+pure predicate;official runner owns inventory/file byte extraction. Test proof helper constructs inputs and calls actual matcher,no core substitute.",
+        "D": "One matcher reused by official runner;existing generic exact/refusal tests exercise actual shape. No new mode or export.",
+        "E": "New two positive snapshot cases covered by existing per-entry loop;14refusal axes unchanged. Fixed explicit total/unique/net expectations,not dynamic self-derived expectations.48green supplementalTAP and whole-check required. Not proof all31 historical authorizations valid.",
+        "F": "Named keys and named refusal mutations show reasons;33/73 are explicit accounting oracles.",
+        "G": "Only two finite approvals and exact accounting changes;no ignore/exclude/threshold/public API or deleted production scope.",
+        "H": "Pure deterministic inputs,real frozen matcher;no clock/IO mocking. Native log plus current full gates bind actual application."
+      },
+      "disposition": "review;finite current gate delta,not full historical-registry acceptance"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "386d0a019be1cf1f0451f94c07444d0ddc8e92ec608fc14dc83d80648b249492",
+      "read": "Full current test file:48actual cases including14refusal axes;only3constant totals/comment changed",
+      "dimensions": {
+        "A": "Pure exact file/count/identity/SHA matcher and frozen entries;new two entries old native digests match existing baseline,current bytes exact. No generic scope bypass.",
+        "B": "Current entry comments name current user instruction and contract map;oldOPQ not blanket authority. Test comment now explains33entries/73net difference.",
+        "C": "Frozen data+pure predicate;official runner owns inventory/file byte extraction. Test proof helper constructs inputs and calls actual matcher,no core substitute.",
+        "D": "One matcher reused by official runner;existing generic exact/refusal tests exercise actual shape. No new mode or export.",
+        "E": "New two positive snapshot cases covered by existing per-entry loop;14refusal axes unchanged. Fixed explicit total/unique/net expectations,not dynamic self-derived expectations.48green supplementalTAP and whole-check required. Not proof all31 historical authorizations valid.",
+        "F": "Named keys and named refusal mutations show reasons;33/73 are explicit accounting oracles.",
+        "G": "Only two finite approvals and exact accounting changes;no ignore/exclude/threshold/public API or deleted production scope.",
+        "H": "Pure deterministic inputs,real frozen matcher;no clock/IO mocking. Native log plus current full gates bind actual application."
+      },
+      "disposition": "review;finite current gate delta,not full historical-registry acceptance"
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+      "sha256": "c93e6aaeb5dd643deb9c48887d93691d0a4d27aa1b0e8bafce2d875ba4363ed6",
+      "read": "Full existing matcher and generic test file read;only new finite data entry reviewed. Historical approvals not independently re-audited.",
+      "dimensions": {
+        "A": "Matches complete old baseline object plus23exact current source/config/raw-data SHA pins. Onlygame exact metric replacement;production matcher/comparison unchanged,other6packages unchanged.",
+        "B": "Names current user authority and source/test quality transfer. Evidence records4initial regressions and per-file-attribution limitation rather than claiming zero historical loss.",
+        "C": "Data entry consumed by existing finite migration predicate;official ratchet owns measurement and baseline writes. No test/runtime dependency on evidence metadata.",
+        "D": "Reuses existing exact matcher and3generic tests,plus native default-approval probe;no special flag,tolerance,ignore or new matcher API.",
+        "E": "Actual native/default list exact positive,extra game branch/shared line negative,source drift and unknown-old-baseline rejection.81coverage-tool tests passed;raw preserved. No extra product tests just to restore percentages.",
+        "F": "Explicit before/after namedmetrics,source paths and authority make accounting readable.",
+        "G": "Only finite current adjustment;existing predicate bytes unchanged. No production dead code or weak test restored.",
+        "H": "Pure existing matcher accepts deterministic stored measurements/current byte reader;default-list probe exercises actual entry without injecting approvals."
+      },
+      "disposition": "review;bounded current metadata admission only,not historical-registry full acceptance"
+    }
+  ],
+  "documentBindingLimit": "Only helper sourceRef plus matching bounded history/catalog in testing pair;status,lastVerified,reviewBy,currentSha unchanged (asserted againstHEAD). Phase1 currenterratum added separately;no phase2 product or fullhistorical body recertification.",
+  "externalInputs": [
+    {
+      "path": "data/raw/SSS.MKF",
+      "sha256": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756"
+    },
+    {
+      "path": "data/extracted/events/all.json",
+      "sha256": "3f54bc1aba2eb82653f71d7384260f6de4e3e5e1977ee48ffdbb31a27c409c8d"
+    },
+    {
+      "path": "data/extracted/data/object-poisons.json",
+      "sha256": "9a16d16817405b7a2a368bc6f36e48935a78c7d10e95ed715dcf2fff231f6722"
+    },
+    {
+      "path": "data/extracted/data/spells.json",
+      "sha256": "dd31c1e269018b37ae9b07bad7294c685b491a83c4ae4ff2bab975834a1945bd"
+    }
+  ],
+  "evidenceVerifier": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/verify.mjs",
+    "scope": "Current bounded evidence reader,not a product-file closure or generic quality certification framework",
+    "dimensions": {
+      "A": "Validates complete archive/member hashes,process raw hashes,13fixed native contracts,7role-bound finalgates,source/dependency/reused/data versions. Missing input is exit3unknown,version drift2,invalid evidence1.",
+      "B": "Header/output explicitly deny machine-certified semantics/browser/whole-card acceptance. No authorpassed flag alone grants acceptance.",
+      "C": "One read-only orchestration over fixed record/archive/source paths;no subprocess except read-only Git root lookup,no writes/network/tests/coverage.",
+      "D": "Reuses existing archive format/native schemas rather than new runtime infrastructure. Native/gate/source checks remain distinct claims.",
+      "E": "Nine real CLI negative probes alter only temporary metadata copies:missing/blank/incomplete/corrupt/wrong-failure/emptygate/version and data absence. No monkeypatch of verifier/core;",
+      "F": "Small named sha/inside/execution boundaries and explicit critical map reveal invariants. State labels distinguish invalid/stale/unavailable.",
+      "G": "Only fixed batch contract checks;no future generic plugin,qualityscore,ignore or phantom semantic validation.",
+      "H": "CLI can validate current bytes independently;negative probes use native stored inputs and actual process exit/output. Producer scripts are archived separately and are not default quick actions."
+    }
+  },
+  "baselineRecount": {
+    "approval": {
+      "id": "pre94-five-card-game-recount-20261020",
+      "authority": "用户已授权合理结构/测试质量整改造成比例变化可调整baseline，不恢复死代码或堆弱测试；2026-10-20明确完成53/79/80/81/90必要返工。Codex按原件/合同映射裁定本次精确game计数。",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
+      "baselineSha256": "b8adadb70945ecb0be91f83f1b70c5a00c3a488d286c808aecfde75e4ac4477d",
+      "sources": [
+        {
+          "path": "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+          "sha256": "d7cee8005fa0fce17cad4aecb38e23d2b2e5d705f1b94a44796c108633cb1755"
+        },
+        {
+          "path": "packages/game/src/core/battle/battle-opcodes.ts",
+          "sha256": "b50112e57b47b92cf629560d43e4fc44886958afde9886730100de5599797b86"
+        },
+        {
+          "path": "packages/game/src/core/battle/battle-system.ts",
+          "sha256": "a3fed8fc2206af344a9eef7836bfa9ac3e3dd5f9187e92e2cb84d760518dccb5"
+        },
+        {
+          "path": "packages/game/src/core/inspect/battle-inspect.test.ts",
+          "sha256": "4ea35bf6d7faad7c189760cbdaacadf34ba542503785ada3f9728a7df4134842"
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-script.glm-next-wave.test.ts",
+          "sha256": "70b257f07528c82723c1aab2bc3491e1aeaf0181bf9fddb282a386382473c059"
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-script.test.ts",
+          "sha256": "e9128ddd85480e1230c2bde6b7eb809d1a28116d4b67266451a0d9afe1a4d796"
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-script.ts",
+          "sha256": "7607a00b0f4eb06a11ab1292795e7957c975c1a8e9135117349bf77caeec3979"
+        },
+        {
+          "path": "packages/game/src/core/player-poison-state.ts",
+          "sha256": "98a08d77f9a738a7f5945278624e87033569f927914d6ddbd0e3194d980a5ad8"
+        },
+        {
+          "path": "packages/game/src/dev/dev-panel-party-lifecycle.test.ts",
+          "sha256": "16344f4a175edd588d998ce20be1a4e2307930f421b819593650809e997e59dd"
+        },
+        {
+          "path": "packages/game/src/dev/dev-panel-picker-lifecycle.test.ts",
+          "sha256": "f09432cb5f7e93ddd4f9b79f9897fb45fb892fc998887ec68539eaf7b334330f"
+        },
+        {
+          "path": "packages/game/src/dev/dev-panel.glm-next-wave.test.ts",
+          "sha256": "ba9b3b17067c32305fc1f1dec50e7fc26bb6f2011da56a6171c9987f020f9c9f"
+        },
+        {
+          "path": "packages/game/src/dev/dev-panel.test.ts",
+          "sha256": "ad7cdc33e52173e681b22511f5f838258436ab4002b5b492ed8c485f83b2dd91"
+        },
+        {
+          "path": "packages/game/src/dev/dev-panel.ts",
+          "sha256": "d23f4cceda7b457573c00f64f4ca8c19ce96874e7323cabebc67ac127eaf91e0"
+        },
+        {
+          "path": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+          "sha256": "2b62e7610e11be7bf435540e728d7d42ff95f546ff7f18dfa5bc952a14a8cc01"
+        },
+        {
+          "path": "packages/game/src/present/menu/draw-player-status.test.ts",
+          "sha256": "ef5974c4d5c5953832b43f5e8d32b452d07779509480f4993d819b4883d84211"
+        },
+        {
+          "path": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+          "sha256": "ce687bd8e9979db67da774d18de118250ef7be44519844bb4e39baee6428bd6c"
+        },
+        {
+          "path": "scripts/coverage/config.mjs",
+          "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35"
+        },
+        {
+          "path": "scripts/coverage/approved-test-retirements.mjs",
+          "sha256": "be7ccf13711c763c909061bc37ee7d5bf2938e93d94f24bd6a0b8a4661fdd2c3"
+        },
+        {
+          "path": "packages/game/vitest.config.ts",
+          "sha256": "eebb89f531c5ae56b8b3e2b0971605f22d4739feba33f8008b5178fff0897d43"
+        },
+        {
+          "path": "data/raw/SSS.MKF",
+          "sha256": "ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756"
+        },
+        {
+          "path": "data/extracted/events/all.json",
+          "sha256": "3f54bc1aba2eb82653f71d7384260f6de4e3e5e1977ee48ffdbb31a27c409c8d"
+        },
+        {
+          "path": "data/extracted/data/object-poisons.json",
+          "sha256": "9a16d16817405b7a2a368bc6f36e48935a78c7d10e95ed715dcf2fff231f6722"
+        },
+        {
+          "path": "data/extracted/data/spells.json",
+          "sha256": "dd31c1e269018b37ae9b07bad7294c685b491a83c4ae4ff2bab975834a1945bd"
+        }
+      ],
+      "packages": {
+        "game": {
+          "before": {
+            "statements": {
+              "covered": 14365,
+              "total": 16090
+            },
+            "branches": {
+              "covered": 9355,
+              "total": 11643
+            },
+            "functions": {
+              "covered": 1677,
+              "total": 1966
+            },
+            "lines": {
+              "covered": 12813,
+              "total": 14103
+            }
+          },
+          "after": {
+            "statements": {
+              "covered": 14359,
+              "total": 16083
+            },
+            "branches": {
+              "covered": 9336,
+              "total": 11634
+            },
+            "functions": {
+              "covered": 1677,
+              "total": 1966
+            },
+            "lines": {
+              "covered": 12807,
+              "total": 14097
+            }
+          }
+        }
+      }
+    },
+    "base": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+    "oldBytesSha256": "2b4e3c2f429df7c4b3928dc882517a7f5cf29114405d011638c14570c9df31d8",
+    "oldObjectSha256": "b8adadb70945ecb0be91f83f1b70c5a00c3a488d286c808aecfde75e4ac4477d",
+    "nativeMeasurement": "ratchet.coverage-summary.json",
+    "perFileNative": "ratchet-game-per-file.json",
+    "classification": "Exact reviewed snapshot migration;onlygame metrics replaced,other6packages identical. No percentage tolerance,scope exclusion,rule/matcher/provider change.",
+    "facts": [
+      "Only executable product deltas:0x61 duplicate scan replaced by canonical query;falseEsc tooltip removed. Other product changes type/comment-only runtime proofs retained.",
+      "Test count19982→19979:7weak/invalid retirements+1stronguse contract,1fake-mode duplicate retirement,4real item-path cases. Full identity/contract transfer map remains in this record.",
+      "Main inspect now supplies all required Exp/runtime fields;old as never fixtures exercised missing-pool fallbacks incidentally. They are not preserved as valid production-domain evidence. Synthetic/corrupt-domain limits remain explicit.",
+      "Game total statements16090→16083/lines14103→14097/branches11643→11634;covered14365→14359/12813→12807/9355→9336. Raw old floor and actual new V8/per-file report preserved.",
+      "Historical per-file branch map was not retained;do not claim all19covered-branch difference is exactly the removed scan. Approval rests on explicitsource/test review and conserved business contracts,not a fabricated per-branch attribution."
+    ],
+    "quality": "A-H file verdicts independent of coverage. Known compaction/reentry/large-module/visual limits stayreview.",
+    "implementationBoundary": "Only a data entry in existing exact-source/complete-old-baseline adjustment table;matching/comparison code unchanged. Existing3generic rejection contracts plus actual native/default-approval probes required before official retry.",
+    "proof": {
+      "member": "recount-proof.json",
+      "coverageTools": "coverage-recount-tests",
+      "tests": 81,
+      "diagnostics": 0,
+      "matcherBytesUnchanged": true
+    },
+    "generatedDeltaProof": "baseline-diff-proof.json",
+    "finalOfficial": "ratchet-final and protected native runs independently measured19979tests/741productionfiles,exact game recount;original ratchet failure retained. Baseline written only by official ratchet."
+  },
+  "coreGates": [
+    {
+      "role": "check",
+      "id": "check-final",
+      "scan": {
+        "id": "check-final",
+        "diagnostics": {
+          "reactAct": 0,
+          "actEnvironment": 0,
+          "testStderrBlocks": 0,
+          "warnings": 0,
+          "navigation": 0,
+          "staticDiagnosticPrefix": 0,
+          "tsErrors": 0,
+          "unhandled": 0,
+          "failedTap": 0,
+          "stderrBytes": 0
+        },
+        "packages": [
+          {
+            "id": "content",
+            "files": 149,
+            "tests": {
+              "passed": 1498,
+              "skipped": 0,
+              "total": 1498
+            }
+          },
+          {
+            "id": "shared",
+            "files": 13,
+            "tests": {
+              "passed": 114,
+              "skipped": 0,
+              "total": 114
+            }
+          },
+          {
+            "id": "game",
+            "files": 325,
+            "tests": {
+              "passed": 3678,
+              "skipped": 0,
+              "total": 3678
+            }
+          },
+          {
+            "id": "pal-extract",
+            "files": 74,
+            "tests": {
+              "passed": 441,
+              "skipped": 0,
+              "total": 441
+            }
+          },
+          {
+            "id": "reforge",
+            "files": 359,
+            "tests": {
+              "passed": 8964,
+              "skipped": 0,
+              "total": 8964
+            }
+          },
+          {
+            "id": "editor",
+            "files": 631,
+            "tests": {
+              "passed": 4943,
+              "skipped": 0,
+              "total": 4943
+            }
+          },
+          {
+            "id": "migrate",
+            "files": 96,
+            "tests": {
+              "passed": 739,
+              "skipped": 0,
+              "total": 739
+            }
+          }
+        ],
+        "lint": ["lint: PASS — 5691 files; 0 errors / 0 warnings / 0 infos; complete report"],
+        "lastLines": [
+          "      Tests  739 passed (739)",
+          "   Start at  16:10:30",
+          "   Duration  273.12s (transform 1.46s, setup 0ms, import 5.45s, tests 278.71s, environment 5ms)",
+          "",
+          "",
+          "> type-pal@ lint /Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+          "> node scripts/quality/lint-zero.mjs",
+          "",
+          "lint: PASS — 5691 files; 0 errors / 0 warnings / 0 infos; complete report",
+          ""
+        ]
+      }
+    },
+    {
+      "role": "ratchet",
+      "id": "ratchet-final",
+      "scan": {
+        "id": "ratchet-final",
+        "diagnostics": {
+          "reactAct": 0,
+          "actEnvironment": 0,
+          "testStderrBlocks": 0,
+          "warnings": 0,
+          "navigation": 0,
+          "staticDiagnosticPrefix": 0,
+          "tsErrors": 0,
+          "unhandled": 0,
+          "failedTap": 0,
+          "stderrBytes": 0
+        },
+        "packages": [
+          {
+            "id": "shared",
+            "files": 13,
+            "tests": {
+              "passed": 114,
+              "skipped": 0,
+              "total": 114
+            }
+          },
+          {
+            "id": "content",
+            "files": 149,
+            "tests": {
+              "passed": 1498,
+              "skipped": 0,
+              "total": 1498
+            }
+          },
+          {
+            "id": "pal-extract",
+            "files": 63,
+            "tests": {
+              "passed": 301,
+              "skipped": 0,
+              "total": 301
+            }
+          },
+          {
+            "id": "migrate",
+            "files": 80,
+            "tests": {
+              "passed": 671,
+              "skipped": 0,
+              "total": 671
+            }
+          },
+          {
+            "id": "reforge",
+            "files": 359,
+            "tests": {
+              "passed": 8964,
+              "skipped": 0,
+              "total": 8964
+            }
+          },
+          {
+            "id": "game",
+            "files": 320,
+            "tests": {
+              "passed": 3650,
+              "skipped": 0,
+              "total": 3650
+            }
+          },
+          {
+            "id": "editor",
+            "files": 612,
+            "tests": {
+              "passed": 4781,
+              "skipped": 0,
+              "total": 4781
+            }
+          }
+        ],
+        "lint": [],
+        "lastLines": [
+          "migrate      90.47% (2345/2592)    90.77% (1622/1787)    93.90% (385/410)      90.78% (2057/2266)    38     671  ",
+          "reforge      90.01% (16992/18878)  82.51% (10805/13095)  90.04% (2767/3073)    92.30% (15202/16471)  158    8964 ",
+          "game         89.28% (14359/16083)  80.25% (9336/11634)   85.30% (1677/1966)    90.85% (12807/14097)  144    3650 ",
+          "editor       90.21% (30524/33836)  83.49% (24578/29437)  89.69% (7769/8662)    92.38% (27309/29561)  294    4781 ",
+          "TOTAL        90.08% (71418/79279)  83.76% (51845/61897)  89.69% (13546/15103)  91.96% (63794/69374)  741    19979",
+          "已核精确结构调整授权: pre94-five-card-game-recount-20261020",
+          "Formatted 1 file in 17ms. Fixed 1 file.",
+          "",
+          "覆盖率基线已更新（相对核准比较基准提升 0 项，范围变化 2 项；精确结构调整授权见上文）",
+          ""
+        ]
+      }
+    },
+    {
+      "role": "protected",
+      "id": "protected",
+      "scan": {
+        "id": "protected",
+        "diagnostics": {
+          "reactAct": 0,
+          "actEnvironment": 0,
+          "testStderrBlocks": 0,
+          "warnings": 0,
+          "navigation": 0,
+          "staticDiagnosticPrefix": 0,
+          "tsErrors": 0,
+          "unhandled": 0,
+          "failedTap": 0,
+          "stderrBytes": 0
+        },
+        "packages": [
+          {
+            "id": "shared",
+            "files": 13,
+            "tests": {
+              "passed": 114,
+              "skipped": 0,
+              "total": 114
+            }
+          },
+          {
+            "id": "content",
+            "files": 149,
+            "tests": {
+              "passed": 1498,
+              "skipped": 0,
+              "total": 1498
+            }
+          },
+          {
+            "id": "pal-extract",
+            "files": 63,
+            "tests": {
+              "passed": 301,
+              "skipped": 0,
+              "total": 301
+            }
+          },
+          {
+            "id": "migrate",
+            "files": 80,
+            "tests": {
+              "passed": 671,
+              "skipped": 0,
+              "total": 671
+            }
+          },
+          {
+            "id": "reforge",
+            "files": 359,
+            "tests": {
+              "passed": 8964,
+              "skipped": 0,
+              "total": 8964
+            }
+          },
+          {
+            "id": "game",
+            "files": 320,
+            "tests": {
+              "passed": 3650,
+              "skipped": 0,
+              "total": 3650
+            }
+          },
+          {
+            "id": "editor",
+            "files": 612,
+            "tests": {
+              "passed": 4781,
+              "skipped": 0,
+              "total": 4781
+            }
+          }
+        ],
+        "lint": [],
+        "lastLines": [
+          "reforge      90.01% (16992/18878)  82.51% (10805/13095)  90.04% (2767/3073)    92.30% (15202/16471)  158    8964 ",
+          "game         89.28% (14359/16083)  80.25% (9336/11634)   85.30% (1677/1966)    90.85% (12807/14097)  144    3650 ",
+          "editor       90.21% (30524/33836)  83.49% (24578/29437)  89.69% (7769/8662)    92.38% (27309/29561)  294    4781 ",
+          "TOTAL        90.08% (71418/79279)  83.76% (51845/61897)  89.69% (13546/15103)  91.96% (63794/69374)  741    19979",
+          "已核精确结构调整授权: pre94-five-card-game-recount-20261020",
+          "已核精确历史退役保护账: packages/game/src/core/menu/magic-script.test.ts 37 -> 31",
+          "已核精确历史退役保护账: packages/game/src/dev/dev-panel.glm-next-wave.test.ts 4 -> 3",
+          "",
+          "覆盖率门禁通过；相对 fast 基线未下降，提升 0 项。",
+          ""
+        ]
+      }
+    }
+  ],
+  "closedFiles": [
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.ts",
+      "sha256": "b0febbfa204ee8637cecca4305555e7426a7ec7bc8030254587c55bb56069819",
+      "decision": "accept:explicit per-fileA-H/caller/oracle/necessary rework completed;core gates support integration,not sole closure reason"
+    },
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.test.ts",
+      "sha256": "4ea35bf6d7faad7c189760cbdaacadf34ba542503785ada3f9728a7df4134842",
+      "decision": "accept:explicit per-fileA-H/caller/oracle/necessary rework completed;core gates support integration,not sole closure reason"
+    },
+    {
+      "path": "packages/game/src/core/inspect/battle-inspect.glm-phase1-leaves.test.ts",
+      "sha256": "3551a652625b7dd3e3806f1473e2848d1e9811f88bf8b08e83f8a64e06ca2e26",
+      "decision": "accept:explicit per-fileA-H/caller/oracle/necessary rework completed;core gates support integration,not sole closure reason"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.ts",
+      "sha256": "2cd9d0bffe7f280be166efcdff2cb3dcc244774c127b095375c1e70cfdcc491a",
+      "decision": "accept:explicit per-fileA-H/caller/oracle/necessary rework completed;core gates support integration,not sole closure reason"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.test.ts",
+      "sha256": "ef5974c4d5c5953832b43f5e8d32b452d07779509480f4993d819b4883d84211",
+      "decision": "accept:explicit per-fileA-H/caller/oracle/necessary rework completed;core gates support integration,not sole closure reason"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
+      "sha256": "2b62e7610e11be7bf435540e728d7d42ff95f546ff7f18dfa5bc952a14a8cc01",
+      "decision": "accept:explicit per-fileA-H/caller/oracle/necessary rework completed;core gates support integration,not sole closure reason"
+    },
+    {
+      "path": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
+      "sha256": "ce687bd8e9979db67da774d18de118250ef7be44519844bb4e39baee6428bd6c",
+      "decision": "accept:explicit per-fileA-H/caller/oracle/necessary rework completed;core gates support integration,not sole closure reason"
+    },
+    {
+      "path": "packages/game/src/core/battle/actions/item-poison-boundary.test.ts",
+      "sha256": "d7cee8005fa0fce17cad4aecb38e23d2b2e5d705f1b94a44796c108633cb1755",
+      "decision": "accept:explicit per-fileA-H/caller/oracle/necessary rework completed;core gates support integration,not sole closure reason"
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel.glm-next-wave.test.ts",
+      "sha256": "ba9b3b17067c32305fc1f1dec50e7fc26bb6f2011da56a6171c9987f020f9c9f",
+      "decision": "accept:explicit per-fileA-H/caller/oracle/necessary rework completed;core gates support integration,not sole closure reason"
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel.test.ts",
+      "sha256": "ad7cdc33e52173e681b22511f5f838258436ab4002b5b492ed8c485f83b2dd91",
+      "decision": "accept:explicit per-fileA-H/caller/oracle/necessary rework completed;core gates support integration,not sole closure reason"
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel.pure.test.ts",
+      "sha256": "99a30801793fab0b8819b719e7750261426ac4e5c7f00b2a3e5e86cd17746b04",
+      "decision": "accept:explicit per-fileA-H/caller/oracle/necessary rework completed;core gates support integration,not sole closure reason"
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel-party-lifecycle.test.ts",
+      "sha256": "16344f4a175edd588d998ce20be1a4e2307930f421b819593650809e997e59dd",
+      "decision": "accept:explicit per-fileA-H/caller/oracle/necessary rework completed;core gates support integration,not sole closure reason"
+    },
+    {
+      "path": "packages/game/src/dev/dev-panel-picker-lifecycle.test.ts",
+      "sha256": "f09432cb5f7e93ddd4f9b79f9897fb45fb892fc998887ec68539eaf7b334330f",
+      "decision": "accept:explicit per-fileA-H/caller/oracle/necessary rework completed;core gates support integration,not sole closure reason"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-script.ts",
+      "sha256": "7607a00b0f4eb06a11ab1292795e7957c975c1a8e9135117349bf77caeec3979",
+      "decision": "accept:explicit per-fileA-H/caller/oracle/necessary rework completed;core gates support integration,not sole closure reason"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-script.test.ts",
+      "sha256": "e9128ddd85480e1230c2bde6b7eb809d1a28116d4b67266451a0d9afe1a4d796",
+      "decision": "accept:explicit per-fileA-H/caller/oracle/necessary rework completed;core gates support integration,not sole closure reason"
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-script.glm-next-wave.test.ts",
+      "sha256": "70b257f07528c82723c1aab2bc3491e1aeaf0181bf9fddb282a386382473c059",
+      "decision": "accept:explicit per-fileA-H/caller/oracle/necessary rework completed;core gates support integration,not sole closure reason"
+    }
+  ],
+  "ledger": {
+    "total": 3319,
+    "verified": 230,
+    "review": 216,
+    "pending": 2873,
+    "unclosed": 3089
+  },
+  "quickControlRun": {
+    "time": "2026-10-20T08:01:21.583Z",
+    "archiveUnderTestSha256": "472c607283220e069289c3e15b9bb4480552d8c5bf5792dba2f4a1b78c63d72c",
+    "verifierSha256": "3e12b890cf2d2051557c88391230f18ae8e68dd2de9984231f1b1438a3747349",
+    "method": "Only /tmp metadata copies modified;repository/product/native archive untouched",
+    "results": [
+      {
+        "id": "empty-native",
+        "expected": 1,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "{\"status\":\"invalid\",\"message\":\"missing critical native:poison-item-before\"}\n"
+      },
+      {
+        "id": "missing-manifest-member",
+        "expected": 1,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "{\"status\":\"invalid\",\"message\":\"archive member set\\n+ actual - expected\\n... Skipped lines\\n\\n  [\\n    'baseline-before.json',\\n    'baseline-diff-proof.json',\\n    'baseline-diff-proof.mjs',\\n    'blank-dimension.json',\\n...\\n    'update-five-docs.mjs',\\n+   'wrong-business-red.json'\\n  ]\\n\"}\n"
+      },
+      {
+        "id": "blank-dimension",
+        "expected": 1,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "{\"status\":\"invalid\",\"message\":\"blank dimension:packages/game/src/core/inspect/battle-inspect.ts\"}\n"
+      },
+      {
+        "id": "missing-input",
+        "expected": 3,
+        "exit": 3,
+        "stdout": "",
+        "stderr": "{\"status\":\"input-unavailable\",\"message\":\"ENOENT: no such file or directory, open '/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/data/raw/uninstalled-five-card-test-input.mkf'\"}\n"
+      },
+      {
+        "id": "stale-input",
+        "expected": 2,
+        "exit": 2,
+        "stdout": "",
+        "stderr": "{\"status\":\"stale\",\"message\":\"stale external input:data/raw/SSS.MKF\\n+ actual - expected\\n\\n+ 'ce448a90c9797648eea315fe589b2bd434139ffc423bf0a5954dae6f4c8b4756'\\n- '0000000000000000000000000000000000000000000000000000000000000000'\\n\"}\n"
+      },
+      {
+        "id": "stale-source",
+        "expected": 2,
+        "exit": 2,
+        "stdout": "",
+        "stderr": "{\"status\":\"stale\",\"message\":\"stale:packages/game/src/core/inspect/battle-inspect.ts\\n+ actual - expected\\n\\n+ 'b0febbfa204ee8637cecca4305555e7426a7ec7bc8030254587c55bb56069819'\\n- '0000000000000000000000000000000000000000000000000000000000000000'\\n\"}\n"
+      },
+      {
+        "id": "corrupt-archive",
+        "expected": 1,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "{\"status\":\"invalid\",\"message\":\"archive SHA\\n+ actual - expected\\n\\n+ '472c607283220e069289c3e15b9bb4480552d8c5bf5792dba2f4a1b78c63d72c'\\n- '0000000000000000000000000000000000000000000000000000000000000000'\\n\"}\n"
+      },
+      {
+        "id": "empty-passed-gates",
+        "expected": 1,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "{\"status\":\"invalid\",\"message\":\"missing final gate\\n+ actual - expected\\n\\n+ []\\n- [\\n-   'check',\\n-   'diff',\\n-   'docs',\\n-   'ledger',\\n-   'lint',\\n-   'protected',\\n-   'ratchet'\\n- ]\\n\"}\n"
+      },
+      {
+        "id": "wrong-business-red",
+        "expected": 1,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "{\"status\":\"invalid\",\"message\":\"failure identity:poison-item-before\\n+ actual - expected\\n\\n  [\\n+   '风险道具的战斗中毒门（CODE79） 只有装备伪毒时，物品 136 杀死目标角色而非中毒的施用者，仍消费一次',\\n-   'unrelated test',\\n    '风险道具的战斗中毒门（CODE79） 只有装备伪毒时，物品 278 杀死目标角色而非中毒的施用者，仍消费一次'\\n  ]\\n\"}\n"
+      }
+    ],
+    "limit": "Fresh nine probes after final7gate seal;full actual process outputs inline here. Earlier control originals in native archive are historical stages,not re-labeled as this run."
+  }
+}

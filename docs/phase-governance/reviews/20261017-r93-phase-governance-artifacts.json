@@ -284,7 +284,7 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full phase-governance JSON/derived index read and artifact envelope",
+      "readMethod": "Reuse prior body assessment;read actual five-card scoped diff/caller/evidence. Do not infer whole-file execution or broad new review from new afterSHA.",
       "reviewDepth": "structured-content",
       "coreConclusion": "phase/lore catalog manifest：entries 已按 phase 迁移到四个 byte-addressed shard；loader 保留原 native entry 字段并校验 184 条逻辑视图。结构迁移不授 runtime/E2E/visual/coverage credit。",
       "truthAnchors": ["docs/phase-governance/catalog.json:1"],
@@ -307,7 +307,7 @@
         }
       ],
       "sourceSha256": "687a9e3d69088bfbb387346fbbb3e58f83db6afedf7141fd7f9067dcdc276560",
-      "afterSha256": "821c206ffdcd80212b27989d3d6c82581a0a5b7aaa21835b93068dc03c25fb77",
+      "afterSha256": "946547047daf28d83632f350e91848ff9bf369f3447377cddcc161951cddd8a8",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -328,7 +328,7 @@
       },
       "revision": {
         "currentSha": "6a1be4b834767cc61839e96d5c05274b16fa00ed78a3a4417aae919c8d6aa3a0",
-        "implementationSha": "821c206ffdcd80212b27989d3d6c82581a0a5b7aaa21835b93068dc03c25fb77",
+        "implementationSha": "946547047daf28d83632f350e91848ff9bf369f3447377cddcc161951cddd8a8",
         "history": [
           {
             "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
@@ -366,7 +366,7 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "687a9e3d69088bfbb387346fbbb3e58f83db6afedf7141fd7f9067dcdc276560",
         "candidateSha256": "77daa5edc7b28ae5a85d96f9a1542aad4bd169a5c101d4f68ef429ba27496dcb",
-        "afterSha256": "821c206ffdcd80212b27989d3d6c82581a0a5b7aaa21835b93068dc03c25fb77",
+        "afterSha256": "946547047daf28d83632f350e91848ff9bf369f3447377cddcc161951cddd8a8",
         "lineCount": 52,
         "artifactPreserved": true,
         "originalPreservation": {
@@ -412,6 +412,15 @@
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+          "action": "five-card scoped source binding",
+          "previousAfterSha256": "821c206ffdcd80212b27989d3d6c82581a0a5b7aaa21835b93068dc03c25fb77",
+          "afterSha256": "946547047daf28d83632f350e91848ff9bf369f3447377cddcc161951cddd8a8",
+          "scope": "Only actual five-card scope/status/evidence,mechanics erratum or paired comment source binding;no new broad body/runtime acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json"
         }
       ],
       "supersedes": [
@@ -1040,7 +1049,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "2956fe4cec4382cb8c7142f3b3d363a44a8b5102745561fccf250a92bb9b2787",
+      "afterSha256": "dd349cf2dcaf74d769488cbba172b6ca7e41c7d9dad884d297948cc8fd4f3314",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1064,7 +1073,7 @@
       },
       "revision": {
         "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "implementationSha": "2956fe4cec4382cb8c7142f3b3d363a44a8b5102745561fccf250a92bb9b2787",
+        "implementationSha": "dd349cf2dcaf74d769488cbba172b6ca7e41c7d9dad884d297948cc8fd4f3314",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1727,8 +1736,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "2956fe4cec4382cb8c7142f3b3d363a44a8b5102745561fccf250a92bb9b2787",
-        "lineCount": 3498,
+        "afterSha256": "dd349cf2dcaf74d769488cbba172b6ca7e41c7d9dad884d297948cc8fd4f3314",
+        "lineCount": 3525,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -1829,6 +1838,24 @@
           "notRun": [
             "Whole gates are separately captured in this batch record;no browser/E2E/visual acceptance."
           ]
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+          "action": "five-card scoped source binding",
+          "previousAfterSha256": "2956fe4cec4382cb8c7142f3b3d363a44a8b5102745561fccf250a92bb9b2787",
+          "afterSha256": "1eed7f561eea44f5f3eb01d18b7f274b450def17e99f3a558efbb1b6348db2bb",
+          "scope": "Incoming hash for the exact scoped review-record delta only;other entries/history remain unchanged.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+          "action": "five-card scoped source binding",
+          "previousAfterSha256": "1eed7f561eea44f5f3eb01d18b7f274b450def17e99f3a558efbb1b6348db2bb",
+          "afterSha256": "dd349cf2dcaf74d769488cbba172b6ca7e41c7d9dad884d297948cc8fd4f3314",
+          "scope": "Incoming hash for the exact scoped review-record delta only;other entries/history remain unchanged.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json"
         }
       ],
       "supersedes": [
@@ -1843,7 +1870,7 @@
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "2956fe4cec4382cb8c7142f3b3d363a44a8b5102745561fccf250a92bb9b2787",
+      "candidateSha256": "dd349cf2dcaf74d769488cbba172b6ca7e41c7d9dad884d297948cc8fd4f3314",
       "primarySource": [
         {
           "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
@@ -3314,7 +3341,7 @@
         }
       ],
       "sourceSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-      "afterSha256": "859dfbb0097c1ac86aa17535b6f0353bef49c6e547e4de367b435ed1523e68e3",
+      "afterSha256": "11abe05f54e5e0f5c48a3443aca535a09c6cfb634a1e56b23fcf395fd2c58498",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -3338,7 +3365,7 @@
       },
       "revision": {
         "currentSha": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-        "implementationSha": "859dfbb0097c1ac86aa17535b6f0353bef49c6e547e4de367b435ed1523e68e3",
+        "implementationSha": "11abe05f54e5e0f5c48a3443aca535a09c6cfb634a1e56b23fcf395fd2c58498",
         "history": [
           {
             "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",
@@ -3378,8 +3405,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
         "candidateSha256": "69382e6294e4712af4dbf30c2f74333508296d27b942f3336dc078b175fadd28",
-        "afterSha256": "859dfbb0097c1ac86aa17535b6f0353bef49c6e547e4de367b435ed1523e68e3",
-        "lineCount": 3317,
+        "afterSha256": "11abe05f54e5e0f5c48a3443aca535a09c6cfb634a1e56b23fcf395fd2c58498",
+        "lineCount": 3335,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -3415,6 +3442,15 @@
           "scope": "Incoming binding only for named reviewed deltas; unrelated historical entries unchanged",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
           "notRun": ["new browser/E2E/visual/stage/whole-source acceptance"]
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+          "action": "five-card scoped source binding",
+          "previousAfterSha256": "859dfbb0097c1ac86aa17535b6f0353bef49c6e547e4de367b435ed1523e68e3",
+          "afterSha256": "11abe05f54e5e0f5c48a3443aca535a09c6cfb634a1e56b23fcf395fd2c58498",
+          "scope": "Incoming hash for the exact scoped review-record delta only;other entries/history remain unchanged.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json"
         }
       ],
       "supersedes": [
@@ -3429,7 +3465,7 @@
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "859dfbb0097c1ac86aa17535b6f0353bef49c6e547e4de367b435ed1523e68e3",
+      "candidateSha256": "11abe05f54e5e0f5c48a3443aca535a09c6cfb634a1e56b23fcf395fd2c58498",
       "primarySource": [
         {
           "path": "docs/phase-governance/reviews/20261015-catalog-pilot-batch.json",
@@ -3631,7 +3667,7 @@
         }
       ],
       "sourceSha256": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
-      "afterSha256": "bdb78069f9f7540ac9ef47a1e20f7c2f065d1896056a959a37c496059eabe9a7",
+      "afterSha256": "ce5a6a6c67485f3260f72a7ac9049e51ca44a0fc355c1d88ecd14bd85b148e75",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -3655,7 +3691,7 @@
       },
       "revision": {
         "currentSha": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
-        "implementationSha": "bdb78069f9f7540ac9ef47a1e20f7c2f065d1896056a959a37c496059eabe9a7",
+        "implementationSha": "ce5a6a6c67485f3260f72a7ac9049e51ca44a0fc355c1d88ecd14bd85b148e75",
         "history": [
           {
             "revision": "577e531ccd991707ef73a56426d46e915220fec6",
@@ -3726,8 +3762,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
         "candidateSha256": "e864bf1eb0b90433939d3ed247049f39eba69d34e1d1809d69ea6f5866350ef1",
-        "afterSha256": "bdb78069f9f7540ac9ef47a1e20f7c2f065d1896056a959a37c496059eabe9a7",
-        "lineCount": 7969,
+        "afterSha256": "ce5a6a6c67485f3260f72a7ac9049e51ca44a0fc355c1d88ecd14bd85b148e75",
+        "lineCount": 7987,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -3794,6 +3830,24 @@
               "byteStable": true
             }
           }
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+          "action": "five-card scoped source binding",
+          "previousAfterSha256": "bdb78069f9f7540ac9ef47a1e20f7c2f065d1896056a959a37c496059eabe9a7",
+          "afterSha256": "b610a65df3df5da4ca604170e16f32ebc070217d8586d0169926182bf2e0da25",
+          "scope": "Incoming hash for the exact scoped review-record delta only;other entries/history remain unchanged.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+          "action": "five-card scoped source binding",
+          "previousAfterSha256": "b610a65df3df5da4ca604170e16f32ebc070217d8586d0169926182bf2e0da25",
+          "afterSha256": "ce5a6a6c67485f3260f72a7ac9049e51ca44a0fc355c1d88ecd14bd85b148e75",
+          "scope": "Incoming hash for the exact scoped review-record delta only;other entries/history remain unchanged.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json"
         }
       ],
       "supersedes": [
@@ -3808,7 +3862,7 @@
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "bdb78069f9f7540ac9ef47a1e20f7c2f065d1896056a959a37c496059eabe9a7",
+      "candidateSha256": "ce5a6a6c67485f3260f72a7ac9049e51ca44a0fc355c1d88ecd14bd85b148e75",
       "primarySource": [
         {
           "path": "docs/phase-governance/reviews/20261015-domain-pairs-and-archive-cards.json",
@@ -5672,7 +5726,7 @@
         }
       ],
       "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-      "afterSha256": "275e04512324587388908907b17b8b95c108f21e008e2ab5be3a674b85f0ab26",
+      "afterSha256": "1e6ce2e05d2a3be7c197ddaf7221a48513fccbe1fde1d73b4af63f1b21db6d7f",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -5696,7 +5750,7 @@
       },
       "revision": {
         "currentSha": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "implementationSha": "275e04512324587388908907b17b8b95c108f21e008e2ab5be3a674b85f0ab26",
+        "implementationSha": "1e6ce2e05d2a3be7c197ddaf7221a48513fccbe1fde1d73b4af63f1b21db6d7f",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -6364,8 +6418,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
         "candidateSha256": "bfa0c1c42f2305ff7a9d8efc814e4e1ea64f9fb2e915ed098b1fdc7e54c567f4",
-        "afterSha256": "275e04512324587388908907b17b8b95c108f21e008e2ab5be3a674b85f0ab26",
-        "lineCount": 5962,
+        "afterSha256": "1e6ce2e05d2a3be7c197ddaf7221a48513fccbe1fde1d73b4af63f1b21db6d7f",
+        "lineCount": 5989,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -6475,6 +6529,33 @@
           "notRun": [
             "Whole gates are separately captured in this batch record;no browser/E2E/visual acceptance."
           ]
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+          "action": "five-card scoped source binding",
+          "previousAfterSha256": "275e04512324587388908907b17b8b95c108f21e008e2ab5be3a674b85f0ab26",
+          "afterSha256": "6aa74be629484fdd0967ebef1a16dc49b40e059f4bf7c1c6c1ace72cd526a112",
+          "scope": "Incoming hash for the exact scoped review-record delta only;other entries/history remain unchanged.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+          "action": "five-card scoped source binding",
+          "previousAfterSha256": "6aa74be629484fdd0967ebef1a16dc49b40e059f4bf7c1c6c1ace72cd526a112",
+          "afterSha256": "a4b51308fa9609faa6a45395c32c1b7e099748d514de760170fab2cfd51a6e94",
+          "scope": "Incoming hash for the exact scoped review-record delta only;other entries/history remain unchanged.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+          "action": "five-card scoped source binding",
+          "previousAfterSha256": "a4b51308fa9609faa6a45395c32c1b7e099748d514de760170fab2cfd51a6e94",
+          "afterSha256": "1e6ce2e05d2a3be7c197ddaf7221a48513fccbe1fde1d73b4af63f1b21db6d7f",
+          "scope": "Incoming hash for the exact scoped review-record delta only;other entries/history remain unchanged.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json"
         }
       ],
       "supersedes": [
@@ -6489,7 +6570,7 @@
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "275e04512324587388908907b17b8b95c108f21e008e2ab5be3a674b85f0ab26",
+      "candidateSha256": "1e6ce2e05d2a3be7c197ddaf7221a48513fccbe1fde1d73b4af63f1b21db6d7f",
       "primarySource": [
         {
           "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
@@ -10172,7 +10253,7 @@
         }
       ],
       "sourceSha256": "cd96f7c35d7e448441dcd8059d34ba305b11d308341569f554e9e39484ff7dad",
-      "afterSha256": "d84145c929f002faf38e959cd38dfe817db89659681276917123a4a030818019",
+      "afterSha256": "7dbb0685bb8aef344966dcf9780cdcf7aae408da97ba4c2f5e3fafd9af6d1535",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -10196,7 +10277,7 @@
       },
       "revision": {
         "currentSha": "c16869eb6414b318363ee4a69ca26f7de60cd2c745727c0925c8648345359b43",
-        "implementationSha": "d84145c929f002faf38e959cd38dfe817db89659681276917123a4a030818019",
+        "implementationSha": "7dbb0685bb8aef344966dcf9780cdcf7aae408da97ba4c2f5e3fafd9af6d1535",
         "history": [
           {
             "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
@@ -10226,8 +10307,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "cd96f7c35d7e448441dcd8059d34ba305b11d308341569f554e9e39484ff7dad",
         "candidateSha256": "6a58b257ce5a455e62dbe724f5862f736801fee11ce9ccfabf9c3957efeff1d7",
-        "afterSha256": "d84145c929f002faf38e959cd38dfe817db89659681276917123a4a030818019",
-        "lineCount": 1384,
+        "afterSha256": "7dbb0685bb8aef344966dcf9780cdcf7aae408da97ba4c2f5e3fafd9af6d1535",
+        "lineCount": 1441,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -10254,6 +10335,15 @@
           "action": "R93 phase-governance artifact migration",
           "reviewer": "r93_readonly_review + Codex root",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+          "action": "five-card scoped source binding",
+          "previousAfterSha256": "d84145c929f002faf38e959cd38dfe817db89659681276917123a4a030818019",
+          "afterSha256": "7dbb0685bb8aef344966dcf9780cdcf7aae408da97ba4c2f5e3fafd9af6d1535",
+          "scope": "Incoming hash for the exact scoped review-record delta only;other entries/history remain unchanged.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json"
         }
       ],
       "supersedes": [
@@ -15708,7 +15798,7 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "full JSON byte read plus loader/native-entry preservation review",
+      "readMethod": "Reuse prior body assessment;read actual five-card scoped diff/caller/evidence. Do not infer whole-file execution or broad new review from new afterSHA.",
       "reviewDepth": "structured-content",
       "coreConclusion": "phase1 catalog shard：60 条原 phase/lore entry 按原对象保留；loader 已验证 phase、SHA、重复 id/path、summary 和确定性合并。",
       "truthAnchors": [
@@ -15723,7 +15813,7 @@
       "owner": "Codex",
       "provenance": ["generated-shard", "full-json-byte-read", "loader-consumer-review"],
       "sourceSha256": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
-      "afterSha256": "cd149ff17923e07f88844cd5b419d2464050e4d43b83722700ace4c39f67a2f5",
+      "afterSha256": "8f08f969cded9c5da535bf5cf248752e321355704e30fbd56d410bcbd35ed361",
       "publicCallers": [
         "scripts/docs/check-phase-lore-governance.mjs",
         "scripts/docs/build-phase-lore-governance.mjs",
@@ -15747,7 +15837,7 @@
       },
       "revision": {
         "currentSha": "7144194a364c004429e9eefaba2e548e593c498141983e5ec88333d5f64e40d3",
-        "implementationSha": "cd149ff17923e07f88844cd5b419d2464050e4d43b83722700ace4c39f67a2f5",
+        "implementationSha": "8f08f969cded9c5da535bf5cf248752e321355704e30fbd56d410bcbd35ed361",
         "contentVersion": "N/A-document-migration",
         "minimumSaveVersion": "N/A-document-migration",
         "history": [
@@ -15780,8 +15870,8 @@
         "path": "docs/phase-governance/catalog.phase1.json",
         "sourceSha256": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
         "candidateSha256": "2b133490adb9ec60b846402c9f892c0945878bcdeef3340104445f7b189b1579",
-        "afterSha256": "cd149ff17923e07f88844cd5b419d2464050e4d43b83722700ace4c39f67a2f5",
-        "lineCount": 9249,
+        "afterSha256": "8f08f969cded9c5da535bf5cf248752e321355704e30fbd56d410bcbd35ed361",
+        "lineCount": 8405,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "entry-preserving phase partition from pre-split catalog",
@@ -15809,6 +15899,15 @@
           "action": "generated-phase-shard-and-loader-review",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+          "action": "five-card scoped source binding",
+          "previousAfterSha256": "cd149ff17923e07f88844cd5b419d2464050e4d43b83722700ace4c39f67a2f5",
+          "afterSha256": "8f08f969cded9c5da535bf5cf248752e321355704e30fbd56d410bcbd35ed361",
+          "scope": "Only actual five-card scope/status/evidence,mechanics erratum or paired comment source binding;no new broad body/runtime acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json"
         }
       ],
       "supersedes": [],

@@ -4605,7 +4605,7 @@
       "templateVersion": "1.5.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "full-original-document/JSON-field reading; manual scope/oracle/dedupe/history migration; actual paired consumer",
+      "readMethod": "Reuse prior body assessment;read actual five-card scoped diff/caller/evidence. Do not infer whole-file execution or broad new review from new afterSHA.",
       "reviewDepth": "deep-semantic",
       "coreConclusion": "phase1/game：D1单一共享状态owner及静态SCC的source publication；161 token checks、8旧测试、3 needles/旧warnings按原历史读，不成为二阶段架构或本次运行验收。 原JSON对象逐字段保留，performed=false、候选/版本/source-backed及原缺raw不升级。",
       "truthAnchors": [
@@ -4696,10 +4696,10 @@
       "reviewedSourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "1b24a52a5b0145462e6a7e8aba3e0b521778d10a",
-      "afterSha256": "9e3c1f0cb3d4df7341dc6a20e1152848a4fcedd0da22401220067e2a231863d0",
+      "afterSha256": "71a0a005eadd7545637442bf603b7293038659005aaca9d174bd344684d79781",
       "revision": {
         "currentSha": "c0cb14c67ee09f8b9a57cf2a91803b8adaef06a9d9a4ac4eb53a9936608ced9c",
-        "implementationSha": "9e3c1f0cb3d4df7341dc6a20e1152848a4fcedd0da22401220067e2a231863d0",
+        "implementationSha": "71a0a005eadd7545637442bf603b7293038659005aaca9d174bd344684d79781",
         "originalPublicationRevision": {
           "candidateSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
           "versions": {
@@ -4762,8 +4762,8 @@
         "kind": "full-source-preservation-and-real-domain-publication-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
-        "afterSha256": "9e3c1f0cb3d4df7341dc6a20e1152848a4fcedd0da22401220067e2a231863d0",
-        "lineCount": 208
+        "afterSha256": "71a0a005eadd7545637442bf603b7293038659005aaca9d174bd344684d79781",
+        "lineCount": 219
       },
       "history": [
         {
@@ -4843,6 +4843,24 @@
           "scope": "Exact equipment source-ref binding and proof history added; historical D1 execution remains dated.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
           "notRun": ["new browser/E2E/visual/stage/whole-source acceptance"]
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+          "action": "five-card scoped source binding",
+          "previousAfterSha256": "9e3c1f0cb3d4df7341dc6a20e1152848a4fcedd0da22401220067e2a231863d0",
+          "afterSha256": "ce33a22fb037d695b6decc03f770eb299d59251540e7473ed9fedf3f67c3bb10",
+          "scope": "Only actual five-card scope/status/evidence,mechanics erratum or paired comment source binding;no new broad body/runtime acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
+          "action": "five-card scoped source binding",
+          "previousAfterSha256": "ce33a22fb037d695b6decc03f770eb299d59251540e7473ed9fedf3f67c3bb10",
+          "afterSha256": "71a0a005eadd7545637442bf603b7293038659005aaca9d174bd344684d79781",
+          "scope": "Only actual five-card scope/status/evidence,mechanics erratum or paired comment source binding;no new broad body/runtime acceptance.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json"
         }
       ],
       "supersedes": [],

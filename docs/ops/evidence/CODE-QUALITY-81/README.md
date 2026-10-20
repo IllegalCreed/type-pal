@@ -24,7 +24,7 @@ mutation runner 只针对本卡拥有的实现文件执行两个精确突变：`
 
 - `pnpm check`：exit 0，packages/game 314 files / 3,548 tests 等全仓分包结果已保存于 `gate-check.txt`；lint 4,008 files，error/warning/info 均为 0。
 - `pnpm coverage:ratchet`：exit 0；fast baseline 只纳入新增 5 个测试，覆盖率只升不降，详见 `gate-ratchet.txt`。
-- `pnpm check:fast`（protected fast）：exit 0；workspace typecheck、全包测试与 lint-zero 全通过，详见 `gate-protected-fast.txt`。
+- `pnpm check:fast`（历史误标为 protected fast；2026-10-20撤回该身份，仅普通check:fast）：exit 0；workspace typecheck、全包测试与 lint-zero 全通过，详见 `gate-protected-fast.txt`。
 - ledger 当前机器计数：3,269 tracked；339 closed / 10 review / 2,920 pending。
 
 ## 边界
@@ -32,3 +32,6 @@ mutation runner 只针对本卡拥有的实现文件执行两个精确突变：`
 - 成功缩略图仍写入既有模块级共享缓存，避免跨 picker 重复渲染。
 - 没有新增 AbortSignal、全局 listener disposer 或 bootstrap teardown；这些需要真实宿主重复装配/卸载证据，继续留 pending。
 - 功能性 DOM 生命周期已完成最小验证；剧情视觉按仓库规则不在本批运行 E2E。CODE80 的浏览器视觉验证仍单独 pending。
+
+
+2026-10-20复审：page全局监听的生产Owner由 main.ts 互斥启动分支→bootstrap单次装配证明；没有宿主重复装卸caller，不以公开disposer扩张API。picker旧反控按相同执行代码/测试身份复用，详情见[五卡复审](../QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。旧门原始输出不改写，新的真实protected门在五卡收尾独立记录。

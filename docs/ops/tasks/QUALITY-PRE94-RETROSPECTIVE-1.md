@@ -11,13 +11,15 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
 ## 当前用户要求、范围与准入
 
+2026-10-20最新授权：Codex先完成53/79/80/81/90五张复审欠账，复用既有证据，补齐逐文件八维缺口及必要返工；旧活跃避让已解除，本批唯一Owner为Codex，同一3y分支。具体启动/范围见[五卡复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。已有用户裁决沿用；79先核前提再准入，新的产品取舍/接口/schema变化仍走停止线。昂贵门集中到本批收尾，94–102不扩展。以下C1–C3是刚完成的上一波证据，不再据其“5活跃实现未触碰”排除本批。
+
 用户2026-10-20在上一波GLM返工/统一门合入main后恢复pre94剩余工作：GLM负责27张pending与56张partial的主要逐文件八维审查和授权内整改；Codex按证据验收、维护中央状态与同一3y分支集成，不重复作者全部复审。覆盖率/全仓门仍集中到大批收尾，94–102暂不扩展。此前“只完成53db76bbb→5af1b6372返工、本波后暂停”仅保留为上一波范围，不再限制本次恢复。
 
 用户随后明确：**后续验收发现的返工由Codex直接接手，不再退回GLM循环整改**。GLM继续承担主要审查、首轮整改和交付前自查；Codex按具体缺口补证、修复、验证并集成，不重复整批全文复审、不补造作者阅读或历史执行原件。当时89800a1c1的C1–C3已由用户发给GLM，保留其Owner至冻结交付；现9fec7ac4f已冻结交付，余下缺口由Codex接手，GLM原树保留只读。同一文件切换Owner前先记录冻结SHA/实际改动/剩余项，不抢写进行中的候选。必要事实或已有原件可向作者索取，新产品取舍仍交用户裁决。
 
 用户2026-10-16重申“复审94号之前的所有卡的成果”，本卡当前覆盖全部83张CODE-QUALITY编号小于94的卡，包含字母后缀，不是抽样。77张历史done、1张build、4张review、1张draft仅是原卡状态；本轮重新accept为0。当前复审队列已推进为78张partial、5张pending；partial只表示有限证据切片，不是验收。按当前Git tracked路径收集，大小写敏感编号规则排除行政卡CODE-QUALITY-3Y-CLOSEOUT-1；不按编号空缺虚构卡。完整83行清单与卡SHA见[复审队列](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)。原36卡结构/8卡全文抽查是历史部分证据，不能替代任何整卡成果复验。3y的58差异卡矩阵也不是全部83卡。
 
-唯一治理集成工作树/分支codex/code-quality-3y；主树和其它Owner只读，不再新建长期治理分支。GLM在自有detached候选内连续推进pre94，Codex核具体差异和证据缺口；6a/CODE82旧片按各自边界保留，94–102及其它无关任务不扩大。53/79/80/81/90当前候选均未触碰，既有活跃卡保持pending；不据本次恢复授权修改这些卡的实现或解除机制冻结。
+唯一治理集成工作树/分支codex/code-quality-3y；主树和其它Owner只读，不再新建长期治理分支。GLM在自有detached候选内连续推进pre94，Codex核具体差异和证据缺口；6a/CODE82旧片按各自边界保留，94–102及其它无关任务不扩大。上一波C1–C3未触碰五卡；当前用户已解除该避让并明确指定五卡复审返工，见顶部准入；旧机制冻结仅由既有已核裁决与79窄build allowed解除相应部分。
 
 Codex premise verified / design agree / build allowed：完整读取任务卡、实现、真实caller/出口/类型/生命周期，核注释事实、可复用代码边界、内聚耦合、输入/错误/异步取消/清理/ownership；测试核合法输入、真实oracle、排重、判别力与隔离。只读复核、隔离反控、测试与治理证据允许；发现需修复时先钉有限白名单和反例，低风险工具/测试补证逐批准入。产品机制、schema/save/migration/资产、公共接口或可感知行为变化立即停线专卡，不用本卡泛化授权。
 
@@ -29,7 +31,9 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 
 ## 当前推进
 
-2026-10-20本次C1–C3候选与Codex四测试返工已有限接收：[本批验收与八维状态](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json)。22卡仅新增有限证据及显式八维unknown，当前78partial/5pending/0accept、0新增文件关闭；不宣称69文件全维已验收，缺维/机制未知继续review，5活跃实现未触碰。69双指纹及8项撤回对应、音频三单红/恢复20、RNG旧弱14绿与新两单红/恢复14、四测试定向与game typecheck均已据证核；本轮全仓check七包20,380例、typecheck及editor作者脚本通过；official ratchet和对最新main的protected fast各19,982例/741源通过，完整日志/零诊断扫描与最终静态门见同一回执；覆盖率仅本阶段收尾实跑。
+2026-10-20当前五卡源码/证据返工已核：[唯一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)列18份逐文件八维、4个广域caller上下文、16个明确接受的文件。79以真实物品两红后修，F1/90以旧绿新红补测试判别力，53 typed/hydrate夹具返工。五卡均已有有限八维证据，队列83partial/0pending/0accept；复合模块、压缩/重入和集中视觉仍明确review，不把未决项强关。本批统一门以唯一回执integration为准，提交/推送/main同步以Git refs核对；以下C1–C3是上一波时点。
+
+2026-10-20本次C1–C3候选与Codex四测试返工已有限接收：[本批验收与八维状态](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json)。22卡仅新增有限证据及显式八维unknown，上一波78partial/5pending/0accept、0新增文件关闭；不宣称69文件全维已验收，缺维/机制未知继续review，5活跃实现未触碰。69双指纹及8项撤回对应、音频三单红/恢复20、RNG旧弱14绿与新两单红/恢复14、四测试定向与game typecheck均已据证核；本轮全仓check七包20,380例、typecheck及editor作者脚本通过；official ratchet和对最新main的protected fast各19,982例/741源通过，完整日志/零诊断扫描与最终静态门见同一回执；覆盖率仅本阶段收尾实跑。
 
 2026-10-20 C1–C3增量9fec7ac4f已冻结交付，Codex现接手其余窄返工与集成，GLM原树只读保留。9笔作者提交已按顺序接入同一3y并连同四测试返工推送；69双指纹及8项读域撤回对应成立，三枚分立反控各1指定AssertionError、基线/恢复20绿。Codex发现save-io.test.ts三处as never残缺成功夹具被错误判合法，且定向测试设计核验发现input.boundaries冗余as never getter spy、rng-player主测双重强转的Canvas替身；main-loop残缺核心状态也改用真实工厂；仅修这四份测试及对应证据，补C3输出路径/biome附件漏项和索引适用性边界。不重开22卡全文复审，不改save/schema/接口或53/79/80/81/90；此处仅说明已执行的有限build allowed；本批实际门、状态计数及未修边界以顶部当前回执为准，不扩张整卡/逐文件验收信用。
 
