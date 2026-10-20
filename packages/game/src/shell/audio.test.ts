@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { createAudioElementFixture } from './__tests__/audio-element-fixture.js'
 import {
   battleVictoryTrack,
   createAudioManager,
@@ -10,9 +11,8 @@ import {
   sfxUrl,
 } from './audio.js'
 
-// 注:Web Audio(AudioContext / decodeAudioData)在 node/jsdom 测试环境不可用 → SFX 实际播放
-//   退化为 no-op(无法单测发声,归 user 真引擎听验)。此处测**可测逻辑**:url 映射 + sync 队列
-//   清空 + BGM 后端切换决策(注入 mock MusicBackend)。
+// 本文件未提供Web Audio端口，因此队列测试只证明就地清空；不授予SFX实际播放信用。
+// BGM通过真实manager与记录后端验证转发，OGG以媒体IO替身观察释放，不声称听感验收。
 
 describe('M6 audio url 映射(纯)', () => {
   it('sfxUrl → {base}/sounds/{id}.wav', () => {
@@ -111,8 +111,11 @@ describe('M6 AudioManager.sync', () => {
     const am = createAudioManager('/extracted')
     am.sync(undefined, { track: 9, loop: true }) // 后端未注入 → 当前 track 记为 9,无播放
     const calls: string[] = []
-    am.setMusicBackend({ play: (t) => calls.push(`play ${t}`), stop: () => calls.push('stop') })
-    expect(calls).toEqual(['play 9']) // 注入即补播当前 track
+    am.setMusicBackend({
+      play: (t, loop) => calls.push(`play ${t} ${loop}`),
+      stop: () => calls.push('stop'),
+    })
+    expect(calls).toEqual(['play 9 true']) // 当前曲与循环意图均须传给新后端
   })
 })
 
@@ -175,55 +178,35 @@ describe('L46 SFX lastSFX 同号去重(sound.c:769-772 SOUND_Play / sound.c:930 
 })
 
 describe('M6 OGG 音乐后端:释放旧 HTMLAudioElement(内存泄露修复)', () => {
-  class FakeAudio {
-    static created: FakeAudio[] = []
-    src: string
-    loop = false
-    volume = 1
-    paused = false
-    loaded = false
-    constructor(s: string) {
-      this.src = s
-      FakeAudio.created.push(this)
-    }
-    play(): Promise<void> {
-      return Promise.resolve()
-    }
-    pause(): void {
-      this.paused = true
-    }
-    load(): void {
-      this.loaded = true
-    }
-    removeAttribute(name: string): void {
-      if (name === 'src') this.src = ''
-    }
-  }
+  let fixture: ReturnType<typeof createAudioElementFixture>
+  let backend: ReturnType<typeof createOggMusicBackend> | undefined
 
   beforeEach(() => {
-    FakeAudio.created = []
-    vi.stubGlobal('Audio', FakeAudio)
+    fixture = createAudioElementFixture()
+    vi.stubGlobal('Audio', fixture.Audio)
   })
   afterEach(() => {
+    backend?.stop()
+    backend = undefined
     vi.unstubAllGlobals()
   })
 
   it('切歌:旧元素 pause + 清空 src + load(释放解码资源,不游离在内存)', () => {
-    const backend = createOggMusicBackend('/extracted')
+    backend = createOggMusicBackend('/extracted')
     backend.play(1, true) // created[0]
     backend.play(2, true) // created[1];旧 created[0] 应被释放
-    const old = FakeAudio.created[0]!
+    const old = fixture.created[0]!
     expect(old.paused).toBe(true)
     expect(old.src).toBe('') // 旧实现只 pause 不清 src → 游离待 GC
     expect(old.loaded).toBe(true)
-    expect(FakeAudio.created[1]!.src).toContain('002.ogg') // 新元素正常,src 未被清
+    expect(fixture.created[1]!.src).toBe('/extracted/music/002.ogg')
   })
 
   it('stop:释放当前元素 src', () => {
-    const backend = createOggMusicBackend('/extracted')
+    backend = createOggMusicBackend('/extracted')
     backend.play(1, true)
     backend.stop()
-    const el = FakeAudio.created[0]!
+    const el = fixture.created[0]!
     expect(el.paused).toBe(true)
     expect(el.src).toBe('')
     expect(el.loaded).toBe(true)

@@ -23,8 +23,8 @@ interface DeferredPlay {
   settled: boolean
 }
 
-/** 测试受控的 play 端口替身(deferred / resolved / rejected),记录被 play 的元素。 */
-function stubPlay(mode: 'deferred' | 'resolved' | 'rejected'): {
+/** 测试受控的play端口替身(deferred / resolved)，记录被play的元素。 */
+function stubPlay(mode: 'deferred' | 'resolved'): {
   played: HTMLVideoElement[]
   deferred?: DeferredPlay
 } {
@@ -61,9 +61,7 @@ function stubPlay(mode: 'deferred' | 'resolved' | 'rejected'): {
       this: HTMLVideoElement,
     ) {
       played.push(this)
-      return mode === 'resolved'
-        ? Promise.resolve()
-        : Promise.reject(new Error('NotAllowedError: play() failed (autoplay policy)'))
+      return Promise.resolve()
     })
   }
   vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {})
