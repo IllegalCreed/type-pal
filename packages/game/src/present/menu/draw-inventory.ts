@@ -1,6 +1,5 @@
 /**
- * M5.6 T10b:InventoryMenu fullscreen UI 渲染 — sdlpal `itemmenu.c:28-310`
- * PAL_ItemSelectMenuUpdate 真值 1:1 port。
+ * 物品列表与使用目标层；采用本项目中文 WIN95 菜单布局。
  *
  * sdlpal 真值布局(中文 dwWordLength=10 默认):
  *  - Box: PAL_CreateBoxWithShadow(PAL_XY(2, 0), 6, 17, style=1, FALSE, shadowOffset=0)
@@ -137,7 +136,7 @@ const STATUS_COLOR_EQUIPMENT = 0xbe // sdlpal ui.h:97
 const SPRITENUM_SLASH = 39
 
 /**
- * sdlpal `uigame.c:1289-1473` PAL_ItemUseMenu 1:1 port — phase='use-target' 时叠加画。
+ * PAL_ItemUseMenu 目标层：在列表之后叠加角色属性、物品与实时数量。
  *
  * 真值布局:
  *  - box PAL_XY(110, 2) 7×9
@@ -242,7 +241,7 @@ function drawItemUseMenu(
     )
   })
 
-  // 5. ITEMBOX sprite at (120, 80)(uigame.c:1398)
+  // PAL_ItemUseMenu blits only the normal ITEMBOX; the inventory list retains its own shadow.
   const itemboxFrame = uiSpriteFrames[SPRITENUM_ITEMBOX]
   if (itemboxFrame) {
     blitSpriteOpaque(fb, itemboxFrame, ITEMUSE_ITEMBOX_POS.x, ITEMUSE_ITEMBOX_POS.y)
@@ -309,12 +308,11 @@ export function drawInventoryMenu(input: DrawInventoryInput): void {
       const diff = slot.count - slot.inUse
       // sdlpal itemmenu.c:171 真值:`!(item.wFlags & g_wItemFlags) || nAmount <= nAmountInUse`
       // → 不满足 menu 入口 filter(equip/usable/...)就是 inactive。
-      // 修(2026-05-29 session 4 user 怒怼"李逍遥能装的木剑红色"):**用 state.filter 判 filter
-      // 命中**,而不是 hardcode `flags.usable` — EquipMenu 复用本 fn 时 filter='equip'。
+      // 装备/使用/卖共用全库存列表；入口 filter 决定可用色，不匹配项仍显示。
       const isUsable = item != null && diff > 0 && matchesFilter(item, state.filter)
       const isEquipped = slot.count === 0
 
-      // 6 case 颜色规则(sdlpal itemmenu.c:135-181)— 抽 pickItemRowColor pure helper,单测 covered
+      // 按选中态、可用性和装备占用计算行色；与 core 使用同一判定。
       const color = pickItemRowColor({ isSelected, isUsable, isEquipped })
 
       // Item label — sdlpal itemmenu.c:187 PAL_DrawText fShadow=TRUE
@@ -373,16 +371,14 @@ export function drawInventoryMenu(input: DrawInventoryInput): void {
   const curSlot = state.inventory[state.cursor]
   if (!noDesc && curSlot) {
     const curItem = items.find((it) => it.id === curSlot.itemId)
-    const sid = (curItem as { scriptDesc?: number } | undefined)?.scriptDesc ?? 0
+    const sid = curItem?.scriptDesc ?? 0
     const lines = getScriptDescLines(sid)
     for (let li = 0; li < lines.length; li++) {
       renderText(fb, lines[li]!, 71, 151 + li * 16, DESCTEXT_COLOR, glyphs, true)
     }
   }
 
-  // M5.6 session 3:phase='use-target' → 叠加画 PAL_ItemUseMenu(uigame.c:1289-1473)。
-  // user 反馈"使用物品时并没有弹出选择角色的 UI" — confirmInventoryItem 已切 phase
-  // 但渲染层没接,本次补。需 gs + playerRoles(catalog),draw-menu.ts 转发。
+  // 目标层需要 live runtime 与角色名；draw-menu 负责注入，绘制不推进菜单状态。
   if (state.phase === 'use-target' && gs && playerRoles) {
     drawItemUseMenu(fb, state, items, uiSpriteFrames, glyphs, itemIcons, gs, playerRoles)
   }

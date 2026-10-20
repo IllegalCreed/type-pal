@@ -31,6 +31,7 @@ beforeEach(() => {
 let unbindHotkeys: (() => void) | null = null
 afterEach(() => {
   hideOverlay()
+  document.getElementById('tp-speedrun-style')?.remove()
   unbindHotkeys?.()
   unbindHotkeys = null
   vi.clearAllTimers()

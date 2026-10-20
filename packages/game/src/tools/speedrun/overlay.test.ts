@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { CHECKPOINTS } from './checkpoints.js'
 import { hideOverlay, renderOverlay } from './overlay.js'
 import type { RunState } from './timer.js'
@@ -14,7 +14,12 @@ const run = (o: Partial<RunState>): RunState => ({
   countdownEndMs: null,
   ...o,
 })
-afterEach(() => hideOverlay())
+function cleanupOverlay() {
+  hideOverlay()
+  document.getElementById('tp-speedrun-style')?.remove()
+}
+beforeEach(cleanupOverlay)
+afterEach(cleanupOverlay)
 
 describe('overlay', () => {
   it('渲染 21 行 + 主计时', () => {
@@ -46,9 +51,12 @@ describe('overlay', () => {
     expect(first?.querySelector('.tp-sr-diff')?.className).toContain('fast')
     expect(document.querySelector('.tp-sr-eta')?.textContent).toBe('预计通关 0:00:18')
   })
-  it('hideOverlay 移除', () => {
+  it('hideOverlay 移除真实根节点，再次移除保持为空', () => {
     renderOverlay(run({}), CHECKPOINTS, {})
+    expect(document.getElementById('tp-speedrun-overlay')).not.toBeNull()
     hideOverlay()
+    expect(document.getElementById('tp-speedrun-overlay')).toBeNull()
+    expect(() => hideOverlay()).not.toThrow()
     expect(document.getElementById('tp-speedrun-overlay')).toBeNull()
   })
 })

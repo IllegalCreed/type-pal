@@ -3,11 +3,11 @@
  *  - detectors.test（enter/leave/enterAny 触发帧/atSpot 显式容差/bossWon/hasItem/bgmIs/caiyi
  *    两段与 battle=null）→ 不重复
  *  - 新差异：atSpot 默认容差 ±48/±24 恰好边界、atAnySpot 多点任一命中（完全未覆盖）、
- *    leaveScene prev=null 防御、enterAnyScene 集合外不触发与空集合、caiyiDetector 自定义敌 id。
+ *    caiyiDetector 自定义敌 id。leaveScene/enterAnyScene 防御合同归主测。
  * 纯输入命中/不命中边界；不遍历剧情里程碑。
  */
 import { describe, expect, it } from 'vitest'
-import { atAnySpot, atSpot, caiyiDetector, enterAnyScene, leaveScene } from './detectors.js'
+import { atAnySpot, atSpot, caiyiDetector } from './detectors.js'
 import type { ProgressSnapshot } from './snapshot.js'
 
 const snap = (o: Partial<ProgressSnapshot>): ProgressSnapshot => ({
@@ -39,13 +39,6 @@ describe('L08 detectors 剩余边界', () => {
     expect(d(snap({ scene: 164, partyX: 10, partyY: 10 }), null, {})).toBe(true) // 第一格
     expect(d(snap({ scene: 164, partyX: 500, partyY: 250 }), null, {})).toBe(false) // 都不中
     expect(d(snap({ scene: 165, partyX: 1000, partyY: 500 }), null, {})).toBe(false) // 场景不符
-  })
-
-  it('leaveScene prev=null → false（无前帧不判离开）；enterAnyScene 集合外/空集合不触发', () => {
-    expect(leaveScene(40)(snap({ scene: 40 }), null, {})).toBe(false)
-    const d = enterAnyScene([164, 165])
-    expect(d(snap({ scene: 100 }), snap({ scene: 100 }), {})).toBe(false)
-    expect(enterAnyScene([])(snap({ scene: 164 }), null, {})).toBe(false)
   })
 
   it('caiyiDetector 自定义敌 id：见 72 置位，其消失触发', () => {

@@ -29,11 +29,12 @@ test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
   // CODE3u: duplicate player snapshots transferred with the independent conservation mutant.
   // CODE53/79/80/81/90：两份精确快照新增，分别净少6和1例；合同迁移见五卡回执。
   // CODE88: one weaker identical-input length assertion is covered by the retained exact labels.
-  assert.equal(approvedTestRetirements.length, 34)
-  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 34)
+  // CODE62/64/67: four detector cases move to canonical factories; exact scope snapshots only.
+  assert.equal(approvedTestRetirements.length, 36)
+  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 36)
   assert.equal(
     approvedTestRetirements.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
-    74,
+    78,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)
   assert.throws(() => {

@@ -7,6 +7,25 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // User2026-10-20 complete pre94 + standing test-quality/dedup authority.
+    // CODE62/64/67: H07 and leaf duplicate assertions move to canonical detectors.
+    // Exact transfer/oracle map: pre94 present-speedrun-local.json; no predicate changes.
+    {
+      file: 'packages/game/src/tools/speedrun/timer.boundaries.test.ts',
+      previous: 6,
+      current: 3,
+      previousIdentityDigest: '663e4d930277b1e9f7c28485439836454d9c19035766385e7560d5747f07ac0c',
+      currentIdentityDigest: '37a51262d5836e57f22ee399b9ce714585eab39e92ca2a22b7f60aedaca04283',
+      fileSha256: 'd23e3b3a2e5cf85515c7769c4c8587b28f65e8ea429da916c7151110349b6d90',
+    },
+    {
+      file: 'packages/game/src/tools/speedrun/detectors.glm-phase1-leaves.test.ts',
+      previous: 4,
+      current: 3,
+      previousIdentityDigest: 'e9d38b19b402b9c9d27a5c4bfbbc09d523beef0622e11327334731bd5cad96a1',
+      currentIdentityDigest: 'cf5817d2ba128fa2454d2414c2e3ce7996ed3198339a9fc1f7099ff606061248',
+      fileSha256: 'c13eaf0ad4f95c7e0d4cddcaa71824b9b685872ff7a3b7098089b8928ea5eacc',
+    },
     // User2026-10-20 complete pre94 + standing dedup authority. CODE88: identical
     // input as retained MP-sufficient case; exact label list already implies length=2.
     // No lost zero-slot contract. Proof: pre94 menu-core-closeout.json.

@@ -24,6 +24,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
+  document.getElementById('tp-speedrun-style')?.remove()
   unbindHotkeys?.()
   unbindHotkeys = undefined
   __resetSpeedrunForTest()

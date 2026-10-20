@@ -1,8 +1,10 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { enterScene } from './detectors.js'
 import type { ProgressSnapshot } from './snapshot.js'
 import { loadBests, loadSettings, saveBests, saveSetting } from './store.js'
 import { SpeedrunTimer } from './timer.js'
+
+afterEach(() => localStorage.clear())
 
 describe('speedrun store', () => {
   beforeEach(() => localStorage.clear())
@@ -17,10 +19,12 @@ describe('speedrun store', () => {
   })
   it('bests 无记录时返回 defaults 副本', () => {
     const defaults = { a: 1000, b: 2000 }
-    expect(loadBests(defaults)).toEqual(defaults)
+    const loaded = loadBests(defaults)
+    expect(loaded).toEqual(defaults)
+    expect(loaded).not.toBe(defaults)
   })
-  it('bests 往返,缺失 key 用 default 补', () => {
-    saveBests({ a: 500, b: null })
+  it('bests 往返只覆盖默认骨架中的 key，缺失项保留默认值', () => {
+    saveBests({ a: 500, b: null, ghost: 1 })
     expect(loadBests({ a: 1000, b: 2000, c: 3000 })).toEqual({ a: 500, b: null, c: 3000 })
   })
 

@@ -1,11 +1,11 @@
 /**
  * TEST-GLM-PHASE1-LEAVES-3 L21（store.ts）— 去重表：
  *  - store.test（默认值/setting 往返/bests defaults 副本/缺失 key 补 default）→ 不重复
- *  - 新差异：坏数据降级（bests 非法 JSON → defaults 副本）、存储里 defaults 外的 key 忽略、
- *    saveBests→loadBests 全往返。
+ *  - 新差异：非法 JSON/非法逐键值/非记录 JSON 的回退，以及 banana 设置和非法设置值。
+ *    未知 key 与 bests 往返归主测，不重复执行相同合同。
  */
-import { beforeEach, describe, expect, it } from 'vitest'
-import { loadBests, loadSettings, saveBests, saveSetting } from './store.js'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { loadBests, loadSettings, saveSetting } from './store.js'
 
 const KEY = 'tp-speedrun-bests'
 
@@ -13,28 +13,24 @@ beforeEach(() => {
   localStorage.clear()
 })
 
+afterEach(() => localStorage.clear())
+
 describe('L21 store 坏数据与往返', () => {
-  it('bests 非法 JSON → 返回 defaults 副本不抛；defaults 外的存储 key 忽略', () => {
+  it('bests 非法 JSON 返回 defaults 副本', () => {
     localStorage.setItem(KEY, '{not json')
     const defaults = { a: 1000, b: null }
     const out = loadBests(defaults)
     expect(out).toEqual({ a: 1000, b: null })
     expect(out).not.toBe(defaults) // 副本
-    localStorage.setItem(KEY, JSON.stringify({ a: 500, ghost: 1 }))
-    expect(loadBests({ a: 1000, b: null })).toEqual({ a: 500, b: null }) // ghost 不并入
   })
 
-  it('saveBests → loadBests 全往返；settings 仅识别 1/0（坏值走各自默认）', () => {
-    saveBests({ a: 42, b: null })
-    expect(loadBests({ a: 0, b: 0 })).toEqual({ a: 42, b: null })
-    saveSetting('enabled', true)
-    saveSetting('show', false)
+  it('banana 设置可往返，非法设置值按各键规则回退', () => {
     saveSetting('banana', true)
-    expect(loadSettings()).toEqual({ enabled: true, show: false, banana: true })
+    expect(loadSettings()).toEqual({ enabled: false, show: true, banana: true })
     localStorage.setItem('tp-speedrun-enabled', 'yes')
-    expect(loadSettings().enabled).toBe(false) // 仅 '1' 为真
     localStorage.setItem('tp-speedrun-show', 'yes')
-    expect(loadSettings().show).toBe(true) // 仅 '0' 为假（默认显示）
+    localStorage.setItem('tp-speedrun-banana', 'yes')
+    expect(loadSettings()).toEqual({ enabled: false, show: true, banana: false })
   })
 
   it('bests 非法数值逐键回退，保留同批合法值与 null，不污染 defaults', () => {
