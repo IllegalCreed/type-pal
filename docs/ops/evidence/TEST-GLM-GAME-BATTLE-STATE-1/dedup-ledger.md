@@ -2,56 +2,54 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-GAME-BATTLE-STATE-1 的排重账（GLM r1）：排重域覆盖卡面独占范围内 battle-system/battle-state/battle-runtime-context/battle actions/enemy-ai/turn-queue/battle-settlement/battle-finalization/battle-progression/battle-anim-driver 等的旧测（battle-system.test 184 it、cov85 14、actions 89、throw-item 6、attack-mate 7、enemy-ai 14、turn-queue 9、battle-state 14+4、runtime-context 3、finalization 2、settlement 5、progression 5、levelup 11、turn-boundaries 15 及相邻 anim/formulas 族）；另核对在途候选 codex/coverage85-glm-game-r1 @46ace96e0 对各轴零覆盖。
 
 ## 证据身份
 
-- TEST-GLM-GAME-BATTLE-STATE-1 排重账(GLM r1) 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 45a8c5c134c454a22f810bc844fbb7a32d44d12e5c8486b31aada006f498accc。
-
-## 来源与输入
-
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- battle 状态机域：battle-system.ts（队列/行动/经验）、battle-settlement.ts（结算屏/Phase E）、battle-progression.ts（升级学法术）、enemy-ai.ts（掷骰）。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 新增 10 合同（全部未证轴，源锚/caller/oracle 逐行）：C1 haste 状态队员行动 dex×3 进队列 wiring（battle-system.ts:747-751；status→queue 构建接线三文件零队列断言；slow 为 PAL_CLASSIC 不实现无合同）；C2 DH3 未学法术降级两臂合一 it（:2634-2644 known 门，旧测全在 silence/MP 臂）；C3 DL7 沉默敌仍消费一次魔法掷骰（enemy-ai.ts:119-121 计数 oracle）；C4 scriptOnReady 返回值回写 show-once（:2520-2549，ready 侧全仓无断言）；C5 defend→rgDefenseExp.wCount+=2（:2815-2818 正向累积无证）；C6 玩家施法两经验池累积（:2855-2861）；C7 expGained=0 无 exp-cash 屏但 cash 无条件入账（settlement:119-127）；C8 Phase E defeated 槽照跑 scriptOnBattleEnd 且返回值不回写（:160-189）；C9 rgwMagic 32 槽满不再学（progression:288-306）；C10 升级快照装备有效值（同 README 合同名对齐）。
+
+## 来源与输入
+
+- 真实 battle-system 公开入口（tickBattle/tickPerformAction/buildBattleWonSettlement/tickBattleSettlement/battleWonLevelUp/decideEnemyAction 均公开导出）；计数 oracle 先例 battle-system.test.ts:635。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 登记 10 个新增合同的 caller 与预期 oracle，以及未证项；slow 不可实现（PAL_CLASSIC）等 unreachable 如实登记。执行结果归配对 README 与原运行回执，排重账本身不证明通过。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 与 README.md r1 交付配套（10/10 三态反控、定向 10/10、相邻 916/916）。
 
 ## 历史范围
 
-- 源 revision 4ce17faa06c6ce05f4a4868de380e25d4854e575；本轮 R64。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-GAME-BATTLE-STATE-1 r1 排重账（10 新增合同逐行锚点）；固定源 revision 4ce17faa06c6…。
 
 ## 原始结论
 
-- TEST-GLM-GAME-BATTLE-STATE-1 排重账(GLM r1)：原始正文完整保留于下方 quote。
+- 10 未证轴新增（haste 接线/known 门/掷骰计数/ready 回写/防御经验/施法两池/0 经验屏/死敌槽/槽满/装备快照）。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 合同表逐行（源锚/caller/oracle/排重结论）在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。排重结论按 r1 时点。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归同目录 README.md 与 Codex 接收记录。
 
 ## 原文保全
 
-固定 source revision `4ce17faa06c6ce05f4a4868de380e25d4854e575`，source SHA `45a8c5c134c454a22f810bc844fbb7a32d44d12e5c8486b31aada006f498accc`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `4ce17faa06c6ce05f4a4868de380e25d4854e575`，source SHA `45a8c5c134c454a22f810bc844fbb7a32d44d12e5c8486b31aada006f498accc`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-GAME-BATTLE-STATE-1 排重账(GLM r1)
 >

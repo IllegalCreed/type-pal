@@ -2,56 +2,54 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1 的排重账（GLM r1）：排重域=packages/reforge/src/audio 全部旧测（bgm 四套件、midi-preview 五套件、sfx 三套件）+caller 侧旧证据（audio-spessa-runtime.glm-q、video-sfx-ports.glm-q、battle-trial-host G02）与全仓 fullName grep；归档卡=D12-1（fade 过渡）、TEST-REFORGE-RUNTIME-CONTRACTS-1（C1-C6）、TEST-GLM-NEW-G-1（G02 宿主）、TEST-REFORGE-ASSET-IO-1（B4 readiness 集合）。
 
 ## 证据身份
 
-- TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1 排重账（GLM r1） 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 fdeeee94bb041ca11a3dd8986497b6eb762a9f7f27dc9014deee84566c035776。
-
-## 来源与输入
-
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- reforge 音频域：BGM 手势解锁/同曲幂等/setEnabled、MIDI 替换与回退、SFX turn 收集主臂。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 新增 6 合同（源锚/caller/输入/oracle/排重结论逐行）：L1a bgm.ts:266-278 解锁后补播（C1 只证 resume 并发去重与旗标复位，gate 从未成功解锁，正路径未证——bgm 头注释明文合同）；L1b 无记账曲负臂（C1 无 last 维度）；L2 :214-229 同曲守卫（K5 是换曲窗口、stop fade 是停止窗口，steady-state 直接合同未证）；L3 :250-265 setEnabled 同值幂等（旧测只走变值路径）；L4 midi-preview.ts:240-268 播放中替换双 pause；L5 替换失败 sequencer 兜底（真值修正）。
+
+## 来源与输入
+
+- suspended ctx+autoplay 拒后手势解锁（resumePlan 注入）、同 AssetId 重复 play、同值连调。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 登记不设针项与判例分列。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 与 README.md 索引配套（6/6+四态）。
 
 ## 历史范围
 
-- 源 revision 183ec0bf0b7ce290bcfa68839e5ce9d29af3245a；本轮 R66。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1 r1 排重账；固定源 revision 183ec0bf0b7c…。
 
 ## 原始结论
 
-- TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1 排重账（GLM r1）：原始正文完整保留于下方 quote。
+- 登记六个残余合同的解锁正负臂、同曲幂等、setEnabled、替换与取消路径；这是排重及预期 oracle，执行结论归配对 README。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 合同表在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。排重结论按 r1 时点。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归同目录 README.md 与 Codex 接收记录。
 
 ## 原文保全
 
-固定 source revision `183ec0bf0b7ce290bcfa68839e5ce9d29af3245a`，source SHA `fdeeee94bb041ca11a3dd8986497b6eb762a9f7f27dc9014deee84566c035776`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `183ec0bf0b7ce290bcfa68839e5ce9d29af3245a`，source SHA `fdeeee94bb041ca11a3dd8986497b6eb762a9f7f27dc9014deee84566c035776`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-REFORGE-AUDIO-LIFECYCLE-1 排重账（GLM r1）
 >

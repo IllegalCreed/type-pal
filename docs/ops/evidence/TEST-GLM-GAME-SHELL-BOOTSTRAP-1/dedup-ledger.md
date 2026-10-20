@@ -2,56 +2,54 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-GAME-SHELL-BOOTSTRAP-1 的排重账（GLM r1）：排重域=卡面 8 源（shell 的 bootstrap/bootstrap-resources/boot-loading/fetch-retry/precache-client/precache-ui/main-loop/input）的全部旧测与归档 shell 卡（bootstrap×4、boot-loading×2、fetch-retry×3、precache×4、main-loop×3、input×3、TEST-GLM-NEW-I-1、TEST-GROK-BOOT-RESOURCES、TEST-RUNTIME-SHELL-COVERAGE、CODE-QUALITY-3h/3i、TEST-GLM-PHASE1-LEAVES-3）。
 
 ## 证据身份
 
-- TEST-GLM-GAME-SHELL-BOOTSTRAP-1 排重账(GLM r1) 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 234fdab39555e450e637e811bb6797d4ec21364417226f93e1fb8b7e673658da。
-
-## 来源与输入
-
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- shell 引导域：战斗音频同步三臂、SW 消息路由/persist 容忍、RAF 帧链。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 新增 6 合同（源锚/caller/合法输入/oracle/fullName 逐行）：SB1 战斗胜利结算期 BGM 覆盖 track=胜利曲不循环（bootstrap.ts:191-198；audio.test 只证纯函数、bootstrap-audio 只证 explore）；SB2 揭场 introFade 期静默 DM29 揭场后切战斗曲循环（:192-199）；SB3 战斗帧 bus SFX drain 正 id/per-单位声播出 explore 不消费（:202-213）；SB4 SW 进度消息路由 progress→onProgress 原对象 done/error→onDone 未知忽略（precache-client.ts:67-72；旧 addEventListener 全 vi.fn 桩从未驱动注册监听器）；SB5 persist 失败容忍（:75-79）；SB6 startRafLoop 帧链自续订（main-loop.ts:177）。
+
+## 来源与输入
+
+- 合法完整 BattleState（phase 为 won/selectAction 加减 introFade）、真实 MessageEvent、grok mkState 同模式夹具。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- unreachable/U 账如实（含 U-1 swc.ready 悬空）；逐文件 existing-proof 饱和账。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 与 README.md 索引配套（6/6+6 针 VALID）。
 
 ## 历史范围
 
-- 源 revision 7d609719e2347f6367712a54f2f81ccf3830b657；本轮 R65。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-GAME-SHELL-BOOTSTRAP-1 r1 排重账（8 源全旧测+归档卡）；固定源 revision 7d609719e234…。
 
 ## 原始结论
 
-- TEST-GLM-GAME-SHELL-BOOTSTRAP-1 排重账(GLM r1)：原始正文完整保留于下方 quote。
+- SB1-SB6 六未证轴新增；旧桩 vs 真监听器判例。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 合同表与饱和账在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。排重结论按 r1 时点。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归同目录 README.md 与 Codex 接收记录。
 
 ## 原文保全
 
-固定 source revision `7d609719e2347f6367712a54f2f81ccf3830b657`，source SHA `234fdab39555e450e637e811bb6797d4ec21364417226f93e1fb8b7e673658da`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `7d609719e2347f6367712a54f2f81ccf3830b657`，source SHA `234fdab39555e450e637e811bb6797d4ec21364417226f93e1fb8b7e673658da`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-GAME-SHELL-BOOTSTRAP-1 排重账(GLM r1)
 >

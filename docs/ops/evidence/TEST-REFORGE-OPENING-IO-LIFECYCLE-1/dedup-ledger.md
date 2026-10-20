@@ -2,56 +2,55 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-REFORGE-OPENING-IO-LIFECYCLE-1 的排重账（GLM r2）：对照面=卡面点名的五文件标题入口断言+save 存储边界族；逐轴先排重再决定 new-contract/existing-proof/product-counter；不重复普通读档、普通 Esc/翻页与音乐生命周期；r2 按一审重铸（删除把产品缺陷写成绿预期的 O4 合同与 O5/O6 的 IO/位图计数断言，O6 改为真实 store 更新后的新数据消费证明）。
 
 ## 证据身份
 
-- TEST-REFORGE-OPENING-IO-LIFECYCLE-1 排重账（GLM r2） 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 0c52ea417d2c3f5cfea5a4d4db75eec2d210e3c040780ae6fb8eb9ff20660a60。
-
-## 来源与输入
-
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- reforge 开场 IO 生命周期域：标题读档、在途退出、迟到 IO、重进消费。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 已证面（不重复计新）：帧/键收尾（flows H2）；空档 Esc 回退（子面已证，重进消费新数据未证→r2 G4′）；跨页真实读档+缩略图（单次进入）；观察快照流；菜单相位键臂；单次进入逐槽恰读一次（读放大维度全归诊断面 R4）；标题读档端到端（main.host-lifecycle boot 级）；音乐生命周期；存储边界；IO 拒绝悬空 D-Q01-1（原诊断，本卡按当前 SAVE11/main 以 R1/R2/R3/R5a 重核仍成立）。
+- 新增绿合同（r2 净留 3，一个 it 一个可证伪行为）：G2 O5 在途退出后迟到 IO 不复活（公开 runOpeningMenu+真实 MemorySaveStore+SAVE11+有效 PNG+公开 Sa…，quote 详）等。
+
+## 来源与输入
+
+- 公开 runOpeningMenu+真实 MemorySaveStore/buildCurrentSavePayload/有效 PNG。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 诊断面 R4（读放大）单列不立绿合同。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 与 README.md 交付配套（定向相邻与全量绿门）。
 
 ## 历史范围
 
-- 源 revision 381cab90f8d6cc26171bd4bc8c2b025c15bc6f36；本轮 R70。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-REFORGE-OPENING-IO-LIFECYCLE-1 r2 排重账；固定源 revision 381cab90f8d6…。
 
 ## 原始结论
 
-- TEST-REFORGE-OPENING-IO-LIFECYCLE-1 排重账（GLM r2）：原始正文完整保留于下方 quote。
+- 已证面九行锚点+r2 净留三合同。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 已证面表与合同表在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。r2 时点。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归同目录 README.md 与 Codex 终审记录。
 
 ## 原文保全
 
-固定 source revision `381cab90f8d6cc26171bd4bc8c2b025c15bc6f36`，source SHA `0c52ea417d2c3f5cfea5a4d4db75eec2d210e3c040780ae6fb8eb9ff20660a60`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `381cab90f8d6cc26171bd4bc8c2b025c15bc6f36`，source SHA `0c52ea417d2c3f5cfea5a4d4db75eec2d210e3c040780ae6fb8eb9ff20660a60`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-REFORGE-OPENING-IO-LIFECYCLE-1 排重账（GLM r2）
 >

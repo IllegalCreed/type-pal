@@ -2,56 +2,57 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: evidence-receipt-v1 / 1.0.0
+Last reviewed: 2026-10-20
+Template: audit-report-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 Codex 2026-10-07 对 TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 的三审：固定审核候选 `1d09128fe`、测试/证据提交 `7249e4604`；贡献者树未写；本卡有限清单结束不继续派发。结论：独立代码验收 accept。
 
-## 证据身份
+## 审计问题
 
-- 当前存档测试精简三审：独立代码验收通过 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 2918a50e70aa1271cfe8bc5a00acfdb3e7f1b02c23f8ff2f901be8e5a4c30a20。
+- r1/r2 counter 闭合核验与剩余 oracle 账目复核。
 
-## 来源与输入
+## 范围与证据
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- B-R1-01/02 保持闭合；B-R2-01 三原合同各自归还（maxMP 数值成员、extraStatuses/poisons 独立回调空洞拒收），NRR1–NRR3 与二审反例逐字同变异、独立重放均恰一指定业务 AssertionError。
+- B-R2-02 当前入口独立完整重放：20 判据自测、3 真实探针、81 行绿、17 针全 VALID、真正恢复绿与末次重放；全部 46 个原始 raw/JSON hash 与 17 个重建 mutant 核验通过；r1/r2 原件与判据库未改变，N05/历史 NR5 不重复计信用。
 
-## 断言与业务 oracle
+## 发现
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 账目与剩余 oracle：69 条旧执行映射及 5 条删除逐源码、原断言和剩余 oracle 复核；重复数字/版本组合没有恢复，codec 新增合同确实到达其语义拒绝层；六旧版本组合同时改变两版本，三条件代表保留原拒收并新增两条件隔离，8→6 精确快照由 Codex 登记到受保护退役账（不是降低覆盖率规则或开放任意删除）。
+- 作者 80 行账是 80 个唯一标题非完整 81 次执行（两个 null-rendered 标题有重数）；反控和定向一直按 81 行多重集合核验，未把 Set 去重当真实执行数。
+- Codex 曾怀疑追逐参数表未到达内层——独立删除 address.scene 校验却得到恰一原业务 AssertionError，反例推翻该怀疑；临时试改已撤销。
 
-## 结果
+## 结论
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 独立验收 accept；选择性接入三测试与专属证据，保留已有 r1/r2 审核不覆盖主树共享文档；全仓 check→官方 ratchet→受保护 fast 已串行通过全部退出 0；本卡有限 S1–S9 收口 done；Reforge 集成后 8798/8798、lint 3688 文件 0/0/0、并集分支 50132/60209（83.26%）。
 
-## 限制与复核
+## 整改与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 推送与退休树清理由 Codex 完成；托管 CI 须另核实际新 HEAD 不提前宣称通过。
 
 ## 历史范围
 
-- 源 revision abcaee1db6c80a04048d4a60636fdd8211c9fce2；本轮 R69。历史 ops evidence 只作时点回执，不授权当前操作。
+- 2026-10-07 三审记录（accept 收口 done）；固定源 revision abcaee1db6c8…。
 
 ## 原始结论
 
-- 当前存档测试精简三审：独立代码验收通过：原始正文完整保留于下方 quote。
+- r1/r2 counter 全闭合；81 行多重集合口径澄清；退役账登记。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 闭合清单与集成边界在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。done 时点；CI 另核。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归本页与集成门回执。
 
 ## 原文保全
 
-固定 source revision `abcaee1db6c80a04048d4a60636fdd8211c9fce2`，source SHA `2918a50e70aa1271cfe8bc5a00acfdb3e7f1b02c23f8ff2f901be8e5a4c30a20`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `abcaee1db6c80a04048d4a60636fdd8211c9fce2`，source SHA `2918a50e70aa1271cfe8bc5a00acfdb3e7f1b02c23f8ff2f901be8e5a4c30a20`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 当前存档测试精简三审：独立代码验收通过
 >

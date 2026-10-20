@@ -2,56 +2,57 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 的排重账（GLM r1）：口径=source:line×公开 caller×合法 typed 输入×业务 oracle×旧 fullName 逐分支排重；标记 NEW/existing-proof（含 Kimi R1、R06/R04、FOUNDATION C2、tables M3 T8，不换数字重测）/unreachable（附证据）/blocked（政策未定沿 R04 登记不造绿测）；一手测量=pal-extract vitest v8 branch coverage（20 个 events/scene/player-roles 相邻测试文件，2026-10-05）。
 
 ## 证据身份
 
-- TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 排重账（GLM r1） 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 6cf55099e8b29501ab931e0c9fc08b033d1c686ec1ed105a3e600e09da446aa3。
-
-## 来源与输入
-
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- events/annotate、disasm、recompile、slice、cli 接线与 scene.ts、player-roles.ts 共 7 文件。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 节选判定：annotate wordAt 越界/_item/_enemyTeam/_scene/递归/raw 跳过全 existing-proof；_spell/_person/_enemy unreachable（Command 联合无对应字段，R06 已登记本卡复核一致，不写强转绿测）。
+- disasm 非 8 倍数 throw/raw 产出+目标收集/具名 label 字段收集 existing-proof（kimi-r1 混合等锚点）；entry 等段（quote 表内逐行）。
+- player-roles：PR-NAME-BOUNDARY-1（名称缺省/越表 fail-soft）与 PR-ELEM-ORDER-1（elemResistance water/earth 键映射判别）两 NEW。
+- scene.ts 全轴 existing-proof/unreachable/blocked；CLI/extract-videos「明确不做」复核。
+
+## 来源与输入
+
+- 合法 typed 输入（7B 字节码、具名字节码、真实 WORD 表边界）。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 仅 2 真实新合同；政策未定轴 blocked 不造绿测。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 与 README.md r2 交付配套（2/2+2 针 VALID）。
 
 ## 历史范围
 
-- 源 revision 183ec0bf0b7ce290bcfa68839e5ce9d29af3245a；本轮 R66。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 r1 排重账（7 文件逐轴）；固定源 revision 183ec0bf0b7c…。
 
 ## 原始结论
 
-- TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 排重账（GLM r1）：原始正文完整保留于下方 quote。
+- events/scene 全轴排重闭合；player-roles 两 NEW。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 逐轴表在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。排重结论按 r1 时点。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归同目录 README.md 与 Codex 二审记录。
 
 ## 原文保全
 
-固定 source revision `183ec0bf0b7ce290bcfa68839e5ce9d29af3245a`，source SHA `6cf55099e8b29501ab931e0c9fc08b033d1c686ec1ed105a3e600e09da446aa3`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `183ec0bf0b7ce290bcfa68839e5ce9d29af3245a`，source SHA `6cf55099e8b29501ab931e0c9fc08b033d1c686ec1ed105a3e600e09da446aa3`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-PALEXTRACT-EVENT-BOUNDARIES-1 排重账（GLM r1）
 >

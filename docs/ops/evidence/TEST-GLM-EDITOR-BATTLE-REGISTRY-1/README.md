@@ -2,56 +2,54 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-EDITOR-BATTLE-REGISTRY-1 的证据索引：本卡已归档，测试与证据已由 Codex 集成 main；交付物仅为三份 Editor 合同测试。
 
 ## 证据身份
 
-- TEST-GLM-EDITOR-BATTLE-REGISTRY-1 证据索引 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 eb8d15361d81cb357a8c599fa46d78e85a234c35e3749878fecf691491dd197f。
+- 三份合同测试：BattleSpriteLibrary.glm-battle-registry.test.tsx（BR-01 注册证明门、BR-02 缺失字节回落）、SpriteFrameDeletion.glm-battle-registry.test.ts（BR-04 删帧规划守卫）、EnemyTeamTab.glm-battle-registry.test.tsx（BR-05 宿主深链同步）。
 
 ## 来源与输入
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- （历史时点）定向证据见 directed.raw；排重、合法输入、真实 caller/oracle 与放弃分支举证保留在归档任务卡和三份测试文件头部。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 四枚反控三态原始输出见 counterproof.json 与 mutation-logs/；仓库根可重放：node docs/ops/evidence/TEST-GLM-EDITOR-BATTLE-REGISTRY-1/run-counterproof.mjs。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 已集成 main（卡归档）；本卡不以覆盖率或例数作为验收指标。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 短索引页：无逐合同细节，排重/边界举证在归档任务卡；重放入口如上。
 
 ## 历史范围
 
-- 源 revision 6855e6945bb015df4674dc64ad7410f56702ceee；本轮 R63。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-EDITOR-BATTLE-REGISTRY-1 证据索引（三测试+四针）；固定源 revision 6855e6945bb0…。
 
 ## 原始结论
 
-- TEST-GLM-EDITOR-BATTLE-REGISTRY-1 证据索引：原始正文完整保留于下方 quote。
+- BR-01/02/04/05 四合同交付并集成 main。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- directed.raw/counterproof.json/mutation-logs 链接在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。已归档集成。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归归档任务卡。
 
 ## 原文保全
 
-固定 source revision `6855e6945bb015df4674dc64ad7410f56702ceee`，source SHA `eb8d15361d81cb357a8c599fa46d78e85a234c35e3749878fecf691491dd197f`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `6855e6945bb015df4674dc64ad7410f56702ceee`，source SHA `eb8d15361d81cb357a8c599fa46d78e85a234c35e3749878fecf691491dd197f`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-EDITOR-BATTLE-REGISTRY-1 证据索引
 >

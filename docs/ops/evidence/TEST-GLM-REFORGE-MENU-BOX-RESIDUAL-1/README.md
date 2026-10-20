@@ -2,56 +2,55 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1 的交付证据：MenuBox（packages/reforge/src/menu/menu-box.ts，源冻结 `9aa3bed89`）未证明公开绘制合同的排重审计与 5 残余合同交付；逐合同账见任务卡。
 
 ## 证据身份
 
-- TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1 交付证据 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 10673f6718ce01ebbf32094a1596c78137861aa9136a9e62651859ee8d7b8448。
+- 交付物：menu-box.residual.glm.test.ts（5 合同；typed MenuAssets/content fixture+renderSpans 调用记录/drawImage 位图身份过滤 oracle，measureSpans 保持真实）。
+- 反控 counterproof.json（sha256 82d66154…）：lib-isolated-tree.mjs（隔离树+双 reporter+唯一判据+20 例合成反例 judgeSelfTest，判据移植自 save-precision r2 定稿库未放宽）；run-counterproof.mjs（绿基线五文件 25 行锁定→每针独立新树变异红→删树→新净树还原绿+menu-box.ts 还原 sha=冻结源→工作树零残留）5/5 VALID；mutation-logs（native raw/JSON，trimEof 定稿、JSON 过 biome format）。
 
 ## 来源与输入
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- 门禁原始输出：directed.raw 5/5、menu-suite.raw 106/106、reforge-full.raw 359 文件 8963/8963、typecheck.raw EXIT=0；根 lint 与 check:docs 见任务卡质量门节。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 五残余合同（资源/状态轴之外的公开布局/派发合同；逐合同账在任务卡）。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 5/5 合同+5/5 针全绿。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 判例：vitest json fullName=describe 与 test 名空格连接（五文件执行集 file::fullName 排序三态逐字比对）；多次 box.render 断言间须 textCalls.mockClear（renderSpans 记录累加假红）；反控脚本被 biome format 后必须整体重跑。memory 补充：r1 已推 5f11dcb0a 待 Codex 验收。
 
 ## 历史范围
 
-- 源 revision 9e72e90307af540a28efaed4c235d3aef8672e6a；本轮 R68。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1 r1 交付（5 合同+5 针）；固定源 revision 9e72e90307af…。
 
 ## 原始结论
 
-- TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1 交付证据：原始正文完整保留于下方 quote。
+- 五残余公开绘制合同闭合；三判例留档。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 门禁与判例在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。r1 时点待验收。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归任务卡与 Codex 接收记录。
 
 ## 原文保全
 
-固定 source revision `9e72e90307af540a28efaed4c235d3aef8672e6a`，source SHA `10673f6718ce01ebbf32094a1596c78137861aa9136a9e62651859ee8d7b8448`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `9e72e90307af540a28efaed4c235d3aef8672e6a`，source SHA `10673f6718ce01ebbf32094a1596c78137861aa9136a9e62651859ee8d7b8448`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-REFORGE-MENU-BOX-RESIDUAL-1 交付证据
 >

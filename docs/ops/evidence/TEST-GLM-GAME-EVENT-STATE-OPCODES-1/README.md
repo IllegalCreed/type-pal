@@ -2,56 +2,54 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-GAME-EVENT-STATE-OPCODES-1 的证据目录：分支 `codex/glm-game-event-state-opcodes-r1`，Coding Owner GLM；范围为 event-system.ts applyRawOpcode 业务分支与 event-opcode-player.ts 状态写回的臂级排重+未证状态业务合同。
 
 ## 证据身份
 
-- TEST-GLM-GAME-EVENT-STATE-OPCODES-1 证据目录 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 087e2ea3334d80a3f65de446b9cbe8be405a09b35ae9d2279f6e911fedf0869d。
+- 文件清单：dedup-ledger.md（逐臂排重账 NEW×8/REG/unreachable/defensive+方法+数据面佐证+判例）；directed-vitest.json（定向 8/8 逐条）；mutation-points.json（8 针 find/replaceWith 全文唯一锚+targetContract 精确 fullName）；mutation-lib.mjs（r2 判据库与 TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 已验收资产逐字节一致）；mutation-runner.mjs（三态 runner 参数化）；mutation-selftest+selftest-results（判据自测 10/10）；mutation-results.json（8/8 VALID）；mutation-logs/（8 针×3 相位规整全文，git add -f）；coverage-probe/（两轮 v8 statement 级原始 JSON：21 文件 574 测试+全量 3498 并集）；onenter-walk-reachability.md（onEnter 段走位/骑乘 op 数据下界扫描：party 走位现实可达 0x70×6/0x7a×5/0x7b×10；NPC 走位/骑乘 0 处）。
 
 ## 来源与输入
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- 复现：pnpm --filter @type-pal/game exec vitest run src/core/event-system.glm-event-state-opcodes.test.ts；node mutation-selftest.mjs；node mutation-runner.mjs（自改产品源三态后复原）。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 8/8 VALID（r2 判据）：每针红相位恰一失败且精确命中目标合同、唯一 AssertionError、执行集/状态零漂移、恢复 identity 全等、产品源 sha 复原。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 定向 8/8+判据自测 10/10+臂级排重账完整。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- memory 补充：r1 已交付（臂级 coverage 并集排重→走位到达/清 pose/零距离/同场景 guard/onEnter goto/菱形回弹/稀疏写回 8 合同，反控 8/8 复用 r2 判据库）待 Codex 验收。
 
 ## 历史范围
 
-- 源 revision 7d609719e2347f6367712a54f2f81ccf3830b657；本轮 R65。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-GAME-EVENT-STATE-OPCODES-1 证据目录（8 合同+8 针 r2 判据）；固定源 revision 7d609719e234…。
 
 ## 原始结论
 
-- TEST-GLM-GAME-EVENT-STATE-OPCODES-1 证据目录：原始正文完整保留于下方 quote。
+- 8 NEW 合同全绿 8 针 VALID；opcode 级 REG≠臂级已证判例；数据面佐证（走位/骑乘可达性）齐全。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 文件清单与复现命令在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。r1 时点待验收。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归任务卡与 Codex 接收记录。
 
 ## 原文保全
 
-固定 source revision `7d609719e2347f6367712a54f2f81ccf3830b657`，source SHA `087e2ea3334d80a3f65de446b9cbe8be405a09b35ae9d2279f6e911fedf0869d`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `7d609719e2347f6367712a54f2f81ccf3830b657`，source SHA `087e2ea3334d80a3f65de446b9cbe8be405a09b35ae9d2279f6e911fedf0869d`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-GAME-EVENT-STATE-OPCODES-1 证据目录
 >

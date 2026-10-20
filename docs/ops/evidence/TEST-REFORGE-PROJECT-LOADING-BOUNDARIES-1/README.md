@@ -2,56 +2,54 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1 的证据目录：当前工程加载与跨表引用边界（C1–C10 有限清单）；产品冻结 `797a46a09`、派发 `91aac75c5`、分支 `codex/glm-reforge-project-loading-r1`、GLM 新对话 C 唯一测试写入者。2026-10-08 原始回执未经修正的例数/合同/反控不代表当前验收；最终裁决见 ../TEST-CONTRACT-BATCH-20261008/codex-review.md。
 
 ## 证据身份
 
-- TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1 证据目录 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 1ef170e1cdb941a50a0a3124df874e5c643f74e594ce1115a14565a7680c0905。
+- 清单终态（逐轴裁决）：C1 入口层划分 existing-proof；C2 场景 mapId new-contract（不在地图索引全仓测试零命中）；C3 入口场景条件 new-contract（缺 actor/缺毒分臂，毒臂用有 battler 的 actor 避免抢先 masking）；C4 items 条件 new-contract（itemPrivateScript 合法宿主）；C5 enemies 条件 unreachable（typed 作者面无合法条件命令宿主，三联合类型逐个举证）；C6 sharedScripts 条件 new-contract（actor/poison 两臂+正对照）；C7 装备战斗精灵 new-contract（前置门全绿后组装后置接线拒收）；C8 入口 IO 上下文 new-contract（非 Error 臂）+existing-proof（Error/缺文件）；C9 地图公开入口 new-contract（未登记零 IO/已登记真实加载/乱序稳定 id 归位+单 IO 整批拒绝，时序用外部 IO 闸门控制）；C10 optional 表 new-contract（保真）+product-counter×2（ambiences 裸 cast 与 enemy 顶层多余键 schema 洞只交 product-counter 不固化绿测）。
 
 ## 来源与输入
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- 新测试与 fixture：project-loader.reference-boundaries.test.ts（C2/C3/C4/C6/C7 五测）+project-loader.io-boundaries.test.ts（C8/C9/C10，quote 详）。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- fixture 改 SAVE12（原九条在当前 main 全被版本门拦截原绿不能复用）；C2 绿臂登记红臂同 mapId；C9 经真实 FileSource 完成日志证明 a/c 完成、b 未完成再放行。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 后续验收裁决（同批 codex-review.md）：C2/C3/C4/C6-C10 十四合同接受、C1 existing-proof、C5 不可达；候选 b0a458809 于 2026-10-11 验收集成。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 旧 JSON/raw 不改写；C10 产品洞（ambiences 裸 cast、enemy 多余键）memory 补充留 Codex。
 
 ## 历史范围
 
-- 源 revision 381cab90f8d6cc26171bd4bc8c2b025c15bc6f36；本轮 R70。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1 r1 证据目录（C1-C10 逐轴裁决）；固定源 revision 381cab90f8d6…。
 
 ## 原始结论
 
-- TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1 证据目录：原始正文完整保留于下方 quote。
+- 十四 new-contract 交付+验收接受集成；C5 不可达三联合类型举证。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 清单终态表与新测试清单在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。r1 时点；终态以同批 codex-review.md 为准。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归 ../TEST-CONTRACT-BATCH-20261008/codex-review.md。
 
 ## 原文保全
 
-固定 source revision `381cab90f8d6cc26171bd4bc8c2b025c15bc6f36`，source SHA `1ef170e1cdb941a50a0a3124df874e5c643f74e594ce1115a14565a7680c0905`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `381cab90f8d6cc26171bd4bc8c2b025c15bc6f36`，source SHA `1ef170e1cdb941a50a0a3124df874e5c643f74e594ce1115a14565a7680c0905`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-REFORGE-PROJECT-LOADING-BOUNDARIES-1 证据目录
 >

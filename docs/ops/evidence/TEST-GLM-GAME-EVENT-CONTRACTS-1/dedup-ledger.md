@@ -1,70 +1,58 @@
 # TEST-GLM-GAME-EVENT-CONTRACTS-1 合同排重账
 
 Status: historical
-Validity: historical
-Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把测试合同排重账接入 `evidence-receipt-v1`，并追加 `archive-record-v1` 历史边界。原始合同、NEW/REG 分类、source:line、caller、合法输入、oracle、排重结论、计数和判例在 quote 中保全；本页不授当前 runtime、E2E、视觉或 coverage 信用。
+本页是 TEST-GLM-GAME-EVENT-CONTRACTS-1 的合同排重账：对照源=event-system.test.ts（旧全量）、cov85 全 6 文件（已归档 TEST-COVERAGE85-GLM-GAME-1，193 合同已选择性集成 main）、glm-event-k01/k02/k04/k06、runscript-rearm、battle-dialog、game-state、battle/reforge 侧相关文件；排查方法=hex 字面量+OP_* 常量名双 grep（判例：0x62/0x63/0x4C/0x4B 仅常量名出现在旧测，单查 hex 会漏）。NEW=本卡新增（22 it）；REG=旧测已证只登记锚点。
 
 ## 证据身份
 
-- `id`：TEST-GLM-GAME-EVENT-CONTRACTS-1 排重账（原始身份与 r1/r2 标记保留于 quote）。
-- `schemaVersion`：原文未声明机器 schema；本页不补造执行 schema。
-- `status`：historical receipt；不把排重账的 NEW/REG 或“全绿”文字改写为当前 verified。
-- candidate/source SHA：source `2211da92651d699d844a5d4868ad73cb27729008263094f4c0cca8a7c186e161`；after 见本批 review record。
-
-## 来源与输入
-
-- caller/source refs（file:line）：event-system.test.ts、cov85、glm-event-k 系列、runscript-rearm、battle-dialog 和任务专属测试（以 quote 为准）；其余一手锚点和旧测路径由 quote 逐条保留。
-- 合法输入与版本：以原 ledger 记载的 typed 输入、公开 caller、源码版本、旧测/cov85/fullName census 为准；本次迁移不重跑测试。
-- 执行时间和环境：原始任务卡、identity、mutation 和 raw 证据目录；本次只做静态内容迁移。
+- event-system.ts 四段：tickAutoScripts/runOneAutoOp（1208-1469）、runScript（2903-3154）、runPlayerPoisonEntrySync（3156-3225）、applyRawOpcode（3464-4600）。
 
 ## 断言与业务 oracle
 
-- 业务 oracle：每条合同必须保持 source:line × caller × 合法输入 × 可观察业务结果 × fullName 的对应关系。
-- 原子断言：原文 NEW 合同、REG 已证锚点、未证项、unreachable/defensive 边界和判例保持原样。
-- 排重对象：对应 task card、旧测/cov85、同任务 evidence、fullName identity 与后续 fresh receipt。
+- §1 auto 族：end/callStack/goto/reset/rate=0 恒等回退（鱼漂移修复）/0x04 instant callee 等全 REG（cov85+旧测锚点）；0x04 call 多帧 callee 逐帧退化+stall-break NEW。
+- §2 runScript：battle/explore 双 throw、step limit、ip 越界回起始、end 三态、battle showDialog、0x69 defer 等 REG；goto label 缺失 throw、showDialog explore throw、startBattle/loadScene/setPalette 诊断 skip、结构化 op sequence/if/choice throw、explore 防御 no-op、battle raw 0x04 call/return、0x04 op1 覆盖 curEventObjId NEW。
+- §3 runPlayerPoisonEntrySync：全部旧测只注入 stub runner，真入口零旧证→8 it 全新（入口解析/raw 执行 end 三态/0x04 弹帧/goto 两臂/阻塞 op 返回 startIp/ip 越界/curEventObjectId=roleId 角色目标链嵌套 0x29/世界侧 trigger 0x29 集成）；battle 侧 0x29 走 ctx.runScript 不同链不重复。
+- §4 applyRawOpcode 长尾：palette fade 族/trail/0x7F/0x43 族等 REG；0x5D/0x74/0x79/0x94/0x20 装备臂/0x78+default NEW（表内逐行）。
+
+## 来源与输入
+
+- 真实公开入口构造（tick/runScript/raw dispatch）；REG 锚点逐行可复核。
 
 ## 结果
 
-- 逐步结果、退出码、产物：本页只记录原始排重账内容；不把历史“全绿”、计数或 mutation 摘要升格为当前通过。
-- 失败：原始未证、rework、blocked、空转反例和合法输入缺口继续保留于 quote。
+- 22 NEW 合同与 REG 锚点分列；dispatch 表内 opcode 不作 applyRawOpcode 观察点判例如实。
 
 ## 限制与复核
 
-- 未执行/未覆盖：本次不执行 runtime、E2E、视觉或 coverage，也不重新认证原始测试合同。
-- 不得外推的结论：排重账不能单独证明产品行为、完整 caller 可达性、全包覆盖或当前任务 done。
-- 复核条件：当前 task card 状态、真实合法输入、business oracle、反控三态 raw/JSON、执行集和独立验收重新齐全。
+- 与 README.md 交付配套（8 针三态 VALID+门禁全绿）。
 
 ## 历史范围
 
-- 原始日期、版本、阶段：源文档固定于 `7ea529ab5a3f2be583ae02909066824913eee66a`；其具体 r1/r2 时间、状态和候选分支保留于 quote；本轮为 R55。
-- 归档原因：排重账是任务时点证据，保留原合同边界，避免把历史合同清单变成当前验收授权。
+- TEST-GLM-GAME-EVENT-CONTRACTS-1 排重账（四段范围逐合同）；固定源 revision 7ea529ab5a3f…。
 
 ## 原始结论
 
-- 原始 event-system 四段排重账：NEW/REG、0x opcode 分支、runScript/autoScript/poison 入口、fullName 唯一性和双 grep 判例。
+- 毒入口 8 合同全新+runScript 防御/raw call 等 NEW；auto 族与 palette 族 REG 锚点登记。
 
 ## 当时证据
 
-- 原始测试文件、旧测/cov85、source:line、caller、oracle、fullName、反控与判例保留于 quote。
+- 四段逐行表在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical test ledger, NEW/REG labels, counts or mutation summaries to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：当前 task card、fresh evidence 和独立验收仍是事实权；TEST-GLM-GAME-TURN-BOUNDARIES-1 当前 rework 状态不因本页迁移改变。
+historical。排重结论按 r1 时点。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、当前 evidence README、identity/mutation consumer 与重新生成的 receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原始 ledger 不删除。
-- 若重新启用的复核条件：合法输入重跑、排重账与实际执行集一致、业务反控可证伪、SHA/清理证据和 Codex 独立验收齐全。
+当前结论归同目录 README.md 与 Codex 接收记录。
 
 ## 原文保全
 
-固定源 revision `7ea529ab5a3f2be583ae02909066824913eee66a`，source SHA `2211da92651d699d844a5d4868ad73cb27729008263094f4c0cca8a7c186e161`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `7ea529ab5a3f2be583ae02909066824913eee66a`，source SHA `2211da92651d699d844a5d4868ad73cb27729008263094f4c0cca8a7c186e161`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-GAME-EVENT-CONTRACTS-1 合同排重账
 >

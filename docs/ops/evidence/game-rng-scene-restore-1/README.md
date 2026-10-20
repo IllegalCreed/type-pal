@@ -2,56 +2,54 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 GAME-RNG-SCENE-RESTORE-1（酒剑仙传功后场景恢复）的证据：2026-10-14、基点 `646c809703`、候选源文件 hash 见 evidence-manifest.json.raw；第一阶段诊断/修复证据不替代合法剧情存档的完整 E2E；用户授权的合并、CI 与阿里云部署已完成（发布源码 `588790383`）。
 
 ## 证据身份
 
-- 酒剑仙传功后场景恢复证据 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 0384131f1380168f539b97997958338723896c2a5fb914b1b7c48b7bfe66749b。
+- 复现与画面：旧实现记录（新 Chrome profile、?skip-intro=1&dev-scene=11、原生 proximity 触发 L_2205 真实资产/播放器/完整传功脚本）——2260 redraw 后 rngFrameActive 仍真、2261 普通对话将 dialogPlayingRNG 置真；修复后记录——2260 清标记/备份、2263 显示庙内跪拜，全段结束仍 scene 12、explore、三项保持状态均已清；修复前后截图三张已由 Codex 查看、两个浏览器报告 pageerror 均为空。
 
 ## 来源与输入
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- 操作脚本原件 reproduce.mjs.raw 保留（调试定位不把摆放坐标冒充合法路线检查点）。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 回归与独立反证：初版 3 用例 red.json.raw（两个普通 redraw 分支背景像素断言 173 期望 0、结局保持通过）；最终 4 用例（普通 redraw 延时/淡入路径各一、已有正文/无正文 RNG 保持路径各一）；实际 interpreter 与 present 执行替身仅控制媒体 IO 完成；隔离反控回执 4 绿→去掉 guard 无条件清理→恰无正文保持用例业务断言红→4 绿（baseline/mutant/restored 三原生报告、执行集合一致、命令/cwd/exit/signal/源与测试 hash 完整、临时树精确删除）；既有求雨普通对话保持合同由 event-system.test.ts 保留不复制。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 最终整包 312 文件/3523 测试通过 0 失败 0 跳过（game-final.json.gz）。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 第一阶段证据边界如实；完整 E2E 归后续。
 
 ## 历史范围
 
-- 源 revision 381cab90f8d6cc26171bd4bc8c2b025c15bc6f36；本轮 R70。历史 ops evidence 只作时点回执，不授权当前操作。
+- GAME-RNG-SCENE-RESTORE-1 诊断/修复证据（4 用例+隔离反控）；固定源 revision 381cab90f8d6…。
 
 ## 原始结论
 
-- 酒剑仙传功后场景恢复证据：原始正文完整保留于下方 quote。
+- rngFrame/dialogPlayingRNG 标记清理修复；guard 反控恰一红。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 前后截图、反控三态与整包数字在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。2026-10-14 时点；已发布。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归任务卡与线上复验回执。
 
 ## 原文保全
 
-固定 source revision `381cab90f8d6cc26171bd4bc8c2b025c15bc6f36`，source SHA `0384131f1380168f539b97997958338723896c2a5fb914b1b7c48b7bfe66749b`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `381cab90f8d6cc26171bd4bc8c2b025c15bc6f36`，source SHA `0384131f1380168f539b97997958338723896c2a5fb914b1b7c48b7bfe66749b`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 酒剑仙传功后场景恢复证据
 >

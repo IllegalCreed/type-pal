@@ -2,56 +2,55 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: evidence-receipt-v1 / 1.0.0
+Last reviewed: 2026-10-20
+Template: audit-report-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 Codex 2026-10-07 对 TEST-REFORGE-CURRENT-SAVE-TEST-PRECISION-1 的一审（历史）：固定候选 `1b89e3eb8`、测试提交 `d731f0f4`、派发 d84b3db23、产品冻结 ce808b42e；Codex 独立核验未修改贡献者树。结论 counter（已在三审逐项闭合，保留原失败结论不作为重复返工指令）。
 
-## 证据身份
+## 审计问题
 
-- 当前存档精简独立审核：返工 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 d5a6472ad953b99709cb402a802d81067ff91af1e842c58dc3e76c72891ecb76。
+- 误删合同的精简审查：共享 helper 不等于独立字段接线相同；共享文档白名单越界。
 
-## 来源与输入
+## 范围与证据
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- 定向 12 文件 168/168 及 5/5 冻结 hash 通过；14 针原件 40 个 artifact hash 及原源/重建 mutant 逐枚对应（复算旧证据，未冒称 14 针业务全部重跑）。
 
-## 断言与业务 oracle
+## 发现
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- B-R1-01：独占临时树四个变异各自单独作用于冻结 current-structure.ts，候选三文件均 73/73 绿；四变异同施于原派发结构测试则 61 例中恰四原合同 AssertionError——height 有限数接线/spriteId 类型条件/battleSprite 类型条件/skillUseCounts 内层数值接线被漏过（三个 appearance 字段是三个独立 optional 闭包非同一条循环；position 三个 requireFiniteNumber 也是独立调用）。
+- B-R1-02：候选修改共享 docs/ops/evidence/README.md 与 phase-governance reviews JSON 超出卡面，须恢复派发值。
 
-## 结果
+## 结论
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- counter 不得合 main/done：定向绿与冻结 hash 不能抵消误删合同；保留 typed/unknown 治理但将合法外部输入边界归还各自原子合同，不机械恢复重复数字矩阵。
 
-## 限制与复核
+## 整改与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 同一位置同谓词的 money Infinity/NaN、party null/对象、portrait number/null 去重可保留；hiddenExp.exp 被更强 R4 消息断言替代可保留；其它删/并逐接线复核，同 helper 不得作充分证据；两容器缺席补空拆独立 oracle 身份。
 
 ## 历史范围
 
-- 源 revision abcaee1db6c80a04048d4a60636fdd8211c9fce2；本轮 R69。历史 ops evidence 只作时点回执，不授权当前操作。
+- 2026-10-07 一审记录（counter B-R1-01/02）；固定源 revision abcaee1db6c8…。
 
 ## 原始结论
 
-- 当前存档精简独立审核：返工：原始正文完整保留于下方 quote。
+- 四接线误删反证（变异单施 73/73 绿、同施旧测恰四红）。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 反证表与裁决在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。一审 counter 已在三审闭合。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归同目录 codex-review-r3.md。
 
 ## 原文保全
 
-固定 source revision `abcaee1db6c80a04048d4a60636fdd8211c9fce2`，source SHA `d5a6472ad953b99709cb402a802d81067ff91af1e842c58dc3e76c72891ecb76`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `abcaee1db6c80a04048d4a60636fdd8211c9fce2`，source SHA `d5a6472ad953b99709cb402a802d81067ff91af1e842c58dc3e76c72891ecb76`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 当前存档精简独立审核：返工
 >

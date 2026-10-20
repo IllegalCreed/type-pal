@@ -2,56 +2,59 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 CI-GAME-OVERLAY-PERFORMANCE-1（Game 大世界叠层测试性能修复）的证据回执：Codex 在用户 2026-10-08 授权下完成 `p12-overlays.test.ts` 夹具优化，冻结起点 `91aac75c5`；只改同一测试文件、四个 fullName 不变，不删业务断言，不改产品/配置/超时/ignore/官方基准。
 
 ## 证据身份
 
-- Game 大世界叠层测试性能修复 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 da4cb8b0a8877df8e0dc1d2efcd26c8ff86c534b7ed54bbdb14cefcdfe89f371。
+- 任务身份：CI 性能修复（失败 CI run 37744699839 目标单例 5795ms 超时 → 同代码新 CI run 37774256927 单例 4115ms 通过）；Codex 同 Owner 连续低风险测试小改的自验证，不冒称第三方独立审查。
+- 证据链：receipt.json（命令/JSON/raw hash/执行身份）与 counterproof.json（20 项复用严格判据自测、7 项变异、16 次真实执行相位）随目录保全于 quote 链接；本页为正文回执，源 SHA da4cb8b0…f371。
 
 ## 来源与输入
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- 合法输入：`p12-overlays.test.ts` 现有四个 fullName 的水波/重映射合同（波幅、补帧相位、像素 196/210/218/230、sprite 覆盖次序、输入不变断言）；夹具改为不透明黑底覆盖视口+两个显式标记瓦片（第 8 行 x=0..32 像素条），只保留 (16,8) 一处小孔和确定颜色的西北邻居。
+- 环境与调用方：本机 Node 22.23.2、pnpm 10.29.2、Vitest 4.1.7、compile cache 关闭、真实 V8 coverage；真实 `repairTilemapSeams` 接缝修复继续运行并由原像素 oracle 核验「先修接缝再卷动」。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 业务 oracle：目标普通运行 54.19→16.26ms、coverage 966.67→52.72ms（单次对照而非统计性能保证）；额外一个逻辑帧以 245/212 两个边缘像素判别相位前进；位图不变检查扩大到三份实际输入。
+- 反控（7 项变异全检出）：禁逻辑波幅推进/错误推进补帧相位/冻结逻辑相位/跳过水波/跳过场景重映射/跳过有水波时的接缝修复/把接缝修复移到水波之后——后两项专门证明优化未丢原接线/顺序 oracle；每针恰一指定业务 AssertionError，拒收 pending/skip/collection/hook/runtime/global 错误。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 门禁实测：普通/coverage 定向、相邻 44/44、Game 全包 3519/3519、typecheck、7 项有效反控及受保护 fast（起点 91aac75c5：19,597 例、726 源码、整体分支 50132/60209=83.26%）全部通过；收口 docs 零问题、lint 完整 3693 文件 0/0/0、diff 通过；baseline SHA256 c8d9448e…0318 无指标或范围变化不重建。
+- 已知边界：新提交 GitHub CI 按实际推送 HEAD 另核，不将本地门冒充托管通过；根因定量为 `repairTilemapSeams` 占 worker 采样 58.32%（稀疏 1×1 瓦片触发全屏最多 16 轮扩散）。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 未执行 runtime/E2E/视觉/coverage 信用升级；产品渲染/公式/UX 不变，临时变异不用于产品实现；若重新启用需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 临时独占 counter worktree 的产品与测试恢复后已清理，只清本次树。
 
 ## 历史范围
 
-- 源 revision 6855e6945bb015df4674dc64ad7410f56702ceee；本轮 R63。历史 ops evidence 只作时点回执，不授权当前操作。
+- CI-GAME-OVERLAY-PERFORMANCE-1 的原始证据回执（2026-10-08 授权时点）；固定源 revision 6855e6945…；本轮 R63 迁移、S18 治理再接入。
 
 ## 原始结论
 
-- Game 大世界叠层测试性能修复：原始正文完整保留于下方 quote。
+- 夹具优化消除了 coverage/并行放大的接缝扩散成本（目标用例 5795ms 超时根因），四个合同全绿且判别力增强（新增相位推进帧），不删断言、不改产品。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- receipt.json/counterproof.json 原件、受保护 fast 对照数字、baseline SHA、CI run 链接与 lint/diff 结果在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+- historical。单次性能对照不构成统计保证；历史通过不升级为当前 verified。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
 
 ## 原文保全
 
-固定 source revision `6855e6945bb015df4674dc64ad7410f56702ceee`，source SHA `da4cb8b0a8877df8e0dc1d2efcd26c8ff86c534b7ed54bbdb14cefcdfe89f371`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `6855e6945bb015df4674dc64ad7410f56702ceee`，source SHA `da4cb8b0a8877df8e0dc1d2efcd26c8ff86c534b7ed54bbdb14cefcdfe89f371`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # Game 大世界叠层测试性能修复
 >

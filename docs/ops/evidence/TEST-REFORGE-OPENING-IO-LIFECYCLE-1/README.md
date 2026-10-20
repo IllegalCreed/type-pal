@@ -2,56 +2,54 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-REFORGE-OPENING-IO-LIFECYCLE-1 的交付证据：分支 `codex/glm-reforge-opening-io-r1`、产品基点/冻结 `2f0fe6d2f`；r3 一次闭合二审 O-R2-01（r2 已闭合一审 O-R1-01～05）；产品/schema/API/旧测/共享 fixture/配置/锁文件/baseline/真实数据零改动，两项越界共享文件已恢复至派发字节。
 
 ## 证据身份
 
-- TEST-REFORGE-OPENING-IO-LIFECYCLE-1 交付证据（GLM r3，已集成 main） 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 09e7324b892ea788b097d16deaa2e3e4f350dbe61645b8ee4a6d771586943b75。
+- r3 变更概览（相对 r2 工作提交 e04007b15，仅判据窄返工）：两 runner 每相位/每条 repro 改为同一次子进程双 reporter 联判（native JSON 与完整原始诊断同进程采集——JSON 单跑隐藏全局错误、JSON 与 console 分进程互证无效二审实证）；解析器保留并核 suite.message 非空即拒收；污染检测扩至 Failed Suites/Uncaught Exception/Unhandled Errors 段/stdout Errors N 摘要行；真实形态自检（二审两例真实污染探针+纯红探针经同一管线实跑）；合成自测扩至反控 20 例/repro 19 例；采集不足相位全部重采（反控四相位×3 针+末次、8 条 repro 全部重跑），业务测试文件零改动。
 
 ## 来源与输入
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- r2 变更概览（相对 r1 工作提交 97f4973eb）：O-R1-01 删除 r1 把产品缺陷写成绿预期的 O4 合同与 O5 IO/位图计数断言（O4 改 existing-proof+product-counter、N1 注入退役留身份）；O-R1-02 O5 保留在途自证+退休业务稳定（迟到送达后 frames/绘制/结果不变，改由 wrapper delivered 标记自证）。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 业务合同（r2 净留 3，quote 详）：G2 O5 在途退出后迟到 IO 不复活等。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- memory 补充：r3 已推 d676f5a68/工作提交 fcd7838fd（二审 O-R2-01 闭合）待 Codex 终审。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 判例：JSON reporter 对异步 uncaught 静默须同次双 reporter；afterAll throw 落 testResults[].message。
 
 ## 历史范围
 
-- 源 revision abcaee1db6c80a04048d4a60636fdd8211c9fce2；本轮 R69。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-REFORGE-OPENING-IO-LIFECYCLE-1 r1→r3 证据（判据三轮演进）；固定源 revision abcaee1db6c8…。
 
 ## 原始结论
 
-- TEST-REFORGE-OPENING-IO-LIFECYCLE-1 交付证据（GLM r3，已集成 main）：原始正文完整保留于下方 quote。
+- r3 同次双 reporter 联判+真实污染样本自检；业务三合同不变。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- r3/r2 变更概览在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。r3 时点待终审。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归任务卡与 Codex 终审记录。
 
 ## 原文保全
 
-固定 source revision `abcaee1db6c80a04048d4a60636fdd8211c9fce2`，source SHA `09e7324b892ea788b097d16deaa2e3e4f350dbe61645b8ee4a6d771586943b75`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `abcaee1db6c80a04048d4a60636fdd8211c9fce2`，source SHA `09e7324b892ea788b097d16deaa2e3e4f350dbe61645b8ee4a6d771586943b75`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-REFORGE-OPENING-IO-LIFECYCLE-1 交付证据（GLM r3，已集成 main）
 >

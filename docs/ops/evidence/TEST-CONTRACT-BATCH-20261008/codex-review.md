@@ -2,56 +2,60 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: evidence-receipt-v1 / 1.0.0
+Last reviewed: 2026-10-20
+Template: audit-report-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 Codex 2026-10-11 对三个 GLM 有限测试包（炼蛊/脚本交互/工程加载）的独立验收与同次集成记录：集成基点 `89133ca0f`，三包内产品和旧测试零修改；本页裁决覆盖贡献候选，不把 2026-10-08 回执当当前版本验收。
 
-## 证据身份
+## 审计问题
 
-- 三个 GLM 有限测试包独立验收 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 3f4be12b2755dd3d20b7a2b359a2aec004bf3d4dc449b53447c937bf95a9aeb4。
+- 逐包逐合同裁定（existing-proof 保留/撤回/补强/new-contract）与执行集/判据有效性核验；同次集成的两轮 CI 超时修复（pal-meal-shell 送餐合同 5000ms、editor B8 大夹具初始化 5074ms）归因与处置。
 
-## 来源与输入
+## 范围与证据
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- 接收版本：炼蛊候选 `9e9fab94`（回执 HEAD a8d155df）、脚本交互 `21ea24361`（72fb55ce）、工程加载 `b0a458809`（c48b4a4b）；脚本候选 receiptHead 占位符不算有效锚点，由 Git 实际对象与 `testCandidate..receiptHead` 文件范围复核。
+- 重放：codex-needles.json 钉当前产品/测试 SHA；codex-replay.mjs 只变异一次性树（输出须全新且位于 ignored build），判据含 file×fullName 多重集合、进程/计数/suite/native JSON 与 default reporter 联判。
 
-## 断言与业务 oracle
+## 发现
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 炼蛊：保留 B2/B4/B6/B7/B8/B9 六合同（B1/B3 existing-proof；B5 撤回——原 fixture 刻意关闭 ConnectedDataMode 订阅把长期过期 props 当业务窗口；B7 补强——`validate.ts:1282` 拒绝 consuming 工具作自身材料，改用 unknown 域未解析外部材料引用且播种先过 validateAuthorItems；B9 只留在途草稿版本推进；B10 撤回——真实 App.tsx 总提供 onOpenItem）。
+- 脚本：保留 A2/A4×2/A5/A6/A7/A8 七合同（A1/A3/A9 existing-proof；A6 不再点击 DsDialog 遮挡的底层删除按钮）。
+- 加载：保留 C2/C3/C4/C6-C10 十四合同（C1 existing-proof；C5 typed 敌脚本条件宿主不可达；fixture 改 SAVE12——原九条被版本门拦截；C9 经真实 FileSource 日志证明 a/c 完成、b 未完成再放行；C10 宽松输入保持 product-counter 不夹修产品）。
+- 反控合计：新执行集 6/7/14 共二十七合同；有效针 6/7/15 共二十八针；判据自证、三种真实污染探针、恢复绿与三包首针重放通过。
+- CI 修复一：合并 `79705185` 的 Coverage 两次均失败于既有 `pal-meal-shell.test.ts` 送餐 5000ms；V8 采样定位逐帧 renderScene/projectMapTileBlitRect 与 jsdom Canvas 尺寸读取，仅在本文件外部 Canvas 端口镜像私有图片/遮罩 Canvas 数字尺寸（render.ts:35-43,304-305,342-343、text/glyph.ts:108-109），采样单例 2.83s→2.48s、17ms 开场 10.63s→6.79s，九合同 9/9 保持。
+- CI 修复二：`2560898da` 后 editor 4768 条中新 B8 超时（5074ms）；V8 采样落 React DOM 创建与 jsdom 插入；将相同 999 档合法输入挂载改为 B8 专用 `beforeEach` 夹具（用 runner 默认 hook 期限），原断言/降档输入/追加动作仍在默认 test 期限，最终 editor 全包 608 文件/4768 合同通过。
 
-## 结果
+## 结论
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 三包接受并集成；最终本地 fast 19,789 测试/729 源文件，四项总覆盖率不回退、基准只升不降；typecheck/lint 0-0-0/docs 零问题。旧 E2E acceptance、headed receipt 与原工作树十三份未提交 JSON 不参与本验收。
 
-## 限制与复核
+## 整改与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 复核入口：codex-replay.mjs（每针全新树、恰一指定业务 AssertionError、hook/uncaught/pending/skip/普通 Error 不收）；六包未改输入的 native 结果仅在字节、scope 与执行身份 digest 一致后复用首轮原件；托管 CI 按新 HEAD 完整采集，不把本地复用当托管通过；B7 精简后炼蛊六针全相位重采。
 
 ## 历史范围
 
-- 源 revision 6855e6945bb015df4674dc64ad7410f56702ceee；本轮 R63。历史 ops evidence 只作时点回执，不授权当前操作。
+- 2026-10-11 三包独立验收+同次集成两轮 CI 超时修复记录；固定源 revision 6855e6945bb0…。
 
 ## 原始结论
 
-- 三个 GLM 有限测试包独立验收：原始正文完整保留于下方 quote。
+- 三包候选接受集成（27 合同/28 针）；B5/B10 撤回、B7 补强、C5 不可达、C10 product-counter；两处 CI 性能修复不改业务断言。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 接收版本表、重放命令、V8 采样定位锚点与门数字在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。验收与集成结论按 2026-10-11 基点；托管 CI 通过另核。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归三张任务卡与 codex-integration-gates.json 等机器回执。
 
 ## 原文保全
 
-固定 source revision `6855e6945bb015df4674dc64ad7410f56702ceee`，source SHA `3f4be12b2755dd3d20b7a2b359a2aec004bf3d4dc449b53447c937bf95a9aeb4`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `6855e6945bb015df4674dc64ad7410f56702ceee`，source SHA `3f4be12b2755dd3d20b7a2b359a2aec004bf3d4dc449b53447c937bf95a9aeb4`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 三个 GLM 有限测试包独立验收
 >

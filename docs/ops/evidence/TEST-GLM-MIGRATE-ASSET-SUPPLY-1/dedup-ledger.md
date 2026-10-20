@@ -2,56 +2,54 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-MIGRATE-ASSET-SUPPLY-1 的排重账：口径=source:line×公开 caller×合成合法输入×business oracle×既有 fullName；覆盖证据=fast（unit 剔除 .pal.test.ts）v8 lcov 一手测量+.pal（真实语料经 loadPalContentSupplySources→loadPalSourcePartitions→loadPalAssets 全链）+既有套件源码核对；判定分类=existing-proof/净新合同（15）/unreachable（附一手理由）/product-counter（产品防御重复不设针）。基线 origin/main f4dbd0e3d。
 
 ## 证据身份
 
-- TEST-GLM-MIGRATE-ASSET-SUPPLY-1 排重账 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 492abd9ee0335ed5e0bf86ef8426d67f84625102bed1bd95c89322cb987331ae。
-
-## 来源与输入
-
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- pal-assets.ts（1318 行）等 7 文件的资产供给链（loadPalWorldSprites/BattleSprites/StaticImages/EffectSprites/SoundAssets/FightMusic 等）。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 逐轴判定（表内节选）：pal-assets :136-228 冻结坏尾/digest existing-proof（pal-assets.test:451/548 真实语料精确冻结）；:361-497 loadPalStaticImages existing-proof（kimi-r1 合法全量 378 记录+7 拒收轴；:412 unreachable 冻结常量闭包）；:499-554 loadPalEffectSprites 净新×2（fast 0%；kimi 判合成不可达被一手修正——YJ2 无 magic 单字面量位流可构造；:533 unreachable——parseSpriteChunkStrict 对 sentinel-only 块先抛 offset 越界，本卡实探 gzip([01 00 00 00])）；:556-573 bakeRgbaFrames 拒收臂 unreachable（帧索引恒连续+256 色校验）；loadPalSoundAssets/loadPalFightMusic 等段 existing-proof 或净新（quote 表内逐行）。
+
+## 来源与输入
+
+- 合成合法位流（YJ2 平衡树 parent 公式）+真实语料 .pal 全链对照。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- unreachable/product-counter 账附一手理由；13 针表与 15 合同一一承载。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 与 README.md 交付配套（15/15+13 针四态+门禁全绿）。
 
 ## 历史范围
 
-- 源 revision 183ec0bf0b7ce290bcfa68839e5ce9d29af3245a；本轮 R66。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-MIGRATE-ASSET-SUPPLY-1 排重账（7 文件逐轴）；固定源 revision 183ec0bf0b7c…。
 
 ## 原始结论
 
-- TEST-GLM-MIGRATE-ASSET-SUPPLY-1 排重账：原始正文完整保留于下方 quote。
+- 15 净新合同+YJ2 不可达判断修正+多处 unreachable 一手实探。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 逐轴表在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。排重结论按 f4dbd0e3d 时点。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归同目录 README.md 与 Codex 接收记录。
 
 ## 原文保全
 
-固定 source revision `183ec0bf0b7ce290bcfa68839e5ce9d29af3245a`，source SHA `492abd9ee0335ed5e0bf86ef8426d67f84625102bed1bd95c89322cb987331ae`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `183ec0bf0b7ce290bcfa68839e5ce9d29af3245a`，source SHA `492abd9ee0335ed5e0bf86ef8426d67f84625102bed1bd95c89322cb987331ae`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-MIGRATE-ASSET-SUPPLY-1 排重账
 >

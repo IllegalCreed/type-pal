@@ -2,56 +2,55 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-REFORGE-BATTLE-FLOW-1 的排重账（GLM r1）：排重域=packages/reforge/src/battle 全部 45 个旧测文件 495 个 fullName（vitest list 全量对账：battle-core.test 115 例、battle-session 八族 95 例、command-selection 三族 20 例、settlement 两族 15 例、turn-readiness 8 例、scheduler 5 例、battle-host 16 例、battle-result 2 例）+settle/finish 间接消费侧+归档卡（BATTLE-WORKFLOWS W1-W6、HOST-LIFECYCLE 六轴、ARCH-REFORGE-BATTLE-1）。
 
 ## 证据身份
 
-- TEST-GLM-REFORGE-BATTLE-FLOW-1 排重账（GLM r1） 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 fbe422d528dfaf1731aec2c5346734634e95b685d0eb89f56724c9cdaa4f07d1。
-
-## 来源与输入
-
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- reforge 战斗终局域：battle-world-result、宿主终局分配、会话残差流。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 家族对账：battle-finalization.ts 不存在——终局真源=battle-world-result.ts（settleBattleVictory/finishBattleWorldState；caller main.ts:1172-1174 与 battle-trial-session.ts:58-61），全仓零直接测试→BF-01..07 主缺口；command-selection/turn-readiness/scheduler/settlement-presentation/battle-result 饱和不新增；battle-core/session 主干饱和仅 BF-11/12 两会话级组合流；battle-host 16 例覆盖取消/失效/竞态，defeat 与 playerFled 终局分配+胜利曲经验门+boss 旗未证→BF-08..10。
+- 12 合同逐行（源锚/caller/合法输入/oracle/排重结论）：BF-01 胜利结算经验门…（quote 表内 BF-01..12 全行）。
+
+## 来源与输入
+
+- 真工程真会话击杀（exp15/cash7）、默认敌 exp0、升级链、毒杀、逃失败等合法构造。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- U-1 零活敌 target 输入死区（battle-command-selection.ts:353）产品发现登记；不设针账分列。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 与 README.md 索引配套（12/12+四态）。
 
 ## 历史范围
 
-- 源 revision 9e72e90307af540a28efaed4c235d3aef8672e6a；本轮 R68。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-REFORGE-BATTLE-FLOW-1 r1 排重账（45 文件 495 fullName 对账）；固定源 revision 9e72e90307af…。
 
 ## 原始结论
 
-- TEST-GLM-REFORGE-BATTLE-FLOW-1 排重账（GLM r1）：原始正文完整保留于下方 quote。
+- battle-world-result=battle-finalization 家族名判例；12 个新增合同及其 caller、输入和预期 oracle 登记；执行闭合归配对回执。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 家族对账与合同表在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。排重结论按 r1 时点。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归同目录 README.md 与 Codex 接收记录。
 
 ## 原文保全
 
-固定 source revision `9e72e90307af540a28efaed4c235d3aef8672e6a`，source SHA `fbe422d528dfaf1731aec2c5346734634e95b685d0eb89f56724c9cdaa4f07d1`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `9e72e90307af540a28efaed4c235d3aef8672e6a`，source SHA `fbe422d528dfaf1731aec2c5346734634e95b685d0eb89f56724c9cdaa4f07d1`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-REFORGE-BATTLE-FLOW-1 排重账（GLM r1）
 >

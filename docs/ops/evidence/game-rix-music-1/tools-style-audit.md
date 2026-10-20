@@ -2,56 +2,54 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: evidence-receipt-v1 / 1.0.0
+Last reviewed: 2026-10-20
+Template: audit-report-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是第一阶段工具面板控件规范审计（2026-10-15）：用户从计时器「节点选择/跳转按钮」发现控件尺寸混用要求整体检查；范围为当前工具面板六个页签；不修改游戏机制、存档、计时器/音源/存档动作，不延伸到第二阶段编辑器或游戏画布菜单；参考 Web Interface Guidelines 的焦点、语义控件、长内容、窄屏和减弱动画要求，保持深色、金边及红色动作按钮。
 
-## 证据身份
+## 审计问题
 
-- 第一阶段工具面板：控件规范与复核（2026-10-15） 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 8c9dbc9672e99ae9c27f45bc1d7a6d7569413bff84aba2eb3ff04567422b0e94。
+- 工具面板六页签控件尺寸/间距/焦点/窄屏/减弱动画的一致性。
 
-## 来源与输入
+## 范围与证据
 
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- 已收敛规范表：文字按钮/文本输入/下拉统一高 32px、字号 14px、圆角 5px、左右内边距 10px；同组间距 8px（flex gap）；下拉共用 select.tp-input（箭头右侧 12px、文字右内边距 34px）；数值输入同高同字号（计时器时间保留等宽数字）；共用 hover/disabled/键盘 focus-visible；窄屏自然换行（快捷键 420px 以下上下排列）；辅助文字从过暗灰金提高到 #a38f70；专门控件按角色保留尺寸（复选框 16px、迷你地图缩放 19px、浮动入口 38px）。
 
-## 断言与业务 oracle
+## 发现
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 问题锚点与处理（tools-panel.ts 八处）：:86 集中控件变量；:138 button/input 同盒模型撤局部 25px/13px；:157 所有下拉共用箭头；:205 跳转/三动作行独立 action-row 窄屏换行；:95 公共 inline-flex 曾使 ready 重试按钮仍显示——显式保护 hidden（修前截图 tools-style-system-before-hidden-fix.png、最终 DOM retryHidden=true）；:162 统一键盘可见焦点（Tab 输入 2px 实线、页签 2px/-3px 内环）；:230 减弱动画与 hover 同选择器优先级禁用位移过渡；:298 滑块/搜索/节点选择/时间输入可访问名称保持原生键盘交互。
 
-## 结果
+## 结论
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 实际当前 Codex 内置浏览器默认 689px 及临时 375×667 逐页检查：每页签 body 无横向溢出、可见表单/文字按钮均 32px/14px、375px 下按钮文字无横向裁切；已还原 viewport 覆盖保留用户预览；桌面/窄屏数据见 tools-style-desktop.json/tools-style-mobile.json。
 
-## 限制与复核
+## 整改与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 截图与 JSON 数据留档复核。
 
 ## 历史范围
 
-- 源 revision 381cab90f8d6cc26171bd4bc8c2b025c15bc6f36；本轮 R70。历史 ops evidence 只作时点回执，不授权当前操作。
+- 第一阶段工具面板控件规范审计（六页签八锚点）；固定源 revision 381cab90f8d6…。
 
 ## 原始结论
 
-- 第一阶段工具面板：控件规范与复核（2026-10-15）：原始正文完整保留于下方 quote。
+- 尺寸/间距/焦点/窄屏/减弱动画统一；hidden 优先级修复有前后证据。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 规范表与锚点清单在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。2026-10-15 时点。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归任务卡与桌面/窄屏 JSON 数据。
 
 ## 原文保全
 
-固定 source revision `381cab90f8d6cc26171bd4bc8c2b025c15bc6f36`，source SHA `8c9dbc9672e99ae9c27f45bc1d7a6d7569413bff84aba2eb3ff04567422b0e94`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `381cab90f8d6cc26171bd4bc8c2b025c15bc6f36`，source SHA `8c9dbc9672e99ae9c27f45bc1d7a6d7569413bff84aba2eb3ff04567422b0e94`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 第一阶段工具面板：控件规范与复核（2026-10-15）
 >

@@ -2,56 +2,56 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1 的排重账（GLM r1）：排重域=卡面六文件（battle-core/battle-session/battle-command-selection/battle-turn-readiness/battle-action-presentation-scheduler/main.battle-host-flows.test）全部旧测 fullName×caller×legal input×oracle、归档卡 BATTLE-FLOW/HOST-LIFECYCLE/RUNTIME-SESSION/WORLD-LIFECYCLE 的 existing-proof、phase1-knowledge-harvest B 段现状核对。
 
 ## 证据身份
 
-- TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1 排重账（GLM r1） 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 3d50e0d7a1bf56f7d29a76bb4037183b1e9f77a0bbf82a64448af85943c0d460。
-
-## 来源与输入
-
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- reforge 战斗域：敌方施法三轴、复活保底、战果会计、AI 敌逃终局。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- 家族对账：command-selection 三族 20 例饱和不新增；turn-readiness 8 例饱和；presentation-scheduler 5 例饱和；main.battle-host-flows 6 例 H9+cancel 族+script-flows existing-proof 不重复；battle-core 数值主干饱和（115 例+glm-next-wave+c85-branches+enemy-confused+r13-six-b+casualty 族），残余 BCS-1..5；battle-session 八族 95+ 例饱和，唯一未证=AI 规则敌逃 done 回执链（BCS-6，terminal-flows 的 enemyFled 走 choreography requestTerminal 不同 caller 不同 oracle）。
+- 终局排除：BF-01..BF-12 由 BATTLE-FLOW 卡收口。
+- 逐轴 grep 证据：healHp×敌仅命中 throw 物品与玩家侧；hpAtMostPercent 敌侧零覆盖（quote 表内逐行六轴）。
+
+## 来源与输入
+
+- 合法敌方施法行为（healHp/gate/applyStatus）、trunc 0 极端档、AI flee 规则。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 登记 BCS-1..6 六个残余未证轴及合法输入/预期 oracle；私有反射不沿用。排重账不单独授予测试闭合或独立接收。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 与 README.md 交付配套（6/6+6 针）。
 
 ## 历史范围
 
-- 源 revision 9e72e90307af540a28efaed4c235d3aef8672e6a；本轮 R68。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1 r1 排重账（六文件对账+逐轴 grep）；固定源 revision 9e72e90307af…。
 
 ## 原始结论
 
-- TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1 排重账（GLM r1）：原始正文完整保留于下方 quote。
+- 三族饱和判定+六残余合同；BF 终局归 BATTLE-FLOW。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 对账结论与 grep 表在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。排重结论按 r1 时点。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归同目录 README.md 与 Codex 接收记录。
 
 ## 原文保全
 
-固定 source revision `9e72e90307af540a28efaed4c235d3aef8672e6a`，source SHA `3d50e0d7a1bf56f7d29a76bb4037183b1e9f77a0bbf82a64448af85943c0d460`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `9e72e90307af540a28efaed4c235d3aef8672e6a`，source SHA `3d50e0d7a1bf56f7d29a76bb4037183b1e9f77a0bbf82a64448af85943c0d460`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-REFORGE-BATTLE-CORE-SESSION-1 排重账（GLM r1）
 >

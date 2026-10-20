@@ -2,56 +2,56 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-REFORGE-BATTLE-PREVIEW-BINDING-1 的逐轴账：排重口径=轴×公开 caller×合法输入×业务 oracle×旧 file-fullName；产品冻结 2f0fe6d2f、派发基 a2447b5c9（含本卡提交）；四冻结源 SHA256 与卡面一致（d1-repro.json frozenSources）。结论先行：B1–B7 七轴全部裁决零新增正常合同。
 
 ## 证据身份
 
-- TEST-REFORGE-BATTLE-PREVIEW-BINDING-1 — 试打场景演出与 canonical 脚本接线 · 逐轴账 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 c479afc834354b62eeccfaf4c4e4908e44f814c835a940c397c606f88e897ef6。
-
-## 来源与输入
-
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- 试打场景演出与 canonical 脚本接线域（battle preview/stage 接线）。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- B1/B7 existing-proof；B2/B3 同根因产品缺陷 D-1（现行读取域=投影视图，stage 正文恒空）交最小隔离正向红反例；B4 源码域证据（r2 按 B-R1-03 降级：boot 期全场景预载使按 caller 的读取归因在运行期结构上不可能）；B5 三前提均无既有产品承诺可入绿测只登记诊断与产品点；B6 多匹配/搜索域策略未定 blocked 交产品裁决。
+- r2（2026-10-07）按一审闭合 B-R1-01～03：唯一严格判据+同判例拒收自测；repro 移至仓库外 mkdtemp 完整产品复制树（红测试不出现在活动 packages，建树即 finally 清理+成功/提前失败两路清理演练）；B4 读取归因降级源码域证据。
+- r3 按二审闭合 B-R2-01：判据增同次子进程完整 raw 双 reporter 联判（四类全局错误标志拒收）；自测扩至 21 例；真实 Vitest 污染样本（CONTROL/REPRO 同名、REPRO expect 数组 toContain、afterAll setTimeout 异步抛 CODEX_EXTRA_RUNTIME_ERROR）实测判据拒收且 soleReasonGlobalError=true；D-1 主诊断在加严判据下仍 accept。
+
+## 来源与输入
+
+- 复制树内判据最小输入（真实污染样本）；CONTROL/REPRO 同名对照。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 不为过门把演出永远丢失写成正常绿合同、不造反控数量。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 与 README.md 交付配套（gates/ 定向相邻与全量绿门）。
 
 ## 历史范围
 
-- 源 revision abcaee1db6c80a04048d4a60636fdd8211c9fce2；本轮 R69。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-REFORGE-BATTLE-PREVIEW-BINDING-1 逐轴账（七轴+三轮返工记录）；固定源 revision abcaee1db6c8…。
 
 ## 原始结论
 
-- TEST-REFORGE-BATTLE-PREVIEW-BINDING-1 — 试打场景演出与 canonical 脚本接线 · 逐轴账：原始正文完整保留于下方 quote。
+- 零新增正常合同+D-1 反例闭环；B4 降级/B6 blocked 如实。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 逐轴裁决与 r2/r3 记录在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。r3 时点。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归同目录 README.md 与 Codex 终审记录。
 
 ## 原文保全
 
-固定 source revision `abcaee1db6c80a04048d4a60636fdd8211c9fce2`，source SHA `c479afc834354b62eeccfaf4c4e4908e44f814c835a940c397c606f88e897ef6`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `abcaee1db6c80a04048d4a60636fdd8211c9fce2`，source SHA `c479afc834354b62eeccfaf4c4e4908e44f814c835a940c397c606f88e897ef6`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-REFORGE-BATTLE-PREVIEW-BINDING-1 — 试打场景演出与 canonical 脚本接线 · 逐轴账
 >

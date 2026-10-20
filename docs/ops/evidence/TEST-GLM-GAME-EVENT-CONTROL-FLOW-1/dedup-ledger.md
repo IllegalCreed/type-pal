@@ -2,56 +2,57 @@
 
 Status: historical
 Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把 ops evidence/review 接入 evidence-receipt-v1，并追加 archive-record 历史边界。原任务状态、合同、测试数字、失败、counter、consumer、机器证据和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 的合同排重账（r1）：对照源=event-system.test/cov85/glm-event-contracts（已归档卡 §1/§4 为底账）、glm-event-k01~k06、dialogue-pagination(.glm-contracts)、mode、event-opcode-player 四文件、battle runscript-rearm；方法=hex+OP_* 双 grep 叠加 v8 coverage 实证（10 文件 415 测试 statementMap 命中数，原始摘录见 coverage-probe/）。NEW=本卡 2 it；REG=只登记锚点；unreachable=数据/调用面不可达留证据。
 
 ## 证据身份
 
-- TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 合同排重账（r1） 的原始 receipt/review 身份、候选 SHA 和状态保留于 quote；本次迁移 source SHA 为 cbce230f4747436b032a4ed93032434ac531f7563de1af412757cf36a2308f21。
-
-## 来源与输入
-
-- caller/source refs、合法输入、版本和执行环境以原始证据与对应 task card 为准；本次只做静态迁移，不重跑。
+- runOneAutoOp（1254-1469）、0x7F moveViewport/camera-pan（2381-2417/1499-1513/3596-3616）、0x0A goto-if-no/confirm/resolveConfirmGoto（1620-1653/2320-2328/3435-3453）、OP_PLACE_USED_ITEM 0x84（4387-4413）、event-opcode-player 公开等待/终止/返回链。
 
 ## 断言与业务 oracle
 
-- 原始业务 oracle、逐合同/逐针排重和失败边界保持原时点语义；历史“通过”不升级为当前 verified。
+- §1 auto 族全 REG（end/callStack/goto/reset/rate=0 恒等回退/0x04 多帧 callee 已由 contracts 卡 NEW）。
+- §2 0x7F：主路径/pan/成对走步/classify/waiting 推进全 REG；[0,0,0xFFFF] 回正豁免 NEW（唯一跳过 PAL_MakeScene 组合，sdlpal script.c:2314-2319，真数据锚 all.json idx 9001 林天南链，coverage 2389 零命中）；autoScript 侧 0x7F unreachable（数据面 2165 autoLabel+250 装载目标 BFS 零可达，附注与 sdlpal do-while 语义差留 Codex 裁决）。
+- §3 confirm 族：入 confirm/toggle/是/否 REG；resolveConfirmGoto fail-closed NEW（3442-3452，coverage 3443-3449 零命中；同款清理链在 goto 缺失与 end 已证）。
+- §4 0x84 三元式三朝向 REG（换数字同形登记）。
+
+## 来源与输入
+
+- 真实 tickEventSystem 输入序列与真数据锚（all.json idx 9001）。
 
 ## 结果
 
-- 原始结果、退出码、产物、warnings、counter 和未决项由 quote 保留；本页不补造执行结论。
+- 2 NEW 合同；auto 链 0x7F 零可达附脚本；潜在语义差不钉现行为。
 
 ## 限制与复核
 
-- 本批未执行 runtime、E2E、视觉或 coverage。若重新启用，需当前 task card、合法输入、真实 caller/oracle、fresh receipt 和独立验收。
+- 与 README.md r1/r2 交付配套（2 针 r2 判据 VALID、自测 10/10）。
 
 ## 历史范围
 
-- 源 revision 4ce17faa06c6ce05f4a4868de380e25d4854e575；本轮 R64。历史 ops evidence 只作时点回执，不授权当前操作。
+- TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 r1 排重账（五节逐行）；固定源 revision 4ce17faa06c6…。
 
 ## 原始结论
 
-- TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 合同排重账（r1）：原始正文完整保留于下方 quote。
+- resolveConfirmGoto fail-closed 与 0x7F[0,0,0xFFFF] 豁免两 NEW；auto 链 0x7F 数据面零可达。
 
 ## 当时证据
 
-- 原始命令、测试、机器字段、SHA、counter 和链接保留于 quote。
+- 五节合同表与数据面证据在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 当前事实由对应 task card、consumer、catalog 和 fresh receipt 决定。
+historical。排重结论按 r1 时点。
 
 ## 继任文档
 
-- 当前 canonical 文档：对应 task card、current consumer、paired machine evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、业务 oracle、独立 review 和静态零诊断。
+当前结论归同目录 README.md 与 Codex 二审记录。
 
 ## 原文保全
 
-固定 source revision `4ce17faa06c6ce05f4a4868de380e25d4854e575`，source SHA `cbce230f4747436b032a4ed93032434ac531f7563de1af412757cf36a2308f21`；下方 quote 可逆回原始 UTF-8 字节。
+固定 source revision `4ce17faa06c6ce05f4a4868de380e25d4854e575`，source SHA `cbce230f4747436b032a4ed93032434ac531f7563de1af412757cf36a2308f21`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与固定原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-GAME-EVENT-CONTROL-FLOW-1 合同排重账（r1）
 >
