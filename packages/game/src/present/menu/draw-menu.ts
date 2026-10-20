@@ -1,13 +1,7 @@
 /**
- * M5.6 v2(T2/T3/T4 修):大世界菜单渲染入口 — 严格对照 sdlpal `uigame.c` / `ui.c` / `ui.h` 真值。
- *
- * v1 走损纠正:
- *  - InGame box pos 真值 (3, 37) 非臆造 (57, 60)
- *  - item 起点 PAL_XY(16, 50) 绝对屏幕坐标,LINE_HEIGHT = 18
- *  - MENUITEM_COLOR = 0x4F / SELECTED = (0xF9 + tick/100 % 6) 动态闪烁(ui.h:29-39)
- *  - cols = PAL_MenuTextMaxWidth - 1((maxPixWidth + 8) >> 4 - 1)
- *  - SystemMenu pos (40, 60) item 起 (53, 72) rows = nItems - 1
- *  - 主菜单弹时左上角 PAL_ShowCash 单行 box + "金钱" label + dwCash 数字
+ * 大世界菜单的呈现装配：按栈顺序画底层菜单和顶层弹框，只写 framebuffer。
+ * state 与异步存档元数据归 core/menu-driver 所有；本层每帧读取当前快照。
+ * SDLPal 坐标/颜色依据在相应视图旁记录，资源缺失时保留本项目的提示策略。
  */
 
 import type { Item, PlayerRoles } from '@type-pal/shared'
@@ -18,6 +12,7 @@ import type { InGameMagicMenuState } from '../../core/menu/in-game-magic-menu.js
 import type { InGameMenuState, SystemMenuState } from '../../core/menu/in-game-menu.js'
 import type { InventoryActionMenuState } from '../../core/menu/inventory-action-menu.js'
 import type { InventoryMenuState } from '../../core/menu/inventory-menu.js'
+import { MENUITEM_COLOR, selectedMenuItemColor } from '../../core/menu/menu-colors.js'
 import type { OpeningMenuState } from '../../core/menu/opening-menu.js'
 import type { PlayerStatusState } from '../../core/menu/player-status.js'
 import type { SaveSlotMenuState } from '../../core/menu/save-slot-menu.js'
@@ -37,12 +32,6 @@ import { drawOpeningMenu } from './draw-opening-menu.js'
 import { drawPlayerStatus } from './draw-player-status.js'
 import { drawSellOverlay, drawShopMenu } from './draw-shop.js'
 
-// ── sdlpal ui.h / text.c 真值色 ──────────────────────────────────────────────
-const MENUITEM_COLOR = 0x4f // ui.h:29
-const MENUITEM_COLOR_SELECTED_FIRST = 0xf9 // ui.h:33
-const MENUITEM_COLOR_SELECTED_TOTAL = 6 // ui.h:34
-const _FONT_COLOR_YELLOW = 0x2d // text.c:30 — cash 数字
-
 // ── sdlpal uigame.c 真值坐标 ──────────────────────────────────────────────────
 const IN_GAME_MENU_BOX = { x: 3, y: 37, rows: 3 } // uigame.c:990 PAL_CreateBox(PAL_XY(3, 37), 3, ...)
 const IN_GAME_MENU_ITEM_START = { x: 16, y: 50 } // uigame.c:961-966 PAL_XY(16, 50+i*18)
@@ -54,16 +43,6 @@ const LINE_HEIGHT = 18 // sdlpal 真值菜单项 y 间距
 const CASH_BOX = { x: 0, y: 0, len: 5 }
 const CASH_LABEL_POS = { x: 10, y: 10 } // uigame.c:485 PAL_DrawText label
 const CASH_NUMBER_RIGHT = { x: 49, y: 14 } // uigame.c:490 PAL_DrawNumber right-align
-
-/**
- * sdlpal ui.h:36-39 真值:`MENUITEM_COLOR_SELECTED_FIRST + tick/100 % 6` 闪烁。
- * SDL_GetTicks ms → ts 用 Date.now() 等价。
- */
-function selectedColor(): number {
-  return (
-    MENUITEM_COLOR_SELECTED_FIRST + (Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL)
-  )
-}
 
 // 菜单文案列表 box 宽统一走 draw-box.ts 的 menuTextMaxCols(port PAL_MenuTextMaxWidth - 1)。
 
@@ -141,8 +120,7 @@ function drawMenuEntry(
       drawInventoryActionMenu(fb, entry.state as InventoryActionMenuState, uiSpriteFrames, glyphs)
       break
     case 'inventory':
-      // T10b:fullscreen UI(sdlpal itemmenu.c:28-310 真值 1:1 port);
-      // session 3 修:phase='use-target' 时叠加 PAL_ItemUseMenu(uigame.c:1289-1473)— 需 gs + playerRoles。
+      // 全屏列表；use-target 另需角色与运行态，输入推进由 menu-driver 处理。
       drawInventoryMenu({
         fb,
         state: entry.state as InventoryMenuState,
@@ -155,7 +133,7 @@ function drawMenuEntry(
       })
       break
     case 'player-status':
-      // T10d:fullscreen UI(sdlpal uigame.c:1051-1286 真值 1:1 port)
+      // 状态页需要角色投影；未注入时画资源缺失提示。
       if (extra?.playerRoles) {
         drawPlayerStatus({
           fb,
@@ -172,11 +150,11 @@ function drawMenuEntry(
           objectPoisons: extra.objectPoisons,
         })
       } else {
-        drawPlaceholderTodo(fb, entry.kind, uiSpriteFrames, glyphs)
+        drawMissingMenuData(fb, entry.kind, uiSpriteFrames, glyphs)
       }
       break
     case 'equip':
-      // C5(2026-05-28):sdlpal uigame.c:1793-2056 PAL_EquipItemMenu 1:1 port
+      // 装备页资源转发；交易和角色选择由 core 菜单持有。
       if (extra?.playerRoles) {
         drawEquipMenu({
           fb,
@@ -190,11 +168,11 @@ function drawMenuEntry(
           itemIcons: extra.itemIcons,
         })
       } else {
-        drawPlaceholderTodo(fb, entry.kind, uiSpriteFrames, glyphs)
+        drawMissingMenuData(fb, entry.kind, uiSpriteFrames, glyphs)
       }
       break
     case 'in-game-magic':
-      // C7(2026-05-29):sdlpal uigame.c:653-875 PAL_InGameMagicMenu 1:1 port
+      // 仙术页同时需要角色、法术与效果目录。
       if (extra?.playerRoles && extra?.spells && extra?.magics) {
         drawInGameMagicMenu({
           fb,
@@ -208,7 +186,7 @@ function drawMenuEntry(
           glyphs,
         })
       } else {
-        drawPlaceholderTodo(fb, entry.kind, uiSpriteFrames, glyphs)
+        drawMissingMenuData(fb, entry.kind, uiSpriteFrames, glyphs)
       }
       break
     case 'shop-buy':
@@ -273,7 +251,7 @@ function drawInGameMenu(
   })
   items.forEach((item, i) => {
     const y = IN_GAME_MENU_ITEM_START.y + i * LINE_HEIGHT
-    const color = i === state.selection.cursor ? selectedColor() : MENUITEM_COLOR
+    const color = i === state.selection.cursor ? selectedMenuItemColor(Date.now()) : MENUITEM_COLOR
     // sdlpal ui.c:458 PAL_ReadMenu 真值 PAL_DrawText(...fShadow=TRUE)— triple shadow
     renderText(fb, item.label, IN_GAME_MENU_ITEM_START.x, y, color, glyphs, true)
   })
@@ -304,7 +282,7 @@ function drawSystemMenu(
   })
   items.forEach((item, i) => {
     const y = SYSTEM_MENU_ITEM_START.y + i * LINE_HEIGHT
-    const color = i === state.selection.cursor ? selectedColor() : MENUITEM_COLOR
+    const color = i === state.selection.cursor ? selectedMenuItemColor(Date.now()) : MENUITEM_COLOR
     // sdlpal ui.c:458 PAL_ReadMenu 真值 fShadow=TRUE
     renderText(fb, item.label, SYSTEM_MENU_ITEM_START.x, y, color, glyphs, true)
   })
@@ -351,7 +329,7 @@ function drawInventoryActionMenu(
   })
   items.forEach((item, i) => {
     const y = INVENTORY_ACTION_ITEM_START.y + i * LINE_HEIGHT
-    const color = i === state.selection.cursor ? selectedColor() : MENUITEM_COLOR
+    const color = i === state.selection.cursor ? selectedMenuItemColor(Date.now()) : MENUITEM_COLOR
     renderText(fb, item.label, INVENTORY_ACTION_ITEM_START.x, y, color, glyphs, true)
   })
 }
@@ -385,7 +363,7 @@ function drawCashBox(
 // sdlpal 真值:
 //   每 slot box pos (195-dx, 7 + 38*i),slot 文字 (210-dx, 17 + 38*i)
 //   存档次数数字 right-align at (270, 38*i - 17),黄色
-//   ts 简版:dx=0(假设 "Slot N" label 短),len=6
+// 当前固定五个短标签使用 dx=0、len=6；不包含 SDLPal 对超长标签扩框的分支。
 const SAVE_SLOT_BOX_X = 195
 const SAVE_SLOT_BOX_Y_BASE = 7
 const SAVE_SLOT_LINE_HEIGHT = 38
@@ -403,7 +381,7 @@ function drawSaveSlotMenu(
     const item = items[i]!
     const boxY = SAVE_SLOT_BOX_Y_BASE + i * SAVE_SLOT_LINE_HEIGHT
     drawSingleLineBox({ fb, x: SAVE_SLOT_BOX_X, y: boxY, len: 6, uiSpriteFrames })
-    const color = i === state.selection.cursor ? selectedColor() : MENUITEM_COLOR
+    const color = i === state.selection.cursor ? selectedMenuItemColor(Date.now()) : MENUITEM_COLOR
     // sdlpal ui.c:458 PAL_ReadMenu 真值 fShadow=TRUE
     renderText(
       fb,
@@ -414,7 +392,7 @@ function drawSaveSlotMenu(
       glyphs,
       true,
     )
-    // sdlpal uigame.c:218 真值:PAL_DrawNumber(GetSavedTimes(i), 4, PAL_XY(270, 38*i-17), kNumColorYellow, kNumAlignRight)
+    // PAL_SaveSlotMenu 的 C 槽号从 1 起：38*slot-17 = 21+38*i（此处 i 从 0 起）。
     // C8(2026-05-29):真接通 IndexedDB SlotMeta.savedTimes(cross-slot counter)。
     // fetchSlotMetas 异步 fill state.slotMetas Map,draw 每帧读最新值。
     const meta = state.slotMetas.get(item.id)
@@ -428,16 +406,14 @@ function drawSaveSlotMenu(
       'right',
       uiSpriteFrames,
     )
-    // sdlpal SaveSlotMenu 原版无 "Lv X / $Y" 副标 — 之前擅自加被 user 怼,删。
   }
-  // sdlpal PAL_SaveSlotMenu(uigame.c:169-242)真值无独立标题 — caller(InGameMenu /
-  // OpeningMenu)按 mode 自行处理。我之前简版加 "存档/读档" 标题是错的,user 怒怼删。
+  // PAL_SaveSlotMenu 不另画标题；底层 Opening/InGame 视图由栈负责。
 }
 
 // ── Missing-resource fallback ───────────────────────────────────────────────
 // 这些菜单本体已接通;只有测试/异常启动未注入必需 catalog 时才画兜底提示,避免静默空屏。
 
-function drawPlaceholderTodo(
+function drawMissingMenuData(
   fb: Framebuffer,
   kind: ActiveMenuKind,
   uiSpriteFrames: IndexedImage[],

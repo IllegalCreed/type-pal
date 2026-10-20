@@ -4,13 +4,7 @@
  */
 import type { Tilemap } from '@type-pal/shared'
 import { describe, expect, it } from 'vitest'
-import {
-  blitTileAt,
-  drawTilemap,
-  repairTilemapSeams,
-  type TileImage,
-  type TileImages,
-} from './draw-tilemap.js'
+import { drawTilemap, repairTilemapSeams, type TileImage, type TileImages } from './draw-tilemap.js'
 import { createFramebuffer } from './framebuffer.js'
 
 function tile(index: number, width = 1, height = 1, opaque?: number): TileImage {
@@ -185,11 +179,5 @@ describe('G03-A drawTilemap 像素与接缝', () => {
     coverage[4] = 1
     repairTilemapSeams(fb, coverage, 1)
     expect(Array.from(fb.indices)).toEqual([3, 3, 0, 3, 3])
-  })
-
-  it('G03-A11 blitTileAt 把屏内 1×1 写成给定索引', () => {
-    const fb = createFramebuffer()
-    blitTileAt(fb, tile(12), 4, 6)
-    expect(fb.indices[6 * 320 + 4]).toBe(12)
   })
 })

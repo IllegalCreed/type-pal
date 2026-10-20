@@ -35,27 +35,22 @@ import {
 } from '../../core/equip-effect.js'
 import type { GameState } from '../../core/game-state.js'
 import type { EquipMenuState } from '../../core/menu/equip-menu.js'
+import {
+  MENUITEM_COLOR,
+  MENUITEM_COLOR_INACTIVE,
+  MENUITEM_COLOR_SELECTED_INACTIVE,
+  selectedMenuItemColor,
+} from '../../core/menu/menu-colors.js'
 import type { BattleBgAsset } from '../battle/draw-battle-bg.js'
 import { drawBattleBg } from '../battle/draw-battle-bg.js'
+import { blitSpriteOpaque } from '../blit-indexed-sprite.js'
 import { drawNumber } from '../draw-number.js'
 import { type GlyphTable, renderText } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { drawBox } from './draw-box.js'
 import { drawInventoryMenu } from './draw-inventory.js'
 
-// ── sdlpal ui.h 真值色 ─────────────────────────────────────────────────────
-const MENUITEM_COLOR = 0x4f
-const MENUITEM_COLOR_INACTIVE = 0x18
-const MENUITEM_COLOR_SELECTED_INACTIVE = 0x1c
 const MENUITEM_COLOR_CONFIRMED = 0x2c
-const MENUITEM_COLOR_SELECTED_FIRST = 0xf9
-const MENUITEM_COLOR_SELECTED_TOTAL = 6
-
-function selectedColor(): number {
-  return (
-    MENUITEM_COLOR_SELECTED_FIRST + (Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL)
-  )
-}
 
 // ── sdlpal palcfg.c:307-331 默认 ScreenLayout 真值 ──────────────────────────
 const EQUIP_IMAGE_BOX = { x: 8, y: 8 }
@@ -79,18 +74,6 @@ const EQUIP_STATUS_VALUES = [
   { x: 260, y: 80 },
   { x: 260, y: 102 },
 ] as const
-
-// ── sprite blit(opaque mask)── 复用 draw-inventory 模式
-function blitSpriteOpaque(fb: Framebuffer, frame: IndexedImage, dstX: number, dstY: number): void {
-  for (let y = 0; y < frame.height; y++) {
-    for (let x = 0; x < frame.width; x++) {
-      const off = y * frame.width + x
-      if (frame.opaque[off]! > 0) {
-        fb.writePixel(dstX + x, dstY + y, frame.indices[off]!)
-      }
-    }
-  }
-}
 
 export interface DrawEquipMenuInput {
   fb: Framebuffer
@@ -237,7 +220,7 @@ function drawEquipPickRole(input: DrawEquipMenuInput): void {
     const isSelected = i === state.playerCursor
     let color: number
     if (isSelected) {
-      color = canEquip ? selectedColor() : MENUITEM_COLOR_SELECTED_INACTIVE
+      color = canEquip ? selectedMenuItemColor(Date.now()) : MENUITEM_COLOR_SELECTED_INACTIVE
     } else {
       color = canEquip ? MENUITEM_COLOR : MENUITEM_COLOR_INACTIVE
     }

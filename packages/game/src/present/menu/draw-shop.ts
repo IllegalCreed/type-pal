@@ -20,17 +20,15 @@
 import type { Item } from '@type-pal/shared'
 import type { IndexedImage } from '../../assets/png.js'
 import type { GameState } from '../../core/game-state.js'
+import { MENUITEM_COLOR, selectedMenuItemColor } from '../../core/menu/menu-colors.js'
 import type { ShopMenuState } from '../../core/menu/shop-menu.js'
+import { blitSpriteOpaque } from '../blit-indexed-sprite.js'
 import { drawNumber } from '../draw-number.js'
 import { type GlyphTable, renderText } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { drawBox, drawSingleLineBox } from './draw-box.js'
 import { drawConfirmBox } from './draw-confirm.js'
 
-// sdlpal ui.h 真值色
-const MENUITEM_COLOR = 0x4f
-const MENUITEM_COLOR_SELECTED_FIRST = 0xf9
-const MENUITEM_COLOR_SELECTED_TOTAL = 6
 const SPRITENUM_ITEMBOX = 70 // ui.h:110
 
 // sdlpal uigame.c PAL_BuyMenu / OnItemChange 真值坐标
@@ -42,22 +40,6 @@ const PREVIEW_ITEMBOX = { x: 40, y: 8 }
 const PREVIEW_ICON = { x: 48, y: 15 }
 const OWNED_BOX = { x: 20, y: 100, len: 5 }
 const CASH_BOX = { x: 20, y: 141, len: 5 }
-
-function selectedColor(): number {
-  return (
-    MENUITEM_COLOR_SELECTED_FIRST + (Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL)
-  )
-}
-
-/** opaque blit(同 draw-inventory)。 */
-function blitSpriteOpaque(fb: Framebuffer, frame: IndexedImage, dstX: number, dstY: number): void {
-  for (let y = 0; y < frame.height; y++) {
-    for (let x = 0; x < frame.width; x++) {
-      const off = y * frame.width + x
-      if (frame.opaque[off]! > 0) fb.writePixel(dstX + x, dstY + y, frame.indices[off]!)
-    }
-  }
-}
 
 /** shadow blit — palCalcShadowColor(curr)(sdlpal palcommon.c:201)。 */
 function blitSpriteShadow(fb: Framebuffer, frame: IndexedImage, dstX: number, dstY: number): void {
@@ -115,7 +97,7 @@ export function drawShopMenu(input: DrawShopInput): void {
   // 2. 列表项名 + 价(sdlpal uigame.c:1665-1669 价 DrawNumber;PAL_ReadMenu 画名)
   list.items.forEach((it, i) => {
     const y = ITEM_NAME.yBase + i * ITEM_NAME.lineH
-    const color = i === list.cursor ? selectedColor() : MENUITEM_COLOR
+    const color = i === list.cursor ? selectedMenuItemColor(Date.now()) : MENUITEM_COLOR
     renderText(fb, it.label, ITEM_NAME.x, y, color, glyphs, true)
     const price = Number(it.rightText ?? '0')
     drawNumber(

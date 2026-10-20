@@ -33,13 +33,13 @@ export interface TileImages {
 }
 
 /**
- * Tilemap 渲染分两层(sdlpal map.c PAL_MapGetTileBitmap):
- * - layer 0 (bottom):地砖、墙基,玩家走在它"之上"。先画。
- * - layer 1 (top):门、柜子侧面、柱子,**画在精灵之上**做遮挡。后画(精灵之后)。
+ * Tilemap 的两个位图层(sdlpal map.c PAL_MapGetTileBitmap)。presentFrame 先画
+ * layer 0、layer 1，再 Y-sort 精灵与 cover entries；遮挡由后者重画候选瓦片实现。
  *
  * 每 u32 cell 同时编码两个 9-bit tile id:
  *   layer 0: (d        & 0xff) | ((d        >> 4) & 0x100)
- *   layer 1: ((d>>16)  & 0xff) | (((d>>16)  >> 4) & 0x100) - 1   (id 0 = 无,跳过)
+ *   layer 1: (((d>>16) & 0xff) | (((d>>16) >> 4) & 0x100)) - 1
+ *            编码 0 表示无位图，解码后 -1 跳过。
  */
 export type TileLayer = 0 | 1
 
@@ -77,11 +77,6 @@ function blitTile(
       if (coverage) coverage[py * fbW + px] = 1
     }
   }
-}
-
-/** 对外公开内部 blitTile(测试/单瓦片绘制用,draw-tilemap-pixels 直测)。 */
-export function blitTileAt(fb: Framebuffer, tile: TileImage, dstX: number, dstY: number): void {
-  blitTile(fb, tile, dstX, dstY)
 }
 
 export function drawTilemap(
@@ -130,8 +125,8 @@ export function drawTilemap(
       // h=0 (lower):画在 (col*32 - 16, row*16 - 8)
       const lowerId = cell ? idFn(cell.lower) : fenceFill
       if (lowerId >= 0) {
-        // L32:layer-0(lower)瓦片帧缺失时回落首格 tile(0)(map.c:412 PAL_MapGetTileBitmap(0,0,0,0)),
-        //   而非留黑;只有 layer-1(upper)才 continue 跳过。
+        // h=0 的位图缺失时回落资源帧 0；h=1 缺图则跳过。
+        // h 选择 cell.lower/upper，与当前 layer 0/1 分开。
         const img = tiles.get(lowerId) ?? tiles.get(0)
         if (img) blitTile(fb, img, cellPxX - TILE_HALF_W, rowPxY - SUBROW_Y_STEP, coverage)
       }
@@ -146,20 +141,11 @@ export function drawTilemap(
 }
 
 /**
- * 修复瓦片接缝漏黑 —— 血池 map76「黑色三角」根因。
- *
- * 原版(及 sdlpal runtime)的 PAL_MakeScene **不清屏**(scene.c:471-481 直接往持久
- * gpScreen 上糊地图):原版美术里少数瓦片在崖边斜接缝处自带透明像素时,缝里显示的是
- * 上一帧残留的邻接地形,肉眼几乎看不出。我们每帧 `fb.clear()` 到 index 0,同样的缝就
- * 露出纯黑(用户实测原版无此「黑色三角」,sdlpal 的一次性 --dump-map 才有 = 不清屏差异)。
- *
- * 这里在两层 base tilemap 画完后,把**确实没被任何瓦片画过**(coverage[i]===0)的像素,
- * 用最近的已覆盖邻居像素填上,等价复现原版「缝里是邻接地形」的观感。逐趟向内扩散
- * (dilation):thin seam 一两趟即填满;相机越过地图边缘的大片屏外空洞因无邻居自然留黑,
- * 不会被乱涂。
- *
- * **关键**:用 coverage(而非 `indices===0`)判漏黑 —— 瓦片可合法画出 opaque index-0
- * 像素(dense scene),那些不是漏黑,绝不能动。
+ * 当前每帧清屏后的接缝补偿；不重建 SDLPal 持久屏幕的上一帧内容，也不保证像素等价。
+ * 对未覆盖像素，按 dy=-1..1、dx=-1..1 的固定顺序取首个已覆盖八邻居。
+ * 一趟先收集再落盘，最多扩散 maxPasses 圈；大片空洞也可能被邻接地形逐圈填入。
+ * coverage 由两层 base tilemap 共同写入，必须在 wave 和精灵之前使用。
+ * 已覆盖的 index 0 是合法不透明黑色，不得作为接缝改写。
  */
 export function repairTilemapSeams(fb: Framebuffer, coverage: Uint8Array, maxPasses = 16): void {
   const { width, height, indices } = fb
@@ -199,39 +185,11 @@ export function repairTilemapSeams(fb: Framebuffer, coverage: Uint8Array, maxPas
 }
 
 /**
- * PAL_CalcCoverTiles port(sdlpal scene.c:77-178)。
- *
- * 对给定的 sprite 世界像素坐标 `(spriteWorldX, spriteWorldY)`,
- * 计算可能覆盖该精灵的所有 layer-1(top layer)tile,
- * 把每个 cover tile 封装为 DrawEntry 推入 `entries`。
- *
- * 算法说明(忠实 sdlpal scene.c:95-177):
- *
- *   sx ≈ spriteWorldX - spriteWidth/2   (精灵水平中心的世界 x)
- *   sy = spriteWorldY                   (精灵排序用的世界 y,≈ pos.y in sdlpal)
- *   sh = (sx % 32 !== 0) ? 1 : 0       (sub-row 偏移标志)
- *
- *   扫描范围:
- *     row y: (sy - spriteHeight - 15) / 16  .. sy / 16
- *     col x: (sx - spriteWidth/2) / 32      .. (sx + spriteWidth/2) / 32
- *
- *   对每个 (x, y):5 个候选 (dx, dy, dh) — 参见 sdlpal case 0..4。
- *
- *   对每个 (dx, dy, dh):检查 layer 0 和 layer 1(l=0/1)。
- *   这里 "l" 对应原始 MAP DWORD 的哪个半字(lower = h-variant 0, upper = h-variant 1)。
- *   注:TileCell.lower/upper 对应 Tiles[row][col][0/1]。
- *
- *   对于每个 (dx, dy, dh, l):
- *     DWORD d = dh==0 ? cells[dy][dx].lower : cells[dy][dx].upper  ← dh 选 h-row DWORD
- *     l=0(底层):tileId = tileIdLayer0(d);iTileHeight = (d>>8) & 0xf
- *     l=1(顶层):tileId = tileIdLayer1(d);iTileHeight = (d>>24) & 0xf
- *     条件: tileId >= 0 && iTileHeight > 0 && (dy + iTileHeight)*16 + dh*8 >= sy
- *     若满足:
- *       DrawEntry.baseY = dy*16 + dh*8 + 7 + l + iTileHeight*8
- *       blit 屏幕位 = (dx*32 + dh*16 - 16 + offsetX, dy*16 + dh*8 + 7 - bitmap.height + offsetY)
- *
- * dh 字段 = 0 对应 lower DWORD(h=0);dh = 1 对应 upper DWORD(h=1)。
- * l=0/1 在已选的 DWORD 内选 layer 0(低 16 位)或 layer 1(高 16 位)。
+ * PAL_CalcCoverTiles 的候选收集(sdlpal scene.c:77-178)。两层中高度足够的瓦片
+ * 都可成为 cover entry，由 presentFrame 与精灵共同排序后重画；不在这里推进状态。
+ * sx 是扣除半宽和半 iLayer 的扫描起点，sy 是 caller 传入排序 Y 再减 iLayer。
+ * dh 选择 lower/upper DWORD(h=0/1)，l 再选择该 DWORD 的低/高 16 位(layer 0/1)。
+ * 回调保留本次位图与屏幕坐标；调用期间资源由 presentFrame 的 TileImages 持有。
  *
  * @param entries        DrawEntry 数组,cover tile entries 会 push 进去
  * @param map            当前场景 tilemap

@@ -39,18 +39,18 @@ import {
   INV_ITEMS_PER_LINE,
   INV_LINES_PER_PAGE,
   MENUITEM_COLOR,
-  MENUITEM_COLOR_SELECTED_FIRST,
-  MENUITEM_COLOR_SELECTED_TOTAL,
   pickItemRowColor,
 } from '../../core/menu/inventory-menu.js'
 import { matchesFilter } from '../../core/menu/item-select.js'
+import { selectedMenuItemColor } from '../../core/menu/menu-colors.js'
 import { getScriptDescLines } from '../../core/menu/script-desc.js'
+import { blitSpriteOpaque } from '../blit-indexed-sprite.js'
 import { drawNumber } from '../draw-number.js'
 import { type GlyphTable, renderText } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { drawBox } from './draw-box.js'
 
-// sdlpal ui.h 真值色 — pickItemRowColor 内部用,本文件直接 reference 仅留 DESCTEXT_COLOR
+// 中文物品说明使用固定的描述文字颜色。
 const DESCTEXT_COLOR = 0x3c
 
 // sdlpal ui.h:110/114
@@ -63,24 +63,6 @@ const INV_AMOUNT_X_OFFSET = 81 // 10 * 8 + 1
 const INV_PAGE_LINE_OFFSET = Math.floor((INV_LINES_PER_PAGE + 1) / 2) // 4
 const ITEMBOX_XBASE = 0
 const ITEMBOX_YBASE = 140
-
-function selectedColor(): number {
-  return (
-    MENUITEM_COLOR_SELECTED_FIRST + (Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL)
-  )
-}
-
-/** sprite blit (opaque mask)— 复用 draw-sprite 风格,直接内嵌轻量版本。 */
-function blitSpriteOpaque(fb: Framebuffer, frame: IndexedImage, dstX: number, dstY: number): void {
-  for (let y = 0; y < frame.height; y++) {
-    for (let x = 0; x < frame.width; x++) {
-      const off = y * frame.width + x
-      if (frame.opaque[off]! > 0) {
-        fb.writePixel(dstX + x, dstY + y, frame.indices[off]!)
-      }
-    }
-  }
-}
 
 /** shadow blit — palCalcShadowColor(curr) 替换 fb 当前 pixel(sdlpal palcommon.c:201)。 */
 function blitSpriteShadow(fb: Framebuffer, frame: IndexedImage, dstX: number, dstY: number): void {
@@ -229,7 +211,7 @@ function drawItemUseMenu(
   state.targetMenu.items.forEach((memberItem, i) => {
     const role = playerRoles.roles[memberItem.id]
     const name = role?._name ?? `role#${memberItem.id}`
-    const color = i === cursorIdx ? selectedColor() : MENUITEM_COLOR
+    const color = i === cursorIdx ? selectedMenuItemColor(Date.now()) : MENUITEM_COLOR
     renderText(
       fb,
       name,

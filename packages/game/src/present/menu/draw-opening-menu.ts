@@ -9,6 +9,7 @@
  * 未选项 MENUITEM_COLOR 0x4F(ui.h:29)。
  */
 
+import { MENUITEM_COLOR, selectedMenuItemColor } from '../../core/menu/menu-colors.js'
 import type { OpeningMenuState } from '../../core/menu/opening-menu.js'
 import { openingMenuLabels } from '../../core/menu/opening-menu.js'
 import type { BattleBgAsset } from '../battle/draw-battle-bg.js'
@@ -16,22 +17,12 @@ import { drawBattleBg } from '../battle/draw-battle-bg.js'
 import { type GlyphTable, palWordWidth, renderText } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
 
-// sdlpal ui.h:29 / 33-34
-const MENUITEM_COLOR = 0x4f
-const MENUITEM_COLOR_SELECTED_FIRST = 0xf9
-const MENUITEM_COLOR_SELECTED_TOTAL = 6
-
-function selectedColor(): number {
-  return (
-    MENUITEM_COLOR_SELECTED_FIRST + (Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL)
-  )
-}
-
 /**
- * sdlpal uigame.c:107-108 真值坐标公式(已忠实移植,非简版):
+ * PAL_OpeningMenu 的选项坐标公式(uigame.c:107-108):
  *   x = 125 - (w > 4 ? (w - 4) * 8 : 0),w = PAL_WordWidth(label)(font.ts palWordWidth)。
- * shipped 真 label getWord(7)='新的故事' / getWord(8)='旧的回忆' 都是 4 全宽字 → w=4 → 公式退化 x=125(与旧硬编码一致,零像素变化);
- * 长于 4 全宽单位的文案(modded WORD.DAT / 其它语言)按公式左移对齐。y 恒 95(新)/ 112(读档)。
+ * 当前两个四字词条从 x=125 起笔；较长词条按量化字宽左移。
+ * 字宽计算复用 palWordWidth，不能用 string.length 代替 ASCII 的半宽规则。
+ * y 固定为新游戏 95、读档 112。
  */
 export function openingItemX(label: string): number {
   const w = palWordWidth(label)
@@ -64,7 +55,7 @@ export function drawOpeningMenu(input: DrawOpeningMenuInput): void {
     const y = ITEM_Y[i]
     if (y === undefined) return
     const x = openingItemX(entry.label) // uigame.c:107-108 公式(对 4 字 label 退化为 125)
-    const color = i === state.selection.cursor ? selectedColor() : MENUITEM_COLOR
+    const color = i === state.selection.cursor ? selectedMenuItemColor(Date.now()) : MENUITEM_COLOR
     renderText(fb, entry.label, x, y, color, glyphs, true)
   })
 }
