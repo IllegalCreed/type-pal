@@ -30,6 +30,16 @@ describe('M6 audio url 映射(纯)', () => {
     expect(pickMusicTrack(true, 16, 0)).toBe(0) // 战斗乐 0 → 停(沿用场景静音惯例)
   })
 
+  // DM29:battle.c:717-728 进战斗序 = 停场景曲(1s 淡出)→ UTIL_Delay(200) → VIDEO_SwitchScreen
+  //   揭场(360ms)→ 才起战斗曲。bootstrap.ts:194 传 battleIntroActive =
+  //   gs.battleState?.introFade !== undefined;揭场期间返回 0(静默),修"遇敌瞬间场景曲
+  //   掐断、战斗曲零延迟炸响"。旧测试只测三参形态,该分支此前无判别。
+  it('pickMusicTrack DM29:入场揭场未完 → 0 静默;非战斗不受 intro 标志影响', () => {
+    expect(pickMusicTrack(true, 16, 7, true)).toBe(0) // 揭场中:静默,不起战斗曲
+    expect(pickMusicTrack(true, 16, 7, false)).toBe(7) // 揭场完:战斗曲
+    expect(pickMusicTrack(false, 16, 7, true)).toBe(16) // 非战斗:intro 标志无关,场景乐
+  })
+
   it('battleVictoryTrack:won 且 exp>0 → isBoss?2:3,其余 -1(battle.c:1030-1032)', () => {
     expect(battleVictoryTrack({ phase: 'won', isBoss: false, expGained: 100 })).toBe(3) // 普通战胜利曲
     expect(battleVictoryTrack({ phase: 'won', isBoss: true, expGained: 100 })).toBe(2) // boss 战胜利曲
@@ -68,6 +78,33 @@ describe('M6 AudioManager.sync', () => {
     am.setMusicEnabled(false) // stop
     am.setMusicEnabled(true) // play 5(当前 track 仍 5）
     expect(calls).toEqual(['play 5', 'stop', 'play 5'])
+  })
+
+  // L47:补播必须还原 sync 记录的真实 loop 标志,而非硬编码 true —— 非循环曲(如胜利曲
+  //   battleVictoryTrack 的 loop=false)在开关音乐后不得被强制循环。旧测试全用 loop:true,
+  //   回退成硬编码 true 无判别。
+  it('L47 补播还原真实 loop:非循环 track 经 setMusicEnabled 开关后仍以 loop=false 重播', () => {
+    const am = createAudioManager('/extracted')
+    const calls: string[] = []
+    am.setMusicBackend({
+      play: (t, loop) => calls.push(`play ${t} ${loop}`),
+      stop: () => calls.push('stop'),
+    })
+    am.sync(undefined, { track: 3, loop: false }) // 胜利曲等非循环曲
+    am.setMusicEnabled(false)
+    am.setMusicEnabled(true)
+    expect(calls).toEqual(['play 3 false', 'stop', 'play 3 false'])
+  })
+
+  it('L47 setMusicBackend 注入补播也用记录的 loop=false', () => {
+    const am = createAudioManager('/extracted')
+    am.sync(undefined, { track: 3, loop: false }) // 后端未注入 → 仅记录当前 track/loop
+    const calls: string[] = []
+    am.setMusicBackend({
+      play: (t, loop) => calls.push(`play ${t} ${loop}`),
+      stop: () => calls.push('stop'),
+    })
+    expect(calls).toEqual(['play 3 false'])
   })
 
   it('setMusicBackend 注入时若已有当前 track → 立即起播(补 M6a no-op 期间漏播)', () => {
