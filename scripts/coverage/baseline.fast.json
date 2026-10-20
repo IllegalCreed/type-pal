@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-20T16:36:54.471Z",
+  "generatedAt": "2026-10-20T19:28:06.588Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
-  "sourceFileCount": 742,
-  "testCount": 19979,
+  "sourceFileCount": 744,
+  "testCount": 19977,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4545,7 +4545,7 @@
         "**/*.spec.tsx",
         "**/*.d.ts"
       ],
-      "sourceFileCount": 145,
+      "sourceFileCount": 147,
       "sourceFiles": [
         "packages/game/src/analytics/analytics-consent-ui.ts",
         "packages/game/src/analytics/analytics-consent.ts",
@@ -4600,6 +4600,7 @@
         "packages/game/src/core/menu/item-select.ts",
         "packages/game/src/core/menu/magic-script.ts",
         "packages/game/src/core/menu/magic-select.ts",
+        "packages/game/src/core/menu/menu-colors.ts",
         "packages/game/src/core/menu/menu-driver.ts",
         "packages/game/src/core/menu/menu-mode.ts",
         "packages/game/src/core/menu/menu-stack.ts",
@@ -4631,6 +4632,7 @@
         "packages/game/src/present/battle/draw-battle-sprites.ts",
         "packages/game/src/present/battle/draw-battle-ui.ts",
         "packages/game/src/present/battle/present-battle.ts",
+        "packages/game/src/present/blit-indexed-sprite.ts",
         "packages/game/src/present/dialog-box.ts",
         "packages/game/src/present/dither-fade.ts",
         "packages/game/src/present/draw-number.ts",
@@ -4693,9 +4695,9 @@
         "packages/game/src/tools/tools-panel.test-fixtures.ts",
         "packages/game/src/tools/tools-panel.ts"
       ],
-      "scopeDigest": "cb4239332d38150679e18bc5510e05198f434b331e8992559dfacaf9d20ab937",
+      "scopeDigest": "a2c95beb98ce984ff93ea4dd79909ea765b3b18f8628b5f223d5acf13bf710a7",
       "fastTests": {
-        "testCount": 3649,
+        "testCount": 3647,
         "testFileCount": 321,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
@@ -6028,13 +6030,13 @@
           },
           {
             "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
-            "testCount": 11,
-            "identityDigest": "d98e3f0efa261f0ccd1787a599448288e91719dd49ca8bfb9c69e960c0b5b17f"
+            "testCount": 10,
+            "identityDigest": "f773a1c54f4691aa1f4d21cef18b0d2e7b41f0607b49ac7d965c77d0112dbcbd"
           },
           {
             "file": "packages/game/src/present/draw-tilemap.test.ts",
             "testCount": 9,
-            "identityDigest": "14688ce66d50cee137297379f4e67408ba2756a2ced869cfd278bc94d1b61479"
+            "identityDigest": "87653cb2f04e25fcb924fb8bc1a42629932f01b0f0e30ffd8fb1b23eaefc27b9"
           },
           {
             "file": "packages/game/src/present/follower-pos-axis.grok-r1.test.ts",
@@ -6129,17 +6131,17 @@
           {
             "file": "packages/game/src/present/menu/draw-menu.test.ts",
             "testCount": 6,
-            "identityDigest": "e657f52f0a3c0eb89406b189dc73c046ddd4bb253f3a84bd0f4e4bcc9568975f"
+            "identityDigest": "0b568fcc57b34f7e5085445b790fca6bc289b74435b306edfe6f1931aaf13ac0"
           },
           {
             "file": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
             "testCount": 3,
-            "identityDigest": "1f8faaf80bb69ac356c974c68079925834c9dc33adb446f363944b8f0d0e4543"
+            "identityDigest": "e7a6482061b7fb9978d7c9a6f4549b10cefe1dde494ce8a72fbeba251285d161"
           },
           {
             "file": "packages/game/src/present/menu/draw-opening-menu.test.ts",
-            "testCount": 7,
-            "identityDigest": "0f01489a0ffa307688e36c0515eac199b8f77231e20db2230f76d7aab18f0bbd"
+            "testCount": 6,
+            "identityDigest": "dce325b87355bf895244e0efe2d15c34e2b3553355011d69adcf3edee8f21c9b"
           },
           {
             "file": "packages/game/src/present/menu/draw-player-status.glm-phase1-leaves.test.ts",
@@ -6189,7 +6191,7 @@
           {
             "file": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
             "testCount": 13,
-            "identityDigest": "276d02d3829d3288182b004ca178a0e2525c76d6cbd17ed743febae1e767e875"
+            "identityDigest": "ee57187bbb9d97e40dd3fe1946f963416d5958239db51e4a8e93619e9a540128"
           },
           {
             "file": "packages/game/src/present/menu/status-vitals-pixels.grok-r1.test.ts",
@@ -6627,26 +6629,26 @@
             "identityDigest": "1e1868d0d636dbcd794649a3970d6f09897d3c1b05c7540656cf1a8adce7b18e"
           }
         ],
-        "identityDigest": "fba2de195f85b475f329ac428f004820bd491f2e30d352f4197bd93f396abd13",
+        "identityDigest": "4d6af811e5ee8da6fe76f273ad7c33679be0ad695c2ddda363881f9553f02ce7",
         "duplicateIdentityCount": 0,
-        "executionDigest": "354d603a7c51bd6a9d27c829fd4764076641a639ad9469d01ee7655833b9d7eb"
+        "executionDigest": "2a275b6b1445f5ccae0efa7994173dc927728f2708536f822cc52f4500933663"
       },
       "metrics": {
         "statements": {
-          "covered": 14349,
-          "total": 16085
+          "covered": 14315,
+          "total": 16051
         },
         "branches": {
-          "covered": 9338,
-          "total": 11632
+          "covered": 9336,
+          "total": 11628
         },
         "functions": {
-          "covered": 1679,
-          "total": 1968
+          "covered": 1672,
+          "total": 1961
         },
         "lines": {
-          "covered": 12795,
-          "total": 14096
+          "covered": 12766,
+          "total": 14067
         }
       }
     },
@@ -10665,20 +10667,20 @@
   },
   "total": {
     "statements": {
-      "covered": 71429,
-      "total": 79281
+      "covered": 71395,
+      "total": 79247
     },
     "branches": {
-      "covered": 51851,
-      "total": 61895
+      "covered": 51849,
+      "total": 61891
     },
     "functions": {
-      "covered": 13555,
-      "total": 15105
+      "covered": 13548,
+      "total": 15098
     },
     "lines": {
-      "covered": 63802,
-      "total": 69373
+      "covered": 63773,
+      "total": 69344
     }
   }
 }

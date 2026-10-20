@@ -4,6 +4,124 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // User-authorized structural recounts, pinned to complete old baseline and current
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
+  // User-authorized finite structural recount; only the exact baseline and17source/test bytes.
+  {
+    id: 'pre94-renderer-shared-primitives-20261021',
+    authority:
+      '用户2026-10-20：合理重构造成覆盖率下降可精确调整baseline，不恢复死代码或堆弱测试；本项仅同体opaque/颜色共享与测试专用包装退役。',
+    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-recount.json',
+    baselineSha256: 'd7817bb742c761a31bd029a88fbd1d6edf1405fbd6cbde10bcec3bcc24b2bbdf',
+    sources: [
+      {
+        path: 'packages/game/src/core/menu/inventory-menu.ts',
+        sha256: '4ed0e50d54faf012079cf9d6d2ee01357698d07f9e3ba5d8f324b84e3bf28f2b',
+      },
+      {
+        path: 'packages/game/src/core/menu/menu-colors.ts',
+        sha256: '43be7381df1880e54fba0430e9f5a18ae27dfeadb9156d99c60be740d4a18a6b',
+      },
+      {
+        path: 'packages/game/src/present/__tests__/grok-present/p04-shop.test.ts',
+        sha256: '0899e5c48cc0c4bc634522bec7d8819a01c495657b527ef74e11f2c34c251ef2',
+      },
+      {
+        path: 'packages/game/src/present/blit-indexed-sprite.ts',
+        sha256: '28b22d87ba93cac1b09b8c2b909b65fed9ca075d3e079f7fab3a1919170f4c8f',
+      },
+      {
+        path: 'packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts',
+        sha256: '77d84c6b6a974bcb50631dcd3d59e18e3153d901016d5e0ea868fdac9bc82487',
+      },
+      {
+        path: 'packages/game/src/present/draw-tilemap.test.ts',
+        sha256: '6d05455949e1f87ce1208236cd4fd1e1e98a8a27772246ba022cfc4a8813c794',
+      },
+      {
+        path: 'packages/game/src/present/draw-tilemap.ts',
+        sha256: '8ad57e0042e6d6797303bb863f8696312ea72e813da94e04d4a1829470272b1e',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-equip.ts',
+        sha256: 'a9283b6cc0b09e47352eb945f2c801af65dbb57dbdce2e203c745cb128e42d51',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-inventory.ts',
+        sha256: '4621e385b2cc67a8b9f7aaa29af8b095d4de87f38ff149a7cfbdb81d5d37e5b4',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-menu.test.ts',
+        sha256: '6fa7aaf7e88c7df5110d9962c014365a566ce89f582b674bb5583853910d57f9',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-menu.ts',
+        sha256: 'c19da1b18b398bf807cdac556450b89cae52ed678cf5ce144432c44a8965a0e3',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts',
+        sha256: '315d86f360b02b3f62ae7debc1f5f0f649715b7c8596888a6778a4b39c52c2a7',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-opening-menu.test.ts',
+        sha256: 'e95f8638f167900a8600086c126d1a770d04624793459cc37bbd69795e27dd36',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-opening-menu.ts',
+        sha256: '28265833b5bfdf3a79354022de5e05637b0ab59ce8b9bfdf13b5cd82e3418549',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts',
+        sha256: '6d8a21ba658297d226af7274718fffaead3e871d34b848f7fdea4cb9f23089f2',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-shop.ts',
+        sha256: '820163557b1a99147dcf05d18618eb92964b9d1f93569c731dfc02e5f0bb2cf8',
+      },
+      {
+        path: 'packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts',
+        sha256: 'e89506fc4ecabbd79ed878342cbc9f74ce37dcd4d5ea32a9c88be24eb1f7cf90',
+      },
+    ],
+    packages: {
+      game: {
+        before: {
+          statements: {
+            covered: 14349,
+            total: 16085,
+          },
+          branches: {
+            covered: 9338,
+            total: 11632,
+          },
+          functions: {
+            covered: 1679,
+            total: 1968,
+          },
+          lines: {
+            covered: 12795,
+            total: 14096,
+          },
+        },
+        after: {
+          statements: {
+            covered: 14315,
+            total: 16051,
+          },
+          branches: {
+            covered: 9336,
+            total: 11628,
+          },
+          functions: {
+            covered: 1672,
+            total: 1961,
+          },
+          lines: {
+            covered: 12766,
+            total: 14067,
+          },
+        },
+      },
+    },
+  },
   {
     id: 'pre94-menu-valid-dialog-fixture-20261020',
     authority:
