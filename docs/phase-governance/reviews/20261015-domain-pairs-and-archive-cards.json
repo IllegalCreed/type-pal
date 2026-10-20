@@ -6547,9 +6547,9 @@
       "templateVariant": "document-audit-v2",
       "template": "docs/testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "Full original JSON fields; declared primary source ranges/hash/anchor directly read; whole classifier source additionally read for legacy audit; actual paired consumer",
+      "readMethod": "Actual scoped delta read with original statements preserved in history; no unrelated full document or runtime acceptance",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "proposal保持proposal；validatePredecessor拒capture、错引擎/片段、错hash及Reforge非SAVE12/content22的起点，规划方案没有任何新阶段通过信用。",
+      "coreConclusion": "Append finite source/publication review with exact inputs/SHA and no-run limits; original candidate/versions/history runtime fields retained.",
       "documentStatus": "proposal / catalog-publication only",
       "owner": "Codex（文档治理，未重签原动态证据）",
       "provenance": [
@@ -6610,11 +6610,28 @@
       "sourceSha256": "ca3e4b0df58b2f6f6bfbfe8a153a62aea806120646195b65904fa1bfe06a1906",
       "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
       "sourceGitObject": "0c2a24d1bda687916de1a5bded20a251cab9e5ba",
-      "afterSha256": "e635309e6883138441c400458d3e9ce4a9cf18b9461dbb5de49985512fd43530",
+      "afterSha256": "8af4bffd23c8964e7979caa00415de464fdd551fe1adc0d8db511d0d5c729ca1",
       "revision": {
         "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
-        "implementationSha": "e635309e6883138441c400458d3e9ce4a9cf18b9461dbb5de49985512fd43530",
+        "implementationSha": "8af4bffd23c8964e7979caa00415de464fdd551fe1adc0d8db511d0d5c729ca1",
         "history": [
+          {
+            "revision": "577e531ccd991707ef73a56426d46e915220fec6",
+            "date": "2026-10-20",
+            "action": "GLM gate exact retirement/input-coordination delta",
+            "previousAfterSha256": "e635309e6883138441c400458d3e9ce4a9cf18b9461dbb5de49985512fd43530",
+            "scope": "Append finite source/publication review with exact inputs/SHA and no-run limits; original candidate/versions/history runtime fields retained.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+            "notRun": ["new browser/E2E/visual/stage/whole-source acceptance"],
+            "previousCoreConclusion": "proposal保持proposal；validatePredecessor拒capture、错引擎/片段、错hash及Reforge非SAVE12/content22的起点，规划方案没有任何新阶段通过信用。",
+            "previousEvidence": {
+              "kind": "inverse-JSON-object-and-actual-paired-consumer",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+              "sourceSha256": "ca3e4b0df58b2f6f6bfbfe8a153a62aea806120646195b65904fa1bfe06a1906",
+              "afterSha256": "e635309e6883138441c400458d3e9ce4a9cf18b9461dbb5de49985512fd43530",
+              "lineCount": 230
+            }
+          },
           {
             "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",
             "date": "2026-10-20",
@@ -6639,11 +6656,11 @@
         ]
       },
       "evidence": {
-        "kind": "inverse-JSON-object-and-actual-paired-consumer",
-        "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+        "kind": "scoped-current-closeout-maintenance",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
         "sourceSha256": "ca3e4b0df58b2f6f6bfbfe8a153a62aea806120646195b65904fa1bfe06a1906",
-        "afterSha256": "e635309e6883138441c400458d3e9ce4a9cf18b9461dbb5de49985512fd43530",
-        "lineCount": 230
+        "afterSha256": "8af4bffd23c8964e7979caa00415de464fdd551fe1adc0d8db511d0d5c729ca1",
+        "lineCount": 231
       },
       "history": [
         {
@@ -6687,13 +6704,30 @@
           "scope": "Append finite source/publication review with exact inputs/SHA and no-run limits; original candidate/versions/history runtime fields retained.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
           "notRun": ["new browser/E2E/visual/stage/whole-source acceptance"]
+        },
+        {
+          "revision": "577e531ccd991707ef73a56426d46e915220fec6",
+          "date": "2026-10-20",
+          "action": "GLM gate exact retirement/input-coordination delta",
+          "previousAfterSha256": "e635309e6883138441c400458d3e9ce4a9cf18b9461dbb5de49985512fd43530",
+          "scope": "Append finite source/publication review with exact inputs/SHA and no-run limits; original candidate/versions/history runtime fields retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+          "notRun": ["new browser/E2E/visual/stage/whole-source acceptance"],
+          "previousCoreConclusion": "proposal保持proposal；validatePredecessor拒capture、错引擎/片段、错hash及Reforge非SAVE12/content22的起点，规划方案没有任何新阶段通过信用。",
+          "previousEvidence": {
+            "kind": "inverse-JSON-object-and-actual-paired-consumer",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
+            "sourceSha256": "ca3e4b0df58b2f6f6bfbfe8a153a62aea806120646195b65904fa1bfe06a1906",
+            "afterSha256": "e635309e6883138441c400458d3e9ce4a9cf18b9461dbb5de49985512fd43530",
+            "lineCount": 230
+          }
         }
       ],
       "supersedes": [],
       "stopLine": "No runtime, E2E, visual, counter, coverage, whole-ledger semantic review or artifact-ownership acceptance from this static audit.",
       "nextStep": "Independently review this field-preserving migration and govern the paired full documents/ledgers in their own scope.",
       "userVisibleBeforeAfter": "Original document-audit object → same machine fields plus registered audit envelope and explicit publication/history/consumer limits.",
-      "reviewedLines": "1-230",
+      "reviewedLines": "1-231",
       "phase": "testing",
       "module": "publication-machine-audits",
       "templateConformity": {
@@ -6965,7 +6999,7 @@
           }
         }
       ],
-      "reviewNotes": "\n2026-10-20: Append finite source/publication review with exact inputs/SHA and no-run limits; original candidate/versions/history runtime fields retained. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json"
+      "reviewNotes": "\n2026-10-20: Append finite source/publication review with exact inputs/SHA and no-run limits; original candidate/versions/history runtime fields retained. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Append finite source/publication review with exact inputs/SHA and no-run limits; original candidate/versions/history runtime fields retained. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json"
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-common-issues.json",

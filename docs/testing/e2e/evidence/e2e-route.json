@@ -91,7 +91,8 @@
     "originalFieldPolicy": "Every preexisting key/value remains at top level; no renaming, payload move, execution update or date extension.",
     "reviewLimits": [
       "讨论稿写作时无runner与后续root命令存在是两个时点；不得恢复为当前能力缺口。",
-      "只读取canonical元数据及已展示历史说明，未把整篇路线正文计为完成；未实跑路线或前驱链。"
+      "2026-10-15原迁移范围（历史保留）：只读取canonical元数据及已展示历史说明，未把整篇路线正文计为完成；未实跑路线或前驱链。",
+      "2026-10-20已全文核读路线方案与所列现行caller/合同；publicationReviews列明范围与输入SHA。仍未实跑浏览器路线、重建检查点或授予阶段/视觉通过。"
     ],
     "beforeAfter": "Original document-audit object → same machine fields plus registered audit envelope and explicit publication/history/consumer limits.",
     "stopLine": "No runtime, E2E, visual, counter, coverage, whole-ledger semantic review or artifact-ownership acceptance from this static audit.",

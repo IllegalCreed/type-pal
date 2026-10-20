@@ -7,6 +7,20 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // CODE3u, Codex 2026-10-18: duplicate player-snapshot assertions transferred
+    // to the stronger main case, including source mutation/isolation. Both old
+    // and retained tests reject the missing-scriptPrevHp mutant. Standing user
+    // test-quality authority; 2026-10-20 closeout forbids restoring weak tests.
+    // Proof directory: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3u-state-factory/
+    // Files: assertion-transfers.json and snapshot-conservation.json.
+    {
+      file: 'packages/game/src/core/battle/battle-state.glm-next-wave.test.ts',
+      previous: 4,
+      current: 3,
+      previousIdentityDigest: '1182f6845ae1357b585818e1f98fb31d566ea8969d71267e2d0adff61b1be558',
+      currentIdentityDigest: '7905303e5cc3ae432c17e1bad4dd2a6700dab267a12f4fd80be2eee54e536686',
+      fileSha256: 'cdbe9414af48e3da5dca54b77c7516f3df1ba5556ef0193adaa4771ed348128d',
+    },
     // CODE-QUALITY-93, 2026-10-14: user-required precision/deduplication.
     // The non-empty shrink/clamp oracle remains in sell-menu.test.ts.
     // Pin this exact accepted file snapshot; no future retirement is authorized.
