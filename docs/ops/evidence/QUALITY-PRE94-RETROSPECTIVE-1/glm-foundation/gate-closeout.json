@@ -6,7 +6,7 @@
   "branch": "codex/code-quality-3y",
   "owner": "Codex",
   "date": "2026-10-20",
-  "status": "gates-pending",
+  "status": "gates-passed",
   "authorization": "用户：E2E路由真实复核；合理重构造成覆盖率下降可调整baseline；不恢复死代码/堆弱测试；同一分支、收尾集中coverage、全门零诊断后合main；其它任务不扩展。",
   "previousFailures": {
     "receipt": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json",
@@ -358,15 +358,28 @@
       },
       "delta": "-7 covered/total statements,-2 covered/total branches,-6 covered/total lines; unchanged functions. Removal is write-only inflightTarget; existing source proof and24 tests preserved in codex-dead-removals.json.",
       "limits": "Directed subset absolute counters differ from full reforge aggregate; only structural delta asserted. No claim of more branch behavior coverage."
-    }
+    },
+    "successMessageClarification": {
+      "path": "scripts/coverage/run.mjs",
+      "change": "Only successful ratchet message wording changes; no counts/comparison/scope/test/approval logic changes.",
+      "previous": "覆盖率基线已只升不降地更新（提升 ${comparison.improvements.length} 项，范围变化 ${scopeAudit.changes.length} 项）",
+      "current": "覆盖率基线已更新（相对核准比较基准提升 ${comparison.improvements.length} 项，范围变化 ${scopeAudit.changes.length} 项；精确结构调整授权见上文）",
+      "measurement": "Previous ratchet raw remains immutable; its only-upward wording describes the authorized comparison base and does not certify raw percentage monotonicity. Current raw pal/reforge percentages decreased for documented reasons.",
+      "requiresCoverageRerun": false,
+      "reason": "Only tool narration changed;7package production/test/config bytes unchanged. Protected run uses current tool.",
+      "beforeSha256": "b31137b178e573bfb3cc384cf8d8e5bc5ea3d0869115b68aa9fb1ca96da5726f",
+      "afterSha256": "eee5fee0fd4e1a9fc995b553d54cdfb0967975009c0f4887c601032eab71baa3",
+      "onlyOneLiteralChanged": true
+    },
+    "authorityClarification": "本会话先前用户明确允许合理治理修改造成覆盖率下降时调整baseline或补测；本次重申合理重构可调整、禁止恢复死代码/堆弱测试。WORD去重、BGM死状态删除及已批准的视频输出守卫增量均分别披露，不把guard新增一未覆盖计数冒称纯重构。"
   },
   "files": [
     {
       "path": "scripts/coverage/run.mjs",
-      "sha256": "b31137b178e573bfb3cc384cf8d8e5bc5ea3d0869115b68aa9fb1ca96da5726f",
+      "sha256": "eee5fee0fd4e1a9fc995b553d54cdfb0967975009c0f4887c601032eab71baa3",
       "status": "review",
       "A": "Exact snapshot/source admission; unknown baseline gets ordinary strict comparison; mismatched source/counts throw. No product schema/save/UI/API changes.",
-      "B": "Authorization and finite migration limits documented.",
+      "B": "Authorization and finite migration limits documented. Success narrative now names the approved comparison basis; no raw only-upward claim.",
       "C": "Pure baseline projection isolated from runner IO and unchanged scope/test audits.",
       "D": "One projection used by branch ratchet and protected comparison; no generic bypass flag.",
       "E": "Three independent contracts cover exact migration, stale/unknown/mismatched inputs and extra regression in affected/unaffected package; existing tool tests retained.",
@@ -399,6 +412,21 @@
       "F": "Named baseline/approval/source concepts; raw observations separate.",
       "G": "No dead production code or duplicate product tests restored.",
       "H": "Async source reader injected for deterministic failure tests; actual file source SHA verified by official caller."
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/verify-gate-closeout.mjs",
+      "sha256": "0541ec93db36455b39bd87a21248534fbfd62243ddf379939fda7413e0e1aad6",
+      "status": "review",
+      "readScope": "Full standalone evidence CLI and its root/packet/caller boundaries; finite integrity scope only",
+      "A": "Read-only Git index+unstaged/untracked and exact environment/bindings/archive/native-exit checks;fixed two self-output exclusions;unknown/stale input throws. No semantic/source-quality/browser certificate.",
+      "B": "Comments explain self-hashing exclusions,readonly/identity limits;assertions identify exact stale/missing context.",
+      "C": "Single evidence-consumer responsibility;producer,test execution,baseline writes/network excluded. Source/config/docs freshness separate from native execution proof.",
+      "D": "One digest helper for same byte-integrity contract;Node standard APIs and argument arrays avoid shell parsing;no generic validation framework.",
+      "E": "Real CLI positive0 plus four isolated metadata faults each exit1 at named independent assertion;source-scope/archive/exclusion/binding axes. Repository porcelain exactly unchanged. IO corruption is not gameplay legal-input credit.",
+      "F": "Named receipt,bindings,repositoryScope and source/tool facts;fixed root from module location.",
+      "G": "Only default entry plus explicit receipt input used by negatives;no extra persisted state or product abstraction.",
+      "H": "Deterministic filesystem/Git snapshots;no browser,network,test/coverage execution or writes. Actual CLI tested through process boundary.",
+      "lines": 119
     }
   ],
   "checks": [
@@ -445,6 +473,356 @@
         "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "bytes": 0
       }
+    },
+    {
+      "id": "diff",
+      "command": "git",
+      "args": ["diff", "--check", "HEAD"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "start": "2026-10-20T01:30:07.741Z",
+      "end": "2026-10-20T01:30:07.787Z",
+      "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
+      "targetMain": "28fd9013e09e8792decbff2fa117aae14c36b196",
+      "workingTreeAtStart": "M  docs/ops/audits/code-quality-file-ledger.md\nM  docs/ops/board.md\nM  docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout-native.json.gz\nM  docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\nM  docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/verify-gate-closeout.mjs\nM  docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\nM  docs/phase-governance/reviews/20261004-semantic-current-batch.json\nM  docs/phase-governance/reviews/20261016-historical-cards-d.json\nM  docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\nM  docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\nM  scripts/coverage/baseline.fast.json\nM  scripts/coverage/run.mjs\n",
+      "sourceBindings": [
+        {
+          "path": "scripts/coverage/run.mjs",
+          "sha256": "eee5fee0fd4e1a9fc995b553d54cdfb0967975009c0f4887c601032eab71baa3"
+        },
+        {
+          "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+          "sha256": "82835cadcf40ee841abdfe32bec9bfd7d99ffbb5ad55927522809f75cd869cd2"
+        },
+        {
+          "path": "scripts/coverage/approved-baseline-adjustments.test.mjs",
+          "sha256": "1d02b9d98db14be58e6a462634b574f44e9508202252046a5e5c2d6c2259fbab"
+        },
+        {
+          "path": "scripts/coverage/approved-test-retirements.mjs",
+          "sha256": "61a113d86944a7bf33426e69e19b0fd5f908bab785cb8ca9b36782ac097407f9"
+        },
+        {
+          "path": "scripts/coverage/approved-test-retirements.test.mjs",
+          "sha256": "5fd56e4ed3b7cb326f8e942a37c8a94809a2dafc6a5c2580fb511b7a889aafe5"
+        },
+        {
+          "path": "scripts/coverage/config.mjs",
+          "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35"
+        },
+        {
+          "path": "scripts/coverage/inventory.mjs",
+          "sha256": "8a709dbd233b4108d1f624f8b74e3b5b225db0e7553dea31c2dd4bf36cf1b6a2"
+        },
+        {
+          "path": "scripts/coverage/metrics.mjs",
+          "sha256": "5bc99f26d81e11816a73f9d5e673769ed0ff1b0a7883eda7c130db1e4466dd74"
+        }
+      ],
+      "exit": 0,
+      "signal": null,
+      "stdout": {
+        "path": "/tmp/type-pal-gates-20261020/diff.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-gates-20261020/diff.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "id": "docs",
+      "command": "pnpm",
+      "args": ["check:docs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "start": "2026-10-20T01:27:36.204Z",
+      "end": "2026-10-20T01:28:23.487Z",
+      "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
+      "targetMain": "28fd9013e09e8792decbff2fa117aae14c36b196",
+      "workingTreeAtStart": " M docs/ops/audits/code-quality-file-ledger.md\n M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout-native.json.gz\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/verify-gate-closeout.mjs\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/phase-governance/reviews/20261004-semantic-current-batch.json\n M docs/phase-governance/reviews/20261016-historical-cards-d.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\n M scripts/coverage/baseline.fast.json\n M scripts/coverage/run.mjs\n",
+      "sourceBindings": [
+        {
+          "path": "scripts/coverage/run.mjs",
+          "sha256": "eee5fee0fd4e1a9fc995b553d54cdfb0967975009c0f4887c601032eab71baa3"
+        },
+        {
+          "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+          "sha256": "82835cadcf40ee841abdfe32bec9bfd7d99ffbb5ad55927522809f75cd869cd2"
+        },
+        {
+          "path": "scripts/coverage/approved-baseline-adjustments.test.mjs",
+          "sha256": "1d02b9d98db14be58e6a462634b574f44e9508202252046a5e5c2d6c2259fbab"
+        },
+        {
+          "path": "scripts/coverage/approved-test-retirements.mjs",
+          "sha256": "61a113d86944a7bf33426e69e19b0fd5f908bab785cb8ca9b36782ac097407f9"
+        },
+        {
+          "path": "scripts/coverage/approved-test-retirements.test.mjs",
+          "sha256": "5fd56e4ed3b7cb326f8e942a37c8a94809a2dafc6a5c2580fb511b7a889aafe5"
+        },
+        {
+          "path": "scripts/coverage/config.mjs",
+          "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35"
+        },
+        {
+          "path": "scripts/coverage/inventory.mjs",
+          "sha256": "8a709dbd233b4108d1f624f8b74e3b5b225db0e7553dea31c2dd4bf36cf1b6a2"
+        },
+        {
+          "path": "scripts/coverage/metrics.mjs",
+          "sha256": "5bc99f26d81e11816a73f9d5e673769ed0ff1b0a7883eda7c130db1e4466dd74"
+        }
+      ],
+      "exit": 0,
+      "signal": null,
+      "stdout": {
+        "path": "/tmp/type-pal-gates-20261020/docs.stdout.raw",
+        "sha256": "e61ad22671e7d7c52921dd88a9318afeef086835591d3e190573d6fbd384d64b",
+        "bytes": 30522
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-gates-20261020/docs.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "id": "ledger",
+      "command": "node",
+      "args": ["scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "start": "2026-10-20T01:30:06.820Z",
+      "end": "2026-10-20T01:30:07.686Z",
+      "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
+      "targetMain": "28fd9013e09e8792decbff2fa117aae14c36b196",
+      "workingTreeAtStart": "M  docs/ops/audits/code-quality-file-ledger.md\nM  docs/ops/board.md\nM  docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout-native.json.gz\nM  docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\nM  docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/verify-gate-closeout.mjs\nM  docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\nM  docs/phase-governance/reviews/20261004-semantic-current-batch.json\nM  docs/phase-governance/reviews/20261016-historical-cards-d.json\nM  docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\nM  docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\nM  scripts/coverage/baseline.fast.json\nM  scripts/coverage/run.mjs\n",
+      "sourceBindings": [
+        {
+          "path": "scripts/coverage/run.mjs",
+          "sha256": "eee5fee0fd4e1a9fc995b553d54cdfb0967975009c0f4887c601032eab71baa3"
+        },
+        {
+          "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+          "sha256": "82835cadcf40ee841abdfe32bec9bfd7d99ffbb5ad55927522809f75cd869cd2"
+        },
+        {
+          "path": "scripts/coverage/approved-baseline-adjustments.test.mjs",
+          "sha256": "1d02b9d98db14be58e6a462634b574f44e9508202252046a5e5c2d6c2259fbab"
+        },
+        {
+          "path": "scripts/coverage/approved-test-retirements.mjs",
+          "sha256": "61a113d86944a7bf33426e69e19b0fd5f908bab785cb8ca9b36782ac097407f9"
+        },
+        {
+          "path": "scripts/coverage/approved-test-retirements.test.mjs",
+          "sha256": "5fd56e4ed3b7cb326f8e942a37c8a94809a2dafc6a5c2580fb511b7a889aafe5"
+        },
+        {
+          "path": "scripts/coverage/config.mjs",
+          "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35"
+        },
+        {
+          "path": "scripts/coverage/inventory.mjs",
+          "sha256": "8a709dbd233b4108d1f624f8b74e3b5b225db0e7553dea31c2dd4bf36cf1b6a2"
+        },
+        {
+          "path": "scripts/coverage/metrics.mjs",
+          "sha256": "5bc99f26d81e11816a73f9d5e673769ed0ff1b0a7883eda7c130db1e4466dd74"
+        }
+      ],
+      "exit": 0,
+      "signal": null,
+      "stdout": {
+        "path": "/tmp/type-pal-gates-20261020/ledger.stdout.raw",
+        "sha256": "b644532e25cb055b887d5fca716071ec5435cba3f1095035164014884b2af584",
+        "bytes": 113
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-gates-20261020/ledger.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "id": "lint",
+      "command": "pnpm",
+      "args": ["lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "start": "2026-10-20T01:30:04.083Z",
+      "end": "2026-10-20T01:30:06.761Z",
+      "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
+      "targetMain": "28fd9013e09e8792decbff2fa117aae14c36b196",
+      "workingTreeAtStart": "M  docs/ops/audits/code-quality-file-ledger.md\nM  docs/ops/board.md\nM  docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout-native.json.gz\nM  docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\nM  docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/verify-gate-closeout.mjs\nM  docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\nM  docs/phase-governance/reviews/20261004-semantic-current-batch.json\nM  docs/phase-governance/reviews/20261016-historical-cards-d.json\nM  docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\nM  docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\nM  scripts/coverage/baseline.fast.json\nM  scripts/coverage/run.mjs\n",
+      "sourceBindings": [
+        {
+          "path": "scripts/coverage/run.mjs",
+          "sha256": "eee5fee0fd4e1a9fc995b553d54cdfb0967975009c0f4887c601032eab71baa3"
+        },
+        {
+          "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+          "sha256": "82835cadcf40ee841abdfe32bec9bfd7d99ffbb5ad55927522809f75cd869cd2"
+        },
+        {
+          "path": "scripts/coverage/approved-baseline-adjustments.test.mjs",
+          "sha256": "1d02b9d98db14be58e6a462634b574f44e9508202252046a5e5c2d6c2259fbab"
+        },
+        {
+          "path": "scripts/coverage/approved-test-retirements.mjs",
+          "sha256": "61a113d86944a7bf33426e69e19b0fd5f908bab785cb8ca9b36782ac097407f9"
+        },
+        {
+          "path": "scripts/coverage/approved-test-retirements.test.mjs",
+          "sha256": "5fd56e4ed3b7cb326f8e942a37c8a94809a2dafc6a5c2580fb511b7a889aafe5"
+        },
+        {
+          "path": "scripts/coverage/config.mjs",
+          "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35"
+        },
+        {
+          "path": "scripts/coverage/inventory.mjs",
+          "sha256": "8a709dbd233b4108d1f624f8b74e3b5b225db0e7553dea31c2dd4bf36cf1b6a2"
+        },
+        {
+          "path": "scripts/coverage/metrics.mjs",
+          "sha256": "5bc99f26d81e11816a73f9d5e673769ed0ff1b0a7883eda7c130db1e4466dd74"
+        }
+      ],
+      "exit": 0,
+      "signal": null,
+      "stdout": {
+        "path": "/tmp/type-pal-gates-20261020/lint.stdout.raw",
+        "sha256": "b79fe02f6633520bd219c73513ecc87fe86218ea3b9bd4b53699e0d813b38984",
+        "bytes": 193
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-gates-20261020/lint.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "id": "protected",
+      "command": "node",
+      "args": ["scripts/coverage/run.mjs", "fast"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {
+        "TYPE_PAL_COVERAGE_BASE_REF": "origin/main"
+      },
+      "start": "2026-10-20T01:17:01.435Z",
+      "end": "2026-10-20T01:26:51.527Z",
+      "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
+      "targetMain": "28fd9013e09e8792decbff2fa117aae14c36b196",
+      "workingTreeAtStart": " M docs/ops/audits/code-quality-file-ledger.md\n M scripts/coverage/baseline.fast.json\n M scripts/coverage/run.mjs\n",
+      "sourceBindings": [
+        {
+          "path": "scripts/coverage/run.mjs",
+          "sha256": "eee5fee0fd4e1a9fc995b553d54cdfb0967975009c0f4887c601032eab71baa3"
+        },
+        {
+          "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+          "sha256": "82835cadcf40ee841abdfe32bec9bfd7d99ffbb5ad55927522809f75cd869cd2"
+        },
+        {
+          "path": "scripts/coverage/approved-baseline-adjustments.test.mjs",
+          "sha256": "1d02b9d98db14be58e6a462634b574f44e9508202252046a5e5c2d6c2259fbab"
+        },
+        {
+          "path": "scripts/coverage/approved-test-retirements.mjs",
+          "sha256": "61a113d86944a7bf33426e69e19b0fd5f908bab785cb8ca9b36782ac097407f9"
+        },
+        {
+          "path": "scripts/coverage/approved-test-retirements.test.mjs",
+          "sha256": "5fd56e4ed3b7cb326f8e942a37c8a94809a2dafc6a5c2580fb511b7a889aafe5"
+        },
+        {
+          "path": "scripts/coverage/config.mjs",
+          "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35"
+        },
+        {
+          "path": "scripts/coverage/inventory.mjs",
+          "sha256": "8a709dbd233b4108d1f624f8b74e3b5b225db0e7553dea31c2dd4bf36cf1b6a2"
+        },
+        {
+          "path": "scripts/coverage/metrics.mjs",
+          "sha256": "5bc99f26d81e11816a73f9d5e673769ed0ff1b0a7883eda7c130db1e4466dd74"
+        }
+      ],
+      "exit": 0,
+      "signal": null,
+      "stdout": {
+        "path": "/tmp/type-pal-gates-20261020/protected.stdout.raw",
+        "sha256": "840e7a435d18f6cf46fa983990064097d4b0745673cd878a7155bfc8a3a2d36f",
+        "bytes": 7657
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-gates-20261020/protected.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "id": "ratchet",
+      "command": "pnpm",
+      "args": ["coverage:ratchet", "--allow-scope-removal"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "start": "2026-10-20T01:05:50.736Z",
+      "end": "2026-10-20T01:15:44.302Z",
+      "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
+      "targetMain": "28fd9013e09e8792decbff2fa117aae14c36b196",
+      "workingTreeAtStart": "",
+      "sourceBindings": [
+        {
+          "path": "scripts/coverage/run.mjs",
+          "sha256": "b31137b178e573bfb3cc384cf8d8e5bc5ea3d0869115b68aa9fb1ca96da5726f"
+        },
+        {
+          "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+          "sha256": "82835cadcf40ee841abdfe32bec9bfd7d99ffbb5ad55927522809f75cd869cd2"
+        },
+        {
+          "path": "scripts/coverage/approved-baseline-adjustments.test.mjs",
+          "sha256": "1d02b9d98db14be58e6a462634b574f44e9508202252046a5e5c2d6c2259fbab"
+        },
+        {
+          "path": "scripts/coverage/approved-test-retirements.mjs",
+          "sha256": "61a113d86944a7bf33426e69e19b0fd5f908bab785cb8ca9b36782ac097407f9"
+        },
+        {
+          "path": "scripts/coverage/approved-test-retirements.test.mjs",
+          "sha256": "5fd56e4ed3b7cb326f8e942a37c8a94809a2dafc6a5c2580fb511b7a889aafe5"
+        },
+        {
+          "path": "scripts/coverage/config.mjs",
+          "sha256": "9845f41bf51e01b1ec809c7515305ec2534aff59b9e7c3c7557db1c68bdcca35"
+        },
+        {
+          "path": "scripts/coverage/inventory.mjs",
+          "sha256": "8a709dbd233b4108d1f624f8b74e3b5b225db0e7553dea31c2dd4bf36cf1b6a2"
+        },
+        {
+          "path": "scripts/coverage/metrics.mjs",
+          "sha256": "5bc99f26d81e11816a73f9d5e673769ed0ff1b0a7883eda7c130db1e4466dd74"
+        }
+      ],
+      "exit": 0,
+      "signal": null,
+      "stdout": {
+        "path": "/tmp/type-pal-gates-20261020/ratchet.stdout.raw",
+        "sha256": "9126b9ccd5130f02846110d0e530ec69b66a63e6dc54dc94b536d1704c0b2a3b",
+        "bytes": 23708
+      },
+      "stderr": {
+        "path": "/tmp/type-pal-gates-20261020/ratchet.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
     }
   ],
   "ledger": {
@@ -455,15 +833,16 @@
     "newClosed": 0
   },
   "integration": {
-    "committed": false,
-    "pushed": false,
-    "merged": false,
-    "behind": 0,
-    "ahead": 410
+    "branch": "codex/code-quality-3y",
+    "sourceCommit": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
+    "statusAtReceiptFreeze": "Final closeout delta staged;after clean gates/quick verification commit+push3y then fast-forward main. Actual resulting commits/main membership are Git-ref facts,not a self-embedded commit SHA.",
+    "mainAtProtectedRun": "28fd9013e09e8792decbff2fa117aae14c36b196",
+    "behindAtProtectedStart": 0,
+    "newLongLivedBranches": 0
   },
   "artifact": {
     "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout-native.json.gz",
-    "sha256": "8627404cf3d0604e88648408f10a5f6d6c690f9f23ea32a6219567863b56b34d",
+    "sha256": "ae22fe41d5e1e2cf469295b14e5cd88fde4075ef146791c09b388a3c0e854b4d",
     "members": [
       {
         "name": "adjustment-records.json",
@@ -687,8 +1066,8 @@
       },
       {
         "name": "capture-gate.mjs",
-        "sha256": "339a34cff7206cee496d3adfda88b543dcd7e600762988994a78f137294da7ad",
-        "bytes": 2676
+        "sha256": "60052143657a83af94b197bf908c80a6ae4c7009a3372504f5277766977edbfd",
+        "bytes": 2683
       },
       {
         "name": "check.execution.json",
@@ -779,6 +1158,436 @@
         "name": "metadata-coordination-bindings.json",
         "sha256": "42be587f2e58a1b62931ef33f2a505936c520fe7e9e4bed99f31ab22e48696e1",
         "bytes": 861
+      },
+      {
+        "name": "baseline-after-ratchet.json",
+        "sha256": "b6092859af15c984396bf5ef75329c32b111f933b4cf0afb79b36415bd2ccc92",
+        "bytes": 527216
+      },
+      {
+        "name": "baseline-before-ratchet.json",
+        "sha256": "9b07f6879402068d484c6a4678f400e42941435688e7d1e13c9e3a379dcfb1d1",
+        "bytes": 526456
+      },
+      {
+        "name": "checkWithInputs.scan.json",
+        "sha256": "ab41d0479f986921c97b329d10fa576628bbc529d3e521c4393377c1bc0d0560",
+        "bytes": 1356
+      },
+      {
+        "name": "final-bindings.mjs",
+        "sha256": "96738c03a95c2ee3e80d6806f64c32b68835ed08674b984fbd70470b39f6354a",
+        "bytes": 5138
+      },
+      {
+        "name": "ledger-status-first.stderr.raw",
+        "sha256": "c4e4ae2dc949a27f08c614555152eeafd92ac45aee81f969cd271f48279b06e3",
+        "bytes": 181
+      },
+      {
+        "name": "ledger-status-first.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "ledger-status-fixed.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "ledger-status-fixed.stdout.raw",
+        "sha256": "b644532e25cb055b887d5fca716071ec5435cba3f1095035164014884b2af584",
+        "bytes": 113
+      },
+      {
+        "name": "message-clarification.json",
+        "sha256": "1a37e6fdcbf96dbaa74b5542663ba6507872f7f4d576b744d7ee49a323475f0a",
+        "bytes": 1123
+      },
+      {
+        "name": "metadata-final-bindings.json",
+        "sha256": "bdd611fef9e6f9f81a4834fac62511825e54218ec1119a4e54c0759ae7900af3",
+        "bytes": 822
+      },
+      {
+        "name": "prepare-final-docs.mjs",
+        "sha256": "b7621c059c0862b1fdfa7a9a9d3679d1a5d69f395b0986e32e6ea93d9758acd7",
+        "bytes": 3206
+      },
+      {
+        "name": "protected-content-coverage.json",
+        "sha256": "6c9a391e15f9acdec4d283743f5c5dc7298ff76a8920d9e28b06a225e9fe5272",
+        "bytes": 19470
+      },
+      {
+        "name": "protected-content-inventory.json",
+        "sha256": "e3fcafce105d0bb02490ed9683ebe8266edc00ad54df41d7a82fcb8c9a27d9ee",
+        "bytes": 364424
+      },
+      {
+        "name": "protected-editor-coverage.json",
+        "sha256": "197ff96e045710c08d56149361f9a71804ade9d7da42c54cc19b4835cc04edc2",
+        "bytes": 104249
+      },
+      {
+        "name": "protected-editor-inventory.json",
+        "sha256": "5cf163cb94c84ee8f97ecbbae682cc26585f71db8ae87059c39328998638dd89",
+        "bytes": 1237658
+      },
+      {
+        "name": "protected-game-coverage.json",
+        "sha256": "8df252773c58401249c6115be4de537c5761af0a6efbb52194d1908466fa65d9",
+        "bytes": 50538
+      },
+      {
+        "name": "protected-game-inventory.json",
+        "sha256": "1d078989ea1526885ee565303b827ac09be69c72f6a9abdfa9a5f36e4baca86e",
+        "bytes": 980222
+      },
+      {
+        "name": "protected-migrate-coverage.json",
+        "sha256": "6f71200a3734a9728a780a1f259e649180527ba99290434ab4a10a0ea198f024",
+        "bytes": 13444
+      },
+      {
+        "name": "protected-migrate-inventory.json",
+        "sha256": "cff67eb4f005adf5a1eb83d82b79a0a147f58805fadd131a08d8702f7ed2a88b",
+        "bytes": 196773
+      },
+      {
+        "name": "protected-pal-extract-coverage.json",
+        "sha256": "7b29165f627a9c230e37fe117598d18889198583e487baa7f243f6595086be58",
+        "bytes": 14185
+      },
+      {
+        "name": "protected-pal-extract-inventory.json",
+        "sha256": "edc72928d78896ce37d277c8b0ad4cb6e06fa09eb7233e075c01713867ea5057",
+        "bytes": 74865
+      },
+      {
+        "name": "protected-reforge-coverage.json",
+        "sha256": "db63870ef759df3114f8b4d8b19fbc77ca715ba69eea625f76db74cc2b1b44ef",
+        "bytes": 55110
+      },
+      {
+        "name": "protected-reforge-inventory.json",
+        "sha256": "e3bfd368275fe65b3d07a0f89f80e1db08038f5aec4b01a48905d963c8acc101",
+        "bytes": 2206141
+      },
+      {
+        "name": "protected-shared-coverage.json",
+        "sha256": "5f280ed15a29b5588d32fa9ab1348096111f7fa5e49ec540a762b4f181060db6",
+        "bytes": 3971
+      },
+      {
+        "name": "protected-shared-inventory.json",
+        "sha256": "61a16d4e64a4f3abc139165b9af83f000787dfc805a06abcb97840c839f1bdfa",
+        "bytes": 26797
+      },
+      {
+        "name": "protected-summary.json",
+        "sha256": "dacd5b0b2b246d9e6cdcf4f763078f22f93e875801d91e23bbf4acd3ada7e931",
+        "bytes": 8469627
+      },
+      {
+        "name": "protected.execution.json",
+        "sha256": "8a5e169edea4c1ded9d42a8b5da1f822079ecf96ec0da9a8f4a24f843b320dcd",
+        "bytes": 2234
+      },
+      {
+        "name": "protected.scan.json",
+        "sha256": "4bf46642b8b3910a9fe533ac6c3a20867e4aacd5b5f7fbf47aa07cab06228a3f",
+        "bytes": 1265
+      },
+      {
+        "name": "protected.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "protected.stdout.raw",
+        "sha256": "840e7a435d18f6cf46fa983990064097d4b0745673cd878a7155bfc8a3a2d36f",
+        "bytes": 7657
+      },
+      {
+        "name": "ratchet-content-coverage.json",
+        "sha256": "6c9a391e15f9acdec4d283743f5c5dc7298ff76a8920d9e28b06a225e9fe5272",
+        "bytes": 19470
+      },
+      {
+        "name": "ratchet-content-inventory.json",
+        "sha256": "c3a149b597076dec0f04a5810ec74bdb28bba52e6fee708a101183dbf4abb501",
+        "bytes": 364424
+      },
+      {
+        "name": "ratchet-editor-coverage.json",
+        "sha256": "197ff96e045710c08d56149361f9a71804ade9d7da42c54cc19b4835cc04edc2",
+        "bytes": 104249
+      },
+      {
+        "name": "ratchet-editor-inventory.json",
+        "sha256": "e9c85bed0d649063fcf523203f024141a59524fae444e782c7d77391118a90c8",
+        "bytes": 1237658
+      },
+      {
+        "name": "ratchet-game-coverage.json",
+        "sha256": "8df252773c58401249c6115be4de537c5761af0a6efbb52194d1908466fa65d9",
+        "bytes": 50538
+      },
+      {
+        "name": "ratchet-game-inventory.json",
+        "sha256": "48e83c7353150c542f42987c35e751bc0a49a898a4bf33b4676421e85d56cb2a",
+        "bytes": 980222
+      },
+      {
+        "name": "ratchet-migrate-coverage.json",
+        "sha256": "6f71200a3734a9728a780a1f259e649180527ba99290434ab4a10a0ea198f024",
+        "bytes": 13444
+      },
+      {
+        "name": "ratchet-migrate-inventory.json",
+        "sha256": "f92c2f3376c32ec500c8e38e445b5ff621ed2b55aa0371f9af57a9b21478d765",
+        "bytes": 196773
+      },
+      {
+        "name": "ratchet-pal-extract-coverage.json",
+        "sha256": "7b29165f627a9c230e37fe117598d18889198583e487baa7f243f6595086be58",
+        "bytes": 14185
+      },
+      {
+        "name": "ratchet-pal-extract-inventory.json",
+        "sha256": "b4a33df292ce6cc0cf392bb87ddb364244b30ebf5642f1a20072b69bd7226cf8",
+        "bytes": 74865
+      },
+      {
+        "name": "ratchet-reforge-coverage.json",
+        "sha256": "db63870ef759df3114f8b4d8b19fbc77ca715ba69eea625f76db74cc2b1b44ef",
+        "bytes": 55110
+      },
+      {
+        "name": "ratchet-reforge-inventory.json",
+        "sha256": "c63bb862866a3f38b6188f79a3b0e83a0e30be8a981e73599e9314b42aa2f51e",
+        "bytes": 2206141
+      },
+      {
+        "name": "ratchet-shared-coverage.json",
+        "sha256": "5f280ed15a29b5588d32fa9ab1348096111f7fa5e49ec540a762b4f181060db6",
+        "bytes": 3971
+      },
+      {
+        "name": "ratchet-shared-inventory.json",
+        "sha256": "dd91452f6a858e25ff6a1fe3ac9377667a9c3a106efbd969a275a941bca0f666",
+        "bytes": 26797
+      },
+      {
+        "name": "ratchet-summary.json",
+        "sha256": "310ae4b76610cd64ab1f56899e393ecbbad0ac85b22a1c497c2a6fefdc5174b6",
+        "bytes": 8469627
+      },
+      {
+        "name": "ratchet.execution.json",
+        "sha256": "e313edd0c8e43fddbeb8ee875f4f8e9e307e2c05b02f260643d1551e5b16aed8",
+        "bytes": 2070
+      },
+      {
+        "name": "ratchet.scan.json",
+        "sha256": "16c1ce6f37d404b8d851e666e520c3b313fc1c61315ba1ee78908672261aec9f",
+        "bytes": 1263
+      },
+      {
+        "name": "ratchet.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "ratchet.stdout.raw",
+        "sha256": "9126b9ccd5130f02846110d0e530ec69b66a63e6dc54dc94b536d1704c0b2a3b",
+        "bytes": 23708
+      },
+      {
+        "name": "run-before-message.raw",
+        "sha256": "b31137b178e573bfb3cc384cf8d8e5bc5ea3d0869115b68aa9fb1ca96da5726f",
+        "bytes": 22095
+      },
+      {
+        "name": "scan-logs.mjs",
+        "sha256": "94aad4bd0113b20aa333ea8d218dec59a49826f66f45763a0c2907aa694bd1ce",
+        "bytes": 1389
+      },
+      {
+        "name": "docs.execution.json",
+        "sha256": "f8ea58e57b6e00d926656fec18b2b53526280feb78c23adaf88e39a764310d04",
+        "bytes": 2784
+      },
+      {
+        "name": "docs.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "docs.stdout.raw",
+        "sha256": "e61ad22671e7d7c52921dd88a9318afeef086835591d3e190573d6fbd384d64b",
+        "bytes": 30522
+      },
+      {
+        "name": "seal-packet.mjs",
+        "sha256": "728d89358147d50e893910a4ec85b3e63b00508786f564c83019b3f9870ef634",
+        "bytes": 6557
+      },
+      {
+        "name": "diff.execution.json",
+        "sha256": "db5c73b781d5a0aa7ceb939f5c2cf46ec62a38092e8f6e5d5f085f351b5b78ef",
+        "bytes": 2800
+      },
+      {
+        "name": "diff.scan.json",
+        "sha256": "91e44e1b6f58a0b787b3492dce80ef7ccfeda949f9d357734f63870ae9886457",
+        "bytes": 225
+      },
+      {
+        "name": "diff.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "diff.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "docs.scan.json",
+        "sha256": "24a95a4402b894c0ca9d379dcff7ffd7d4998619e4a3d1c55b1ce67eb8356a90",
+        "bytes": 225
+      },
+      {
+        "name": "ledger.execution.json",
+        "sha256": "f2e8faf3a3b900812a65a7390912fc92e83e6c9801fb8dc897053a7640a20b9f",
+        "bytes": 2817
+      },
+      {
+        "name": "ledger.scan.json",
+        "sha256": "7fb86c13c9d741fbc9faa8ac35872e6ff6bc99d828c68f462afd050bf7ee996b",
+        "bytes": 227
+      },
+      {
+        "name": "ledger.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "ledger.stdout.raw",
+        "sha256": "b644532e25cb055b887d5fca716071ec5435cba3f1095035164014884b2af584",
+        "bytes": 113
+      },
+      {
+        "name": "lint.execution.json",
+        "sha256": "c45306f33c9b20a7779c8a3ee123e2f4e35061c089ad6e5d7cbdf71c73cbd597",
+        "bytes": 2776
+      },
+      {
+        "name": "lint.scan.json",
+        "sha256": "d45af55667982d210ec2165941e97957bf38800fa217ed2f7ce633f8bd8ccc34",
+        "bytes": 310
+      },
+      {
+        "name": "lint.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "lint.stdout.raw",
+        "sha256": "b79fe02f6633520bd219c73513ecc87fe86218ea3b9bd4b53699e0d813b38984",
+        "bytes": 193
+      },
+      {
+        "name": "append-quick.mjs",
+        "sha256": "51d10d2910016515bd88f7493923086e10812773c1549f919bcf2e374915b3e5",
+        "bytes": 3464
+      },
+      {
+        "name": "quick-archive.receipt",
+        "sha256": "a705353c082f6100767403417a70fe6aa6d71f9c34d6ce8b0d2bbc297ecf985f",
+        "bytes": 102729
+      },
+      {
+        "name": "quick-archive.stderr.raw",
+        "sha256": "4298f133834a9485894a3a38e933cb12627b80aa317fc18e4a872393981f6faf",
+        "bytes": 971
+      },
+      {
+        "name": "quick-archive.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "quick-binding.receipt",
+        "sha256": "dfa47a77e1141bc574e5149f19a4e2fc7969fca1c3ede90c27b7290d493aab16",
+        "bytes": 102729
+      },
+      {
+        "name": "quick-binding.stderr.raw",
+        "sha256": "f726c4cf6c7c45962b32f71ed1b73f9e898e88bcfe66399f779034127b20e348",
+        "bytes": 992
+      },
+      {
+        "name": "quick-binding.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "quick-controls.json",
+        "sha256": "72da23c973d3858e77795dfd1f95270cd40469eaf6f858001576a994d747702e",
+        "bytes": 3757
+      },
+      {
+        "name": "quick-controls.mjs",
+        "sha256": "781ee3eaa0be23518ac8ad335c0fb5eef611bce79a9c856b7dee6004ed98ef37",
+        "bytes": 2435
+      },
+      {
+        "name": "quick-exclusion.receipt",
+        "sha256": "1f9a255fd77db7d2eae9418349a8634d01209f081a28bf75d76cfb2f6d26d5c8",
+        "bytes": 102770
+      },
+      {
+        "name": "quick-exclusion.stderr.raw",
+        "sha256": "a7bb412c5fe3a38169b683a3bdcb56edff620265bf2e425a27d4e96a8cdc39bb",
+        "bytes": 1391
+      },
+      {
+        "name": "quick-exclusion.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "quick-positive-input.raw",
+        "sha256": "67ffd0af6211f407fff0dd2b87d02ba5c4485afb41bff95d02b55f33d884ecb9",
+        "bytes": 128454
+      },
+      {
+        "name": "quick-positive.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "quick-positive.stdout.raw",
+        "sha256": "6724304583efbccc3875385f0008336e9d33dccbc3baac3691205722d054be25",
+        "bytes": 226
+      },
+      {
+        "name": "quick-scope.receipt",
+        "sha256": "48a03ca3e09c058b7cfd0e0fdb7cbfa95dfa9881acfd3176349c1a56d5267f09",
+        "bytes": 102729
+      },
+      {
+        "name": "quick-scope.stderr.raw",
+        "sha256": "92779a4198f71d42338ee86fdb7156cdc21594a6a108f6b503424dc5cf7e899f",
+        "bytes": 1023
+      },
+      {
+        "name": "quick-scope.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
       }
     ]
   },
@@ -2259,7 +3068,7 @@
     },
     {
       "path": "scripts/coverage/run.mjs",
-      "sha256": "b31137b178e573bfb3cc384cf8d8e5bc5ea3d0869115b68aa9fb1ca96da5726f"
+      "sha256": "eee5fee0fd4e1a9fc995b553d54cdfb0967975009c0f4887c601032eab71baa3"
     },
     {
       "path": "scripts/coverage/approved-baseline-adjustments.mjs",
@@ -2279,7 +3088,7 @@
     },
     {
       "path": "scripts/coverage/baseline.fast.json",
-      "sha256": "9b07f6879402068d484c6a4678f400e42941435688e7d1e13c9e3a379dcfb1d1"
+      "sha256": "b6092859af15c984396bf5ef75329c32b111f933b4cf0afb79b36415bd2ccc92"
     },
     {
       "path": "scripts/coverage/config.mjs",
@@ -2303,7 +3112,7 @@
     },
     {
       "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/verify-gate-closeout.mjs",
-      "sha256": "3601738d1dd8123e99e11b26787716c49fb3723c2a60a4fd6c4ff91898cab45f"
+      "sha256": "0541ec93db36455b39bd87a21248534fbfd62243ddf379939fda7413e0e1aad6"
     },
     {
       "path": "docs/testing/catalog.json",
@@ -2324,6 +3133,42 @@
     {
       "path": "docs/testing/domains/phase1-runtime/dependencies/dependency-ownership/report.md",
       "sha256": "eebeb63d9cdb604dace83320f69c799c3fa3357aeb6627c859ce1b0ed484d94e"
+    },
+    {
+      "path": "packages/pal-extract/scripts/extract-videos.ts",
+      "sha256": "0c149a276bca4fe592142ddfeef06c2268c1642e03dcf05883f5292cbbc22218"
+    },
+    {
+      "path": "packages/reforge/src/audio/bgm.ts",
+      "sha256": "23de6a662e77b50d58dfbf99c89f24159419b86996da038201cfcff15a784e35"
+    },
+    {
+      "path": "docs/ops/board.md",
+      "sha256": "0caa783346d8ec16435ec4c7132b229a2b81934c5d1b06ce514fdca60fa1ee92"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",
+      "sha256": "02dc8db81d5e498f353b672a58eba61602236d9320194ea1aa0913402d181e15"
+    },
+    {
+      "path": "docs/ops/audits/code-quality-file-ledger.md",
+      "sha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
+      "sha256": "cf9a648b93f01ccb4be7424719696782fc8ef982c839b388df84e2fe23cf7d58"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
+      "sha256": "df1165337e521b1713baaa972a8d6438404562b96088417ea6ba1ce7b7c94422"
+    },
+    {
+      "path": "docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json",
+      "sha256": "4acdff529bb0b4327313e033bbac7fe63dc6c261a19c93cb5fe7e6281dd91d93"
+    },
+    {
+      "path": "docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md",
+      "sha256": "3177ca8ae802315467bb7c9f60e89bef2fc5dedfc08ac8d662e90b1c6d146bdf"
     }
   ],
   "quickVerify": {
@@ -2337,5 +3182,234 @@
     "checkedBindings": 368,
     "byteChanges": 0,
     "metadata": "Previous receipt metadata bindings refer to its own frozen commit; subsequent gate-phase document bindings are separately maintained. No repeated full29/A-H review or contributor rerun."
+  },
+  "finalGateIds": ["checkWithInputs", "ratchet", "protected", "docs", "lint", "ledger", "diff"],
+  "diagnostics": {
+    "error": 0,
+    "warning": 0,
+    "info": 0,
+    "reactAct": 0,
+    "actEnvironment": 0,
+    "testStderrBlocks": 0
+  },
+  "gateSummary": {
+    "normalPackages": [
+      {
+        "id": "content",
+        "files": 149,
+        "tests": {
+          "passed": 1498,
+          "skipped": 0,
+          "total": 1498
+        }
+      },
+      {
+        "id": "shared",
+        "files": 13,
+        "tests": {
+          "passed": 114,
+          "skipped": 0,
+          "total": 114
+        }
+      },
+      {
+        "id": "game",
+        "files": 324,
+        "tests": {
+          "passed": 3678,
+          "skipped": 0,
+          "total": 3678
+        }
+      },
+      {
+        "id": "pal-extract",
+        "files": 74,
+        "tests": {
+          "passed": 441,
+          "skipped": 0,
+          "total": 441
+        }
+      },
+      {
+        "id": "reforge",
+        "files": 359,
+        "tests": {
+          "passed": 8964,
+          "skipped": 0,
+          "total": 8964
+        }
+      },
+      {
+        "id": "editor",
+        "files": 631,
+        "tests": {
+          "passed": 4943,
+          "skipped": 0,
+          "total": 4943
+        }
+      },
+      {
+        "id": "migrate",
+        "files": 96,
+        "tests": {
+          "passed": 739,
+          "skipped": 0,
+          "total": 739
+        }
+      }
+    ],
+    "normalTestCount": 20377,
+    "normalSkipped": 0,
+    "fast": 19979,
+    "fastSourceFiles": 741,
+    "fastSkipped": 0,
+    "diagnosticScans": [
+      "checkWithInputs.scan.json",
+      "ratchet.scan.json",
+      "protected.scan.json",
+      "docs.scan.json",
+      "lint.scan.json",
+      "ledger.scan.json",
+      "diff.scan.json"
+    ],
+    "protectedSource": "origin/main@28fd9013e09e8792decbff2fa117aae14c36b196",
+    "protectedRetirements": "Exact CODE3u4→3 plus12 historical applicable snapshots; no still-existing source excluded."
+  },
+  "sourceContinuity": {
+    "normalCheck": "577e531cc; package production/tests/config bytes unchanged through final closeout. Later registry-only exact retirement addition was exercised by46 targeted tests and79 official coverage-tool tests; raw root check78 remains78.",
+    "ratchet": "fc68ac86b with recorded source/config byte bindings; later only the runner success-message literal changed (exact replacement proof saved), no coverage/comparison logic or7package/config/test changes.",
+    "protected": "fc68ac86b plus recorded current source byte bindings; fresh main0behind preflight. Same package metrics and native identity digests as ratchet.",
+    "notRepeated": "No15-minute whole check/coverage rerun for report/metadata or successful-log wording; current docs/lint/ledger cover those deltas."
+  },
+  "processIssues": [
+    {
+      "id": "missing-extracted-inputs",
+      "first": "check.execution.json, exit1/27 failures",
+      "fix": "Copy2907 regular existing input files into owned output tree;397E2E-tool tests then pass; full checkWithInputs passes all7packages. No symlink/shared output/extractor use."
+    },
+    {
+      "id": "ledger-status-vocabulary",
+      "first": "fc68 preparation command rejected two English pending cells but the shell continued to commit/push; no merge occurred.",
+      "fix": "Use existing待核 vocabulary; retain214/157/2947. Subsequent milestone commands use set -e; final ledger exit0.",
+      "evidence": "ledger-status-first.{stdout,stderr}.raw is an unchanged-state reproduction before correction, not claimed as separately redirected first-invocation bytes. Original first transport output remains in conversation; final native gate raw is complete."
+    }
+  ],
+  "notRun": [
+    "new story browser E2E",
+    "NPC/visual/capture acceptance",
+    "editor preview start-state acceptance",
+    "full-profile coverage (required ratchet/protected use fast)",
+    "other83cards/94-102 or whole-repository source-quality acceptance"
+  ],
+  "toolVersions": {
+    "node": "v22.23.2",
+    "pnpm": "10.29.2 (observed)",
+    "installed": {
+      "vitest": "4.1.7",
+      "@vitest/coverage-v8": "4.1.7",
+      "typescript": "6.0.3"
+    }
+  },
+  "repositoryScope": {
+    "sha256": "9a722278d27515894363b96f09eae238465f98dbf454de3698821c488b326a9f",
+    "entries": 16323,
+    "excluded": [
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout-native.json.gz"
+    ],
+    "reason": "Fixed self-receipt outputs only; no lint/test/source exclusions. All other tracked code/callers/tests/config/docs and untracked/unstaged freshness are checked using read-only Git commands."
+  },
+  "finalGateConclusion": "Required local gates passed with0diagnostics. Finite GLM rework closeout only;0newclosed. Final raw includes historical failures with dated scope. Main sync follows staged delivery and0behind preflight; Git refs record the outcome.",
+  "quickVerifyValidation": {
+    "positiveExit": 0,
+    "negative": [
+      {
+        "id": "binding",
+        "command": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/verify-gate-closeout.mjs",
+          "--receipt",
+          "/tmp/type-pal-gates-20261020/quick-binding.receipt"
+        ],
+        "start": "2026-10-20T01:32:29.022Z",
+        "end": "2026-10-20T01:32:29.131Z",
+        "exit": 1,
+        "signal": null,
+        "expectedAssertion": "stale binding:",
+        "inputRecipe": "structuredClone frozen positive receipt;change only named field",
+        "positiveReceiptSha256": "67ffd0af6211f407fff0dd2b87d02ba5c4485afb41bff95d02b55f33d884ecb9",
+        "inputSha256": "dfa47a77e1141bc574e5149f19a4e2fc7969fca1c3ede90c27b7290d493aab16",
+        "stdout": "quick-binding.stdout.raw",
+        "stderr": "quick-binding.stderr.raw"
+      },
+      {
+        "id": "scope",
+        "command": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/verify-gate-closeout.mjs",
+          "--receipt",
+          "/tmp/type-pal-gates-20261020/quick-scope.receipt"
+        ],
+        "start": "2026-10-20T01:32:29.132Z",
+        "end": "2026-10-20T01:32:29.178Z",
+        "exit": 1,
+        "signal": null,
+        "expectedAssertion": "stale repository scope:",
+        "inputRecipe": "structuredClone frozen positive receipt;change only named field",
+        "positiveReceiptSha256": "67ffd0af6211f407fff0dd2b87d02ba5c4485afb41bff95d02b55f33d884ecb9",
+        "inputSha256": "48a03ca3e09c058b7cfd0e0fdb7cbfa95dfa9881acfd3176349c1a56d5267f09",
+        "stdout": "quick-scope.stdout.raw",
+        "stderr": "quick-scope.stderr.raw"
+      },
+      {
+        "id": "archive",
+        "command": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/verify-gate-closeout.mjs",
+          "--receipt",
+          "/tmp/type-pal-gates-20261020/quick-archive.receipt"
+        ],
+        "start": "2026-10-20T01:32:29.179Z",
+        "end": "2026-10-20T01:32:29.371Z",
+        "exit": 1,
+        "signal": null,
+        "expectedAssertion": "raw archive SHA mismatch",
+        "inputRecipe": "structuredClone frozen positive receipt;change only named field",
+        "positiveReceiptSha256": "67ffd0af6211f407fff0dd2b87d02ba5c4485afb41bff95d02b55f33d884ecb9",
+        "inputSha256": "a705353c082f6100767403417a70fe6aa6d71f9c34d6ce8b0d2bbc297ecf985f",
+        "stdout": "quick-archive.stdout.raw",
+        "stderr": "quick-archive.stderr.raw"
+      },
+      {
+        "id": "exclusion",
+        "command": [
+          "/Users/zhangxu/.nvm/versions/node/v22.23.2/bin/node",
+          "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/verify-gate-closeout.mjs",
+          "--receipt",
+          "/tmp/type-pal-gates-20261020/quick-exclusion.receipt"
+        ],
+        "start": "2026-10-20T01:32:29.372Z",
+        "end": "2026-10-20T01:32:29.400Z",
+        "exit": 1,
+        "signal": null,
+        "expectedAssertion": "receipt may not narrow repository scope",
+        "inputRecipe": "structuredClone frozen positive receipt;change only named field",
+        "positiveReceiptSha256": "67ffd0af6211f407fff0dd2b87d02ba5c4485afb41bff95d02b55f33d884ecb9",
+        "inputSha256": "1f9a255fd77db7d2eae9418349a8634d01209f081a28bf75d76cfb2f6d26d5c8",
+        "stdout": "quick-exclusion.stdout.raw",
+        "stderr": "quick-exclusion.stderr.raw"
+      }
+    ],
+    "repositoryPorcelainUnchanged": true,
+    "sourceToolSha256": "0541ec93db36455b39bd87a21248534fbfd62243ddf379939fda7413e0e1aad6",
+    "scope": "Isolated metadata corruption; no production file/index,raw archive,assertion,baseline or gate policy modified. Negative inputs are tool IO-domain,not gameplay fixtures."
+  },
+  "partialRegistryReview": {
+    "files": [
+      "scripts/coverage/approved-test-retirements.mjs",
+      "scripts/coverage/approved-test-retirements.test.mjs"
+    ],
+    "status": "pending/待核",
+    "scope": "Only CODE3u exact row/count and existing rejection predicates coordinated;46targeted+79official tool tests. All historical authorization semantics not newly accepted. No file closure."
   }
 }

@@ -1,7 +1,7 @@
 # 逐文件代码治理账本
 
 Status: current
-Last reviewed: 2026-10-18
+Last reviewed: 2026-10-20
 Owner: Codex
 Template: governance-index-v1 / 1.0.0
 
@@ -33,6 +33,8 @@ Template: governance-index-v1 / 1.0.0
 2026-10-20 GLM最后29个实际改动源已逐文件补有限八维/原件边界；13源文案纠正、event私有dither去重与两例测试补强。12个旧产品关闭和1个旧测试关闭遇具体B/E反证撤review，10个原未列产品pending及1个相邻dev测试pending登记review，0新关闭；41/41仅表示本次GLM变更源有详细记录，非全部83卡/全仓或文件accept。[本轮入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json)。
 
 2026-10-20本波仅门禁：E2E-route实质发布复核仍proposal；两新增覆盖率工具/测试登记review，runner新授权差异撤当前关闭信用为review，0新closed。精确baseline重算与未执行项见[集中门回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json)。
+
+2026-10-20本波集中主门：check七包20,377例、ratchet/protected各19,979例通过；main保护仍查精确退役与范围，合理结构重算原始计数保留。末轮静态与原件快检见[集中门回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json)；逐文件状态不随门通过升格，0新关闭，两退役文件仅有限数据协调仍待核。
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
@@ -423,8 +425,8 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/dev/dev-panel.pure.test.ts` | test | review | [GLM29相邻夹具返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 574行旧测全文补核；typed完整资源/真cache/公开runtime getter/联合类型替代any，29身份及业务断言保留；不授其它dev测试或产品关闭 |
 | `scripts/coverage/approved-baseline-adjustments.mjs` | tool | review | [本轮有限授权与反例](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json) | 只匹配完整旧baseline及当前源码SHA；不允许额外回退，待集中门 |
 | `scripts/coverage/approved-baseline-adjustments.test.mjs` | test | review | [本轮三个合同测试](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json) | 精确迁移、错误/未知输入及额外回退；不计产品覆盖信用 |
-| `scripts/coverage/approved-test-retirements.mjs` | tool | pending | [本轮3u精确快照协调](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json) | 只核新增4→3快照、授权与保全反控；其余历史条目不据本次继承整文件验收 |
-| `scripts/coverage/approved-test-retirements.test.mjs` | test | pending | [本轮46合同工具测试](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json) | 更新精确总数并保留原拒绝轴；工具绿不等于全部历史授权已重审 |
+| `scripts/coverage/approved-test-retirements.mjs` | tool | 待核 | [本轮3u精确快照协调](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json) | 只核新增4→3快照、授权与保全反控；其余历史条目不据本次继承整文件验收 |
+| `scripts/coverage/approved-test-retirements.test.mjs` | test | 待核 | [本轮46合同工具测试](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json) | 更新精确总数并保留原拒绝轴；工具绿不等于全部历史授权已重审 |
 
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 CanonicalScriptBodyEditor→EntityAddressEditor caller、合法 EntityAddress 与自动改绑 oracle | 1合同/4定向测试通过；相邻测试有22条 React act诊断，保持 review，不标已验证 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 ItemTab/loader/EditSession/save-gate caller、R1/R3/R5 oracle | 3合同/4定向测试通过；相邻测试有22条 React act诊断，P1 puppet/battleOnly仍是产品裁决，保持 review |

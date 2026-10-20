@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "33be6bce50d91149d6e6f296bc617aaa4cae9bfc469114150c24ca0dd606eb2a",
+      "afterSha256": "df1165337e521b1713baaa972a8d6438404562b96088417ea6ba1ce7b7c94422",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,8 +1066,48 @@
       },
       "revision": {
         "currentSha": "a2101ce8ffeb73642521f0b489d17642f27bbd3fcdc581d0e9c354dedbc05778",
-        "implementationSha": "33be6bce50d91149d6e6f296bc617aaa4cae9bfc469114150c24ca0dd606eb2a",
+        "implementationSha": "df1165337e521b1713baaa972a8d6438404562b96088417ea6ba1ce7b7c94422",
         "history": [
+          {
+            "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
+            "date": "2026-10-20",
+            "action": "GLM finite major gates passed; final static closeout notes",
+            "previousAfterSha256": "33be6bce50d91149d6e6f296bc617aaa4cae9bfc469114150c24ca0dd606eb2a",
+            "scope": "Incoming binding only for named reviewed deltas; unrelated historical entries unchanged",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+            "notRun": ["new browser/E2E/visual/stage/whole-source acceptance"],
+            "previousCoreConclusion": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json：historical machine artifact；native fields and source/after SHA remain byte-stable.",
+            "previousEvidence": {
+              "kind": "machine-artifact-envelope",
+              "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
+              "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+              "afterSha256": "33be6bce50d91149d6e6f296bc617aaa4cae9bfc469114150c24ca0dd606eb2a",
+              "lineCount": 15952,
+              "artifactPreserved": true,
+              "originalPreservation": {
+                "method": "byte-stable JSON artifact",
+                "sourceBytes": 616027,
+                "sourceLines": 13734,
+                "sourceFinalNewline": true,
+                "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+                "exactRoundTrip": true
+              },
+              "nativeShape": {
+                "format": "json",
+                "topLevelType": "object",
+                "topLevelKeys": [
+                  "schemaVersion",
+                  "id",
+                  "reviewer",
+                  "reviewDate",
+                  "policy",
+                  "entries"
+                ],
+                "byteStable": true
+              }
+            }
+          },
           {
             "revision": "577e531ccd991707ef73a56426d46e915220fec6",
             "date": "2026-10-20",
@@ -1769,8 +1809,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "33be6bce50d91149d6e6f296bc617aaa4cae9bfc469114150c24ca0dd606eb2a",
-        "lineCount": 15952,
+        "afterSha256": "df1165337e521b1713baaa972a8d6438404562b96088417ea6ba1ce7b7c94422",
+        "lineCount": 16076,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -1842,6 +1882,46 @@
               "byteStable": true
             }
           }
+        },
+        {
+          "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
+          "date": "2026-10-20",
+          "action": "GLM finite major gates passed; final static closeout notes",
+          "previousAfterSha256": "33be6bce50d91149d6e6f296bc617aaa4cae9bfc469114150c24ca0dd606eb2a",
+          "scope": "Incoming binding only for named reviewed deltas; unrelated historical entries unchanged",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+          "notRun": ["new browser/E2E/visual/stage/whole-source acceptance"],
+          "previousCoreConclusion": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json：historical machine artifact；native fields and source/after SHA remain byte-stable.",
+          "previousEvidence": {
+            "kind": "machine-artifact-envelope",
+            "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
+            "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+            "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
+            "afterSha256": "33be6bce50d91149d6e6f296bc617aaa4cae9bfc469114150c24ca0dd606eb2a",
+            "lineCount": 15952,
+            "artifactPreserved": true,
+            "originalPreservation": {
+              "method": "byte-stable JSON artifact",
+              "sourceBytes": 616027,
+              "sourceLines": 13734,
+              "sourceFinalNewline": true,
+              "inverseSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
+              "exactRoundTrip": true
+            },
+            "nativeShape": {
+              "format": "json",
+              "topLevelType": "object",
+              "topLevelKeys": [
+                "schemaVersion",
+                "id",
+                "reviewer",
+                "reviewDate",
+                "policy",
+                "entries"
+              ],
+              "byteStable": true
+            }
+          }
         }
       ],
       "supersedes": [
@@ -1849,14 +1929,14 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "1-15952",
+      "reviewedLines": "1-16076",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "33be6bce50d91149d6e6f296bc617aaa4cae9bfc469114150c24ca0dd606eb2a",
+      "candidateSha256": "df1165337e521b1713baaa972a8d6438404562b96088417ea6ba1ce7b7c94422",
       "primarySource": [
         {
           "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
@@ -1883,7 +1963,7 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "reviewNotes": "\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json"
+      "reviewNotes": "\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r88-ops-evidence-artifacts-20261017.json",

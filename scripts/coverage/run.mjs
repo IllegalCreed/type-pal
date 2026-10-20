@@ -568,7 +568,7 @@ async function main() {
     }
     await writeBaseline(result)
     console.log(
-      `\n覆盖率基线已只升不降地更新（提升 ${comparison.improvements.length} 项，范围变化 ${scopeAudit.changes.length} 项）`,
+      `\n覆盖率基线已更新（相对核准比较基准提升 ${comparison.improvements.length} 项，范围变化 ${scopeAudit.changes.length} 项；精确结构调整授权见上文）`,
     )
   } else {
     console.log(

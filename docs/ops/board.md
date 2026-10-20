@@ -69,7 +69,7 @@ Template: governance-index-v1 / 1.0.0
 | QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1 | [C03查看器宿主与迟到读取](tasks/QUALITY-EDITOR-VIEWER-DIAGNOSTICS-1.md) | build | Codex / 续Wizard与Uploader | C09五例0诊断；editor全包仍759act/243环境及1表单告警，0关闭 |
 | QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1 | [C03向导真实异步等待](tasks/QUALITY-EDITOR-UPLOAD-DIAGNOSTICS-1.md) | build | Codex / 保存C10恢复，余诊断待稳定窗口 | Wizard28零诊断/两业务反控；相邻6act、editor624act/243环境，0关闭不合main |
 | QUALITY-DOCS-GIT-PATH-ENUMERATION-1 | [Git全路径枚举容量](tasks/QUALITY-DOCS-GIT-PATH-ENUMERATION-1.md) | review | Codex / 三文件窄修，待统一门 | 两真实CLI>1MiB先红后绿，完整枚举16MiB/固定namespace4MiB不变；随后接回3u/3w |
-| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex接手GLM大包返工 | GLM变更源41/41有有限八维记录；最后29补证/文案、event私有dither去重、两例oracle与typed dev夹具修正；0新关闭；本波仅门禁收口：E2E-route实质复核、精确结构baseline调整及零诊断集中门；全部通过且先推3y再合main；其它83卡/94–102暂不扩展 |
+| QUALITY-PRE94-RETROSPECTIVE-1 | [94前全部治理成果复审](tasks/QUALITY-PRE94-RETROSPECTIVE-1.md) | build | Codex本波GLM门禁收口 | GLM变更源41/41有有限八维记录，0新关闭；本波check/ratchet/protected实跑通过，文档/账本/lint与原件快检状态见集中回执；零诊断、先推3y且0behind再同步main，以Git refs为准；其它83卡/94–102未展开，本波后停止 |
 | GAME-ACTION-QUEUE-TIE-ORDER-1 | [第一阶段同速队列](tasks/GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | Codex / 批准窄修已测，统一门/视觉待续 | 先7红后绿、真实Confirm/RNG、38/942与六单红反控；整文件不关闭 |
 | GAME-PLAYER-POISON-SLOT-COMPACTION-1 | [卸装备毒列表压缩](tasks/GAME-PLAYER-POISON-SLOT-COMPACTION-1.md) | draft | Codex / 只读完整生命周期，无产品build allowed | C前移幸存毒、TS原地清零，角色身份不变；因果待核 |
 | GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1 | [非队员Extra可达性](tasks/GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md) | draft | Codex / 只读核完整生产写入链 | C全role/TS party不同，但开战换队全量重建；未证剧情缺陷，不改行为 |

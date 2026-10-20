@@ -27,11 +27,15 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 
 ## 当前推进
 
+本波GLM有限返工主门实跑完成：普通check七包20,377测试、全部typecheck与editor作者脚本typecheck通过；editor631文件/4,943例无act/环境诊断。official ratchet和针对最新origin/main的protected fast各19,979例/741源文件通过；合理结构重算按完整旧baseline与当前source SHA精确授权，原始比例下降如实保存，不恢复死代码或弱测试。末轮文档/账本/lint与只读原件快检的最终状态由[集中门回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json)记载；全部通过、提交推送3y且0behind后执行main同步，实际落点以Git refs为准。
+
+本波0新增文件关闭；29原改动源码仍28review/cli.ts rework，3个coverage工具/测试review，退役registry两文件仍待核。3318tracked/214closed/157review/2947pending；门通过不升级83卡或其它源码。E2E-route本轮是全文方案、真实caller/前驱/停止线与397工具测试复核，没有新剧情浏览器、NPC/视觉或编辑器预览验收。其它83卡/94–102未展开；本波收口后停止，不接其它治理。
+
 本波范围协调：3u旧4→3快照合并有主测更强断言、源突变隔离和缺scriptPrevHp双侧保全针；仅补精确退役registry，不恢复重复例。shared三份已删除纯类型运行时测试由public-contracts编译合同承接，official ratchet使用已有--allow-scope-removal且protected仍逐项拒绝未批准删除。初次本波check缺提取输入27失败原件保留；复制2907个既有regular输入后E2E工具397/397、0stderr，不做新剧情浏览器验收。
 
 用户2026-10-20授权本波门禁收口：同一3y分支，Codex唯一Owner；真实复核E2E-route发布/源码合同，合理结构调整以精确旧baseline/当前源码SHA授权重算，不恢复死代码/堆弱测试。仅本波工具、配对文档/证据、baseline与必要门诊断；其它任务不扩展。全部门零诊断、分支0behind且先提交推送治理分支后才合main。[集中门回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json)保留原失败、新原件、授权计数和未执行边界；当前门仍待跑，不提前收口。
 
-本轮收尾：定向最终406次执行（404唯一文件/完整名称，RIX三参数行同名有映射），三包typecheck与lint静态零诊断。全仓check在125文档工具测试后因e2e-route复核日期过期退出1；official ratchet与protected fast均在7包19,979例通过后因pal-extract/reforge六项比例回退退出1，基线/规则未改。这两次昂贵门早于最后dev typed夹具修复，不认证新夹具全仓覆盖；新夹具33例与typecheck单独实跑。统一门未过，未合main；其它83卡/94–102保持暂停扩展。
+上一阶段9cc550306原回执（失败保留，不作本次通过依据）：定向最终406次执行（404唯一文件/完整名称，RIX三参数行同名有映射），三包typecheck与lint静态零诊断。全仓check在125文档工具测试后因e2e-route复核日期过期退出1；official ratchet与protected fast均在7包19,979例通过后因pal-extract/reforge六项比例回退退出1，基线/规则未改。这两次昂贵门早于最后dev typed夹具修复，不认证新夹具全仓覆盖；新夹具33例与typecheck单独实跑。统一门未过，未合main；其它83卡/94–102保持暂停扩展。
 
 用户2026-10-20明确设定当前有限目标：处理GLM剩余29个实际改动源码。Codex为唯一Coding Owner，仍在codex/code-quality-3y；依证验收，不重复全部全文/定向测试。29文件逐项八维与具体caller/oracle现已登记，28源正文不变、event-system仅私有同合同抽取；2相邻测试文件返工（主测两例oracle；dev pure29用例typed夹具），13源文案修正。41/41是GLM改动源详细记录分母，零文件新关闭，原未修候选仍review；整体昂贵门在本波结束集中执行，结果与限制见[本轮回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json)。其它83卡及94–102不展开。
 

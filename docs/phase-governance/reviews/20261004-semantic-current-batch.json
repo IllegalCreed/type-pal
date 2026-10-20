@@ -457,9 +457,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Evidence-first actual GLM diff and named caller/oracle gaps;29per-file A-H. No repeated full83card reading.",
+      "readMethod": "Actual scoped delta read with original statements preserved in history; no unrelated full document or runtime acceptance",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Only pre94 current row advances:29GLM changed sources now have finiteA-H records;41/41records,0newclosed.13comment sources repaired,private dither extraction/two-test oracle repairs. Whole-wave gates separately recorded;no83card/94-102expansion/main merge.",
+      "coreConclusion": "Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -475,7 +475,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "a3227aa27b6b89b2846c666e66d92176e0c65d954bad9ee7c8001094f2258ce2",
+      "afterSha256": "0caa783346d8ec16435ec4c7132b229a2b81934c5d1b06ce514fdca60fa1ee92",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -504,10 +504,26 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "a3227aa27b6b89b2846c666e66d92176e0c65d954bad9ee7c8001094f2258ce2",
+        "implementationSha": "0caa783346d8ec16435ec4c7132b229a2b81934c5d1b06ce514fdca60fa1ee92",
         "contentVersion": 23,
         "minimumSaveVersion": 12,
         "history": [
+          {
+            "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
+            "date": "2026-10-20",
+            "action": "GLM finite major gates passed; final static closeout notes",
+            "previousAfterSha256": "a3227aa27b6b89b2846c666e66d92176e0c65d954bad9ee7c8001094f2258ce2",
+            "scope": "Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+            "notRun": ["new browser/E2E/visual/stage/whole-source acceptance"],
+            "previousCoreConclusion": "Only pre94 current row advances:29GLM changed sources now have finiteA-H records;41/41records,0newclosed.13comment sources repaired,private dither extraction/two-test oracle repairs. Whole-wave gates separately recorded;no83card/94-102expansion/main merge.",
+            "previousEvidence": {
+              "kind": "codex-owned-glm29-rework-and-current-ledger",
+              "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json",
+              "afterSha256": "a3227aa27b6b89b2846c666e66d92176e0c65d954bad9ee7c8001094f2258ce2",
+              "lineCount": 97
+            }
+          },
           {
             "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",
             "date": "2026-10-20",
@@ -1633,9 +1649,9 @@
         ]
       },
       "evidence": {
-        "kind": "codex-owned-glm29-rework-and-current-ledger",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json",
-        "afterSha256": "a3227aa27b6b89b2846c666e66d92176e0c65d954bad9ee7c8001094f2258ce2",
+        "kind": "scoped-current-closeout-maintenance",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+        "afterSha256": "0caa783346d8ec16435ec4c7132b229a2b81934c5d1b06ce514fdca60fa1ee92",
         "lineCount": 97
       },
       "history": [
@@ -1727,13 +1743,29 @@
           "scope": "Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
           "notRun": ["new browser/E2E/visual/stage/whole-source acceptance"]
+        },
+        {
+          "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
+          "date": "2026-10-20",
+          "action": "GLM finite major gates passed; final static closeout notes",
+          "previousAfterSha256": "a3227aa27b6b89b2846c666e66d92176e0c65d954bad9ee7c8001094f2258ce2",
+          "scope": "Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+          "notRun": ["new browser/E2E/visual/stage/whole-source acceptance"],
+          "previousCoreConclusion": "Only pre94 current row advances:29GLM changed sources now have finiteA-H records;41/41records,0newclosed.13comment sources repaired,private dither extraction/two-test oracle repairs. Whole-wave gates separately recorded;no83card/94-102expansion/main merge.",
+          "previousEvidence": {
+            "kind": "codex-owned-glm29-rework-and-current-ledger",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json",
+            "afterSha256": "a3227aa27b6b89b2846c666e66d92176e0c65d954bad9ee7c8001094f2258ce2",
+            "lineCount": 97
+          }
         }
       ],
       "supersedes": [],
       "stopLine": "do not treat template compliance or static content review as runtime/E2E/visual/coverage proof",
       "userVisibleBeforeAfter": "现有治理入口保留 → 补齐 governance-index-v1 结构与可追溯元数据，任务状态和历史事实不变。",
       "reviewedLines": "1-97",
-      "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-18: user requests one large delegated task to reduce relays; no quality/risk rule weakened.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit.\n2026-10-20: GLM enemy/role4file A-H,5+4old identities retained(one title mapping),11currentdirect/89rawadjacent0stderr;2oldgreen/newred assertion counters and first missing-SSS failure retained;0newclosed or unified gate credit.\n2026-10-20: GLM remaining5noncomment deltas accounted;revive2actual failures before fix;103+181+24current cases0stderr;oldconsole not invented. Only41-source checkpoint rework continues,0newclosed.\n2026-10-20 finite29changedsource+2testcase rework;41source records complete,0newclosed;test identity/native/limitations in linked receipt.\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+      "reviewNotes": "看板移除已完成 DOCS-CATALOG-SPLIT-1 活动行；当前卡已完成 catalog schema 迁移，但不授予全 docs 或产品执行信用。\n2026-10-18: Codex read current authorized delta. Prior non-author/provenance applies only to its historical SHA. No new third-party or product execution credit.\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: user explicitly replaces default duplicate Codex full review with evidence-based independent acceptance and targeted escalation.\n2026-10-18: user requests one large delegated task to reduce relays; no quality/risk rule weakened.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit.\n2026-10-20: GLM enemy/role4file A-H,5+4old identities retained(one title mapping),11currentdirect/89rawadjacent0stderr;2oldgreen/newred assertion counters and first missing-SSS failure retained;0newclosed or unified gate credit.\n2026-10-20: GLM remaining5noncomment deltas accounted;revive2actual failures before fix;103+181+24current cases0stderr;oldconsole not invented. Only41-source checkpoint rework continues,0newclosed.\n2026-10-20 finite29changedsource+2testcase rework;41source records complete,0newclosed;test identity/native/limitations in linked receipt.\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
       "integrationReview": {
         "reviewer": "Codex",
         "date": "2026-10-12",

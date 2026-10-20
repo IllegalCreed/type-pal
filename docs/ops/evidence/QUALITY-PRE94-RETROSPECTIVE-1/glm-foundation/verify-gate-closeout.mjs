@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
@@ -18,6 +19,47 @@ const receiptPath = args.length
   : fileURLToPath(new URL('gate-closeout.json', import.meta.url))
 const packet = JSON.parse(readFileSync(receiptPath, 'utf8'))
 const digest = (bytes) => createHash('sha256').update(bytes).digest('hex')
+const git = (args) =>
+  execFileSync('git', args, {
+    cwd: root,
+    env: { ...process.env, GIT_OPTIONAL_LOCKS: '0' },
+    maxBuffer: 16 * 1024 * 1024,
+    encoding: 'utf8',
+  })
+// Excluding the two receipt outputs prevents self-hashing. Everything else
+// tracked, including callers, tests, configuration and docs, remains bound.
+const prefix = 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation'
+const excluded = new Set([`${prefix}/gate-closeout.json`, `${prefix}/gate-closeout-native.json.gz`])
+assert.deepEqual(
+  packet.repositoryScope.excluded,
+  [...excluded],
+  'receipt may not narrow repository scope',
+)
+const entries = git(['ls-files', '--stage', '-z'])
+  .split('\0')
+  .filter((entry) => entry && !excluded.has(entry.slice(entry.indexOf('\t') + 1)))
+assert.equal(
+  digest(entries.join('\0')),
+  packet.repositoryScope.sha256,
+  'stale repository scope: tracked source/test/config/document snapshot changed',
+)
+assert.equal(entries.length, packet.repositoryScope.entries, 'repository scope count differs')
+for (const args of [
+  ['diff', '--name-only', '-z'],
+  ['ls-files', '--others', '--exclude-standard', '-z'],
+]) {
+  const changed = git(args)
+    .split('\0')
+    .filter((path) => path && !excluded.has(path))
+  assert.deepEqual(changed, [], 'unfrozen changes outside the receipt outputs')
+}
+assert.equal(process.version, packet.toolVersions.node, 'stale Node runtime version')
+for (const [name, expected] of Object.entries(packet.toolVersions.installed)) {
+  const actual = JSON.parse(
+    readFileSync(resolve(root, 'node_modules', name, 'package.json'), 'utf8'),
+  )
+  assert.equal(actual.version, expected, `stale installed tool version: ${name}`)
+}
 for (const binding of packet.bindings) {
   assert.equal(
     digest(readFileSync(resolve(root, binding.path))),
