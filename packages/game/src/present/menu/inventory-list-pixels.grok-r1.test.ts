@@ -33,7 +33,7 @@ import {
   freezeNow,
   makeGs,
   makeItem,
-  makeRoles,
+  makeLiveScene,
   resetHostSingletons,
 } from '../__tests__/grok-present/world.js'
 import { createFramebuffer } from '../framebuffer.js'
@@ -61,8 +61,8 @@ function amountX(column: number, placeFromRight: number): number {
 }
 
 describe('G06-A 物品列表像素', () => {
-  it('G06-A01 物品框阴影把底色 0x5A 的低四位右移一位，正色框仍在 (0,140)', () => {
-    const gs = makeGs()
+  it('G06-A01 列表物品框保留阴影，使用目标框只画正色不加阴影', () => {
+    const { gs, roles } = makeLiveScene()
     const item = makeItem(11, '甲', { bitmap: 3, flags: { usable: true } })
     const items = [item]
     gs.inventory = [{ itemId: item.id, count: 1 }]
@@ -81,6 +81,23 @@ describe('G06-A 物品列表像素', () => {
     expect(pixel(fb, 6, 145)).toBe(SENTINEL)
     expect(pixel(fb, 0, 140)).toBe(ITEMBOX_ID)
     expect(cloneInputs({ gs, menu, items, frames })).toEqual(before)
+
+    // 同一物品经真实确认进入目标层；SDLPal 此处只 blit ITEMBOX，不画偏移阴影。
+    confirmInventoryItem(menu, items, roles, gs.partyMembers)
+    expect(menu.phase).toBe('use-target')
+    fillSentinel(fb)
+    drawInventoryMenu({
+      fb,
+      state: menu,
+      items,
+      uiSpriteFrames: frames,
+      glyphs,
+      gs,
+      playerRoles: roles,
+    })
+    expect(pixel(fb, 120, 80)).toBe(ITEMBOX_ID)
+    expect(pixel(fb, 125, 85)).toBe(SENTINEL)
+    expect(pixel(fb, 126, 85)).toBe(SENTINEL)
   })
 
   it('G06-A02 差额等于 1 时不画青色数量，选中名仍用闪烁色', () => {
@@ -176,8 +193,7 @@ describe('G06-A 物品列表像素', () => {
   })
 
   it('G06-A06 大世界目标层数量归零时按 SDLPal 隐藏图标/名称/数字', () => {
-    const gs = makeGs()
-    const roles = makeRoles()
+    const { gs, roles } = makeLiveScene()
     const item = makeItem(16, '甲', { flags: { usable: true } })
     const items = [item]
     gs.partyMembers = [0]
@@ -214,8 +230,7 @@ describe('G06-A 物品列表像素', () => {
   })
 
   it('G06-A07 用物层选中 id 不在目录时不画属性标签，列表名仍在', () => {
-    const gs = makeGs()
-    const roles = makeRoles()
+    const { gs, roles } = makeLiveScene()
     const item = makeItem(17, '甲', { flags: { usable: true } })
     const items = [item]
     gs.partyMembers = [0]
@@ -250,8 +265,7 @@ describe('G06-A 物品列表像素', () => {
   })
 
   it('G06-A08 用物层光标越过队伍时不画体力，队员名仍按未选中色画出', () => {
-    const gs = makeGs()
-    const roles = makeRoles()
+    const { gs, roles } = makeLiveScene()
     const item = makeItem(18, '乙', { flags: { usable: true } })
     const items = [item]
     gs.partyMembers = [0]
@@ -286,8 +300,7 @@ describe('G06-A 物品列表像素', () => {
   })
 
   it('G06-A09 缺少斜杠帧 39 时体力数字仍在，斜杠位保持底色', () => {
-    const gs = makeGs()
-    const roles = makeRoles()
+    const { gs, roles } = makeLiveScene()
     const item = makeItem(19, '甲', { flags: { usable: true } })
     const items = [item]
     gs.partyMembers = [0]
@@ -338,8 +351,7 @@ describe('G06-A 物品列表像素', () => {
   })
 
   it('G06-A11 用物层灵力是基础加装备效果，武术行仍是武术值', () => {
-    const gs = makeGs()
-    const roles = makeRoles()
+    const { gs, roles } = makeLiveScene()
     const item = makeItem(21, '甲', { flags: { usable: true } })
     const items = [item]
     gs.partyMembers = [0]

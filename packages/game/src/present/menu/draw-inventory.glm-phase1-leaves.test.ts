@@ -8,7 +8,6 @@ import { describe, expect, it } from 'vitest'
 import {
   fixtureGlyphs,
   freezeNow,
-  makeRoles,
   makeUiFrames,
   mkItem,
   newFb,
@@ -18,6 +17,7 @@ import {
 import type { GameState } from '../../core/game-state.js'
 import { createInitialGameState } from '../../core/game-state.js'
 import { confirmInventoryItem, createInventoryMenu } from '../../core/menu/inventory-menu.js'
+import { makeLiveScene } from '../__tests__/grok-present/world.js'
 import { drawInventoryMenu } from './draw-inventory.js'
 
 const glyphs = fixtureGlyphs
@@ -72,9 +72,10 @@ describe('L10 drawInventoryMenu 剩余分支', () => {
 
   it('use-target 相缺 gs/playerRoles：只画 list，不叠选人层（防御组合不崩）', () => {
     const herb = mkItem(10, '甲', { flags: { usable: true } })
-    const gs = gsWith([{ itemId: 10, count: 2 }])
+    const { gs, roles } = makeLiveScene()
+    gs.inventory = [{ itemId: 10, count: 2 }]
     const state = createInventoryMenu(gs, [herb], 'usable')
-    confirmInventoryItem(state, [herb], makeRoles(), gs.partyMembers)
+    confirmInventoryItem(state, [herb], roles, gs.partyMembers)
     expect(state.phase).toBe('use-target')
     const fb = newFb()
     const restore = freezeNow(0)

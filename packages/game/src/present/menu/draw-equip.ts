@@ -1,16 +1,16 @@
 /**
- * C5(2026-05-28):EquipItemMenu fullscreen UI — sdlpal `uigame.c:1793-2056` 1:1 port。
+ * Classic equipment menu: inventory list, then the selected item and party-role picker.
  *
  * 渲染层布局(sdlpal palcfg.c:307-331 默认 ScreenLayout 真值):
  *  - EquipImageBox     = (8, 8)        item 大图(BALL chunk by item.bitmap)
- *  - EquipRoleListBox  = (2, 95)       4 player names list box
+ *  - EquipRoleListBox  = (2, 95)       current party names
  *  - EquipItemName     = (5, 70)       item 名(MENUITEM_COLOR_CONFIRMED 0x2C)
  *  - EquipItemAmount   = (51, 57)      数量(cyan,2 位 right)
  *  - EquipLabels[6]    = (92, 11+22i)  6 装备槽 label("头" "肩" "身" "手" "脚" "颈")
  *  - EquipNames[6]     = (130, 11+22i) 6 装备槽现装备名(MENUITEM_COLOR 0x4F)
  *  - EquipStatusLabels[5] = (226, 10+22i) 5 stat label(Atk/Mag/Def/Dex/Flee)
  *  - EquipStatusValues[5] = (260, 14+22i) 5 stat 数字 cyan(装备后预览)
- *  - 4 player names    每 18px 起 (15, 13) inside RoleListBox,4-case color
+ *  - Party names       每 18px 起 (15, 13) inside RoleListBox,4-case color
  *
  * 4-case color rule(sdlpal uigame.c:1929-1953):
  *   selected + equipable     → MENUITEM_COLOR_SELECTED_FIRST + tick/100%6(闪烁)
@@ -125,7 +125,7 @@ function drawEquipList(input: DrawEquipMenuInput): void {
 }
 
 /**
- * phase='pick-role' 渲染 — sdlpal uigame.c:1793-2056 完整 1:1 port。
+ * Selected equipment and party-role picker; state changes remain in the menu driver.
  */
 function drawEquipPickRole(input: DrawEquipMenuInput): void {
   const { fb, state, gs, playerRoles, items, uiSpriteFrames, glyphs, equipBg, itemIcons } = input
@@ -214,7 +214,7 @@ function drawEquipPickRole(input: DrawEquipMenuInput): void {
     uiSpriteFrames,
   )
 
-  // 5. role list box(sdlpal uigame.c:1920)+ 4 player names with 4-case color
+  // PAL_EquipItemMenu uses wMaxPartyMemberIndex rows: one party member needs zero content rows.
   //    box pos = EquipRoleListBox = (2, 95);PAL_WordMaxWidth(36, 4) - 1 列宽
   drawBox({
     fb,
@@ -223,7 +223,7 @@ function drawEquipPickRole(input: DrawEquipMenuInput): void {
     // sdlpal uigame.c:1920 真值:nColumns = PAL_WordMaxWidth(36, 4) - 1。
     // 角色名 36-39(李逍遥/赵灵儿/林月如/阿奴)最宽 3 全角字 → (3*16+8)>>4 = 3 → 3-1 = 2。
     // 之前写死 4 → 框过宽,右边框盖住装备槽文字(user 2026-05-28 发现)。
-    rows: Math.max(1, state.partyMembers.length - 1),
+    rows: state.partyMembers.length - 1,
     cols: 2,
     style: 0,
     uiSpriteFrames,

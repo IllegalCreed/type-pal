@@ -245,7 +245,6 @@ function drawItemUseMenu(
   // 5. ITEMBOX sprite at (120, 80)(uigame.c:1398)
   const itemboxFrame = uiSpriteFrames[SPRITENUM_ITEMBOX]
   if (itemboxFrame) {
-    blitSpriteShadow(fb, itemboxFrame, ITEMUSE_ITEMBOX_POS.x + 5, ITEMUSE_ITEMBOX_POS.y + 5)
     blitSpriteOpaque(fb, itemboxFrame, ITEMUSE_ITEMBOX_POS.x, ITEMUSE_ITEMBOX_POS.y)
   }
 

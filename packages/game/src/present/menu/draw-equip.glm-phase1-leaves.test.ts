@@ -8,16 +8,14 @@ import { describe, expect, it } from 'vitest'
 import {
   fixtureGlyphs,
   freezeNow,
-  makeRoles,
   makeUiFrames,
   mkItem,
   newFb,
   pixel,
   textDot,
 } from '../../__tests__/glm-phase1-leaves/present-fixtures.js'
-import type { GameState } from '../../core/game-state.js'
-import { createInitialGameState } from '../../core/game-state.js'
 import { confirmEquipItem, createEquipMenu } from '../../core/menu/equip-menu.js'
+import { makeLiveScene } from '../__tests__/grok-present/world.js'
 import { drawEquipMenu } from './draw-equip.js'
 
 const glyphs = fixtureGlyphs
@@ -26,17 +24,15 @@ const SWORD = mkItem(500, '丁', {
   flags: { equipable: true, equipableBy: [false, false, false, true, false, false] }, // 仅 role 3 可装
 })
 
-function gsForEquip(): GameState {
-  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-  gs.partyMembers = [3, 1]
+function sceneForEquip() {
+  const { gs, roles } = makeLiveScene([3, 1])
   gs.inventory = [{ itemId: 500, count: 1 }]
-  return gs
+  return { gs, roles }
 }
 
 describe('L11 drawEquipMenu 剩余分支', () => {
   it('pick-role 非顺序 party [3,1]：equipableBy 按 roleId 位着色，选中高亮按 party 序', () => {
-    const gs = gsForEquip()
-    const roles = makeRoles()
+    const { gs, roles } = sceneForEquip()
     const state = createEquipMenu(gs, [SWORD])
     state.list.cursor = 0
     confirmEquipItem(state, [SWORD], roles, gs.partyMembers)
@@ -65,10 +61,9 @@ describe('L11 drawEquipMenu 剩余分支', () => {
   })
 
   it('已装备槽 itemId 不在 catalog → `?id` tofu；空槽（0）不画', () => {
-    const gs = gsForEquip()
+    const { gs, roles } = sceneForEquip()
     gs.PlayerRolesRuntime.rgwEquipment[0]![3] = 777 // 未知装备
     // slot 1..5 保持 0
-    const roles = makeRoles()
     const state = createEquipMenu(gs, [SWORD])
     state.list.cursor = 0
     confirmEquipItem(state, [SWORD], roles, gs.partyMembers)
@@ -94,8 +89,8 @@ describe('L11 drawEquipMenu 剩余分支', () => {
   })
 
   it('roles 缺 party 中某 roleId：该行跳过不崩，另一行正常', () => {
-    const gs = gsForEquip()
-    const base = makeRoles().roles
+    const { gs, roles: fullRoles } = sceneForEquip()
+    const base = fullRoles.roles
     const roles: import('@type-pal/shared').PlayerRoles = { roles: [] }
     roles.roles[0] = base[0]! // 稀疏数组：roleId 1..5 缺（index 语义）
     roles.roles[3] = base[3]!

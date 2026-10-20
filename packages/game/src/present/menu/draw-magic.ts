@@ -1,31 +1,8 @@
 /**
- * C7(2026-05-29):InGameMagicMenu fullscreen UI —
- * sdlpal `uigame.c:653-875` PAL_InGameMagicMenu 1:1 port +
- * sdlpal `magicmenu.c:36-484` PAL_MagicSelectionMenu* 1:1 port +
- * sdlpal `uibattle.c:31-269` PAL_PlayerInfoBox 1:1 port。
- *
- * 渲染分阶段:
- *  1. phase='pick-caster':
- *     - 4 个 PlayerInfoBox at y=165(uigame.c:686-693:每 78 px,起点 x=45)
- *     - caster picker box at (35, 62)(uigame.c:717),含 4 caster name 灰色/亮选
- *
- *  2. phase='pick-spell':
- *     - 4 个 PlayerInfoBox at y=165(magicmenu.c:450-457 真值)
- *     - magic 描述区 cash box / MP box at top(magicmenu.c:128-216)
- *     - magic grid box at (10, 42)(magicmenu.c:121)
- *     - magic name list 4×iItemsPerLine grid + cursor(magicmenu.c:228-275)
- *
- *  3. phase='pick-target':
- *     - 同 pick-spell 的 grid + magic + 4 PlayerInfoBox
- *     - 额外:cursor sprite SPRITENUM_CURSOR_UP at PlayerInfoBox 顶 (75+78*i, 158)
- *       (uigame.c:793-796 真值)
- *
- * sdlpal UI sprite 真值:
- *  - SPRITENUM_PLAYERINFOBOX=18:player 信息框背景
- *  - SPRITENUM_PLAYERFACE_FIRST=48:player 头像起,+roleId
- *  - SPRITENUM_SLASH=39:HP/MP "/"
- *  - SPRITENUM_CURSOR=69:menu 项 cursor
- *  - SPRITENUM_CURSOR_UP=67:player target picker 上方箭头
+ * World magic menu: caster/spell/target phases from SDLPal PAL_InGameMagicMenu.
+ * The caller supplies catalogs and world runtime state; this module only paints.
+ * Bottom role boxes reuse the same PAL_CLASSIC PlayerInfoBox pixels as battle,
+ * while numeric/status values come from the world runtime, including real HP0.
  */
 
 import type { Magic, PlayerRoles, Spell } from '@type-pal/shared'
@@ -43,11 +20,10 @@ import { getScriptDescLines } from '../../core/menu/script-desc.js'
 import { drawNumber } from '../draw-number.js'
 import { type GlyphTable, renderText } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
+import { computePlayerFaceColor, drawPlayerInfoBox } from '../player-info-box.js'
 import { drawBox, drawSingleLineBox, menuTextMaxCols } from './draw-box.js'
 
 // ── sdlpal ui.h sprite 真值 ────────────────────────────────────────────────
-const SPRITENUM_PLAYERINFOBOX = 18
-const SPRITENUM_PLAYERFACE_FIRST = 48
 const SPRITENUM_SLASH = 39
 const SPRITENUM_CURSOR = 69
 const SPRITENUM_CURSOR_UP = 67
@@ -105,71 +81,47 @@ function blitSpriteOpaque(fb: Framebuffer, frame: IndexedImage, dstX: number, ds
   }
 }
 
-/**
- * sdlpal uibattle.c:31-269 PAL_PlayerInfoBox 简版渲染 — 大世界 magic menu 4 个 player info。
- *
- * 真值:
- *  - SPRITENUM_PLAYERINFOBOX (frame 18) at pos
- *  - player face SPRITENUM_PLAYERFACE_FIRST+role at (x-2, y-4)
- *  - PAL_CLASSIC HP/MP:slash at (x+49, y+6/22),HP(yellow 4 at x+26/47, y+5/8),
- *    MP(cyan 4 at x+26/47, y+21/24)
- *  - 中毒颜色用 RLEBlitMonoColor(简版省略)
- *  - status icon(confused/slow/sleep/silence)at rgStatusPos(简版省略)
- */
-function drawPlayerInfoBox(
-  fb: Framebuffer,
-  pos: { x: number; y: number },
-  roleId: number,
-  gs: GameState,
-  uiSpriteFrames: IndexedImage[],
-): void {
-  // box 背景
-  const boxFrame = uiSpriteFrames[SPRITENUM_PLAYERINFOBOX]
-  if (boxFrame) blitSpriteOpaque(fb, boxFrame, pos.x, pos.y)
-
-  // player face
-  const face = uiSpriteFrames[SPRITENUM_PLAYERFACE_FIRST + roleId]
-  if (face) blitSpriteOpaque(fb, face, pos.x - 2, pos.y - 4)
-
-  // HP/MP (PAL_CLASSIC layout)
-  const slash = uiSpriteFrames[SPRITENUM_SLASH]
-  const hp = gs.PlayerRolesRuntime.rgwHP[roleId] ?? 0
-  const maxHP = gs.PlayerRolesRuntime.rgwMaxHP[roleId] ?? 0
-  const mp = gs.PlayerRolesRuntime.rgwMP[roleId] ?? 0
-  const maxMP = gs.PlayerRolesRuntime.rgwMaxMP[roleId] ?? 0
-
-  if (slash) blitSpriteOpaque(fb, slash, pos.x + 49, pos.y + 6)
-  drawNumber(fb, maxHP, 4, { x: pos.x + 47, y: pos.y + 8 }, 'yellow', 'right', uiSpriteFrames)
-  drawNumber(fb, hp, 4, { x: pos.x + 26, y: pos.y + 5 }, 'yellow', 'right', uiSpriteFrames)
-
-  if (slash) blitSpriteOpaque(fb, slash, pos.x + 49, pos.y + 22)
-  drawNumber(fb, maxMP, 4, { x: pos.x + 47, y: pos.y + 24 }, 'cyan', 'right', uiSpriteFrames)
-  drawNumber(fb, mp, 4, { x: pos.x + 26, y: pos.y + 21 }, 'cyan', 'right', uiSpriteFrames)
-}
-
-/** sdlpal uigame.c:684-693 真值:画 wMaxPartyMemberIndex+1 个 PlayerInfoBox。 */
+/** World state stays here; the shared painter receives only live scalar values and visible counters. */
 function drawAllPlayerInfoBoxes(
   fb: Framebuffer,
   partyMembers: number[],
   gs: GameState,
   uiSpriteFrames: IndexedImage[],
+  glyphs: GlyphTable | undefined,
+  objectPoisons: Map<number, { level: number; color: number }> | undefined,
 ): void {
   for (let i = 0; i < partyMembers.length; i++) {
     const roleId = partyMembers[i]!
+    const hp = gs.PlayerRolesRuntime.rgwHP[roleId] ?? 0
+    const status = gs.rgPlayerStatus[roleId]
     drawPlayerInfoBox(
       fb,
       { x: PLAYERINFO_X_BASE + i * PLAYERINFO_X_STEP, y: PLAYERINFO_Y_BASE },
-      roleId,
-      gs,
+      {
+        roleId,
+        hp,
+        maxHP: gs.PlayerRolesRuntime.rgwMaxHP[roleId] ?? 0,
+        mp: gs.PlayerRolesRuntime.rgwMP[roleId] ?? 0,
+        maxMP: gs.PlayerRolesRuntime.rgwMaxMP[roleId] ?? 0,
+        faceColor: computePlayerFaceColor(gs, roleId, hp, objectPoisons),
+        // CLASSIC kStatus: Confused, Paralyzed, Sleep, Silence are the four visible words.
+        status: {
+          confused: status?.[0],
+          paralyzed: status?.[1],
+          sleep: status?.[2],
+          silence: status?.[3],
+        },
+      },
       uiSpriteFrames,
+      glyphs,
     )
   }
 }
 
 // ── pick-caster phase 渲染(uigame.c:684-723)─────────────────────────────
 function drawPickCaster(input: DrawInGameMagicMenuInput): void {
-  const { fb, state, gs, uiSpriteFrames, glyphs, playerRoles } = input
-  drawAllPlayerInfoBoxes(fb, state.partyMembers, gs, uiSpriteFrames)
+  const { fb, state, gs, uiSpriteFrames, glyphs, playerRoles, objectPoisons } = input
+  drawAllPlayerInfoBoxes(fb, state.partyMembers, gs, uiSpriteFrames, glyphs, objectPoisons)
 
   // caster picker box(uigame.c:717:PAL_CreateBox at (35, 62),
   //   rows = wMaxPartyMemberIndex,cols = PAL_MenuTextMaxWidth(角色名) - 1)
@@ -187,7 +139,7 @@ function drawPickCaster(input: DrawInGameMagicMenuInput): void {
     uiSpriteFrames,
   })
 
-  // 4 caster names — sdlpal `rgMenuItem[i].pos = PAL_XY(48, 75 + 18*i)`
+  // Party caster names — sdlpal `rgMenuItem[i].pos = PAL_XY(48, 75 + 18*i)`
   for (let i = 0; i < state.casterMenu.items.length; i++) {
     const it = state.casterMenu.items[i]!
     const isSelected = i === state.casterMenu.cursor
@@ -334,10 +286,11 @@ export interface DrawInGameMagicMenuInput {
   magics: Magic[]
   uiSpriteFrames: IndexedImage[]
   glyphs?: GlyphTable
+  objectPoisons?: Map<number, { level: number; color: number }>
 }
 
 export function drawInGameMagicMenu(input: DrawInGameMagicMenuInput): void {
-  const { fb, state, gs, spells, magics, uiSpriteFrames, glyphs } = input
+  const { fb, state, gs, spells, magics, uiSpriteFrames, glyphs, objectPoisons } = input
 
   if (state.phase === 'pick-caster') {
     drawPickCaster(input)
@@ -345,10 +298,10 @@ export function drawInGameMagicMenu(input: DrawInGameMagicMenuInput): void {
   }
 
   // pick-spell / pick-target 都有:
-  //  - 4 PlayerInfoBox at bottom
+  //  - one PlayerInfoBox per party member at bottom
   //  - 左侧 MP box at top(WIN95,无金钱框)
   //  - magic grid box
-  drawAllPlayerInfoBoxes(fb, state.partyMembers, gs, uiSpriteFrames)
+  drawAllPlayerInfoBoxes(fb, state.partyMembers, gs, uiSpriteFrames, glyphs, objectPoisons)
   drawMpBox(fb, gs, state, spells, magics, uiSpriteFrames)
   drawMagicDescription(fb, state, spells, glyphs)
   drawMagicGrid(input)
