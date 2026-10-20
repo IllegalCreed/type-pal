@@ -1,0 +1,89 @@
+{
+  "base": "dec0626e1c3035bd2d4e6cbf440f79baa19a6354",
+  "candidateHead": "33cf347a8",
+  "note": "Zero source/test changes; all files byte-identical between base and candidate.",
+  "fullReads": [
+    {
+      "path": "packages/game/src/core/menu/shop-menu.ts",
+      "sha256": "62fd9855fdd7323ba79b02c43e37f13ae0895d00",
+      "lines": 103
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.test.ts",
+      "sha256": "108dc374ed791d40b33e37aab94d9f3a9c29fd0c",
+      "lines": 180
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+      "sha256": "570615b8158b658f7c7e8a8e062f886d48d106d3",
+      "lines": 68
+    },
+    {
+      "path": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+      "sha256": "0c3f2cd9498863d9a3f2a65d2ff23848934a0309",
+      "lines": 60
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.ts",
+      "sha256": "20f7701b442d02cf52878a8d0a2dcb25796b0b9e",
+      "lines": 111
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.test.ts",
+      "sha256": "3c730ab5c1b2d3e70296ca4360701306628ebcab",
+      "lines": 231
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+      "sha256": "520ed720bd523b2956e6472dff120a02b5ca40e3",
+      "lines": 101
+    },
+    {
+      "path": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+      "sha256": "24d14f2f2a5d0640fb82ff7ca080f143e0f261ad",
+      "lines": 88
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.ts",
+      "sha256": "99c6493e4cc0a3b693a3cc745bd10fd14010ea65",
+      "lines": 56
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+      "sha256": "0c929c8e3522f4238c8066ef28c10eb694ef0c7e",
+      "lines": 141
+    },
+    {
+      "path": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+      "sha256": "a04ab28e9cd75cb5d040e35760aff88f8fb383fb",
+      "lines": 138
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+      "sha256": "d01440c97e16e60e412bcb6576ecc593de22f21c",
+      "lines": 306
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+      "sha256": "de3fbee470c6da1693dc1e43abf570ce11db3f4a",
+      "lines": 498
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+      "sha256": "b9feb764915cd437cd0700df444536794c182309",
+      "lines": 177
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+      "sha256": "dbf6732bd70e96b89a02eb7a3f83030376858c54",
+      "lines": 248
+    }
+  ],
+  "primaryAnchorsVerified": [
+    "reference/sdlpal/uigame.c:1615-1710 PAL_BuyMenu compact layout + price<=cash confirm gate (1683)",
+    "reference/sdlpal/uigame.c:1755/1777 PAL_SellMenu via ItemSelectMenu kItemFlagSellable",
+    "reference/sdlpal/uigame.c:1793-2056 PAL_EquipItemMenu (1820 wLastUnequippedItem, 1853 iCurrentPlayer, 2016-2019 swap-chain return, 2021-2035 wrap)",
+    "reference/sdlpal/uigame.c:653-875 PAL_InGameMagicMenu (674/719 static caster cursor, 677-681 single-member fast path, 707-708 HP>0-only enable, 841/849 target no-wrap)",
+    "reference/sdlpal/magicmenu.c:377-409 sorted spell collection + wDefaultMagic"
+  ]
+}

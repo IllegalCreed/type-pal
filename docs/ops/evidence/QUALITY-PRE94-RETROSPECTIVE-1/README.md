@@ -228,6 +228,7 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 最新[GLM foundation shared类型切片](glm-foundation/shared-types/README.md)：六纯类型文件八维复审完成；修 FRAME_MS_FADE 已废弃设计注释、loadScene 过时 stub 注释、tables 重复 LevelUpMagicEntry 声明（d.ts 恒等证明）与 cells 措辞；shared 128/128、typecheck、biome 0；登记 5 个 0 消费公共出口待 Codex 裁定；候选待Codex验收。
 最新[GLM pre94 shell生命周期切片](73-78-shell-lifecycle/README.md)：CODE73/74/76/77/78 五卡( input/audio/main-loop/rng-player/avi-player )5生产文件+11测试八维复审完成；修6处错误/过时注释(avi跳过键锚点uigame.c:395→aviplay.c:711等)、补DM29揭场静默与L47非循环补播两零覆盖轴(变异恰1红/恰2红)；定向109/109、typecheck/biome 0；suppressedHeld多键复活角点已登记；候选 12a39b4c9 待Codex验收。
 最新[GLM pre94 菜单核心+交易族切片](83-93-menu-core-transaction/README.md)：CODE83/84/87/91/93 五卡( menu-mode/stack、inventory、in-game、inventory-action、sell )8生产文件+12测试八维只读复审完成，零改动零缺陷；锚逐条核验(itemmenu.c delta/clamp/确认门/全显示、uigame.c 542-553/649/1024-1026/1309-1324)；定向84/84、typecheck 0；85/86/88/89 留下一菜单切片；五卡建议 pending→partial，候选 8e442940c 待Codex验收。
+最新[GLM pre94 菜单 shop/equip/magic 切片](85-89-menu-shop-equip-magic/README.md)：CODE85/86/88/89 四卡( shop-buy、equip、magic-select、in-game-magic )4生产+11测试八维只读复审完成，零改动零缺陷；L35/L37/L38/L41/DL22 锚核验；定向80/80。菜单族九卡(83-89/91/93)本轮全部完成，四卡建议 pending→partial，候选 33cf347a8 待Codex验收。
 
 
 - 2026-10-18：[3w结算复审](3w-settlement/README.md)——两源/测旧关闭撤回复审；事实注释、合法宿主、5→8合同迁移、六有效反控和8直接/221相邻，未统一收口。
