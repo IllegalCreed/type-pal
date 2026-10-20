@@ -1,6 +1,6 @@
 # 94前全部83卡复审队列
 
-2026-10-20当前：6 accept / 77 partial / 0 pending。Codex逐项核原卡验收范围与当前证据，正式接收6a/79/80/81/82/90；完整八维、保留项、有效门与失效条件见[本轮裁定](completion.json)。历史done不自动继承，partial也不因全仓绿自动accept。
+2026-10-20当前：15 accept / 68 partial / 0 pending。首六卡与本轮九张菜单卡按各自原合同正式接收；[菜单36文件裁定](menu-core-closeout.json)含逐文件八维/整改/原件和集中门，历史done或包绿不自动继承。
 
 | 卡 | 原卡状态 | 当前复审 | 范围/证据 |
 |---|---|---|---|
@@ -76,16 +76,16 @@
 | [CODE-QUALITY-80](../../tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md) | review | accept | [本次正式验收](completion.json)：B调试面板的战斗换队禁用与探索换队装备重建；picker生命周期由CODE81收口；Dev大文件的整体组织仍归CODE58及通用逐文件复审。当前没有宿主卸载caller，因此不强造新的公共disposer。现有功能DOM证据符合本卡验收范围，不声称完成额外美术或剧情视觉验收。 |
 | [CODE-QUALITY-81](../../tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md) | review | accept | [本次正式验收](completion.json)：picker observer释放、列表代际、迟到异步结果及失败占位；页面级监听按单宿主生命周期保留，不擅增公共卸载API；共享缓存跨picker保留是既有合同。整份Dev文件仍review，本卡仅接收observer/thumbnail功能合同，不引申为剧情或美术全验收。 |
 | [CODE-QUALITY-82](../../archive/tasks/done/CODE-QUALITY-82-data-mkf-diagnostic.md) | done | accept | [本次正式验收](completion.json)：DATA.MKF独立只读诊断脚本与真实进程测试（2文件）；证据限定于声明的诊断结构及合法/非法输入轴；不承诺支持任意MKF文件或直接导入未构建TS工作区。没有为了共享短代码而改公共构建边界。 |
-| [CODE-QUALITY-83](../../archive/tasks/done/CODE-QUALITY-83-game-menu-stack.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
-| [CODE-QUALITY-84](../../archive/tasks/done/CODE-QUALITY-84-game-inventory-menu-contract.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
-| [CODE-QUALITY-85](../../archive/tasks/done/CODE-QUALITY-85-game-shop-menu-contract.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
-| [CODE-QUALITY-86](../../archive/tasks/done/CODE-QUALITY-86-game-equip-menu-contract.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
-| [CODE-QUALITY-87](../../archive/tasks/done/CODE-QUALITY-87-game-ingame-menu-contract.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
-| [CODE-QUALITY-88](../../archive/tasks/done/CODE-QUALITY-88-game-magic-select-contract.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
-| [CODE-QUALITY-89](../../archive/tasks/done/CODE-QUALITY-89-game-in-game-magic-contract.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
+| [CODE-QUALITY-83](../../archive/tasks/done/CODE-QUALITY-83-game-menu-stack.md) | done | accept | [本轮菜单模块](menu-core-closeout.json)：原卡白名单A–H、真实caller/oracle、保留项和集中门成立；广域相邻文件不附带关闭。 |
+| [CODE-QUALITY-84](../../archive/tasks/done/CODE-QUALITY-84-game-inventory-menu-contract.md) | done | accept | [本轮菜单模块](menu-core-closeout.json)：原卡白名单A–H、真实caller/oracle、保留项和集中门成立；广域相邻文件不附带关闭。 |
+| [CODE-QUALITY-85](../../archive/tasks/done/CODE-QUALITY-85-game-shop-menu-contract.md) | done | accept | [本轮菜单模块](menu-core-closeout.json)：原卡白名单A–H、真实caller/oracle、保留项和集中门成立；广域相邻文件不附带关闭。 |
+| [CODE-QUALITY-86](../../archive/tasks/done/CODE-QUALITY-86-game-equip-menu-contract.md) | done | accept | [本轮菜单模块](menu-core-closeout.json)：原卡白名单A–H、真实caller/oracle、保留项和集中门成立；广域相邻文件不附带关闭。 |
+| [CODE-QUALITY-87](../../archive/tasks/done/CODE-QUALITY-87-game-ingame-menu-contract.md) | done | accept | [本轮菜单模块](menu-core-closeout.json)：原卡白名单A–H、真实caller/oracle、保留项和集中门成立；广域相邻文件不附带关闭。 |
+| [CODE-QUALITY-88](../../archive/tasks/done/CODE-QUALITY-88-game-magic-select-contract.md) | done | accept | [本轮菜单模块](menu-core-closeout.json)：原卡白名单A–H、真实caller/oracle、保留项和集中门成立；广域相邻文件不附带关闭。 |
+| [CODE-QUALITY-89](../../archive/tasks/done/CODE-QUALITY-89-game-in-game-magic-contract.md) | done | accept | [本轮菜单模块](menu-core-closeout.json)：原卡白名单A–H、真实caller/oracle、保留项和集中门成立；广域相邻文件不附带关闭。 |
 | [CODE-QUALITY-90](../../tasks/CODE-QUALITY-90-magic-revive-status-boundary.md) | review | accept | [本次正式验收](completion.json)：大世界复活状态边界及runner与测试质量补审；公共cost/caster参数按既有接口冻结要求保留，可选参数精简不阻断本卡。毒槽压缩与其它机制问题仍归CODE53及对应候选；不把一阶段回合数规则套到二阶段装备来源字段。 |
-| [CODE-QUALITY-91](../../archive/tasks/done/CODE-QUALITY-91-game-inventory-action-contract.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
+| [CODE-QUALITY-91](../../archive/tasks/done/CODE-QUALITY-91-game-inventory-action-contract.md) | done | accept | [本轮菜单模块](menu-core-closeout.json)：原卡白名单A–H、真实caller/oracle、保留项和集中门成立；广域相邻文件不附带关闭。 |
 | [CODE-QUALITY-92](../../archive/tasks/done/CODE-QUALITY-92-protected-fast-command-correction.md) | done | partial | [历史门/当前30源比对](92/README.md)：20同/10变，全30仍review |
-| [CODE-QUALITY-93](../../archive/tasks/done/CODE-QUALITY-93-game-sell-menu-contract.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
+| [CODE-QUALITY-93](../../archive/tasks/done/CODE-QUALITY-93-game-sell-menu-contract.md) | done | accept | [本轮菜单模块](menu-core-closeout.json)：原卡白名单A–H、真实caller/oracle、保留项和集中门成立；广域相邻文件不附带关闭。 |
 
 字节SHA、行数和待人工核定的范围原文见[结构原件](all-cards.json)。范围片段不是已验证文件清单；不会因正则命中自动关闭任何文件。

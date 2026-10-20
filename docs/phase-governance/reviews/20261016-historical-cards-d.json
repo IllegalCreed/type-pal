@@ -2854,7 +2854,7 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Root full605 original/new source bodies, full142ledger+216inventory+197probe/config source; receipt_review full605original/all3new bodies and declared actual independent evidence. No production/old-test/full-code credit.",
+      "readMethod": "Read actual bounded menu or gate-diagnostic diff, paired evidence and original bytes; broad adjacent test-file full-read credit is explicitly not claimed. Author full-read and historical execution remain their original boundaries.",
       "coreConclusion": "CODE-QUALITY路线与有限批次状态导航，原多时点当前数/旧YJ2待核残句历史化，机器真实filter校正；不授新产品build或全仓完成。",
       "documentStatus": "active",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
@@ -2958,10 +2958,10 @@
       "sourceSha256": "fb5db80aa4aae2110413d916a1cf46e4ec5ae6743bb7728ec3c7f353f1747336",
       "sourceGitRevision": "22eead43a6c825e1345feb92441e09d340d22c18",
       "sourceGitObject": "2cd85b53f57292d8f8373ee5633eaeecef199938",
-      "afterSha256": "97b01c416a885847522589d8e1afa3bffc1dac5e129b250fcafe8e7032c0f3d9",
+      "afterSha256": "9e77d3cc9e59ae4d53b13e9af17bd41067b5935b0463b2d096159133bb6d613e",
       "revision": {
         "currentSha": "b6f1fc7a26d20b67f6c7dffb04d7f5fff164b8e9161ba36ef3d1f75c8d4a40a2",
-        "implementationSha": "97b01c416a885847522589d8e1afa3bffc1dac5e129b250fcafe8e7032c0f3d9",
+        "implementationSha": "9e77d3cc9e59ae4d53b13e9af17bd41067b5935b0463b2d096159133bb6d613e",
         "history": [
           {
             "revision": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
@@ -3019,8 +3019,8 @@
         "kind": "independent-full-source-and-real-record-consumer-review",
         "path": "docs/phase-governance/reviews/20261016-historical-cards-d.json",
         "sourceSha256": "fb5db80aa4aae2110413d916a1cf46e4ec5ae6743bb7728ec3c7f353f1747336",
-        "afterSha256": "97b01c416a885847522589d8e1afa3bffc1dac5e129b250fcafe8e7032c0f3d9",
-        "lineCount": 350,
+        "afterSha256": "9e77d3cc9e59ae4d53b13e9af17bd41067b5935b0463b2d096159133bb6d613e",
+        "lineCount": 363,
         "originalPreservation": {
           "originalPreserved": true,
           "method": "Full original each line prefixed > space or >; no body after quote; byte-exact inverse.",
@@ -3076,6 +3076,15 @@
           "afterSha256": "baf7fed32f4abd07b8ba4f7cdeb66e0f12e9d1c9eda8391ae4fce01be37913a1",
           "scope": "Record only; no runtime or product acceptance.",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "615622b4ccf443d9d2b59704b52485bb5b083015",
+          "action": "pre94 menu and actual gate-diagnostic bounded rework",
+          "previousAfterSha256": "97b01c416a885847522589d8e1afa3bffc1dac5e129b250fcafe8e7032c0f3d9",
+          "afterSha256": "9e77d3cc9e59ae4d53b13e9af17bd41067b5935b0463b2d096159133bb6d613e",
+          "scope": "Read actual diff and paired per-file or bounded gate-diagnostic evidence; menu A-H and original caller/primary/E reused by explicit SHA. Adjacent UI/host changes cover actual wait/event/teardown/assertion ownership only. No whole83/94-102 or new visual credit.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
         }
       ],
       "supersedes": [
@@ -3113,8 +3122,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Read actual six-card acceptance delta and original criteria;reuse linked A-H/native/caller evidence. No renewed whole-body or historical execution claim.",
-      "coreConclusion": "Six previouslyreview tool/diagnostic files accepted fromcomplete per-file A-H/currentidentity/gate evidence;other product statuses unchanged. Counts from realconsumer.",
+      "readMethod": "Read actual bounded menu or gate-diagnostic diff, paired evidence and original bytes; broad adjacent test-file full-read credit is explicitly not claimed. Author full-read and historical execution remain their original boundaries.",
+      "coreConclusion": "Current exact per-file menu acceptance only after observable zero-diagnostic gates; other statuses unchanged; actual ledger consumer counts.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3265,10 +3274,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "dac59d81e122b5a3f05720dada0923588acf78ffdbcfc3bf5aaa6e316ff4142b",
+      "afterSha256": "d5a7b0f8e2ba598a1a436f6181069caf194b7f6dac1bfd2527dc6f5581fb2264",
       "revision": {
         "currentSha": "addcb44c52fd00ab0fd3397e61ae316bf98d02e2aeef1d5533ed23a2c1e5845a",
-        "implementationSha": "dac59d81e122b5a3f05720dada0923588acf78ffdbcfc3bf5aaa6e316ff4142b",
+        "implementationSha": "d5a7b0f8e2ba598a1a436f6181069caf194b7f6dac1bfd2527dc6f5581fb2264",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4123,8 +4132,8 @@
       "evidence": {
         "kind": "five-card-scoped-source-review",
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
-        "afterSha256": "dac59d81e122b5a3f05720dada0923588acf78ffdbcfc3bf5aaa6e316ff4142b",
-        "lineCount": 867
+        "afterSha256": "d5a7b0f8e2ba598a1a436f6181069caf194b7f6dac1bfd2527dc6f5581fb2264",
+        "lineCount": 871
       },
       "history": [
         {
@@ -4369,6 +4378,54 @@
           "afterSha256": "dac59d81e122b5a3f05720dada0923588acf78ffdbcfc3bf5aaa6e316ff4142b",
           "scope": "Read actual bounded six-card decision/status/navigation/ledger diff. Reuse cited per-file judgments and current zero-diagnostic source-matching gates;no whole83/94-102 or new runtime/visual credit.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "615622b4ccf443d9d2b59704b52485bb5b083015",
+          "action": "pre94 nine-menu quality rework",
+          "previousAfterSha256": "dac59d81e122b5a3f05720dada0923588acf78ffdbcfc3bf5aaa6e316ff4142b",
+          "afterSha256": "d1f65f78c4d085dba1175a082bc79fc5c6bbdb2d437e4f79b14cc74f13835522",
+          "scope": "Read bounded menu comment/private-type/fixture extraction/assertion mapping and paired evidence delta;caller/primary/E reused by explicit SHA. No whole83,94-102 or new visual credit.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+          "scopeErratum": "This window also includes actual test/host/reporting gate diagnostics; read scope is the actual delta and paired evidence, not whole adjacent source files."
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "615622b4ccf443d9d2b59704b52485bb5b083015",
+          "action": "pre94 nine-menu quality rework",
+          "previousAfterSha256": "d1f65f78c4d085dba1175a082bc79fc5c6bbdb2d437e4f79b14cc74f13835522",
+          "afterSha256": "9bc49db4fd0aaea527f9bfa1c8095d0c2658830acdb641cb1c60772454d758dd",
+          "scope": "Read bounded menu comment/private-type/fixture extraction/assertion mapping and paired evidence delta;caller/primary/E reused by explicit SHA. No whole83,94-102 or new visual credit.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+          "scopeErratum": "This window also includes actual test/host/reporting gate diagnostics; read scope is the actual delta and paired evidence, not whole adjacent source files."
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "615622b4ccf443d9d2b59704b52485bb5b083015",
+          "action": "pre94 nine-menu quality rework",
+          "previousAfterSha256": "9bc49db4fd0aaea527f9bfa1c8095d0c2658830acdb641cb1c60772454d758dd",
+          "afterSha256": "d38480e5fc01f85c2738402b4323b020ff43caafa1cd0b711b777083bca70605",
+          "scope": "Read bounded menu comment/private-type/fixture extraction/assertion mapping and paired evidence delta;caller/primary/E reused by explicit SHA. No whole83,94-102 or new visual credit.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+          "scopeErratum": "This window also includes actual test/host/reporting gate diagnostics; read scope is the actual delta and paired evidence, not whole adjacent source files."
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "615622b4ccf443d9d2b59704b52485bb5b083015",
+          "action": "pre94 menu and actual gate-diagnostic bounded rework",
+          "previousAfterSha256": "d38480e5fc01f85c2738402b4323b020ff43caafa1cd0b711b777083bca70605",
+          "afterSha256": "fb53f69ecfb1cc0fc8ad5d9d802c5f4b6c6ade55269fea726fe9c17d24126fbd",
+          "scope": "Read actual diff and paired per-file or bounded gate-diagnostic evidence; menu A-H and original caller/primary/E reused by explicit SHA. Adjacent UI/host changes cover actual wait/event/teardown/assertion ownership only. No whole83/94-102 or new visual credit.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "615622b4ccf443d9d2b59704b52485bb5b083015",
+          "action": "pre94 menu and actual gate-diagnostic bounded rework",
+          "previousAfterSha256": "fb53f69ecfb1cc0fc8ad5d9d802c5f4b6c6ade55269fea726fe9c17d24126fbd",
+          "afterSha256": "d5a7b0f8e2ba598a1a436f6181069caf194b7f6dac1bfd2527dc6f5581fb2264",
+          "scope": "Read actual diff and paired per-file or bounded gate-diagnostic evidence; menu A-H and original caller/primary/E reused by explicit SHA. Adjacent UI/host changes cover actual wait/event/teardown/assertion ownership only. No whole83/94-102 or new visual credit.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
         }
       ],
       "supersedes": [
@@ -4379,7 +4436,7 @@
       ],
       "successor": "Current route/workflow and original product task sources as explicitly linked; no old prompt executable.",
       "stopLine": "Do not infer current runtime/E2E/visual/coverage, product or old-test-quality acceptance from docs/record structure; preserve legal inputs and every original failure.",
-      "nextStep": "Continue77partial actual gaps;do not infer whole83acceptance.",
+      "nextStep": "Continue fixed83-card queue actual gaps; current counts from all-cards.json; do not infer whole83 acceptance.",
       "userVisibleBeforeAfter": {
         "before": "Actual3300 tracked paths with predecessor declared3294; six new docs tools not yet represented; stale live3292 prose retained from earlier maintenance.",
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",

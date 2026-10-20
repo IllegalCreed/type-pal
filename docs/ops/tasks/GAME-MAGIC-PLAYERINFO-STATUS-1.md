@@ -8,7 +8,7 @@ Reviewer: Codex（独立复核）
 Branch: codex/code-quality-3y
 Visual Verification Timing: e2e-deferred
 
-> 高风险边界卡：本卡由 CODE-QUALITY-50 复审发现；尚未授权实现。需要先确认大世界仙术页是否必须复用 SDLPal `PAL_PlayerInfoBox` 的中毒头像染色与乱/定/眠/封状态字。
+> 2026-10-20用户已批准：按SDLPal补齐第一阶段大世界仙术页的中毒头像染色与乱/定/眠/封状态字，先失败像素反例再实现；只补显示，不改状态机制或存档。当前菜单九卡集中门期间冻结实现，本卡仍draft，待该窗口合入后核当前caller/只读适配/primary并进入build。Codex唯一Coding Owner，不再重复申请同一产品裁决。
 
 ## 发现
 
@@ -27,16 +27,16 @@ Visual Verification Timing: e2e-deferred
 - caller/state：`draw-menu.ts`、`present.ts`、`in-game-magic-menu.ts`、`menu-driver.ts`、P06 caller/oracle；运行时角色状态由 `GameState` 的 `rgPlayerStatus`/`rgPoisonStatus` 持有。
 - primary：SDLPal `uibattle.c:31-269`、`uigame.c:653-875`、`magicmenu.c:413-484`。
 
-## 未决裁决
+## 已给出的产品裁决与技术前提
 
-1. 大世界仙术页底部 PlayerInfoBox 是否必须显示与战斗 PlayerInfoBox 相同的中毒头像染色和四类状态字？
-2. 若必须显示，canonical 输入应复用现有 party-slot poison mapper / status readout，还是另开专用只读 presenter 适配；不得把 `roleId` 直接当 poison key。
+1. 已批准显示：用户2026-10-20明确选择“按SDLPal补齐”；本次只含中毒头像染色和四类状态字。
+2. 由Codex核定现有party-slot poison mapper/status只读适配，避免重复知识/隐式全局与roleId误作poison key；技术选择不再提交用户作不透明二选一。
 3. 死亡头像、装备授予的 `>999` 状态和 phase2 `grantedStatuses` 不在本卡实现；本卡只确认 phase1 UI 读模型。
 
 ## 禁止事项
 
-在用户/前提裁决前，不修改 `draw-magic.ts` 公共输入、不新增隐式全局状态、不复制 poison mapper、不改变 sprite 资源或 schema/save，不把 50 标记为整卡已验证。50 只能保持 `partial`；本卡之外的 50 测试合同可独立复核。
+产品裁决已获；当前冻结窗口及技术前提/失败像素反例未齐前，不修改 `draw-magic.ts` 公共输入、不新增隐式全局状态、不复制 poison mapper、不改变 sprite 资源或 schema/save，不把 50 标记为整卡已验证。50 只能保持 `partial`；本卡之外的 50 测试合同可独立复核。
 
 ## 下一步
 
-取得裁决后先写一个能区分“缺状态字/缺头像染色”的 framebuffer 失败反例，再决定是否进入实现；随后跑 magic direct、menu/status 相邻和统一质量门。未裁决前可继续不重叠的 pre-94 文件复审。
+当前菜单九卡收口后，按已给裁决先写一个能区分“缺状态字/缺头像染色”的 framebuffer 失败反例，再决定是否进入实现；随后跑 magic direct、menu/status 相邻和统一质量门。未裁决前可继续不重叠的 pre-94 文件复审。

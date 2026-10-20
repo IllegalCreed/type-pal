@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "e810ac392afa6d759bb9a407bda85a02a8d23ecbb505d5cf365c43a80cc6c2b3",
+      "afterSha256": "38c36d61b7132c2ecd0b41372f2b5e36d1293a2b394fe4a01e9e40b833b689e8",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "a2101ce8ffeb73642521f0b489d17642f27bbd3fcdc581d0e9c354dedbc05778",
-        "implementationSha": "e810ac392afa6d759bb9a407bda85a02a8d23ecbb505d5cf365c43a80cc6c2b3",
+        "implementationSha": "38c36d61b7132c2ecd0b41372f2b5e36d1293a2b394fe4a01e9e40b833b689e8",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1809,8 +1809,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "e810ac392afa6d759bb9a407bda85a02a8d23ecbb505d5cf365c43a80cc6c2b3",
-        "lineCount": 16239,
+        "afterSha256": "38c36d61b7132c2ecd0b41372f2b5e36d1293a2b394fe4a01e9e40b833b689e8",
+        "lineCount": 16392,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -2010,6 +2010,96 @@
           "afterSha256": "e810ac392afa6d759bb9a407bda85a02a8d23ecbb505d5cf365c43a80cc6c2b3",
           "scope": "Incoming hash of exactly this bounded review-record update;other entries unchanged.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "615622b4ccf443d9d2b59704b52485bb5b083015",
+          "action": "pre94 nine-menu quality rework",
+          "previousAfterSha256": "e810ac392afa6d759bb9a407bda85a02a8d23ecbb505d5cf365c43a80cc6c2b3",
+          "afterSha256": "e78dcb05d216de4113577b97741098f10d05ae9305e71aefcd271248a6ec042b",
+          "scope": "Incoming hash of exactly this bounded review-record update;other entries unchanged.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "615622b4ccf443d9d2b59704b52485bb5b083015",
+          "action": "pre94 nine-menu quality rework",
+          "previousAfterSha256": "e78dcb05d216de4113577b97741098f10d05ae9305e71aefcd271248a6ec042b",
+          "afterSha256": "c05d91fc5449fdc24f2cc271f38142fda48d7d88a8e7fed28efec196e575614d",
+          "scope": "Incoming hash of exactly this bounded review-record update;other entries unchanged.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "615622b4ccf443d9d2b59704b52485bb5b083015",
+          "action": "pre94 nine-menu quality rework",
+          "previousAfterSha256": "c05d91fc5449fdc24f2cc271f38142fda48d7d88a8e7fed28efec196e575614d",
+          "afterSha256": "08c480cd72302d418bdf23e1ea883aed154c4b015c9659c412187d59d4257bd1",
+          "scope": "Incoming hash of exactly this bounded review-record update;other entries unchanged.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "615622b4ccf443d9d2b59704b52485bb5b083015",
+          "action": "pre94 nine-menu quality rework",
+          "previousAfterSha256": "08c480cd72302d418bdf23e1ea883aed154c4b015c9659c412187d59d4257bd1",
+          "afterSha256": "a1eb8e3e81533b9f57b5cca724cd0b3b2d91c29c5a9b3081c6ea720a9f9b97a4",
+          "scope": "Incoming hash of exactly this bounded review-record update;other entries unchanged.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "615622b4ccf443d9d2b59704b52485bb5b083015",
+          "action": "pre94 nine-menu quality rework",
+          "previousAfterSha256": "a1eb8e3e81533b9f57b5cca724cd0b3b2d91c29c5a9b3081c6ea720a9f9b97a4",
+          "afterSha256": "72f0d51beec86d466d7d684c6dae7aebe8ba6a93b13041f40473691162db9053",
+          "scope": "Incoming hash of exactly this bounded review-record update;other entries unchanged.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "615622b4ccf443d9d2b59704b52485bb5b083015",
+          "action": "pre94 nine-menu quality rework",
+          "previousAfterSha256": "72f0d51beec86d466d7d684c6dae7aebe8ba6a93b13041f40473691162db9053",
+          "afterSha256": "b83586363bdf230fd2341384746f973b5b3cd268f22d73be6e3decc5a28dfb11",
+          "scope": "Incoming hash of exactly this bounded review-record update;other entries unchanged.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "615622b4ccf443d9d2b59704b52485bb5b083015",
+          "action": "pre94 nine-menu quality rework",
+          "previousAfterSha256": "b83586363bdf230fd2341384746f973b5b3cd268f22d73be6e3decc5a28dfb11",
+          "afterSha256": "911589c38ea83f0c2db0f46deeb26bd29f8997d59953c2a90b438e7a7fd516dc",
+          "scope": "Incoming hash of exactly this bounded review-record update;other entries unchanged.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "615622b4ccf443d9d2b59704b52485bb5b083015",
+          "action": "pre94 menu and actual gate-diagnostic bounded rework",
+          "previousAfterSha256": "911589c38ea83f0c2db0f46deeb26bd29f8997d59953c2a90b438e7a7fd516dc",
+          "afterSha256": "b497a32971dee3b702e8fe542ec01fe20b4fe0deb8f28d917708e7656a3ffcae",
+          "scope": "Incoming hash of exactly this bounded review-record update;other entries unchanged.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "615622b4ccf443d9d2b59704b52485bb5b083015",
+          "action": "pre94 menu and actual gate-diagnostic bounded rework",
+          "previousAfterSha256": "b497a32971dee3b702e8fe542ec01fe20b4fe0deb8f28d917708e7656a3ffcae",
+          "afterSha256": "1d200e5f01fa78518d0ccfa3999f403c6162132ea478b92c5784f68fe7985476",
+          "scope": "Incoming hash of exactly this bounded review-record update;other entries unchanged.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "615622b4ccf443d9d2b59704b52485bb5b083015",
+          "action": "pre94 menu and actual gate-diagnostic bounded rework",
+          "previousAfterSha256": "1d200e5f01fa78518d0ccfa3999f403c6162132ea478b92c5784f68fe7985476",
+          "afterSha256": "38c36d61b7132c2ecd0b41372f2b5e36d1293a2b394fe4a01e9e40b833b689e8",
+          "scope": "Incoming hash of exactly this bounded review-record update;other entries unchanged.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
         }
       ],
       "supersedes": [
@@ -2024,7 +2114,7 @@
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "e810ac392afa6d759bb9a407bda85a02a8d23ecbb505d5cf365c43a80cc6c2b3",
+      "candidateSha256": "38c36d61b7132c2ecd0b41372f2b5e36d1293a2b394fe4a01e9e40b833b689e8",
       "primarySource": [
         {
           "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",

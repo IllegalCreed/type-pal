@@ -1,5 +1,8 @@
 # 全仓代码质量治理总纲
 
+2026-10-20当前pre94以[固定83卡队列](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)为唯一进度；[菜单模块](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)记录最新逐文件接受与质量门。以下波次数字按原时点保留，不作为当前计数或门通过依据。
+
+
 > 2026-10-18 pre-94 机制返工：三个独立审计 counter 已核实并登记[QUALITY-BATTLE-MAGIC-PARITY-1](../tasks/QUALITY-BATTLE-MAGIC-PARITY-1.md)。0x42目标、0x66裸武术、非伤害敌法术自动防御按先红后绿修复；五项旧闭合记录（两实现/三测试）转review，无新增closed。旧波次门仍rework；本次定向不恢复其全仓/coverage信用。
 
 > 2026-10-18 当前源区间勘误：uibattle.c飘字循环1746–1767、PAL_BattleUIShowNum 1770–1808（EOF1808）；PAL_PlayerLevelUp为global.c:2347–2409（EOF2409）。旧quote/历史快照中的1810/2454仅保留原记录，不是当前有效读取范围；见[直接核对](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/53-wave-gates/receipt-audit/anchor-corrections.json)。未重跑或重签产品/coverage门。

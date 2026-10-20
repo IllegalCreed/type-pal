@@ -14,9 +14,33 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
 用户要求完成完整pre94并收口。沿用codex/code-quality-3y，唯一Owner/验收者Codex；现有83卡为固定范围，94–102保持后置。已有全文八维/真实caller/oracle与可靠原件按claim复用，只补失效或实际缺项，不重复全部复审。先按每卡原范围核验收条件，不能用共享大文件的额外可改善项无限延长小卡，也不能把未解关键counter改成通过。
 
-首个收口窗口6a/79/80/81/82/90已按具体合同accept；其余77partial继续，六个工具/诊断文件具备原A–H与当前门后正式关闭，既有16接受不重复计数。[逐卡裁定及保留项](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json)；当前计数以all-cards.json与live ledger机器输出为准。schema/save/资产/公共接口/机制取舍按原授权和停止线；可独立推进项不中断。packages/scripts相对ea9c3cc02未变，本窗口复用其完整全仓check/ratchet/protected及typecheck；文档静态/账本门另实跑，产品后继改动后按模块集中重跑。
+首个收口窗口6a/79/80/81/82/90已按具体合同accept；后续菜单九卡按下文最新窗口计数推进，六个工具/诊断文件具备原A–H与当前门后正式关闭，既有16接受不重复计数。[逐卡裁定及保留项](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json)；当前计数以all-cards.json与live ledger机器输出为准。schema/save/资产/公共接口/机制取舍按原授权和停止线；可独立推进项不中断。首六卡窗口当时packages/scripts相对ea9c3cc02未变，当时复用其完整全仓check/ratchet/protected及typecheck；文档静态/账本门另实跑，产品后继改动后按模块集中重跑。
+
+以下准入、失败与“待跑”段落均按本窗口发生时点保留；最新结果以菜单窗口收口段和唯一回执为准。
+
+下一模块准入：CODE83/87/91 菜单栈、主/系统菜单、物品动作菜单。Codex单Owner，现有GLM全文/primary与具体E维结论复用，补B/C/D/F/G/H的具体设计依据和测试隔离/排重核验。已定向全文核三份短实现、状态helper与五份短测试；发现空栈恢复域/dispatch后同步时序两处坏注释、一个无用私有泛型、物品动作头注历史噪音及负游标“合法域”误称。build allowed仅六个当前文件的注释、私有类型与测试标题整改，生成JS/测试体不变；相邻mode.ts只纠正同一误导性注释，不授整文件关闭。原始标题→新标题留身份映射，使用编译不变证明、定向/相邻/typecheck和静态门；昂贵全仓/覆盖率与后续菜单模块集中收尾。本卡不改公共API、机制、schema/save、菜单形态或94–102任务。
+
+同一菜单窗口追加准入：CODE84/85/86/88/89/93，由Codex补齐既有GLM原审的结构、复用、简洁性与测试隔离依据；允许修正magic-select/in-game-magic-menu的过时注释，六份同合同Magic(id,costMP)夹具提取为测试专用纯工厂，三份仙术状态测试在beforeEach/afterEach显式复位既有光标记忆，并移除库存测试内已无必要的类型断言。库存inUse读取经类型核对仍是额外运行时字段适配，不擅改InventoryEntry公共合同。保持所有fixture值、业务断言与测试身份（此前已登记的一处标题除外）；纯重构和证据分提交，模块末集中大门。
+
+菜单窗口的可见全仓check仍未过：20,376包用例实跑通过，但game8份测试的预期错误/非法夹具、Reforge一笔迟到save UI刷新及editor act/环境诊断显露，另3份本任务JSON格式待修。原自动reporter零输出不能验收，完整失败原件保留。Codex窄build allowed：game实际输出对应8份测试，补精确负例console合同/合法dialog与contact输入/媒体原型清理；不改产品。editor先以ImageTab/TilesetTab两份Kimi测试校验同步DOM断言的act内IO等待共用叶react-io-wait，保持vi.waitFor默认1000/50与各调用自有timeout、不吞console；证据复用作者全文，仅对实际等待/事件/会话写入/teardown差异定向复核，不授整文件接受。15例校准与原断言不变成立后，按本轮editor-act-callers.json的45个实际诊断文件有限扩展（临时清单已冻结，非全文重审/94–102新任务）：同步DOM等待保持原timeout/interval；已包act者不再套嵌；仅裸露的undo/redo业务断言加act，11份缺环境标记者补true及原teardown恢复，FrameEditor宿主复用相同等待叶。先定向统一复跑再按剩余具体caller补齐，不靠总退出码宣告通过。方法成立后仅按本轮可见诊断的有限文件扩展，补缺失act环境与真实更新ownership；不改公共产品或94–102卡，不提前跑覆盖率。
+
+### 菜单窗口收口（当前）
+
+源码提交：`d9ac8ef654014ff65c98c8ce143a56af04dbacc1`；菜单逐文件审查与必要门诊断返工同一源码快照，原件独立证据提交。全部规定门已通过，推送/主线同步以当前Git ancestry为准。
+
+菜单窗口已完成：CODE83–89/91/93共36文件（10菜单实现/25测试/1专用夹具）逐项A–H成立。纠正空栈/同tick恢复、法术目标和字段等坏注释；删除私有泛型冗余；六份同合同Magic夹具合一，三份仙术测试清理static，精简一条同输入弱长度断言并保留合同映射。当前15accept/68partial/0pending，新增36文件关闭；完整check20377例、official ratchet/protected各19979例均为零运行诊断；完整check之后仅新增一条有限baseline授权数据，函数/既有条目AST不变、82工具测试与源码变更拒绝反控补验，未因这条数据变更重复pnpm check；后继ratchet/protected均从正式入口实际采集并过门。所有门与完整原件见[菜单唯一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json)。当前高风险/广域模块不附带关闭，94–102后置。
 
 以下各时点“当前/待跑/0accept/剩余数”为历史，不覆盖本节；全83验收和必要风险决策未齐前父卡保持build。
+
+2026-10-20诊断窄返工结果：editor原45文件308例定向复验现为零act/环境/stderr；43份已改测试保留全部2098条expect表达式和原标题。补实际挂载后的dispatch/focus/试听ownership清理；Tileset撤销后摘要读取也须持有共享预览的异步完成。Reforge迟到save并非盲归上一用例：只读内存探针已定位到main.entity-host-flows的loadScene两参数行本身；仅等待该自动存档新增缩略图后再拆宿主，9相邻文件116例零stderr，产品main.ts不改。新增该测试有限准入与七包package.json test命令、scripts/coverage/run.mjs的显式default reporter准入；不改规则、超时、选择或覆盖率合同。初期移除CODEX探测环境仅作已披露校准，后继官方入口保留原环境仍完整显示成功用例诊断。全仓门待新跑，当前未合并、未关闭菜单文件。[完整增量与原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-gate-diagnostics.json)。
+
+显式reporter首轮全仓check另显露effect-flows.residual的切场景脚本后续自动存档未结算；该轮在editor阶段主动SIGTERM，完整原件保留，不作通过。补该测试唯一loadScene用例的IO寿命等待（原世界/显隐/输入断言与11身份不变），不改存档产品；这是新增有限测试准入。实际8文件探针未重现此偶发，不伪称其已证明来源；生产排队/刷新路径、原始诊断、调用序列及恢复后Reforge全包359文件8964例零stderr分别登记。现在只冻结当前代码重跑完整门；后续覆盖率仍集中本次收尾。
+
+当前统一IO收口取代上述局部等待：第二轮在canonical传送门仍出现同类诊断，已保留原件并停止非干净门；真实事务探针见多个host关闭时仍有meta/thumb/payload事务。Codex build allowed限测试宿主dom-host的原生open/transaction/bitmap完成记录及幂等异步close，43份真实typed caller只补等待（49处，另外2处原已等待），产品main/save不改；已撤回先前零散bitmap等待，原件作为历史尝试保留。新增一条真实事务→PNG解码→已关闭资源/全局及原生描述符复原合同，移除join恰1指定pending/decoded AssertionError。事务观察采用透明可恢复wrapper，保留已有故障注入spy；一次递归失败原件亦保留。42份既有Reforge测试1184条原expect全保留、11处新增另核；不授43文件全文复审/accept。editor五处环境标记改精确恢复原描述符，避免撤掉beforeAll持有的Blob等端口，失败2例与恢复20例完整保留。当前全仓门仍待实际重跑，未关闭菜单九卡、未合main。
+
+统一IO后完整check实际七包20377例、所有typecheck与lint0/0/0；仍有1条受控输入诊断，明确不是干净通过。原首轮可见日志也有此条，先前按act/环境分类清单漏项，现补齐全stderr分类。有限追加准入：number-inputs.glm-leaf-wave仅标签/错误样式用例改原生defaultValue合法夹具，controlled stepper的真实状态Harness不动；复用精确环境恢复，61原expect/7身份不变。两文件相邻8例零stderr；editor当前44份实际改动测试2159原expect全部保留。完整原件与误分类边界见同一门诊断回执，覆盖率尚未启动，当前未作九卡验收。
+
+2026-10-20菜单集中门补充准入：Vitest4.1.7在Codex环境自动选择agent/minimal reporter，passing-test日志被隐藏。原menu-check-final为exit0，但其零可见运行诊断不足以认定零实际诊断，运行门信用待显式可见日志重证；原件不改。限定Codex补runtime-shell/dom-host.ts与专用audio-host.ts缺失的外部WebAudio/Spessa宿主，提供外部构造/状态/手势恢复/关闭与字节/音源/合成库协议双替身；真实SFX仍校验原始资源，替身不授PCM/设备/听感时序信用，不mock业务SFX或吞console；main.boot-shell.glm-q.test.ts同一手势用例补真实SFX状态/恢复/关闭断言并登记标题映射。同一诊断窄返工追加白名单：main.host-boundaries-1.test.ts、main.item-flows.test.ts的既有负例精确核console参数/次数，main.auto-save-flows.test.ts等待本次存档新增缩略图后再拆宿主，boot-page-shell.glm-q.test.ts等待实际RAF取得ownership，audio/sfx.staged-failures.test.ts真实await已有断言，scripts/battle-trial-host.test.ts复用外部音频宿主。七份测试已全文核读；原业务断言/测试数不删，只有音频手势标题一对一映射。纯测试/外部IO返工，不授Reforge产品功能或整文件accept。后继check/coverage进程只移除std-env用于自动reporter探测的CODEX环境标记，确认default reporter可见；规则、测试选择、超时和coverage合同不变。主机深睡造成的首轮ratchet超时保留，后继大门运行期间使用命令级caffeinate防空闲休眠，不改测试超时。
 
 ## 当前用户要求、范围与准入
 

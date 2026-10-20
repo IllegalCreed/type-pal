@@ -531,5 +531,11 @@
         "bytes": 2988
       }
     ]
+  },
+  "gateEvidenceErratum": {
+    "date": "2026-10-20",
+    "finding": "Installed Vitest4.1.7 selects agent/minimal reporter from CODEX_THREAD_ID and hides passing-test console logs. Historical exit0 and raw bytes remain true; zero observed diagnostics is not proof of zero actual runtime diagnostics.",
+    "scope": "Withdraw only reused automatic-reporter runtime-zero credit. Six per-file tool/native review decisions and actual static results remain their separate supported claims. Current observable menu window must recertify whole runtime gates before merging.",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
   }
 }

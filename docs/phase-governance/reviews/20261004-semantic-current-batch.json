@@ -457,9 +457,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read actual six-card acceptance delta and original criteria;reuse linked A-H/native/caller evidence. No renewed whole-body or historical execution claim.",
+      "readMethod": "Read actual bounded menu or gate-diagnostic diff, paired evidence and original bytes; broad adjacent test-file full-read credit is explicitly not claimed. Author full-read and historical execution remain their original boundaries.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Remove fourterminal scoped cards fromactiveboard;parent nowowns completepre94continuation. Otheractiveowners/cards unchanged.",
+      "coreConclusion": "Current pre94 parent continuation and exact accepted scopes; unrelated active owners/cards unchanged.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -475,7 +475,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
-      "afterSha256": "ce5eeffaf6872b4f61e86a25c821a1736c3ae25118b3b664481f8155a6a20987",
+      "afterSha256": "61cad46a11981c2a094097860cbeaaf9c411d1c9bcfe883ae569ee45d5f41ee0",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -504,7 +504,7 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "ce5eeffaf6872b4f61e86a25c821a1736c3ae25118b3b664481f8155a6a20987",
+        "implementationSha": "61cad46a11981c2a094097860cbeaaf9c411d1c9bcfe883ae569ee45d5f41ee0",
         "contentVersion": 24,
         "minimumSaveVersion": 12,
         "history": [
@@ -1651,8 +1651,8 @@
       "evidence": {
         "kind": "five-card-scoped-source-review",
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
-        "afterSha256": "ce5eeffaf6872b4f61e86a25c821a1736c3ae25118b3b664481f8155a6a20987",
-        "lineCount": 93
+        "afterSha256": "61cad46a11981c2a094097860cbeaaf9c411d1c9bcfe883ae569ee45d5f41ee0",
+        "lineCount": 94
       },
       "history": [
         {
@@ -1834,6 +1834,35 @@
           "afterSha256": "ce5eeffaf6872b4f61e86a25c821a1736c3ae25118b3b664481f8155a6a20987",
           "scope": "Read actual bounded six-card decision/status/navigation/ledger diff. Reuse cited per-file judgments and current zero-diagnostic source-matching gates;no whole83/94-102 or new runtime/visual credit.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "615622b4ccf443d9d2b59704b52485bb5b083015",
+          "action": "pre94 nine-menu quality rework",
+          "previousAfterSha256": "ce5eeffaf6872b4f61e86a25c821a1736c3ae25118b3b664481f8155a6a20987",
+          "afterSha256": "8f8873af299686d0eac48898e21505ae454971d32ac39fa01eb34f8c8a32779d",
+          "scope": "Read bounded menu comment/private-type/fixture extraction/assertion mapping and paired evidence delta;caller/primary/E reused by explicit SHA. No whole83,94-102 or new visual credit.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+          "scopeErratum": "This window also includes actual test/host/reporting gate diagnostics; read scope is the actual delta and paired evidence, not whole adjacent source files."
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "615622b4ccf443d9d2b59704b52485bb5b083015",
+          "action": "pre94 nine-menu quality rework",
+          "previousAfterSha256": "8f8873af299686d0eac48898e21505ae454971d32ac39fa01eb34f8c8a32779d",
+          "afterSha256": "279be01269ba51ccd76a9335f455057152c4a1bbfeea401ccfaff40a907156e9",
+          "scope": "Read bounded menu comment/private-type/fixture extraction/assertion mapping and paired evidence delta;caller/primary/E reused by explicit SHA. No whole83,94-102 or new visual credit.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+          "scopeErratum": "This window also includes actual test/host/reporting gate diagnostics; read scope is the actual delta and paired evidence, not whole adjacent source files."
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "615622b4ccf443d9d2b59704b52485bb5b083015",
+          "action": "pre94 menu and actual gate-diagnostic bounded rework",
+          "previousAfterSha256": "279be01269ba51ccd76a9335f455057152c4a1bbfeea401ccfaff40a907156e9",
+          "afterSha256": "61cad46a11981c2a094097860cbeaaf9c411d1c9bcfe883ae569ee45d5f41ee0",
+          "scope": "Read actual diff and paired per-file or bounded gate-diagnostic evidence; menu A-H and original caller/primary/E reused by explicit SHA. Adjacent UI/host changes cover actual wait/event/teardown/assertion ownership only. No whole83/94-102 or new visual credit.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
         }
       ],
       "supersedes": [],
@@ -2125,7 +2154,7 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read actual six-card acceptance delta and original criteria;reuse linked A-H/native/caller evidence. No renewed whole-body or historical execution claim.",
+      "readMethod": "Read actual bounded menu or gate-diagnostic diff, paired evidence and original bytes; broad adjacent test-file full-read credit is explicitly not claimed. Author full-read and historical execution remain their original boundaries.",
       "reviewDepth": "deep-semantic",
       "coreConclusion": "生成任务索引：保留官方生成器的活动/完成/取消任务分组，并补齐 governance-index-v1 元数据；生成索引不单独证明任何产品或测试通过。 任务索引将 DOCS-CATALOG-SPLIT-1 投影到 historical done 任务索引已投影 catalog split historical done；不代表全 docs 或产品执行完成。 任务索引已投影 catalog split historical done；不代表全 docs 或产品执行完成。",
       "truthAnchors": ["docs/ops/tasks/index.md:1", "scripts/docs/check.mjs:67"],
@@ -2139,7 +2168,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-      "afterSha256": "16ff94b53585ce6c772ba736f665228e1719fa4852a6bc2e383844fa91769c4f",
+      "afterSha256": "2536fd6c691c98aaf51e9476ccce9250c567eb4ee0ed36a535bc3f9fde6b7d24",
       "publicCallers": [
         "docs/ops/tasks/README.md → index.md",
         "docs/ops/board.md → tasks/index.md",
@@ -2160,7 +2189,7 @@
       },
       "revision": {
         "currentSha": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
-        "implementationSha": "16ff94b53585ce6c772ba736f665228e1719fa4852a6bc2e383844fa91769c4f",
+        "implementationSha": "2536fd6c691c98aaf51e9476ccce9250c567eb4ee0ed36a535bc3f9fde6b7d24",
         "contentVersion": 22,
         "minimumSaveVersion": 12,
         "history": [
@@ -2508,7 +2537,7 @@
         "kind": "content-reading",
         "path": "docs/ops/tasks/index.md",
         "sourceSha256": "d940c8eca2ac8f3a2db5adee94723f9718bcbe05f1ec6d93aa176b1df057ea98",
-        "lineCount": 511,
+        "lineCount": 512,
         "headings": [
           {
             "line": 1,
@@ -2533,7 +2562,7 @@
           "349:## 已取消（superseded / historical）",
           "358:| [W7E - 独立地图库与场景地图绑定（已取消）](../archive/tasks/cancelled/W7E-map-library-scene-binding.md) | cancelled | 用户否定双地图模型，由 W7F 唯一新版地图管线承接。 |"
         ],
-        "afterSha256": "16ff94b53585ce6c772ba736f665228e1719fa4852a6bc2e383844fa91769c4f",
+        "afterSha256": "2536fd6c691c98aaf51e9476ccce9250c567eb4ee0ed36a535bc3f9fde6b7d24",
         "currentReading": {
           "date": "2026-10-17",
           "sha256": "65e12558b72d9d72bfc5d43431a871f6bde6195cdfbc32c6cbaff891e413e24a",
@@ -2791,6 +2820,16 @@
           "afterSha256": "16ff94b53585ce6c772ba736f665228e1719fa4852a6bc2e383844fa91769c4f",
           "scope": "Read actual bounded six-card decision/status/navigation/ledger diff. Reuse cited per-file judgments and current zero-diagnostic source-matching gates;no whole83/94-102 or new runtime/visual credit.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "615622b4ccf443d9d2b59704b52485bb5b083015",
+          "action": "pre94 nine-menu quality rework",
+          "previousAfterSha256": "16ff94b53585ce6c772ba736f665228e1719fa4852a6bc2e383844fa91769c4f",
+          "afterSha256": "2536fd6c691c98aaf51e9476ccce9250c567eb4ee0ed36a535bc3f9fde6b7d24",
+          "scope": "Read bounded menu comment/private-type/fixture extraction/assertion mapping and paired evidence delta;caller/primary/E reused by explicit SHA. No whole83,94-102 or new visual credit.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+          "scopeErratum": "This window also includes actual test/host/reporting gate diagnostics; read scope is the actual delta and paired evidence, not whole adjacent source files."
         }
       ],
       "supersedes": [],
@@ -3412,7 +3451,7 @@
       "template": "docs/phase-governance/templates/guide-runbook.md",
       "templateVersion": "1.0.0",
       "templateCompliance": "template-compliant",
-      "readMethod": "Actual current delegation/assignment delta reviewed; A-H and unrelated statuses retained",
+      "readMethod": "Read actual bounded menu or gate-diagnostic diff, paired evidence and original bytes; broad adjacent test-file full-read credit is explicitly not claimed. Author full-read and historical execution remain their original boundaries.",
       "reviewDepth": "deep-semantic",
       "coreConclusion": "User permits one large delegated goal with internal2-4file/module slices and continuous progress, module/stage evidence handoffs and risk-local escalation. A-H requirements, zero diagnostics, authorization and evidence-first acceptance unchanged; no per-slice user relay gate.",
       "truthAnchors": [
@@ -3436,7 +3475,7 @@
         "Existing workflow/test governance and direct route/template consumers"
       ],
       "sourceSha256": "70d6322333f1cdf920634503fc65739e867a62f6f58449c06b0cf9af1e803632",
-      "afterSha256": "3eb640f171446fd310fe4090433760fe05fdc519771a7dfd189bcf9ef48b47b6",
+      "afterSha256": "b7f7c2c750a6c9636a083103b60c02eda28f691a45a81a6ad93059e4404360ca",
       "publicCallers": [
         "AGENTS.md code operation route",
         "CLAUDE.md shared collaboration rules",
@@ -3466,7 +3505,7 @@
       },
       "revision": {
         "currentSha": "0bc82025928b4fe13dce0f34c3a8696507d04032",
-        "implementationSha": "3eb640f171446fd310fe4090433760fe05fdc519771a7dfd189bcf9ef48b47b6",
+        "implementationSha": "b7f7c2c750a6c9636a083103b60c02eda28f691a45a81a6ad93059e4404360ca",
         "history": [
           {
             "revision": "c1464acde3cbff85c0a24afed343104a7a9f52d2",
@@ -3525,13 +3564,23 @@
       "evidence": {
         "kind": "finite-prose-acceptance-and-large-task-routing",
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/rle/copy-fix-r1-codex-final.json",
-        "afterSha256": "3eb640f171446fd310fe4090433760fe05fdc519771a7dfd189bcf9ef48b47b6",
-        "lineCount": 155
+        "afterSha256": "b7f7c2c750a6c9636a083103b60c02eda28f691a45a81a6ad93059e4404360ca",
+        "lineCount": 157
       },
       "history": [
         {
           "date": "2026-10-18",
           "action": "Initial current engineering-quality standard; no inherited old-file or model-identity credit"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "615622b4ccf443d9d2b59704b52485bb5b083015",
+          "action": "pre94 nine-menu quality rework",
+          "previousAfterSha256": "3eb640f171446fd310fe4090433760fe05fdc519771a7dfd189bcf9ef48b47b6",
+          "afterSha256": "b7f7c2c750a6c9636a083103b60c02eda28f691a45a81a6ad93059e4404360ca",
+          "scope": "Read bounded menu comment/private-type/fixture extraction/assertion mapping and paired evidence delta;caller/primary/E reused by explicit SHA. No whole83,94-102 or new visual credit.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+          "scopeErratum": "This window also includes actual test/host/reporting gate diagnostics; read scope is the actual delta and paired evidence, not whole adjacent source files."
         }
       ],
       "supersedes": [],

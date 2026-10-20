@@ -4605,7 +4605,7 @@
       "templateVersion": "1.5.0",
       "template": "docs/phase-governance/templates/../../testing/_templates/test-machine-evidence.json",
       "templateCompliance": "template-compliant",
-      "readMethod": "Reuse prior body assessment;read actual five-card scoped diff/caller/evidence. Do not infer whole-file execution or broad new review from new afterSHA.",
+      "readMethod": "Read actual bounded menu or gate-diagnostic diff, paired evidence and original bytes; broad adjacent test-file full-read credit is explicitly not claimed. Author full-read and historical execution remain their original boundaries.",
       "reviewDepth": "deep-semantic",
       "coreConclusion": "phase1/game：D1单一共享状态owner及静态SCC的source publication；161 token checks、8旧测试、3 needles/旧warnings按原历史读，不成为二阶段架构或本次运行验收。 原JSON对象逐字段保留，performed=false、候选/版本/source-backed及原缺raw不升级。",
       "truthAnchors": [
@@ -4696,10 +4696,10 @@
       "reviewedSourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "1b24a52a5b0145462e6a7e8aba3e0b521778d10a",
-      "afterSha256": "71a0a005eadd7545637442bf603b7293038659005aaca9d174bd344684d79781",
+      "afterSha256": "83d82e391dafdf84210bb32c112b8aa1c3972fb4714a1333ef15c9b0a606900c",
       "revision": {
         "currentSha": "c0cb14c67ee09f8b9a57cf2a91803b8adaef06a9d9a4ac4eb53a9936608ced9c",
-        "implementationSha": "71a0a005eadd7545637442bf603b7293038659005aaca9d174bd344684d79781",
+        "implementationSha": "83d82e391dafdf84210bb32c112b8aa1c3972fb4714a1333ef15c9b0a606900c",
         "originalPublicationRevision": {
           "candidateSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
           "versions": {
@@ -4762,8 +4762,8 @@
         "kind": "full-source-preservation-and-real-domain-publication-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
-        "afterSha256": "71a0a005eadd7545637442bf603b7293038659005aaca9d174bd344684d79781",
-        "lineCount": 219
+        "afterSha256": "83d82e391dafdf84210bb32c112b8aa1c3972fb4714a1333ef15c9b0a606900c",
+        "lineCount": 230
       },
       "history": [
         {
@@ -4861,6 +4861,26 @@
           "afterSha256": "71a0a005eadd7545637442bf603b7293038659005aaca9d174bd344684d79781",
           "scope": "Only actual five-card scope/status/evidence,mechanics erratum or paired comment source binding;no new broad body/runtime acceptance.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "615622b4ccf443d9d2b59704b52485bb5b083015",
+          "action": "pre94 nine-menu quality rework",
+          "previousAfterSha256": "71a0a005eadd7545637442bf603b7293038659005aaca9d174bd344684d79781",
+          "afterSha256": "08e1ded757303b9131c0d29f6ce7a74eca15828e4d865423bd63a27317f511f5",
+          "scope": "Read bounded menu comment/private-type/fixture extraction/assertion mapping and paired evidence delta;caller/primary/E reused by explicit SHA. No whole83,94-102 or new visual credit.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+          "scopeErratum": "This window also includes actual test/host/reporting gate diagnostics; read scope is the actual delta and paired evidence, not whole adjacent source files."
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "615622b4ccf443d9d2b59704b52485bb5b083015",
+          "action": "pre94 nine-menu quality rework",
+          "previousAfterSha256": "08e1ded757303b9131c0d29f6ce7a74eca15828e4d865423bd63a27317f511f5",
+          "afterSha256": "83d82e391dafdf84210bb32c112b8aa1c3972fb4714a1333ef15c9b0a606900c",
+          "scope": "Read bounded menu comment/private-type/fixture extraction/assertion mapping and paired evidence delta;caller/primary/E reused by explicit SHA. No whole83,94-102 or new visual credit.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+          "scopeErratum": "This window also includes actual test/host/reporting gate diagnostics; read scope is the actual delta and paired evidence, not whole adjacent source files."
         }
       ],
       "supersedes": [],

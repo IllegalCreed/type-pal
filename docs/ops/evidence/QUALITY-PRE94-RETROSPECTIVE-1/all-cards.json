@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 6,
+  "currentAccepted": 15,
   "cards": [
     {
       "id": "1",
@@ -3088,8 +3088,8 @@
       "sha256": "45b305ee161630da06507573395aa6d9191be23dea7f6aa045b2b41e3970636f",
       "lines": 70,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 9,
@@ -3132,9 +3132,13 @@
           "text": "全仓治理尚未完成；其余 Q3 core/present/shell/analytics/tools 文件仍需逐文件核验。无下一位 Agent 提示词，继续由 Codex 从最新账本选择下一组不重叠的 2–4 个 pending 文件；不得把本批全绿推成全仓完成。"
         }
       ],
-      "scopeConfirmed": false,
-      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-      "findings": "Finite 83-93-menu-core-transaction evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately recorded;no semantic acceptance credit from green gates."
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+      "findings": "原卡白名单已获逐文件八维与当前caller/oracle支持；菜单状态与业务IO分工、导航语义、测试排重/夹具复用/隔离的具体依据见本窗口记录。必要注释/私有类型/测试整改已完成，完整模块集中门零诊断。相邻广域driver、mode、item-select不附带整文件关闭。",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-20",
+      "currentReviewSha256": "45b305ee161630da06507573395aa6d9191be23dea7f6aa045b2b41e3970636f",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
     },
     {
       "id": "84",
@@ -3144,8 +3148,8 @@
       "sha256": "db35b542e1f79226a0447fdbecde8caa557d8960c7b511431e89dc0e118e2b93",
       "lines": 96,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 9,
@@ -3192,9 +3196,13 @@
           "text": "- CODE-QUALITY-53/57/79/80/81 与其它 Q3 core/present/shell/analytics/tools 文件保持原状态，继续 pending/review/draft；未知的负 cursor、装备重复展示和迁移 id 假设不在本批猜测关闭。"
         }
       ],
-      "scopeConfirmed": false,
-      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-      "findings": "Finite 83-93-menu-core-transaction evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately recorded;no semantic acceptance credit from green gates."
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+      "findings": "原卡白名单已获逐文件八维与当前caller/oracle支持；菜单状态与业务IO分工、导航语义、测试排重/夹具复用/隔离的具体依据见本窗口记录。必要注释/私有类型/测试整改已完成，完整模块集中门零诊断。相邻广域driver、mode、item-select不附带整文件关闭。",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-20",
+      "currentReviewSha256": "db35b542e1f79226a0447fdbecde8caa557d8960c7b511431e89dc0e118e2b93",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
     },
     {
       "id": "85",
@@ -3204,8 +3212,8 @@
       "sha256": "60855a6845f5dceb2dbf6eeec321551a601b4959ab973b17b9b8acddeef4a8d3",
       "lines": 93,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 9,
@@ -3264,9 +3272,13 @@
           "text": "- `menu-driver.ts` 交易应用、`inventory-state.ts` 容量/装备占用差异、`sell-menu.ts` 与 `draw-shop.ts` 相邻文件仍不因本批自动关闭；如需修复必须另开不重叠卡并先核真实 runtime/save 证据。"
         }
       ],
-      "scopeConfirmed": false,
-      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-      "findings": "Finite 85-89-menu-shop-equip-magic evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately recorded;no semantic acceptance credit from green gates."
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+      "findings": "原卡白名单已获逐文件八维与当前caller/oracle支持；菜单状态与业务IO分工、导航语义、测试排重/夹具复用/隔离的具体依据见本窗口记录。必要注释/私有类型/测试整改已完成，完整模块集中门零诊断。相邻广域driver、mode、item-select不附带整文件关闭。",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-20",
+      "currentReviewSha256": "60855a6845f5dceb2dbf6eeec321551a601b4959ab973b17b9b8acddeef4a8d3",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
     },
     {
       "id": "86",
@@ -3276,8 +3288,8 @@
       "sha256": "3c5caf1b71af29e279a162eabbbad770e9d7c41921dbed6aa057a3313c87d162",
       "lines": 84,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 9,
@@ -3340,9 +3352,13 @@
           "text": "- 相邻 dispatcher/equip-effect/inventory-state 风险保持独立 pending/review，未被本批账本关闭。"
         }
       ],
-      "scopeConfirmed": false,
-      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-      "findings": "Finite 85-89-menu-shop-equip-magic evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately recorded;no semantic acceptance credit from green gates."
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+      "findings": "原卡白名单已获逐文件八维与当前caller/oracle支持；菜单状态与业务IO分工、导航语义、测试排重/夹具复用/隔离的具体依据见本窗口记录。必要注释/私有类型/测试整改已完成，完整模块集中门零诊断。相邻广域driver、mode、item-select不附带整文件关闭。",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-20",
+      "currentReviewSha256": "3c5caf1b71af29e279a162eabbbad770e9d7c41921dbed6aa057a3313c87d162",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
     },
     {
       "id": "87",
@@ -3352,8 +3368,8 @@
       "sha256": "8425e3c993b30bfbfe739db38425672583bb8c9014a9d5f693efc1539e80a02d",
       "lines": 82,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 9,
@@ -3412,9 +3428,13 @@
           "text": "- 运行时逻辑、schema/save、资源、公共接口和用户行为均未改变；源码头部菜单说明注释按真实菜单项修正，测试与官方 coverage baseline 也随合同补强更新。"
         }
       ],
-      "scopeConfirmed": false,
-      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-      "findings": "Finite 83-93-menu-core-transaction evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately recorded;no semantic acceptance credit from green gates."
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+      "findings": "原卡白名单已获逐文件八维与当前caller/oracle支持；菜单状态与业务IO分工、导航语义、测试排重/夹具复用/隔离的具体依据见本窗口记录。必要注释/私有类型/测试整改已完成，完整模块集中门零诊断。相邻广域driver、mode、item-select不附带整文件关闭。",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-20",
+      "currentReviewSha256": "8425e3c993b30bfbfe739db38425672583bb8c9014a9d5f693efc1539e80a02d",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
     },
     {
       "id": "88",
@@ -3424,8 +3444,8 @@
       "sha256": "f773175015c0fd698c8c8aebcb104a5e2aea5c12809f92fdff7165f055eb75a0",
       "lines": 136,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 14,
@@ -3500,9 +3520,13 @@
           "text": "- 2026-10-14 Codex: 完整读取四个白名单文件、in-game-magic caller、battle builder/input、draw caller、primitives、shared types、parser/player-role callers 与 SDLPal magicmenu/uigame；确认 object-id/排序/MP 真值。补强 boundaries 与组合测试为完整 typed fixtures，并把组合 fixture 改为生产 object id 300/301；早期定向回归暴露并修正一处旧 id 断言。Evidence: [evidence](../../../evidence/CODE-QUALITY-88/README.md)。Next: 无，四条记录已关闭；shared Spell.id 旧注释另留 pending。"
         }
       ],
-      "scopeConfirmed": false,
-      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-      "findings": "Finite 85-89-menu-shop-equip-magic evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately recorded;no semantic acceptance credit from green gates."
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+      "findings": "原卡白名单已获逐文件八维与当前caller/oracle支持；菜单状态与业务IO分工、导航语义、测试排重/夹具复用/隔离的具体依据见本窗口记录。必要注释/私有类型/测试整改已完成，完整模块集中门零诊断。相邻广域driver、mode、item-select不附带整文件关闭。",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-20",
+      "currentReviewSha256": "f773175015c0fd698c8c8aebcb104a5e2aea5c12809f92fdff7165f055eb75a0",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
     },
     {
       "id": "89",
@@ -3512,8 +3536,8 @@
       "sha256": "41179120cf17f29a630e0682b8d4d982ae36506961adce77cfabeb058754c9ca",
       "lines": 109,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 14,
@@ -3572,9 +3596,13 @@
           "text": "- 2026-10-14 Codex: 定向/相邻 9 files / 158 tests、白名单 3 files / 37 tests、game typecheck/Biome 通过；3 针隔离反控均业务红→恢复绿且源哈希一致。全仓 `pnpm check`、official ratchet、`pnpm check:fast`、lint-zero、docs/content-review、ledger 全部 exit 0；coverage baseline 未变。账本 3,270：closed 368、review 9、pending 2,893。"
         }
       ],
-      "scopeConfirmed": false,
-      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-      "findings": "Finite 85-89-menu-shop-equip-magic evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately recorded;no semantic acceptance credit from green gates."
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+      "findings": "原卡白名单已获逐文件八维与当前caller/oracle支持；菜单状态与业务IO分工、导航语义、测试排重/夹具复用/隔离的具体依据见本窗口记录。必要注释/私有类型/测试整改已完成，完整模块集中门零诊断。相邻广域driver、mode、item-select不附带整文件关闭。",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-20",
+      "currentReviewSha256": "41179120cf17f29a630e0682b8d4d982ae36506961adce77cfabeb058754c9ca",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
     },
     {
       "id": "90",
@@ -3696,8 +3724,8 @@
       "sha256": "787362503b956244cb8dfbd0c0161d530c401d9f9c9ed7281976f085fa1aecef",
       "lines": 137,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 14,
@@ -3788,9 +3816,13 @@
           "text": "- 2026-10-14 Codex: 完整读取三份白名单、menu-driver dispatch/state cursor、inventory/equip caller、selection primitive、draw oracle 与 SDLPal `uigame.c`/`ui.h`/`play.c`；确认本批无直接生产缺陷，准许仅文档/证据写入。Evidence: 本卡上下文锚点与 `docs/ops/evidence/CODE-QUALITY-91/`。Next: Codex 跑定向/相邻/全量质量门并独立收口。"
         }
       ],
-      "scopeConfirmed": false,
-      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-      "findings": "Finite 83-93-menu-core-transaction evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately recorded;no semantic acceptance credit from green gates."
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+      "findings": "原卡白名单已获逐文件八维与当前caller/oracle支持；菜单状态与业务IO分工、导航语义、测试排重/夹具复用/隔离的具体依据见本窗口记录。必要注释/私有类型/测试整改已完成，完整模块集中门零诊断。相邻广域driver、mode、item-select不附带整文件关闭。",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-20",
+      "currentReviewSha256": "787362503b956244cb8dfbd0c0161d530c401d9f9c9ed7281976f085fa1aecef",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
     },
     {
       "id": "92",
@@ -3868,8 +3900,8 @@
       "sha256": "c2eeaeba7116b525b204c79f6978ac0f91ddd3cd15fa60597dc59449a09e947c",
       "lines": 131,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 10,
@@ -3964,26 +3996,30 @@
           "text": "CODE93/96已经在源分支收口，按六文件白名单及相关卡/证据接收时须同时核精确退役metadata，不复制源分支整份coverage baseline，不整条合含CODE53/90的治理分支。再次核origin/main并同步至0behind，先commit/push候选，再进入阶段集成窗口；主工作树与活跃GLM/ED任务禁止覆盖。下一批仍按2–4文件或独立模块逐文件收证，未知review/pending不强关。保留原用户阶段裁决（见源CODE95提示词），输出全部真实门/账本/未修风险供独立验收。Codex当前工作到此停止，全仓goal未完成；后续heartbeat不能覆盖用户停止要求。"
         }
       ],
-      "scopeConfirmed": false,
-      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-      "findings": "Finite 83-93-menu-core-transaction evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately recorded;no semantic acceptance credit from green gates."
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+      "findings": "原卡白名单已获逐文件八维与当前caller/oracle支持；菜单状态与业务IO分工、导航语义、测试排重/夹具复用/隔离的具体依据见本窗口记录。必要注释/私有类型/测试整改已完成，完整模块集中门零诊断。相邻广域driver、mode、item-select不附带整文件关闭。",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-20",
+      "currentReviewSha256": "c2eeaeba7116b525b204c79f6978ac0f91ddd3cd15fa60597dc59449a09e947c",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
     }
   ],
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
-    "partial": 77,
+    "partial": 68,
     "pending": 0,
-    "accept": 6
+    "accept": 15
   },
   "lastIncrementalReview": {
     "date": "2026-10-20",
-    "base": "ea9c3cc02484fe113140d39e24f581ef55e20d68",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json",
+    "base": "615622b4ccf443d9d2b59704b52485bb5b083015",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
     "previousCounts": {
-      "partial": 83,
+      "partial": 77,
       "pending": 0,
-      "accept": 0
+      "accept": 6
     },
-    "limits": "6originalcardcontracts accept,77partial;6newfileclosures fromcomplete existing A-H. No broadmonolith or94-102acceptance."
+    "limits": "Nine original menu-card contracts accepted with36 explicit file judgments. No94-102,other68cards or broadcaller acceptance."
   }
 }

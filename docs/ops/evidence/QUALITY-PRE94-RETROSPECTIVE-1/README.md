@@ -1,6 +1,12 @@
 # 94前全部治理成果复审
 
-2026-10-20当前：[完整pre94持续收口裁定](completion.json)。6a/79/80/81/82/90按原卡验收合同正式accept，其余77partial；逐文件八维、真实caller/oracle和有效原件复用，只补实际缺口。六个工具/诊断文件正式关闭；共享大文件/机制和视觉余项仍各归其实际Owner与卡。94–102不扩展。
+当前菜单模块CODE83–89/91/93：[36文件八维与整改](menu-core-closeout.json)、[完整定向原件](menu-native.json.gz)。只读快检：`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/verify-menu-closeout.mjs`。中央状态按回执integration的实际门通过后更新：本窗口九卡/36文件接受；相邻广域文件不附带关闭。
+
+本窗口集中门：[诊断根因、断言不变与可见性](menu-gate-diagnostics.json)、[完整原件（含失败与探针）](menu-gate-native.json.gz)。editor原631 act/243环境诊断已归零；44份改动测试的2159条原expect和标题不变，C04专用宿主另保留11条原expect。Reforge最终由统一原生事务/缩略图IO的异步关闭收口，先前局部等待已撤回。真实对话夹具修正导致的精确game重计数已按用户授权和旧测试/LCOV原件登记。完整check20377例、official ratchet/protected各19979例均零运行诊断；当前最终文档/静态门见同回执。仅36菜单文件正式关闭，相邻广域文件不附带接受。
+
+> 2026-10-20日志可见性勘误：已安装Vitest4.1.7在Codex环境自动使用agent/minimal reporter，会隐藏通过用例的console。历史全仓/coverage门的exit与完整原件保留，但“未见诊断”不再授实际零运行诊断信用；包括五卡门和首六卡的复用。逐文件代码/定向/静态结论分别按其原件成立，不一概撤回。初次校准曾移除进程级探测标记；当前七包test入口及官方coverage runner已固化显式default reporter，后继集中门保留原Codex环境。规则、超时、console和测试范围不变；未通过前不收口。
+
+2026-10-20当前：[唯一逐卡进度](all-cards.md)；[首轮持续收口裁定](completion.json)按其原时点保留。首六卡6a/79/80/81/82/90与后继菜单九卡按原卡验收合同正式accept，当前15accept/68partial；逐文件八维、真实caller/oracle和有效原件复用，只补实际缺口。六个工具/诊断文件正式关闭；共享大文件/机制和视觉余项仍各归其实际Owner与卡。94–102不扩展。
 
 本轮沿用[五卡原件与快检](five-cards/README.md)，其中本次正式接收的四张卡和仍待核的53分别记录。
 

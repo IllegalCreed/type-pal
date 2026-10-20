@@ -49,7 +49,7 @@
       "lines": "12-19",
       "anchor": "export function resumeAfterMenusClosed",
       "role": "owner",
-      "sha256": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2"
+      "sha256": "7f18301a0ada526074c619586001fb40c3e28e52ea3377eef099d276a6e55c46"
     },
     {
       "path": "packages/game/src/core/dependency-ownership.test.ts",
@@ -128,6 +128,17 @@
   ],
   "artifacts": [],
   "history": [
+    {
+      "date": "2026-10-20",
+      "revision": "615622b4ccf443d9d2b59704b52485bb5b083015",
+      "action": "menu-stack comment binding only",
+      "sourceRef": "packages/game/src/core/menu/menu-stack.ts",
+      "previousSourceSha256": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2",
+      "sourceSha256": "7f18301a0ada526074c619586001fb40c3e28e52ea3377eef099d276a6e55c46",
+      "scope": "Only correct closeTopMenu timing prose. Emitted JavaScript identical;resumeAfterMenusClosed owner/signature/body unchanged. No new D1 SCC/token/mutant/browser execution;historical status/candidate/versions/dates retained.",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json",
+      "notRun": ["historical D1 audit/needles", "new browser/story E2E"]
+    },
     {
       "revision": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
       "date": "2026-10-20",

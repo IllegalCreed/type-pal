@@ -2842,5 +2842,11 @@
       }
     ],
     "limit": "Fresh nine probes after final7gate seal;full actual process outputs inline here. Earlier control originals in native archive are historical stages,not re-labeled as this run."
+  },
+  "gateEvidenceErratum": {
+    "date": "2026-10-20",
+    "finding": "Automatic Vitest4.1.7 agent/minimal reporter hides passing-test console logs; historical raw counts are observed counts only, not actual runtime-zero certification.",
+    "scope": "Historical exit/results/raw and per-file reasoning retained; withdraw runtime-zero gate credit only. Current observable menu-window gate evidence supersedes this claim after passing.",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/menu-core-closeout.json"
   }
 }
