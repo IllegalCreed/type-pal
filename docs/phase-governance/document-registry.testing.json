@@ -2961,12 +2961,13 @@
     {
       "path": "docs/testing/archive/legacy/batches/cursor-pure-wave/a/receipt.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-pure-wave/b/README.md",
@@ -2982,12 +2983,13 @@
     {
       "path": "docs/testing/archive/legacy/batches/cursor-pure-wave/b/receipt.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-pure-wave/c/README.md",
@@ -3003,22 +3005,24 @@
     {
       "path": "docs/testing/archive/legacy/batches/cursor-pure-wave/c/receipt.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-pure-wave/codex-final-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-pure-wave/codex-intake-review.md",
@@ -3056,12 +3060,13 @@
     {
       "path": "docs/testing/archive/legacy/batches/cursor-tool-regressions/integration.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r72-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/cursor-wave2/README.md",
@@ -3406,12 +3411,13 @@
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-f423-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r73-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-intake-evidence.json",
@@ -3429,12 +3435,13 @@
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-intake-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r73-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-r2-evidence.json",
@@ -3452,12 +3459,13 @@
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-r2-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r73-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-r3-evidence.json",
@@ -3475,12 +3483,13 @@
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/codex-r3-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r73-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/evidence.json",
@@ -3498,102 +3507,112 @@
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/p1-app.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r73-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/p2-mapmode.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r73-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/p3-script-forms.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r73-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/p4-battle-session.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r73-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/p5-phase1-core.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r73-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/p6-conversion-validation.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r73-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/summary.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r73-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/v0-visual-sample.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r73-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/v1-forms.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r73-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-architecture-support/v2-workspaces.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r73-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-content-guards-wave2/README.md",
@@ -3692,12 +3711,13 @@
     {
       "path": "docs/testing/archive/legacy/batches/glm-editor-ui-wave/codex-integration.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-editor-ui-wave/receipt.md",
@@ -3966,92 +3986,101 @@
     {
       "path": "docs/testing/archive/legacy/batches/glm-large-wave/codex-review-8cb0af0a.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-large-wave/codex-review-r2-031b3e47.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-large-wave/five-batch-union.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-large-wave/receipt-batch-a.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-large-wave/receipt-batch-b.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-large-wave/receipt-batch-c.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-large-wave/receipt-batch-d.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-large-wave/receipt-batch-e.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-large-wave/rework-r2-evidence.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r74-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-large-wave/targets.json",
@@ -4252,62 +4281,68 @@
     {
       "path": "docs/testing/archive/legacy/batches/glm-new-waves/codex-G-console-closure-20260929.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r75-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-new-waves/codex-I-console-closure-20260929.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r75-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-new-waves/codex-accept-F-r2-c5ecf694.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r75-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-new-waves/codex-accept-G-r2-fd1189a3.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r75-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-new-waves/codex-accept-H-r1-6a25727c.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r75-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-new-waves/codex-accept-I-r2-044d3fa4.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r75-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-new-waves/codex-accept-J-r2-acd67499.md",
@@ -4323,52 +4358,57 @@
     {
       "path": "docs/testing/archive/legacy/batches/glm-new-waves/codex-review-F-9b015064.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r75-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-new-waves/codex-review-G-07140f75.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r75-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-new-waves/codex-review-H-013abf99.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r75-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-new-waves/codex-review-I-2534b72c.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r75-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-new-waves/codex-review-J-009c5578.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r75-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-new-waves/targets.json",
@@ -4445,12 +4485,13 @@
     {
       "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-F/receipt.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r75-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-new-waves/wave-G/README.md",
@@ -5238,12 +5279,13 @@
     {
       "path": "docs/testing/archive/legacy/batches/glm-state-commands/codex-intake-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r76-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/glm-state-commands/codex-integration.md",
@@ -5634,12 +5676,13 @@
     {
       "path": "docs/testing/archive/legacy/batches/script-governance/current-checkpoints.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/script-governance/entity-proximity-premise.md",
@@ -5692,12 +5735,13 @@
     {
       "path": "docs/testing/archive/legacy/batches/script-governance/install-census.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/script-governance/machine-census.json",
@@ -5761,12 +5805,13 @@
     {
       "path": "docs/testing/archive/legacy/batches/script-governance/save10-checkpoints-20261002.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/script-governance/successor-repairs.json",
@@ -5784,12 +5829,13 @@
     {
       "path": "docs/testing/archive/legacy/batches/script-governance/unified-steps-evidence.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/batches/script-governance/unified-steps-plan.md",
@@ -5827,42 +5873,46 @@
     {
       "path": "docs/testing/archive/legacy/content/authoring-and-runtime/codex-content-boundaries.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/content/authoring-and-runtime/content-residual-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/content/authoring-and-runtime/content-validation-refactor.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/content/authoring-and-runtime/cursor-content-pure-wave2-codex-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/content/authoring-and-runtime/cursor-map-integration-evidence.json",
@@ -5880,52 +5930,57 @@
     {
       "path": "docs/testing/archive/legacy/content/authoring-and-runtime/cursor-map-integration.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/content/authoring-and-runtime/cursor-map-logic-r1-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/content/authoring-and-runtime/cursor-map-logic-r2-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/content/authoring-and-runtime/cursor-scene-entry-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/content/authoring-and-runtime/cursor-scene-entry-truth.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/content/authoring-and-runtime/glm-content-contracts-evidence.json",
@@ -5956,12 +6011,13 @@
     {
       "path": "docs/testing/archive/legacy/content/authoring-and-runtime/glm-content-residual.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r77-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/content/editor-workflows/README.md",
@@ -6204,12 +6260,13 @@
     {
       "path": "docs/testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-boundary-batch-2.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r78-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/e2e/route-and-checkpoint/glm-pre-e2e-prep-report.md",
@@ -6372,12 +6429,13 @@
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-author-guides-batch.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r78-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-author-guides-review.md",
@@ -6428,12 +6486,13 @@
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/cursor-commands-wave2-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r78-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/design-system-audit-layering-refactor-evidence.json",
@@ -6475,52 +6534,57 @@
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/editor-app-sessions-refactor.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r78-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/editor-functional-visual-2026-09-22.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r78-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/editor-leave-guard.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r78-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/editor-preview-cache.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r78-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-history-workflows-receipt.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r78-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-history-workflows.md",
@@ -6549,12 +6613,13 @@
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-map-data.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r79-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-script-helpers-evidence.json",
@@ -6572,12 +6637,13 @@
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-script-helpers.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r79-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/glm-editor-ui-wave-codex-r2-review.md",
@@ -6617,22 +6683,24 @@
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/item-authoring-glm-audit.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r79-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/item-authoring-implementation.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r79-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/item-logic-integration.md",
@@ -6648,22 +6716,24 @@
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/item-logic-r1-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r79-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/item-logic-r4-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r79-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/item-logic-r6-review-evidence.json",
@@ -6714,12 +6784,13 @@
     {
       "path": "docs/testing/archive/legacy/editor/editor-workflows/sprite-selection.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r79-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/editor/save-and-recovery/README.md",
@@ -7083,12 +7154,13 @@
     {
       "path": "docs/testing/archive/legacy/migration/supply-and-import/glm-migration-boundaries.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r79-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/migration/supply-and-import/glm-resource-tools-evidence.json",
@@ -7218,82 +7290,90 @@
     {
       "path": "docs/testing/archive/legacy/ops/testing-records/cursor-arch-ds-labels.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r80-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/ops/testing-records/cursor-architecture-batch-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r80-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/ops/testing-records/cursor-architecture-batch.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r80-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/ops/testing-records/cursor-docs-hygiene.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r80-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/ops/testing-records/cursor-wave2-r2-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r80-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/ops/testing-records/cursor-wave2-r3-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r80-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/ops/testing-records/cursor-wave2-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r80-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/ops/testing-records/glm-delivery-checklist.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r80-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/ops/testing-records/glm-game-host-boundaries-evidence.json",
@@ -7311,22 +7391,24 @@
     {
       "path": "docs/testing/archive/legacy/ops/testing-records/glm-nine-intake-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r80-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/ops/testing-records/glm-nine-rework-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r80-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/ops/testing-records/glm-pal-tables-evidence.json",
@@ -7344,42 +7426,46 @@
     {
       "path": "docs/testing/archive/legacy/ops/testing-records/glm-wave-union-20260929.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r80-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/ops/testing-records/grok-arch-ds-overflow.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r80-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/ops/testing-records/grok-present-integration.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r80-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/ops/testing-records/grok-present-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r80-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/ops/testing-records/tb00-tb01-completion-evidence.json",
@@ -7397,12 +7483,13 @@
     {
       "path": "docs/testing/archive/legacy/ops/testing-records/tb00-tb01-completion.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r80-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/persistence/README.md",
@@ -7574,32 +7661,35 @@
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/check-environment-stability.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/codex-reference-coverage.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/coverage-initializer-diagnosis.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/coverage-initializer-evidence.json",
@@ -7665,62 +7755,68 @@
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/cursor-coverage-guide-audit.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/cursor-coverage-guide-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/editor-logic-coverage-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/editor-save-recovery-coverage-pending.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-queue-design-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-remaining-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-wave2-evidence.json",
@@ -7738,12 +7834,13 @@
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-wave2-receipt.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-wave2-results.json",
@@ -7761,12 +7858,13 @@
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-wave2.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-work-queue.json",
@@ -7784,62 +7882,68 @@
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/glm-coverage-work-queue.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/glm-editor-logic-coverage-receipt.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/glm-foundation-coverage-receipt.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/glm-foundation-coverage-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/guard-leaf-r2-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/guard-leaf-r3-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/guard-leaf-review-evidence.json",
@@ -7857,32 +7961,35 @@
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/guard-wave3-integration.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/guard-wave3-r2-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/guard-wave3-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/quality/quality-gates/quality-zero-inventory.json",
@@ -7992,12 +8099,13 @@
     {
       "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-integration.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-r2-evidence.json",
@@ -8015,12 +8123,13 @@
     {
       "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-r2-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r81-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-r3-evidence.json",
@@ -8038,12 +8147,13 @@
     {
       "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-r3-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-r4-evidence.json",
@@ -8061,12 +8171,13 @@
     {
       "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-r4-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-r5-evidence.json",
@@ -8084,12 +8195,13 @@
     {
       "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-r5-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-review-evidence.json",
@@ -8107,12 +8219,13 @@
     {
       "path": "docs/testing/archive/legacy/runtime/battle/battle-workflows-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/battle/glm-battle-workflows-evidence.json",
@@ -8130,12 +8243,13 @@
     {
       "path": "docs/testing/archive/legacy/runtime/battle/glm-battle-workflows.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/engine-boundaries/README.md",
@@ -8177,22 +8291,24 @@
     {
       "path": "docs/testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell-wave2.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/engine-boundaries/codex-runtime-shell.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/engine-boundaries/glm-reforge-asset-io-evidence.json",
@@ -8210,12 +8326,13 @@
     {
       "path": "docs/testing/archive/legacy/runtime/engine-boundaries/glm-reforge-asset-io.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/engine-boundaries/glm-reforge-runtime-contracts-evidence.json",
@@ -8233,22 +8350,24 @@
     {
       "path": "docs/testing/archive/legacy/runtime/engine-boundaries/glm-reforge-runtime-contracts.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-boundaries.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/engine-boundaries/glm-runtime-state-evidence.json",
@@ -8266,42 +8385,46 @@
     {
       "path": "docs/testing/archive/legacy/runtime/engine-boundaries/grok-phase1-composition-integration.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/engine-boundaries/grok-phase1-composition-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/engine-boundaries/phase1-main-owners-refactor.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/engine-boundaries/reforge-runtime-contracts-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-frame-refactor-evidence.json",
@@ -8319,12 +8442,13 @@
     {
       "path": "docs/testing/archive/legacy/runtime/engine-boundaries/runtime-state-review.md",
       "phase": "testing",
-      "docType": "archive-record",
-      "templateId": "archive-record-v1",
-      "templateCompliance": "needs-migration",
-      "reviewStatus": "partial-review-unknown",
+      "docType": "test-run-report",
+      "templateId": "test-run-report-v1",
+      "templateCompliance": "template-compliant",
+      "reviewStatus": "content-reviewed",
       "reviewRecord": "20261017-r82-testing-archive.json",
-      "historyOverlay": true
+      "historyOverlay": true,
+      "templateVersion": "1.0.0"
     },
     {
       "path": "docs/testing/archive/legacy/runtime/save-and-recovery/README.md",

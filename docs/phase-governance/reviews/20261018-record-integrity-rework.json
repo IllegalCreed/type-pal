@@ -2005,7 +2005,7 @@
       "supersedes": [],
       "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
       "sourceSha256": "af84d2340f368b60efd099fceb387cfd57d50e5a8c285a03a091009799a64e35",
-      "afterSha256": "f11ec301dbf686b07d395b19ded00bc2fe5b0e362eca6e3922ed6ec46ad0ae77",
+      "afterSha256": "533a5b0968a639b23a5f50c59968db78a9c9a4a955c3a64586add45e53fad49e",
       "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only",
       "maintenanceDeltas": [
         {
@@ -2096,6 +2096,15 @@
           "previousAfterSha256": "a80cd402ea26870e2f30b3182cb3d16d64eb55f8c981f7ead551fafa03676739",
           "afterSha256": "f11ec301dbf686b07d395b19ded00bc2fe5b0e362eca6e3922ed6ec46ad0ae77",
           "method": "Owner actual241/124 decision, risk/counter facts and targeted rework admission; no further document credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 corrected124 individual bodies and124 explicit route/type corrections",
+          "sourceRevision": "43c0c430f911333f4280d686b2ae55d06eb1f4fe",
+          "previousAfterSha256": "f11ec301dbf686b07d395b19ded00bc2fe5b0e362eca6e3922ed6ec46ad0ae77",
+          "afterSha256": "533a5b0968a639b23a5f50c59968db78a9c9a4a955c3a64586add45e53fad49e",
+          "method": "Explicit S17 owner control/status/navigation/matrix writeback; no global semantic credit",
           "grantsNewSemanticAcceptance": false
         }
       ]
@@ -3266,7 +3275,7 @@
       "supersedes": [],
       "stopLine": "Do not grant reviewed/template-compliant, historical execution or global/main/done credit from this registration.",
       "sourceSha256": "9b25eec39ee92f117ea85483fddb349cc9a83e98b6e0f6aa3a71065433d70932",
-      "afterSha256": "15c8301a151f295c78510816e42f8c496e9ca1c4681f845585be4b8a7fdd7249",
+      "afterSha256": "efd181515b00adc74474b22bf0585a0565ba25f2f16b3b972e91c15f91b5df9a",
       "sourceGitRevision": "b7534fc5b2d9d9c640f311d548cf64d96f51d92d",
       "reviewedLines": "All native partition rows/positions mechanically compared with fixed source and independent storage report; no document-body semantic review; registration only",
       "beforeAfter": {
@@ -3347,6 +3356,15 @@
           "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
           "previousAfterSha256": "378b0b27205f079fbf482e63b53ea8d1a82750d8feff59132d290f9b7cc49beb",
           "afterSha256": "15c8301a151f295c78510816e42f8c496e9ca1c4681f845585be4b8a7fdd7249",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 corrected124 individual bodies and124 explicit route/type corrections",
+          "sourceRevision": "43c0c430f911333f4280d686b2ae55d06eb1f4fe",
+          "previousAfterSha256": "15c8301a151f295c78510816e42f8c496e9ca1c4681f845585be4b8a7fdd7249",
+          "afterSha256": "efd181515b00adc74474b22bf0585a0565ba25f2f16b3b972e91c15f91b5df9a",
           "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
           "grantsNewSemanticAcceptance": false
         }

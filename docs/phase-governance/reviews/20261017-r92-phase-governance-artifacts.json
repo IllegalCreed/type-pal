@@ -568,7 +568,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "63a4d599ec97057f39aac26a610b688eb283d1b1770936f62cfa4cdb92bf0634",
-      "afterSha256": "cf806d39488472fa89348233f5c09c512205730c3cfda4a424be78b5d7ba8c3a",
+      "afterSha256": "e3b2d1d7457d50d3727e5773ead7e77e9e508dad7e91587a46aa82a14b34dbf8",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -733,6 +733,15 @@
           "afterSha256": "cf806d39488472fa89348233f5c09c512205730c3cfda4a424be78b5d7ba8c3a",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 corrected124 individual bodies and124 explicit route/type corrections",
+          "sourceRevision": "43c0c430f911333f4280d686b2ae55d06eb1f4fe",
+          "previousAfterSha256": "cf806d39488472fa89348233f5c09c512205730c3cfda4a424be78b5d7ba8c3a",
+          "afterSha256": "e3b2d1d7457d50d3727e5773ead7e77e9e508dad7e91587a46aa82a14b34dbf8",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -763,7 +772,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "0b7c72d91739cc2f0868fa6ff1b572c423bd914de918a48921b3d27130007ac4",
-      "afterSha256": "b210188a86803ca4523984ba489e59ed46797176c97716c1bf25751e47f63740",
+      "afterSha256": "c6fd67fbaf7c79dd9c083e49081c55f611deec43246838e5e4067f9658c1c062",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -928,6 +937,15 @@
           "afterSha256": "b210188a86803ca4523984ba489e59ed46797176c97716c1bf25751e47f63740",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 corrected124 individual bodies and124 explicit route/type corrections",
+          "sourceRevision": "43c0c430f911333f4280d686b2ae55d06eb1f4fe",
+          "previousAfterSha256": "b210188a86803ca4523984ba489e59ed46797176c97716c1bf25751e47f63740",
+          "afterSha256": "c6fd67fbaf7c79dd9c083e49081c55f611deec43246838e5e4067f9658c1c062",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -958,7 +976,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "fdb09d4eeadeb403004a483e055442f000ca25eda388723d9086ff8d40440b7b",
-      "afterSha256": "eb4640279c6554a63ed67a40a23af909b7adc643d6bf645917f3b0cf7c059a36",
+      "afterSha256": "9c3611d18a8f9665083b533059ffefe03ecdc3387126ef44bbbe6da3eeadf199",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1123,6 +1141,15 @@
           "afterSha256": "eb4640279c6554a63ed67a40a23af909b7adc643d6bf645917f3b0cf7c059a36",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 corrected124 individual bodies and124 explicit route/type corrections",
+          "sourceRevision": "43c0c430f911333f4280d686b2ae55d06eb1f4fe",
+          "previousAfterSha256": "eb4640279c6554a63ed67a40a23af909b7adc643d6bf645917f3b0cf7c059a36",
+          "afterSha256": "9c3611d18a8f9665083b533059ffefe03ecdc3387126ef44bbbe6da3eeadf199",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -1153,7 +1180,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e932fca7ede288213a73c3b55dc94367dfba6bcd83c26fc9b28401fb6f10ab55",
-      "afterSha256": "2bc6a20707fa4d3733ed253c2fc835b092dbb7bbc743b7c5f645250b5390952c",
+      "afterSha256": "371d9d7ac43809e75c98bd94f55d8542050f3d9841a9d34b6713163970c336f5",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1318,6 +1345,15 @@
           "afterSha256": "2bc6a20707fa4d3733ed253c2fc835b092dbb7bbc743b7c5f645250b5390952c",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 corrected124 individual bodies and124 explicit route/type corrections",
+          "sourceRevision": "43c0c430f911333f4280d686b2ae55d06eb1f4fe",
+          "previousAfterSha256": "2bc6a20707fa4d3733ed253c2fc835b092dbb7bbc743b7c5f645250b5390952c",
+          "afterSha256": "371d9d7ac43809e75c98bd94f55d8542050f3d9841a9d34b6713163970c336f5",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -1348,7 +1384,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "99eac885b172edaa05f182fa734e7e6b51b4f3fc85b673eb7b0d9649b1bcc56f",
-      "afterSha256": "d9dd141f2347553ee82cdc4bd8f53446332d0ea8df71d9782af76f147353be69",
+      "afterSha256": "74daef8a62b69c8334baecdc6991f166117a6af718a6e15132f1ac6b26e887e5",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1513,6 +1549,15 @@
           "afterSha256": "d9dd141f2347553ee82cdc4bd8f53446332d0ea8df71d9782af76f147353be69",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 corrected124 individual bodies and124 explicit route/type corrections",
+          "sourceRevision": "43c0c430f911333f4280d686b2ae55d06eb1f4fe",
+          "previousAfterSha256": "d9dd141f2347553ee82cdc4bd8f53446332d0ea8df71d9782af76f147353be69",
+          "afterSha256": "74daef8a62b69c8334baecdc6991f166117a6af718a6e15132f1ac6b26e887e5",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -1543,7 +1588,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "a907292200be026214de05c3312015b0f1d7175c303b163ca0fc1d95585a6688",
-      "afterSha256": "135753b3a62d2aa7dd5968edeeae138a3d28d791c100b9ad2a82726113f6c5dc",
+      "afterSha256": "95bf1c6e8917cee420f006e58397fb02bb7411d326fa5aa2913dcc0cdbd40d18",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1708,6 +1753,15 @@
           "afterSha256": "135753b3a62d2aa7dd5968edeeae138a3d28d791c100b9ad2a82726113f6c5dc",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 corrected124 individual bodies and124 explicit route/type corrections",
+          "sourceRevision": "43c0c430f911333f4280d686b2ae55d06eb1f4fe",
+          "previousAfterSha256": "135753b3a62d2aa7dd5968edeeae138a3d28d791c100b9ad2a82726113f6c5dc",
+          "afterSha256": "95bf1c6e8917cee420f006e58397fb02bb7411d326fa5aa2913dcc0cdbd40d18",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -1738,7 +1792,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e6babd2a47f586dbe16a2ea49bdbf1bb42d329c21481e47d47f1b8acb300e7a8",
-      "afterSha256": "b9b42617da27e532c5baddd63fb35e03fc90391ccab8f3fe77bd9d6a9e480894",
+      "afterSha256": "a5ca8f8b218a0def83e1540f25c09cccdb3733676870f91be2653411b3f74dee",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -1903,6 +1957,15 @@
           "afterSha256": "b9b42617da27e532c5baddd63fb35e03fc90391ccab8f3fe77bd9d6a9e480894",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 corrected124 individual bodies and124 explicit route/type corrections",
+          "sourceRevision": "43c0c430f911333f4280d686b2ae55d06eb1f4fe",
+          "previousAfterSha256": "b9b42617da27e532c5baddd63fb35e03fc90391ccab8f3fe77bd9d6a9e480894",
+          "afterSha256": "a5ca8f8b218a0def83e1540f25c09cccdb3733676870f91be2653411b3f74dee",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -1933,7 +1996,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "9222029236d8cd4cf41ab26272b8d94ef470185118f4d958d69cbb2bc74dcbd5",
-      "afterSha256": "5898762cae0b6ab0d4ebfaf88446b00c88eb0f65c53a892894f873c59facea4b",
+      "afterSha256": "4a57de3f59e4e44d530c87b127d15a28897523658bee24afff9c066aecc98eff",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -2098,6 +2161,15 @@
           "afterSha256": "5898762cae0b6ab0d4ebfaf88446b00c88eb0f65c53a892894f873c59facea4b",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 corrected124 individual bodies and124 explicit route/type corrections",
+          "sourceRevision": "43c0c430f911333f4280d686b2ae55d06eb1f4fe",
+          "previousAfterSha256": "5898762cae0b6ab0d4ebfaf88446b00c88eb0f65c53a892894f873c59facea4b",
+          "afterSha256": "4a57de3f59e4e44d530c87b127d15a28897523658bee24afff9c066aecc98eff",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -2128,7 +2200,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "b9f829b53949ebe4b97ec5b08304e561305c1fc2a90e323d7de937d2000838f4",
-      "afterSha256": "4a24418309467b91ed92e0e3621348bf2d72e2923c0b997d48fa21ab8a622e30",
+      "afterSha256": "d96e46c6990af7950b1ceadc868290a1df3712596f70f826daadb0baf8efe184",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -2293,6 +2365,15 @@
           "afterSha256": "4a24418309467b91ed92e0e3621348bf2d72e2923c0b997d48fa21ab8a622e30",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 corrected124 individual bodies and124 explicit route/type corrections",
+          "sourceRevision": "43c0c430f911333f4280d686b2ae55d06eb1f4fe",
+          "previousAfterSha256": "4a24418309467b91ed92e0e3621348bf2d72e2923c0b997d48fa21ab8a622e30",
+          "afterSha256": "d96e46c6990af7950b1ceadc868290a1df3712596f70f826daadb0baf8efe184",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -2323,7 +2404,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "7ec9d1a89fa3334a445b84aafbe49cc6dcd982a488529e3cc1eecdcaefd3130b",
-      "afterSha256": "b1c0574bfba3d14e1824f5a82ae3b9c315beea0e702e02f0613672a3cf3180b9",
+      "afterSha256": "f8e75e192b21c069276bfba797b07a54a4e0089707e322ef3a1ca5758543f95f",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -2488,6 +2569,15 @@
           "afterSha256": "b1c0574bfba3d14e1824f5a82ae3b9c315beea0e702e02f0613672a3cf3180b9",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 corrected124 individual bodies and124 explicit route/type corrections",
+          "sourceRevision": "43c0c430f911333f4280d686b2ae55d06eb1f4fe",
+          "previousAfterSha256": "b1c0574bfba3d14e1824f5a82ae3b9c315beea0e702e02f0613672a3cf3180b9",
+          "afterSha256": "f8e75e192b21c069276bfba797b07a54a4e0089707e322ef3a1ca5758543f95f",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -2518,7 +2608,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "57bfe8c55e581db6c9d50873e3adab854f3692e4c4a7aaafa1cc5668eeef7b0a",
-      "afterSha256": "c40b8cdfbf43ad20db520c4e4d9d4308d0c58865a9de89a29925e1209a3f9230",
+      "afterSha256": "4af923c3d8b37fb9c63d601d6cc4c377720f135bccf35b15d8a1f4948b71b6f7",
       "publicCallers": [
         "docs/phase-governance/reviews/README.md",
         "docs/phase-governance/migrations/testing-layout-closeout-20261004.json"
@@ -2681,6 +2771,15 @@
           "sourceRevision": "90e9b051da6bf2dffd946da73f23f83472cf08ec",
           "previousAfterSha256": "dcb873969255fddd8e8a25f6def86b44418b1a1710206f7258d293a51ea2bf62",
           "afterSha256": "c40b8cdfbf43ad20db520c4e4d9d4308d0c58865a9de89a29925e1209a3f9230",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 corrected124 individual bodies and124 explicit route/type corrections",
+          "sourceRevision": "43c0c430f911333f4280d686b2ae55d06eb1f4fe",
+          "previousAfterSha256": "c40b8cdfbf43ad20db520c4e4d9d4308d0c58865a9de89a29925e1209a3f9230",
+          "afterSha256": "4af923c3d8b37fb9c63d601d6cc4c377720f135bccf35b15d8a1f4948b71b6f7",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }

@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "4279e4d601ae5c2e225f24940b035612a78ea9bf17702a55dfcc85b079298747",
+      "afterSha256": "6e12a7168cafdae8105c7c1d497f78a410621c884bf99f6b3dbf800ea5eec69d",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -986,6 +986,24 @@
           "previousAfterSha256": "88deb801f8cf5af6d1fd479e8928770d18c797b8cf5561012143ad5e041cff03",
           "afterSha256": "4279e4d601ae5c2e225f24940b035612a78ea9bf17702a55dfcc85b079298747",
           "method": "Owner actual241/124 decision, risk/counter facts and targeted rework admission; no further document credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S17 corrected124 individual bodies and124 explicit route/type corrections",
+          "sourceRevision": "43c0c430f911333f4280d686b2ae55d06eb1f4fe",
+          "previousAfterSha256": "4279e4d601ae5c2e225f24940b035612a78ea9bf17702a55dfcc85b079298747",
+          "afterSha256": "8d86b653ed54f8e4f8b2f660dfcaf0937519637edbac0d13d063b0fba11a2c17",
+          "method": "Explicit S17 owner control/status/navigation/matrix writeback; no global semantic credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "S17 actual corrected124 control/routing format-before-hash; S18 bounded73 admission only",
+          "sourceRevision": "43c0c430f911333f4280d686b2ae55d06eb1f4fe",
+          "previousAfterSha256": "8d86b653ed54f8e4f8b2f660dfcaf0937519637edbac0d13d063b0fba11a2c17",
+          "afterSha256": "6e12a7168cafdae8105c7c1d497f78a410621c884bf99f6b3dbf800ea5eec69d",
+          "method": "Exact declared Owner controls/routing after S17 intake, no new semantic credit",
           "grantsNewSemanticAcceptance": false
         }
       ]

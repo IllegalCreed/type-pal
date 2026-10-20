@@ -5,7 +5,7 @@ Execution: rework（R23–R36追加撤信与R39后原撤信已纠错；逐篇语
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: S16接收保留；S17据证接收并中央接入241篇、124篇正文模板返工；全量硬验收未完成
+Reviewer: S17共365篇固定正文/模板已接入（原241保留、124返工含Owner18小修）；S18待交付；全量硬验收未完成
 Branch: codex/docs-audit-rework
 Last reviewed: 2026-10-20
 Template: task-card-v1 / 1.0.0
@@ -2105,3 +2105,24 @@ S16末轮实际中央范围[回执](../evidence/DOCS-REGISTRY-SPLIT-1/raw/centra
 
 
 S17实际中央组合[回执](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-actual-241-central-124-held-receipt/67f67e4b4e1b9c7ef70befe5d675651bc7a3179ca346ad52acc598aed11ea020.gz)：仅241个native逻辑绑定变化，2191个其余对象不变，124篇中央正文/绑定仍旧；旧条目的Git引用、整文件与条目hash逐项复核。当前959 content-reviewed/1473 partial，迁移942/1838+11增量，1479候选待迁移；strict恰2952=1473状态+1479迁移，0 SHA或其它诊断。初中央适配直接继承61个scalar truthAnchors，strict按数组合同拒绝；Owner保原字符串无损套一项数组后这61项清零。首次修正计划遗漏raw报告pin被预写拒绝，原件保留；新独立计划补精确pin后dry/apply通过，没有降低规则或追溯改绿。模板/导航/testing/phase、lint及diff均通过，181复用S16未变工具实现的真实结果；没有本轮整仓check:docs或产品/coverage通过声明。上述是中央维护自验，非第二次非作者审；S17整包和父卡仍rework。
+
+### S17 定点返工据证裁定与Owner小修（2026-10-20）
+
+- 固定贡献者候选`2dace81bacdac61922c6fc13c3998ee7231a4397`，执行base`9156646ed7980d0b1df305080c7af291cac1a188`，两提交恰124路径；原453处表格反例逐行复现并清零，241篇整文件只读与365篇quote/sep-lf-1逆回全部成立，旧481证据及本轮31件原件保留。GLM作者自验仍nonAuthorReviewer=false。
+- 不能追认作者“零占位/零重复”声明：定向复核发现11篇归档四章仍见quote占位（其中5篇Evidence为[]、3篇input/caller格实际为运行结果），7篇仍有重复证据/修订行；Owner按用户授权直接修18篇，不改quote或原结论。D/E Results归原批真实结果，未证/视觉边界单列。18篇修正是Owner维护自验，不冒称第二次非作者审；其余逐篇工作直接复用，不要求全文重做。
+- 最终正文候选`43c0c430f911333f4280d686b2ae55d06eb1f4fe`，逐篇[非作者裁定及前后SHA](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-correction-124-evidence-led-with-owner18/fc34871fbf062bc95eb382ef9befbb8b30a28310b2ab0c2d16650daf318f4214.gz)，payload SHA `fc34871fbf062bc95eb382ef9befbb8b30a28310b2ab0c2d16650daf318f4214`。当前只接收124篇固定正文/既有test-run-report-v1合同；原241信用不变。中央124路由、review、after pin按显式计划接入，实际组合门另记；未合main、不推main、不标父卡done。
+- Owner真实重放导航/索引/testing/lint4511零/diff均过；接入前G2红恰124旧路由声明冲突，修后拟路由内存合同0，不冒称已实改通过。辅助lib的错误原基点常量及宽松逆回判断不作证据，Owner用冻结manifest与纯字节规则复算。原review时间/$SHA问题仍不认证，本轮目标字段读取不冒称全文重读。中央适配首跑遇到anchors数组/字符串形状不同而在写入前停止；随后兼容数组并保留原值，不改变公共合同或原件。
+
+S17实际接入：124条native由partial/needs改content-reviewed/template-compliant、124条routing改test-run-report-v1/historyOverlay=true，原241绑定和正文不变。当前1083 content-reviewed/1349 partial，迁移1066/1838+11增量，1355当前候选待迁移；strict恰2704=1349状态+1355迁移，0 SHA及其它诊断。模板/导航/testing/phase和diff通过；首轮lint因routing及矩阵JSON格式有2诊断，修复后另记真实复跑，不改旧输出。原review全文通过Git parent精确引用保留，逐项hash可复核；未重授旧执行或完整全量治理。
+
+### S18 GLM 七十三篇Ops证据Markdown准入（2026-10-20）
+
+- Codex build allowed：73篇非中央治理Ops历史证据Markdown；仅修改随后execution-manifest白名单和`/tmp/s18-glm-evidence`。预准入[固定源快照](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-ops-evidence73-source-admission/6c8a3d16fa1758fa6bf8b405f3113fc1143426ec8fbd09335f4941329b91dd08.gz) payload SHA `6c8a3d16fa1758fa6bf8b405f3113fc1143426ec8fbd09335f4941329b91dd08`；本机`/tmp/type-pal-S18-GLM-ops-evidence-ochkkd_e`。它只证身份/保全，不授逐篇语义分类或阅读信用。真实执行base在中央S17接入提交后由Owner另取。
+- 分支`codex/docs-s18-glm-ops-evidence`，复用隔离worktree docs-archive-navigation；贡献者GLM单一正文Owner，手动转发后开始，Codex中央独立验收。正文源共426782B，67篇sep-lf-1、6篇direct已逐篇固定；quote marker至EOF不动，不能用两种规则任取其一或trim/codec。
+- 逐篇全文读取固定真源，先记录有锚点的具体结论和职责，再从已有冻结Markdown模板选择；不得按README/旧绑定猜类型。导航必须在可见正文提供有效入口，current只指入口；历史执行、counter、日期和零/非零诊断保原口径。可选既有governance-index/evidence-receipt/test-run-report/audit-report/test-contract/test-catalog/test-domain-report/quality-gate/design-spec/plan-status，以registry的实际版本/章节为准；新增模板、事实冲突或不适配只停受影响篇。
+- 先做每个所选类型至少一篇内部pilot并核语义无损，可在同一授权内自行通过后续办，不逐批请示。禁止泛化封套、见quote占位、[]/Python repr、列补空、按位置旋转字段、重复修订行；运行结果不是合法输入、姓名不是caller、未跑项不是oracle。无日期写原时点未知，短导航不造执行事实。作者修完必须按这批已见反例整族检查，不只比行宽。
+- 只读本包外、所有机器JSON/HTML/raw/脚本/截图及S17已接收365；不改中央routing/registry/review/matrix/catalog/父卡/board/index/模板/规则/共享配置，机器字段与配对证据不能重写。产品源码、旧测试和coverage不授权。禁止import生成器探测。
+- 一次最终交付：固定base/final candidate、73篇完成/blocked精确集、逐篇读域/核心结论/源锚点/字段角色/边界/模板理由、程序取Git身份和before/source/after/blob/bytes、只读与quote证明、分片<512KiB索引、整包file-manifest、不覆盖旧失败的事故账；给Owner一条真正执行校验且任何漂移非零的快检入口，禁止空库调用或`|| true`。
+- 每个final门回执要有argv/cwd/真实ISO起止/exit/signal/完整输出+SHA、固定候选与运行前后输入指纹；preservation/结构、check.mjs+索引byteequal、testing、lint零E/W/I、base..HEAD diff必须通过。旧routing合同冲突须列path/精确issue并以内存拟模板零issue证实，实际接入由Owner完成；不降门，不跑181/整仓check:docs/产品/E2E/coverage。结尾主动附Codex验收提示词。全卡仍rework，不合main、不推main、不标done。
+
+S17中央最终[固定组合回执](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-corrected124-actual-central-combination/1a3ef096c3984b3ef60995175e2fd7f7ddccc6506d76943bb9fceb5de6872362.gz)：124条native变化、其余2308条逻辑绑定不变；原241正文/绑定、365 quote、旧481与新31原件逐项成立，11分区旧review完整Git引用核对。真实组合导航10042链接、model1265合同0 issue、testing/phase通过、lint4511零E/W/I、diff通过；strict仍2704待治理项且0漂移/其它诊断。S17这365篇固定正文/模板包闭合，父卡与统一门未完成，不合main、不推main、不标done。S18为下一独立正文包，未执行产品或新181/整仓check:docs。

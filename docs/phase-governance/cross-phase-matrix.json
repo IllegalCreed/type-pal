@@ -1894,13 +1894,14 @@
         "docs/ops/document-quality.md",
         "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"
       ],
-      "relationship": "Historical testing navigation is current only as an entry; fixed body/template241 acceptance and124 report-body counters are distinct from all365 preserved sources and historical executions.",
+      "relationship": "Historical testing navigation is current only as an entry; previous241 and corrected124 fixed body/template acceptances are distinct from all365 preserved sources and historical executions. Owner18 derivative corrections are self-verified maintenance, not a second nonauthor review.",
       "status": "guarded",
       "evidence": [
-        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-current-scope-241-accept-124-rework/6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299.gz"
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-current-scope-241-accept-124-rework/6076a650a5d4374a5c035f3c3b9d1de200d61e25ce1a187445e1a9cfc97b1299.gz",
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s17-correction-124-evidence-led-with-owner18/fc34871fbf062bc95eb382ef9befbb8b30a28310b2ab0c2d16650daf318f4214.gz"
       ],
       "unresolved": [
-        "124 report bodies have current structural/field-placement counters.",
+        "124 prior report-body counters closed by corrected delivery plus18 explicit Owner repairs; historical execution credit remains ungranted.",
         "Historical/manual author timestamps and lost/placeholder identities are not current execution authentication."
       ],
       "stopLine": "No coverage/E2E/runtime credit or resurrection of old signatures/product scope from document governance."
