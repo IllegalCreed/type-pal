@@ -3265,11 +3265,20 @@
       "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "159869d52edca0c8917e8590c720edf062c4ee685cfbc644c01748c5cd83de4e",
+      "afterSha256": "f8e11d768090f1e20d1895085660f868b70b226d0c927d19309ce7d0adbce7d6",
       "revision": {
         "currentSha": "addcb44c52fd00ab0fd3397e61ae316bf98d02e2aeef1d5533ed23a2c1e5845a",
-        "implementationSha": "159869d52edca0c8917e8590c720edf062c4ee685cfbc644c01748c5cd83de4e",
+        "implementationSha": "f8e11d768090f1e20d1895085660f868b70b226d0c927d19309ce7d0adbce7d6",
         "history": [
+          {
+            "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",
+            "date": "2026-10-20",
+            "action": "GLM foundation finite gate closeout delta",
+            "previousAfterSha256": "159869d52edca0c8917e8590c720edf062c4ee685cfbc644c01748c5cd83de4e",
+            "scope": "Two new coverage helper/test rows review; runner new semantic delta review instead of inheriting oldQ6closure; 3318/214/157/2947,0newclosed; historical tail byte-identical.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+            "notRun": ["new browser/E2E/visual/stage/whole-source acceptance"]
+          },
           {
             "revision": "0de4844b2098767d0b88556aed36236b99c055dc",
             "date": "2026-10-20",
@@ -4082,8 +4091,8 @@
       "evidence": {
         "kind": "codex-owned-glm29-rework-and-current-ledger",
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json",
-        "afterSha256": "159869d52edca0c8917e8590c720edf062c4ee685cfbc644c01748c5cd83de4e",
-        "lineCount": 780
+        "afterSha256": "f8e11d768090f1e20d1895085660f868b70b226d0c927d19309ce7d0adbce7d6",
+        "lineCount": 784
       },
       "history": [
         {
@@ -4239,6 +4248,15 @@
           "afterSha256": "ae6eaf2cc5790f2333e8a3e6531b0adf669d332ebc595dd2b28a229302718246",
           "scope": "Only fetch/extract owned rows and machine counts; no unrelated acceptance.",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",
+          "date": "2026-10-20",
+          "action": "GLM foundation finite gate closeout delta",
+          "previousAfterSha256": "159869d52edca0c8917e8590c720edf062c4ee685cfbc644c01748c5cd83de4e",
+          "scope": "Two new coverage helper/test rows review; runner new semantic delta review instead of inheriting oldQ6closure; 3318/214/157/2947,0newclosed; historical tail byte-identical.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+          "notRun": ["new browser/E2E/visual/stage/whole-source acceptance"]
         }
       ],
       "supersedes": [
@@ -4255,7 +4273,7 @@
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "1-780",
+      "reviewedLines": "1-784",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {
@@ -4978,7 +4996,7 @@
           "completePriorObjectRetrievedAndCompared": true
         }
       ],
-      "reviewNotes": "\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: Only two already-withdrawn same-SHA annotation tests restored toreview;no new runtime execution,source changes or semantic closure.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit.\n2026-10-20: GLM enemy/role4file A-H,5+4old identities retained(one title mapping),11currentdirect/89rawadjacent0stderr;2oldgreen/newred assertion counters and first missing-SSS failure retained;0newclosed or unified gate credit.\n2026-10-20: GLM remaining5noncomment deltas accounted;revive2actual failures before fix;103+181+24current cases0stderr;oldconsole not invented. Only41-source checkpoint rework continues,0newclosed.\n2026-10-20 finite29changedsource+2testcase rework;41source records complete,0newclosed;test identity/native/limitations in linked receipt.\nLate dev pure574line E gap repaired:full typed fixtures/public runtime getter;33currentdev0stderr;wholecoverage receipts predate this test-only repair and remain failed,not final-green."
+      "reviewNotes": "\n2026-10-18: independent RLE pilot calibration; only named current delta reviewed, no inherited product acceptance.\n2026-10-18: GLM stage1 evidence-first acceptance; only named current delta/withdrawal provenance reviewed, no full-file eight-axis reacceptance or historical raw-zero credit.\n2026-10-18: User assigns checkpoint rework to Codex;scope,14case compiler mapping,ledger withdrawal and ongoing unknowns recorded;no new closure/unified gate credit.\n2026-10-19: WORD/GBK scope,20current identities,two actual business counters,ledger withdrawals and unchanged input/public-field policies recorded;no new closure/unified gate credit.\n2026-10-19: Only two already-withdrawn same-SHA annotation tests restored toreview;no new runtime execution,source changes or semantic closure.\n2026-10-19: CODE82 exact two-file scope/private length and naming cleanup,8unchanged identities/raw byte-equal/precise business counter;0newclosed or unified gate credit.\n2026-10-19: CODE6a4file A-H,old13identities retained+7targeted cases;20direct/47including20;exact cache-epoch stream and native failures retained;0newclosed or unified gate credit.\n2026-10-20: GLM enemy/role4file A-H,5+4old identities retained(one title mapping),11currentdirect/89rawadjacent0stderr;2oldgreen/newred assertion counters and first missing-SSS failure retained;0newclosed or unified gate credit.\n2026-10-20: GLM remaining5noncomment deltas accounted;revive2actual failures before fix;103+181+24current cases0stderr;oldconsole not invented. Only41-source checkpoint rework continues,0newclosed.\n2026-10-20 finite29changedsource+2testcase rework;41source records complete,0newclosed;test identity/native/limitations in linked receipt.\nLate dev pure574line E gap repaired:full typed fixtures/public runtime getter;33currentdev0stderr;wholecoverage receipts predate this test-only repair and remain failed,not final-green.\n2026-10-20: Two new coverage helper/test rows review; runner new semantic delta review instead of inheriting oldQ6closure; 3318/214/157/2947,0newclosed; historical tail byte-identical. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json"
     },
     {
       "path": "docs/ops/audits/pre-e2e/coverage-determinism.md",

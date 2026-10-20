@@ -28,7 +28,7 @@
       "lines": "6-13",
       "anchor": "export const MAX_PLAYER_EQUIPMENTS",
       "role": "owner",
-      "sha256": "5ebe8ee7d1c0ad76f6867253aaaa9875ea473a776afb27a00edca9c21999ed5c"
+      "sha256": "ab572e2c6f238f2f90d1e3835dbd3c03265aadc67884ac7dda17ef8798ac5081"
     },
     {
       "path": "packages/game/src/core/player-poison-state.ts",
@@ -121,12 +121,24 @@
     "claimScope": "historical-publication-only"
   },
   "findings": [
+    "e0b332b90 removed stale claims that DualAttack/poison cleanup was unimplemented; f263ded94 corrected level>=99 poison commentary and its explicit compression limit. removeComments printed TypeScript bytes identical; owner export/caller contract unchanged. No new D1 SCC/token/mutant/browser/architecture acceptance. Historical versions, runtimeExecution, catalog status and execution dates retained.",
     "Historical D1 receipt records 161 function token checks, 8 ownership tests, 3 needles and a minimum browser check. Current source audit does not rerun PAL or reclassify the old warnings.",
     "2026-10-11 E2E 合入核读：sourceRefs 绑定当前 content22 / minimumSave12 源文件；candidateSha、versions、history、runtimeExecution 和历史计数保持原批次含义，不晋升为 SAVE12 运行时或 E2E 通过。",
     "2026-10-18 only poison comment sourceRef rebound; executable JS and owner export unchanged. Existing publication/runtimeExecution fields remain historical; current11 ownership tests are finite regression only. See pre94 poison-progression-comments receipt."
   ],
   "artifacts": [],
   "history": [
+    {
+      "date": "2026-10-20",
+      "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",
+      "action": "GLM29 equipment comment source binding only",
+      "sourceRef": "packages/game/src/core/equipment-state.ts",
+      "previousSourceSha256": "5ebe8ee7d1c0ad76f6867253aaaa9875ea473a776afb27a00edca9c21999ed5c",
+      "sourceSha256": "ab572e2c6f238f2f90d1e3835dbd3c03265aadc67884ac7dda17ef8798ac5081",
+      "scope": "e0b332b90 removed stale claims that DualAttack/poison cleanup was unimplemented; f263ded94 corrected level>=99 poison commentary and its explicit compression limit. removeComments printed TypeScript bytes identical; owner export/caller contract unchanged. No new D1 SCC/token/mutant/browser/architecture acceptance. Historical versions, runtimeExecution, catalog status and execution dates retained.",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+      "notRun": ["D1 historical audit and needles", "browser", "E2E route execution"]
+    },
     {
       "revision": "27358f9d9e3ab65d777b7864fcc936638ed9373a",
       "date": "2026-10-18",

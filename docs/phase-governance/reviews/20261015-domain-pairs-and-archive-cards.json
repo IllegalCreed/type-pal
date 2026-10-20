@@ -4696,10 +4696,10 @@
       "reviewedSourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
       "sourceGitRevision": "85a419afa17793e13b9700b7064bd8d818d57118",
       "sourceGitObject": "1b24a52a5b0145462e6a7e8aba3e0b521778d10a",
-      "afterSha256": "4b69b0964a7bdf17d1bd8a8860d47ce4904fa444ce9f85e0d95672600dc675f7",
+      "afterSha256": "9e3c1f0cb3d4df7341dc6a20e1152848a4fcedd0da22401220067e2a231863d0",
       "revision": {
         "currentSha": "c0cb14c67ee09f8b9a57cf2a91803b8adaef06a9d9a4ac4eb53a9936608ced9c",
-        "implementationSha": "4b69b0964a7bdf17d1bd8a8860d47ce4904fa444ce9f85e0d95672600dc675f7",
+        "implementationSha": "9e3c1f0cb3d4df7341dc6a20e1152848a4fcedd0da22401220067e2a231863d0",
         "originalPublicationRevision": {
           "candidateSha": "2aed1f0dbbbed8ce01cb3511315745ab1ccdf159",
           "versions": {
@@ -4716,6 +4716,15 @@
           ]
         },
         "history": [
+          {
+            "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",
+            "date": "2026-10-20",
+            "action": "GLM foundation finite gate closeout delta",
+            "previousAfterSha256": "4b69b0964a7bdf17d1bd8a8860d47ce4904fa444ce9f85e0d95672600dc675f7",
+            "scope": "Exact equipment source-ref binding and proof history added; historical D1 execution remains dated.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+            "notRun": ["new browser/E2E/visual/stage/whole-source acceptance"]
+          },
           {
             "revision": "27358f9d9e3ab65d777b7864fcc936638ed9373a",
             "date": "2026-10-18",
@@ -4753,8 +4762,8 @@
         "kind": "full-source-preservation-and-real-domain-publication-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "82fdf38fd5b891a05172ccc4bda3aa9c2e9a3c62648a93eae17f7e733797d4cb",
-        "afterSha256": "4b69b0964a7bdf17d1bd8a8860d47ce4904fa444ce9f85e0d95672600dc675f7",
-        "lineCount": 177
+        "afterSha256": "9e3c1f0cb3d4df7341dc6a20e1152848a4fcedd0da22401220067e2a231863d0",
+        "lineCount": 208
       },
       "history": [
         {
@@ -4825,12 +4834,21 @@
           "afterSha256": "c0cb14c67ee09f8b9a57cf2a91803b8adaef06a9d9a4ac4eb53a9936608ced9c",
           "scope": "Current main merge and code-quality navigation only; no runtime or product acceptance.",
           "notRun": ["runtime", "E2E", "visual", "coverage"]
+        },
+        {
+          "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",
+          "date": "2026-10-20",
+          "action": "GLM foundation finite gate closeout delta",
+          "previousAfterSha256": "4b69b0964a7bdf17d1bd8a8860d47ce4904fa444ce9f85e0d95672600dc675f7",
+          "scope": "Exact equipment source-ref binding and proof history added; historical D1 execution remains dated.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+          "notRun": ["new browser/E2E/visual/stage/whole-source acceptance"]
         }
       ],
       "supersedes": [],
       "stopLine": "No new dynamic/test-quality/canon/compatibility acceptance follows from historical claims, source-backed publication, JSON parse/envelope or template/static checks.",
       "userVisibleBeforeAfter": "Flat paired document-audit → unchanged machine object + specific governance envelope.",
-      "reviewedLines": "1-196",
+      "reviewedLines": "1-208",
       "phase": "testing",
       "module": "phase1-dependency-ownership",
       "templateConformity": {
@@ -5290,7 +5308,8 @@
             ]
           }
         }
-      ]
+      ],
+      "reviewNotes": "\n2026-10-20: Exact equipment source-ref binding and proof history added; historical D1 execution remains dated. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json"
     },
     {
       "path": "docs/testing/archive/legacy/batches/finite-test-intake-20261003/README.md",
@@ -6591,11 +6610,20 @@
       "sourceSha256": "ca3e4b0df58b2f6f6bfbfe8a153a62aea806120646195b65904fa1bfe06a1906",
       "sourceGitRevision": "e2504356785d0c2928fd2fb242e573f0d6f77666",
       "sourceGitObject": "0c2a24d1bda687916de1a5bded20a251cab9e5ba",
-      "afterSha256": "ff9a5f791dea83e8e11b89649c888742e0509c45995aeb6f0eb5e8539dd6821e",
+      "afterSha256": "e635309e6883138441c400458d3e9ce4a9cf18b9461dbb5de49985512fd43530",
       "revision": {
         "currentSha": "e2504356785d0c2928fd2fb242e573f0d6f77666",
-        "implementationSha": "ff9a5f791dea83e8e11b89649c888742e0509c45995aeb6f0eb5e8539dd6821e",
+        "implementationSha": "e635309e6883138441c400458d3e9ce4a9cf18b9461dbb5de49985512fd43530",
         "history": [
+          {
+            "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",
+            "date": "2026-10-20",
+            "action": "GLM foundation finite gate closeout delta",
+            "previousAfterSha256": "ff9a5f791dea83e8e11b89649c888742e0509c45995aeb6f0eb5e8539dd6821e",
+            "scope": "Append finite source/publication review with exact inputs/SHA and no-run limits; original candidate/versions/history runtime fields retained.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+            "notRun": ["new browser/E2E/visual/stage/whole-source acceptance"]
+          },
           {
             "date": "2026-10-15",
             "action": "field-preserving-audit-envelope",
@@ -6614,8 +6642,8 @@
         "kind": "inverse-JSON-object-and-actual-paired-consumer",
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/domain-pair-migration-20261015.json",
         "sourceSha256": "ca3e4b0df58b2f6f6bfbfe8a153a62aea806120646195b65904fa1bfe06a1906",
-        "afterSha256": "ff9a5f791dea83e8e11b89649c888742e0509c45995aeb6f0eb5e8539dd6821e",
-        "lineCount": 100
+        "afterSha256": "e635309e6883138441c400458d3e9ce4a9cf18b9461dbb5de49985512fd43530",
+        "lineCount": 230
       },
       "history": [
         {
@@ -6650,13 +6678,22 @@
           "proof": "Exact UTF8 body differs only at one _governance.templateVersion value; complete inverse object equal; full oldcurrent review retained. Native/othergovernance/source pins unchanged.",
           "newMigrationCredit": 0,
           "executionPerformed": false
+        },
+        {
+          "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",
+          "date": "2026-10-20",
+          "action": "GLM foundation finite gate closeout delta",
+          "previousAfterSha256": "ff9a5f791dea83e8e11b89649c888742e0509c45995aeb6f0eb5e8539dd6821e",
+          "scope": "Append finite source/publication review with exact inputs/SHA and no-run limits; original candidate/versions/history runtime fields retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+          "notRun": ["new browser/E2E/visual/stage/whole-source acceptance"]
         }
       ],
       "supersedes": [],
       "stopLine": "No runtime, E2E, visual, counter, coverage, whole-ledger semantic review or artifact-ownership acceptance from this static audit.",
       "nextStep": "Independently review this field-preserving migration and govern the paired full documents/ledgers in their own scope.",
       "userVisibleBeforeAfter": "Original document-audit object → same machine fields plus registered audit envelope and explicit publication/history/consumer limits.",
-      "reviewedLines": "1-100",
+      "reviewedLines": "1-230",
       "phase": "testing",
       "module": "publication-machine-audits",
       "templateConformity": {
@@ -6927,7 +6964,8 @@
             "method": "Audit variant/publication status contract; inverse original object and actual consumer, no prose replacement."
           }
         }
-      ]
+      ],
+      "reviewNotes": "\n2026-10-20: Append finite source/publication review with exact inputs/SHA and no-run limits; original candidate/versions/history runtime fields retained. Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json"
     },
     {
       "path": "docs/testing/e2e/evidence/e2e-common-issues.json",

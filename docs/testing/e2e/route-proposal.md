@@ -12,7 +12,7 @@ evidence: e2e/evidence/e2e-route.json
 
 Status: proposed
 Owner: Codex
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-20
 Template: design-spec-v1 / 1.0.0
 
 本页接入统一 testing 模板；原 testing-meta、catalog identity、sourceRefs、历史日期与横向结论在 quote 中保全。本次不重跑产品、E2E、视觉或 coverage。
@@ -36,6 +36,12 @@ Template: design-spec-v1 / 1.0.0
 ## 验收
 
 每段必须有入口、准备数据、步骤、预期时序、证据路径、依赖和失败停止线；由当前 catalog、阶段报告和任务卡决定是否采用。
+
+## 2026-10-20 实质发布复核
+
+Codex以治理分支`9cc550306226f4109615afe0ec2270f8cfd598bb`核对本页全文、共用合同、root两个公开命令、独立双引擎wrapper和002生产caller。`validatePredecessor`在启动浏览器前校验真实001 passed、同引擎/片段、检查点路径与原始字节hash；Reforge还核content22/SAVE12、项目与精确起点。002固定Down11/Left17输入，与实际提交轨迹、独立剧情终止条件和正式保存/新页恢复分别验证；没有用路线到达代替NPC或视觉验收。
+
+本页仍为proposal；写作时“没有runner”等段落属于保全历史。006仍为rework，归档连续卡的done不能覆盖当前阶段状态。本轮没有启动浏览器、重建检查点、录制、检查编辑器预览或授予任何片段新的通过；lastVerified仍为2026-10-04，旧候选/版本/执行记录不改。配对[机器证据](evidence/e2e-route.json)的publicationReviews保存逐项依据、读取范围和SHA。原reviewBy10-18过期失败保留；基于本次实质核读，将发布复核期限设为11-03（14天，前提变化提前复核），不是给执行结果续期。
 
 ## 原文保全
 

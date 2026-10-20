@@ -1,0 +1,650 @@
+{
+  "schemaVersion": 1,
+  "task": "QUALITY-PRE94-RETROSPECTIVE-1",
+  "scope": "GLM foundation finite rework gate closeout only",
+  "base": "9cc550306226f4109615afe0ec2270f8cfd598bb",
+  "branch": "codex/code-quality-3y",
+  "owner": "Codex",
+  "date": "2026-10-20",
+  "status": "gates-pending",
+  "authorization": "用户：E2E路由真实复核；合理重构造成覆盖率下降可调整baseline；不恢复死代码/堆弱测试；同一分支、收尾集中coverage、全门零诊断后合main；其它任务不扩展。",
+  "previousFailures": {
+    "receipt": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json",
+    "fullCheck": "exit1: e2e-route reviewBy2026-10-18 expired; later checks not reached",
+    "ratchet": "exit1: 19979 fast tests passed, exact metric ratios rejected 3 pal-extract/3 reforge regressions",
+    "protected": "exit1: same ratios; original branch baseline passed protected comparison; no raw failure rewritten"
+  },
+  "routeReview": {
+    "evidence": "docs/testing/e2e/evidence/e2e-route.json#publicationReviews",
+    "result": "substantive publication/source review; proposal and lastVerified10-04 preserved, next publication review11-03",
+    "notRun": [
+      "browser route",
+      "new visual/NPC acceptance",
+      "checkpoint chain",
+      "editor preview",
+      "capture"
+    ]
+  },
+  "dependencyBinding": {
+    "proof": {
+      "date": "2026-10-20",
+      "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",
+      "action": "GLM29 equipment comment source binding only",
+      "sourceRef": "packages/game/src/core/equipment-state.ts",
+      "previousSourceSha256": "5ebe8ee7d1c0ad76f6867253aaaa9875ea473a776afb27a00edca9c21999ed5c",
+      "sourceSha256": "ab572e2c6f238f2f90d1e3835dbd3c03265aadc67884ac7dda17ef8798ac5081",
+      "scope": "e0b332b90 removed stale claims that DualAttack/poison cleanup was unimplemented; f263ded94 corrected level>=99 poison commentary and its explicit compression limit. removeComments printed TypeScript bytes identical; owner export/caller contract unchanged. No new D1 SCC/token/mutant/browser/architecture acceptance. Historical versions, runtimeExecution, catalog status and execution dates retained.",
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+      "notRun": ["D1 historical audit and needles", "browser", "E2E route execution"],
+      "beforePrintedSha256": "250db9bb1cf8c8792e1748ddda5c043bf114696a98a6c74be8a06dcf8c9fc71b",
+      "afterPrintedSha256": "250db9bb1cf8c8792e1748ddda5c043bf114696a98a6c74be8a06dcf8c9fc71b",
+      "equal": true
+    },
+    "scope": "GLM equipment comments only; no D1 historical acceptance renewed"
+  },
+  "normalization": {
+    "method": "Apply only if complete old baseline JSON SHA and listed current sources match; change listed exact metrics and recompute total. Scope, test identities and exact BigInt ratio comparison remain protected. No flags/tolerance/exclude or implicit future authorization.",
+    "approvals": [
+      {
+        "id": "glm-foundation-branch-20261020",
+        "authority": "用户2026-10-20：合理重构造成的覆盖率下降可以调整baseline；不得恢复死代码或堆弱测试。",
+        "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+        "baselineSha256": "4e15beba8673f80876ab03238e59f7912ac90da80041e952047fe7d2c0f26a30",
+        "sources": [
+          {
+            "path": "packages/pal-extract/src/io/word.ts",
+            "sha256": "dbcd851a23f10829f2f04ef7fd7ec427c0362ea3d0796714a7186da9f35323a6"
+          },
+          {
+            "path": "packages/pal-extract/scripts/extract-videos.ts",
+            "sha256": "0c149a276bca4fe592142ddfeef06c2268c1642e03dcf05883f5292cbbc22218"
+          },
+          {
+            "path": "packages/reforge/src/audio/bgm.ts",
+            "sha256": "23de6a662e77b50d58dfbf99c89f24159419b86996da038201cfcff15a784e35"
+          }
+        ],
+        "packages": {
+          "pal-extract": {
+            "before": {
+              "statements": {
+                "covered": 1085,
+                "total": 1548
+              },
+              "branches": {
+                "covered": 475,
+                "total": 599
+              },
+              "functions": {
+                "covered": 113,
+                "total": 141
+              },
+              "lines": {
+                "covered": 959,
+                "total": 1369
+              }
+            },
+            "after": {
+              "statements": {
+                "covered": 1082,
+                "total": 1546
+              },
+              "branches": {
+                "covered": 473,
+                "total": 597
+              },
+              "functions": {
+                "covered": 114,
+                "total": 142
+              },
+              "lines": {
+                "covered": 957,
+                "total": 1368
+              }
+            }
+          },
+          "reforge": {
+            "before": {
+              "statements": {
+                "covered": 16999,
+                "total": 18885
+              },
+              "branches": {
+                "covered": 10807,
+                "total": 13097
+              },
+              "functions": {
+                "covered": 2767,
+                "total": 3073
+              },
+              "lines": {
+                "covered": 15208,
+                "total": 16477
+              }
+            },
+            "after": {
+              "statements": {
+                "covered": 16992,
+                "total": 18878
+              },
+              "branches": {
+                "covered": 10805,
+                "total": 13095
+              },
+              "functions": {
+                "covered": 2767,
+                "total": 3073
+              },
+              "lines": {
+                "covered": 15202,
+                "total": 16471
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "glm-foundation-protected-main-20261020",
+        "authority": "用户2026-10-20：合理重构造成的覆盖率下降可以调整baseline；不得恢复死代码或堆弱测试。",
+        "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+        "baselineSha256": "b96ee9b9c20766e5c45150a425118e69a7fc43b6cc90581874c01c69c67328eb",
+        "sources": [
+          {
+            "path": "packages/reforge/src/audio/bgm.ts",
+            "sha256": "23de6a662e77b50d58dfbf99c89f24159419b86996da038201cfcff15a784e35"
+          }
+        ],
+        "packages": {
+          "reforge": {
+            "before": {
+              "statements": {
+                "covered": 16999,
+                "total": 18885
+              },
+              "branches": {
+                "covered": 10807,
+                "total": 13097
+              },
+              "functions": {
+                "covered": 2767,
+                "total": 3073
+              },
+              "lines": {
+                "covered": 15208,
+                "total": 16477
+              }
+            },
+            "after": {
+              "statements": {
+                "covered": 16992,
+                "total": 18878
+              },
+              "branches": {
+                "covered": 10805,
+                "total": 13095
+              },
+              "functions": {
+                "covered": 2767,
+                "total": 3073
+              },
+              "lines": {
+                "covered": 15202,
+                "total": 16471
+              }
+            }
+          }
+        }
+      }
+    ],
+    "palAudit": {
+      "beforeRevision": "f544b9b94",
+      "afterRevision": "9cc550306",
+      "beforeTotal": {
+        "statements": {
+          "covered": 1085,
+          "total": 1548
+        },
+        "branches": {
+          "covered": 475,
+          "total": 599
+        },
+        "functions": {
+          "covered": 113,
+          "total": 141
+        },
+        "lines": {
+          "covered": 959,
+          "total": 1369
+        }
+      },
+      "afterTotal": {
+        "statements": {
+          "covered": 1082,
+          "total": 1546
+        },
+        "branches": {
+          "covered": 473,
+          "total": 597
+        },
+        "functions": {
+          "covered": 114,
+          "total": 142
+        },
+        "lines": {
+          "covered": 957,
+          "total": 1368
+        }
+      },
+      "onlyChangedFileCounters": [
+        {
+          "path": "scripts/extract-videos.ts",
+          "before": {
+            "statements": {
+              "covered": 0,
+              "total": 41
+            },
+            "branches": {
+              "covered": 0,
+              "total": 12
+            },
+            "functions": {
+              "covered": 0,
+              "total": 3
+            },
+            "lines": {
+              "covered": 0,
+              "total": 41
+            }
+          },
+          "after": {
+            "statements": {
+              "covered": 0,
+              "total": 42
+            },
+            "branches": {
+              "covered": 0,
+              "total": 12
+            },
+            "functions": {
+              "covered": 0,
+              "total": 3
+            },
+            "lines": {
+              "covered": 0,
+              "total": 42
+            }
+          }
+        },
+        {
+          "path": "src/io/word.ts",
+          "before": {
+            "statements": {
+              "covered": 37,
+              "total": 37
+            },
+            "branches": {
+              "covered": 8,
+              "total": 8
+            },
+            "functions": {
+              "covered": 3,
+              "total": 3
+            },
+            "lines": {
+              "covered": 32,
+              "total": 32
+            }
+          },
+          "after": {
+            "statements": {
+              "covered": 34,
+              "total": 34
+            },
+            "branches": {
+              "covered": 6,
+              "total": 6
+            },
+            "functions": {
+              "covered": 4,
+              "total": 4
+            },
+            "lines": {
+              "covered": 30,
+              "total": 30
+            }
+          }
+        }
+      ],
+      "meaning": "WORD fully covered duplicate loops consolidated (-3 statements/-2 branches/-2 lines,+1 function). Video shared-output safety guard adds1 uncovered statement/line in parent coverage; real child-process guard/output tests remain meaningful but child V8 coverage is not merged. CLI metrics unchanged. Both full selected-package runs exit0; no source changes made in governance/main tree for measurements."
+    },
+    "bgmAudit": {
+      "beforeRevision": "53db76bbb",
+      "tests": "same current five BGM files on before/after copies; all pass",
+      "before": {
+        "statements": {
+          "covered": 129,
+          "total": 166
+        },
+        "branches": {
+          "covered": 82,
+          "total": 101
+        },
+        "functions": {
+          "covered": 27,
+          "total": 36
+        },
+        "lines": {
+          "covered": 108,
+          "total": 137
+        }
+      },
+      "after": {
+        "statements": {
+          "covered": 122,
+          "total": 159
+        },
+        "branches": {
+          "covered": 80,
+          "total": 99
+        },
+        "functions": {
+          "covered": 27,
+          "total": 36
+        },
+        "lines": {
+          "covered": 102,
+          "total": 131
+        }
+      },
+      "delta": "-7 covered/total statements,-2 covered/total branches,-6 covered/total lines; unchanged functions. Removal is write-only inflightTarget; existing source proof and24 tests preserved in codex-dead-removals.json.",
+      "limits": "Directed subset absolute counters differ from full reforge aggregate; only structural delta asserted. No claim of more branch behavior coverage."
+    }
+  },
+  "files": [
+    {
+      "path": "scripts/coverage/run.mjs",
+      "sha256": "b31137b178e573bfb3cc384cf8d8e5bc5ea3d0869115b68aa9fb1ca96da5726f",
+      "status": "review",
+      "A": "Exact snapshot/source admission; unknown baseline gets ordinary strict comparison; mismatched source/counts throw. No product schema/save/UI/API changes.",
+      "B": "Authorization and finite migration limits documented.",
+      "C": "Pure baseline projection isolated from runner IO and unchanged scope/test audits.",
+      "D": "One projection used by branch ratchet and protected comparison; no generic bypass flag.",
+      "E": "Three independent contracts cover exact migration, stale/unknown/mismatched inputs and extra regression in affected/unaffected package; existing tool tests retained.",
+      "F": "Named baseline/approval/source concepts; raw observations separate.",
+      "G": "No dead production code or duplicate product tests restored.",
+      "H": "Async source reader injected for deterministic failure tests; actual file source SHA verified by official caller."
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+      "sha256": "82835cadcf40ee841abdfe32bec9bfd7d99ffbb5ad55927522809f75cd869cd2",
+      "status": "review",
+      "A": "Exact snapshot/source admission; unknown baseline gets ordinary strict comparison; mismatched source/counts throw. No product schema/save/UI/API changes.",
+      "B": "Authorization and finite migration limits documented.",
+      "C": "Pure baseline projection isolated from runner IO and unchanged scope/test audits.",
+      "D": "One projection used by branch ratchet and protected comparison; no generic bypass flag.",
+      "E": "Three independent contracts cover exact migration, stale/unknown/mismatched inputs and extra regression in affected/unaffected package; existing tool tests retained.",
+      "F": "Named baseline/approval/source concepts; raw observations separate.",
+      "G": "No dead production code or duplicate product tests restored.",
+      "H": "Async source reader injected for deterministic failure tests; actual file source SHA verified by official caller."
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.test.mjs",
+      "sha256": "1d02b9d98db14be58e6a462634b574f44e9508202252046a5e5c2d6c2259fbab",
+      "status": "review",
+      "A": "Exact snapshot/source admission; unknown baseline gets ordinary strict comparison; mismatched source/counts throw. No product schema/save/UI/API changes.",
+      "B": "Authorization and finite migration limits documented.",
+      "C": "Pure baseline projection isolated from runner IO and unchanged scope/test audits.",
+      "D": "One projection used by branch ratchet and protected comparison; no generic bypass flag.",
+      "E": "Three independent contracts cover exact migration, stale/unknown/mismatched inputs and extra regression in affected/unaffected package; existing tool tests retained.",
+      "F": "Named baseline/approval/source concepts; raw observations separate.",
+      "G": "No dead production code or duplicate product tests restored.",
+      "H": "Async source reader injected for deterministic failure tests; actual file source SHA verified by official caller."
+    }
+  ],
+  "checks": [],
+  "ledger": {
+    "tracked": 3318,
+    "closed": 214,
+    "review": 157,
+    "pending": 2947,
+    "newClosed": 0
+  },
+  "integration": {
+    "committed": false,
+    "pushed": false,
+    "merged": false,
+    "behind": 0,
+    "ahead": 410
+  },
+  "artifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout-native.json.gz",
+    "sha256": "9197855ee35f2b4f531b30cbf26b21b6389e8569b595528286b35cd617939443",
+    "members": [
+      {
+        "name": "adjustment-records.json",
+        "sha256": "8b57782c1ca5cc91a21e3f7389a4b35e7e58b378461fb0e0c1d3784a3df808dd",
+        "bytes": 3986
+      },
+      {
+        "name": "bgm-after.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "bgm-after.stdout.raw",
+        "sha256": "361aac413821969075fec6e2d63955ec724e8753f63798014b621d26912ddc2c",
+        "bytes": 267
+      },
+      {
+        "name": "bgm-before.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "bgm-before.stdout.raw",
+        "sha256": "34148d6c8781438e2bb7488a83d802ad9805bb91b2edb19741427b4866afcd1c",
+        "bytes": 267
+      },
+      {
+        "name": "build-receipt.mjs",
+        "sha256": "86d353af120dece28c677a7da9c54895dc71ff966ac5c36fba9082324b7cf8c0",
+        "bytes": 6279
+      },
+      {
+        "name": "cli-after.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "cli-after.stdout.raw",
+        "sha256": "e867013166203779cd35cef0198637fc121210c9a37058e7a6f4e81b8802c6e6",
+        "bytes": 261
+      },
+      {
+        "name": "cli-before.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "cli-before.stdout.raw",
+        "sha256": "7822776c7f74c7510e0210e2671f08f0dc6c28201d6feb2cbcf2148ee97bf062",
+        "bytes": 261
+      },
+      {
+        "name": "cli-counter-proof.mjs",
+        "sha256": "f3d38c715ab53d47fbfe5cb5d116b0424a666459949ebcff559e830f1030b83c",
+        "bytes": 1772
+      },
+      {
+        "name": "content-first.stderr.raw",
+        "sha256": "d41bb7f86bb68837cdf27ff112be15df206cc142154b82bb7c518f1fe24c72a0",
+        "bytes": 159
+      },
+      {
+        "name": "content-first.stdout.raw",
+        "sha256": "c58e802d648f260d8bb455874fd684c4f3057699d00a33c0e0863d748e2c0b91",
+        "bytes": 65
+      },
+      {
+        "name": "counter-proof.mjs",
+        "sha256": "0c591eff59ccc6257e105f7e93a1a618ea023575ee73f2fb81e9a690412bf8b4",
+        "bytes": 2012
+      },
+      {
+        "name": "coverage-tools.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "coverage-tools.stdout.raw",
+        "sha256": "ad44715efec210677fb339bd7f04c2b6ae4ffdccf1461f12d7790347c50ac2c9",
+        "bytes": 17054
+      },
+      {
+        "name": "dependency-binding.mjs",
+        "sha256": "54c67175b57d631f6fb507edffc459c0d696e28c526ad8727992248108eccdcc",
+        "bytes": 3105
+      },
+      {
+        "name": "equipment-body-proof.json",
+        "sha256": "66b478f593c61f2a2432f3f56f09db1f40c07a7f9f29bd1da842eb8a78621814",
+        "bytes": 1198
+      },
+      {
+        "name": "equipment-proof-wording-before.raw",
+        "sha256": "ff972d75b81eddc28d1b9af8963ba50db231148332e979fcc9f281ddef93d887",
+        "bytes": 1177
+      },
+      {
+        "name": "make-adjustments.mjs",
+        "sha256": "50e66d77a160c9f0588184aec8936cbc2d416b0229c56436834f6df4d7570d51",
+        "bytes": 1488
+      },
+      {
+        "name": "make-adjustments.stdout.raw",
+        "sha256": "0bc0b2bb4fc25cd11d7417a86ce6377d0f78bdaa1e234098b95b4a92c7b96182",
+        "bytes": 460
+      },
+      {
+        "name": "metadata-bindings.json",
+        "sha256": "9e1786856c19f9f2858e68ae4847168e4b259c343802769707e03a6727b3fe6b",
+        "bytes": 2182
+      },
+      {
+        "name": "pal-audit-new.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "pal-audit-new.stdout.raw",
+        "sha256": "51b6e9cfb0e9414e98fc961fd46b13cd9291d55a1c1a6e20988348c32a9d2f38",
+        "bytes": 293
+      },
+      {
+        "name": "pal-audit-old.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "pal-audit-old.stdout.raw",
+        "sha256": "d7a9453357f399f24fda8cc8cf8d86d1aebc96d6ba818b5389205173b7505511",
+        "bytes": 293
+      },
+      {
+        "name": "pal-count-audit.mjs",
+        "sha256": "76873fbb8ece0d8370071bd507feb6fee6118b4f0fba6645326b0f22632abf21",
+        "bytes": 1828
+      },
+      {
+        "name": "prepare-docs.mjs",
+        "sha256": "e22e4c9c36551beb03184e8d2001887e838849c7530a849c5c8a7ed3190b16f5",
+        "bytes": 3916
+      },
+      {
+        "name": "route-review.mjs",
+        "sha256": "80e9b6c4219c26a07b2733c3c536787e92d1b2fbca4ef93b4d7c3786e360b393",
+        "bytes": 6149
+      },
+      {
+        "name": "tsconfig.base.json",
+        "sha256": "9c29504dad2a45fb1c4e260b590372a8221ef27303f7fff1654554c90b57931c",
+        "bytes": 355
+      },
+      {
+        "name": "update-bindings.mjs",
+        "sha256": "7ee3ae88d22ff1f717d0683666c561f58a73bdeb8afe8e0f522c01d27c637595",
+        "bytes": 4748
+      },
+      {
+        "name": "word-after.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "word-after.stdout.raw",
+        "sha256": "34049758269edd259bd6303cb23027f0978f382c1832540c63a9f2a22b727db5",
+        "bytes": 261
+      },
+      {
+        "name": "word-before.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "word-before.stdout.raw",
+        "sha256": "1f76b6cfe9b28a80a4c9ab60ef045e85c555a8bfcbf72a808d976aff6bf34ade",
+        "bytes": 261
+      },
+      {
+        "name": "write-adjustment-module.mjs",
+        "sha256": "43ff1fdaf86f70caf0500d6878b7faefb13501ce8c7a29b45450f702e382f5c3",
+        "bytes": 1735
+      },
+      {
+        "name": "word-before/coverage-summary.json",
+        "sha256": "d67d7c58bc05b519b49ae33d6d0cdf15e424e735daa8f6619040875fff5e6970",
+        "bytes": 622
+      },
+      {
+        "name": "word-after/coverage-summary.json",
+        "sha256": "bf90483126d49b522fee86c1d63bff01aede7738fd1c1b2b0fb100b4867bab5c",
+        "bytes": 624
+      },
+      {
+        "name": "bgm-before/coverage-summary.json",
+        "sha256": "1404fe445dbe6a11248a8a8ff656df78da637513e9a03ec71d9caf9d206d2cab",
+        "bytes": 645
+      },
+      {
+        "name": "bgm-after/coverage-summary.json",
+        "sha256": "0714c84c3a0ad892b80f671b73d954c50c13317120e7e35a647ac68b68113ce7",
+        "bytes": 641
+      },
+      {
+        "name": "cli-before/coverage-summary.json",
+        "sha256": "ae16db688b435f0087e63073e3b43c0abaffba61dfa2a2515aefbfe309eb943a",
+        "bytes": 621
+      },
+      {
+        "name": "cli-after/coverage-summary.json",
+        "sha256": "ae16db688b435f0087e63073e3b43c0abaffba61dfa2a2515aefbfe309eb943a",
+        "bytes": 621
+      },
+      {
+        "name": "pal-audit-cov-old/coverage-summary.json",
+        "sha256": "13b102920cba8c2bc00047a6fa6dc38e7a9adf961af64e9a4adf497aedfc014c",
+        "bytes": 13785
+      },
+      {
+        "name": "pal-audit-cov-new/coverage-summary.json",
+        "sha256": "668b3717de87cbeccb1e58c172539fa805481126553b288bd874da84feb6b773",
+        "bytes": 13785
+      }
+    ]
+  },
+  "limits": [
+    "Finite GLM rework does not accept83cards,unchanged author scope,94-102,or whole repository source quality.",
+    "Published codex-final29/raw history remains immutable; its metadata bindings describe its own commit,not this subsequent gate phase.",
+    "New current whole gates must pass before main merge; prior fast runs predate final dev typed fixtures."
+  ]
+}

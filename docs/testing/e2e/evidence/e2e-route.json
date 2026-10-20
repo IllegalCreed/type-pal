@@ -70,7 +70,7 @@
     "templateId": "test-machine-evidence-v1",
     "templateVersion": "1.5.0",
     "variant": "document-audit-v2",
-    "lastReviewed": "2026-10-15",
+    "lastReviewed": "2026-10-20",
     "owner": "Codex（本次文档治理；原发布/执行身份不变）",
     "provenance": [
       "complete original JSON field reading",
@@ -95,6 +95,136 @@
     ],
     "beforeAfter": "Original document-audit object → same machine fields plus registered audit envelope and explicit publication/history/consumer limits.",
     "stopLine": "No runtime, E2E, visual, counter, coverage, whole-ledger semantic review or artifact-ownership acceptance from this static audit.",
-    "nextStep": "Independently review this field-preserving migration and govern the paired full documents/ledgers in their own scope."
-  }
+    "nextStep": "Route proposal publication review next due 2026-11-03; actual stage/runtime/visual work remains with its own current task and evidence."
+  },
+  "publicationReviews": [
+    {
+      "date": "2026-10-20",
+      "reviewer": "Codex",
+      "base": "9cc550306226f4109615afe0ec2270f8cfd598bb",
+      "previousReviewBy": "2026-10-18",
+      "reviewBy": "2026-11-03",
+      "scope": "substantive source/publication review of the route proposal; no browser route execution",
+      "conclusion": "proposal retained; current same-engine predecessor admission, owned checkpoint and exact-input/completion responsibilities remain consistent with the route design. Original runner-missing statements are dated quotations. No current full-game or stage execution inferred.",
+      "checked": [
+        {
+          "claim": "002 preflight rejects capture/failed/wrong engine-fragment/checkpoint path/hash; Reforge requires SAVE12/content22/pal and exact start.",
+          "source": "scripts/e2e/inn-contract.mjs:67-123; inn-journey.mjs:54-58"
+        },
+        {
+          "claim": "001/002 both wrappers demand independent reports, same revision and current parity; one independent passed is insufficient.",
+          "source": "scripts/e2e/opening-both.mjs:42-93; inn-both.mjs:63-96"
+        },
+        {
+          "claim": "002 uses authored Down11/Left17 inputs, verifies actual route receipts and story condition separately, formal save and new-page restore.",
+          "source": "scripts/e2e/inn-input-plan.mjs; fixed-route-plan.mjs; inn-journey.mjs:215-299,514-598"
+        },
+        {
+          "claim": "006 is rework and cannot supply a downstream formal predecessor; historical continuous-card done does not upgrade catalog.",
+          "source": "docs/testing/e2e/stages/006-doctor-boat/README.md; archived continuous card:1-60"
+        }
+      ],
+      "inputs": [
+        {
+          "path": "docs/testing/e2e/route-proposal.md",
+          "scope": "full canonical and preserved original; publication review",
+          "sha256": "0a4c69cd404c5fd171fe9801080b18db3b17ed1ff00db49aa6cee10abd155376"
+        },
+        {
+          "path": "docs/testing/e2e/contract.md",
+          "scope": "shared admission/route/execution boundary; no stage runtime acceptance",
+          "sha256": "c4e60626d93e39bba81cf52121334e08d0b338570c26e9a760fba0edb07f3e2f"
+        },
+        {
+          "path": "scripts/e2e/inn-contract.mjs",
+          "scope": "39-123: argument/readPredecessor/hash/engine/SAVE12 admission",
+          "sha256": "e974fa8256e221a043d4f2537f9e1e1908142df0885ab76e23b286749af7fc41"
+        },
+        {
+          "path": "scripts/e2e/opening-both.mjs",
+          "scope": "full: independent subprocesses, passed/same-revision/matrix/parity required",
+          "sha256": "91daab30239edee63c1bf5381bb77b8eb30c0082e2da3508cde4577fc695ba56"
+        },
+        {
+          "path": "scripts/e2e/inn-both.mjs",
+          "scope": "full: explicit predecessors, independent runners/core/route/parity",
+          "sha256": "298e14373f0cc6aaf0a41bc25b800a7af7881ad5db7f2fe1e03375967ed6fb39"
+        },
+        {
+          "path": "scripts/e2e/game-inn.mjs",
+          "scope": "full: actual game caller",
+          "sha256": "aac23811c42ceeccdc95543fe84fd6f9e8252db27248316c6d6286ccd95714e2"
+        },
+        {
+          "path": "scripts/e2e/reforge-inn.mjs",
+          "scope": "full: actual reforge caller",
+          "sha256": "0be7bde714fb0036b33cbcc50b753194d73cbf982341336afb1f0757c9ba28e4"
+        },
+        {
+          "path": "scripts/e2e/inn-journey.mjs",
+          "scope": "1-299,510-598: preflight before browser; normal restore/input, checkpoints/handoff/restore equality",
+          "sha256": "2f7235dd6d6e74338bf49ca714e0ba3f8e7f8af2e640ab358540fee0fc587d62"
+        },
+        {
+          "path": "scripts/e2e/inn-input-plan.mjs",
+          "scope": "full: authored Down11/Left17 expectations",
+          "sha256": "09826f0ebc042833dd28da44d7c1cab15050a9f3c3af14f86b299e06c38c2039"
+        },
+        {
+          "path": "scripts/e2e/fixed-route-plan.mjs",
+          "scope": "full: exact committed route and independent completion",
+          "sha256": "d8c555c9aa3d4ff1e80a8fedd71a1ef8d885c57975c975a54ee1e5bd0294af9f"
+        },
+        {
+          "path": "scripts/e2e/continuous-route.mjs",
+          "scope": "full: exact engine/scene/footpoint",
+          "sha256": "a8032ea9c4c57363b6bd3c323125d4287db9fab2325970eba683a2a08cdce263"
+        },
+        {
+          "path": "scripts/e2e/inn-contract.test.mjs",
+          "scope": "250-330: admission positive/failed/hash/fragment/state/SAVE/content negative oracles",
+          "sha256": "4e9267b8c0195f4b8150c9c1d06637bada3696c55a8bee74f43e48042410b4a8"
+        },
+        {
+          "path": "scripts/e2e/fixed-route-plan.test.mjs",
+          "scope": "full: missing-commit/wrong-story-end reject, no plan rewrite",
+          "sha256": "d787e52c0ff9743fcd96b78022a48e69f618b2736d2cb9117acf9edf55aa0831"
+        },
+        {
+          "path": "scripts/e2e/continuous-route.test.mjs",
+          "scope": "full: cell/scene negative",
+          "sha256": "584d4ad9367a313afbddd73d2967f35d9646a43ffcca12140c47f3933c62b9db"
+        },
+        {
+          "path": "packages/content/src/character.ts",
+          "scope": "168-170: content22/minimumSave12",
+          "sha256": "8d3d592d75e78c9559986b5747e7b2395aaac010bf8dde9d6ea5f164bba29a93"
+        },
+        {
+          "path": "docs/testing/e2e/stages/006-doctor-boat/README.md",
+          "scope": "full: remains rework, complete island-entry stop line",
+          "sha256": "303955fff6895ebbb18efa3a4a908d844c454939f4bc2e913769ba640269b223"
+        },
+        {
+          "path": "docs/ops/archive/tasks/done/E2E-CONTINUOUS-001-006.md",
+          "scope": "1-60: archived done only, no current stage authority",
+          "sha256": "bfda8b6623cd3d8a47bdcfe3af92cae71ab151544e9a9baed1cb77d724ed5b7c"
+        }
+      ],
+      "notRun": [
+        "browser/runtime route",
+        "new NPC draw/motion or visual acceptance",
+        "checkpoint-chain regeneration",
+        "editor preview start-state acceptance",
+        "capture"
+      ],
+      "unchanged": [
+        "status proposal",
+        "lastVerified 2026-10-04",
+        "candidateSha/revision/versions/history execution fields",
+        "all stage statuses and original runtime records"
+      ],
+      "nextReviewRationale": "14-day publication review; earlier if E2E admission, version, canonical report or route behavior changes. Execution freshness is a separate axis."
+    }
+  ]
 }

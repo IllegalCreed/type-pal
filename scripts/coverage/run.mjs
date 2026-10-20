@@ -6,6 +6,7 @@ import { existsSync } from 'node:fs'
 import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises'
 import { dirname, isAbsolute, relative, resolve, sep } from 'node:path'
 import process from 'node:process'
+import { adjustApprovedBaseline } from './approved-baseline-adjustments.mjs'
 import { isApprovedTestRetirement } from './approved-test-retirements.mjs'
 import {
   baselinePath,
@@ -413,7 +414,13 @@ async function readBaselineFromGit(ref) {
 
 async function assertCandidateDoesNotLowerProtectedBaseline(candidate, protectedBaseline) {
   assertComparableProvider(candidate, protectedBaseline)
-  const comparison = compareCoverage(candidate, protectedBaseline, { allowNewPackages: true })
+  const comparison = compareCoverage(
+    candidate,
+    await approvedComparisonBaseline(protectedBaseline),
+    {
+      allowNewPackages: true,
+    },
+  )
   if (comparison.regressions.length > 0)
     throw new Error(
       `候选 baseline 低于目标分支 baseline:\n- ${comparison.regressions.join('\n- ')}`,
@@ -461,6 +468,14 @@ async function assertCandidateDoesNotLowerProtectedBaseline(candidate, protected
         .map((entry) => `${entry.kind}: ${entry.value}`)
         .join('\n- ')}`,
     )
+}
+
+async function approvedComparisonBaseline(baseline) {
+  const adjusted = await adjustApprovedBaseline(baseline, (path) =>
+    readFile(resolve(repoRoot, path)),
+  )
+  for (const id of adjusted.applied) console.log(`已核精确结构调整授权: ${id}`)
+  return adjusted.baseline
 }
 
 async function main() {
@@ -535,7 +550,9 @@ async function main() {
     else console.log(`\n目标分支 ${protectedRef} 尚无 coverage 设施；允许本次唯一 bootstrap。`)
   }
 
-  const comparison = compareCoverage(result, baseline, { allowNewPackages: ratchet })
+  const comparison = compareCoverage(result, await approvedComparisonBaseline(baseline), {
+    allowNewPackages: ratchet,
+  })
   if (comparison.regressions.length > 0)
     throw new Error(`覆盖率不得下降:\n- ${comparison.regressions.join('\n- ')}`)
   const scopeAudit = auditScope(result, baseline)

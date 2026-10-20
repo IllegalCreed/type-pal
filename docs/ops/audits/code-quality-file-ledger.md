@@ -17,8 +17,8 @@ Template: governance-index-v1 / 1.0.0
 
 ## 当前状态
 
-起始基点机器清单：2,962。当前 tracked 清单：3,316。
-当前已闭合核验：215；已读但待审：154；尚未逐文件核验：2,947；合计未闭合：3,101。
+起始基点机器清单：2,962。当前 tracked 清单：3,318。
+当前已闭合核验：214；已读但待审：157；尚未逐文件核验：2,947；合计未闭合：3,104。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -31,6 +31,8 @@ Template: governance-index-v1 / 1.0.0
 2026-10-20 GLM五处正文变化补证，战内复活漏审两红后修；两旧closed撤review，BGM从pending登记review，0新关闭。当前GLM12/41源码有详细记录，其余29注释源待核。[本轮返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-dead-removals.json)。
 
 2026-10-20 GLM最后29个实际改动源已逐文件补有限八维/原件边界；13源文案纠正、event私有dither去重与两例测试补强。12个旧产品关闭和1个旧测试关闭遇具体B/E反证撤review，10个原未列产品pending及1个相邻dev测试pending登记review，0新关闭；41/41仅表示本次GLM变更源有详细记录，非全部83卡/全仓或文件accept。[本轮入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json)。
+
+2026-10-20本波仅门禁：E2E-route实质发布复核仍proposal；两新增覆盖率工具/测试登记review，runner新授权差异撤当前关闭信用为review，0新closed。精确baseline重算与未执行项见[集中门回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json)。
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
@@ -157,7 +159,7 @@ Template: governance-index-v1 / 1.0.0
 | `scripts/coverage/environment.mjs` | tool | 已验证 | compile-cache disabled child environment contract | 保留无关环境 |
 | `scripts/coverage/protected-baseline.mjs` | tool | 已验证 | protected baseline bootstrap/compare fail-closed tests | 无 baseline 不 fail-open |
 | `scripts/coverage/config.mjs` | tool | 已验证 | seven-package source/test selection and fast exclusions | E2E exclusion boundaries |
-| `scripts/coverage/run.mjs` | tool | 已验证 | direct read of package runner/ratchet/protected orchestration; Q3c SpriteFrame branch fixed and support-mode gates passed | Q6 runner audit slice |
+| `scripts/coverage/run.mjs` | tool | review | [本轮精确结构baseline调整](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json) | 新授权重算与现有scope/test保护分开；旧Q6关闭不覆盖新差异，集中门待验 |
 | `scripts/script-governance/run.mjs` | tool | 已验证 | canonical install census CLI, output symlink guard, script-governance tests | 不写产品数据 |
 | `packages/pal-extract/package.json` | product | 已验证 | package scripts/dependency boundary；pal-extract check/full gates | 无运行时逻辑 |
 | `packages/pal-extract/tsconfig.json` | product | 已验证 | source/scripts include 与 typecheck | 无产品行为 |
@@ -419,6 +421,8 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/present/present.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: render-clock-design；不升closed |
 | `packages/pal-extract/src/resources/parsers/rix.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；有限范围成立，统一门/原卡剩余项不授关闭；不升closed |
 | `packages/game/src/dev/dev-panel.pure.test.ts` | test | review | [GLM29相邻夹具返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 574行旧测全文补核；typed完整资源/真cache/公开runtime getter/联合类型替代any，29身份及业务断言保留；不授其它dev测试或产品关闭 |
+| `scripts/coverage/approved-baseline-adjustments.mjs` | tool | review | [本轮有限授权与反例](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json) | 只匹配完整旧baseline及当前源码SHA；不允许额外回退，待集中门 |
+| `scripts/coverage/approved-baseline-adjustments.test.mjs` | test | review | [本轮三个合同测试](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json) | 精确迁移、错误/未知输入及额外回退；不计产品覆盖信用 |
 
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 CanonicalScriptBodyEditor→EntityAddressEditor caller、合法 EntityAddress 与自动改绑 oracle | 1合同/4定向测试通过；相邻测试有22条 React act诊断，保持 review，不标已验证 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 ItemTab/loader/EditSession/save-gate caller、R1/R3/R5 oracle | 3合同/4定向测试通过；相邻测试有22条 React act诊断，P1 puppet/battleOnly仍是产品裁决，保持 review |

@@ -95,7 +95,7 @@
       "evidence": "e2e/evidence/e2e-route.json",
       "tags": ["e2e", "route", "checkpoint"],
       "lastVerified": "2026-10-04",
-      "reviewBy": "2026-10-18",
+      "reviewBy": "2026-11-03",
       "dependsOn": ["e2e-contract"],
       "sourceRefs": [
         {
@@ -137,7 +137,27 @@
           }
         ]
       },
-      "reviewScope": "document-audit; historical execution claims retained with their original scope"
+      "reviewScope": "document-audit; historical execution claims retained with their original scope",
+      "publicationReviews": [
+        {
+          "date": "2026-10-20",
+          "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",
+          "previousReviewBy": "2026-10-18",
+          "reviewBy": "2026-11-03",
+          "status": "proposal",
+          "lastVerified": "2026-10-04",
+          "evidence": "e2e/evidence/e2e-route.json#publicationReviews",
+          "scope": "substantive source/publication review of the route proposal; no browser route execution",
+          "conclusion": "proposal retained; current same-engine predecessor admission, owned checkpoint and exact-input/completion responsibilities remain consistent with the route design. Original runner-missing statements are dated quotations. No current full-game or stage execution inferred.",
+          "notRun": [
+            "browser/runtime route",
+            "new NPC draw/motion or visual acceptance",
+            "checkpoint-chain regeneration",
+            "editor preview start-state acceptance",
+            "capture"
+          ]
+        }
+      ]
     },
     {
       "id": "e2e-common-issues",
@@ -1772,7 +1792,7 @@
           "lines": "6-13",
           "anchor": "export const MAX_PLAYER_EQUIPMENTS",
           "role": "owner",
-          "sha256": "5ebe8ee7d1c0ad76f6867253aaaa9875ea473a776afb27a00edca9c21999ed5c"
+          "sha256": "ab572e2c6f238f2f90d1e3835dbd3c03265aadc67884ac7dda17ef8798ac5081"
         },
         {
           "path": "packages/game/src/core/player-poison-state.ts",
@@ -1822,6 +1842,17 @@
         "contentVersion": 22,
         "minimumSaveVersion": 11,
         "history": [
+          {
+            "date": "2026-10-20",
+            "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",
+            "action": "GLM29 equipment comment source binding only",
+            "sourceRef": "packages/game/src/core/equipment-state.ts",
+            "previousSourceSha256": "5ebe8ee7d1c0ad76f6867253aaaa9875ea473a776afb27a00edca9c21999ed5c",
+            "sourceSha256": "ab572e2c6f238f2f90d1e3835dbd3c03265aadc67884ac7dda17ef8798ac5081",
+            "scope": "e0b332b90 removed stale claims that DualAttack/poison cleanup was unimplemented; f263ded94 corrected level>=99 poison commentary and its explicit compression limit. removeComments printed TypeScript bytes identical; owner export/caller contract unchanged. No new D1 SCC/token/mutant/browser/architecture acceptance. Historical versions, runtimeExecution, catalog status and execution dates retained.",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+            "notRun": ["D1 historical audit and needles", "browser", "E2E route execution"]
+          },
           {
             "revision": "27358f9d9e3ab65d777b7864fcc936638ed9373a",
             "date": "2026-10-18",

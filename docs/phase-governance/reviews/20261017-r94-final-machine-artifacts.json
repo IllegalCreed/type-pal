@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "6ebd1f8101361d70354be8b6ab69bdcea534f62820bd6b3b9b0134cc3a6787fb",
+      "afterSha256": "61a759d56fc270b649a368e0bfd53095a61a941afb17fc2371cfcca97f3ad4ab",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,8 +1066,17 @@
       },
       "revision": {
         "currentSha": "a2101ce8ffeb73642521f0b489d17642f27bbd3fcdc581d0e9c354dedbc05778",
-        "implementationSha": "6ebd1f8101361d70354be8b6ab69bdcea534f62820bd6b3b9b0134cc3a6787fb",
+        "implementationSha": "61a759d56fc270b649a368e0bfd53095a61a941afb17fc2371cfcca97f3ad4ab",
         "history": [
+          {
+            "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",
+            "date": "2026-10-20",
+            "action": "GLM foundation finite gate closeout delta",
+            "previousAfterSha256": "6ebd1f8101361d70354be8b6ab69bdcea534f62820bd6b3b9b0134cc3a6787fb",
+            "scope": "Incoming binding only for named reviewed deltas; unrelated historical entries unchanged",
+            "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+            "notRun": ["new browser/E2E/visual/stage/whole-source acceptance"]
+          },
           {
             "revision": "0de4844b2098767d0b88556aed36236b99c055dc",
             "date": "2026-10-20",
@@ -1720,8 +1729,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "6ebd1f8101361d70354be8b6ab69bdcea534f62820bd6b3b9b0134cc3a6787fb",
-        "lineCount": 15733,
+        "afterSha256": "61a759d56fc270b649a368e0bfd53095a61a941afb17fc2371cfcca97f3ad4ab",
+        "lineCount": 15828,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -1744,6 +1753,15 @@
           "action": "read-and-reviewed",
           "contentReviewStatus": "content-reviewed",
           "reviewDepth": "structured-content"
+        },
+        {
+          "revision": "9cc550306226f4109615afe0ec2270f8cfd598bb",
+          "date": "2026-10-20",
+          "action": "GLM foundation finite gate closeout delta",
+          "previousAfterSha256": "6ebd1f8101361d70354be8b6ab69bdcea534f62820bd6b3b9b0134cc3a6787fb",
+          "scope": "Incoming binding only for named reviewed deltas; unrelated historical entries unchanged",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+          "notRun": ["new browser/E2E/visual/stage/whole-source acceptance"]
         }
       ],
       "supersedes": [
@@ -1751,14 +1769,14 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "1-15733",
+      "reviewedLines": "1-15828",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "6ebd1f8101361d70354be8b6ab69bdcea534f62820bd6b3b9b0134cc3a6787fb",
+      "candidateSha256": "61a759d56fc270b649a368e0bfd53095a61a941afb17fc2371cfcca97f3ad4ab",
       "primarySource": [
         {
           "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
@@ -1784,7 +1802,8 @@
           "status": "closed-for-migration-open-for-product",
           "statement": "No runtime/E2E/visual/coverage credit."
         }
-      ]
+      ],
+      "reviewNotes": "\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json"
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r88-ops-evidence-artifacts-20261017.json",
