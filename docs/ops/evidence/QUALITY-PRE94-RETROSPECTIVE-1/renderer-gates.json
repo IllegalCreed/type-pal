@@ -1,0 +1,866 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-21",
+  "base": "81ae7908c671ca0737531687eff0c78d30674f4b",
+  "owner": "Codex",
+  "task": "QUALITY-PRE94-RETROSPECTIVE-1",
+  "status": "accepted",
+  "uniformGates": [
+    {
+      "role": "check",
+      "id": "renderer-check-clean",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "normalStdoutBlocks": 260,
+      "normalMessages": [
+        "[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump",
+        "[dev-panel] applyFixture code80 → startBattle(team=1, field=0)",
+        "[S5] mapNum=1: 452 tiles, 216960 pixels, 0 diff ✓",
+        "[S5] mapNum=6: 209 tiles, 100320 pixels, 0 diff ✓",
+        "[S5] mapNum=12: 323 tiles, 155040 pixels, 0 diff ✓",
+        "[S5] mapNum=50: 348 tiles, 167040 pixels, 0 diff ✓",
+        "[S5] mapNum=100: 322 tiles, 154560 pixels, 0 diff ✓",
+        "[S5] mapNum=200: 495 tiles, 237600 pixels, 0 diff ✓",
+        "[dev-panel] applyFixture custom-battle → startBattle(team=90000, field=7)",
+        "[dev-panel] applyFixture auto-battle-t37 → startBattle(team=37, field=23)",
+        "[dev-panel] applyFixture boss-21 → startBattle(team=21, field=7)",
+        "[dev-panel] applyFixture fixture-dialog → startBattle(team=21, field=7)",
+        "[dev-panel] applyFixture fixture-levelup → startBattle(team=1, field=7)",
+        "[save] saved to slot 1(times=1)",
+        "type-pal: state dump enabled. Run __tpDumpDownload() to save.",
+        "[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话",
+        "PAL author baseline read cost {",
+        "  elapsedMs: 486,",
+        "  reads: 1077,",
+        "  totalBytesRead: 152297795,",
+        "  paths: 538,",
+        "  bytesRead: 76150610",
+        "}"
+      ],
+      "packageTests": [1498, 114, 3675, 441, 8965, 4943, 739],
+      "vitestTotal": 20375
+    },
+    {
+      "role": "ratchet",
+      "id": "renderer-ratchet-approved",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "normalStdoutBlocks": 253,
+      "normalMessages": [
+        "[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话",
+        "[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump",
+        "[dev-panel] applyFixture code80 → startBattle(team=1, field=0)",
+        "[save] saved to slot 1(times=1)",
+        "[dev-panel] applyFixture custom-battle → startBattle(team=90000, field=7)",
+        "[dev-panel] applyFixture auto-battle-t37 → startBattle(team=37, field=23)",
+        "[dev-panel] applyFixture boss-21 → startBattle(team=21, field=7)",
+        "[dev-panel] applyFixture fixture-dialog → startBattle(team=21, field=7)",
+        "[dev-panel] applyFixture fixture-levelup → startBattle(team=1, field=7)",
+        "type-pal: state dump enabled. Run __tpDumpDownload() to save."
+      ],
+      "packageTests": [114, 1498, 301, 671, 8965, 3647, 4781],
+      "vitestTotal": 19977
+    },
+    {
+      "role": "protected",
+      "id": "renderer-protected",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "normalStdoutBlocks": 253,
+      "normalMessages": [
+        "[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话",
+        "[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump",
+        "[dev-panel] applyFixture code80 → startBattle(team=1, field=0)",
+        "[save] saved to slot 1(times=1)",
+        "type-pal: state dump enabled. Run __tpDumpDownload() to save.",
+        "[dev-panel] applyFixture custom-battle → startBattle(team=90000, field=7)",
+        "[dev-panel] applyFixture auto-battle-t37 → startBattle(team=37, field=23)",
+        "[dev-panel] applyFixture boss-21 → startBattle(team=21, field=7)",
+        "[dev-panel] applyFixture fixture-dialog → startBattle(team=21, field=7)",
+        "[dev-panel] applyFixture fixture-levelup → startBattle(team=1, field=7)"
+      ],
+      "packageTests": [114, 1498, 301, 671, 8965, 3647, 4781],
+      "vitestTotal": 19977
+    }
+  ],
+  "finalStatic": [
+    {
+      "id": "renderer-publish-docs",
+      "role": "docs",
+      "command": "pnpm",
+      "args": ["check:docs"]
+    },
+    {
+      "id": "renderer-publish-lint",
+      "role": "lint",
+      "command": "pnpm",
+      "args": ["lint"]
+    },
+    {
+      "id": "renderer-final-ledger",
+      "role": "ledger",
+      "command": "node",
+      "args": ["scripts/quality/code-quality-ledger.mjs"]
+    },
+    {
+      "id": "renderer-final-diff-clean",
+      "role": "diff",
+      "command": "git",
+      "args": ["diff", "--check", "HEAD"]
+    },
+    {
+      "id": "renderer-final-doc-consumers",
+      "role": "docs-consumers",
+      "command": "node",
+      "args": [
+        "-e",
+        "const cp=require('node:child_process');for(const args of [['scripts/docs/check.mjs'],['scripts/docs/check-document-model.mjs'],['scripts/docs/check-testing.mjs'],['scripts/docs/check-phase-lore-governance.mjs'],['scripts/docs/check-content-review.mjs','--strict']])cp.execFileSync(process.execPath,args,{stdio:'inherit'})"
+      ]
+    }
+  ],
+  "coverage": {
+    "sourceFileCount": 744,
+    "testCount": 19977,
+    "metrics": {
+      "statements": {
+        "covered": 71395,
+        "total": 79247
+      },
+      "branches": {
+        "covered": 51849,
+        "total": 61891
+      },
+      "functions": {
+        "covered": 13548,
+        "total": 15098
+      },
+      "lines": {
+        "covered": 63773,
+        "total": 69344
+      }
+    },
+    "baseline": "scripts/coverage/baseline.fast.json"
+  },
+  "sourceBindings": [
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.ts",
+      "sha256": "4ed0e50d54faf012079cf9d6d2ee01357698d07f9e3ba5d8f324b84e3bf28f2b"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-colors.ts",
+      "sha256": "43be7381df1880e54fba0430e9f5a18ae27dfeadb9156d99c60be740d4a18a6b"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/p04-shop.test.ts",
+      "sha256": "0899e5c48cc0c4bc634522bec7d8819a01c495657b527ef74e11f2c34c251ef2"
+    },
+    {
+      "path": "packages/game/src/present/blit-indexed-sprite.ts",
+      "sha256": "28b22d87ba93cac1b09b8c2b909b65fed9ca075d3e079f7fab3a1919170f4c8f"
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "sha256": "77d84c6b6a974bcb50631dcd3d59e18e3153d901016d5e0ea868fdac9bc82487"
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.test.ts",
+      "sha256": "6d05455949e1f87ce1208236cd4fd1e1e98a8a27772246ba022cfc4a8813c794"
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.ts",
+      "sha256": "8ad57e0042e6d6797303bb863f8696312ea72e813da94e04d4a1829470272b1e"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-equip.ts",
+      "sha256": "a9283b6cc0b09e47352eb945f2c801af65dbb57dbdce2e203c745cb128e42d51"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-inventory.ts",
+      "sha256": "4621e385b2cc67a8b9f7aaa29af8b095d4de87f38ff149a7cfbdb81d5d37e5b4"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.test.ts",
+      "sha256": "6fa7aaf7e88c7df5110d9962c014365a566ce89f582b674bb5583853910d57f9"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "sha256": "c19da1b18b398bf807cdac556450b89cae52ed678cf5ce144432c44a8965a0e3"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts",
+      "sha256": "315d86f360b02b3f62ae7debc1f5f0f649715b7c8596888a6778a4b39c52c2a7"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.test.ts",
+      "sha256": "e95f8638f167900a8600086c126d1a770d04624793459cc37bbd69795e27dd36"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-opening-menu.ts",
+      "sha256": "28265833b5bfdf3a79354022de5e05637b0ab59ce8b9bfdf13b5cd82e3418549"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+      "sha256": "6d8a21ba658297d226af7274718fffaead3e871d34b848f7fdea4cb9f23089f2"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-shop.ts",
+      "sha256": "820163557b1a99147dcf05d18618eb92964b9d1f93569c731dfc02e5f0bb2cf8"
+    },
+    {
+      "path": "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts",
+      "sha256": "e89506fc4ecabbd79ed878342cbc9f74ce37dcd4d5ea32a9c88be24eb1f7cf90"
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+      "sha256": "23cf4be59e68ed5c975d8793767fd25df50b009b14414eddc220a078ce404153"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "723d90531a1257d830517b914fce12aacc091e6fe3f22bbfc69f4ed67a6d0aee"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "aa5ee48a77347015504ca505422b9cecbb1230e62ec92cb92b43d5420c621030"
+    },
+    {
+      "path": "scripts/coverage/baseline.fast.json",
+      "sha256": "f7ad8b0271e8b4d588e89c041928c3c570c705f5129bdcff8f1de24541c81864"
+    }
+  ],
+  "postCheckDataOnly": {
+    "record": "renderer-recount.json",
+    "recordSha256": "f6ffa5f91adbcd21d152d57b46c0198e1621b661d8c543a11c895dffd1155b27",
+    "validationRun": "renderer-coverage-tools-recount",
+    "scope": "One finite data literal only; original check bytes and after-data consumers separately verified"
+  },
+  "cards": [
+    {
+      "id": "51",
+      "scope": [
+        "packages/game/src/present/menu/draw-opening-menu.ts",
+        "packages/game/src/present/menu/draw-opening-menu.test.ts",
+        "packages/game/src/present/menu/draw-opening-menu.glm-phase1-leaves.test.ts"
+      ]
+    },
+    {
+      "id": "52",
+      "scope": [
+        "packages/game/src/present/menu/draw-shop.ts",
+        "packages/game/src/present/menu/draw-shop.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/shop-preview-pixels.grok-r1.test.ts"
+      ]
+    },
+    {
+      "id": "54",
+      "scope": [
+        "packages/game/src/present/draw-tilemap.ts",
+        "packages/game/src/present/draw-tilemap.test.ts",
+        "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts"
+      ]
+    },
+    {
+      "id": "55",
+      "scope": [
+        "packages/game/src/present/menu/draw-menu.ts",
+        "packages/game/src/present/menu/draw-menu.test.ts",
+        "packages/game/src/present/menu/draw-menu.glm-phase1-leaves.test.ts"
+      ]
+    }
+  ],
+  "currentProgress": {
+    "partial": 52,
+    "pending": 0,
+    "accept": 31
+  },
+  "limits": [
+    "260 normal stdout blocks in failed formatter-only full check are separately classified; no empty-stdout claim. New actual gates retain their own exact counts.",
+    "First check failed at old36/78 retirement fixed totals; second passed20375 package tests then failed4owned-review format diagnostics. Both original logs retained; no pass credit.",
+    "No new browser/visual/E2E claim. Only original4card scopes/15files plus3delta confirmations. No94-102 expansion."
+  ],
+  "remaining": [
+    "Whole83 goal remains active; other52partial cards not accepted by these gates. Git integration recorded separately."
+  ],
+  "artifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates-native.json.gz",
+    "sha256": "3e4be9d93ea42e3e1eee893cabd9a5c6af0c2c38edf4e82c3d512a22067ca2e3",
+    "members": [
+      {
+        "name": "renderer-check-clean.execution.json",
+        "bytes": 6109,
+        "sha256": "2871a657be7f925f80bc76ca68d181633bc590e9e614dcd0d0ccbef36ef02117"
+      },
+      {
+        "name": "renderer-check-clean.stdout.raw",
+        "bytes": 368968,
+        "sha256": "4cf2c4bc651a265f28daa954f30f87aacc9acc63d1f3771ef69ef1c90c6eefd4"
+      },
+      {
+        "name": "renderer-check-clean.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "renderer-check-clean.diagnostics.json",
+        "bytes": 84220,
+        "sha256": "ce8ae9003c90b87eb3ab705b823a2241ffc9b9a0f3b761f431170894ed948e74"
+      },
+      {
+        "name": "renderer-check-clean.scan.raw",
+        "bytes": 73059,
+        "sha256": "5147905d3c9ae483aba0faa01d2cc734abc3d9b9c57d64ecc6a30c41edc67156"
+      },
+      {
+        "name": "renderer-check-final.execution.json",
+        "bytes": 6111,
+        "sha256": "31d0a94843bba0a2c5feb85f537036966c8e0cd5acccc586e772128e8a0c88ce"
+      },
+      {
+        "name": "renderer-check-final.stdout.raw",
+        "bytes": 368723,
+        "sha256": "b0be94db9fa1db30bb0dcfbd48a01a05c71f14b836f06535c64a8560790efd2d"
+      },
+      {
+        "name": "renderer-check-final.stderr.raw",
+        "bytes": 604,
+        "sha256": "807041792a26b5f9e3d43cb7f4b2a94142d0c6df85a5ef495bb96019815e14c1"
+      },
+      {
+        "name": "renderer-check-final.diagnostics.json",
+        "bytes": 84222,
+        "sha256": "aa16cdff526e0443c91a110a0090c7c7067b0ae570da05f6a4ef646d6f3a9926"
+      },
+      {
+        "name": "renderer-check-final.scan.raw",
+        "bytes": 73061,
+        "sha256": "f568a78ef6bb4d0d64242ff8f4f6ca620823ec6eb1c3dd5b24da4596305459ed"
+      },
+      {
+        "name": "renderer-check.execution.json",
+        "bytes": 5869,
+        "sha256": "ead8a9cafe60acdbbbdcfd87ca992cf03ad284ca5d1d756c603334a2e0e66f35"
+      },
+      {
+        "name": "renderer-check.stdout.raw",
+        "bytes": 50825,
+        "sha256": "8b2b79fb7f3f6127b4dd5ad76c194aded32332fd198cfbeaa91916f62b8ce1d2"
+      },
+      {
+        "name": "renderer-check.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "renderer-coverage-tools-recount.execution.json",
+        "bytes": 6457,
+        "sha256": "42fcd6eaa5a2b455cf100d62be11304e29086ddecfc3ac9396d21c0f69823b90"
+      },
+      {
+        "name": "renderer-coverage-tools-recount.stdout.raw",
+        "bytes": 19185,
+        "sha256": "78f42a3e945a437cdc24ef8d41e1438ab8a4135f83b3b287b56c749dec707e8e"
+      },
+      {
+        "name": "renderer-coverage-tools-recount.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "renderer-data-docs.execution.json",
+        "bytes": 6917,
+        "sha256": "f9737ac3b44dcaf4e046a702c3680d827d45b9f8a0c215e556a046f62b0d875e"
+      },
+      {
+        "name": "renderer-data-docs.stdout.raw",
+        "bytes": 311,
+        "sha256": "9dc2fecf834e0d72761c18d7fea59a6b92db85c1d4afb916466ebcbb4d51d8a4"
+      },
+      {
+        "name": "renderer-data-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "renderer-data-lint.execution.json",
+        "bytes": 6580,
+        "sha256": "9a67b4ea889d3fff523761c9401579604313ea568c512f074aed7288e19f83a8"
+      },
+      {
+        "name": "renderer-data-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "ac9ac6aa0a6523302dd62ded259ba583db12d2d937ffb59c2cb6fefd6e18890e"
+      },
+      {
+        "name": "renderer-data-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "renderer-docs-precheck.execution.json",
+        "bytes": 6447,
+        "sha256": "53e710c93c80ce433b426489425ae4434d2e65226da0bae9b4c1752311e1d386"
+      },
+      {
+        "name": "renderer-docs-precheck.stdout.raw",
+        "bytes": 311,
+        "sha256": "0a0a20abce42ff5c3736638e7451face98b423590d8014b82e0356a18166c995"
+      },
+      {
+        "name": "renderer-docs-precheck.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "renderer-docs-preflight.execution.json",
+        "bytes": 5938,
+        "sha256": "c0600655c0ba8d56edf103003f44cd7f85a2a8fb40ac9b2b31930c349382c45f"
+      },
+      {
+        "name": "renderer-docs-preflight.stdout.raw",
+        "bytes": 311,
+        "sha256": "e1436e2fbb722a17ffd1e00d618163a84f1b3d7f1ccb279b04acf4e65899d54b"
+      },
+      {
+        "name": "renderer-docs-preflight.stderr.raw",
+        "bytes": 882,
+        "sha256": "f257d57160ba6d64d6451c53581a66400b8bb4f559d42f20a80b7808ac81991c"
+      },
+      {
+        "name": "renderer-final-diff-clean.execution.json",
+        "bytes": 7138,
+        "sha256": "6e752dec7d017620a7854347c93cec886f6f5e4ea8ce00e18da287c69ef65d47"
+      },
+      {
+        "name": "renderer-final-diff-clean.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "renderer-final-diff-clean.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "renderer-final-diff.execution.json",
+        "bytes": 7120,
+        "sha256": "2b0e6ebf6c0cab490f597ecba95861885e3d7c985473ee16fd171493a199a4c1"
+      },
+      {
+        "name": "renderer-final-diff.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "renderer-final-diff.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "renderer-final-doc-consumers.execution.json",
+        "bytes": 7460,
+        "sha256": "8c174913f583272ecdb193a2eb8dd80e3ff2390e0a6fa698e035bbfaf53f3424"
+      },
+      {
+        "name": "renderer-final-doc-consumers.stdout.raw",
+        "bytes": 311,
+        "sha256": "b03f554d03dc3bffb4607dda2fb549b2eca866b88a18929bb798286ce8c0644b"
+      },
+      {
+        "name": "renderer-final-doc-consumers.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "renderer-final-docs.execution.json",
+        "bytes": 7104,
+        "sha256": "8500b94f09714e429bf7c85c7e401dde81d44c54818de6677f989883f0e61ef1"
+      },
+      {
+        "name": "renderer-final-docs.stdout.raw",
+        "bytes": 30509,
+        "sha256": "e33211190638d0890b4858ea84ec632960ad5eea645215c70b98aa55ef0d0e19"
+      },
+      {
+        "name": "renderer-final-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "renderer-final-ledger.execution.json",
+        "bytes": 7139,
+        "sha256": "ceb3609a937b4c253c37fd9f28e5ba194da7583ae001cf1848c62cf8dae8ba6d"
+      },
+      {
+        "name": "renderer-final-ledger.stdout.raw",
+        "bytes": 113,
+        "sha256": "7270b58ac072e2dadae64614611111613331cf2a73afb6ec34945df3e7825820"
+      },
+      {
+        "name": "renderer-final-ledger.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "renderer-final-lint-clean.execution.json",
+        "bytes": 7114,
+        "sha256": "6f0a189d65a28d221d4aaf6f762447a490648f711a83ab772fc69c4c72a261f6"
+      },
+      {
+        "name": "renderer-final-lint-clean.stdout.raw",
+        "bytes": 193,
+        "sha256": "ac9ac6aa0a6523302dd62ded259ba583db12d2d937ffb59c2cb6fefd6e18890e"
+      },
+      {
+        "name": "renderer-final-lint-clean.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "renderer-final-lint.execution.json",
+        "bytes": 7098,
+        "sha256": "e56d0af5c60d90c358c8cc80673abf7d39eba842ba3f742898c6b2d1e1ae41e8"
+      },
+      {
+        "name": "renderer-final-lint.stdout.raw",
+        "bytes": 167,
+        "sha256": "67abbd7779934ba2192a5352a46a8591ebaaa412e7460de07adcaaa3f87b5165"
+      },
+      {
+        "name": "renderer-final-lint.stderr.raw",
+        "bytes": 322,
+        "sha256": "08474359d2faea6a830e7fb7928637045e4467c07b6720898bc60f768d5e9bdc"
+      },
+      {
+        "name": "renderer-ledger-precheck.execution.json",
+        "bytes": 6153,
+        "sha256": "90d65cd9d13c4527fac0b5ec67a7c5e2028c52c8bc2a89520548f24a5f2e9b5e"
+      },
+      {
+        "name": "renderer-ledger-precheck.stdout.raw",
+        "bytes": 113,
+        "sha256": "68b3a720add37f92393b85c08b2ca916fa75d8189e286757962a94c2d79297e9"
+      },
+      {
+        "name": "renderer-ledger-precheck.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "renderer-lint-precheck.execution.json",
+        "bytes": 6110,
+        "sha256": "5db59f7ff5d03d0f8bdea74c7d08f9fbff12bee1093dcedb11fb3e5c728f2508"
+      },
+      {
+        "name": "renderer-lint-precheck.stdout.raw",
+        "bytes": 193,
+        "sha256": "a64cfe1202d55f0b3a2db3048156c6d37d8558212d4f77e768d462bb1f147263"
+      },
+      {
+        "name": "renderer-lint-precheck.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "renderer-protected.execution.json",
+        "bytes": 6671,
+        "sha256": "174dc515d51794349504ca0c917f3dc2a87276c8c8c237bb3ebdfe5cee0379d3"
+      },
+      {
+        "name": "renderer-protected.stdout.raw",
+        "bytes": 180803,
+        "sha256": "29c0db7d61446c8f189b1543633f9aec7b7446bb338e50083f4bf15935375014"
+      },
+      {
+        "name": "renderer-protected.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "renderer-protected.coverage-summary.json",
+        "bytes": 8470325,
+        "sha256": "898d72392e85213ce06e99bda2c143297180e82751b9a0dbb254111c7eddd03a"
+      },
+      {
+        "name": "renderer-protected.diagnostics.json",
+        "bytes": 81907,
+        "sha256": "6a952f109dc5d5ac54e173c04d67bf9f5c09d261e70efba5d37916eb9b5ef0fd"
+      },
+      {
+        "name": "renderer-protected.scan.raw",
+        "bytes": 71094,
+        "sha256": "b7acae4ff7bf850d41f63001cf13d1d04b78cf1d561b5705d964df79afd540ba"
+      },
+      {
+        "name": "renderer-publish-docs.execution.json",
+        "bytes": 2471,
+        "sha256": "d8cec1226b4e3d5140499722c1dd29583a9ee2f4a9b83a0f774ce31697fcbc54"
+      },
+      {
+        "name": "renderer-publish-docs.stdout.raw",
+        "bytes": 30518,
+        "sha256": "82edf5500bcad51c7efe6086fe21a4a22c66132f86c4e4134f123e7e767bbd30"
+      },
+      {
+        "name": "renderer-publish-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "renderer-publish-lint.execution.json",
+        "bytes": 2463,
+        "sha256": "d0d1be05323715229eac8524c937a9efaf9a0040fa92899057ad111d6ed36cb0"
+      },
+      {
+        "name": "renderer-publish-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "ac9ac6aa0a6523302dd62ded259ba583db12d2d937ffb59c2cb6fefd6e18890e"
+      },
+      {
+        "name": "renderer-publish-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "renderer-ratchet-approved.execution.json",
+        "bytes": 6459,
+        "sha256": "8311290c04c812f8a230a06367e224cc13a9e2f04fddd27b143cc8574ecf2565"
+      },
+      {
+        "name": "renderer-ratchet-approved.stdout.raw",
+        "bytes": 200407,
+        "sha256": "91921762e324dbb387dfb56a59d3034cf44bc6c434693dc15e0d5a02b927fe30"
+      },
+      {
+        "name": "renderer-ratchet-approved.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "renderer-ratchet-approved.coverage-summary.json",
+        "bytes": 8470325,
+        "sha256": "1ff63fbb5f04b55751356a208a1736220bb3ca66f7dbf26dc994d7bba59803c8"
+      },
+      {
+        "name": "renderer-ratchet-approved.diagnostics.json",
+        "bytes": 81914,
+        "sha256": "01b0e79630572c90a5a762c0210f5b6b44500a6ab9971de78b865ae2ddd8de41"
+      },
+      {
+        "name": "renderer-ratchet-approved.scan.raw",
+        "bytes": 71101,
+        "sha256": "0bfe1ebda02cc4940657ddd8f6876b8da766a9e79037a6f6a324ab9935ce2361"
+      },
+      {
+        "name": "renderer-ratchet.execution.json",
+        "bytes": 6141,
+        "sha256": "ea4ba3cc5892c89948ba1de7af7d36c1753be0268edca89c9d07eb86c15e5875"
+      },
+      {
+        "name": "renderer-ratchet.stdout.raw",
+        "bytes": 199084,
+        "sha256": "dafd222504211e1d78a6f5d842e39050b72f565ff8d972b37f54015aa93996e4"
+      },
+      {
+        "name": "renderer-ratchet.stderr.raw",
+        "bytes": 410,
+        "sha256": "e25dfeb4f8fadc9144199c4794939494a6b4958bfc266a3f20fa4cebc22fa81f"
+      },
+      {
+        "name": "renderer-ratchet.coverage-summary.json",
+        "bytes": 8470325,
+        "sha256": "626632189abb51015624a6f36d43db258ebb6c10eaf1ee06753e2b11bb49b6e9"
+      },
+      {
+        "name": "baseline-before.json",
+        "bytes": 528226,
+        "sha256": "76384e7b0d8901b37ad5240ee4d89f336eba9ba56b599878f0de17bb54cab188"
+      },
+      {
+        "name": "coverage-before-game-lcov.info",
+        "bytes": 438782,
+        "sha256": "a751fdfd5947d5c41672d7515441c944c260d28099903bae8753006a9986ddf3"
+      },
+      {
+        "name": "coverage-before-game-summary.json",
+        "bytes": 50887,
+        "sha256": "4372e43c76e8d0941b94478b0d28d8d742dcf00ca1290acd89f4f33a1fde908d"
+      },
+      {
+        "name": "coverage-before-manifest.json",
+        "bytes": 1148,
+        "sha256": "d29a9fc4335cfd0b8dd08bd36039c9d4e1c945bb3b0bfe5fe97ac6976ab4a814"
+      },
+      {
+        "name": "coverage-before-summary.json",
+        "bytes": 8471507,
+        "sha256": "2ec512bdd0f74fc94c477575c48b2d2d3ffe91dccb45afb702f32683571691dd"
+      },
+      {
+        "name": "format-pin-repair-1792521804447.json",
+        "bytes": 432,
+        "sha256": "082230527e7cca86f817c70906719fdf74dc581271057f74db6a26d971cb5317"
+      },
+      {
+        "name": "format-repair-final.json",
+        "bytes": 359,
+        "sha256": "3ef06a67903075a2d74fd37cb8cb8f1c74f5acb053cfede4ee7511c860b78d03"
+      },
+      {
+        "name": "metadata-before-final.json",
+        "bytes": 1828786,
+        "sha256": "bba3087928e1bb7fe6def0c6981055d14ec68446509cb69c6a17f37e7ee961e8"
+      },
+      {
+        "name": "metadata-final-maintenance.json",
+        "bytes": 1240,
+        "sha256": "67fab8b178753915eb33d5c51468d2fd7a0b7fa6b217e9a63eef901fa53175b9"
+      },
+      {
+        "name": "next-leaves-preflight.json",
+        "bytes": 4107,
+        "sha256": "4a1961503d1018756a7f489462761f5b96f9e5b21da6c800a9b9c8624e0de21f"
+      },
+      {
+        "name": "partial-game-recount.json",
+        "bytes": 7553,
+        "sha256": "e991fa51f204ecc506cf6cf65bd82c6c71eb3db57f6876535b0b47beb0130113"
+      },
+      {
+        "name": "prove-recount-data.cjs",
+        "bytes": 5028,
+        "sha256": "6ca4e7e6a4837a08d98f51bbd3b1ab01673d6ea098efee038af1cad5b56a4dec"
+      },
+      {
+        "name": "prove-recount-data.v1.cjs",
+        "bytes": 4960,
+        "sha256": "00f3dc504114b9f48482df795f13a498b2779669198b91db4b083dd49ea94671"
+      },
+      {
+        "name": "recount-approval.candidate.json",
+        "bytes": 4045,
+        "sha256": "9c251ea5d1adc1703a5eeee8e1d9e270104c68c9e5cfa9ffd560e350974f1775"
+      },
+      {
+        "name": "recount-default.raw",
+        "bytes": 373,
+        "sha256": "cd6dd2b6a36dc5f49c688fc9cf90ebc94fabb431eaa0086608ca075d38ed1294"
+      },
+      {
+        "name": "recount-proof-v1.raw",
+        "bytes": 26311,
+        "sha256": "6482d22ba9adfeddeaa41d04ce812b5692131b88676650e4f378ec7619efcb24"
+      },
+      {
+        "name": "recount-review.partial.json",
+        "bytes": 12133,
+        "sha256": "5804dc87b22ea91e4c50e10e6e78b7a51496f53385f4989c314bd5f10840653b"
+      },
+      {
+        "name": "renderer-recount.json",
+        "bytes": 15716,
+        "sha256": "f6ffa5f91adbcd21d152d57b46c0198e1621b661d8c543a11c895dffd1155b27"
+      },
+      {
+        "name": "retirements.json",
+        "bytes": 806,
+        "sha256": "2e08e28906c83887116af71c751b80efd4072460642ca90c3129b724e23dff45"
+      },
+      {
+        "name": "review-byte-maintenance.json",
+        "bytes": 1240,
+        "sha256": "69e5fce81a5b19c3e850bea0c55575c5ca50d025ad7b0280822d0170e3b031c6"
+      },
+      {
+        "name": "review-maintenance-candidate.json",
+        "bytes": 476,
+        "sha256": "bf99c7eadb1dd7a4f6f9c8d006345e3a74fbee10a1127e9779470bed1f8f4b27"
+      },
+      {
+        "name": "capture.mjs",
+        "bytes": 5483,
+        "sha256": "4612a811abc36c3b835c7553ae6d1013bc1627ccaa0d59961d42b476d3c79de6"
+      },
+      {
+        "name": "scan-gates.cjs",
+        "bytes": 1865,
+        "sha256": "db02c29b5960679f2712de0ca0ee7a753ab668d3eef5dd019eef639bd28e4e31"
+      },
+      {
+        "name": "record-renderer-gates.cjs",
+        "bytes": 5935,
+        "sha256": "3d19c21925c0c1c38b188b38568a07ae51dc9126979fdaf2ca22e3872c125452"
+      },
+      {
+        "name": "repair-current-pins.cjs",
+        "bytes": 1976,
+        "sha256": "14358f8019cb9201237f5cd50a9d09eed6f896ada26fbfc1fa89bc4e6f9092cd"
+      },
+      {
+        "name": "close-renderer.cjs",
+        "bytes": 8592,
+        "sha256": "dac36418ea71b73e44b4afc4793a8533a559017428fcbe9a6f86360ac9771e62"
+      },
+      {
+        "name": "update-final-reviews.cjs",
+        "bytes": 5073,
+        "sha256": "1e64042e64d572bdb7f681842343df8b73e82cd3bdac30f1435c6a78499a4a66"
+      },
+      {
+        "name": "normalize-ledger.mjs",
+        "bytes": 1091,
+        "sha256": "48007f67044d2fb6bdce8da0bbc827d990601a909688105fbba07afd483ccb75"
+      },
+      {
+        "name": "record-renderer-gates.pre-format-fix.cjs",
+        "bytes": 5679,
+        "sha256": "66870216ec2606efd6a05c24b31e932470910bb0851c292095e22b237197aa41"
+      },
+      {
+        "name": "close-renderer.pre-format-fix.cjs",
+        "bytes": 8496,
+        "sha256": "9725245af46014212b482346c04174b8d2a8786bb95fa560b6ee890a0dcc792e"
+      }
+    ]
+  }
+}

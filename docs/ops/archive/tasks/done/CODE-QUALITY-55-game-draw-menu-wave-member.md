@@ -78,3 +78,11 @@ Visual Verification Timing: e2e-deferred（剧情/观感留集中 E2E；本批�
 不要做：不得用包级全绿替代逐文件证据；不得改 menu state、schema/save、资源格式或公共接口
 输出：证据、定向测试结果、剩余风险；当前结论为 accept/done
 ```
+
+## 2026-10-21 renderer八维与统一门收口
+
+本轮按原范围逐项A–H接受；实际caller/primary、结构取舍、测试判别力/合同迁移及当前身份见[逐文件记录](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-local.json)。有效旧证据按版本复用，不继承历史done或包绿信用。
+
+只按draw-menu原三文件：MissingMenuData命名、未读常量与重复clock清理；栈顺序反控旧15全绿→新恰一业务红，主框/cash和系统本体合同仍在。extra转发/IO ownership不改；生产默认短slot标签成立，长自定义标签dx=0限制明确保留。
+
+[完整集中门与原件](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json)同时披露check之后唯一baseline授权数据条目及其86consumer复验，不冒称原check已执行新数据。无产品行为/schema/save/管线/调用接口变化；视觉/E2E仍按原卡延后，不附带广域文件接受。提交/推送/合main依实际最终门与Git交接。

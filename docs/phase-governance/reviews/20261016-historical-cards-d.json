@@ -3122,8 +3122,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Prior fixed-Git complete document review reused; actual owned current-row diff and final receipt read. Unchanged historical fence checked byte-equal. No claim of rereading unrelated sources.",
-      "coreConclusion": "Present/speedrun12 original cards and36 explicit files accepted after complete clean gates; current27accept/56partial. Other tasks/files remain bounded by their own evidence.",
+      "readMethod": "Prior fixed-Git review reused; actual owned renderer delta and version envelope independently checked",
+      "coreConclusion": "Renderer CODE51/52/54/55 original scopes accepted with15explicitfiles/3delta confirmations; current31accept/52partial. Gates/raw/limits in current receipt; no94-102 expansion.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3274,10 +3274,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "b7280baa37ba18d6b343fb7e54b6d740ca10d18eefcb2be27473bf13bc90f57b",
+      "afterSha256": "cebb17ba4ff03514a16bf5ba3a9ff138693ac1ece09dfb4e2e1c402cd17c8e54",
       "revision": {
-        "currentSha": "b7280baa37ba18d6b343fb7e54b6d740ca10d18eefcb2be27473bf13bc90f57b",
-        "implementationSha": "b7280baa37ba18d6b343fb7e54b6d740ca10d18eefcb2be27473bf13bc90f57b",
+        "currentSha": "cebb17ba4ff03514a16bf5ba3a9ff138693ac1ece09dfb4e2e1c402cd17c8e54",
+        "implementationSha": "cebb17ba4ff03514a16bf5ba3a9ff138693ac1ece09dfb4e2e1c402cd17c8e54",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4130,10 +4130,10 @@
         ]
       },
       "evidence": {
-        "kind": "five-card-scoped-source-review",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
-        "afterSha256": "b7280baa37ba18d6b343fb7e54b6d740ca10d18eefcb2be27473bf13bc90f57b",
-        "lineCount": 876
+        "kind": "renderer-scoped-current-source-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json",
+        "afterSha256": "cebb17ba4ff03514a16bf5ba3a9ff138693ac1ece09dfb4e2e1c402cd17c8e54",
+        "lineCount": 879
       },
       "history": [
         {
@@ -4444,6 +4444,26 @@
           "afterSha256": "b7280baa37ba18d6b343fb7e54b6d740ca10d18eefcb2be27473bf13bc90f57b",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
           "scope": "Only named task/status rows or exact36 live file rows/counts; other56cards and frozen history are unchanged."
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "renderer-candidate-current-delta-review",
+          "previousAfterSha256": "b7280baa37ba18d6b343fb7e54b6d740ca10d18eefcb2be27473bf13bc90f57b",
+          "afterSha256": "b84f8f2bd7c5fe0fae8df31b3a7b68cdf290ae896510bba52420f0e1de95f793",
+          "scope": "Only owned renderer CODE51/52/54/55 candidate/status/live-ledger delta. Reuse fixed-Git complete review for unchanged body; not a new whole-document/product reading.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json",
+          "notRun": ["new browser/visual/E2E", "unrelated full-text/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "renderer-four-card-closeout",
+          "previousAfterSha256": "b84f8f2bd7c5fe0fae8df31b3a7b68cdf290ae896510bba52420f0e1de95f793",
+          "afterSha256": "cebb17ba4ff03514a16bf5ba3a9ff138693ac1ece09dfb4e2e1c402cd17c8e54",
+          "scope": "Only owned renderer current task/status/live-ledger delta; unchanged body retains fixed-Git full review.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json",
+          "notRun": ["new browser/visual/E2E", "unrelated full-document/product review"]
         }
       ],
       "supersedes": [
@@ -4454,13 +4474,13 @@
       ],
       "successor": "Current route/workflow and original product task sources as explicitly linked; no old prompt executable.",
       "stopLine": "Do not infer current runtime/E2E/visual/coverage, product or old-test-quality acceptance from docs/record structure; preserve legal inputs and every original failure.",
-      "nextStep": "Continue remaining56 partial pre94 cards; preserve unrelated owners and no94-102 expansion.",
+      "nextStep": "Continue remaining52partial cards; no implicit whole-source/visual/browser acceptance.",
       "userVisibleBeforeAfter": {
         "before": "Actual3300 tracked paths with predecessor declared3294; six new docs tools not yet represented; stale live3292 prose retained from earlier maintenance.",
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "Only owned task/status or live ledger36file/count delta; unchanged body reuses prior fixed-Git review.",
+      "reviewedLines": "Only owned renderer current task/status/live-ledger delta; unchanged body retains fixed-Git full review.",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {

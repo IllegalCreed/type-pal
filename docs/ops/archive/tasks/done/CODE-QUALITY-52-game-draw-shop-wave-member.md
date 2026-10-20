@@ -70,3 +70,11 @@ Visual Verification Timing: e2e-deferred（商店观感留集中 E2E；本批核
 ## Codex 当前复审（2026-10-18）
 
 历史 `done` 不等于本轮验收。本轮完整读取实现、两份直接测试、P04 caller/oracle、shop/menu 生命周期与 SDLPal `uigame.c:1503-1777`；实现、ownedCount、价格/半价、确认/overlay 和资源边界与 primary/caller 一致。直接范围 3 files 中 18 tests passed，`shop-preview-pixels.grok-r1.test.ts` 另有 1 条 `document is not defined` 环境诊断；相邻 6 files / 117 tests 和 game typecheck 通过。该测试文件保持 `review`，52 当前复审为 `partial`，不标 `accept`。证据见 [`52-draw-shop`](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/52-draw-shop/README.md)。
+
+## 2026-10-21 renderer八维与统一门收口
+
+本轮按原范围逐项A–H接受；实际caller/primary、结构取舍、测试判别力/合同迁移及当前身份见[逐文件记录](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-local.json)。有效旧证据按版本复用，不继承历史done或包绿信用。
+
+只按shop原三文件：正常夹具显式hydrate并补装备资格；owned/半价/非卖品/缺资源的真实像素及已有反控沿未变合同复用。三份同体opaque与相同色循环共享，短mask策略不同的shadow不强合；买紧凑、卖全屏分工不改。
+
+[完整集中门与原件](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json)同时披露check之后唯一baseline授权数据条目及其86consumer复验，不冒称原check已执行新数据。无产品行为/schema/save/管线/调用接口变化；视觉/E2E仍按原卡延后，不附带广域文件接受。提交/推送/合main依实际最终门与Git交接。

@@ -1021,9 +1021,9 @@
       "templateId": "archive-record-v1",
       "template": "docs/phase-governance/templates/archive-record.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Read exact owned descendant entry diff and current SHA/line-count dependency; unchanged artifact/history uses prior fixed-Git review, no renewed whole-artifact read claim.",
+      "readMethod": "Prior fixed-Git review reused; actual owned renderer delta and version envelope independently checked",
       "reviewDepth": "structured-content",
-      "coreConclusion": "Only named final task/ledger records and descendant current bindings changed; prior unrelated content and frozen provenance retained. Product acceptance comes from external explicit A-H and complete clean gates.",
+      "coreConclusion": "Only named descendant current bindings changed; historical/unrelated body and source provenance retained. Product acceptance derives from explicit renderer per-file A-H plus complete clean gates.",
       "truthAnchors": [
         "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json:1"
       ],
@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "cf7c5bb43df15fc467c33defc02ac325febba6f847abe67587282b44beb2a3db",
+      "afterSha256": "0c05eec0a0421145dabe9971bd09e538312ed4d9dfa10d7301367fa610b74412",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1065,8 +1065,8 @@
         "against": ["docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json"]
       },
       "revision": {
-        "currentSha": "cf7c5bb43df15fc467c33defc02ac325febba6f847abe67587282b44beb2a3db",
-        "implementationSha": "cf7c5bb43df15fc467c33defc02ac325febba6f847abe67587282b44beb2a3db",
+        "currentSha": "0c05eec0a0421145dabe9971bd09e538312ed4d9dfa10d7301367fa610b74412",
+        "implementationSha": "0c05eec0a0421145dabe9971bd09e538312ed4d9dfa10d7301367fa610b74412",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1809,8 +1809,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "cf7c5bb43df15fc467c33defc02ac325febba6f847abe67587282b44beb2a3db",
-        "lineCount": 16441,
+        "afterSha256": "0c05eec0a0421145dabe9971bd09e538312ed4d9dfa10d7301367fa610b74412",
+        "lineCount": 16479,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -2130,6 +2130,25 @@
           "currentLineCount": 16441,
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
           "scope": "Original sourceSha256/candidateSha256/originalPreservation remain frozen history; only current descendant binding changes."
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "renderer-descendant-pin-maintenance",
+          "previousAfterSha256": "cf7c5bb43df15fc467c33defc02ac325febba6f847abe67587282b44beb2a3db",
+          "afterSha256": "595aa6433d2302e424c6b6a5accd2568f888315cc27270571feab4709166a204",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json",
+          "notRun": ["unrelated full-artifact semantic/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "renderer-four-card-closeout",
+          "previousAfterSha256": "94e6f6a11764375c4d25ba772a9bcf1b2b7182a1ded66edd5d8e256f03134a0e",
+          "afterSha256": "0c05eec0a0421145dabe9971bd09e538312ed4d9dfa10d7301367fa610b74412",
+          "scope": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json",
+          "notRun": ["new browser/visual/E2E", "unrelated full-document/product review"]
         }
       ],
       "supersedes": [
@@ -2137,7 +2156,7 @@
       ],
       "stopLine": "do not promote historical machine artifact to current runtime/E2E/visual/coverage acceptance",
       "userVisibleBeforeAfter": "原始 JSON machine artifact 保持 → 增加 archive-record artifact envelope、SHA 和停止线；机器字段不变。",
-      "reviewedLines": "Owned descendant entries and paired current after-SHA/line count only; remaining artifact body reused.",
+      "reviewedLines": "Only owned descendant current after-SHA and paired line count; historical source/preservation fields remain unchanged, not a new whole-artifact byte-stability claim.",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "artifactOnly": true,

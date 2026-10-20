@@ -67,3 +67,11 @@ Visual Verification Timing: e2e-deferred（地图观感留集中 E2E；本批核
 不要做：不得把 package 全绿替代逐文件审核；不得修 seam repair、地图 schema、资源管线或 bootstrap 缩略图
 输出：证据、测试结果、剩余风险；当前结论为 accept/done
 ```
+
+## 2026-10-21 renderer八维与统一门收口
+
+本轮按原范围逐项A–H接受；实际caller/primary、结构取舍、测试判别力/合同迁移及当前身份见[逐文件记录](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-local.json)。有效旧证据按版本复用，不继承历史done或包绿信用。
+
+只按tilemap原三文件：纠正base层顺序、h/l、缺图防御与补缝等价性错注；仅测试包装blitTileAt退役，其普通写像素合同由公开drawTilemap承接。223本地地图通过生产decoder核零缺帧/错误；SDL缺图回退差异限当前输入域，不承诺原盘/浏览器等价，不改地图或补缝算法。
+
+[完整集中门与原件](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json)同时披露check之后唯一baseline授权数据条目及其86consumer复验，不冒称原check已执行新数据。无产品行为/schema/save/管线/调用接口变化；视觉/E2E仍按原卡延后，不附带广域文件接受。提交/推送/合main依实际最终门与Git交接。

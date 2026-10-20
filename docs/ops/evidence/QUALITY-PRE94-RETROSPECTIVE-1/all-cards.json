@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 27,
+  "currentAccepted": 31,
   "cards": [
     {
       "id": "1",
@@ -1964,8 +1964,8 @@
       "sha256": "2fbab56fd1caa86d75a2ee05a5d03f26e2f08a7fdce939ab3d035b846a32bfbc",
       "lines": 72,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 12,
@@ -1992,7 +1992,13 @@
           "text": "不要做：不得改变产品形态、schema/save、资源格式或公共接口；不得用单包全绿关闭文件"
         }
       ],
-      "scopeConfirmed": true
+      "scopeConfirmed": true,
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "6346b8694cb7546d2690832758171cddb73b0c398ce3dd57c00351c4c63b0df1",
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json",
+      "findings": "原卡三文件八维与当前输入/caller/oracle及必要返工成立；renderer-local记录具体质量改进、反控/合同迁移和保留项。完整集中门另核，不附带关闭共享广域文件。"
     },
     {
       "id": "52",
@@ -2002,8 +2008,8 @@
       "sha256": "5ca146c771198d6fc356d50b5870d3bb26a943e6d2438479a4a287a8eacce5de",
       "lines": 72,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 12,
@@ -2030,7 +2036,13 @@
           "text": "不要做：不得改变产品形态、schema/save、资源格式或公共接口；不得用单包全绿关闭文件"
         }
       ],
-      "scopeConfirmed": true
+      "scopeConfirmed": true,
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "5b40c7ffcd866a0614f1ad917cf9bc7fc64dfd7a834323f0778e512082b2af80",
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json",
+      "findings": "原卡三文件八维与当前输入/caller/oracle及必要返工成立；renderer-local记录具体质量改进、反控/合同迁移和保留项。完整集中门另核，不附带关闭共享广域文件。"
     },
     {
       "id": "53",
@@ -2125,8 +2137,8 @@
       "sha256": "7f3952759c08a2e2b28c444e85af77731a501e9b297bcd9d9222592c9ce824f2",
       "lines": 69,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 12,
@@ -2150,8 +2162,12 @@
         }
       ],
       "scopeConfirmed": false,
-      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-      "findings": "Finite 43-54-present-render evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately recorded;no semantic acceptance credit from green gates."
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json",
+      "findings": "原卡三文件八维与当前输入/caller/oracle及必要返工成立；renderer-local记录具体质量改进、反控/合同迁移和保留项。完整集中门另核，不附带关闭共享广域文件。",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "c97e9a1feeb1045ac2349e42a795c75e3f11953abd42051f83fd8c0deab9f46b",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json"
     },
     {
       "id": "55",
@@ -2161,8 +2177,8 @@
       "sha256": "1953e14b1467a880a0dbfa87b0f39a95688f1b2508485e5485d594f6d33b04d6",
       "lines": 80,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 12,
@@ -2185,7 +2201,13 @@
           "text": "- Codex 范围/前提核验: verified（实现、两份专属测试、真实 present/core/menu caller 与 primary anchors 已全文读取）"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "5b33d878ef81dded1b5dd04b506b28575ca9da151cac682ddf22abea01587677",
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json",
+      "findings": "原卡三文件八维与当前输入/caller/oracle及必要返工成立；renderer-local记录具体质量改进、反控/合同迁移和保留项。完整集中门另核，不附带关闭共享广域文件。"
     },
     {
       "id": "56",
@@ -4079,19 +4101,14 @@
   ],
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
-    "partial": 56,
+    "partial": 52,
     "pending": 0,
-    "accept": 27
+    "accept": 31
   },
   "lastIncrementalReview": {
     "date": "2026-10-21",
-    "base": "b7fc0524ad8cfe28a1272206d00410073993acd1",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json",
-    "previousCounts": {
-      "partial": 68,
-      "pending": 0,
-      "accept": 15
-    },
-    "limits": "Twelve original cards48/49/50/61-69,36 explicit file judgments. Prior diagnostic claim corrected; new clean gates reestablish integration evidence. No other56cards, broad callers, checkpoint calibration or94-102 acceptance."
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json",
+    "cards": ["51", "52", "54", "55"],
+    "method": "explicit per-file eight-dimensional findings + finite code deltas/native counter evidence + complete module gates"
   }
 }

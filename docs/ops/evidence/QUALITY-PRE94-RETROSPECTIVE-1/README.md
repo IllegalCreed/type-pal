@@ -1,5 +1,7 @@
 # 94前全部治理成果复审
 
+2026-10-21 renderer窗口：[逐文件A–H与合同迁移](renderer-local.json)、[完整原件](renderer-native.json.gz)、[集中门](renderer-gates.json)、[精确结构重算](renderer-recount.json)、[只读快检](verify-renderer.mjs)。当前51/52/54/55原范围已接收，15明确文件及3个既有源的共享依赖delta，18文件170定向/相邻及game typecheck通过；31accept/52partial。两共享叶只抽同合同opaque/颜色，先保留旧绿/新红与纯提取证明；当前集中门另列，覆盖率仅在此模块收尾运行。
+
 2026-10-21追加门诊断勘误：[当前门与历史原件复算](present-speedrun-gates.json)。原菜单check/ratchet/protected原件各有两条stdout的0x008E未实现诊断，旧扫描漏计；下文历史“零运行诊断”门信用撤回，原raw/数值不改。九卡逐文件代码结论独立保留，统一门待当前窗口重新建立。trigger已在外层处理该指令，却误入generic fallback；两指定红例与358相邻绿证明当前窄修，未静音console、放宽规则或改变画面机制。
 
 2026-10-21当前present/speedrun窗口：[36文件A–H与实际合同迁移](present-speedrun-local.json)、[完整本地原件](present-speedrun-native.json.gz)、[默认只读快检](verify-present-speedrun.mjs)。运行 `node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/verify-present-speedrun.mjs` 只核输入/附件/运行身份与精确body，不写树或重跑测试；可显式加 `--replay=speedrun-timer-memory-new` 在新临时目录重放指定业务反控。当前31文件163定向/相邻通过、零运行诊断；36文件为候选，12张卡仍partial，集中门未跑，不提前授关闭。HP0只作批准的防御显示，坐标/BGM校准仍未知。

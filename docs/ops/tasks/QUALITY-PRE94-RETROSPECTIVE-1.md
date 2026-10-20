@@ -1021,3 +1021,43 @@ CODE64同片E补充准入：hasItem/bgmIs原例只有命中断言，隔离变异
 本窗口48/49/50/61–69共12卡、36文件按原白名单A–H接受，当前27accept/56partial/0pending；[逐文件依据](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-local.json)与[统一门/诊断勘误/原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)。共享PlayerInfoBox消除world/battle重复且只读显式输入；批准的毒/四状态/HP0防御显示、单人装备高度和物品目标阴影均先业务红后修。速度工具补强defaults别名、style创建、detector负例、timer时钟/PB/记忆隔离，四个旧例合同迁移并精简。全局账本实测277closed/173review/2875pending，新增36当前逐文件接受中31是旧closed重建信用，净增5。
 
 原菜单窗口与本窗口初跑各两条stdout的0x8E诊断已逐原件勘误，未倒写历史0数值；trigger外层已完成该指令而generic fallback误报，窄路由修复保留真正未知指令诊断，原有状态/历史/金钱断言全保留。新完整check、official ratchet、protected fast与最终静态门分别留原件；提交/推送/合main以交接记录及实际Git为准，不提前写已合并。当前未新跑浏览器视觉/E2E，延后范围沿原卡，不泛化framebuffer原件；checkpoint坐标/BGM校准、whole battle/event/draw-menu/world等上下文不附带关闭，94–102未扩展。
+
+## 2026-10-21 renderer窗口 / CODE51有限build allowed
+
+上轮已实质推进：81ae7908c已推送并FF main，27accept/56partial；治理树与主树干净，0behind。本窗口沿用codex/code-quality-3y，Codex唯一Coding Owner。先核CODE51三个原范围文件的测试判别力与B–H；源/测试全文读取按当前SHA复用上轮预读，caller/primary本轮定向重核。允许这三个文件内的注释和测试整改，不改实现、公共接口、选择/读档或用户可见形态；52/54/55待各自前提核清后滚动。
+
+已证E缺口：主测光标差异只排除两像素皆背景，不能区分高亮行，已有精确色用例可以承接。GLM第三例“无需frames”未表达其唯一的第四字断言，先迁移这个真实合同再排重；固定F9反控核验旧17例是否漏检100ms/六色闪烁。新增时序反例、迁移与合法fixture/隔离均保留完整native/raw。背景复用按实际无状态像素合同判断，不为目录名字或指标强行重组。当前仍partial；全仓check/coverage/protected留完整模块收尾，不将旧门用于关闭新候选。
+
+### 同窗口纯共享提取准入
+
+Codex唯一Owner。CODE52三个原范围及P04相邻测试已全文核读，买卖caller与SDL原文已核；允许修P04已知装备资格夹具及必要初始化，保持原数值/像素断言。允许inventory/equip/shop三个renderer同合同的opaque绘制提到一个present叶；其alpha、索引0和裁剪语义保持，两个shadow循环的过短mask差异不合并。另将opening/shop/equip/inventory及pickItemRowColor的五份同一100ms/六色计算提到纯menu-colors叶；原inventory常量出口保留，调用者仍在原位置取Date.now，不改变状态、时钟源或公共调用形状。core与present依赖保持朝向纯menu规则，不引入core→present依赖。
+
+这两片属于有真实多个caller的代码质量重构，先保留当前native基线与旧公式/函数声明，再核可执行体等价、合法typed输入、原始像素回归及现有单红反控的新宿主。48/49与已接受core库存文件只验这些依赖delta，不重复计卡/文件信用；新叶未过门前review。不得扩大到战斗anchor/染色blit、资产pipeline、交易或schema/save。临时反控配置的首三次启动失败无用例执行，原件保留且不授反控信用；V2已证明旧17例会漏掉固定F9和缺背景清零，旧第四字单红则将核迁移身份。测试产物仅在独立临时目录。
+
+### CODE54/55同窗口有限准入
+
+fetch后origin/main仍81ae7908c；Codex唯一Owner，四卡不与其它实现Owner重叠。54原三文件及55原三文件已全文核读，既有A/primary、GLM逐例E与当前shop-sell单红证据按未变合同复用。54允许纠正图层顺序、h/l与接缝补偿注释；删除全仓仅G03-A11调用的blitTileAt包装及该重复单像素例（main子行/A01/A04已有公开drawTilemap写像素合同）。不改地图公式、遮挡、coverage或补缝算法。为避免触及无新收益的闭包结构，本次保留cover捕获局部变量。
+
+55允许将剩余selectedColor委托同一纯menu-colors叶，删除未读的_FONT_COLOR_YELLOW与过时历史注释，内部占位函数命名改为实际MissingMenuData职责；菜单分发、类型入口、资源条件与slot宽度策略不变。原卡范围与共享present整文件接受分开；必要额外fixture只按原业务值补齐初始化，不授机制/存档/新UI裁决。新计数和四卡接受留统一门后，覆盖率不在片间运行。
+
+55的E轴窄补：原两层栈只验互不相干的角点，逆序反控旧15例全绿。现同一例改用真实可达in-game→inventory-action，保留主框/cash与顶层框存在合同，增加其重叠像素必须来自顶层的判据；system自身框仍有独立用例。新反控恰一AssertionError，不增加用例。首红标题/注释把覆盖来源窄称阴影，实际输出可能是底层文字；改成“底层内容”，不将首红的254误说成阴影0，原件保留。
+
+### renderer集中门与精确重算
+
+完整check当前20,375例通过，5709文件lint为0/0/0；此前两次失败分别为退役表旧固定总数、四条本任务评审记录格式，原件不改写为通过。修复后先lint/docs/ledger预检清零，再完整check。首official ratchet的19,977例均通过，744生产源；仅game同体共享/未用常量与测试包装移除导致比例变化，其余六包计数逐项不变。净少34条已覆盖语句、29行、7个已覆盖函数，未覆盖语句/行/函数不增加；重复opaque判断使未覆盖分支少2。按用户合理重构可重算的既有授权，只加一条绑定完整旧baseline及17份源/测试字节的精确数据，normalizer/比较规则整模块AST证明保持。
+
+[精确原件与口径](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-recount.json)。此数据协调发生在完整check之后，不冒称原check已执行新条目；相同生产/测试源码的全包结果复用，只重验实际覆盖率工具consumer（86例、0诊断）、default normalizer与source drift拒绝，再执行当前条目的official ratchet/protected。快检分别绑定check前数据SHA与协调后SHA，只允许这一条literal数据差异，不能把任意脚本变化当作无需重验。首次AST工具丢trailing-comma标记造成的拒绝保留，不授业务反控信用；修正的是NodeArray保留方式，不放宽代码比较。四卡仍候选，统一门/最终静态全部通过前不发布关闭。
+
+## 2026-10-21 renderer八维与统一门收口
+
+CODE51/52/54/55按原12文件，加两个真实共享叶和P04合法fixture共15明确文件接受；既有core inventory/equip/inventory三个接受文件只核共享依赖delta，不重复计卡。27→31accept，56→52partial，pending仍0；不是包绿批量关闭。opening/host新旧反控、两项精确退役、共享代码/旧出口保持、地图223本地输入域与全部限制见[逐文件入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-local.json)和[统一门](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json)。源码没有行为修复，纯提取与测试/文案分提交。
+
+分支现况以Git为准：上阶段81ae7908c已同时在3y/main及两远端，旧3y卡“未合main”属于历史检查点，本窗口开始时为0behind/0ahead。当前仍唯一3y，不因阶段合并删除剩余复审项；本窗口提交/推送/新合并事实在最终交接另记，看板不再把旧未合并文字当现状。
+
+首check在批准表旧36/78固定总数失败；现按实际两条精确快照改为38/80，不改退役判据，原件保留。所有新门按完整default stdout/stderr审查，正常启动输出单列不当告警，历史诊断不倒写。当前Git提交/推送/合main按交接事实补记；主树受保护，94–102不扩展。下一模块43–47只预读：已发现follower测试死参/角色ID错称、sprite角落仅not.toThrow等缺口，仍partial，不先授接受。
+
+### renderer提交交接
+
+本窗口代码已分三笔提交：`4e5726782b6c940d624304fa6ff87cbdf9b4ba52`为共享纯规则/opaque绘制和无生产caller包装清理，`8f78384ed632cc10203f101c32b5307acccbec40`为像素判别力、合法shop夹具及两项精确退役，`d0e58a47eaeea0c7f81b34eb8e81231df0e93976`为实测覆盖率的有限数据协调。最终证据、四卡、账本和看板在后续同窗口文档提交封存；发布先推3y，再fetch确认0behind，且仅在主树无未提交改动时fast-forward main，不覆盖其它Owner内容。实际远端同步由Git记录核对，不把发布计划当成已完成。
+
+当前候选的只读`verify-renderer.mjs`已实跑MATCH，未重跑产品测试或coverage。其绑定18份逐文件/依赖delta记录、170例定向集合和三项完整统一门：check 20,375例，ratchet与protected各19,977例，均exit0、stderr0、诊断0；最终docs、lint、账本及diff检查通过。机器账本3327tracked/287closed/166review/2874pending，pre94为31accept/52partial/0pending。正常stdout单列，不称日志为空；首轮失败与有限baseline重算保留原件。下一位Agent无需接棒；Codex继续原83卡剩余范围，43–47仅为下一模块候选，当前未关闭。

@@ -1,6 +1,6 @@
 # 94前全部83卡复审队列
 
-2026-10-21当前：27 accept / 56 partial / 0 pending。首15卡与本轮48/49/50/61–69共12卡按原合同接收；[36文件A–H](present-speedrun-local.json)与[当前集中门/历史诊断勘误](present-speedrun-gates.json)可复验。共享广域文件与checkpoint运行校准不附带接受。
+2026-10-21当前：31 accept / 52 partial / 0 pending。本轮51/52/54/55原三文件范围接受；[逐文件A–H与合同迁移](renderer-local.json)及[集中门](renderer-gates.json)可复验。其它卡与广域上下文不附带接受。
 
 | 卡 | 原卡状态 | 当前复审 | 范围/证据 |
 |---|---|---|---|
@@ -44,11 +44,11 @@
 | [CODE-QUALITY-48](../../archive/tasks/done/CODE-QUALITY-48-game-draw-equip.md) | done | accept | [本轮36文件与集中门](present-speedrun-gates.json)：原白名单A–H、整改/排重和完整原件成立；不附带上下文文件或运行校准信用 |
 | [CODE-QUALITY-49](../../archive/tasks/done/CODE-QUALITY-49-game-draw-inventory.md) | done | accept | [本轮36文件与集中门](present-speedrun-gates.json)：原白名单A–H、整改/排重和完整原件成立；不附带上下文文件或运行校准信用 |
 | [CODE-QUALITY-50](../../archive/tasks/done/CODE-QUALITY-50-game-draw-magic.md) | done | accept | [本轮36文件与集中门](present-speedrun-gates.json)：原白名单A–H、整改/排重和完整原件成立；不附带上下文文件或运行校准信用 |
-| [CODE-QUALITY-51](../../archive/tasks/done/CODE-QUALITY-51-game-draw-opening-menu.md) | done | partial | [draw-opening-menu 复审](51-draw-opening-menu/README.md)：三文件/SDL primary/P06相邻、17 直接 + 107 相邻通过；未发现 direct defect，wave 统一门仍待 |
-| [CODE-QUALITY-52](../../archive/tasks/done/CODE-QUALITY-52-game-draw-shop-wave-member.md) | done | partial | [draw-shop 复审](52-draw-shop/README.md)：实现/三测试/P04/SDL primary，18/19 直接 + 117 相邻通过；shop-preview 保留 1 条 node DOM 诊断，wave 统一门仍待 |
+| [CODE-QUALITY-51](../../archive/tasks/done/CODE-QUALITY-51-game-draw-opening-menu.md) | done | accept | [renderer窗口](renderer-local.json)：原三文件A–H、真实caller/oracle、有限整改/合同映射和集中门；视觉/E2E延后，不附带广域接受。 |
+| [CODE-QUALITY-52](../../archive/tasks/done/CODE-QUALITY-52-game-draw-shop-wave-member.md) | done | accept | [renderer窗口](renderer-local.json)：原三文件A–H、真实caller/oracle、有限整改/合同映射和集中门；视觉/E2E延后，不附带广域接受。 |
 | [CODE-QUALITY-53](../../tasks/CODE-QUALITY-53-player-status-runtime-zero.md) | build | partial | [五卡八维/返工](five-cards/README.md)：runtime0/显示槽与role入口、正式换队/读档caller已复核；inspect合法工厂及状态页图标/双早退测试补强；Wear压缩/入口重入和广域状态机仍review，视觉未新跑。 |
-| [CODE-QUALITY-54](../../archive/tasks/done/CODE-QUALITY-54-game-draw-tilemap.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
-| [CODE-QUALITY-55](../../archive/tasks/done/CODE-QUALITY-55-game-draw-menu-wave-member.md) | done | partial | [draw-menu 复审](55-draw-menu/README.md)：3 文件/SDL primary/caller，15 直接 + 197 相邻通过；清掉历史无效 lint 伪用法，仍留视觉/E2E 与统一整卡边界 |
+| [CODE-QUALITY-54](../../archive/tasks/done/CODE-QUALITY-54-game-draw-tilemap.md) | done | accept | [renderer窗口](renderer-local.json)：原三文件A–H、真实caller/oracle、有限整改/合同映射和集中门；视觉/E2E延后，不附带广域接受。 |
+| [CODE-QUALITY-55](../../archive/tasks/done/CODE-QUALITY-55-game-draw-menu-wave-member.md) | done | accept | [renderer窗口](renderer-local.json)：原三文件A–H、真实caller/oracle、有限整改/合同映射和集中门；视觉/E2E延后，不附带广域接受。 |
 | [CODE-QUALITY-56](../../archive/tasks/done/CODE-QUALITY-56-game-minimap-thumbnail-lifecycle.md) | done | partial | [minimap lifecycle 复审](56-minimap/README.md)：2 文件/20 直接，tools/dev 51 + picker 5 相邻；loading ownership 变异1红5绿，seam repair 留 CODE-QUALITY-57 |
 | [CODE-QUALITY-57](../../tasks/CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | review | partial | [工具/thumbnail有限切片](core-comment-audit/tools-thumbnail-hotkeys/README.md)：1944行宿主与两helper测试全文，注释/接线已核；未驱动thumbnail，seam/色板/视觉仍review |
 | [CODE-QUALITY-58](../../archive/tasks/done/CODE-QUALITY-58-game-tools-panel-audit.md) | done | partial | [夹具/隔离勘误](58-tools-panel-fixtures/README.md)：更正核心强转/窗口监听跨例，正式19绿/相邻199绿；无新统一门，save边界不认证 |

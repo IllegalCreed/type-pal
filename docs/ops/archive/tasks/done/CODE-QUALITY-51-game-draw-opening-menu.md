@@ -70,3 +70,11 @@ Visual Verification Timing: e2e-deferred（标题菜单观感留集中 E2E；本
 ## Codex 当前复审（2026-10-18）
 
 历史 `done` 不等于本轮验收。本轮完整读取三个范围文件、opening-confirm 相邻像素 oracle、opening/menu caller 与 SDLPal `uigame.c:42-167`、`ui.c:458`；直接 3 files / 17 tests、相邻 4 files / 107 tests、game typecheck 通过，未发现可由 primary + caller 证实的新 direct defect。复审状态为 `partial`，不标 `accept`；coverage/ratchet/protected/full check 留 present/menu wave 收口。证据见 [`51-draw-opening-menu`](../../../../ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/51-draw-opening-menu/README.md)。
+
+## 2026-10-21 renderer八维与统一门收口
+
+本轮按原范围逐项A–H接受；实际caller/primary、结构取舍、测试判别力/合同迁移及当前身份见[逐文件记录](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-local.json)。有效旧证据按版本复用，不继承历史done或包绿信用。
+
+只按opening原三文件：收窄移植/宽度说明，补100ms/600ms与缺背景不清零的旧绿新单红；第四字断言迁移后截首字仍单红，弱cursor例交由精确色值例承接。原选择/读档状态和接口不改。
+
+[完整集中门与原件](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json)同时披露check之后唯一baseline授权数据条目及其86consumer复验，不冒称原check已执行新数据。无产品行为/schema/save/管线/调用接口变化；视觉/E2E仍按原卡延后，不附带广域文件接受。提交/推送/合main依实际最终门与Git交接。
