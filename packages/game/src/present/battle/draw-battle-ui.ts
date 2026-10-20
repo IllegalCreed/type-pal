@@ -39,11 +39,13 @@ import {
 } from '../../core/menu/inventory-menu.js'
 import type { SelectionMenuState } from '../../core/menu/primitives.js'
 import { getScriptDescLines } from '../../core/menu/script-desc.js'
-import { partySlotForRole } from '../../core/player-poison-state.js'
 import { drawNumber } from '../draw-number.js'
 import { type GlyphTable, renderText } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { drawBox, drawSingleLineBox, menuTextMaxCols } from '../menu/draw-box.js'
+import { computePlayerFaceColor, drawPlayerInfoBox } from '../player-info-box.js'
+
+export { computePlayerFaceColor } from '../player-info-box.js'
 
 /** PAL 索引 1 —— 白色(底部状态栏文字)。 */
 const UI_TEXT_COLOR = 1
@@ -57,7 +59,6 @@ const SPRITENUM_BATTLE_ARROW_CURRENTPLAYER = 69
 const SPRITENUM_BATTLE_ARROW_CURRENTPLAYER_RED = 68
 const SPRITENUM_CURSOR = 69
 const SPRITENUM_SLASH = 39
-const SPRITENUM_PLAYERINFOBOX = 18 // 队员信息框背景(uibattle.h:SPRITENUM_PLAYERINFOBOX)
 const SPRITENUM_PLAYERFACE_FIRST = 48 // 头像起,+ wPlayerRole(uibattle.c:155)
 const SPRITENUM_ITEMBOX = 70
 
@@ -140,25 +141,6 @@ const PARTY_STATUS_STRIDE_X = 60
 const TARGET_ARROW_DX = -8
 const TARGET_ARROW_DY_PLAYER = -67 // 选中友方:uibattle.c:1574 `y - 67`
 const TARGET_ARROW_DY_CURRENT_PLAYER = -74 // 当前行动队员:uibattle.c:1004 `y - 74`
-
-/**
- * 信息框状态文字(sdlpal uibattle.c:240-255 + 66-98 rgwStatusWord/rgStatusPos/rgbStatusColor,CLASSIC)。
- * 只 confused/paralyzed/sleep/silence 有 WORD(buff 类 puppet/bravery/protect/haste/dualAttack word=0 不显示)。
- * WORD.DAT 真值(xxd data/raw/WORD.DAT id N*10):乱=0x1D / 定=0x1B / 眠=0x1C / 封=0x1A(单字)。
- * pos/color 相对框 pos(框原点 91+77*i,165 与 sdlpal 一致 → 直接用 sdlpal 偏移)。
- */
-const BATTLE_STATUS_LABELS: ReadonlyArray<{
-  key: 'confused' | 'paralyzed' | 'sleep' | 'silence'
-  char: string
-  dx: number
-  dy: number
-  color: number
-}> = [
-  { key: 'confused', char: '乱', dx: 35, dy: 19, color: 0x5f },
-  { key: 'paralyzed', char: '定', dx: 44, dy: 12, color: 0xbf },
-  { key: 'sleep', char: '眠', dx: 54, dy: 1, color: 0x0e },
-  { key: 'silence', char: '封', dx: 55, dy: 20, color: 0x3c },
-]
 
 /** 闪烁选中色(sdlpal ui.h:36-39:0xF9 + SDL_GetTicks 周期)。 */
 function selectedColor(): number {
@@ -333,7 +315,7 @@ export function drawBattleUI(
 /**
  * 底部队员状态栏(文字兜底):每个 party 成员显示 名字 / HP / MP。
  * 仅在 uiSpriteFrames 不足(单测/缺资源)时由 drawPlayerInfoBoxes 调用;
- * sprite 化真值(box+头像+slash 数字+状态字)在同文件 drawPlayerInfoBoxes。
+ * sprite 版由 drawPlayerInfoBoxes 交给共享 player-info-box 叶绘制。
  */
 function drawPartyStatus(
   fb: Framebuffer,
@@ -350,36 +332,6 @@ function drawPartyStatus(
     renderText(fb, `HP:${role.hp}/${role.maxHP}`, x, y + 8, UI_TEXT_COLOR, glyphs)
     renderText(fb, `MP:${role.mp}/${role.maxMP}`, x, y + 16, UI_TEXT_COLOR, glyphs)
   })
-}
-
-/**
- * 头像染色色号 —— port sdlpal `PAL_PlayerInfoBox`(uibattle.c:114-162)bPoisonColor 逻辑:
- *   默认 0xFF(满色,正常 blit);遍历该队员 16 毒槽(gs.rgPoisonStatus 全局)取**最高 level(≤3)**毒的
- *   wColor;死亡 hp==0 强制 0(黑白 mono)。返回 0xFF → 调用方走满色 blit,否则 mono 重染(band=color&0xF0)。
- * level>3 的毒(如 561/562 L4)不影响头像色(sdlpal `wPoisonLevel <= 3` 守卫)。
- */
-export function computePlayerFaceColor(
-  gs: GameState,
-  roleId: number,
-  hp: number,
-  objectPoisons: Map<number, { level: number; color: number }> | undefined,
-): number {
-  let bPoisonColor = 0xff
-  let maxLevel = 0
-  const partySlot = partySlotForRole(gs, roleId)
-  if (objectPoisons) {
-    for (let slot = 0; slot < 16; slot++) {
-      const ps = partySlot >= 0 ? gs.rgPoisonStatus[`${slot}_${partySlot}`] : undefined
-      if (!ps || ps.wPoisonID === 0) continue
-      const pd = objectPoisons.get(ps.wPoisonID)
-      if (pd && pd.level <= 3 && pd.level >= maxLevel) {
-        maxLevel = pd.level
-        bPoisonColor = pd.color & 0xff
-      }
-    }
-  }
-  if (hp === 0) bPoisonColor = 0 // 死亡:黑白 mono(uibattle.c:143-151)
-  return bPoisonColor
 }
 
 /**
@@ -402,35 +354,26 @@ function drawPlayerInfoBoxes(
     drawPartyStatus(fb, state, playerRoles, glyphs) // 无 sprite 资源 → 文字兜底(单测)
     return
   }
-  const box = uiSpriteFrames[SPRITENUM_PLAYERINFOBOX]
-  const slash = uiSpriteFrames[SPRITENUM_SLASH]
   state.players.forEach((p, i) => {
     const role = playerRoles.roles[p.roleId]
     if (!role) return
     const x = PLAYERINFO_X_BASE + i * PLAYERINFO_X_STEP
     const y = PLAYERINFO_Y
-    if (box) blitSpriteOpaque(fb, box, x, y) // 框背景(uibattle.c:108)
-    const face = uiSpriteFrames[SPRITENUM_PLAYERFACE_FIRST + p.roleId]
-    if (face) {
-      const bPoisonColor = computePlayerFaceColor(gs, p.roleId, role.hp, objectPoisons)
-      if (bPoisonColor === 0xff)
-        blitSpriteOpaque(fb, face, x - 2, y - 4) // 满色(uibattle.c:155)
-      else blitSpriteMonoColor(fb, face, x - 2, y - 4, bPoisonColor, 0) // 中毒/死亡单色(uibattle.c:160)
-    }
-    // CLASSIC HP/MP(uibattle.c:210-238)
-    if (slash) blitSpriteOpaque(fb, slash, x + 49, y + 6)
-    drawNumber(fb, role.maxHP, 4, { x: x + 47, y: y + 8 }, 'yellow', 'right', uiSpriteFrames)
-    drawNumber(fb, role.hp, 4, { x: x + 26, y: y + 5 }, 'yellow', 'right', uiSpriteFrames)
-    if (slash) blitSpriteOpaque(fb, slash, x + 49, y + 22)
-    drawNumber(fb, role.maxMP, 4, { x: x + 47, y: y + 24 }, 'cyan', 'right', uiSpriteFrames)
-    drawNumber(fb, role.mp, 4, { x: x + 26, y: y + 21 }, 'cyan', 'right', uiSpriteFrames)
-    // 状态文字(乱/定/眠/封)—— sdlpal uibattle.c:240-255,仅活人,各 status>0 时画单字。
-    if (role.hp > 0) {
-      for (const s of BATTLE_STATUS_LABELS) {
-        if ((p.status[s.key] ?? 0) > 0)
-          renderText(fb, s.char, x + s.dx, y + s.dy, s.color, glyphs, true)
-      }
-    }
+    drawPlayerInfoBox(
+      fb,
+      { x, y },
+      {
+        roleId: p.roleId,
+        hp: role.hp,
+        maxHP: role.maxHP,
+        mp: role.mp,
+        maxMP: role.maxMP,
+        faceColor: computePlayerFaceColor(gs, p.roleId, role.hp, objectPoisons),
+        status: p.status,
+      },
+      uiSpriteFrames,
+      glyphs,
+    )
   })
 }
 
