@@ -3122,8 +3122,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Prior fixed-Git review reused; actual owned present/shell delta and version envelope independently checked",
-      "coreConclusion": "CODE43-47/70/71 original scopes accepted with21explicitfiles; current38accept/45partial. Gates/raw/limits in current receipt; no94-102 expansion.",
+      "readMethod": "Prior fixed-Git review reused; actual owned shell lifecycle delta and version envelope independently checked",
+      "coreConclusion": "Five original/migrated shell cards accepted with14explicitfiles; four audio/fixture files stay review and73/74 product/export decisions remain open; current43accept/40partial. Gates/raw/limits in current receipt; no94-102 expansion.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3274,10 +3274,10 @@
       "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "89002f893402289cc3ed03a7bd8821ea3243a4c07b82a86955b570cbf77165e9",
+      "afterSha256": "00f5a6ab902fdea587884751bef728269b1a24e865a48a0c9fab4116a8cd24f3",
       "revision": {
-        "currentSha": "89002f893402289cc3ed03a7bd8821ea3243a4c07b82a86955b570cbf77165e9",
-        "implementationSha": "89002f893402289cc3ed03a7bd8821ea3243a4c07b82a86955b570cbf77165e9",
+        "currentSha": "00f5a6ab902fdea587884751bef728269b1a24e865a48a0c9fab4116a8cd24f3",
+        "implementationSha": "00f5a6ab902fdea587884751bef728269b1a24e865a48a0c9fab4116a8cd24f3",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4130,10 +4130,10 @@
         ]
       },
       "evidence": {
-        "kind": "present-leaves-scoped-current-source-review",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json",
-        "afterSha256": "89002f893402289cc3ed03a7bd8821ea3243a4c07b82a86955b570cbf77165e9",
-        "lineCount": 883
+        "kind": "shell-lifecycle-closeout-scoped-current-source-review",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json",
+        "afterSha256": "00f5a6ab902fdea587884751bef728269b1a24e865a48a0c9fab4116a8cd24f3",
+        "lineCount": 886
       },
       "history": [
         {
@@ -4474,6 +4474,38 @@
           "scope": "Only owned present/shell current task/status/live-ledger delta; unchanged body retains fixed-Git full review.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json",
           "notRun": ["new browser/visual/E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "shell-lifecycle-preflight-seven-card-closeout",
+          "previousAfterSha256": "89002f893402289cc3ed03a7bd8821ea3243a4c07b82a86955b570cbf77165e9",
+          "afterSha256": "845f7ff4c412a7cc5194937cb15c14cf930fed661c2fb3656b80d757e0be40bd",
+          "scope": "Only owned shell lifecycle current task/status/live-ledger delta; unchanged body retains fixed-Git full review.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json",
+          "notRun": ["new browser/visual/E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "shell-lifecycle-five-card-closeout",
+          "previousAfterSha256": "845f7ff4c412a7cc5194937cb15c14cf930fed661c2fb3656b80d757e0be40bd",
+          "afterSha256": "1d993b873a17cb5d86f5ed1557af699321b686d0e82b0ed316dd11c0dca54d30",
+          "scope": "Only owned shell lifecycle current task/status/live-ledger delta; unchanged body retains fixed-Git full review.",
+          "preflightLabelErratum": "Earlier preflight seven-card action tag was a naming error; it recorded only admission/index/fixture inventory,no acceptance. Original action/source bytes retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json",
+          "notRun": ["new browser/visual/E2E", "unrelated full-document/product review"]
+        },
+        {
+          "date": "2026-10-21",
+          "revision": "working-tree",
+          "action": "shell-lifecycle-five-card-closeout",
+          "previousAfterSha256": "1d993b873a17cb5d86f5ed1557af699321b686d0e82b0ed316dd11c0dca54d30",
+          "afterSha256": "00f5a6ab902fdea587884751bef728269b1a24e865a48a0c9fab4116a8cd24f3",
+          "scope": "Only owned shell lifecycle current task/status/live-ledger delta; unchanged body retains fixed-Git full review.",
+          "preflightLabelErratum": "Earlier preflight seven-card action tag was a naming error; it recorded only admission/index/fixture inventory,no acceptance. Original action/source bytes retained.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json",
+          "notRun": ["new browser/visual/E2E", "unrelated full-document/product review"]
         }
       ],
       "supersedes": [
@@ -4484,13 +4516,13 @@
       ],
       "successor": "Current route/workflow and original product task sources as explicitly linked; no old prompt executable.",
       "stopLine": "Do not infer current runtime/E2E/visual/coverage, product or old-test-quality acceptance from docs/record structure; preserve legal inputs and every original failure.",
-      "nextStep": "Continue remaining45partial cards; no implicit whole-source/visual/browser acceptance.",
+      "nextStep": "Continue remaining40partial cards; no implicit whole-source/visual/browser acceptance.",
       "userVisibleBeforeAfter": {
         "before": "Actual3300 tracked paths with predecessor declared3294; six new docs tools not yet represented; stale live3292 prose retained from earlier maintenance.",
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",
         "semanticChange": "Only inventory/authority maintenance and exact accepted A8 format tools; no new product/test/coverage or corpus migration credit."
       },
-      "reviewedLines": "Only owned present/shell current task/status/live-ledger delta; unchanged body retains fixed-Git full review.",
+      "reviewedLines": "Only owned shell lifecycle current task/status/live-ledger delta; unchanged body retains fixed-Git full review.",
       "phase": "ops",
       "module": "quality-governance-and-historical-causality",
       "templateConformity": {

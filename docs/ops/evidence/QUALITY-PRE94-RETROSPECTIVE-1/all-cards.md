@@ -1,6 +1,6 @@
 # 94前全部83卡复审队列
 
-2026-10-21当前：38 accept / 45 partial / 0 pending。本轮43–47及70/71按原范围接受；[逐文件](present-leaves-local.json)、[只读补证](present-shell-readonly.json)和[完整门](present-leaves-gates.json)可复验，广域及相邻文件不附带接受。
+2026-10-21当前：43 accept / 40 partial / 0 pending。本轮72及75–78共14明确文件接受；[逐文件、原件与集中门](shell-lifecycle-local.json)可复验。73方向恢复及74旧OGG导出退役待裁决，四个audio/fixture记录不关闭。
 
 | 卡 | 原卡状态 | 当前复审 | 范围/证据 |
 |---|---|---|---|
@@ -65,13 +65,13 @@
 | [CODE-QUALITY-69](../../archive/tasks/done/CODE-QUALITY-69-game-speedrun-time-format-tests.md) | done | accept | [本轮36文件与集中门](present-speedrun-gates.json)：原白名单A–H、整改/排重和完整原件成立；不附带上下文文件或运行校准信用 |
 | [CODE-QUALITY-70](../../archive/tasks/done/CODE-QUALITY-70-game-audio-volume-boundary.md) | done | accept | [Current original scope](present-leaves-gates.json): 1 files; explicit A-H/evidence, full gates and limits; no broad/adjacent acceptance. |
 | [CODE-QUALITY-71](../../archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md) | done | accept | [Current original scope](present-leaves-gates.json): 3 files; explicit A-H/evidence, full gates and limits; no broad/adjacent acceptance. |
-| [CODE-QUALITY-72](../../archive/tasks/done/CODE-QUALITY-72-game-boot-loading-lifecycle.md) | done | partial | [启动加载](72-boot-loading/README.md)：20例排重/三枚旧绿新单红、相邻54绿；实际失败覆盖反例另卡，产品review/rework，无新统一门 |
+| [CODE-QUALITY-72](../../archive/tasks/done/CODE-QUALITY-72-game-boot-loading-lifecycle.md) | done | accept | [原合同/明确迁移的当前八维与集中门](shell-lifecycle-local.json)；3个当前文件；广域/听感/剧情不附带接受。 |
 | [CODE-QUALITY-73](../../archive/tasks/done/CODE-QUALITY-73-game-input-lifecycle.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
 | [CODE-QUALITY-74](../../archive/tasks/done/CODE-QUALITY-74-game-audio-manager-contract.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
-| [CODE-QUALITY-75](../../archive/tasks/done/CODE-QUALITY-75-game-audio-midi-race.md) | done | partial | MIDI局部排重见3Y/midi-review，整卡未accept |
-| [CODE-QUALITY-76](../../archive/tasks/done/CODE-QUALITY-76-game-main-loop-contract.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
-| [CODE-QUALITY-77](../../archive/tasks/done/CODE-QUALITY-77-game-rng-player-contract.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
-| [CODE-QUALITY-78](../../archive/tasks/done/CODE-QUALITY-78-game-avi-player-contract.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
+| [CODE-QUALITY-75](../../archive/tasks/done/CODE-QUALITY-75-game-audio-midi-race.md) | done | accept | [原合同/明确迁移的当前八维与集中门](shell-lifecycle-local.json)；2个当前文件；广域/听感/剧情不附带接受。 |
+| [CODE-QUALITY-76](../../archive/tasks/done/CODE-QUALITY-76-game-main-loop-contract.md) | done | accept | [原合同/明确迁移的当前八维与集中门](shell-lifecycle-local.json)；3个当前文件；广域/听感/剧情不附带接受。 |
+| [CODE-QUALITY-77](../../archive/tasks/done/CODE-QUALITY-77-game-rng-player-contract.md) | done | accept | [原合同/明确迁移的当前八维与集中门](shell-lifecycle-local.json)；3个当前文件；广域/听感/剧情不附带接受。 |
+| [CODE-QUALITY-78](../../archive/tasks/done/CODE-QUALITY-78-game-avi-player-contract.md) | done | accept | [原合同/明确迁移的当前八维与集中门](shell-lifecycle-local.json)；3个当前文件；广域/听感/剧情不附带接受。 |
 | [CODE-QUALITY-79](../../tasks/CODE-QUALITY-79-battle-poison-level-boundary.md) | draft | accept | [本次正式验收](completion.json)：战斗0x61普通毒与装备伪毒的判定边界；整份战斗opcode dispatcher及广域旧测试仍归CODE3t文件复审；它们不属于本卡这一窄缺陷的未满足验收条件。 |
 | [CODE-QUALITY-80](../../tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md) | review | accept | [本次正式验收](completion.json)：B调试面板的战斗换队禁用与探索换队装备重建；picker生命周期由CODE81收口；Dev大文件的整体组织仍归CODE58及通用逐文件复审。当前没有宿主卸载caller，因此不强造新的公共disposer。现有功能DOM证据符合本卡验收范围，不声称完成额外美术或剧情视觉验收。 |
 | [CODE-QUALITY-81](../../tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md) | review | accept | [本次正式验收](completion.json)：picker observer释放、列表代际、迟到异步结果及失败占位；页面级监听按单宿主生命周期保留，不擅增公共卸载API；共享缓存跨picker保留是既有合同。整份Dev文件仍review，本卡仅接收observer/thumbnail功能合同，不引申为剧情或美术全验收。 |

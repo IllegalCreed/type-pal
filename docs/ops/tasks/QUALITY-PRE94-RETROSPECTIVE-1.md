@@ -1,6 +1,6 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 2026-10-21最新：38accept/45partial/0pending。本轮43–47与同版本70/71共七卡、21明确文件接受；逐文件、完整门及限制见本页末尾。历史计数不覆盖all-cards.json与live ledger机器结果。
+> 2026-10-21最新：43accept/40partial/0pending。本轮72及75–78五卡、14明确文件接受；73方向行为与74旧OGG导出退役仍待裁决。当前入口shell-lifecycle-local.json，Git发布按实际交接核对。
 
 > 2026-10-21追加勘误：上一菜单窗口的完整check/ratchet/protected原件各有两条stdout的0x008E诊断，旧扫描漏计，原“零运行诊断”统一门信用撤回。原件与旧计数不改，九卡逐文件代码结论独立保留。当前窄修与集中补门见[present/speedrun门记录](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)；未过门前不合main或新增关闭。
 
@@ -1089,3 +1089,35 @@ CODE43–47原17文件，加70原一主测与71原三文件，共21明确文件�
 - `1457ec7fe1d20e5f476bf4409185ec85b6fc3525`：chore(coverage): reconcile exact present refactor counters
 
 默认只读verify-present-leaves已实跑MATCH；check20366例、official ratchet/protected各19968例，全量可见stdout分类后运行诊断0、stderr0。末轮docs、lint（5715文件，error/warning/info均0）、ledger与diff门通过。此时仅本地提交；推送、0behind确认和main同步以实际Git结果为准，不将发布计划记为已完成。
+
+## 2026-10-21 shell72–78补缺口窗口准入
+
+上一窗口七卡已分四笔推送并FF main，30c817e1e2a1c4b04bd5210d78b70529e8eabf88为本轮基点；fetch后0behind，两树干净，38accept/45partial。Codex唯一Coding Owner。复用72批准修复的生产DOM/请求原件、73–78逐文件GLM全文索引/C3单红与Codex既有夹具补强，仅补真实八维缺口。build allowed：main-loop/audio/rng-player/avi-player的已证失实注释；audio两测试的合法端口替身共享、生命周期与loop断言，必要测试夹具。输入多键恢复与75现版MIDI功能证据先核前提，未经裁决不改机制、不授未跑功能信用。当前所有七卡仍partial，昂贵门只在模块冻结后集中一次，94–102不扩展。
+
+本轮准入增量：已全文核main-loop.ts，私有singleTick仅有tickN的一参数直接调用。允许移除未传入的dump死参及不可达分支，公共tickN/LoopContext和实际rAF dump保持；不新增镜像测试，复用既有tickN/advanceRafFrame回归与具体AST/调用点证明。75真实Chrome的现版MIDI按钮切歌/快速切歌/停止/重播均已通过，零warning/error/pageerror且截图已看；不授予听感或剧情E2E信用。
+
+最终G轴扫描另核到avi-player GLM测试私有stubPlay只有三处字面量调用（deferred/resolved），rejected模式未被调用；允许删掉该模式及其不可达返回分支，保持所有用例和业务断言。首轮shell-check已对本轮自有子进程发SIGTERM并完整留存，signal终态不记通过；尚未运行本轮coverage。完整候选冻结后再收口，不用混合源码运行补签。
+
+本轮范围纠正：实际工厂只有MIDI/RIX，createOggMusicBackend没有生产入口，setOggVolumeScale仅留空写。Codex先整理其测试再核到底调用图是漏项；74不进入本次关闭，audio三文件与新fixture保持review。旧导出退役的[有限提案/裁决卡](QUALITY-LEGACY-OGG-RETIREMENT-1.md)尚未应用；其余72/75–78五卡继续，预期仅由真实门与逐项证据裁定，不预填关闭数。
+
+执行纠偏：后续片先列“逐导出→生产/工程入口、测试专用、外部合同或退役候选”，核当前模式工厂与动态/别名入口后再安排测试或共享抽象。文件被bootstrap引用不能证明其中每个导出都有生产caller，测试调用不能冒充生产入口；落实既有A/C/G要求，不新增规则豁免。
+
+## 2026-10-21 shell生命周期五卡收口
+
+CODE72/75/76/77/78原14当前文件（75按旧→新测试迁移）逐项接受；38→43accept，45→40partial，pending仍0。73方向差异未改；74实际调用图确认旧OGG构造器无生产入口，导出退役待用户裁决。四个audio/fixture文件保留review，不靠测试全绿掩盖G/E欠账。
+
+本窗口保留了有价值的活跃MusicBackend loop=true断言补强，但提前整理OGG测试未先核到底生产入口，是Codex漏项；现已纠正事实、停止74关闭并给出未应用的退役提案。其它质量整改包括失实注释、私有dump死参及不可达分支、AVI测试未调用模式清理。13文件102定向/相邻通过，75真实Chrome按钮/实际Sequencer状态与看图完成，不主张听感或剧情E2E。
+
+首shell-check主动SIGTERM和首ratchet两项行比例拒绝均保留失败原件；不恢复死代码，按用户授权只新增完整旧基线与9源码输入钉住的有限数据项。整批准模块的旧函数/既有数据AST不变，91工具测试与source-drift拒绝另实测；不为该数据追加重跑完整check，后继官方ratchet/protected实跑。完整诊断、覆盖率与最终静态门见[唯一回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json)。
+
+同一3y先提交推送，fetch后0behind再同步main；余40partial继续固定83卡，94–102不扩展。
+
+全仓文件账本实测3328tracked/311closed/149review/2868pending；pre94卡数与全仓文件数分别统计。正式ratchet在有限授权归一化后通过，但其原件明确表示baseline未自动写回；随后按用户授权显式持久化正式工具既有baselineView对本次实测summary的精确投影，只读逐字核验及protected均通过。未将这次显式采用冒称为ratchet自动写入，也未改比较规则、范围或测试数量。
+
+## 2026-10-21 shell窗口提交交接
+
+- `6e1d84622a9663219db1b04af113f08aaf638fa4`：私有tick死参/不可达分支及五份产品注释。
+- `5d48b4de22ab187daa14da620d01daa7f6387f85`：loop断言、媒体替身共享与AVI测试未用模式清理；audio四文件仍review。
+- `2572ae326f459fd3b8fc1d4f3e88acb2c7a5188c`：唯一有限baseline数据及正式投影。
+
+默认只读verify-shell-lifecycle已实跑MATCH。完整check20366例、official ratchet与protected各19968例，七包typecheck、91覆盖率工具测试、文档及严格consumer、账本和diff门通过；可见原件的运行诊断与stderr均0，最终lint5718文件的error/warning/info均0。文档提交另封存完整原件与五卡14文件索引；实际推送/main同步核Git ancestry，不把本段提交计划当发布完成。下一范围为固定83卡剩余40partial，73/74只暂停各自未决项，不扩94–102。

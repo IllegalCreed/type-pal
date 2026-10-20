@@ -102,3 +102,9 @@ Branch: `codex/code-quality-3y`
 本卡done与以上计数仅表示当时结果；当前main MIDI已被完整发布实现替代，原“当前二阶段”行实际指第一阶段历史实现，不能用作二阶段设计依据。统一候选旧测试1绿1红，FakeSequencer缺新异步事件协议；已核主线12例包含更强的两条同合同，保留产品/主线测试原字节并删除旧boundaries测试文件。定向12、相邻44、game typecheck与隔离stop代际失效反控12绿→11绿1指定业务红→恢复12绿通过。当前ledger仍review，不以本片恢复closed或宣称完整质量门通过；功能视觉和整体产品验收仍待续。
 
 当次完整读取、primary/caller范围、退役原件/身份映射、失败与恢复、环境准备失败及下一片见[Y01证据](../../../evidence/CODE-QUALITY-3Y-CLOSEOUT-1/midi-review/README.md)，归属[统一治理卡](../../../tasks/CODE-QUALITY-3Y-CLOSEOUT-1.md)。无下一位Agent提示词，Codex在唯一3y分支继续复审。
+
+## 2026-10-21 shell生命周期五卡收口
+
+原产品及已明确迁移的当前12例主测接受；旧boundaries保持退役，映射/单红原件复用。现版真实Chrome/UI按钮1→2、快速1→2、停止/重播与实际Sequencer文件名/循环/暂停/AudioContext匹配，截图已看、零控制台诊断；不主张听感或强制逆序网络实跑。初始化ready拒绝与运行错误回调的旧注释已纠正。
+
+[当前逐文件A–H、迁移、完整原件及集中门](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json)。只接受原卡及明确迁移范围，广域caller/听感/剧情E2E不附带接受；Git发布另以实际交接为准。

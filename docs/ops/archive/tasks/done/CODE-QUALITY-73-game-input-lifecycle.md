@@ -29,3 +29,7 @@ Visual Verification Timing: N/A（键盘输入状态机）
 任务卡：docs/ops/archive/tasks/done/CODE-QUALITY-73-game-input-lifecycle.md
 当前状态：done，已归档；当前结论 accept/done，无实现改动
 ```
+
+## 2026-10-21 当前方向恢复差异
+
+从固定SDLPal原函数和真实TS模块分别复现双方向键跨scene-fade后的恢复差异；不是类型或假Window夹具问题。当前仍partial，input实现未动，[裁决卡](../../../tasks/GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1.md)待用户答复；原有有效键表/快照/record-replay证据保留。

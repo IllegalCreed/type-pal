@@ -58,6 +58,7 @@ Template: governance-index-v1 / 1.0.0
 | [GAME-ACTION-QUEUE-TIE-ORDER-1 — 第一阶段同速行动排序分叉](GAME-ACTION-QUEUE-TIE-ORDER-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 — GA安装失败后的订阅所有权](GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1.md) | review | 以任务卡当前准入与看板分工为准。 |
 | [GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1 — 非队员Extra战后清理可达性](GAME-BATTLE-NONPARTY-EXTRA-CLEANUP-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
+| [GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1 — 场景渐变后的方向重算](GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [GAME-MAGIC-NUMERIC-ASSIGNMENT-1 — 第一阶段法术中间赋值与随机倍率数值差异](GAME-MAGIC-NUMERIC-ASSIGNMENT-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [GAME-MENU-HELPER-API-1 — menu helper 公共出口删除准入](GAME-MENU-HELPER-API-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [GAME-OPENING-CANCEL-CURSOR-1 — 标题读档取消默认光标](GAME-OPENING-CANCEL-CURSOR-1.md) | review | 以任务卡当前准入与看板分工为准。 |
@@ -82,6 +83,7 @@ Template: governance-index-v1 / 1.0.0
 | [QUALITY-FETCH-ABORT-LIFECYCLE-1 — GET重试等待期与Request取消停止线](QUALITY-FETCH-ABORT-LIFECYCLE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-GAME-RUNTIME-DIAGNOSTICS-1 — game包17块运行时诊断核清](QUALITY-GAME-RUNTIME-DIAGNOSTICS-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1 — 测试宿主原生导航与真实事件](QUALITY-HOST-NAVIGATION-DIAGNOSTICS-1.md) | review | 以任务卡当前准入与看板分工为准。 |
+| [QUALITY-LEGACY-OGG-RETIREMENT-1 — 未接入的旧OGG后端退役裁决](QUALITY-LEGACY-OGG-RETIREMENT-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审](QUALITY-PRE94-RETROSPECTIVE-1.md) | build | 以任务卡当前准入与看板分工为准。 |
 | [QUALITY-RLE-COMMAND-TRUTH-1 — PAL RLE高位literal判定前提核验](QUALITY-RLE-COMMAND-TRUTH-1.md) | draft | 以任务卡当前准入与看板分工为准。 |
 | [REFORGE-OPENING-LOAD-ERROR-1 — 标题读档IO失败的悬空拒绝](REFORGE-OPENING-LOAD-ERROR-1.md) | draft | 以任务卡当前准入与看板分工为准。 |

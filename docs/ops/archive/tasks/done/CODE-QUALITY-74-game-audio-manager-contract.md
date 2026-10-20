@@ -60,3 +60,7 @@ Visual Verification Timing: N/A（音频路由与资源生命周期；听觉 E2E
 任务卡：docs/ops/archive/tasks/done/CODE-QUALITY-74-game-audio-manager-contract.md
 当前状态：done，已归档；无实现改动。若继续音频治理，请接 CODE-QUALITY-75，先核验 audio-midi 异步曲目切换风险。
 ```
+
+## 2026-10-21 当前G/E漏项与停止线
+
+本轮actual调用图确认OGG构造器无生产入口，现行工厂仅MIDI/RIX；setter只是bootstrap旧空写。早先泛称OGG生产caller成立不再沿用，三例旧OGG测试不能冒充现用产品覆盖。当前仍partial，audio三文件/新fixture不关闭；活跃manager的loop补强证据保留。[旧导出裁决卡](../../../tasks/QUALITY-LEGACY-OGG-RETIREMENT-1.md)含未应用提案，未经裁决不得删除导出。

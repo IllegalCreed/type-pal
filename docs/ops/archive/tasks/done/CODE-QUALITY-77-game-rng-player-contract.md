@@ -60,3 +60,9 @@ Visual Verification Timing: e2e-deferred（DOS/RNG 演出集中验证；本批�
 任务卡：docs/ops/archive/tasks/done/CODE-QUALITY-77-game-rng-player-contract.md
 当前状态：done，已归档；无实现改动。下一批请从新的 pending 文件开始，不要把剧情 E2E 或 CODE-QUALITY-57 review 当作已关闭。
 ```
+
+## 2026-10-21 shell生命周期五卡收口
+
+原三文件接受；复用作者源码/E与Codex既有真实2D/typed palette/跳过单红，不重复整套复审。纠正默认PNG、无显式跳过caller、单帧失败结束等错注；缓存/帧窗口/全帧/RAF及shake责任保持，无新资产或剧情结论。
+
+[当前逐文件A–H、迁移、完整原件及集中门](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json)。只接受原卡及明确迁移范围，广域caller/听感/剧情E2E不附带接受；Git发布另以实际交接为准。

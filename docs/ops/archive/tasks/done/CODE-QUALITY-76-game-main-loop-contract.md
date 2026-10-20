@@ -61,3 +61,9 @@ Visual Verification Timing: N/A（帧调度与逻辑合同；剧情画面集中�
 任务卡：docs/ops/archive/tasks/done/CODE-QUALITY-76-game-main-loop-contract.md
 当前状态：done，已归档；无实现改动。下一批请从新的 pending 文件开始，不要把 CODE-QUALITY-57 thumbnail review 当作已关闭。
 ```
+
+## 2026-10-21 shell生命周期五卡收口
+
+原三文件接受；私有singleTick只被tickN无dump实参调用，删死参及不可达分支，活动rAF dump/公共出口不变，完整typed AST与唯一调用点有证明。纠正过时3×interval clamp/present门注释；当前余量策略不冒称每次deadline与C等同。
+
+[当前逐文件A–H、迁移、完整原件及集中门](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json)。只接受原卡及明确迁移范围，广域caller/听感/剧情E2E不附带接受；Git发布另以实际交接为准。

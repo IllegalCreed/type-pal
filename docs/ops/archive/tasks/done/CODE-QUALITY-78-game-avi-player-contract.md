@@ -60,3 +60,9 @@ Visual Verification Timing: e2e-deferred（视频观感集中验证；本批核�
 任务卡：docs/ops/archive/tasks/done/CODE-QUALITY-78-game-avi-player-contract.md
 当前状态：done，已归档；无实现改动。下一批请从新的 pending 文件开始，不要把视频剧情 E2E 或 CODE-QUALITY-57 review 当作已关闭。
 ```
+
+## 2026-10-21 shell生命周期五卡收口
+
+原三文件接受；更正500ms跳过、play拒绝等待重试和warmup不保证永久autoplay等错注。只删测试helper从未调用的rejected模式/分支，三处实际调用、全部用例/断言保持，完整AST证明且4文件26绿。项目现行默认三跳过键合同明确，不冒称完整SDL物理键表。
+
+[当前逐文件A–H、迁移、完整原件及集中门](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json)。只接受原卡及明确迁移范围，广域caller/听感/剧情E2E不附带接受；Git发布另以实际交接为准。

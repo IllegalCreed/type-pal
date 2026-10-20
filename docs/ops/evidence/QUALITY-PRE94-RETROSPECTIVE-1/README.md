@@ -279,3 +279,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 2026-10-21 CODE43–47基础叶接受：[17文件八维、合同迁移与原件](present-leaves-local.json)，[只读快检](verify-present-leaves.mjs)，[有限结构重算](present-leaves-recount.json)和[完整集中门](present-leaves-gates.json)；默认快检同时核本地与集中门，`--local`仅核本地证据，视觉仍沿原卡集中验收。
 
 同一冻结窗口接受[CODE70/71只读四文件补证](present-shell-readonly.json)：同字节旧原生/反控复用，真实caller差异定向核清，不新增产品/测试，也不附带关闭音量实现或取消相邻测试。七卡合计使当前83卡达到38accept/45partial/0pending；发布事实另见父卡交接。
+
+2026-10-21 [shell生命周期五卡收口](shell-lifecycle-local.json)：72/75/76/77/78共14文件接受，当前43accept/40partial；audio三文件/测试fixture因旧OGG无生产入口保持review。[默认只读快检](verify-shell-lifecycle.mjs)核当前版本、完整原件、102定向/相邻身份、loop单红与三个集中门，不重跑测试或覆盖率。[方向键裁决](../../tasks/GAME-INPUT-FADE-DIRECTION-OWNERSHIP-1.md)与[旧OGG导出退役裁决](../../tasks/QUALITY-LEGACY-OGG-RETIREMENT-1.md)均未获答复，不强关73/74。Git发布按父卡交接与实际ancestry核对。
