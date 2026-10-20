@@ -4,17 +4,15 @@
  * detach 后真实事件不再入、两个 snapshot Set 防别名（改返回 Set 不污染内部）、
  * 未知 keyup 不清合法 held、fade 只抑制方向保留非方向。
  */
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { KeyboardInputSource } from './input.js'
 
 function fire(target: { dispatchEvent: (e: Event) => boolean }, code: string, repeat = false) {
   const event = new KeyboardEvent('keydown', { code, repeat })
-  vi.spyOn(event, 'code' as never, 'get').mockReturnValue(code as never)
   target.dispatchEvent(event)
 }
 function fireUp(target: { dispatchEvent: (e: Event) => boolean }, code: string) {
   const event = new KeyboardEvent('keyup', { code })
-  vi.spyOn(event, 'code' as never, 'get').mockReturnValue(code as never)
   target.dispatchEvent(event)
 }
 

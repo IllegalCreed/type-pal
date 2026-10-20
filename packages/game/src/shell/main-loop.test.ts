@@ -1,8 +1,11 @@
 import type { AbstractKey, InputSnapshot, Tilemap } from '@type-pal/shared'
 import { FRAME_MS_BATTLE, FRAME_MS_EXPLORE } from '@type-pal/shared'
 import { describe, expect, it, vi } from 'vitest'
+import { createBattleState } from '../core/battle/battle-state.js'
 import { createCommandBus } from '../core/command-bus.js'
 import { createInitialGameState } from '../core/game-state.js'
+import { buildPaletteFade } from '../core/palette-fade.js'
+import { createSeedableRng } from '../core/rng.js'
 import { ReplayInputSource } from './input.js'
 import { advanceRafFrame, type LoopContext, logicIntervalMs, tickN } from './main-loop.js'
 
@@ -15,6 +18,12 @@ function flat(w: number, h: number): Tilemap {
 
 function snap(held: AbstractKey[] = [], frameNum = 0): InputSnapshot {
   return { held: new Set(held), pressed: new Set(), frameNum }
+}
+
+function mkFade() {
+  const start = Array.from({ length: 256 }, (): [number, number, number] => [0, 0, 0])
+  const target = Array.from({ length: 256 }, (): [number, number, number] => [9, 9, 9])
+  return buildPaletteFade(start, target, 600, 0)
 }
 
 describe('tickN', () => {
@@ -85,7 +94,7 @@ describe('advanceRafFrame / logicIntervalMs(M1 三不变量)', () => {
     let ticks = 0
     const ctx = mkCtx(gs, () => {})
     const orig = ctx.input.nextSnapshot.bind(ctx.input)
-    ;(ctx.input as any).nextSnapshot = (fn: number) => {
+    ctx.input.nextSnapshot = (fn: number) => {
       ticks++
       return orig(fn)
     }
@@ -123,7 +132,7 @@ describe('advanceRafFrame / logicIntervalMs(M1 三不变量)', () => {
     expect(r1.ticked).toBe(false)
     expect(p1).not.toHaveBeenCalled()
     const gs2 = createInitialGameState({ x: 0, y: 0, facing: 'down' })
-    gs2.paletteFadeState = {} as any
+    gs2.paletteFadeState = mkFade()
     const p2 = vi.fn()
     advanceRafFrame({ lastTickTime: 0, accumulator: 0 }, 10, mkCtx(gs2, p2))
     expect(p2).toHaveBeenCalled() // fade 进行中每帧 present
@@ -132,7 +141,19 @@ describe('advanceRafFrame / logicIntervalMs(M1 三不变量)', () => {
   it('⑤ battleFade(D17 死亡淡出)门控:无 tick 也每 rAF present(wall-clock 细分平滑)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.mode = 'battle'
-    gs.battleState = { battleFade: { elapsedMs: 0 } } as any
+    gs.battleState = createBattleState({
+      gs,
+      playerRoles: { roles: [] },
+      enemies: [],
+      field: {
+        id: 0,
+        screenWave: 0,
+        magicEffect: { wind: 0, thunder: 0, water: 0, fire: 0, earth: 0 },
+      },
+      isBoss: false,
+      rng: createSeedableRng(1),
+    })
+    gs.battleState.battleFade = { elapsedMs: 0 }
     const present = vi.fn()
     // dt=10 < 40(battle interval)→ 无逻辑 tick;但 battleFade active → 仍须 present(否则淡出顿挫在 25fps)
     const r = advanceRafFrame({ lastTickTime: 0, accumulator: 0 }, 10, mkCtx(gs, present))
@@ -145,7 +166,7 @@ describe('advanceRafFrame / logicIntervalMs(M1 三不变量)', () => {
     let ticks = 0
     const ctx = mkCtx(gs, () => {})
     const orig = ctx.input.nextSnapshot.bind(ctx.input)
-    ;(ctx.input as any).nextSnapshot = (fn: number) => {
+    ctx.input.nextSnapshot = (fn: number) => {
       ticks++
       return orig(fn)
     }
@@ -164,15 +185,6 @@ describe('advanceRafFrame / logicIntervalMs(M1 三不变量)', () => {
 // 0x8C/0x4F/战后自动渐入)是纯色表 ramp,不清键:按键累积、按住的方向 fade 一结束立即生效。
 // 旧 DM30 把清键泛化到所有 paletteFadeState → 战后 ~1.2s 吞键 + 按住方向须松开重按。
 describe('渐变吞键仅限 scene-fade(palette.c 真值边界)', () => {
-  const mkFade = () => ({
-    startColors: Array.from({ length: 256 }, () => [0, 0, 0] as [number, number, number]),
-    targetColors: Array.from({ length: 256 }, () => [9, 9, 9] as [number, number, number]),
-    startTimeMs: 0,
-    totalMs: 600,
-    mode: 'lerp' as const,
-    steps: 60,
-    increment: 0,
-  })
   function run(gs: ReturnType<typeof createInitialGameState>) {
     const suppress = vi.fn()
     const ctx: LoopContext = {
@@ -192,7 +204,7 @@ describe('渐变吞键仅限 scene-fade(palette.c 真值边界)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.mode = 'event'
     gs.paletteFadeState = mkFade()
-    gs.eventCursor = { ip: 0, waiting: 'scene-fade' } as typeof gs.eventCursor
+    gs.eventCursor = { ip: 0, waiting: 'scene-fade' }
     expect(run(gs)).toHaveBeenCalled()
   })
 
@@ -200,7 +212,7 @@ describe('渐变吞键仅限 scene-fade(palette.c 真值边界)', () => {
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     gs.mode = 'event'
     gs.paletteFadeState = mkFade()
-    gs.eventCursor = { ip: 0, waiting: 'palette-fade' } as typeof gs.eventCursor
+    gs.eventCursor = { ip: 0, waiting: 'palette-fade' }
     expect(run(gs)).not.toHaveBeenCalled()
   })
 
