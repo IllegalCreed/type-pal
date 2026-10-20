@@ -1,40 +1,62 @@
 # Cursor十二组包说明与工具核对回执
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 DOC-CURSOR-2 的 Cursor 十二组静态核对回执（C01-C12 已核；Codex ef825870 counter 后按 R1-R4 只改本回执；证据冻结 dab017e7、正文候选 4b75d1c3、开工 7e52d514 仅改本文件）：只读准备，不代表源文档已修、命令已执行、产品/CI/覆盖率通过。
+
+## Scope
+
+最终小计：确定不符 3（C03「不再做架构演进」与 CLAUDE.md:22 现行授权冲突、C07 标签 asset-pipeline.md 承诺目标无有的烘焙细节、C11 data/raw README 例外未写 unifont-cn.bdf）/待确认 1（C05 reforge vite 仍 serveDir /extracted 但产品 src 无业务导入）/已知关联 2/历史不改 1/未核输入 4/未执行 2。原 16 条 ID 去向逐条：W2-C01-1 撤销（裸 assets.ts 归可选澄清引用）、W2-C12-1/2 撤销（合法目录短名导航）、W2-C08-U2/U3 改归未执行边界。C08 六脚本表（bake 写 engine-chrome 校验 UI 85/48629/5e5315、preview-fbp 显式相对 out 按进程 cwd、generate-project-battle-placeholders 无 script 登记）、C09 五工具（grep-sdlpal-chunks 依赖进程 cwd 应从仓库根跑、find-scenes 硬编码 /tmp 输出是实现事实）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 静态核对+复算 | UI aggregate 按 bake-assets.mts:185-188 算法复算命中（sha256+两空格+路径+实际 LF）；C01-C12 事实小表逐项判一致/不符/待确认；check.mjs PASS（549 Markdown/2994 links/181 tasks）、diff exit0 | Cursor（作者）→Codex 窄返工接收 | C07 替换句按 R2 收窄不承诺目标无有的烘焙细节；五包行号按 dab017e7 校准（shared test :14 非 :15 等） | 不合 main、不代签、不标 done；五份前批指南修订卡不因本包打开 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+静态核对交付：3 不符/1 待确认/4 未核输入/2 未执行如实分列；NB1/NB2 文字精度问题由接收方降非阻断。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；给 Codex 的接收提示词在 quote 末尾。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| Cursor C01-C12 回执 | 2026-09-25 | 十二组静态核对+16 ID 去向 | Codex accept（4b75d1c3/cc2720c5） | 首轮 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision aebc1cb249a606a5202a7f00247c099dace0b2eb；本轮 R82。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy runtime/testing-records 的 Cursor 二波核对回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- Cursor十二组包说明与工具核对回执：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+静态核对交付：3 不符/1 待确认/4 未核输入/2 未执行如实分列；NB1/NB2 文字精度问题由接收方降非阻断。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+交付索引表、16 ID 去向表、C01-C12 逐组事实小表与接收提示词在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。静态核对时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 DOC-CURSOR-2 完成卡与 cursor-docs-wave2-review.md。
 
 ## 原文保全
 
-固定 source revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `3327c32451719e27fb297439568a53a92930d10bdea5213640859c9ed2fff966`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `3327c32451719e27fb297439568a53a92930d10bdea5213640859c9ed2fff966`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # Cursor十二组包说明与工具核对回执
 >

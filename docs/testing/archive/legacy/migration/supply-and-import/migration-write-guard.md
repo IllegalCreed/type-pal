@@ -1,40 +1,62 @@
 # MIGRATION-WRITE-GUARD-1 · 实施与验证
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 MIGRATION-WRITE-GUARD-1 的实施与验证（Owner Codex；设计 r1，冻结生产 14257da7，三席准入 deb4f363 落盘）：状态 done（2026-09-21）——候选 57dda7ed 三席同候选 accept 齐（Codex 实现自验、GLM 6ca25cf6、Kimi afb05943），用户授权后统一核定 done 归档。
+
+## Scope
+
+实现：CLI 把规划时真实 ProjectMigrationSnapshot 传给 write-plan（写删携带原始字节 hash 或显式 null，未纳入快照/缺 hash 拒绝）；TransactionChange 对 project 强制期望旧值（全量前提先于第一个 staging 写、每操作 staging 前再核验、journal v2.previousHash 保留规划值）；migration-path.ts 规范相对路径/repo 根 realpath/逐级 lstat 拒绝父链/叶/悬空链接；资源物化全量预检+wx 独占临时文件+原 inode 清理。边界：非多 writer 事务锁或 OS 沙箱、二进制非整批回滚事务。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 正式回归+反控+隔离发布 | 新增 3 测试文件 36 项（规划 hash/时窗 13、物化路径/清理 14、路径函数 9）；A-08 首批 10 项未修实现 8 红/2 绿→修后 10 绿；A-09 初次夹具两处不匹配+macOS /var 别名修正后 14 项 13 红/1 绿；5 单点针 6/6 通过对照 36 项绿；完整 check 8029 项 exit0；官方 ratchet exit0+保护 14257da7 单次 strict-fast 7538 项 exit0 | Codex | 可重建发布见证：临时 repo 物理复制 current PAL+baseline+migrate 源码，构造合法较旧 WAV 迫使真实 CLI 写 JSON+一个二进制，第一遍 managed537/writes1、第二遍 writes0 零变更，2474 工程文件与 315 baseline 恢复冻结字节 | migrate 48→51 测试文件/361→397 项、行 53.08%/语句 51.61%；有生产分母变化不冒称纯补测 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+done：A-08/A-09 按 r1 关闭；E-05/U-02/N6b/Q2 与其它欠账不变不代签；第三条 MWG_MUTANT 命令是修前对照预期 exit1 不是常规 check 入口；R4/N6b/full/Q1/Q2 未执行。
+
+## Evidence
+
+- 证据路径：本实施正文（quote 保全）；/tmp/type-pal-mwg-*.log 与 /var/folders 临时目录、隔离配置与负控入口链接在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| MWG 实施+验证 | 2026-09-21 | 36 项+5 针+隔离发布+统一门 | done（三席 accept 57dda7ed） | 设计 r1 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision e0ddc80b28ab45394aa560855d51de65ecd568e1；本轮 R80。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy migration/supply-and-import 的写入守卫实施记录；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- MIGRATION-WRITE-GUARD-1 · 实施与验证：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：A-08/A-09 按 r1 关闭；E-05/U-02/N6b/Q2 与其它欠账不变不代签；第三条 MWG_MUTANT 命令是修前对照预期 exit1 不是常规 check 入口；R4/N6b/full/Q1/Q2 未执行。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+实现边界、A-08/A-09 先红后绿记录、可重建发布两遍数字与质量门在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。覆盖数字为 2026-09-21 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 MIGRATION-WRITE-GUARD-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `0040132ae8592688f33257b1d7e686903bf32c819c89f9e17e1847a6e23127d5`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `0040132ae8592688f33257b1d7e686903bf32c819c89f9e17e1847a6e23127d5`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # MIGRATION-WRITE-GUARD-1 · 实施与验证
 >

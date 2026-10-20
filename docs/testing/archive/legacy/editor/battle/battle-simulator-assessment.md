@@ -1,40 +1,62 @@
 # 共享战斗模拟器：编辑器全域复用评估
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是共享战斗模拟器的编辑器全域复用评估（2026-09-19，Codex；只读评估和方案建议，不是已实现功能或 build 授权；产品核对点 1c8cad29、生产相对 e58834f6 零改动）：结论——设计为编辑器统一的战斗测试工作台以现有第二阶段战斗引擎实际运行，不是「技能专用小弹窗」也不是另写简化计算器；后续 r2 首批冻结设计/实施/用户 UI 验收已完成 done，实际首批范围以实施记录为准。
+
+## Scope
+
+27 子页全量对账（实际执行读取 EDITOR_MODULES 确认 8 模块 27 子页）：D 直接试打 7（角色/物品/技能/敌人/敌队/毒/战场）、C 带上下文接入 8（场景编排/脚本库/变量/精灵库/图像/音乐/音效/全局资源）、N 不作入口 12（地图/炼蛊/紫金葫芦/商店/过场/项目设置等）。四种保存对象（我方预设/敌方预设/背包预设/试打方案，试打是方案内按钮）；敌方不能照搬我方表单（无装备槽/真气池、施法来自 AI）；等级不假装等于属性生成（instantiate 只复制 baseStats，成长依赖 N6b）；初始状态不等于触发事件；建议按三批接入不压成巨卡。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 只读评估+文档门 | 一手锚点：SkillTab:1118 写死 s001/0、battle-session.ts:341 构造器、main.ts:2280 派生/:2545-2588 结算、content/item.ts:219-261 用途真源、battle-core.ts:67 固定 5 敌槽；check:docs 过、27 BS 编号唯一 D7/C8/N12 复算过、packages/scripts 零 diff | Codex（评估） | 2026-09-19 用户认可四目录交互草图大方向（示意非验收）；后续明确预设随工程保存、首版先保存再试打；r2 设计与实施已完成 done | 本评估不给 GLM 补测新增产品修改授权 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+统一工作台方向+入口分类+字段边界；实现成本判断为中等偏大编辑器工具功能（统一输入/保存预设/资源隔离，按钮接线只是最后一层）。
+
+## Evidence
+
+- 证据路径：本评估正文（quote 保全）；实施记录与 r2 设计另存两文档。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 全域复用评估 | 2026-09-19 | 27 子页对账+四保存对象+三批建议 | 方向认可（r2 后续 done） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 3dc90ad8f6dde5a7ddcafc6b749b61dd53152751；本轮 R78。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/battle 的模拟器评估；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 共享战斗模拟器：编辑器全域复用评估：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+统一工作台方向+入口分类+字段边界；实现成本判断为中等偏大编辑器工具功能（统一输入/保存预设/资源隔离，按钮接线只是最后一层）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+27 子页表、子功能准备表、我方/敌方/背包/方案字段表、r2 前待明确事项在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。评估时点；后续 r2 已完成。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 battle-simulator-r2-design.md 与 implementation.md。
 
 ## 原文保全
 
-固定 source revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `6d81d434cd0c6113b33684d984ea95b9841ea405d53148cc382a4d3def39896c`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `6d81d434cd0c6113b33684d984ea95b9841ea405d53148cc382a4d3def39896c`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 共享战斗模拟器：编辑器全域复用评估
 >

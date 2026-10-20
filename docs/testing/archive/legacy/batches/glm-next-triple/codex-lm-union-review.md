@@ -1,40 +1,62 @@
 # Codex L/M 接收与 N r2 复核（2026-09-30）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 L/M/N 三波并集复核记录：L r3（69b56cc3，15 文件/67 例）与 M r2（b59f1738，12 文件/31 例）独立代码验收 accept 但统一覆盖率门阻塞保持 review；N r2（7bcd0fcd）counter 保持 rework（三处双强转、非法短色板、r1 定向 JSON 未刷新、RC1 三态 hash 不符）。
+
+## Scope
+
+接收分支 codex/glm-lmn-acceptance-r1 基于 main 6750b9a0：L/M 共 98 个不同 fullName 无产品/旧测修改、62 冻结源核验通过；并集首次 check 因新工作树缺 gitignored 原版 MKF 五例 ENOENT，链接主树资源后完整重跑 exit0（content 1222/shared 128/game 2773/pal-extract 357/reforge 1999/editor 3786/migrate 450 合计 10715 例；lint 2724 文件 0/0/0；docs 803 Markdown/4212 链接零问题）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 官方 ratchet | env -u NODE_COMPILE_CACHE TYPE_PAL_COVERAGE_BASE_REF=6750b9a0 pnpm coverage:ratchet --allow-scope-removal | Codex | exit1：migrate 比率门下降（statements 77.25%→71.85%、lines 78.66%→71.87%）；显式范围删除仅对应已批准退休文件 | 官方 baseline 字节未改；候选 ratchet 实测 10303 例/716 源、全仓分支 78.76% 非正式结算 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+L/M 代码验收 accept 未合 main；统一覆盖率门因 migrate 比率下降阻塞；Editor +215 命中/+5 分母含 main 作者变动不能全归因 L/M；下一步单列 migrate 补测范围不让 L/M 越界返工。
+
+## Evidence
+
+- 证据路径：本复核正文（quote 保全）；/tmp/type-pal-lm-acceptance.BarHmt/ 完整日志与 check.log/check-assets-ready.log 在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| L/M/N 三波复核 | 2026-09-30 | 并集门+独立验收 | L/M accept（coverage 门阻塞）、N counter | r1 各波 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 64bd3b936eb8fdd0943deba5e476d032a30c1830；本轮 R75。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-next-triple 的 L/M/N 并集复核记录；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- Codex L/M 接收与 N r2 复核（2026-09-30）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+L/M 代码验收 accept 未合 main；统一覆盖率门因 migrate 比率下降阻塞；Editor +215 命中/+5 分母含 main 作者变动不能全归因 L/M；下一步单列 migrate 补测范围不让 L/M 越界返工。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+七包并集 check 表、migrate 三指标对照表、日志路径在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。复核与门数字为 2026-09-30 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 L/M/N 各自完成卡与现行 coverage 台账。
 
 ## 原文保全
 
-固定 source revision `64bd3b936eb8fdd0943deba5e476d032a30c1830`，source SHA `da57d359f93e7e6ddc69f8682b87839e048169a84185d78f115f411728d9ddf3`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `64bd3b936eb8fdd0943deba5e476d032a30c1830`，source SHA `da57d359f93e7e6ddc69f8682b87839e048169a84185d78f115f411728d9ddf3`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # Codex L/M 接收与 N r2 复核（2026-09-30）
 >

@@ -1,40 +1,62 @@
 # TEST-GLM-RUNTIME-RESOURCE-2 · GLM 第二对话交付回执
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-RUNTIME-RESOURCE-2 的 GLM 第二对话交付回执（分支 codex/glm-runtime-resource-r1，生产冻结 f6878b3c；每批四组固定候选推送；本文件只记 GLM 自验，Codex 独立验收另录）。
+
+## Scope
+
+七批 A-G 共 157 新断言（A 44/B 34/C 39/D 17/E 6/F 8/G 9）：A R01-R04（skipFilePrefix 矩阵、subarray byteOffset 四入口、quantize alpha 恰界 127/128/平局取低、ball/rgm/fire 此前零测试 12 断言、dumpAllEventObjects）+RV1 视觉；B R05-R08（0xA2 随机跳相对目标收集、authored 结构化命令拒绝、slice BFS 死端、bdf ENCODING 排除）；C R09-R12（glyph 截断暗臂、text-render 零测试 13 断言含三层影、item-list 裁剪滚动、system-box、magic/use/equip-box 零测试）+RV2；D R13-R16（save-browser-box 5、battle-positions 8、settlement 屏序 4；shop/battle-ui 无新合同不强建）+RV3/RV4；E R17-R20（analyzeMidiBytes 真实 spessasynth 解析、trial 原语校验）；F R21-R24（pal-battle-sprites 整文件零测试 8 断言 exact=145/extra=8）；G R25-R28（collectSourceEntrySites 零测试 9 断言）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 七批反控+返工 | 每批判据自测 10 例+对照绿+恰一红×2（首版针不满足恰一红即换针留痕：B 针2 下游掩蔽、F 针 exact/extra 漂移、G 针两版死循环）；返工（Codex 审核后）：11 条 lint 清零（esbuild 产物 main.js 不入库）、R05/R15 强转移除并同类扫描、RV3 重取证（旧取样无偏移采到 P1 才绿——四面板独立 clip+设备像素取样）、evidence 157/包名更正、a-g 反控全回归 | GLM（作者自验） | 定向+相邻四包新鲜 JSON 全绿（shared 48/pal-extract 136/reforge 232+20/migrate 67）；四包 typecheck、wave 目录 biome 零诊断、docs PASS | 未证项如实：fire raw 多帧不可达、decodeRle 截断死循环未写断言交裁决、engineChromeUiUrl 85 slot 全存在不可达、RV1/RV2 合成帧非原版观感 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+七批交付+返工五项全落；作者自验不替代 Codex 验收。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；RV1-RV4 截图 SHA 与 /var/folders 反控目录在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| GLM 七批回执 | 2026-09-29 | 157 断言+14 针+RV1-RV4+返工 | 交 Codex 独立验收（另录） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 1cfd3cdbe7a13898672dfe5ae89b6a60e0f18c31；本轮 R76。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-runtime-resource-wave 的作者回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-GLM-RUNTIME-RESOURCE-2 · GLM 第二对话交付回执：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+七批交付+返工五项全落；作者自验不替代 Codex 验收。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+七批去重账、反控针表、RV 取证数字与返工记录在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。自验时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-GLM-RUNTIME-RESOURCE-2 完成卡。
 
 ## 原文保全
 
-固定 source revision `1cfd3cdbe7a13898672dfe5ae89b6a60e0f18c31`，source SHA `781d1e2ac1f372501aeeede218f49dc2917dc539f4444eeb7e214ff1192f34f0`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `1cfd3cdbe7a13898672dfe5ae89b6a60e0f18c31`，source SHA `781d1e2ac1f372501aeeede218f49dc2917dc539f4444eeb7e214ff1192f34f0`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-RUNTIME-RESOURCE-2 · GLM 第二对话交付回执
 >

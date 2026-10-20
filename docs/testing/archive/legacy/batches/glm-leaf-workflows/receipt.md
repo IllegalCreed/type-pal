@@ -1,40 +1,62 @@
 # TEST-GLM-LEAF-WORKFLOWS-1 交付回执
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-LEAF-WORKFLOWS-1 的 GLM 交付账（八批 A-H 共 G01-G32；每批一段：候选 SHA、范围、复跑命令、旧测去重、新合同、反控、视觉与未证项；所有计数取自新鲜 Vitest JSON 不手填；验收与集成归 Codex）。
+
+## Scope
+
+八批：A 设计系统控件 25 条（select 键盘开→跳禁用→Enter/多选摘要与全选不加禁用/number-inputs 归一同值不再提交/list-header 溢出菜单/media viewport）；B 导航/虚拟列表/重排/浮层 28 条（navigation 前缀搜索/virtual-list IME 229 不导航/reorder insert-swap 与 useDsReorderKeys token/overlays drawer 回焦）；C 资源选择/试听/分栏/地图工具条 28 条（真实 EditorAssetReader 读真实字节缩略图/MusicPicker 三哨兵/PanelResizeHandle parseStoredPanelNumber）；D 深链定位/选区轮廓/检查器/图章表单 33 条（editor-target battle-sprite 四象限/等距错排格共边邻接与洞轮廓/StampPlacementSelectionInspector）；E 会话数据表单 12 条（PoisonTab/VarsTab 重复 id 静默 no-op/ShopTab 下架/ItemAlchemy）；F 战场/伤亡/脚本方案/击败事件 16 条（五灵修正单键补丁/CasualtyEditor 概率取整/enemy-defeated-events findEditable）；G 纯函数资源/引用/图章核心 21 条（sameAssetRecord 八字段/AssetInUseError 计数/stamp-placement ownership）；H content 纯函数收尾 24 条（frame-sequence playback/script-library deriveScriptChunk/map-index normalize）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 八批反控+返工五反例 | 每批 leaf-mutants.mjs（自测 10 类+control 全绿+2 针恰一红，形状复用 state-commands）a-h 终扫全过；返工：13 条 lint 清零（2463 文件 0/0/0）、node-bridge.ts typed 桥替代 @ts-expect-error、EditorState 双强转 6 文件全改 loadLegalUiProject+真实命令、G25/G28 existing-proof 精确旧断言去重、E number 创建判定为宿主操作误差（同步 keydown 开层复证）+F 双视口视觉补 | GLM（作者） | 全包：editor 438 文件 3464/3464、content 123 文件 1222/1222；覆盖对照（局部不充当官方）：editor lines 85.41→86.19%（+224：A-D +177/E-H +47）、branches +218；content 96.44→96.50%；30 文件改善（media +72.73/map-selection-overlay +69.10） | 未证项如实：IAB rAF 暂停致 Escape 回焦不可观察（单测同步 rAF 桩覆盖）、PortraitEditor DsStatus 防御不可达、ImageAssetThumbnail 战场调色板分支 jsdom 无 API |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+八批交付+返工五反例全闭；真实产品缺陷无（重复 id 静默 no-op 为实测既有合同由针钉住）。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；14 张截图全 SHA/尺寸/字节表与各批 /tmp JSON 在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| GLM leaf 八批回执 | 2026-09-2x | G01-G32 共 187 条+16 针+6 视觉 | 交 Codex（后七批 32 组 49 目标已收） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b9af6517a6298e0fb247b97a3b653294d6b45fa2；本轮 R74。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-leaf-workflows 的作者回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-GLM-LEAF-WORKFLOWS-1 交付回执：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+八批交付+返工五反例全闭；真实产品缺陷无（重复 id 静默 no-op 为实测既有合同由针钉住）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+八批逐组去重/新差异表、反控针表、覆盖对照三段口径、截图元数据表在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。自验时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-GLM-LEAF-WORKFLOWS-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `19386b3a0768f5e62671d982609f1f85da4fdfb5ef6aaa2cc951dc7125527446`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `19386b3a0768f5e62671d982609f1f85da4fdfb5ef6aaa2cc951dc7125527446`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-LEAF-WORKFLOWS-1 交付回执
 >

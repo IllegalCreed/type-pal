@@ -1,40 +1,62 @@
 # TEST-CURSOR-PURE-WAVE-1 首轮独立接收
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-CURSOR-PURE-WAVE-1 的 Codex 首轮独立接收：候选 codex/cursor-pure-wave-r1@fd870c87（基点 76c6f5be）判 counter/rework；作者自验和绿色测试不能替代合法输入与现行消费者的证明。
+
+## Scope
+
+已核正面：增量只含白名单测试/薄fixture/工具回执、十二目标源 SHA 与冻结表一致；独立定向 content 4/4、Reforge 2/2、editor 2/2；新增文件 biome 0/0/0；抽验 A01/C01 负控绿对照后单点坏实现确切新增业务断言红（其余四针未由本席复跑不称独立结论）。三项 counter：R1 A01 正控用 identity 函数作 deflate 参数但索引声明 deflate-rgba8-xor-v1（正式正控用 deflateSync，须真实 deflate 再独立解码核 RGBA）；R2 A02 错桶回退输入不可作当前业务正例（checkScriptLibrary 对 bytes 与作者 id 派生 fail-loud，包内无 getScriptBody 现行调用者，撤回 A02 及其针改 A03/A04 补第二针）；R3 B04 脚本正控同时错桶与错字节（shared/user/open-door-a1b2c3d4 在 shards=2 应派生 shared/c01 却放 c00、bytes 实为 123 却填 80）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 定向+抽验负控+静态 | content/reforge/editor 定向 8/8；A01/C01 针复跑红正控绿；biome 12 文件 0/0/0 | Codex | R1-R3 逐项锚点（frame-sequence.cursor-boundaries.test.ts:10-20、script-library.ts:382-414、script-chunk-store.cursor-boundaries.test.ts:24-51、正式对照 frame-sequence.contracts.test.ts:33） | 三项修完更新四行账与 candidate SHA 再独立复跑 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+counter/rework 三项（A01 假 deflate 正控、A02 错桶无消费者、B04 错桶错字节）；不合 main；untracked node_modules symlink 与 /private/tmp/main-check 检出未清理不计入 diff。
+
+## Evidence
+
+- 证据路径：本接收正文（quote 保全）；/tmp/codex-cursor-pure-{a,b,c}-directed.log、-mutant-{a01,c01}.log 在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r1 首轮接收 | 原文时点 | 白名单+定向+抽验针+静态 | counter/rework | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 01662fc0b7f4ffd01b8d0c4abe560972b7f7a7ab；本轮 R72。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/cursor-pure-wave 的首轮接收记录；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-CURSOR-PURE-WAVE-1 首轮独立接收：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+counter/rework 三项（A01 假 deflate 正控、A02 错桶无消费者、B04 错桶错字节）；不合 main；untracked node_modules symlink 与 /private/tmp/main-check 检出未清理不计入 diff。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+定向/负控日志路径与 R1–R3 逐项锚点在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。后续轮次以任务卡链为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-CURSOR-PURE-WAVE-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `01662fc0b7f4ffd01b8d0c4abe560972b7f7a7ab`，source SHA `276a021d9ceb6b5dbf72140299743e87c8ac84eac385c70d5a4fe51d0d4147e3`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `01662fc0b7f4ffd01b8d0c4abe560972b7f7a7ab`，source SHA `276a021d9ceb6b5dbf72140299743e87c8ac84eac385c70d5a4fe51d0d4147e3`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-CURSOR-PURE-WAVE-1 首轮独立接收
 >

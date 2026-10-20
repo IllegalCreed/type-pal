@@ -1,40 +1,62 @@
 # ARCH-REGRESSION-LAB-GLM-1 · 简短回执（GLM 十二组，r12 剩余视觉/回执收口批次）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 ARCH-REGRESSION-LAB-GLM-1 的 GLM 简短回执（r12，2026-09-26；Codex 收口注：作者候选 62142b16 交付快照，现已接收 done，补正/独立视觉/正式 41 项贡献/统一门禁归完成回执 architecture-regression-lab-completion.md，原文与历史标签保留）。
+
+## Scope
+
+r12 口径：候选分支 codex/glm-architecture-regression-lab-r2（起点 f5f166aa、merge-base 7a18eaa6 对 packages/scripts 零 diff；复算 cwd 一律 worktree 根）；候选测试 42/42；账本 75 条=candidate-green 72/existing-proof 1/blocked-environment 1（V04-02 历史已被 V04-03..08 解决）/reproduced-defect 1（G06-D1，修复 ebef3d5a 在 Codex 复核分支）。r12 批次：V01 剩余键盘/焦点矩阵（搜索/Tab/Enter+blur/Escape/方向键/关闭归焦；如实登记搜索框 Enter 不产生选中）；V02 分隔条（键盘 ±16/真实 CDP 拖拽/三视口/隐藏恢复/内容滚动）；V03 失败→恢复与 A/B 乱序（自有内存宿主 lab-v4：迟到 2500ms 旧结果不覆盖新对象、一次性 500 被自动重试吸收）；V04 合法媒体与 revision/引用刷新（四方 sha 一致/缩放矩阵/替换刷新/引用同步/长名称滚动）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 负控 v2+机械对账 | red-control.mjs 六针全 detected（lab-startup/g05-unmount-cleanup/g03-committed/g05-immediate-wait/g08-ignore-roots/g08-drop-sprite 各恰 exit1 首行 AssertionError 注入 witness 命中产品 hash 不变）；verify.mjs v2 全硬判据（75 条账本/执行 JSON 双向一对一/截图 SHA 硬校验/白名单双栏） | GLM（作者）→Codex done | 键盘投递 V01/V02 用 Playwright 可信键事件+CDP 鼠标；r11「IAB press 受限」确认为旧自动化路径伪影 | 未证项五条如实：G01 view 增量 pending-contract、浏览器级缩放 125%/150% 工具能力缺口、G08 其余维度维持既有、boot 级失败未单列、G06-D1 修复在 Codex 分支未合入 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+十二组 75 条账本+G06 去重矩阵+六针全 detected；r9-r11 历史口径以 Git 历史为准。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；results.json 75 条账本与复算命令在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| GLM lab r12 回执 | 2026-09-26 | V01-V04 收口+六针+对账 | done（Codex 收口注在页首） | r1-r11 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 5cd599bd28c6aaa67d61e00479bb5379099b9157；本轮 R73。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-architecture-regression-lab 的作者回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- ARCH-REGRESSION-LAB-GLM-1 · 简短回执（GLM 十二组，r12 剩余视觉/回执收口批次）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+十二组 75 条账本+G06 去重矩阵+六针全 detected；r9-r11 历史口径以 Git 历史为准。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+G01 浏览器复现步骤、G06 矩阵、负控六针表、复算命令在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。r12 时点口径。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 architecture-regression-lab-completion.md。
 
 ## 原文保全
 
-固定 source revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `fce251b8c2eb909c91cf89393e2322bd9a0779a8687650f5da2c6becb99a8a0b`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `5cd599bd28c6aaa67d61e00479bb5379099b9157`，source SHA `fce251b8c2eb909c91cf89393e2322bd9a0779a8687650f5da2c6becb99a8a0b`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # ARCH-REGRESSION-LAB-GLM-1 · 简短回执（GLM 十二组，r12 剩余视觉/回执收口批次）
 >

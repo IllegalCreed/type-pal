@@ -1,40 +1,63 @@
 # 九批收窄返工独立接收（2026-09-20，Codex）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是九批（TB02/TB04-TB10）收窄返工的 Codex 独立接收：八批同候选 256116ee 三席 accept 齐用户授权 2026-09-20 done 归档；TB03 未随八批收口（r5 后单独三席终审 done）；含逐批定向/负控/biome 表、已关闭残项（C0 判据 AST 共用、C1 白名单 biome、TB06 全输入、TB07 非空 redo）、TB03 r3/r4 历史 counter 与阶段门禁收口。
+
+## Scope
+
+逐批表：TB02 ea276956 定向 24 集成 6088d9d2、TB04 69d62dc2 19 集成 c9dfe9c4、TB05 00801036 24 集成 018cb224、TB06 d2667b25 18 集成 0f74db1d、TB07 10cc9d4d 21 集成 4fd249bc、TB08 bda77494 17 集成 28bd5524、TB09 ca4c0768 25 集成 5a574507、TB10 3d798f7c 23 集成 ba3d5ad4；TB03 001dc9e1 counter 未集成。合计 67 新测试文件/210 项、九工具 27 正控+73 针、10 次 typecheck；集成逐批限定路径应用与源候选逐字一致。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 八批串行统一门 | 完整 check exit0 七包 7709 项（editor maxWorkers=2 与 migrate 并行、audit-performance 未豁免）；官方 ratchet exit0；保护 ad528beb 单次严格 fast 7220 项/617 生产文件提升 0；全仓行 71.80%/语句 69.73%/函数 71.38%/分支 63.38%（净增 294 行/372 语句/43 函数/186 臂） | Codex（GLM 17284da0/Kimi cf40a0e4 落签） | TB03 r3 counter：PNG 合法不等于 Canvas 宿主输出合法（toBlob 固定 2×1/3×1 与实际 320×200 不一致；删 canvas 尺寸两行候选 5/5 仍绿独立 oracle MISSED） | 未跑 full/E2E、未达 90%/85%；两席历史提示词与八卡路径清单保留 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+八批 done+TB03 另行 r4/r5 链；实现者自验不冒充独立终审；EDITOR-SKILL-TRIAL-1 r2a 三席另记。
+
+## Evidence
+
+- 证据路径：本接收正文（quote 保全）；/tmp/codex-nine-final.wb8m3g/ 与机账 glm-nine-final-evidence.json 在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 九批独立接收 | 2026-09-20 | 八批集成+TB03 counter | 八批 done（256116ee）；TB03 r5 另收 | 一/二轮报告 |
+| 阶段门禁收口 | 2026-09-20 | 256116ee 后零 diff 核验 | 八批归档+看板/索引同步 | — |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/testing-records 的九批最终接收；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 九批收窄返工独立接收（2026-09-20，Codex）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+八批 done+TB03 另行 r4/r5 链；实现者自验不冒充独立终审；EDITOR-SKILL-TRIAL-1 r2a 三席另记。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+逐批表、残项闭合、TB03 r3 反证、阶段收口与历史提示词在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。数字为 2026-09-20 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归各 TB 完成卡与 import-codec-acceptance.md（TB03）。
 
 ## 原文保全
 
-固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `60621b3933ee8a22a6a05f96282f15fb84fafe89d4bfa367ecafdbaabe0f48a7`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `60621b3933ee8a22a6a05f96282f15fb84fafe89d4bfa367ecafdbaabe0f48a7`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 九批收窄返工独立接收（2026-09-20，Codex）
 >

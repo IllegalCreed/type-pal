@@ -1,40 +1,63 @@
 # 编辑器连续播放与逐指令单步
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 EDITOR-PREVIEW-STEP-1（基点 `2f59be7f`，2026-09-28 用户确认交互、Codex 实施与验收）的合同与实现回执：同一按钮播放/暂停/恢复、对话阅读时长 `min(8000, 1200+Unicode 码点×80)`ms、单步进入暂停模式等当前合同；不新增按钮、不改游戏内对话或工程数据。Codex 已核定 done。
+
+## Scope
+
+- 对象=编辑器预览连续播放与单步控制；根因=旧 canonical 运行器把阶段/命令/尾安全点接同一暂停 gate（首步被内部结构门吞掉）+旧 UI 首次单步只做 paused 启动未发步请求。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| 实现边界 | ScriptRunnerCore 可选 beforeStep 调试钩子（仅编辑器接入） | 原宿主 gate/abort 复核/保存安全点 | 调试钩子后仍经宿主 gate 与取消检查才通知/执行；正式游戏不设钩子、路径不新增异步等待 | 普通对话自动计时只在 Playback.tick 运行，不改正式 runtime 对话确认政策；不改 schema/存档/资源 |
+| 回归 | 新 stepping 10 项+UI 1 项+runner 4 项 | 定向 editor 12 文件 91 项、reforge 相邻 3 文件 77 项 | 夹具过当前正式守卫、原输入深快照；旧「单步代选」按新合同改为明确提交；首轮新六项全部业务红（/tmp/codex-preview-controls-red.log） | 11 正控+11 精确 AssertionError 业务红、正式源码 hash 不变；六针维护 resume 锚+五新针（移除步进钩子/偷对话/代选/文本 ID 代替翻译计时） |
+| 浏览器核验 | 6010 正式 s001 独立标签 | 首次单步停第 1 条（playMusic 预览日志桩）；恢复后第 3 条第一句、未点下一句自行到第 16 条；第 23 条暂停后跨越阅读上限文字完全相同、单步只到第 24 条且保持暂停 | 截图 build/verification/preview-controls/paused-dialogue.png（SHA-256 2146d492…4a9） | 不修改作者内容/不保存/不操作用户原标签；分支选项未在真实 PAL 场景构造（由生产控制器+DOM 禁用断言覆盖）；不是 001/002 剧情/音轨或完整 E2E 验收 |
+| 统一门 | 完整 check→官方 ratchet→保护 2f59be7f 单次 strict-fast | pnpm | check 10,191 项（editor 3,299/reforge 1,876）、lint 2,392 文件 0/0/0；fast 9,730 项/730 文件 | 全仓 B47,667/63,393=75.19%；产品新增分母 32、覆盖分子 30（非纯补测收益，如实登记）；其余五包基线不变 |
+
+## Results
+
+- 当前界面未接行高亮：保留 activePath，显示「当前第 N 条指令」；不冒称行高亮或音乐真实播放已实现。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；复跑 `node docs/testing/archive/legacy/batches/codex-playback/mutants.mjs`；最终与逐针日志按原文 /tmp、/var/folders 时点。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 实施与验收 | 2026-09-28 | beforeStep 调试钩子+UI 单步 | done（三门通过） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/editor-workflows 的 preview-controls 合同与验收回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 编辑器连续播放与逐指令单步：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：当前合同（播放/暂停/单步/阅读时长/选项禁用）+根因修复+11 针+浏览器核验+三门。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+合同细节、根因、针清单、截图 SHA 与门数字在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。合同按用户 2026-09-28 确认口径；当前行为以现行编辑器为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前编辑器预览行为以现行实现与 canonical 合同为准。
 
 ## 原文保全
 
-固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `c0d625e087d4f601098b900ed48f139a48a948137c4b60faf40d2fafd35f26f6`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `c0d625e087d4f601098b900ed48f139a48a948137c4b60faf40d2fafd35f26f6`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 编辑器连续播放与逐指令单步
 >

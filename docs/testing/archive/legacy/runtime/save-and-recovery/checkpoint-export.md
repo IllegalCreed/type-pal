@@ -1,40 +1,62 @@
 # 当前检查点导出：实现与验证
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 Q1-CHECKPOINT-EXPORT-1 的实现与验证（r1；build 准入 a5df9fbc，实现候选 27e605ef）：Codex 实现，三席独立职责 accept 无返工，2026-09-18 核候选零漂移后 done 归档；后续回填只有文档不改产品/测试/基线。
+
+## Scope
+
+产品只改 Reforge main：内部 enqueueSaveSnapshot 共用原 saveSnapshotQueue 与真实 withSaveBarrier，doSave 保留原 meta/payload 捕获/缩略图/写队列/计数，DEV 零参 dumpSave 返回该队列 Promise。正式回归 17 项（真实 ScriptProjectRuntime/MemorySaveStore/current codec/restore/replaceWorld/commitSceneSwitch；资源准备/渲染/音频/auto 宿主为内存替身）：实际注册→JSON→codec→restore、双向深隔离、transient 尾标志与 persistent next cursor、三种并发排列、生产 10 秒超时/捕获异常重试、导出零槽/缩略图副作用、慢槽 I/O/写失败/慢缩略图、排队期间实际 restore 同步提交、DEV 开关与三 motion 钩子、quickSave→captureThumbnail toBlob 成功/null 失败及重试。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 先红+负控+统一门 | 首条真实注册 JSON 合同旧产品 exit1（缺 projectId/world/position）；5 项单点负控业务红（裸 builder/绕 barrier/独立 export 入口/吞异常/失败毒死队尾）+17 对照绿、产品 hash 不变；最终完整 check exit0 七包 7235 项、官方 ratchet exit0（6747 项/617 生产文件提升 8）、保护 a5df9fbc 单次严格 fast exit0 零回退 | Codex | 首次 ratchet 确定性拒绝：main 未插桩分母净增 2 语句/2 函数/1 行——补真实 quickSave 缩略图回调两项（成功/null 失败/重试/export 不等待）后再过，不借其它功能凑指标 | 17 项以外 105 个 Reforge 测试文件 identity 不变；GLM 批二 B11/B12 原始诊断由 Codex 复算重写，GLM 编辑器四组未集成不计入 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+done：导出链 17 项全绿并入基线（Reforge 语句 8679/16188 等）；R4 集中执行的导出文件→e2e-load→下一段可操作行为归任务卡；只修基础接口不声称 001-010 链/runner/全通关完成。
+
+## Evidence
+
+- 证据路径：本验证正文（quote 保全）；/tmp/q1-checkpoint-*.log 与两 mutants 目录在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| Q1 实现+验证 | 2026-09-18 | enqueueSaveSnapshot+17 项+5 针+统一门 | done（三席 accept 零漂移） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision aebc1cb249a606a5202a7f00247c099dace0b2eb；本轮 R82。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy runtime/save-and-recovery 的检查点导出验证；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 当前检查点导出：实现与验证：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：导出链 17 项全绿并入基线（Reforge 语句 8679/16188 等）；R4 集中执行的导出文件→e2e-load→下一段可操作行为归任务卡；只修基础接口不声称 001-010 链/runner/全通关完成。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+先红记录、负控五针、可重跑命令与最终树数字在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。覆盖数字为 2026-09-18 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 Q1-CHECKPOINT-EXPORT-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `bc848b27d5a806a9a89f0c2adfe24c4b56abceec17e3574fed4ece465f1a8d39`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `aebc1cb249a606a5202a7f00247c099dace0b2eb`，source SHA `bc848b27d5a806a9a89f0c2adfe24c4b56abceec17e3574fed4ece465f1a8d39`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 当前检查点导出：实现与验证
 >

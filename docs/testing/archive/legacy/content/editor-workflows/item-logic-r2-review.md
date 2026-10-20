@@ -1,40 +1,62 @@
 # GLM物品六组：1c8b57cb窄返工接收
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-ITEM-LOGIC-1 第 2 轮 Codex 接收（2026-09-27，候选 1c8b57cb）：counter，剩 R2/R3/R4；不合候选、不计覆盖、不改贡献者测试语义。
+
+## Scope
+
+已闭合不重开：R1 heroActor 先 satisfies ActorDef 再 validateActors、hero/world 改 instantiate/buildWorld、preflight as never 已删、基线 maxHP/maxMP 100/50 可消费（独立成长 oracle 适配 114/61）；R2 装备独有正控落盘（8 对照绿、变异 7 绿/1 候选 AssertionError）；R4 反控文件格式空行已修（九文件 JSON 0/0/0）；定向 46/46、content 1178/1178。三项 counter：R2 三项回执称已修但提交树无对应改动（git diff 705eb161..1c8b57cb 两文件为空；ownership:75-81 仍只有 bead、effects:347-358 仍无八项成长精确值/RNG 次数、external:65-95 仍默认零 money 世界）；R3 快照只改一部分且拍错对象（learned 仍匿名传入、worldResourceValue 拒绝路径整文件零改、effects 把 poisonDefs() 传产品却把 poisonDefs 函数交快照）；R4 勘误大部分仅写在交付块（receipt 仍写旧 item.test 96 项实际 51、第四针仍 resolve-target-skip 实际 resolve-stopped-skip、runtime-script warning 仍写 error）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 六针复算 | 24 跑：五针候选仍绿仅装备独有针抓住；追加 oracle 装备针两红如实登记 | Codex | 三独立 oracle 同候选原实现均绿/相同变异各恰一 AssertionError 红（机账） | 回执不能按实施计划回填已修；须从实际提交树核 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+counter 剩 R2 三项回执与树不符、R3 快照部分且拍错对象、R4 勘误未落正文；主线 90 warning/7 info 归 Codex 清零卡不授权 GLM 越界。
+
+## Evidence
+
+- 证据路径：本接收正文（quote 保全）；/tmp/codex-item-logic-r2-*.log 与两临时目录在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r2 接收 | 2026-09-27 | R1/装备正控/R4格式闭 | counter（R2/R3/R4 残） | r1 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 3dc90ad8f6dde5a7ddcafc6b749b61dd53152751；本轮 R78。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy content/editor-workflows 的第 2 轮接收；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM物品六组：1c8b57cb窄返工接收：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+counter 剩 R2 三项回执与树不符、R3 快照部分且拍错对象、R4 勘误未落正文；主线 90 warning/7 info 归 Codex 清零卡不授权 GLM 越界。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+独立复跑 24 跑结论、机账与日志前缀在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。物品六组多轮链以完成卡为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-GLM-ITEM-LOGIC-1-world-use-residuals 完成卡。
 
 ## 原文保全
 
-固定 source revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `60592ced52b9ea6b3ee25489d174ff9ebf1e69e5f3179f246686a980761a130c`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `60592ced52b9ea6b3ee25489d174ff9ebf1e69e5f3179f246686a980761a130c`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM物品六组：1c8b57cb窄返工接收
 >

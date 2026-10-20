@@ -1,40 +1,62 @@
 # 一阶段有效属性与战斗状态投影补测 — Codex 接收与集成
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 Gemini 隔离候选 64dd4cf9（一阶段有效属性与战斗状态投影补测）由 Codex 接手修订（1443d407）并独立验收集成的记录；正式测试提交 cca91809；Gemini 26 项自验不作独立第三方证明。
+
+## Scope
+
+E1–E6、I1–I2 八族共 26 项正式测试（六 getter Extra 格/角色隔离/毒抗边界、装备效果写入清理、属性行、装备脚本跳转与上限、全员效果重建、战内 live HP/MP 保真、队伍 slot/roleId、敌方与战场只读投影）；Codex 修订四点（E2 拒绝路径比整个效果层前像、E4/E5 afterEach 清全局事件且 E4 钉 256 tick 警告、I1 五隐藏经验池独立非零值完整比较、I2 改正式 createBattleState+seeded RNG 不用 as any 拼不完整战斗态）；正式集成只增 9 个测试/fixture 文件与覆盖率基线，产品/旧测试/官方 include/exclude 零改，未发现新产品缺陷。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 独立复跑门 | Gemini 原候选 26/26+相邻 equip-effect/battle-inspect 41/41；四针隔离负控各原树绿/单点候选 AssertionError 红；正式目录定向 26/26；完整 pnpm check exit0（game 2401/reforge 1610/editor 2754 等）；受保护 coverage:ratchet 与单次严格 coverage:fast 均 exit0（8065 项/641 生产文件） | Codex（Gemini 额度耗尽后接手） | fast 实测语句 60675→60734/80617、行 77.52% 时点全仓快照 | 同一分母七包零回退 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+26 项正式测试集成 main；全仓语句 +59/分支 +51/函数 +5/行 +51（fast 实测非隔离直加）；未跑 full/PAL 原始资源、浏览器视觉、剧情 E2E 或 Q1/Q2，未发现新产品缺陷。
+
+## Evidence
+
+- 证据路径：本接收正文（quote 保全）；候选历史标签 archive/gemini-phase1-stats-r1（1443d407）与隔离工作树清理边界在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| Gemini 接收+集成 | 2026-09-25 | 26 项八族+Codex 四点修订 | accept→集成（cca91809） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy phase1-runtime/engine-boundaries 的 Gemini 补测接收记录；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 一阶段有效属性与战斗状态投影补测 — Codex 接收与集成：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+26 项正式测试集成 main；全仓语句 +59/分支 +51/函数 +5/行 +51（fast 实测非隔离直加）；未跑 full/PAL 原始资源、浏览器视觉、剧情 E2E 或 Q1/Q2，未发现新产品缺陷。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+独立复跑表、四针负控行、coverage 数字与分母、候选标签与清理边界在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。覆盖率数字为 2026-09-25 时点快照。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归现行 coverage 台账与 phase1 机制真值文档。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `16a88bb634d113a3601040a3d801533a9d6f47d8680af71017f85315c93e0811`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `16a88bb634d113a3601040a3d801533a9d6f47d8680af71017f85315c93e0811`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 一阶段有效属性与战斗状态投影补测 — Codex 接收与集成
 >

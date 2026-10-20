@@ -1,40 +1,62 @@
 # TEST-KIMI-EDITOR-WORKFLOWS-1 交付回执
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-KIMI-EDITOR-WORKFLOWS-1 的 Kimi 交付回执：三批（A/B/C 候选 04ed4823/524d1930/e838ca30）全部实施完成推送候选等待 Codex 独立验收与集成；分支 codex/kimi-editor-workflows-r1、生产冻结 29e76fe6，21 产品文件 sha256 开工/收口核均与 targets.json 一致零产品/旧测试改动；含 2026-09-29 返工修订四条（evidence.json biome 重建 lint 2443 文件 0/0/0、runner judgeRun 判据统一+A/B/C 复跑 27 红+20 控制=47 全 valid、B2 告警归因宿主 class= 改 className 复核 console 归零、fixture 类型安全化零强转/node-port.d.ts 显式端口）。
+
+## Scope
+
+K01-K12 十二组 117 例新测试全部真实入口（组件 DOM/公开 callback→真实 EditSession/commands/EditorAssetReader/loader；无 vi.mock 被测核心/无私有栈/无 ts-nocheck）+合法 fixture（blank seed 真实装载链+生产构造器播种；PNG/RLE/gzip/WAV/MIDI 真实可解码）。三批各 2 条宽/窄浏览器闭环（6062 直接组件宿主+真实 writeProject 序列化链：A1 PNG 导入落账保存重读 undo、A2 切格向导、B1 立绘 800% 缩放、B2 WAV 真实 AudioContext 解码播放、C1 Cmd+A 全选 288 计数覆盖粘贴 undo、C2 曲线拖点单命令物化）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 静态门+覆盖对照 | typecheck exit0；新增文件 biome 0/0/0；check.mjs PASS；lint 2443 文件 0/0/0；批末 editor 全包仅剩 2 个环境性旧例红（world-sprite-behavior 读 gitignored 迁移资产）；覆盖对照 before 383 文件/3137→after 403/3254，20 目标行 5028→5857/6727（+829 即选题空间 48.8%）、分支 4723→5474/7124（+751），全部 20 文件双正增 | Kimi（作者） | before 侧 20 目标小计与冻结 LCOV 完全一致口径互证；2 枚初版惰性针（k09-noop/k12-stage-alive）按废弃登记替换 | 未发现真缺陷 diagnostics/ 未创建；官方 check/ratchet/strict-fast/基线/集成归 Codex |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+三批 117 例+反控 47 valid+浏览器闭环交付；宿主为直接组件宿主非完整 App；磁盘为内存 FSA 端口替身。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；evidence.json 机读证据与 coverage-compare 工具在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| Kimi 三批回执 | 2026-09-28/29 | 117 例+27 红 47 valid+6 浏览器闭环 | 交 Codex（返工修订四条已落） | 首轮 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 226f8cb90880b74c82f3c39b6e09d949f2a16e7b；本轮 R77。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/kimi-editor-workflows 的作者回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-KIMI-EDITOR-WORKFLOWS-1 交付回执：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+三批 117 例+反控 47 valid+浏览器闭环交付；宿主为直接组件宿主非完整 App；磁盘为内存 FSA 端口替身。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+K01-K12 逐组新旧断言对照、覆盖表、返工修订四条、边界声明在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。作者自验时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-KIMI-EDITOR-WORKFLOWS-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `777f6e72e14444ae9e43cfec2e51d8b20732d1f8511478811af07dff9246408b`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `777f6e72e14444ae9e43cfec2e51d8b20732d1f8511478811af07dff9246408b`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-KIMI-EDITOR-WORKFLOWS-1 交付回执
 >

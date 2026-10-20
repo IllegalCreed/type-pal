@@ -1,40 +1,63 @@
 # Codex 覆盖率 +2pp 首批：脚本展示与条件编辑
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是覆盖率 +2pp 持续任务首批（脚本展示/条件弹窗/敌人事件展示，基点 `76c6f5be`）的 Codex 交付回执：全仓官方 fast 46,201/63,315 → 46,393/63,321（72.9701% → 73.2664%，+0.2963pp）。Cursor 十二模块与 GLM 十六模块候选均未集成进此统计。
+
+## Scope
+
+- 基点 76c6f5be；对象=当前编辑器 ScriptTree/ScriptEditor/enemy-defeated-events 覆盖增量；持续任务卡 TEST-COVERAGE-PLUS5-1。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| 三源增量 | 四个新增测试文件 | 官方 fast | ScriptTree 135/370→224/370(+89)、ScriptEditor 631/1,138→711/1,144(+80，产品修复增 6 分母)、enemy-defeated-events 218/304→241/304(+23) | 增量全部来自新测试+一处队伍成员条件控件修复 |
+| 新回归约 40 项 | 现有有效场景/当前作者命令/现行 project fixture | 定向/相邻 | 72/72 绿（首遍因复合选择器助手找错按钮而红，修正后全绿） | 测试输入前后深比较；真实作者脚本列表/条件切换/敌人击败事件条件/选择器红→绿 |
+| 统一门 | 完整 check+ratchet+保护基点单次 strict | pnpm | 9,833 项 typecheck 零诊断、lint 2,276 文件 0/0/0、strict fast 9,341 项/728 生产文件均 exit0 | 同分母政策未缩范围；其它六包 baseline 未变 |
+
+## Results
+
+- 本批只完成 +0.2963pp；从 72.9701% 到 +2pp 按当前分母还需 1,079 个已覆盖分支臂。
+- 缺失角色选择的失败证据 `/tmp/codex-plus2-inparty-red.log` 与首遍失败/最终全绿/官方 ratchet/strict 日志（/tmp，历史时点未随归档保全=unknown）。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；持续任务卡链接在原文。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 首批交付 | 原文时点 | 四个新增测试文件+一处控件修复 | +0.2963pp，三门 exit0 | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 3dc90ad8f6dde5a7ddcafc6b749b61dd53152751；本轮 R78。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/editor-workflows 的覆盖率 +2pp 首批 Codex 回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- Codex 覆盖率 +2pp 首批：脚本展示与条件编辑：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+首批 +0.2963pp（46,393/63,321=73.2664%）；后续另选当前有消费者且未被领取的大缺口，不重复跑本批相同命令或缩减测试范围。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+三源覆盖数字、校准记录（首遍红→修正绿）与门数字在 quote 保全；/tmp 日志按原文时点。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。覆盖率与门结果按当时基点；当前覆盖以官方 ratchet/fast 实测为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前覆盖结论归官方覆盖账与持续任务卡。
 
 ## 原文保全
 
-固定 source revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `5d5e569034836b9152d4f560518ee9149eaa8c64e493ecf051d481cd1181eb7d`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `5d5e569034836b9152d4f560518ee9149eaa8c64e493ecf051d481cd1181eb7d`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # Codex 覆盖率 +2pp 首批：脚本展示与条件编辑
 >

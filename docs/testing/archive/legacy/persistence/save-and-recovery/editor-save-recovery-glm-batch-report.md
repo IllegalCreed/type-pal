@@ -1,40 +1,62 @@
 # 作者保存恢复：GLM 大批测试回执
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 EDITOR-SAVE-RECOVERY-1 的 batch-r1 整批回执（产品基线 aa87c305）：五轮链完整——GLM 首轮 fa0da062 counter（R1-R4）→ 返工 b689545a→Codex 接收修订 fa8af7c2 集成 21 项→GLM 续批 43ec775d/574012e5 counter（C1-C4）→C1-C4 返工 6a145178→Codex d39efe15 接收与集成（2026-09-12）：经补证后接收测试贡献、原测试 counter 解除、父卡恢复 build；最终六文件 43 个测试用例。
+
+## Scope
+
+轮次要点：首轮 R1 P2/P6 自造异常假通过（operation 里 throw/全新合法授权再 throw——见证断言证回调进入仍绿）、R2 W6 未到 catalog 读取（实为基线冲突）/W10 空进度 Math.max([]) 负无穷、R3 S4 Web Locks 替身违反规范（ifAvailable 仍须 callback(null)）、R4 证据映射错误（O6 clone 断言 local 非 PAL）；续批 C1 data/extracted 符号链接入 Git 追踪（fce75a0e 重新加入）、C2 W9 再次错层（坏字节在磁盘不在输入——实为 AuthorSaveConflictError）、C3 IDB 替身违背回滚合同（abort 后记录仍可读）、C4 统计 26/4/15 手算与表不符（程序复算 22/3/14/1/3=43）。最终接收：GLM 新增 22/Codex 修订补证 4（W6 重写/W10 删除 2 条/B3 顺序/S4+W3 pending+collision 2 例）/已有 14/分类 3（O8/P10/B8 逐分支）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 接收补证+统一门 | d39efe15 接收侧补齐：S3 常驻同键失败更新、put/get/getAll 单请求事务统一一次终结（3 个 IDB 合同回归）、C4a/b entered/deferred 互斥+finally gate、W3 追到 serializeProject :329-333 assetBlobs 必须有 catalog/:225-231 addFile 拒双写（pending/collision 两例各自负控错误 resolve 红）；最终相邻 12 文件 205 项、完整 check 6711 项、ratchet 6201→6223、单次严格 fast 同值；全仓语句 +20/分支 +24 | Codex（W3 由部分转补证） | 7 种单点产品变体业务红（注册/发现互斥/request 提前 resolve/写错优先/观察器漂移/W3 两类）；K5 音频时序与 design-system 时长保留归质量/性能批次不以定向绿判已修 | journal 98.47%/100%/91.91%、plan 100/100/98.85%；存量 project-io 92.41%/79.25%、wp 89.12%/81.14%、handle-store 分支 84.61% 缺口不注销 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+43 用例集成+43 ID 程序对账；测试用例数与核验 ID 两种统计不互替；原生跨页/权限/PAL 重登记/性能/终审仍待 Codex。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；/tmp/codex-glm-{batch-review.FwyOAM,batch-rereview.hVX6Hy,final-review.3VdVLn,c1c4-review.WRWkBW,d39-review.19ANgE}/ 五证据目录在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| batch-r1 五轮链 | 2026-09-10/12 | 43 用例+8 负控+43 ID 对账 | 测试接收（父卡恢复 build 非整卡 accept） | 四轮 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision e0ddc80b28ab45394aa560855d51de65ecd568e1；本轮 R80。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy persistence/save-and-recovery 的大批测试回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 作者保存恢复：GLM 大批测试回执：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+43 用例集成+43 ID 程序对账；测试用例数与核验 ID 两种统计不互替；原生跨页/权限/PAL 重登记/性能/终审仍待 Codex。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+G1-G5 43 项表、SR-01-12 对账、六负控表、五轮 counter 与 43 ID 逐行表在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。2026-09-10/12 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 editor-save-recovery-closeout.md。
 
 ## 原文保全
 
-固定 source revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `dfcef3f18e3b105f935aad45b6b449e00ed0c98fc50161a6a1bd87e6177853be`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `dfcef3f18e3b105f935aad45b6b449e00ed0c98fc50161a6a1bd87e6177853be`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 作者保存恢复：GLM 大批测试回执
 >

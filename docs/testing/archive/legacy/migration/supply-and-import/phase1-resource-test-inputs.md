@@ -1,40 +1,63 @@
 # 第一阶段资源对拍测试输入合同 · E-01
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 E-01 第一阶段资源对拍测试输入合同修复（Owner Codex，2026-09-19，接续主线常规测试维护不开签字卡；只修 game/src/assets 三套现有测试及其输入回归，不改生产/提取器/格式/资源/全局测试选择），含 2026-09-21 CI 彩色日志补正（同 Owner 连续维护）。
+
+## Scope
+
+根因：sprite effect 缺文件直接 return；enemy/player/fire 空样本循环 0 次；RNG 与 tileset 在 describe.skipIf 收集回调里先 readFile（skip 仍执行回调）——不是迁移器/解码器缺陷。修复：三类样本显式非空、hasData 保护读盘+非空 census、读盘移至 beforeAll；新增 snapshot-input-boundaries.test.ts 子 Vitest 只替换 node:fs 数据读边界（MKF/RLE/gzip/RNG 解析仍真实实现，外层计数不重复累计嵌套用例）。CI 补正根因：Vitest CI 输出数字带 ANSI 控制字符，本地 NO_COLOR/Agent 模式掩盖直接匹配正则缺陷；以 stripVTControlCharacters 标准化解析视图（原始子日志原样保存），复现 4 红/16 绿后修，五条回归先 2 红/3 绿再 25/25。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 先红后绿+统一门 | 最初 17 项旧树 7 红/10 绿→最终 20/20；CI 补正后原 20+新 5=25/25（Agent 与彩色模式各 exit0）；完整 check 7993 项 exit0、官方 ratchet exit0、保护 d1ed3d73 单次 strict-fast 7502 项 exit0 | Codex | fast 只增 20 项（game 118→119 文件/2271 项，CI 补正再 +5 至 2318）；七包生产清单/scopeDigest/分子分母完全相同 | 远端验收须核同一 headSha 的 Coverage ratchet 完整 conclusion，本地绿不替代；Actions #279 证 25/25+game 2318/2318 但 editor 独立焦点用例失败整次 CI 仍 failure |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+输入合同修复完成：输入组缺席明确 skipped、存在时缺文件/空样本/读取失败必须失败、合法空 chunk 通过、零 chunk 归档明确失败；原审计 probe 三文件保持原样不回退测试；这是可信度修复不冒称覆盖率提升。
+
+## Evidence
+
+- 证据路径：本修复正文（quote 保全）；/tmp/type-pal-ci-*.log 与 /tmp/type-pal-resource-gates.K4bVXY/ 在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| E-01 修复 | 2026-09-19 | 三套测试输入合同+20 项边界回归 | 完成（Codex 直接收口） | 无 |
+| CI 彩色补正 | 2026-09-21 | ANSI 计数标准化+5 回归 | 25/25；远端 #279 本项过、整次 failure 如实 | 补正 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision e0ddc80b28ab45394aa560855d51de65ecd568e1；本轮 R80。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy migration/supply-and-import 的 E-01 输入合同修复；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 第一阶段资源对拍测试输入合同 · E-01：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+输入合同修复完成：输入组缺席明确 skipped、存在时缺文件/空样本/读取失败必须失败、合法空 chunk 通过、零 chunk 归档明确失败；原审计 probe 三文件保持原样不回退测试；这是可信度修复不冒称覆盖率提升。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+根因与替代解释排除、断言轴表、CI 补正复现与质量门在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。数字为 2026-09-19/21 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归覆盖率记录与现行测试树。
 
 ## 原文保全
 
-固定 source revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `730d4483051979a1122e89561e111856379c67b0db03a035db8eedb554cc3c80`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `730d4483051979a1122e89561e111856379c67b0db03a035db8eedb554cc3c80`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 第一阶段资源对拍测试输入合同 · E-01
 >

@@ -1,40 +1,62 @@
 # GLM原版表格与文本自包含补测工作包（TB-04）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-PAL-TABLES-COVERAGE-1（TB-04）工作包：当前 Codex 接收结论 accept（2026-09-20 候选 69d62dc2、统一候选 256116ee；check7709/ratchet/受保护单次严格 fast 7220 通过，三席齐用户授权 done 归档）；首轮 counter 仅留历史；正文含 P01-P09 合同族表、收窄与待证、代表负控、冻结目标/白名单及 GLM r1/r2/r3 回执。
+
+## Scope
+
+P01-P09：io/sss、io/word、io/msg、parsers/items、stores、battle-fields、enemy-teams、data-misc、enemy-pos 逐族列当前入口/SDL 一手锚/旧测试/允许新增（真五 chunk MKF、完整 565×10 手写表、独立 GBK/ASCII 字节、296×14B 七 WORD 各异、两 OBJECT 映同 enemyId 保五槽原身份等）；P03 Uint32Array 非零 byteOffset 须四字节对齐。GLM r1：9 新测试+1 fixture 19 项+8 针（SSS signed→unsigned/WORD 物品段界偏一/items 脚本偏移别名/装备位基号/teams 原身份覆盖/misc 错位/enemy-pos 转置/MSG 端点坍缩）；输入自包含（合成字节+iconv-lite 同库逆操作+手列预期）；r2 闭 C0/C1+R04-1 SSS 真实实参保真+R04-2 撤 offset 递减政策+R04-3 P07 名字轴；r3 判据精确唯一。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 负控+全包+覆盖 | pal-tables-mutants.mjs 自测+3 对照+8 针全钉名、产品 hash 不变；全包 37 文件/177 项（4 项真实资产 ENOENT stash 基线同败 151→170 恰 +19）；官方 fast 110→129 双 exit0 | GLM（作者）→Codex accept | 覆盖对照九模块从 L0 起步（sss 0→53/53、word 0→32/32、items 0→19/20、enemy-teams 0→20/27、enemy-pos 0→16/16）；全包 L561→755/1316 | 不执行 extract CLI、不碰 data/ 与正式 assets |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+当前 accept/done；WORD 短表/多表等不立新合同、WORDS scenes 字段不是地图名真值。
+
+## Evidence
+
+- 证据路径：本工作包正文（quote 保全）；机器账 glm-pal-tables-evidence.json 在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| TB-04 工作包 | 2026-09-19/20 | P01-P09+GLM r1-r3 | accept→done（256116ee） | 首轮 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy extraction/testing-records 的 TB-04 工作包；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM原版表格与文本自包含补测工作包（TB-04）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+当前 accept/done；WORD 短表/多表等不立新合同、WORDS scenes 字段不是地图名真值。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+九族表、三轮回执在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。九批链以 glm-nine-final-review 为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 editor/testing-records/glm-nine-final-review.md。
 
 ## 原文保全
 
-固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `5c5ab1f0a6ad8954ea58201ce6b31c87ff465644178b06694d36f8589de39134`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `5c5ab1f0a6ad8954ea58201ce6b31c87ff465644178b06694d36f8589de39134`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM原版表格与文本自包含补测工作包（TB-04）
 >

@@ -1,40 +1,63 @@
 # GLM物品六组：170283a0窄复核
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-ITEM-LOGIC-1 r7 窄复核（候选 `170283a0…118e`，2026-09-27，本地/远端一致）的 Codex 回执：**counter**——只剩原 R3/R4 清单（六处同一实参仍不符+三条收尾项），未增加矩阵或变异针要求。
+
+## Scope
+
+- 候选 170283a040e889f4388d0225a1b943983030118e；对象=packages/content item 六组测试；任务卡 TEST-GLM-ITEM-LOGIC-1；上一轮 r6。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| 已闭项 | derived 逐次快照/noUse 具名输入/负数小数 world 前后比较 | 八针接收工具 | exit0、candidateMutationGate=true、missed=[] | content 1178/1178、TC 零诊断、九文件 Biome 0/0/0 |
+| 六处实参 | item.effects.background.test.ts:143/172/200/252/289、item.external.background.test.ts:136 | 多输入 helper（expectInputsUnchanged 类） | 五处仍拍外层同名 items、第六处漏拍 battleItems | 应改为 (replay, replayItems)/(alive, aliveItems)/(defsMissing, tierItems)/(plain, plainItems)/(floored, floorItems)/(w, battleItems) 六个 tuple |
+| 收尾项 | ownership:110/128/134 toThrow(string)；fixture:106-111 run(value)；receipt:19/46/36 | 原清单 | 子串匹配/空 inputs 不执行/回执数字与真针名错误 | 应改完整错误等值、恢复 run:()=>void 无条件调用、勘误 I2=8 与 46 项、stoppedTargets 真针名 |
+
+## Results
+
+- 六 tuple 只替换现有调用，无需新增用例；八针通过不代替这份清单，须 `git show HEAD:<file>` 逐项确认实际提交树。
+- 定点提示词：基于 170283a0 只闭六 tuple/三条完整错误/helper 恢复/回执勘误，不做新矩阵，不动已接受项/产品/旧测试/基线/Codex 工具；静态诊断全零后从新鲜 JSON 生成 46/I2=8。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；日志 `/tmp/codex-item-logic-r7-*.log|json`（历史 /tmp，注意未带 candidate 的 content/TC 日志来自主树，不作为本候选证明）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r7 窄复核 | 2026-09-27 | 六实参+三收尾项 | counter（卡保持原清单） | r6 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/editor-workflows 的 item-logic r7 复核回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM物品六组：170283a0窄复核：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+counter：六处同一实参不符+三条收尾项；已闭项不重开；候选证据口径（主树日志≠候选证明）已澄清。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+六 tuple 锚点表、收尾项行号与证据口径在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。counter 仅指当时候选；后续轮次见同目录 r1-r8 系列与任务卡。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-GLM-ITEM-LOGIC-1 完成卡与 canonical 测试。
 
 ## 原文保全
 
-固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `75e026e6678e349598b3648d29d7912bbf9545b530f76d85a52f38fd7bb9fdbd`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `75e026e6678e349598b3648d29d7912bbf9545b530f76d85a52f38fd7bb9fdbd`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM物品六组：170283a0窄复核
 >

@@ -1,40 +1,65 @@
 # PNG编码失败的位图释放修复
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行——原修复为 Codex 席位，本页只接模板）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 2026-09-20 Codex 对 TB03 保留的 close 缺陷的常规资源生命周期修复回执（用户明确要求；同 Owner 同会话）：`prepareAuthoredImage` 在两次异步 canvasPng 之后才 `bitmap.close`，任一次编码拒绝都会越过 close；修复为取得 bitmap 后统一 try/finally，移除分散 close。不改图片格式、量化算法、公共接口、作者写盘或存档，不重开已 done 的 TB03 补测卡。
+
+## Scope
+
+- 对象：`prepareAuthoredImage` 位图释放路径；日期 2026-09-20；约束=不改图片格式/量化算法/公共接口/作者写盘/存档。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| 先红后绿 | 新增真实函数回归 | 修复前运行 | 1 绿 2 红：主图/预览编码返回 null 都抛预期错误但 close=0 | 修前缺陷真实存在 |
+| 修复 | 取得 bitmap 后统一 try/finally，移除分散 close | 生产路径 | 成功时在摘要计算之前释放；错误原样传播 | — |
+| 新增 18 项 | 成功双编码；主图/预览 null、同步抛错、Blob 读取拒绝；创建画布/context/draw/读像素/两次 put 失败；缺 palette/坏 palette/无 context；portrait 及摘要失败；解码未取得 bitmap 时不得释放 | 定向+原有 image-import/stages | 3 文件 25 项通过；editor typecheck 通过；既有 GLM 断言未改 | 覆盖失败路径释放语义 |
+
+## Results
+
+- 完整 check 7,766 项、官方 ratchet 与以 `abfef542` 为保护点的单次严格 fast 7,277 项全通过。
+- 旧测试身份/计数与其它六包基线对象不变；生产仍 617 文件，移除重复释放分支后分母减少 6 行/3 语句、分支命中 +2——原文明确「不能冒称纯补测导致覆盖提升」。
+- 日志 `/tmp/type-pal-image-cleanup-{check,ratchet,strict}.log`（历史 /tmp 路径，未随归档保全）。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；Node 边界替身+真实 `prepareAuthoredImage`，不冒称浏览器视觉验收、不改变可见布局。
+- 模拟器继续独立分支实施，不与未完成代码混入本修复提交；无下一位 Agent 提示词（Codex 自测收口）。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 修复 | 2026-09-20 | try/finally 统一释放 | 用户要求的小修完成 | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+- legacy migration/supply-and-import 的位图释放修复回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- PNG编码失败的位图释放修复：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+- 根因=两次异步编码后才 close；修复=try/finally 统一释放；25 项定向+三门全过；不重开 TB03 历史验收。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- 修复前后行为、18 项新增清单与门数字在 quote 保全；/tmp 日志按原文时点（未保全=unknown，不补造）。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+- historical。修复语义按当时代码；当前行为以现行实现与测试为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+- 当前资源生命周期结论归 canonical 测试与 catalog。
 
 ## 原文保全
 
-固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `3ff5a7efc52fa13955ac1321da2bb88083ff8035498657dcea9cd4a7afa296bd`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `3ff5a7efc52fa13955ac1321da2bb88083ff8035498657dcea9cd4a7afa296bd`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # PNG编码失败的位图释放修复
 >

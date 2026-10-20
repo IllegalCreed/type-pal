@@ -1,40 +1,64 @@
 # DOC-GUIDE-REVISION-1 — Codex 独立接收复核
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 DOC-GUIDE-REVISION-1 的 Codex 独立接收复核：首轮（Cursor 候选 94fbb844 基于 145791f1）counter 仅余 H1 Service Worker 语义；窄返工（a2220ca9）accept 准予集成；2026-09-25 正式集成收口（51da64a8/808e6150 接入 main，五文件与 a2220ca9 逐字一致）。
+
+## Scope
+
+H2-H6/N1/T1 逐项一手核验通过（reforge main.ts 拒旧 ?skill=、.gitignore 只忽略 migrated/runtime、bake 转发目标 engine-chrome、EDITOR_MODULES 九项、runDetachedScriptChain 现行符号、migrate-content 仅接受 --write）；唯一 counter：dev-servers.md:47-48 把 E2E=1（只是不挂 basicSsl 的 HTTP dev 入口）误写成验证真 Service Worker——vite.config.ts:9,82-86、main.ts:22-23,71-75、precache-client.ts:50-51 三处源码反证；窄返工仅改 dev-servers.md:40-48 两句。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 文档门+集成 | check.mjs PASS（556 Markdown/3023 links/184 tasks）；两段 git diff --check 过；集成后 51da64a8/808e6150 五文件逐字一致 | Codex | diff 145791f1..94fbb844 恰五文件无 packages 变化；不用已前进 origin/main 求 diff | H7/scene-entry-authoring.md 未改由独立后续核定；DOC-CURSOR-3 后排 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+counter→accept→集成 done 三段链；docs 检查 PASS 不等于业务说明正确（H1 教训）。
+
+## Evidence
+
+- 证据路径：本复核正文（quote 保全）；三处源码反证锚点在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| 首轮复核 | 2026-09-25 | H2-H6/N1/T1 过+H1 counter | counter | 无 |
+| 窄返工 | 2026-09-25 | dev-servers 两句修正 | accept 准予集成 | 首轮 |
+| 集成收口 | 2026-09-25 | 51da64a8/808e6150 | done 归档 | — |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy phase1-runtime/editor-workflows 的指南修订复核；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- DOC-GUIDE-REVISION-1 — Codex 独立接收复核：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+counter→accept→集成 done 三段链；docs 检查 PASS 不等于业务说明正确（H1 教训）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+逐项核验表、H1 三处源码反证、集成记录在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。五份指南现以 main 集成版为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 DOC-GUIDE-REVISION-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `ebaf7b93af644278099cd06da07ba7a5ee4a3c31ad580d251e7c6c11ead850cd`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `ebaf7b93af644278099cd06da07ba7a5ee4a3c31ad580d251e7c6c11ead850cd`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # DOC-GUIDE-REVISION-1 — Codex 独立接收复核
 >

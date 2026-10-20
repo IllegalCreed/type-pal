@@ -1,40 +1,62 @@
 # TB-03 导入/编码合同补测：独立接收与集成
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-EDITOR-IMPORT-CODEC-1（TB-03）的独立接收与集成记录（2026-09-20，Codex）：源 e4461a30、集成 91623a9a、比较 main cda702d5；当前 done——三席均对 4894719e accept、用户授权收口，任务卡已归档；GLM 4d6ae4a2 为实现者自验、Kimi 6cb2e87a 独立终审、Codex 8b0e4dfc 独立集成复核。
+
+## Scope
+
+残项核验：blobProducts 来自每次实际 toBlob bytes.slice 快照、main/preview 分别与第一/二次实际产物比较完整字节；firstByteDiff 扫描所有共享字节（26 组检查通过，不重跑约 522 秒旧日志渲染）；effectPreviewBytes SHA 与独立 preview 常量相等且与 main 不同；自建独立 PNG 解码 oracle（320×200 CRC/IDAT/扫描线/像素，main f614fb…/preview ee694d…，index182 勘误落实）；只替换返回值仍执行第二次真实编码的单点坏实现由候选自己 AssertionError；第 9 针 returned-preview-replaced-by-main 常驻 mutants 工具。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 定向+统一门 | 7 文件 39/39；原工具 3 正控+9 针/判据自测；editor typecheck exit0；11 文件白名单 biome exit0；完整 check exit0（七包 7748 项）；官方 ratchet exit0；保护 cda702d5 单次 strict-fast 7259 项提升 0 与新基线一致 | Codex | fast 只增 editor 7 文件/39 项（243 文件/2437 测试）；617 生产文件清单/identity 不变；editor 行 80.83%/语句 78.61%/函数 76.52%/分支 70.43%，净增 157 行/190 语句/32 函数/112 臂 | 未跑 coverage:full/浏览器 E2E；编码失败 close 缺陷另卡修复（image-import-cleanup.md）不因补测关闭 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+done：限定路径集成、代码与源候选逐字一致；editor 净增四指标如实记录；编码失败 close 缺陷按原隔离归 Codex 修复（后已在 image-import-cleanup.md 补 finally 与 18 项回归）；历史下一位 Agent 提示词仅作历史不再转发。
+
+## Evidence
+
+- 证据路径：本接收正文（quote 保全）；机账、/tmp/codex-tb03-r5.Bxspbm/、预览/尺寸见证目录与两工具链接在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| TB-03 接收+集成 | 2026-09-20 | 残项核验+统一门 | done（三席 accept 4894719e） | r1-r4 历史 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision e0ddc80b28ab45394aa560855d51de65ecd568e1；本轮 R80。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy migration/supply-and-import 的 TB-03 接收记录；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TB-03 导入/编码合同补测：独立接收与集成：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：限定路径集成、代码与源候选逐字一致；editor 净增四指标如实记录；编码失败 close 缺陷按原隔离归 Codex 修复（后已在 image-import-cleanup.md 补 finally 与 18 项回归）；历史下一位 Agent 提示词仅作历史不再转发。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+残项核验清单、统一门数字、见证目录与三席签字归属在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。覆盖率数字为 2026-09-20 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-EDITOR-IMPORT-CODEC-1 完成卡与 image-import-cleanup.md。
 
 ## 原文保全
 
-固定 source revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `cdc158e54718c7d91c7edb4d6462aade28d0de3991244e16893a41cda1d9a339`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `cdc158e54718c7d91c7edb4d6462aade28d0de3991244e16893a41cda1d9a339`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TB-03 导入/编码合同补测：独立接收与集成
 >

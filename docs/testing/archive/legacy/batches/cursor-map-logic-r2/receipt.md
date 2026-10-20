@@ -1,40 +1,62 @@
 # TEST-CURSOR-MAP-LOGIC-2 — 地图与组合块纯逻辑六组回执
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-CURSOR-MAP-LOGIC-2 的 Cursor 作者回执（2026-09-27，独立 worktree codex/cursor-map-logic-r2 基于 4dc8fb75；Codex 集成注：下文保留作者交付时点，当前接收与统一门禁归 cursor-map-integration.md）：本轮只闭 CM1 执行路径的 plan/patch 输入保真；CM2-CM4 不重开；生产冻结 a95618fc 相对零 diff；不合 main 不标 done 不跑官方覆盖率。
+
+## Scope
+
+六行总账：M1 stamp-draft（越界/缺层拒绝、canonicalize 过 validator、两点重叠平移保双方值等）；M2 map-selection（clip-map 精确保留 placementId 丢已删层、组内编辑后清 stampGroupEditContext 等）；M3 map-transform（越界/占用空 patch、include-collision 成功应用旁对象不动、粘贴双通道越界空 patch 保真）；M4 stamp-group-transform（撞未选组空 patch、两 id 完整保真、只删列出的 id）；M5 stamp-placement（合法 draft 三通道 patch 并应用、actualHeight 拒负数、nextStampPlacementId NFKC stem 撞号 -2）；M6 stamp-ownership（真实放置图精确 owner/普通邻格 undefined、inherit 与直接扫描一致、delta 缺 upsert id 抛该 id）。CM1：对 applyPlanPatch 的 patch/requiredWritableLayerIds 与两 Command 的 plan 构造/应用前独立深快照、构造后与 dispatch/apply 后立即比较。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 六针+定向+相邻+见证复跑 | m1-draft-move-oob/m2-clip-hidden-layer/m3-move-empty-patch/m4-group-empty-patch/m5-actual-height/m6-visual-owner 各红侧断言明确、self-test 17 项、全部 redExit=1 hashUnchanged=true；定向+相邻 17 文件/104 项（背景 6 文件/29 项、相邻 11/75）；Codex 原三针仍有效+新 plan 两针候选自身业务红（group-command 2绿/2红、placement-command 3绿/1红、正控 4/4、5/5 绿） | Cursor（作者）→Codex 见证 | editor typecheck exit0；改动 biome 0/0/0；check.mjs 672 Markdown/3664 链接 PASS；未跑全 editor/官方 coverage/ratchet/strict/全仓 check；未开浏览器 6010 未动 | 公开可调用但未测路径不写真不可达；EditorState 走 buildBlankProject→正式 loader→toEditorState 只核 validateCurrentManifestStartup |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+六组剩余合同+CM1 输入保真交付；六针与 Codex 见证复跑有效红；作者自验不能替代 Codex 独立接收。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；m*-mutant.json、evidence.json（count=6 allOk allHit）与 /tmp 目录在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| Cursor r2 回执 | 2026-09-27 | 六组+CM1 输入保真+六针 | 交 Codex（当前接收归 integration 文档） | CM1-CM4 返工链 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 01662fc0b7f4ffd01b8d0c4abe560972b7f7a7ab；本轮 R72。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/cursor-map-logic-r2 的作者回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-CURSOR-MAP-LOGIC-2 — 地图与组合块纯逻辑六组回执：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+六组剩余合同+CM1 输入保真交付；六针与 Codex 见证复跑有效红；作者自验不能替代 Codex 独立接收。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+六行总账表、六针表、验证命令与数字在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。作者交付时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 content/authoring-and-runtime/cursor-map-integration.md。
 
 ## 原文保全
 
-固定 source revision `01662fc0b7f4ffd01b8d0c4abe560972b7f7a7ab`，source SHA `3295b5dce59c8c47b5d80c244956e356df10b2a6d0396d8450d36411aac76898`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `01662fc0b7f4ffd01b8d0c4abe560972b7f7a7ab`，source SHA `3295b5dce59c8c47b5d80c244956e356df10b2a6d0396d8450d36411aac76898`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-CURSOR-MAP-LOGIC-2 — 地图与组合块纯逻辑六组回执
 >

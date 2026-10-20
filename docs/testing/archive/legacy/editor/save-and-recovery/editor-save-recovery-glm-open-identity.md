@@ -1,40 +1,62 @@
 # 作者保存恢复：GLM打开身份测试包
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 EDITOR-SAVE-RECOVERY-1 的 open-identity-r1 工作包+GLM 回执+Codex counter/返工/接收链合体（生产基线 1ba88755）：最终接收状态 accept（Codex 2026-09-12，73aa0ea7 测试子包已适配、R1 由 Codex 修复、完整质量门通过）；下方 GLM 与首轮 Codex counter（f3b84033）记录保留为历史；父卡保持 build/r2。
+
+## Scope
+
+OI-L/S/P/E 四组矩阵（普通本地/沙盒/PAL/最近入口预期）。Codex counter R1：漏 hint.source 轴并发现真实接口缺口（workspace-persistence:955-959 只核 mode/workspaceId 未核 source，后续 open-actions:194-199 以 hint 来源登记——独立探针证 source=review-copy 可错误登记且下次重开被拒；尚未证明正常 UI 会产生不一致 hint 不夸大）；R2：断言不足（forceSandbox dir 未断言/三件套缺失/登记替身越过业务守卫 Map.set 忽略锁品牌）；R3：覆盖增量 +40 实为 +14（起点已含 Codex 回归）、「公开入口无法构造非活跃调用」被真实过期 token 探针否定。GLM 返工：R1 source 单轴预期红保留+产品缺陷 counter；R2 移除 handle-store mock 改真实登记+indexedDB 内存替身+五负控（ncSandboxRecordDrift 重叠保护如实记录）；R3 撤回两结论+逐臂差分 14 臂与 Codex 复算逐项一致。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - Codex 接收修复+统一门 | R1 最小修复：现有条件加 context.source !== marker.source（root diff 仅此比较+格式化）；禁用该检查负控错误放行 1 红；原 probe 3 项 2 绿 1 红（见证的坏 source 首次打开即被拒）；R3 最新主线重算仍恰 +14 臂、Codex 另新增 source 臂 193/2；集成后 8 文件 121 项、check 6825 项、ratchet+单次严格 fast 6337 项 exit0 | Codex accept（无剩余返工项，限子包） | 接收侧补强披露不算 GLM 交付（afterRead 零调用 spy、hint mode 负例单字段化）；overlap 组只读 oracle 证后层继续拒绝 | 本修复不增加新 UI；正常 UI 是否产生不一致 hint 仍未证明 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+工作包→counter→返工→接收修复四段链完整；GLM 测试贡献与 Codex 接收补强分开披露；本结论不是父卡 done 前整体终审签字。
+
+## Evidence
+
+- 证据路径：本包正文（quote 保全）；/tmp/codex-{open-identity-review.8WVTS5,oi-rework.sIagAm}/ 与入库探针在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| open-identity | 2026-09-12 | OI 四组 15→19 项+五负控+R1 缺口 | accept（73aa0ea7，R1 Codex 修复） | f3b84033 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/save-and-recovery 的打开身份测试包；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 作者保存恢复：GLM打开身份测试包：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+工作包→counter→返工→接收修复四段链完整；GLM 测试贡献与 Codex 接收补强分开披露；本结论不是父卡 done 前整体终审签字。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+矩阵表、负控矩阵、14 臂差分表、更正与撤回五条在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。2026-09-12 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 editor-save-recovery-closeout.md。
 
 ## 原文保全
 
-固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `c9669e0668ca3b704d2954258f0864c67bea6b4cf048d5e4800cc9a1f92efe14`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `c9669e0668ca3b704d2954258f0864c67bea6b4cf048d5e4800cc9a1f92efe14`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 作者保存恢复：GLM打开身份测试包
 >

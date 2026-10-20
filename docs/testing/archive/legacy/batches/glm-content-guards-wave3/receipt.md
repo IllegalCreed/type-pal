@@ -1,40 +1,62 @@
 # TEST-GLM-CONTENT-GUARDS-3 · GLM 作者交付回执
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-CONTENT-GUARDS-3 的 GLM 作者交付回执（2026-09-26，生产冻结 8add8c66，分支 codex/glm-content-guards-wave3 自 4c1c5038）：只新增八份 .guard-residual.test.ts+本目录证据+卡内作者块，产品/旧测试/scripts/配置/基线零 diff。
+
+## Scope
+
+r2 counter（R1-R3）闭合：R1 loop 三行由同一合法 loop 工厂派生、四行挂 target:scene 同型载体、投掷行以完整合法 magicDamage 为同型正控（单轴自证探针 3/3）；R2 新增 expectRejectUnchanged 助手（本次调用前独立快照→执行→立即比较同一实参），G1/G3/G4/G5/G7 缺失位全补调用前后快照对，label 污染探针复跑候选已抓住；R3 负控两针描述勘误+计数按最终树刷新。八组 G1-G8（author-flow 9/author-state 8/author-command 11/script-command 21/enemy-hook 7/record-actors 6/record-skills-poisons 9/record-items 39）合计 110 行（r2 删 G3 冗余重复坏 wipe 用例）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 八针负控+定向+全包 | guard-residual-mutants.mjs 同一 judge（恰 exit/恰一红/绝对文件+实际 fullName/其余 109 项全过无 skip/拒混错 timeout/load 命中 entered.json/生产 sha 不变）+自测 10 例+110 项绿对照；八针 flow-stages-empty/world-flags-bool/bare-entity-release/dialog-line-retired/effect-id-dup/actor-percent-int/skill-placement/item-status-dup 各恰好只红目标 | GLM（作者）→Codex r3 复核 | 定向 110/110、全 content 92 文件 1132/1132、TC exit0、biome 改动文件 0 error（仅 mutants 工具 3 条变异字面量 warning 单列） | 池内不可达臂如实不测（author-script-core:802 前置 guard 挡住、:610-612 防御直测未列、assertNever 两处等）；未发明缺失政策 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+八组 110 行+八针全绿；未发现产品疑似缺陷；全部负例为现行公开合同非法输入。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；evidence.json 与 /var/folders 机账目录在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| GLM wave3 回执 | 2026-09-26 | 八组 110 行+八针 | r3 复核后集成（6a114727 闭合） | r1/r2 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b9af6517a6298e0fb247b97a3b653294d6b45fa2；本轮 R74。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-content-guards-wave3 的作者回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-GLM-CONTENT-GUARDS-3 · GLM 作者交付回执：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+八组 110 行+八针全绿；未发现产品疑似缺陷；全部负例为现行公开合同非法输入。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+八组表、八针表、r2/r3 闭合细节在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。r3 复核见 guard-wave3-r3-review.md。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 guard-wave3-integration.md。
 
 ## 原文保全
 
-固定 source revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `f520e521d955878181fdc852c95aca97039738895a192aa6bc910cb9ef72e940`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `f520e521d955878181fdc852c95aca97039738895a192aa6bc910cb9ef72e940`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-CONTENT-GUARDS-3 · GLM 作者交付回执
 >

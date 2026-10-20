@@ -1,40 +1,62 @@
 # 世界异步操作提交一致性：验证与集中E2E入口
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 WORLD-ASYNC-COMMIT-1（r1）实现与验证：实现候选 e13216e7 对比 5bc62a21；2026-09-17 补齐 Kimi/GLM accept 后 Codex 核 done 归档；含 WA-E1~E3 集中 E2E 入口（尚未执行）。
+
+## Scope
+
+实现：地图 core 不抢写（窄提交控制穿真实 main 路由/adapter；提交后 abort/reject 仍通知不回滚）；预检首次 await 前冻结 world/script 与 actor 定义（candidate script 优先、无关不误伤）；四叶最后 scene await 后检查 signal/来源会话再同步选择；SAVE8/content20 不变。正式证据：world-async-commit.test.ts（缺席/override/失败取消重试/renderer 失败/同 ID 重入/旧请求迟到/纯状态宿主等）、scene-preflight.chain（真实 main 函数+selector/lease）、scene-switch-transaction（旧字段两用例改 canonical 禁用/游标矩阵）、restore-preflight.chain、editor playback 真实 playCanonical。先红：地图/选择 17 项 11 红/6 绿、预检 8 项 7 红/1 绿。九见证反控（control/editor-control/editor-loses-commit-control/map-early-write/selector-no-abort/selector-no-session/preflight-no-behavior/preflight-live-script/main-loses-commit-control/post-commit-skips-notification）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 反控重跑+统一门 | 2026-09-15 八项反控全 exit1、Reforge 45/Editor 12 对照绿；三次完整 check 对应三候选均 exit0（7034/7035/7036）；首次 ratchet exit1（editor 分支 19082/27547 精确比例回退）补真实回归后二次过；最终 fast 6493→6548（+55：Reforge 54/Editor 1） | Codex | AST 回归证实际 main 逻辑不等于 V8 统计 eval 代码为 main 覆盖行；相邻静态观察 updateCamera viewMin/Max 由 commitSceneSwitch 更新，异尺寸底图镜头裁剪归 WA-E1/R4 实测 | WA-E1~E3 集中 E2E 表（房间切底图保存重开/目标 fade 资源 entered 切配置/四叶取消无幽灵选择）未执行不宣称完成 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+done：+55 项入基线；不扩张到保存 barrier/U-02/战斗/默认落点/迁移/完整 E2E。
+
+## Evidence
+
+- 证据路径：本验证正文（quote 保全）；/tmp/type-pal-world-async-build.aNkqp5/ 与 /var/folders mutants 目录在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| WA r1 实现+验证 | 2026-09-15/17 | 43+8 文件回归+九见证+统一门 | done（三席 accept e13216e7） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy runtime/authoring-and-runtime 的世界异步提交验证；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 世界异步操作提交一致性：验证与集中E2E入口：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+done：+55 项入基线；不扩张到保存 barrier/U-02/战斗/默认落点/迁移/完整 E2E。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+九见证表、WA-E1~E3 表、质量门与首次 ratchet 拒绝记录在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。数字为 2026-09-15/17 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 WORLD-ASYNC-COMMIT-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `cbe392d0d40e724d13fe1c8a8fda7595e856409430affa09a3665983cdc33bdb`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `cbe392d0d40e724d13fe1c8a8fda7595e856409430affa09a3665983cdc33bdb`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 世界异步操作提交一致性：验证与集中E2E入口
 >

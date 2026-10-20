@@ -1,40 +1,63 @@
 # GLM 守卫第三批：6b371144 定点接收
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-CONTENT-GUARDS-3 第 3 轮 Codex 定点接收（2026-09-26，候选 6b371144）：counter，仅 R2 的一处匿名对象输入保真未闭合；不合候选、不跑全仓覆盖；历史 counter 已于 2026-09-27 在 6a114727 闭合。
+
+## Scope
+
+已通过不再返工：白名单八新测试+薄fixture+专属证据；R1 三个表补真实同 kind 合法正控（移除 gate 上限变异 39/39 变 38 绿/1 红）；R2 上轮点名的 badTransition/badFade/badWipe/emptyStages 均有实际快照（敌 transition 抛错前改 kind 针 7 对照绿/变异 6 绿/1 红）；G3 重复坏 wipe 自比较删除后各组 9/8/11/21/7/6/9/39=110 与 runner TOTAL 一致；八针复跑各恰一目标 AssertionError；content 92 文件 1132/1132。唯一代码残项：enemy-hook.guard-residual.test.ts:178-181 仍直接调 checkEnemyOnDefeatedCommands({},…defeated)——AST 枚举 63 处唯一直接传对象/数组字面量的拒绝调用；单点变异 enemy-script.ts:371 拒绝门前给 value 加 __codex_mutation 候选 7/7 仍绿，追加具名 {} 深快照 oracle 原实现 8/8 绿/变异 1 红。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 八针+定向+变异见证 | 复跑原八针各恰一目标红；110 对照+10 判据自测；content 1132/1132、TC、docs/diff 过 | Codex | R2 匿名对象针期望从绿改候选业务红（复算命令在 quote） | 下轮 Codex 只改该针期望并重验，不重做矩阵 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+counter 仅 enemy-hook 匿名对象一处；随手勘误（receipt:42 未新造 fixture 与实际新增矛盾、111/1133 为上轮数据）不另开阻断；不声明产品实际存在污染缺陷，只证明测试抓不住此类回归。
+
+## Evidence
+
+- 证据路径：本接收正文（quote 保全）；/tmp/codex-guard-wave3-r3-*.log 与 /var/folders 临时目录在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r3 定点接收 | 2026-09-26 | R1/R2 主体闭 | counter（一处 R2 残） | r2 |
+| 历史闭合 | 2026-09-27 | 6a114727 | 见 integration 文档 | r3 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 3dc90ad8f6dde5a7ddcafc6b749b61dd53152751；本轮 R78。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy content/quality-gates 的第 3 轮定点接收；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM 守卫第三批：6b371144 定点接收：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+counter 仅 enemy-hook 匿名对象一处；随手勘误（receipt:42 未新造 fixture 与实际新增矛盾、111/1133 为上轮数据）不另开阻断；不声明产品实际存在污染缺陷，只证明测试抓不住此类回归。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+八针复算、AST 枚举、单点变异与复算命令在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。守卫三批最终结论归 integration 文档。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 guard-wave3-integration.md 与 TEST-GLM-CONTENT-GUARDS-3 完成卡。
 
 ## 原文保全
 
-固定 source revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `c4eade862fa7d2aa5d568c7e8dbdd535fe8b814a6707961d0dc8972a86cc209f`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `c4eade862fa7d2aa5d568c7e8dbdd535fe8b814a6707961d0dc8972a86cc209f`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM 守卫第三批：6b371144 定点接收
 >

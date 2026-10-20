@@ -1,40 +1,63 @@
 # TEST-CONTENT-CONTRACTS-1 · Codex独立接收复核
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-CONTENT-CONTRACTS-1 的 Codex 独立接收复核：r1 counter（候选 dbe579c5，R1-R4 四阻断）→ r1 返工接收（2026-09-18 候选 428a7852）accept——R1-R4 复核通过、串行完整 check→官方 ratchet→受保护单次 strict-fast 全 exit0；集成候选 adbabb84、Kimi 235d40e2 独立终审 accept，2026-09-18 用户确认三席收口 done 归档。
+
+## Scope
+
+r1 counter 四项：R1「干净合法」主 fixture 被现行守卫拒绝（退役 scene.onEnter/Sprite 缺 label/page.body 非当前字段）；R2 六个坏实现仍被放行（actor-input-pollution 三次不同对象、source-bound-masked、tpfs-view-offset-lost、levelup-severity-wrong、entity-locator-wrong、reference-extra-issue 全 MISSED）；R3 负控判据把模块加载当执行且接受污染日志（mixedFailureAccepted:true）；R4 完成账不实（F4/F5/C4/C1/C2 未新增、actor-reference.test.ts 不存在、TextEncoder 切换不存在）。返工接收：R1 工具从实际测试 AST 取主载荷七项检查 accepted；R2 六针全 detected；R3 独立重建 6 正控+12 变异、MUTATION_HIT 不单独作运行见证；R4 43 族逐项对账+Owner 裁定四处收窄（C1 编码域防御臂/F3 商店 items 边/F5 缺席基线/F8 分类）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 同树覆盖复算+统一门 | before 42 文件 557→after 55 文件 675 项、50 生产文件四分母相同；13 目标模块行 1593→1690/1842、分支 1275→1403/1743；全包行 4358→4458/5183；完整 check 7420 项 exit0、ratchet 6932 项/617 生产文件、保护 31aa0e3b 单次 strict-fast 提升 0 | Codex | 六针是审查注入反例不是六个现存产品缺陷；计数注：Kimi 原文「3正控」统一为 6 正控+12 业务红（18 次） | 未发现新产品缺陷；不关闭 D-02/D-06/D-07 等其它修复卡 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+counter→accept→done 三段链完整保留；原 counter 全文保留在 quote；同树覆盖复算与主线集成两口径分列不混用。
+
+## Evidence
+
+- 证据路径：本复核正文（quote 保全）；/tmp/codex-content-contracts-{rework.CTD0rc,r1.zoMriZ}/ 与两 /var/folders 见证目录在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r1 接收反证 | 2026-09-18 | 四正常对照+六 MISSED+污染判据 | counter（R1-R4） | 无 |
+| r1 返工接收 | 2026-09-18 | R1-R4 闭+统一门 | accept→done（adbabb84+Kimi 235d40e2） | r1 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 3dc90ad8f6dde5a7ddcafc6b749b61dd53152751；本轮 R78。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/authoring-and-runtime 的内容合同复核；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-CONTENT-CONTRACTS-1 · Codex独立接收复核：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+counter→accept→done 三段链完整保留；原 counter 全文保留在 quote；同树覆盖复算与主线集成两口径分列不混用。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+R1-R4 逐锚点、六见证表、43 族裁定四条、覆盖表与历史 counter 在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。数字为 2026-09-18 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-CONTENT-CONTRACTS-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `437346b9bab008fe4fad1dbdcde2f8ce28ca401209a877739c45a77cabf95b3f`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `3dc90ad8f6dde5a7ddcafc6b749b61dd53152751`，source SHA `437346b9bab008fe4fad1dbdcde2f8ce28ca401209a877739c45a77cabf95b3f`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-CONTENT-CONTRACTS-1 · Codex独立接收复核
 >

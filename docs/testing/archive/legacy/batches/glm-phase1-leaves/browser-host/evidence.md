@@ -1,40 +1,62 @@
 # 四项隔离短视觉样本证据（LV1–LV4）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-PHASE1-LEAVES 的四项隔离短视觉样本证据（LV1–LV4）：分支 codex/glm-phase1-leaves-r1、视觉批次基线 ee1651b8、宿主文件随本目录提交；URL 为 vite strictPort 6082 只读服务主仓 data/extracted，未触 6005/6010/6050/606x/607x/E2E 端口；console 错误无。
+
+## Scope
+
+宿主仅导入实际生产 draw/setup（drawMenuStack、drawBattleUI、drawBattleSettlement、setupToolsPanel、drawMinimap、createUnifiedProgressUi、renderOverlay/hideOverlay、showCountdown），真实调色板 fetchPalette 0+真实字形 glyphs.json+真实 SPRITEUI 帧按 manifest 下位；320×200 逻辑画布 2× 整数像素展示。LV1/C 菜单三态（hub 金钱 1234/system switch 关开/save 5 槽 savedTimes）；LV2/D 战斗 selectMove+结算三态（exp 120/文钱 7、修行提升 8 行、练成观音咒 0x1B）；LV3/E 工具面板 Backquote+场景 tab 小地图（只读 GameState）+点击回调；LV4/F 进度 10→100、overlay 21 节点 splits、hideOverlay、倒计时 3→2→1→null。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 四组视觉 | 每组预期→实际含截图 SHA256 与视口（LV1 660×430、LV2 650×434、LV3 432×812、LV4 1100×1500） | GLM（作者自验） | 真实生产绘制函数+真实调色板/字形/帧资源；console error 钩子全程未触发 | 直挂范围：真实 DialogBox/rAF 重绘循环与生产 UI 函数，不含完整引擎画面 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+四组视觉样本与截图 hash 如实登记；未证项：真实地图底图 getMapThumbnail 未接（暗底占位）、真实 SW 离线/音频听感/完整战斗一局不在样本范围、blink 双相位只呈现当前相位。
+
+## Evidence
+
+- 证据路径：本证据正文（quote 保全）；/tmp/type-pal-glm-phase1-leaves/ 截图与每次运行 log 在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| LV1–LV4 视觉 | 原文时点 | 四组样本+SHA256 | 交 Codex（作者自验） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 64bd3b936eb8fdd0943deba5e476d032a30c1830；本轮 R75。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-phase1-leaves 的隔离视觉证据；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 四项隔离短视觉样本证据（LV1–LV4）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+四组视觉样本与截图 hash 如实登记；未证项：真实地图底图 getMapThumbnail 未接（暗底占位）、真实 SW 离线/音频听感/完整战斗一局不在样本范围、blink 双相位只呈现当前相位。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+逐组步骤/预期/实际表、SHA256 与未证项在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。作者自验样本，Codex 独立看图结论以完成卡链为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-GLM-PHASE1-LEAVES 完成卡。
 
 ## 原文保全
 
-固定 source revision `64bd3b936eb8fdd0943deba5e476d032a30c1830`，source SHA `60fe1c2ce4b7103ef7bff1a15e3516b4659987c2f9c4a50c6fddae7d1dbec58e`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `64bd3b936eb8fdd0943deba5e476d032a30c1830`，source SHA `60fe1c2ce4b7103ef7bff1a15e3516b4659987c2f9c4a50c6fddae7d1dbec58e`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 四项隔离短视觉样本证据（LV1–LV4）
 >

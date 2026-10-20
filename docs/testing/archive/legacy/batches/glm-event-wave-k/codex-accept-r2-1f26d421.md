@@ -1,40 +1,62 @@
 # TEST-GLM-EVENT-WAVE-K-1 · Codex r2 独立接收与正式结算
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-EVENT-WAVE-K-1 r2 的 Codex 独立接收与正式结算：候选 1f26d421（基于 main 4d34a007）快进集成 main，后续 f3f780ea 仅清理 K03 重复注释并纠正 K05 反控回执措辞；结论 accept/done；首轮 4ebea2b5 四项 counter 均闭合。
+
+## Scope
+
+四项返工闭合：K04 测试在第二次执行前 setMapReloader(null) 断言回调记录仍仅 [99]；三枚反控 --self-test 8/8、复跑 3/3 valid（变异合法 idleFrames/fade speed/sell-buy opcode，K05 首败为 speed=1 断言非回执 r1 所写 totalMs）；K03 撤 sell 的 storeNum 语义断言以两合法 operand 对照 mode/sell/waiting/ip（合 sdlpal script.c:1168-1173 PAL_SellMenu 不读 operand）；K06 改用现行 createBattleState 玩家 0 真实存在。冻结核对六新测试文件+event-system.ts 1/1 SHA 不变。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - main 串行门 | pnpm check exit0（Game 2773/Reforge 1999/Migrate 1008/Editor 3653；lint 2760 文件 0/0/0） | coverage:ratchet exit0+独立 coverage:fast exit0 | 快测 10679 项/730 生产文件；event-system.ts V8 分支 1281→1336 净 +55 入基线；全仓 49529→49584/63398（78.12%→78.21%），二次采样多 1 不记增量 | 85% 未达：同分母需 53889，按新基线仍差 4305 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+accept/done：候选集成 main；ratchet +55 分支入基线；0x12 setObjectPosRelParty TS signed 与 C WORD 表示差异登记未测试未裁决，不冒充已确认缺陷。
+
+## Evidence
+
+- 证据路径：本结算正文（quote 保全）；白名单核对、交付 JSON 638/638 与 Game 全包数字在 quote。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| r2 接收+结算 | 2026-09-29 | 四 counter 闭合+集成 main | accept→done | r1 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b9af6517a6298e0fb247b97a3b653294d6b45fa2；本轮 R74。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-event-wave-k 的 r2 接收结算回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-GLM-EVENT-WAVE-K-1 · Codex r2 独立接收与正式结算：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+accept/done：候选集成 main；ratchet +55 分支入基线；0x12 setObjectPosRelParty TS signed 与 C WORD 表示差异登记未测试未裁决，不冒充已确认缺陷。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+四返工核对表、冻结核对、串行门与覆盖率数字在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。覆盖率与测试计数为 2026-09-29 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-GLM-EVENT-WAVE-K-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `7d3e86779215e03dace2408715e9ca824bed5c17d124545e3edef1b6fec52055`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `7d3e86779215e03dace2408715e9ca824bed5c17d124545e3edef1b6fec52055`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-EVENT-WAVE-K-1 · Codex r2 独立接收与正式结算
 >

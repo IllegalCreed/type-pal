@@ -1,40 +1,58 @@
 # 统一步骤模型的治理范围
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: plan-status-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是统一步骤模型治理范围计划（目标由用户明确：作者只需理解方案、步骤和步骤里的指令，不需要另一套连续流程或高级状态；首批 18 套流程，余下 147 套归 SCRIPT-GOV-2；实现候选已准 build 采用 content22/SAVE11/编译格式 3，整体验证通过前不更新主工程）。
+
+## 目标与时间范围
+
+- 作者模型只保留方案/步骤/指令三层；首批 18 套已有能力整理，余 147 套 SCRIPT-GOV-2 处理；具体合同以 phase2/specs/script-system.md 为准，本文件只说明治理理由与边界。
+
+## 里程碑
+
+- 步骤语义：步骤只表示跨激活进度（复读/再谈进另一段/方案完成）；同次执行转弯/条件/选择/等待留在正文；12 套确认流程按「否定正文后结束本次执行，同意则继续」整理，不把每个选择臂显示成步骤卡。
+- 正文分支决定后继：s091/e1682 同意与拒绝分别进两个不同后继（都不是当前步骤），旧固定 Stage.next+提前结束不能表达——新增步骤内明确结束指令（下次保持当前/进入指定步骤/完成方案）+原子提交游标；确认指令对称同意拒绝正文不再要求 commandId 机器边分派；共享脚本返回与结束当前实体步骤明确区分（旧 stopScript 放 callScript 只返回子调用不能冒充结束整个交互）；自切/取消/迟到执行器遵守现行绑定归属检查。
+- 时间模型：旧普通 auto 为每条命令附加 100ms（连 branch/loop/子命令都计时）、transition 机器只在指定边界等待——作者改变分组就改变速度且机械状态难退役；统一模型顺序执行只由显式等待或实际异步动作消耗时间不隐式给控制结构加拍；固定次数 repeat 与条件循环分开（旧 maxIterations 随机器退役，零时间预算只作错误保护）；永久后台循环必须有等待或异步动作零时间死循环拒绝；moveEntity 改朝向步态与走路非同一用途；真实反例：直接拼接 s273 的 642 状态链会少一拍、错用 loop 把间隔翻倍触发上限错误——不能靠改全局时钟/加 wait0/乘系数/冻结 NPC 过测试。
+- 跨方案调用：18 条 cursorHandoff 涉 32 机器端点其中 27 个状态只从交接目标可达——不能当死代码删除也不能 stateMap 换名 stageMap 继续暴露内部状态；按完整 caller/callee 组审查（真实剧情阶段用有名方案或步骤/顺序剧情用明确调用等待/后台走路从实时位置接续）；不要求 parallel/join 或复杂流程图。
+
+## 当前状态
+
+- historical（计划时点）：首批 18 套整理完成、实现候选已准 build；整体治理记录归 SCRIPT-GOV-1 母卡。
+
+## 阻塞与决策
+
+- 决策：统一切换 canonical 版本时移除 stateMachine 作者类型/编辑入口/状态游标/旧升级分支及专属兼容夹具；历史证据留 Git，不让两套作者模型永久并存，不合半完成双模型候选。
+
+## 下一步
+
+- 剩余类别代表反例已选并完成实现准入，证据与风险记录在 SCRIPT-GOV-2 任务卡；验收覆盖选择每条路径/跨激活游标/取消/自切绑定/后台动作保存恢复/真实时间间隔/交接所有者；内容全批冻结后重建前驱检查点再选代表场景视觉 E2E。
 
 ## 历史范围
 
-- 源 revision 226f8cb90880b74c82f3c39b6e09d949f2a16e7b；本轮 R77。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+- legacy batches/script-governance 的治理范围计划；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 统一步骤模型的治理范围：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+- 统一步骤模型治理理由与边界（四里程碑+切换决策）；具体合同以脚本系统规范为准。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- 治理各节、s273/s091 反例与锚点（script-runner-core/script-compiler-core/author-script-core/machine-census.json）在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+- historical。计划按冻结时点；当前以现行规范与实现为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+- 当前结论归 SCRIPT-GOV-1/2 任务卡与 phase2 脚本系统规范。
 
 ## 原文保全
 
-固定 source revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `f038f5aefc64b5bd7139bef976143ab77aabc85b2c770018bea9d081f94307df`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `226f8cb90880b74c82f3c39b6e09d949f2a16e7b`，source SHA `f038f5aefc64b5bd7139bef976143ab77aabc85b2c770018bea9d081f94307df`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 统一步骤模型的治理范围
 >

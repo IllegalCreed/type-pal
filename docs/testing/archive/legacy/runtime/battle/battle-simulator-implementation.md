@@ -1,40 +1,78 @@
 # 战斗模拟器 r2 实施记录
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行——原实施为 Codex 席位，本页只接模板）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 EDITOR-SKILL-TRIAL-1 战斗模拟器 r2 实施记录（Coding Owner Codex；起点 af916f5b 分支 codex/editor-battle-simulator-r2 隔离工作树 battle-simulator-r2）。**收口（2026-09-20）**：主体 fe0fee84 与最终列宽补丁 d394eccc 三席 accept 齐无 counter，用户明确「UI 验收通过，可以收口」，Codex 核定零漂移后归档 **done**；D-04/D-05 按已批准首批范围关闭；四目录及原技能/敌人/敌队入口完成不代表所有评估模块新快捷入口接入；原生目录选择器保存→重开正向浏览器链未完成（真实事务/writer/loader 集成通过）、360 主壳限制、full/Q1/Q2 未跑继续披露；后续 2026-09-22 功能视觉补证发现启动区缺就近配置错误说明、360 裁切复现、原生目录控制超时均未关闭（不修改历史验收或产品）。
+
+## Scope
+
+- 交付链：S1 配置与作者保存基础（Reforge 小型配置合同+编辑器四类命名记录+editor/battle-simulator.json 接入本地/HTTP/toEditorState/序列化/准备写集/原作者事务+缺席字节基线+首次写/删空删/重开首存显式删+App 两条回调+404/500 服务路由）→S2/S3 独立运行与工作区（内存握手/临时 world/私有资源快照/真实 BattleSession 宿主/替换旧技能敌队单敌入口拒绝旧授技 URL）→UI-r1 布局返工（fe0fee84）→列宽补丁（d394eccc）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| S1 负控 | open/preflight/absence/delete-after-open 四单点 | 可重建脚本 | 四正控绿四针 AssertionError 产品 SHA 前后同 | open=重开丢已提交配置；preflight=无效输入进 journal 非零凭据；absence=外部创建后 finish 错误成功；delete=删空保存重开残留 |
+| S1 夹具 | 正式 buildBlankProject；存储集成只替换 FSA/IDB/picker 边界（loader/事务/恢复/身份锁/克隆/ZIP/序列化均生产代码） | 定向+相邻 13 文件 243+配置 29+路由 HTTP 37；完整 fast editor 225 文件 2,397+reforge 117 文件 1,219 全绿 | — | 空敌队是合法编辑草稿不宣称可开战 |
+| S2 运行 | 一次性内存握手（URL 只带 launch ID 配置走 MessageChannel）/身份版本复验/临时 world/资源快照取消/正式 writeBack 仅临时 world | 工作流 14+施法投掷使用结算 3+快照取消 5+握手 5；真实 play 入口 6+真实宿主 3（SaveStore 构造/indexedDB.open/Storage.setItem 均 0）；运行负控六对照/六针（判据拒普通 Error 内嵌 AssertionError 与超时） | — | F5 拒绝提示不存档；迟到初始化/歌曲读取不能播放；BGM owner 幂等 dispose |
+| 图标色盘修正 | 用户截图发现战斗图标误用工程色盘（battle-ui.ts 项目 0..31 vs seed-assets 草绿蓝褐） | 修 chrome 自有色带保持选中原图/灰项/暗红禁用布局不改工程色盘 | 图标回归 2 项先红后绿+BattleSession 43 项共 45 | 一阶段 draw-battle-ui:438 三态一致 |
+| 夹具/预期自纠 | effectSprite=-1 不合法改 0 号三帧；敌人动画改正式连续分段；ArrayBuffer 不能当 JSON 序列化；胜利奖励恢复缺 MP 一半分别观察；药品用例改显式合法攻防；预览参数误取作者物品类型 TC 发现后改 ItemDataMap | — | — | 不改战斗算法不迁就坏夹具 |
+| UI-r1 | live 追加改 DsAddPickerDialog/短枚举 16rem/readout 12px/焦点归区/临时副本双确认 | 真实 React 工作流 7→10+App 1；UI10+field8+number4=22/22+typecheck | 采用门精确扩容（add-picker 5→7 owner、6→16 数据路径两 marker）；check 7,895+ratchet fast 7,404/631+BASE_REF=cb44c378 单次 strict 7,404 提升 0 下降 0 | 6011 内存工程四目录/空态/添加移除/技能入口/1920-1280-900-720 无横向溢出 |
+| 列宽补丁 | 根因一 trial-choice-short 独立限宽移除；根因二 auto-fit 空轨道折叠改 auto-fill；网格 min-inline-size:0 收缩 | 6011 真实编辑器自有工程指定技能+五槽 22 控件测量四档视口（1920/1280/900/720 每组差值 0） | UI10+field8+number4=22/22+TC/Biome/build | 初版仅 auto-fill 窄窗内层 1104px 网格裁切页面 scrollWidth 未暴露——追踪 DOM 父链补收缩约束不沿用初测结论 |
+| 历史质量门 | 产品候选 bd4c67c6（基点 1bae48e4）统一候选 cb44c378 快进合 main | check 7,891+ratchet+BASE_REF=1bae48e4 单次 strict 7,400 提升 0 下降 0+build（独立宿主 11.07KB chunk） | S1 四针+运行六针业务红+音频第二后端构造失败释放第一上下文 4 项 | projects/data/migrate 零 diff 忽略资产仅隔离树 |
+
+## Results
+
+- 整体接入失败如实：首次全仓 check 9 文件 49 红（双向清单/路由旧四 kind/alertdialog 误选/「工程」用词）——修复为显式登记 31 页/109 滚动/95 UI/真实路由/目录转发门按真实源码重算未添加例外；第二次 7 包 7,887 通过；首次 ratchet 因 editor 四项比例微降**拒绝写基线**（全局与 Reforge 提高不能替代 editor 不下降）——补三域覆写/条件/无预设入口真实回归后重测不把失败写成通过。
+- 用户布局反馈两次修正：移除按钮横跨整行改 DsInlineComposer 同行 action 槽（82px vs 原 1,636px）；指定习得技能改 DsMultiSelect 勾选多选+count 摘要（已选缺失技能作可取消项保留外层诊断阻止启动不静默丢引用；装备授技不混入习得集合）。
+- 原生保存选择器在自动化浏览器返回 AbortError（用户取消合同）没有目录句柄没有落盘——不算浏览器保存/重开通过（S1 自动集成证据承担）；HMR 重复 createRoot 后续视觉用显式 reload 不归因保存算法；runtime 4 个集成测试移 packages/reforge/scripts（官方覆盖率按包运行 editor 内 runtime 调用不能算 reforge 基线）。
+- WIP 历史如实：人数阻塞时正式战斗信息栏第 4 人 x=322 超出 320 逻辑画布（1-5 人站位不能证五人完整交互）保留现场不擅改 UI 待 r2a 裁决；已提交共用提取 6a1d4761（玩家属性/装备/技能派生与战果写回/奖励调用）当时 3 文件 80 项。
+- 视觉已验清单：四目录与空态/命名引用删除跨页 undo/长表单滚动/1 人与 3 人实战/4 人禁入/施法投掷/正式胜利奖励/停止重开关闭/F5 拒绝/图标三态/自适应字段/82px 移除按钮/技能多选搜索计数 Escape；768/1024/宽屏均检查 360 宽受主壳最小列限制未宣称移动端；普通 DEV 调试面板仍可直接改当前 world（不是本卡隔离入口原存档保证未扩大）。
+
+## Evidence
+
+- 证据路径：本记录正文（quote 保全）；收口口径主体 7,895/7,404+列宽 22 项保持原候选；各阶段日志前缀与负控临时目录在 quote；maxPool 装备效果无当前正式消费链登记 Q2 待复验临时宿主不另算「理想效果」。
+- 静态文档治理不授 runtime/E2E/coverage 信用；不做视觉验证。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| S1 部分 | 2026-09-19 | 配置+保存基础 67 项 | build 继续 | 无 |
+| S2/S3 WIP | 2026-09-19 | 人数阻塞（第 4 人 x=322） | blocked 待裁决 | — |
+| r2a 解除 | 2026-09-20 | 我方 1-3 人+敌方五槽 | 继续实现 | — |
+| 产品+统一门 | 2026-09-20 | bd4c67c6/cb44c378 check 7,891/strict 7,400 | 待终审 | — |
+| UI-r1 | 2026-09-20 | fe0fee84 布局返工 check 7,895/fast 7,404 | 待 UI 验收 | cb44c378 |
+| 列宽补丁 | 2026-09-20 | d394eccc auto-fill+收缩 22/22 | 用户 UI 验收通过 | fe0fee84 布局决定 |
+| 收口 | 2026-09-20 | 三席 accept 齐+零漂移 | done 归档 | — |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+- legacy runtime/battle 的模拟器 r2 实施记录；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 战斗模拟器 r2 实施记录：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+- done：S1-S4 首批完成（fe0fee84+d394eccc）；原生保存浏览器正向链/360 主壳/full/Q1/Q2 边界如实披露；两次用户布局反馈均按公共组件复用修正。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- 八类执行表、两次接入失败、视觉清单与修订史在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+- historical。done 按当时首批范围；当前实现以现行代码为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+- 当前结论归 EDITOR-SKILL-TRIAL-1 完成卡与冻结设计。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `15eccccfb91ad3aded434072571cf714710c42cd3e4f4c7eed0a17013b07cb6b`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `15eccccfb91ad3aded434072571cf714710c42cd3e4f4c7eed0a17013b07cb6b`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 战斗模拟器 r2 实施记录
 >

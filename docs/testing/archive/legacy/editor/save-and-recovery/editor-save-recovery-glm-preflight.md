@@ -1,40 +1,62 @@
 # 作者保存恢复：GLM 保存前校验与序列化测试包
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 EDITOR-SAVE-RECOVERY-1 的 preflight-r1 工作包+GLM 三轮回执+Codex 三轮 counter+接收结论合体（基线 4b72e492；测试分工非新产品卡不重签）：当前核定（Codex 2026-09-12）——fae10e55 的 13 个测试经独立验证及接收侧补证后集成，P05 错层问题解除；C 组原可达性/已覆盖分类不获接收背书，已重建 119 臂未覆盖台账交 Codex 继续判断。
+
+## Scope
+
+三轮链：首轮 counter PF-1（S01 旧分片 content.scripts 被 project-loader:188-189 明禁非当前合法正控——Codex 覆盖回正式 loader 立即报「当前 manifest 禁止 content.scripts」）/PF-2（标题超断言：S02 只证空 maps copy-through、P05 空 for 循环未验证 staging）/PF-3（C 组 82 臂分类缺证且 :172 函数映射错误、「集成后合并计算」错误归因——本树已含上批测试）；一次返工 PF-1 撤旧结论改当前 sharedScripts 模型+正式重开、PF-2 S02 双态/P05 重建；二次 counter剩 PF-2 坏输入未进 writer（先 serialize 在内容校验被拒）+PF-3 直接反例（130/0 双 marker 用生产 sandboxMarkerFor+合法 sentinel 经公开 authorizeBoundWorkspaceTarget 入口真实达）；二次返工 P05 拆双用例（合法序列化→structuredClone 仅 bytes+1→catch-free 直接 writeProject rejects+入口见证计数恰 +1）、82 臂逐臂唯一分类（脚本复算 20/49/10/3=82）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - Codex fae10e55 接收 | 13 测试+窄 helper 集成；P05 正控真实写入新精灵字节 committed、负控 catch-free 进 writer 核零凭据零 IO；四负控 A1 三红（P01×2+P05 负）/A2/B1/B2 各一红；集成后完整 check 6718 项、ratchet 6223→6236、单次严格 fast 同值；全仓语句 +22/分支 +17 | Codex（C 组接管） | C 组处理：原表 0 命中标「已有覆盖」不被接受（25/0@257 state.active 拒绝、77/0@492 拒 PAL 二进制等直接例子）；据 cov5+AST 重建 119 唯一臂台账、除已证可达的 wp130/0 余 118 臂保守列待确认 | project-io 行 97.24%/函数 100%/分支 84.64%；wp 353/435——未达长期目标不把接收当覆盖建设完成 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+13 测试接收+119 臂台账重建；原生跨页/权限/性能/整卡终审仍待 Codex；r2 不重签不标 done。
+
+## Evidence
+
+- 证据路径：本包正文（quote 保全）；/tmp/codex-preflight-{review.hROMps,rw-review.lwzJC1,final.0VluWI}/ 与 bothMarkers oracle 在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| preflight-r1 | 2026-09-12 | A/B 组 13 项+C 组 119 臂台账 | 13 测试集成；C 组分类不背书 | 两轮 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 85c462ffd5a6d8514604d346abd96212340c5dfa；本轮 R79。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy editor/save-and-recovery 的保存前校验测试包；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 作者保存恢复：GLM 保存前校验与序列化测试包：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+13 测试接收+119 臂台账重建；原生跨页/权限/性能/整卡终审仍待 Codex；r2 不重签不标 done。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+P01-S04 逐项表、C 组 82 臂逐臂分类、五次 check 逐次记录、三轮 counter 在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。2026-09-12 时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 editor-save-recovery-closeout.md。
 
 ## 原文保全
 
-固定 source revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `85d4be90d245276b76694395c7b29a94036644bbf7b8564e696a165afbf8a2b6`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `85c462ffd5a6d8514604d346abd96212340c5dfa`，source SHA `85d4be90d245276b76694395c7b29a94036644bbf7b8564e696a165afbf8a2b6`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 作者保存恢复：GLM 保存前校验与序列化测试包
 >

@@ -1,40 +1,63 @@
 # 测试覆盖率基线与只升不降门禁
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行——原门禁维护为 Codex 席位，本页只接模板）
+Last reviewed: 2026-10-20
+Template: quality-gate-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是覆盖率基线与只升不降门禁台账（Vitest 4.1.7+V8 fast/full 已接入）：覆盖率回答「哪些生产代码被测试执行过」，不回答业务正确性；存档故障/异步乱序/跨会话撤销/浏览器文件系统/完整战斗与通关必须由集成测试和 Q1/Q2/编辑器 E2E 证明。机器可读数字始终以 baseline.fast.json 为准。
+
+## Gate scope
+
+- 覆盖率 fast 基线与只升不降门禁 +两执行档合同 +滚动批次快照台账 +长期目标表。
+- 批次节奏（2026-09-27 裁决）：001 E2E 地基入库后用户要求 Codex 自主补测争取全仓分支约 +2pp（不构成 E2E 开工门槛也不代替 Q1/Q2）；完整业务域成批验收，开发循环只跑定向/相邻/TC/反控，整批完成串行 check→官方 ratchet→受保护单次 strict-fast；批次大小服务于完整业务断言，不硬凑用例数、不降门槛/缩统计范围。
+
+## Diagnostics policy
+
+- fast=七包 unit/component/headless（排除 *.pal.test.* 与已登记对拍文件，日常防回退）；full=机械验证 fast 测试清单是其子集+PAL 真数据 Vitest（发布前）；full 启动前检查 PAL 原盘/extracted/current 工程/迁移 baseline 代表性完整输入，缺任一直接失败不允许 skipIf 假成功。
+- 重型 *-adoption/设计系统 boundary 静态扫描不参加 coverage 进程（排除的是测试执行器非生产源码，仍由普通 check 完整执行）；编辑器普通测试固定 maxWorkers=2；不在本地同时跑完整 check 与 coverage。
+- 生产口径：五包 src/**/*.{ts,tsx}+两包产品命令入口；只排除测试/spec/__tests__/.d.ts 不按低覆盖排除子树；每次运行逐文件对账漏报/越界即失败。
+- ratchet 七条：任一包任一指标下降即失败（整数交叉相乘不依赖两位小数）；基线保存逐生产文件+每 fast 测试文件 case 数与 identity digest；生产/测试清单/配置变化须人工 ratchet 接受；移出生产文件必须显式 --allow-scope-removal；PR 与直推 main 双路读旧基线（改低 JSON 不能绕过）；新基线临时文件→格式化→复读→原子替换；provider 升级属显式基线迁移。
+- 各批快照净增口径分列：产品修复/纯补测/质量清理/统计修正分别披露不混算；另六包基线对象不变逐批核验；本地 fast 不代表远端 CI/full/Q1/Q2 通过。
+
+## Commands and raw counts
+
+- 维护命令四条：`pnpm coverage:fast`（日常）/`pnpm coverage:full`（发布前）/`pnpm coverage:ratchet`（仅真实提升后维护者确认）/`pnpm test:coverage-tools`（只验工具自身比较与聚合逻辑）；不手改基线计数。
+- 最近入库快照（2026-09-28）：001 验证收口 check 10,207、保护 90d977d5 单次 strict 9,746/730 生产文件、全仓分支 47,678/63,398=75.20%（产品修复分支+11/分母+5 分列）。
+- 滚动快照链（每段带保护基点 SHA 与回执链接在 quote）：preview-controls 75.19%→帧动画编辑器 75.18%（分子+148/分母+38）→Codex 施法时间线第十批 74.99%（纯测试净增 64 臂；从 46,201/63,315 起算精确 +2.024797pp 超本轮 +2pp 阈值 15 臂、原冻结 +5pp 目标亦达成）→第九批 74.89%（差 49 臂）→GLM 编辑器十二模块 74.74%（+216 臂）→001 观测增量 72.97%→GLM 物品 72.93%→Cursor 地图 72.80%→QUALITY-ZERO 清理（79.27% 行，content 仅退役减分母不计补测）→GLM 同步守卫 72.76%（+260 分支，差 612 臂）→Cursor 命令残项 72.35%→守卫叶+资源 68.72%→Cursor 九组拆分（16 项身份回归、0 新增覆盖）→A3 活动场景→Cursor24+GLM 接入→D1/E2→Grok 呈现 8,109/641（2026-09-25 入库）→A3 帧调度 8,008/639→A2 战斗宿主 7,972（拆分分母+41 行不报同分母补测）→A1 菜单拆分 7,949（main 633→635 文件）→真实宿主二批 7,921（含补测前 full 8,230 刷新）→环境稳定 7,893→战斗 r5 7,872→宿主+统计真值 7,826（统计修正 -37 行与宿主收益 +1,652 单列）→第二波 7,790（+572 分支）→内容六模块 7,627→引用边界 7,550→迁移写盘 7,538→CI 补正 7,502→TB00/01 7,497→物品作者 7,418→模拟器 7,400→PNG 释放 7,277→TB-03 7,259→八批接收 7,220（60 测试文件/171 项）→运行时合同 7,049→E-01 资源输入 6,989→预览缓存 6,969→场景引用 6,930→内容合同 6,930→精灵选图 6,794→编辑器逻辑 6,794→检查点导出 6,747→四包基础 6,730→保存子链 6,591→D-01 6,493→A-07 6,430→A-03 6,385→full 历史快照（2026-09-12 b7a56dd4：6,673 项/618 文件；full 比 fast 多 336 项已有测试非新补）→首次基线 2026-09-06（fast 5,675/full 6,010、608 文件）→E-06 5,691→SAVE-PREFLIGHT 5,761→DETERMINISM 5,762→SAVE-ISOLATION 5,842→EDITOR-SAVE-CONFLICT 5,867。
+
+## Decision
+
+- historical（滚动 accept 快照）：每批三席 accept/用户授权/Codex 核零漂移后 done 归档，收口只核既有证据不重跑覆盖率；批内首次门禁失败保留（如模拟器 ratchet 拒 editor 微退后补真实交互、检查点导出首拒未插桩分母、格式清理 2 行微降被拒）不以重跑取多数。
+- 长期目标（本轮不硬卡）：全仓行/语句/函数 ≥90%、分支 ≥85%；存档/迁移/脚本/战斗核心/编辑器命令 ≥95%/≥90%；纯公式/解析器/校验器/reducer 尽量 100%——增量建设目标，纯核 100% 须先确认无不可达防御分支，不靠 v8 ignore 或删分支制造绿色。
+
+## Stop line
+
+- 覆盖率百分比不替代集成测试/Q1/Q2/编辑器 E2E；fast 本地通过不代表远端 CI/full 通过；静态文档治理不授 runtime/E2E/视觉/coverage 信用。
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+- legacy quality/quality-gates 的覆盖率基线与门禁台账（2026-09-06 接入至 2026-09-28 最后快照）；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 测试覆盖率基线与只升不降门禁：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+- 只升不降门禁合同 +两执行档 +ratchet 七条 +40 余段批次快照（净增口径分列）+长期目标表；机器真值始终为 baseline.fast.json。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+- 各批回执链接、七包四维表、保护基点 SHA 与 CI run 链接在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+- historical。门禁合同仍有效但批次数字按各自日期冻结；当前覆盖以入库 baseline.fast.json 与官方 ratchet/fast 实测为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+- 当前覆盖真值归 scripts/coverage/baseline.fast.json 与官方门禁；后续批次以最新回执为准不沿用本页旧值。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `bd369a939f07e2f47b73e92da371ade4506d0ee1aa7c6cac9bb5129d59b4f7cb`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `bd369a939f07e2f47b73e92da371ade4506d0ee1aa7c6cac9bb5129d59b4f7cb`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 测试覆盖率基线与只升不降门禁
 >

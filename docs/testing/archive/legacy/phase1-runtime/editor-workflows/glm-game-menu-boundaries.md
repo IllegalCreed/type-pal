@@ -1,40 +1,62 @@
 # GLM第一阶段菜单导航与请求补测工作包（TB-08）
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GAME-MENU-BOUNDARIES-1（TB-08）工作包：当前 Codex 接收结论 accept（2026-09-20 候选 bda77494、统一候选 256116ee；check7709/ratchet/受保护单次严格 fast 7220 通过，三席齐用户授权 done 归档）；首轮 counter 仅留历史；正文含 G01-G09 菜单合同族表、输入与原版差异隔离、代表负控、冻结目标/白名单及 GLM r1/r2/r3 三轮回执。
+
+## Scope
+
+G01-G09：primitives/inventory-menu/item-select/magic-select/in-game-magic-menu/shop-menu/sell-menu/equip-menu/in-game-menu 逐族列 caller/旧测试/允许新增；隔离：使用 createInitialGameState 及完整 typed ItemFlags、菜单 state 本来原地修改只查入参保真、in-game-magic-menu outdoor 过滤差异轴本批排除（SDL 保留并禁用、当前过滤，先核历史产品裁决不新写「与SDL一致」）、G03 matchesFilter 记已有（三独立 flag 已由 G02/G07/G08 真实 confirm 门覆盖）。GLM r1：8 新测试 17 项+8 针（库存占用门/pageOffset/MP 恰等门/买价门/卖占用门/equip roleId 误用 cursor/switch 默认高亮/单人队直进）；r2 闭 C0/C1+R08-1 done 相位完整相等+R08-2 撤 pageUp/pageDown 保活；r3 判据精确唯一。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 负控+全包+覆盖 | game-menu-boundaries-mutants.mjs 判据自测+3 对照+8 针全钉名、产品 hash 不变；game 全包 132 文件/2301 项（dev-panel 1 文件预存 ENOENT stash 基线同败）；官方 fast 2271→2288 双 exit0 | GLM（作者）→Codex accept | 覆盖对照 shop L25→27/sell L30→33/primitives L37→38/inventory L83→84 等 | 诊断 config 补齐官方 jsdom env+setupFiles 才双 exit0（如实记录） |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+当前 accept/done；一期与二期菜单不合并归功。
+
+## Evidence
+
+- 证据路径：本工作包正文（quote 保全）；机器账 glm-game-menu-boundaries-evidence.json 在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| TB-08 工作包 | 2026-09-19/20 | G01-G09+GLM r1-r3 | accept→done（256116ee） | 首轮 counter |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b6b32d2ac3c0276357e43eee8658c50da8da695b；本轮 R81。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy phase1-runtime/editor-workflows 的 TB-08 工作包；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- GLM第一阶段菜单导航与请求补测工作包（TB-08）：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+当前 accept/done；一期与二期菜单不合并归功。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+九族表、差异隔离、三轮回执在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。九批链以 glm-nine-final-review 为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 editor/testing-records/glm-nine-final-review.md。
 
 ## 原文保全
 
-固定 source revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `ff48b4e37284cbf29802fefe80e4ca188b6303357ddbac7ed44afda60cc7312f`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b6b32d2ac3c0276357e43eee8658c50da8da695b`，source SHA `ff48b4e37284cbf29802fefe80e4ca188b6303357ddbac7ed44afda60cc7312f`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # GLM第一阶段菜单导航与请求补测工作包（TB-08）
 >

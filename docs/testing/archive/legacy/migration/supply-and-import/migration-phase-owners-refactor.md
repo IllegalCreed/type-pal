@@ -1,40 +1,62 @@
 # E1 迁移阶段所有权候选
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 E1 迁移阶段所有权候选的分项验证快照（Owner Codex；基点 9013cf86，实现头 0589af91）；后续统一门与当前集成状态归统一回执，下文「不合 main/未跑统一门」不代表后续集成状态。
+
+## Scope
+
+translate-event-motion.ts 单独拥有大世界移动/队形/骑乘/相对位移/逐步动画/追逐的纯 opcode 映射（仅接收 opcode/operands/owner，不接收整个 TranslateCtx；速度枚举、1-based 对象号、0/FFFF self、0xA1 detached no-op、0x6C 顺序、0x4C 段终保持）；scene-migration-source-plan.ts 单独拥有场景/事件源排序、setPartyPos→loadScene 配对、all.json 地址校验与缺省 label、owner→scene 与 roots（只读内存索引不读写磁盘）；SourceEventObject/SourceScene 由 planner 定义 migrate-content type re-export（同一当前 canonical 接口非兼容层）；migrate-content 3314→3202 行、translate-events 2472→2385 行、新 owner 174/165 行（行数只作边界证据）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 定向/相邻+全包+反控 | 移动族 5 文件 103 项、场景链 8 文件 63 项；planner 直接反例（乱序输入/负源优先级/gap=4/连续 load 清 last/indexed arrival 不计入口/首见 label/all 显式地址拒绝/地址递增/owner 与 roots）；Migrate 全包 93 文件/735 项（借主树 data/extracted+baked 与临时只读 symlink，trap 解除，未执行迁移 CLI 或发布写盘） | Codex（候选快照） | 四个产品文件前后 hash 不变；origin/main 前进到 2838df42 仅测试/文档，候选临时展开 6 组测试 59 项通过后逐文件清理 | 本批只有所有权重构无夹带 bug 修复；content20/SAVE8/schema/角色身份/opcode 行为/布局/资产格式零改 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+两 owner 边界拆分与回归全绿；未运行全仓 check/官方 ratchet/strict/full/Q1/Q2/远端 CI；未执行真实迁移发布（写保护保真由临时 fixture+全包回归+publication replay 证明）；无浏览器视觉（无 UI 变化）。
+
+## Evidence
+
+- 证据路径：本候选正文（quote 保全）；机账与临时摘要目录在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| E1 所有权候选 | 原文时点 | 两 owner 拆分+定向/全包/反控 | 候选快照（统一门留集成回执） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision e0ddc80b28ab45394aa560855d51de65ecd568e1；本轮 R80。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy migration/supply-and-import 的 E1 所有权候选；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- E1 迁移阶段所有权候选：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+两 owner 边界拆分与回归全绿；未运行全仓 check/官方 ratchet/strict/full/Q1/Q2/远端 CI；未执行真实迁移发布（写保护保真由临时 fixture+全包回归+publication replay 证明）；无浏览器视觉（无 UI 变化）。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+planner 反例清单、全包口径、origin/main 前进处理与保持项在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。集成状态归统一回执。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 architecture-continuation-integration.md。
 
 ## 原文保全
 
-固定 source revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `ad635c1b9ed13dc030b68bc319e2dd45293f1acdd767212219497a7b14020959`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `e0ddc80b28ab45394aa560855d51de65ecd568e1`，source SHA `ad635c1b9ed13dc030b68bc319e2dd45293f1acdd767212219497a7b14020959`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # E1 迁移阶段所有权候选
 >

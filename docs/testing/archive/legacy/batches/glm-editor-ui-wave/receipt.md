@@ -1,40 +1,62 @@
 # TEST-GLM-EDITOR-UI-WAVE-1 · GLM 作者交付回执
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 TEST-GLM-EDITOR-UI-WAVE-1 的 GLM 作者交付回执（2026-09-27，基线 8254ce64、产品冻结 31945f4e、分支 codex/glm-editor-ui-wave-r1，R1-G3 返工后版本合 origin/main 至 3ce5f48f）：新增 12 个 .glm-ui-wave.test.tsx 叶文件+1 通用 fixture（loadLegalUiProject：seed→loader→toEditorState→assertProjectSaveValid）+回执/负控工具；产品/旧测试/配置/基线零 diff。
+
+## Scope
+
+G1-G3 整改：正控一律 buildBlankProject→loader→toEditorState 正式链路并 assertProjectSaveValid 自证（不再空 manifest/假 hash/as unknown as）；G2 U4 SceneCanvas 正式项目场景+真实 AddEntityCommand、PreviewCanvas 改题「委派与防御」；G2-R2 legalStages 为实际 stages 实参被 play() 断言消费、SceneCanvas 传同工程真实 catalog/tilesets/maps/reader/assetBase 移除 useSceneAssets mock（真实 gzip 解码+就绪等待，仅几何 hook 与画布绘制隔离）；G3 两张截图完整隔离资产下重拍（撤回「视觉 N/A 部分无」）。十二行：SkillTab/EnemyTab/ItemUseEffectEditor/BattleSpriteLibrary/WorldSpriteLibrary/TilesetTab/CutsceneTab/ImageTab/AudioAssetWorkbench/PreviewCanvas/SceneCanvas/DataMode。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 四针+定向+相邻+全包+视觉 | ui-wave-mutants.mjs 严判据（同 state-commands：恰 exit/恰一红/绝对文件+实际 fullName/AssertionError-only/load 命中/生产 4 源 sha 不变/自测 10 例）；四针 item-consume-self-guard-drop/tileset-metadata-id-drift/cutscene-video-magic-guard-drop/scene-blank-clear-drop 各恰红；定向 39/39、相邻 125/125、editor 全测 3221/3221 串行 | GLM（作者） | 环境基线披露：fresh worktree 缺 gitignored migrated/runtime，补齐后 world-sprite-behavior 2 项转绿、前轮两处「bytes 917」加载失败确认为环境缺口非产品缺陷 | README 追加一行导航登记交 Codex 裁定 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+十二行全交付+四针全过+视觉重拍；作者自验不替代 Codex 独立验收。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；/tmp/ui-wave-*.png 与机账目录在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| GLM UI wave 回执 | 2026-09-27 | 12 文件 39 项+四针+视觉 | 交 Codex（G2-R2 后续复核） | G1-G3 返工链 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision b9af6517a6298e0fb247b97a3b653294d6b45fa2；本轮 R74。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/glm-editor-ui-wave 的作者回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- TEST-GLM-EDITOR-UI-WAVE-1 · GLM 作者交付回执：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+十二行全交付+四针全过+视觉重拍；作者自验不替代 Codex 独立验收。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+十二行表、四针表、视觉证据与环境基线在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。G2-R2 复核以 memory 中 editor-ui-wave-1 链为准。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 TEST-GLM-EDITOR-UI-WAVE-1 完成卡。
 
 ## 原文保全
 
-固定 source revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `65288dfefe3eb33a00cc26a272a6fad27fdc61dd8e62b4d08cd15a2e54a299d8`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `b9af6517a6298e0fb247b97a3b653294d6b45fa2`，source SHA `65288dfefe3eb33a00cc26a272a6fad27fdc61dd8e62b4d08cd15a2e54a299d8`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # TEST-GLM-EDITOR-UI-WAVE-1 · GLM 作者交付回执
 >

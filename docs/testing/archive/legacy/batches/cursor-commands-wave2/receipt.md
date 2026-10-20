@@ -1,40 +1,62 @@
 # ARCH-F2-CURSOR-BATCH-2 — 剩余九组命令整理回执
 
 Status: historical
-Owner: Codex（文档治理；原任务 Owner/贡献者保留于原文）
-Last reviewed: 2026-10-17
-Template: archive-record-v1 / 1.0.0
+Owner: Codex（文档治理；不代签原执行）
+Last reviewed: 2026-10-20
+Template: test-run-report-v1 / 1.0.0
 
-本页把 testing archive 材料接入 archive-record-v1。原任务日期、状态、合同、测试数字、失败、counter、机器字段、链接和未执行项在 quote 中保全；本次不授 runtime/E2E/视觉/coverage 信用。
+本页是 ARCH-F2-CURSOR-BATCH-2 的 Cursor 作者回执（2026-09-26，独立 worktree codex/cursor-commands-wave2；生产冻结 51048353、用户冻结/开工祖先 ef19ae7e）：C1-C9 九组命令模块化整理，不合 main、不标 done、不跑官方覆盖率/ratchet/严格全仓门；作者自验不替代 Codex 独立验收。
+
+## Scope
+
+commands.ts 保留旧公开出口（AST 点名 119 个与 ef19ae7e 同一集合，无残留本地 class/type/function）；新模块对 Command 只 type-import command-contract.ts，运行期不回引 commands.ts、无新 SCC；产品白名单恰 commands.ts+13 命名模块（composite/command-scene-state/entity/scene/map-asset/map-edit/tileset/sprite/actor/asset/startup/battle-sprite-commands+command-asset-record）共 14 文件。九组各带业务证据与 C2/C3/C5/C6/C8 五代表反控（judgeGreen/judgeRed 拒套件级 file.message/额外失败/混错/timeout、--self-test 同 judge、MUTANT_HIT 唯一针、源 hash 前后相同）。
+
+## Execution and assertions
+
+| step | legal input | caller | machine assertion | business oracle |
+|---|---|---|---|---|
+| - 定向+editor 全测+静态 | editor check 324 文件/2829 项 exit0（相对前批 +11 文件/+16 项即本包）；typecheck exit0；biome formatter error 已清（保留 2 条变异字面量 warning）；check.mjs/diff 过；五针 c2-entity-delete-guard/c3-scene-entry-guard/c5-map-edit/c6-tileset-or-c7-sprite/c8-actor-in-use 各恰红 | Cursor（作者） | C1 新增顺序例用 buildBlankProject→loader→toEditorState 合法输入+structuredClone 前后比较 | 非机械差异单列（helper 可见性/单一身份下沉）不冒称纯机械整理；未跑官方门；6010 未动 |
+
+## Results
+
+历史结果（原卡时点，本页未复跑）：
+
+九组实施+五针全过；产品 C9 HEAD 6952ffee；r1 窄修只动判据/C1 fixture/回执归位。
+
+## Evidence
+
+- 证据路径：本回执正文（quote 保全）；c*-mutant.json/evidence.json 紧凑摘要与 /tmp 原始目录在 quote 提及。
+
+## Revision history
+
+| revision | date | change | result | supersedes |
+|---|---|---|---|---|
+| Cursor C1-C9 回执 | 2026-09-26 | 九组模块化+119 出口+五针 | 交 Codex（后续集成另核） | 无 |
+| 模板接入 | 2026-10-20 | S17 治理封套（quote 保全） | 不改变原结论 | 无 |
 
 ## 历史范围
 
-- 源 revision 01662fc0b7f4ffd01b8d0c4abe560972b7f7a7ab；本轮 R72。此文件属于 testing archive 历史层，不能单独授权当前测试或发布。
+legacy batches/cursor-commands-wave2 的作者回执；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- ARCH-F2-CURSOR-BATCH-2 — 剩余九组命令整理回执：原始正文完整保留于下方 quote；本轮只改变文档封套，不改变原始结论。
+九组实施+五针全过；产品 C9 HEAD 6952ffee；r1 窄修只动判据/C1 fixture/回执归位。
 
 ## 当时证据
 
-- 原始命令、输入、caller/oracle、结果、机器字段、SHA、counter、链接和未执行项保留于 quote。
+九行总账、出口与运行期依赖、五针表、可复制命令在 quote 保全。
 
 ## 当前有效性
 
-historical。历史测试结论必须带日期和 source revision，并由当前 catalog、contract、fresh receipt 重新核定。
+historical。作者自验时点。
 
 ## 继任文档
 
-- 当前入口：对应 testing catalog/domain report、contract、paired evidence 和 fresh receipt。
-- 若重新启用：补齐合法输入、真实 caller/oracle、排重、独立 review 和静态零诊断。
-
-## 停止线
-
-- 本页不证明 runtime、E2E、视觉、coverage 或当前产品行为；不得以 archive wrapper 替代执行回执。
+当前结论归 ARCH-F2-CURSOR-BATCH-2 完成卡。
 
 ## 原文保全
 
-固定 source revision `01662fc0b7f4ffd01b8d0c4abe560972b7f7a7ab`，source SHA `7ac91910fc4a5face423249d046920f4fedd8ed1f2cb3dba482f6ddcdb73ae7e`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `01662fc0b7f4ffd01b8d0c4abe560972b7f7a7ab`，source SHA `7ac91910fc4a5face423249d046920f4fedd8ed1f2cb3dba482f6ddcdb73ae7e`；下方 quote 逆回读规则：剥引用后仅排除 end 标记前恰一个未引用分隔 LF，再与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # ARCH-F2-CURSOR-BATCH-2 — 剩余九组命令整理回执
 >
