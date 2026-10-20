@@ -1,0 +1,323 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-21",
+  "base": "e43fe5dc3f93e59e39a5f2a7c7c8dd6012097c15",
+  "owner": "Codex",
+  "status": "code accepted within four original scopes; complete gates and final static in present-leaves-gates.json",
+  "cards": [
+    {
+      "id": "70",
+      "scope": ["packages/game/src/shell/audio-volume.test.ts"],
+      "decision": "accept by Codex within original scope only"
+    },
+    {
+      "id": "71",
+      "scope": [
+        "packages/game/src/shell/fetch-retry.ts",
+        "packages/game/src/shell/fetch-retry.test.ts",
+        "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts"
+      ],
+      "decision": "accept by Codex within original scope only"
+    }
+  ],
+  "files": [
+    {
+      "path": "packages/game/src/shell/audio-volume.test.ts",
+      "card": "70",
+      "sha256": "e624806a16ef3353e5b1d40f780817e4d4ed1d9e89ee36bcc2cdbeeb0e1eb41a",
+      "readBasis": "当前三份音量文件全文及真实caller段；复用同SHA原生反控/合同映射",
+      "dimensions": {
+        "A": "原卡只辖此主测试，真实controller与jsdom Storage/typed callback；三合同分别clamp、mute目标/有效输出、启动读回。",
+        "B": "标题与完整状态/store/sink断言相符，无3+5历史计数冒充当前；相邻共享key不称响应式同步。",
+        "C": "每例本地controller，before/after双清localStorage，无timer/并发/跨例singleton。",
+        "D": "复用公开控制器，不镜像clamp实现；主测拥有静音期间更新，相邻boundary负责零值/键配置，已排重。",
+        "E": "旧6→新8及keyMute单红原件/正式三文件同SHA；状态、持久化和精确sink序列共同作oracle，不是只验mock次数。",
+        "F": "0.4→静音→0.9→解除的预期序列直接揭示目标/输出区别，命名无死辅助。",
+        "G": "三例各有独立业务合同；重复静音例已迁入本例，未知storage-denied启动策略不在此测试文件冒称已验证。",
+        "H": "使用真实同步controller/Storage，外部输出callback可观察，无WebAudio设备/网络/核心mock依赖。"
+      }
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.ts",
+      "card": "71",
+      "sha256": "6a583e9a53cf4a3b2a80993c7ef792877dfc4c60a3628fbde94ca58f967fefdc",
+      "readBasis": "当前实现/GLM测试全文与真实main/signal caller段；主测既有全文/合同/原生结果按C1同SHA复用，不再重复全部审查",
+      "dimensions": {
+        "A": "GET瞬态/终态身份、init覆盖Request含null、首次输入校验、可取消退避和清timer/listener均由同SHA C1原生26绿/三反控及当前named caller核定；不是全浏览器网络调度认证。",
+        "B": "冷启动3200请求已标历史日期；null覆盖/下一attempt窗口说明为何不能简化；Test后缀准确限定卸载用途。",
+        "C": "main单次安装全局IO adapter，先于boot计数层；只维护installed/捕获orig，每次等待拥有一个timer/listener，成功/取消对称释放，不写GS或音频状态。",
+        "D": "只抽私有waitForRetry，不造通用retry框架；非GET直接转发，Response由原fetch合同决定，未统一不同HTTP/网络失败策略。",
+        "E": "C1五份源/测试逐字节一致；当前文件新增取消区域与旧source反证已闭合，主/边界/GLM合同沿同SHA复用；完整原件被逐字节复算。",
+        "F": "attempt/retries/backoff/signal/lastErr及小wait函数直接表达控制流；未为复杂度指标拆分上下文。",
+        "G": "保留有真实测试生命周期用途的reset出口：既还原global又复位模块安装态，并非无作用薄包装；现有fetch断言保持完整typed输入/Response，不扩API或新增弱类型。",
+        "H": "外部fetch和时间可控，真实AbortController/Request正控，测试恢复自己拥有的global/timer；生产单安装与测试重装分开，不假称生产uninstall。"
+      }
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.test.ts",
+      "card": "71",
+      "sha256": "b5f12b9b3d7d8fbdc52e08b4e45596b40e71c04336d923da762ee8727e57c332",
+      "readBasis": "当前实现/GLM测试全文与真实main/signal caller段；主测既有全文/合同/原生结果按C1同SHA复用，不再重复全部审查",
+      "dimensions": {
+        "A": "六例当前公开入口的GET网络/瞬态/404/POST/安装合同；有效typed fetch输入，未伪造核心状态。",
+        "B": "沿既有拆分的503/404独立输入，不沿用原混合例六身份完全不变的旧说法。",
+        "C": "外部transport按例配置，原fetch/模块安装位在teardown恢复；不借全局剩余spy掩盖结果。",
+        "D": "耗尽默认三次和最后错误已迁到更强boundary，主测不留弱重复。",
+        "E": "依赖C1同SHA正式26例和此前三缺口/三转移原件；HTTP/错误对象与请求语义作oracle，attempt次数作为网络合同一部分。",
+        "F": "每例说明触发的请求分类，常量Response/错误身份不复算被测判定。",
+        "G": "无新增用例/skip/强转；保留既有六例，未把类型或fixture自检计运行时合同。",
+        "H": "仅替换外部fetch IO，实际wrapper运行；没有console静音/超时放宽/核心mock。"
+      }
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts",
+      "card": "71",
+      "sha256": "31fc4a19a67251f87ae251adf877f56a23104fca0833541a596d6fa8252eefeb",
+      "readBasis": "当前实现/GLM测试全文与真实main/signal caller段；主测既有全文/合同/原生结果按C1同SHA复用，不再重复全部审查",
+      "dimensions": {
+        "A": "两例只核真实同一fetch对象卸载与重装，当前源码/测试和旧完整原件同SHA。",
+        "B": "头注不把Test卸载称用户产品能力，标题明确还原和installed复位。",
+        "C": "finally即使产品reset失败也恢复全局，断言在teardown之前验证实际对象；无跨例错误泄漏。",
+        "D": "与主/边界失败分类不同，独占重装前后0/1重试配置和对象恢复合同，不重复mock表演。",
+        "E": "卸载前失败三次/后同错一次且对象===，重装前零次重试/后一次真实重试；旧uninstall无效反控沿未变函数体有效。",
+        "F": "flaky/error/firstWrapper展示真实ownership和顺序，未命名成含糊通用场景。",
+        "G": "仅两例，所有观测都有实际fetch执行，清空mock历史用于隔离两个阶段而非删除业务证据。",
+        "H": "公开安装/卸载+外部transport，finally恢复原始fetch/mock，零网络设备依赖。"
+      }
+    }
+  ],
+  "bindings": [
+    {
+      "path": "packages/game/src/shell/audio-volume.ts",
+      "sha256": "3a1e7ba69c8c60366211365fae35cb5e41ab78791e59cac9f486974dd6d92e50",
+      "readScope": "实现/两测试音量全文与main/Retry全文，bootstrap1075-1106、panel629-655/680-689、MIDI68-96/194-221相关caller；不授广域文件接受"
+    },
+    {
+      "path": "packages/game/src/shell/audio-volume.boundaries.test.ts",
+      "sha256": "6fe6bc00bc6687dd5b978755e08f5d93ecb8b49835e86ea4803b8c1b84049131",
+      "readScope": "实现/两测试音量全文与main/Retry全文，bootstrap1075-1106、panel629-655/680-689、MIDI68-96/194-221相关caller；不授广域文件接受"
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.boundaries.test.ts",
+      "sha256": "945e37e57b2901898d7ed94ec0291d8cc1b949a8a5248e66c7d68d93d89816fa",
+      "readScope": "实现/两测试音量全文与main/Retry全文，bootstrap1075-1106、panel629-655/680-689、MIDI68-96/194-221相关caller；不授广域文件接受"
+    },
+    {
+      "path": "packages/game/src/shell/fetch-retry.cancellation.test.ts",
+      "sha256": "aea9be5e75e3e603404361aa64a3e253d6398482486efa5831d092b8420bdb71",
+      "readScope": "实现/两测试音量全文与main/Retry全文，bootstrap1075-1106、panel629-655/680-689、MIDI68-96/194-221相关caller；不授广域文件接受"
+    },
+    {
+      "path": "packages/game/src/main.ts",
+      "sha256": "2c2632eb6015f250cf31157769a569aa419dec8e7060f3e17cd0e096498b9c91",
+      "readScope": "实现/两测试音量全文与main/Retry全文，bootstrap1075-1106、panel629-655/680-689、MIDI68-96/194-221相关caller；不授广域文件接受"
+    },
+    {
+      "path": "packages/game/src/shell/boot-loading.ts",
+      "sha256": "8cb9c100c9650736b86d8b07294926669037b73b1d15ec89dc78b73ec001d973",
+      "readScope": "实现/两测试音量全文与main/Retry全文，bootstrap1075-1106、panel629-655/680-689、MIDI68-96/194-221相关caller；不授广域文件接受"
+    },
+    {
+      "path": "packages/game/src/shell/audio-midi.ts",
+      "sha256": "118a645461e4ca3dac7583a4ca7fc485149d64f3204f37d5408f21593fe017bc",
+      "readScope": "实现/两测试音量全文与main/Retry全文，bootstrap1075-1106、panel629-655/680-689、MIDI68-96/194-221相关caller；不授广域文件接受"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "3105b7f3b24e6986e035ab023a86d0562673c6174ea13cbf6e7d0341b9d859a1",
+      "readScope": "实现/两测试音量全文与main/Retry全文，bootstrap1075-1106、panel629-655/680-689、MIDI68-96/194-221相关caller；不授广域文件接受"
+    },
+    {
+      "path": "packages/game/src/tools/tools-panel.ts",
+      "sha256": "34258414e93e9be05db2866105cb7f0d4af35d91812a1968225c2355f5dde7a7",
+      "readScope": "实现/两测试音量全文与main/Retry全文，bootstrap1075-1106、panel629-655/680-689、MIDI68-96/194-221相关caller；不授广域文件接受"
+    }
+  ],
+  "evidenceAssets": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/70-audio-volume/after-proof.json",
+      "sha256": "fe59f589cd33dbf8290665153127eb1ea308d9c5808666c7de055f68acd22066"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/counter.json",
+      "sha256": "5d7ae503c4314c2e603ef18b6d4eec1d3d76a1e7c3bdfed19fb54d518e42e012"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/green.json",
+      "sha256": "a07b9f5b51374badc245a007b6c167256c07018015d1c9f040abd5af4b3b75e9"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/70-audio-volume/after-control.runner.json.gz",
+      "sha256": "e09605464b8a4352298dc2fd615d84de3ec424c534911ecc2520b2862ad36b5c",
+      "expandedSha256": "43d6351611783be870d7869dbb5fabd349c0a09f466dfbf6947564b627f03655"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/70-audio-volume/after-control.raw.gz",
+      "sha256": "3e1c3ea796e4cfd460030c94643a64f556aba9212a98a56d4a83ff870b0b3eb8",
+      "expandedSha256": "34b74ecedb9484fae9355b34ba5639e2f1c5b604ced71e9ac1b9448e381fcc19"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/70-audio-volume/after-mute-key-ignored.runner.json.gz",
+      "sha256": "7a0644c4c63244ddce6ba4f2d04c67b902d6c8a14aa4c1747335e13dc5d605cd",
+      "expandedSha256": "15f2b2b3151bd6a31817f8a401a4aa2d8ad087e82ebfd48c10ba3674a1a8bceb"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/70-audio-volume/after-mute-key-ignored.raw.gz",
+      "sha256": "fdbf82ee1cfb42d750ddf351a77975cf726e79ba857ac4a92ccfbb0cf014bb16",
+      "expandedSha256": "0ec1bccb86ece605c314aca6860bc1a77d32f62fe6f1716199b72d6215eae624"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/before-final.runner.json.gz",
+      "sha256": "4a6019779b197201b8a2aee7d976306caf8a532ba04c923c1c68e6d4a2a6047a",
+      "expandedSha256": "13ad5069f613d74a5766a2da782462b33df408f0fdc5bc00713b5518b9406b1f"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/before-final.raw.gz",
+      "sha256": "78729044ba9ac53f6e4cbe3c7f1d0e3f3ab5b72d5beaaed3711342977710b18a",
+      "expandedSha256": "3774134952878bcb60c0aac74b29f3e34303189d411c789b20bca49395475450"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/control.runner.json.gz",
+      "sha256": "3177c8852440c458b15178a5dae6d88f478c1aaa228872ed9af2a014efc84879",
+      "expandedSha256": "3d4f455ef3bb075a6b576a41bc8a6787b761c9e08a993e5c59bc06cf6e15c7fb"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/control.raw.gz",
+      "sha256": "e55e2b36c0a069c7afb155edc7193a5ca78e42667880edf17ea6800ce94b5326",
+      "expandedSha256": "a7330c7a5707ec2635b5234a4f62a35009cac02bc8ff636c3759e1a15f02e24e"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/timeout-listener-leak.runner.json.gz",
+      "sha256": "b13c7eb61acf86e891430adb2fc2f96f8967d72f5549d80931f92459f2170fdd",
+      "expandedSha256": "9cb079694cc7b69218536a7196c13176ea50b946e2effea1349583f0193ef7f8"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/timeout-listener-leak.raw.gz",
+      "sha256": "6ad37a8c77d754b659a8e4ec3ca188bf4775384d2b35bffaaeddf261c3cf64e8",
+      "expandedSha256": "3e1cc0a6d0b7da7997a76925761f00721f543092fc5ed93c5613d616d22a5f13"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/null-falls-back.runner.json.gz",
+      "sha256": "76ea6a41905b018456e40e07f91d7bb640fe15af5438e9934127fe1b2e531e3d",
+      "expandedSha256": "df5dde4b4e0bbf5a05946a08c35ff42f1e129c140fd05d4d6a9f620cff2ef28c"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/null-falls-back.raw.gz",
+      "sha256": "313d285a42905705046d35a29df199200882551e2dacc2410951774933d98c44",
+      "expandedSha256": "219fdc3ab511fc3f471294f52aba6715cae9dc14bd71fd59a7b7fb8ca7ad6046"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/masks-initial-validation.runner.json.gz",
+      "sha256": "1ca7d612d6e01d04ddc7b9c8643f9c905b14ebd14a6068bcd7a057b08ef2da0a",
+      "expandedSha256": "75233e8f8d76db41d3341fdec165cab31e26a390a82e27d52cb3efbf661e3f16"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/masks-initial-validation.raw.gz",
+      "sha256": "07f5f6ab986f2505914012616becf8e530303f842ddbf884cb74307c07db16f7",
+      "expandedSha256": "5af62ab7f7a0e4ba7855248dc01b33a605747d1cc60d0efaefeb37a57a2b1716"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/green.runner.json.gz",
+      "sha256": "a20cb4a149aab890340f49257224de99a3421ad5fe19c64df06d88295761590e",
+      "expandedSha256": "e6ed9b35ef69d105e1d3a05cce152bdfdb1ab25de899f5e1de8d453953d4cf07"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/green.raw.gz",
+      "sha256": "e64e662315cf12ba65002a2b630ffaf1646ae5825ab60a1f9858024f015a06bf",
+      "expandedSha256": "3ec270e0030b32921be37f227c727ae876545f3ec590dc48c3ed3dec98717c1a"
+    }
+  ],
+  "nativeRuns": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/70-audio-volume/after-control.runner.json.gz",
+      "passed": 8,
+      "failed": 0
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/70-audio-volume/after-mute-key-ignored.runner.json.gz",
+      "passed": 7,
+      "failed": 1
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/before-final.runner.json.gz",
+      "passed": 23,
+      "failed": 3
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/control.runner.json.gz",
+      "passed": 26,
+      "failed": 0
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/timeout-listener-leak.runner.json.gz",
+      "passed": 25,
+      "failed": 1
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/null-falls-back.runner.json.gz",
+      "passed": 25,
+      "failed": 1
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-FETCH-ABORT-LIFECYCLE-1/c1/masks-initial-validation.runner.json.gz",
+      "passed": 25,
+      "failed": 1
+    }
+  ],
+  "observations": [
+    {
+      "task": "70",
+      "variant": "control",
+      "passed": 8,
+      "failed": 0,
+      "exit": 0
+    },
+    {
+      "task": "70",
+      "variant": "mute-key-ignored",
+      "passed": 7,
+      "failed": 1,
+      "exit": 1
+    },
+    {
+      "task": "71",
+      "variant": "before-final",
+      "passed": 23,
+      "failed": 3,
+      "exit": 1
+    },
+    {
+      "task": "71",
+      "variant": "control",
+      "passed": 26,
+      "failed": 0,
+      "exit": 0
+    },
+    {
+      "task": "71",
+      "variant": "timeout-listener-leak",
+      "passed": 25,
+      "failed": 1,
+      "exit": 1
+    },
+    {
+      "task": "71",
+      "variant": "null-falls-back",
+      "passed": 25,
+      "failed": 1,
+      "exit": 1
+    },
+    {
+      "task": "71",
+      "variant": "masks-initial-validation",
+      "passed": 25,
+      "failed": 1,
+      "exit": 1
+    }
+  ],
+  "limits": [
+    "No product/test changes or repeated directed suite. Historical diagnostics remain historical; current uniform gates independently recorded.",
+    "CODE70 only the original main test; controller/boundary remain context, not new credit. CODE71 original three files; new cancellation/boundary tests not automatically accepted.",
+    "Original3h source rework precedes verified C1 and is not a current unresolved counter. Broad boot/audio/storage failure-policy and browser scheduling remain outside these exact scopes."
+  ]
+}

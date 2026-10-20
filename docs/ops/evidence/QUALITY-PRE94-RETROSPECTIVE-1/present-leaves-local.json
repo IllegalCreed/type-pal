@@ -1,0 +1,1944 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-21",
+  "owner": "Codex",
+  "task": "QUALITY-PRE94-RETROSPECTIVE-1",
+  "base": "e43fe5dc3f93e59e39a5f2a7c7c8dd6012097c15",
+  "status": "code accepted: seven original cards/21 files; complete gates and final static in present-leaves-gates.json",
+  "priorProgress": {
+    "accept": 31,
+    "partial": 52,
+    "pending": 0
+  },
+  "cards": [
+    {
+      "id": "43",
+      "scope": [
+        "packages/game/src/present/draw-sprite.ts",
+        "packages/game/src/present/draw-sprite.test.ts",
+        "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts"
+      ],
+      "decision": "accept by Codex within original scope only"
+    },
+    {
+      "id": "44",
+      "scope": [
+        "packages/game/src/present/font.ts",
+        "packages/game/src/present/font.test.ts",
+        "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/font-width.grok-r1.test.ts"
+      ],
+      "decision": "accept by Codex within original scope only"
+    },
+    {
+      "id": "45",
+      "scope": [
+        "packages/game/src/present/follower-render.ts",
+        "packages/game/src/present/follower-render.test.ts",
+        "packages/game/src/present/follower-render-gap.grok-r1.test.ts"
+      ],
+      "decision": "accept by Codex within original scope only"
+    },
+    {
+      "id": "46",
+      "scope": [
+        "packages/game/src/present/menu/draw-confirm.ts",
+        "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts"
+      ],
+      "decision": "accept by Codex within original scope only"
+    },
+    {
+      "id": "47",
+      "scope": [
+        "packages/game/src/present/menu/draw-box.ts",
+        "packages/game/src/present/menu/draw-box.test.ts",
+        "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts"
+      ],
+      "decision": "accept by Codex within original scope only"
+    },
+    {
+      "id": "70",
+      "scope": ["packages/game/src/shell/audio-volume.test.ts"],
+      "decision": "accept by Codex within original scope only"
+    },
+    {
+      "id": "71",
+      "scope": [
+        "packages/game/src/shell/fetch-retry.ts",
+        "packages/game/src/shell/fetch-retry.test.ts",
+        "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts"
+      ],
+      "decision": "accept by Codex within original scope only"
+    }
+  ],
+  "shellEvidence": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-shell-readonly.json",
+    "sha256": "81c04972c2b4c16526f9b8c7e9466526f31836027682f7711edf71734ab3f96e"
+  },
+  "files": [
+    {
+      "path": "packages/game/src/present/draw-sprite.ts",
+      "card": "43",
+      "readBasis": "本轮五实现/十二测试完整核读及当前差异；GLM有效A/E与46/47既有证据按合同复用，非哈希代替阅读",
+      "sha256": "bd2fbc1abb0527267b032298e779ac5946089745fd83159181dd0af84f8ffcef",
+      "lines": 48,
+      "dimensions": {
+        "A": "每帧自身floor(width/2)/height定锚；buffers由loader借入，mask=0跳过，palette0可写；FB拥有裁剪，present/bootstrap真实caller。scene.c PAL_MakeScene已有真值复用。",
+        "B": "补借用所有权，删opaque修复叙事噪音；保留chunk193不同高度为何必须逐帧定锚。",
+        "C": "toSpriteImages只装配元数据，drawSprite只写显式FB，无IO/游戏状态/资源销毁。",
+        "D": "不与正mask共享叶硬合：此处anchor布局且只跳===0，短mask策略不同；共享两入口已有真实loader/present caller。",
+        "E": "当前两专测13例；左上双跨界新业务针旧14绿/新恰1红，底边裁剪替代重复行序例，借用缓冲断言保留。",
+        "F": "函数和anchor/dst/srcOff表达绘制意图，无额外context或隐藏clock。",
+        "G": "两出口都有实际生产调用；无测试专用导出/死参。",
+        "H": "纯输入/FB注入，图像和裁剪可直接观察，零随机/异步。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/font.ts",
+      "card": "44",
+      "readBasis": "本轮五实现/十二测试完整核读及当前差异；GLM有效A/E与46/47既有证据按合同复用，非哈希代替阅读",
+      "sha256": "0af092f60efef7dd1f39c82f4c492512dbf957092f0d20b13da27b5518fd7fe4",
+      "lines": 202,
+      "dimensions": {
+        "A": "bootstrap-resources消费loadGlyphs，HTTP/JSON/base64失败传播，由caller降级tofu；信任提取器glyphsToJson合同，不新增未知资产校验政策。render两入口按codepoint查表，只写FB。",
+        "B": "纠正UTF-8/JavaScript与tofu第0/14列，保留SDLPal三影选择与原版未核边界；静态字宽近似不再声称真实文案域零影响。",
+        "C": "装载IO只有启动边界调用，私有Map随返回表由caller持有；render无fetch或状态推进。未为小型单loader另造转发层，表示/规则仍内聚。",
+        "D": "普通/逐色两真实入口共享私有drawGlyph三影→正色序列；循环/色选择不同，未造模式helper或颜色callback抽象。",
+        "E": "当前font三测27例；装载fixture修成完整16字节并断言height；非零底色三影、码点补充平面、缺表/tofu及混合缺字游标有业务判据。",
+        "F": "私有drawGlyph表达同一字形合成；加载、bit解码、文本推进、宽度函数仍独立具名。",
+        "G": "删除重复shadow四次blit序列，不改has/get公开合同或加入兼容fallback；measureText与静态palWordWidth不能互换。",
+        "H": "GlyphTable/FB显式注入，loader用外部fetch替身，普通/逐色/字宽确定；未为测试暴露私有叶。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/follower-render.ts",
+      "card": "45",
+      "readBasis": "本轮五实现/十二测试完整核读及当前差异；GLM有效A/E与46/47既有证据按合同复用，非哈希代替阅读",
+      "sha256": "fe1bc4db16a6e3732cadaecc8247028c12209974ab8d03f4aa4432af7ce00e29",
+      "lines": 65,
+      "dimensions": {
+        "A": "present以world坐标投影并排序；本函数只取稠密trail[3+k]、原始MGO chunk、方向×3与[0,2,0,1]步帧。生产step0..3，公开number越界回落0单列防御。",
+        "B": "写明trail写Owner为移动/脚本，返回新渲染项；测试不再把chunk82/83称角色ID。",
+        "C": "不查asset/碰撞/party角色表、不修改trail/followers；资源与呈现归present，生命周期由caller拥有。",
+        "D": "不与普通队员follower-pos合并：后者有偏移/障碍回退和角色walkFrames合同，此处0x98直接消费trail。",
+        "E": "当前6+3例；实际dense前缀、站立/四步/非顺序chunk/尾部不足保留；稀疏数组不冒充生产覆盖，另有公开数值防御例。",
+        "F": "k/followerIndex与world/frame/chunk具名，必要C槽号对应保留，无难懂模式布尔值新增。",
+        "G": "实现全体去注释AST不变；测试删除死_step工厂参数与无调用null分支，生产缺深度守卫由正常初始化可达。",
+        "H": "无clock/IO/全局，输入只读、输出新对象；无需核心mock即可观察帧与身份。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-confirm.ts",
+      "card": "46",
+      "readBasis": "本轮五实现/十二测试完整核读及当前差异；GLM有效A/E与46/47既有证据按合同复用，非哈希代替阅读",
+      "sha256": "3488c60aac789360d5c9c49c78bb00a47120213f8b02bbb7342a3279d3a45b2d",
+      "lines": 39,
+      "dimensions": {
+        "A": "生产confirm/switch callers只用否是/关开；固定双框/文本坐标与空标签合同保留，长标签动态扩框不在该helper合同。",
+        "B": "明确固定布局，删除过时ui.h行号；保留rightSelected/默认否的状态含义。",
+        "C": "只读选择位与labels，写FB，选择推进/脚本判断由caller负责；不读GameState或隐式资源。",
+        "D": "原重复六色公式委托已接受core/menu-colors，保持两个条件分支中恰一次Date读取，不增加反向依赖。",
+        "E": "专测10例；常色反控旧10绿、新恰1时序红；空标签改精确底色，不以not-toBe颜色作为充分结果。",
+        "F": "leftColor/rightColor与共享毫秒规则直接表达，布局仍在本地可读。",
+        "G": "删除私有selectedColor和三常量，公共签名/默认labels/两框顺序不变。",
+        "H": "已有Date spy finally恢复，字形/帧/FB显式可控，未新增测试口。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.ts",
+      "card": "47",
+      "readBasis": "本轮五实现/十二测试完整核读及当前差异；GLM有效A/E与46/47既有证据按合同复用，非哈希代替阅读",
+      "sha256": "2ab2d6e4aafcaa9848cab7e74ccfef8ac0669678a4f4fe58c7577ac89bafb4b4",
+      "lines": 184,
+      "dimensions": {
+        "A": "原9-slice逐tile先影后色，single-line整行先影后色；mask只跳0，FB裁剪，缺帧在写入前抛；菜单caller传合法有限rows/cols/len。ui.c PAL_Create*现有证据有效。",
+        "B": "纠正单行顺序不敏感与固定黑色错误措辞；menuTextMaxCols基于实际glyph测量，明确缺字16px和下限1的本项目合同。",
+        "C": "frame/FB由caller持有，同步光栅化无IO/状态推进；命名输入对象只含绘制必需参数，不混入业务context。",
+        "D": "box两入口复用opaque/shadow私有叶；不与opaque>0叶合并，短mask策略不同；九宫格与单行不同顺序不做万能布局器。",
+        "E": "当前5+4+12例；无阴影采样移入真实阴影域，所选case旧1绿新恰1红；fixture自检没有产品执行，撤销该信用。",
+        "F": "palCalcShadowColor/DrawBoxInput有明确单位，删个人历史抱怨；双循环与几何就地可理解。",
+        "G": "未发现生产死出口/参数；drawBox初筛CC11来自实际9-slice选择/缺帧/阴影，不为分值拆碎。",
+        "H": "可直接注入frame/FB测精确像素/错误，shadow读当前像素用非零哨兵；无需扩大API。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite.test.ts",
+      "card": "43",
+      "readBasis": "本轮五实现/十二测试完整核读及当前差异；GLM有效A/E与46/47既有证据按合同复用，非哈希代替阅读",
+      "sha256": "7b362e551d29920b87d3739da0d0d377429f65019f945c380f7336887977f364",
+      "lines": 85,
+      "dimensions": {
+        "A": "按公开typed入口核帧高剖面、完整2×2、透明/opaque0、左上双裁剪；正常帧尺寸/bitmap长度与字表合法；明确防御域不冒充生产流程。",
+        "B": "标题/fixture/采样说明与实际结果对齐；不冒称渲染测试覆盖IO、交互或原版观感。",
+        "C": "只调用公开生产入口，独立FB/局部输入；有clock/global fetch的文件按原afterEach/finally恢复。",
+        "D": "使用既有图像/字体fixture，按真实合同排重；不复制实现作为oracle或以mock调用次数代替业务。",
+        "E": "角落保留像素5与旁格0为独立oracle；同mutant旧14绿/新1红",
+        "F": "独立坐标/色值/帧号具名，必要fixture辅助只准备合法输入，不实现产品算法。",
+        "G": "保留6例；不再用not.toThrow替代像素",
+        "H": "真实软件FB/纯规则可观察；IO只替换外部fetch Response，无核心mock/私有状态或新增ignore。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+      "card": "43",
+      "readBasis": "本轮五实现/十二测试完整核读及当前差异；GLM有效A/E与46/47既有证据按合同复用，非哈希代替阅读",
+      "sha256": "72e2e06ce3b72b4877c9b24cfe064699a880efe1d95394f7d3e30f53ea0d006d",
+      "lines": 72,
+      "dimensions": {
+        "A": "按公开typed入口核异宽逐帧、borrowed buffers、四边裁剪与透明孔；正常帧尺寸/bitmap长度与字表合法；明确防御域不冒充生产流程。",
+        "B": "标题/fixture/采样说明与实际结果对齐；不冒称渲染测试覆盖IO、交互或原版观感。",
+        "C": "只调用公开生产入口，独立FB/局部输入；有clock/global fetch的文件按原afterEach/finally恢复。",
+        "D": "使用既有图像/字体fixture，按真实合同排重；不复制实现作为oracle或以mock调用次数代替业务。",
+        "E": "B07替换重复行序为底边存活与不绕回；原2×2与孔例仍承接行序",
+        "F": "独立坐标/色值/帧号具名，必要fixture辅助只准备合法输入，不实现产品算法。",
+        "G": "8→7：B01同floor锚已由main45宽和B02异宽承担",
+        "H": "真实软件FB/纯规则可观察；IO只替换外部fetch Response，无核心mock/私有状态或新增ignore。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/font.test.ts",
+      "card": "44",
+      "readBasis": "本轮五实现/十二测试完整核读及当前差异；GLM有效A/E与46/47既有证据按合同复用，非哈希代替阅读",
+      "sha256": "d502acc90f477b56a28eef745e17e4f219514ffacb9bbcf96d39992d3219cc6f",
+      "lines": 128,
+      "dimensions": {
+        "A": "按公开typed入口核静态菜单字宽、非零原点混合字形、已知→缺字→已知游标；正常帧尺寸/bitmap长度与字表合法；明确防御域不冒充生产流程。",
+        "B": "标题/fixture/采样说明与实际结果对齐；不冒称渲染测试覆盖IO、交互或原版观感。",
+        "C": "只调用公开生产入口，独立FB/局部输入；有clock/global fetch的文件按原afterEach/finally恢复。",
+        "D": "使用既有图像/字体fixture，按真实合同排重；不复制实现作为oracle或以mock调用次数代替业务。",
+        "E": "独立literal总宽32与像素4/12/27/28/36；原空串迁更强G05-B14，default表迁tofu双域",
+        "F": "独立坐标/色值/帧号具名，必要fixture辅助只准备合法输入，不实现产品算法。",
+        "G": "15→13；两个弱noThrow合同迁入实际tofu/缺字像素，不保数量",
+        "H": "真实软件FB/纯规则可观察；IO只替换外部fetch Response，无核心mock/私有状态或新增ignore。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+      "card": "44",
+      "readBasis": "本轮五实现/十二测试完整核读及当前差异；GLM有效A/E与46/47既有证据按合同复用，非哈希代替阅读",
+      "sha256": "5d96d0ae5501f96c5a7075ce996c3ac2a3b586f52641cf9198eb00c73174c693",
+      "lines": 66,
+      "dimensions": {
+        "A": "按公开typed入口核补充平面码点逐色、缺色默认、三影、tofu与缺ASCII测量；正常帧尺寸/bitmap长度与字表合法；明确防御域不冒充生产流程。",
+        "B": "标题/fixture/采样说明与实际结果对齐；不冒称渲染测试覆盖IO、交互或原版观感。",
+        "C": "只调用公开生产入口，独立FB/局部输入；有clock/global fetch的文件按原afterEach/finally恢复。",
+        "D": "使用既有图像/字体fixture，按真实合同排重；不复制实现作为oracle或以mock调用次数代替业务。",
+        "E": "底色0x5a使删colored shadow旧4绿新1红；𠮷甲辨别codepoint与UTF16；tofu缺表/缺key同合同",
+        "F": "独立坐标/色值/帧号具名，必要fixture辅助只准备合法输入，不实现产品算法。",
+        "G": "保留4例，修col9误称为col14；未新增浅覆盖",
+        "H": "真实软件FB/纯规则可观察；IO只替换外部fetch Response，无核心mock/私有状态或新增ignore。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/font-width.grok-r1.test.ts",
+      "card": "44",
+      "readBasis": "本轮五实现/十二测试完整核读及当前差异；GLM有效A/E与46/47既有证据按合同复用，非哈希代替阅读",
+      "sha256": "1b5024cd2d448c38a619cb8a545a3c92d51851185b7b1b7fcaf54a819cb616f3",
+      "lines": 138,
+      "dimensions": {
+        "A": "按公开typed入口核字宽阈值/混合量化、真实Response装载/URL/HTTP/空表、普通文字阴影；正常帧尺寸/bitmap长度与字表合法；明确防御域不冒充生产流程。",
+        "B": "标题/fixture/采样说明与实际结果对齐；不冒称渲染测试覆盖IO、交互或原版观感。",
+        "C": "只调用公开生产入口，独立FB/局部输入；有clock/global fetch的文件按原afterEach/finally恢复。",
+        "D": "使用既有图像/字体fixture，按真实合同排重；不复制实现作为oracle或以mock调用次数代替业务。",
+        "E": "B06完整8×16/16bytes与height16；height1反控旧14绿新1红；空串核整片未改",
+        "F": "独立坐标/色值/帧号具名，必要fixture辅助只准备合法输入，不实现产品算法。",
+        "G": "14→10，B03/04/10/11由主测ASCII/CJK测量和混合游标承接",
+        "H": "真实软件FB/纯规则可观察；IO只替换外部fetch Response，无核心mock/私有状态或新增ignore。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/follower-render.test.ts",
+      "card": "45",
+      "readBasis": "本轮五实现/十二测试完整核读及当前差异；GLM有效A/E与46/47既有证据按合同复用，非哈希代替阅读",
+      "sha256": "4b7e687c809ce88817f668231a9881012b3fcad0cdb6dfd0485e7e854a315d75",
+      "lines": 77,
+      "dimensions": {
+        "A": "按公开typed入口核dense trail/空队/深度不足/四步/各chunk与index；正常帧尺寸/bitmap长度与字表合法；明确防御域不冒充生产流程。",
+        "B": "标题/fixture/采样说明与实际结果对齐；不冒称渲染测试覆盖IO、交互或原版观感。",
+        "C": "只调用公开生产入口，独立FB/局部输入；有clock/global fetch的文件按原afterEach/finally恢复。",
+        "D": "使用既有图像/字体fixture，按真实合同排重；不复制实现作为oracle或以mock调用次数代替业务。",
+        "E": "82/83是MGO chunk非role；真实公开函数直接结果；步序literal9/11/9/10",
+        "F": "独立坐标/色值/帧号具名，必要fixture辅助只准备合法输入，不实现产品算法。",
+        "G": "保留6例；去未读_step参数和重复造trail工厂",
+        "H": "真实软件FB/纯规则可观察；IO只替换外部fetch Response，无核心mock/私有状态或新增ignore。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
+      "card": "45",
+      "readBasis": "本轮五实现/十二测试完整核读及当前差异；GLM有效A/E与46/47既有证据按合同复用，非哈希代替阅读",
+      "sha256": "546e86fa49e027289554d79297578a163b177358774b1e65253a247f00a326cc",
+      "lines": 41,
+      "dimensions": {
+        "A": "按公开typed入口核公开number=4防御、朝左行走、dense前缀尾部不足；正常帧尺寸/bitmap长度与字表合法；明确防御域不冒充生产流程。",
+        "B": "标题/fixture/采样说明与实际结果对齐；不冒称渲染测试覆盖IO、交互或原版观感。",
+        "C": "只调用公开生产入口，独立FB/局部输入；有clock/global fetch的文件按原afterEach/finally恢复。",
+        "D": "使用既有图像/字体fixture，按真实合同排重；不复制实现作为oracle或以mock调用次数代替业务。",
+        "E": "不拿稀疏数组当正式TrailEntry输入；前一follower保留与帧7结果仍验证continue边界",
+        "F": "独立坐标/色值/帧号具名，必要fixture辅助只准备合法输入，不实现产品算法。",
+        "G": "4→3，仅撤D02稀疏fixture信用；缺尾由D04/主测承担",
+        "H": "真实软件FB/纯规则可观察；IO只替换外部fetch Response，无核心mock/私有状态或新增ignore。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+      "card": "46",
+      "readBasis": "本轮五实现/十二测试完整核读及当前差异；GLM有效A/E与46/47既有证据按合同复用，非哈希代替阅读",
+      "sha256": "4f6eae08db3ab3cecddcba64a72ae62e4a51f62963954d01ce3ad74836d7b9d2",
+      "lines": 72,
+      "dimensions": {
+        "A": "按公开typed入口核合法否是/关开、选中侧与0/100/600ms颜色；正常帧尺寸/bitmap长度与字表合法；明确防御域不冒充生产流程。",
+        "B": "标题/fixture/采样说明与实际结果对齐；不冒称渲染测试覆盖IO、交互或原版观感。",
+        "C": "只调用公开生产入口，独立FB/局部输入；有clock/global fetch的文件按原afterEach/finally恢复。",
+        "D": "使用既有图像/字体fixture，按真实合同排重；不复制实现作为oracle或以mock调用次数代替业务。",
+        "E": "固定F9旧10绿新恰1业务红；two boxes/三影有真实font/FB结果",
+        "F": "独立坐标/色值/帧号具名，必要fixture辅助只准备合法输入，不实现产品算法。",
+        "G": "保留3例；时钟边界并入既有选中侧合同",
+        "H": "真实软件FB/纯规则可观察；IO只替换外部fetch Response，无核心mock/私有状态或新增ignore。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "card": "46",
+      "readBasis": "本轮五实现/十二测试完整核读及当前差异；GLM有效A/E与46/47既有证据按合同复用，非哈希代替阅读",
+      "sha256": "1fc84cda595debed5b09e20db9d24a79edd1c44b1bbf030717e9f2cedea02abf",
+      "lines": 177,
+      "dimensions": {
+        "A": "按公开typed入口核opening背景/词表及confirm空/多字helper布局；正常帧尺寸/bitmap长度与字表合法；明确防御域不冒充生产流程。",
+        "B": "标题/fixture/采样说明与实际结果对齐；不冒称渲染测试覆盖IO、交互或原版观感。",
+        "C": "只调用公开生产入口，独立FB/局部输入；有clock/global fetch的文件按原afterEach/finally恢复。",
+        "D": "使用既有图像/字体fixture，按真实合同排重；不复制实现作为oracle或以mock调用次数代替业务。",
+        "E": "只修改D06：无字点必须等于SENTINEL；其它已接受opening合同未重做或重复计信用",
+        "F": "独立坐标/色值/帧号具名，必要fixture辅助只准备合法输入，不实现产品算法。",
+        "G": "仍7例；clone是实际渲染前后输入比较，非clone自比",
+        "H": "真实软件FB/纯规则可观察；IO只替换外部fetch Response，无核心mock/私有状态或新增ignore。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.test.ts",
+      "card": "47",
+      "readBasis": "本轮五实现/十二测试完整核读及当前差异；GLM有效A/E与46/47既有证据按合同复用，非哈希代替阅读",
+      "sha256": "a5fa29d9b440cebec03a20be4014696c47c3c14c3034d37e06dcb876cc1fe173",
+      "lines": 87,
+      "dimensions": {
+        "A": "按公开typed入口核9帧/两style/网格/当前像素阴影/缺帧；正常帧尺寸/bitmap长度与字表合法；明确防御域不冒充生产流程。",
+        "B": "标题/fixture/采样说明与实际结果对齐；不冒称渲染测试覆盖IO、交互或原版观感。",
+        "C": "只调用公开生产入口，独立FB/局部输入；有clock/global fetch的文件按原afterEach/finally恢复。",
+        "D": "使用既有图像/字体fixture，按真实合同排重；不复制实现作为oracle或以mock调用次数代替业务。",
+        "E": "同一0xAB非零底图一次draw同时核正色1/阴影A5，删重复零底图绘制",
+        "F": "独立坐标/色值/帧号具名，必要fixture辅助只准备合法输入，不实现产品算法。",
+        "G": "保留5例；frame色1..9/10..18注释纠正",
+        "H": "真实软件FB/纯规则可观察；IO只替换外部fetch Response，无核心mock/私有状态或新增ignore。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+      "card": "47",
+      "readBasis": "本轮五实现/十二测试完整核读及当前差异；GLM有效A/E与46/47既有证据按合同复用，非哈希代替阅读",
+      "sha256": "2ddaa6efbaf2016f40191c7c8cf49f77191ad62c187c76a2ac25aaa5e54c4295",
+      "lines": 69,
+      "dimensions": {
+        "A": "按公开typed入口核缺单行帧、无阴影、右下裁剪、实际glyph量化；正常帧尺寸/bitmap长度与字表合法；明确防御域不冒充生产流程。",
+        "B": "标题/fixture/采样说明与实际结果对齐；不冒称渲染测试覆盖IO、交互或原版观感。",
+        "C": "只调用公开生产入口，独立FB/局部输入；有clock/global fetch的文件按原afterEach/finally恢复。",
+        "D": "使用既有图像/字体fixture，按真实合同排重；不复制实现作为oracle或以mock调用次数代替业务。",
+        "E": "(44,18)确在假offset6阴影域；旧采样(44,12)在域外；selected-case V2无pending的1红",
+        "F": "独立坐标/色值/帧号具名，必要fixture辅助只准备合法输入，不实现产品算法。",
+        "G": "5→4，fixture素色自检未执行产品，撤销而非声称blit覆盖",
+        "H": "真实软件FB/纯规则可观察；IO只替换外部fetch Response，无核心mock/私有状态或新增ignore。"
+      }
+    },
+    {
+      "path": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "card": "47",
+      "readBasis": "本轮五实现/十二测试完整核读及当前差异；GLM有效A/E与46/47既有证据按合同复用，非哈希代替阅读",
+      "sha256": "4adaf21e23bfd2d6da685430c237e7f1549377001d5fef2ea23145829650fee6",
+      "lines": 231,
+      "dimensions": {
+        "A": "按公开typed入口核透明孔/shadow、单行节数/len0、style1缺帧、空rows/cols、opaque0、最长宽；正常帧尺寸/bitmap长度与字表合法；明确防御域不冒充生产流程。",
+        "B": "标题/fixture/采样说明与实际结果对齐；不冒称渲染测试覆盖IO、交互或原版观感。",
+        "C": "只调用公开生产入口，独立FB/局部输入；有clock/global fetch的文件按原afterEach/finally恢复。",
+        "D": "使用既有图像/字体fixture，按真实合同排重；不复制实现作为oracle或以mock调用次数代替业务。",
+        "E": "具体FB像素/抛错/字宽为oracle，删toBe3后冗余notToBe7，不删必要阴影或边界",
+        "F": "独立坐标/色值/帧号具名，必要fixture辅助只准备合法输入，不实现产品算法。",
+        "G": "保留12例，与main/GLM的frame身份/裁剪/缺帧输入轴不同",
+        "H": "真实软件FB/纯规则可观察；IO只替换外部fetch Response，无核心mock/私有状态或新增ignore。"
+      }
+    }
+  ],
+  "bindings": [
+    {
+      "path": "packages/game/src/present/framebuffer.ts",
+      "sha256": "eafcf690d4e5988c1332e2638e233b8c7125ffe0781f6a338c34f505c486b60b",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "packages/game/src/present/present.ts",
+      "sha256": "04f2dc31ec175a3b1d478a7a485073db510d2a7cf3d914cbeccbda9947daa34a",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "packages/game/src/present/follower-pos.ts",
+      "sha256": "88886dfc55aeb11ab443dd68d9a31a7fd8f921a8222576ddc877797bc13ed5cf",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-colors.ts",
+      "sha256": "43be7381df1880e54fba0430e9f5a18ae27dfeadb9156d99c60be740d4a18a6b",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "packages/game/src/core/scene-system.ts",
+      "sha256": "861d2e43437970d01a59a4507f8165e954057c343c35739b51ec226e812a1cdf",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "packages/game/src/core/event-system.ts",
+      "sha256": "26dbd7a749476bcf9029c3edbf06aa9f1afaa004e12016a5a646d0e25e3eb840",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "packages/game/src/core/game-state.ts",
+      "sha256": "d6fd349f95fe4489d255e4286c29a94e52146508022d84289de125de6f7f2b87",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "sha256": "3105b7f3b24e6986e035ab023a86d0562673c6174ea13cbf6e7d0341b9d859a1",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "packages/game/src/shell/bootstrap-resources.ts",
+      "sha256": "7298c33038868dd9f514b04940f5f9f8dbcf29a5592201a6e83509d4b04ed6aa",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "packages/game/src/present/dialog-box.ts",
+      "sha256": "d326e5b04d37a4c92a31166307e551dab6c5d61dfbf790ad61b9494e8d993eec",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-menu.ts",
+      "sha256": "c19da1b18b398bf807cdac556450b89cae52ed678cf5ce144432c44a8965a0e3",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-shop.ts",
+      "sha256": "820163557b1a99147dcf05d18618eb92964b9d1f93569c731dfc02e5f0bb2cf8",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-sprites.ts",
+      "sha256": "a2e06da4543185fb6da9bf0a747a67ddb087fcc79662b4d54ebd3f7282a25948",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "packages/game/src/present/battle/draw-battle-ui.ts",
+      "sha256": "78ddfc12ad048965decb88318ef794af708808cf6a54206442e434b2fa1915c8",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "packages/game/src/__tests__/glm-phase1-leaves/present-fixtures.ts",
+      "sha256": "4f8701a4dddcdae4010bdbd9b23eee56dd2d20335e906a5249a488308edaedea",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/images.ts",
+      "sha256": "eda55d7e7faa55923d2df15e2e856e975e4c949af9365b26ec6b292c25f178a0",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/font.ts",
+      "sha256": "b280a039f4ecd1d79b59af8224858a2a62f5afa65d28cf99bec6d9bf6b16fa84",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "packages/game/src/present/__tests__/grok-present/world.ts",
+      "sha256": "94f9d8d2bf8f295ab30faab1e0a4c8740d2bb80e1a37a92d3ca543eca0f09aeb",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "packages/pal-extract/src/font/bdf-to-json.ts",
+      "sha256": "4d57203361b505557c165398d580404579c61964014e2b99aac935307d85aa50",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "packages/game/src/core/menu/opening-menu.ts",
+      "sha256": "cc81a74d8264afc9cccdc061c32829953da1482c7c0fd7d3124e102949d48e82",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "packages/game/src/core/word-lookup.ts",
+      "sha256": "4fe9487c9e3618770929f3e11176cd362cbcb0d1c46b38fa63fc50f981cd0883",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "packages/game/src/assets/loader.ts",
+      "sha256": "c6a03533ff265905ed00cc838fb1f7bd3bdeb077af5a62a81dfb81e30adc2443",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "packages/game/vitest.config.ts",
+      "sha256": "eebb89f531c5ae56b8b3e2b0971605f22d4739feba33f8008b5178fff0897d43",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "packages/game/vitest.setup.ts",
+      "sha256": "9d1b923f6abc71a5af3e9be094d2945f853a2f4319a036aba9813e86f116e93e",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "reference/sdlpal/scene.c",
+      "sha256": "bc4efef7cad3b83ddac5e3338423e3c5d9660bdbaae1d8e974e8841022e3bc8b",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "reference/sdlpal/res.c",
+      "sha256": "5bec5dd52c950fe1a6cdafb7fab414f55cd5958adc7c9ddce4e7f6cbfe3ec9d9",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "reference/sdlpal/text.c",
+      "sha256": "8e3c1be5111ea6bed1d0a8a480a2818235d0b3c22a6f73540f5701ac26cbc456",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "reference/sdlpal/ui.c",
+      "sha256": "15a03e60ebe4c51ae45d479740b8dfdf8029805cc6bf8ca8fc39926d62cf2242",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "reference/sdlpal/ui.h",
+      "sha256": "a62d0df9fb689afe5636cc1578e67185c5f2d0900838d72b9808dc5052df19ce",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "reference/sdlpal/palcommon.c",
+      "sha256": "919f428112e70c11b8db208e9bba486c8ab056aa4a893a8d4d6bae9b21b9aae6",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "reference/sdlpal/font.c",
+      "sha256": "8b1f8f9c9325024bca8c99f15dab3a8122d9d278e471614f4d5ddab944a461d6",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    },
+    {
+      "path": "reference/sdlpal/fontglyph.h",
+      "sha256": "483a1fa25c0233d1200c5d753b7cf2766de4ee6cdad3bdf7f9f7e50473e53895",
+      "readScope": "当前依赖/primary字节绑定；本轮实际核读为五源码/十二测试、bootstrap-resources与glyph producer全文、present follower及scene/event trail写入段；其它复用既有明确caller/primary证据，不冒称本轮全文"
+    }
+  ],
+  "coverageAdjustment": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-recount.json",
+    "sha256": "bb8cc6d947817cbffc8efd2cf064d4386cbecdc5980587741321cb867dda0a83"
+  },
+  "observedOpeningLabels": {
+    "producer": "openingMenuLabels -> getWord(7/8), only current production palWordWidth caller is draw-opening-menu.ts",
+    "lookup": {
+      "path": "data/extracted/lookup/words.json",
+      "sha256": "dbd24525ebacf1fe252f19ab9c3158c4b6ef1d73e0de925a18a09f1a0cb1b75d",
+      "indices": [7, 8],
+      "words": ["新的故事", "旧的回忆"]
+    },
+    "fallbacks": ["新的故事", "旧的回忆"],
+    "limits": "Only these shipped opening labels; no all-Unicode/Latin-1 layout parity claim or asset change.",
+    "originalWordData": {
+      "path": "data/raw/WORD.DAT",
+      "sha256": "be56e77c7ecd61306133913a1987b1dddf656528ae870c2de1ee8ccda7ff3ebf",
+      "readBytes": [70, 90],
+      "hex": "d0c2b5c4b9cacac22020bec9b5c4bbd8d2e42020",
+      "gbk": ["新的故事", "旧的回忆"]
+    }
+  },
+  "argumentEvaluation": {
+    "claim": "AST substitution is a finite transformation proof, not a general semantic proof for effectful arguments.",
+    "currentCaller": "Only dialog-box.drawTextLine calls renderColoredText; colors is an ordinary parseDialogText number array, and real framebuffer writes do not read/change it. Therefore moving primitive color evaluation into the private call preserves the actual synchronous caller contract.",
+    "invalidateWhen": "New color/FB callers, accessor-backed color inputs or changed parse ownership require targeted re-review."
+  },
+  "finalRun": "leaves-final",
+  "finalTestCount": 365,
+  "counters": [
+    {
+      "old": {
+        "id": "sprite-corner-old",
+        "passed": 14
+      },
+      "new": {
+        "id": "sprite-corner-new",
+        "passed": 12,
+        "failure": "drawSprite 左上角跨界时仍写入屏内的右下像素"
+      }
+    },
+    {
+      "old": {
+        "id": "colored-shadow-old",
+        "passed": 4
+      },
+      "new": {
+        "id": "colored-shadow-new",
+        "passed": 3,
+        "failure": "L16 renderColoredText（逐字符色） colors 缺项回退 0x4F；fShadow 三影写黑 0"
+      }
+    },
+    {
+      "old": {
+        "id": "glyph-height-old",
+        "passed": 14
+      },
+      "new": {
+        "id": "glyph-height-new",
+        "passed": 9,
+        "failure": "G05-B font 宽度与字形装载 G05-B06 loadGlyphs 把 bitmapBase64 解成字节，并能按码位取回"
+      }
+    },
+    {
+      "old": {
+        "id": "confirm-constant-old",
+        "passed": 10
+      },
+      "new": {
+        "id": "confirm-constant-new",
+        "passed": 9,
+        "failure": "L09 drawConfirmBox 默认 否/是：左项随时钟闪烁，右项常态；两框体已画"
+      }
+    },
+    {
+      "old": {
+        "id": "box-zero-shadow-old-v2",
+        "passed": 1
+      },
+      "new": {
+        "id": "box-zero-shadow-new-v2",
+        "passed": 0,
+        "failure": "L12 drawBox / drawSingleLineBox 剩余合同 shadowOffset 0：无阴影，框右侧的阴影域保持底色"
+      }
+    },
+    {
+      "old": {
+        "id": "colored-codepoint-old",
+        "passed": 4
+      },
+      "new": {
+        "id": "colored-codepoint-new",
+        "passed": 3,
+        "failure": "L16 renderColoredText（逐字符色） 逐字符颜色数组按 code point 对位上色"
+      }
+    }
+  ],
+  "complexity": [
+    {
+      "path": "packages/game/src/present/draw-sprite.ts",
+      "functions": [
+        {
+          "symbol": "toSpriteImages",
+          "score": 1,
+          "marked": false
+        },
+        {
+          "symbol": "drawSprite",
+          "score": 4,
+          "marked": false
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/present/font.ts",
+      "functions": [
+        {
+          "symbol": "loadGlyphs",
+          "score": 3,
+          "marked": false
+        },
+        {
+          "symbol": "blitGlyph",
+          "score": 4,
+          "marked": false
+        },
+        {
+          "symbol": "drawGlyph",
+          "score": 2,
+          "marked": false
+        },
+        {
+          "symbol": "renderText",
+          "score": 3,
+          "marked": false
+        },
+        {
+          "symbol": "renderColoredText",
+          "score": 4,
+          "marked": false
+        },
+        {
+          "symbol": "measureText",
+          "score": 3,
+          "marked": false
+        },
+        {
+          "symbol": "palCharWidth",
+          "score": 2,
+          "marked": false
+        },
+        {
+          "symbol": "palWordWidth",
+          "score": 2,
+          "marked": false
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/present/follower-render.ts",
+      "functions": [
+        {
+          "symbol": "computeFollowerRenderItems",
+          "score": 6,
+          "marked": false
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-confirm.ts",
+      "functions": [
+        {
+          "symbol": "drawConfirmBox",
+          "score": 3,
+          "marked": false
+        }
+      ]
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.ts",
+      "functions": [
+        {
+          "symbol": "menuTextMaxCols",
+          "score": 3,
+          "marked": false
+        },
+        {
+          "symbol": "palCalcShadowColor",
+          "score": 1,
+          "marked": false
+        },
+        {
+          "symbol": "drawBox",
+          "score": 11,
+          "marked": true
+        },
+        {
+          "symbol": "blitOpaque",
+          "score": 4,
+          "marked": false
+        },
+        {
+          "symbol": "blitShadowMask",
+          "score": 8,
+          "marked": false
+        },
+        {
+          "symbol": "drawSingleLineBox",
+          "score": 8,
+          "marked": false
+        }
+      ]
+    }
+  ],
+  "contracts": [
+    {
+      "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+      "before": [
+        "G03-B drawSprite 锚点与裁剪 G03-B01 宽 7 高 4 的帧 anchorX 为 3，anchorY 为自身高度 4",
+        "G03-B drawSprite 锚点与裁剪 G03-B02 宽 1 的帧 anchorX 为 0，不跟相邻更宽的帧",
+        "G03-B drawSprite 锚点与裁剪 G03-B03 toSpriteImages 复用调用方的 indices 与 opaque",
+        "G03-B drawSprite 锚点与裁剪 G03-B04 左缘外的像素不写，紧挨着的屏内像素写入 9",
+        "G03-B drawSprite 锚点与裁剪 G03-B05 顶缘外的像素不写，下一行屏内像素写入 9",
+        "G03-B drawSprite 锚点与裁剪 G03-B06 右缘只写下 x=319 的像素，调用不抛错",
+        "G03-B drawSprite 锚点与裁剪 G03-B07 3×1 按行序写入 11、12、13",
+        "G03-B drawSprite 锚点与裁剪 G03-B08 中间透明孔不挡住右侧不透明像素"
+      ],
+      "after": [
+        "G03-B drawSprite 锚点与裁剪 G03-B02 宽 1 的帧 anchorX 为 0，不跟相邻更宽的帧",
+        "G03-B drawSprite 锚点与裁剪 G03-B03 toSpriteImages 复用调用方的 indices 与 opaque",
+        "G03-B drawSprite 锚点与裁剪 G03-B04 左缘外的像素不写，紧挨着的屏内像素写入 9",
+        "G03-B drawSprite 锚点与裁剪 G03-B05 顶缘外的像素不写，下一行屏内像素写入 9",
+        "G03-B drawSprite 锚点与裁剪 G03-B06 右缘只写下 x=319 的像素，调用不抛错",
+        "G03-B drawSprite 锚点与裁剪 G03-B07 底缘只写下 y=199 的像素，不绕回首行",
+        "G03-B drawSprite 锚点与裁剪 G03-B08 中间透明孔不挡住右侧不透明像素"
+      ],
+      "note": "Current complete final run identities; exact checkpoint source bytes recorded by capture, no retroactive credit."
+    },
+    {
+      "file": "packages/game/src/present/draw-sprite.test.ts",
+      "before": [
+        "toSpriteImages 逐帧 anchor(密道攀爬偏下根因回归) 每帧 anchorY = 自身高度,anchorX = 自身宽度/2(非整组钉死 frame0)",
+        "toSpriteImages 逐帧 anchor(密道攀爬偏下根因回归) 脚底对齐:任意高度帧在 drawSprite(cy) 处底边都落在同一行(sdlpal PAL_RLEGetHeight 逐帧)",
+        "drawSprite 画一个 2×2 精灵,anchor 在底部中心 (1, 2)",
+        "drawSprite opaque=0 不覆盖底面(M3.5 fix:透明判定走 opaque mask,非 idx===0)",
+        "drawSprite opaque=1 且 idx=0 仍画(palette index 0 是合法 opaque 像素,M3.5 fix)",
+        "drawSprite 屏幕外像素不抛错"
+      ],
+      "after": [
+        "toSpriteImages 逐帧 anchor(密道攀爬偏下根因回归) 每帧 anchorY = 自身高度,anchorX = 自身宽度/2(非整组钉死 frame0)",
+        "toSpriteImages 逐帧 anchor(密道攀爬偏下根因回归) 脚底对齐:任意高度帧在 drawSprite(cy) 处底边都落在同一行(sdlpal PAL_RLEGetHeight 逐帧)",
+        "drawSprite 画一个 2×2 精灵,anchor 在底部中心 (1, 2)",
+        "drawSprite opaque=0 不覆盖底面(M3.5 fix:透明判定走 opaque mask,非 idx===0)",
+        "drawSprite opaque=1 且 idx=0 仍画(palette index 0 是合法 opaque 像素,M3.5 fix)",
+        "drawSprite 左上角跨界时仍写入屏内的右下像素"
+      ],
+      "note": "Current complete final run identities; exact checkpoint source bytes recorded by capture, no retroactive credit."
+    },
+    {
+      "file": "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
+      "before": [
+        "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D01 行走且 stepFrame 为 4 时步帧回落到 0，朝右的帧是 9",
+        "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D02 第一个跟随者缺 trail[3]、第二个有 trail[4] 时只留下 index 1",
+        "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D03 朝左行走且 stepFrame 为 1 时帧是 5",
+        "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D04 第二个跟随者没有 trail[4] 时，第一个仍然留下"
+      ],
+      "after": [
+        "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D01 防御输入：行走且 stepFrame 为 4 时步帧回落到 0，朝右的帧是 9",
+        "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D03 朝左行走且 stepFrame 为 1 时帧是 5",
+        "G03-D computeFollowerRenderItems 缺槽与越界步 G03-D04 第二个跟随者没有 trail[4] 时，第一个仍然留下"
+      ],
+      "note": "Current complete final run identities; exact checkpoint source bytes recorded by capture, no retroactive credit."
+    },
+    {
+      "file": "packages/game/src/present/follower-render.test.ts",
+      "before": [
+        "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 无 follower → 空",
+        "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) trail 深度不足(< 4)→ 跳过(不报错)",
+        "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) follower 0 → trail[3] 位置(world,无偏移)+ 角色 id",
+        "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 站立帧 = dir*3(无 step;left dir=1 → 3)",
+        "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 行走帧 = dir*3 + iStepFrameFollower[step](序列 [0,2,0,1],区别于 leader [0,1,0,2])",
+        "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 两 follower → trail[3]/[4],各自 dir/role/index"
+      ],
+      "after": [
+        "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 无 follower → 空",
+        "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) trail 深度不足(< 4)→ 跳过(不报错)",
+        "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) follower 0 → trail[3] 位置(world,无偏移)+ MGO chunk",
+        "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 站立帧 = dir*3(无 step;left dir=1 → 3)",
+        "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 行走帧 = dir*3 + iStepFrameFollower[step](序列 [0,2,0,1],区别于 leader [0,1,0,2])",
+        "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 两 follower → trail[3]/[4],各自 dir/chunk/index"
+      ],
+      "note": "Current complete final run identities; exact checkpoint source bytes recorded by capture, no retroactive credit."
+    },
+    {
+      "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+      "before": [
+        "G05-B font 宽度与字形装载 G05-B01 palCharWidth 在 0x7F 仍是 8，0x80 起是 16",
+        "G05-B font 宽度与字形装载 G05-B02 空串的 palWordWidth 是 0",
+        "G05-B font 宽度与字形装载 G05-B03 四个 ASCII 的 palWordWidth 是 2，不是字符串长度 4",
+        "G05-B font 宽度与字形装载 G05-B04 两个全角字的 palWordWidth 等于 2",
+        "G05-B font 宽度与字形装载 G05-B05 两个 ASCII 加一个全角的 palWordWidth 是 2，不是 3",
+        "G05-B font 宽度与字形装载 G05-B06 loadGlyphs 把 bitmapBase64 解成字节，并能按码位取回",
+        "G05-B font 宽度与字形装载 G05-B07 loadGlyphs 把调用方给的 baseUrl 接到 /data/font/glyphs.json",
+        "G05-B font 宽度与字形装载 G05-B08 字形清单 HTTP 失败时，错误文本带上状态码",
+        "G05-B font 宽度与字形装载 G05-B09 字形清单为空时，has 为假且 get 为 undefined",
+        "G05-B font 宽度与字形装载 G05-B10 表里有宽 8 的字形时，measureText 返回 8",
+        "G05-B font 宽度与字形装载 G05-B11 renderText 半角加全角返回 24，第二字落在 x+8",
+        "G05-B font 宽度与字形装载 G05-B12 renderText 打开阴影时，右、下、右下三点是 0，原点仍是前景",
+        "G05-B font 宽度与字形装载 G05-B13 renderText 关闭阴影时，右、下、右下保持底色",
+        "G05-B font 宽度与字形装载 G05-B14 空字符串 renderText 返回 0，并且不改像素"
+      ],
+      "after": [
+        "G05-B font 宽度与字形装载 G05-B01 palCharWidth 在 0x7F 仍是 8，0x80 起是 16",
+        "G05-B font 宽度与字形装载 G05-B02 空串的 palWordWidth 是 0",
+        "G05-B font 宽度与字形装载 G05-B05 两个 ASCII 加一个全角的 palWordWidth 是 2，不是 3",
+        "G05-B font 宽度与字形装载 G05-B06 loadGlyphs 把 bitmapBase64 解成字节，并能按码位取回",
+        "G05-B font 宽度与字形装载 G05-B07 loadGlyphs 把调用方给的 baseUrl 接到 /data/font/glyphs.json",
+        "G05-B font 宽度与字形装载 G05-B08 字形清单 HTTP 失败时，错误文本带上状态码",
+        "G05-B font 宽度与字形装载 G05-B09 字形清单为空时，has 为假且 get 为 undefined",
+        "G05-B font 宽度与字形装载 G05-B12 renderText 打开阴影时，右、下、右下三点是 0，原点仍是前景",
+        "G05-B font 宽度与字形装载 G05-B13 renderText 关闭阴影时，右、下、右下保持底色",
+        "G05-B font 宽度与字形装载 G05-B14 空字符串 renderText 返回 0，并且不改像素"
+      ],
+      "note": "Current complete final run identities; exact checkpoint source bytes recorded by capture, no retroactive credit."
+    },
+    {
+      "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+      "before": [
+        "L16 renderColoredText（逐字符色） 逐字符颜色数组按 code point 对位上色",
+        "L16 renderColoredText（逐字符色） colors 缺项回退 0x4F；fShadow 三影写黑 0",
+        "L16 tofu 缺字形回退 缺字形 → 16×16 空心框：顶/底行 cols0-14 亮 col15 暗，中间行只有 col0/col9",
+        "L16 tofu 缺字形回退 measureText 空表 ASCII fallback 16px/字（布局入口禁止用它，doc 锚）"
+      ],
+      "after": [
+        "L16 renderColoredText（逐字符色） 逐字符颜色数组按 code point 对位上色",
+        "L16 renderColoredText（逐字符色） colors 缺项回退 0x4F；fShadow 三影写黑 0",
+        "L16 tofu 缺字形回退 缺字形或未注入字表 → tofu顶底行0-14亮，中间行只有0/14亮",
+        "L16 tofu 缺字形回退 measureText 缺ASCII字形按16px计，已加载汉字保持字形宽度"
+      ],
+      "note": "Current complete final run identities; exact checkpoint source bytes recorded by capture, no retroactive credit."
+    },
+    {
+      "file": "packages/game/src/present/font.test.ts",
+      "before": [
+        "palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861) palCharWidth:ASCII<0x80=8,CJK=16",
+        "palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861) palWordWidth:'新的故事'(4 CJK)→ (64+8)>>4 = 4",
+        "palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861) palWordWidth:5 CJK → (80+8)>>4 = 5;6 CJK → (96+8)>>4 = 6",
+        "palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861) palWordWidth:8 ASCII → (64+8)>>4 = 4(ASCII 半宽,不等于 length)",
+        "renderText (P4.T3) blits ASCII A: top row 8 pixels lit at fgColor",
+        "renderText (P4.T3) CJK 中: top row 16 pixels lit at fgColor",
+        "renderText (P4.T3) cursor advances correctly: A then 中 occupies px 0..23",
+        "renderText (P4.T3) unknown codepoint → tofu 16×16 placeholder (no throw)",
+        "renderText (P4.T3) empty string → no-op, returns 0",
+        "renderText (P4.T3) glyphs omitted → tofu fallback (no throw)",
+        "measureText (P4.T3) 8 for A",
+        "measureText (P4.T3) 16 for 中",
+        "measureText (P4.T3) 24 for A中",
+        "measureText (P4.T3) unknown char defaults to 16",
+        "measureText (P4.T3) empty string → 0"
+      ],
+      "after": [
+        "palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861) palCharWidth:ASCII<0x80=8,CJK=16",
+        "palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861) palWordWidth:'新的故事'(4 CJK)→ (64+8)>>4 = 4",
+        "palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861) palWordWidth:5 CJK → (80+8)>>4 = 5;6 CJK → (96+8)>>4 = 6",
+        "palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861) palWordWidth:8 ASCII → (64+8)>>4 = 4(ASCII 半宽,不等于 length)",
+        "renderText (P4.T3) blits ASCII A: top row 8 pixels lit at fgColor",
+        "renderText (P4.T3) CJK 中: top row 16 pixels lit at fgColor",
+        "renderText (P4.T3) mixed glyph widths advance from a nonzero origin",
+        "renderText (P4.T3) missing glyph between known letters uses tofu and advances by 16 pixels",
+        "measureText (P4.T3) 8 for A",
+        "measureText (P4.T3) 16 for 中",
+        "measureText (P4.T3) 24 for A中",
+        "measureText (P4.T3) unknown char defaults to 16",
+        "measureText (P4.T3) empty string → 0"
+      ],
+      "note": "Current complete final run identities; exact checkpoint source bytes recorded by capture, no retroactive credit."
+    },
+    {
+      "file": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "before": [
+        "G07-C 菜单框像素 G07-C01 角块透明孔不写像素，旁边的不透明点仍是框色",
+        "G07-C 菜单框像素 G07-C02 单行框 len 为 2 时中段重复两次，右帽在 x=24",
+        "G07-C 菜单框像素 G07-C03 单行框 shadowOffset 为 0 时 (6,8) 保持底色",
+        "G07-C 菜单框像素 G07-C04 单行框默认阴影落在框身下方，低四位右移一位",
+        "G07-C 菜单框像素 G07-C05 右下角透明孔不投下阴影，旁边实点的阴影仍把底色变暗",
+        "G07-C 菜单框像素 G07-C06 style 1 缺少 frame 9 时抛错并指名该帧",
+        "G07-C 菜单框像素 G07-C07 八个半角 E 的列数是 3，不按缺字 16 像素计成 7",
+        "G07-C 菜单框像素 G07-C08 内容行数为 0 时只留上下两边，y=16 保持底色",
+        "G07-C 菜单框像素 G07-C09 内容列数为 0 时只留左右两边，x=16 保持底色",
+        "G07-C 菜单框像素 G07-C10 不透明且索引为 0 的块仍覆盖底色",
+        "G07-C 菜单框像素 G07-C11 列数取最长的一项，短项不把列数抬高",
+        "G07-C 菜单框像素 G07-C12 单行框 len 为 0 时没有中段，右帽紧跟左帽"
+      ],
+      "after": [
+        "G07-C 菜单框像素 G07-C01 角块透明孔不写像素，旁边的不透明点仍是框色",
+        "G07-C 菜单框像素 G07-C02 单行框 len 为 2 时中段重复两次，右帽在 x=24",
+        "G07-C 菜单框像素 G07-C03 单行框 shadowOffset 为 0 时 (6,8) 保持底色",
+        "G07-C 菜单框像素 G07-C04 单行框默认阴影落在框身下方，低四位右移一位",
+        "G07-C 菜单框像素 G07-C05 右下角透明孔不投下阴影，旁边实点的阴影仍把底色变暗",
+        "G07-C 菜单框像素 G07-C06 style 1 缺少 frame 9 时抛错并指名该帧",
+        "G07-C 菜单框像素 G07-C07 八个半角 E 的列数是 3，不按缺字 16 像素计成 7",
+        "G07-C 菜单框像素 G07-C08 内容行数为 0 时只留上下两边，y=16 保持底色",
+        "G07-C 菜单框像素 G07-C09 内容列数为 0 时只留左右两边，x=16 保持底色",
+        "G07-C 菜单框像素 G07-C10 不透明且索引为 0 的块仍覆盖底色",
+        "G07-C 菜单框像素 G07-C11 列数取最长的一项，短项不把列数抬高",
+        "G07-C 菜单框像素 G07-C12 单行框 len 为 0 时没有中段，右帽紧跟左帽"
+      ],
+      "note": "Current complete final run identities; exact checkpoint source bytes recorded by capture, no retroactive credit."
+    },
+    {
+      "file": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+      "before": [
+        "L12 drawBox / drawSingleLineBox 剩余合同 drawSingleLineBox 缺 44-46 帧 → fail-loud 抛错（指名帧区间）",
+        "L12 drawBox / drawSingleLineBox 剩余合同 shadowOffset 0：无阴影，(x+6,y+6) 保持底色",
+        "L12 drawBox / drawSingleLineBox 剩余合同 box 越出 fb 右/下边界：裁剪不抛错，界内像素照画",
+        "L12 drawBox / drawSingleLineBox 剩余合同 menuTextMaxCols：空表 → 1（下限）；全角 4 字 → 3；缺字形 ASCII 按 16px 计",
+        "L12 solidImage 语义（本队列 fixture 自检） 素色图 opaque 全 1，blit 后整片覆盖"
+      ],
+      "after": [
+        "L12 drawBox / drawSingleLineBox 剩余合同 drawSingleLineBox 缺 44-46 帧 → fail-loud 抛错（指名帧区间）",
+        "L12 drawBox / drawSingleLineBox 剩余合同 shadowOffset 0：无阴影，框右侧的阴影域保持底色",
+        "L12 drawBox / drawSingleLineBox 剩余合同 box 越出 fb 右/下边界：裁剪不抛错，界内像素照画",
+        "L12 drawBox / drawSingleLineBox 剩余合同 menuTextMaxCols：空表 → 1（下限）；全角 4 字 → 3；缺字形 ASCII 按 16px 计"
+      ],
+      "note": "Current complete final run identities; exact checkpoint source bytes recorded by capture, no retroactive credit."
+    },
+    {
+      "file": "packages/game/src/present/menu/draw-box.test.ts",
+      "before": [
+        "M5.6 W0.c drawBox 画 1×1 内部 box(实际 3×3 tile)— 9 frame 全部 blit",
+        "M5.6 W0.c drawBox shadowOffset 6 → 阴影在 (6,6) 偏移位置应用 PAL_CalcShadowColor 到当前 fb pixel",
+        "M5.6 W0.c drawBox style 1 → 用 frame 9-17",
+        "M5.6 W0.c drawBox rows=2 cols=4 → 4×6 tile 网格",
+        "M5.6 W0.c drawBox uiSpriteFrames 不足 9 个 → 抛错"
+      ],
+      "after": [
+        "M5.6 W0.c drawBox 画 1×1 内部 box(实际 3×3 tile)— 9 frame 全部 blit",
+        "M5.6 W0.c drawBox shadowOffset 6 → 阴影在 (6,6) 偏移位置应用 PAL_CalcShadowColor 到当前 fb pixel",
+        "M5.6 W0.c drawBox style 1 → 用 frame 9-17",
+        "M5.6 W0.c drawBox rows=2 cols=4 → 4×6 tile 网格",
+        "M5.6 W0.c drawBox uiSpriteFrames 不足 9 个 → 抛错"
+      ],
+      "note": "Current complete final run identities; exact checkpoint source bytes recorded by capture, no retroactive credit."
+    },
+    {
+      "file": "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+      "before": [
+        "L09 drawConfirmBox 默认 否/是：rightSelected=false → 左「否」0xF9、右「是」0x4F；两框体已画",
+        "L09 drawConfirmBox rightSelected=true 高亮换右；fShadow 三影：字亮点右/下/右下为黑 0",
+        "L09 drawConfirmBox 自定义 关/开 标签（PAL_SwitchMenu 复用）：同布局不同字"
+      ],
+      "after": [
+        "L09 drawConfirmBox 默认 否/是：左项随时钟闪烁，右项常态；两框体已画",
+        "L09 drawConfirmBox rightSelected=true 高亮换右；fShadow 三影：字亮点右/下/右下为黑 0",
+        "L09 drawConfirmBox 自定义 关/开 标签（PAL_SwitchMenu 复用）：同布局不同字"
+      ],
+      "note": "Current complete final run identities; exact checkpoint source bytes recorded by capture, no retroactive credit."
+    },
+    {
+      "file": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "before": [
+        "G07-D 开场与确认像素 G07-D01 背景索引 0 覆盖底色，选中字仍是闪烁色",
+        "G07-D 开场与确认像素 G07-D02 4×4 背景只铺到自己的矩形，外侧保持底色",
+        "G07-D 开场与确认像素 G07-D03 光标越过两项时两行都是未选中色",
+        "G07-D 开场与确认像素 G07-D04 绘制不改光标，也不改词表给出的标签",
+        "G07-D 开场与确认像素 G07-D05 左标签两个字仍从 (145,110) 起笔，左右框原点不动",
+        "G07-D 开场与确认像素 G07-D06 左右标签都是空串时不写字，两框照画",
+        "G07-D 开场与确认像素 G07-D07 背景索引 0x55 上的字影是 0，字本体仍是闪烁色"
+      ],
+      "after": [
+        "G07-D 开场与确认像素 G07-D01 背景索引 0 覆盖底色，选中字仍是闪烁色",
+        "G07-D 开场与确认像素 G07-D02 4×4 背景只铺到自己的矩形，外侧保持底色",
+        "G07-D 开场与确认像素 G07-D03 光标越过两项时两行都是未选中色",
+        "G07-D 开场与确认像素 G07-D04 绘制不改光标，也不改词表给出的标签",
+        "G07-D 开场与确认像素 G07-D05 左标签两个字仍从 (145,110) 起笔，左右框原点不动",
+        "G07-D 开场与确认像素 G07-D06 左右标签都是空串时不写字，两框照画",
+        "G07-D 开场与确认像素 G07-D07 背景索引 0x55 上的字影是 0，字本体仍是闪烁色"
+      ],
+      "note": "Current complete final run identities; exact checkpoint source bytes recorded by capture, no retroactive credit."
+    }
+  ],
+  "retirementEntries": [
+    {
+      "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+      "previous": 8,
+      "current": 7,
+      "previousIdentityDigest": "2d759a3882d8f4edb40a4fb51841e9b65904650f48a27eebdb35afcc5cece457",
+      "currentIdentityDigest": "c99d72fdd8f7b69d34ab0c89bb705e289f73ff075b94f8ffb705c7104f5d1b3f",
+      "fileSha256": "72e2e06ce3b72b4877c9b24cfe064699a880efe1d95394f7d3e30f53ea0d006d"
+    },
+    {
+      "file": "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
+      "previous": 4,
+      "current": 3,
+      "previousIdentityDigest": "f45e3d68b49b72d1355ddcf6455a174890504b6d9bb8882378952d257bd0152d",
+      "currentIdentityDigest": "e5fe95c23e045031fe4aadc8c00e5409a10617fc2be2e35982203427f71b0063",
+      "fileSha256": "546e86fa49e027289554d79297578a163b177358774b1e65253a247f00a326cc"
+    },
+    {
+      "file": "packages/game/src/present/font-width.grok-r1.test.ts",
+      "previous": 14,
+      "current": 10,
+      "previousIdentityDigest": "78375df326e9d603337bf01614068b5058b7ade1b5676fcd2ebfe4f9805e4fc4",
+      "currentIdentityDigest": "229690aeaad0984ebae36553d1bd131da7f90049eaeaaecb1dd10bcb900f436f",
+      "fileSha256": "1b5024cd2d448c38a619cb8a545a3c92d51851185b7b1b7fcaf54a819cb616f3"
+    },
+    {
+      "file": "packages/game/src/present/font.test.ts",
+      "previous": 15,
+      "current": 13,
+      "previousIdentityDigest": "64c0e0987fa1dbf02d678d704405e0df9309afef0dcb1ee935eb27a508c30ce9",
+      "currentIdentityDigest": "3ad5f16d871ba526e0598c7c0cdc57a7f5108a4d2d5ecc332436e2775b5c4dc7",
+      "fileSha256": "d502acc90f477b56a28eef745e17e4f219514ffacb9bbcf96d39992d3219cc6f"
+    },
+    {
+      "file": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+      "previous": 5,
+      "current": 4,
+      "previousIdentityDigest": "bdd0b805e6ed539b0d052213e7fca4ad029ea08817ccc4b0f8e25ee5496d5c2b",
+      "currentIdentityDigest": "0a0afb1cd010018b305e6c94f97425b71017b7e969aa4aa923a3f94b2948267b",
+      "fileSha256": "2ddaa6efbaf2016f40191c7c8cf49f77191ad62c187c76a2ac25aaa5e54c4295"
+    }
+  ],
+  "limits": [
+    "No new product behavior/schema/save/asset/public-interface change; no new visual/browser/E2E claim.",
+    "Original A/E reused within unmodified contract; font approximations outside printable ASCII/CJK remain documented, not widened or pixel-equivalence-certified.",
+    "Box counter v1 runner-filter pending cases rejected as effective evidence; exact single-case-body V2 has zero pending. AST proof v1/v2/v3 positional/scanner/foreign-source-print failures retained, only direct complete-AST v4 accepted.",
+    "First codepoint generator setup failed before process spawn; no test/credit.",
+    "Module remains candidate until full current check/ratchet/protected/static zero diagnostics; no package-green card upgrade."
+  ],
+  "nativeArtifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-native.json.gz",
+    "sha256": "d51277cdd12c049441ed4e7c59c5bea82e7e496e91726a500f75179e9c0f73c4",
+    "members": [
+      {
+        "name": "apply-leaves-recount.cjs",
+        "bytes": 4158,
+        "sha256": "ce298d74da2abcdac16edb9c8d3b2c28d8fc7b26d622c414ee5a219673deeb11"
+      },
+      {
+        "name": "baseline-adjustments.before.mjs",
+        "bytes": 21587,
+        "sha256": "23cf4be59e68ed5c975d8793767fd25df50b009b14414eddc220a078ce404153"
+      },
+      {
+        "name": "baseline-before.json",
+        "bytes": 528340,
+        "sha256": "f7ad8b0271e8b4d588e89c041928c3c570c705f5129bdcff8f1de24541c81864"
+      },
+      {
+        "name": "box-counter-v2.json",
+        "bytes": 1161,
+        "sha256": "54a3ef66c470c30ba646e663374de4cdd0bb3d995ba6d9350ba92a6a99f7433c"
+      },
+      {
+        "name": "box-counter-v2.mjs",
+        "bytes": 2517,
+        "sha256": "5a004baec47b85fd67e61d38da8dcb3f03f82e823aa85225f0eb42765610db79"
+      },
+      {
+        "name": "box-zero-shadow-new-selected.ts",
+        "bytes": 1247,
+        "sha256": "c78bc8eb399db01d1d677f0b560be71b10bb99facb98ef976a019545ba79bcbf"
+      },
+      {
+        "name": "box-zero-shadow-new-v2.capture.raw",
+        "bytes": 1847,
+        "sha256": "d54f7b136ca58be4fd3053863d88cddcc2da9a7061abcfd19b744e8b969896da"
+      },
+      {
+        "name": "box-zero-shadow-new-v2.config.mjs",
+        "bytes": 1312,
+        "sha256": "adf8bfe230e93b6b9550b676b6a3c492c071727684f9359dd7531703803417fd"
+      },
+      {
+        "name": "box-zero-shadow-new-v2.execution.json",
+        "bytes": 4448,
+        "sha256": "d19b644998ce10d65ac2b599ac3296397d298f1714560c9ebfc9a21225cd1e36"
+      },
+      {
+        "name": "box-zero-shadow-new-v2.native.json",
+        "bytes": 2604,
+        "sha256": "11a97d888057d5229feacdb4e77303c33cb67f208a3460af9231bf136c0aebd0"
+      },
+      {
+        "name": "box-zero-shadow-new-v2.stderr.raw",
+        "bytes": 650,
+        "sha256": "e50d72f684c19408752f25e59e3c63150d1ec6541ae99e3f1ff13890f358522c"
+      },
+      {
+        "name": "box-zero-shadow-new-v2.stdout.raw",
+        "bytes": 568,
+        "sha256": "b6e7d954dc04b88f9cabf75b630c57af5a2c4b2f1ff4109a4e6f95f5a0c0e52b"
+      },
+      {
+        "name": "box-zero-shadow-new.capture.raw",
+        "bytes": 1992,
+        "sha256": "fbc1ba8344cd2731ca12e80c5c30276e81ea9ac79f26ddf63005faeee4765d42"
+      },
+      {
+        "name": "box-zero-shadow-new.config.mjs",
+        "bytes": 1049,
+        "sha256": "76a376e65a5a5adca2f35377f8d7d2fbd82f6347f8a71c4f037049e2c8b71a6a"
+      },
+      {
+        "name": "box-zero-shadow-new.execution.json",
+        "bytes": 4483,
+        "sha256": "69fa9db5a6e09118fe3e3b8df7a2afbf0e645c10711bb2f085da59eb2c5df09b"
+      },
+      {
+        "name": "box-zero-shadow-new.native.json",
+        "bytes": 3664,
+        "sha256": "8668d6055708c1b9e763654626eda4dd42a0d797cc827a3c20f92a12fff0b658"
+      },
+      {
+        "name": "box-zero-shadow-new.stderr.raw",
+        "bytes": 758,
+        "sha256": "0cd2c9f48da85db47fc2d6be33a09e655c04a18a809113692738e6aa07d286a2"
+      },
+      {
+        "name": "box-zero-shadow-new.stdout.raw",
+        "bytes": 853,
+        "sha256": "a7eb87dc3f7689d4c6b5fe076301e824489ce880d5a9ca785795bfd0378940be"
+      },
+      {
+        "name": "box-zero-shadow-old-selected.ts",
+        "bytes": 1325,
+        "sha256": "da4babd5ef3bfa5d5459577e897d0c710b27c290f24dbc2a17f1593037f1bc84"
+      },
+      {
+        "name": "box-zero-shadow-old-v2.capture.raw",
+        "bytes": 1173,
+        "sha256": "7e79ef668baee26c2bfa78e1c58eff9d9eafe108d221ca58ee0f1a2467e4253d"
+      },
+      {
+        "name": "box-zero-shadow-old-v2.config.mjs",
+        "bytes": 1311,
+        "sha256": "a20f97a1c543d0ad35e82360dae5db094d82869f2785c1be60beec1675eeda6e"
+      },
+      {
+        "name": "box-zero-shadow-old-v2.execution.json",
+        "bytes": 4446,
+        "sha256": "31376107a60bc6e2cfccceb03b1d59ee4d36bfd567df3b94529975b320b2fc83"
+      },
+      {
+        "name": "box-zero-shadow-old-v2.native.json",
+        "bytes": 1055,
+        "sha256": "60a5f3799b5c788c84f1fc6211f8eabeecee36e91109d4a11e67a29a6203d5e2"
+      },
+      {
+        "name": "box-zero-shadow-old-v2.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "box-zero-shadow-old-v2.stdout.raw",
+        "bytes": 482,
+        "sha256": "7ea1061f746ac5d7e63d213b4298d4843d1a773d0c32cbbc313d702fb1ec72ed"
+      },
+      {
+        "name": "box-zero-shadow-old.capture.raw",
+        "bytes": 1210,
+        "sha256": "125d5c1cc3d03d31d20113d5ec51cda1e4b34c451391282ddf3293ec18c3815c"
+      },
+      {
+        "name": "box-zero-shadow-old.config.mjs",
+        "bytes": 1048,
+        "sha256": "01530ea7c3774475300407ff6433b2070d19fa5e03953d502f363b828c94e176"
+      },
+      {
+        "name": "box-zero-shadow-old.execution.json",
+        "bytes": 4481,
+        "sha256": "d16344bc0b5e807096ee1ae162b6cdcffd4fb77365740ea54f86cc5084753ac8"
+      },
+      {
+        "name": "box-zero-shadow-old.native.json",
+        "bytes": 2417,
+        "sha256": "1a16beecc2d1080dc7d93c35181f6dfd8f1e080b27f70f25fbc88e81945386cb"
+      },
+      {
+        "name": "box-zero-shadow-old.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "box-zero-shadow-old.stdout.raw",
+        "bytes": 504,
+        "sha256": "979df7e569892de086744f649993fc88acc5484f11a266050b85f82ee6a5a1ec"
+      },
+      {
+        "name": "box-zero-shadow.mutant.ts",
+        "bytes": 7736,
+        "sha256": "a034258220881a39aef592f115afeb50eacff4d78974a7ed19a417116a9bfed6"
+      },
+      {
+        "name": "build-leaves-local.cjs",
+        "bytes": 16558,
+        "sha256": "c34f560dfc5dc14dce387fa9098c679fb08195998fd0dd5c2c8d2cd4046e7e7f"
+      },
+      {
+        "name": "capture.before-scope-approval.mjs",
+        "bytes": 5522,
+        "sha256": "00f8dffa49a97382958a55700ef7a4183571f7528327127c625a9d6034d6c9bd"
+      },
+      {
+        "name": "capture.mjs",
+        "bytes": 5624,
+        "sha256": "f23c4517a7f43967fb0ddccf4814786970d420e3d63e4d1bee5a4439a525590f"
+      },
+      {
+        "name": "close-leaves.cjs",
+        "bytes": 6749,
+        "sha256": "3649d8c3a18f3338c08b3f1bca193b1cfb2bf423126108f61bf322669f4d12eb"
+      },
+      {
+        "name": "closeout-details.json",
+        "bytes": 4863,
+        "sha256": "b980a61688c602616bbfaef41f74f051895c652dcc480a73551ba218097e66d0"
+      },
+      {
+        "name": "codepoint-counter-summary.json",
+        "bytes": 1329,
+        "sha256": "2d71e5c46e4dbda0661a90e4a473aec396882586fcc7192770e5ca1dfe3ae096"
+      },
+      {
+        "name": "colored-codepoint-new.capture.raw",
+        "bytes": 1962,
+        "sha256": "57cdc64d18c8ff74a00069955dbcbf9239c52f7088f7b9d1b8711645fed4e923"
+      },
+      {
+        "name": "colored-codepoint-new.config.mjs",
+        "bytes": 1033,
+        "sha256": "2be4eceb2b5a4c592dc0a7b629c0fb550dd44373581bc293546220176c767a0f"
+      },
+      {
+        "name": "colored-codepoint-new.execution.json",
+        "bytes": 5871,
+        "sha256": "77c4d16ba6a78e623a094a46d7dbd46d6de6af6eedc06fece90fd778c36b19cd"
+      },
+      {
+        "name": "colored-codepoint-new.native.json",
+        "bytes": 3537,
+        "sha256": "b8ee67213250c694a76d308ca8472a7e27c8b2511995e6091b18d79a8f0668c7"
+      },
+      {
+        "name": "colored-codepoint-new.stderr.raw",
+        "bytes": 768,
+        "sha256": "9e56666d9bf2314a45d9c8c3eb82c15ed212b717b8f302e57220a7cfc2876b83"
+      },
+      {
+        "name": "colored-codepoint-new.stdout.raw",
+        "bytes": 796,
+        "sha256": "61d7c9aeb67af044cc7831d7f298a08473415952ed8ff5e3558d043d30aeb55b"
+      },
+      {
+        "name": "colored-codepoint-old.capture.raw",
+        "bytes": 1159,
+        "sha256": "cc6f9e1b3ab7b3f58e90693646684b394e6efebca58767af38b47458163837ce"
+      },
+      {
+        "name": "colored-codepoint-old.config.mjs",
+        "bytes": 1032,
+        "sha256": "9ab7340972453aae03d31cf7af1501c52ff054b317004c92e1baf35ad89686d0"
+      },
+      {
+        "name": "colored-codepoint-old.execution.json",
+        "bytes": 5869,
+        "sha256": "048f1c2112ea33f296d9b5a901ccd70b3db4b840f1a14742705104d1c1cadd3d"
+      },
+      {
+        "name": "colored-codepoint-old.native.json",
+        "bytes": 2071,
+        "sha256": "223202063025a4a9f959bd4410e2554d3bab9d6b2f2474bc450d3a9b2ece3f06"
+      },
+      {
+        "name": "colored-codepoint-old.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "colored-codepoint-old.stdout.raw",
+        "bytes": 473,
+        "sha256": "f0ccc8e2a356273d2d5c9e8046cea1af167c55b6591189ed892c6594039fcb40"
+      },
+      {
+        "name": "colored-codepoint.mutant.ts",
+        "bytes": 7251,
+        "sha256": "1d75bd27e0d49529254ff8c6a4dab9f90516294ebfd7bf7da74a2d53313dbdab"
+      },
+      {
+        "name": "colored-shadow-new.capture.raw",
+        "bytes": 1956,
+        "sha256": "81cc3bdea71f3010e6c0603d98456636c18f1163670198c60aaa884eae9e2330"
+      },
+      {
+        "name": "colored-shadow-new.config.mjs",
+        "bytes": 1030,
+        "sha256": "ddaf9f5e8172870e00620aa53e01599976eb91e670c1b1c48151d8bf0543d388"
+      },
+      {
+        "name": "colored-shadow-new.execution.json",
+        "bytes": 4419,
+        "sha256": "3b5577291c2d0b5064576597d6b67869778a884cd84d618ca630867d4cd321c8"
+      },
+      {
+        "name": "colored-shadow-new.native.json",
+        "bytes": 3535,
+        "sha256": "5685d0e0c516a0654100341a9f9dbdacb8f00803a8dde90446c702b71053827c"
+      },
+      {
+        "name": "colored-shadow-new.stderr.raw",
+        "bytes": 777,
+        "sha256": "fd413e6c2b3f8c6a36be198dc8d0c462f3bf2d71a201c1b3caa50751c15893db"
+      },
+      {
+        "name": "colored-shadow-new.stdout.raw",
+        "bytes": 793,
+        "sha256": "3bd827ecb7012ebac7828a63e09ab51087fc8ed4c8d9fcd77bd88c464d849230"
+      },
+      {
+        "name": "colored-shadow-old.capture.raw",
+        "bytes": 1144,
+        "sha256": "eee220ba96554fbbde6cc9d8a9c0177b59edeabd91ca6d7bc233a727619e2327"
+      },
+      {
+        "name": "colored-shadow-old.config.mjs",
+        "bytes": 1029,
+        "sha256": "a22ba4efe943af6a185a73544b18d17bacf420f309eb9a63d2ab8ba93ae9dee7"
+      },
+      {
+        "name": "colored-shadow-old.execution.json",
+        "bytes": 4417,
+        "sha256": "9a53e0adcd2ba5ff2b37ead9dd29e0aa9864e2bca0deeedb2908cfacbc1c4612"
+      },
+      {
+        "name": "colored-shadow-old.native.json",
+        "bytes": 2072,
+        "sha256": "1454b5f5cd695f61a6212e885571750a9450a535e65a0f9a17f47375800bb3c7"
+      },
+      {
+        "name": "colored-shadow-old.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "colored-shadow-old.stdout.raw",
+        "bytes": 470,
+        "sha256": "d83d2eb9008f399d7c736be19101dee11938e77d536240816fd53b52628d3340"
+      },
+      {
+        "name": "colored-shadow.mutant.ts",
+        "bytes": 7015,
+        "sha256": "c60e5a31c8792d584a9c130c7e975a49bb4f667165b15d1fc752b19beb6be0e8"
+      },
+      {
+        "name": "confirm-constant-new.capture.raw",
+        "bytes": 2039,
+        "sha256": "cf2555010aab5d97c57b33a7018bb067549e83605e53ed9625cd55d0ed9ed6d3"
+      },
+      {
+        "name": "confirm-constant-new.config.mjs",
+        "bytes": 1191,
+        "sha256": "b706131516abd58f84aa2a796f94ee886197c1baf3829a4c94e5ac1b35436989"
+      },
+      {
+        "name": "confirm-constant-new.execution.json",
+        "bytes": 4505,
+        "sha256": "5dbc1522c1bfc5a5d292eda99804a041fc624a4ae349765db2bd3251657341a7"
+      },
+      {
+        "name": "confirm-constant-new.native.json",
+        "bytes": 5717,
+        "sha256": "3d707389fcf3584f83f0b437b3f3fb157952aa09219de8241290daa2410f1d7d"
+      },
+      {
+        "name": "confirm-constant-new.stderr.raw",
+        "bytes": 764,
+        "sha256": "92da6b473f3961a47285ec54d0f0aa6e56fc3d0d8063436aa9af2eab79047893"
+      },
+      {
+        "name": "confirm-constant-new.stdout.raw",
+        "bytes": 864,
+        "sha256": "111827c2f532ccf36bd1ec8a70fc32db60e2be0cd9213eb558916c79b1d13a71"
+      },
+      {
+        "name": "confirm-constant-old.capture.raw",
+        "bytes": 1230,
+        "sha256": "b63d04d6c02e4adbbcf97de364b7baeb8a7265bf59c777de410d6b236c68d953"
+      },
+      {
+        "name": "confirm-constant-old.config.mjs",
+        "bytes": 1190,
+        "sha256": "a1e32dc68fe2f1e89485417d18e8beea8ceb2cc314589b50534dc3b65cc4f449"
+      },
+      {
+        "name": "confirm-constant-old.execution.json",
+        "bytes": 4503,
+        "sha256": "d51b20ab7de9011a263e02d037c34bd64bf4ddb3e17f3eb88c77db6cca62ac85"
+      },
+      {
+        "name": "confirm-constant-old.native.json",
+        "bytes": 4232,
+        "sha256": "b4eb6eca071a998a414f548f2111fee9d6ad011e08b2b1f2ad88da2616e1163d"
+      },
+      {
+        "name": "confirm-constant-old.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "confirm-constant-old.stdout.raw",
+        "bytes": 566,
+        "sha256": "3da5e01696e1630f92baedf58018cf696ba203e261c3eca7d0baf2f1070849aa"
+      },
+      {
+        "name": "confirm-constant.mutant.ts",
+        "bytes": 2131,
+        "sha256": "0027f7bb140df2c1162bf4975122d6a94d2f388eaed40acc0d7a70263b7e217e"
+      },
+      {
+        "name": "counter-summary.json",
+        "bytes": 6734,
+        "sha256": "bd46615733035c7313c516c5a080c010feda2cab5282d539ee7bf3f748640d9c"
+      },
+      {
+        "name": "coverage-after-game-summary.json",
+        "bytes": 51558,
+        "sha256": "b4865070c5d6ab7077148a2f7ebb861e8067e2def13be22813e69c74ece5befe"
+      },
+      {
+        "name": "glyph-height-new.capture.raw",
+        "bytes": 1942,
+        "sha256": "6deffe30a459885835df3c639b6310696b71e839958e364ef39d8e769536bb69"
+      },
+      {
+        "name": "glyph-height-new.config.mjs",
+        "bytes": 1024,
+        "sha256": "5af66ff479a1a9cb92a0966afd5302e3e2e7bb493e581e549eee0388e1b98eea"
+      },
+      {
+        "name": "glyph-height-new.execution.json",
+        "bytes": 4406,
+        "sha256": "7ed4c7e0b1664f7041cd0eb428dc5e5ae860d4fac4f21da713adc238a822e48f"
+      },
+      {
+        "name": "glyph-height-new.native.json",
+        "bytes": 4487,
+        "sha256": "83ffdf52224ce4cc14d5d1fefdf777683275a28ce91db45d4725c070a8a63d6d"
+      },
+      {
+        "name": "glyph-height-new.stderr.raw",
+        "bytes": 775,
+        "sha256": "3395885b2a9db2c9113fd0e5188de366dcd0eaf1b5e96f113af75ca5adb27ce2"
+      },
+      {
+        "name": "glyph-height-new.stdout.raw",
+        "bytes": 1277,
+        "sha256": "d1c02c650c08368950da92b0ade90fabd8acdb1b9dcb1333c5a62ab2aaed40f2"
+      },
+      {
+        "name": "glyph-height-old.capture.raw",
+        "bytes": 1132,
+        "sha256": "8e3e5e416486a8f38053db4b2597544b6ca39b274539ea0c2aa69a8a607844b5"
+      },
+      {
+        "name": "glyph-height-old.config.mjs",
+        "bytes": 1023,
+        "sha256": "ee2c4ca143a5368d1f2b2d4758df1ba964f8379d3628f068c3201cf6191fe49c"
+      },
+      {
+        "name": "glyph-height-old.execution.json",
+        "bytes": 4403,
+        "sha256": "0f385a78f8b746da15bc97ac638db1cb43ded1dc9cf0f9890e327cf7f82c66b0"
+      },
+      {
+        "name": "glyph-height-old.native.json",
+        "bytes": 5346,
+        "sha256": "d14f9abcc959a6a88c4f54fee701cc431fef8a228ec6bcb0bf70101d1defc1b5"
+      },
+      {
+        "name": "glyph-height-old.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "glyph-height-old.stdout.raw",
+        "bytes": 467,
+        "sha256": "50b6df16dffacd251b6c2d32e61eb6d2d0768ff4cf0ec6be945cbc22d0dee3e8"
+      },
+      {
+        "name": "glyph-height.mutant.ts",
+        "bytes": 7234,
+        "sha256": "7ff63baacde5b28ea41dbc28684a1ab132e947fea7b8c736c487d0c03c4a229e"
+      },
+      {
+        "name": "leaves-baseline.execution.json",
+        "bytes": 2031,
+        "sha256": "124ac562fe400f2f2ad676b03b79780adc0ebd24b4a0dea79b2c868194cfe89d"
+      },
+      {
+        "name": "leaves-baseline.native.json",
+        "bytes": 32007,
+        "sha256": "091069e3a299086fb0379e34998236892952149161ab49c9c9063715c24f5f10"
+      },
+      {
+        "name": "leaves-baseline.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-baseline.stdout.raw",
+        "bytes": 1163,
+        "sha256": "34cc2ca722aaee970faaaee2e7bb176998d2ac81ec41b7bb720bc0c595438a08"
+      },
+      {
+        "name": "leaves-coverage-tools.execution.json",
+        "bytes": 5399,
+        "sha256": "7756e360b2fec958cd60b4b1ce87a42baa8141288e1077ed1886e0b9611cd584"
+      },
+      {
+        "name": "leaves-coverage-tools.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-coverage-tools.stdout.raw",
+        "bytes": 20377,
+        "sha256": "ef26258c3b63dd62b7b1423852fcf73e53a714dd47ea69d9f357530674408d13"
+      },
+      {
+        "name": "leaves-directed.execution.json",
+        "bytes": 5812,
+        "sha256": "95eb3dd3c03abbcb3f826748513de7342119b48bbc3c6bf9968e06dd69201ec2"
+      },
+      {
+        "name": "leaves-directed.native.json",
+        "bytes": 29173,
+        "sha256": "f3943d2213e772a2af122dfd46a708411c3bba704a39548751486bfa47ed6a2b"
+      },
+      {
+        "name": "leaves-directed.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-directed.stdout.raw",
+        "bytes": 1162,
+        "sha256": "3621f9c901c76e8df4a5f551c2909aeb291a2e936eda82a703433d57293f3353"
+      },
+      {
+        "name": "leaves-docs-preflight.execution.json",
+        "bytes": 6009,
+        "sha256": "921d1e403540f2eaca0e923be93ca0ad82fe402c4dee018a9c1103145c6b60aa"
+      },
+      {
+        "name": "leaves-docs-preflight.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-docs-preflight.stdout.raw",
+        "bytes": 311,
+        "sha256": "662688645373fb807f607f87afa60327836f1ab5ad89b51d64533cbe8e5c3ab7"
+      },
+      {
+        "name": "leaves-final.execution.json",
+        "bytes": 7060,
+        "sha256": "95a5b27ba02557c1ba4223d01b403d84d9c435237752aa1cba5a6b635b840504"
+      },
+      {
+        "name": "leaves-final.native.json",
+        "bytes": 139529,
+        "sha256": "0b9b63a119bc46d67bccd1da415168444962012d3b4034394ec7c4dc5a00ca0d"
+      },
+      {
+        "name": "leaves-final.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-final.stdout.raw",
+        "bytes": 2208,
+        "sha256": "90b611ad58765d30d4d4d5d8fbb6c6a1dafadb0416ebbb37088af3867c214247"
+      },
+      {
+        "name": "leaves-format.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-format.stdout.raw",
+        "bytes": 41,
+        "sha256": "88b4c2c24816c4301c49493a9dceaef8f1933432e9d234ebe83ec13e53fbcc19"
+      },
+      {
+        "name": "leaves-lint-preflight.execution.json",
+        "bytes": 5672,
+        "sha256": "38dded6db079978e39720905b241924e372c7ca57543deea90791f41983ea1d2"
+      },
+      {
+        "name": "leaves-lint-preflight.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-lint-preflight.stdout.raw",
+        "bytes": 193,
+        "sha256": "0fdc91cb96278b29387b4414816cda025ec0184defbd9a79f990cd7df813a1d2"
+      },
+      {
+        "name": "leaves-neighbors.execution.json",
+        "bytes": 5883,
+        "sha256": "00a0f4b2ccab8a711fec01fce78d451539fde35884256e5231d5fd7ae349f449"
+      },
+      {
+        "name": "leaves-neighbors.native.json",
+        "bytes": 110867,
+        "sha256": "d32f85100b3bcc8eab824c355467037bd54e402882bda5559b2f48e3e36ffedc"
+      },
+      {
+        "name": "leaves-neighbors.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-neighbors.stdout.raw",
+        "bytes": 1260,
+        "sha256": "76576ac6e26b5807d3556bb2dfb7c792d2f2f9147d8e6a90a75f331e5baa105d"
+      },
+      {
+        "name": "leaves-normalizer.execution.json",
+        "bytes": 6086,
+        "sha256": "5fef7a624186fd9e66a3b4b2b79a047b7ee0c9e335fa78d0036228b4ebba2246"
+      },
+      {
+        "name": "leaves-normalizer.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-normalizer.stdout.raw",
+        "bytes": 155,
+        "sha256": "848bb1a178c165c4be82034670fd84023629978d5b736ccf0cce1417624d350e"
+      },
+      {
+        "name": "leaves-program-proof.json",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-program-proof.v3.json",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-program-proof.v4.json",
+        "bytes": 4503,
+        "sha256": "7702c225b9af2e699d44ea8491a49a961ef9e4a0fd3ec77e904d1e9d38b4236e"
+      },
+      {
+        "name": "leaves-retired-list.execution.json",
+        "bytes": 5412,
+        "sha256": "92cf5bad405cf6daa70fd98b403ff9809eb85c1836080ebe997e3069fd8cfaee"
+      },
+      {
+        "name": "leaves-retired-list.list.json",
+        "bytes": 9077,
+        "sha256": "8ac301a5dcb84685b13b2e900e97e192fdfbdb285a636e00aad6b72031e04014"
+      },
+      {
+        "name": "leaves-retired-list.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-retired-list.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-test-quality.execution.json",
+        "bytes": 4823,
+        "sha256": "ac4426c673cba778d16918e5b22e26fc97900580d9e62440e7f8286d9dcdbf4f"
+      },
+      {
+        "name": "leaves-test-quality.native.json",
+        "bytes": 29218,
+        "sha256": "54c688ad8f91fb36c9616a5fa7d06c028b1f1bcadeac19c975982c4a4d5242b2"
+      },
+      {
+        "name": "leaves-test-quality.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-test-quality.stdout.raw",
+        "bytes": 1166,
+        "sha256": "15ddeba5cc9be405252d98f25638705b2bf2d0fba7384ab585f1211c78d82d61"
+      },
+      {
+        "name": "leaves-typecheck.execution.json",
+        "bytes": 4973,
+        "sha256": "42de21d83c971b9aa3b25f952fb351562d34acf7f5dba78e47cc8442f285ca0b"
+      },
+      {
+        "name": "leaves-typecheck.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-typecheck.stdout.raw",
+        "bytes": 125,
+        "sha256": "f2dcd02df541346ee2ad654f93269a9d90ffa0c1e89d1406c26d65be08457c80"
+      },
+      {
+        "name": "normalize-ledger.mjs",
+        "bytes": 1091,
+        "sha256": "48007f67044d2fb6bdce8da0bbc827d990601a909688105fbba07afd483ccb75"
+      },
+      {
+        "name": "opening-word-domain.json",
+        "bytes": 854,
+        "sha256": "385cfd9c65b0e5957d3682ed1206f6ec3a9f576153a14e6e47dc9473b3e33cb2"
+      },
+      {
+        "name": "proof-v1.stderr.raw",
+        "bytes": 12388,
+        "sha256": "f91e5209b9223f8bed71edf65fe99683ad315f5a58972155e72b5780d311b485"
+      },
+      {
+        "name": "proof-v1.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "proof-v2.stderr.raw",
+        "bytes": 6324,
+        "sha256": "36d170c750af2839075a9f2b6d6e562216af850ca871f2f87ba9415818f21691"
+      },
+      {
+        "name": "proof-v3.stderr.raw",
+        "bytes": 5350,
+        "sha256": "9725358b6f2c80371ba8b5901bfe0e12729ceabc8112bfc5a3f588fcee1f6f43"
+      },
+      {
+        "name": "proof-v4.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "prove-leaves-recount.cjs",
+        "bytes": 2418,
+        "sha256": "052153d4374c207f5d8c0ad03107b3cdb6ebaa5233e399ac88e4428f95331b7e"
+      },
+      {
+        "name": "prove-leaves.cjs",
+        "bytes": 6511,
+        "sha256": "4e329d7c8ea80f17aff3e238c8ac0fb337cd96114170cd7a01de240dc09985fe"
+      },
+      {
+        "name": "prove-leaves.v1.cjs",
+        "bytes": 5813,
+        "sha256": "76a5b9a89bbf5c914ffedc2d7200023017aecc07daddd7fb18000badc0e79a2d"
+      },
+      {
+        "name": "prove-leaves.v2.cjs",
+        "bytes": 6272,
+        "sha256": "fe9970f6aa4e244b12c40145083a74d57ae82f4d03a2ea318d7c6254e675f1b5"
+      },
+      {
+        "name": "prove-leaves.v3.cjs",
+        "bytes": 6608,
+        "sha256": "12e0d9af8e6587c337e7eb932b0495774d4c834405d1386b35196bd9cdc9d636"
+      },
+      {
+        "name": "record-retirements.cjs",
+        "bytes": 2788,
+        "sha256": "9defdd9ce2d06caa66be82b2891759bc7baf3a371d12868822459835ed8deb31"
+      },
+      {
+        "name": "record-shell-readonly.cjs",
+        "bytes": 9429,
+        "sha256": "2c7baec2399294c134a21319badbbb657640351db744afaf80978ca24bc77578"
+      },
+      {
+        "name": "recount-approval.candidate.json",
+        "bytes": 4368,
+        "sha256": "affb44bf6f703424b7d1675a78c7f1ecb94a6d1d0eba2c1dd7178b98ea2a24e8"
+      },
+      {
+        "name": "recount-measurement.json",
+        "bytes": 2785,
+        "sha256": "1f35c9de66cae749e8c09d73bb34caad20abfd1eb022e44c14606f8d9377f971"
+      },
+      {
+        "name": "recount-program-proof.json",
+        "bytes": 201,
+        "sha256": "bdbb1ce594e96a8eea396a4749780035e6d6d7e0893846a1ce5c116941935040"
+      },
+      {
+        "name": "retirements.json",
+        "bytes": 1991,
+        "sha256": "9618d791d9b9de19fc535fa1b16c47e39776731434373d885226494fac8b6ccf"
+      },
+      {
+        "name": "run-codepoint-counter.mjs",
+        "bytes": 3447,
+        "sha256": "8d75696b9cfb32f2cc0a4c2e5a7c88d5d2069e0d2a861ff7cb0ff17d6583b2ac"
+      },
+      {
+        "name": "run-counters.mjs",
+        "bytes": 4580,
+        "sha256": "8111be83ae5622c8528834341b62b23ae1f6e2f23efbbfd66bb5ea4b677dc8a7"
+      },
+      {
+        "name": "scan-gates.cjs",
+        "bytes": 1865,
+        "sha256": "db02c29b5960679f2712de0ca0ee7a753ab668d3eef5dd019eef639bd28e4e31"
+      },
+      {
+        "name": "shell-readonly-byte-verification-v2.json",
+        "bytes": 939,
+        "sha256": "917fa8197f1fd1aa80b6dae62f31c53529b687fc0bb4f93bd7482ba9b901a6aa"
+      },
+      {
+        "name": "shell-readonly-byte-verification.json",
+        "bytes": 939,
+        "sha256": "917fa8197f1fd1aa80b6dae62f31c53529b687fc0bb4f93bd7482ba9b901a6aa"
+      },
+      {
+        "name": "sprite-corner-new.capture.raw",
+        "bytes": 1879,
+        "sha256": "f1f45df4fd8b58c3fc1faa09f5e5ab08b216628f16465f007dcddbe0753ca93c"
+      },
+      {
+        "name": "sprite-corner-new.config.mjs",
+        "bytes": 1147,
+        "sha256": "a7c498f64923e53744842f63c20cf2c71cd64e6d47b73365b8f96982c0e2ff4d"
+      },
+      {
+        "name": "sprite-corner-new.execution.json",
+        "bytes": 4456,
+        "sha256": "7cc4940448ab948fb863d51c3527def0ddbf5e5e0f813794b0491a4c291045b6"
+      },
+      {
+        "name": "sprite-corner-new.native.json",
+        "bytes": 6738,
+        "sha256": "62eccce5537ab45ee65bcdcdd8f27786c32b7f423359b695107220bafc0bf2ff"
+      },
+      {
+        "name": "sprite-corner-new.stderr.raw",
+        "bytes": 655,
+        "sha256": "4121e209dbed2ca84560caf8ce51c7ce5e56ed194eebfa542d5c37997a764425"
+      },
+      {
+        "name": "sprite-corner-new.stdout.raw",
+        "bytes": 1072,
+        "sha256": "98f4d5808b3dba9c11ff6b2f9d25187017c650e22d9270372a2a6e1419279a1a"
+      },
+      {
+        "name": "sprite-corner-old.capture.raw",
+        "bytes": 1177,
+        "sha256": "276ac881e89bc13b7f7d957e637f4cde8681dd4898c1435933b0a1bc50ed398b"
+      },
+      {
+        "name": "sprite-corner-old.config.mjs",
+        "bytes": 1146,
+        "sha256": "0a1dcd220a2575d9ee0f494575344e0b3165191d238c88854e5c13d07fd84212"
+      },
+      {
+        "name": "sprite-corner-old.execution.json",
+        "bytes": 4453,
+        "sha256": "6d308354e030c1817b087d1b37a60fc0353b8b17232bd200506541d3fb849915"
+      },
+      {
+        "name": "sprite-corner-old.native.json",
+        "bytes": 5493,
+        "sha256": "930d0fb5de91eafc950021017980b83c910750c1960cffb1e2714d8ddeb78c60"
+      },
+      {
+        "name": "sprite-corner-old.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "sprite-corner-old.stdout.raw",
+        "bytes": 524,
+        "sha256": "20ad19ddaf3344335d796d1b4a11575c4ec40128d27d14387ed6fe0b9c450faf"
+      },
+      {
+        "name": "sprite-corner.mutant.ts",
+        "bytes": 2011,
+        "sha256": "df962b2c88db20f8fee3bc0281855fa919a649ae85a85219e66e6cccf4f13c78"
+      },
+      {
+        "name": "update-final-reviews.cjs",
+        "bytes": 5098,
+        "sha256": "e8a27324904bbfe079e6ce128bfbdd7f2c4bba9657a684e35a34a6f3db5ad12d"
+      },
+      {
+        "name": "verify-leaves-normalizer.mjs",
+        "bytes": 1803,
+        "sha256": "817bb01dbd31cb953ebd5ee9bcd4d71b62b6c646027a5959204aaa5e68fd4611"
+      },
+      {
+        "name": "window.json",
+        "bytes": 4178,
+        "sha256": "ae005d6b0fe179412c1a3c93012d4361fed8c624d7ef28065cef42bf39998cb2"
+      }
+    ]
+  }
+}

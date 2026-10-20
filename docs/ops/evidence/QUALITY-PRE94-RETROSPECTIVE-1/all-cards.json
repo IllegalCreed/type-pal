@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 31,
+  "currentAccepted": 38,
   "cards": [
     {
       "id": "1",
@@ -1659,8 +1659,8 @@
       "sha256": "6406df7eaa0ccaa4dc4119bd7b0b49dc1e10ef1e1cd07cb19f10a5d4858f7064",
       "lines": 37,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 9,
@@ -1679,9 +1679,13 @@
           "text": "无下一位 Agent；Codex继续完成本批审计，未完成准入前不得扩大范围或标记 done。"
         }
       ],
-      "scopeConfirmed": false,
-      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-      "findings": "Finite 43-54-present-render evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately recorded;no semantic acceptance credit from green gates."
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json",
+      "findings": "原三文件：保留逐帧锚、借用buffer、opaque0合同；左上双裁剪旧14绿→新恰1业务红，底边存活像素替代重复行序，奇数宽单例由main与异宽帧承接。实现仅补ownership注释，函数体不变。",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "bb494c9861cd794c4a2797a35c86980108e9eeb993eab4531d97392edcb27ee5",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json"
     },
     {
       "id": "44",
@@ -1691,8 +1695,8 @@
       "sha256": "5b2a40148425ebee6d3d5c4f39481a67d0d7a8454f31cbeaef6410cb601c3984",
       "lines": 37,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 9,
@@ -1707,9 +1711,13 @@
           "text": "无下一位 Agent；Codex继续完成本批审计，未完成准入前不得扩大范围或标记 done。"
         }
       ],
-      "scopeConfirmed": false,
-      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-      "findings": "Finite 43-54-present-render evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately recorded;no semantic acceptance credit from green gates."
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json",
+      "findings": "原四文件：两文字入口共享私有字形三影→正色序列，不合并不同颜色推进循环；纠正Unicode/tofu列号及静态字宽近似边界。合法16字节glyph核height，非零底图三影、补充平面码点、缺字游标均有真实结果；当前27例，旧数量不继承。",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "78766c0999639eeb755dcba220c6f092f6381d353f540ea71d3b0617b1890def",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json"
     },
     {
       "id": "45",
@@ -1719,8 +1727,8 @@
       "sha256": "c5d51aa3b436f7d75fb4709b6e112f4470b540bbd04d84e93ffae7288fc2dd77",
       "lines": 36,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 9,
@@ -1739,9 +1747,13 @@
           "text": "无下一位 Agent；Codex继续完成本批审计，未完成准入前不得扩大范围或标记 done。"
         }
       ],
-      "scopeConfirmed": false,
-      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-      "findings": "Finite 43-54-present-render evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately recorded;no semantic acceptance credit from green gates."
+      "scopeConfirmed": true,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json",
+      "findings": "原三文件：明确trail写Owner、稠密前缀和MGO chunk；测试去死_step与无效null工厂分支，四步预期独立列值。仅撤稀疏fixture的生产覆盖信用，正常缺尾与公开number参数防御保留；实现体不变。",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "4c20b25e4384cf4c53c06e142570ac8a88483957b4833bf49090810af42b5ad8",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json"
     },
     {
       "id": "46",
@@ -1751,8 +1763,8 @@
       "sha256": "9ea6cce96941f34a3f01a0e2fb0c75b9cf4e9c5d129f325d1136e1fa487dba29",
       "lines": 35,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 9,
@@ -1768,7 +1780,13 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/46-draw-confirm/README.md"
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/46-draw-confirm/README.md",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "5a7ee51c86e93e120212e79f311fdd8efd7aed1746d194e351d94dae5069e8f4",
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json",
+      "findings": "原三文件：确认框委托既有纯menu-colors，条件中的Date读取次数保持；固定双框不冒称SDL任意长标签布局。固定F9反控旧10绿→新1时序红；空标签改精确底色，原开关、三影及框坐标合同保留。"
     },
     {
       "id": "47",
@@ -1778,8 +1796,8 @@
       "sha256": "580dae2b1368d399fd204f44a78b29ecd1dc42474422fd729706408373808de4",
       "lines": 34,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 9,
@@ -1798,7 +1816,13 @@
           "text": "无下一位 Agent；Codex继续完成本批审计，未完成准入前不得扩大范围或标记 done。"
         }
       ],
-      "scopeConfirmed": true
+      "scopeConfirmed": true,
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "a15b039cc4f940359dd7d23c4e784c1d9264fb95f5f92330552b7ff6a6bbe7ac",
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json",
+      "findings": "原四文件：纠正阴影色与两类框的顺序说明，逐tile和整行先影后色各自保留，不强合短mask策略。无阴影采样移入真实阴影域，所选旧1绿→新1业务红；无产品执行的fixture自检退役。CC11来自实际九宫格分支，未为分数拆碎。"
     },
     {
       "id": "48",
@@ -2644,15 +2668,21 @@
       "sha256": "d9893a8d961deb4ab5e1a9b120b04722054d6efb85c52af86eba714c03f0c055",
       "lines": 36,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 10,
           "text": "## 范围"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": true,
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "6985bc42e0613317422c479c51b2fbf04416b802ce3409077d67d52e7b9a1ea3",
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json",
+      "findings": "只接受原一主测：clamp、目标/有效输出、启动读回均有真实controller、Storage与sink组合oracle。三份音量源/测试与8例及keyMute单红原件同SHA，bootstrap三路注入和panel广播定向重核。0新增执行，不附带controller、boundary或听感验收。"
     },
     {
       "id": "71",
@@ -2662,8 +2692,8 @@
       "sha256": "fe17aaa1063aa5020c62fb38249b59773b6bca27f31761d87775d806fefde3ee",
       "lines": 51,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 12,
@@ -2687,7 +2717,13 @@
         }
       ],
       "scopeConfirmed": true,
-      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/README.md"
+      "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/3h/fetch-retry/README.md",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-21",
+      "currentReviewSha256": "90474217ff02e7d76e39c45b22f4de37cb8366af915235b1661c098b4a594a90",
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json",
+      "findings": "只接受原实现、主测、GLM三文件：C1五份当前源/测试同SHA，26绿、原三红及三种单红原件已复算。GET、Request/null、首次输入校验和退避清理Owner已核；保留有真实模块清理用途的Test reset出口，无新增行为或重复全套复审。旧3h rework属于C1前；新取消专测/边界不附带接受。"
     },
     {
       "id": "72",
@@ -4101,14 +4137,14 @@
   ],
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
-    "partial": 52,
+    "partial": 45,
     "pending": 0,
-    "accept": 31
+    "accept": 38
   },
   "lastIncrementalReview": {
     "date": "2026-10-21",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-gates.json",
-    "cards": ["51", "52", "54", "55"],
-    "method": "explicit per-file eight-dimensional findings + finite code deltas/native counter evidence + complete module gates"
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json",
+    "cards": ["43", "44", "45", "46", "47", "70", "71"],
+    "method": "17 changed-file A-H reviews +4 same-byte read-only scopes; complete clean gates and finite retirement/recount"
   }
 }

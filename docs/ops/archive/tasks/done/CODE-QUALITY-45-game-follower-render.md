@@ -34,3 +34,9 @@ Visual Verification Timing: e2e-deferred（跟随者演出观感留集中 E2E；
 ## 下一位 Agent 提示词
 
 无下一位 Agent；Codex继续完成本批审计，未完成准入前不得扩大范围或标记 done。
+
+## 2026-10-21 基础绘制与同版本只读补证收口
+
+原三文件：明确trail写Owner、稠密前缀和MGO chunk；测试去死_step与无效null工厂分支，四步预期独立列值。仅撤稀疏fixture的生产覆盖信用，正常缺尾与公开number参数防御保留；实现体不变。
+
+[A-H, callers, native evidence and limits](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-local.json); [complete current gates](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json). Original failures/counts remain historical; no broad/adjacent file or deferred visual credit. Git integration is recorded separately.

@@ -1,6 +1,6 @@
 # QUALITY-PRE94-RETROSPECTIVE-1 — 94前全部治理成果逐卡复审
 
-> 2026-10-21最新：27accept/56partial/0pending。本窗口新增12卡/36明确文件接受；下面原时点数字与回执保留为历史，当前唯一计数以all-cards.json及live ledger机器输出为准。
+> 2026-10-21最新：38accept/45partial/0pending。本轮43–47与同版本70/71共七卡、21明确文件接受；逐文件、完整门及限制见本页末尾。历史计数不覆盖all-cards.json与live ledger机器结果。
 
 > 2026-10-21追加勘误：上一菜单窗口的完整check/ratchet/protected原件各有两条stdout的0x008E诊断，旧扫描漏计，原“零运行诊断”统一门信用撤回。原件与旧计数不改，九卡逐文件代码结论独立保留。当前窄修与集中补门见[present/speedrun门记录](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-speedrun-gates.json)；未过门前不合main或新增关闭。
 
@@ -1061,3 +1061,31 @@ CODE51/52/54/55按原12文件，加两个真实共享叶和P04合法fixture共15
 本窗口代码已分三笔提交：`4e5726782b6c940d624304fa6ff87cbdf9b4ba52`为共享纯规则/opaque绘制和无生产caller包装清理，`8f78384ed632cc10203f101c32b5307acccbec40`为像素判别力、合法shop夹具及两项精确退役，`d0e58a47eaeea0c7f81b34eb8e81231df0e93976`为实测覆盖率的有限数据协调。最终证据、四卡、账本和看板在后续同窗口文档提交封存；发布先推3y，再fetch确认0behind，且仅在主树无未提交改动时fast-forward main，不覆盖其它Owner内容。实际远端同步由Git记录核对，不把发布计划当成已完成。
 
 当前候选的只读`verify-renderer.mjs`已实跑MATCH，未重跑产品测试或coverage。其绑定18份逐文件/依赖delta记录、170例定向集合和三项完整统一门：check 20,375例，ratchet与protected各19,977例，均exit0、stderr0、诊断0；最终docs、lint、账本及diff检查通过。机器账本3327tracked/287closed/166review/2874pending，pre94为31accept/52partial/0pending。正常stdout单列，不称日志为空；首轮失败与有限baseline重算保留原件。下一位Agent无需接棒；Codex继续原83卡剩余范围，43–47仅为下一模块候选，当前未关闭。
+
+## 2026-10-21 present基础叶 / CODE43–47有限build allowed
+
+fetch后3y/main及两远端同点e43fe5dc3，主树与治理树干净；唯一Coding Owner为Codex。复用GLM43–54和现有46/47的有效A/E与primary，补C/D/F/G/H、具体测试缺口和误导注释，不重复其它卡。白名单为43–47原五实现/十二测试；允许font两公开文字入口的相同字形阴影序列提取私有叶、confirm委托既有纯menu-colors规则，公共出口与算法/时钟读取语义保持；sprite/follower/box实现只修文案。
+
+测试窄修：角落裁剪须断言存活像素；修合法完整glyph装载fixture与缺失height断言；colored-shadow用非零底色防恒真；移除已证重复/无产品执行例并逐项映射；follower死参/角色ID误称纠正，稀疏trail明确不作为正式caller覆盖；box无阴影断言须落在真实阴影域。原两函数图像/阴影顺序分别保持，不混用opaque>0与opaque!==0的不同短mask策略。counter在临时目录保留旧/新身份、指定业务红与恢复原件，不改核心产品、不吞console、不降规则。只在本模块冻结后集中昂贵门，当前五卡仍partial。
+
+同一冻结窗口只读准入：CODE70原一测试、CODE71原实现/主测/GLM三文件。仅补C/D/F/G/H与现有证据的版本适用性，不修改任何产品/测试或把相邻文件附带接受。70的实现/两测试与既有8例/keyMute单红原件逐字节匹配；bootstrap/panel只有相关调用段重核。71的C1五份源/测试与当前源码逐字节匹配，26绿及三种单红/资源清理原件复用。旧3h“rework未修”只属C1之前，按C1真实版本核已解反证；全仓门未齐前两卡仍候选，必要整改留下一窗口，不插改冻结代码。
+
+## 2026-10-21 基础绘制与同版本只读补证收口
+
+CODE43–47原17文件，加70原一主测与71原三文件，共21明确文件接受；31→38accept，52→45partial，pending仍0。两处纯重构为私有字形序列共享与确认框复用纯颜色规则，无新产品行为、schema/save或接口变化。80定向+285相邻共365唯一执行，六处改良各有旧绿新指定业务红；70/71复用同字节原件，未重复全部审查/测试。
+
+首official ratchet的19968例通过，但同体共享少7条已覆盖语句、7行和2已覆盖分支，六项比例守卫失败，exit1原件保留。只新增绑定完整旧baseline与19输入字节的有限数据，AST证明旧normalizer/比较规则不变，默认应用及source drift拒绝实际通过。完整check在数据之后运行，后继official ratchet/protected按当前字节验证；五份精确退役快照显式走官方scope-removal确认，744生产源不减少。parallel-editor是官方既有调度选项，测试选择、阈值和超时不变。
+
+[逐文件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-local.json)、[只读补证](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-shell-readonly.json)、[精确重算](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-recount.json)与[完整门/原件](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json)为当前入口。只读快检不重跑coverage；proof位置/打印校准失败及box过滤pending不授有效反控信用，完整AST V4与精确单例V2是有效版本。
+
+没有新增浏览器、视觉、听觉或E2E结论，原卡延后范围继续；storage-denied产品政策、广域boot/audio及新取消专测不随只读四文件接受。主树保护、同一3y、先推治理分支再0behind同步main；实际Git交接另核。余45partial继续原83卡，优先shell72–78，94–102不扩展。
+
+本窗口live账本实际复算为3327tracked/300closed/157review/2870pending；21行均已核唯一连续机器表，13项为净新增closed，其余已有closed仅更新当前证据。簿记脚本首次预检查因表外展示重复行拒绝并在写前退出；修正为只操作唯一连续live表，历史表外字节保留，不据重复展示行增加信用。
+
+本窗口分提交已完成（发布前事实）：
+
+- `56386859752465b32355abb6897694c61d3fe269`：refactor(game): share glyph painting and confirm menu colors
+- `8808952303ad8d316ed4263c21967e606bd45e1b`：test(game): strengthen present leaf oracles and retire duplicate cases
+- `1457ec7fe1d20e5f476bf4409185ec85b6fc3525`：chore(coverage): reconcile exact present refactor counters
+
+默认只读verify-present-leaves已实跑MATCH；check20366例、official ratchet/protected各19968例，全量可见stdout分类后运行诊断0、stderr0。末轮docs、lint（5715文件，error/warning/info均0）、ledger与diff门通过。此时仅本地提交；推送、0behind确认和main同步以实际Git结果为准，不将发布计划记为已完成。

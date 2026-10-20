@@ -34,3 +34,9 @@ Codex单一Owner，build allowed仅主/边界两测试与治理证据。完整�
 任务卡：docs/ops/archive/tasks/done/CODE-QUALITY-70-game-audio-volume-boundary.md
 当前状态：done，已归档；当前结论 accept/done，无实现改动
 ```
+
+## 2026-10-21 基础绘制与同版本只读补证收口
+
+只接受原一主测：clamp、目标/有效输出、启动读回均有真实controller、Storage与sink组合oracle。三份音量源/测试与8例及keyMute单红原件同SHA，bootstrap三路注入和panel广播定向重核。0新增执行，不附带controller、boundary或听感验收。
+
+[A-H, callers, native evidence and limits](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-shell-readonly.json); [complete current gates](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json). Original failures/counts remain historical; no broad/adjacent file or deferred visual credit. Git integration is recorded separately.

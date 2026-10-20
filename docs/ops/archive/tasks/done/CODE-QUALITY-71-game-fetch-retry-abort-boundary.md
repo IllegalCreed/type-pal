@@ -49,3 +49,9 @@ Visual Verification Timing: N/A（网络生命周期）
 请做：若重开审计，复核 AbortError 失败反例与取消传播修复
 输出：失败反例、修复 diff、caller/oracle 证据、测试结果；当前结论为 accept/done
 ```
+
+## 2026-10-21 基础绘制与同版本只读补证收口
+
+只接受原实现、主测、GLM三文件：C1五份当前源/测试同SHA，26绿、原三红及三种单红原件已复算。GET、Request/null、首次输入校验和退避清理Owner已核；保留有真实模块清理用途的Test reset出口，无新增行为或重复全套复审。旧3h rework属于C1前；新取消专测/边界不附带接受。
+
+[A-H, callers, native evidence and limits](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-shell-readonly.json); [complete current gates](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json). Original failures/counts remain historical; no broad/adjacent file or deferred visual credit. Git integration is recorded separately.

@@ -33,3 +33,9 @@ ownership；不改变菜单形态、输入状态、脚本或公共接口。
 ## 下一位 Agent 提示词
 
 无下一位 Agent；Codex继续完成本批审计，未完成准入前不得扩大范围或标记 done。
+
+## 2026-10-21 基础绘制与同版本只读补证收口
+
+原三文件：确认框委托既有纯menu-colors，条件中的Date读取次数保持；固定双框不冒称SDL任意长标签布局。固定F9反控旧10绿→新1时序红；空标签改精确底色，原开关、三影及框坐标合同保留。
+
+[A-H, callers, native evidence and limits](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-local.json); [complete current gates](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json). Original failures/counts remain historical; no broad/adjacent file or deferred visual credit. Git integration is recorded separately.

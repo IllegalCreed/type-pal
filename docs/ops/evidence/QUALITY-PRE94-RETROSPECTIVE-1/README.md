@@ -275,3 +275,7 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 2026-10-21 present/speedrun正式裁定：48/49/50/61–69共12卡/36文件接受，累计27accept/56partial/0pending；[当前完整门、旧诊断勘误与原件](present-speedrun-gates.json)为本窗口收口依据。上下文大文件、checkpoint运行校准和94–102不随门通过升格；本窗口未新跑浏览器E2E。
 
 本窗口集中门完整字节原件：[present/speedrun门原件](present-speedrun-gates-native.json.gz)；原始失败/非干净回执和后继干净结果并存，正文勘误不倒写历史计数。
+
+2026-10-21 CODE43–47基础叶接受：[17文件八维、合同迁移与原件](present-leaves-local.json)，[只读快检](verify-present-leaves.mjs)，[有限结构重算](present-leaves-recount.json)和[完整集中门](present-leaves-gates.json)；默认快检同时核本地与集中门，`--local`仅核本地证据，视觉仍沿原卡集中验收。
+
+同一冻结窗口接受[CODE70/71只读四文件补证](present-shell-readonly.json)：同字节旧原生/反控复用，真实caller差异定向核清，不新增产品/测试，也不附带关闭音量实现或取消相邻测试。七卡合计使当前83卡达到38accept/45partial/0pending；发布事实另见父卡交接。

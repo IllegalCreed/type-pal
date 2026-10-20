@@ -35,3 +35,9 @@ dialog/menu/battle/present，行为真值来自 `reference/sdlpal/text.c:1075-11
 ## 下一位 Agent 提示词
 
 无下一位 Agent；Codex继续完成本批审计，未完成准入前不得扩大范围或标记 done。
+
+## 2026-10-21 基础绘制与同版本只读补证收口
+
+原四文件：两文字入口共享私有字形三影→正色序列，不合并不同颜色推进循环；纠正Unicode/tofu列号及静态字宽近似边界。合法16字节glyph核height，非零底图三影、补充平面码点、缺字游标均有真实结果；当前27例，旧数量不继承。
+
+[A-H, callers, native evidence and limits](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-local.json); [complete current gates](../../../evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates.json). Original failures/counts remain historical; no broad/adjacent file or deferred visual credit. Git integration is recorded separately.

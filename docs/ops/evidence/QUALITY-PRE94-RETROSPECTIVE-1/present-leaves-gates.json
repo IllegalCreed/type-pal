@@ -1,0 +1,978 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-21",
+  "owner": "Codex",
+  "base": "e43fe5dc3f93e59e39a5f2a7c7c8dd6012097c15",
+  "task": "QUALITY-PRE94-RETROSPECTIVE-1",
+  "status": "accepted",
+  "cards": [
+    {
+      "id": "43",
+      "scope": [
+        "packages/game/src/present/draw-sprite.ts",
+        "packages/game/src/present/draw-sprite.test.ts",
+        "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts"
+      ]
+    },
+    {
+      "id": "44",
+      "scope": [
+        "packages/game/src/present/font.ts",
+        "packages/game/src/present/font.test.ts",
+        "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/font-width.grok-r1.test.ts"
+      ]
+    },
+    {
+      "id": "45",
+      "scope": [
+        "packages/game/src/present/follower-render.ts",
+        "packages/game/src/present/follower-render.test.ts",
+        "packages/game/src/present/follower-render-gap.grok-r1.test.ts"
+      ]
+    },
+    {
+      "id": "46",
+      "scope": [
+        "packages/game/src/present/menu/draw-confirm.ts",
+        "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts"
+      ]
+    },
+    {
+      "id": "47",
+      "scope": [
+        "packages/game/src/present/menu/draw-box.ts",
+        "packages/game/src/present/menu/draw-box.test.ts",
+        "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+        "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts"
+      ]
+    },
+    {
+      "id": "70",
+      "scope": ["packages/game/src/shell/audio-volume.test.ts"]
+    },
+    {
+      "id": "71",
+      "scope": [
+        "packages/game/src/shell/fetch-retry.ts",
+        "packages/game/src/shell/fetch-retry.test.ts",
+        "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts"
+      ]
+    }
+  ],
+  "explicitFiles": [
+    "packages/game/src/present/draw-sprite.ts",
+    "packages/game/src/present/font.ts",
+    "packages/game/src/present/follower-render.ts",
+    "packages/game/src/present/menu/draw-confirm.ts",
+    "packages/game/src/present/menu/draw-box.ts",
+    "packages/game/src/present/draw-sprite.test.ts",
+    "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+    "packages/game/src/present/font.test.ts",
+    "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+    "packages/game/src/present/font-width.grok-r1.test.ts",
+    "packages/game/src/present/follower-render.test.ts",
+    "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
+    "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+    "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+    "packages/game/src/present/menu/draw-box.test.ts",
+    "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+    "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+    "packages/game/src/shell/audio-volume.test.ts",
+    "packages/game/src/shell/fetch-retry.ts",
+    "packages/game/src/shell/fetch-retry.test.ts",
+    "packages/game/src/shell/fetch-retry.glm-phase1-leaves.test.ts"
+  ],
+  "currentProgress": {
+    "partial": 45,
+    "pending": 0,
+    "accept": 38
+  },
+  "runs": [
+    {
+      "id": "leaves-check",
+      "role": "check",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "normalStdoutBlocks": 260,
+      "normalMessages": [
+        "[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump",
+        "[dev-panel] applyFixture code80 → startBattle(team=1, field=0)",
+        "[S5] mapNum=1: 452 tiles, 216960 pixels, 0 diff ✓",
+        "[S5] mapNum=6: 209 tiles, 100320 pixels, 0 diff ✓",
+        "[S5] mapNum=12: 323 tiles, 155040 pixels, 0 diff ✓",
+        "[S5] mapNum=50: 348 tiles, 167040 pixels, 0 diff ✓",
+        "[S5] mapNum=100: 322 tiles, 154560 pixels, 0 diff ✓",
+        "[S5] mapNum=200: 495 tiles, 237600 pixels, 0 diff ✓",
+        "[save] saved to slot 1(times=1)",
+        "[dev-panel] applyFixture custom-battle → startBattle(team=90000, field=7)",
+        "[dev-panel] applyFixture auto-battle-t37 → startBattle(team=37, field=23)",
+        "[dev-panel] applyFixture boss-21 → startBattle(team=21, field=7)",
+        "[dev-panel] applyFixture fixture-dialog → startBattle(team=21, field=7)",
+        "[dev-panel] applyFixture fixture-levelup → startBattle(team=1, field=7)",
+        "type-pal: state dump enabled. Run __tpDumpDownload() to save.",
+        "[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话",
+        "PAL author baseline read cost {",
+        "  elapsedMs: 466,",
+        "  reads: 1077,",
+        "  totalBytesRead: 152297795,",
+        "  paths: 538,",
+        "  bytesRead: 76150610",
+        "}"
+      ],
+      "packageTests": [1498, 114, 3666, 441, 8965, 4943, 739],
+      "vitestTotal": 20366
+    },
+    {
+      "id": "leaves-ratchet-approved",
+      "role": "ratchet",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "normalStdoutBlocks": 253,
+      "normalMessages": [
+        "[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话",
+        "[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump",
+        "[dev-panel] applyFixture code80 → startBattle(team=1, field=0)",
+        "[save] saved to slot 1(times=1)",
+        "[dev-panel] applyFixture custom-battle → startBattle(team=90000, field=7)",
+        "[dev-panel] applyFixture auto-battle-t37 → startBattle(team=37, field=23)",
+        "[dev-panel] applyFixture boss-21 → startBattle(team=21, field=7)",
+        "[dev-panel] applyFixture fixture-dialog → startBattle(team=21, field=7)",
+        "[dev-panel] applyFixture fixture-levelup → startBattle(team=1, field=7)",
+        "type-pal: state dump enabled. Run __tpDumpDownload() to save."
+      ],
+      "packageTests": [114, 1498, 301, 671, 8965, 3638, 4781],
+      "vitestTotal": 19968
+    },
+    {
+      "id": "leaves-protected",
+      "role": "protected",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "normalStdoutBlocks": 253,
+      "normalMessages": [
+        "[reforge] room#0 可玩：方向键走（10fps 步进 + 朝向 + 走帧）/ 撞墙，靠近老者按空格搭话",
+        "[dev-panel] 装配完成。快捷键:B = battle picker(内含「队伍」tab 角色在队开关)/ F1 = GameState dump",
+        "[dev-panel] applyFixture code80 → startBattle(team=1, field=0)",
+        "[save] saved to slot 1(times=1)",
+        "[dev-panel] applyFixture custom-battle → startBattle(team=90000, field=7)",
+        "[dev-panel] applyFixture auto-battle-t37 → startBattle(team=37, field=23)",
+        "[dev-panel] applyFixture boss-21 → startBattle(team=21, field=7)",
+        "[dev-panel] applyFixture fixture-dialog → startBattle(team=21, field=7)",
+        "[dev-panel] applyFixture fixture-levelup → startBattle(team=1, field=7)",
+        "type-pal: state dump enabled. Run __tpDumpDownload() to save."
+      ],
+      "packageTests": [114, 1498, 301, 671, 8965, 3638, 4781],
+      "vitestTotal": 19968
+    },
+    {
+      "id": "leaves-final-docs",
+      "role": "docs",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "normalStdoutBlocks": 0,
+      "normalMessages": [],
+      "packageTests": [],
+      "vitestTotal": 0
+    },
+    {
+      "id": "leaves-final-lint",
+      "role": "lint",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "normalStdoutBlocks": 0,
+      "normalMessages": [],
+      "packageTests": [],
+      "vitestTotal": 0
+    },
+    {
+      "id": "leaves-final-ledger",
+      "role": "ledger",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "normalStdoutBlocks": 0,
+      "normalMessages": [],
+      "packageTests": [],
+      "vitestTotal": 0
+    },
+    {
+      "id": "leaves-final-diff",
+      "role": "diff",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "normalStdoutBlocks": 0,
+      "normalMessages": [],
+      "packageTests": [],
+      "vitestTotal": 0
+    },
+    {
+      "id": "leaves-final-doc-consumers",
+      "role": "docs-consumers",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "normalStdoutBlocks": 0,
+      "normalMessages": [],
+      "packageTests": [],
+      "vitestTotal": 0
+    },
+    {
+      "id": "leaves-publish-doc-consumers",
+      "role": "docs-consumers",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "normalStdoutBlocks": 0,
+      "normalMessages": [],
+      "packageTests": [],
+      "vitestTotal": 0
+    },
+    {
+      "id": "leaves-publish-lint",
+      "role": "lint",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "controlledInput": 0,
+        "unimplementedOpcode": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "audioUnavailable": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "testStderrBlocks": 0,
+        "stderrBytes": 0
+      },
+      "normalStdoutBlocks": 0,
+      "normalMessages": [],
+      "packageTests": [],
+      "vitestTotal": 0
+    }
+  ],
+  "sourceBindings": [
+    {
+      "path": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
+      "sha256": "72e2e06ce3b72b4877c9b24cfe064699a880efe1d95394f7d3e30f53ea0d006d"
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite.test.ts",
+      "sha256": "7b362e551d29920b87d3739da0d0d377429f65019f945c380f7336887977f364"
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite.ts",
+      "sha256": "bd2fbc1abb0527267b032298e779ac5946089745fd83159181dd0af84f8ffcef"
+    },
+    {
+      "path": "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
+      "sha256": "546e86fa49e027289554d79297578a163b177358774b1e65253a247f00a326cc"
+    },
+    {
+      "path": "packages/game/src/present/follower-render.test.ts",
+      "sha256": "4b7e687c809ce88817f668231a9881012b3fcad0cdb6dfd0485e7e854a315d75"
+    },
+    {
+      "path": "packages/game/src/present/follower-render.ts",
+      "sha256": "fe1bc4db16a6e3732cadaecc8247028c12209974ab8d03f4aa4432af7ce00e29"
+    },
+    {
+      "path": "packages/game/src/present/font-width.grok-r1.test.ts",
+      "sha256": "1b5024cd2d448c38a619cb8a545a3c92d51851185b7b1b7fcaf54a819cb616f3"
+    },
+    {
+      "path": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+      "sha256": "5d96d0ae5501f96c5a7075ce996c3ac2a3b586f52641cf9198eb00c73174c693"
+    },
+    {
+      "path": "packages/game/src/present/font.test.ts",
+      "sha256": "d502acc90f477b56a28eef745e17e4f219514ffacb9bbcf96d39992d3219cc6f"
+    },
+    {
+      "path": "packages/game/src/present/font.ts",
+      "sha256": "0af092f60efef7dd1f39c82f4c492512dbf957092f0d20b13da27b5518fd7fe4"
+    },
+    {
+      "path": "packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts",
+      "sha256": "4adaf21e23bfd2d6da685430c237e7f1549377001d5fef2ea23145829650fee6"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
+      "sha256": "2ddaa6efbaf2016f40191c7c8cf49f77191ad62c187c76a2ac25aaa5e54c4295"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.test.ts",
+      "sha256": "a5fa29d9b440cebec03a20be4014696c47c3c14c3034d37e06dcb876cc1fe173"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-box.ts",
+      "sha256": "2ab2d6e4aafcaa9848cab7e74ccfef8ac0669678a4f4fe58c7577ac89bafb4b4"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
+      "sha256": "4f6eae08db3ab3cecddcba64a72ae62e4a51f62963954d01ce3ad74836d7b9d2"
+    },
+    {
+      "path": "packages/game/src/present/menu/draw-confirm.ts",
+      "sha256": "3488c60aac789360d5c9c49c78bb00a47120213f8b02bbb7342a3279d3a45b2d"
+    },
+    {
+      "path": "packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts",
+      "sha256": "1fc84cda595debed5b09e20db9d24a79edd1c44b1bbf030717e9f2cedea02abf"
+    },
+    {
+      "path": "scripts/coverage/approved-baseline-adjustments.mjs",
+      "sha256": "a99b75eacf597586056c11555f68e06c6784b48fc1b87e95c5173b19f93f6cfd"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.mjs",
+      "sha256": "ce02d41304b559b03c9c15c93e574ca48daeaf1352dac8cc3e71710b9ddaa84c"
+    },
+    {
+      "path": "scripts/coverage/approved-test-retirements.test.mjs",
+      "sha256": "6fcc0dc1cfc9407be68f3a32c9f31ba919de6762441ba777affb9967a09498df"
+    },
+    {
+      "path": "scripts/coverage/baseline.fast.json",
+      "sha256": "738d337a4288659f8f4b52c4948fb06c0b6033a6f4f51085484e258e627e4b69"
+    }
+  ],
+  "coverage": {
+    "sourceFileCount": 744,
+    "testCount": 19968,
+    "metrics": {
+      "statements": {
+        "covered": 71388,
+        "total": 79240
+      },
+      "branches": {
+        "covered": 51847,
+        "total": 61889
+      },
+      "functions": {
+        "covered": 13548,
+        "total": 15098
+      },
+      "lines": {
+        "covered": 63766,
+        "total": 69337
+      }
+    },
+    "baseline": "scripts/coverage/baseline.fast.json",
+    "adjustment": "present-leaves-recount.json",
+    "testRetirements": "Five exact pinned files, net9; source inventory unchanged; supported parallel-editor scheduling only."
+  },
+  "limits": [
+    "No new browser/visual/audio/E2E claim; original deferrals remain.",
+    "First measurement is exit1/six ratio failures, not a clean pass. Normal stdout is separately classified.",
+    "Only 17 changed-file plus4 same-byte read-only original scopes accepted; adjacent/wider files and other45partial cards not accepted.",
+    "Whole83 goal remains active; actual Git commit/push/main synchronization recorded separately."
+  ],
+  "artifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-gates-native.json.gz",
+    "sha256": "a53c9b982819912079b1bbf5c35135e87b9c786a65baecfd8eeaee08f058b78d",
+    "members": [
+      {
+        "name": "leaves-check.execution.json",
+        "bytes": 5949,
+        "sha256": "7b68f19dbdc3dd2bec46f5bceb56d042f85288f546200aa8d88a65376db0c276"
+      },
+      {
+        "name": "leaves-check.stdout.raw",
+        "bytes": 369920,
+        "sha256": "1450df89de15a9fe3e27e2ff232e8813c8e32723ee34407316f2d03775777859"
+      },
+      {
+        "name": "leaves-check.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-check.diagnostics.json",
+        "bytes": 84212,
+        "sha256": "f9ae6741b2b192344d823bec6b37b1f3a27c00f647ccf86838bd80932b982c93"
+      },
+      {
+        "name": "leaves-check.scan.raw",
+        "bytes": 73051,
+        "sha256": "57804a612969e495fb390e4868b151ef850cc602eec1dcc79e7ded2898668b0b"
+      },
+      {
+        "name": "leaves-coverage-tools.execution.json",
+        "bytes": 5399,
+        "sha256": "7756e360b2fec958cd60b4b1ce87a42baa8141288e1077ed1886e0b9611cd584"
+      },
+      {
+        "name": "leaves-coverage-tools.stdout.raw",
+        "bytes": 20377,
+        "sha256": "ef26258c3b63dd62b7b1423852fcf73e53a714dd47ea69d9f357530674408d13"
+      },
+      {
+        "name": "leaves-coverage-tools.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-docs-preflight.execution.json",
+        "bytes": 6009,
+        "sha256": "921d1e403540f2eaca0e923be93ca0ad82fe402c4dee018a9c1103145c6b60aa"
+      },
+      {
+        "name": "leaves-docs-preflight.stdout.raw",
+        "bytes": 311,
+        "sha256": "662688645373fb807f607f87afa60327836f1ab5ad89b51d64533cbe8e5c3ab7"
+      },
+      {
+        "name": "leaves-docs-preflight.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-final-diff.execution.json",
+        "bytes": 7409,
+        "sha256": "c1bf973fe403ef0db6f6d416c4b5c9bf86808bfb3b920214bfc988f164b994a8"
+      },
+      {
+        "name": "leaves-final-diff.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-final-diff.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-final-diff.diagnostics.json",
+        "bytes": 571,
+        "sha256": "2aa7c3506606537db517a784b1b600bb5d187c5e123b3c61355a56a4fe51eaa7"
+      },
+      {
+        "name": "leaves-final-diff.scan.raw",
+        "bytes": 461,
+        "sha256": "e724467a9b1dbd42abe8b8fc743fc63709d688f388b4219427b45f2a06378cd0"
+      },
+      {
+        "name": "leaves-final-doc-consumers.execution.json",
+        "bytes": 7749,
+        "sha256": "560a7239d67b4dad0b76f25501bde71b54c878301bebce6acdfc40b5b6c502c0"
+      },
+      {
+        "name": "leaves-final-doc-consumers.stdout.raw",
+        "bytes": 311,
+        "sha256": "fa9843d3bf6a88146f25bde843a968cdf93c8a08859112a1651d4aa7d71008c6"
+      },
+      {
+        "name": "leaves-final-doc-consumers.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-final-doc-consumers.diagnostics.json",
+        "bytes": 580,
+        "sha256": "7107089b090e5af0f14e3e2d1f8e423c45d1856f2bfcf94955f3bad434480f34"
+      },
+      {
+        "name": "leaves-final-doc-consumers.scan.raw",
+        "bytes": 470,
+        "sha256": "c1c0c86746569ab469f1ef186042a75c623a6c34791c14131bbe5cbf9f8c7278"
+      },
+      {
+        "name": "leaves-final-docs.execution.json",
+        "bytes": 7393,
+        "sha256": "9e12dd9b71cf363aca55a8696c673a012b268a7b40ec7ecca429f9298e6b3655"
+      },
+      {
+        "name": "leaves-final-docs.stdout.raw",
+        "bytes": 30527,
+        "sha256": "843d400c874740bd6a4f1532c41ad899b556a272ad50073356e61de9fac30691"
+      },
+      {
+        "name": "leaves-final-docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-final-docs.diagnostics.json",
+        "bytes": 571,
+        "sha256": "b67acbd9b3ef652a43e8957c510efcdad42db476b2b5a0298409af36586272a5"
+      },
+      {
+        "name": "leaves-final-docs.scan.raw",
+        "bytes": 461,
+        "sha256": "cab7f39ce1677c1a0615512a5f5e5b65a138a19868c858a4641bbd3736ec95d9"
+      },
+      {
+        "name": "leaves-final-ledger.execution.json",
+        "bytes": 7428,
+        "sha256": "f9bbf3a0e2dea1bbf455e8695cbe12b83fa61b3468c1e091372cea5fb30bdcb3"
+      },
+      {
+        "name": "leaves-final-ledger.stdout.raw",
+        "bytes": 113,
+        "sha256": "4d31f8edb63fcd9eb404029ca754443a112a1985f89415cf07f56235ae4e4950"
+      },
+      {
+        "name": "leaves-final-ledger.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-final-ledger.diagnostics.json",
+        "bytes": 573,
+        "sha256": "353ade50add22e4885885558a796cac08b34738d67280e83d6ca3f583bfe28f3"
+      },
+      {
+        "name": "leaves-final-ledger.scan.raw",
+        "bytes": 463,
+        "sha256": "406b9e8bc083e3ea709a4b372607aba15fa09ef200fa53fd96c6050048183bf6"
+      },
+      {
+        "name": "leaves-final-lint.execution.json",
+        "bytes": 7385,
+        "sha256": "5a9b2f90b47292fcb5ae0aef5384b81094f890a7eac73ef4ff1d5a1c6c77e6fc"
+      },
+      {
+        "name": "leaves-final-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "6de12b6ca5284ecb86e0c21a3652c3b8e0adf8e4c7c63a05fd0b7ed2fa08300d"
+      },
+      {
+        "name": "leaves-final-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-final-lint.diagnostics.json",
+        "bytes": 571,
+        "sha256": "63494a389bda2588264c266ff3ee18c36232187b8349367b5daa87d9c00a5697"
+      },
+      {
+        "name": "leaves-final-lint.scan.raw",
+        "bytes": 461,
+        "sha256": "9b6fbe7efc6ba74ba8a5ba2f04bd6ed107504edd4c589c7f1a53721513b6c027"
+      },
+      {
+        "name": "leaves-lint-preflight.execution.json",
+        "bytes": 5672,
+        "sha256": "38dded6db079978e39720905b241924e372c7ca57543deea90791f41983ea1d2"
+      },
+      {
+        "name": "leaves-lint-preflight.stdout.raw",
+        "bytes": 193,
+        "sha256": "0fdc91cb96278b29387b4414816cda025ec0184defbd9a79f990cd7df813a1d2"
+      },
+      {
+        "name": "leaves-lint-preflight.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-normalizer.execution.json",
+        "bytes": 6086,
+        "sha256": "5fef7a624186fd9e66a3b4b2b79a047b7ee0c9e335fa78d0036228b4ebba2246"
+      },
+      {
+        "name": "leaves-normalizer.stdout.raw",
+        "bytes": 155,
+        "sha256": "848bb1a178c165c4be82034670fd84023629978d5b736ccf0cce1417624d350e"
+      },
+      {
+        "name": "leaves-normalizer.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-protected.execution.json",
+        "bytes": 6362,
+        "sha256": "0afeebe9206c3c6aff45e936edc16b129e766e3842caaf757a4268847907b6ea"
+      },
+      {
+        "name": "leaves-protected.stdout.raw",
+        "bytes": 182011,
+        "sha256": "31510b51a21b58b733bc15e24e048163c9a1932832c71a6477dbe2a4b68ec748"
+      },
+      {
+        "name": "leaves-protected.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-protected.coverage-summary.json",
+        "bytes": 8467153,
+        "sha256": "568109d7cc20efd1a291fc27cae03061aef50b1ef5d587f52884ee737e017a93"
+      },
+      {
+        "name": "leaves-protected.diagnostics.json",
+        "bytes": 81905,
+        "sha256": "105e61dd2430afffb7f69e63bf12781d819fa9ba9be1f606e19df0bebc3cf00c"
+      },
+      {
+        "name": "leaves-protected.scan.raw",
+        "bytes": 71092,
+        "sha256": "5617971515fa5724ebffba1b881f335edeb1cbb9349a14b26e10d605df1d0b16"
+      },
+      {
+        "name": "leaves-publish-doc-consumers.execution.json",
+        "bytes": 3134,
+        "sha256": "8f5fcc6111ef9260fb3f8ee2b603e20a9473ee0e861cc1c72f3457050e9d4538"
+      },
+      {
+        "name": "leaves-publish-doc-consumers.stdout.raw",
+        "bytes": 311,
+        "sha256": "fa9843d3bf6a88146f25bde843a968cdf93c8a08859112a1651d4aa7d71008c6"
+      },
+      {
+        "name": "leaves-publish-doc-consumers.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-publish-doc-consumers.diagnostics.json",
+        "bytes": 582,
+        "sha256": "32abcd1ee805832d76766b524c98792da53c32a945fcebb5662935a0650b7027"
+      },
+      {
+        "name": "leaves-publish-doc-consumers.scan.raw",
+        "bytes": 472,
+        "sha256": "cc205acfb94b338a7f50f084e4a4cd5fbe04e763e3dc5c01e1c92a153c918d7a"
+      },
+      {
+        "name": "leaves-publish-lint.execution.json",
+        "bytes": 2770,
+        "sha256": "e85a70f04d9934f6260b4772c4e3a971412b18e34c0dba0f37404038234ccc9e"
+      },
+      {
+        "name": "leaves-publish-lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "6de12b6ca5284ecb86e0c21a3652c3b8e0adf8e4c7c63a05fd0b7ed2fa08300d"
+      },
+      {
+        "name": "leaves-publish-lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-publish-lint.diagnostics.json",
+        "bytes": 573,
+        "sha256": "37042f7eb5addd2a40af974aea55cde08234eb0614ba0b1bd3b828d9baa5a7a2"
+      },
+      {
+        "name": "leaves-publish-lint.scan.raw",
+        "bytes": 463,
+        "sha256": "5c8d2e1debf0a6f638632f853abe37fe8413d04c08e6ae3dad826ab2e95f138d"
+      },
+      {
+        "name": "leaves-ratchet-approved.execution.json",
+        "bytes": 6152,
+        "sha256": "6da689a8d2b66b4b334151a46c6e7bb0774e752230775d4fed16ebf15d40933d"
+      },
+      {
+        "name": "leaves-ratchet-approved.stdout.raw",
+        "bytes": 202054,
+        "sha256": "43a007f012a9cae06fa592ee734d2133e36a517bfec22fd96843ebfed957bb41"
+      },
+      {
+        "name": "leaves-ratchet-approved.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "leaves-ratchet-approved.coverage-summary.json",
+        "bytes": 8467153,
+        "sha256": "c71a84323f507af35cabfd2fa27d95f65d5717a1cb36c32e0017e19f94fee38d"
+      },
+      {
+        "name": "leaves-ratchet-approved.diagnostics.json",
+        "bytes": 81912,
+        "sha256": "5c312bef82569a809ec556c2a88cbd4b7bdffabfc68e1c4a9c80e6364d97c713"
+      },
+      {
+        "name": "leaves-ratchet-approved.scan.raw",
+        "bytes": 71099,
+        "sha256": "d60da57b22ae6962d94c5cb6ec83d7bd87d8f082fa97214f520d89eb0e275862"
+      },
+      {
+        "name": "leaves-ratchet.execution.json",
+        "bytes": 5531,
+        "sha256": "2e072010e96ee4dca749a93830f149395a86442adbf4579eaeeae1e482f0840b"
+      },
+      {
+        "name": "leaves-ratchet.stdout.raw",
+        "bytes": 200804,
+        "sha256": "e871026d0d53cff72470151edab39ec8f4ae36a563e582a58b6e13594e0d77ab"
+      },
+      {
+        "name": "leaves-ratchet.stderr.raw",
+        "bytes": 410,
+        "sha256": "20ffc4ee7debf5700364595f5aefd68ddd0a364d1ed5bbb00e516a171e11f586"
+      },
+      {
+        "name": "leaves-ratchet.coverage-summary.json",
+        "bytes": 8467153,
+        "sha256": "ba83fcd7b40c9470ae3f31a2cacb124bdae887aa652f937428f167b71b741367"
+      },
+      {
+        "name": "leaves-ratchet.diagnostics.json",
+        "bytes": 81905,
+        "sha256": "9d69649d1ca2c17b8454f8b6545178c697c73c7e2e475ca9ad68d309ffc3afca"
+      },
+      {
+        "name": "leaves-ratchet.scan.raw",
+        "bytes": 71092,
+        "sha256": "29353374c5ab69092ebc2a59acbf7acb2efd1208b2962a48733eb4bd0ff0092f"
+      },
+      {
+        "name": "baseline-before.json",
+        "bytes": 528340,
+        "sha256": "f7ad8b0271e8b4d588e89c041928c3c570c705f5129bdcff8f1de24541c81864"
+      },
+      {
+        "name": "baseline-adjustments.before.mjs",
+        "bytes": 21587,
+        "sha256": "23cf4be59e68ed5c975d8793767fd25df50b009b14414eddc220a078ce404153"
+      },
+      {
+        "name": "coverage-before-summary.json",
+        "bytes": 8470325,
+        "sha256": "898d72392e85213ce06e99bda2c143297180e82751b9a0dbb254111c7eddd03a"
+      },
+      {
+        "name": "coverage-before-game-summary.json",
+        "bytes": 51562,
+        "sha256": "eee1d7a627c2012941c34854cc8d3eddf919871df6c09729ab9bb6b461673878"
+      },
+      {
+        "name": "coverage-before-game-lcov.info",
+        "bytes": 438327,
+        "sha256": "c62cc48fd54274299d4450888681e8feeb8563912862217f19c22a99eee5904d"
+      },
+      {
+        "name": "coverage-after-game-summary.json",
+        "bytes": 51558,
+        "sha256": "b4865070c5d6ab7077148a2f7ebb861e8067e2def13be22813e69c74ece5befe"
+      },
+      {
+        "name": "recount-measurement.json",
+        "bytes": 2785,
+        "sha256": "1f35c9de66cae749e8c09d73bb34caad20abfd1eb022e44c14606f8d9377f971"
+      },
+      {
+        "name": "recount-approval.candidate.json",
+        "bytes": 4368,
+        "sha256": "affb44bf6f703424b7d1675a78c7f1ecb94a6d1d0eba2c1dd7178b98ea2a24e8"
+      },
+      {
+        "name": "recount-program-proof.json",
+        "bytes": 201,
+        "sha256": "bdbb1ce594e96a8eea396a4749780035e6d6d7e0893846a1ce5c116941935040"
+      },
+      {
+        "name": "metadata-before-final.json",
+        "bytes": 1832260,
+        "sha256": "9f93d78e7092f5dadd1902cabe41695adfda31f6396aa82925d6f78a5d0aa21a"
+      },
+      {
+        "name": "metadata-final-maintenance.json",
+        "bytes": 1240,
+        "sha256": "3110a3a8efc6ad91d930595e7f29c80e924ed1a6742b559b22545a728d149e63"
+      },
+      {
+        "name": "capture.mjs",
+        "bytes": 5624,
+        "sha256": "f23c4517a7f43967fb0ddccf4814786970d420e3d63e4d1bee5a4439a525590f"
+      },
+      {
+        "name": "capture.before-scope-approval.mjs",
+        "bytes": 5522,
+        "sha256": "00f8dffa49a97382958a55700ef7a4183571f7528327127c625a9d6034d6c9bd"
+      },
+      {
+        "name": "scan-gates.cjs",
+        "bytes": 1865,
+        "sha256": "db02c29b5960679f2712de0ca0ee7a753ab668d3eef5dd019eef639bd28e4e31"
+      },
+      {
+        "name": "apply-leaves-recount.cjs",
+        "bytes": 4158,
+        "sha256": "ce298d74da2abcdac16edb9c8d3b2c28d8fc7b26d622c414ee5a219673deeb11"
+      },
+      {
+        "name": "prove-leaves-recount.cjs",
+        "bytes": 2418,
+        "sha256": "052153d4374c207f5d8c0ad03107b3cdb6ebaa5233e399ac88e4428f95331b7e"
+      },
+      {
+        "name": "verify-leaves-normalizer.mjs",
+        "bytes": 1803,
+        "sha256": "817bb01dbd31cb953ebd5ee9bcd4d71b62b6c646027a5959204aaa5e68fd4611"
+      },
+      {
+        "name": "close-leaves.cjs",
+        "bytes": 7004,
+        "sha256": "abe565b18bf7fc393717e028671e2db0d5f7e250b13b0501d6c0fced22b1b065"
+      },
+      {
+        "name": "closeout-details.json",
+        "bytes": 4863,
+        "sha256": "b980a61688c602616bbfaef41f74f051895c652dcc480a73551ba218097e66d0"
+      },
+      {
+        "name": "close-leaves-attempt2.raw",
+        "bytes": 872,
+        "sha256": "54588568de583b037ca65e56fa3af31ae49f651f8f473f61bdd171e0520c68c6"
+      },
+      {
+        "name": "close-leaves-attempt3.raw",
+        "bytes": 39,
+        "sha256": "85e8096c311a884d8cf85c20fad1a4d6c14245a9c48f805b9452f6997d38b304"
+      },
+      {
+        "name": "update-final-reviews.cjs",
+        "bytes": 5098,
+        "sha256": "e8a27324904bbfe079e6ce128bfbdd7f2c4bba9657a684e35a34a6f3db5ad12d"
+      },
+      {
+        "name": "normalize-ledger.mjs",
+        "bytes": 1091,
+        "sha256": "48007f67044d2fb6bdce8da0bbc827d990601a909688105fbba07afd483ccb75"
+      },
+      {
+        "name": "metadata-final.raw",
+        "bytes": 1040,
+        "sha256": "bba13d0600664eef6ad2841c1dc3a5c0fa445c40073d861e88985a7f022d3648"
+      },
+      {
+        "name": "record-leaves-gates.cjs",
+        "bytes": 6522,
+        "sha256": "614925ee5ccd51f088fe002e84d54442f71b323b9994e273fca7691cfa1c9ca5"
+      }
+    ]
+  }
+}
