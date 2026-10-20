@@ -1,81 +1,56 @@
 # M2 · 运行时垂直切片(探索)Design
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 M2 运行时垂直切片设计的归档重写。四层架构与范围调整在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：M2 runtime design: browser shell/main loop/input; indexed framebuffer/present; GameState/modes/systems/command bus; assets and pal-extract increments; core, integration/E2E, dev and regression tests; explicit non-scope and completion.
-- 日期：2026-05-23；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `1a41396403e06b0c32c59bd1be1e29d13a8ac9dc6a0b997f5b50aadb31016091`。
+- 目标：M2（运行时探索垂直切片）设计文档（brainstorming 产出）——只讲「做什么/怎么组织/怎么验证」；配套实施计划在 [m2-runtime-slice](2026-05-23-m2-runtime-slice.md)。
+- 时间范围：2026-05-23；含对里程碑划分的调整。
 
 ## 里程碑
 
-- 原始章节：与全局文档的关系；对里程碑划分的调整；范围；1 Shell 层(浏览器入口 / 主循环 / 输入)；2 Present 层(索引帧缓冲 / 绘制)；3 Core 层(GameState / 模式机 / 系统 / 命令总线)；4 Assets 层；5 pal-extract 增量(顺手补 M1 的债)。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- 四层设计：Shell 层（浏览器入口/主循环/输入）、Present 层（索引帧缓冲/绘制）、Core 层（GameState/模式机/系统/命令总线）、Assets 层；另列 pal-extract 增量（顺手补 M1 的债）。
 
 ## 当前状态
 
-- historical；M2 · 运行时垂直切片(探索)Design：这是 design-spec，当前文档状态为 historical。全文 307 行、26 个标题；摘要/首段为「> 这是 M2 的**设计文档**(brainstorming 产出),只讲"做什么 / 怎么组织 / 怎么验证"。」。属于历史/归档材料，不能单独证明当前实现。
+- historical：M2 完工（目录索引 ✅）；四层架构沿用至今并持续演进。
 
 ## 阻塞与决策
 
-- 正文信号 11:- 对 `pal-extract` 顺手做两项 M1 应做未做的补丁(见下方"对里程碑划分的调整")。
-- 正文信号 20:| scene 1 事件对象 dump(NPC 列表 + 坐标 + sprite id + 触发段名) | 未定义 | **M2 新增**(`data/extracted/data/scene-1.json`) |
-- 正文信号 23:| NPC auto 行为(闲逛 / 待机动画) | 未明确归宿 | **M2 不做**,留 M5 / M6 |
-- 正文信号 63:- **command-bus.ts** —— 同步队列 FIFO。M2 内 Core 系统 `bus.emit(cmd)` 入栈,tick 末 Present 一把 `drain()`。**可等待命令的异步回执机制 M2 不激活**(M2 只有 `showDialog`,完成判定走 Core 内部 `waiting='dialog'` + `pressed
-- 正文信号 76:- **未具名 raw**(目前 events.json 大头) —— **no-op skip + console.debug(ip, opcode, operands)**,ip++。理由:scene 1 onEnter 段大量 raw 是无关紧要的环境设定(setBGM / setPalette / 设事件对象初始状态等),抛错会让 M2 寸步难行;s
-- 正文信号 94:- 至少覆盖:队长(4 方向 × 走路帧),scene 1 全部 NPC 的待机帧
-- 正文信号 193:`shared` 加 `input.ts` 看起来"游戏运行时类型不应跨包",但 D14 的 record/replay 文件格式是序列化的 InputSnapshot[],未来 e2e 测试 / dev 工具可能落到 pal-extract 侧(如生成确定性输入回放),把类型定义住、双向引用,有备无患。M2 内目前只 game 包用。
-- 正文信号 235:- **EventSystem 撞到完全未登记的 raw opcode** —— 不会发生(M1 已全部 ~97 个登记,raw 只是没给字段具名)。
-- 正文信号 238:- **未知抽象按键** —— InputSource 内 swallow,只产已知键。
-- 正文信号 306:| dialog box 的 Confirm 关闭可能跟"按 Space 走下一步"冲突 | M2 简化:对话框显示帧的 Confirm 不再走 SceneSystem(模式机隔离 — event 模式 SceneSystem 不 tick) |
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- 分层决策：探索切片先行（对后续战斗/菜单切片复用 Core/Shell 基建）。
 
 ## 下一步
 
-- 后继入口：M2 implementation plan and current game/runtime architecture; recheck raw-opcode and NPC behavior boundaries.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点由实施篇承接；当前架构以现行 packages/game 为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-05-23；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `1a41396403e06b0c32c59bd1be1e29d13a8ac9dc6a0b997f5b50aadb31016091`。
+- phase1 plans M2 设计；时点 2026-05-23；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- M2 · 运行时垂直切片(探索)Design：这是 design-spec，当前文档状态为 historical。全文 307 行、26 个标题；摘要/首段为「> 这是 M2 的**设计文档**(brainstorming 产出),只讲"做什么 / 怎么组织 / 怎么验证"。」。属于历史/归档材料，不能单独证明当前实现。
+- 四层结构与 M1 债清单为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:M2 · 运行时垂直切片(探索)Design; 6:与全局文档的关系; 13:对里程碑划分的调整; 27:范围; 29:1 Shell 层(浏览器入口 / 主循环 / 输入); 38:2 Present 层(索引帧缓冲 / 绘制); 46:3 Core 层(GameState / 模式机 / 系统 / 命令总线); 79:4 Assets 层；原始正文、代码、表格、状态词在 quote 保全。
+- 与全局文档的关系、范围与各层设计在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 11:- 对 `pal-extract` 顺手做两项 M1 应做未做的补丁(见下方"对里程碑划分的调整")。
-- 正文信号 20:| scene 1 事件对象 dump(NPC 列表 + 坐标 + sprite id + 触发段名) | 未定义 | **M2 新增**(`data/extracted/data/scene-1.json`) |
-- 正文信号 23:| NPC auto 行为(闲逛 / 待机动画) | 未明确归宿 | **M2 不做**,留 M5 / M6 |
-- 正文信号 63:- **command-bus.ts** —— 同步队列 FIFO。M2 内 Core 系统 `bus.emit(cmd)` 入栈,tick 末 Present 一把 `drain()`。**可等待命令的异步回执机制 M2 不激活**(M2 只有 `showDialog`,完成判定走 Core 内部 `waiting='dialog'` + `pressed
-- 正文信号 76:- **未具名 raw**(目前 events.json 大头) —— **no-op skip + console.debug(ip, opcode, operands)**,ip++。理由:scene 1 onEnter 段大量 raw 是无关紧要的环境设定(setBGM / setPalette / 设事件对象初始状态等),抛错会让 M2 寸步难行;s
-- 正文信号 94:- 至少覆盖:队长(4 方向 × 走路帧),scene 1 全部 NPC 的待机帧
-- 正文信号 193:`shared` 加 `input.ts` 看起来"游戏运行时类型不应跨包",但 D14 的 record/replay 文件格式是序列化的 InputSnapshot[],未来 e2e 测试 / dev 工具可能落到 pal-extract 侧(如生成确定性输入回放),把类型定义住、双向引用,有备无患。M2 内目前只 game 包用。
-- 正文信号 235:- **EventSystem 撞到完全未登记的 raw opcode** —— 不会发生(M1 已全部 ~97 个登记,raw 只是没给字段具名)。
-- 正文信号 238:- **未知抽象按键** —— InputSource 内 swallow,只产已知键。
-- 正文信号 306:| dialog box 的 Confirm 关闭可能跟"按 Space 走下一步"冲突 | M2 简化:对话框显示帧的 Confirm 不再走 SceneSystem(模式机隔离 — event 模式 SceneSystem 不 tick) |
+- historical。
 
 ## 继任文档
 
-- M2 implementation plan and current game/runtime architecture; recheck raw-opcode and NPC behavior boundaries.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [m2-runtime-slice](2026-05-23-m2-runtime-slice.md) 实施篇；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `1a41396403e06b0c32c59bd1be1e29d13a8ac9dc6a0b997f5b50aadb31016091`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `1a41396403e06b0c32c59bd1be1e29d13a8ac9dc6a0b997f5b50aadb31016091`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # M2 · 运行时垂直切片(探索)Design
 >

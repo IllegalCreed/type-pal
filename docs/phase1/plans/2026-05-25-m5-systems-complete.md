@@ -1,85 +1,55 @@
 # M5 · 系统补全 Implementation Plan
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 M5 系统补全实施计划的归档重写。约 83 节（P0 探索物理→P1 Sync→P1-Battle 股→后续波次）与实施过程发现在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：M5 implementation plan: physics/collision/Y-sort/walk animation/followers; GameState/dialog sync; battle/menu/save/interaction branches; baseline and manual checkpoints; staged system completion and known debugging decision points.
-- 日期：2026-05-25；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `69fc28c6f2c1811b9b3a24682a181be89c40f684d006fc27049a10cea5c22688`。
+- 目标：落实 [M5 设计稿](2026-05-25-m5-systems-complete-design.md)——系统补全（物理/战斗/菜单/存档/交互）task-by-task TDD（2026-05-25）。
 
 ## 里程碑
 
-- 原始章节：全局不变量；任务并行关系图；File Structure(M5 末态)；Phase 0 · 探索物理(7 task)；Task P0.0 · GameState party / npc 位置 schema 改 pixel；Task P0.a · 菱形 isometric 碰撞(PAL_CheckObstacle port)；Task P0.b · Y-sort 遮挡 + cover-tile；Task P0.c · 走动 4 帧动画(s_iThisStepFrame 循环)。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- P0 波：GameState party/npc 位置 schema 改 pixel、菱形 isometric 碰撞（PAL_CheckObstacle port）、Y-sort 遮挡+cover-tile、走动 4 帧动画（含 P0.c 实施过程发现专节）、队友 trail、wScriptOnEnter 真跑+6 opcode 顺手…；P1.0 Sync Wave（schema 冻结/DialogBox 真做）与 P1-Battle 13 task 及后续波次（83 节全列于 quote）。
 
 ## 当前状态
 
-- historical；M5 · 系统补全 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 4415 行、99 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` (recommended) or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. Tasks tagged **Parallel with:** can be dispatched concurrently via `superpowers:dispatching-parallel-agents`.」。属于历史/归档材料，不能单独证明当前实现。
+- historical：M5 完工后自报完成度被 M5.5 审计与用户实测推翻（见 [m5-5-sdlpal-audit](2026-05-27-m5-5-sdlpal-audit.md)），进入审计重置期——本计划尾部未勾项（M5/M7 划线写入 03 plan+04 decisions、实施过程发现归档）按 quote 时点解释。
 
 ## 阻塞与决策
 
-- 正文信号 25:- D26 raw skip 兜底:新具名 opcode 严格 disasm/recompile 对偶;未具名 opcode 仍 raw skip
-- 正文信号 306:> ⚠️ 若 L2 baseline 因为渲染坐标改动有 1-2px diff,**不重生** baseline — 改动应不影响最终像素(camera 偏移补回);若真有 diff,先 debug pixelToScreen 公式而非更新基线。
-- 正文信号 327:参考 sdlpal `scene.c:512-596`(PAL_CheckObstacleWithRange)+ `map.c::PAL_MapTileIsBlocked`。
-- 正文信号 335:// 给一个 tilemap 只有 (1, 1) 是 blocked
-- 正文信号 336:const blockedMap = makeFixedTilemap({ blockedTiles: [[1, 1]] })
-- 正文信号 339:const ok1 = isWalkable(blockedMap, 32, 0)
-- 正文信号 342:expect(isWalkable(blockedMap, 48, 8)).toBe(true)
-- 正文信号 344:expect(isWalkable(blockedMap, 48, 24)).toBe(false)
-- 正文信号 348:const blockedMap = makeFixedTilemap({ blockedTilesH: [[2, 2, 1]] })  // (col=2, row=2, h=1)
-- 正文信号 350:expect(isWalkable(blockedMap, 72, 40)).toBe(false)
-- 正文信号 406:if (tilemap.isBlocked(x, y, h)) return false
-- 正文信号 417:需在 `Tilemap` 类型加 `isBlocked(x, y, h): boolean` 方法(读 TileCell.lower/.upper 高位的 obstacle bit)。具体 bit layout 见 sdlpal `map.c::PAL_MapTileIsBlocked`(查 `tile->fa.fObstacleSE / fObstacle
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- 全局不变量与任务并行关系图为全程纪律；commit 总数估 60-80 笔（含 fix/docs）。
 
 ## 下一步
 
-- 后继入口：Current phase1 feature/status tables and canonical code/tests; M5 plan is historical execution guidance.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点由 M5.5/M5.6/重置计划承接；当前系统以现行代码为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-05-25；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `69fc28c6f2c1811b9b3a24682a181be89c40f684d006fc27049a10cea5c22688`。
+- phase1 plans M5 实施计划；时点 2026-05-25；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- M5 · 系统补全 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 4415 行、99 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` (recommended) or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. Tasks tagged **Parallel with:** can be dispatched concurrently via `superpowers:dispatching-parallel-agents`.」。属于历史/归档材料，不能单独证明当前实现。
+- 波次 Task 结构（83 节）与 P0.c 实施过程发现为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:M5 · 系统补全 Implementation Plan; 17:全局不变量; 32:任务并行关系图; 103:File Structure(M5 末态); 172:Phase 0 · 探索物理(7 task); 179:Task P0.0 · GameState party / npc 位置 schema 改 pixel; 317:Task P0.a · 菱形 isometric 碰撞(PAL_CheckObstacle port); 463:Task P0.b · Y-sort 遮挡 + cover-tile；原始正文、代码、表格、状态词在 quote 保全。
+- File Structure（M5 末态）、任务并行关系图与逐 Task 在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 25:- D26 raw skip 兜底:新具名 opcode 严格 disasm/recompile 对偶;未具名 opcode 仍 raw skip
-- 正文信号 306:> ⚠️ 若 L2 baseline 因为渲染坐标改动有 1-2px diff,**不重生** baseline — 改动应不影响最终像素(camera 偏移补回);若真有 diff,先 debug pixelToScreen 公式而非更新基线。
-- 正文信号 327:参考 sdlpal `scene.c:512-596`(PAL_CheckObstacleWithRange)+ `map.c::PAL_MapTileIsBlocked`。
-- 正文信号 335:// 给一个 tilemap 只有 (1, 1) 是 blocked
-- 正文信号 336:const blockedMap = makeFixedTilemap({ blockedTiles: [[1, 1]] })
-- 正文信号 339:const ok1 = isWalkable(blockedMap, 32, 0)
-- 正文信号 342:expect(isWalkable(blockedMap, 48, 8)).toBe(true)
-- 正文信号 344:expect(isWalkable(blockedMap, 48, 24)).toBe(false)
-- 正文信号 348:const blockedMap = makeFixedTilemap({ blockedTilesH: [[2, 2, 1]] })  // (col=2, row=2, h=1)
-- 正文信号 350:expect(isWalkable(blockedMap, 72, 40)).toBe(false)
-- 正文信号 406:if (tilemap.isBlocked(x, y, h)) return false
-- 正文信号 417:需在 `Tilemap` 类型加 `isBlocked(x, y, h): boolean` 方法(读 TileCell.lower/.upper 高位的 obstacle bit)。具体 bit layout 见 sdlpal `map.c::PAL_MapTileIsBlocked`(查 `tile->fa.fObstacleSE / fObstacle
+- historical。
 
 ## 继任文档
 
-- Current phase1 feature/status tables and canonical code/tests; M5 plan is historical execution guidance.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [M5 设计稿](2026-05-25-m5-systems-complete-design.md)、[feature-audit-and-replanning](2026-05-28-feature-audit-and-replanning.md)；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `69fc28c6f2c1811b9b3a24682a181be89c40f684d006fc27049a10cea5c22688`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `69fc28c6f2c1811b9b3a24682a181be89c40f684d006fc27049a10cea5c22688`；下方 quote 逆回读规则：终端编码声明：quote 内 9 处 U+2420(e290a0) 逐处解码为 ASCII 空格(20) 后与原源逐字节相等；无 U+2460。
 <!-- original-source-quote:start -->
 > # M5 · 系统补全 Implementation Plan
 >

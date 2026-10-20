@@ -1,63 +1,57 @@
 # B6 — 数值精度 + 装备(D3残 / D14残)详细 plan
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 D 系列 B6 批次（数值精度+装备）详细计划的归档重写。sdlpal 全 callpath 读完清单、差异表与实现提交在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：B6 numeric precision/equipment callpaths, formula gaps, TDD and completion.
-- 日期：2026-05-31；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `c8ef20f2dc9ab2a5135ada4ad2b091d76ac16bbac6e9a4bc45f16efef1203b89`。
+- 目标：收口 D3 残（玩家物理攻击公式）与 D14 残（装备 scriptOnEquip + removeEquipmentEffect 副作用）两块战斗数值精度。
+- 时间范围：2026-05-31 D 系列执行期；前置为 sdlpal 全 callpath 读完（TOP 0 清单）与 byte-level 真实数据验证（反 shallow）。
 
 ## 里程碑
 
-- 原始章节：0. sdlpal 全 callpath 读完清单(TOP 0)；D3 — 玩家物理攻击公式；D14 — 装备 scriptOnEquip + removeEquipmentEffect 副作用；byte-level 真实数据验证(反 shallow)；1. 差异表；D3-a 单体攻击(attack.ts 单体路径)；D3-b 群攻(attack.ts `targetIdx<0` 路径)；D14-a scriptOnEquip 新 opcode(equip-effect.ts `runEquipScriptSync`)。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- c1 单体公式、c2 群攻 crit+division、c3 DualAttack 双击、c4 持久 gs.rgPlayerStatus 桥、c5 0x2D+Hand reset、c6 0x29+Wear poison99——实现 commit 均已落 main（quote 保全）。
+- 差异表覆盖 D3-a 单体路径、D3-b 群攻 targetIdx<0 路径、D14-a scriptOnEquip 新 opcode（equip-effect.ts runEquipScriptSync）。
 
 ## 当前状态
 
-- historical；B6 — 数值精度 + 装备(D3残 / D14残)详细 plan：这是 plan-status，当前文档状态为 historical。全文 139 行、16 个标题；摘要/首段为「> 总 roadmap:[2026-05-31-d-series-completion-roadmap.md](2026-05-31-d-series-completion-roadmap.md) B6。」。属于历史/归档材料，不能单独证明当前实现。
+- historical：B6 完工；明确移交的残项（非偷懒）：enemy→player 物理 jitter/autoDefend evade/Protect 除因子 → D27残/B2；crit 视觉（criticalSound+闪）→ D17/M6。
 
 ## 阻塞与决策
 
-- 历史材料当前有效性需要继任文档或当前代码复核
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- byte-level 真实数据验证作为反 shallow 门（quote 节 0）。
 
 ## 下一步
 
-- 后继入口：Current canonical phase1 status tables/code/tests and a fresh primary-source review; historical claims require revalidation.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点的移交项由后续批次承接；当前数值公式以现行代码与状态表专题真值为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-05-31；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `c8ef20f2dc9ab2a5135ada4ad2b091d76ac16bbac6e9a4bc45f16efef1203b89`。
+- phase1 plans D 系列批次计划；时点 2026-05-31；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- B6 — 数值精度 + 装备(D3残 / D14残)详细 plan：这是 plan-status，当前文档状态为 historical。全文 139 行、16 个标题；摘要/首段为「> 总 roadmap:[2026-05-31-d-series-completion-roadmap.md](2026-05-31-d-series-completion-roadmap.md) B6。」。属于历史/归档材料，不能单独证明当前实现。
+- 六个实现提交与两处明确移交为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:B6 — 数值精度 + 装备(D3残 / D14残)详细 plan; 9:0. sdlpal 全 callpath 读完清单(TOP 0); 11:D3 — 玩家物理攻击公式; 23:D14 — 装备 scriptOnEquip + removeEquipmentEffect 副作用; 34:byte-level 真实数据验证(反 shallow); 47:1. 差异表; 49:D3-a 单体攻击(attack.ts 单体路径); 59:D3-b 群攻(attack.ts `targetIdx<0` 路径)；原始正文、代码、表格、状态词在 quote 保全。
+- sdlpal callpath 清单、差异表与 byte-level 验证在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 历史材料当前有效性需要继任文档或当前代码复核
+- historical。公式按现行实现复核。
 
 ## 继任文档
 
-- Current canonical phase1 status tables/code/tests and a fresh primary-source review; historical claims require revalidation.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [feature-status](../status/feature-status.md) 战斗章；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `c8ef20f2dc9ab2a5135ada4ad2b091d76ac16bbac6e9a4bc45f16efef1203b89`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后得到相同 bytes。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `c8ef20f2dc9ab2a5135ada4ad2b091d76ac16bbac6e9a4bc45f16efef1203b89`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # B6 — 数值精度 + 装备(D3残 / D14残)详细 plan
 >

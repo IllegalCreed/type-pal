@@ -1,62 +1,56 @@
 # 切片 1「室内场景跑通」实现计划（slice 1 plan）
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页按 `plan-status-v1` 保留历史 indoor slice 语义；不授当前产品、runtime、E2E、视觉或 coverage 信用。
+本页是切片 1「室内场景跑通」实现计划（旧版范围）的归档重写。已被取代声明、Task 0/A/B/C 链与执行交接在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- Historical implementation plan for two packages and an indoor vertical slice: workspace wiring; content schema, indexed-PNG decode, scene parsing/validation, hand-written scene/assets; reforge entities/grid/collision/resolveMove/state/cutscene/interaction/input/fixed tick; then camera, WebGL2 textured-quad rendering, identity postprocess, Canvas2D text, and browser/rAF dev entry; concludes with self-review and handoff.
-- 日期：2026-06-25 / 2026-09-06；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec`。
+- 目标（旧版）：室内场景跑通——Task 0 起两个空包接进 workspace → 阶段 A 纯逻辑（schema 类型/indexed PNG→RGBA 解码/场景解析校验 fail-loud/手写 slice1-inn 内容+vendored 真实资产）→ 阶段 B/C（quote 全列）。
 
 ## 里程碑
 
-- 原始章节：Global Constraints；阶段 0 · workspace 接线；Task 0：起两个空包并接进 workspace；阶段 A · @type-pal/content（纯数据/解码，node 可测）；Task A1：schema 类型；Task A2：indexed PNG → RGBA 解码（纯函数）；Task A3：场景解析 + 校验（纯函数，number[]→typed array + fail-loud）；Task A4：手写 slice1-inn 内容 + vendored 真实资产 + index.json。
-- checkbox、命令和自验只保留为历史证据。
+- Task 0 + A1–A4 及后续阶段按 TDD 严格走（先失败测试）；阶段 C 渲染按「实现+浏览器目视」。
+- 执行交接：subagent-driven（每 Task 派新 subagent+Task 间复核，推荐）或 inline executing-plans 二选一。
 
 ## 当前状态
 
-- historical；切片 1「室内场景跑通」实现计划（slice 1 plan）：这是 plan-status，当前文档状态为 historical。全文 1352 行、27 个标题；摘要/首段为「> **已被取代的历史计划（2026-09-06 标注）**：下方暂缓裁决仍有效；旧 WebGL/MMO 范围没有按此计划完成。」。属于历史/归档材料，不能单独证明当前实现。
+- historical（已被取代）：quote 头部 2026-09-06 标注——下方暂缓裁决仍有效；旧 WebGL/MMO 范围没有按此计划完成；后来的室内切片采用重新聚焦后的范围（见目录说明），不能将其通过视为本计划全部已实施。
 
 ## 阻塞与决策
 
-- The plan’s WebGL2, MMO leave, and generic-room scope is explicitly superseded by Canvas 2D first, real DLC content, and no MMO leave.
-- Many task checkboxes and commands are historical instructions, not evidence the full plan was implemented.
-- Its later README/decisions links point to the current direction; this plan must not be used as an execution checklist.
-- 停止线：Do not execute this plan or treat its checkboxes/self-review as completion; use the current refocused slice design and decisions, and reopen only with a new plan.
+- 暂缓与重聚焦裁决（2026-06-25 起）是本计划状态的权威。
 
 ## 下一步
 
-- docs/phase2/archive/slices/indoor/guijie-minju.md as the historical refocused slice proposal, current phase2 decisions, and a newly reviewed implementation plan if the slice restarts.。
-- 重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点计划封存；现行切片与架构以 capability-map、specs 与任务卡为准。
 
 ## 历史范围
 
-- phase2 archive indoor slice plan；日期：2026-06-25 / 2026-09-06；source SHA `bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec`。
+- phase2 archive 切片实现计划快照（旧版范围）；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 切片 1「室内场景跑通」实现计划（slice 1 plan）：这是 plan-status，当前文档状态为 historical。全文 1352 行、27 个标题；摘要/首段为「> **已被取代的历史计划（2026-09-06 标注）**：下方暂缓裁决仍有效；旧 WebGL/MMO 范围没有按此计划完成。」。属于历史/归档材料，不能单独证明当前实现。
+- Task 0/A/B/C 链与「不能视为全部已实施」声明为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：4:切片 1「室内场景跑通」实现计划（slice 1 plan）; 18:Global Constraints; 34:阶段 0 · workspace 接线; 36:Task 0：起两个空包并接进 workspace; 137:阶段 A · @type-pal/content（纯数据/解码，node 可测）; 139:Task A1：schema 类型; 259:Task A2：indexed PNG → RGBA 解码（纯函数）; 341:Task A3：场景解析 + 校验（纯函数，number[]→typed array + fail-loud）；全文 1352 行槽 / 61042 bytes。
+- Global Constraints、逐 Task 与执行交接在 quote 保全。
 
 ## 当前有效性
 
-historical。Do not execute this plan or treat its checkboxes/self-review as completion; use the current refocused slice design and decisions, and reopen only with a new plan.
+- historical（superseded）。
 
 ## 继任文档
 
-- docs/phase2/archive/slices/indoor/guijie-minju.md as the historical refocused slice proposal, current phase2 decisions, and a newly reviewed implementation plan if the slice restarts.。
+- [guijie-minju spec](guijie-minju.md)（重定范围）与现行 specs；[archive 导航](../../README.md)。
 
 ## 原文保全
 
-固定源 SHA `bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec`；下方 quote 可逆回原文。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `bb8f7428fb66f91a2a8393ff1828c0446cef907a33c4967151a8370f41169fec`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > > **已被取代的历史计划（2026-09-06 标注）**：下方暂缓裁决仍有效；旧 WebGL/MMO 范围没有按此计划完成。
 > > 后来的室内切片采用重新聚焦后的范围，见 [目录说明](README.md)，不能将其通过视为本计划全部已实施。

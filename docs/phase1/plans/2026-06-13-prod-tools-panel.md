@@ -1,77 +1,55 @@
 # 生产增强工具面板(Production Tools Panel)Implementation Plan
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是生产增强工具面板实施计划的归档重写。2026-06-15 设计修订（最终执行口径）与 Task 结构在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：Production tools panel visual contract, tabs, controls, volume and dependencies.
-- 日期：2026-06-13；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `48be7fcb7d43db926b8f731cddf3196f19e42ea4b68740f7031612c2f7b4657e`。
+- 目标：把 dev-panel 升级为生产级工具面板；面向 agentic workers 的 task-by-task 计划（2026-06-13，06-15 修订）。
 
 ## 里程碑
 
-- 原始章节：2026-06-15 设计修订(最终执行口径)；视觉规范(替换原 plan 各处 dev-panel 风格内联样式)；Tab 结构:6 → 4；dialogHistory 数据结构变更(影响 Task 2)；其余 Task 影响；设计要点(实现前必读)；File Structure；Task 1: 抽出战斗只读函数到共享无门模块。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- 2026-06-15 设计修订为最终口径（与原 Task 冲突处以修订为准，功能骨架/TDD 步骤不变）：视觉从 dev-panel 风格升级为「仙剑 · 金/朱 · 暗底」token（复用 load 界面 #boot-loading+precache-ui 配色）、Tab 结构 6→4、dialogHistory 数据结构变更影响 Task 2、其余 Task 影响逐项列明。
 
 ## 当前状态
 
-- historical；生产增强工具面板(Production Tools Panel)Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 889 行、18 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。
+- historical：面板已上线并持续演进（后续迭代见 git log 与现行 dev-panel 代码）。
 
 ## 阻塞与决策
 
-- 正文信号 15:> 本节为最终口径,与下方 Task 冲突处**以本节为准**(原 Task 的功能骨架/TDD 步骤不变,仅样式 + tab 结构按此调整)。核心诉求:视觉从 dev-panel 风格升级为生产级,配色贴近 load 界面(index.html `#boot-loading` + precache-ui)。
-- 正文信号 39:- **左竖 Tab**:宋体竖列;选中 = 金底暗字 + 左侧 2px 朱红条;未选柔金 hover 微亮 + 槽底。
-- 正文信号 323:let obj: { format?: string; version?: number; gs?: unknown }
-- 正文信号 760:masterGain.gain.value = pendingBgmVolume ?? 1 // 若 setBgmVolume 在 ready 前被调,用暂存值
-- 正文信号 766:let pendingBgmVolume: number | undefined
-- 正文信号 768:pendingBgmVolume = v
-- 正文信号 827:> 注:`scaleCtrl` 依赖 canvas-resolution plan 已落地。若该 plan 未做,先做其 Task 1-2(display-scale.ts),或本 plan 临时内联一个最简 controller。
-- 正文信号 832:Expected: ≥ 1（面板代码在生产包里,**未**被 tree-shake)。
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- 决策：样式收敛为 token 化视觉规范，替换 plan 各处内联样式。
 
 ## 下一步
 
-- 后继入口：Current tools panel/design system and display-scale contract.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点计划执行完毕；当前面板以现行代码为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-06-13；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `48be7fcb7d43db926b8f731cddf3196f19e42ea4b68740f7031612c2f7b4657e`。
+- phase1 plans 实施计划；时点 2026-06-13（修订 06-15）；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 生产增强工具面板(Production Tools Panel)Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 889 行、18 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。
+- 修订口径（视觉 token/Tab 6→4/dialogHistory 变更）与 Task 结构为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:生产增强工具面板(Production Tools Panel)Implementation Plan; 13:2026-06-15 设计修订(最终执行口径); 17:视觉规范(替换原 plan 各处 dev-panel 风格内联样式); 44:Tab 结构:6 → 4; 58:dialogHistory 数据结构变更(影响 Task 2); 65:其余 Task 影响; 73:设计要点(实现前必读); 85:File Structure；原始正文、代码、表格、状态词在 quote 保全。
+- 视觉规范表、设计要点与 File Structure 在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 15:> 本节为最终口径,与下方 Task 冲突处**以本节为准**(原 Task 的功能骨架/TDD 步骤不变,仅样式 + tab 结构按此调整)。核心诉求:视觉从 dev-panel 风格升级为生产级,配色贴近 load 界面(index.html `#boot-loading` + precache-ui)。
-- 正文信号 39:- **左竖 Tab**:宋体竖列;选中 = 金底暗字 + 左侧 2px 朱红条;未选柔金 hover 微亮 + 槽底。
-- 正文信号 323:let obj: { format?: string; version?: number; gs?: unknown }
-- 正文信号 760:masterGain.gain.value = pendingBgmVolume ?? 1 // 若 setBgmVolume 在 ready 前被调,用暂存值
-- 正文信号 766:let pendingBgmVolume: number | undefined
-- 正文信号 768:pendingBgmVolume = v
-- 正文信号 827:> 注:`scaleCtrl` 依赖 canvas-resolution plan 已落地。若该 plan 未做,先做其 Task 1-2(display-scale.ts),或本 plan 临时内联一个最简 controller。
-- 正文信号 832:Expected: ≥ 1（面板代码在生产包里,**未**被 tree-shake)。
+- historical。
 
 ## 继任文档
 
-- Current tools panel/design system and display-scale contract.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- 现行 dev-panel 实现与测试；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `48be7fcb7d43db926b8f731cddf3196f19e42ea4b68740f7031612c2f7b4657e`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后得到相同 bytes。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `48be7fcb7d43db926b8f731cddf3196f19e42ea4b68740f7031612c2f7b4657e`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # 生产增强工具面板(Production Tools Panel)Implementation Plan
 >

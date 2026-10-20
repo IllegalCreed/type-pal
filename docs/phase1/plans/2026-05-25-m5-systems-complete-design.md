@@ -1,77 +1,56 @@
 # M5 · 系统补全 Design Doc
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 M5 系统补全设计文档的归档重写。全局原则、Macro Phase 结构与 P0/P1 划分在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：M5 design: sequential physics exploration, sync wave, battle/menu/save/interaction branches, opcode and cross-dependency planning, tests and manual checkpoints, with later M5/M6 deferred systems.
-- 日期：2026-05-25；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `8041d8de8b30f9dc253469c1d4b18916b848e79ebd43c7cb561ef8382a6e28ea`。
+- 目标：M5 系统补全（物理/战斗/菜单/存档/交互）的设计文档（brainstorm+design 阶段产物）；不含 step-by-step task 列表——那走实施篇 [m5-systems-complete](2026-05-25-m5-systems-complete.md)（writing-plans 产出）。
+- 时间范围：2026-05-25。
 
 ## 里程碑
 
-- 原始章节：0. 全局原则；1. Macro Phase 结构；2. P0 · 探索物理(sequential)；3. P1.0 · Sync Wave(并行 2 task)；Sync.1 GameState schema 全字段冻结；Sync.2 DialogBox 真做；Sync 收口；4. P1-Battle 股(13 task,~9-12 天)。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- Macro Phase 结构：P0 探索物理（sequential）→ P1.0 Sync Wave（并行 2 task：GameState schema 全字段冻结、DialogBox 真做）→ P1-Battle 股（13 task，约 9-12 天）及后续波次（quote 全列）。
 
 ## 当前状态
 
-- historical；M5 · 系统补全 Design Doc：这是 design-spec，当前文档状态为 historical。全文 441 行、48 个标题；摘要/首段为「> Brainstorm + design 阶段产物。本文不含 step-by-step task 列表 — 那走后续 `2026-05-25-m5-systems-complete.md` plan(下一步 writing-plans 产)。」。属于历史/归档材料，不能单独证明当前实现。
+- historical：M5 完工（目录索引 ✅）；后续 M5.5 审计实测推翻自报完成度，进入审计重置期（见 [m5-5-sdlpal-audit](2026-05-27-m5-5-sdlpal-audit.md) 与 [feature-audit-and-replanning](2026-05-28-feature-audit-and-replanning.md)）。
 
 ## 阻塞与决策
 
-- 正文信号 30:- D26 raw skip 兜底:新具名 opcode 严格 disasm/recompile 对偶;未具名 opcode 仍 raw skip
-- 正文信号 71:**为什么 sequential**:5 项都触动 scene-system.ts + present.ts 这两个核心文件,disjoint 太少,并行会冲突;且后项依赖前项(C 依赖 A 的 walking flag、D 依赖 C 的动画机制、E 依赖 A 的 walkable 真值)。
-- 正文信号 76:| **P0.a 碰撞** | scene-system.ts:80 `isWalkable` 永远 true | port scene.c:512 `PAL_CheckObstacleWithRange` — pos /32 /16 + xr/yr 残差菱形三角细分(h=0/1)→ `PAL_MapTileIsBlocked(x, y, h)`;事件对象
-- 正文信号 149:M5 补:scripted AI / 五行完整 / 完整 status / Summon/Trance/装备/投掷 / 升级 EXP 8 子项 + RNG / 协力 / Magic 动画 / M3.5 ⚠️ #7 #9 修。
-- 正文信号 154:- B-w0.1 修 M3.5 ⚠️ #9 sdlpal `--dump-battle` 50 fixture SIGABRT
-- 正文信号 155:- B-w0.2 修 M3.5 ⚠️ #7 PLAYER_POSITIONS 真值(4-5 player 实际只 3)
-- 正文信号 356:- **缓解**:Sync.2 单独 task 不与 Sync.1 共享 ddl;若 3 天未完,Sync 收口推 1-2 天
-- 正文信号 373:### D36 候选(待 M5 进行中决):
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- 全局原则（节 0）为全程硬约束；Sync Wave 先冻结 schema 防并行冲突。
 
 ## 下一步
 
-- 后继入口：M5 implementation plan and current phase1 status/code; physics and D26 boundaries require current primary sources.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点由实施篇与 M5.5 审计承接；当前系统行为以现行代码为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-05-25；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `8041d8de8b30f9dc253469c1d4b18916b848e79ebd43c7cb561ef8382a6e28ea`。
+- phase1 plans M5 设计；时点 2026-05-25；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- M5 · 系统补全 Design Doc：这是 design-spec，当前文档状态为 historical。全文 441 行、48 个标题；摘要/首段为「> Brainstorm + design 阶段产物。本文不含 step-by-step task 列表 — 那走后续 `2026-05-25-m5-systems-complete.md` plan(下一步 writing-plans 产)。」。属于历史/归档材料，不能单独证明当前实现。
+- Macro Phase 结构与波次划分为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:M5 · 系统补全 Design Doc; 22:0. 全局原则; 37:1. Macro Phase 结构; 69:2. P0 · 探索物理(sequential); 97:3. P1.0 · Sync Wave(并行 2 task); 101:Sync.1 GameState schema 全字段冻结; 122:Sync.2 DialogBox 真做; 137:Sync 收口；原始正文、代码、表格、状态词在 quote 保全。
+- 全局原则与各 Phase 设计在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 30:- D26 raw skip 兜底:新具名 opcode 严格 disasm/recompile 对偶;未具名 opcode 仍 raw skip
-- 正文信号 71:**为什么 sequential**:5 项都触动 scene-system.ts + present.ts 这两个核心文件,disjoint 太少,并行会冲突;且后项依赖前项(C 依赖 A 的 walking flag、D 依赖 C 的动画机制、E 依赖 A 的 walkable 真值)。
-- 正文信号 76:| **P0.a 碰撞** | scene-system.ts:80 `isWalkable` 永远 true | port scene.c:512 `PAL_CheckObstacleWithRange` — pos /32 /16 + xr/yr 残差菱形三角细分(h=0/1)→ `PAL_MapTileIsBlocked(x, y, h)`;事件对象
-- 正文信号 149:M5 补:scripted AI / 五行完整 / 完整 status / Summon/Trance/装备/投掷 / 升级 EXP 8 子项 + RNG / 协力 / Magic 动画 / M3.5 ⚠️ #7 #9 修。
-- 正文信号 154:- B-w0.1 修 M3.5 ⚠️ #9 sdlpal `--dump-battle` 50 fixture SIGABRT
-- 正文信号 155:- B-w0.2 修 M3.5 ⚠️ #7 PLAYER_POSITIONS 真值(4-5 player 实际只 3)
-- 正文信号 356:- **缓解**:Sync.2 单独 task 不与 Sync.1 共享 ddl;若 3 天未完,Sync 收口推 1-2 天
-- 正文信号 373:### D36 候选(待 M5 进行中决):
+- historical。设计按当时架构写成。
 
 ## 继任文档
 
-- M5 implementation plan and current phase1 status/code; physics and D26 boundaries require current primary sources.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [m5-systems-complete](2026-05-25-m5-systems-complete.md) 实施篇；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `8041d8de8b30f9dc253469c1d4b18916b848e79ebd43c7cb561ef8382a6e28ea`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `8041d8de8b30f9dc253469c1d4b18916b848e79ebd43c7cb561ef8382a6e28ea`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # M5 · 系统补全 Design Doc
 >

@@ -1857,6 +1857,30 @@
         "UTF8 byte-index bug and unsupported lost-G2 candidate label need separate correction."
       ],
       "stopLine": "No historical test/coverage/runtime/product credit, main merge/push or whole-goal done from114 body-only decisions or in-memory routing projection."
+    },
+    {
+      "id": "S16-historical-document-vs-current-credit",
+      "from": [
+        "docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md",
+        "docs/phase1/plans/2026-06-10-sdlpal-deep-audit.md",
+        "docs/phase1/status/resource-status.md",
+        "docs/phase2/archive/README.md"
+      ],
+      "to": [
+        "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md",
+        "docs/phase2/READ-FIRST.md",
+        "docs/testing/governance.md"
+      ],
+      "relationship": "S16 historical task/plan/design evidence retains original dates, numbers and unknown relationships; current navigation does not renew historical signatures or runtime results.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz"
+      ],
+      "unresolved": [
+        "Historical81vs80 category inclusion is not specified by the original table.",
+        "Whole governance and current product/runtime acceptance remain incomplete."
+      ],
+      "stopLine": "No old prompt execution, product/schema compatibility, runtime/E2E/visual or coverage credit from document-only acceptance."
     }
   ],
   "acceptance": {

@@ -1,63 +1,46 @@
 # 验收清单(做完划掉;不对就截图)
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: archive-record-v1 / 1.0.0
 
-本页把 phase1 历史材料接入 `archive-record-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 2026-07-11 用户逐项验收清单的归档记录。原始勾选、用户原话、入口 URL、F12 控制台命令与预期视觉锚点在下方 quote 逐字节保全；本页只做历史边界，不授当前实现、runtime、E2E、视觉或 coverage 信用。
 
 ## 历史范围
 
-- 原始日期、版本、阶段：固定于 source revision 和原始文档日期；属于 ops 历史 acceptance/board snapshot。
-- 归档原因：保留历史验收与 board 状态，避免把过去结论误读为当前状态。
+- 时点：2026-07-11 验收批次；quote 顶部另有 2026-09-06「样例附件清理」注记（旧 `docs/ops/samples/` 五张上传调试图退出工作树，可从 `b0930aa7:docs/ops/samples/` 找回）。
+- 清单共 **15 项**（编号①–⑮）：**7 项已划掉验收** + **8 项未划**。
 
 ## 原始结论
 
-- 保留原文语义，不改写为当前事实；原始结论在 quote 中逐行保全。
+- 已划 7 项（均 2026-07-11 验收过，用户原话在 quote）：①W6 夜色观感「特别好」；⑧C3 装备页 UI 两连修「就这样吧」；②C3 装备手感（顺带揪出黑 label 无影+ITEMBOX 图标偏下，已修）；③B5 战斗物品演出+战斗 UI 四修「物品动画终版 ok」；④E9 商店/当铺买卖都验过（顺带发现对话期 unmigrated 0x8 警告）；⑤E2E-1 空白工程 FSA 烟测；⑨B5 战斗快捷键「快捷键验收了没问题」。
+- 未划 8 项（按原文条件逐项列明，仍按当时时点解释）：
+  1. ⑥ A4 素材上传（2026-07-11 重构版：类型先行/动作帧行/追加帧；行走图+动作帧/循环动画/静物/替换·追加帧/敌人外观，样例图在 `docs/ops/samples/`）。
+  2. ⑩ M3 opcode 兼容层+扬州夜转昼（顺剧情验无需专测：商店买卖全程无 `unmigrated op` 警告；s020 扬州客栈夜转昼应为 3.2 秒渐变，此前 300ms 过快）。
+  3. ⑪ B5 战斗 P0 效果接线：选队友+还魂香复活（灵儿 20/200 复活、对活人显「无任何效果」不白扣；夺魂/灵葫咒/偷窃/梦蛇 buff 同批接线顺剧情留意，单测已钉）。
+  4. ⑫ B5 逃跑/变身/分裂演出（逃跑滑出屏+失败三小步定格、敌整场逃离、变身怪染白渐显换形象、分裂怪先快后慢滑开）。
+  5. ⑬ 隐蛊隐身+屏波/图层（全队约 1.1 秒渐隐、敌 3 回合不出手、隐身期嘲讽不放；0x71 仙灵岛/蛤蟆谷水波 32 相位、0x7E 遮挡层；隐蛊大世界菜单不出现）。
+  6. ⑭ B5 替挡 cover（约四成概率触发、灵儿不掉血敌人被架开；守护关系按原版数据；守护者濒死/睡/定/乱不替挡）。
+  7. ⑮ P2 状态板三件+战斗库存预占（立绘右侧竖排毒名、灵儿页 0/265 经验阈值查表、无影毒不显示；预占后队员乙打不开用品列表、Esc 回退释放）。
+  8. ⑦ A5 导出 zip（解压与工程文件夹抽查比对 manifest/content/assets；未保存改动导出前弹提醒）。
+- 按 2026-09-06 注记：未勾项属于当时批次，不构成当前待办。
 
 ## 当时证据
 
-- 当时的来源、命令、SHA：`docs/ops/archive/acceptance/2026-07-checklist.md`、source revision `140d11b23201715bc93763f9e07b075de63ba34c`、source SHA `1544583f1e4b3b508e6f7a8ec3a0d82f3d9c7bf7a9bcb4f0740ed3cc6beb4584`。
+- 每条条目在 quote 中保存具体入口 URL、F12 控制台命令与预期视觉描述；样例文件名与本地路径是历史操作记录，不代表现在仍提供样例。
 
 ## 当前有效性
 
-- current | historical | superseded | unknown：historical。
-- 当前不得外推的部分：历史验收、board 状态和旧任务完成度不能证明当前实现。
+- historical。验收结论只覆盖当时实现版本；未划 8 项是当时批次的待验事项，不自动成为当前待办；当前实现状态、回归与验收一律由现行任务卡、审计台账与新的用户裁决承载，不从本清单外推。
 
 ## 继任文档
 
-- 当前 canonical 文档：Current ops board/task/evidence records and a fresh primary-source review.。
-- supersedes / superseded-by：本归档记录不替代当前 task/evidence。
-- 若重新启用的复核条件：新的 task card、当前 source/oracle、独立验收和相应执行证据齐全。
-
-## 历史范围
-
-- ops archive；日期：2026-07-11；固定来源 `140d11b23201715bc93763f9e07b075de63ba34c`；source SHA `1544583f1e4b3b508e6f7a8ec3a0d82f3d9c7bf7a9bcb4f0740ed3cc6beb4584`。
-
-## 原始结论
-
-- 验收清单(做完划掉;不对就截图)：这是 archive-record，当前文档状态为 historical。全文 160 行、16 个标题；摘要/首段为「> **样例附件清理（2026-09-06，用户确认用途后）**：旧 `docs/ops/samples/` 的五张上传调试图已退出当前」。属于历史/归档材料，不能单独证明当前实现。
-
-## 当时证据
-
-- 标题锚点：~~① W6 夜色观感~~ ✅ 2026-07-11 验收过(「特别好」)；~~⑧ C3 装备页 UI 两连修~~ ✅ 2026-07-11 验收过(「就这样吧」)；~~② C3 装备手感~~ ✅ 2026-07-11 验收过(顺带揪出黑label无影+ITEMBOX图标偏下,已修 → 见⑧)；~~③ B5 战斗物品演出 + 战斗 UI 四修~~ ✅ 2026-07-11 验收过(「物品动画终版 ok」)；~~④ E9 商店/当铺~~ ✅ 2026-07-11 买卖都验过(顺带揪出对话期 unmigrated 0x8 警告,考证中)；~~⑤ E2E-1 空白工程 FSA 烟测~~ ✅ 2026-07-11 验收过；⑥ A4 素材上传(2026-07-11 重构版:类型先行/动作帧行/追加帧)；~~⑨ B5 战斗快捷键~~ ✅ 2026-07-11 验收过(「快捷键验收了没问题」)；原始正文、表格、状态词和链接在 quote 保全。
-
-## 当前有效性
-
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 历史状态、验收结论和 board snapshot 只属于原始日期；当前状态需由现行 board、task card 和 evidence 复核。
-
-## 继任文档
-
-- Current ops board/task/evidence records and a fresh primary-source review.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+- 当前验收记录：现行任务卡与用户裁决；目录导航见[历史验收批次](../README.md)。
 
 ## 原文保全
 
-固定源 SHA `1544583f1e4b3b508e6f7a8ec3a0d82f3d9c7bf7a9bcb4f0740ed3cc6beb4584`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `140d11b23201715bc93763f9e07b075de63ba34c`，source SHA `1544583f1e4b3b508e6f7a8ec3a0d82f3d9c7bf7a9bcb4f0740ed3cc6beb4584`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > > **样例附件清理（2026-09-06，用户确认用途后）**：旧 `docs/ops/samples/` 的五张上传调试图已退出当前
 > > 工作树，无现行代码/自动测试依赖。需要复现当时批次时，可从 `b0930aa7:docs/ops/samples/` 找回。

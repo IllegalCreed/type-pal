@@ -1,85 +1,56 @@
 # M5.6 · 基础玩法接通 Implementation Plan
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 M5.6 基础玩法接通实施计划的归档重写。Wave 顺序、Task 明细与执行纪律在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：M5.6 implementation plan: input router/menu state and 9-slice rendering; inventory/equip/save/system menus; trigger labels/zones/search; dev panel and README/audit synchronization; verification and progress snapshot.
-- 日期：2026-05-27；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `96a62624d8763ad21035aefaab3b081d0360026eb6d34389966ef00b5112c56a`。
+- 目标：落实 [M5.6 设计稿](2026-05-27-m5-6-playability-design.md)；面向 agentic workers 的 task-by-task 计划（2026-05-27）。
 
 ## 里程碑
 
-- 原始章节：全局不变量(沿 M5)；Wave 顺序；W0 · 菜单输入路由层 + box 渲染；Task W0.0:input.ts 键映射对齐 sdlpal 真值；Task W0.a:gs.mode='menu' + tickMenu 骨架；Task W0.b:menu-driver.ts — input → 调 menu fn；Task W0.c:present/menu/draw-box.ts 9-slice 边框 + shadow；Task W0.d:present/menu/draw-menu.ts hub 渲染(InGame + System)。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- Task 链（W0 波）：input.ts 键映射对齐 sdlpal 真值 → gs.mode='menu'+tickMenu 骨架 → menu-driver.ts input→menu fn → draw-box.ts 9-slice 边框+shadow → draw-menu.ts hub 渲染（InGame+System）及后续子菜单/trigger/search/label fallback 系列。
+- 关键里程碑：基础玩法（开新游戏→走→切场景→主菜单→子菜单→调查 NPC→战斗主菜单→战斗结束）全程可闭合；M5.6 后完成度约 52%（约 48 个 ⚠️/✗ 函数转 ✓ 或显著改善）。
 
 ## 当前状态
 
-- historical；M5.6 · 基础玩法接通 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 1240 行、30 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` (recommended) or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。
+- historical：完工；执行纪律五条钉在 quote 尾（含「fullscreen UI 不写 placeholder——W0.e/f 曾 5 子菜单全 placeholder 被用户截图打脸，后续真做=每函数 1:1 port」「audit 表 in-place 改 ✓ 不准 footer 增量」「每 task 完 commit——本 session 22 commit 是节奏样板」）。
 
 ## 阻塞与决策
 
-- 正文信号 5:**Goal:** 把 audit ⚠️ 标得过宽的"数据层 ✓ runtime 接入 ✗"项实修,让基础玩法可闭合:ESC 开 InGameMenu hub + 子菜单可进出 + Confirm 调查 NPC + 走到 trigger zone 自动切场景 + shared.json label 解析通 + dev-panel 整齐。
-- 正文信号 49:└─ W2.c README + audit ⚠️→✓ 同步             [blocks by W2.b]
-- 正文信号 158:state: unknown
-- 正文信号 1081:## Task W2.c:README + audit ⚠️→✓ 同步 + M5.6 完工
-- 正文信号 1085:- Modify: `docs/plans/2026-05-27-m5-5-sdlpal-audit.md`(48 个 UI 函数 + trigger 路径 ⚠️→✓)
-- 正文信号 1103:- [ ] **Step 2: 更新 audit 表 ⚠️→✓**
-- 正文信号 1105:打开 `docs/plans/2026-05-27-m5-5-sdlpal-audit.md`,把以下函数行 ⚠️ 改 ✓:
-- 正文信号 1111:合计约 50 函数。同时更新统计表 "✓" 列 +50,⚠️ -50。
-- 正文信号 1116:**M5.6 完成**(2026-05-27)—— audit ⚠️ → 实修:菜单输入路由 + 9-slice box 渲染(uigame.c 23 + uibattle.c 12 + itemmenu/magicmenu 6 + ui.c CreateBox 7 = 48 函数全接通) + scene-system auto trigger zone(s
-- 正文信号 1125:git commit -m "docs(M5.6): M5.6 完工 — 48 UI 函数 + scene trigger 路径 ⚠️→✓,基础玩法闭合"
-- 正文信号 1160:> M5.6 v1 走损被用户实测发现:菜单坐标臆造 / 子菜单全 placeholder / 缺 cash 框 / SystemMenu 缺 2 项 / input 漏一半键 / fTrigger/Search 只做距离公式漏其他细节 / dispatcher 单测漏 / dev-panel 缺按钮 / audit 表 footer 增量(没 in-pla
-- 正文信号 1235:1. **没真值代码就别标 ⚠️/✓**:M5.6 v1 反复踩 "看 sdlpal 函数 header 就标 ✓ 实际差很远"(uigame menu 坐标 / 子菜单 fullscreen / cash 框 / SystemMenu 5 项)。后续每加新 task 前 **真打开 sdlpal 完整 impl 读完** + cross-reference
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- 决策：AVI 走 ffmpeg 离线转 mp4（memory 登记），不写 web video API 解 aviplay.c。
 
 ## 下一步
 
-- 后继入口：Current feature-status and canonical menu/scene/input code/tests; do not promote snapshot claims.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点已闭环；当前玩法行为以现行代码为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-05-27；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `96a62624d8763ad21035aefaab3b081d0360026eb6d34389966ef00b5112c56a`。
+- phase1 plans M5.6 实施计划；时点 2026-05-27；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- M5.6 · 基础玩法接通 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 1240 行、30 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` (recommended) or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。
+- Wave/Task 结构、52% 完成度与五条执行纪律为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:M5.6 · 基础玩法接通 Implementation Plan; 17:全局不变量(沿 M5); 27:Wave 顺序; 54:W0 · 菜单输入路由层 + box 渲染; 56:Task W0.0:input.ts 键映射对齐 sdlpal 真值; 128:Task W0.a:gs.mode='menu' + tickMenu 骨架; 256:Task W0.b:menu-driver.ts — input → 调 menu fn; 364:Task W0.c:present/menu/draw-box.ts 9-slice 边框 + shadow；原始正文、代码、表格、状态词在 quote 保全。
+- 全局不变量、Wave 顺序与 Task 明细在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 5:**Goal:** 把 audit ⚠️ 标得过宽的"数据层 ✓ runtime 接入 ✗"项实修,让基础玩法可闭合:ESC 开 InGameMenu hub + 子菜单可进出 + Confirm 调查 NPC + 走到 trigger zone 自动切场景 + shared.json label 解析通 + dev-panel 整齐。
-- 正文信号 49:└─ W2.c README + audit ⚠️→✓ 同步             [blocks by W2.b]
-- 正文信号 158:state: unknown
-- 正文信号 1081:## Task W2.c:README + audit ⚠️→✓ 同步 + M5.6 完工
-- 正文信号 1085:- Modify: `docs/plans/2026-05-27-m5-5-sdlpal-audit.md`(48 个 UI 函数 + trigger 路径 ⚠️→✓)
-- 正文信号 1103:- [ ] **Step 2: 更新 audit 表 ⚠️→✓**
-- 正文信号 1105:打开 `docs/plans/2026-05-27-m5-5-sdlpal-audit.md`,把以下函数行 ⚠️ 改 ✓:
-- 正文信号 1111:合计约 50 函数。同时更新统计表 "✓" 列 +50,⚠️ -50。
-- 正文信号 1116:**M5.6 完成**(2026-05-27)—— audit ⚠️ → 实修:菜单输入路由 + 9-slice box 渲染(uigame.c 23 + uibattle.c 12 + itemmenu/magicmenu 6 + ui.c CreateBox 7 = 48 函数全接通) + scene-system auto trigger zone(s
-- 正文信号 1125:git commit -m "docs(M5.6): M5.6 完工 — 48 UI 函数 + scene trigger 路径 ⚠️→✓,基础玩法闭合"
-- 正文信号 1160:> M5.6 v1 走损被用户实测发现:菜单坐标臆造 / 子菜单全 placeholder / 缺 cash 框 / SystemMenu 缺 2 项 / input 漏一半键 / fTrigger/Search 只做距离公式漏其他细节 / dispatcher 单测漏 / dev-panel 缺按钮 / audit 表 footer 增量(没 in-pla
-- 正文信号 1235:1. **没真值代码就别标 ⚠️/✓**:M5.6 v1 反复踩 "看 sdlpal 函数 header 就标 ✓ 实际差很远"(uigame menu 坐标 / 子菜单 fullscreen / cash 框 / SystemMenu 5 项)。后续每加新 task 前 **真打开 sdlpal 完整 impl 读完** + cross-reference
+- historical。
 
 ## 继任文档
 
-- Current feature-status and canonical menu/scene/input code/tests; do not promote snapshot claims.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [M5.6 设计稿](2026-05-27-m5-6-playability-design.md) 与 [m5-5 审计](2026-05-27-m5-5-sdlpal-audit.md)；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `96a62624d8763ad21035aefaab3b081d0360026eb6d34389966ef00b5112c56a`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `96a62624d8763ad21035aefaab3b081d0360026eb6d34389966ef00b5112c56a`；下方 quote 逆回读规则：终端编码声明：quote 内 2 处 U+2420(e290a0) 逐处解码为 ASCII 空格(20) 后与原源逐字节相等；无 U+2460。
 <!-- original-source-quote:start -->
 > # M5.6 · 基础玩法接通 Implementation Plan
 >

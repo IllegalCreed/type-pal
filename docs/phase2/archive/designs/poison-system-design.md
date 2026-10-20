@@ -1,84 +1,55 @@
 # 毒系统设计（P2·2026-07-06）
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: design-spec-v1 / 1.0.0
 
-本页把历史设计正文接入 `design-spec-v1`，并保留 archive overlay。原始日期、方案语义、版本数字、冲突、未知项和链接均通过下方逐行引用保全；本页不授予当前产品、runtime、E2E、视觉或 coverage 信用。
+本页是第二阶段毒系统设计的归档重写。架构复审纠偏、数据模型与作者入口在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 问题与目标
 
-- 历史设计问题/目标：PoisonDef 数据化 DoT 序列；毒槽独立于 BattleStatus；content20 脚本/剧情入口；入战携带、战后/读档清理、tick/抗性、相生相克和分片迁移。
-- 文档身份：phase2 / archive；原始状态为 `archived`，当前有效性固定为 `historical`。
-- 本次目标：让历史设计具备可检索的设计章节和历史边界，不把当时方案改写成当前合同。
+- 第二阶段毒系统（P2）：以数据化方式承载一阶段打磨过的毒语义（102 commit）。
 
 ## 真值与约束
 
-- 固定源 revision：`45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA：`3066dffd6bde158322b053bc35b5d0b299671cecf698b51cfdf392a2b5117757`；原文 122 行、9658 bytes。
-- 一手来源/正文锚点：docs/phase2/archive/designs/poison-system-design.md:1-1；标题锚点：1:毒系统设计（P2·2026-07-06）, 5:作者架构复审(2026-07-06,三点纠偏 —— 清洁重写去下标式身份), 17:架构决策:毒 = 数据化 DoT 序列,不是字节码脚本(2026-07-06 定,待作者确认), 30:数据模型, 32:# PoisonDef(content schema;来自 object-poisons.json + 一阶段实测值), 64:# 战斗单位毒槽(不是 BattleStatus 字段!), 72:# 入口与剧情作者入口（content20，2026-09-05）, 82:核心机制。
-- 当前阶段证据：本批只做文档全文读取、语义分层和字节保全；current contract 必须回读继任规范、当前代码和真实调用域。
-- 不可违反的约束：历史状态词只描述原文时点；旧 schema、迁移计划、done/待审标签和演出设想不得单独证明今天的实现。
-- 未知与冲突：
-- 设计把具体 content20、等级/数值、world↔battle 边界和迁移切片混在一起；当前 content22/SAVE12 和 runtime owner 可能已变。
-- 致死/抗性/99 或 173 等历史数字只能由一阶段真值和当前 engine 共同证明。
+- 真值锚：phase1 game-mechanics §885-994（毒 DoT/七大毒/相生相克/解毒）+ §1115-1218（大世界→战斗携带边界）+ B-Poison 缺口清单。
 
 ## 方案
 
-- 原始方案语义：PoisonDef 数据化 DoT 序列；毒槽独立于 BattleStatus；content20 脚本/剧情入口；入战携带、战后/读档清理、tick/抗性、相生相克和分片迁移。
-- 本次治理方案：将上述语义拆入问题、真值、方案、边界、验收五个可定位章节；原文不删节，以 quote 作为唯一完整正文保全层。
-- 继任关系：
-- docs/phase1/game-mechanics.md
-- docs/phase2/specs/content-schema.md
-- 当前 poison/content/battle code 与 tests
-- 明确不做：不执行原文迁移/实现步骤，不恢复 legacy fallback，不把历史计划、Self-Review 或静态审计当作 runtime/E2E/视觉/coverage 结果。
+- 架构决策（2026-07-06 定，待作者确认）：毒=数据化 DoT 序列，不是字节码脚本；作者架构复审三点纠偏（清洁重写去下标式身份）；PoisonDef（content schema，来自 object-poisons.json+一阶段实测值）；战斗单位毒槽（不是 BattleStatus 字段）；入口与剧情作者入口（content20，2026-09-05）。
 
 ## 边界与风险
 
-- 历史边界：本文可以说明当时为什么设计、如何计划和哪些问题已被识别，不能替代当前 canonical 文档、源码、测试或用户裁决。
-- 主要冲突/风险：
-- 设计把具体 content20、等级/数值、world↔battle 边界和迁移切片混在一起；当前 content22/SAVE12 和 runtime owner 可能已变。
-- 致死/抗性/99 或 173 等历史数字只能由一阶段真值和当前 engine 共同证明。
-- 停止线：不得按 archive poison 数值、迁移段或“已接”文字修改 runtime；先核 game mechanics、当前 content registry、battle/world owner。
-- 若重新启用：必须以当前一手来源重新核对 schema、版本、调用方、合法输入和业务 oracle，并建立新的 review record；不得沿用本页日期作准入。
+- 毒槽独立于 BattleStatus 是与一阶段状态模型的分界决策。
 
 ## 验收
 
-- 可执行验证：模板章节完整；原文 quote 去除 `> ` 前缀后与 source UTF-8 字节逐字节相等；source/after SHA 写入 central review、registry、catalog 和 evidence receipt。
-- 业务 oracle：历史结论、日期、状态、数字、链接、未知和冲突可定位；任何当前性主张都有继任入口或明确停止线。
-- 本次执行范围：只读源、模板迁移、账本同步和静态治理门；runtime、E2E、视觉、coverage 均未运行。
-- 复核 Owner 与截止条件：Codex 独立复核本页及三账本；非作者候选验收通过前保持 build/review，不标全量完成。
+- 设计验收以复审+作者确认为准；实现以现行 content/battle 为准。
 
 ## 历史范围
 
-- 原始范围：phase2 archive design；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，原始正文 SHA `3066dffd6bde158322b053bc35b5d0b299671cecf698b51cfdf392a2b5117757`，原文日期和版本轴以 quote 为准。
-- 归档原因：正文混合历史设计、阶段计划和后来附录；继任规范/代码已经承担当前合同，故本页只保留历史证据。
+- phase2 archive 设计快照；时点 2026-07-06（作者入口至 2026-09-05）；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 毒系统设计（P2·2026-07-06）：这是 design-spec，当前文档状态为 historical。全文 123 行、11 个标题；摘要/首段为「> 真值锚:[game-mechanics.md §885-994](../../../phase1/game-mechanics.md)(毒 DoT/七大毒/相生相克/解毒)+ §1115-1218(大世界→战斗携带边界)+ [B-Poison 缺口清单](../../reference/phase1-knowledge-harvest.md)。一阶段 102 commit 打磨过。」。属于历史/归档材料，不能单独证明当前实现。
-- 上述结论只属于其原始日期和适用范围；本页新增的结构化表述不改变原始结论。
+- 数据化 DoT 序列+独立毒槽为原始结论本体。
 
 ## 当时证据
 
-- source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `3066dffd6bde158322b053bc35b5d0b299671cecf698b51cfdf392a2b5117757`；全文 122 行 / 9658 bytes。
-- 原文标题/章节锚点：1:毒系统设计（P2·2026-07-06）, 5:作者架构复审(2026-07-06,三点纠偏 —— 清洁重写去下标式身份), 17:架构决策:毒 = 数据化 DoT 序列,不是字节码脚本(2026-07-06 定,待作者确认), 30:数据模型, 32:# PoisonDef(content schema;来自 object-poisons.json + 一阶段实测值), 64:# 战斗单位毒槽(不是 BattleStatus 字段!), 72:# 入口与剧情作者入口（content20，2026-09-05）, 82:核心机制。完整正文与链接、表格、代码、历史状态词在下方 quote 保留。
+- 真值锚引用与数据模型各节在 quote 保全。
 
 ## 当前有效性
 
-historical。不得将历史设计字段、迁移步骤、旧版本号、done/待审标签或静态审计结果外推为当前事实。
-- 当前不得外推的部分：不得按 archive poison 数值、迁移段或“已接”文字修改 runtime；先核 game mechanics、当前 content registry、battle/world owner。
+- historical。现行真值见 [READ-FIRST](../../READ-FIRST.md)。
 
 ## 继任文档
 
-- 当前 canonical / 复核入口：docs/phase1/game-mechanics.md, docs/phase2/specs/content-schema.md, 当前 poison/content/battle code 与 tests。
-- supersedes / superseded-by：本页保留旧结构化记录作为历史；当前合同由继任规范、代码和新的独立审查记录决定。
-- 重新启用条件：新的 primary source、版本/适用范围、合法输入、business oracle、可证伪观察和独立验收齐备。
+- 现行 poison content 与战斗实现；[archive 导航](../README.md)。
 
 ## 原文保全
 
-固定源 SHA `3066dffd6bde158322b053bc35b5d0b299671cecf698b51cfdf392a2b5117757`；以下 quote 只增加 Markdown blockquote 前缀，逆回读必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `3066dffd6bde158322b053bc35b5d0b299671cecf698b51cfdf392a2b5117757`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # 毒系统设计（P2·2026-07-06）
 >

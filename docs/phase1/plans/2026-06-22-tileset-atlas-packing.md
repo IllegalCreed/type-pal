@@ -1,73 +1,57 @@
 # 瓦片资源管线优化:每地图 RLE blob（取代 atlas 方案）
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是瓦片资源管线优化（每地图 RLE blob）计划的归档重写。数据驱动问题陈述、方案与实测数据在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：Per-map gzip/RLE blob replacing atlas, measurements, migration and risks.
-- 日期：2026-06-22；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `ade58414e9128ba82dc65beaba7497d70bf4875dbbea83e6503f0953aef19d91`。
+- 目标：解决 tileset 资源体积/请求数问题——原 atlas 方案被每地图 gzip RLE blob 取代。
+- 时间范围：2026-06-22，S1–S6 全部完成（commit 链 refactor S1 → feat S2/S3/S4 → test S5 → docs S6）。
 
 ## 里程碑
 
-- 原始章节：0. 问题陈述(数据驱动)；1. 目标；2. 方案:每地图 gzip RLE blob；2.1 存储格式；2.2 运行时解码(无 canvas)；2.3 改动面(锚点已核实)；3. 实测数据(真实 GOP.MKF,28 map / 9199 tile,外推到 265MB)；4. 忠实性论证。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- 数据驱动问题陈述（节 0）与目标（节 1）；方案：每地图 gzip RLE blob——存储格式、无 canvas 运行时解码、改动面锚点已核实。
+- 实测：真实 GOP.MKF 28 map / 9199 tile，外推到 265MB 规模的决策数据；忠实性论证独立成节。
 
 ## 当前状态
 
-- historical；瓦片资源管线优化:每地图 RLE blob（取代 atlas 方案）：这是 plan-status，当前文档状态为 historical。全文 127 行、15 个标题；摘要/首段为「> 起草日期:2026-06-22。性质:**第一阶段可落地的资源管线优化**(不破坏忠实性),为第二阶段 P0 schema §5「全局共享瓦片集」铺路。」。属于历史/归档材料，不能单独证明当前实现。
+- historical，已完工：`pnpm check` 全绿（2219 tests）；像素一致性 6 个真实 mapNum（1/6/12/50/100/200，2149 tile/103 万 px）逐字节 0 diff（snapshot 测试）；唯一未勾项为「生产 SW 预缓存时间明显下降（数分钟→数十秒）——待部署后验证」。
 
 ## 阻塞与决策
 
-- 正文信号 8:> - **v1(atlas)—— 已否决**:每地图把 tile 拼成一张大 PNG。实测体积只砍 **13%**(见 §7),远低于预期。
-- 正文信号 73:| atlas RGBA(v1,已否决) | 230 MB | 13.2% |
-- 正文信号 74:| 原始 RLE(未压缩) | 133 MB | 49.9% |
-- 正文信号 102:## 7. 被否决的方案(留痕)
-- 正文信号 105:- **WebP/AVIF lossless**:需 Node 端编码器(sharp/cwebp,当前未装);且运行时仍走 `createImageBitmap`+canvas,解码开销一分不省;压缩比也不及 RLE+brotli。被支配。
-- 正文信号 124:- [ ] 生产 SW 预缓存时间明显下降(数分钟 → 数十秒,实测)—— 待部署后验证。
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- 部署后实测验证一项挂起（时点性），其余验收全过。
 
 ## 下一步
 
-- 后继入口：Current resource pipeline/phase2 tileset decisions and measured evidence.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点剩部署实测；当前资源管线以现行提取器与 [resource-status](../status/resource-status.md) 2026-06-22 打包变更为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-06-22；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `ade58414e9128ba82dc65beaba7497d70bf4875dbbea83e6503f0953aef19d91`。
+- phase1 plans 资源管线优化；时点 2026-06-22；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 瓦片资源管线优化:每地图 RLE blob（取代 atlas 方案）：这是 plan-status，当前文档状态为 historical。全文 127 行、15 个标题；摘要/首段为「> 起草日期:2026-06-22。性质:**第一阶段可落地的资源管线优化**(不破坏忠实性),为第二阶段 P0 schema §5「全局共享瓦片集」铺路。」。属于历史/归档材料，不能单独证明当前实现。
+- 每地图 RLE blob 方案、实测数据与 S1–S6 完工为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:瓦片资源管线优化:每地图 RLE blob（取代 atlas 方案）; 12:0. 问题陈述(数据驱动); 24:1. 目标; 36:2. 方案:每地图 gzip RLE blob; 38:2.1 存储格式; 49:2.2 运行时解码(无 canvas); 61:2.3 改动面(锚点已核实); 68:3. 实测数据(真实 GOP.MKF,28 map / 9199 tile,外推到 265MB)；原始正文、代码、表格、状态词在 quote 保全。
+- 存储格式/解码/改动面、实测表与验收 checklist 在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 8:> - **v1(atlas)—— 已否决**:每地图把 tile 拼成一张大 PNG。实测体积只砍 **13%**(见 §7),远低于预期。
-- 正文信号 73:| atlas RGBA(v1,已否决) | 230 MB | 13.2% |
-- 正文信号 74:| 原始 RLE(未压缩) | 133 MB | 49.9% |
-- 正文信号 102:## 7. 被否决的方案(留痕)
-- 正文信号 105:- **WebP/AVIF lossless**:需 Node 端编码器(sharp/cwebp,当前未装);且运行时仍走 `createImageBitmap`+canvas,解码开销一分不省;压缩比也不及 RLE+brotli。被支配。
-- 正文信号 124:- [ ] 生产 SW 预缓存时间明显下降(数分钟 → 数十秒,实测)—— 待部署后验证。
+- historical。管线已落地并演进；当前打包格式以现行实现为准。
 
 ## 继任文档
 
-- Current resource pipeline/phase2 tileset decisions and measured evidence.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [resource-status](../status/resource-status.md) 打包变更节；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `ade58414e9128ba82dc65beaba7497d70bf4875dbbea83e6503f0953aef19d91`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后得到相同 bytes。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `ade58414e9128ba82dc65beaba7497d70bf4875dbbea83e6503f0953aef19d91`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # 瓦片资源管线优化:每地图 RLE blob（取代 atlas 方案）
 >

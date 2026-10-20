@@ -13,9 +13,10 @@
       "phase3": 5
     },
     "byStatus": {
-      "current": 54,
-      "draft": 53,
-      "archived": 77
+      "archived": 28,
+      "current": 49,
+      "draft": 11,
+      "historical": 96
     }
   },
   "maintenancePolicy": "Legacy structural entries retain their historical status; only explicit per-document review deltas with matching SHA grant new semantic credit. Index generation is read-only over this catalog and cannot classify or mark documents reviewed.",
@@ -33,13 +34,13 @@
     {
       "phase": "phase1",
       "path": "catalog.phase1.json",
-      "sha256": "ddf4d9b1d57bc7c6722e935109a6fea6e42f70866eaae70a8e16288889d48ea1",
+      "sha256": "36799158c96381446065329f9ed3266af179da61ade8c441bc7715de7cd129c5",
       "total": 60
     },
     {
       "phase": "phase2",
       "path": "catalog.phase2.json",
-      "sha256": "72f0001a7223b8683bb05fe72d52efe8cff9db2446e08fb4b3324fc4a015ed1b",
+      "sha256": "c2d1031a30e75c70b7159d6211f17c76333b8569bb6c011645b1016b8f65f52c",
       "total": 105
     },
     {

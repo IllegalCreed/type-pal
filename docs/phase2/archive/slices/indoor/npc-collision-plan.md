@@ -1,62 +1,55 @@
 # 切片 1 补漏:静态 NPC 碰撞(static-npc-collision plan)
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页按 `plan-status-v1` 保留历史 indoor slice 语义；不授当前产品、runtime、E2E、视觉或 coverage 信用。
+本页是切片 1 静态 NPC 碰撞补漏计划的归档重写。Task 结构与 Self-Review 在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- Historical static-NPC collision TDD plan: identifies collide as a dead field; constrains scope to fixed-position entities; adds pure sameTile(pixelToTile) plus an isBlocked wrapper while preserving resolveMove semantics; specifies focused collision tests, reforge check/lint, and a browser check for blocked passage plus dialogue and detour.
-- 日期：2026-09-06；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295`。
+- 目标：切片 1 补漏——静态 NPC 碰撞；Task 1 collision.ts 加 sameTile（纯函数+TDD）、Task 2 main isBlocked 接 entity collide+浏览器验。
 
 ## 里程碑
 
-- 原始章节：Global Constraints；Task 1: collision.ts 加 sameTile(纯函数 + TDD)；Task 2: main isBlocked 接 entity collide + 浏览器验；Note(可选,本计划不强制)；Self-Review(计划作者自查,已过)。
-- checkbox、命令和自验只保留为历史证据。
+- Self-Review（计划作者自查，已过）四条：范围只静态碰撞（移动/避让明确划归 backlog 议题 15 不蔓延）、几何纯函数 sameTile 进单测（坐标实算过）、resolveMove 语义不动（撞停）且 isBlocked 两处消费方自动生效、INTERACT_RANGE 标可选要改先问。
 
 ## 当前状态
 
-- historical；切片 1 补漏:静态 NPC 碰撞(static-npc-collision plan)：这是 plan-status，当前文档状态为 historical。全文 130 行、6 个标题；摘要/首段为「> **历史文档（2026-09-06 标注）**：本文是已完成的 TDD 计划/设计存档，正文中的执行」。属于历史/归档材料，不能单独证明当前实现。
+- historical：计划已完成（quote 头部 2026-09-06 历史文档注记）；实现结果以 capability-map 与任务卡为准。
 
 ## 阻塞与决策
 
-- The plan records implementation commands and checkboxes, but its own header says they are an old snapshot; no current implementation acceptance is granted by this review.
-- Dynamic NPC movement, dynamic collision, and avoidance are explicitly outside scope.
-- The plan’s “browser verify passed” self-review is historical prose and cannot be counted as present E2E/visual evidence.
-- 停止线：Do not execute or cite this plan as current work; consult capability-map, task card, current collision code/tests, and a new reviewed successor.
+- 范围蔓延防护（backlog 划归）是本计划的决策样板。
 
 ## 下一步
 
-- Current reforge collision implementation/tests and capability-map/task-card evidence; any new dynamic-collision design must be separately scoped.。
-- 重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点已闭环；现行碰撞语义以现行 reforge 代码为准。
 
 ## 历史范围
 
-- phase2 archive indoor slice plan；日期：2026-09-06；source SHA `d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295`。
+- phase2 archive 切片计划快照；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 切片 1 补漏:静态 NPC 碰撞(static-npc-collision plan)：这是 plan-status，当前文档状态为 historical。全文 130 行、6 个标题；摘要/首段为「> **历史文档（2026-09-06 标注）**：本文是已完成的 TDD 计划/设计存档，正文中的执行」。属于历史/归档材料，不能单独证明当前实现。
+- 两 Task 与 Self-Review 四条为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：5:切片 1 补漏:静态 NPC 碰撞(static-npc-collision plan); 17:Global Constraints; 25:Task 1: collision.ts 加 sameTile(纯函数 + TDD); 79:Task 2: main isBlocked 接 entity collide + 浏览器验; 120:Note(可选,本计划不强制); 124:Self-Review(计划作者自查,已过)；全文 130 行槽 / 6612 bytes。
+- Global Constraints、Task 明细与 Note/Self-Review 在 quote 保全。
 
 ## 当前有效性
 
-historical。Do not execute or cite this plan as current work; consult capability-map, task card, current collision code/tests, and a new reviewed successor.
+- historical。
 
 ## 继任文档
 
-- Current reforge collision implementation/tests and capability-map/task-card evidence; any new dynamic-collision design must be separately scoped.。
+- 现行碰撞实现；[archive 导航](../../README.md)。
 
 ## 原文保全
 
-固定源 SHA `d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295`；下方 quote 可逆回原文。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `d2b8ab55b5673290644cbbde7176169d4976af2b8da539e24d77f473b8d39295`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > > **历史文档（2026-09-06 标注）**：本文是已完成的 TDD 计划/设计存档，正文中的执行
 > > 指令、Agent 分工与“当前状态”是当时快照，不是现行待办。实现结果以 capability-map 与

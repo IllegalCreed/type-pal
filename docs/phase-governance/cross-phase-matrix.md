@@ -87,3 +87,6 @@ Template: governance-index-v1 / 1.0.0
 
 - 固定157的S07实际中央试点、proposed日期正文入账及counter原ID/root别名映射已获非作者限定接受；新004/005/006组合另验，不能从旧body报告继承实际中央接受。
 - S08/S09：004的story/items/saves、005的奖励/news/动态Canvas各守实际源码域，两篇各重授1；S10：006历史true/currentAuditfalse及原数据/slot/rider/视觉缺口继续blocked，它原属10-16历史pilot、不在1896撤回集合，丰富正文不加重授数。原1896仅8重授/1888待核，五隔离不解除。
+
+
+- S16固定abff：ops历史证据导航current仅指入口；phase1历史计划/资源状态与phase2历史设计按原时点保留。N3原三签、版本轴、提示词不恢复当前授权；deep-audit原统计差1关系未知。123篇文档接收与8路由实际接入分别记录，全量/runtime/E2E/coverage仍待独立证据。

@@ -1,85 +1,56 @@
 # M3 · 战斗垂直切片 Implementation Plan
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 M3 战斗垂直切片实施计划的归档重写。30 task 总览（sdlpal classic harness 双基准→战斗骨架）与尾部 fixture 翻译发现 在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：M3 implementation plan: classic build and tilemap/battle baselines; enemy/item/spell/team/field/player schemas and parsers; battle state/action selection/execution/turns; battle UI/dev panel; opcode and extraction updates; unit/integration/E2E/baseline checks.
-- 日期：2026-05-23；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `8ccaafd4547cc3f82fcf72d3bd40c92af8b0da2dc41d87c4f5f01492a6573753`。
+- 目标：落实 [M3 设计稿](2026-05-23-m3-battle-vertical-slice-design.md)——战斗垂直切片（2026-05-23）。
 
 ## 里程碑
 
-- 原始章节：File Structure(M3 末态)；Task 列表总览(30 task)；Conventions；Task 1: `scripts/build-sdlpal-classic.sh` + classic build smoke；sdlpal patches；patches 列表；用法；用 sed 把注释掉的 PAL_CLASSIC define 打开。grep 输出决定真实 pattern:。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- 30 task 链：build-sdlpal-classic.sh+classic build smoke、headless-map-dump.patch+extract-tilemap-baseline.sh 第一份 baseline、render-tilemap.ts 抽 importable+自动对拍测试、Enemy 扩 30+ 字段（D28）、Item schema+parser…（49 节全列于 quote）。
+- 双基准方法论：以 sdlpal classic 构建为真值 harness，baseline 自动对拍贯穿后续里程碑。
 
 ## 当前状态
 
-- historical；M3 · 战斗垂直切片 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 4768 行、69 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` (recommended) or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。
+- historical：M3 完工；尾部发现（quote 保全）：spell 326/item 61 等 fixture 在 D29 跑不通的根因=spells.json/items.json 的 id 同为 0-based 而 harness fixture id 是 OBJECT 绝对 index，M3.5 前补 OBJECT→id 翻译（同 enemy 方案复用）；magic 326=灵儿玉佩、item 61=止血草，fixture 真值在 sdlpal classic harness KV 中。
 
 ## 阻塞与决策
 
-- 正文信号 1272:| 'other'          // 兜底:6 / 7 / >9 等未知 type(M5 可能补)
-- 正文信号 1401:// unknown +22
-- 正文信号 1657:/* skip rgwUnknown1 */ cursor += FIELD_SIZE
-- 正文信号 1676:// skip unknown 2-4
-- 正文信号 1682:/* unknown 5/6 */ cursor += FIELD_SIZE * 2
-- 正文信号 2211:> **fixtures 入不入 git**:fixture JSON 是我方写的(不是 sdlpal 输出)。判断:① 入 git 让协作 / CI / 重跑容易;② 个人项目 M3,不入也行,build/ ignore。**M3 决定:不入**(整个 build/ 是临时产物,fixture 跟其他 baseline 一起 ignored,本机重写)。*
-- 正文信号 2965:pendingActions: Map<number, BattleAction>  // playerIdx → action
-- 正文信号 3011:pendingActions: new Map(),
-- 正文信号 3292:it('fleeRate 未命中 → 继续, 不切 phase', () => {
-- 正文信号 3600:- `performAction` → 取 actionQueue[currentIdx] 执行(队员 action 已存 pendingActions;敌人现场 decideEnemyAction)→ currentIdx++,推进直到 queue 末 → `postAction`
-- 正文信号 3747:// 全部队员都填好 pendingActions → 切 performAction:
-- 正文信号 3750:if (state.pendingActions.size === alivePlayers.length) {
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- Conventions、patches 列表与用法为执行纪律。
 
 ## 下一步
 
-- 后继入口：M3.5 design/plan and current battle/runtime code; fixture and unknown-field decisions are historical.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点由 M3.5/M5 承接；当前战斗以现行代码为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-05-23；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `8ccaafd4547cc3f82fcf72d3bd40c92af8b0da2dc41d87c4f5f01492a6573753`。
+- phase1 plans M3 实施计划；时点 2026-05-23；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- M3 · 战斗垂直切片 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 4768 行、69 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` (recommended) or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。
+- 30 task 结构与 fixture id 翻译发现为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:M3 · 战斗垂直切片 Implementation Plan; 15:File Structure(M3 末态); 108:Task 列表总览(30 task); 154:Conventions; 177:Task 1: `scripts/build-sdlpal-classic.sh` + classic build smoke; 198:sdlpal patches; 202:patches 列表; 210:用法；原始正文、代码、表格、状态词在 quote 保全。
+- File Structure（M3 末态）、patches 列表与逐 Task 在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 1272:| 'other'          // 兜底:6 / 7 / >9 等未知 type(M5 可能补)
-- 正文信号 1401:// unknown +22
-- 正文信号 1657:/* skip rgwUnknown1 */ cursor += FIELD_SIZE
-- 正文信号 1676:// skip unknown 2-4
-- 正文信号 1682:/* unknown 5/6 */ cursor += FIELD_SIZE * 2
-- 正文信号 2211:> **fixtures 入不入 git**:fixture JSON 是我方写的(不是 sdlpal 输出)。判断:① 入 git 让协作 / CI / 重跑容易;② 个人项目 M3,不入也行,build/ ignore。**M3 决定:不入**(整个 build/ 是临时产物,fixture 跟其他 baseline 一起 ignored,本机重写)。*
-- 正文信号 2965:pendingActions: Map<number, BattleAction>  // playerIdx → action
-- 正文信号 3011:pendingActions: new Map(),
-- 正文信号 3292:it('fleeRate 未命中 → 继续, 不切 phase', () => {
-- 正文信号 3600:- `performAction` → 取 actionQueue[currentIdx] 执行(队员 action 已存 pendingActions;敌人现场 decideEnemyAction)→ currentIdx++,推进直到 queue 末 → `postAction`
-- 正文信号 3747:// 全部队员都填好 pendingActions → 切 performAction:
-- 正文信号 3750:if (state.pendingActions.size === alivePlayers.length) {
+- historical。
 
 ## 继任文档
 
-- M3.5 design/plan and current battle/runtime code; fixture and unknown-field decisions are historical.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [M3 设计稿](2026-05-23-m3-battle-vertical-slice-design.md)；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `8ccaafd4547cc3f82fcf72d3bd40c92af8b0da2dc41d87c4f5f01492a6573753`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `8ccaafd4547cc3f82fcf72d3bd40c92af8b0da2dc41d87c4f5f01492a6573753`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # M3 · 战斗垂直切片 Implementation Plan
 >

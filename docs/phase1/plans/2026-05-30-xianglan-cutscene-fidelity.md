@@ -1,63 +1,58 @@
 # 丁香兰报信 cutscene 演出保真 — workflow 深查结论(2026-05-30)
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是丁香兰报信演出保真深查的归档重写。五路逐行核对结论、运行期证据与最终修法在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：Xianglan cutscene fidelity investigation: symptom, workflow/code path comparison, runtime diagnostic evidence, failed fixes, cautious architecture-level repair direction, and user-confirmed resolution record.
-- 日期：2026-05-30；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `06ec22dea6d79a298b59f4c3711f7dcc66ac7aa543a2a924b10a8eb9c6e2f606`。
+- 目标：定位并修复余杭镇 wNumScene5 enter=903 cutscene 两个症状——香兰瞬移到玩家面前（应从远处走来）、一口气说完无顿。
+- 时间范围：2026-05-30 单日深查（workflow wu18hkqzg 五路逐行核对 sdlpal vs ts → 晚间 diag log 实测 → 当日用户 in-game 确认解决）。
 
 ## 里程碑
 
-- 原始章节：核心结论(workflow wu18hkqzg,5 路逐行核对 sdlpal vs ts)；瞬移真因(高 confidence,架构层)；一口气无顿(高 confidence)；下一步(systematic-debugging:先取运行期证据)；关键 file:line；注；运行期证据 + 真根因(2026-05-30 晚,diag log 实测)；失败的修法(勿重蹈)。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- 核对结论：走入机制/0x12 摆位/0x05 等键顿/autoScript 调度 ts 全部 1:1 对齐 sdlpal，无代码 divergence——真因在上游。
+- 瞬移真因（高置信，架构层）：0x12 把香兰摆到 (party.x-128, party.y+56) 公式正确，但 party 进入 scene5 的世界坐标错误（无世界地图边界过场重定位、enter 链不设 setPartyPos、dev scene-jump 无 partyStart），snap 条件 OR（|dx|<6 || |dy|<6）触发整体 snap。
+- 无顿真因：main-loop 渲染/逻辑耦合，fade 提速 6× 吃掉走步/打字节奏。
 
 ## 当前状态
 
-- historical；丁香兰报信 cutscene 演出保真 — workflow 深查结论(2026-05-30)：这是 plan-status，当前文档状态为 historical。全文 72 行、11 个标题；摘要/首段为「症状(余杭镇 wNumScene5 enter=903 cutscene):香兰**瞬移到玩家面前**(应从远处走来);**一口气说完无顿**(说完该顿)。」。属于历史/归档材料，不能单独证明当前实现。
+- historical，当时已解决（2026-05-30 用户确认「终于好了」）：采用选项 C 稳妥版——logicIntervalMs 恒 100ms(explore)/40ms(battle)，raf loop 逻辑 tick 必 present、fade 进行中每 raf 帧 present（packages/game/src/shell/main-loop.ts）。
 
 ## 阻塞与决策
 
-- 正文信号 58:## 正确修法方向(待做,架构层,需谨慎)
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- 记录了失败修法（勿重蹈）与正确修法方向（quote 保全）；架构层 party 重定位问题当时另行处理。
 
 ## 下一步
 
-- 后继入口：Current runtime diagnostics and cutscene implementation/tests; any repair needs a fresh primary-source/runtime review.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点已闭环；当前演出保真以 [cutscene-status](../status/cutscene-status.md) 台账与 E2E 阶段报告为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-05-30；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `06ec22dea6d79a298b59f4c3711f7dcc66ac7aa543a2a924b10a8eb9c6e2f606`。
+- phase1 plans 专项深查；时点 2026-05-30；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 丁香兰报信 cutscene 演出保真 — workflow 深查结论(2026-05-30)：这是 plan-status，当前文档状态为 historical。全文 72 行、11 个标题；摘要/首段为「症状(余杭镇 wNumScene5 enter=903 cutscene):香兰**瞬移到玩家面前**(应从远处走来);**一口气说完无顿**(说完该顿)。」。属于历史/归档材料，不能单独证明当前实现。
+- 「五路核对无 divergence、真因在上游」与 main-loop 解耦修法为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:丁香兰报信 cutscene 演出保真 — workflow 深查结论(2026-05-30); 5:核心结论(workflow wu18hkqzg,5 路逐行核对 sdlpal vs ts); 9:瞬移真因(高 confidence,架构层); 16:一口气无顿(高 confidence); 20:下一步(systematic-debugging:先取运行期证据); 31:关键 file:line; 40:注; 46:运行期证据 + 真根因(2026-05-30 晚,diag log 实测)；原始正文、代码、表格、状态词在 quote 保全。
+- 关键 file:line（event-system.ts:2474/3629、script.c:710-713/81）、diag log 实测与失败修法记录在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 58:## 正确修法方向(待做,架构层,需谨慎)
+- historical。修法已进主线多年演进；当前 main-loop 以现行代码为准。
 
 ## 继任文档
 
-- Current runtime diagnostics and cutscene implementation/tests; any repair needs a fresh primary-source/runtime review.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [cutscene-status](../status/cutscene-status.md) 演出台账；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `06ec22dea6d79a298b59f4c3711f7dcc66ac7aa543a2a924b10a8eb9c6e2f606`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `06ec22dea6d79a298b59f4c3711f7dcc66ac7aa543a2a924b10a8eb9c6e2f606`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # 丁香兰报信 cutscene 演出保真 — workflow 深查结论(2026-05-30)
 >

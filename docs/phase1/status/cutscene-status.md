@@ -1,65 +1,59 @@
 # 演出状态表
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史材料接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是第一阶段演出（连续自动脚本）覆盖快照的归档重写。原始口径、摘要数字、逐场景清单与差异台账在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现、runtime、E2E 或视觉信用。
 
 ## 目标与时间范围
 
-- 目标：phase1 status/plan historical document: 演出状态表; full source read for template classification.
-- 时间/版本范围：2026-06-07；source revision `642dd483f0d6b982d5f074553a129bce374ffad5`；source SHA `ca3fe616dc370fc1b2c2cdf0485e1c716ee17bd2acf34eac5f3a9cec1795dced`。
-- 当前/历史边界：historical；本页不能单独证明当前实现。
+- 目标：按用户定义口径（2026-06-07：「演出=被触发后自动连跑、编排对白/走位/转场/战斗/特效的脚本；路边 NPC 一两句对话不算」）枚举全游戏演出并做复核风险 triage。
+- 时间范围：自动审计落盘 2026-06-07，差异台账更新至 2026-06-16；数据来源 `data/extracted/data/scene/*.json` + `events/all.json` 逐入口反汇编 + sdlpal `script.c` opcode 真值。
 
 ## 里程碑
 
-| ID | 结果 | Owner | 状态 | 证据 |
-|---|---|---|---|---|
-| HIST-001 | 原始状态/计划快照保全 | 原文作者 | historical | source quote / SHA |
+- 全量扫描：295 场景全入口，188 场景含演出、507 段演出脚本（进场 56 · 触发 442 · 归隐脱出 9），按 ip 去重。
+- 风险分级：🔴高 198 · 🟡中 192 · ⚪低 117（复杂度启发式，非实测）；A 区动画过场 12 段全 🔴，剧情 Boss 战 30 段。
+- 已修台账（每条带回归测试与提交号）：林家堡走出场（001c111/9934c07）、黑屏字幕（75d281f）、隐龙窟 checkpoint 重播（1000981）、香兰报信死锁（4ed8f46）、李大娘子脚本死锁（9367efc）、血池装载/震屏（09ba1e0/e8a6a1b）、fAutoBattle 隐藏战斗 UI（30b0b56）等。
 
 ## 当前状态
 
-- 已完成（只写有证据的）：完成原始全文读取、模板接入和 quote inverse 账本。
-- 未完成：当前状态、执行结果和产品结论需由继任 primary source 复核。
+- historical 快照：164 opcode 机制已全部实现（见 [opcode-status](opcode-status.md)），本表明言真正的 bug 面是视觉/时序/编排细节（对白分页、走位停顿、淡屏时长、镜头、音画同步），静态读码无法判定，需对真档逐帧验收。
 
 ## 阻塞与决策
 
-- 阻塞：- 正文信号 25:> ⚠️ **覆盖说明**:动画过场播放器 opcode = `0x35/36/37`(RNG)、`0x76/0xA4/0xA5`(FBP)、`0x96`(结局);开场.RNG/AVI、结局动画由 shell 播放器(`avi/rng/fbp/ending-player`)驱动,不一定走脚本 opcode,故"动画过场=12"只计**脚本内**触发的,开场 AVI / 片头不在此列。
-- 用户裁决：任何当前产品取舍仍需新的用户决策。
+- 待逐条填：🔴 段（尤其 A 区动画过场 + B 区 Boss 战前演出）对真档逐帧核后，把具体出入记入台账并标 scene+ip。
+- 方法局限（quote 保全）：章节带边界近似；反汇编只跟主线性链（`0x04` 子脚本计数不展开、`goto` 不跟随）。
 
 ## 下一步
-- 下一项可执行工作：Current phase1 status tables/code/tests and a fresh primary-source review.。
-- 完成定义：新 task card、当前 source/oracle、独立验收和相应执行证据齐全。
+
+- 历史时点的下一步为真档逐帧验收；当前演出差异与新发现以 pre-E2E 审计、E2E 阶段报告与修复卡为准（[目录导航](README.md)）。
 
 ## 历史范围
 
-- phase1 status/plan archive；日期：2026-06-07；固定来源 `642dd483f0d6b982d5f074553a129bce374ffad5`；source SHA `ca3fe616dc370fc1b2c2cdf0485e1c716ee17bd2acf34eac5f3a9cec1795dced`。
+- phase1 status 快照；冻结于 2026-06-07（台账至 2026-06-16）；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 演出状态表：这是 plan-status，当前文档状态为 historical。全文 688 行、21 个标题；摘要/首段为「> 自动审计落盘:2026-06-07(差异台账更新至 2026-06-16;逐场景清单未重跑 dump,仍为 6-07 反汇编结果)· 数据来源 `data/extracted/data/scene/*.json`(场景表:onEnter/onTeleport/eventObjects)+ `events/all.json`(全局脚本)逐入口反汇编(`/tmp/dump-cutscenes.mjs`)+ `reference/sdlpal/script.c` opcode 真值。」。属于历史/归档材料，不能单独证明当前实现。
+- 188/295 场景、507 段演出、🔴198/🟡192/⚪117、A 区 12 段/B 区 30 段与已修台账为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：什么算"演出"；摘要；图例；触发(kind)；复核风险(= 与原版出现表现差异的可能性,**非**机制对错)；状态；A. 动画过场(RNG / FBP / 结局)— 头号演出；B. 剧情 Boss 战演出；原始正文、状态词、表格和链接在 quote 保全。
+- 逐场景分章节清单（scene 0–294 十个章节带）、A/B 区重点表与差异台账在 quote 保全；生成器 `/tmp/dump-cutscenes.mjs` + `build-cutscene-doc.mjs` 声明。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 25:> ⚠️ **覆盖说明**:动画过场播放器 opcode = `0x35/36/37`(RNG)、`0x76/0xA4/0xA5`(FBP)、`0x96`(结局);开场.RNG/AVI、结局动画由 shell 播放器(`avi/rng/fbp/ending-player`)驱动,不一定走脚本 opcode,故"动画过场=12"只计**脚本内**触发的,开场 AVI / 片头不在此列。
+- historical。风险分级与「待补」条目按冻结时点解释；表中仍由源码与原始数据背书的条目按目录 README 规则继续作专题真值。
 
 ## 继任文档
 
-- Current phase1 status tables/code/tests and a fresh primary-source review.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+- pre-E2E 审计、E2E 阶段报告与修复任务卡；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `ca3fe616dc370fc1b2c2cdf0485e1c716ee17bd2acf34eac5f3a9cec1795dced`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `642dd483f0d6b982d5f074553a129bce374ffad5`，source SHA `ca3fe616dc370fc1b2c2cdf0485e1c716ee17bd2acf34eac5f3a9cec1795dced`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 演出状态表
 >

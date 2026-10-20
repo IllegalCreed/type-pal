@@ -1,85 +1,55 @@
 # M3.5 · scene 切换 + 明雷怪 + dev 跳仙灵岛 + L2 一次性补齐 Implementation Plan
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 M3.5 实施计划的归档重写。40 task 总览、真值调研 Step 与尾部残留警示在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：M3.5 implementation plan: triggerMode/loadScene extraction;仙灵岛 scene chain/assets; NPC/grass demon; multi-scene baselines; loader cache; scene-system load/encounter; battle input handlers; dev panel picker; verification and browser checkpoints.
-- 日期：2026-05-24；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `b6453eada4c72d17b71b1a82059bdc52c1b65659bf58755bf602bcb3b1dedd17`。
+- 目标：落实 [M3.5 设计稿](2026-05-24-m3-5-scene-encounter-design.md)——scene 切换、明雷怪、dev 跳仙灵岛、L2 视觉端到端 23 case 补齐（2026-05-24）。
 
 ## 里程碑
 
-- 原始章节：File Structure(M3.5 末态)；Task 列表总览(40 task)；Conventions；Task 1: `shared/resources.ts` SceneEventObject 加 triggerMode 字段；Task 2: pal-extract `parsers/scenes.ts` dump triggerMode；Task 3: `events/opcodes.ts` + `disasm.ts` + `recompile.ts` 加 loadScene opcode 具名；Step 1: grep sdlpal `script.c` 找 loadScene opcode 真值；Task 4: 仙灵岛 scene id 调研 + cli 总装新 scene chain(tilemap + palette)。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- 40 task 覆盖：triggerMode 字段链（shared→parsers→dump）、loadScene opcode 真值调研（grep sdlpal script.c）与具名、仙灵岛 scene chain/NPC/草妖 sprite 提取、D29 视觉 baseline 多场景扩展、SceneAssetsCache lazy、明雷怪触发与 L2 23 case（60 节全列于 quote）。
 
 ## 当前状态
 
-- historical；M3.5 · scene 切换 + 明雷怪 + dev 跳仙灵岛 + L2 一次性补齐 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 3537 行、69 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` (recommended) or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。
+- historical：M3.5 完工；尾部残留警示两条（quote 保全）：⚠️ palette 跨 scene 仍用首屏 palette-0（setPalette opcode runtime 触发留 M5）；⚠️ 4-5 player 战斗 PLAYER_POSITIONS 续表是 educated guess（sdlpal 真值只到 3 人，M5 真做时核对）。
 
 ## 阻塞与决策
 
-- 正文信号 235:/** NPC 待机行为入口(M2 未消费,留 M5+)。 */
-- 正文信号 401:* 升级 handler 为可等待命令(emit + Shell 处理 async loadScene + complete cmdId)。
-- 正文信号 1121:**Why:** T3 把 `loadScene` opcode 加进 disasm/recompile;EventSystem 现在撞到 `loadScene` 命令应该处理(不抛错)。M3.5 选 B 路线:**stub(no-op skip + console.debug),不真执行 scene 切换**(那由 dev panel 直调 loadSce
-- 正文信号 1165:// M5 真做剧情链时升级为 emit + 可等待命令(A 路线)
-- 正文信号 1364:**Why:** M3 phase 1 接受的 limitation 是 `tickSelectAction` stub(只检测 pendingActions size,不处理 input)。M3.5 真做 — 让用户按 Up/Down/Confirm 真菜单交互。本 task 先做 mainMenu(5 项主菜单)+ Cancel,T14 做 magic/
-- 正文信号 1372:理解 stub 当前结构(应该只是 "if pendingActions size >= alive players → 切 performAction" 一个分支)。
-- 正文信号 1408:it('Confirm 在 cursor=3(防御)→ 直接填 pendingActions + advance', () => {
-- 正文信号 1412:expect(gs.battleState?.pendingActions.has(0)).toBe(true)
-- 正文信号 1413:expect(gs.battleState?.pendingActions.get(0)?.type).toBe('defend')
-- 正文信号 1416:it('Confirm 在 cursor=4(逃跑)→ 直接填 pendingActions = flee', () => {
-- 正文信号 1420:expect(gs.battleState?.pendingActions.get(0)?.type).toBe('flee')
-- 正文信号 1463:// 记下 pendingAction 半成品(T14 在 targetSelect 完成填好)
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- dev shortcut 跳 scene 不走真剧情（D34）换切片速度；真剧情链路后置。
 
 ## 下一步
 
-- 后继入口：M4 plan/current scene and loader code; revalidate raw loadScene and local baseline assumptions.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点残留由 M5 系列承接核对；当前场景/遭遇以现行代码为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-05-24；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `b6453eada4c72d17b71b1a82059bdc52c1b65659bf58755bf602bcb3b1dedd17`。
+- phase1 plans M3.5 实施计划；时点 2026-05-24；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- M3.5 · scene 切换 + 明雷怪 + dev 跳仙灵岛 + L2 一次性补齐 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 3537 行、69 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` (recommended) or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。
+- 40 task 结构与两条残留警示为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:M3.5 · scene 切换 + 明雷怪 + dev 跳仙灵岛 + L2 一次性补齐 Implementation Plan; 15:File Structure(M3.5 末态); 93:Task 列表总览(40 task); 151:Conventions; 174:Task 1: `shared/resources.ts` SceneEventObject 加 triggerMode 字段; 270:Task 2: pal-extract `parsers/scenes.ts` dump triggerMode; 373:Task 3: `events/opcodes.ts` + `disasm.ts` + `recompile.ts` 加 loadScene opcode 具名; 384:Step 1: grep sdlpal `script.c` 找 loadScene opcode 真值；原始正文、代码、表格、状态词在 quote 保全。
+- File Structure（M3.5 末态）、Task 总览与真值调研 Step 在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 235:/** NPC 待机行为入口(M2 未消费,留 M5+)。 */
-- 正文信号 401:* 升级 handler 为可等待命令(emit + Shell 处理 async loadScene + complete cmdId)。
-- 正文信号 1121:**Why:** T3 把 `loadScene` opcode 加进 disasm/recompile;EventSystem 现在撞到 `loadScene` 命令应该处理(不抛错)。M3.5 选 B 路线:**stub(no-op skip + console.debug),不真执行 scene 切换**(那由 dev panel 直调 loadSce
-- 正文信号 1165:// M5 真做剧情链时升级为 emit + 可等待命令(A 路线)
-- 正文信号 1364:**Why:** M3 phase 1 接受的 limitation 是 `tickSelectAction` stub(只检测 pendingActions size,不处理 input)。M3.5 真做 — 让用户按 Up/Down/Confirm 真菜单交互。本 task 先做 mainMenu(5 项主菜单)+ Cancel,T14 做 magic/
-- 正文信号 1372:理解 stub 当前结构(应该只是 "if pendingActions size >= alive players → 切 performAction" 一个分支)。
-- 正文信号 1408:it('Confirm 在 cursor=3(防御)→ 直接填 pendingActions + advance', () => {
-- 正文信号 1412:expect(gs.battleState?.pendingActions.has(0)).toBe(true)
-- 正文信号 1413:expect(gs.battleState?.pendingActions.get(0)?.type).toBe('defend')
-- 正文信号 1416:it('Confirm 在 cursor=4(逃跑)→ 直接填 pendingActions = flee', () => {
-- 正文信号 1420:expect(gs.battleState?.pendingActions.get(0)?.type).toBe('flee')
-- 正文信号 1463:// 记下 pendingAction 半成品(T14 在 targetSelect 完成填好)
+- historical。
 
 ## 继任文档
 
-- M4 plan/current scene and loader code; revalidate raw loadScene and local baseline assumptions.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [M3.5 设计稿](2026-05-24-m3-5-scene-encounter-design.md)；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `b6453eada4c72d17b71b1a82059bdc52c1b65659bf58755bf602bcb3b1dedd17`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `b6453eada4c72d17b71b1a82059bdc52c1b65659bf58755bf602bcb3b1dedd17`；下方 quote 逆回读规则：终端编码声明：quote 内 273 处 U+2420(e290a0) 逐处解码为 ASCII 空格(20) 后与原源逐字节相等；2 处 U+2460 圈号为真源原义保留。
 <!-- original-source-quote:start -->
 > # M3.5 · scene 切换 + 明雷怪 + dev 跳仙灵岛 + L2 一次性补齐 Implementation Plan
 >

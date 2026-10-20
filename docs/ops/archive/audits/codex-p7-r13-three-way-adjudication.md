@@ -1,72 +1,55 @@
 # N3-1 P7-R13 三方源语义审计合并裁决
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: audit-report-v1 / 1.0.0
 
-本页按正文语义迁移为 audit-report。原始日期、结论、数字、冲突和未知项保留；本页不授予当前产品、runtime、E2E、视觉或 coverage 信用。
+本页是 Codex 对 Kimi/GLM 双盲源语义审计与金丝雀、用户运行时反例的合并裁决归档回执。裁决口径与最高优先级缺口清单在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 审计问题
 
-- N3-1 P7-R13 三方源语义审计合并裁决：完整读取 230 行/15315 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。
-- 历史问题域：两份双盲审计与 Codex 金丝雀、s048/e796 反例的统一裁决边界
+- 两份双盲报告（[Kimi](kimi-p7-r13-source-semantics-audit.md)、[GLM](glm-p7-r13-source-semantics-audit.md)）返回后，与 N3-1 任务卡 Codex 金丝雀、用户 s048/e796 鹿不逃运行时反例统一事实口径；未经 CFG、最终产物或运行时核验的初判不直接成为 build 事实。
 
 ## 范围与证据
 
-- 固定源 revision `81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5`，源 SHA `7305185f5dfde388978cfdd52518bf57be03879633bea1490504d2895e120854`，全文 230 行 / 15315 bytes。
-- 证据范围：dated historical audit/index; static content only; current claims require a new source-backed record
-- 原始入口与依赖：当前 document-registry.json 与 20261004-structured-content-ops-01.json, 后继任务卡/测试 catalog（按正文引用）
+- 独立输入四项：两份审计报告、任务卡金丝雀、用户运行时反例；裁决日期 2026-07-26。
 
 ## 发现
 
-| 历史域 | 具体观察 | 当前边界 |
-|---|---|---|
-| 1 | 两份双盲审计与 Codex 金丝雀、s048/e796 反例的统一裁决边界 | dated historical only |
-| 2 | A1-A11 确认缺口、补回项与尚需动态裁决项 | dated historical only |
-| 3 | Kimi/GLM 报告纠正与不可收敛的计数/语义差异 | dated historical only |
-| 4 | R13-0 到 R13-6 与 R13-Z 的分批 build 设计和 fail-closed 要求 | dated historical only |
-| 5 | 完整构建/投掷守恒复跑命令摘要 | dated historical only |
+- 确认的最高优先级缺口：12 个显式 owner 的 `0x04 callScript` 被整体错绑到后一号实体；36 个 `0x08` 中只有 2 个已有 checkpoint 等价修复，剩余 34 个会丢跨激活持久推进；11 个 `end.reset(idleFrames>0)` 丢失重入计数和阈值 fall-through。
 
 ## 结论
 
-N3-1 P7-R13 三方源语义审计合并裁决：完整读取 230 行/15315 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。
-
-- 原文状态 `historical` 保持；历史文档明确 R13 仍 rework、Kimi/GLM build 前签字 pending，不能当作当前已修复
+- P7-R13 必须进入新的高风险 `rework` 设计门禁；既有 `gaps=[] / flowCuts=0 / P7 ledger / item-only diagnostics` 只能证明登记关系闭合，不能证明源语义、最终 canonical 与各运行上下文闭合。
 
 ## 整改与复核
 
-- 下一步：保留历史裁决和原始冲突；任何当前修复引用必须绑定新的 source-backed disposition、runtime canary 与版本。
-- 未决与停止线：- 历史文档明确 R13 仍 rework、Kimi/GLM build 前签字 pending，不能当作当前已修复
-- 正文并列 48/58 throw、10/14 pendingSkills、0x76/0x9B、旧版本等争议，需以当时上下文和后继记录解释
-- 包含迁移/运行时设计提案，未给出现行候选的 runtime/E2E/visual/coverage 证明
-- 旧结论与后续 R13 账本可能有数字差异，写 wrapper 时必须保留原值并指向后继复核
-- 后继入口：当前 document-registry.json 与 20261004-structured-content-ops-01.json, 后继任务卡/测试 catalog（按正文引用）
+- 后续按 R13-4（confirm 控制流）、R13-5（敌人脚本语义）等专项审计与修复推进；原双盲报告保留独立原貌。
 
 ## 历史范围
 
-- 源文件属于日期化历史材料；固定来源 `81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5`，本轮只做文档结构与语义迁移。
+- 2026-07-26 合并裁决；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-N3-1 P7-R13 三方源语义审计合并裁决：完整读取 230 行/15315 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。
+- 缺口清单与 rework 门禁要求为原始结论本体。
 
 ## 当时证据
 
-- dated historical audit/index; static content only; current claims require a new source-backed record；原始链接、表格和命令在下方 quote 中逐行保留。
+- 两份报告、金丝雀与用户反例的引用关系在 quote 保全。
 
 ## 当前有效性
 
-historical。历史文档明确 R13 仍 rework、Kimi/GLM build 前签字 pending，不能当作当前已修复
+- historical。缺口是否已修复以后续任务卡、代码与测试为准，不从本裁决外推当前状态。
 
 ## 继任文档
 
-保留历史裁决和原始冲突；任何当前修复引用必须绑定新的 source-backed disposition、runtime canary 与版本。
+- R13-4/R13-5 专项审计与对应任务卡；目录导航见[历史审计回执](../README.md)。
 
 ## 原文保全
 
-固定源 SHA `7305185f5dfde388978cfdd52518bf57be03879633bea1490504d2895e120854`；以下只增加 quote 前缀，逆回读得到相同 UTF-8 字节。
+固定源 revision `81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5`，source SHA `7305185f5dfde388978cfdd52518bf57be03879633bea1490504d2895e120854`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # N3-1 P7-R13 三方源语义审计合并裁决
 >

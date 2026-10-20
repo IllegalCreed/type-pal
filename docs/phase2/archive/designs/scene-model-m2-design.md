@@ -1,84 +1,55 @@
 # M2 场景模型设计(全场景静态迁移 + 引擎多场景)
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: design-spec-v1 / 1.0.0
 
-本页把历史设计正文接入 `design-spec-v1`，并保留 archive overlay。原始日期、方案语义、版本数字、冲突、未知项和链接均通过下方逐行引用保全；本页不授予当前产品、runtime、E2E、视觉或 coverage 信用。
+本页是 M2 场景模型设计的归档重写。投查钉死事实、schema 加法演进与分层方案在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 问题与目标
 
-- 历史设计问题/目标：M2 场景静态迁移：scene id/map/entries/music/hidden/zBias；per-scene 目录与索引；reforge 多场景/LRU；迁移器分层、阶段 gate 和原版普查锚点。
-- 文档身份：phase2 / archive；原始状态为 `archived`，当前有效性固定为 `historical`。
-- 本次目标：让历史设计具备可检索的设计章节和历史边界，不把当时方案改写成当前合同。
+- 目标：全场景静态迁移（295 场景）+ 引擎多场景（2026-07-02，Fable5）。
 
 ## 真值与约束
 
-- 固定源 revision：`45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA：`11070e661a85f6a29f235acc6a3308d5a94eba8fb070cd5b2f21ac884c3d7042`；原文 68 行、6268 bytes。
-- 一手来源/正文锚点：docs/phase2/archive/designs/scene-model-m2-design.md:1-1；标题锚点：1:M2 场景模型设计(全场景静态迁移 + 引擎多场景), 6:0. 投查钉死的事实(设计前提), 15:1. Schema 演进(content;全部加法/放宽), 29:2. 工程文件布局:per-scene 目录(content-schema §7 兑现), 41:3. 引擎多场景(reforge), 50:4. 迁移器(migrate)分层, 56:5. 分期与 gate, 66:6. 投查锚点(核对用)。
-- 当前阶段证据：本批只做文档全文读取、语义分层和字节保全；current contract 必须回读继任规范、当前代码和真实调用域。
-- 不可违反的约束：历史状态词只描述原文时点；旧 schema、迁移计划、done/待审标签和演出设想不得单独证明今天的实现。
-- 未知与冲突：
-- 旧 mapNum/map.room/reuseOriginalMap/spriteNum 等历史载荷与 current SceneIndex/ProjectMap v4/AssetId 不同。
-- 阶段 gate 与 295 场景统计只证明设计输入，不证明当前迁移/运行时覆盖。
+- 设计前提为 M2 源数据投查钉死的事实：295 场景/5077 事件对象/223 图（实测锚点见文末）+ content-schema §4/§5/§7 + roadmap §8。
 
 ## 方案
 
-- 原始方案语义：M2 场景静态迁移：scene id/map/entries/music/hidden/zBias；per-scene 目录与索引；reforge 多场景/LRU；迁移器分层、阶段 gate 和原版普查锚点。
-- 本次治理方案：将上述语义拆入问题、真值、方案、边界、验收五个可定位章节；原文不删节，以 quote 作为唯一完整正文保全层。
-- 继任关系：
-- docs/phase2/specs/content-schema.md
-- 当前 scene/project map code
-- 当前 migration/extraction contracts
-- 明确不做：不执行原文迁移/实现步骤，不恢复 legacy fallback，不把历史计划、Self-Review 或静态审计当作 runtime/E2E/视觉/coverage 结果。
+- 五节：Schema 演进（content；全部加法/放宽）→ per-scene 目录工程布局（content-schema §7 兑现）→ 引擎多场景（reforge）→ 迁移器（migrate）分层 → 分期与 gate。
 
 ## 边界与风险
 
-- 历史边界：本文可以说明当时为什么设计、如何计划和哪些问题已被识别，不能替代当前 canonical 文档、源码、测试或用户裁决。
-- 主要冲突/风险：
-- 旧 mapNum/map.room/reuseOriginalMap/spriteNum 等历史载荷与 current SceneIndex/ProjectMap v4/AssetId 不同。
-- 阶段 gate 与 295 场景统计只证明设计输入，不证明当前迁移/运行时覆盖。
-- 停止线：不得以 M2 方案重跑全场景迁移或恢复旧地图字段；先核 current content/map specs、source extractor 与 scene loader。
-- 若重新启用：必须以当前一手来源重新核对 schema、版本、调用方、合法输入和业务 oracle，并建立新的 review record；不得沿用本页日期作准入。
+- schema 只加法/放宽是兼容性铁律；分期与 gate 控制迁移爆炸半径。
 
 ## 验收
 
-- 可执行验证：模板章节完整；原文 quote 去除 `> ` 前缀后与 source UTF-8 字节逐字节相等；source/after SHA 写入 central review、registry、catalog 和 evidence receipt。
-- 业务 oracle：历史结论、日期、状态、数字、链接、未知和冲突可定位；任何当前性主张都有继任入口或明确停止线。
-- 本次执行范围：只读源、模板迁移、账本同步和静态治理门；runtime、E2E、视觉、coverage 均未运行。
-- 复核 Owner 与截止条件：Codex 独立复核本页及三账本；非作者候选验收通过前保持 build/review，不标全量完成。
+- 设计验收按分期 gate；实现以现行 migrate/reforge 为准。
 
 ## 历史范围
 
-- 原始范围：phase2 archive design；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，原始正文 SHA `11070e661a85f6a29f235acc6a3308d5a94eba8fb070cd5b2f21ac884c3d7042`，原文日期和版本轴以 quote 为准。
-- 归档原因：正文混合历史设计、阶段计划和后来附录；继任规范/代码已经承担当前合同，故本页只保留历史证据。
+- phase2 archive 设计快照；时点 2026-07-02；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- M2 场景模型设计(全场景静态迁移 + 引擎多场景)：这是 design-spec，当前文档状态为 historical。全文 69 行、8 个标题；摘要/首段为「> 2026-07-02,Fable5。依据:M2 源数据投查(295 场景/5077 事件对象/223 图,实测锚点见文末)+ [content-schema §4/§5/§7](content-schema.md) + [roadmap §8](../../roadmap.md)。」。属于历史/归档材料，不能单独证明当前实现。
-- 上述结论只属于其原始日期和适用范围；本页新增的结构化表述不改变原始结论。
+- 加法式 schema 演进+per-scene 目录+引擎多场景分层为原始结论本体。
 
 ## 当时证据
 
-- source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `11070e661a85f6a29f235acc6a3308d5a94eba8fb070cd5b2f21ac884c3d7042`；全文 68 行 / 6268 bytes。
-- 原文标题/章节锚点：1:M2 场景模型设计(全场景静态迁移 + 引擎多场景), 6:0. 投查钉死的事实(设计前提), 15:1. Schema 演进(content;全部加法/放宽), 29:2. 工程文件布局:per-scene 目录(content-schema §7 兑现), 41:3. 引擎多场景(reforge), 50:4. 迁移器(migrate)分层, 56:5. 分期与 gate, 66:6. 投查锚点(核对用)。完整正文与链接、表格、代码、历史状态词在下方 quote 保留。
+- 投查事实与文末实测锚点在 quote 保全。
 
 ## 当前有效性
 
-historical。不得将历史设计字段、迁移步骤、旧版本号、done/待审标签或静态审计结果外推为当前事实。
-- 当前不得外推的部分：不得以 M2 方案重跑全场景迁移或恢复旧地图字段；先核 current content/map specs、source extractor 与 scene loader。
+- historical。现行真值见 [READ-FIRST](../../READ-FIRST.md)。
 
 ## 继任文档
 
-- 当前 canonical / 复核入口：docs/phase2/specs/content-schema.md, 当前 scene/project map code, 当前 migration/extraction contracts。
-- supersedes / superseded-by：本页保留旧结构化记录作为历史；当前合同由继任规范、代码和新的独立审查记录决定。
-- 重新启用条件：新的 primary source、版本/适用范围、合法输入、business oracle、可证伪观察和独立验收齐备。
+- [content-schema](content-schema.md) 与现行 migrate 实现；[archive 导航](../README.md)。
 
 ## 原文保全
 
-固定源 SHA `11070e661a85f6a29f235acc6a3308d5a94eba8fb070cd5b2f21ac884c3d7042`；以下 quote 只增加 Markdown blockquote 前缀，逆回读必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `11070e661a85f6a29f235acc6a3308d5a94eba8fb070cd5b2f21ac884c3d7042`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # M2 场景模型设计(全场景静态迁移 + 引擎多场景)
 >

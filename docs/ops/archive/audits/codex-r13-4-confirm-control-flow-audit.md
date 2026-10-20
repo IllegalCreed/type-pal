@@ -1,72 +1,56 @@
-# N3-1 P7-R13-4 confirm 源控制流审计
+# N3-1 P7-R13-4 `confirm` 源控制流审计
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: audit-report-v1 / 1.0.0
 
-本页按正文语义迁移为 audit-report。原始日期、结论、数字、冲突和未知项保留；本页不授予当前产品、runtime、E2E、视觉或 coverage 信用。
+本页是 R13-4 `confirm` 源控制流审计的归档回执。冻结口径、三个 digest pin 与计数表在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 审计问题
 
-- N3-1 P7-R13-4 confirm 源控制流审计：完整读取 275 行/16555 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。
-- 历史问题域：26 RAW / 28 logical / 31 physical confirm 口径与 digest
+- Reforge host 的 `confirm` 恒 `true` 换成真实 UI 之前，源 `0x0A` 确认框的控制流（「是/否」分支生命周期）在 P3→P7 投影中是否保真。
 
 ## 范围与证据
 
-- 固定源 revision `81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5`，源 SHA `f0644f9c6174f90bddd86bbed86ff91e6e0d1b5074b443b239101c1cd2331c29`，全文 275 行 / 16555 bytes。
-- 证据范围：dated historical audit/index; static content only; current claims require a new source-backed record
-- 原始入口与依赖：当前 document-registry.json 与 20261004-structured-content-ops-01.json, 后继任务卡/测试 catalog（按正文引用）
+- 只读审计（2026-07-29，R13-4 build 前）；源 RAW `0x0A`、source execution sites、R13 cadence/cross-activation 物理计数与三个 digest（source census / cadence confirm target / final runtime）均在 quote 冻结。
 
 ## 发现
 
-| 历史域 | 具体观察 | 当前边界 |
-|---|---|---|
-| 1 | 26 RAW / 28 logical / 31 physical confirm 口径与 digest | dated historical only |
-| 2 | 逐站 No 目标、Yes fallthrough、terminal lifecycle 与 22/31 有损节点 | dated historical only |
-| 3 | 买水果、买米、s009 的用户可见 No 分支反例 | dated historical only |
-| 4 | P3/P7 根因、冻结旧 projector 与 append-only augmentation 约束 | dated historical only |
-| 5 | R13 evidence/MG2、content/SAVE epoch、Reforge/Editor 控制器和最低验收矩阵 | dated historical only |
+- 源 RAW `0x0A` 26 个唯一地址、28 个 source execution sites（仅 `@11019`、`@14583` 各扇出 2）；R13 cadence 28 个物理 confirm，cross-activation/final 31 个（s029/e536、s030/e540 的 `phase-002` 各 +1；s108/e2002 旧嵌套拆成 `continuation-004`/`continuation-006` 净 +1）。
+- 28 个源执行位中有 22 个在 P3→P7 投影时丢失「否」分支的 activation 生命周期；真实确认框直接上线会让「否」继续执行「是」的后缀。
 
 ## 结论
 
-N3-1 P7-R13-4 confirm 源控制流审计：完整读取 275 行/16555 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。
-
-- 原文状态 `historical` 保持；当前 main 的 content/SAVE 版本已变化，文中 content9/SAVE8 epoch 方案不能直接视为现行契约
+- 不能只把恒 `true` 换成真实 UI；确认框语义修复必须覆盖「否」分支的激活生命周期。
 
 ## 整改与复核
 
-- 下一步：保留 26/28/31 及反例；当前实现只可由新 source census、双跑 MG2、真实 confirm 两臂与 Editor/runtime evidence 重新证明。
-- 未决与停止线：- 当前 main 的 content/SAVE 版本已变化，文中 content9/SAVE8 epoch 方案不能直接视为现行契约
-- 确认框运行时、存档屏障、Editor v5 预览和浏览器 canary 均为当时验收要求，不是本篇静态证据
-- No/Yes 语义和 31 个物理节点必须以当前 canonical 产物复核，旧 digest 不能单独授权 build
-- 历史版本号与现行版本存在适用范围冲突，应在 archive overlay 中显式标注
-- 后继入口：当前 document-registry.json 与 20261004-structured-content-ops-01.json, 后继任务卡/测试 catalog（按正文引用）
+- 修复以三个 digest 与计数口径对账；本审计不替代 Kimi/GLM 推进签字。
 
 ## 历史范围
 
-- 源文件属于日期化历史材料；固定来源 `81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5`，本轮只做文档结构与语义迁移。
+- 2026-07-29 只读审计；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-N3-1 P7-R13-4 confirm 源控制流审计：完整读取 275 行/16555 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。
+- 26/28/28/31 计数组、22 丢失位与 digest pin 为原始结论本体。
 
 ## 当时证据
 
-- dated historical audit/index; static content only; current claims require a new source-backed record；原始链接、表格和命令在下方 quote 中逐行保留。
+- 三个 digest 与逐源站计数在 quote 保全。
 
 ## 当前有效性
 
-historical。当前 main 的 content/SAVE 版本已变化，文中 content9/SAVE8 epoch 方案不能直接视为现行契约
+- historical。确认框当前行为以现行实现与测试为准。
 
 ## 继任文档
 
-保留 26/28/31 及反例；当前实现只可由新 source census、双跑 MG2、真实 confirm 两臂与 Editor/runtime evidence 重新证明。
+- R13-4 实现任务卡与后续 confirm 语义验证；目录导航见[历史审计回执](../README.md)。
 
 ## 原文保全
 
-固定源 SHA `f0644f9c6174f90bddd86bbed86ff91e6e0d1b5074b443b239101c1cd2331c29`；以下只增加 quote 前缀，逆回读得到相同 UTF-8 字节。
+固定源 revision `81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5`，source SHA `f0644f9c6174f90bddd86bbed86ff91e6e0d1b5074b443b239101c1cd2331c29`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # N3-1 P7-R13-4 `confirm` 源控制流审计
 >

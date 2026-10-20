@@ -1,72 +1,56 @@
 # P7-R13-5 敌人脚本源语义审计
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: audit-report-v1 / 1.0.0
 
-本页按正文语义迁移为 audit-report。原始日期、结论、数字、冲突和未知项保留；本页不授予当前产品、runtime、E2E、视觉或 coverage 信用。
+本页是 P7-R13-5 敌人脚本源语义审计的归档回执。审计范围、语义损失清单与验收权威定义在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 审计问题
 
-- P7-R13-5 敌人脚本源语义审计：完整读取 150 行/10866 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。
-- 历史问题域：enemyObjects 三类 hook 与最终 EnemyDef/boss overlay/Reforge 消费范围
+- PAL `enemyObjects` 的 `scriptOnTurnStart`、`scriptOnReady`、`scriptOnBattleEnd` 三钩子到最终 `EnemyDef`、boss encounter overlay 与 Reforge 战斗消费的迁移是否忠实；`pendingScripts=[]` 能否证明敌人行为已迁移完成。
 
 ## 范围与证据
 
-- 固定源 revision `81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5`，源 SHA `172f2eb76b22b3efe77b6509f44fab3b94b37dbad6a210b5e783240e8e0f944f`，全文 150 行 / 10866 bytes。
-- 证据范围：dated historical audit/index; static content only; current claims require a new source-backed record
-- 原始入口与依赖：当前 document-registry.json 与 20261004-structured-content-ops-01.json, 后继任务卡/测试 catalog（按正文引用）
+- 2026-07-30 只读审计；对象为 `translate-enemy-scripts.ts` 当时的 plain/advance/reset END 统一分段模型与绝对 `turn >= k` 近似。
 
 ## 发现
 
-| 历史域 | 具体观察 | 当前边界 |
-|---|---|---|
-| 1 | enemyObjects 三类 hook 与最终 EnemyDef/boss overlay/Reforge 消费范围 | dated historical only |
-| 2 | 153 raw/projection/final、54 带脚本敌人、12 pending/31 source site 账 | dated historical only |
-| 3 | 12 个 pending 敌人逐项 disposition（420/421/422/435/463/469/483/486/499/519/539/547） | dated historical only |
-| 4 | enemy-496 双臂、enemy-483 时序、enemy-519 八项成长的动态金丝雀 | dated historical only |
-| 5 | 公共 delta、最低机器验收与代码锚点 | dated historical only |
+- 该模型同时丢失：概率失败后留在当前入口、下次激活重试；advance 后持久进入下一段；reset 后回到初始段；同一次激活内的条件跳转和随机多臂；`0x67` 改写的当前施法参数跨激活持续生效。
+- ready hook 中的 summon/transform/divide 是行动选择前的即时副作用，执行后仍会进入正常敌行动；投成一条 `AiRule` 会错误吞掉本轮行动。
 
 ## 结论
 
-P7-R13-5 敌人脚本源语义审计：完整读取 150 行/10866 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。
-
-- 原文状态 `historical` 保持；pending hook、battle choreography、battleEnd stages[0] 和 0x79 双臂缺口均未由本篇实际运行闭合
+- R13-5 不是「把 31 条 pending opcode 补进白名单」即可完成；`pendingScripts=[]` 只能证明没有字符串备注。验收权威=逐源站 disposition、敌钩多次激活轨迹和 raw → overlay → final 三层映射。
 
 ## 整改与复核
 
-- 下一步：保留 pending disposition 与动态验收矩阵；当前不把 153/153 产物存在性当成语义闭合。
-- 未决与停止线：- pending hook、battle choreography、battleEnd stages[0] 和 0x79 双臂缺口均未由本篇实际运行闭合
-- 敌人持久 cursor、battle-only choreography、onDefeated canonical authority、fail-loud 生成门禁属于未决公共 delta
-- 只读报告不授予敌人脚本、战斗演出、存档或 runtime 验收信用
-- 与 GLM/Kimi 对 pendingScripts 是否落最终文件的表述有历史口径差异；保留双方原结论，当前以 buildPalMigration 与最终产物逐项重核
-- 后继入口：当前 document-registry.json 与 20261004-structured-content-ops-01.json, 后继任务卡/测试 catalog（按正文引用）
+- 后续修复按三层映射对账；本审计不预设实现完成。
 
 ## 历史范围
 
-- 源文件属于日期化历史材料；固定来源 `81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5`，本轮只做文档结构与语义迁移。
+- 2026-07-30 只读审计；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-P7-R13-5 敌人脚本源语义审计：完整读取 150 行/10866 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。
+- 语义损失五类清单与 ready-hook 即时副作用定性为原始结论本体。
 
 ## 当时证据
 
-- dated historical audit/index; static content only; current claims require a new source-backed record；原始链接、表格和命令在下方 quote 中逐行保留。
+- 翻译器行为引用与验收权威定义在 quote 保全。
 
 ## 当前有效性
 
-historical。pending hook、battle choreography、battleEnd stages[0] 和 0x79 双臂缺口均未由本篇实际运行闭合
+- historical。敌人脚本当前行为以现行实现、三层映射与测试为准。
 
 ## 继任文档
 
-保留 pending disposition 与动态验收矩阵；当前不把 153/153 产物存在性当成语义闭合。
+- R13-5 实现任务卡与敌人行为验证；目录导航见[历史审计回执](../README.md)。
 
 ## 原文保全
 
-固定源 SHA `172f2eb76b22b3efe77b6509f44fab3b94b37dbad6a210b5e783240e8e0f944f`；以下只增加 quote 前缀，逆回读得到相同 UTF-8 字节。
+固定源 revision `81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5`，source SHA `172f2eb76b22b3efe77b6509f44fab3b94b37dbad6a210b5e783240e8e0f944f`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # P7-R13-5 敌人脚本源语义审计
 >

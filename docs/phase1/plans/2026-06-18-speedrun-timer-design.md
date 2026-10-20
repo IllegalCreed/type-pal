@@ -1,99 +1,55 @@
 # 速通计时器 设计方案（Speedrun Timer）
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: design-spec-v1 / 1.0.0
 
-本页把 phase1 历史设计接入 `design-spec-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是速通计时器设计方案的归档重写。目标、总体架构、计时语义与 checkpoint 检测在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 问题与目标
 
-- 当前问题：历史设计稿定义速通计时器的 wall-clock、checkpoint、最佳成绩和工具面板语义，但不能单独证明当前功能。
-- 目标结果：保全计时器设计的状态机、持久化和界面取舍，并把当前行为交给继任实现与测试证据。
+- 目标：第一阶段运行时的工具层覆盖功能（非核心引擎、非 Phase 2 Reforge）——速通计时器；参考 ihouou/PalTimer（仙剑98柔情外挂计时器）。设计日期 2026-06-18。
 
 ## 真值与约束
 
-- 原版/primary source：原始 Speedrun Timer 设计稿全文 quote；当前计时器代码和真实行为需另行核验。
-- 当前阶段证据：本页是 2026-06-18 的历史设计；本次只做正文治理和来源可追溯性检查。
-- 不可违反的约束：历史设计不得升格为当前实现；静态治理不授 runtime/E2E/视觉/coverage 信用。
-- 未知与冲突：检测器覆盖、最佳成绩写入和工具面板行为仍需当前代码、测试或用户证据确认。
+- 计时引擎语义：状态机 + wall-clock 主时钟 + 暂停与「3 秒倒计时恢复」；checkpoint 自动检测基于每帧从 `gs` 构建的进度快照与检测原语。
 
 ## 方案
 
-- 数据/流程/接口：保留原设计的计时状态机、checkpoint detector、PB 持久化和覆盖层/工具页关系，并以 archive overlay 标记历史边界。
-- 选择理由：这是规范性设计与取舍记录，使用 `design-spec-v1` 能保留方案和约束语义。
-- 明确不做：本次不修改计时器实现、不重写原始 quote、不授任何执行信用。
+- 分层：计时引擎、checkpoint 检测、UI 呈现；已消除的风险——场景号/敌人 ID/物品 ID 逐个对齐 extracted 数据。
 
 ## 边界与风险
 
-- 风险：设计稿中的实现状态、常量和 UI 取舍可能已被后续代码或产品决策改变。
-- 可证伪观察：当前代码、执行日志或 E2E 结果与本页设计约束不一致时，以新 primary source 为准并保留本页历史结论。
-- 迁移/兼容/法律边界：只迁移文档表达和证据账本；不保留或新增旧实现兼容入口。
+- 四项残余（quote 保全）：①5 个 atSpot 节点+香蕉树 3 格坐标 ~256px 版本偏差需运行时校准（常量集中、容差可调）；②学功夫 BGM wNumMusic===86 需运行时确认，不成则切候补信号；③战斗 won 相位轮询可能过紧→finalizeBattleCleanup 兜底回调；④进/出场景早触发→坐标/flag 守卫。
 
 ## 验收
 
-- 可执行验证：source/after SHA、原文 quote inverse、模板章节、registry/review/routing/catalog 一致性。
-- 业务 oracle：设计目标、状态机和持久化边界可追溯；当前行为必须由继任实现与测试证明。
-- 复核 Owner 与截止条件：Codex 独立复核；静态门通过且历史边界、来源哈希和继任入口齐全后接收本候选。
-
-## 目标与时间范围
-
-- 历史目标：Speedrun wall-clock, checkpoint detectors, best persistence, overlay and tools tab.
-- 日期：2026-06-18；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `6fd7bb18d3887867288e0e37b7d2fa6349e28e0b90bc8cabc52b9cd2e4f00d28`。
-
-## 里程碑
-
-- 原始章节：1. 目标；2. 总体架构；3. 计时引擎语义；3.1 状态机；3.2 主时钟：wall-clock；3.3 暂停与「3 秒倒计时恢复」；4. Checkpoint 自动检测；4.1 进度快照（每帧从 `gs` 构建）。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
-
-## 当前状态
-
-- historical；速通计时器 设计方案（Speedrun Timer）：这是 design-spec，当前文档状态为 historical。全文 240 行、25 个标题；摘要/首段为「> 日期：2026-06-18 · 阶段：第一阶段运行时的工具层覆盖功能（非核心引擎、非 Phase 2 Reforge）」。属于历史/归档材料，不能单独证明当前实现。
-
-## 阻塞与决策
-
-- 正文信号 46:- **打点**：每帧对「当前待触发节点」求值其 detector，命中即把主时钟快照写入该节点 `current`，并推进到下一节点（严格按序，不可乱序、不可回退）。
-- 正文信号 176:1. **自动**：一局跑到「通关」且**本局总时间 < `best[通关]`**（或基准为空）→ 用本局逐点 `current` **整条覆盖** `perCheckpoint`。半途快但未通关的跑不更新。
-- 正文信号 177:2. **手动**：设置里「用本次成绩设为最佳」→ 整条覆盖（即使未破纪录，允许手动锚定）。
-- 正文信号 194:- 每行 4 列：**节点名 | 最佳 | 差值(±色) | 本次**。当前待触发节点高亮；未到达的点本次列留空。
-- 停止线：do not promote historical claims to current truth without a current source or user decision
-
-## 下一步
-
-- 后继入口：Current timer code/product decision and behavior review.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 设计验收以用户确认为准；实现与运行时行为归实施篇 [speedrun-timer](2026-06-18-speedrun-timer.md) 与其测试。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-06-18；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `6fd7bb18d3887867288e0e37b7d2fa6349e28e0b90bc8cabc52b9cd2e4f00d28`。
+- phase1 plans 设计方案；时点 2026-06-18；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 速通计时器 设计方案（Speedrun Timer）：这是 design-spec，当前文档状态为 historical。全文 240 行、25 个标题；摘要/首段为「> 日期：2026-06-18 · 阶段：第一阶段运行时的工具层覆盖功能（非核心引擎、非 Phase 2 Reforge）」。属于历史/归档材料，不能单独证明当前实现。
+- wall-clock+状态机+checkpoint 检测架构与四项残余清单为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:速通计时器 设计方案（Speedrun Timer）; 6:1. 目标; 18:2. 总体架构; 38:3. 计时引擎语义; 40:3.1 状态机; 49:3.2 主时钟：wall-clock; 55:3.3 暂停与「3 秒倒计时恢复」; 60:4. Checkpoint 自动检测；原始正文、代码、表格、状态词在 quote 保全。
+- 各章设计依据与对齐声明在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 46:- **打点**：每帧对「当前待触发节点」求值其 detector，命中即把主时钟快照写入该节点 `current`，并推进到下一节点（严格按序，不可乱序、不可回退）。
-- 正文信号 176:1. **自动**：一局跑到「通关」且**本局总时间 < `best[通关]`**（或基准为空）→ 用本局逐点 `current` **整条覆盖** `perCheckpoint`。半途快但未通关的跑不更新。
-- 正文信号 177:2. **手动**：设置里「用本次成绩设为最佳」→ 整条覆盖（即使未破纪录，允许手动锚定）。
-- 正文信号 194:- 每行 4 列：**节点名 | 最佳 | 差值(±色) | 本次**。当前待触发节点高亮；未到达的点本次列留空。
+- historical。当前计时器行为以现行实现为准。
 
 ## 继任文档
 
-- Current timer code/product decision and behavior review.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [speedrun-timer](2026-06-18-speedrun-timer.md) 实施篇；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `6fd7bb18d3887867288e0e37b7d2fa6349e28e0b90bc8cabc52b9cd2e4f00d28`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后得到相同 bytes。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `6fd7bb18d3887867288e0e37b7d2fa6349e28e0b90bc8cabc52b9cd2e4f00d28`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # 速通计时器 设计方案（Speedrun Timer）
 >

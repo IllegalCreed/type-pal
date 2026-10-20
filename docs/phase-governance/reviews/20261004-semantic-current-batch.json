@@ -427,7 +427,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
       "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "2a5baebd1b64646139a487d55ef91d792b836842e0fa9479adb33291dd45e64f",
+      "afterSha256": "88deb801f8cf5af6d1fd479e8928770d18c797b8cf5561012143ad5e041cff03",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -959,6 +959,24 @@
           "previousAfterSha256": "49d696895590610efc94f1c23cbe9deb496d51f9823ff15f5c9b0c8b121a4184",
           "afterSha256": "2a5baebd1b64646139a487d55ef91d792b836842e0fa9479adb33291dd45e64f",
           "method": "Owner exact fixed347 nonauthor decisions/counters and preserved reuse scope; control after-pin maintenance only, no new native/product/full-goal credit.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S16 123 individual accepted bodies and8 explicit route/type corrections",
+          "sourceRevision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+          "previousAfterSha256": "2a5baebd1b64646139a487d55ef91d792b836842e0fa9479adb33291dd45e64f",
+          "afterSha256": "804de7e6ec2d5b124c0948c5d0d994da435c1a6371910c6fdab9fee90ab7148b",
+          "method": "Explicit S16 owner control/status/navigation/matrix writeback; no global semantic credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "S16 explicit98 phase catalog writeback, owner integration results and S17 admission controls",
+          "sourceRevision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+          "previousAfterSha256": "804de7e6ec2d5b124c0948c5d0d994da435c1a6371910c6fdab9fee90ab7148b",
+          "afterSha256": "88deb801f8cf5af6d1fd479e8928770d18c797b8cf5561012143ad5e041cff03",
+          "method": "Explicit Owner-reviewed S16 catalog/status/current-navigation delta or S17 build admission; no new semantic grant",
           "grantsNewSemanticAcceptance": false
         }
       ]

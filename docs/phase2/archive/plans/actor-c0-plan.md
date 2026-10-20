@@ -1,74 +1,56 @@
 # 角色模型 C0 · 实现计划(给 GLM)
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把历史实施计划接入 `plan-status-v1`，并追加 `archive-record-v1` 历史 overlay。原计划的日期、checkbox、执行分工、数字、结果词、未知和链接均在 quote 中保全；本页不授予当前待办、runtime、E2E、视觉或 coverage 信用。
+本页是第二阶段历史实现计划的归档重写。任务结构、分工、约束与验收在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现或准入信用。
 
 ## 目标与时间范围
 
-- 历史目标：ActorDef/BattlerSpec 与 SpriteLayout、Entity actor⊕sprite/facing 的 C0 分期；content schema/validate、demo characters→actors、reforge loader/sprite-anim/main 去硬编码、editor 编译修和 migrate fidelity gate。
-- 原始时间范围：2026-09-06；固定 source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `720bdb3f5b46c184d8cef185d9ea4eb09de4762b26c4c08d861c1df31d5938a4`。
-- 当前时间状态：历史归档；本页只说明当时计划的目的和边界，不续写执行期限。
+- 角色模型 C0：契约签名钉死（Claude 的 C1 照此接）；T1 content schema+纯函数（TDD）、T2 demo 工程数据迁移、T3 reforge loader 改名+sprite-anim+main 去硬编码。
 
 ## 里程碑
 
-- 原始章节/里程碑：总则；契约(签名钉死;Claude 的 C1 照此接)；T1 · content schema + 纯函数(TDD)；T2 · demo 工程数据迁移；T3 · reforge:loader 改名 + sprite-anim + main 去硬编码；T4 · editor 编译修(C0 只修通,不建 UI)；T5 · migrate fidelity + 总验收；不做(C1/B2 的)。
-- 计划步骤、Task 编号、分工和 checkbox 的原始含义均保留在下方 quote；它们不构成今天的 build 准入。
-- 本次治理里程碑：完成具体语义分栏、历史 overlay、源/after SHA 和继任入口登记。
+- 以契约钉死跨 Agent 接口的地基计划；去硬编码与 actor-model 设计呼应。
+- 逐 Task 明细（Global Constraints/契约/真值锚/Self-Review 如原文所载）在 quote 保全。
 
 ## 当前状态
 
-- 当前文档状态：`historical` / `archive`；正文状态信号：1:> **历史文档（2026-09-06 标注）**：本文写作于方案设计/计划阶段，正文中的执行指令、；2:> Agent 分工、版本号与“当前状态”均为**当时快照**，不是现行契约或待办；已被后续；10:> **状态**:待 GLM 对抗复核 → 开工。
-- 历史结论：角色模型 C0 · 实现计划(给 GLM)：这是 plan-status，当前文档状态为 historical。全文 154 行、9 个标题；摘要/首段为「> **历史文档（2026-09-06 标注）**：本文写作于方案设计/计划阶段，正文中的执行指令、」。属于历史/归档材料，不能单独证明当前实现。
-- 当前能力、实现结果和任务排序必须从继任规范、代码、看板/任务卡和新的独立证据读取。
+- historical：实现结果以 capability-map、现行 specs 与对应任务卡为准（quote 头部 2026-09-06 历史文档注记）。
 
 ## 阻塞与决策
 
-- 历史冲突/未决：
-- 待 GLM/Claude 的执行分工、checkbox、旧 charactersById/spriteNum 和 C0/C1 计划均为历史；poses/leveling/battle sprite/角色 UI 留后。
-- 当前 canonical actor/asset schema 可能已改为 content22/AssetId，不能按计划回写。
-- 停止线：不得把历史计划、checkbox、Self-Review、done/待审标签或浏览器验收步骤提升为 current contract、runtime/E2E/visual/coverage 证据；待 GLM/Claude 的执行分工、checkbox、旧 charactersById/spriteNum 和 C0/C1 计划均为历史；poses/leveling/battle sprite/角色 UI 留后。
-- 旧计划中的 done/open/待审/浏览器验收词只保留为日期化证据，不能改写为 current。
+- 原 Agent 分工（如 GLM/Claude 分段）与「签名钉死」契约仅作当时协作记录。
 
 ## 下一步
 
-- 继任入口：docs/phase2/READ-FIRST.md；docs/phase2/archive/designs/actor-model-design.md；当前 content/reforge/editor/capability-map。
-- 若需重新执行：先建立新的 task card，核对当前 primary source、合法输入、版本范围、business oracle、可证伪观察和独立验收；不得直接沿用本页步骤。
-- 本次迁移完成后仍需候选独立接收；全量 1838 目标保持 active/build。
+- 历史时点计划已完成或被后续演进取代；现行真值见 [READ-FIRST](../../READ-FIRST.md)。
 
 ## 历史范围
 
-- 原始范围：phase2 archive plan；日期/版本：2026-09-06；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，原文 153 行 / 11886 bytes。
-- 归档原因：计划包含当时的执行分工、接口、checkbox 和验收步骤，当前合同已经由后继规范/代码承接。
+- phase2 archive 实现计划快照；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 角色模型 C0 · 实现计划(给 GLM)：这是 plan-status，当前文档状态为 historical。全文 154 行、9 个标题；摘要/首段为「> **历史文档（2026-09-06 标注）**：本文写作于方案设计/计划阶段，正文中的执行指令、」。属于历史/归档材料，不能单独证明当前实现。
-- 保留原始结论的历史适用范围；新增章节不把计划结果提升为当前实现。
+- 任务链结构与关键约束为原始结论本体。
 
 ## 当时证据
 
-- source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `720bdb3f5b46c184d8cef185d9ea4eb09de4762b26c4c08d861c1df31d5938a4`；标题锚点：6:角色模型 C0 · 实现计划(给 GLM), 14:总则, 22:契约(签名钉死;Claude 的 C1 照此接), 75:T1 · content schema + 纯函数(TDD), 89:T2 · demo 工程数据迁移, 101:T3 · reforge:loader 改名 + sprite-anim + main 去硬编码, 132:T4 · editor 编译修(C0 只修通,不建 UI), 144:T5 · migrate fidelity + 总验收, 150:不做(C1/B2 的)。
-- 原始链接、代码、表格、checkbox 与状态词在下方逐行 quote 保留；本轮未运行计划中的 runtime/E2E/视觉/coverage。
+- 逐 Task 步骤与约束在 quote 保全。
 
 ## 当前有效性
 
-historical。当前不把计划步骤、Self-Review、done/open 标签、浏览器 gate 或历史数字视为现行契约或执行证据。
-- 当前不得外推：不得把历史计划、checkbox、Self-Review、done/待审标签或浏览器验收步骤提升为 current contract、runtime/E2E/visual/coverage 证据；待 GLM/Claude 的执行分工、checkbox、旧 charactersById/spriteNum 和 C0/C1 计划均为历史；poses/leveling/battle sprite/角色 UI 留后。
+- historical。
 
 ## 继任文档
 
-- current canonical / 复核入口：docs/phase2/READ-FIRST.md；docs/phase2/archive/designs/actor-model-design.md；当前 content/reforge/editor/capability-map。
-- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。
-- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。
+- [actor-model 设计](../designs/actor-model-design.md)；[archive 导航](../README.md)。
 
 ## 原文保全
 
-固定源 SHA `720bdb3f5b46c184d8cef185d9ea4eb09de4762b26c4c08d861c1df31d5938a4`；以下只增加 quote 前缀，逆回读必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `720bdb3f5b46c184d8cef185d9ea4eb09de4762b26c4c08d861c1df31d5938a4`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > > **历史文档（2026-09-06 标注）**：本文写作于方案设计/计划阶段，正文中的执行指令、
 > > Agent 分工、版本号与“当前状态”均为**当时快照**，不是现行契约或待办；已被后续

@@ -1,84 +1,55 @@
 # M4 · 战斗系统设计(v1 骨架，数据/命令表待普查补全）
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: design-spec-v1 / 1.0.0
 
-本页把历史设计正文接入 `design-spec-v1`，并保留 archive overlay。原始日期、方案语义、版本数字、冲突、未知项和链接均通过下方逐行引用保全；本页不授予当前产品、runtime、E2E、视觉或 coverage 信用。
+本页是 M4 战斗系统设计（v1 骨架）的归档重写。两条铁律、分层方案与普查回填范围在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 问题与目标
 
-- 历史设计问题/目标：M4 战斗纯核+壳分层，回合流程和结算沿用一阶段骨架；普查数据范围；SkillEffect/ItemUseEffect 共享；敌人 AI 命令/fallback；battleAnim；按 fidelity gate 分期。
-- 文档身份：phase2 / archive；原始状态为 `archived`，当前有效性固定为 `historical`。
-- 本次目标：让历史设计具备可检索的设计章节和历史边界，不把当时方案改写成当前合同。
+- 第二阶段最后一个大件（工作量≈整个 M3，2026-07-03）：战斗系统 v1 骨架，数据/命令表待普查补全。
 
 ## 真值与约束
 
-- 固定源 revision：`45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA：`d5e6e7509a35ce680b012129828c82f5e154e638a9b03817580df29aa13e6d37`；原文 143 行、11123 bytes。
-- 一手来源/正文锚点：docs/phase2/archive/designs/battle-model-m4-design.md:1-1；标题锚点：1:M4 · 战斗系统设计(v1 骨架，数据/命令表待普查补全）, 8:0. 一句话, 14:1. 两条铁律（向用户承诺，M4 的成败线）, 38:2. 分层（复用 M1–M3 的"纯核 + 壳"骨架）, 51:3. 回合流程（一阶段 battle-system.ts 骨架，忠实移植）, 69:4. 数据迁移范围（普查回填，2026-07-03）, 86:5. 战斗命令集（普查回填）—— 关键决策：效果复用，不重造, 90:# 5.1 效果类（15 个共享 op）→ 复用 M1c/d 的 `SkillEffect` / `ItemUseEffect`。
-- 当前阶段证据：本批只做文档全文读取、语义分层和字节保全；current contract 必须回读继任规范、当前代码和真实调用域。
-- 不可违反的约束：历史状态词只描述原文时点；旧 schema、迁移计划、done/待审标签和演出设想不得单独证明今天的实现。
-- 未知与冲突：
-- 标题明确数据/命令表待补全；AI、命令、动画和多人/边界行为仍有历史待定项。
-- fallback 数量、字段和“已拍板”只代表当时设计输入，不能作为当前战斗 runtime 或完整性证明。
+- 依据：一阶段 `packages/game/src/core/battle/` 骨架忠实移植 + 两条铁律（向用户承诺，M4 的成败线，quote 保全原文）。
 
 ## 方案
 
-- 原始方案语义：M4 战斗纯核+壳分层，回合流程和结算沿用一阶段骨架；普查数据范围；SkillEffect/ItemUseEffect 共享；敌人 AI 命令/fallback；battleAnim；按 fidelity gate 分期。
-- 本次治理方案：将上述语义拆入问题、真值、方案、边界、验收五个可定位章节；原文不删节，以 quote 作为唯一完整正文保全层。
-- 继任关系：
-- 当前 packages/game 与 packages/reforge 战斗代码
-- docs/phase2/READ-FIRST.md
-- 当前 content schema/战斗资料
-- 明确不做：不执行原文迁移/实现步骤，不恢复 legacy fallback，不把历史计划、Self-Review 或静态审计当作 runtime/E2E/视觉/coverage 结果。
+- 分层复用 M1–M3 的「纯核+壳」骨架；回合流程按一阶段 battle-system.ts 忠实移植；数据迁移范围与战斗命令集由普查回填（2026-07-03）；关键决策：效果复用，不重造。
 
 ## 边界与风险
 
-- 历史边界：本文可以说明当时为什么设计、如何计划和哪些问题已被识别，不能替代当前 canonical 文档、源码、测试或用户裁决。
-- 主要冲突/风险：
-- 标题明确数据/命令表待补全；AI、命令、动画和多人/边界行为仍有历史待定项。
-- fallback 数量、字段和“已拍板”只代表当时设计输入，不能作为当前战斗 runtime 或完整性证明。
-- 停止线：不得依据 M4 设计直接改战斗 schema/运行时或宣称全量覆盖；先以当前 battle/content 代码和一手原版证据核对。
-- 若重新启用：必须以当前一手来源重新核对 schema、版本、调用方、合法输入和业务 oracle，并建立新的 review record；不得沿用本页日期作准入。
+- v1 骨架阶段命令表不全，靠普查回填闭环。
 
 ## 验收
 
-- 可执行验证：模板章节完整；原文 quote 去除 `> ` 前缀后与 source UTF-8 字节逐字节相等；source/after SHA 写入 central review、registry、catalog 和 evidence receipt。
-- 业务 oracle：历史结论、日期、状态、数字、链接、未知和冲突可定位；任何当前性主张都有继任入口或明确停止线。
-- 本次执行范围：只读源、模板迁移、账本同步和静态治理门；runtime、E2E、视觉、coverage 均未运行。
-- 复核 Owner 与截止条件：Codex 独立复核本页及三账本；非作者候选验收通过前保持 build/review，不标全量完成。
+- 两条铁律为成败线；实现以现行 battle-core 为准。
 
 ## 历史范围
 
-- 原始范围：phase2 archive design；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，原始正文 SHA `d5e6e7509a35ce680b012129828c82f5e154e638a9b03817580df29aa13e6d37`，原文日期和版本轴以 quote 为准。
-- 归档原因：正文混合历史设计、阶段计划和后来附录；继任规范/代码已经承担当前合同，故本页只保留历史证据。
+- phase2 archive 设计快照；时点 2026-07-03；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- M4 · 战斗系统设计(v1 骨架，数据/命令表待普查补全）：这是 design-spec，当前文档状态为 historical。全文 144 行、13 个标题；摘要/首段为「> 2026-07-03。最后一个大件，工作量 ≈ 整个 M3。基于：①一阶段 `packages/game/src/core/battle/`」。属于历史/归档材料，不能单独证明当前实现。
-- 上述结论只属于其原始日期和适用范围；本页新增的结构化表述不改变原始结论。
+- 纯核+壳复用、忠实移植与效果复用决策为原始结论本体。
 
 ## 当时证据
 
-- source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `d5e6e7509a35ce680b012129828c82f5e154e638a9b03817580df29aa13e6d37`；全文 143 行 / 11123 bytes。
-- 原文标题/章节锚点：1:M4 · 战斗系统设计(v1 骨架，数据/命令表待普查补全）, 8:0. 一句话, 14:1. 两条铁律（向用户承诺，M4 的成败线）, 38:2. 分层（复用 M1–M3 的"纯核 + 壳"骨架）, 51:3. 回合流程（一阶段 battle-system.ts 骨架，忠实移植）, 69:4. 数据迁移范围（普查回填，2026-07-03）, 86:5. 战斗命令集（普查回填）—— 关键决策：效果复用，不重造, 90:# 5.1 效果类（15 个共享 op）→ 复用 M1c/d 的 `SkillEffect` / `ItemUseEffect`。完整正文与链接、表格、代码、历史状态词在下方 quote 保留。
+- 铁律原文与普查回填章节在 quote 保全。
 
 ## 当前有效性
 
-historical。不得将历史设计字段、迁移步骤、旧版本号、done/待审标签或静态审计结果外推为当前事实。
-- 当前不得外推的部分：不得依据 M4 设计直接改战斗 schema/运行时或宣称全量覆盖；先以当前 battle/content 代码和一手原版证据核对。
+- historical。现行真值见 [READ-FIRST](../../READ-FIRST.md)。
 
 ## 继任文档
 
-- 当前 canonical / 复核入口：当前 packages/game 与 packages/reforge 战斗代码, docs/phase2/READ-FIRST.md, 当前 content schema/战斗资料。
-- supersedes / superseded-by：本页保留旧结构化记录作为历史；当前合同由继任规范、代码和新的独立审查记录决定。
-- 重新启用条件：新的 primary source、版本/适用范围、合法输入、business oracle、可证伪观察和独立验收齐备。
+- [enemy-ai-design](enemy-ai-design.md) 与现行 battle-core；[archive 导航](../README.md)。
 
 ## 原文保全
 
-固定源 SHA `d5e6e7509a35ce680b012129828c82f5e154e638a9b03817580df29aa13e6d37`；以下 quote 只增加 Markdown blockquote 前缀，逆回读必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `d5e6e7509a35ce680b012129828c82f5e154e638a9b03817580df29aa13e6d37`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # M4 · 战斗系统设计(v1 骨架，数据/命令表待普查补全）
 >

@@ -1,69 +1,42 @@
 # 文档结构整理证据
 
-Status: historical
-Validity: historical
+Status: current（仅指导航）
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
-Template: evidence-receipt-v1 / 1.0.0
+Last reviewed: 2026-10-20
+Template: governance-index-v1 / 1.0.0
 
-本页把历史材料接入 `evidence-receipt-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 DOC-IA-2（全仓文档 IA 整理）时点证据目录的当前导航：relocation.json（搬迁前哈希、逐文件去向、目录映射）为本次执行输入的历史快照，不应根据当前树重写；另有补充移动记录（additional-attachments.json）与最终保真清理回执（preservation-report.json）。
 
-## 证据身份
+## 目的
 
-- `id`：原始证据记录的稳定 ID（保留于 quote）。
-- `schemaVersion`：原始记录版本（保留于 quote）。
-- `status`：historical receipt；不改写为当前 verified。
-- candidate/source SHA：见本页 source/after SHA 和原始 quote。
+- 提供 DOC-IA-2 执行输入与保真回执入口；快照登记的是整理时点状态。
 
-## 来源与输入
+## 范围
 
-- caller/source refs（file:line）：由原始证据记录保全；本页 source `docs/ops/archive/evidence/DOC-IA-2/README.md`。
-- 合法输入与版本：固定历史 source revision、原始数据/命令和记录环境。
-- 执行时间和环境：以原始 receipt 为准；本次迁移不重跑。
+- 当前包含：relocation.json、additional-attachments.json（执行过程附件移动计划；四张早期截图随后按用户意见退出工作树）、preservation-report.json（保留文件与可从 Git 恢复旧截图的区分）。
+- 明确不包含：按当前树重写快照；截图字节的可恢复性以 Git 与回执为准。
 
-## 断言与业务 oracle
+## 当前状态
 
-- 业务 oracle：原始 receipt 的 caller、输入、断言和结果关系可追溯。
-- 原子断言：quote 中每条机器/人工断言保持原样。
-- 排重对象：当前 task card、同批 evidence 和 successor receipt。
+- `status`: current（导航索引）；登记内容为整理时点快照。
+- `lastReviewed`: 2026-10-20
 
-## 结果
+## 入口与责任
 
-- 逐步结果、退出码、产物：保留原始记录；不把历史回执升格为当前通过。
-- 失败：原始失败、rework、未执行和 unknown 信号继续保留。
+- 登记文件：[relocation.json](relocation.json)、[additional-attachments.json](additional-attachments.json)、[preservation-report.json](preservation-report.json)。
+- canonical 入口：本页与上述三个登记文件；上级为[时点证据](../README.md)。
+- Owner：Codex（文档治理）；整理执行归 DOC-IA-2 原任务。
+- 下游使用者：文档整理追溯。
 
-## 限制与复核
+## 证据与下一步
 
-- 未执行/未覆盖：- （无新增；历史边界保持开放）
-- 不得外推的结论：不得外推 runtime、E2E、视觉、coverage 或当前产品完成。
-- 复核条件：当前 consumer、source/oracle、task card 和独立验收重新齐全后才可重开。
-
-## 历史范围
-
-- phase2/lore archive；日期：undated；固定来源 `1cfb47719fd36122d73b3d1ac7642cec192ccc15`；source SHA `7c5c025d86c795c0e6f9f69b51e5c6f0cd00e1b7895791f1cba2eb5234e9f1a5。
-
-## 原始结论
-
-- 文档结构整理证据：这是 evidence-receipt，当前文档状态为 historical。全文 13 行、2 个标题；摘要/首段为「relocation.json 登记搬迁前哈希、逐文件去向和目录映射；它是本次执行输入的历史快照，不应根据当前树重写。」。属于历史/归档材料，不能单独证明当前实现。
-
-## 当时证据
-
-- 原始标题/章节/HTML artifact 在 quote 或 artifact envelope 中保全。
-
-## 当前有效性
-
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：
-- （无新增；历史边界保持开放）
-
-## 继任文档
-
-- Current evidence receipt, task card and verified consumer result when re-run.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+- 关键来源：目录原卡（源身份与逆回规则见下方程序生成的保全节，不在正文手写哈希）。
+- 未决/阻塞：无。
+- 下一步：无扩充计划；快照不重写。
 
 ## 原文保全
 
-固定源 SHA `7c5c025d86c795c0e6f9f69b51e5c6f0cd00e1b7895791f1cba2eb5234e9f1a5`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `1cfb47719fd36122d73b3d1ac7642cec192ccc15`，source SHA `7c5c025d86c795c0e6f9f69b51e5c6f0cd00e1b7895791f1cba2eb5234e9f1a5`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 文档结构整理证据
 >

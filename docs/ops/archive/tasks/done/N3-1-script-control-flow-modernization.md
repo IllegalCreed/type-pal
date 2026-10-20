@@ -2,54 +2,66 @@
 
 Status: done
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: task-card-v1 / 1.0.0
 
-本页把已关闭 ops 任务卡接入 `task-card-v1`，并追加 `archive-record-v1` 历史边界。原始状态、日期、证据、counter、链接和未决项在 quote 中保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。
+本页是已关闭的 N3-1 大卡（结构化控制流、实体具名行为与内部脚本退役）的归档重写：保留原始目标、范围、审计基线数字、P0–P7 分批、三方签字、R13 系列返工与用户验收的历史事实。原始状态、日期、证据、counter、链接和未决项在 quote 中逐字节保全；历史 done 不自动授权当前 build、runtime、E2E、视觉或 coverage。quote 逆回读需按保全节 codec 规则（唯一 U+2420 行尾空格解码）执行，不能按普通 UTF-8 直接声称 exact。
 
 ## 目标
-- 保留原任务的目标、完成边界、历史结论和用户可见适用范围。
+
+- 把 PAL 迁移留下的 `scene/*/L-*`、`shared/scc-*`、`jumpScript` 和动态脚本指针从作者可见内容模型退役：实体/NPC 直接拥有可创建、命名、编辑、引用和切换的具名行为槽；分支/循环/多阶段行为用结构化控制流或具名状态机表达；只有真正跨调用方复用的业务逻辑进入共享脚本库；chunk/shard/lowering 只作可再生存储与编译实现。
+- 用户可见终点：「把 e2495 的触发行为切换为『交出天书后』」，而不是指向匿名内部块（用户 2026-07-23 裁决，quote 保全）。
 
 ## 范围
-- 当前包含：原卡声明的实现/测试/证据范围及其历史限制。
-- 明确不包含：本次迁移不修改产品源码、旧测试、真实数据或历史结论。
+
+- 范围内：源 CFG/迁移 body/入口绑定/引用/循环/不可达体/共享尾部审计入仓；实体 trigger/auto 具名行为槽与 mode 原子切换；场景 onEnter/onTeleport 本地具名 hook 变体；goto 图迁嵌套分支/结构化循环/具名状态机；共享脚本判据回归「通用函数」本义（2026-07-24 裁决：268 炼蛊皿→craftRecipe、270 紫金葫芦→drawFromResourcePool 回归物品模块）；content schema/迁移器/运行时/存档/编辑器/引用删除安全全量重迁 PAL。
+- 范围外/明确不做：不重写剧情文案与演出节奏；不提供 goto/裸地址/chunk id/`jumpScript` 的作者插入入口；不把不可约图静默丢弃或无限内联；不直接改 `projects/pal` 产物；三签前不改实现或冻结 schema。
+- 下游验收依赖（用户裁决 2026-07-24）：C8 与 ED-5I 在本卡终态前不得最终验收；N3-1 完成后两卡作下游回归门禁。
 
 ## 前提与证据
-- primary source：固定 source revision `4c0da02bee76c5616d0fda14a00f24bd7c8de621` 与原卡全文。
-- 合法输入、caller、证据和 counter：按原文 quote 解释；本次不重跑原执行。
-- 事实权：当前 task card、代码、consumer 和新 receipt；历史卡不单独证明当前行为。
+
+- primary source：固定 source revision `4c0da02b` 与原卡全文（保全节全量 pin）。
+- 冻结前审计基线（2026-07-23 两轮只读审计，quote 表格保全）：脚本体 11,447（场景根 6,453+内部 4,975+…）、`shared/scc-*` 13（无环，命名错误）、作者根 6（未真正拥有 body）、递归引用 3,857（call 675/jump 2,642/auto 342/trigger 198）、外部入口 5,942（含 s018 唯一异常绑定）、reachable 8,102/unreachable 3,345（863 SpriteDef+2,482 HostileBehavior 折叠残留）、循环 SCC 676、reachable 循环 331、共享尾部 532。
+- P1 版本轴裁决（2026-07-24 三签冻结）：N3-1 用 `contentVersion 5`、A7-4 顺延 v6、`SAVE_VERSION` 4→5；P2–P6 只生成影子迁移 target 与 transition ledger，P7 才事务发布。
+- 已知坑、代码锚点（script.ts/main.ts/translate-events.ts 行号）与「不得重新引入」清单在 quote 保全；数字勾稽（675+2,642+342+198=3,857 等）经 Kimi 复核自洽。
 
 ## 验收
-- 原卡历史验收、失败、blocked、rework 和未执行边界保持原样。
-- 本次迁移验收：source/after SHA、quote inverse、模板章节、链接和历史 overlay 通过。
-- runtime/E2E/视觉/coverage：本次均未执行，信用为 0。
+
+- 功能/数据模型：canonical 无作者可见 `scene/*/L-*`/`shared/scc-*`/派生内部身份；作者级 `jumpScript` 与裸 `ScriptRef` 归零；实体检查器行为槽完整 CRUD+引用反查；e2493/e2495 端到端金丝雀闭环；runtime reachable 循环全部归类；共享库只含真正复用根；编译产物可再生且语义 hash 相同。
+- 审计/迁移：43,503 源命令全覆盖未分类数为 0；3,345 不可达体上游剪枝；388 auto+202 trigger+61 scene hook setter 全迁（342/198 为引用子口径）；每批根因测试+全量重迁+连续二跑 `writes=0/deletes=0/conflicts=0`。
+- 测试/文档/视觉：content/migrate/reforge/editor 四域测试矩阵、C8/ED-5I 下游回归、全量门禁；P0–P6 为审计与影子迁移无 UI 变化（视觉验证 N/A，后批改 editor/runtime 须重登记）。
+- 最终结果：用户确认性验收 **accept（2026-08-06）**，三方 accept 齐，C8/ED-5I 联合回归完成，提交 `e70987d6`；中途 R13-0~R13-5 系列（cadence/confirm/cross-activation/throw/enemy hook/battle context 等）按三贤人门禁逐项设计/实现审查后收口（交接日志 quote 保全）。
 
 ## 状态与交接
-- `status`: done（历史快照）；当前工作不得从 quote 中自动获得 build 授权。
-- Owner/provenance：原卡保留于 quote；当前文档治理 owner 为 Codex。
-- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收。
+
+- `status`: done（历史快照）；历史签字、R/G/P 必落钉与豁免记录原样保留，不追溯重开。
+- 推进签字沿革：设计 agree 三方齐 2026-07-23（Kimi 附 R1–R5、GLM 附 G1–G7 必落钉，GLM 初审 2026-07-15）；P1 冻结子门禁 agree 齐 2026-07-24；done 门禁由 blocked 随最终验收解除。
+- 下一步：若需重新启用，创建当前 task card，重新核 primary source、合法输入、business oracle 和独立验收；历史 Agent 提示词（R13-0~R13-5）均已执行，保留备查勿再执行。
 
 ## 历史范围
-- 原始日期、版本、阶段：源文档固定于 `4c0da02bee76c5616d0fda14a00f24bd7c8de621`；本轮为 2026-10-17 R53。
-- 归档原因：已关闭任务记录只作为时点事实保留，避免历史状态冒充当前事实。
+
+- phase2 大卡；建卡 2026-07-23 至用户验收 2026-08-06；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
-- `Status: done（2026-08-06 用户确认性验收通过；全部门禁 + 三方 accept 齐）`；原始任务语义完整保留于下方 quote。
+
+- 「内部脚本/私有块不能作为最终设计」裁决、P0–P7 上游优先分批、影子迁移纪律与最终 accept 为原始结论本体。
 
 ## 当时证据
-- 原始命令、产物、SHA、签字、counter、链接和状态保留于 quote。
+
+- 审计基线表、签字原文、GLM/Kimi 各批代审与复审、R13 系列设计/实现审查、用户验收段与提交号在 quote 保全。
 
 ## 当前有效性
+
 historical。do not promote historical task card to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：需由当前 task card、consumer 和新证据重新复核。
+- 历史冲突/未决：编辑器摘要行 polish 仅作独立后续观察；现行行为以当前代码与任务卡为准。
 
 ## 继任文档
-- 当前 canonical 文档：当前任务卡、当前代码/consumer 和 fresh receipt。
-- supersedes / superseded-by：替代 governed-legacy 的未分层呈现；原卡内容不删除。
-- 若重新启用的复核条件：合法输入重跑、业务 oracle 可证伪、独立 review 和全量静态门通过。
+
+- 当前 canonical：现行 content schema（v5+ 演进）、脚本系统 specs 与活动任务卡；[archive 导航](../../README.md)。
 
 ## 原文保全
-固定源 revision `4c0da02bee76c5616d0fda14a00f24bd7c8de621`，source SHA `c369eaf317a8ee724d2823de856e9539b11d57ac8bf3b84bad079354f3048834`。原源第8711行的一个行尾空格在quote中以`␠`表示；剥离blockquote前缀后，须仅将该处行尾U+2420解码为U+0020，才与840326字节Git真源逐字节相等。普通UTF-8直接逆回不相等；不能把编码后相等声明为直接exact。quote字节保持，本次只补保全口径，不重授语义或历史执行信用。
+
+固定源 revision `4c0da02bee76c5616d0fda14a00f24bd7c8de621`，source SHA `c369eaf317a8ee724d2823de856e9539b11d57ac8bf3b84bad079354f3048834`；下方 quote 逆回读规则：逆回读：逐行剥 "> " 或裸 ">" 后，将 offset 659166 处唯一 U+2420(e290a0) 解码为 ASCII 空格(20)（对应原源第 8711 行）；21 处 U+2460 圈号①(e291a0) 为真源原义原样保留；其余字节逐字相等（840326B）。
 <!-- original-source-quote:start -->
 > # N3-1 - 结构化控制流、实体具名行为与内部脚本退役
 >

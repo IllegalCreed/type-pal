@@ -1,83 +1,56 @@
 # M3 · 战斗垂直切片 Design
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 M3 战斗垂直切片设计的归档重写。四刀结构与事件系统复用亮点在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：M3 battle design: D29 dual baselines; data schema expansion; battle core and event reuse; battle UI and dev panel; test tiers; D30 decision proposals; module organization and boundaries.
-- 日期：2026-05-23；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `d030e218834e3856eaba1a9307d870aa681474a8cb7893cc5a04de43f8d8b43c`。
+- 目标：M3（战斗垂直切片）设计文档（brainstorming 产出）；配套实施计划在 [m3-battle-vertical-slice](2026-05-23-m3-battle-vertical-slice.md)。
+- 时间范围：2026-05-23；含对里程碑划分的调整。
 
 ## 里程碑
 
-- 原始章节：与全局文档的关系；对里程碑划分的调整；范围；1 D29 双基准基建(M3 第一刀)；2 数据 schema 大改(M3 第二刀)；3 战斗系统骨架(M3 主战场)；4 事件系统复用(架构亮点)；5 战斗 UI(`packages/game/src/present/battle/`)。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- 四刀：D29 双基准基建（M3 第一刀）、数据 schema 大改（第二刀）、战斗系统骨架（主战场）、事件系统复用（架构亮点——探索切片的事件系统直接服务战斗）。
 
 ## 当前状态
 
-- historical；M3 · 战斗垂直切片 Design：这是 design-spec，当前文档状态为 historical。全文 442 行、31 个标题；摘要/首段为「> 这是 M3 的**设计文档**(brainstorming 产出),只讲"做什么 / 怎么组织 / 怎么验证"。」。属于历史/归档材料，不能单独证明当前实现。
+- historical：M3 完工（目录索引 ✅）。
 
 ## 阻塞与决策
 
-- 正文信号 31:| sdlpal classic build + headless battle harness(数值基准)| 未明示 | **M3 新增**(D29 数值类基准,直接 derive 自 D29 原则 + M3 新发现:见下) |
-- 正文信号 33:| Items / Spells schema 大改(同样 sdlpal 1:1)| 未明示(原 M5 全战斗一起做)| **M3 提前**(理由:dev 入口 + 5 actions 全集要选物品 / 法术,schema 不全无从选;M2 enemies 走过同一条路) |
-- 正文信号 34:| `wScriptOnUse` 复用 EventSystem 走 item / magic 效果 | 未明示 | **M3 架构**(M1 OBJECT_ITEM/MAGIC 字段已揭示 wScriptOnUse;符合 D17 富模型 + D26 raw skip) |
-- 正文信号 91:pendingAction?: BattleAction        // 队员当前选的 action(等 perform)
-- 正文信号 148:- `draw-battle-bg.ts` —— FBP.MKF 中战场背景渲染(M3 fixture 用一张默认背景,资源 M1/M2 未提取的话顺手提)
-- 正文信号 210:### 8 D30 决策建议(新增,待 04 决策表追加)
-- 正文信号 353:选好目标 → pendingAction = { type:'magic', magicId, target } → 推进 selectingPlayerIdx
-- 正文信号 360:emit playMagicAnim 命令 + waiting='magicAnim'  ← 可等待命令
-- 正文信号 387:- **未具名战斗 opcode 撞到**:D26 默认 no-op skip + console.debug + ip++,**不抛错**。M3 实施期靠 console 日志增量补具名。
-- 正文信号 390:- **headless harness 失败**(sdlpal classic build 未编 / patch 应用失败):baseline 测试 skip + warn,不 fail。
-- 正文信号 435:| Item / Magic 的 wScriptOnUse 撞到大量未具名 opcode,具名工作量爆 | M3 fixture 用最简 fixture(只 1-2 个法术 / 物品),撞到的 opcode 数控量在 10-20 个;具名按需,raw skip 兜底(D26) |
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- 双基准先行（真实数据基准+回归基准）防战斗数值漂移；schema 大改在骨架前锁定。
 
 ## 下一步
 
-- 后继入口：M3 implementation plan and current battle code; D29/D30 decisions must be read from current status.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点由实施篇承接；当前战斗架构以现行代码为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-05-23；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `d030e218834e3856eaba1a9307d870aa681474a8cb7893cc5a04de43f8d8b43c`。
+- phase1 plans M3 设计；时点 2026-05-23；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- M3 · 战斗垂直切片 Design：这是 design-spec，当前文档状态为 historical。全文 442 行、31 个标题；摘要/首段为「> 这是 M3 的**设计文档**(brainstorming 产出),只讲"做什么 / 怎么组织 / 怎么验证"。」。属于历史/归档材料，不能单独证明当前实现。
+- 四刀结构与事件系统复用决策为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:M3 · 战斗垂直切片 Design; 6:与全局文档的关系; 18:对里程碑划分的调整; 43:范围; 45:1 D29 双基准基建(M3 第一刀); 56:2 数据 schema 大改(M3 第二刀); 77:3 战斗系统骨架(M3 主战场); 135:4 事件系统复用(架构亮点)；原始正文、代码、表格、状态词在 quote 保全。
+- 与全局文档的关系、范围与各刀设计在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 31:| sdlpal classic build + headless battle harness(数值基准)| 未明示 | **M3 新增**(D29 数值类基准,直接 derive 自 D29 原则 + M3 新发现:见下) |
-- 正文信号 33:| Items / Spells schema 大改(同样 sdlpal 1:1)| 未明示(原 M5 全战斗一起做)| **M3 提前**(理由:dev 入口 + 5 actions 全集要选物品 / 法术,schema 不全无从选;M2 enemies 走过同一条路) |
-- 正文信号 34:| `wScriptOnUse` 复用 EventSystem 走 item / magic 效果 | 未明示 | **M3 架构**(M1 OBJECT_ITEM/MAGIC 字段已揭示 wScriptOnUse;符合 D17 富模型 + D26 raw skip) |
-- 正文信号 91:pendingAction?: BattleAction        // 队员当前选的 action(等 perform)
-- 正文信号 148:- `draw-battle-bg.ts` —— FBP.MKF 中战场背景渲染(M3 fixture 用一张默认背景,资源 M1/M2 未提取的话顺手提)
-- 正文信号 210:### 8 D30 决策建议(新增,待 04 决策表追加)
-- 正文信号 353:选好目标 → pendingAction = { type:'magic', magicId, target } → 推进 selectingPlayerIdx
-- 正文信号 360:emit playMagicAnim 命令 + waiting='magicAnim'  ← 可等待命令
-- 正文信号 387:- **未具名战斗 opcode 撞到**:D26 默认 no-op skip + console.debug + ip++,**不抛错**。M3 实施期靠 console 日志增量补具名。
-- 正文信号 390:- **headless harness 失败**(sdlpal classic build 未编 / patch 应用失败):baseline 测试 skip + warn,不 fail。
-- 正文信号 435:| Item / Magic 的 wScriptOnUse 撞到大量未具名 opcode,具名工作量爆 | M3 fixture 用最简 fixture(只 1-2 个法术 / 物品),撞到的 opcode 数控量在 10-20 个;具名按需,raw skip 兜底(D26) |
+- historical。
 
 ## 继任文档
 
-- M3 implementation plan and current battle code; D29/D30 decisions must be read from current status.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [m3-battle-vertical-slice](2026-05-23-m3-battle-vertical-slice.md) 实施篇；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `d030e218834e3856eaba1a9307d870aa681474a8cb7893cc5a04de43f8d8b43c`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `d030e218834e3856eaba1a9307d870aa681474a8cb7893cc5a04de43f8d8b43c`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # M3 · 战斗垂直切片 Design
 >

@@ -1,84 +1,55 @@
 # 对话系统结构化数据模型 · 设计
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: design-spec-v1 / 1.0.0
 
-本页把历史设计正文接入 `design-spec-v1`，并保留 archive overlay。原始日期、方案语义、版本数字、冲突、未知项和链接均通过下方逐行引用保全；本页不授予当前产品、runtime、E2E、视觉或 coverage 信用。
+本页是对话系统结构化数据模型设计的归档重写。决策边界、语义真值/承载格式原则与数据模型在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 问题与目标
 
-- 历史设计问题/目标：对话结构化模型：DialogueCue/Row、text ID/i18n、content14 人物身份/立绘归属、控制符迁移、分页/autoAdvance 状态机、外观继承和分支留口；按三刀实施。
-- 文档身份：phase2 / archive；原始状态为 `archived`，当前有效性固定为 `historical`。
-- 本次目标：让历史设计具备可检索的设计章节和历史边界，不把当时方案改写成当前合同。
+- 对话系统结构化数据模型（quote 0 节大白话定义）；决策边界 2026-06-26 与作者拍板。
 
 ## 真值与约束
 
-- 固定源 revision：`45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA：`e8b045286733caa0cb667d2d5c2a0585ac0448c70603ab8c4743b07985300593`；原文 203 行、15186 bytes。
-- 一手来源/正文锚点：docs/phase2/READ-FIRST.md:1-1; packages/game/src/present/dialog-box.ts:1-1; packages/reforge/src/dialogue.ts:1-1；标题锚点：6:对话系统结构化数据模型 · 设计, 11:0. 这份文档解决什么(大白话), 19:1. 决策边界(2026-06-26 与作者拍板), 28:2. 核心原则:分清「语义真值」和「承载格式」, 39:3. 数据模型, 68:# 3.1 content14：人物身份与立绘归属, 123:# 控制符 → 结构化 映射表(迁移器规格), 142:4. i18n:对话正文也走 text id(一等公民,审查重点已拍板)。
-- 当前阶段证据：本批只做文档全文读取、语义分层和字节保全；current contract 必须回读继任规范、当前代码和真实调用域。
-- 不可违反的约束：历史状态词只描述原文时点；旧 schema、迁移计划、done/待审标签和演出设想不得单独证明今天的实现。
-- 未知与冲突：
-- 顶部 historical 标记与正文 N1-1/C1-2 “done/review”并存，必须保留时间轴；不能把旧 content14/字段当 current script model。
-- 旧控制符、Dialogue 载荷和 editor 计划可能已被 current author-script/script-system supersede。
+- 核心原则：分清「语义真值」和「承载格式」——语义不随存储格式漂移。
 
 ## 方案
 
-- 原始方案语义：对话结构化模型：DialogueCue/Row、text ID/i18n、content14 人物身份/立绘归属、控制符迁移、分页/autoAdvance 状态机、外观继承和分支留口；按三刀实施。
-- 本次治理方案：将上述语义拆入问题、真值、方案、边界、验收五个可定位章节；原文不删节，以 quote 作为唯一完整正文保全层。
-- 继任关系：
-- docs/phase2/specs/script-system.md
-- docs/phase2/specs/content-schema.md
-- 当前 author-script/dialogue runtime/editor code
-- 明确不做：不执行原文迁移/实现步骤，不恢复 legacy fallback，不把历史计划、Self-Review 或静态审计当作 runtime/E2E/视觉/coverage 结果。
+- 数据模型分节演进（含 content14 人物身份与立绘归属等历史版本锚点，quote 保全）。
 
 ## 边界与风险
 
-- 历史边界：本文可以说明当时为什么设计、如何计划和哪些问题已被识别，不能替代当前 canonical 文档、源码、测试或用户裁决。
-- 主要冲突/风险：
-- 顶部 historical 标记与正文 N1-1/C1-2 “done/review”并存，必须保留时间轴；不能把旧 content14/字段当 current script model。
-- 旧控制符、Dialogue 载荷和 editor 计划可能已被 current author-script/script-system supersede。
-- 停止线：不得按本文字段回写内容或宣称 N1/C1 runtime/视觉闭环；以 current script/content specs 与代码复核。
-- 若重新启用：必须以当前一手来源重新核对 schema、版本、调用方、合法输入和业务 oracle，并建立新的 review record；不得沿用本页日期作准入。
+- 版本锚点（content14 等）按当时语境阅读，非现行版本。
 
 ## 验收
 
-- 可执行验证：模板章节完整；原文 quote 去除 `> ` 前缀后与 source UTF-8 字节逐字节相等；source/after SHA 写入 central review、registry、catalog 和 evidence receipt。
-- 业务 oracle：历史结论、日期、状态、数字、链接、未知和冲突可定位；任何当前性主张都有继任入口或明确停止线。
-- 本次执行范围：只读源、模板迁移、账本同步和静态治理门；runtime、E2E、视觉、coverage 均未运行。
-- 复核 Owner 与截止条件：Codex 独立复核本页及三账本；非作者候选验收通过前保持 build/review，不标全量完成。
+- 设计验收以当时拍板为准；实现以现行 content 为准。
 
 ## 历史范围
 
-- 原始范围：phase2 archive design；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，原始正文 SHA `e8b045286733caa0cb667d2d5c2a0585ac0448c70603ab8c4743b07985300593`，原文日期和版本轴以 quote 为准。
-- 归档原因：正文混合历史设计、阶段计划和后来附录；继任规范/代码已经承担当前合同，故本页只保留历史证据。
+- phase2 archive 设计快照（2026-09-06 标注历史文档）；时点 2026-06-26 起；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 对话系统结构化数据模型 · 设计：这是 design-spec，当前文档状态为 historical。全文 204 行、14 个标题；摘要/首段为「> **历史文档（2026-09-06 标注）**：本文写作于方案设计/计划阶段，正文中的执行指令、」。属于历史/归档材料，不能单独证明当前实现。
-- 上述结论只属于其原始日期和适用范围；本页新增的结构化表述不改变原始结论。
+- 语义真值/承载格式二分原则为原始结论本体。
 
 ## 当时证据
 
-- source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `e8b045286733caa0cb667d2d5c2a0585ac0448c70603ab8c4743b07985300593`；全文 203 行 / 15186 bytes。
-- 原文标题/章节锚点：6:对话系统结构化数据模型 · 设计, 11:0. 这份文档解决什么(大白话), 19:1. 决策边界(2026-06-26 与作者拍板), 28:2. 核心原则:分清「语义真值」和「承载格式」, 39:3. 数据模型, 68:# 3.1 content14：人物身份与立绘归属, 123:# 控制符 → 结构化 映射表(迁移器规格), 142:4. i18n:对话正文也走 text id(一等公民,审查重点已拍板)。完整正文与链接、表格、代码、历史状态词在下方 quote 保留。
+- 决策边界与数据模型各节在 quote 保全。
 
 ## 当前有效性
 
-historical。不得将历史设计字段、迁移步骤、旧版本号、done/待审标签或静态审计结果外推为当前事实。
-- 当前不得外推的部分：不得按本文字段回写内容或宣称 N1/C1 runtime/视觉闭环；以 current script/content specs 与代码复核。
+- historical。现行真值见 [script-system](../../specs/script-system.md)。
 
 ## 继任文档
 
-- 当前 canonical / 复核入口：docs/phase2/specs/script-system.md, docs/phase2/specs/content-schema.md, 当前 author-script/dialogue runtime/editor code。
-- supersedes / superseded-by：本页保留旧结构化记录作为历史；当前合同由继任规范、代码和新的独立审查记录决定。
-- 重新启用条件：新的 primary source、版本/适用范围、合法输入、business oracle、可证伪观察和独立验收齐备。
+- [specs/script-system](../../specs/script-system.md)；[archive 导航](../README.md)。
 
 ## 原文保全
 
-固定源 SHA `e8b045286733caa0cb667d2d5c2a0585ac0448c70603ab8c4743b07985300593`；以下 quote 只增加 Markdown blockquote 前缀，逆回读必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `e8b045286733caa0cb667d2d5c2a0585ac0448c70603ab8c4743b07985300593`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > > **历史文档（2026-09-06 标注）**：本文写作于方案设计/计划阶段，正文中的执行指令、
 > > Agent 分工、版本号与“当前状态”均为**当时快照**，不是现行契约或待办；已被后续

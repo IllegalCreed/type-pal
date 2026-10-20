@@ -1,85 +1,57 @@
 # D 系列(战斗系统)完工 roadmap
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 D 系列（战斗系统）完工总 roadmap 的归档重写。工作纪律、七批次分解与逐批完成状态在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：D-series B1-B7 roadmap, discipline, logic-first order and real-device cases.
-- 日期：2026-05-31；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `0fe9f548f6043c8c6e81118074a25b1dc4b289d9e3425473befc61d529ad7f4f`。
+- 目标（user 2026-05-31 原话）：「先把 D 系列全部做完，测完，和 sdl 原版复核一遍逻辑，最后给我用例挨个测一遍」。
+- 性质：总 roadmap（批次分解+顺序+依赖+完成判据），不是 bite-sized 实施 plan——每批进入实施前另起 d-batchN 详细 TDD plan。
 
 ## 里程碑
 
-- 原始章节：工作纪律(全程,违反即 bug)；批次总览(推荐顺序:逻辑正确性优先,演出视觉殿后)；B1 — 玩家状态行为正确性(D8 / D21)；B2 — 敌方 AI 真值 + 脚本驱动(D9 / D10 / D24 / D27残)；B3 — 战斗内毒系统(D15 / D20 紫色)；B4 — 缺失玩家动作类型(D2 / D16 / D18残)；B5 — 战斗演出视觉残留(D17残 / D19 / D13视觉 / D20 Trance)；B6 — 数值精度 + 装备(D3残 / D14残)。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- 七批次：B1 玩家状态行为（D8/D21）、B2 敌方 AI 真值+脚本驱动（D9/D10/D24/D27残）、B3 战斗内毒系统（D15/D20 紫色）、B4 缺失玩家动作类型（D2/D16/D18残）、B5 战斗演出视觉残留（D17残/D19/D13视觉/D20 Trance）、B6 数值精度+装备（D3残/D14残）、B7 全 D 段 sdlpal 逐行复核+用例交付（收尾）。
+- 时点状态：B6 ✅ 2026-05-31（c1–c6 提交；全装备审计坐实特殊效果仅 DualAttack 五把+寿葫芦 regen 未做已收口）；其余批次的勾选状态按 quote 时点解释。
 
 ## 当前状态
 
-- historical；D 系列(战斗系统)完工 roadmap：这是 plan-status，当前文档状态为 historical。全文 226 行、11 个标题；摘要/首段为「> **目标(user 2026-05-31 原话)**:"先把 D 系列全部做完,测完,和 sdl 原版复核一遍逻辑,最后给我用例挨个测一遍"。」。属于历史/归档材料，不能单独证明当前实现。
+- historical：D 系列最终由 [d-series-test-cases](2026-06-01-d-series-test-cases.md) 真机用例与状态表收口；本 roadmap 是统领文件。
 
 ## 阻塞与决策
 
-- 正文信号 10:> 本 roadmap 完成后这些表的 D 段全部应从 ⚠️/⬜ 收口到 ✅(claimed,待 user 拍 verified)。
-- 正文信号 48:- D8: `confused`(混乱)攻友军 / `paralyzed`(麻痹)跳回合 行为**未在 selectAction 真接**;`boolean` 类状态(haste/protect/dualAttack)**不衰减**。
-- 正文信号 49:- D21: `finalizeBattle` **未** clear sleep/confused/paralyzed(整条 ⬜)。
-- 正文信号 51:**sdlpal 入口(待详细 plan 完整 read)**:
-- 正文信号 60:- `core/battle/turn-queue.ts`(paralyzed 跳过排程?待 read 确认 sdlpal 真值)
-- 正文信号 73:- D9: 敌 AI 选 target 仍**简版 random + magicRate**;真值 target 偏好(`fight.c:4520 PAL_BattleSelectEnemyTargetIndex`)+ **Bug-1 死循环 safety**(fight.c:4500-4517 全敌死无退出 while)未做。
-- 正文信号 74:- D10: `0x67` 改 `wMagic` 后**未真驱动 PerformAction**(仍走 fallback decideEnemyAction);`0x90` 自禁(show-once)/ `0x79` 队伍条件分支在 battle 未实现;`scriptOnBattleEnd` 解析存了**未调**(挂战后 resume)。
-- 正文信号 75:- D24: 隐身回合(iHidingTime)"敌不可选队员为目标"未在 target/AI 接。
-- 正文信号 78:**sdlpal 入口(待详细 plan 完整 read)**:
-- 正文信号 104:- D15: 战斗内毒 **5 函数**(抗性 `RandomLong` gate + 每回合 `PoisonDamage` 扣血 + 毒槽管理)⬜。大世界 rgPoisonStatus 已做(commit 6792dd8),战斗内未接。
-- 正文信号 107:**sdlpal 入口(待详细 plan 完整 read)**:
-- 正文信号 131:**sdlpal 入口(待详细 plan 完整 read)**:
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- 推荐顺序：逻辑正确性优先、演出视觉殿后；工作纪律「全程，违反即 bug」（quote 保全）。
 
 ## 下一步
 
-- 后继入口：Current D-series status and user-verified behavior evidence.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点各批见对应 d-batchN 文件；当前战斗行为以现行代码为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-05-31；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `0fe9f548f6043c8c6e81118074a25b1dc4b289d9e3425473befc61d529ad7f4f`。
+- phase1 plans D 系列总 roadmap；时点 2026-05-31 起；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- D 系列(战斗系统)完工 roadmap：这是 plan-status，当前文档状态为 historical。全文 226 行、11 个标题；摘要/首段为「> **目标(user 2026-05-31 原话)**:"先把 D 系列全部做完,测完,和 sdl 原版复核一遍逻辑,最后给我用例挨个测一遍"。」。属于历史/归档材料，不能单独证明当前实现。
+- 七批次分解、依赖顺序与 B6 完工记录为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:D 系列(战斗系统)完工 roadmap; 14:工作纪律(全程,违反即 bug); 25:批次总览(推荐顺序:逻辑正确性优先,演出视觉殿后); 45:B1 — 玩家状态行为正确性(D8 / D21); 70:B2 — 敌方 AI 真值 + 脚本驱动(D9 / D10 / D24 / D27残); 101:B3 — 战斗内毒系统(D15 / D20 紫色); 124:B4 — 缺失玩家动作类型(D2 / D16 / D18残); 150:B5 — 战斗演出视觉残留(D17残 / D19 / D13视觉 / D20 Trance)；原始正文、代码、表格、状态词在 quote 保全。
+- 批次总览表与逐批判据在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 10:> 本 roadmap 完成后这些表的 D 段全部应从 ⚠️/⬜ 收口到 ✅(claimed,待 user 拍 verified)。
-- 正文信号 48:- D8: `confused`(混乱)攻友军 / `paralyzed`(麻痹)跳回合 行为**未在 selectAction 真接**;`boolean` 类状态(haste/protect/dualAttack)**不衰减**。
-- 正文信号 49:- D21: `finalizeBattle` **未** clear sleep/confused/paralyzed(整条 ⬜)。
-- 正文信号 51:**sdlpal 入口(待详细 plan 完整 read)**:
-- 正文信号 60:- `core/battle/turn-queue.ts`(paralyzed 跳过排程?待 read 确认 sdlpal 真值)
-- 正文信号 73:- D9: 敌 AI 选 target 仍**简版 random + magicRate**;真值 target 偏好(`fight.c:4520 PAL_BattleSelectEnemyTargetIndex`)+ **Bug-1 死循环 safety**(fight.c:4500-4517 全敌死无退出 while)未做。
-- 正文信号 74:- D10: `0x67` 改 `wMagic` 后**未真驱动 PerformAction**(仍走 fallback decideEnemyAction);`0x90` 自禁(show-once)/ `0x79` 队伍条件分支在 battle 未实现;`scriptOnBattleEnd` 解析存了**未调**(挂战后 resume)。
-- 正文信号 75:- D24: 隐身回合(iHidingTime)"敌不可选队员为目标"未在 target/AI 接。
-- 正文信号 78:**sdlpal 入口(待详细 plan 完整 read)**:
-- 正文信号 104:- D15: 战斗内毒 **5 函数**(抗性 `RandomLong` gate + 每回合 `PoisonDamage` 扣血 + 毒槽管理)⬜。大世界 rgPoisonStatus 已做(commit 6792dd8),战斗内未接。
-- 正文信号 107:**sdlpal 入口(待详细 plan 完整 read)**:
-- 正文信号 131:**sdlpal 入口(待详细 plan 完整 read)**:
+- historical。
 
 ## 继任文档
 
-- Current D-series status and user-verified behavior evidence.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- 各 d-batchN 实施 plan 与 [d-series-test-cases](2026-06-01-d-series-test-cases.md)；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `0fe9f548f6043c8c6e81118074a25b1dc4b289d9e3425473befc61d529ad7f4f`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后得到相同 bytes。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `0fe9f548f6043c8c6e81118074a25b1dc4b289d9e3425473befc61d529ad7f4f`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # D 系列(战斗系统)完工 roadmap
 >

@@ -2887,192 +2887,190 @@
     },
     {
       "path": "docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md",
-      "contentReviewStatus": "blocked",
+      "contentReviewStatus": "content-reviewed",
       "docType": "task-card",
       "templateId": "task-card-v1",
       "templateVersion": "1.0.0",
       "historyOverlay": true,
       "documentStatus": "done",
-      "templateCompliance": "needs-migration",
-      "reviewDepth": "partial-semantic",
-      "readMethod": "Root current codec disclosure and source byte context/map only; whole864KB semantic/body rewrite unfinished. No full source read claimed.",
-      "coreConclusion": "Existing N3 source/quote is exactly mapped by one declared encoded trailing space; full source semantic/body governance unfinished, retained before bytes and blocked.",
+      "templateCompliance": "template-compliant",
+      "reviewDepth": "deep-semantic",
+      "readMethod": "GLM actual per-document full reading across original/correction/final rounds as explicitly evidenced; Codex evidence-led identity/preservation/diff audit, prior114 reuse and nine targeted final checks. Codex did not repeat full123 source reading.",
+      "coreConclusion": "N3-1 结构化控制流/实体具名行为/内部脚本退役大卡（2026-07-23 建卡至 2026-08-06 用户确认性验收 accept，三方 accept 齐，提交 e70987d6）：裁决=内部脚本/私有块不能作最终设计（2026-07-23）、共享判据回归通用函数本义（2026-07-24）；审计基线 11,447 体/13 scc/6 作者根/3,857 递归引用/8,102 reachable/3,345 折叠残留/331 循环/532 共享尾部；P0-P7 上游优先分批+影子迁移纪律；P1 版本轴 contentVersion 5/SAVE 4→5/A7-4 顺延 v6；设计签字 2026-07-23 三方齐（Kimi R1-R5/GLM G1-G7 必落钉）、P1 冻结 2026-07-24 齐；C8/ED-5I 为下游回归门禁；中途 R13-0~R13-5 系列按三贤人门禁逐项收口。 尾部9631–11269补读记录覆盖历史交接提示词/早期P1–P6设计；这些文字仅作为历史，旧三签和执行要求不恢复。",
       "truthAnchors": [
-        "docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md: original-source preservation declaration for line8711",
-        "Root exact codec map: inverse offset659166, U+2420 e290a0 vs ASCII20, source rest equal;21 U+2460 untouched."
+        "quote 用户裁决三段（2026-07-23/24/25）",
+        "quote 审计基线两张表与数字勾稽",
+        "quote P1-1 版本轴裁决节",
+        "quote 推进签字/用户验收段（accept 2026-08-06、e70987d6）",
+        "保全节 codec 规则（offset 659166 唯一 U+2420→space；21 处 U+2460 原样保留）"
       ],
-      "unresolved": [
-        "Full N3 semantic governance and concrete template body remain unfinished.",
-        "Author21U2420/nonuniform-codec diagnosis and70965 prefix are invalid; exact existing single-offset rule supplied by root."
-      ],
-      "nextStep": "GLM fully review/rewrite N3 visible body under existing one-offset codec declaration; preserve quote bytes, keep21 literal circled-one symbols, then submit fresh evidence.",
+      "unresolved": [],
+      "nextStep": "Maintain current navigation/historical source distinction; continue remaining governance cohort. Historical product claims require their own runtime/E2E/visual evidence.",
       "phase": "ops",
-      "owner": "GLM S15 body contributor; Codex documentation governance owner",
+      "owner": "GLM S16 body contributor; Codex documentation governance Owner",
       "provenance": [
-        "Fixed GLM manual candidate f998fff7d6d746c2fbb3bc29b00b4137b2275dfe",
+        "Fixed candidate abffb0166d98572945e22f60eb49475bc41901e2",
         "Original author nonAuthorReviewer=false retained",
-        "Codex evidence-led individual decision b693b6492f1c4e273ca25378ee254be2f53e7bc2b4d917fdd813f5dad2a518f7",
-        "Old withdrawn per-entry binding retained under supersededBindings in same partition"
+        "Owner report 565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "Prior binding retained under supersededBindings in the same existing partition"
       ],
       "primarySource": [
         {
           "path": "docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md",
           "revision": "4c0da02bee76c5616d0fda14a00f24bd7c8de621",
           "sha256": "c369eaf317a8ee724d2823de856e9539b11d57ac8bf3b84bad079354f3048834",
-          "scopeActuallyRead": "Byte identity and line8711 codec context only; no whole-document semantic acceptance."
+          "scopeActuallyRead": "Contributor actual read record retained in immutable final/original/correction package; Owner risk reads as scoped below."
         },
         {
           "path": "docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md",
-          "revision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+          "revision": "69c47cac8f4ab810d1d28c6feaa83b45eccf8473",
           "sha256": "1714a48dda97cf3f55be58fe67fe5c2bbd109757d4812f2cb307726cd59a2d26",
-          "scopeActuallyRead": "Fixed before bytes for preservation; not new semantic credit."
+          "scopeActuallyRead": "Fixed before quote bytes, not new semantic credit."
         }
       ],
       "phaseAnchors": {
         "phase": "ops",
-        "originalMetadataPhase": "not separately declared",
-        "scope": "Historical task evidence; actual product phase/current behavior not renewed."
+        "scope": "Historical phase and task statements remain tied to their original dates; current navigation only does not renew product claims."
       },
       "dependencies": [
-        "docs/ops/tasks/index.md",
-        "docs/ops/agent-workflow.md",
         "docs/ops/document-quality.md",
+        "docs/ops/guides/documentation-model.md",
         "docs/phase-governance/templates/registry.json"
       ],
       "versionScope": {
-        "candidateCommit": "f998fff7d6d746c2fbb3bc29b00b4137b2275dfe",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
         "sourceRevision": "4c0da02bee76c5616d0fda14a00f24bd7c8de621",
-        "documentValidity": "historical",
-        "ownerAcceptedOn": "2026-10-19",
-        "authorReportedReviewDate": "2026-10-18",
+        "ownerAcceptedOn": "2026-10-20",
+        "documentValidity": "done",
         "noCurrentExecutionCredit": true
       },
       "publicCallers": [
-        "docs/ops/tasks/index.md task navigation",
-        "scripts/docs/check.mjs top-status and links",
-        "scripts/docs/document-model.mjs frozen task-card+history contract"
+        "scripts/docs/check.mjs links and directory navigation",
+        "scripts/docs/document-model.mjs frozen template and routing",
+        "Native stable document path and existing parent README entries"
       ],
       "legalInputs": [
-        "Unchanged N3 before/source bytes and existing visible codec disclosure; no migration result claimed."
+        {
+          "path": "docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md",
+          "revision": "4c0da02bee76c5616d0fda14a00f24bd7c8de621",
+          "sha256": "c369eaf317a8ee724d2823de856e9539b11d57ac8bf3b84bad079354f3048834",
+          "inverseRule": "n3-codec",
+          "scope": "Fixed historical source and unchanged quote; no silent trim or codec normalization."
+        }
       ],
       "businessOracle": {
-        "type": "historical-document-governance-not-runtime",
+        "type": "document-governance-not-product-runtime",
         "assertions": [
-          "N3 body byte-identical to base.",
-          "One exact U+2420→ASCII20 mapping proves source equivalence; full semantic migration still blocked."
+          "N3-1 结构化控制流/实体具名行为/内部脚本退役大卡（2026-07-23 建卡至 2026-08-06 用户确认性验收 accept，三方 accept 齐，提交 e70987d6）：裁决=内部脚本/私有块不能作最终设计（2026-07-23）、共享判据回归通用函数本义（2026-07-24）；审计基线 11,447 体/13 scc/6 作者根/3,857 递归引用/8,102 reachable/3,345 折叠残留/331 循环/532 共享尾部；P0-P7 上游优先分批+影子迁移纪律；P1 版本轴 contentVersion 5/SAVE 4→5/A7-4 顺延 v6；设计签字 2026-07-23 三方齐（Kimi R1-R5/GLM G1-G7 必落钉）、P1 冻结 2026-07-24 齐；C8/ED-5I 为下游回归门禁；中途 R13-0~R13-5 系列按三贤人门禁逐项收口。 尾部9631–11269补读记录覆盖历史交接提示词/早期P1–P6设计；这些文字仅作为历史，旧三签和执行要求不恢复。",
+          "Quoted historical conclusions and original dates retained.",
+          "Declared source-equivalence rule succeeds without unspecified normalization.",
+          "Actual routing/template contract matches visible document responsibility."
         ]
       },
       "dedupe": {
-        "result": "N/A（未产出新封套）",
-        "against": []
+        "result": "One active native binding and one current per-document review in its existing partition; historical binding retained separately.",
+        "against": ["20261017-r53-ops-archive-task.json", "DOCS-FULL-TEMPLATE-1 prior S16 counters"]
       },
       "counterReworkBlocked": [
         {
-          "status": "blocked-unfinished-body",
-          "statement": "Original root batch credit remains withdrawn; fresh S15 per-entry decision only.",
-          "boundary": "Historical identity/source boundary, no current execution renewal."
+          "status": "closed-fixed-document-only",
+          "statement": "S16 per-document body/template acceptance; prior batch execution losses remain unknown, no old deep-review credit restored.",
+          "boundary": "historical done 快照；不授当前 build/runtime/E2E/coverage；quote 逆回读必须按 codec 规则，普通 UTF-8 直接逆回不相等。"
         }
       ],
       "revision": {
-        "currentSha": "f998fff7d6d746c2fbb3bc29b00b4137b2275dfe",
+        "currentSha": "abffb0166d98572945e22f60eb49475bc41901e2",
         "history": [
           {
-            "date": "2026-10-19",
-            "action": "S15 fresh per-entry owner evidence/risk decision in existing partition",
-            "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+            "date": "2026-10-20",
+            "action": "S16 fresh per-document evidence-led nonauthor acceptance",
+            "sourceRevision": "cd455765256ccef1d59513d0429e9121857fa5f9",
             "beforeSha256": "1714a48dda97cf3f55be58fe67fe5c2bbd109757d4812f2cb307726cd59a2d26",
-            "afterSha256": "1714a48dda97cf3f55be58fe67fe5c2bbd109757d4812f2cb307726cd59a2d26"
+            "afterSha256": "24f61acc0bf0b2710aa726ad46a494883ba7e6034157e6419296b76f97af3d9a"
           }
         ]
       },
       "evidence": {
-        "kind": "S15-owner-evidence-led-document-decision",
-        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s15-root-source-rule-explicit-acceptance/b693b6492f1c4e273ca25378ee254be2f53e7bc2b4d917fdd813f5dad2a518f7.gz",
+        "kind": "S16-owner-evidence-led-document-decision",
+        "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
         "rawReportRef": {
-          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s15-root-source-rule-explicit-acceptance/b693b6492f1c4e273ca25378ee254be2f53e7bc2b4d917fdd813f5dad2a518f7.gz",
+          "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
           "encoding": "gzip",
-          "payloadSha256": "b693b6492f1c4e273ca25378ee254be2f53e7bc2b4d917fdd813f5dad2a518f7",
-          "payloadBytes": 484484,
-          "storedSha256": "1192c9798946ffc1c1cd403d6c7c49731ab7c78ae0a2ee2b6028b8a3685f5a33",
-          "storedBytes": 90150,
+          "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+          "payloadBytes": 320521,
+          "storedSha256": "3b1691e34cae9427da0b66e98a4dee5c58afda14477124b7eb6957697965f715",
+          "storedBytes": 77310,
           "producerTask": "/root",
           "reviewerTask": "/root",
-          "authorTask": "GLM/S15-manual-delivery",
-          "sourceRevision": "f998fff7d6d746c2fbb3bc29b00b4137b2275dfe",
-          "scope": "273 fixed document-only individual evidence/risk acceptances and1 blocked body; conditional LF rules explicit. No old execution/global/main/done.",
+          "authorTask": "GLM/S16-manual-delivery",
+          "sourceRevision": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "scope": "123 fixed individual S16 body/template decisions: reuse114 unchanged, nine focused final decisions; no global/main/done/product execution credit.",
           "owner": "Codex documentation governance",
-          "caller": "DOCS-FULL-TEMPLATE-1 S15 partitioned current review entries",
+          "caller": "DOCS-FULL-TEMPLATE-1 S16 existing partition central intake",
           "associatedTask": "DOCS-FULL-TEMPLATE-1",
-          "retentionReason": "Immutable real owner decisions, limited reads and corrected author metadata; existing canonical documents remain in place.",
-          "exitCondition": "Retain audit/replay; no automatic deletion or candidate exemption."
+          "retentionReason": "Immutable original actual contributor and nonauthor evidence with known losses, prior counters and bounded read scope.",
+          "exitCondition": "Retain for audit; no automatic deletion or document denominator exemption."
         },
-        "reportSha256": "b693b6492f1c4e273ca25378ee254be2f53e7bc2b4d917fdd813f5dad2a518f7",
-        "storedSha256": "1192c9798946ffc1c1cd403d6c7c49731ab7c78ae0a2ee2b6028b8a3685f5a33",
+        "reportSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "storedSha256": "3b1691e34cae9427da0b66e98a4dee5c58afda14477124b7eb6957697965f715",
         "nonAuthorReviewer": true,
-        "authorTask": "GLM/S15-manual-delivery",
+        "authorTask": "GLM/S16-manual-delivery",
         "reviewerTask": "/root",
-        "candidateSha256": "1714a48dda97cf3f55be58fe67fe5c2bbd109757d4812f2cb307726cd59a2d26",
-        "authorOriginalDocumentStatus": null,
-        "authorOriginalRevision": {
-          "currentSha": "1714a48dda97cf3f55be58fe67fe5c2bbd109757d4812f2cb307726cd59a2d26",
-          "history": [
-            {
-              "stage": "source",
-              "gitRevision": "4c0da02bee76c5616d0fda14a00f24bd7c8de621",
-              "sha256": "c369eaf317a8ee724d2823de856e9539b11d57ac8bf3b84bad079354f3048834"
-            },
-            {
-              "stage": "before",
-              "gitRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
-              "sha256": "1714a48dda97cf3f55be58fe67fe5c2bbd109757d4812f2cb307726cd59a2d26"
-            }
-          ]
-        },
+        "candidateSha256": "24f61acc0bf0b2710aa726ad46a494883ba7e6034157e6419296b76f97af3d9a",
         "historicalExecutionAuthenticityGranted": false
       },
       "history": [
         {
-          "date": "2026-10-19",
-          "action": "N3 unresolved body retained, codec diagnosis corrected; not completed",
-          "previousReviewRecord": "20261017-r53-ops-archive-task.json",
-          "oldRootMetadataRetainedAsHistorical": true
+          "date": "2026-10-20",
+          "action": "Fresh fixed S16 body/template acceptance; original reviewer/date/policy remain historical",
+          "previousReviewRecord": "20261017-r53-ops-archive-task.json"
         }
       ],
       "supersedes": [
         {
           "path": "docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md",
           "reviewRecord": "20261017-r53-ops-archive-task.json",
-          "revision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
-          "scope": "Prior withdrawn entry only, retained in same partition supersededBindings; no old batch restoration."
+          "revision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+          "scope": "Previous withdrawn/partial/blocked current binding only; retained in supersededBindings."
         }
       ],
-      "stopLine": "No quote/source drift, silent codec replacement, old signature/product acceptance restoration or main/done. Stop only affected document on new conflict.",
+      "stopLine": "Stop affected document on source/quote/codec conflict, historical promotion or new product choice. No main merge/done or runtime credit from this intake.",
       "sourceSha256": "c369eaf317a8ee724d2823de856e9539b11d57ac8bf3b84bad079354f3048834",
-      "afterSha256": "1714a48dda97cf3f55be58fe67fe5c2bbd109757d4812f2cb307726cd59a2d26",
+      "afterSha256": "24f61acc0bf0b2710aa726ad46a494883ba7e6034157e6419296b76f97af3d9a",
       "sourceGitRevision": "4c0da02bee76c5616d0fda14a00f24bd7c8de621",
-      "reviewedLines": "Existing wrapper and one byte-offset/context; source whole semantic read not claimed.",
+      "reviewedLines": "Contributor actual full-source read records across rounds; Owner only scoped evidence/diff/risk checks.",
       "beforeAfter": {
         "beforeSha256": "1714a48dda97cf3f55be58fe67fe5c2bbd109757d4812f2cb307726cd59a2d26",
-        "afterSha256": "1714a48dda97cf3f55be58fe67fe5c2bbd109757d4812f2cb307726cd59a2d26",
-        "summary": "Base envelope unchanged; body not migrated."
+        "afterSha256": "24f61acc0bf0b2710aa726ad46a494883ba7e6034157e6419296b76f97af3d9a",
+        "summary": "Generic envelope replaced by specific template body; entire quote tail remains byte-equal to base."
       },
       "templateConformance": {
-        "status": "needs-migration",
-        "scope": "Fixed document contract only, no runtime/test/visual acceptance.",
+        "status": "template-compliant",
         "templateId": "task-card-v1",
-        "templateVersion": "1.0.0"
+        "templateVersion": "1.0.0",
+        "scope": "Fixed document contract only; no runtime/test/visual acceptance."
       },
       "preservationRule": {
-        "equalUnderDeclaredRule": false,
-        "inverseBytes": 840328,
+        "rule": "n3-codec",
         "sourceBytes": 840326,
-        "rule": "special-blocked"
+        "inverseBytes": 840328,
+        "scope": "Equality only under the explicitly declared inverse mapping; direct byte equality separately recorded."
       },
       "directInverseEqual": false,
-      "ownerActualReadScope": "Current wrapper codec disclosure and one source-byte context/map only, not864KB full semantic reread.",
-      "authorRecordFieldsPreservedInImmutablePackage": true,
+      "ownerActualReadScope": "Final eight-file patch read; fixed source/head/after/quote-byte and preservation audit for123; six navigation sections23 targets verified; deep-audit statistics/DH/DM/DL slices and resource14-file coverage table checked; N3 fixed source tail section anchors9631/11172, selected prompt/census/save slices checked against new contributor read completion. No Owner full123 source reread.",
+      "authorActualReadRecord": {
+        "priorActualReadDomain": "补读未读历史段(7reads覆盖538-9684交接日志/Build/Review/P1八章/R13-0~R13-Z全段+11225历史提示词头)+原S16轮已读(头/目标/范围/锚点/目标模型/分批/验收/签字/P1-1裁决/用户验收段/全部H2·H3结构域)",
+        "finalFixReadVerdict": "tail-9631-11269-actually-read; round2 coverage claim now closed as 9631–11269 全段实际读毕（另顺带覆盖 9566–9630 交接日志尾段）；head 断言原 verdict head-claims-verified-no-correction 维持不变，尾部内容与既有 head 语义弧（R13-0~R13-Z→C8/ED-5I→用户 accept e70987d6）逐项吻合，无新增需修正事实。",
+        "finalFixReadRecord": "read-records/n3-1-tail-completion.json",
+        "authorOriginalNonAuthorReviewer": false
+      },
       "authorOriginalNonAuthorReviewer": false,
-      "currentReviewDate": "2026-10-19"
+      "currentReviewDate": "2026-10-20",
+      "metadataCorrection": {
+        "withdrawnAuthorField": "coreConclusionFinalFixAddendum",
+        "reason": "Copied C02 navigation addendum is unrelated to N3. Retained in immutable author package, excluded from this current per-document decision.",
+        "authorReadEvidence": "read-records/n3-1-tail-completion.json"
+      }
     }
   ],
   "currentCorrection": {
@@ -5705,32 +5703,238 @@
           }
         ]
       }
+    },
+    {
+      "path": "docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md",
+      "sourceRevision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+      "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+      "supersededBy": "docs/phase-governance/reviews/20261017-r53-ops-archive-task.json",
+      "reason": "Fresh S16 evidence-led document acceptance; previous withdrawn or N3 blocked binding preserved in full. Old batch credit not restored.",
+      "originalEntry": {
+        "path": "docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md",
+        "contentReviewStatus": "blocked",
+        "docType": "task-card",
+        "templateId": "task-card-v1",
+        "templateVersion": "1.0.0",
+        "historyOverlay": true,
+        "documentStatus": "done",
+        "templateCompliance": "needs-migration",
+        "reviewDepth": "partial-semantic",
+        "readMethod": "Root current codec disclosure and source byte context/map only; whole864KB semantic/body rewrite unfinished. No full source read claimed.",
+        "coreConclusion": "Existing N3 source/quote is exactly mapped by one declared encoded trailing space; full source semantic/body governance unfinished, retained before bytes and blocked.",
+        "truthAnchors": [
+          "docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md: original-source preservation declaration for line8711",
+          "Root exact codec map: inverse offset659166, U+2420 e290a0 vs ASCII20, source rest equal;21 U+2460 untouched."
+        ],
+        "unresolved": [
+          "Full N3 semantic governance and concrete template body remain unfinished.",
+          "Author21U2420/nonuniform-codec diagnosis and70965 prefix are invalid; exact existing single-offset rule supplied by root."
+        ],
+        "nextStep": "GLM fully review/rewrite N3 visible body under existing one-offset codec declaration; preserve quote bytes, keep21 literal circled-one symbols, then submit fresh evidence.",
+        "phase": "ops",
+        "owner": "GLM S15 body contributor; Codex documentation governance owner",
+        "provenance": [
+          "Fixed GLM manual candidate f998fff7d6d746c2fbb3bc29b00b4137b2275dfe",
+          "Original author nonAuthorReviewer=false retained",
+          "Codex evidence-led individual decision b693b6492f1c4e273ca25378ee254be2f53e7bc2b4d917fdd813f5dad2a518f7",
+          "Old withdrawn per-entry binding retained under supersededBindings in same partition"
+        ],
+        "primarySource": [
+          {
+            "path": "docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md",
+            "revision": "4c0da02bee76c5616d0fda14a00f24bd7c8de621",
+            "sha256": "c369eaf317a8ee724d2823de856e9539b11d57ac8bf3b84bad079354f3048834",
+            "scopeActuallyRead": "Byte identity and line8711 codec context only; no whole-document semantic acceptance."
+          },
+          {
+            "path": "docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md",
+            "revision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+            "sha256": "1714a48dda97cf3f55be58fe67fe5c2bbd109757d4812f2cb307726cd59a2d26",
+            "scopeActuallyRead": "Fixed before bytes for preservation; not new semantic credit."
+          }
+        ],
+        "phaseAnchors": {
+          "phase": "ops",
+          "originalMetadataPhase": "not separately declared",
+          "scope": "Historical task evidence; actual product phase/current behavior not renewed."
+        },
+        "dependencies": [
+          "docs/ops/tasks/index.md",
+          "docs/ops/agent-workflow.md",
+          "docs/ops/document-quality.md",
+          "docs/phase-governance/templates/registry.json"
+        ],
+        "versionScope": {
+          "candidateCommit": "f998fff7d6d746c2fbb3bc29b00b4137b2275dfe",
+          "sourceRevision": "4c0da02bee76c5616d0fda14a00f24bd7c8de621",
+          "documentValidity": "historical",
+          "ownerAcceptedOn": "2026-10-19",
+          "authorReportedReviewDate": "2026-10-18",
+          "noCurrentExecutionCredit": true
+        },
+        "publicCallers": [
+          "docs/ops/tasks/index.md task navigation",
+          "scripts/docs/check.mjs top-status and links",
+          "scripts/docs/document-model.mjs frozen task-card+history contract"
+        ],
+        "legalInputs": [
+          "Unchanged N3 before/source bytes and existing visible codec disclosure; no migration result claimed."
+        ],
+        "businessOracle": {
+          "type": "historical-document-governance-not-runtime",
+          "assertions": [
+            "N3 body byte-identical to base.",
+            "One exact U+2420→ASCII20 mapping proves source equivalence; full semantic migration still blocked."
+          ]
+        },
+        "dedupe": {
+          "result": "N/A（未产出新封套）",
+          "against": []
+        },
+        "counterReworkBlocked": [
+          {
+            "status": "blocked-unfinished-body",
+            "statement": "Original root batch credit remains withdrawn; fresh S15 per-entry decision only.",
+            "boundary": "Historical identity/source boundary, no current execution renewal."
+          }
+        ],
+        "revision": {
+          "currentSha": "f998fff7d6d746c2fbb3bc29b00b4137b2275dfe",
+          "history": [
+            {
+              "date": "2026-10-19",
+              "action": "S15 fresh per-entry owner evidence/risk decision in existing partition",
+              "sourceRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+              "beforeSha256": "1714a48dda97cf3f55be58fe67fe5c2bbd109757d4812f2cb307726cd59a2d26",
+              "afterSha256": "1714a48dda97cf3f55be58fe67fe5c2bbd109757d4812f2cb307726cd59a2d26"
+            }
+          ]
+        },
+        "evidence": {
+          "kind": "S15-owner-evidence-led-document-decision",
+          "path": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s15-root-source-rule-explicit-acceptance/b693b6492f1c4e273ca25378ee254be2f53e7bc2b4d917fdd813f5dad2a518f7.gz",
+          "rawReportRef": {
+            "repositoryPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s15-root-source-rule-explicit-acceptance/b693b6492f1c4e273ca25378ee254be2f53e7bc2b4d917fdd813f5dad2a518f7.gz",
+            "encoding": "gzip",
+            "payloadSha256": "b693b6492f1c4e273ca25378ee254be2f53e7bc2b4d917fdd813f5dad2a518f7",
+            "payloadBytes": 484484,
+            "storedSha256": "1192c9798946ffc1c1cd403d6c7c49731ab7c78ae0a2ee2b6028b8a3685f5a33",
+            "storedBytes": 90150,
+            "producerTask": "/root",
+            "reviewerTask": "/root",
+            "authorTask": "GLM/S15-manual-delivery",
+            "sourceRevision": "f998fff7d6d746c2fbb3bc29b00b4137b2275dfe",
+            "scope": "273 fixed document-only individual evidence/risk acceptances and1 blocked body; conditional LF rules explicit. No old execution/global/main/done.",
+            "owner": "Codex documentation governance",
+            "caller": "DOCS-FULL-TEMPLATE-1 S15 partitioned current review entries",
+            "associatedTask": "DOCS-FULL-TEMPLATE-1",
+            "retentionReason": "Immutable real owner decisions, limited reads and corrected author metadata; existing canonical documents remain in place.",
+            "exitCondition": "Retain audit/replay; no automatic deletion or candidate exemption."
+          },
+          "reportSha256": "b693b6492f1c4e273ca25378ee254be2f53e7bc2b4d917fdd813f5dad2a518f7",
+          "storedSha256": "1192c9798946ffc1c1cd403d6c7c49731ab7c78ae0a2ee2b6028b8a3685f5a33",
+          "nonAuthorReviewer": true,
+          "authorTask": "GLM/S15-manual-delivery",
+          "reviewerTask": "/root",
+          "candidateSha256": "1714a48dda97cf3f55be58fe67fe5c2bbd109757d4812f2cb307726cd59a2d26",
+          "authorOriginalDocumentStatus": null,
+          "authorOriginalRevision": {
+            "currentSha": "1714a48dda97cf3f55be58fe67fe5c2bbd109757d4812f2cb307726cd59a2d26",
+            "history": [
+              {
+                "stage": "source",
+                "gitRevision": "4c0da02bee76c5616d0fda14a00f24bd7c8de621",
+                "sha256": "c369eaf317a8ee724d2823de856e9539b11d57ac8bf3b84bad079354f3048834"
+              },
+              {
+                "stage": "before",
+                "gitRevision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+                "sha256": "1714a48dda97cf3f55be58fe67fe5c2bbd109757d4812f2cb307726cd59a2d26"
+              }
+            ]
+          },
+          "historicalExecutionAuthenticityGranted": false
+        },
+        "history": [
+          {
+            "date": "2026-10-19",
+            "action": "N3 unresolved body retained, codec diagnosis corrected; not completed",
+            "previousReviewRecord": "20261017-r53-ops-archive-task.json",
+            "oldRootMetadataRetainedAsHistorical": true
+          }
+        ],
+        "supersedes": [
+          {
+            "path": "docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md",
+            "reviewRecord": "20261017-r53-ops-archive-task.json",
+            "revision": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+            "scope": "Prior withdrawn entry only, retained in same partition supersededBindings; no old batch restoration."
+          }
+        ],
+        "stopLine": "No quote/source drift, silent codec replacement, old signature/product acceptance restoration or main/done. Stop only affected document on new conflict.",
+        "sourceSha256": "c369eaf317a8ee724d2823de856e9539b11d57ac8bf3b84bad079354f3048834",
+        "afterSha256": "1714a48dda97cf3f55be58fe67fe5c2bbd109757d4812f2cb307726cd59a2d26",
+        "sourceGitRevision": "4c0da02bee76c5616d0fda14a00f24bd7c8de621",
+        "reviewedLines": "Existing wrapper and one byte-offset/context; source whole semantic read not claimed.",
+        "beforeAfter": {
+          "beforeSha256": "1714a48dda97cf3f55be58fe67fe5c2bbd109757d4812f2cb307726cd59a2d26",
+          "afterSha256": "1714a48dda97cf3f55be58fe67fe5c2bbd109757d4812f2cb307726cd59a2d26",
+          "summary": "Base envelope unchanged; body not migrated."
+        },
+        "templateConformance": {
+          "status": "needs-migration",
+          "scope": "Fixed document contract only, no runtime/test/visual acceptance.",
+          "templateId": "task-card-v1",
+          "templateVersion": "1.0.0"
+        },
+        "preservationRule": {
+          "equalUnderDeclaredRule": false,
+          "inverseBytes": 840328,
+          "sourceBytes": 840326,
+          "rule": "special-blocked"
+        },
+        "directInverseEqual": false,
+        "ownerActualReadScope": "Current wrapper codec disclosure and one source-byte context/map only, not864KB full semantic reread.",
+        "authorRecordFieldsPreservedInImmutablePackage": true,
+        "authorOriginalNonAuthorReviewer": false,
+        "currentReviewDate": "2026-10-19"
+      }
     }
   ],
   "currentIntake": {
-    "date": "2026-10-19",
-    "candidateCommit": "f998fff7d6d746c2fbb3bc29b00b4137b2275dfe",
-    "sourceHead": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
-    "reportSha256": "b693b6492f1c4e273ca25378ee254be2f53e7bc2b4d917fdd813f5dad2a518f7",
-    "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s15-root-source-rule-explicit-acceptance/b693b6492f1c4e273ca25378ee254be2f53e7bc2b4d917fdd813f5dad2a518f7.gz",
-    "acceptedDocuments": [
-      "docs/ops/archive/tasks/done/D15-1-npc-movement-dynamic-collision.md",
-      "docs/ops/archive/tasks/done/C1-1-actor-preset-dual-authoring.md",
-      "docs/ops/archive/tasks/done/ED-ADD-PICKER-DIALOG-1-editor-collection-add-picker-dialog.md",
-      "docs/ops/archive/tasks/done/ED-REORDER-SURFACE-1-editor-reorder-item-surface-contract.md",
-      "docs/ops/archive/tasks/done/W7G-composite-tile-stamps.md",
-      "docs/ops/archive/tasks/done/W9-entity-lifecycle-respawn.md",
-      "docs/ops/archive/tasks/done/ED-ITEM-ALCHEMY-SURFACE-1-two-item-refining-workbenches.md",
-      "docs/ops/archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md",
-      "docs/ops/archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md",
-      "docs/ops/archive/tasks/done/ED-PROJECT-STARTUP-IA-1-project-entry-startup-workbench.md",
-      "docs/ops/archive/tasks/done/C8-item-use-mechanisms.md",
-      "docs/ops/archive/tasks/done/B10-1-enemy-confused-attack.md",
-      "docs/ops/archive/tasks/done/ED-DS-2-editor-design-system-foundation.md",
-      "docs/ops/archive/tasks/done/ED-CATALOG-ROW-IA-1-editor-catalog-row-information-hierarchy.md",
-      "docs/ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md"
-    ],
-    "blockedDocuments": ["docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md"],
-    "scope": "Current credit is per-entry fresh owner decision; old top-level policy/date/receipts remain historical, not new whole-batch acceptance."
+    "date": "2026-10-20",
+    "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+    "sourceHead": "cd455765256ccef1d59513d0429e9121857fa5f9",
+    "reportSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+    "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+    "acceptedDocuments": ["docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md"],
+    "blockedDocuments": [],
+    "scope": "Fresh per-entry S16 current intake; inherited top-level policy/date/receipts are historical, not whole-batch acceptance.",
+    "previous": {
+      "date": "2026-10-19",
+      "candidateCommit": "f998fff7d6d746c2fbb3bc29b00b4137b2275dfe",
+      "sourceHead": "7ee72caa159e60ee5777a629d940d91c1ad1cc3f",
+      "reportSha256": "b693b6492f1c4e273ca25378ee254be2f53e7bc2b4d917fdd813f5dad2a518f7",
+      "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s15-root-source-rule-explicit-acceptance/b693b6492f1c4e273ca25378ee254be2f53e7bc2b4d917fdd813f5dad2a518f7.gz",
+      "acceptedDocuments": [
+        "docs/ops/archive/tasks/done/D15-1-npc-movement-dynamic-collision.md",
+        "docs/ops/archive/tasks/done/C1-1-actor-preset-dual-authoring.md",
+        "docs/ops/archive/tasks/done/ED-ADD-PICKER-DIALOG-1-editor-collection-add-picker-dialog.md",
+        "docs/ops/archive/tasks/done/ED-REORDER-SURFACE-1-editor-reorder-item-surface-contract.md",
+        "docs/ops/archive/tasks/done/W7G-composite-tile-stamps.md",
+        "docs/ops/archive/tasks/done/W9-entity-lifecycle-respawn.md",
+        "docs/ops/archive/tasks/done/ED-ITEM-ALCHEMY-SURFACE-1-two-item-refining-workbenches.md",
+        "docs/ops/archive/tasks/done/SAVE-PREFLIGHT-1-current-save-restore-preflight.md",
+        "docs/ops/archive/tasks/done/EDITOR-SKILL-TRIAL-1-isolated-battle.md",
+        "docs/ops/archive/tasks/done/ED-PROJECT-STARTUP-IA-1-project-entry-startup-workbench.md",
+        "docs/ops/archive/tasks/done/C8-item-use-mechanisms.md",
+        "docs/ops/archive/tasks/done/B10-1-enemy-confused-attack.md",
+        "docs/ops/archive/tasks/done/ED-DS-2-editor-design-system-foundation.md",
+        "docs/ops/archive/tasks/done/ED-CATALOG-ROW-IA-1-editor-catalog-row-information-hierarchy.md",
+        "docs/ops/archive/tasks/done/EDITOR-SAVE-RECOVERY-1-interrupted-author-save.md"
+      ],
+      "blockedDocuments": ["docs/ops/archive/tasks/done/N3-1-script-control-flow-modernization.md"],
+      "scope": "Current credit is per-entry fresh owner decision; old top-level policy/date/receipts remain historical, not new whole-batch acceptance."
+    }
   }
 }

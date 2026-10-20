@@ -1,69 +1,42 @@
 # A7-3 · 历史证据
 
-Status: historical
-Validity: historical
+Status: current（仅指导航）
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
-Template: evidence-receipt-v1 / 1.0.0
+Last reviewed: 2026-10-20
+Template: governance-index-v1 / 1.0.0
 
-本页把历史材料接入 `evidence-receipt-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 A7-3 任务时点证据目录的当前导航：三个验证附件（editor-frame-workbench-desktop.png、reforge-s066-frame-animation.png、reforge-s066-skip-cleanup.png）按产生时点解释，媒体原始字节保留。
 
-## 证据身份
+## 目的
 
-- `id`：原始证据记录的稳定 ID（保留于 quote）。
-- `schemaVersion`：原始记录版本（保留于 quote）。
-- `status`：historical receipt；不改写为当前 verified。
-- candidate/source SHA：见本页 source/after SHA 和原始 quote。
+- 提供 A7-3（过场素材工作台）原始验证附件入口；附件内容是产生时点的事实。
 
-## 来源与输入
+## 范围
 
-- caller/source refs（file:line）：由原始证据记录保全；本页 source `docs/ops/archive/evidence/A7-3/README.md`。
-- 合法输入与版本：固定历史 source revision、原始数据/命令和记录环境。
-- 执行时间和环境：以原始 receipt 为准；本次迁移不重跑。
+- 当前包含：三张任务验证截图链接。
+- 明确不包含：随后实现不变的承诺；当前判断应同时核对源码与任务状态。
 
-## 断言与业务 oracle
+## 当前状态
 
-- 业务 oracle：原始 receipt 的 caller、输入、断言和结果关系可追溯。
-- 原子断言：quote 中每条机器/人工断言保持原样。
-- 排重对象：当前 task card、同批 evidence 和 successor receipt。
+- `status`: current（导航索引）；附件为历史时点材料。
+- `lastReviewed`: 2026-10-20
 
-## 结果
+## 入口与责任
 
-- 逐步结果、退出码、产物：保留原始记录；不把历史回执升格为当前通过。
-- 失败：原始失败、rework、未执行和 unknown 信号继续保留。
+- 验证附件：[editor-frame-workbench-desktop.png](editor-frame-workbench-desktop.png)、[reforge-s066-frame-animation.png](reforge-s066-frame-animation.png)、[reforge-s066-skip-cleanup.png](reforge-s066-skip-cleanup.png)。
+- canonical 入口：本页与上述附件；上级为[时点证据](../README.md)。
+- Owner：Codex（文档治理）；原始验证责任归 A7-3 原任务。
+- 下游使用者：A7-3 证据追溯。
 
-## 限制与复核
+## 证据与下一步
 
-- 未执行/未覆盖：- （无新增；历史边界保持开放）
-- 不得外推的结论：不得外推 runtime、E2E、视觉、coverage 或当前产品完成。
-- 复核条件：当前 consumer、source/oracle、task card 和独立验收重新齐全后才可重开。
-
-## 历史范围
-
-- phase2/lore archive；日期：undated；固定来源 `1cfb47719fd36122d73b3d1ac7642cec192ccc15`；source SHA `57dce53737bfdd184a3fb3ce60a657a1b0dcacbbe09961b07ba5afad33caaebf。
-
-## 原始结论
-
-- A7-3 · 历史证据：这是 evidence-receipt，当前文档状态为 historical。全文 12 行、2 个标题；摘要/首段为「本目录为对应任务的原始验证附件，按产生时点解释。」。属于历史/归档材料，不能单独证明当前实现。
-
-## 当时证据
-
-- 原始标题/章节/HTML artifact 在 quote 或 artifact envelope 中保全。
-
-## 当前有效性
-
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：
-- （无新增；历史边界保持开放）
-
-## 继任文档
-
-- Current evidence receipt, task card and verified consumer result when re-run.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+- 关键来源：目录原卡（源身份与逆回规则见下方程序生成的保全节，不在正文手写哈希）。
+- 未决/阻塞：无。
+- 下一步：无扩充计划。
 
 ## 原文保全
 
-固定源 SHA `57dce53737bfdd184a3fb3ce60a657a1b0dcacbbe09961b07ba5afad33caaebf`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `1cfb47719fd36122d73b3d1ac7642cec192ccc15`，source SHA `57dce53737bfdd184a3fb3ce60a657a1b0dcacbbe09961b07ba5afad33caaebf`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # A7-3 · 历史证据
 >

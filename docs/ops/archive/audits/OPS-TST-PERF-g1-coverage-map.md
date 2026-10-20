@@ -1,70 +1,55 @@
 # OPS-TST-PERF G1 旧断言去向映射
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: audit-report-v1 / 1.0.0
 
-本页按正文语义迁移为 audit-report。原始日期、结论、数字、冲突和未知项保留；本页不授予当前产品、runtime、E2E、视觉或 coverage 信用。
+本页是 OPS-TST-PERF G1 旧断言去向映射审计的归档回执。44 条逐项映射表与路由规则在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前测试拓扑或 coverage 信用。
 
 ## 审计问题
 
-- OPS-TST-PERF G1 旧断言去向映射：完整读取 68 行/11920 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。
-- 历史问题域：fast-synthetic、pal-oracle、canary、release-shared 四种证明路由定义
+- PAL-heavy 旧测试断言退役后，每条旧断言由哪个后继证明承接、实际运行哪个门；防止便宜的 synthetic/oracle 被当成 source-backed 事实。
 
 ## 范围与证据
 
-- 固定源 revision `81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5`，源 SHA `38c8f2921086034e0584cd8b0db27bcf996eb9b0efec11a60a62ad159f6c60d3`，全文 68 行 / 11920 bytes。
-- 证据范围：dated historical audit/index; static content only; current claims require a new source-backed record
-- 原始入口与依赖：当前 document-registry.json 与 20261004-structured-content-ops-01.json, 后继任务卡/测试 catalog（按正文引用）
+- 44 条逐项映射（旧断言完整标题 → 后继测试文件·标题 → 路由），更新时间 2026-08-03；路由四类规则在 quote 保全。
 
 ## 发现
 
-| 历史域 | 具体观察 | 当前边界 |
-|---|---|---|
-| 1 | fast-synthetic、pal-oracle、canary、release-shared 四种证明路由定义 | dated historical only |
-| 2 | 44 条旧 PAL-heavy 断言逐条映射到后继测试标题和路由 | dated historical only |
-| 3 | 映射守恒、G1 append-only 状态机、source proof 边界和共享 lease 探针 | dated historical only |
+- `fast-synthetic` 只证生产函数在最小 fixture 上的行为/拒绝条件，不替代 PAL 数量、地址和剧情样本；`pal-oracle` 只证已发布 P7→R13 摘要与篡改拒绝，不重建 81k source graph；`canary` 每次从真实 PAL 源重建并与 golden、replay `0/0/0` 对比；`release-shared` 保留完整 source-backed 断言，是慢证明，不作开发循环默认门。
 
 ## 结论
 
-OPS-TST-PERF G1 旧断言去向映射：完整读取 68 行/11920 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。
-
-- 原文状态 `historical` 保持；此表是测试覆盖路由映射，不是执行结果；fast-synthetic 不能证明 PAL/source，pal-oracle/canary 仍需实际运行
+- 旧断言逐条有后继承接、无孤儿；路由声明使每条断言的证明强度显式化。
 
 ## 整改与复核
 
-- 下一步：保留 44 条映射与证明边界；当前测试信用只来自 catalog 配对 report/evidence 的真实执行。
-- 未决与停止线：- 此表是测试覆盖路由映射，不是执行结果；fast-synthetic 不能证明 PAL/source，pal-oracle/canary 仍需实际运行
-- 44 条映射中的旧测试与后继测试文件/标题属于历史快照，当前运行状态需由 testing catalog/evidence 核对
-- 位于 ops archive 且正文是历史审计映射，暂不改绑 test-domain-report；若未来迁移为测试域报告，需先冻结新 template/consumer 设计
-- content-based audit-report 绑定可接受；目录位置不能单独决定 test-domain-report
-- 后继入口：当前 document-registry.json 与 20261004-structured-content-ops-01.json, 后继任务卡/测试 catalog（按正文引用）
+- 映射表是当时 OPS-TST-PERF 测试重构的验收依据；复核按表内定位逐条可查。
 
 ## 历史范围
 
-- 源文件属于日期化历史材料；固定来源 `81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5`，本轮只做文档结构与语义迁移。
+- 2026-08-03 映射快照，基于当时 release/shared/fresh 并存的测试拓扑。
 
 ## 原始结论
 
-OPS-TST-PERF G1 旧断言去向映射：完整读取 68 行/11920 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。
+- 44 条映射与四类路由规则为原始结论本体。
 
 ## 当时证据
 
-- dated historical audit/index; static content only; current claims require a new source-backed record；原始链接、表格和命令在下方 quote 中逐行保留。
+- 逐条表格在 quote 保全。
 
 ## 当前有效性
 
-historical。此表是测试覆盖路由映射，不是执行结果；fast-synthetic 不能证明 PAL/source，pal-oracle/canary 仍需实际运行
+- historical。后续 current-only 重构删除旧 release/shared/fresh 证明链（见[OPS-TST-PERF current-only baseline](../evidence/OPS-TST-PERF-current-only-baseline-2026-08-22.md)），部分后继路由已随拓扑退役；本映射按当时拓扑时点解释。
 
 ## 继任文档
 
-保留 44 条映射与证明边界；当前测试信用只来自 catalog 配对 report/evidence 的真实执行。
+- 当前测试拓扑以 `packages/migrate` 现行配置与测试治理文档为准；目录导航见[历史审计回执](../README.md)。
 
 ## 原文保全
 
-固定源 SHA `38c8f2921086034e0584cd8b0db27bcf996eb9b0efec11a60a62ad159f6c60d3`；以下只增加 quote 前缀，逆回读得到相同 UTF-8 字节。
+固定源 revision `81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5`，source SHA `38c8f2921086034e0584cd8b0db27bcf996eb9b0efec11a60a62ad159f6c60d3`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # OPS-TST-PERF G1 旧断言去向映射
 >

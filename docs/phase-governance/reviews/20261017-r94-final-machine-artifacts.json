@@ -1200,7 +1200,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "a3b83590254670ff24c94b9724eb92b57952f1f1ddfaaa9df79ff48541b3e670",
+      "afterSha256": "5108af0cb212c9cdbcf1a86d4e2c69e8eb1ff5d3a5dd296a8006c5f20ec3dcbc",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1555,6 +1555,24 @@
           "sourceRevision": "b31682c46fcfe5bd66d4f10b9b74f39ba91608eb",
           "previousAfterSha256": "5ecb3e4ce8cf0fad559d200432e972fd32d5d916bb8455610025833b0f9f4bac",
           "afterSha256": "a3b83590254670ff24c94b9724eb92b57952f1f1ddfaaa9df79ff48541b3e670",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S16 123 individual accepted bodies and8 explicit route/type corrections",
+          "sourceRevision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+          "previousAfterSha256": "a3b83590254670ff24c94b9724eb92b57952f1f1ddfaaa9df79ff48541b3e670",
+          "afterSha256": "1bed3e3b05b6d1de154c3b02d5f4fb20273a12351f3bcbff651e5bc011149bea",
+          "method": "upstream review-pin dependency only; no rereview of its body subjects",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "S16 explicit98 phase catalog writeback, owner integration results and S17 admission controls",
+          "sourceRevision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+          "previousAfterSha256": "1bed3e3b05b6d1de154c3b02d5f4fb20273a12351f3bcbff651e5bc011149bea",
+          "afterSha256": "5108af0cb212c9cdbcf1a86d4e2c69e8eb1ff5d3a5dd296a8006c5f20ec3dcbc",
           "method": "upstream review-pin dependency only; no rereview of its body subjects",
           "grantsNewSemanticAcceptance": false
         }
@@ -5595,7 +5613,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "6e57ca2e495f40c6645e1bbafbdc929b93b03dbc49f4b190c8b7653a581136e1",
-      "afterSha256": "1ea53e2c6ce221ed04112828a88b4ce9e433c08f13f7b448a19340f8a425231f",
+      "afterSha256": "a5a628f2b0379444b5b64e7a7ff7d49971980f0fc1baeae83db2a76c947ee121",
       "publicCallers": ["docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "legalInputs": ["current repository documentation", "docs/ops/tasks/DOCS-FULL-TEMPLATE-1.md"],
       "businessOracle": {
@@ -6070,6 +6088,33 @@
           "afterSha256": "1ea53e2c6ce221ed04112828a88b4ce9e433c08f13f7b448a19340f8a425231f",
           "method": "Owner exact fixed347 nonauthor decisions/counters and preserved reuse scope; control after-pin maintenance only, no new native/product/full-goal credit.",
           "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S16 123 individual accepted bodies and8 explicit route/type corrections",
+          "sourceRevision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+          "previousAfterSha256": "1ea53e2c6ce221ed04112828a88b4ce9e433c08f13f7b448a19340f8a425231f",
+          "afterSha256": "f925cb6f602ca65148f188bc842cb77429e9481fb019738d3ed9d5381b3e589c",
+          "method": "Explicit S16 owner control/status/navigation/matrix writeback; no global semantic credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "S16 explicit98 phase catalog writeback, owner integration results and S17 admission controls",
+          "sourceRevision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+          "previousAfterSha256": "f925cb6f602ca65148f188bc842cb77429e9481fb019738d3ed9d5381b3e589c",
+          "afterSha256": "9a19a1707da5cee758b968489778a4d32291c979614d63f8137e1cc3556c852f",
+          "method": "Explicit Owner-reviewed S16 catalog/status/current-navigation delta or S17 build admission; no new semantic grant",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "S16 final actual-integration receipt navigation and dependent pins only",
+          "sourceRevision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+          "previousAfterSha256": "9a19a1707da5cee758b968489778a4d32291c979614d63f8137e1cc3556c852f",
+          "afterSha256": "a5a628f2b0379444b5b64e7a7ff7d49971980f0fc1baeae83db2a76c947ee121",
+          "method": "Read actual S16 integration receipt; append exact counts/boundaries and evidence link, no body completion grant",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -6237,7 +6282,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "cb898a59535da283de2b00d4e99bcc745ad3cbaabfd4900917f8f0b2cc5217b9",
-      "afterSha256": "41e2e2ae65773b8f8e6e6db63d76fb8b54230ad39282d46558cbd7a60dbc1451",
+      "afterSha256": "cebe4a021e21662774e170eb0fa7839c77d3da0e02f24370b7263287e9694049",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -6544,6 +6589,15 @@
             "rawExecutionStartedAt": "2026-10-19T00:54:39.948374+00:00",
             "reason": "Owner private helper reused prior nominal-date constant. Original date/command originals retained; this annotation is the correction, not a past execution rewrite."
           }
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S16 123 individual accepted bodies and8 explicit route/type corrections",
+          "sourceRevision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+          "previousAfterSha256": "41e2e2ae65773b8f8e6e6db63d76fb8b54230ad39282d46558cbd7a60dbc1451",
+          "afterSha256": "cebe4a021e21662774e170eb0fa7839c77d3da0e02f24370b7263287e9694049",
+          "method": "native storage-v2 publication; explicit data/status deltas listed in this plan; no semantic credit from storage",
+          "grantsNewSemanticAcceptance": false
         }
       ]
     },
@@ -6574,7 +6628,7 @@
         "semantic-and-non-author-credit-withdrawn-20261018"
       ],
       "sourceSha256": "e2a20ad66660a2ef90e813169f73f67f644c84f98a4b05fa9aed7aeffc05fd68",
-      "afterSha256": "126982e879b02e666bdefc1f273468660f820efafae0fe381759ab5a9cd6d9d5",
+      "afterSha256": "1c181b0e6955245dd475cd58ed24e91930aaeaf143e3ffcc8d5c22c108ad9155",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json"
@@ -6723,6 +6777,15 @@
           "previousAfterSha256": "73a3dfa26d5e0e05c892739216d1168ec4ff6977421cddbad17bcb0d5e1b6f0a",
           "afterSha256": "126982e879b02e666bdefc1f273468660f820efafae0fe381759ab5a9cd6d9d5",
           "method": "Explicit canonical location/active reference and routing correction; original1.0 protocol text unchanged and old anchor retained. No existing subject reacceptance or changed S14 scope.",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "DOCS-FULL-TEMPLATE-1 S16 123 individual accepted bodies and8 explicit route/type corrections",
+          "sourceRevision": "cd455765256ccef1d59513d0429e9121857fa5f9",
+          "previousAfterSha256": "126982e879b02e666bdefc1f273468660f820efafae0fe381759ab5a9cd6d9d5",
+          "afterSha256": "1c181b0e6955245dd475cd58ed24e91930aaeaf143e3ffcc8d5c22c108ad9155",
+          "method": "Explicit S16 owner control/status/navigation/matrix writeback; no global semantic credit",
           "grantsNewSemanticAcceptance": false
         }
       ]

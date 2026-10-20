@@ -1,85 +1,56 @@
 # M2 · 运行时垂直切片 Implementation Plan
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 M2 运行时垂直切片实施计划的归档重写。约 41 节 Task 明细（shared 类型→pal-extract 增量→game 三层）与完成 checklist 在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：M2 implementation plan: dialog-style command and resource schemas; scene dump/sprite extraction; input and command bus; game state/mode/scene/event systems; keyboard/replay loop; PNG/framebuffer/tilemap/sprite/font/dialog presentation; Vite bootstrap and headless E2E.
-- 日期：2026-05-23；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `2c1af6fa890e7f841bc166cd75a6923a46bb67e7d15403e6e85cef2849b8fa58`。
+- 目标：落实 [M2 设计稿](2026-05-23-m2-runtime-slice-design.md)——探索垂直切片跑通（2026-05-23）。
 
 ## 里程碑
 
-- 原始章节：File Structure(M2 末态)；Task 列表总览；Conventions；Task 1: shared/events.ts —— SetDialogStyleCommand；Task 2: shared/resources.ts —— SceneObjects + DialogBoxStyle；Task 3: pal-extract opcodes / disasm / recompile —— setDialogStyle 全套；Task 4: pal-extract resources/scene.ts —— scene-1.json dump；Task 5: pal-extract sprite 提取 + cli 总装。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- Task 链跨三包：shared/events.ts SetDialogStyleCommand、shared/resources.ts SceneObjects+DialogBoxStyle、pal-extract opcodes/disasm/recompile setDialogStyle 全套、scene-1.json dump、sprite 提取+cli 总装、shared/input.ts InputSource/AbstractKey、game/core command-bus、game-state+mode、scene-system 走路+碰撞+NPC 触发…（41 节全列）。
+- 完成 checklist 全勾：dev 验证跑通、gitignore 就位、决策表 D26/D27/D28 已 commit。
 
 ## 当前状态
 
-- historical；M2 · 运行时垂直切片 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 3393 行、42 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` (recommended) or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。
+- historical：M2 完工；决策表（04 决策表）是当时走位/碰撞取舍的权威记录。
 
 ## 阻塞与决策
 
-- 正文信号 182:期望:类型错(`DialogBoxStyle` / `SetDialogStyleTopCommand` 等未导出)。
-- 正文信号 312:/** NPC 待机行为(M2 不消费,留给 M5+)。 */
-- 正文信号 538:it('未被跳转的入口 ip 也会打 label', () => {
-- 正文信号 686:修改 `packages/pal-extract/src/cli.ts`,在资源切片那节(palette 之后、TODO sprite 之前)加:
-- 正文信号 757:it('未在 mgoChunks 中找到的 sprite id —— skip 且记 warn(不抛错)', () => {
-- 正文信号 789:console.warn(`[pal-extract] sprite ${id}: MGO.MKF chunk 未找到,skip`)
-- 正文信号 805:修改 `packages/pal-extract/src/cli.ts`,在 `精灵切片:M1 暂不实现` TODO 处替换为真实实现:
-- 正文信号 872:用图像查看器打开 `sprite-0-frame-00.png`,应该看到一个像素人形(虽然颜色不对,因为是索引位图未上色)。若不像或全黑,回 Step 5/6 debug。
-- 正文信号 892:**Why:** Shell input 层与 Core 系统层之间的契约,从 day 1 就预留 record / replay 接口(D14)。类型放 shared 是为了未来 e2e / dev 工具能拿到。
-- 正文信号 1025:it('未知 cmdId complete —— 不抛错', () => {
-- 正文信号 1227:(mode.ts 引用未存在的 scene-system.ts / event-system.ts —— typecheck 会失败,Task 9 / 10 补齐。本 Task 仅 commit game-state.ts + mode.ts。)
-- 正文信号 1248:**碰撞简化**:M1 切出来的 Tilemap.TileCell 只有 lower / upper(u16 各),attribute 位是否单独存待查。M2 简化:**所有 cell 可走**(只做地图边界 clamp)。后续 Task 22 dev 验证若发现 NPC 能走进墙里,补属性位查询。
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- Conventions 与决策表流程为纪律；探索物理决策后续被 sdlpal 真值对齐取代（见 D 系列）。
 
 ## 下一步
 
-- 后继入口：M3 design/plan and current runtime code/tests; historical TODOs require primary-source revalidation.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点由 M3 承接；当前运行时以现行代码为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-05-23；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `2c1af6fa890e7f841bc166cd75a6923a46bb67e7d15403e6e85cef2849b8fa58`。
+- phase1 plans M2 实施计划；时点 2026-05-23；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- M2 · 运行时垂直切片 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 3393 行、42 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` (recommended) or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。
+- 三包 Task 链与完成 checklist 为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:M2 · 运行时垂直切片 Implementation Plan; 15:File Structure(M2 末态); 76:Task 列表总览; 114:Conventions; 131:Task 1: shared/events.ts —— SetDialogStyleCommand; 249:Task 2: shared/resources.ts —— SceneObjects + DialogBoxStyle; 337:Task 3: pal-extract opcodes / disasm / recompile —— setDialogStyle 全套; 490:Task 4: pal-extract resources/scene.ts —— scene-1.json dump；原始正文、代码、表格、状态词在 quote 保全。
+- File Structure（M2 末态）、Task 总览与决策表在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 182:期望:类型错(`DialogBoxStyle` / `SetDialogStyleTopCommand` 等未导出)。
-- 正文信号 312:/** NPC 待机行为(M2 不消费,留给 M5+)。 */
-- 正文信号 538:it('未被跳转的入口 ip 也会打 label', () => {
-- 正文信号 686:修改 `packages/pal-extract/src/cli.ts`,在资源切片那节(palette 之后、TODO sprite 之前)加:
-- 正文信号 757:it('未在 mgoChunks 中找到的 sprite id —— skip 且记 warn(不抛错)', () => {
-- 正文信号 789:console.warn(`[pal-extract] sprite ${id}: MGO.MKF chunk 未找到,skip`)
-- 正文信号 805:修改 `packages/pal-extract/src/cli.ts`,在 `精灵切片:M1 暂不实现` TODO 处替换为真实实现:
-- 正文信号 872:用图像查看器打开 `sprite-0-frame-00.png`,应该看到一个像素人形(虽然颜色不对,因为是索引位图未上色)。若不像或全黑,回 Step 5/6 debug。
-- 正文信号 892:**Why:** Shell input 层与 Core 系统层之间的契约,从 day 1 就预留 record / replay 接口(D14)。类型放 shared 是为了未来 e2e / dev 工具能拿到。
-- 正文信号 1025:it('未知 cmdId complete —— 不抛错', () => {
-- 正文信号 1227:(mode.ts 引用未存在的 scene-system.ts / event-system.ts —— typecheck 会失败,Task 9 / 10 补齐。本 Task 仅 commit game-state.ts + mode.ts。)
-- 正文信号 1248:**碰撞简化**:M1 切出来的 Tilemap.TileCell 只有 lower / upper(u16 各),attribute 位是否单独存待查。M2 简化:**所有 cell 可走**(只做地图边界 clamp)。后续 Task 22 dev 验证若发现 NPC 能走进墙里,补属性位查询。
+- historical。
 
 ## 继任文档
 
-- M3 design/plan and current runtime code/tests; historical TODOs require primary-source revalidation.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [M2 设计稿](2026-05-23-m2-runtime-slice-design.md)；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `2c1af6fa890e7f841bc166cd75a6923a46bb67e7d15403e6e85cef2849b8fa58`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `2c1af6fa890e7f841bc166cd75a6923a46bb67e7d15403e6e85cef2849b8fa58`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # M2 · 运行时垂直切片 Implementation Plan
 >

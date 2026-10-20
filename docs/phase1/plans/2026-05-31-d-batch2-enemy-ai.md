@@ -1,67 +1,57 @@
 # B2 — 敌方 AI 真值 + 脚本驱动(D9 / D10残 / D24残 / D27残)详细 plan
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 D 系列 B2 批次（敌方 AI 真值+脚本驱动）详细计划的归档重写。roadmap 错误假设纠正、全 commit 切分与 c7 专项风险分析在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：B2 enemy AI truth/script-driven TDD, target selection, opcodes, state paths and completion.
-- 日期：2026-05-31；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `2334c00020011843e2cb4cd7979653b07cfd5918998329a319faa9969624e55d`。
+- 目标：按 sdlpal 真值收口敌方 AI——decideEnemyAction overhaul（D10）、enemy→player 物理公式（D27）、fAutoDefend 闪避+守护 cover（D27）、魔法 auto-defend+Protect 除数（D27）、iHidingTime 隐身全套（D24）、scriptOnBattleEnd 战后 resume（D10）。
+- 时间范围：2026-05-31 D 系列执行期；TDD 全 commit 切分（每行为先失败测、数据级断言）。
 
 ## 里程碑
 
-- 原始章节：0. workflow 纠正的 roadmap 错误假设(关键,防误改)；1. 全 commit 切分(TDD,每行为先失败测,数据级断言)；c1 — 敌方 AI 状态门(D10):decideEnemyAction overhaul；c2 — enemy→player 物理公式修(D27)；c3 — 物理 fAutoDefend 闪避 + 守护 cover(D27,user 全做)；c4 — 魔法 auto-defend + Protect 除数(D27)；c5 — iHidingTime 隐身全套(D24,高)；c6 — scriptOnBattleEnd 战后 resume(D10,高)。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- 节 0 纠正 roadmap 错误假设（关键，防误改）——workflow 核对后的真值前提。
+- c1–c6 六个切分各自带先失败测与 sdlpal 行号锚点（quote 保全）。
 
 ## 当前状态
 
-- historical；B2 — 敌方 AI 真值 + 脚本驱动(D9 / D10残 / D24残 / D27残)详细 plan：这是 plan-status，当前文档状态为 historical。全文 133 行、17 个标题；摘要/首段为「> 总 roadmap:[2026-05-31-d-series-completion-roadmap.md](2026-05-31-d-series-completion-roadmap.md) B2。」。属于历史/归档材料，不能单独证明当前实现。
+- historical：c1–c6 完成；c7（scriptOnTurnStart/scriptOnReady 的 wNextScriptEntry 写回）因 runScript 多处 early-return 语义需对齐而留专项——0x00 类 boss 脚本本该每轮重显却被硬置 0 禁掉是真 gap（enemyId 23/25 实证）。
 
 ## 阻塞与决策
 
-- 正文信号 15:| D10 0x67 | "未真驱动" | **已真驱动**;剩 silence 漏判(真 bug)/0xFFFF/群体魔法 |
-- 正文信号 16:| D10 0x90 | "battle 未实现自禁" | 写 gs.rgObject 已对;**sdlpal 战斗内从不同步 rgObject→敌;真 show-once = 脚本返回值回写**(c7),0x90 与自禁无关 → 0x90 **不加 battle sync** |
-- 正文信号 17:| D10 0x79 | "battle 未实现" | **已 fallthrough 生效** → 仅清 stale 注释 |
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- 决策记录：不在 marathon turn 末仓促改核心函数 runScript；dialog 入队中途返回的 nextEntry 语义需对齐。
 
 ## 下一步
 
-- 后继入口：Current battle AI/script code, tests, feature/opcode status and source review.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点 c7 留专项；当前敌方脚本语义以现行实现与 phase2 语义审计为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-05-31；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `2334c00020011843e2cb4cd7979653b07cfd5918998329a319faa9969624e55d`。
+- phase1 plans D 系列批次计划；时点 2026-05-31；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- B2 — 敌方 AI 真值 + 脚本驱动(D9 / D10残 / D24残 / D27残)详细 plan：这是 plan-status，当前文档状态为 historical。全文 133 行、17 个标题；摘要/首段为「> 总 roadmap:[2026-05-31-d-series-completion-roadmap.md](2026-05-31-d-series-completion-roadmap.md) B2。」。属于历史/归档材料，不能单独证明当前实现。
+- c1–c6 切分、c7 wNextScriptEntry 分析（0x00/0x01/0x02 三态）与 enemyId 23/25 实证为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:B2 — 敌方 AI 真值 + 脚本驱动(D9 / D10残 / D24残 / D27残)详细 plan; 9:0. workflow 纠正的 roadmap 错误假设(关键,防误改); 23:1. 全 commit 切分(TDD,每行为先失败测,数据级断言); 28:c1 — 敌方 AI 状态门(D10):decideEnemyAction overhaul; 37:c2 — enemy→player 物理公式修(D27); 45:c3 — 物理 fAutoDefend 闪避 + 守护 cover(D27,user 全做); 54:c4 — 魔法 auto-defend + Protect 除数(D27); 61:c5 — iHidingTime 隐身全套(D24,高)；原始正文、代码、表格、状态词在 quote 保全。
+- sdlpal PAL_RunTriggerScript 返回语义、ts runEnemyTurnStartScripts 硬置 0 对照在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 15:| D10 0x67 | "未真驱动" | **已真驱动**;剩 silence 漏判(真 bug)/0xFFFF/群体魔法 |
-- 正文信号 16:| D10 0x90 | "battle 未实现自禁" | 写 gs.rgObject 已对;**sdlpal 战斗内从不同步 rgObject→敌;真 show-once = 脚本返回值回写**(c7),0x90 与自禁无关 → 0x90 **不加 battle sync** |
-- 正文信号 17:| D10 0x79 | "battle 未实现" | **已 fallthrough 生效** → 仅清 stale 注释 |
+- historical。c7 描述的 gap 在后续 opcode 收口（[opcode-status](../status/opcode-status.md) 0x28·0x29 增量修正）中部分处理，按各自时点解释。
 
 ## 继任文档
 
-- Current battle AI/script code, tests, feature/opcode status and source review.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [opcode-status](../status/opcode-status.md)、[feature-status](../status/feature-status.md) 战斗章；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `2334c00020011843e2cb4cd7979653b07cfd5918998329a319faa9969624e55d`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后得到相同 bytes。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `2334c00020011843e2cb4cd7979653b07cfd5918998329a319faa9969624e55d`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # B2 — 敌方 AI 真值 + 脚本驱动(D9 / D10残 / D24残 / D27残)详细 plan
 >

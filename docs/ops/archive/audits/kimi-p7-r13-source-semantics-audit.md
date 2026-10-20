@@ -1,71 +1,56 @@
-# N3-1 P7-R13 源指令语义闭包独立审计报告（Kimi）
+# N3-1 P7-R13 源指令语义闭包独立审计报告（Kimi，架构 / SDLPal 语义红队）
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: audit-report-v1 / 1.0.0
 
-本页按正文语义迁移为 audit-report。原始日期、结论、数字、冲突和未知项保留；本页不授予当前产品、runtime、E2E、视觉或 coverage 信用。
+本页是 Kimi 双盲 P7-R13 源指令语义闭包独立审计报告的归档回执。基线声明、M1/M2 缺口链与语义引用在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 审计问题
 
-- N3-1 P7-R13 源指令语义闭包独立审计报告（Kimi）：完整读取 214 行/19435 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。
-- 历史问题域：d263efd3/c3d620a9 基线与 SDLPal/迁移器/运行时三路重建
+- 独立三路重建（SDLPal script.c/scene.c/play.c/global.c 语义清单 → translate-events/translate-enemy-scripts 去向映射 → reforge 运行时执行覆盖）+ `projects/pal` 最终产物一手抽查 + 全量 0x08/0x04/0x76 站点普查；未读 GLM 报告，与 Codex 金丝雀的差集在 quote §6/§7。
 
 ## 范围与证据
 
-- 固定源 revision `81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5`，源 SHA `c9d4f16b801da222cdb89399922f9501406e183c1819f8eccc2b6b3e9d6ccbd1`，全文 214 行 / 19435 bytes。
-- 证据范围：dated historical audit/index; static content only; current claims require a new source-backed record
-- 原始入口与依赖：当前 document-registry.json 与 20261004-structured-content-ops-01.json, 后继任务卡/测试 catalog（按正文引用）
+- 基线 `d263efd3`（实现核心 `c3d620a9`），只读、未修改实现/产物/baseline/任务卡。
 
 ## 发现
 
-| 历史域 | 具体观察 | 当前边界 |
-|---|---|---|
-| 1 | d263efd3/c3d620a9 基线与 SDLPal/迁移器/运行时三路重建 | dated historical only |
-| 2 | M1-M9 确认缺失：callScript owner、0x08、confirm、idleFrames、敌人 hooks、choreography、battleEnd、0x79、palette | dated historical only |
-| 3 | 等价补回、动态风险和 approved no-op/近似分类 | dated historical only |
-| 4 | 可复跑普查命令、Codex 差集/误报与 G1-G6 fail-closed 门禁建议 | dated historical only |
+- M1（最重）：`0x04 callScript` 的 owner 操作数 off-by-one——SDLPal `PAL_RunTriggerScript(op0, op1?op1:curEvt)` 的 op1 是 1-based 全局对象号，`translate-events.ts` 的 callOwner 未做 -1，12 个站点错绑后一号实体；对照同文件 entRef 正确做 -1 且注释记录同一 bug 模式（2026-07-03 用户报）。产物实证 `s093.json` e1749 的 trigger 依次作用于 e1750..e1757；门禁全绿是因为错目标实体同样存在。
+- M2：`0x08` checkpoint 语义全丢（36 站，仅 L_6344 带 label），前缀副作用在重触发时重放，含 6 处 giveItem、5 处金钱刷取点。
 
 ## 结论
 
-N3-1 P7-R13 源指令语义闭包独立审计报告（Kimi）：完整读取 214 行/19435 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。
-
-- 原文状态 `historical` 保持；基线 c3d620a9 与当前工程版本不同，所有源/最终 digest 和版本口径需重新绑定
+- 确认最终缺失清单（M1/M2 等）置信度高（语义链 + 产物双重实证）；与 Codex 金丝雀的差集单独列章。
 
 ## 整改与复核
 
-- 下一步：保留 Kimi 红队独立证据和反例；当前只按新的 source-backed disposition、runtime/save canary 和用户裁决采纳。
-- 未决与停止线：- 基线 c3d620a9 与当前工程版本不同，所有源/最终 digest 和版本口径需重新绑定
-- 报告把若干结构性开放口列为风险或缺失，明确要求动态验证；静态读证不能升格为当前缺陷已修复或已重现
-- 提出 instruction disposition、diagnostics、context matrix、身份 oracle、副作用重放和单源翻译器等后继设计，但未实施
-- 与 GLM/Codex 对 0x08、0x76、0x9B、pendingThrow 等口径存在差集合并需求
-- 后继入口：当前 document-registry.json 与 20261004-structured-content-ops-01.json, 后继任务卡/测试 catalog（按正文引用）
+- 本报告是[三方合并裁决](codex-p7-r13-three-way-adjudication.md)的输入之一；M1/M2 被裁决采纳为最高优先缺口。
 
 ## 历史范围
 
-- 源文件属于日期化历史材料；固定来源 `81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5`，本轮只做文档结构与语义迁移。
+- 2026-07-26 双盲审计；基线 `d263efd3`。
 
 ## 原始结论
 
-N3-1 P7-R13 源指令语义闭包独立审计报告（Kimi）：完整读取 214 行/19435 字节；按正文确定为 audit-report / audit-report-v1，历史材料保留原结论和日期。
+- M1 off-by-one 链（script.c 语义 → translate 去向 → 产物实证）与 M2 checkpoint 36 站/副作用普查为原始结论本体。
 
 ## 当时证据
 
-- dated historical audit/index; static content only; current claims require a new source-backed record；原始链接、表格和命令在下方 quote 中逐行保留。
+- 语义引用行号、产物 JSON 实证与逐站普查在 quote 保全。
 
 ## 当前有效性
 
-historical。基线 c3d620a9 与当前工程版本不同，所有源/最终 digest 和版本口径需重新绑定
+- historical。缺口是否已修复以后续任务卡、代码与测试为准；本报告按双盲时点解释。
 
 ## 继任文档
 
-保留 Kimi 红队独立证据和反例；当前只按新的 source-backed disposition、runtime/save canary 和用户裁决采纳。
+- [三方合并裁决](codex-p7-r13-three-way-adjudication.md)与后续 R13 系列任务卡；目录导航见[历史审计回执](../README.md)。
 
 ## 原文保全
 
-固定源 SHA `c9d4f16b801da222cdb89399922f9501406e183c1819f8eccc2b6b3e9d6ccbd1`；以下只增加 quote 前缀，逆回读得到相同 UTF-8 字节。
+固定源 revision `81d01fa9993b38f0905ed7a54fc9a0b1c73f8fa5`，source SHA `c9d4f16b801da222cdb89399922f9501406e183c1819f8eccc2b6b3e9d6ccbd1`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # N3-1 P7-R13 源指令语义闭包独立审计报告（Kimi，架构 / SDLPal 语义红队）
 >

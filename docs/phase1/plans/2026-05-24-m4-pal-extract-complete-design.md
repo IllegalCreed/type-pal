@@ -1,85 +1,56 @@
 # M4 · pal-extract 补全 + 资产分层 + 字体真渲染 Design
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 M4 pal-extract 补全设计的归档重写。四 stream 四 phase 结构与 scope 边界在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：M4 design: asset layering, full MKF chunk inventory/coverage, all 295 scene assets, real font rendering; phased P1–P4 order, schema strictness B typed/raw/TODO, invariants, tests and risks.
-- 日期：2026-05-24；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `378839296d24f2987401e894c21ee425886eeac298f757445014ec3ab8612b5a`。
+- 目标：M4 设计文档（brainstorming 产出）——pal-extract 补全+资产分层+字体真渲染；配套实施计划在 [m4-pal-extract-complete](2026-05-24-m4-pal-extract-complete.md)。
+- 时间范围：2026-05-24。
 
 ## 里程碑
 
-- 原始章节：与全局文档的关系；1. 范围；1.1 总目标；1.2 4 个 stream；1.3 4 个 phase 顺序(A:a → b → c → d,数据 → UI 顺承)；1.4 M4 scope 边界(reality check)；1.5 完成定义；2. 关键不变量。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- 4 个 stream 与 4 个 phase 顺序（A: a→b→c→d，数据→UI 顺承）；M4 scope 边界（reality check）与完成定义、关键不变量独立成节。
 
 ## 当前状态
 
-- historical；M4 · pal-extract 补全 + 资产分层 + 字体真渲染 Design：这是 design-spec，当前文档状态为 historical。全文 463 行、46 个标题；摘要/首段为「> 这是 M4 的**设计文档**(brainstorming 产出),只讲"做什么 / 怎么组织 / 怎么验证"。」。属于历史/归档材料，不能单独证明当前实现。
+- historical：M4 完工（目录索引 ✅）；提取真实状况后由 [m4-extract-audit](2026-05-27-m4-extract-audit.md) 对账、信源归 [resource-status](../status/resource-status.md)。
 
 ## 阻塞与决策
 
-- 正文信号 10:- 把 M3.5 完工后留下的 ⚠️ 残留中 **3 项** 顺手修(其余推 M5):
-- 正文信号 53:- ✅ a9 contact → battle 端到端 unskip pass(M3.5 ⚠️ 残留修)
-- 正文信号 54:- ✅ palette 跨 scene 真切(M3.5 ⚠️ 残留修)
-- 正文信号 195:| **T1** | **chunk inventory**:grep `reference/sdlpal/` 全 MKF chunk 引用,生成 `M4_CHUNK_INVENTORY.md`(每 MKF 每 chunk:sdlpal 路径 + 含义 + 已抽/待抽 + dump 策略 typed/raw) | `global.c::PAL_LoadDef
-- 正文信号 201:#### Schema 严格度(选 B = 已知 typed + 未知 raw + TODO)
-- 正文信号 204:- **真值需要 spelunking**(含义不明):raw binary 字节 + JSON metadata(chunk index + size + 猜测含义 + `TODO M5/M6 真用时扩 typed`)
-- 正文信号 220:| **T1** | **`SceneAssets` 扩 `eventCommands` + `labelMap`** + game runtime `loader.ts` lazy load `events/scene-N.json` 并 build labelMap 注入 SceneAssets。**修 M3.5 ⚠️ #8 a9 端到端 skip**。
-- 正文信号 221:| **T2** | **`setPalette` opcode 真处理**:game runtime EventSystem 从 raw skip 升级 typed handler(per scene 切换时真换 palette,触发 present 重渲染)。**修 M3.5 ⚠️ palette 跨 scene**。需要 grep sdlpal `sc
-- 正文信号 262:**(D11 早已否决:挖 GBK 16×16 字模/混合方案)**
-- 正文信号 338:- P4 末:**全部含文字 baseline 重生**(c1-c6 主菜单/对话 + b3-b4 HP-MP-数字 + a 组含文字 frame),b* spec 切 sdlpal real baseline source(M3.5 ⚠️ 接合)→ 31 pass + diff 大幅下降
-- 正文信号 351:## 6. 风险 / 未决问题
-- 正文信号 353:### 6.1 P2 T1 chunk inventory 工作量未知
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- 决策：数据→UI 顺承，避免 UI 层等待未定数据形态。
 
 ## 下一步
 
-- 后继入口：M4 implementation plan and current extraction/resource status; schema B and remaining media gaps need fresh evidence.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点由实施篇与提取审计承接；当前提取管线以现行实现为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-05-24；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `378839296d24f2987401e894c21ee425886eeac298f757445014ec3ab8612b5a`。
+- phase1 plans M4 设计；时点 2026-05-24；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- M4 · pal-extract 补全 + 资产分层 + 字体真渲染 Design：这是 design-spec，当前文档状态为 historical。全文 463 行、46 个标题；摘要/首段为「> 这是 M4 的**设计文档**(brainstorming 产出),只讲"做什么 / 怎么组织 / 怎么验证"。」。属于历史/归档材料，不能单独证明当前实现。
+- 四 stream/四 phase 结构与 scope 边界为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:M4 · pal-extract 补全 + 资产分层 + 字体真渲染 Design; 6:与全局文档的关系; 24:1. 范围; 26:1.1 总目标; 30:1.2 4 个 stream; 39:1.3 4 个 phase 顺序(A:a → b → c → d,数据 → UI 顺承); 47:1.4 M4 scope 边界(reality check); 65:1.5 完成定义；原始正文、代码、表格、状态词在 quote 保全。
+- 范围、完成定义与关键不变量在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 10:- 把 M3.5 完工后留下的 ⚠️ 残留中 **3 项** 顺手修(其余推 M5):
-- 正文信号 53:- ✅ a9 contact → battle 端到端 unskip pass(M3.5 ⚠️ 残留修)
-- 正文信号 54:- ✅ palette 跨 scene 真切(M3.5 ⚠️ 残留修)
-- 正文信号 195:| **T1** | **chunk inventory**:grep `reference/sdlpal/` 全 MKF chunk 引用,生成 `M4_CHUNK_INVENTORY.md`(每 MKF 每 chunk:sdlpal 路径 + 含义 + 已抽/待抽 + dump 策略 typed/raw) | `global.c::PAL_LoadDef
-- 正文信号 201:#### Schema 严格度(选 B = 已知 typed + 未知 raw + TODO)
-- 正文信号 204:- **真值需要 spelunking**(含义不明):raw binary 字节 + JSON metadata(chunk index + size + 猜测含义 + `TODO M5/M6 真用时扩 typed`)
-- 正文信号 220:| **T1** | **`SceneAssets` 扩 `eventCommands` + `labelMap`** + game runtime `loader.ts` lazy load `events/scene-N.json` 并 build labelMap 注入 SceneAssets。**修 M3.5 ⚠️ #8 a9 端到端 skip**。
-- 正文信号 221:| **T2** | **`setPalette` opcode 真处理**:game runtime EventSystem 从 raw skip 升级 typed handler(per scene 切换时真换 palette,触发 present 重渲染)。**修 M3.5 ⚠️ palette 跨 scene**。需要 grep sdlpal `sc
-- 正文信号 262:**(D11 早已否决:挖 GBK 16×16 字模/混合方案)**
-- 正文信号 338:- P4 末:**全部含文字 baseline 重生**(c1-c6 主菜单/对话 + b3-b4 HP-MP-数字 + a 组含文字 frame),b* spec 切 sdlpal real baseline source(M3.5 ⚠️ 接合)→ 31 pass + diff 大幅下降
-- 正文信号 351:## 6. 风险 / 未决问题
-- 正文信号 353:### 6.1 P2 T1 chunk inventory 工作量未知
+- historical。
 
 ## 继任文档
 
-- M4 implementation plan and current extraction/resource status; schema B and remaining media gaps need fresh evidence.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [m4-pal-extract-complete](2026-05-24-m4-pal-extract-complete.md) 实施篇与 [resource-status](../status/resource-status.md)；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `378839296d24f2987401e894c21ee425886eeac298f757445014ec3ab8612b5a`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `378839296d24f2987401e894c21ee425886eeac298f757445014ec3ab8612b5a`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # M4 · pal-extract 补全 + 资产分层 + 字体真渲染 Design
 >

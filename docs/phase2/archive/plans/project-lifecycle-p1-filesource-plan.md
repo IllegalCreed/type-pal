@@ -1,74 +1,56 @@
 # P1 · FileSource 地基 实现计划
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把历史实施计划接入 `plan-status-v1`，并追加 `archive-record-v1` 历史 overlay。原计划的日期、checkbox、执行分工、数字、结果词、未知和链接均在 quote 中保全；本页不授予当前待办、runtime、E2E、视觉或 coverage 信用。
+本页是第二阶段历史实现计划的归档重写。任务结构、分工、约束与验收在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现或准入信用。
 
 ## 目标与时间范围
 
-- 历史目标：P1 FileSource/httpSource：统一内容读取、loadProjectFrom、loadSceneDef/loadAllScenes 经 source，保持 HTTP 零行为变化；editor/engine 浏览器 gate。
-- 原始时间范围：2026-09-06；固定 source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `f94c52f2cc0256481c96e58839a272e64d2ad0cb16e8d23cdb694ee9368d99e1`。
-- 当前时间状态：历史归档；本页只说明当时计划的目的和边界，不续写执行期限。
+- 生命周期 P1：FileSource 接口+httpSource → loader 内容加载改经 FileSource → 零行为变化验收（浏览器实测）。
 
 ## 里程碑
 
-- 原始章节/里程碑：Global Constraints；Task 1: FileSource 接口 + httpSource；Task 2: loader 内容加载改经 FileSource；Task 3: 零行为变化验收(浏览器实测)；后续计划(P1 落地后各自展开)；Self-Review(已过)。
-- 计划步骤、Task 编号、分工和 checkbox 的原始含义均保留在下方 quote；它们不构成今天的 build 准入。
-- 本次治理里程碑：完成具体语义分栏、历史 overlay、源/after SHA 和继任入口登记。
+- FileSource 抽象的第一块地基；后续 P2（素材）/P3（FSA）/P4（克隆）依次展开。
+- 逐 Task 明细（Global Constraints/契约/真值锚/Self-Review 如原文所载）在 quote 保全。
 
 ## 当前状态
 
-- 当前文档状态：`historical` / `archive`；正文状态信号：1:> **历史文档（2026-09-06 标注）**：本文写作于方案设计/计划阶段，正文中的执行指令、；2:> Agent 分工、版本号与“当前状态”均为**当时快照**，不是现行契约或待办；已被后续；73:test('非 200 抛错带 url + 状态码', async () => {；404:## Self-Review(已过)
-- 历史结论：P1 · FileSource 地基 实现计划：这是 plan-status，当前文档状态为 historical。全文 411 行、7 个标题；摘要/首段为「> **历史文档（2026-09-06 标注）**：本文写作于方案设计/计划阶段，正文中的执行指令、」。属于历史/归档材料，不能单独证明当前实现。
-- 当前能力、实现结果和任务排序必须从继任规范、代码、看板/任务卡和新的独立证据读取。
+- historical：实现结果以 capability-map、现行 specs 与对应任务卡为准（quote 头部 2026-09-06 历史文档注记）。
 
 ## 阻塞与决策
 
-- 历史冲突/未决：
-- 计划假设的 loader 字段、端口/端口测试和 6010/6051 浏览器结果需以当前 FileSource/loader code 重核。
-- P2 assets、P3 FSA、P4 picker 是后继而非已完成。
-- 停止线：不得把历史计划、checkbox、Self-Review、done/待审标签或浏览器验收步骤提升为 current contract、runtime/E2E/visual/coverage 证据；计划假设的 loader 字段、端口/端口测试和 6010/6051 浏览器结果需以当前 FileSource/loader code 重核。
-- 旧计划中的 done/open/待审/浏览器验收词只保留为日期化证据，不能改写为 current。
+- 原 Agent 分工（如 GLM/Claude 分段）与「签名钉死」契约仅作当时协作记录。
 
 ## 下一步
 
-- 继任入口：docs/phase2/specs/project-lifecycle.md；current reforge file-source/loader; current editor lifecycle。
-- 若需重新执行：先建立新的 task card，核对当前 primary source、合法输入、版本范围、business oracle、可证伪观察和独立验收；不得直接沿用本页步骤。
-- 本次迁移完成后仍需候选独立接收；全量 1838 目标保持 active/build。
+- 历史时点计划已完成或被后续演进取代；现行真值见 [READ-FIRST](../../READ-FIRST.md)。
 
 ## 历史范围
 
-- 原始范围：phase2 archive plan；日期/版本：2026-09-06；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，原文 410 行 / 17665 bytes。
-- 归档原因：计划包含当时的执行分工、接口、checkbox 和验收步骤，当前合同已经由后继规范/代码承接。
+- phase2 archive 实现计划快照；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- P1 · FileSource 地基 实现计划：这是 plan-status，当前文档状态为 historical。全文 411 行、7 个标题；摘要/首段为「> **历史文档（2026-09-06 标注）**：本文写作于方案设计/计划阶段，正文中的执行指令、」。属于历史/归档材料，不能单独证明当前实现。
-- 保留原始结论的历史适用范围；新增章节不把计划结果提升为当前实现。
+- 任务链结构与关键约束为原始结论本体。
 
 ## 当时证据
 
-- source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `f94c52f2cc0256481c96e58839a272e64d2ad0cb16e8d23cdb694ee9368d99e1`；标题锚点：6:P1 · FileSource 地基 实现计划, 16:Global Constraints, 26:Task 1: FileSource 接口 + httpSource, 166:Task 2: loader 内容加载改经 FileSource, 366:Task 3: 零行为变化验收(浏览器实测), 396:后续计划(P1 落地后各自展开), 404:Self-Review(已过)。
-- 原始链接、代码、表格、checkbox 与状态词在下方逐行 quote 保留；本轮未运行计划中的 runtime/E2E/视觉/coverage。
+- 逐 Task 步骤与约束在 quote 保全。
 
 ## 当前有效性
 
-historical。当前不把计划步骤、Self-Review、done/open 标签、浏览器 gate 或历史数字视为现行契约或执行证据。
-- 当前不得外推：不得把历史计划、checkbox、Self-Review、done/待审标签或浏览器验收步骤提升为 current contract、runtime/E2E/visual/coverage 证据；计划假设的 loader 字段、端口/端口测试和 6010/6051 浏览器结果需以当前 FileSource/loader code 重核。
+- historical。
 
 ## 继任文档
 
-- current canonical / 复核入口：docs/phase2/specs/project-lifecycle.md；current reforge file-source/loader; current editor lifecycle。
-- supersedes / superseded-by：本页替换旧的 governed-legacy 结构展示，但不替换原始历史语义；当前事实由继任规范/代码和独立 review 决定。
-- 重新启用条件：新的源版本、适用范围、合法输入、oracle、可证伪观察和独立接收。
+- [project-lifecycle 设计](../designs/project-lifecycle-design.md)；[archive 导航](../README.md)。
 
 ## 原文保全
 
-固定源 SHA `f94c52f2cc0256481c96e58839a272e64d2ad0cb16e8d23cdb694ee9368d99e1`；以下只增加 quote 前缀，逆回读必须得到相同 UTF-8 字节。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `f94c52f2cc0256481c96e58839a272e64d2ad0cb16e8d23cdb694ee9368d99e1`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > > **历史文档（2026-09-06 标注）**：本文写作于方案设计/计划阶段，正文中的执行指令、
 > > Agent 分工、版本号与“当前状态”均为**当时快照**，不是现行契约或待办；已被后续

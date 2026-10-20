@@ -8,8 +8,8 @@
     "total": 60,
     "byStatus": {
       "archived": 1,
-      "current": 17,
-      "draft": 42
+      "current": 12,
+      "historical": 47
     }
   },
   "entries": [
@@ -793,12 +793,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-23-m0-project-skeleton",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "48cd9d8c5fc824ba720e31ba4de4c77c143d40533a4374ef73ff450e5bf9f206",
-      "afterSha256": "33b71df315e990774abbf5330e075848d5589bd7c433fd63dc1ec48869fa38d3",
+      "afterSha256": "6ff51c06473949e45118e05b45cf3e997bc2056a7d892325541159c28baeb16d",
       "sourceRefs": [
         {
           "path": "packages/shared/src/index.test.ts",
@@ -925,12 +925,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "ead04df1615699f3c3af890e8f6ddf9bd21fb62a80bc4823c47a570aecb43d27",
           "afterSha256": "33b71df315e990774abbf5330e075848d5589bd7c433fd63dc1ec48869fa38d3"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "33b71df315e990774abbf5330e075848d5589bd7c433fd63dc1ec48869fa38d3",
+          "afterSha256": "6ff51c06473949e45118e05b45cf3e997bc2056a7d892325541159c28baeb16d",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-05-23-m1-pal-extract-design",
@@ -939,12 +955,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-23-m1-pal-extract-design",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "176db881be3c7b2e5ccc842903d44a32d3f7d9ca5577a7c6261420b5be18087d",
-      "afterSha256": "3e66cf3509e67b95a150ad985f94f0df5463c65d00469ca0a634ff04d15d3cac",
+      "afterSha256": "de11a3d1701e95ef3a978d862829c933a11d715041555fe47b10c7216c8b004a",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-23-m1-pal-extract-design.md",
@@ -1002,12 +1018,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "e5533b482f2d692189cc2c1a97c1ba7c8424ffc16ca149e8500c77545bff4aff",
           "afterSha256": "3e66cf3509e67b95a150ad985f94f0df5463c65d00469ca0a634ff04d15d3cac"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "3e66cf3509e67b95a150ad985f94f0df5463c65d00469ca0a634ff04d15d3cac",
+          "afterSha256": "de11a3d1701e95ef3a978d862829c933a11d715041555fe47b10c7216c8b004a",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-05-23-m1-pal-extract",
@@ -1016,12 +1048,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-23-m1-pal-extract",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "ac7d9b89b5536107b3d52fbb346cbe96d3b2ad2cfabfcab835e6f5fa32fbacab",
-      "afterSha256": "e9f28dad21f647cf385d78175cdc2bfb29e01a66ff70989299b03db28feef8a9",
+      "afterSha256": "8c34befe1e2bee0a2d8e61e4152729420a07551f56e4478363eb1fd5d6389c4d",
       "sourceRefs": [
         {
           "path": "packages/pal-extract/src/utils/gbk.ts",
@@ -1401,12 +1433,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "772c44d5f4d4f3e735b8a327a1112e8dad9689307ec91ce4443d649ac4777ce7",
           "afterSha256": "e9f28dad21f647cf385d78175cdc2bfb29e01a66ff70989299b03db28feef8a9"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "e9f28dad21f647cf385d78175cdc2bfb29e01a66ff70989299b03db28feef8a9",
+          "afterSha256": "8c34befe1e2bee0a2d8e61e4152729420a07551f56e4478363eb1fd5d6389c4d",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-05-23-m2-runtime-slice-design",
@@ -1415,12 +1463,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-23-m2-runtime-slice-design",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "1a41396403e06b0c32c59bd1be1e29d13a8ac9dc6a0b997f5b50aadb31016091",
-      "afterSha256": "6ae3b274be08dc67bd638e7263a79248f43e8bfdf0d837098222f975847f6eff",
+      "afterSha256": "5bdb3a84704251fce03ce12f24cbc4001d91fa532e9275b119591c7d9dd8c62d",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-23-m2-runtime-slice-design.md",
@@ -1478,12 +1526,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "bc75f53998c6bffdd9fe37ea1f4d479496a45f679c61c1dc115679fb82c3d93e",
           "afterSha256": "6ae3b274be08dc67bd638e7263a79248f43e8bfdf0d837098222f975847f6eff"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "6ae3b274be08dc67bd638e7263a79248f43e8bfdf0d837098222f975847f6eff",
+          "afterSha256": "5bdb3a84704251fce03ce12f24cbc4001d91fa532e9275b119591c7d9dd8c62d",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-05-23-m2-runtime-slice",
@@ -1492,12 +1556,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-23-m2-runtime-slice",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "2c1af6fa890e7f841bc166cd75a6923a46bb67e7d15403e6e85cef2849b8fa58",
-      "afterSha256": "9c9d6bfb1e7254dd98b684860b5869ec6a7ca3c980bd908b767a61b12c84e7a4",
+      "afterSha256": "b54b655e414f2d6124ae2203fd5e1a6a93d78327d24cece27c9d9cfa5d2a7d1d",
       "sourceRefs": [
         {
           "path": "packages/shared/src/events.ts",
@@ -1973,12 +2037,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "65a64faac97fc0fe66c723da9d1a482322be4f57cbe2637eca8b568da3811c07",
           "afterSha256": "9c9d6bfb1e7254dd98b684860b5869ec6a7ca3c980bd908b767a61b12c84e7a4"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "9c9d6bfb1e7254dd98b684860b5869ec6a7ca3c980bd908b767a61b12c84e7a4",
+          "afterSha256": "b54b655e414f2d6124ae2203fd5e1a6a93d78327d24cece27c9d9cfa5d2a7d1d",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-05-23-m3-battle-vertical-slice-design",
@@ -1987,12 +2067,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-23-m3-battle-vertical-slice-design",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "d030e218834e3856eaba1a9307d870aa681474a8cb7893cc5a04de43f8d8b43c",
-      "afterSha256": "42074ed8ccebbae1b2652a4642bc07b7c68d0e3dd09a77b4880b3005bb85c6a8",
+      "afterSha256": "b205357c7fd7b29fbe298da45ef7a0b19e8ab829e5140959ccc10876dcd683f7",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-23-m3-battle-vertical-slice-design.md",
@@ -2059,12 +2139,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "85f9b83053be7cceccb9a9016dee8295f97e98bf25dd01ec20a8b65d6aecfedc",
           "afterSha256": "42074ed8ccebbae1b2652a4642bc07b7c68d0e3dd09a77b4880b3005bb85c6a8"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "42074ed8ccebbae1b2652a4642bc07b7c68d0e3dd09a77b4880b3005bb85c6a8",
+          "afterSha256": "b205357c7fd7b29fbe298da45ef7a0b19e8ab829e5140959ccc10876dcd683f7",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-05-23-m3-battle-vertical-slice",
@@ -2073,12 +2169,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-23-m3-battle-vertical-slice",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "8ccaafd4547cc3f82fcf72d3bd40c92af8b0da2dc41d87c4f5f01492a6573753",
-      "afterSha256": "4e1e242fc3f5921d1675e333ce7d99c01102a5b9b591e97543e91360e3454fb3",
+      "afterSha256": "40ac77675991de7d7a8b4436ed96ee003f4ca8622b3bc207d6092f919d87ceb5",
       "sourceRefs": [
         {
           "path": "packages/shared/src/resources.ts",
@@ -2558,12 +2654,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "c27e1aafc276abda182f6c8611f01be8b0ebe0659e6a990401ceed58e91006b6",
           "afterSha256": "4e1e242fc3f5921d1675e333ce7d99c01102a5b9b591e97543e91360e3454fb3"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "4e1e242fc3f5921d1675e333ce7d99c01102a5b9b591e97543e91360e3454fb3",
+          "afterSha256": "40ac77675991de7d7a8b4436ed96ee003f4ca8622b3bc207d6092f919d87ceb5",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-05-24-m3-5-scene-encounter-design",
@@ -2572,12 +2684,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-24-m3-5-scene-encounter-design",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "22675b3967351b81254862c3bf32699998320c4c7fd565fd9c0cc8ba87be9fdc",
-      "afterSha256": "0997357a5656ef4a1d60725e6aea1a6d2f67aa81ec9895d6c61f1d59e5c00162",
+      "afterSha256": "a4524f931cd642e07163d7094e1baab3170c24df568f02f39b04098ab3df9d0e",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-24-m3-5-scene-encounter-design.md",
@@ -2643,12 +2755,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "74107a7e584e66e308e7f3cec3a2531888a22d0133e716848ff9e9aba300c8ea",
           "afterSha256": "0997357a5656ef4a1d60725e6aea1a6d2f67aa81ec9895d6c61f1d59e5c00162"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "0997357a5656ef4a1d60725e6aea1a6d2f67aa81ec9895d6c61f1d59e5c00162",
+          "afterSha256": "a4524f931cd642e07163d7094e1baab3170c24df568f02f39b04098ab3df9d0e",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-05-24-m3-5-scene-encounter",
@@ -2657,12 +2785,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-24-m3-5-scene-encounter",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "b6453eada4c72d17b71b1a82059bdc52c1b65659bf58755bf602bcb3b1dedd17",
-      "afterSha256": "b1055f743020928957f91962c4989300998d5a3105cc8b273f945ad082f705ab",
+      "afterSha256": "9a13d8d99ffdf9cd2fc4f27e38177ba77a88ca6e44d662468d5ed05e57b6a801",
       "sourceRefs": [
         {
           "path": "packages/shared/src/resources.ts",
@@ -2974,12 +3102,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "00054c6df4851241ab0b419f6ba4ca913dd152f6a54d81520b89273daec970e6",
           "afterSha256": "b1055f743020928957f91962c4989300998d5a3105cc8b273f945ad082f705ab"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "b1055f743020928957f91962c4989300998d5a3105cc8b273f945ad082f705ab",
+          "afterSha256": "9a13d8d99ffdf9cd2fc4f27e38177ba77a88ca6e44d662468d5ed05e57b6a801",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-05-24-m4-pal-extract-complete-design",
@@ -2988,12 +3132,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-24-m4-pal-extract-complete-design",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "378839296d24f2987401e894c21ee425886eeac298f757445014ec3ab8612b5a",
-      "afterSha256": "22704f070ded16d2b9ca802a52162cf31ca99e6667cd086651ba89f1f9dbfc97",
+      "afterSha256": "17411a402ba258e3738ce4287f557a681e3692ae92365967583b0d68edfd9806",
       "sourceRefs": [
         {
           "path": "packages/pal-extract/src/cli.ts",
@@ -3088,12 +3232,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "bea471368850aaeaf572ae969f6e9fb6ab2336b006f5ba26bc0f69fa2f129815",
           "afterSha256": "22704f070ded16d2b9ca802a52162cf31ca99e6667cd086651ba89f1f9dbfc97"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "22704f070ded16d2b9ca802a52162cf31ca99e6667cd086651ba89f1f9dbfc97",
+          "afterSha256": "17411a402ba258e3738ce4287f557a681e3692ae92365967583b0d68edfd9806",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-05-24-m4-pal-extract-complete",
@@ -3102,12 +3262,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-24-m4-pal-extract-complete",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "6520846aa673fe376f0e9ae1253fe05e86fe4af29ce90434affea62068868b22",
-      "afterSha256": "87c047b328899323e289ef13ac948497b948feae62dff75855baca3e7d984575",
+      "afterSha256": "e7f5a52b47e8c5958ceeff8d8902bfdf9dabac71b0fc88f19de8f872641985e4",
       "sourceRefs": [
         {
           "path": "packages/pal-extract/src/cli.ts",
@@ -3464,12 +3624,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "382224ba060ccd76e55395aebd0ab6256143899a7f3e989616a73c3c78e70943",
           "afterSha256": "87c047b328899323e289ef13ac948497b948feae62dff75855baca3e7d984575"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "87c047b328899323e289ef13ac948497b948feae62dff75855baca3e7d984575",
+          "afterSha256": "e7f5a52b47e8c5958ceeff8d8902bfdf9dabac71b0fc88f19de8f872641985e4",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-05-25-m5-systems-complete-design",
@@ -3478,12 +3654,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-25-m5-systems-complete-design",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "8041d8de8b30f9dc253469c1d4b18916b848e79ebd43c7cb561ef8382a6e28ea",
-      "afterSha256": "b92b8e7d445aa7863691fd91307282d27cc635e73b3a0ef7fd80bb646aecceb1",
+      "afterSha256": "4b9090f928434609aeda8c564f010c5c82fa777b4ba7fe576b0972438f7d3ae0",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-25-m5-systems-complete-design.md",
@@ -3541,12 +3717,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "f29db300965721a304524379227bcd881f5601a5cc90f36b284a4dd147ebb71a",
           "afterSha256": "b92b8e7d445aa7863691fd91307282d27cc635e73b3a0ef7fd80bb646aecceb1"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "b92b8e7d445aa7863691fd91307282d27cc635e73b3a0ef7fd80bb646aecceb1",
+          "afterSha256": "4b9090f928434609aeda8c564f010c5c82fa777b4ba7fe576b0972438f7d3ae0",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-05-25-m5-systems-complete",
@@ -3555,12 +3747,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-25-m5-systems-complete",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "69fc28c6f2c1811b9b3a24682a181be89c40f684d006fc27049a10cea5c22688",
-      "afterSha256": "47a0af32bf5713d2a1b2fb196d2f8f69b761a7ee50edc8e3955470e1698c49ca",
+      "afterSha256": "d905e16555698b2b858a3cb50e253fac94844364cb08be7e4c6f80b876110903",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/game-state.ts",
@@ -4078,12 +4270,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "1a382319faa637d0c98ad6198f296eb474999575075bc65ffc2562fbf4b01c85",
           "afterSha256": "47a0af32bf5713d2a1b2fb196d2f8f69b761a7ee50edc8e3955470e1698c49ca"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "47a0af32bf5713d2a1b2fb196d2f8f69b761a7ee50edc8e3955470e1698c49ca",
+          "afterSha256": "d905e16555698b2b858a3cb50e253fac94844364cb08be7e4c6f80b876110903",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-05-27-m4-extract-audit",
@@ -4092,12 +4300,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-27-m4-extract-audit",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "f2832e78939c971c49078a98c4af7e89eafa2593fb0330866714091d1c916aad",
-      "afterSha256": "4527753e22c130069b30c3834c2e04338282a107cc11563b1cf8e14e541902b7",
+      "afterSha256": "6a121c8cc3387e0c149b4be60b0c41bb87912775311921d831afb58e4df0a226",
       "sourceRefs": [
         {
           "path": "packages/pal-extract/src/cli.ts",
@@ -4187,12 +4395,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "54034fe1a28f5b4a687fb1d4eb39fb60dfa736410e64e28599f78a554a4dbb93",
           "afterSha256": "4527753e22c130069b30c3834c2e04338282a107cc11563b1cf8e14e541902b7"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "4527753e22c130069b30c3834c2e04338282a107cc11563b1cf8e14e541902b7",
+          "afterSha256": "6a121c8cc3387e0c149b4be60b0c41bb87912775311921d831afb58e4df0a226",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-05-27-m5-5-sdlpal-audit",
@@ -4201,12 +4425,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-27-m5-5-sdlpal-audit",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "d8a912e1098868e26664a68589206412edc0e15398545fa5f83da4eb944e5c88",
-      "afterSha256": "bcbb1bf647fe9d1c16acdc485f93f92d4e1e79942126a0c08b0cf4c52e318bb1",
+      "afterSha256": "90f60935050f9d4493dd9818cc7eb59c2232777a5e456c7c1aeedea17a4a699c",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-27-m5-5-sdlpal-audit.md",
@@ -4264,12 +4488,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "0980bf2cabbd096205d10c363598e7e6265ae6fb1392a2461cfab8ee0527e6a7",
           "afterSha256": "bcbb1bf647fe9d1c16acdc485f93f92d4e1e79942126a0c08b0cf4c52e318bb1"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "bcbb1bf647fe9d1c16acdc485f93f92d4e1e79942126a0c08b0cf4c52e318bb1",
+          "afterSha256": "90f60935050f9d4493dd9818cc7eb59c2232777a5e456c7c1aeedea17a4a699c",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-05-27-m5-6-playability-design",
@@ -4278,12 +4518,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-27-m5-6-playability-design",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "9bd4d7bd5f0f47d0158dc451644f2024d8dc6dea10b209cdf95a34026aba1fae",
-      "afterSha256": "7e045e0df846d761cf5e391467e330c05f41c0a29e8b1dc54fbebcabe73aa27b",
+      "afterSha256": "7dbec59cfc192149daf4feb76c55169306e6795beba517eac758a0596b69b985",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-27-m5-6-playability-design.md",
@@ -4341,12 +4581,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "170496add7abab23e2849e4c5347b340d8b3b2304422ffdf78b20707b440d9ae",
           "afterSha256": "7e045e0df846d761cf5e391467e330c05f41c0a29e8b1dc54fbebcabe73aa27b"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "7e045e0df846d761cf5e391467e330c05f41c0a29e8b1dc54fbebcabe73aa27b",
+          "afterSha256": "7dbec59cfc192149daf4feb76c55169306e6795beba517eac758a0596b69b985",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-05-27-m5-6-playability",
@@ -4355,12 +4611,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-27-m5-6-playability",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "96a62624d8763ad21035aefaab3b081d0360026eb6d34389966ef00b5112c56a",
-      "afterSha256": "83bb400d2a38e6ba515da9bffa35cc5acd7f7e434be13b048ebbb38fec3de155",
+      "afterSha256": "c91aa5437f3a7dc6c3bef040e0c841d899e1ee9131471fc03987adadfa606af3",
       "sourceRefs": [
         {
           "path": "packages/game/src/shell/input.ts",
@@ -4597,12 +4853,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "33d2765cc4fd5849bc4ce7f1f46be08356a8238393ce58a54fc34937d6d2c4a5",
           "afterSha256": "83bb400d2a38e6ba515da9bffa35cc5acd7f7e434be13b048ebbb38fec3de155"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "83bb400d2a38e6ba515da9bffa35cc5acd7f7e434be13b048ebbb38fec3de155",
+          "afterSha256": "c91aa5437f3a7dc6c3bef040e0c841d899e1ee9131471fc03987adadfa606af3",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-05-28-feature-audit-and-replanning",
@@ -4611,12 +4883,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-28-feature-audit-and-replanning",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "38690783507726aa3ef11b55ff91a830e467a5996ca848c4eedd807e024e7096",
-      "afterSha256": "d54c441c57aee7273ab5986ae8dbae1d7b45b42564041051f890ae4426809847",
+      "afterSha256": "6f93c7d1d1afcfc557b3c11f953abf18a93354ac35f734e9ddb9f2f99a996933",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/battle/formulas.ts",
@@ -4771,12 +5043,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "a2702172935725bfbe1c09c77fca361c2ab7bc8d98d046826dc4cf1bd271a280",
           "afterSha256": "d54c441c57aee7273ab5986ae8dbae1d7b45b42564041051f890ae4426809847"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "d54c441c57aee7273ab5986ae8dbae1d7b45b42564041051f890ae4426809847",
+          "afterSha256": "6f93c7d1d1afcfc557b3c11f953abf18a93354ac35f734e9ddb9f2f99a996933",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-05-30-opcode-2-remaining",
@@ -4881,12 +5169,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-30-xianglan-cutscene-fidelity",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "06ec22dea6d79a298b59f4c3711f7dcc66ac7aa543a2a924b10a8eb9c6e2f606",
-      "afterSha256": "f56de79e1cd4c2ba30ceab05a429a025fcba4f5e0a0a7374be8bc6606e9e7a5a",
+      "afterSha256": "69b9763a8db0dcdf69f3f17577244afc7e2e8b372b997b7f814f763e1f2be8f2",
       "sourceRefs": [
         {
           "path": "packages/game/src/shell/main-loop.ts",
@@ -4944,12 +5232,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "46639d8d721b5e0ef6d794ed27b7be39ee5bbac33ccb3962b91dace5e9f30f0b",
           "afterSha256": "f56de79e1cd4c2ba30ceab05a429a025fcba4f5e0a0a7374be8bc6606e9e7a5a"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "f56de79e1cd4c2ba30ceab05a429a025fcba4f5e0a0a7374be8bc6606e9e7a5a",
+          "afterSha256": "69b9763a8db0dcdf69f3f17577244afc7e2e8b372b997b7f814f763e1f2be8f2",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-05-31-d-batch1-status-behavior",
@@ -4958,12 +5262,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-31-d-batch1-status-behavior",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "0d968e75990474077ccef9b77e21f8b7c6636638770e5b4ed37e2aab556940d6",
-      "afterSha256": "c2e6b3a076692ec7d3aa6b33b19001ae52a8719d32053cfff9a04385c7b3e714",
+      "afterSha256": "1d200aff1036dfc92b424854d82e87386ed3fd24d440bce0df98c6bf9a992113",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/battle/battle-state.ts",
@@ -5065,12 +5369,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "f25eb570605525a312596be540712720cba9bfe67b7c47ff26f09f7f91cb714a",
           "afterSha256": "c2e6b3a076692ec7d3aa6b33b19001ae52a8719d32053cfff9a04385c7b3e714"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "c2e6b3a076692ec7d3aa6b33b19001ae52a8719d32053cfff9a04385c7b3e714",
+          "afterSha256": "1d200aff1036dfc92b424854d82e87386ed3fd24d440bce0df98c6bf9a992113",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-05-31-d-batch2-enemy-ai",
@@ -5079,12 +5399,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-31-d-batch2-enemy-ai",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "2334c00020011843e2cb4cd7979653b07cfd5918998329a319faa9969624e55d",
-      "afterSha256": "14501751ad11c9509936beeb7070d4d4a94be38956581d2851b9a7deb02cbd6b",
+      "afterSha256": "3d855928e71fead936de322b1417864029d855b460824580d92388238457a890",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-31-d-batch2-enemy-ai.md",
@@ -5142,12 +5462,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "38f006f4d6d50b1e1e5808368549f596434e92c764d7c7e91e5084b95a69690b",
           "afterSha256": "14501751ad11c9509936beeb7070d4d4a94be38956581d2851b9a7deb02cbd6b"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "14501751ad11c9509936beeb7070d4d4a94be38956581d2851b9a7deb02cbd6b",
+          "afterSha256": "3d855928e71fead936de322b1417864029d855b460824580d92388238457a890",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-05-31-d-batch6-numeric-equip",
@@ -5156,12 +5492,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-31-d-batch6-numeric-equip",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "c8ef20f2dc9ab2a5135ada4ad2b091d76ac16bbac6e9a4bc45f16efef1203b89",
-      "afterSha256": "237ef0b02307a0a58bde99ea203bcf1d053ff511af319f0173607562d3a140db",
+      "afterSha256": "83702fff3a157ad87f89366d6890dd7398acd0762bc18ea2c4375b889238574d",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-31-d-batch6-numeric-equip.md",
@@ -5219,12 +5555,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "b763ff54ce01a2abecf1a6976c9656d2ada3e3c84ad2f2f5741353294d7e75d0",
           "afterSha256": "237ef0b02307a0a58bde99ea203bcf1d053ff511af319f0173607562d3a140db"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "237ef0b02307a0a58bde99ea203bcf1d053ff511af319f0173607562d3a140db",
+          "afterSha256": "83702fff3a157ad87f89366d6890dd7398acd0762bc18ea2c4375b889238574d",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-05-31-d-series-completion-roadmap",
@@ -5233,12 +5585,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-31-d-series-completion-roadmap",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "0fe9f548f6043c8c6e81118074a25b1dc4b289d9e3425473befc61d529ad7f4f",
-      "afterSha256": "035ef91a086a943b8e1e435d660cb4250466a37681940798452c257bc9ce8925",
+      "afterSha256": "131a5ab3a1578a1d5e3d82a5c937645ed7eed209c8bd76f47d4522ab74797822",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-31-d-series-completion-roadmap.md",
@@ -5296,12 +5648,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "57978306d7d0f65131afc5d588ff9f752a3e64f6cdb84205b64050e59ed031c5",
           "afterSha256": "035ef91a086a943b8e1e435d660cb4250466a37681940798452c257bc9ce8925"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "035ef91a086a943b8e1e435d660cb4250466a37681940798452c257bc9ce8925",
+          "afterSha256": "131a5ab3a1578a1d5e3d82a5c937645ed7eed209c8bd76f47d4522ab74797822",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-05-31-poison-and-portrait-color",
@@ -5310,12 +5678,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-05-31-poison-and-portrait-color",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "d6cdfbd33a3ccaede59411873aff3e9902ac08c2297e8e746a299fb8f317c40b",
-      "afterSha256": "9ad325b52dfe228bf25d120d2ea8530085cec9dc3f403cf8fa9d3fa50d0a2367",
+      "afterSha256": "399f9fd065ec8d10a048316fc8c82fd98fcdebb004fe6bb187553c91f2905844",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-05-31-poison-and-portrait-color.md",
@@ -5373,12 +5741,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "aa1332c4a22a0002c331817006c357a67894a8ca4b0416a6a45353625eb1ba69",
           "afterSha256": "9ad325b52dfe228bf25d120d2ea8530085cec9dc3f403cf8fa9d3fa50d0a2367"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "9ad325b52dfe228bf25d120d2ea8530085cec9dc3f403cf8fa9d3fa50d0a2367",
+          "afterSha256": "399f9fd065ec8d10a048316fc8c82fd98fcdebb004fe6bb187553c91f2905844",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-06-01-d-series-test-cases",
@@ -5387,12 +5771,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-06-01-d-series-test-cases",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "e5b17e2d48f418636f28f96b4246ad7e4567f1f9bfe63270f610bd2e5bbc801b",
-      "afterSha256": "40175d1ead59a01c80e9934a75058894b251cfd38d0938ea485fe54efaf8157e",
+      "afterSha256": "3b997d29dc0956e852f898274e8637bbe9a9847ab94b20f0c10af9fa930c2258",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/battle/battle-system.ts",
@@ -5498,12 +5882,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "335305c7b0fbcda5c88d3ad243365005c762e3237c1acf12f61cf5514d4ce801",
           "afterSha256": "40175d1ead59a01c80e9934a75058894b251cfd38d0938ea485fe54efaf8157e"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "40175d1ead59a01c80e9934a75058894b251cfd38d0938ea485fe54efaf8157e",
+          "afterSha256": "3b997d29dc0956e852f898274e8637bbe9a9847ab94b20f0c10af9fa930c2258",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-06-01-feature-status-audit",
@@ -5512,12 +5912,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-06-01-feature-status-audit",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "631626a9f460ee18aa43369cb69aaf7540e737ab3f2b6444921e36322885773d",
-      "afterSha256": "79735b05168c6c2027939169f18750e1fe78a10ab1bef82c4eabb0cdb99c659d",
+      "afterSha256": "4f013f64558b6d1450a962e1b43085c58846074d1bd2a2ced597cfbd4f7dbf18",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-06-01-feature-status-audit.md",
@@ -5575,12 +5975,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "00276248d4dc7f3b61e693de475279a7ea863c2a272e1f8e271ff096666a60f0",
           "afterSha256": "79735b05168c6c2027939169f18750e1fe78a10ab1bef82c4eabb0cdb99c659d"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "79735b05168c6c2027939169f18750e1fe78a10ab1bef82c4eabb0cdb99c659d",
+          "afterSha256": "4f013f64558b6d1450a962e1b43085c58846074d1bd2a2ced597cfbd4f7dbf18",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-06-01-gameoveractive-refactor",
@@ -5589,12 +6005,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-06-01-gameoveractive-refactor",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "a49e069c3ac85b4e0e5ee1ed8f31958d1ca9be2f96229eda1061017d09230160",
-      "afterSha256": "8dd681772fcce05120d62dde0e7eca1d74b611863c7cd9e787cb0798456f117a",
+      "afterSha256": "6e56e4c8d203184820ba174e4e7ec955657fa518dc9806dd8782acdd234a6286",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/game-state.ts",
@@ -5692,12 +6108,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "08fb426ac7cc456d046e2511e123da37b543d3483fae1e5407c032d67caa1086",
           "afterSha256": "8dd681772fcce05120d62dde0e7eca1d74b611863c7cd9e787cb0798456f117a"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "8dd681772fcce05120d62dde0e7eca1d74b611863c7cd9e787cb0798456f117a",
+          "afterSha256": "6e56e4c8d203184820ba174e4e7ec955657fa518dc9806dd8782acdd234a6286",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-06-01-remaining-work-plan",
@@ -5706,12 +6138,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-06-01-remaining-work-plan",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "8a82755a4ab62a922bf158e473b05220a12c02d2af056b7e0827e11f8aafedfe",
-      "afterSha256": "dd610c5abf733a9855bbb6da83e654710f6cea1cd34a1a657866565128727bb9",
+      "afterSha256": "55931f7d1b00a12c9c409d11552710223b44e64e6fa0836c7acf926514394ab0",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-06-01-remaining-work-plan.md",
@@ -5769,12 +6201,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "3640ecd8e77f19ce0087a108b8f3b0b4e4bddda7dfe06a882982e142f3fd81c3",
           "afterSha256": "dd610c5abf733a9855bbb6da83e654710f6cea1cd34a1a657866565128727bb9"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "dd610c5abf733a9855bbb6da83e654710f6cea1cd34a1a657866565128727bb9",
+          "afterSha256": "55931f7d1b00a12c9c409d11552710223b44e64e6fa0836c7acf926514394ab0",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-06-01-sdlpal-feature-surface-audit",
@@ -5783,12 +6231,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-06-01-sdlpal-feature-surface-audit",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "7ffffc5e6cde1f1d0d437fb58185dfa558e42a3466f27596739e25698ea22592",
-      "afterSha256": "9404b6a024a81d3e6e26f9e5eb7fed172d0e8a6cb71e05f466d9345a698982d0",
+      "afterSha256": "ed7d530483ee417722821a7b454a2fc71a8b211e5f11eee827c3f8c595ea8b57",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-06-01-sdlpal-feature-surface-audit.md",
@@ -5846,12 +6294,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "29208d5cd7159e98cf6404d5c8879afeb457263656cf4ab924f45663f5cc5997",
           "afterSha256": "9404b6a024a81d3e6e26f9e5eb7fed172d0e8a6cb71e05f466d9345a698982d0"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "9404b6a024a81d3e6e26f9e5eb7fed172d0e8a6cb71e05f466d9345a698982d0",
+          "afterSha256": "ed7d530483ee417722821a7b454a2fc71a8b211e5f11eee827c3f8c595ea8b57",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-06-02-item-audit",
@@ -5860,12 +6324,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-06-02-item-audit",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "f5370361515195631fc1274d76d45bf74a163be37c0c806a69e7507dbbfdf568",
-      "afterSha256": "cc1c18032b5c1b9fa0c498eba570f080cf6a5bbe98761e93b0f25f6e175782f2",
+      "afterSha256": "3e754857ea2bc575697b3d9afe938ae2ae834e8460bf37f3489d429283f10990",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-06-02-item-audit.md",
@@ -5923,12 +6387,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "6e2b0b5d77983a34b21824157fb3e45723f262d78ac3cf7d7a29310d86fa6f80",
           "afterSha256": "cc1c18032b5c1b9fa0c498eba570f080cf6a5bbe98761e93b0f25f6e175782f2"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "cc1c18032b5c1b9fa0c498eba570f080cf6a5bbe98761e93b0f25f6e175782f2",
+          "afterSha256": "3e754857ea2bc575697b3d9afe938ae2ae834e8460bf37f3489d429283f10990",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-06-06-battle-system-current-audit",
@@ -5937,12 +6417,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-06-06-battle-system-current-audit",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "ebe68652d716825ef012051b9ce9357f9fceec6ebecde2b9535e53b93bb83165",
-      "afterSha256": "3be2c604625821776dcc8263aa53cf64143f4da8ac1e8656218451b4faea3c32",
+      "afterSha256": "84055514c06bd938e523a83b112db45efffe83854ee8eb614e3090978cd2d51f",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-06-06-battle-system-current-audit.md",
@@ -6000,12 +6480,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "878c39a0a16e19f49f3b299e3c22da9262b58552f46f66d3adc627223ec8eed1",
           "afterSha256": "3be2c604625821776dcc8263aa53cf64143f4da8ac1e8656218451b4faea3c32"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "3be2c604625821776dcc8263aa53cf64143f4da8ac1e8656218451b4faea3c32",
+          "afterSha256": "84055514c06bd938e523a83b112db45efffe83854ee8eb614e3090978cd2d51f",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-06-07-sdlpal-diff-audit",
@@ -6014,12 +6510,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-06-07-sdlpal-diff-audit",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "eb548e4b6202fe666816fc4ee6cb074ab8909fb064fb55198d4badeaefd8f414",
-      "afterSha256": "bccc9e151ff3fca2388783af1a5dc4444d923e4cfa9179608ac3e71b728c0226",
+      "afterSha256": "e2c389e472db603c0a0d6217bc08373b75552678e7fdd884bb97ea3d05aa1434",
       "sourceRefs": [
         {
           "path": "packages/game/src/shell/bootstrap.ts",
@@ -6654,12 +7150,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "c7a97a152557a9824d2b9883400e5a34912c64ee5cbc68adbdb37e5258a66241",
           "afterSha256": "bccc9e151ff3fca2388783af1a5dc4444d923e4cfa9179608ac3e71b728c0226"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "bccc9e151ff3fca2388783af1a5dc4444d923e4cfa9179608ac3e71b728c0226",
+          "afterSha256": "e2c389e472db603c0a0d6217bc08373b75552678e7fdd884bb97ea3d05aa1434",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-06-10-sdlpal-deep-audit",
@@ -6668,12 +7180,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-06-10-sdlpal-deep-audit",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "4d947c9c9b3c14dabc585beb1f32db26dced4ff07cba6970d1e4641be2411f1b",
-      "afterSha256": "c8022e6be917f22c681a532f94a8de05210544a55d7f2eb62015fe7aa20b06cf",
+      "afterSha256": "0ef0e7037a804156b243600f3d981a7253c440d53e509b9d6049b851a6649e27",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-06-10-sdlpal-deep-audit.md",
@@ -6731,12 +7243,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "36ab07f61707eea49a085eaa3589aaca2a9df6fd2b8b4266862ce6628cdc6c64",
           "afterSha256": "c8022e6be917f22c681a532f94a8de05210544a55d7f2eb62015fe7aa20b06cf"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "c8022e6be917f22c681a532f94a8de05210544a55d7f2eb62015fe7aa20b06cf",
+          "afterSha256": "0ef0e7037a804156b243600f3d981a7253c440d53e509b9d6049b851a6649e27",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-06-13-canvas-resolution-setting",
@@ -6745,12 +7273,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-06-13-canvas-resolution-setting",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "a296220f590610c7906cb363fde2ad92c1ce6235378610be360a7f9cc50482cd",
-      "afterSha256": "15b0578884424943cf27112864e1c7d10288d9073ce4d326401ed87c7c5d2d18",
+      "afterSha256": "596c892bf2ba91177ed3c260fb354aec2edcb1db668eb5456ba7a8a248705f30",
       "sourceRefs": [
         {
           "path": "packages/game/src/main.ts",
@@ -6819,12 +7347,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "fd9f19b8fbefc568192b064f4327e11c93b4bbecb5bb2149af462d1f99edd0c7",
           "afterSha256": "15b0578884424943cf27112864e1c7d10288d9073ce4d326401ed87c7c5d2d18"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "15b0578884424943cf27112864e1c7d10288d9073ce4d326401ed87c7c5d2d18",
+          "afterSha256": "596c892bf2ba91177ed3c260fb354aec2edcb1db668eb5456ba7a8a248705f30",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-06-13-offline-precache-sw",
@@ -6833,12 +7377,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-06-13-offline-precache-sw",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "abe15bfdfb745ca63533cd3c9b45bf9bdf57deb5cb7dd26c7ab5cf5b1c54d6ae",
-      "afterSha256": "fb87a27082e4b6d40389f7de3efe621b6a1f5b58eb2d3105428c21c5cc420976",
+      "afterSha256": "ec95bfc5f6627d4542a2b91a0916cc2196707b7ae36ea757aa4a7928f28e7a63",
       "sourceRefs": [
         {
           "path": "packages/game/src/shell/fetch-retry.ts",
@@ -7002,12 +7546,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "37d822660dd7e6905d5758ba804048880c8f468ec037ea473f87526b70b05a53",
           "afterSha256": "fb87a27082e4b6d40389f7de3efe621b6a1f5b58eb2d3105428c21c5cc420976"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "fb87a27082e4b6d40389f7de3efe621b6a1f5b58eb2d3105428c21c5cc420976",
+          "afterSha256": "ec95bfc5f6627d4542a2b91a0916cc2196707b7ae36ea757aa4a7928f28e7a63",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-06-13-prod-tools-panel",
@@ -7016,12 +7576,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-06-13-prod-tools-panel",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "48be7fcb7d43db926b8f731cddf3196f19e42ea4b68740f7031612c2f7b4657e",
-      "afterSha256": "fe9084b2476257e0952ef2054def088d9c84e52f47307f8c03013adfd7dc3154",
+      "afterSha256": "e508ec56712b43cae769876fa2cf87841ca07242b8ad06f43d3de9db498747a4",
       "sourceRefs": [
         {
           "path": "packages/game/src/dev/dev-panel.ts",
@@ -7218,12 +7778,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "e0f93350e3ad84073fa02a270cce26664ea3e5520864ef539b8d6b1384ea5f0f",
           "afterSha256": "fe9084b2476257e0952ef2054def088d9c84e52f47307f8c03013adfd7dc3154"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "fe9084b2476257e0952ef2054def088d9c84e52f47307f8c03013adfd7dc3154",
+          "afterSha256": "e508ec56712b43cae769876fa2cf87841ca07242b8ad06f43d3de9db498747a4",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-06-14-unified-precache-progress-gate-impl",
@@ -7232,12 +7808,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-06-14-unified-precache-progress-gate-impl",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "bc41ff609083cd6ddca46fbb29a0be8ef6452959adc6e2301036b0e25cd4b294",
-      "afterSha256": "32e22ce5759553a59e77e8231e61030e928f422cb15ae03e77e5619c2dd26c7f",
+      "afterSha256": "6e8f69f6d260b9d77e311e1ff15b835390df4e84ad574e32ccab88f996120f1a",
       "sourceRefs": [
         {
           "path": "packages/game/src/shell/precache-ui.ts",
@@ -7378,12 +7954,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "98982f79f767c2d57d72fae4c319433691869fb488ebf75961c331c0fc7320e1",
           "afterSha256": "32e22ce5759553a59e77e8231e61030e928f422cb15ae03e77e5619c2dd26c7f"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "32e22ce5759553a59e77e8231e61030e928f422cb15ae03e77e5619c2dd26c7f",
+          "afterSha256": "6e8f69f6d260b9d77e311e1ff15b835390df4e84ad574e32ccab88f996120f1a",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-06-14-unified-precache-progress-gate",
@@ -7392,12 +7984,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-06-14-unified-precache-progress-gate",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "0b4d47ebd7d6c349f106f2843667c4a23e9f6fe8357665314eddbd84d5975e99",
-      "afterSha256": "edc7ab798f27dea5ad07514eea6529c14d0f914faee9f45a0b6c9d5cc84cbea1",
+      "afterSha256": "aff9e29f5af6dd469a0918109e90b734729083316f2e89cc52b5fd290938d549",
       "sourceRefs": [
         {
           "path": "packages/game/src/main.ts",
@@ -7495,12 +8087,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "e967dda52f5e9eb85bea32c92ef63d940576d5195b4feca1b8d575a6c81e2a13",
           "afterSha256": "edc7ab798f27dea5ad07514eea6529c14d0f914faee9f45a0b6c9d5cc84cbea1"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "edc7ab798f27dea5ad07514eea6529c14d0f914faee9f45a0b6c9d5cc84cbea1",
+          "afterSha256": "aff9e29f5af6dd469a0918109e90b734729083316f2e89cc52b5fd290938d549",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-06-18-speedrun-timer-design",
@@ -7509,12 +8117,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-06-18-speedrun-timer-design",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "6fd7bb18d3887867288e0e37b7d2fa6349e28e0b90bc8cabc52b9cd2e4f00d28",
-      "afterSha256": "e3cc2a3da54eb1afc31716c011d019de6240519f3bb438b9b408d26223b6ec84",
+      "afterSha256": "e3a65c8fde2d87e861ae9337a413c85c03bde737540df94fe76ac4dec8d3d36d",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/2026-06-18-speedrun-timer-design.md",
@@ -7572,12 +8180,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "319e152a0ea0aab091b33be44b4c139f0d65589f50061851030b082cc08d6e8c",
           "afterSha256": "e3cc2a3da54eb1afc31716c011d019de6240519f3bb438b9b408d26223b6ec84"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "e3cc2a3da54eb1afc31716c011d019de6240519f3bb438b9b408d26223b6ec84",
+          "afterSha256": "e3a65c8fde2d87e861ae9337a413c85c03bde737540df94fe76ac4dec8d3d36d",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-06-18-speedrun-timer",
@@ -7586,12 +8210,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-06-18-speedrun-timer",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "49c2c20b5a2a5723b27e5bb2b5274d8e908c35287e581593f69c161d6d1328d8",
-      "afterSha256": "0a37ec0a49d9c8d149556d404692beb83a16b43c25c3caad020a84b06938080d",
+      "afterSha256": "6f63658559b665a7fcd289dcf43800b2f505e273a81592d4d07ffc34ab49234b",
       "sourceRefs": [
         {
           "path": "packages/game/src/tools/speedrun/time-format.ts",
@@ -7846,12 +8470,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "5e649bf286aa6f72814a4b2dae4212dbd1c78f70a2976f5af099114e53445298",
           "afterSha256": "0a37ec0a49d9c8d149556d404692beb83a16b43c25c3caad020a84b06938080d"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "0a37ec0a49d9c8d149556d404692beb83a16b43c25c3caad020a84b06938080d",
+          "afterSha256": "6f63658559b665a7fcd289dcf43800b2f505e273a81592d4d07ffc34ab49234b",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-2026-06-22-tileset-atlas-packing",
@@ -7860,12 +8500,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-2026-06-22-tileset-atlas-packing",
-      "status": "draft",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "ade58414e9128ba82dc65beaba7497d70bf4875dbbea83e6503f0953aef19d91",
-      "afterSha256": "b750fd5f3fe8890f087a47cff6652553d7f20c5dca6503a48d07b06e383485c1",
+      "afterSha256": "9723af764b58687a5197c42e54893b11c9634d9dc6378e097bcae72107b5e5bb",
       "sourceRefs": [
         {
           "path": "packages/pal-extract/src/io/rle.ts",
@@ -7955,12 +8595,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "1d400ad25f0dd7b05226b4e45b9b450fb9b0ffff5c713ac17cdb16eb79b2e2df",
           "afterSha256": "b750fd5f3fe8890f087a47cff6652553d7f20c5dca6503a48d07b06e383485c1"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "b750fd5f3fe8890f087a47cff6652553d7f20c5dca6503a48d07b06e383485c1",
+          "afterSha256": "9723af764b58687a5197c42e54893b11c9634d9dc6378e097bcae72107b5e5bb",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-plans-readme",
@@ -7969,12 +8625,12 @@
       "phase": "phase1",
       "module": "plans",
       "capability": "phase1-plans-readme",
-      "status": "draft",
+      "status": "current",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "6647b1a1eb72b3eef34c56505835b9e04f273d381cf169a802d249d4df191c82",
-      "afterSha256": "63d372503d55e0405bfd7e24847ae630e78f23de272810accc1d2d68c4e29cb9",
+      "afterSha256": "b7e06446fc122740e1837d6f09729bfe5871610090d822cc44192e422853d7ed",
       "sourceRefs": [
         {
           "path": "docs/phase1/plans/README.md",
@@ -8029,12 +8685,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "1b282ed34822d329647d8167b05363e88d88fca146369456760c7e6867771f20",
           "afterSha256": "63d372503d55e0405bfd7e24847ae630e78f23de272810accc1d2d68c4e29cb9"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "63d372503d55e0405bfd7e24847ae630e78f23de272810accc1d2d68c4e29cb9",
+          "afterSha256": "b7e06446fc122740e1837d6f09729bfe5871610090d822cc44192e422853d7ed",
+          "previousStatus": "draft",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not cite this document as current canonical truth or runtime proof without a new reviewed successor",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-17"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-readme",
@@ -8191,12 +8863,12 @@
       "phase": "phase1",
       "module": "status",
       "capability": "phase1-status-cutscene-status",
-      "status": "current",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "ca3fe616dc370fc1b2c2cdf0485e1c716ee17bd2acf34eac5f3a9cec1795dced",
-      "afterSha256": "3e9e09bfb96950e2f0a594304132ffbd6c05b3604718e52bdbf7b98fd5b179d1",
+      "afterSha256": "d834881b75b87cd24442bdab5a5c4f8119034b13ece637cd5cac67e4b93acad8",
       "sourceRefs": [
         {
           "path": "docs/phase1/status/cutscene-status.md",
@@ -8254,12 +8926,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "eff3bf7b200abde1fec2d1e24c98678d899e8bbe6af133e09531286c400ac3b0",
           "afterSha256": "3e9e09bfb96950e2f0a594304132ffbd6c05b3604718e52bdbf7b98fd5b179d1"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "3e9e09bfb96950e2f0a594304132ffbd6c05b3604718e52bdbf7b98fd5b179d1",
+          "afterSha256": "d834881b75b87cd24442bdab5a5c4f8119034b13ece637cd5cac67e4b93acad8",
+          "previousStatus": "current",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-status-feature-status",
@@ -8268,12 +8956,12 @@
       "phase": "phase1",
       "module": "status",
       "capability": "phase1-status-feature-status",
-      "status": "current",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "ee1e7d657967e2f4efd76b1929c1f4853ed9c64a2c1fd601b6965bcb400a292f",
-      "afterSha256": "9621210e9b5811ef6dfaf33d1a28e969258c79477648b5e5d4e4182040f4510b",
+      "afterSha256": "ede41baca0915f432e0322ff5551d1dd0d43bcd0941249289ed01fe961a765b3",
       "sourceRefs": [
         {
           "path": "packages/game/src/core/event-system.test.ts",
@@ -8351,12 +9039,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "f1af27116414c9eb6e99bca8505e9efb9f1c3a1766a49da832bc97d2032da5db",
           "afterSha256": "9621210e9b5811ef6dfaf33d1a28e969258c79477648b5e5d4e4182040f4510b"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "9621210e9b5811ef6dfaf33d1a28e969258c79477648b5e5d4e4182040f4510b",
+          "afterSha256": "ede41baca0915f432e0322ff5551d1dd0d43bcd0941249289ed01fe961a765b3",
+          "previousStatus": "current",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-status-item-status",
@@ -8365,12 +9069,12 @@
       "phase": "phase1",
       "module": "status",
       "capability": "phase1-status-item-status",
-      "status": "current",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "218be9bc33204981b3a5b1e4dcb2706e402f438c4e905435ae70fc0344f2acde",
-      "afterSha256": "3ecadaf38de486d7b31f0462ba6a0cbb6df7e94e45c94d078757e22b32d8d1c7",
+      "afterSha256": "c616300aa9e7371ed7ad2d4a9fd273f382db1aa7563bbbfd56f6ae9f27894551",
       "sourceRefs": [
         {
           "path": "docs/phase1/status/item-status.md",
@@ -8425,12 +9129,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "1b1df64e8b83508ae53771c2aeee729095682d6645168e05e267302115d03bb8",
           "afterSha256": "3ecadaf38de486d7b31f0462ba6a0cbb6df7e94e45c94d078757e22b32d8d1c7"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "3ecadaf38de486d7b31f0462ba6a0cbb6df7e94e45c94d078757e22b32d8d1c7",
+          "afterSha256": "c616300aa9e7371ed7ad2d4a9fd273f382db1aa7563bbbfd56f6ae9f27894551",
+          "previousStatus": "current",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-status-magic-status",
@@ -8439,12 +9159,12 @@
       "phase": "phase1",
       "module": "status",
       "capability": "phase1-status-magic-status",
-      "status": "current",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "1ab501c07865c01b8b6567caefcc969f54b57d284230be17517f99a29e738b8a",
-      "afterSha256": "ef8d4763c41cfa2390e0f106aa0550fbab70c8b219f0f113de1f0ebd011c81ff",
+      "afterSha256": "8a79212746ac02739937ddc0996cc89b528201c4ea4c96656d78312590ea0112",
       "sourceRefs": [
         {
           "path": "docs/phase1/status/magic-status.md",
@@ -8499,12 +9219,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "3b5b5ff1da6632482cca67133989bf4c8e0690b84bc13f809a22787755052c28",
           "afterSha256": "ef8d4763c41cfa2390e0f106aa0550fbab70c8b219f0f113de1f0ebd011c81ff"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "ef8d4763c41cfa2390e0f106aa0550fbab70c8b219f0f113de1f0ebd011c81ff",
+          "afterSha256": "8a79212746ac02739937ddc0996cc89b528201c4ea4c96656d78312590ea0112",
+          "previousStatus": "current",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-status-opcode-status",
@@ -8513,12 +9249,12 @@
       "phase": "phase1",
       "module": "status",
       "capability": "phase1-status-opcode-status",
-      "status": "current",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "40f9a7bb9fff42026744d09e8546d63f4930be9ea85703bd8ee454ce70255b1b",
-      "afterSha256": "a987ecd80b31adc4581cfe386f7c440382163e9a4b8d95c84ac34b68c9cb8c8c",
+      "afterSha256": "dd3c37938e84ff0026339f50e7f12a2cf37c502b0f4f8f87246735ff47b65b0d",
       "sourceRefs": [
         {
           "path": "docs/phase1/status/opcode-status.md",
@@ -8576,12 +9312,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "63629febae20c781a89bf4eb73b9ed15cbee2cb8a627ac126fad2a747696a21e",
           "afterSha256": "a987ecd80b31adc4581cfe386f7c440382163e9a4b8d95c84ac34b68c9cb8c8c"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "a987ecd80b31adc4581cfe386f7c440382163e9a4b8d95c84ac34b68c9cb8c8c",
+          "afterSha256": "dd3c37938e84ff0026339f50e7f12a2cf37c502b0f4f8f87246735ff47b65b0d",
+          "previousStatus": "current",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-status-readme",
@@ -8595,7 +9347,7 @@
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "2dc16fcb09bb80cceca8708bd129052ba51778e29cfa91037fbb61d87d8254cd",
-      "afterSha256": "893b6a2ee4f5737ef28b3d0ef19475e5193182c2c35c0915f95405f68b4335e6",
+      "afterSha256": "f88be1077c1a18750acc6a5610b19e1a01ef70411df9447acfa4005c87e239c9",
       "sourceRefs": [
         {
           "path": "docs/phase1/status/README.md",
@@ -8650,12 +9402,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "3b780e2f52b65e841ab65313ff0be359c1f58071c12066bb57af7478edb746a6",
           "afterSha256": "893b6a2ee4f5737ef28b3d0ef19475e5193182c2c35c0915f95405f68b4335e6"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "893b6a2ee4f5737ef28b3d0ef19475e5193182c2c35c0915f95405f68b4335e6",
+          "afterSha256": "f88be1077c1a18750acc6a5610b19e1a01ef70411df9447acfa4005c87e239c9",
+          "previousStatus": "current",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     },
     {
       "id": "docs-phase1-status-resource-status",
@@ -8664,12 +9432,12 @@
       "phase": "phase1",
       "module": "status",
       "capability": "phase1-status-resource-status",
-      "status": "current",
+      "status": "historical",
       "reviewStatus": "reviewed",
       "owner": "Codex",
       "provenance": ["source-document", "repository-history"],
       "sourceSha256": "24ab703da109eef6c4b3069910d6b6c9f78ac15a166ec5412ecfbbb68b14a32e",
-      "afterSha256": "1bf0851ce68fc4b5c4618228cf82b21d1c16e521f851a4ca5488c4efb4c087bc",
+      "afterSha256": "434bf41ce9fdcc2450c04a475a967db39d16ddba9c79bc5beed44c8cd7c80cb3",
       "sourceRefs": [
         {
           "path": "packages/pal-extract/src/cli.ts",
@@ -8724,12 +9492,28 @@
           "action": "generated-wrapper-semicolon-repair; quote bytes unchanged; no new semantic/runtime credit",
           "previousAfterSha256": "71762b5badd18f9c48436a0aa4b5f7dcb506b485b3bbe4810c5b8771b9d29974",
           "afterSha256": "1bf0851ce68fc4b5c4618228cf82b21d1c16e521f851a4ca5488c4efb4c087bc"
+        },
+        {
+          "date": "2026-10-20",
+          "action": "S16 fixed individual document body/template intake; prior status/pin preserved here",
+          "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+          "beforeSha256": "1bf0851ce68fc4b5c4618228cf82b21d1c16e521f851a4ca5488c4efb4c087bc",
+          "afterSha256": "434bf41ce9fdcc2450c04a475a967db39d16ddba9c79bc5beed44c8cd7c80cb3",
+          "previousStatus": "current",
+          "scope": "Historical source/current navigation distinction only; no product or old execution renewal."
         }
       ],
       "supersedes": [],
       "stopLine": "do not change canonical truth/version without updating primary-source references and the catalog",
       "userVisibleBeforeAfter": null,
-      "lastReviewed": "2026-10-04"
+      "lastReviewed": "2026-10-20",
+      "currentDocumentReview": {
+        "reportPath": "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s16-final-fixedabff-owner-current-123/565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165.gz",
+        "payloadSha256": "565ca8295f79daa1b4d36c81a8bcf7063fe9c74039179e327575b5574e809165",
+        "candidateCommit": "abffb0166d98572945e22f60eb49475bc41901e2",
+        "nonAuthorReviewer": true,
+        "scope": "Fixed document/body/template only; original sourceRefs and content/save versions remain historical."
+      }
     }
   ]
 }

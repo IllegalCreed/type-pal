@@ -1,85 +1,56 @@
 # 速通计时器 Implementation Plan
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是速通计时器实施计划的归档重写。Global Constraints、Task 结构与 Self-Review 在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 历史目标：Speedrun timer implementation, detectors, main loop, overlay and tests.
-- 日期：2026-06-18；source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `49c2c20b5a2a5723b27e5bb2b5274d8e908c35287e581593f69c161d6d1328d8`。
+- 目标：落实 [设计方案](2026-06-18-speedrun-timer-design.md)；面向 agentic workers 的 task-by-task 计划（2026-06-18）。
 
 ## 里程碑
 
-- 原始章节：Global Constraints；File Structure；Task 1: 时间格式化 `time-format.ts`；Task 2: 进度快照 `snapshot.ts`；Task 3: 检测原语 `detectors.ts`；Task 4: Checkpoint 定义 `checkpoints.ts`；Task 5: 持久化 `store.ts`；Task 6: 计时状态机 `timer.ts`。
-- Task、checkbox、命令和 self-review 只保留为历史证据。
+- Task 链：time-format.ts 时间格式化 → snapshot.ts 进度快照 → detectors.ts 检测原语 → checkpoints.ts Checkpoint 定义 → store.ts 持久化 → 计时引擎 → UI 呈现 → 接入 main → 一致性自检（quote 全列）。
+- Type consistency 自检：ProgressSnapshot/BattleSnap、Detector/DetectorMem、Checkpoint/BananaConfig、BestTimes/SpeedrunSettings、RunState/SpeedrunTimer 及 index 导出在 Task 9-11 一致调用 ✓。
 
 ## 当前状态
 
-- historical；速通计时器 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 1645 行、16 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。
+- historical：计划执行完毕；已知歧义处理——起表用 `gs.wNumScene > 0`（镜像 PalTimer Area!=0），若标题画面 wNumScene 非 0 致提前起表，Task 12 实跑时改为叠加 `gs.mode` 判定。
 
 ## 阻塞与决策
 
-- 正文信号 169:} as unknown as GameState
-- 正文信号 190:const s = buildSnapshot(fakeGs({ battleState } as unknown as Partial<GameState>))
-- 正文信号 275:- Produces: `type DetectorMem = Record<string, unknown>`；`type Detector = (cur: ProgressSnapshot, prev: ProgressSnapshot | null, mem: DetectorMem) => boolean`；工厂 `enterScene/leaveS
-- 正文信号 353:export type DetectorMem = Record<string, unknown>
-- 正文信号 704:it('未破纪录 → 不动 bests', () => {
-- 正文信号 882:// 香蕉树(反作弊/中场休息):开关开 + 本局未做过
-- 正文信号 1238:({ wNumScene: 1, party: { x: 0, y: 0, facing: 0 }, wNumMusic: 0, inventory: [], battleState: undefined, ...o }) as unknown as GameState
-- 正文信号 1247:it('未启用 → 不挂覆盖层、计时不动', () => {
-- 正文信号 1301:/** 主循环每 rAF 调用:推进时钟、检测打点、刷新覆盖层与倒计时。未启用则隐藏 UI 并跳过。 */
-- 正文信号 1396:tickSpeedrunTimer(ctx.gs, now) // 速通计时器:每 rAF wall-clock 推进(未启用时内部早退)
-- 正文信号 1572:> 实现者注：`makeDeps`/装配细节以 `tools-panel.test.ts` 现有用例为准——照抄同文件构造 `ToolsPanelDeps` 的方式（`getGs`/`getResources` 等）。若现有测试未导出可复用 helper，则在本用例内联构造一份最小 deps（`getGs: () => fakeGs`，其余按现有用例填）。
-- 正文信号 1640:**2. Placeholder scan：** 无 "TBD/TODO/稍后"。Task 12 的坐标是 PalTimer 实值起点 + 明确校准步骤（非空白）。✓
-- 停止线：do not promote historical claims to current truth without a current source or user decision
+- 设计稿四项残余（坐标校准/BGM 86 确认/won 相位兜底/早触发守卫）在实跑阶段逐一核。
 
 ## 下一步
 
-- 后继入口：Current timer code/tests and tools-panel integration.。
-- 若重新执行须新 task card、当前 source/oracle 和独立验收。
+- 历史时点已闭环；当前计时器以现行实现为准。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-06-18；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `49c2c20b5a2a5723b27e5bb2b5274d8e908c35287e581593f69c161d6d1328d8`。
+- phase1 plans 实施计划；时点 2026-06-18；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 速通计时器 Implementation Plan：这是 plan-status，当前文档状态为 historical。全文 1645 行、16 个标题；摘要/首段为「> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.」。属于历史/归档材料，不能单独证明当前实现。
+- Task 链结构与 Type consistency 自检结论为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:速通计时器 Implementation Plan; 11:Global Constraints; 25:File Structure; 45:Task 1: 时间格式化 `time-format.ts`; 143:Task 2: 进度快照 `snapshot.ts`; 267:Task 3: 检测原语 `detectors.ts`; 419:Task 4: Checkpoint 定义 `checkpoints.ts`; 536:Task 5: 持久化 `store.ts`；原始正文、代码、表格、状态词在 quote 保全。
+- Global Constraints、File Structure 与 Ambiguity 注记在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 169:} as unknown as GameState
-- 正文信号 190:const s = buildSnapshot(fakeGs({ battleState } as unknown as Partial<GameState>))
-- 正文信号 275:- Produces: `type DetectorMem = Record<string, unknown>`；`type Detector = (cur: ProgressSnapshot, prev: ProgressSnapshot | null, mem: DetectorMem) => boolean`；工厂 `enterScene/leaveS
-- 正文信号 353:export type DetectorMem = Record<string, unknown>
-- 正文信号 704:it('未破纪录 → 不动 bests', () => {
-- 正文信号 882:// 香蕉树(反作弊/中场休息):开关开 + 本局未做过
-- 正文信号 1238:({ wNumScene: 1, party: { x: 0, y: 0, facing: 0 }, wNumMusic: 0, inventory: [], battleState: undefined, ...o }) as unknown as GameState
-- 正文信号 1247:it('未启用 → 不挂覆盖层、计时不动', () => {
-- 正文信号 1301:/** 主循环每 rAF 调用:推进时钟、检测打点、刷新覆盖层与倒计时。未启用则隐藏 UI 并跳过。 */
-- 正文信号 1396:tickSpeedrunTimer(ctx.gs, now) // 速通计时器:每 rAF wall-clock 推进(未启用时内部早退)
-- 正文信号 1572:> 实现者注：`makeDeps`/装配细节以 `tools-panel.test.ts` 现有用例为准——照抄同文件构造 `ToolsPanelDeps` 的方式（`getGs`/`getResources` 等）。若现有测试未导出可复用 helper，则在本用例内联构造一份最小 deps（`getGs: () => fakeGs`，其余按现有用例填）。
-- 正文信号 1640:**2. Placeholder scan：** 无 "TBD/TODO/稍后"。Task 12 的坐标是 PalTimer 实值起点 + 明确校准步骤（非空白）。✓
+- historical。
 
 ## 继任文档
 
-- Current timer code/tests and tools-panel integration.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [设计方案](2026-06-18-speedrun-timer-design.md) 与现行计时器代码；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `49c2c20b5a2a5723b27e5bb2b5274d8e908c35287e581593f69c161d6d1328d8`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后得到相同 bytes。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `49c2c20b5a2a5723b27e5bb2b5274d8e908c35287e581593f69c161d6d1328d8`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # 速通计时器 Implementation Plan
 >

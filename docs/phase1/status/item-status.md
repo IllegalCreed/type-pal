@@ -1,71 +1,58 @@
 # 物品状态表
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: plan-status-v1 / 1.0.0
 
-本页把 phase1 历史材料接入 `plan-status-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是第一阶段物品状态表的归档重写。摘要计数、四维使用语境、235 物品主表与残留清单在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 目标与时间范围
 
-- 目标：phase1 status/plan historical document: 物品状态表; full source read for template classification.
-- 时间/版本范围：2026-06-02；source revision `642dd483f0d6b982d5f074553a129bce374ffad5`；source SHA `218be9bc33204981b3a5b1e4dcb2706e402f438c4e905435ae70fc0344f2acde`。
-- 当前/历史边界：historical；本页不能单独证明当前实现。
+- 目标：235 个物品（id 61–295）的用途、脚本、装备/投掷/特殊玩法逐条状态；效果描述全部据脚本反汇编（`/tmp/dump-item.mjs`）+ sdlpal 源码逐 opcode 核对，非臆测。
+- 时间范围：自动审计落盘 2026-06-02，复核 2026-06-06（引路蜂 151 音效、紫金葫芦 270 item-box）与 2026-06-16（大世界用物品/复活可选阵亡队员/已装备 usable 追加/use 期隐藏菜单/扬州宝物屋 id-0 守卫——均菜单/加载层修正）。
 
 ## 里程碑
 
-| ID | 结果 | Owner | 状态 | 证据 |
-|---|---|---|---|---|
-| HIST-001 | 原始状态/计划快照保全 | 原文作者 | historical | source quote / SHA |
+- ✅完整 234/235；类型分布：武器 33、防具 30、剧情·关键 23、手饰 21、投掷符镖 17、投掷毒 16、头饰 12、增益 11、解毒药 10 等（quote 全列）。
+- 寿葫芦 563/564 为 level=99「装备伪毒」，不计入中毒判定（详见 game-mechanics）。
 
 ## 当前状态
 
-- 已完成（只写有证据的）：完成原始全文读取、模板接入和 quote inverse 账本。
-- 未完成：当前状态、执行结果和产品结论需由继任 primary source 复核。
+- historical 快照：残留仅 1 项 ⚠️部分——圣灵珠 260（核心 opcode 已接，待真档视觉验收整段剧情演出时序）；演出 stub 0、未实现 0。
+- 旧演出 stub 已订正：0x47 PlaySound 入 pendingSounds、0x50/0x73 淡屏、0x34 紫金葫芦炼丹提示框、0x31 梦蛇变身 spriteNumOverride。
 
 ## 阻塞与决策
 
-- 阻塞：- 正文信号 11:  - ⚠️部分:**1**(圣灵珠260 剧情演出链已接核心 opcode,仍需真档视觉验收)
-- 正文信号 13:  - ❌未实现:**0**
-- 正文信号 248:| 260 | 圣灵珠 | 手饰 | 使用:剧情演出(facing判定/对话/淡屏/批量改obj状态/音效,0x81/0x49/0x50/0x73/0x9A/0x47);装备:设属性+授「武神」法术(0x18+0x1A+0x17)。 | ⚠️部分 | 0x47 音效、0x50 淡屏、0x73 大世界淡场、0x81 失败 success gate 均已接;剧情全链仍需真档视觉验收 |
-- 正文信号 291:| 260 | 圣灵珠 | ⚠️部分 | 核心 opcode 已接;仍需真档验证整段剧情演出时序和视觉一致性 |
-- 用户裁决：任何当前产品取舍仍需新的用户决策。
+- 圣灵珠的真档视觉验收归演出轴（见 [cutscene-status](cutscene-status.md)）；物品效果机制层无阻塞。
 
 ## 下一步
-- 下一项可执行工作：Current phase1 status tables/code/tests and a fresh primary-source review.。
-- 完成定义：新 task card、当前 source/oracle、独立验收和相应执行证据齐全。
+
+- 历史时点待办只有圣灵珠真档验收；当前物品行为以现行代码与测试为准（[目录导航](README.md)）。
 
 ## 历史范围
 
-- phase1 status/plan archive；日期：2026-06-02；固定来源 `642dd483f0d6b982d5f074553a129bce374ffad5`；source SHA `218be9bc33204981b3a5b1e4dcb2706e402f438c4e905435ae70fc0344f2acde`。
+- phase1 status 快照；落盘 2026-06-02、复核至 2026-06-16；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- 物品状态表：这是 plan-status，当前文档状态为 historical。全文 303 行、6 个标题；摘要/首段为「> 自动审计落盘:2026-06-02 · 数据来源 `data/extracted/data/items.json`(=wObjectID 物品定义)+ `reference/sdlpal/script.c` 各 `case 0xNNNN` opcode 真值。」。属于历史/归档材料，不能单独证明当前实现。
+- 234/235 ✅、唯一 ⚠️ 圣灵珠 260、类型分布与 stub 订正清单为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：摘要；四维使用语境说明；主表；残留清单(status≠✅)；已订正的旧演出 stub；原始正文、状态词、表格和链接在 quote 保全。
+- 主表 235 行逐物品状态、四维使用语境说明与残留清单在 quote 保全；声明「全列无遗漏」。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 11:  - ⚠️部分:**1**(圣灵珠260 剧情演出链已接核心 opcode,仍需真档视觉验收)
-- 正文信号 13:  - ❌未实现:**0**
-- 正文信号 248:| 260 | 圣灵珠 | 手饰 | 使用:剧情演出(facing判定/对话/淡屏/批量改obj状态/音效,0x81/0x49/0x50/0x73/0x9A/0x47);装备:设属性+授「武神」法术(0x18+0x1A+0x17)。 | ⚠️部分 | 0x47 音效、0x50 淡屏、0x73 大世界淡场、0x81 失败 success gate 均已接;剧情全链仍需真档视觉验收 |
-- 正文信号 291:| 260 | 圣灵珠 | ⚠️部分 | 核心 opcode 已接;仍需真档验证整段剧情演出时序和视觉一致性 |
+- historical。状态格按冻结时点解释；物品公式类条目按目录 README 规则继续作专题真值，当前行为以现行实现复核。
 
 ## 继任文档
 
-- Current phase1 status tables/code/tests and a fresh primary-source review.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+- pre-E2E 审计、修复任务卡与现行物品测试；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `218be9bc33204981b3a5b1e4dcb2706e402f438c4e905435ae70fc0344f2acde`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `642dd483f0d6b982d5f074553a129bce374ffad5`，source SHA `218be9bc33204981b3a5b1e4dcb2706e402f438c4e905435ae70fc0344f2acde`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # 物品状态表
 >

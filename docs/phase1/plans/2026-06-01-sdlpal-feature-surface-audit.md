@@ -1,85 +1,56 @@
 # SDLPal 功能面覆盖审计
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: audit-report-v1 / 1.0.0
 
-本页把 phase1 历史计划/审计接入 `audit-report-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 SDLPal 功能面覆盖审计的归档回执。总结判断、还原度分层表与建议补充功能点在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 审计问题
 
-- 历史问题域：SDLPal feature-surface mapping to feature-status, gaps and priorities.
-- 当前状态轴：历史；旧审计状态词只属于原始日期。
+- 从 SDLPal 功能面反推完整还原矩阵——检验 feature-status 是否只是「开发完成记录」而非功能面反推矩阵（2026-06-01）。
 
 ## 范围与证据
 
-- source revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `7ffffc5e6cde1f1d0d437fb58185dfa558e42a3466f27596739e25698ea22592`；497 行槽 / 47458 bytes。
-- 标题/章节锚点：1:SDLPal 功能面覆盖审计; 5:审计范围; 25:总结判断; 45:SDLPal 功能面与当前映射; 61:`feature-status.md` 建议补充的功能点; 63:1. 隐藏属性经验系统; 73:2. 战斗结果路由 / Game Over / 强制败北剧情; 88:3. 胜利结算画面与成长展示。
+- 对照 resource-status/opcode-status 的覆盖事实与 SDLPal 功能面映射表。
 
 ## 发现
 
-- 正文信号 29:按可见玩法估算，当前版本已经覆盖了主线可玩所需的大部分骨架：地图、脚本、菜单、物品、法术、战斗流程、存档、RNG/FBP/MKF 资源、结局与大量视觉层都已经存在。但距离“SDLPal 行为级还原”仍有几个核心差距：运行时音频未接入、战斗若干数值公式不完全一致、隐藏属性经验系统缺失、部分战斗视觉与菜单细节仍是简化实现。
-- 正文信号 36:| Opcode 框架与脚本执行 | 85-95% | opcode 面覆盖很高，但部分 opcode 是状态记录或 present/audio 待接 |
-- 正文信号 40:| 运行时音频 | 0-15% | 资源已抽取，播放器和脚本驱动基本未接 |
-- 正文信号 41:| 输入与平台层 | 50-70% | 键盘主路径完成，鼠标、手柄、触摸、SDL 视频配置多为 Web 替代或待办 |
-- 正文信号 53:| `play.c` | 地图更新、使用/装备物品、搜索、按键等待 | 主要路径已实现；搜索/物品特殊链路需要更多端到端验证 |
-- 正文信号 59:| `input.c` / `video.c` / `audio.c` / `sound.c` | 输入、视频、音频、MIDI/SFX | 键盘与画面主路径可用；音频、鼠标/手柄/触摸、平台配置待补或 N/A |
-- 正文信号 71:建议状态：`⬜/⚠️`。这是战斗数值长期还原度的高优先级缺口。
-- 正文信号 86:建议状态：`✅/⚠️`，取决于真档覆盖测试数量。
-- 正文信号 94:建议状态：`✅/⚠️`，说明“结算 UI 已实现，隐藏属性经验未实现”。
-- 正文信号 102:建议状态：`⚠️`。
-- 正文信号 112:- 哪些是未来待办。
-- 正文信号 128:建议把 `D3` 从 `✅` 降到 `⚠️`，并把“玩家攻击强度公式去除敌方等级项”列为高优先级修复。
+- 总结判断：资源抽取与 opcode 覆盖扎实（资源面接近完整）；真正问题在 feature-status 视角——主线可玩骨架（地图/脚本/菜单/物品/法术/战斗流程/存档/RNG/FBP/结局）已存在，但距「行为级还原」仍有核心差距：运行时音频未接入、若干战斗数值公式不完全一致、隐藏属性经验系统缺失、部分战斗视觉与菜单细节简化。
+- 还原度分层（quote 表）：资源抽取与数据覆盖 98-100% 等。
 
 ## 结论
 
-- SDLPal 功能面覆盖审计：这是 audit-report，当前文档状态为 historical。全文 497 行、43 个标题；摘要/首段为「更新时间：2026-06-01」。属于历史/归档材料，不能单独证明当前实现。
-- 本轮不重跑一阶段、runtime、E2E、视觉或 coverage。
+- 建议补充功能点单列成章：隐藏属性经验系统、战斗结果路由/Game Over/强制败北剧情、胜利结算画面与成长展示等。
 
 ## 整改与复核
 
-- 停止线：do not promote historical claims to current truth without a current source or user decision
-- 后继：Current feature/resource/opcode tables and implementation.。
+- 建议流入后续 D 系列/剩余工作计划；本审计目录索引标 🔄（随演进持续核对）。
 
 ## 历史范围
 
-- phase1 archive plan/audit；日期：2026-06-01；固定来源 `45d890e4ce3862aeac9c54eef2d7d18a32032cee`；source SHA `7ffffc5e6cde1f1d0d437fb58185dfa558e42a3466f27596739e25698ea22592`。
+- phase1 plans 功能面审计；时点 2026-06-01；固定来源与 source SHA 见下方保全节。
 
 ## 原始结论
 
-- SDLPal 功能面覆盖审计：这是 audit-report，当前文档状态为 historical。全文 497 行、43 个标题；摘要/首段为「更新时间：2026-06-01」。属于历史/归档材料，不能单独证明当前实现。
+- 分层还原度估计与建议补充清单为原始结论本体。
 
 ## 当时证据
 
-- 标题锚点：1:SDLPal 功能面覆盖审计; 5:审计范围; 25:总结判断; 45:SDLPal 功能面与当前映射; 61:`feature-status.md` 建议补充的功能点; 63:1. 隐藏属性经验系统; 73:2. 战斗结果路由 / Game Over / 强制败北剧情; 88:3. 胜利结算画面与成长展示；原始正文、代码、表格、状态词在 quote 保全。
+- 功能面映射表与建议补充功能点各节在 quote 保全。
 
 ## 当前有效性
 
-historical。do not promote historical claims to current truth without a current source or user decision
-- 历史冲突/未决：
-- 正文信号 29:按可见玩法估算，当前版本已经覆盖了主线可玩所需的大部分骨架：地图、脚本、菜单、物品、法术、战斗流程、存档、RNG/FBP/MKF 资源、结局与大量视觉层都已经存在。但距离“SDLPal 行为级还原”仍有几个核心差距：运行时音频未接入、战斗若干数值公式不完全一致、隐藏属性经验系统缺失、部分战斗视觉与菜单细节仍是简化实现。
-- 正文信号 36:| Opcode 框架与脚本执行 | 85-95% | opcode 面覆盖很高，但部分 opcode 是状态记录或 present/audio 待接 |
-- 正文信号 40:| 运行时音频 | 0-15% | 资源已抽取，播放器和脚本驱动基本未接 |
-- 正文信号 41:| 输入与平台层 | 50-70% | 键盘主路径完成，鼠标、手柄、触摸、SDL 视频配置多为 Web 替代或待办 |
-- 正文信号 53:| `play.c` | 地图更新、使用/装备物品、搜索、按键等待 | 主要路径已实现；搜索/物品特殊链路需要更多端到端验证 |
-- 正文信号 59:| `input.c` / `video.c` / `audio.c` / `sound.c` | 输入、视频、音频、MIDI/SFX | 键盘与画面主路径可用；音频、鼠标/手柄/触摸、平台配置待补或 N/A |
-- 正文信号 71:建议状态：`⬜/⚠️`。这是战斗数值长期还原度的高优先级缺口。
-- 正文信号 86:建议状态：`✅/⚠️`，取决于真档覆盖测试数量。
-- 正文信号 94:建议状态：`✅/⚠️`，说明“结算 UI 已实现，隐藏属性经验未实现”。
-- 正文信号 102:建议状态：`⚠️`。
-- 正文信号 112:- 哪些是未来待办。
-- 正文信号 128:建议把 `D3` 从 `✅` 降到 `⚠️`，并把“玩家攻击强度公式去除敌方等级项”列为高优先级修复。
+- historical。还原度按 2026-06-01 时点解释；当前覆盖以现行状态表与测试为准。
 
 ## 继任文档
 
-- Current feature/resource/opcode tables and implementation.。
-- 当前事实由继任规范、代码和新的 review 决定。
+- [feature-status](../status/feature-status.md)、[remaining-work-plan](2026-06-01-remaining-work-plan.md)；[目录导航](README.md)。
 
 ## 原文保全
 
-固定源 SHA `7ffffc5e6cde1f1d0d437fb58185dfa558e42a3466f27596739e25698ea22592`；quote 中用 `␠` 表示原始行尾空格、`⇥` 表示原始行尾 tab；逆向解码后得到相同 bytes。
+固定源 revision `45d890e4ce3862aeac9c54eef2d7d18a32032cee`，source SHA `7ffffc5e6cde1f1d0d437fb58185dfa558e42a3466f27596739e25698ea22592`；下方 quote 逆回读规则：直接逐字节相等（逐行剥 "> " 或空行裸 ">"，零额外变换）。
 <!-- original-source-quote:start -->
 > # SDLPal 功能面覆盖审计
 >

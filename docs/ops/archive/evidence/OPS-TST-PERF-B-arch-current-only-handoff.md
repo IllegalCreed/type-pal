@@ -1,75 +1,37 @@
 # OPS-TST-PERF-B → ARCH-CURRENT-ONLY-1 迁移 / proof 交接
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把历史材料接入 `evidence-receipt-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 OPS-TST-PERF-B 向 ARCH-CURRENT-ONLY-1 迁移/proof 交接的证据回执。停线结论、PB3/PB4 census 与逐项处置表在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 证据身份
 
-- `id`：原始证据记录的稳定 ID（保留于 quote）。
-- `schemaVersion`：原始记录版本（保留于 quote）。
-- `status`：historical receipt；不改写为当前 verified。
-- candidate/source SHA：见本页 source/after SHA 和原始 quote。
+- OPS-TST-PERF-B 停线交接回执，2026-08-20，Source HEAD `8148083b61506441912b69ad4ae5f3464f559df4`；状态为 B 保持 `build`、current-v4 authority 候选 focused gate 失败、未形成可提交实现检查点。
 
 ## 来源与输入
 
-- caller/source refs（file:line）：由原始证据记录保全；本页 source `docs/ops/archive/evidence/OPS-TST-PERF-B-arch-current-only-handoff.md`。
-- 合法输入与版本：固定历史 source revision、原始数据/命令和记录环境。
-- 执行时间和环境：以原始 receipt 为准；本次迁移不重跑。
+- 可复核输入四份（quote 列全路径）：current `_state.json`、rebuild report、C1 checkpoint、focused 失败对应 install audit。
 
 ## 断言与业务 oracle
 
-- 业务 oracle：原始 receipt 的 caller、输入、断言和结果关系可追溯。
-- 原子断言：quote 中每条机器/人工断言保持原样。
-- 排重对象：当前 task card、同批 evidence 和 successor receipt。
+- 停线根因：当前 canonical v4 source 可机械重建语义等价 authority，但重建器 JSON 对象插入顺序不等于已发布原始表示；`B2 publicationSurfaceDigest` 对序列化字节哈希，focused gate 在 import 阶段 fail-closed。逐文件对照：两边均 551 files、295 个 hash 不同，恰为 `content/items.json` 1 个 + `content/scenes/s000..s293.json` 294 个。
+- key-order transplant 试验只能把 295 降到 192，且注入 C1 dialogue upgrader 后在真实输入 cue key order 失败（seal 记录 `rows,portrait`，当前为 `portrait,rows`）；试验代码与 callback 已全部撤销。
+- PB3：transition/seal digest 域枚举必须恰为 15 项（9 rebuild / 6 preserve；2 direct-body / 4 direct-hash-surface / 3 transitive-parent / 6 unaffected）；PB4：三 profile 覆盖 927 files，`driftCount=0`、`exactMatch=true`。
 
 ## 结果
 
-- 逐步结果、退出码、产物：保留原始记录；不把历史回执升格为当前通过。
-- 失败：原始失败、rework、未执行和 unknown 信号继续保留。
+- B 按用户停线规则不实现 full representation converter / proof schema；13 项 artifact 逐项处置表（`_state.json` fold、15 transitions 删/折、rewind/historical authorities/5 个人工 CLI delete 等）与 5 条 ARCH 接手约束（不得解释成语义错误、不得恢复 v2/v3 parser/compat fallback、唯一真实 opaque sidecar 为 `script-v4-v5-save.json`）交付 ARCH-CURRENT-ONLY-1。
 
 ## 限制与复核
 
-- 未执行/未覆盖：- 正文信号 7:Status: **B 保持 `build`；current-v4 authority 候选 focused gate 失败，未形成可提交实现检查点。**
-- 正文信号 28:`content/items.json#/229/use/effects/0/script/body/1/cue` 失败：seal 记录 `rows,portrait`，当前输入为
-- 正文信号 46:`build/release-runs/v4-authority-rebuild-8148083b/pb3-pb4-final-blocked.json`。枚举必须恰为
-- 正文信号 73:`build/release-runs/v4-authority-rebuild-8148083b/pb3-pb4-final-blocked.json`。
-- 不得外推的结论：不得外推 runtime、E2E、视觉、coverage 或当前产品完成。
-- 复核条件：当前 consumer、source/oracle、task card 和独立验收重新齐全后才可重开。
-
-## 历史范围
-
-- phase2/lore archive；日期：2026-08-20；固定来源 `1cfb47719fd36122d73b3d1ac7642cec192ccc15`；source SHA `d9c305e78f78b2553cdeb081f67c302fe4fd960aa025b84e888e10ea1c32bc0e。
-
-## 原始结论
-
-- OPS-TST-PERF-B → ARCH-CURRENT-ONLY-1 迁移 / proof 交接：这是 evidence-receipt，当前文档状态为 historical。全文 120 行、6 个标题；摘要/首段为「Date: 2026-08-20」。属于历史/归档材料，不能单独证明当前实现。
-
-## 当时证据
-
-- 原始标题/章节/HTML artifact 在 quote 或 artifact envelope 中保全。
-
-## 当前有效性
-
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：
-- 正文信号 7:Status: **B 保持 `build`；current-v4 authority 候选 focused gate 失败，未形成可提交实现检查点。**
-- 正文信号 28:`content/items.json#/229/use/effects/0/script/body/1/cue` 失败：seal 记录 `rows,portrait`，当前输入为
-- 正文信号 46:`build/release-runs/v4-authority-rebuild-8148083b/pb3-pb4-final-blocked.json`。枚举必须恰为
-- 正文信号 73:`build/release-runs/v4-authority-rebuild-8148083b/pb3-pb4-final-blocked.json`。
-
-## 继任文档
-
-- Current evidence receipt, task card and verified consumer result when re-run.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+- historical。本轮 9-seal authority 候选通过内部 rebuild chain 但未过 B2 successor surface 验证，不得安装为 current truth；后续 ARCH-CURRENT-ONLY-1 已删除旧证明链（见[current-only baseline](OPS-TST-PERF-current-only-baseline-2026-08-22.md)），本交接按当时 HEAD 时点解释。目录导航见[历史证据回执](../README.md)。
 
 ## 原文保全
 
-固定源 SHA `d9c305e78f78b2553cdeb081f67c302fe4fd960aa025b84e888e10ea1c32bc0e`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `1cfb47719fd36122d73b3d1ac7642cec192ccc15`，source SHA `d9c305e78f78b2553cdeb081f67c302fe4fd960aa025b84e888e10ea1c32bc0e`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # OPS-TST-PERF-B → ARCH-CURRENT-ONLY-1 迁移 / proof 交接
 >

@@ -1,69 +1,37 @@
 # C1-3 第一批 NPC 归档决策（用户已批准）
 
 Status: historical
-Validity: historical
 Owner: Codex（文档治理；不代签原执行）
-Last reviewed: 2026-10-17
+Last reviewed: 2026-10-19
 Template: evidence-receipt-v1 / 1.0.0
 
-本页把历史材料接入 `evidence-receipt-v1`，并追加 `archive-record-v1` 历史边界。原始日期、阶段词、数字、冲突、未知和链接在 quote 中保全；本页不授当前实现、runtime、E2E、视觉或 coverage 信用。
+本页是 C1-3 第一批 NPC 归档决策提案的证据回执。冻结 digest、精确实体/对话清单与用户批准语句在下方 quote 逐字节保全；本页只做历史边界与模板接入，不授当前实现信用。
 
 ## 证据身份
 
-- `id`：原始证据记录的稳定 ID（保留于 quote）。
-- `schemaVersion`：原始记录版本（保留于 quote）。
-- `status`：historical receipt；不改写为当前 verified。
-- candidate/source SHA：见本页 source/after SHA 和原始 quote。
+- C1-3 第一批 NPC 归档决策提案回执，2026-08-14；状态为用户已批准 `decision draft content digest`，机器可执行 authority 由 `packages/migrate/src/pal-c1-npc-first-batch.ts` 重核 source/canonical evidence 后生成。
 
 ## 来源与输入
 
-- caller/source refs（file:line）：由原始证据记录保全；本页 source `docs/ops/archive/evidence/C1-3-first-batch-proposal.md`。
-- 合法输入与版本：固定历史 source revision、原始数据/命令和记录环境。
-- 执行时间和环境：以原始 receipt 为准；本次迁移不重跑。
+- 四枚冻结 digest（candidate report `c2bb3bdc`、cue coverage `5dcbe205`、source evidence `c479628b`、decision draft `3b797613`，全量在 quote）；闭包 43,503 条原始指令、13,513 条唯一 `showDialog`、4,316 个候选 cue / 8,817 行全部回接。
 
 ## 断言与业务 oracle
 
-- 业务 oracle：原始 receipt 的 caller、输入、断言和结果关系可追溯。
-- 原子断言：quote 中每条机器/人工断言保持原样。
-- 排重对象：当前 task card、同批 evidence 和 successor receipt。
+- 候选闭包 8,011 = 169 accepted + 7,842 deferred + 0 rejected；digest 任一变化本提案自动失效；批准对象只能是 digest 本身，不能用人物名、speaker 或 portrait 通配表达。
+- 两名 actor（李大娘 `sprite-21`/`portrait.pal.055`、酒剑仙 `sprite-16`/`portrait.pal.037`）只共享姓名、默认精灵和立绘资源，不推断 battler、face、装备、行为、pages 或敌对职责；场景位置与生命周期留在 scene entity。
+- 精确清单：6 个实体（李大娘 s001/e19、s002/e38、s003/e56；酒剑仙 s155/e2518、s158/e2648、s159/e2651）与 163 个 cue（含「醉道士」「酒剑仙苦笑曰」别名，经 `speakerOverride` 保持显示名/立绘/side 相等）；3 条仅 portrait 无 speaker 的 cue 明确 deferred；其余 7,839 个候选不自动扩张。
 
 ## 结果
 
-- 逐步结果、退出码、产物：保留原始记录；不把历史回执升格为当前通过。
-- 失败：原始失败、rework、未执行和 unknown 信号继续保留。
+- 用户已于 2026-08-14 原文批准 decision digest；projector 仍须通过 same-version seal/rewind/事务门禁与三方 review，批准不等于跳过工程验收，也不授权任何其他 candidate。
 
 ## 限制与复核
 
-- 未执行/未覆盖：- 正文信号 10:- Cue coverage：`5dcbe205d0ac1b922433c163ca0a6f26d164159cd6be9083a677e6d07ed20491`
-- 不得外推的结论：不得外推 runtime、E2E、视觉、coverage 或当前产品完成。
-- 复核条件：当前 consumer、source/oracle、task card 和独立验收重新齐全后才可重开。
-
-## 历史范围
-
-- phase2/lore archive；日期：2026-08-14；固定来源 `1cfb47719fd36122d73b3d1ac7642cec192ccc15`；source SHA `c1a02e9432ca8196708413fa66daf6c81357e01e44cb4c1c106db59e9e35de44。
-
-## 原始结论
-
-- C1-3 第一批 NPC 归档决策（用户已批准）：这是 evidence-receipt，当前文档状态为 historical。全文 78 行、7 个标题；摘要/首段为「日期：2026-08-14」。属于历史/归档材料，不能单独证明当前实现。
-
-## 当时证据
-
-- 原始标题/章节/HTML artifact 在 quote 或 artifact envelope 中保全。
-
-## 当前有效性
-
-historical。do not promote historical evidence receipt to current runtime/E2E/visual/coverage acceptance
-- 历史冲突/未决：
-- 正文信号 10:- Cue coverage：`5dcbe205d0ac1b922433c163ca0a6f26d164159cd6be9083a677e6d07ed20491`
-
-## 继任文档
-
-- Current evidence receipt, task card and verified consumer result when re-run.。
-- 当前事实由继任规范、代码、测试和新的 review 决定。
+- historical。后续 current-only 重构改变了发布表示层（见[OPS-TST-PERF-B 交接](OPS-TST-PERF-B-arch-current-only-handoff.md)的 key-order 表示差异），决策语义、清单与 digest 以 quote 时点为准；当前 NPC 真值以现行 content 与任务卡为准。目录导航见[历史证据回执](../README.md)。
 
 ## 原文保全
 
-固定源 SHA `c1a02e9432ca8196708413fa66daf6c81357e01e44cb4c1c106db59e9e35de44`；下方 quote 可逆回原始 UTF-8 字节。
+固定源 revision `1cfb47719fd36122d73b3d1ac7642cec192ccc15`，source SHA `c1a02e9432ca8196708413fa66daf6c81357e01e44cb4c1c106db59e9e35de44`；下方 quote 逆回读规则：直接逆回多 1B；精确排除 end 标记前恰一个未引用分隔 LF 后与原源逐字节相等（不 trim、不替换）。
 <!-- original-source-quote:start -->
 > # C1-3 第一批 NPC 归档决策（用户已批准）
 >
