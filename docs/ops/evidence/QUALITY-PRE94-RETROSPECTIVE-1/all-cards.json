@@ -11,7 +11,7 @@
     "review": 4,
     "draft": 1
   },
-  "currentAccepted": 0,
+  "currentAccepted": 6,
   "cards": [
     {
       "id": "1",
@@ -1490,8 +1490,8 @@
       "sha256": "b3990fb6d2564711e74cdfd4fba0e8368664fdc2f0d11c9411cbeebee4a724e9",
       "lines": 46,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 10,
@@ -1542,7 +1542,7 @@
           "sha256": "97a35784f99e1036e20920549deb4388d06fe8272e904d9b87694aad7673fdaa"
         }
       ],
-      "findings": "Current4file A-H:one-read lexical facts/isolated CLI fixtures;five original-source business failures repaired,shared-helper valid-input regression rejected;old13identities+7precise cases,20direct/47including20. Two old closures reopened;stillpartial/no newclosed or accept.",
+      "findings": "逐文件账本与清单工具的真实记录、输出和CLI合同（4文件）：四文件已有完整、具体的八维记录；当前源码、caller和完整原件指纹均匹配。隐藏账本假进度与输出参数假成功共五个业务反例已修；20项定向及包含它们的47项工具回归、旧身份保全、缓存输出等价和拒绝反例均成立。最新全仓check实际运行这些工具，诊断为零。 保留：6a-C1是可选的私有函数拆分建议；6a-O1涉及完整Markdown语法、特殊Git环境及符号级调用图，均超出当前声明合同，不冒称已验证，也不是现有canonical账本的未修缺陷。",
       "currentCardBinding": {
         "sha256": "c76579690002117eed9b51b1681207dc8485ea642997cba8205016d2ff1d8e53",
         "lines": 122,
@@ -1554,7 +1554,11 @@
         "scripts/quality/code-quality-inventory.mjs",
         "scripts/quality/code-quality-inventory.test.mjs"
       ],
-      "currentScopeBoundary": "Original CODE6a ledger pair confirmed;inventory pair is the existing engineering/direct-producer continuation. This confirms slice ownership/scope,not all ledger-listed products or full-card accept."
+      "currentScopeBoundary": "Original CODE6a ledger pair confirmed;inventory pair is the existing engineering/direct-producer continuation. This confirms slice ownership/scope,not all ledger-listed products or full-card accept.",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-20",
+      "currentReviewSha256": "c76579690002117eed9b51b1681207dc8485ea642997cba8205016d2ff1d8e53"
     },
     {
       "id": "40",
@@ -2899,8 +2903,8 @@
       "sha256": "69a88763c8b756c20f7fbd5b2a8d2b808c5d04b422e955b01891dab2d9aa63e0",
       "lines": 36,
       "historicalStatus": "draft",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 12,
@@ -2911,10 +2915,13 @@
           "text": "## 范围与验收"
         }
       ],
-      "scopeConfirmed": false,
+      "scopeConfirmed": true,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
-      "findings": "原盘SSS+生产解析器与真实performItem/runScript核实；2个目标HP业务红后复用isPlayerPoisoned修0x61，242相邻通过；大dispatcher仍review。 Explicit scopedA-H,not whole-card acceptance;whole gates separate.",
-      "currentReviewSha256": "7d28b8049f089ea65bf63812da0ab447ffca18c1a3a44325851fcc44a362172c"
+      "findings": "战斗0x61普通毒与装备伪毒的判定边界：原盘SSS、真实生产解析器和performItem/runScript完整调用链已证明两类风险道具路径。先取得两个目标HP业务红例再修复；四个typed反例与242项相邻回归证明真实level0毒计入、level≥99装备效果豁免，以及目标/施用者隔离。复用canonical毒状态查询消除了重复判断；最新七项集中门诊断全部为零。 保留：整份战斗opcode dispatcher及广域旧测试仍归CODE3t文件复审；它们不属于本卡这一窄缺陷的未满足验收条件。",
+      "currentReviewSha256": "2818199851b92f59224800954fea55dcdd4d66d9f126ed52f32d0062d02ee284",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-20"
     },
     {
       "id": "80",
@@ -2924,8 +2931,8 @@
       "sha256": "7f71c707284ac6c1aff684982bee2f83ca46389fb80c36368d9fe27079a4df29",
       "lines": 60,
       "historicalStatus": "review",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 10,
@@ -2956,10 +2963,13 @@
           "text": "- CODE80 从 `build` 进入 `review`：用户裁决、行为修复和本批门禁已完成，Codex 独立验收记录在本卡；剩余 dev-panel 的全局 listener disposer、picker IntersectionObserver 与异步 thumbnail 取消/关闭生命周期仍 pending，另需后续小批，不影响本批行为合同。"
         }
       ],
-      "scopeConfirmed": false,
+      "scopeConfirmed": true,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
-      "findings": "真实战斗/旧卡guard与探索装备重建有效；F1嵌套字面量补强，浅克隆旧绿新单红；fake-mode重复例由真实四例承接，测试清理安装监听。 Explicit scopedA-H,not whole-card acceptance;whole gates separate.",
-      "currentReviewSha256": "6ac6851459494d537f8efbabbd06b4a1e2a90070670dcdb81af5b8a043a40659"
+      "findings": "B调试面板的战斗换队禁用与探索换队装备重建：用户已经裁决战斗禁入/离队、探索正常编辑。真实开战和DOM四项生命周期合同、模式变化后的旧卡guard、入队/离队与装备伪毒重建均已核验；两项精确反控仍适用。F1嵌套快照与测试清理已补强，五份Dev测试43项绿，页面单次装配的生命周期依据明确；最新集中门零诊断。 保留：picker生命周期由CODE81收口；Dev大文件的整体组织仍归CODE58及通用逐文件复审。当前没有宿主卸载caller，因此不强造新的公共disposer。现有功能DOM证据符合本卡验收范围，不声称完成额外美术或剧情视觉验收。",
+      "currentReviewSha256": "91c85730e8d58adbf64f5ca38e99ef84b31a4889a48138945697e62fc7a53ac4",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-20"
     },
     {
       "id": "81",
@@ -2969,8 +2979,8 @@
       "sha256": "178d18d9432ed2443b8cbb5a31fcafb71fcff97efdc94fbfdc832e88f7cd1903",
       "lines": 58,
       "historicalStatus": "review",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 9,
@@ -3017,10 +3027,13 @@
           "text": "无下一位 Agent 提示词；本批可由 Codex 独立验收，新增生命周期测试文件已具备关闭证据，复合生产文件与既有 GLM 测试不得随本卡一并关闭。"
         }
       ],
-      "scopeConfirmed": false,
+      "scopeConfirmed": true,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
-      "findings": "旧picker原件按同执行代码及selector-only变化复用；page单次装配Owner已证，不改voidAPI；旧check:fast伪protected信用已撤，复合Dev模块仍review。 Explicit scopedA-H,not whole-card acceptance;whole gates separate.",
-      "currentReviewSha256": "9a40af91aeca7f934d3a771b533fb89ec80e748412d8f86c51d8ee9df7121239"
+      "findings": "picker observer释放、列表代际、迟到异步结果及失败占位：原五项真实setup、受控observer/deferred IO合同和两项精确业务反控与当前执行代码仍匹配；关闭/重建disconnect、旧回调不加载、旧DOM不写回、成功缓存保留、null/reject占位与无悬空拒绝均成立。生产renderer负责IO失败归一，main单次安装；测试自有监听清理完整。当前43项Dev回归与真实全仓门均零诊断。 保留：页面级监听按单宿主生命周期保留，不擅增公共卸载API；共享缓存跨picker保留是既有合同。整份Dev文件仍review，本卡仅接收observer/thumbnail功能合同，不引申为剧情或美术全验收。",
+      "currentReviewSha256": "c9d5de685e6fa81046faa25f97f32e9601b6c64fb11b2e9d18120c48633329c0",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-20"
     },
     {
       "id": "82",
@@ -3030,8 +3043,8 @@
       "sha256": "76f60a6392d8d68ec8371fe93d049726444c4dfdb481ea8d2a06062c6da3e700",
       "lines": 49,
       "historicalStatus": "done",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 9,
@@ -3056,12 +3069,16 @@
       ],
       "scopeConfirmed": true,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json",
-      "findings": "Full two-file A-H;private offset-only diagnostic refactor,readable metadata fields/reused count;8unchanged process identities+3adjacent reused,real raw output byte-equal,precise STORE business counter. Unified gates pending;files review,no closure.",
+      "findings": "DATA.MKF独立只读诊断脚本与真实进程测试（2文件）：两文件完整八维记录、当前源码及caller/primary/raw指纹匹配；8个测试身份、STORE宽度业务反例和原盘输出逐字节等价证据成立。脚本独立解析偏移表的保留理由来自实际stock Node入口；没有改提取管线、产物或公共接口。最新全仓及真实ratchet/protected已覆盖当前源码，不沿用历史check:fast的误标。 保留：证据限定于声明的诊断结构及合法/非法输入轴；不承诺支持任意MKF文件或直接导入未构建TS工作区。没有为了共享短代码而改公共构建边界。",
       "currentCardBinding": {
         "sha256": "76f60a6392d8d68ec8371fe93d049726444c4dfdb481ea8d2a06062c6da3e700",
         "lines": 49,
         "scope": "Current card fully read;historical sha/lines above remain frozen inventory fields."
-      }
+      },
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-20",
+      "currentReviewSha256": "76f60a6392d8d68ec8371fe93d049726444c4dfdb481ea8d2a06062c6da3e700"
     },
     {
       "id": "83",
@@ -3567,8 +3584,8 @@
       "sha256": "254e96c1bbaaac2c7234c921534ad57cdce16fdfcc6daba1237f03c182909b5f",
       "lines": 160,
       "historicalStatus": "review",
-      "currentReview": "partial",
-      "currentAcceptance": false,
+      "currentReview": "accept",
+      "currentAcceptance": true,
       "scopeTextCandidates": [
         {
           "line": 14,
@@ -3663,10 +3680,13 @@
           "text": "- 官方工具只升不降地更新 `scripts/coverage/baseline.fast.json`（SHA-256 `aabca727e834ab4f3c5700ca940208a78a7cc81ee60c8fb4eaa866efd4dc15ce`），提升6个指标、范围变化2项；没有降阈值、加排除或手工拼 baseline。原始 receipt：`evidence/CODE-QUALITY-90/gate-ratchet-after-boundary.txt`。"
         }
       ],
-      "scopeConfirmed": false,
+      "scopeConfirmed": true,
       "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
-      "findings": "当前7个大世界spell链/完整runner与真实menu caller已核；测试清双单例、7退役/3更名/1非零use新增，35最终例通过；level3阈值及use阶段旧绿新单红。 Explicit scopedA-H,not whole-card acceptance;whole gates separate.",
-      "currentReviewSha256": "6659169a0cfe36fade8bfa10c00e4d87eed67b34c8aa391587122d10d88bb744"
+      "findings": "大世界复活状态边界及runner与测试质量补审：第一阶段≤999临时状态清除、>999装备效果保留的用户裁决和四项历史精确反控仍成立；当前七条法术链与真实菜单caller已核验。三个文件八维已接受，合法WORD/Spell夹具、双单例清理、七项弱/非法合同迁移、三项更名和一个use阶段合同均有映射与反控。35项定向、菜单相邻、typecheck及全仓门均通过且诊断为零；三个已关闭文件不重复计数。 保留：公共cost/caster参数按既有接口冻结要求保留，可选参数精简不阻断本卡。毒槽压缩与其它机制问题仍归CODE53及对应候选；不把一阶段回合数规则套到二阶段装备来源字段。",
+      "currentReviewSha256": "c3282d5a6cea4303e8606c8206eb0847e40a4bda96ea819937aabc925272d181",
+      "currentReviewEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json",
+      "currentReviewer": "Codex",
+      "currentReviewDate": "2026-10-20"
     },
     {
       "id": "91",
@@ -3951,20 +3971,19 @@
   ],
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
-    "partial": 83,
+    "partial": 77,
     "pending": 0,
-    "accept": 0
+    "accept": 6
   },
   "lastIncrementalReview": {
     "date": "2026-10-20",
-    "base": "b9bf6f7760d4d8b59e7dbc83b0f9aa0b74d9d9ce",
-    "candidate": "Gate-time b9bf6f776 working snapshot;full current file SHA bindings in linked record,committed refs independently verifiable",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
+    "base": "ea9c3cc02484fe113140d39e24f581ef55e20d68",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json",
     "previousCounts": {
-      "partial": 78,
-      "pending": 5,
+      "partial": 83,
+      "pending": 0,
       "accept": 0
     },
-    "limits": "83partial/0pending/0whole-card accept.16named files accepted on concreteA-H evidence;broader review/visual/compaction remain. New gate results only in linked integration record."
+    "limits": "6originalcardcontracts accept,77partial;6newfileclosures fromcomplete existing A-H. No broadmonolith or94-102acceptance."
   }
 }

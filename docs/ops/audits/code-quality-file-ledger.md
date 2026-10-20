@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,319。
-当前已闭合核验：230；已读但待审：216；尚未逐文件核验：2,873；合计未闭合：3,089。
+当前已闭合核验：236；已读但待审：210；尚未逐文件核验：2,873；合计未闭合：3,083。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -39,6 +39,8 @@ Template: governance-index-v1 / 1.0.0
 2026-10-20 pre94 C1–C3：69路径按具体证据接收为有限复审，61条原未登记路径仅转review，0新增关闭；八维缺项与产品未知不因原件/门通过消失。Codex修四份测试夹具与RNG弱跳过oracle，详见[本批记录](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json)。
 
 2026-10-20五卡复审：18份文件逐项A–H/旧证据适用域与必要返工已核，明确接受16个文件，复合Dev/dispatcher/poison及广域上下文继续review；不是因包绿批量关闭。原盘0x61两红、F1/90旧绿新红和精确退役见[五卡入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。
+
+2026-10-20 pre94正式收口首窗：6a/82完整八维与当前源码/原件匹配，6个文件从review接受；79/80/81/90原卡合同已满足，卡接受不附带关闭共享大文件。详见[逐卡裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json)。
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
@@ -151,9 +153,9 @@ Template: governance-index-v1 / 1.0.0
 | `packages/migrate/src/pal-source-io.ts` | product | review | 直接读取 extracted source partitions/scene and asset callers；发现 generic JSON casts 需后续 schema/source-contract 批次 | 不改 generated source |
 | `packages/migrate/src/migration-project-io.ts` | product | review | 直接读取 managed-file discovery/TOCTOU hash ownership；JSON shape validation 与 content validators 的边界留 Q4 | 不改 project output |
 | `scripts/quality/lint-zero.mjs` | tool | 已验证 | whole-repository Biome JSON report/fail-closed wrapper；3198-file zero-diagnostic runs | 不接受过滤参数 |
-| `scripts/quality/code-quality-inventory.mjs` | tool | review | [CODE6a四文件续审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json)；原[Git容量域](../evidence/QUALITY-DOCS-GIT-PATH-ENUMERATION-1/README.md)保留 | 每源一次读取/事实复用；4MB缓存前后逐字节一致；空/重复out先红后拒绝；调用仅词法线索 |
-| `scripts/quality/code-quality-ledger.mjs` | tool | review | [CODE6a四文件续审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json)；完整源码/真实caller/隐藏文本进度反例先红后修 | 旧fail-closed主张遇直接counter撤回；私有lexer保留代码字面量与连续表边界，不是完整Markdown renderer |
-| `scripts/quality/code-quality-ledger.test.mjs` | test | review | [CODE6a四文件续审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json)；原10身份保持+5针对性合同，实际旧实现/共享helper反例 | 恢复既有6a已明文撤回review；删不可变string自比，新增有界child；不凭全绿关闭 |
+| `scripts/quality/code-quality-inventory.mjs` | tool | 已验证 | [pre94原卡合同正式验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) | 原逐文件八维/真实caller与有效反控复用；当前源码及门版本匹配；未授全输入域/未来设计信用 |
+| `scripts/quality/code-quality-ledger.mjs` | tool | 已验证 | [pre94原卡合同正式验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) | 原逐文件八维/真实caller与有效反控复用；当前源码及门版本匹配；未授全输入域/未来设计信用 |
+| `scripts/quality/code-quality-ledger.test.mjs` | test | 已验证 | [pre94原卡合同正式验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) | 原逐文件八维/真实caller与有效反控复用；当前源码及门版本匹配；未授全输入域/未来设计信用 |
 | `packages/game/src/core/battle/battle-progression.ts` | product | review | [毒/升级注释与夹具](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md)；源全文/真实settlement caller/原C；错锚与随机算法信用勘误，非执行变化 | 主升级999 cap与隐藏无该cap分清；有限定向/反控不能闭合全部数值域/统一门，旧源关闭转review |
 | `packages/game/src/core/battle/battle-progression.glm-next-wave.test.ts` | test | review | [毒/升级注释与夹具](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md)；全文与真实H工厂/原C CHECK_HIDDEN_EXP；5合同数保持 | 旧额外RNG消费变异5绿→新4绿1指定AssertionError；只证明两池与主6/隐藏2抽，不冒称七池全序 |
 | `packages/game/src/core/battle/__tests__/battle-levelup.test.ts` | test | review | [毒/升级注释与夹具](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/core-comment-audit/poison-progression-comments/README.md)；全文/公开projectRuntimeToBattleRoles/typed makeHRole；11合同数保持 | 移除as any as核心夹具、收窄未开战的标题；未复算原盘真值表/其它数值极端域，旧整文件信用撤回 |
@@ -176,8 +178,8 @@ Template: governance-index-v1 / 1.0.0
 | `packages/pal-extract/scripts/grep-sdlpal-chunks.ts` | product | 已验证 | execFile 参数数组、reference-only read helper | 无写盘 |
 | `packages/pal-extract/scripts/extract-videos.ts` | product | review | [输出入口补审](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/entrypoint-followup/README.md)；132→136行全文、包脚本/Node IO/真实子进程与六mp4字节oracle | 两共享输出穿透先红后修，复用同一guard且ffmpeg前拒绝；自有增量/raw链接保留，编码/全部失败路径待核 |
 | `packages/pal-extract/scripts/find-scenes-without-setpartypos.mjs` | product | review | scene/event/tilemap BFS 与写盘脚本直接读过 | 诊断生成器需后续 path/input 复核 |
-| `packages/pal-extract/audit-data-mkf.mjs` | product | review | [CODE82八维续审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json)；完整源码/Node入口/C结构与原盘byte-equal | 私有offset-only长度诊断、明确字段名/复用计数；保留standalone宿主边界；8定向+3相邻/真实业务反控，统一门待 |
-| `packages/pal-extract/src/audit-data-mkf.test.ts` | test | review | [CODE82八维续审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json)；全文8真实Node进程合同、精确身份/原件 | fixture/断言/8身份字节保持；STORE18→20触发指定业务AssertionError，隔离目录finally清理；不以绿灯关闭 |
+| `packages/pal-extract/audit-data-mkf.mjs` | product | 已验证 | [pre94原卡合同正式验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) | 原逐文件八维/真实caller与有效反控复用；当前源码及门版本匹配；未授全输入域/未来设计信用 |
+| `packages/pal-extract/src/audit-data-mkf.test.ts` | test | 已验证 | [pre94原卡合同正式验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) | 原逐文件八维/真实caller与有效反控复用；当前源码及门版本匹配；未授全输入域/未来设计信用 |
 | `packages/game/src/assets/loader.ts` | product | review | [GLM29逐文件返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-final29.json) | 作者全文证据复用、Codex定向补八维；未修/限制: loader-six-skips；不升closed |
 | `packages/game/src/assets/tileset-blob.ts` | product | 已验证 | CODE-QUALITY-3h；gzip/raw blob、shared parseSpriteChunk、tileset/NPC/battle/magic callers 与 snapshot/load tests | gzip 魔数防双解压、HTTP 状态和帧 key 合同已有反例；未改资源格式 |
 | `packages/game/src/assets/png.ts` | product | 已验证 | CODE-QUALITY-3h；createImageBitmap/canvas/alpha mask caller 与 PNG failure/close tests | 解码失败保留 cause，bitmap finally close；未发现直接缺陷 |
@@ -409,7 +411,7 @@ Template: governance-index-v1 / 1.0.0
 | `packages/game/src/analytics/google-analytics.test.ts` | test | review | [pre94 GA复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md)；169行原测与9例当前全文，精确payload/Arguments/stop/重试 | 三旧8绿→新8绿1指定红，隔离外owner旧单红新绿；未知SDK/浏览器不关闭 |
 | `packages/game/src/analytics/google-analytics.boundaries.test.ts` | test | review | [pre94 GA复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md)；121行原测与当前4例，项目ID6/20与UTM白名单、真实订阅 | 两旧4绿→新3绿1指定红；坏注/伪fetch隔离撤回，13直接/12相邻只是有限证据 |
 | `packages/game/src/analytics/google-analytics.test-fixtures.ts` | fixture | review | [pre94 GA复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3z-google-analytics/README.md)；新增测试专用共享宿主全文，真实SUT/自有Document与属性描述符 | 完整cohort外owner断言旧8/1红→新10绿；stop断言前不代清；不改公共接口/不关闭 |
-| `scripts/quality/code-quality-inventory.test.mjs` | test | review | [CODE6a四文件续审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json)；原3身份保持+2真实参数反例，>1MiB Git尾部oracle不变 | 隔离docs与quality夹具依赖，15s有界Node子进程；临时目录/Git环境隔离，不关闭 |
+| `scripts/quality/code-quality-inventory.test.mjs` | test | 已验证 | [pre94原卡合同正式验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json) | 原逐文件八维/真实caller与有效反控复用；当前源码及门版本匹配；未授全输入域/未来设计信用 |
 | `packages/game/src/analytics/google-analytics.install-failure.test.ts` | test | review | [GA失败回滚](../evidence/GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1/README.md)；160行全文，真实native ports/安装器/存储/自有宿主 | 五合法错误边界/原Error身份/停止后事件静默；30相邻及两单针，0新增closed |
 | `packages/game/src/core/battle/battle-lifecycle.test-fixtures.ts` | test | review | [3w战后脚本复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/3w-post-scripts/README.md)；96行全文、两测原重复准备合并，正式hydrate/projection/startBattle与五槽typed资源 | 新测试专用helper；不复制phase/脚本/奖励算法，不计独立运行时合同或closed |
 | `packages/pal-extract/src/cli-entrypoint-paths.test.ts` | test | review | [输出入口补审](../evidence/QUALITY-EXTRACT-OUTPUT-BOUNDARY-1/entrypoint-followup/README.md)；191行全文、复制源码真实进程/自有文件与链接/外部编码器替身 | 五合同：两共享节点、正常增量/raw链接、绝对链接入口、import无副作用；旧3红5绿→当前41模块全绿，0关闭 |

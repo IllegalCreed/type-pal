@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "6f6bb02851bc43252c0377aa48cfba80d8ef825ed164ef0974e4f435dd50a63b",
+      "afterSha256": "e810ac392afa6d759bb9a407bda85a02a8d23ecbb505d5cf365c43a80cc6c2b3",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "a2101ce8ffeb73642521f0b489d17642f27bbd3fcdc581d0e9c354dedbc05778",
-        "implementationSha": "6f6bb02851bc43252c0377aa48cfba80d8ef825ed164ef0974e4f435dd50a63b",
+        "implementationSha": "e810ac392afa6d759bb9a407bda85a02a8d23ecbb505d5cf365c43a80cc6c2b3",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1809,8 +1809,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "6f6bb02851bc43252c0377aa48cfba80d8ef825ed164ef0974e4f435dd50a63b",
-        "lineCount": 16221,
+        "afterSha256": "e810ac392afa6d759bb9a407bda85a02a8d23ecbb505d5cf365c43a80cc6c2b3",
+        "lineCount": 16239,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -2001,6 +2001,15 @@
           "afterSha256": "6f6bb02851bc43252c0377aa48cfba80d8ef825ed164ef0974e4f435dd50a63b",
           "scope": "Incoming hash for the exact scoped review-record delta only;other entries/history remain unchanged.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json"
+        },
+        {
+          "date": "2026-10-20",
+          "revision": "ea9c3cc02484fe113140d39e24f581ef55e20d68",
+          "action": "pre94 first-six original-contract acceptance",
+          "previousAfterSha256": "6f6bb02851bc43252c0377aa48cfba80d8ef825ed164ef0974e4f435dd50a63b",
+          "afterSha256": "e810ac392afa6d759bb9a407bda85a02a8d23ecbb505d5cf365c43a80cc6c2b3",
+          "scope": "Incoming hash of exactly this bounded review-record update;other entries unchanged.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json"
         }
       ],
       "supersedes": [
@@ -2015,7 +2024,7 @@
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "6f6bb02851bc43252c0377aa48cfba80d8ef825ed164ef0974e4f435dd50a63b",
+      "candidateSha256": "e810ac392afa6d759bb9a407bda85a02a8d23ecbb505d5cf365c43a80cc6c2b3",
       "primarySource": [
         {
           "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",

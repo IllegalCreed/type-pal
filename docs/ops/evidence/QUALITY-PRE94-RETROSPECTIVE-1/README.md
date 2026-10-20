@@ -1,13 +1,14 @@
 # 94前全部治理成果复审
 
-2026-10-20当前：[53/79/80/81/90五卡复审与必要返工](five-cards/README.md)。18份逐文件A–H与4个广域上下文，旧证据按版本和输入域复用；16个文件已明确接受，指定复合/视觉/机制余项仍review。统一门以本批原件与integration状态为准，不继承下文历史门信用；94–102不扩展。
+2026-10-20当前：[完整pre94持续收口裁定](completion.json)。6a/79/80/81/82/90按原卡验收合同正式accept，其余77partial；逐文件八维、真实caller/oracle和有效原件复用，只补实际缺口。六个工具/诊断文件正式关闭；共享大文件/机制和视觉余项仍各归其实际Owner与卡。94–102不扩展。
 
+本轮沿用[五卡原件与快检](five-cards/README.md)，其中本次正式接收的四张卡和仍待核的53分别记录。
 
 > 2026-10-18 波次门勘误：本页引用的 [47–52统一门回执](53-wave-gates/README.md) 已撤回“通过/收口”信用，未证明零诊断；不得沿用为本片验收或合并依据。本页原逐文件/定向结果按各自证据保留，旧计数不改写为0。
 
 任务：[QUALITY-PRE94-RETROSPECTIVE-1](../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。当前要求是全部83卡逐卡逐文件复审，未全部完成。下文原f0cf0f7f抽查是历史快照；当前唯一3y分支、主工作树只读。
 
-当前增量（2026-10-20）：[C1–C3有限接收与Codex窄返工](codex-pending27-acceptance.json)为本轮入口；78partial/5pending/0accept、0新关闭，本批未为69文件新增全维关闭信用。只读快检：`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/verify-pending27.mjs`；本轮check七包20,380例、official ratchet/protected各19,982例与741源文件通过，最终静态门/诊断及交付边界见该回执。
+前一增量（2026-10-20历史）：[C1–C3有限接收与Codex窄返工](codex-pending27-acceptance.json)为本轮入口；78partial/5pending/0accept、0新关闭，本批未为69文件新增全维关闭信用。只读快检：`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/verify-pending27.mjs`；本轮check七包20,380例、official ratchet/protected各19,982例与741源文件通过，最终静态门/诊断及交付边界见该回执。
 
 历史快照（2026-10-19）：[CODE6a四文件八维](glm-foundation/codex-code6a.json)修复隐藏记录假进度/输出参数假成功，并整理事实缓存与夹具依赖。当前56partial/27pending/0accept；其余历史数字按各片时点。四文件仍review，232closed/123review/2961pending，0新关闭，统一门未过。
 

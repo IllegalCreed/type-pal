@@ -9,6 +9,15 @@ Phase: engineering first; phase1/phase2按真实路径分别准入
 Capability: whole-repository code quality retrospective
 Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
+
+## 2026-10-20 全部pre94持续收口（当前）
+
+用户要求完成完整pre94并收口。沿用codex/code-quality-3y，唯一Owner/验收者Codex；现有83卡为固定范围，94–102保持后置。已有全文八维/真实caller/oracle与可靠原件按claim复用，只补失效或实际缺项，不重复全部复审。先按每卡原范围核验收条件，不能用共享大文件的额外可改善项无限延长小卡，也不能把未解关键counter改成通过。
+
+首个收口窗口6a/79/80/81/82/90已按具体合同accept；其余77partial继续，六个工具/诊断文件具备原A–H与当前门后正式关闭，既有16接受不重复计数。[逐卡裁定及保留项](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json)；当前计数以all-cards.json与live ledger机器输出为准。schema/save/资产/公共接口/机制取舍按原授权和停止线；可独立推进项不中断。packages/scripts相对ea9c3cc02未变，本窗口复用其完整全仓check/ratchet/protected及typecheck；文档静态/账本门另实跑，产品后继改动后按模块集中重跑。
+
+以下各时点“当前/待跑/0accept/剩余数”为历史，不覆盖本节；全83验收和必要风险决策未齐前父卡保持build。
+
 ## 当前用户要求、范围与准入
 
 2026-10-20最新授权：Codex先完成53/79/80/81/90五张复审欠账，复用既有证据，补齐逐文件八维缺口及必要返工；旧活跃避让已解除，本批唯一Owner为Codex，同一3y分支。具体启动/范围见[五卡复审](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。已有用户裁决沿用；79先核前提再准入，新的产品取舍/接口/schema变化仍走停止线。昂贵门集中到本批收尾，94–102不扩展。以下C1–C3是刚完成的上一波证据，不再据其“5活跃实现未触碰”排除本批。

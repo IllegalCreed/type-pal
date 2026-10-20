@@ -1,18 +1,18 @@
 # CODE-QUALITY-81 — game Dev Panel picker 生命周期
 
-> 2026-10-20当前：本卡五卡复审/必要返工已完成源码与证据审查，统一门结果以五卡唯一回执为准；以本页当前节和[五卡回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)为准。旧时点的build/停止线/门失败保留，不作今天的阻塞或通过声明。
+> 2026-10-20本次正式验收：本卡既定合同已由Codex接受并收口，见[pre94收口裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json)。当前done只覆盖下述原卡范围，不把共享大文件或其它卡自动关闭；旧pending/review/失败按历史时点保留。
 
-Status: review
+Status: done
 Owner: Codex
 Phase: phase1 game
 Capability: Q3 dev picker resource ownership
 Visual Verification Timing: functional-minimal
 
-## 2026-10-20 当前复审
+## 2026-10-20 当前验收
 
 旧picker原件按同执行代码及selector-only变化复用；page单次装配Owner已证，不改voidAPI；旧check:fast伪protected信用已撤，复合Dev模块仍review。
 
-18份本轮文件记录分别列A–H，广域上下文复用原A–H并核版本/适用域；原件、主caller、原始/SDL/TS真值、反控和测试退役映射见[五卡唯一入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。量化初筛只指向重点阅读，不作指标验收。本轮已明确接受16个文件，见唯一回执closedFiles逐项清单；本卡复合/视觉/设计边界仍review，不把整卡升accept/done。
+18份本轮文件记录分别列A–H，广域上下文复用原A–H并核版本/适用域；原件、主caller、原始/SDL/TS真值、反控和测试退役映射见[五卡唯一入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。量化初筛只指向重点阅读，不作指标验收。此前16个具体文件接受维持；本卡范围/逐项验收和保留边界已据证核定，现正式done。共享复合文件与其它卡按原范围继续review。
 
 同一3y，唯一Owner Codex；未写主树/GLM原树，94–102不扩展。当前无新产品选择待答；既有用户runtime0/party-slot/战中禁换队/第一阶段999装备边界沿用。本批门以回执integration状态和完整原件为准；不复用历史全仓绿，覆盖率仅大批收尾。
 
@@ -66,3 +66,12 @@ Codex：前提已用生产 caller 与 fake observer/deferred renderer 反例核�
 ## 下一位 Agent 提示词
 
 无下一位 Agent 提示词；本批可由 Codex 独立验收，新增生命周期测试文件已具备关闭证据，复合生产文件与既有 GLM 测试不得随本卡一并关闭。
+
+
+## 2026-10-20 原卡合同正式收口
+
+picker observer释放、列表代际、迟到异步结果及失败占位。原五项真实setup、受控observer/deferred IO合同和两项精确业务反控与当前执行代码仍匹配；关闭/重建disconnect、旧回调不加载、旧DOM不写回、成功缓存保留、null/reject占位与无悬空拒绝均成立。生产renderer负责IO失败归一，main单次安装；测试自有监听清理完整。当前43项Dev回归与真实全仓门均零诊断。
+
+保留范围：页面级监听按单宿主生命周期保留，不擅增公共卸载API；共享缓存跨picker保留是既有合同。整份Dev文件仍review，本卡仅接收observer/thumbnail功能合同，不引申为剧情或美术全验收。
+
+Owner/Reviewer Codex。本轮核对原卡验收条件、有效八维记录与实际原件，复用仍匹配的审查和测试；当前产品及测试源码相对ea9c3cc02没有变化。文档/索引/账本门本次另实跑，见completion.json.checks。无下一位Agent提示词，Codex继续剩余pre94。

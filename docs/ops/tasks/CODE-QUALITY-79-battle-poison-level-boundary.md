@@ -1,19 +1,19 @@
 # CODE-QUALITY-79 — 战斗0x61装备伪毒判定边界
 
-> 2026-10-20当前：本卡五卡复审/必要返工已完成源码与证据审查，统一门结果以五卡唯一回执为准；以本页当前节和[五卡回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)为准。旧时点的build/停止线/门失败保留，不作今天的阻塞或通过声明。
+> 2026-10-20本次正式验收：本卡既定合同已由Codex接受并收口，见[pre94收口裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json)。当前done只覆盖下述原卡范围，不把共享大文件或其它卡自动关闭；旧pending/review/失败按历史时点保留。
 
-Status: review
+Status: done
 Owner: Codex
 Reviewer: Codex（独立验收）
 Phase: phase1 game
 Capability: Q3 battle poison
 Visual Verification Timing: e2e-deferred
 
-## 2026-10-20 当前复审
+## 2026-10-20 当前验收
 
 原盘SSS+生产解析器与真实performItem/runScript核实；2个目标HP业务红后复用isPlayerPoisoned修0x61，242相邻通过；大dispatcher仍review。
 
-18份本轮文件记录分别列A–H，广域上下文复用原A–H并核版本/适用域；原件、主caller、原始/SDL/TS真值、反控和测试退役映射见[五卡唯一入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。量化初筛只指向重点阅读，不作指标验收。本轮已明确接受16个文件，见唯一回执closedFiles逐项清单；本卡复合/视觉/设计边界仍review，不把整卡升accept/done。
+18份本轮文件记录分别列A–H，广域上下文复用原A–H并核版本/适用域；原件、主caller、原始/SDL/TS真值、反控和测试退役映射见[五卡唯一入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。量化初筛只指向重点阅读，不作指标验收。此前16个具体文件接受维持；本卡范围/逐项验收和保留边界已据证核定，现正式done。共享复合文件与其它卡按原范围继续review。
 
 同一3y，唯一Owner Codex；未写主树/GLM原树，94–102不扩展。当前无新产品选择待答；既有用户runtime0/party-slot/战中禁换队/第一阶段999装备边界沿用。本批门以回执integration状态和完整原件为准；不复用历史全仓绿，覆盖率仅大批收尾。
 
@@ -53,3 +53,12 @@ Owner Codex。用户本轮“处理五卡必要返工”与工程既有保真修
 真实 performItem → runScript → dispatchBattleOpcode 红例已取得：4例中2例恰在目标HP业务断言失败；只有装备伪毒时九阴散错误回血、毒龙胆错误存活，非顺序队伍[4,0]的施用者真毒不能替目标算中毒。level0回血、level3解毒且保留level4/99两例原实现已绿。原件将登记五卡 evidence。
 
 准入限 battle-opcodes 的0x61改用既有 isPlayerPoisoned(role)，保留target优先/caster兜底/operand0跳转/无gs行为；新增真实物品合同测试。无 schema/save/公共接口变更，不改变其它opcode；这消除跨层重复毒等级知识，未引入新helper或兼容路径。原“unknown/build blocked”是旧时点，已被本节事实解除。
+
+
+## 2026-10-20 原卡合同正式收口
+
+战斗0x61普通毒与装备伪毒的判定边界。原盘SSS、真实生产解析器和performItem/runScript完整调用链已证明两类风险道具路径。先取得两个目标HP业务红例再修复；四个typed反例与242项相邻回归证明真实level0毒计入、level≥99装备效果豁免，以及目标/施用者隔离。复用canonical毒状态查询消除了重复判断；最新七项集中门诊断全部为零。
+
+保留范围：整份战斗opcode dispatcher及广域旧测试仍归CODE3t文件复审；它们不属于本卡这一窄缺陷的未满足验收条件。
+
+Owner/Reviewer Codex。本轮核对原卡验收条件、有效八维记录与实际原件，复用仍匹配的审查和测试；当前产品及测试源码相对ea9c3cc02没有变化。文档/索引/账本门本次另实跑，见completion.json.checks。无下一位Agent提示词，Codex继续剩余pre94。

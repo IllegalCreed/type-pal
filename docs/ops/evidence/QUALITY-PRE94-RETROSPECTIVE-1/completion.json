@@ -1,0 +1,535 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-20",
+  "task": "QUALITY-PRE94-RETROSPECTIVE-1",
+  "owner": "Codex",
+  "base": "ea9c3cc02484fe113140d39e24f581ef55e20d68",
+  "scope": "Complete all83pre94 cards by actual original acceptance boundary;this incremental receipt accepts six ready cards,not the entire project. Only metadata changes in this checkpoint.",
+  "decision": "Six card contracts accepted;other77partial;no blanket full-file certification",
+  "gateReuse": {
+    "source": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
+    "reason": "All packages/scripts byte-identical to accepted ea9c3cc02;reuse check-final20377 and official ratchet/protected19979plus actualtypechecks. No source/config/test changes require repeated costly gates.",
+    "command": [
+      "git",
+      "diff",
+      "--quiet",
+      "ea9c3cc02484fe113140d39e24f581ef55e20d68",
+      "--",
+      "packages",
+      "scripts"
+    ]
+  },
+  "cards": [
+    {
+      "id": "6a",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md",
+      "decision": "accept",
+      "reviewer": "Codex",
+      "scope": "逐文件账本与清单工具的真实记录、输出和CLI合同（4文件）",
+      "criteria": [
+        "Full prior4fileA-H explicit and current SHA matched;source/caller/raw attachment proof reused.",
+        "5initial business failures corrected;20direct/47overlapping tool results plus exact old identity/cache/negative proofs.",
+        "Current check-final runs actual quality-tools;0diagnostics;optional complexity extraction and broader Markdown/symbol analysis are outside this canonical ledger contract."
+      ],
+      "retained": "6a-C1是可选的私有函数拆分建议；6a-O1涉及完整Markdown语法、特殊Git环境及符号级调用图，均超出当前声明合同，不冒称已验证，也不是现有canonical账本的未修缺陷。",
+      "adjudication": "四文件已有完整、具体的八维记录；当前源码、caller和完整原件指纹均匹配。隐藏账本假进度与输出参数假成功共五个业务反例已修；20项定向及包含它们的47项工具回归、旧身份保全、缓存输出等价和拒绝反例均成立。最新全仓check实际运行这些工具，诊断为零。"
+    },
+    {
+      "id": "79",
+      "path": "docs/ops/tasks/CODE-QUALITY-79-battle-poison-level-boundary.md",
+      "decision": "accept",
+      "reviewer": "Codex",
+      "scope": "战斗0x61普通毒与装备伪毒的判定边界",
+      "criteria": [
+        "Raw SSS/current production parser and actual performItem/runScript established both risk-item paths.",
+        "2HP business reds beforefix;4typed realcaller contracts and242adjacent green. Canonical role-to-party query ignores>=99 and includes reallevel0;target/caster isolation asserted.",
+        "Current final7gates zero diagnostics. Shared helper use removes duplicated level ownership;no new product choice."
+      ],
+      "retained": "整份战斗opcode dispatcher及广域旧测试仍归CODE3t文件复审；它们不属于本卡这一窄缺陷的未满足验收条件。",
+      "adjudication": "原盘SSS、真实生产解析器和performItem/runScript完整调用链已证明两类风险道具路径。先取得两个目标HP业务红例再修复；四个typed反例与242项相邻回归证明真实level0毒计入、level≥99装备效果豁免，以及目标/施用者隔离。复用canonical毒状态查询消除了重复判断；最新七项集中门诊断全部为零。"
+    },
+    {
+      "id": "80",
+      "path": "docs/ops/tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md",
+      "decision": "accept",
+      "reviewer": "Codex",
+      "scope": "B调试面板的战斗换队禁用与探索换队装备重建",
+      "criteria": [
+        "User battle-disable/explore-edit choice implemented and real startBattle/DOM fourcase proof valid.",
+        "Oldcard guard aftermodechange and both add/remove paths;explore slots/equipment effects correct;two exact controls reused at current equivalent runtime.",
+        "F1/test isolation repaired and5Dev files43green;page single-install lifetime established;full7gates passed."
+      ],
+      "retained": "picker生命周期由CODE81收口；Dev大文件的整体组织仍归CODE58及通用逐文件复审。当前没有宿主卸载caller，因此不强造新的公共disposer。现有功能DOM证据符合本卡验收范围，不声称完成额外美术或剧情视觉验收。",
+      "adjudication": "用户已经裁决战斗禁入/离队、探索正常编辑。真实开战和DOM四项生命周期合同、模式变化后的旧卡guard、入队/离队与装备伪毒重建均已核验；两项精确反控仍适用。F1嵌套快照与测试清理已补强，五份Dev测试43项绿，页面单次装配的生命周期依据明确；最新集中门零诊断。"
+    },
+    {
+      "id": "81",
+      "path": "docs/ops/tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md",
+      "decision": "accept",
+      "reviewer": "Codex",
+      "scope": "picker observer释放、列表代际、迟到异步结果及失败占位",
+      "criteria": [
+        "Original five-case realsetup/fake-observer/deferred IO test and2exact single-business-red controls apply to same runtime exceptcorrected Close hint.",
+        "Close/rebuild disconnect;late queuedentry blocked;oldDOM notwritten;successcache retained;null/reject placeholder and no unhandlederror.",
+        "Bootstrap renderer catches IO error;main installs once;testownedlisteners removed;current43Dev green andrealprotected/fullcheck zero diagnostics."
+      ],
+      "retained": "页面级监听按单宿主生命周期保留，不擅增公共卸载API；共享缓存跨picker保留是既有合同。整份Dev文件仍review，本卡仅接收observer/thumbnail功能合同，不引申为剧情或美术全验收。",
+      "adjudication": "原五项真实setup、受控observer/deferred IO合同和两项精确业务反控与当前执行代码仍匹配；关闭/重建disconnect、旧回调不加载、旧DOM不写回、成功缓存保留、null/reject占位与无悬空拒绝均成立。生产renderer负责IO失败归一，main单次安装；测试自有监听清理完整。当前43项Dev回归与真实全仓门均零诊断。"
+    },
+    {
+      "id": "82",
+      "path": "docs/ops/archive/tasks/done/CODE-QUALITY-82-data-mkf-diagnostic.md",
+      "decision": "accept",
+      "reviewer": "Codex",
+      "scope": "DATA.MKF独立只读诊断脚本与真实进程测试（2文件）",
+      "criteria": [
+        "Full prior2fileA-H current SHA/caller/primary/input/8identity/one STORE AssertionError and raw-byte equivalence match.",
+        "No productdata/CLI/extractor/public API change. Standalone offset parser retained for actual stockNode runtime boundary.",
+        "Current pal-extract package441tests/typecheck and independent final ratchet/protected cover unchanged source;historical check:fast is not used as protected."
+      ],
+      "retained": "证据限定于声明的诊断结构及合法/非法输入轴；不承诺支持任意MKF文件或直接导入未构建TS工作区。没有为了共享短代码而改公共构建边界。",
+      "adjudication": "两文件完整八维记录、当前源码及caller/primary/raw指纹匹配；8个测试身份、STORE宽度业务反例和原盘输出逐字节等价证据成立。脚本独立解析偏移表的保留理由来自实际stock Node入口；没有改提取管线、产物或公共接口。最新全仓及真实ratchet/protected已覆盖当前源码，不沿用历史check:fast的误标。"
+    },
+    {
+      "id": "90",
+      "path": "docs/ops/tasks/CODE-QUALITY-90-magic-revive-status-boundary.md",
+      "decision": "accept",
+      "reviewer": "Codex",
+      "scope": "大世界复活状态边界及runner与测试质量补审",
+      "criteria": [
+        "User firstphase<=999/>999 equipment decision and historical4exactcontrols remain applicable. Current7spell chains andrealmenu caller alreadyverified.",
+        "Fullrunner3fileA-H accepted;legalWORD/typedSpell/poison+catalogcleanup,7retirementtransfers/3names/1use-phase contract andoldgreen/newred controls complete.",
+        "Current35direct,menuadjacent/typecheck/fullcheck/ratchet/protected0diagnostics. All3files alreadyclosed,not countedagain."
+      ],
+      "retained": "公共cost/caster参数按既有接口冻结要求保留，可选参数精简不阻断本卡。毒槽压缩与其它机制问题仍归CODE53及对应候选；不把一阶段回合数规则套到二阶段装备来源字段。",
+      "adjudication": "第一阶段≤999临时状态清除、>999装备效果保留的用户裁决和四项历史精确反控仍成立；当前七条法术链与真实菜单caller已核验。三个文件八维已接受，合法WORD/Spell夹具、双单例清理、七项弱/非法合同迁移、三项更名和一个use阶段合同均有映射与反控。35项定向、菜单相邻、typecheck及全仓门均通过且诊断为零；三个已关闭文件不重复计数。"
+    }
+  ],
+  "files": [
+    {
+      "path": "scripts/quality/code-quality-ledger.mjs",
+      "sha256": "76c45b719c241305d59eec611b3584f3ea623494900ae0afd69ccd8e8c2c1157",
+      "decision": "accept",
+      "dimensions": {
+        "source": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json",
+        "entry": "scripts/quality/code-quality-ledger.mjs",
+        "axes": "ABCDEFGH",
+        "method": "Read actual file-specific A-H judgments and original criteria;current source/caller/native identities verified. No full reread or generic passed flag grants acceptance."
+      }
+    },
+    {
+      "path": "scripts/quality/code-quality-ledger.test.mjs",
+      "sha256": "cbf61f06d3bb5f8992989580a7f3a354741a272f78ef98a0e5153322f3cb5d1b",
+      "decision": "accept",
+      "dimensions": {
+        "source": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json",
+        "entry": "scripts/quality/code-quality-ledger.test.mjs",
+        "axes": "ABCDEFGH",
+        "method": "Read actual file-specific A-H judgments and original criteria;current source/caller/native identities verified. No full reread or generic passed flag grants acceptance."
+      }
+    },
+    {
+      "path": "scripts/quality/code-quality-inventory.mjs",
+      "sha256": "00c89fee45b176a3f58f51bbe3856c2a5675d48d668e23c1f148c40f1e879158",
+      "decision": "accept",
+      "dimensions": {
+        "source": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json",
+        "entry": "scripts/quality/code-quality-inventory.mjs",
+        "axes": "ABCDEFGH",
+        "method": "Read actual file-specific A-H judgments and original criteria;current source/caller/native identities verified. No full reread or generic passed flag grants acceptance."
+      }
+    },
+    {
+      "path": "scripts/quality/code-quality-inventory.test.mjs",
+      "sha256": "bf8019893a5b193dc6e4e5e519cf5ed87230d98a69c5ea6465b49fc9d14fdb85",
+      "decision": "accept",
+      "dimensions": {
+        "source": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json",
+        "entry": "scripts/quality/code-quality-inventory.test.mjs",
+        "axes": "ABCDEFGH",
+        "method": "Read actual file-specific A-H judgments and original criteria;current source/caller/native identities verified. No full reread or generic passed flag grants acceptance."
+      }
+    },
+    {
+      "path": "packages/pal-extract/audit-data-mkf.mjs",
+      "sha256": "dc6d386620a54dc8f3036b754f0cc1173fa037a40c9f19e85936cd61f818afc5",
+      "decision": "accept",
+      "dimensions": {
+        "source": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json",
+        "entry": "packages/pal-extract/audit-data-mkf.mjs",
+        "axes": "ABCDEFGH",
+        "method": "Read actual file-specific A-H judgments and original criteria;current source/caller/native identities verified. No full reread or generic passed flag grants acceptance."
+      }
+    },
+    {
+      "path": "packages/pal-extract/src/audit-data-mkf.test.ts",
+      "sha256": "2ba45d0947f9dc087911131d9288a1feae0bac3ea19c6fecf972dd4225c19e15",
+      "decision": "accept",
+      "dimensions": {
+        "source": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json",
+        "entry": "packages/pal-extract/src/audit-data-mkf.test.ts",
+        "axes": "ABCDEFGH",
+        "method": "Read actual file-specific A-H judgments and original criteria;current source/caller/native identities verified. No full reread or generic passed flag grants acceptance."
+      }
+    }
+  ],
+  "bindings": [
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json",
+      "sha256": "d9ce332c44c27dd7bb8a7dfbe0190da5eb9dca1171048cd313f6e4afc32da71f",
+      "role": "Exact full per-file A-H and execution/negative originals;oldstate/gatepending at historical timestamp remainunchanged"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code82.json",
+      "sha256": "cfe5d04ff740d5866dabb7e69820436eadcd7d810750e476913b1364b028e794",
+      "role": "Exact full per-file A-H and execution/negative originals;oldstate/gatepending at historical timestamp remainunchanged"
+    },
+    {
+      "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
+      "sha256": "a0d3619aae08c92b3afb969a38076bc58daa2119c7f0f02155e6d301a52d1a0b",
+      "role": "Current18fileA-H/native/raw/callerand7gates;historical0cardaccept is superseded onlybythis explicit six-card adjudication,not rewritten"
+    }
+  ],
+  "checks": {
+    "docs": {
+      "id": "docs-ready",
+      "command": ["pnpm", "check:docs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-20T09:17:52.121Z",
+      "end": "2026-10-20T09:18:40.366Z",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "testStderrBlocks": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "stderrBytes": 0
+      },
+      "originals": [
+        "docs-ready.execution.json",
+        "docs-ready.scan.json",
+        "docs-ready.stdout.raw",
+        "docs-ready.stderr.raw"
+      ]
+    },
+    "lint": {
+      "id": "lint-ready-final",
+      "command": ["pnpm", "lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-20T09:20:20.647Z",
+      "end": "2026-10-20T09:20:23.522Z",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "testStderrBlocks": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "stderrBytes": 0
+      },
+      "originals": [
+        "lint-ready-final.execution.json",
+        "lint-ready-final.scan.json",
+        "lint-ready-final.stdout.raw",
+        "lint-ready-final.stderr.raw"
+      ]
+    },
+    "ledger": {
+      "id": "ledger-ready",
+      "command": ["node", "scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-20T09:17:52.127Z",
+      "end": "2026-10-20T09:17:54.447Z",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "testStderrBlocks": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "stderrBytes": 0
+      },
+      "originals": [
+        "ledger-ready.execution.json",
+        "ledger-ready.scan.json",
+        "ledger-ready.stdout.raw",
+        "ledger-ready.stderr.raw"
+      ]
+    },
+    "diff": {
+      "id": "diff-ready-final",
+      "command": ["git", "diff", "--check", "HEAD"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "start": "2026-10-20T09:20:20.647Z",
+      "end": "2026-10-20T09:20:20.792Z",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "testStderrBlocks": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "stderrBytes": 0
+      },
+      "originals": [
+        "diff-ready-final.execution.json",
+        "diff-ready-final.scan.json",
+        "diff-ready-final.stdout.raw",
+        "diff-ready-final.stderr.raw"
+      ]
+    },
+    "reusedProductGates": {
+      "base": "ea9c3cc02484fe113140d39e24f581ef55e20d68",
+      "source": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json",
+      "roles": ["check-final20377", "ratchet-final19979", "protected19979", "package-typechecks"],
+      "exactSourceTreeUnchanged": true,
+      "reason": "All packages/scripts byte-identical to accepted ea9c3cc02;reuse check-final20377 and official ratchet/protected19979plus actualtypechecks. No source/config/test changes require repeated costly gates."
+    },
+    "latestDocsConsumers": {
+      "id": "docs-consumers-final",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "testStderrBlocks": 0,
+        "warnings": 0,
+        "navigation": 0,
+        "staticDiagnosticPrefix": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "stderrBytes": 0
+      },
+      "reason": "After final Chinese wording and state/index/binding changes,all five actual consumers read current files;docs-tools125 already passed unchanged tools in docs-ready. No package or coverage rerun."
+    }
+  },
+  "notRun": [
+    "New browser/storyE2E;the accepted cards are CLI or functionalDOM/runtime contracts,not a new art/animation/visual decision.",
+    "No package tests or coverage rerun for metadata-only adjudication."
+  ],
+  "remaining": {
+    "cards": 77,
+    "kind": "Actual code/test/evidence gaps remain;do not convert pending-to-partial history to accept automatically."
+  },
+  "ledger": {
+    "total": 3319,
+    "verified": 236,
+    "review": 210,
+    "pending": 2873,
+    "unclosed": 3083
+  },
+  "quickVerify": {
+    "method": "Read-only fixed-base code identity;per-file source/primary/raw/native proofs from earlier receipts;current state decisions checked separately. No package/coverage replay.",
+    "command": [
+      "node",
+      "-e",
+      "const fs = require('node:fs'), cp = require('node:child_process'), crypto = require('node:crypto'), zlib = require('node:zlib'), assert = require('node:assert/strict')\nconst r = JSON.parse(fs.readFileSync(process.argv[1])), hash = b => crypto.createHash('sha256').update(b).digest('hex')\n{\n  assert(r.nativeArtifact,'unsealed packet');assert.equal(r.files.length,6)\n  const packed = fs.readFileSync(r.nativeArtifact.path);assert.equal(hash(packed),r.nativeArtifact.sha256,'archive SHA')\n  const members=JSON.parse(zlib.gunzipSync(packed)).members\n  assert.deepEqual(Object.keys(members).sort(),r.nativeArtifact.members.map(m=>m.name).sort())\n  for(const m of r.nativeArtifact.members){const b=Buffer.from(members[m.name]);assert.equal(b.length,m.bytes,m.name);assert.equal(hash(b),m.sha256,m.name)}\n  for(const role of ['docs','lint','ledger','diff']){\n    const gate=r.checks[role],run=JSON.parse(members[gate.id+'.execution.json']),scan=JSON.parse(members[gate.id+'.scan.json'])\n    assert.equal(run.role,role);assert.equal(run.exit,0);assert.equal(run.signal,null);assert.equal(run.spawnError,null)\n    assert.deepEqual(Object.keys(scan.diagnostics).sort(),['reactAct','actEnvironment','testStderrBlocks','warnings','navigation','staticDiagnosticPrefix','tsErrors','unhandled','failedTap','stderrBytes'].sort());assert(Object.values(scan.diagnostics).every(v=>v===0))\n    for(const stream of ['stdout','stderr']){const b=Buffer.from(members[gate.id+'.'+stream+'.raw']);assert.equal(b.length,run[stream].bytes);assert.equal(hash(b),run[stream].sha256)}\n  }\n}\nfor (const f of [...r.files, ...r.bindings]) assert.equal(hash(fs.readFileSync(f.path)), f.sha256, 'stale:' + f.path)\nfor (const f of r.files) assert.equal(f.dimensions.axes, 'ABCDEFGH')\nfor (const binding of r.bindings.filter(b => b.path.endsWith('codex-code6a.json') || b.path.endsWith('codex-code82.json'))) {\n  const proof = JSON.parse(fs.readFileSync(binding.path))\n  for (const f of [...proof.fileReviews, ...proof.callerPrimaryBindings, ...(proof.input ? [proof.input] : [])]) assert.equal(hash(fs.readFileSync(f.path)), f.sha256, 'stale dependency:' + f.path)\n  for (const f of proof.fileReviews) assert.deepEqual(Object.keys(f.dimensions).sort(), [...'ABCDEFGH'])\n  for (const a of proof.attachments) {\n    const compressed = fs.readFileSync(a.path); assert.equal(hash(compressed), a.gzipSha256, a.path)\n    const bytes = zlib.gunzipSync(compressed); assert.equal(hash(bytes), a.originalSha256, a.path)\n    if (a.tests !== undefined) { const n = JSON.parse(bytes); assert.deepEqual([n.numTotalTests,n.numPassedTests,n.numFailedTests,n.numPendingTests],[a.tests,a.passed,a.failed,a.pending],a.path) }\n    if (a.tap) { const text = bytes.toString(); for(const key of ['tests','pass','fail','cancelled','skipped','todo']) assert.equal(Number(new RegExp('^# '+key+' (\\\\d+)$','m').exec(text)?.[1]),a.tap.counts[key],a.path) }\n  }\n}\ncp.execFileSync(process.execPath, ['docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/verify.mjs'], { stdio: 'pipe' })\nassert.match(r.base,/^[a-f0-9]{40}$/);cp.execFileSync('git',['diff','--quiet',r.base,'--','packages','scripts'], { stdio: 'pipe' })\nconst q = JSON.parse(fs.readFileSync('docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json'))\nassert.deepEqual(q.currentReviewCounts,{partial:77,pending:0,accept:6}); assert.equal(r.cards.length,6);assert.equal(new Set(r.cards.map(c=>c.id)).size,6)\nfor (const card of r.cards) { const c=q.cards.find(c=>c.id===card.id);assert.equal(c.currentReview,'accept');assert.equal(c.currentAcceptance,true);assert.equal(c.currentReviewer,'Codex') }\nconsole.log('pre94 first6 contracts/evidence/source identities match;not whole83 semantic certification')\n",
+      "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json"
+    ],
+    "limits": "Checks current6card decisions,6file A-H references,oldsource/caller/input/nativebytes/counts,currentfivecardpacket andea9codeidentity. Historical6a/82stateprojection(partial) is superseded byexplicitaccept;no product/result predicate is weakened. Judgment on semantic adequacy is the manual reasoning in cards[].",
+    "negativeControls": {
+      "member": "quick-negative.raw.json",
+      "rejections": ["file-sha", "proof-sha", "card-count"],
+      "exits": [1, 1, 1]
+    },
+    "finalControls": {
+      "archiveUnderTestSha256": "364f69388087660ea41ec2cb3171d3f1e1df89518030f909b9f12b7fa02737da",
+      "results": [
+        {
+          "id": "file-sha",
+          "exit": 1,
+          "stdout": "",
+          "stderr": "node:assert:150\n  throw new AssertionError(obj);\n  ^\n\nAssertionError [ERR_ASSERTION]: stale:scripts/quality/code-quality-ledger.mjs\n+ actual - expected\n\n+ '76c45b719c241305d59eec611b3584f3ea623494900ae0afd69ccd8e8c2c1157'\n- '0000000000000000000000000000000000000000000000000000000000000000'\n\n    at [eval]:16:53\n    at [eval]:35:4\n    at runScriptInThisContext (node:internal/vm:209:10)\n    at node:internal/process/execution:446:12\n    at [eval]-wrapper:6:24\n    at runScriptInContext (node:internal/process/execution:444:60)\n    at evalFunction (node:internal/process/execution:279:30)\n    at evalTypeScript (node:internal/process/execution:291:3)\n    at node:internal/main/eval_string:74:3 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: '76c45b719c241305d59eec611b3584f3ea623494900ae0afd69ccd8e8c2c1157',\n  expected: '0000000000000000000000000000000000000000000000000000000000000000',\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v22.23.2\n"
+        },
+        {
+          "id": "proof-sha",
+          "exit": 1,
+          "stdout": "",
+          "stderr": "node:assert:150\n  throw new AssertionError(obj);\n  ^\n\nAssertionError [ERR_ASSERTION]: stale:docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json\n+ actual - expected\n\n+ 'd9ce332c44c27dd7bb8a7dfbe0190da5eb9dca1171048cd313f6e4afc32da71f'\n- '0000000000000000000000000000000000000000000000000000000000000000'\n\n    at [eval]:16:53\n    at [eval]:35:4\n    at runScriptInThisContext (node:internal/vm:209:10)\n    at node:internal/process/execution:446:12\n    at [eval]-wrapper:6:24\n    at runScriptInContext (node:internal/process/execution:444:60)\n    at evalFunction (node:internal/process/execution:279:30)\n    at evalTypeScript (node:internal/process/execution:291:3)\n    at node:internal/main/eval_string:74:3 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: 'd9ce332c44c27dd7bb8a7dfbe0190da5eb9dca1171048cd313f6e4afc32da71f',\n  expected: '0000000000000000000000000000000000000000000000000000000000000000',\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v22.23.2\n"
+        },
+        {
+          "id": "card-count",
+          "exit": 1,
+          "stdout": "",
+          "stderr": "node:assert:150\n  throw new AssertionError(obj);\n  ^\n\nAssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n5 !== 6\n\n    at [eval]:32:81\n    at [eval]:35:4\n    at runScriptInThisContext (node:internal/vm:209:10)\n    at node:internal/process/execution:446:12\n    at [eval]-wrapper:6:24\n    at runScriptInContext (node:internal/process/execution:444:60)\n    at evalFunction (node:internal/process/execution:279:30)\n    at evalTypeScript (node:internal/process/execution:291:3)\n    at node:internal/main/eval_string:74:3 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: 5,\n  expected: 6,\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v22.23.2\n"
+        },
+        {
+          "id": "archive-sha",
+          "exit": 1,
+          "stdout": "",
+          "stderr": "node:assert:150\n  throw new AssertionError(obj);\n  ^\n\nAssertionError [ERR_ASSERTION]: archive SHA\n+ actual - expected\n\n+ '364f69388087660ea41ec2cb3171d3f1e1df89518030f909b9f12b7fa02737da'\n- '0000000000000000000000000000000000000000000000000000000000000000'\n\n    at [eval]:5:64\n    at [eval]:35:4\n    at runScriptInThisContext (node:internal/vm:209:10)\n    at node:internal/process/execution:446:12\n    at [eval]-wrapper:6:24\n    at runScriptInContext (node:internal/process/execution:444:60)\n    at evalFunction (node:internal/process/execution:279:30)\n    at evalTypeScript (node:internal/process/execution:291:3)\n    at node:internal/main/eval_string:74:3 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: '364f69388087660ea41ec2cb3171d3f1e1df89518030f909b9f12b7fa02737da',\n  expected: '0000000000000000000000000000000000000000000000000000000000000000',\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v22.23.2\n"
+        }
+      ],
+      "method": "Fresh actual CLI,only temporary metadata copies changed;repository code/archive unchanged."
+    }
+  },
+  "nativeArtifact": {
+    "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion-static.json.gz",
+    "sha256": "364f69388087660ea41ec2cb3171d3f1e1df89518030f909b9f12b7fa02737da",
+    "bytes": 9981,
+    "members": [
+      {
+        "name": "docs-ready.execution.json",
+        "sha256": "3fd972e3ba64c84491ed8c17ca6e0cc2a485cd2391bd23d35494a8a4ed139d94",
+        "bytes": 1849
+      },
+      {
+        "name": "docs-ready.scan.json",
+        "sha256": "10006cbc8a1110061c37a12386218e934f92dc30fa72d06d54243ca9145e702f",
+        "bytes": 771
+      },
+      {
+        "name": "docs-ready.stdout.raw",
+        "sha256": "e6538565a2acaef0f527118319f40c8bbc016b581721b535bfde4b5acb4e2d26",
+        "bytes": 30510
+      },
+      {
+        "name": "docs-ready.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "lint-ready.execution.json",
+        "sha256": "6599c66eeecb07ee1ed33829f06fb5463cc8341199acfe6557c0add71e174cef",
+        "bytes": 1841
+      },
+      {
+        "name": "lint-ready.scan.json",
+        "sha256": "ac063517bcb43122078f4b2597cd3c22f4803631a8ea3fd39482b3df4f8bdc94",
+        "bytes": 647
+      },
+      {
+        "name": "lint-ready.stdout.raw",
+        "sha256": "4aeaf44fc840c9df9590a10534fe7e44a24bae0c0bb47705d7304174762a16dd",
+        "bytes": 193
+      },
+      {
+        "name": "lint-ready.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "ledger-ready.execution.json",
+        "sha256": "e3b6647a421b240d31ce60e32712d5272939492e700fe673c62a18b6f6e0c527",
+        "bytes": 1884
+      },
+      {
+        "name": "ledger-ready.scan.json",
+        "sha256": "1e3e97ed0b66162be52483cf6e2ff28b8c24ec056702fb7206020b614def799d",
+        "bytes": 456
+      },
+      {
+        "name": "ledger-ready.stdout.raw",
+        "sha256": "4429beec469a7c76397e41cec70b43054df607325d3ad49731959ad1688850ee",
+        "bytes": 113
+      },
+      {
+        "name": "ledger-ready.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "diff-ready.execution.json",
+        "sha256": "be87ae654145a970c437dccf82bc3af64ba298bcc293d143f8abbd42854a71e2",
+        "bytes": 1865
+      },
+      {
+        "name": "diff-ready.scan.json",
+        "sha256": "2cab4ef4829007c1332f148262c3c4d1e3a3c17fe4630fd67d2bdbcfe377cd1b",
+        "bytes": 334
+      },
+      {
+        "name": "diff-ready.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "diff-ready.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "docs-consumers-final.execution.json",
+        "sha256": "53ec31ca53dbf51f13da9677d3fdec11d3ec5f41a716e8fd0894f4bce29c9939",
+        "bytes": 2208
+      },
+      {
+        "name": "docs-consumers-final.scan.json",
+        "sha256": "d69a6b0b9f37e3433f61c888faf3fc81645693d1fec21a3b1ffac81d33bcf1e5",
+        "bytes": 699
+      },
+      {
+        "name": "docs-consumers-final.stdout.raw",
+        "sha256": "5825cae297f4d0a828f1c1f981b02a36e2ea450feca47d9bb45fc765d207a899",
+        "bytes": 311
+      },
+      {
+        "name": "docs-consumers-final.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "lint-ready-final.execution.json",
+        "sha256": "43d2ba8915ffd52c8b35604554382820cdc1c0cc70ba1dc8fe593d31e6d741b8",
+        "bytes": 1937
+      },
+      {
+        "name": "lint-ready-final.scan.json",
+        "sha256": "903222995fa7fd27cff583389cb53fd00d0603983ed92383e70a02828a420e04",
+        "bytes": 653
+      },
+      {
+        "name": "lint-ready-final.stdout.raw",
+        "sha256": "4aeaf44fc840c9df9590a10534fe7e44a24bae0c0bb47705d7304174762a16dd",
+        "bytes": 193
+      },
+      {
+        "name": "lint-ready-final.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "diff-ready-final.execution.json",
+        "sha256": "4e1224c47f996c447df5be798fba830138b7288f10f23753666543fb8a4b93c3",
+        "bytes": 1961
+      },
+      {
+        "name": "diff-ready-final.scan.json",
+        "sha256": "6acfc72815b86c96a1af147e9a26a17aadac224490161f1b4ad1dc8c06def4aa",
+        "bytes": 340
+      },
+      {
+        "name": "diff-ready-final.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "diff-ready-final.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "name": "quick-negative.raw.json",
+        "sha256": "c2475c91af322cfd3192ccfd32e72811ab3f184b7e722d7c6b84c96f71aeae97",
+        "bytes": 2988
+      }
+    ]
+  }
+}

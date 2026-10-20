@@ -1,19 +1,19 @@
 # CODE-QUALITY-80 — game Dev Panel 换队生命周期
 
-> 2026-10-20当前：本卡五卡复审/必要返工已完成源码与证据审查，统一门结果以五卡唯一回执为准；以本页当前节和[五卡回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)为准。旧时点的build/停止线/门失败保留，不作今天的阻塞或通过声明。
+> 2026-10-20本次正式验收：本卡既定合同已由Codex接受并收口，见[pre94收口裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json)。当前done只覆盖下述原卡范围，不把共享大文件或其它卡自动关闭；旧pending/review/失败按历史时点保留。
 
-Status: review
+Status: done
 Owner: Codex
 Reviewer: Codex（行为切片独立验收；生命周期风险转 CODE81）
 Phase: phase1 game
 Capability: Q3 dev party ownership
 Visual Verification Timing: functional-minimal
 
-## 2026-10-20 当前复审
+## 2026-10-20 当前验收
 
 真实战斗/旧卡guard与探索装备重建有效；F1嵌套字面量补强，浅克隆旧绿新单红；fake-mode重复例由真实四例承接，测试清理安装监听。
 
-18份本轮文件记录分别列A–H，广域上下文复用原A–H并核版本/适用域；原件、主caller、原始/SDL/TS真值、反控和测试退役映射见[五卡唯一入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。量化初筛只指向重点阅读，不作指标验收。本轮已明确接受16个文件，见唯一回执closedFiles逐项清单；本卡复合/视觉/设计边界仍review，不把整卡升accept/done。
+18份本轮文件记录分别列A–H，广域上下文复用原A–H并核版本/适用域；原件、主caller、原始/SDL/TS真值、反控和测试退役映射见[五卡唯一入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。量化初筛只指向重点阅读，不作指标验收。此前16个具体文件接受维持；本卡范围/逐项验收和保留边界已据证核定，现正式done。共享复合文件与其它卡按原范围继续review。
 
 同一3y，唯一Owner Codex；未写主树/GLM原树，94–102不扩展。当前无新产品选择待答；既有用户runtime0/party-slot/战中禁换队/第一阶段999装备边界沿用。本批门以回执integration状态和完整原件为准；不复用历史全仓绿，覆盖率仅大批收尾。
 
@@ -68,3 +68,12 @@ Codex：用户裁决已记录，前提与范围 verified；build allowed。实�
 - 官方 `pnpm coverage:ratchet` exit0；game statements 88.05%、branches 79.31%、lines 89.63%，TOTAL statements 89.85%、branches 83.60%、lines 91.72%；基线只升不降。protected fast 以 `origin/main` 为基线 exit0，见 `gate-ratchet-final.txt` 与 `gate-protected-final.txt`。
 - `pnpm check:docs`、`pnpm lint`、`node scripts/quality/code-quality-ledger.mjs` 均 exit0；账本当前为 3268 / 338 closed / 10 review / 2920 pending。没有把任何 dev-panel、测试、状态页或 battle 文件强行改为已验证。
 - CODE80 从 `build` 进入 `review`：用户裁决、行为修复和本批门禁已完成，Codex 独立验收记录在本卡；剩余 dev-panel 的全局 listener disposer、picker IntersectionObserver 与异步 thumbnail 取消/关闭生命周期仍 pending，另需后续小批，不影响本批行为合同。
+
+
+## 2026-10-20 原卡合同正式收口
+
+B调试面板的战斗换队禁用与探索换队装备重建。用户已经裁决战斗禁入/离队、探索正常编辑。真实开战和DOM四项生命周期合同、模式变化后的旧卡guard、入队/离队与装备伪毒重建均已核验；两项精确反控仍适用。F1嵌套快照与测试清理已补强，五份Dev测试43项绿，页面单次装配的生命周期依据明确；最新集中门零诊断。
+
+保留范围：picker生命周期由CODE81收口；Dev大文件的整体组织仍归CODE58及通用逐文件复审。当前没有宿主卸载caller，因此不强造新的公共disposer。现有功能DOM证据符合本卡验收范围，不声称完成额外美术或剧情视觉验收。
+
+Owner/Reviewer Codex。本轮核对原卡验收条件、有效八维记录与实际原件，复用仍匹配的审查和测试；当前产品及测试源码相对ea9c3cc02没有变化。文档/索引/账本门本次另实跑，见completion.json.checks。无下一位Agent提示词，Codex继续剩余pre94。

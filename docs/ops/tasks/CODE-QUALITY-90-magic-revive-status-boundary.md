@@ -1,8 +1,8 @@
 # CODE-QUALITY-90 — magic revive status clearing boundary
 
-> 2026-10-20当前：本卡五卡复审/必要返工已完成源码与证据审查，统一门结果以五卡唯一回执为准；以本页当前节和[五卡回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)为准。旧时点的build/停止线/门失败保留，不作今天的阻塞或通过声明。
+> 2026-10-20本次正式验收：本卡既定合同已由Codex接受并收口，见[pre94收口裁定](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/completion.json)。当前done只覆盖下述原卡范围，不把共享大文件或其它卡自动关闭；旧pending/review/失败按历史时点保留。
 
-Status: review
+Status: done
 Phase: phase1
 Capability: Q3 phase1 game core/menu magic script
 Coding Owner: Codex
@@ -15,11 +15,11 @@ Branch: codex/code-quality-3y
 
 > 高风险机制卡：已完成 primary source 核验并取得用户裁决；实现必须先补失败反例，再按 SDLPal 的 `<=999` 清除边界修复。
 
-## 2026-10-20 当前复审
+## 2026-10-20 当前验收
 
 当前7个大世界spell链/完整runner与真实menu caller已核；测试清双单例、7退役/3更名/1非零use新增，35最终例通过；level3阈值及use阶段旧绿新单红。
 
-18份本轮文件记录分别列A–H，广域上下文复用原A–H并核版本/适用域；原件、主caller、原始/SDL/TS真值、反控和测试退役映射见[五卡唯一入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。量化初筛只指向重点阅读，不作指标验收。本轮已明确接受16个文件，见唯一回执closedFiles逐项清单；本卡复合/视觉/设计边界仍review，不把整卡升accept/done。
+18份本轮文件记录分别列A–H，广域上下文复用原A–H并核版本/适用域；原件、主caller、原始/SDL/TS真值、反控和测试退役映射见[五卡唯一入口](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/README.md)。量化初筛只指向重点阅读，不作指标验收。此前16个具体文件接受维持；本卡范围/逐项验收和保留边界已据证核定，现正式done。共享复合文件与其它卡按原范围继续review。
 
 同一3y，唯一Owner Codex；未写主树/GLM原树，94–102不扩展。当前无新产品选择待答；既有用户runtime0/party-slot/战中禁换队/第一阶段999装备边界沿用。本批门以回执integration状态和完整原件为准；不复用历史全仓绿，覆盖率仅大批收尾。
 
@@ -168,3 +168,12 @@ SDLPal `OP_REVIVE_PLAYER` 在目标 HP 为 0 时设置复活 HP、按 level≤3 
 
 - `VITEST_MAX_WORKERS=1 pnpm check` exit 0：content149/1498、shared16/131、game3565、pal-extract71/431、reforge359/8964、editor631/4951、migrate96/739；全包 typecheck/test 与严格 docs/content-review 通过。
 - 最终 `lint-zero` 为 4041 files，0 errors / 0 warnings / 0 infos；原始全仓日志见 `evidence/CODE-QUALITY-90/gate-check-after-boundary.txt`。CODE90 两文件仍 review，因为本卡只覆盖行为切片和当前 runner 合同，完整文件审查未结束。
+
+
+## 2026-10-20 原卡合同正式收口
+
+大世界复活状态边界及runner与测试质量补审。第一阶段≤999临时状态清除、>999装备效果保留的用户裁决和四项历史精确反控仍成立；当前七条法术链与真实菜单caller已核验。三个文件八维已接受，合法WORD/Spell夹具、双单例清理、七项弱/非法合同迁移、三项更名和一个use阶段合同均有映射与反控。35项定向、菜单相邻、typecheck及全仓门均通过且诊断为零；三个已关闭文件不重复计数。
+
+保留范围：公共cost/caster参数按既有接口冻结要求保留，可选参数精简不阻断本卡。毒槽压缩与其它机制问题仍归CODE53及对应候选；不把一阶段回合数规则套到二阶段装备来源字段。
+
+Owner/Reviewer Codex。本轮核对原卡验收条件、有效八维记录与实际原件，复用仍匹配的审查和测试；当前产品及测试源码相对ea9c3cc02没有变化。文档/索引/账本门本次另实跑，见completion.json.checks。无下一位Agent提示词，Codex继续剩余pre94。
