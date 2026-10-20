@@ -108,8 +108,9 @@ export class KeyboardInputSource implements InputSource {
   /**
    * DM30:palette fade 每步清键(palette.c:313-316)。方向键进抑制集(物理松开才解除,
    * input.c:213 `if (!fRepeat)` 不重算 dir 的等价);pressed 清空(PAL_ClearKeyState)。
-   * 已知近似:C 的 dir 只在方向 keydown/keyup 事件时从 dwKeyOrder 重算(input.c:236/286)——
-   * scene-fade 清 dir 后,任意方向键事件会复活其它仍按住的方向键;TS 按键各自 keyup 解除,
+   * 已知近似:C 的 dir 只在方向 keydown/keyup 事件时从 dwKeyOrder 重算(input.c:236/286;
+   * keydown 侧带 `!fRepeat` 守卫,自动重复不触发)——scene-fade 清 dir 后,非重复方向
+   * keydown 或方向 keyup 会复活其它仍按住的方向键;TS 按键各自 keyup 解除,
    * 多键同持穿 scene-fade 的"复活"角点不还原(单键场景两者等价)。
    */
   suppressHeldForFade(): void {
