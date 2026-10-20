@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import type { IndexedImage } from '../../assets/png.js'
 import { createInitialGameState } from '../../core/game-state.js'
 import { createInGameMenu, createSystemMenu } from '../../core/menu/in-game-menu.js'
+import { createInventoryActionMenu } from '../../core/menu/inventory-action-menu.js'
 import { openMenu } from '../../core/menu/menu-mode.js'
 import { createFramebuffer } from '../framebuffer.js'
 import { drawMenuStack } from './draw-menu.js'
@@ -69,14 +70,15 @@ describe('M5.6 v2 drawMenuStack(sdlpal 真值坐标)', () => {
     expect(fb.indices[100 * fb.width + 205]).toBe(45) // 是框左 corner
   })
 
-  it('两层栈(in-game + system) → 都画 + cash 框在 in-game 时画', () => {
+  it('两层栈(in-game + inventory-action) → 子菜单盖住底层内容，主框与cash仍在', () => {
     const fb = createFramebuffer()
     const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
     openMenu(gs, { kind: 'in-game', state: createInGameMenu() })
-    openMenu(gs, { kind: 'system', state: createSystemMenu() })
+    openMenu(gs, { kind: 'inventory-action', state: createInventoryActionMenu() })
     drawMenuStack(fb, gs, mockUiFrames())
     expect(fb.indices[37 * fb.width + 3]).toBe(1) // in-game box
-    expect(fb.indices[60 * fb.width + 40]).toBe(1) // system box
+    // 子菜单左上角(30,60)与底层内容重叠；逆序绘制会用底层文字/阴影改写此像素。
+    expect(fb.indices[60 * fb.width + 30]).toBe(1)
     expect(fb.indices[0]).toBe(45) // cash box left corner
   })
 

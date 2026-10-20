@@ -14,7 +14,7 @@ import {
   SENTINEL,
   yellowDigit,
 } from './images.js'
-import { cloneInputs, freezeNow, makeGs, makeItem, resetHostSingletons } from './world.js'
+import { cloneInputs, freezeNow, makeItem, makeLiveScene, resetHostSingletons } from './world.js'
 
 const glyphs = fixtureGlyphs()
 
@@ -24,10 +24,17 @@ afterEach(() => {
 
 describe('P04 商店', () => {
   it('P04 买列表、确认层、现有量和金钱用不同哨兵', () => {
-    const gs = makeGs()
-    const bead = makeItem(31, '甲', { bitmap: 2, price: 123, flags: { sellable: true } })
+    const { gs } = makeLiveScene([4])
+    const bead = makeItem(31, '甲', {
+      bitmap: 2,
+      price: 123,
+      flags: {
+        sellable: true,
+        equipable: true,
+        equipableBy: [false, false, false, false, true, false],
+      },
+    })
     const herb = makeItem(32, '乙', { bitmap: 8, price: 45, flags: { sellable: true } })
-    gs.partyMembers = [4]
     gs.dwCash = 500
     gs.inventory = [{ itemId: bead.id, count: 2 }]
     gs.PlayerRolesRuntime.rgwEquipment[1]![4] = bead.id
@@ -74,7 +81,7 @@ describe('P04 商店', () => {
   })
 
   it('P04 卖overlay画售价的一半，不执行买卖', () => {
-    const gs = makeGs()
+    const { gs } = makeLiveScene()
     const bead = makeItem(31, '甲', { price: 81, flags: { sellable: true } })
     const items = [bead]
     gs.dwCash = 500

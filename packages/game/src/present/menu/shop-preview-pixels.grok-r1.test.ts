@@ -23,8 +23,8 @@ import {
 import {
   cloneInputs,
   freezeNow,
-  makeGs,
   makeItem,
+  makeLiveScene,
   resetHostSingletons,
 } from '../__tests__/grok-present/world.js'
 import { createFramebuffer } from '../framebuffer.js'
@@ -47,8 +47,8 @@ function withoutFrame(index: number): IndexedImage[] {
 }
 
 describe('G07-B 商店预览像素', () => {
-  it('G07-B01 列表价读 rightText 15，不读目录价 99', () => {
-    const gs = makeGs()
+  it('G07-B01 目录与快照不一致的防御输入：列表价读 rightText 15，不读目录价 99', () => {
+    const { gs } = makeLiveScene()
     const bead = makeItem(31, '甲', { price: 99, bitmap: 2, flags: { sellable: true } })
     const items = [bead]
     const menu = createBuyMenu(items)
@@ -73,7 +73,7 @@ describe('G07-B 商店预览像素', () => {
   })
 
   it('G07-B02 预览物品框阴影把底色 0x5A 的低四位右移一位，正色在 (40,8)', () => {
-    const gs = makeGs()
+    const { gs } = makeLiveScene()
     const bead = makeItem(32, '甲', { bitmap: 2, price: 10, flags: { sellable: true } })
     const items = [bead]
     const menu = createBuyMenu(items)
@@ -92,7 +92,7 @@ describe('G07-B 商店预览像素', () => {
   })
 
   it('G07-B03 缺少物品框帧时预览位保持底色，列表名仍画出', () => {
-    const gs = makeGs()
+    const { gs } = makeLiveScene()
     const bead = makeItem(33, '甲', { bitmap: 2, price: 10, flags: { sellable: true } })
     const items = [bead]
     const menu = createBuyMenu(items)
@@ -111,7 +111,7 @@ describe('G07-B 商店预览像素', () => {
   })
 
   it('G07-B04 图标表没有该 bitmap 时图标位保持底色，物品框照画', () => {
-    const gs = makeGs()
+    const { gs } = makeLiveScene()
     const bead = makeItem(34, '甲', { bitmap: 4, price: 10, flags: { sellable: true } })
     const items = [bead]
     const menu = createBuyMenu(items)
@@ -138,7 +138,7 @@ describe('G07-B 商店预览像素', () => {
   })
 
   it('G07-B05 列表阶段不画确认框，选中名仍在', () => {
-    const gs = makeGs()
+    const { gs } = makeLiveScene()
     const bead = makeItem(35, '甲', { price: 10, flags: { sellable: true } })
     const items = [bead]
     const menu = createBuyMenu(items)
@@ -158,7 +158,7 @@ describe('G07-B 商店预览像素', () => {
   })
 
   it('G07-B06 确认阶段 confirmYes 为真时闪烁色在「是」，「否」是未选中色', () => {
-    const gs = makeGs()
+    const { gs } = makeLiveScene()
     const bead = makeItem(36, '甲', { price: 10, flags: { sellable: true } })
     const items = [bead]
     const menu = createBuyMenu(items)
@@ -181,7 +181,7 @@ describe('G07-B 商店预览像素', () => {
   })
 
   it('G07-B07 不传图标表时图标位保持底色，物品框照画', () => {
-    const gs = makeGs()
+    const { gs } = makeLiveScene()
     const bead = makeItem(37, '甲', { bitmap: 2, price: 10, flags: { sellable: true } })
     const items = [bead]
     const menu = createBuyMenu(items)
@@ -199,7 +199,7 @@ describe('G07-B 商店预览像素', () => {
   })
 
   it('G07-B08 现有数只加选中物品，另一件的库存 9 不加进去', () => {
-    const gs = makeGs()
+    const { gs } = makeLiveScene()
     const bead = makeItem(38, '甲', { price: 10, flags: { sellable: true } })
     const other = makeItem(39, '乙', { price: 10, flags: { sellable: true } })
     const items = [bead, other]
@@ -225,7 +225,7 @@ describe('G07-B 商店预览像素', () => {
   })
 
   it('G07-B09 金钱为 0 时仍画出一位黄 0，十位保持底色', () => {
-    const gs = makeGs()
+    const { gs } = makeLiveScene()
     const bead = makeItem(40, '甲', { price: 10, flags: { sellable: true } })
     const items = [bead]
     gs.dwCash = 0
@@ -244,7 +244,7 @@ describe('G07-B 商店预览像素', () => {
   })
 
   it('G07-B10 列表项不在目录时名字照画，现有数是黄 0，图标不画', () => {
-    const gs = makeGs()
+    const { gs } = makeLiveScene()
     const bead = makeItem(41, '甲', { bitmap: 2, price: 10, flags: { sellable: true } })
     const menu = createBuyMenu([bead])
     const frames = makeUiFrames()
@@ -272,7 +272,7 @@ describe('G07-B 商店预览像素', () => {
   })
 
   it('G07-B11 售价 1 向下取整成黄 0，十位保持底色', () => {
-    const gs = makeGs()
+    const { gs } = makeLiveScene()
     const bead = makeItem(42, '甲', { price: 1, flags: { sellable: true } })
     gs.dwCash = 8
     const frames = makeUiFrames()
@@ -291,7 +291,7 @@ describe('G07-B 商店预览像素', () => {
   })
 
   it('G07-B12 无库存时两位队员的手部装备仍把现有数画成黄2', () => {
-    const gs = makeGs()
+    const { gs } = makeLiveScene()
     const bead = makeItem(43, '甲', {
       price: 10,
       flags: {
@@ -320,7 +320,7 @@ describe('G07-B 商店预览像素', () => {
   })
 
   it('G07-B13 预览物品框索引 0x6E 经 flushToCanvas 写成调色板 RGB，缓冲仍是 0x6E', async () => {
-    const gs = makeGs()
+    const { gs } = makeLiveScene()
     const bead = makeItem(44, '甲', { bitmap: 2, price: 10, flags: { sellable: true } })
     const items = [bead]
     const menu = createBuyMenu(items)

@@ -17,8 +17,8 @@ import {
   rightDigitX,
 } from '../../__tests__/glm-phase1-leaves/present-fixtures.js'
 import type { GameState } from '../../core/game-state.js'
-import { createInitialGameState } from '../../core/game-state.js'
 import { createBuyMenu } from '../../core/menu/shop-menu.js'
+import { makeLiveScene } from '../__tests__/grok-present/world.js'
 import { drawSellOverlay, drawShopMenu } from './draw-shop.js'
 
 const glyphs = fixtureGlyphs
@@ -33,9 +33,8 @@ const SWORD = mkItem(400, '甲', {
 })
 
 function gsForShop(): GameState {
-  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+  const { gs } = makeLiveScene([4, 1])
   gs.dwCash = 7
-  gs.partyMembers = [4, 1]
   gs.inventory = [{ itemId: 400, count: 2 }]
   gs.PlayerRolesRuntime.rgwEquipment[3]![4] = SWORD.id // 队员4手部
   gs.PlayerRolesRuntime.rgwEquipment[3]![1] = SWORD.id // 队员1手部

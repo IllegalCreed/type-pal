@@ -8,6 +8,26 @@
 export const approvedTestRetirements = Object.freeze(
   [
     // User2026-10-20 complete pre94 + standing test-quality/dedup authority.
+    // CODE51 weak cursor subset -> precise L12 colors; CODE54 test-only wrapper
+    // -> public drawTilemap subrow/A01/A04 pixel contracts. Exact maps/native:
+    // docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/renderer-local.json
+    {
+      file: 'packages/game/src/present/menu/draw-opening-menu.test.ts',
+      previous: 7,
+      current: 6,
+      previousIdentityDigest: '0f01489a0ffa307688e36c0515eac199b8f77231e20db2230f76d7aab18f0bbd',
+      currentIdentityDigest: 'dce325b87355bf895244e0efe2d15c34e2b3553355011d69adcf3edee8f21c9b',
+      fileSha256: 'e95f8638f167900a8600086c126d1a770d04624793459cc37bbd69795e27dd36',
+    },
+    {
+      file: 'packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts',
+      previous: 11,
+      current: 10,
+      previousIdentityDigest: 'd98e3f0efa261f0ccd1787a599448288e91719dd49ca8bfb9c69e960c0b5b17f',
+      currentIdentityDigest: 'f773a1c54f4691aa1f4d21cef18b0d2e7b41f0607b49ac7d965c77d0112dbcbd',
+      fileSha256: '77d84c6b6a974bcb50631dcd3d59e18e3153d901016d5e0ea868fdac9bc82487',
+    },
+    // User2026-10-20 complete pre94 + standing test-quality/dedup authority.
     // CODE62/64/67: H07 and leaf duplicate assertions move to canonical detectors.
     // Exact transfer/oracle map: pre94 present-speedrun-local.json; no predicate changes.
     {
