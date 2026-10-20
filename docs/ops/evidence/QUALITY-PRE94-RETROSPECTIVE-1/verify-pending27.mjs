@@ -32,6 +32,16 @@ try {
     assert.equal(data.length, member.bytes, `member bytes:${member.name}`)
     assert.equal(digest(data), member.sha256, `member SHA:${member.name}`)
   }
+  const execution = (id) => {
+    const run = JSON.parse(members[`${id}.execution.json`])
+    assert.equal(run.id, id, `execution identity:${id}`)
+    for (const stream of ['stdout', 'stderr']) {
+      const data = Buffer.from(members[`${id}.${stream}.raw`])
+      assert.equal(data.length, run[stream].bytes, `execution bytes:${id}.${stream}`)
+      assert.equal(digest(data), run[stream].sha256, `execution SHA:${id}.${stream}`)
+    }
+    return run
+  }
   const counters = new Set([
     'audioDm29',
     'audioEnabled',
@@ -54,7 +64,7 @@ try {
     'rngOldCounter',
     'rngRecovery',
   ]) {
-    const run = JSON.parse(members[`${id}.execution.json`])
+    const run = execution(id)
     const native = JSON.parse(members[`${id}.native.json`])
     const results = native.testResults.flatMap((file) => file.assertionResults)
     const failed = results.filter((test) => test.status === 'failed')
@@ -87,7 +97,7 @@ try {
     for (const [role, [command, args]] of Object.entries(required)) {
       const id = record.finalGates?.[role]
       assert.equal(typeof id, 'string', `missing final gate:${role}`)
-      const run = JSON.parse(members[`${id}.execution.json`])
+      const run = execution(id)
       assert.equal(run.command, command, `final command:${role}`)
       assert.deepEqual(run.args, args, `final arguments:${role}`)
       if (role === 'protected') {
@@ -98,6 +108,12 @@ try {
       assert.equal(run.signal, null, `final gate signal:${id}`)
       assert.equal(run.spawnError, null, `final gate spawn:${id}`)
       assert.equal(members[`${id}.stderr.raw`], '', `final gate stderr:${id}`)
+      const scan = JSON.parse(members[`${id}.scan.json`])
+      assert.equal(scan.id, id, `final diagnostic identity:${id}`)
+      assert(
+        Object.values(scan.diagnostics).every((count) => count === 0),
+        `final gate diagnostics:${id}`,
+      )
     }
   }
   phase = 'identity'

@@ -3,7 +3,7 @@
   "date": "2026-10-20",
   "task": "QUALITY-PRE94-RETROSPECTIVE-1",
   "owner": "Codex evidence-first acceptance and direct rework",
-  "decision": "accepted-scoped-candidate;major-gates-pending",
+  "decision": "accepted-scoped-candidate;central-gates-passed",
   "base": "dec0626e1c3035bd2d4e6cbf440f79baa19a6354",
   "priorReview": "47ce7781bba61ac9357a7e511ac61ee046353420",
   "authorCandidate": "9fec7ac4f26d3c71f7b671537e3bb1fcdd8e4a31",
@@ -161,7 +161,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/shell/main-loop.ts",
@@ -236,7 +237,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/shell/audio.ts",
@@ -311,7 +313,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/shell/rng-player.ts",
@@ -386,7 +389,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/shell/avi-player.ts",
@@ -461,7 +465,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/shell/input.test.ts",
@@ -536,7 +541,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/shell/input.boundaries.test.ts",
@@ -611,7 +617,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
@@ -686,7 +693,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/shell/main-loop.test.ts",
@@ -761,7 +769,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
@@ -836,7 +845,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/shell/audio.test.ts",
@@ -911,7 +921,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
@@ -986,7 +997,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/shell/rng-player.test.ts",
@@ -1061,7 +1073,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
@@ -1136,7 +1149,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/shell/avi-player.test.ts",
@@ -1211,7 +1225,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/shell/avi-player.glm-next-wave.test.ts",
@@ -1286,7 +1301,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/menu-mode.ts",
@@ -1361,7 +1377,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/menu-stack.ts",
@@ -1436,7 +1453,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/menu-mode.test.ts",
@@ -1511,7 +1529,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/in-game-menu.ts",
@@ -1586,7 +1605,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/in-game-menu.test.ts",
@@ -1661,7 +1681,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
@@ -1736,7 +1757,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
@@ -1811,7 +1833,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/inventory-menu.ts",
@@ -1886,7 +1909,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/inventory-menu.test.ts",
@@ -1961,7 +1985,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
@@ -2036,7 +2061,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
@@ -2111,7 +2137,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/inventory-action-menu.ts",
@@ -2186,7 +2213,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/inventory-action-menu.test.ts",
@@ -2261,7 +2289,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
@@ -2336,7 +2365,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/sell-menu.ts",
@@ -2411,7 +2441,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/sell-menu.test.ts",
@@ -2486,7 +2517,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
@@ -2561,7 +2593,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
@@ -2636,7 +2669,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/item-select.ts",
@@ -2711,7 +2745,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/shop-menu.ts",
@@ -2786,7 +2821,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/shop-menu.test.ts",
@@ -2861,7 +2897,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
@@ -2936,7 +2973,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
@@ -3011,7 +3049,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/equip-menu.ts",
@@ -3086,7 +3125,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/equip-menu.test.ts",
@@ -3161,7 +3201,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
@@ -3236,7 +3277,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
@@ -3311,7 +3353,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/magic-select.ts",
@@ -3386,7 +3429,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
@@ -3461,7 +3505,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
@@ -3536,7 +3581,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
@@ -3611,7 +3657,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
@@ -3686,7 +3733,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
@@ -3761,7 +3809,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
@@ -3836,7 +3885,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/present/draw-sprite.ts",
@@ -3911,7 +3961,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/present/draw-sprite.test.ts",
@@ -3986,7 +4037,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/present/font.ts",
@@ -4061,7 +4113,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/present/font.test.ts",
@@ -4136,7 +4189,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
@@ -4211,7 +4265,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/present/follower-render.ts",
@@ -4286,7 +4341,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/present/follower-render.test.ts",
@@ -4361,7 +4417,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/present/draw-tilemap.ts",
@@ -4436,7 +4493,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/present/draw-tilemap.test.ts",
@@ -4511,7 +4569,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
@@ -4586,7 +4645,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/tools/save-io.ts",
@@ -4661,7 +4721,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/tools/save-io.test.ts",
@@ -4736,7 +4797,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
@@ -4811,7 +4873,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/tools/quick-save.ts",
@@ -4886,7 +4949,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "已验证"
     },
     {
       "path": "packages/game/src/tools/quick-save.test.ts",
@@ -4961,7 +5025,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "已验证"
     },
     {
       "path": "packages/game/src/analytics/install-analytics.ts",
@@ -5036,7 +5101,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/analytics/install-analytics.test.ts",
@@ -5111,7 +5177,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/analytics/analytics-consent-ui.ts",
@@ -5186,7 +5253,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     },
     {
       "path": "packages/game/src/analytics/analytics-consent-ui.test.ts",
@@ -5261,7 +5329,8 @@
         }
       },
       "retrospectiveStatus": "review",
-      "newlyClosed": false
+      "newlyClosed": false,
+      "ledgerStatusAtReceipt": "review"
     }
   ],
   "nativeAuthor": {
@@ -5307,7 +5376,15 @@
       "review": 218,
       "pending": 2886
     },
-    "newClosed": 0
+    "newClosed": 0,
+    "scopeLedger": {
+      "review": 67,
+      "retainedHistoricalClosed": [
+        "packages/game/src/tools/quick-save.ts",
+        "packages/game/src/tools/quick-save.test.ts"
+      ],
+      "limits": "The two CODE102 historical closures are preserved without new credit;this phase neither expands102 nor re-certifies those old claims."
+    }
   },
   "checks": [
     {
@@ -6881,6 +6958,622 @@
       }
     },
     {
+      "id": "check",
+      "command": "pnpm",
+      "args": ["check"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "start": "2026-10-20T05:02:26.860Z",
+      "end": "2026-10-20T05:17:53.503Z",
+      "revision": "eb1037538cbd7a56faffefe5e04361b6e8d0c292",
+      "targetMain": "dec0626e1c3035bd2d4e6cbf440f79baa19a6354",
+      "workingTreeAtStart": "",
+      "toolVersions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "bindings": [
+        {
+          "path": "packages/game/src/shell/input.ts",
+          "sha256": "0c12a5eab6cda48ab044f64a1747c3f618c3d25de06c1164fa1c9a27cffdce52"
+        },
+        {
+          "path": "packages/game/src/shell/main-loop.ts",
+          "sha256": "0ebe896af21c903697f011cfebe65b7140daa547d84de2759c8726dd1a66c6a8"
+        },
+        {
+          "path": "packages/game/src/shell/audio.ts",
+          "sha256": "c3532ceba544d6d68319b39af4b0ffc99f552d693d1c274b02d4d8a334d316ba"
+        },
+        {
+          "path": "packages/game/src/shell/rng-player.ts",
+          "sha256": "bd617b4af6be77f67f7fd8d28b231837852ca061520305d7010216991737d390"
+        },
+        {
+          "path": "packages/game/src/shell/avi-player.ts",
+          "sha256": "6e5d15b9a5d5aad927b766e67d38c0ee045d4fb44662aa4726f945dbbf2e027c"
+        },
+        {
+          "path": "packages/game/src/shell/input.test.ts",
+          "sha256": "b7f66d7995fc17c9c8fc8aa8bb1c8b944eeb277e4f75e7cc79a9ce96bf07bdef"
+        },
+        {
+          "path": "packages/game/src/shell/input.boundaries.test.ts",
+          "sha256": "44fba405429a739324bfb096959d04e081244b4631fb16b86067085093624e2f"
+        },
+        {
+          "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+          "sha256": "73e9a60b24aeeaff85822c0b6608ed0137b4dab7a91345c5c27595bbd50c2c00"
+        },
+        {
+          "path": "packages/game/src/shell/main-loop.test.ts",
+          "sha256": "54854a6fdc1591a2ee20c8dc8a84bfd704922feac8edc0478bb5af679c4d8524"
+        },
+        {
+          "path": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+          "sha256": "667bd9bc6fa79e1ef3b192c1124cc17da874f727b47c0576c0fac6d8f4ba4e65"
+        },
+        {
+          "path": "packages/game/src/shell/audio.test.ts",
+          "sha256": "c536e97cc6cd46b3a6ab21d4dc8ad8a1f02957c8cc43c18172330784a568ef3e"
+        },
+        {
+          "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+          "sha256": "3b9e2c718515cf8f522df2ae13c72458b458e4b3a8edfe5f5f0a56bbe923f4f3"
+        },
+        {
+          "path": "packages/game/src/shell/rng-player.test.ts",
+          "sha256": "9de20bd177a4da6e7b221ff0a3b0fa6012c51669c0061fbb80a23ef70c056042"
+        },
+        {
+          "path": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+          "sha256": "145a3c12bebea0cb2f4199c046387b791717d34feca8fcddf879ce6e0d0ae3ae"
+        },
+        {
+          "path": "packages/game/src/shell/avi-player.test.ts",
+          "sha256": "b11d9337d9829c862cbb475b1a9e73ca04cfda1dce3f3cdcb1749d49cbc23f69"
+        },
+        {
+          "path": "packages/game/src/shell/avi-player.glm-next-wave.test.ts",
+          "sha256": "d51a55110d175b45b54284685091e1103b273f32d055a79b4f3b1ad6d3588041"
+        },
+        {
+          "path": "packages/game/src/core/menu/menu-mode.ts",
+          "sha256": "1c5338f6cecc3c25747e91281d6242944a0aefa964259e4ad7e6cffb1adc3d82"
+        },
+        {
+          "path": "packages/game/src/core/menu/menu-stack.ts",
+          "sha256": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2"
+        },
+        {
+          "path": "packages/game/src/core/menu/menu-mode.test.ts",
+          "sha256": "d4dc1a4c1348bb038e4f6927f0910388e45aee10823934cea0a27e99a24e4b05"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.ts",
+          "sha256": "4d1615c4e1e50a9a725e0d5337adada2ec0746ca5e4ce1597d75e8267dc2c94c"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.test.ts",
+          "sha256": "cb1f0690d798b860bbedcf2ada1bb372c74dfbbd616dad1eb30dcd39e8950645"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+          "sha256": "a36718264caa4225c7a6e2b15e362fb0103614231af97ce97102d6ce3ffb47a3"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+          "sha256": "7a8dd000680c268a92be4de9f0b5837636b2931c0a2f38e866eaa56991fb3261"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.ts",
+          "sha256": "3a7e3a01dd41af9bc884f2a88e4b2497862b72785834b73a91a8b27c9fad618d"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.test.ts",
+          "sha256": "55bd19ae8f4be2cf77c982ec600dfb91298fdaab614292967a2a134905f5391e"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+          "sha256": "8b5090115089be7fea06da73b794bf27a090654e07690bc0719d00d4c2725967"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
+          "sha256": "e6e6fea658e4d97e6bf801750cf8833e8894a79b7fae6c239dae3813b16b5072"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-action-menu.ts",
+          "sha256": "c439e1cdca4d9e01f82956378a1ecc85ebd59f7917b5f518f619e53f80d5ddc2"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+          "sha256": "9a4e5a9005b994a76559aaf61f4c8f4263bdb6af25177a0280bc5b9d7996b8a4"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+          "sha256": "537b1c67dfa7fa3a636ff77224a18eaaa987cd12bc938064adfa680cea90cc86"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.ts",
+          "sha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.test.ts",
+          "sha256": "84512d7f14cd2a7ba1f889423230ff688fe3b0ab7659cd1a712da0e13f0cc8f5"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+          "sha256": "0f6920da06521cb5526e3e7f767947778ca3072ee22da73ad21f2bfe1a719eff"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+          "sha256": "8d12759e5045d6cef2abcd52897ea9b1510c3ea0d89990e612f4a968e2509a5f"
+        },
+        {
+          "path": "packages/game/src/core/menu/item-select.ts",
+          "sha256": "3b71f4a343d2f7fdec75f2651dcb464d3a3f85b2d5388e50335999b9f488cfc7"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.ts",
+          "sha256": "5b2adaaf06fc5a053e04ff09e44842e6aa95d2fdd9f3c324df4e991f8623e9d4"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.test.ts",
+          "sha256": "4be93984aad8f3be60b02fdbf9cbeba000a15b9baeb947e36141b1ee257218c2"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+          "sha256": "a67bd178c508aa75bf6ac807f3be2909abc64fedcc0b3f6ca7a613a9c2d79a90"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+          "sha256": "fd3ccf333d7ecb95e11b2e890121d35e0ea57eb4ce58a801964d98b5baa934c2"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.ts",
+          "sha256": "c6e061d30a0aa7e4220ad90a37dc582245a84836cc4c249afd872aa8095fda69"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.test.ts",
+          "sha256": "c2db666ad91197827ccd6de78e2ca2a6a02a392d5e64afd8648b13e49121888a"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+          "sha256": "2b5ed1f9fd88f46702bce6ce7b724c1ce80da9483f52212501346d3969103d84"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+          "sha256": "5e3524a285f8ddf34e7fbe4f197b97cacdeee58ad716a62e1aaa7f2b0dc9ebf9"
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-select.ts",
+          "sha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47"
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+          "sha256": "3335510ccf6e818681bfe5d6a49e4318a3637e6dbe362c993ce6c72a61d68f26"
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+          "sha256": "b68716a8763c91a19433a30503b34ad828f26af4e7d5df4dd5f079d11fe59ccd"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+          "sha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+          "sha256": "e8345b4bc17166791060983c3f73c9e0882b055ee6cb02a2da599c9e91814f99"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+          "sha256": "698aef7c01dde3c0d8a276ae97cf314ad13960359485b4a86d2b867170c941f0"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+          "sha256": "1bc0e6cf67c0905d0608884e756c61baa97bde5d1e51d7f1eeae8639922984d9"
+        },
+        {
+          "path": "packages/game/src/present/draw-sprite.ts",
+          "sha256": "d17f04ccaf8a771b6832cd7e833c093140d52f9e990ff97023c748e17e4cf7dc"
+        },
+        {
+          "path": "packages/game/src/present/draw-sprite.test.ts",
+          "sha256": "785f68010b06ef3714c76b6ec675aa77dc13eb34047ced3dc954786eecff832c"
+        },
+        {
+          "path": "packages/game/src/present/font.ts",
+          "sha256": "3df0f1a1b23d221f55050f1a172725f32f5019016b99da1e3f98d68fab46b539"
+        },
+        {
+          "path": "packages/game/src/present/font.test.ts",
+          "sha256": "614592161a00c8260f7a7a4b756e0360a76bca49ada54403f96c013985eb4d0f"
+        },
+        {
+          "path": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+          "sha256": "171c4254704b1715be87e8a524aa1a8445eeea1edacc6e10979700d4a72bf093"
+        },
+        {
+          "path": "packages/game/src/present/follower-render.ts",
+          "sha256": "6f750c045df964d1782919c728e751fb46cc2d5faa4a796cc52ea17d58c4b1c2"
+        },
+        {
+          "path": "packages/game/src/present/follower-render.test.ts",
+          "sha256": "f8528c719a3993205d859e07c0c7eacf6d2d52e25b77fcc0b586a063523dc350"
+        },
+        {
+          "path": "packages/game/src/present/draw-tilemap.ts",
+          "sha256": "6a5b77a7963ded096b9d8b1792dc6823472c65fba8376dbd7ddf25b25abe0166"
+        },
+        {
+          "path": "packages/game/src/present/draw-tilemap.test.ts",
+          "sha256": "14b4490b17fc8d0e13ebd0be6b6634d643255d55867789c0da6d8e9e6c5c4a51"
+        },
+        {
+          "path": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+          "sha256": "56e61414a737314b7af68b8b96614ac8756ec4aab7bfda36fb6f9644f757f882"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.ts",
+          "sha256": "306968e63cd42b0b2b084f1ccf14e179eac096196c05defcd0db85df0048ffb3"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.test.ts",
+          "sha256": "4da75460381dbef74f19b6fc2bf378f5b5b2a1ed18ebc75c6a9077d2d28198d1"
+        },
+        {
+          "path": "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
+          "sha256": "db4fa973307d0f6de37116b82af9a66577b3a17de0832e6fd3542414492d9394"
+        },
+        {
+          "path": "packages/game/src/tools/quick-save.ts",
+          "sha256": "d14479a0a789cfacc41fc12807182679d8fc8b150384a8a2616648f2299590d0"
+        },
+        {
+          "path": "packages/game/src/tools/quick-save.test.ts",
+          "sha256": "c30b44ef27d59af52acd9feb3216b30e8b1fe1ce4a020f51e567e1a49d674c47"
+        },
+        {
+          "path": "packages/game/src/analytics/install-analytics.ts",
+          "sha256": "586d8f71de49b625ef324e35fe9a92cc64e37da9cd892d3d7dcb1cdf6c19cad8"
+        },
+        {
+          "path": "packages/game/src/analytics/install-analytics.test.ts",
+          "sha256": "fffcb0ba4b11e7f8a308f733465e272f1581b4d95532e6bcce0830711b519cce"
+        },
+        {
+          "path": "packages/game/src/analytics/analytics-consent-ui.ts",
+          "sha256": "e8bce6086369e2b4bcbbd8bf4c21efc1b8030690c841b2769aa39d018261bc52"
+        },
+        {
+          "path": "packages/game/src/analytics/analytics-consent-ui.test.ts",
+          "sha256": "6acdd46767977253d6a6d33d3439fa0dd8a85f8193ab4b0675520471cb5bde83"
+        }
+      ],
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/private/tmp/type-pal-pre94-c1c3-20261020-LwPzlq/check.stdout.raw",
+        "sha256": "b426006fc1ed1dcafc4fc8bd13ccffc19844085df7011fad79af33977ab7c257",
+        "bytes": 184275
+      },
+      "stderr": {
+        "path": "/private/tmp/type-pal-pre94-c1c3-20261020-LwPzlq/check.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "id": "diff",
+      "command": "git",
+      "args": ["diff", "--check", "HEAD"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "start": "2026-10-20T05:39:24.558Z",
+      "end": "2026-10-20T05:39:24.756Z",
+      "revision": "eb1037538cbd7a56faffefe5e04361b6e8d0c292",
+      "targetMain": "dec0626e1c3035bd2d4e6cbf440f79baa19a6354",
+      "workingTreeAtStart": "M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/pending27-acceptance-native.json.gz\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/verify-pending27.mjs\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/phase-governance/reviews/20261004-semantic-current-batch.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\n M scripts/coverage/baseline.fast.json",
+      "toolVersions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "bindings": [
+        {
+          "path": "packages/game/src/shell/input.ts",
+          "sha256": "0c12a5eab6cda48ab044f64a1747c3f618c3d25de06c1164fa1c9a27cffdce52"
+        },
+        {
+          "path": "packages/game/src/shell/main-loop.ts",
+          "sha256": "0ebe896af21c903697f011cfebe65b7140daa547d84de2759c8726dd1a66c6a8"
+        },
+        {
+          "path": "packages/game/src/shell/audio.ts",
+          "sha256": "c3532ceba544d6d68319b39af4b0ffc99f552d693d1c274b02d4d8a334d316ba"
+        },
+        {
+          "path": "packages/game/src/shell/rng-player.ts",
+          "sha256": "bd617b4af6be77f67f7fd8d28b231837852ca061520305d7010216991737d390"
+        },
+        {
+          "path": "packages/game/src/shell/avi-player.ts",
+          "sha256": "6e5d15b9a5d5aad927b766e67d38c0ee045d4fb44662aa4726f945dbbf2e027c"
+        },
+        {
+          "path": "packages/game/src/shell/input.test.ts",
+          "sha256": "b7f66d7995fc17c9c8fc8aa8bb1c8b944eeb277e4f75e7cc79a9ce96bf07bdef"
+        },
+        {
+          "path": "packages/game/src/shell/input.boundaries.test.ts",
+          "sha256": "44fba405429a739324bfb096959d04e081244b4631fb16b86067085093624e2f"
+        },
+        {
+          "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+          "sha256": "73e9a60b24aeeaff85822c0b6608ed0137b4dab7a91345c5c27595bbd50c2c00"
+        },
+        {
+          "path": "packages/game/src/shell/main-loop.test.ts",
+          "sha256": "54854a6fdc1591a2ee20c8dc8a84bfd704922feac8edc0478bb5af679c4d8524"
+        },
+        {
+          "path": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+          "sha256": "667bd9bc6fa79e1ef3b192c1124cc17da874f727b47c0576c0fac6d8f4ba4e65"
+        },
+        {
+          "path": "packages/game/src/shell/audio.test.ts",
+          "sha256": "c536e97cc6cd46b3a6ab21d4dc8ad8a1f02957c8cc43c18172330784a568ef3e"
+        },
+        {
+          "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+          "sha256": "3b9e2c718515cf8f522df2ae13c72458b458e4b3a8edfe5f5f0a56bbe923f4f3"
+        },
+        {
+          "path": "packages/game/src/shell/rng-player.test.ts",
+          "sha256": "9de20bd177a4da6e7b221ff0a3b0fa6012c51669c0061fbb80a23ef70c056042"
+        },
+        {
+          "path": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+          "sha256": "145a3c12bebea0cb2f4199c046387b791717d34feca8fcddf879ce6e0d0ae3ae"
+        },
+        {
+          "path": "packages/game/src/shell/avi-player.test.ts",
+          "sha256": "b11d9337d9829c862cbb475b1a9e73ca04cfda1dce3f3cdcb1749d49cbc23f69"
+        },
+        {
+          "path": "packages/game/src/shell/avi-player.glm-next-wave.test.ts",
+          "sha256": "d51a55110d175b45b54284685091e1103b273f32d055a79b4f3b1ad6d3588041"
+        },
+        {
+          "path": "packages/game/src/core/menu/menu-mode.ts",
+          "sha256": "1c5338f6cecc3c25747e91281d6242944a0aefa964259e4ad7e6cffb1adc3d82"
+        },
+        {
+          "path": "packages/game/src/core/menu/menu-stack.ts",
+          "sha256": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2"
+        },
+        {
+          "path": "packages/game/src/core/menu/menu-mode.test.ts",
+          "sha256": "d4dc1a4c1348bb038e4f6927f0910388e45aee10823934cea0a27e99a24e4b05"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.ts",
+          "sha256": "4d1615c4e1e50a9a725e0d5337adada2ec0746ca5e4ce1597d75e8267dc2c94c"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.test.ts",
+          "sha256": "cb1f0690d798b860bbedcf2ada1bb372c74dfbbd616dad1eb30dcd39e8950645"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+          "sha256": "a36718264caa4225c7a6e2b15e362fb0103614231af97ce97102d6ce3ffb47a3"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+          "sha256": "7a8dd000680c268a92be4de9f0b5837636b2931c0a2f38e866eaa56991fb3261"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.ts",
+          "sha256": "3a7e3a01dd41af9bc884f2a88e4b2497862b72785834b73a91a8b27c9fad618d"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.test.ts",
+          "sha256": "55bd19ae8f4be2cf77c982ec600dfb91298fdaab614292967a2a134905f5391e"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+          "sha256": "8b5090115089be7fea06da73b794bf27a090654e07690bc0719d00d4c2725967"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
+          "sha256": "e6e6fea658e4d97e6bf801750cf8833e8894a79b7fae6c239dae3813b16b5072"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-action-menu.ts",
+          "sha256": "c439e1cdca4d9e01f82956378a1ecc85ebd59f7917b5f518f619e53f80d5ddc2"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+          "sha256": "9a4e5a9005b994a76559aaf61f4c8f4263bdb6af25177a0280bc5b9d7996b8a4"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+          "sha256": "537b1c67dfa7fa3a636ff77224a18eaaa987cd12bc938064adfa680cea90cc86"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.ts",
+          "sha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.test.ts",
+          "sha256": "84512d7f14cd2a7ba1f889423230ff688fe3b0ab7659cd1a712da0e13f0cc8f5"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+          "sha256": "0f6920da06521cb5526e3e7f767947778ca3072ee22da73ad21f2bfe1a719eff"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+          "sha256": "8d12759e5045d6cef2abcd52897ea9b1510c3ea0d89990e612f4a968e2509a5f"
+        },
+        {
+          "path": "packages/game/src/core/menu/item-select.ts",
+          "sha256": "3b71f4a343d2f7fdec75f2651dcb464d3a3f85b2d5388e50335999b9f488cfc7"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.ts",
+          "sha256": "5b2adaaf06fc5a053e04ff09e44842e6aa95d2fdd9f3c324df4e991f8623e9d4"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.test.ts",
+          "sha256": "4be93984aad8f3be60b02fdbf9cbeba000a15b9baeb947e36141b1ee257218c2"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+          "sha256": "a67bd178c508aa75bf6ac807f3be2909abc64fedcc0b3f6ca7a613a9c2d79a90"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+          "sha256": "fd3ccf333d7ecb95e11b2e890121d35e0ea57eb4ce58a801964d98b5baa934c2"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.ts",
+          "sha256": "c6e061d30a0aa7e4220ad90a37dc582245a84836cc4c249afd872aa8095fda69"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.test.ts",
+          "sha256": "c2db666ad91197827ccd6de78e2ca2a6a02a392d5e64afd8648b13e49121888a"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+          "sha256": "2b5ed1f9fd88f46702bce6ce7b724c1ce80da9483f52212501346d3969103d84"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+          "sha256": "5e3524a285f8ddf34e7fbe4f197b97cacdeee58ad716a62e1aaa7f2b0dc9ebf9"
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-select.ts",
+          "sha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47"
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+          "sha256": "3335510ccf6e818681bfe5d6a49e4318a3637e6dbe362c993ce6c72a61d68f26"
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+          "sha256": "b68716a8763c91a19433a30503b34ad828f26af4e7d5df4dd5f079d11fe59ccd"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+          "sha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+          "sha256": "e8345b4bc17166791060983c3f73c9e0882b055ee6cb02a2da599c9e91814f99"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+          "sha256": "698aef7c01dde3c0d8a276ae97cf314ad13960359485b4a86d2b867170c941f0"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+          "sha256": "1bc0e6cf67c0905d0608884e756c61baa97bde5d1e51d7f1eeae8639922984d9"
+        },
+        {
+          "path": "packages/game/src/present/draw-sprite.ts",
+          "sha256": "d17f04ccaf8a771b6832cd7e833c093140d52f9e990ff97023c748e17e4cf7dc"
+        },
+        {
+          "path": "packages/game/src/present/draw-sprite.test.ts",
+          "sha256": "785f68010b06ef3714c76b6ec675aa77dc13eb34047ced3dc954786eecff832c"
+        },
+        {
+          "path": "packages/game/src/present/font.ts",
+          "sha256": "3df0f1a1b23d221f55050f1a172725f32f5019016b99da1e3f98d68fab46b539"
+        },
+        {
+          "path": "packages/game/src/present/font.test.ts",
+          "sha256": "614592161a00c8260f7a7a4b756e0360a76bca49ada54403f96c013985eb4d0f"
+        },
+        {
+          "path": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+          "sha256": "171c4254704b1715be87e8a524aa1a8445eeea1edacc6e10979700d4a72bf093"
+        },
+        {
+          "path": "packages/game/src/present/follower-render.ts",
+          "sha256": "6f750c045df964d1782919c728e751fb46cc2d5faa4a796cc52ea17d58c4b1c2"
+        },
+        {
+          "path": "packages/game/src/present/follower-render.test.ts",
+          "sha256": "f8528c719a3993205d859e07c0c7eacf6d2d52e25b77fcc0b586a063523dc350"
+        },
+        {
+          "path": "packages/game/src/present/draw-tilemap.ts",
+          "sha256": "6a5b77a7963ded096b9d8b1792dc6823472c65fba8376dbd7ddf25b25abe0166"
+        },
+        {
+          "path": "packages/game/src/present/draw-tilemap.test.ts",
+          "sha256": "14b4490b17fc8d0e13ebd0be6b6634d643255d55867789c0da6d8e9e6c5c4a51"
+        },
+        {
+          "path": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+          "sha256": "56e61414a737314b7af68b8b96614ac8756ec4aab7bfda36fb6f9644f757f882"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.ts",
+          "sha256": "306968e63cd42b0b2b084f1ccf14e179eac096196c05defcd0db85df0048ffb3"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.test.ts",
+          "sha256": "4da75460381dbef74f19b6fc2bf378f5b5b2a1ed18ebc75c6a9077d2d28198d1"
+        },
+        {
+          "path": "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
+          "sha256": "db4fa973307d0f6de37116b82af9a66577b3a17de0832e6fd3542414492d9394"
+        },
+        {
+          "path": "packages/game/src/tools/quick-save.ts",
+          "sha256": "d14479a0a789cfacc41fc12807182679d8fc8b150384a8a2616648f2299590d0"
+        },
+        {
+          "path": "packages/game/src/tools/quick-save.test.ts",
+          "sha256": "c30b44ef27d59af52acd9feb3216b30e8b1fe1ce4a020f51e567e1a49d674c47"
+        },
+        {
+          "path": "packages/game/src/analytics/install-analytics.ts",
+          "sha256": "586d8f71de49b625ef324e35fe9a92cc64e37da9cd892d3d7dcb1cdf6c19cad8"
+        },
+        {
+          "path": "packages/game/src/analytics/install-analytics.test.ts",
+          "sha256": "fffcb0ba4b11e7f8a308f733465e272f1581b4d95532e6bcce0830711b519cce"
+        },
+        {
+          "path": "packages/game/src/analytics/analytics-consent-ui.ts",
+          "sha256": "e8bce6086369e2b4bcbbd8bf4c21efc1b8030690c841b2769aa39d018261bc52"
+        },
+        {
+          "path": "packages/game/src/analytics/analytics-consent-ui.test.ts",
+          "sha256": "6acdd46767977253d6a6d33d3439fa0dd8a85f8193ab4b0675520471cb5bde83"
+        }
+      ],
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/private/tmp/type-pal-pre94-c1c3-20261020-LwPzlq/diff.stdout.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderr": {
+        "path": "/private/tmp/type-pal-pre94-c1c3-20261020-LwPzlq/diff.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
       "id": "directed",
       "command": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
       "args": [
@@ -7197,6 +7890,314 @@
       }
     },
     {
+      "id": "docs",
+      "command": "pnpm",
+      "args": ["check:docs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "start": "2026-10-20T05:39:24.558Z",
+      "end": "2026-10-20T05:40:13.739Z",
+      "revision": "eb1037538cbd7a56faffefe5e04361b6e8d0c292",
+      "targetMain": "dec0626e1c3035bd2d4e6cbf440f79baa19a6354",
+      "workingTreeAtStart": "M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/pending27-acceptance-native.json.gz\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/verify-pending27.mjs\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/phase-governance/reviews/20261004-semantic-current-batch.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\n M scripts/coverage/baseline.fast.json",
+      "toolVersions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "bindings": [
+        {
+          "path": "packages/game/src/shell/input.ts",
+          "sha256": "0c12a5eab6cda48ab044f64a1747c3f618c3d25de06c1164fa1c9a27cffdce52"
+        },
+        {
+          "path": "packages/game/src/shell/main-loop.ts",
+          "sha256": "0ebe896af21c903697f011cfebe65b7140daa547d84de2759c8726dd1a66c6a8"
+        },
+        {
+          "path": "packages/game/src/shell/audio.ts",
+          "sha256": "c3532ceba544d6d68319b39af4b0ffc99f552d693d1c274b02d4d8a334d316ba"
+        },
+        {
+          "path": "packages/game/src/shell/rng-player.ts",
+          "sha256": "bd617b4af6be77f67f7fd8d28b231837852ca061520305d7010216991737d390"
+        },
+        {
+          "path": "packages/game/src/shell/avi-player.ts",
+          "sha256": "6e5d15b9a5d5aad927b766e67d38c0ee045d4fb44662aa4726f945dbbf2e027c"
+        },
+        {
+          "path": "packages/game/src/shell/input.test.ts",
+          "sha256": "b7f66d7995fc17c9c8fc8aa8bb1c8b944eeb277e4f75e7cc79a9ce96bf07bdef"
+        },
+        {
+          "path": "packages/game/src/shell/input.boundaries.test.ts",
+          "sha256": "44fba405429a739324bfb096959d04e081244b4631fb16b86067085093624e2f"
+        },
+        {
+          "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+          "sha256": "73e9a60b24aeeaff85822c0b6608ed0137b4dab7a91345c5c27595bbd50c2c00"
+        },
+        {
+          "path": "packages/game/src/shell/main-loop.test.ts",
+          "sha256": "54854a6fdc1591a2ee20c8dc8a84bfd704922feac8edc0478bb5af679c4d8524"
+        },
+        {
+          "path": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+          "sha256": "667bd9bc6fa79e1ef3b192c1124cc17da874f727b47c0576c0fac6d8f4ba4e65"
+        },
+        {
+          "path": "packages/game/src/shell/audio.test.ts",
+          "sha256": "c536e97cc6cd46b3a6ab21d4dc8ad8a1f02957c8cc43c18172330784a568ef3e"
+        },
+        {
+          "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+          "sha256": "3b9e2c718515cf8f522df2ae13c72458b458e4b3a8edfe5f5f0a56bbe923f4f3"
+        },
+        {
+          "path": "packages/game/src/shell/rng-player.test.ts",
+          "sha256": "9de20bd177a4da6e7b221ff0a3b0fa6012c51669c0061fbb80a23ef70c056042"
+        },
+        {
+          "path": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+          "sha256": "145a3c12bebea0cb2f4199c046387b791717d34feca8fcddf879ce6e0d0ae3ae"
+        },
+        {
+          "path": "packages/game/src/shell/avi-player.test.ts",
+          "sha256": "b11d9337d9829c862cbb475b1a9e73ca04cfda1dce3f3cdcb1749d49cbc23f69"
+        },
+        {
+          "path": "packages/game/src/shell/avi-player.glm-next-wave.test.ts",
+          "sha256": "d51a55110d175b45b54284685091e1103b273f32d055a79b4f3b1ad6d3588041"
+        },
+        {
+          "path": "packages/game/src/core/menu/menu-mode.ts",
+          "sha256": "1c5338f6cecc3c25747e91281d6242944a0aefa964259e4ad7e6cffb1adc3d82"
+        },
+        {
+          "path": "packages/game/src/core/menu/menu-stack.ts",
+          "sha256": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2"
+        },
+        {
+          "path": "packages/game/src/core/menu/menu-mode.test.ts",
+          "sha256": "d4dc1a4c1348bb038e4f6927f0910388e45aee10823934cea0a27e99a24e4b05"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.ts",
+          "sha256": "4d1615c4e1e50a9a725e0d5337adada2ec0746ca5e4ce1597d75e8267dc2c94c"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.test.ts",
+          "sha256": "cb1f0690d798b860bbedcf2ada1bb372c74dfbbd616dad1eb30dcd39e8950645"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+          "sha256": "a36718264caa4225c7a6e2b15e362fb0103614231af97ce97102d6ce3ffb47a3"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+          "sha256": "7a8dd000680c268a92be4de9f0b5837636b2931c0a2f38e866eaa56991fb3261"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.ts",
+          "sha256": "3a7e3a01dd41af9bc884f2a88e4b2497862b72785834b73a91a8b27c9fad618d"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.test.ts",
+          "sha256": "55bd19ae8f4be2cf77c982ec600dfb91298fdaab614292967a2a134905f5391e"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+          "sha256": "8b5090115089be7fea06da73b794bf27a090654e07690bc0719d00d4c2725967"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
+          "sha256": "e6e6fea658e4d97e6bf801750cf8833e8894a79b7fae6c239dae3813b16b5072"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-action-menu.ts",
+          "sha256": "c439e1cdca4d9e01f82956378a1ecc85ebd59f7917b5f518f619e53f80d5ddc2"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+          "sha256": "9a4e5a9005b994a76559aaf61f4c8f4263bdb6af25177a0280bc5b9d7996b8a4"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+          "sha256": "537b1c67dfa7fa3a636ff77224a18eaaa987cd12bc938064adfa680cea90cc86"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.ts",
+          "sha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.test.ts",
+          "sha256": "84512d7f14cd2a7ba1f889423230ff688fe3b0ab7659cd1a712da0e13f0cc8f5"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+          "sha256": "0f6920da06521cb5526e3e7f767947778ca3072ee22da73ad21f2bfe1a719eff"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+          "sha256": "8d12759e5045d6cef2abcd52897ea9b1510c3ea0d89990e612f4a968e2509a5f"
+        },
+        {
+          "path": "packages/game/src/core/menu/item-select.ts",
+          "sha256": "3b71f4a343d2f7fdec75f2651dcb464d3a3f85b2d5388e50335999b9f488cfc7"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.ts",
+          "sha256": "5b2adaaf06fc5a053e04ff09e44842e6aa95d2fdd9f3c324df4e991f8623e9d4"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.test.ts",
+          "sha256": "4be93984aad8f3be60b02fdbf9cbeba000a15b9baeb947e36141b1ee257218c2"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+          "sha256": "a67bd178c508aa75bf6ac807f3be2909abc64fedcc0b3f6ca7a613a9c2d79a90"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+          "sha256": "fd3ccf333d7ecb95e11b2e890121d35e0ea57eb4ce58a801964d98b5baa934c2"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.ts",
+          "sha256": "c6e061d30a0aa7e4220ad90a37dc582245a84836cc4c249afd872aa8095fda69"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.test.ts",
+          "sha256": "c2db666ad91197827ccd6de78e2ca2a6a02a392d5e64afd8648b13e49121888a"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+          "sha256": "2b5ed1f9fd88f46702bce6ce7b724c1ce80da9483f52212501346d3969103d84"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+          "sha256": "5e3524a285f8ddf34e7fbe4f197b97cacdeee58ad716a62e1aaa7f2b0dc9ebf9"
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-select.ts",
+          "sha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47"
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+          "sha256": "3335510ccf6e818681bfe5d6a49e4318a3637e6dbe362c993ce6c72a61d68f26"
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+          "sha256": "b68716a8763c91a19433a30503b34ad828f26af4e7d5df4dd5f079d11fe59ccd"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+          "sha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+          "sha256": "e8345b4bc17166791060983c3f73c9e0882b055ee6cb02a2da599c9e91814f99"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+          "sha256": "698aef7c01dde3c0d8a276ae97cf314ad13960359485b4a86d2b867170c941f0"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+          "sha256": "1bc0e6cf67c0905d0608884e756c61baa97bde5d1e51d7f1eeae8639922984d9"
+        },
+        {
+          "path": "packages/game/src/present/draw-sprite.ts",
+          "sha256": "d17f04ccaf8a771b6832cd7e833c093140d52f9e990ff97023c748e17e4cf7dc"
+        },
+        {
+          "path": "packages/game/src/present/draw-sprite.test.ts",
+          "sha256": "785f68010b06ef3714c76b6ec675aa77dc13eb34047ced3dc954786eecff832c"
+        },
+        {
+          "path": "packages/game/src/present/font.ts",
+          "sha256": "3df0f1a1b23d221f55050f1a172725f32f5019016b99da1e3f98d68fab46b539"
+        },
+        {
+          "path": "packages/game/src/present/font.test.ts",
+          "sha256": "614592161a00c8260f7a7a4b756e0360a76bca49ada54403f96c013985eb4d0f"
+        },
+        {
+          "path": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+          "sha256": "171c4254704b1715be87e8a524aa1a8445eeea1edacc6e10979700d4a72bf093"
+        },
+        {
+          "path": "packages/game/src/present/follower-render.ts",
+          "sha256": "6f750c045df964d1782919c728e751fb46cc2d5faa4a796cc52ea17d58c4b1c2"
+        },
+        {
+          "path": "packages/game/src/present/follower-render.test.ts",
+          "sha256": "f8528c719a3993205d859e07c0c7eacf6d2d52e25b77fcc0b586a063523dc350"
+        },
+        {
+          "path": "packages/game/src/present/draw-tilemap.ts",
+          "sha256": "6a5b77a7963ded096b9d8b1792dc6823472c65fba8376dbd7ddf25b25abe0166"
+        },
+        {
+          "path": "packages/game/src/present/draw-tilemap.test.ts",
+          "sha256": "14b4490b17fc8d0e13ebd0be6b6634d643255d55867789c0da6d8e9e6c5c4a51"
+        },
+        {
+          "path": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+          "sha256": "56e61414a737314b7af68b8b96614ac8756ec4aab7bfda36fb6f9644f757f882"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.ts",
+          "sha256": "306968e63cd42b0b2b084f1ccf14e179eac096196c05defcd0db85df0048ffb3"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.test.ts",
+          "sha256": "4da75460381dbef74f19b6fc2bf378f5b5b2a1ed18ebc75c6a9077d2d28198d1"
+        },
+        {
+          "path": "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
+          "sha256": "db4fa973307d0f6de37116b82af9a66577b3a17de0832e6fd3542414492d9394"
+        },
+        {
+          "path": "packages/game/src/tools/quick-save.ts",
+          "sha256": "d14479a0a789cfacc41fc12807182679d8fc8b150384a8a2616648f2299590d0"
+        },
+        {
+          "path": "packages/game/src/tools/quick-save.test.ts",
+          "sha256": "c30b44ef27d59af52acd9feb3216b30e8b1fe1ce4a020f51e567e1a49d674c47"
+        },
+        {
+          "path": "packages/game/src/analytics/install-analytics.ts",
+          "sha256": "586d8f71de49b625ef324e35fe9a92cc64e37da9cd892d3d7dcb1cdf6c19cad8"
+        },
+        {
+          "path": "packages/game/src/analytics/install-analytics.test.ts",
+          "sha256": "fffcb0ba4b11e7f8a308f733465e272f1581b4d95532e6bcce0830711b519cce"
+        },
+        {
+          "path": "packages/game/src/analytics/analytics-consent-ui.ts",
+          "sha256": "e8bce6086369e2b4bcbbd8bf4c21efc1b8030690c841b2769aa39d018261bc52"
+        },
+        {
+          "path": "packages/game/src/analytics/analytics-consent-ui.test.ts",
+          "sha256": "6acdd46767977253d6a6d33d3439fa0dd8a85f8193ab4b0675520471cb5bde83"
+        }
+      ],
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/private/tmp/type-pal-pre94-c1c3-20261020-LwPzlq/docs.stdout.raw",
+        "sha256": "46c66e221f06d97ad50a3606ead1128f7b36f7c7d01544b94775bab60bcba986",
+        "bytes": 30510
+      },
+      "stderr": {
+        "path": "/private/tmp/type-pal-pre94-c1c3-20261020-LwPzlq/docs.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
       "id": "fixtureSeams",
       "command": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal/node_modules/.bin/vitest",
       "args": [
@@ -7507,6 +8508,622 @@
       },
       "stderr": {
         "path": "/private/tmp/type-pal-pre94-c1c3-20261020-LwPzlq/fixtureSeams.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "id": "ledger",
+      "command": "node",
+      "args": ["scripts/quality/code-quality-ledger.mjs"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "start": "2026-10-20T05:39:24.558Z",
+      "end": "2026-10-20T05:39:26.889Z",
+      "revision": "eb1037538cbd7a56faffefe5e04361b6e8d0c292",
+      "targetMain": "dec0626e1c3035bd2d4e6cbf440f79baa19a6354",
+      "workingTreeAtStart": "M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/pending27-acceptance-native.json.gz\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/verify-pending27.mjs\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/phase-governance/reviews/20261004-semantic-current-batch.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\n M scripts/coverage/baseline.fast.json",
+      "toolVersions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "bindings": [
+        {
+          "path": "packages/game/src/shell/input.ts",
+          "sha256": "0c12a5eab6cda48ab044f64a1747c3f618c3d25de06c1164fa1c9a27cffdce52"
+        },
+        {
+          "path": "packages/game/src/shell/main-loop.ts",
+          "sha256": "0ebe896af21c903697f011cfebe65b7140daa547d84de2759c8726dd1a66c6a8"
+        },
+        {
+          "path": "packages/game/src/shell/audio.ts",
+          "sha256": "c3532ceba544d6d68319b39af4b0ffc99f552d693d1c274b02d4d8a334d316ba"
+        },
+        {
+          "path": "packages/game/src/shell/rng-player.ts",
+          "sha256": "bd617b4af6be77f67f7fd8d28b231837852ca061520305d7010216991737d390"
+        },
+        {
+          "path": "packages/game/src/shell/avi-player.ts",
+          "sha256": "6e5d15b9a5d5aad927b766e67d38c0ee045d4fb44662aa4726f945dbbf2e027c"
+        },
+        {
+          "path": "packages/game/src/shell/input.test.ts",
+          "sha256": "b7f66d7995fc17c9c8fc8aa8bb1c8b944eeb277e4f75e7cc79a9ce96bf07bdef"
+        },
+        {
+          "path": "packages/game/src/shell/input.boundaries.test.ts",
+          "sha256": "44fba405429a739324bfb096959d04e081244b4631fb16b86067085093624e2f"
+        },
+        {
+          "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+          "sha256": "73e9a60b24aeeaff85822c0b6608ed0137b4dab7a91345c5c27595bbd50c2c00"
+        },
+        {
+          "path": "packages/game/src/shell/main-loop.test.ts",
+          "sha256": "54854a6fdc1591a2ee20c8dc8a84bfd704922feac8edc0478bb5af679c4d8524"
+        },
+        {
+          "path": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+          "sha256": "667bd9bc6fa79e1ef3b192c1124cc17da874f727b47c0576c0fac6d8f4ba4e65"
+        },
+        {
+          "path": "packages/game/src/shell/audio.test.ts",
+          "sha256": "c536e97cc6cd46b3a6ab21d4dc8ad8a1f02957c8cc43c18172330784a568ef3e"
+        },
+        {
+          "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+          "sha256": "3b9e2c718515cf8f522df2ae13c72458b458e4b3a8edfe5f5f0a56bbe923f4f3"
+        },
+        {
+          "path": "packages/game/src/shell/rng-player.test.ts",
+          "sha256": "9de20bd177a4da6e7b221ff0a3b0fa6012c51669c0061fbb80a23ef70c056042"
+        },
+        {
+          "path": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+          "sha256": "145a3c12bebea0cb2f4199c046387b791717d34feca8fcddf879ce6e0d0ae3ae"
+        },
+        {
+          "path": "packages/game/src/shell/avi-player.test.ts",
+          "sha256": "b11d9337d9829c862cbb475b1a9e73ca04cfda1dce3f3cdcb1749d49cbc23f69"
+        },
+        {
+          "path": "packages/game/src/shell/avi-player.glm-next-wave.test.ts",
+          "sha256": "d51a55110d175b45b54284685091e1103b273f32d055a79b4f3b1ad6d3588041"
+        },
+        {
+          "path": "packages/game/src/core/menu/menu-mode.ts",
+          "sha256": "1c5338f6cecc3c25747e91281d6242944a0aefa964259e4ad7e6cffb1adc3d82"
+        },
+        {
+          "path": "packages/game/src/core/menu/menu-stack.ts",
+          "sha256": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2"
+        },
+        {
+          "path": "packages/game/src/core/menu/menu-mode.test.ts",
+          "sha256": "d4dc1a4c1348bb038e4f6927f0910388e45aee10823934cea0a27e99a24e4b05"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.ts",
+          "sha256": "4d1615c4e1e50a9a725e0d5337adada2ec0746ca5e4ce1597d75e8267dc2c94c"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.test.ts",
+          "sha256": "cb1f0690d798b860bbedcf2ada1bb372c74dfbbd616dad1eb30dcd39e8950645"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+          "sha256": "a36718264caa4225c7a6e2b15e362fb0103614231af97ce97102d6ce3ffb47a3"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+          "sha256": "7a8dd000680c268a92be4de9f0b5837636b2931c0a2f38e866eaa56991fb3261"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.ts",
+          "sha256": "3a7e3a01dd41af9bc884f2a88e4b2497862b72785834b73a91a8b27c9fad618d"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.test.ts",
+          "sha256": "55bd19ae8f4be2cf77c982ec600dfb91298fdaab614292967a2a134905f5391e"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+          "sha256": "8b5090115089be7fea06da73b794bf27a090654e07690bc0719d00d4c2725967"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
+          "sha256": "e6e6fea658e4d97e6bf801750cf8833e8894a79b7fae6c239dae3813b16b5072"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-action-menu.ts",
+          "sha256": "c439e1cdca4d9e01f82956378a1ecc85ebd59f7917b5f518f619e53f80d5ddc2"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+          "sha256": "9a4e5a9005b994a76559aaf61f4c8f4263bdb6af25177a0280bc5b9d7996b8a4"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+          "sha256": "537b1c67dfa7fa3a636ff77224a18eaaa987cd12bc938064adfa680cea90cc86"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.ts",
+          "sha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.test.ts",
+          "sha256": "84512d7f14cd2a7ba1f889423230ff688fe3b0ab7659cd1a712da0e13f0cc8f5"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+          "sha256": "0f6920da06521cb5526e3e7f767947778ca3072ee22da73ad21f2bfe1a719eff"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+          "sha256": "8d12759e5045d6cef2abcd52897ea9b1510c3ea0d89990e612f4a968e2509a5f"
+        },
+        {
+          "path": "packages/game/src/core/menu/item-select.ts",
+          "sha256": "3b71f4a343d2f7fdec75f2651dcb464d3a3f85b2d5388e50335999b9f488cfc7"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.ts",
+          "sha256": "5b2adaaf06fc5a053e04ff09e44842e6aa95d2fdd9f3c324df4e991f8623e9d4"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.test.ts",
+          "sha256": "4be93984aad8f3be60b02fdbf9cbeba000a15b9baeb947e36141b1ee257218c2"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+          "sha256": "a67bd178c508aa75bf6ac807f3be2909abc64fedcc0b3f6ca7a613a9c2d79a90"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+          "sha256": "fd3ccf333d7ecb95e11b2e890121d35e0ea57eb4ce58a801964d98b5baa934c2"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.ts",
+          "sha256": "c6e061d30a0aa7e4220ad90a37dc582245a84836cc4c249afd872aa8095fda69"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.test.ts",
+          "sha256": "c2db666ad91197827ccd6de78e2ca2a6a02a392d5e64afd8648b13e49121888a"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+          "sha256": "2b5ed1f9fd88f46702bce6ce7b724c1ce80da9483f52212501346d3969103d84"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+          "sha256": "5e3524a285f8ddf34e7fbe4f197b97cacdeee58ad716a62e1aaa7f2b0dc9ebf9"
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-select.ts",
+          "sha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47"
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+          "sha256": "3335510ccf6e818681bfe5d6a49e4318a3637e6dbe362c993ce6c72a61d68f26"
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+          "sha256": "b68716a8763c91a19433a30503b34ad828f26af4e7d5df4dd5f079d11fe59ccd"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+          "sha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+          "sha256": "e8345b4bc17166791060983c3f73c9e0882b055ee6cb02a2da599c9e91814f99"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+          "sha256": "698aef7c01dde3c0d8a276ae97cf314ad13960359485b4a86d2b867170c941f0"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+          "sha256": "1bc0e6cf67c0905d0608884e756c61baa97bde5d1e51d7f1eeae8639922984d9"
+        },
+        {
+          "path": "packages/game/src/present/draw-sprite.ts",
+          "sha256": "d17f04ccaf8a771b6832cd7e833c093140d52f9e990ff97023c748e17e4cf7dc"
+        },
+        {
+          "path": "packages/game/src/present/draw-sprite.test.ts",
+          "sha256": "785f68010b06ef3714c76b6ec675aa77dc13eb34047ced3dc954786eecff832c"
+        },
+        {
+          "path": "packages/game/src/present/font.ts",
+          "sha256": "3df0f1a1b23d221f55050f1a172725f32f5019016b99da1e3f98d68fab46b539"
+        },
+        {
+          "path": "packages/game/src/present/font.test.ts",
+          "sha256": "614592161a00c8260f7a7a4b756e0360a76bca49ada54403f96c013985eb4d0f"
+        },
+        {
+          "path": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+          "sha256": "171c4254704b1715be87e8a524aa1a8445eeea1edacc6e10979700d4a72bf093"
+        },
+        {
+          "path": "packages/game/src/present/follower-render.ts",
+          "sha256": "6f750c045df964d1782919c728e751fb46cc2d5faa4a796cc52ea17d58c4b1c2"
+        },
+        {
+          "path": "packages/game/src/present/follower-render.test.ts",
+          "sha256": "f8528c719a3993205d859e07c0c7eacf6d2d52e25b77fcc0b586a063523dc350"
+        },
+        {
+          "path": "packages/game/src/present/draw-tilemap.ts",
+          "sha256": "6a5b77a7963ded096b9d8b1792dc6823472c65fba8376dbd7ddf25b25abe0166"
+        },
+        {
+          "path": "packages/game/src/present/draw-tilemap.test.ts",
+          "sha256": "14b4490b17fc8d0e13ebd0be6b6634d643255d55867789c0da6d8e9e6c5c4a51"
+        },
+        {
+          "path": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+          "sha256": "56e61414a737314b7af68b8b96614ac8756ec4aab7bfda36fb6f9644f757f882"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.ts",
+          "sha256": "306968e63cd42b0b2b084f1ccf14e179eac096196c05defcd0db85df0048ffb3"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.test.ts",
+          "sha256": "4da75460381dbef74f19b6fc2bf378f5b5b2a1ed18ebc75c6a9077d2d28198d1"
+        },
+        {
+          "path": "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
+          "sha256": "db4fa973307d0f6de37116b82af9a66577b3a17de0832e6fd3542414492d9394"
+        },
+        {
+          "path": "packages/game/src/tools/quick-save.ts",
+          "sha256": "d14479a0a789cfacc41fc12807182679d8fc8b150384a8a2616648f2299590d0"
+        },
+        {
+          "path": "packages/game/src/tools/quick-save.test.ts",
+          "sha256": "c30b44ef27d59af52acd9feb3216b30e8b1fe1ce4a020f51e567e1a49d674c47"
+        },
+        {
+          "path": "packages/game/src/analytics/install-analytics.ts",
+          "sha256": "586d8f71de49b625ef324e35fe9a92cc64e37da9cd892d3d7dcb1cdf6c19cad8"
+        },
+        {
+          "path": "packages/game/src/analytics/install-analytics.test.ts",
+          "sha256": "fffcb0ba4b11e7f8a308f733465e272f1581b4d95532e6bcce0830711b519cce"
+        },
+        {
+          "path": "packages/game/src/analytics/analytics-consent-ui.ts",
+          "sha256": "e8bce6086369e2b4bcbbd8bf4c21efc1b8030690c841b2769aa39d018261bc52"
+        },
+        {
+          "path": "packages/game/src/analytics/analytics-consent-ui.test.ts",
+          "sha256": "6acdd46767977253d6a6d33d3439fa0dd8a85f8193ab4b0675520471cb5bde83"
+        }
+      ],
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/private/tmp/type-pal-pre94-c1c3-20261020-LwPzlq/ledger.stdout.raw",
+        "sha256": "417fd3b86e4cdc4769bbadd6bb17cda18a1e6c1ee305ddcc6141e975c4179522",
+        "bytes": 113
+      },
+      "stderr": {
+        "path": "/private/tmp/type-pal-pre94-c1c3-20261020-LwPzlq/ledger.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "id": "lint",
+      "command": "pnpm",
+      "args": ["lint"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "start": "2026-10-20T05:39:24.558Z",
+      "end": "2026-10-20T05:39:28.390Z",
+      "revision": "eb1037538cbd7a56faffefe5e04361b6e8d0c292",
+      "targetMain": "dec0626e1c3035bd2d4e6cbf440f79baa19a6354",
+      "workingTreeAtStart": "M docs/ops/board.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.json\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/pending27-acceptance-native.json.gz\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/verify-pending27.mjs\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M docs/phase-governance/reviews/20261004-semantic-current-batch.json\n M docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json\n M docs/phase-governance/reviews/20261017-r94-final-machine-artifacts.json\n M scripts/coverage/baseline.fast.json",
+      "toolVersions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "bindings": [
+        {
+          "path": "packages/game/src/shell/input.ts",
+          "sha256": "0c12a5eab6cda48ab044f64a1747c3f618c3d25de06c1164fa1c9a27cffdce52"
+        },
+        {
+          "path": "packages/game/src/shell/main-loop.ts",
+          "sha256": "0ebe896af21c903697f011cfebe65b7140daa547d84de2759c8726dd1a66c6a8"
+        },
+        {
+          "path": "packages/game/src/shell/audio.ts",
+          "sha256": "c3532ceba544d6d68319b39af4b0ffc99f552d693d1c274b02d4d8a334d316ba"
+        },
+        {
+          "path": "packages/game/src/shell/rng-player.ts",
+          "sha256": "bd617b4af6be77f67f7fd8d28b231837852ca061520305d7010216991737d390"
+        },
+        {
+          "path": "packages/game/src/shell/avi-player.ts",
+          "sha256": "6e5d15b9a5d5aad927b766e67d38c0ee045d4fb44662aa4726f945dbbf2e027c"
+        },
+        {
+          "path": "packages/game/src/shell/input.test.ts",
+          "sha256": "b7f66d7995fc17c9c8fc8aa8bb1c8b944eeb277e4f75e7cc79a9ce96bf07bdef"
+        },
+        {
+          "path": "packages/game/src/shell/input.boundaries.test.ts",
+          "sha256": "44fba405429a739324bfb096959d04e081244b4631fb16b86067085093624e2f"
+        },
+        {
+          "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+          "sha256": "73e9a60b24aeeaff85822c0b6608ed0137b4dab7a91345c5c27595bbd50c2c00"
+        },
+        {
+          "path": "packages/game/src/shell/main-loop.test.ts",
+          "sha256": "54854a6fdc1591a2ee20c8dc8a84bfd704922feac8edc0478bb5af679c4d8524"
+        },
+        {
+          "path": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+          "sha256": "667bd9bc6fa79e1ef3b192c1124cc17da874f727b47c0576c0fac6d8f4ba4e65"
+        },
+        {
+          "path": "packages/game/src/shell/audio.test.ts",
+          "sha256": "c536e97cc6cd46b3a6ab21d4dc8ad8a1f02957c8cc43c18172330784a568ef3e"
+        },
+        {
+          "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+          "sha256": "3b9e2c718515cf8f522df2ae13c72458b458e4b3a8edfe5f5f0a56bbe923f4f3"
+        },
+        {
+          "path": "packages/game/src/shell/rng-player.test.ts",
+          "sha256": "9de20bd177a4da6e7b221ff0a3b0fa6012c51669c0061fbb80a23ef70c056042"
+        },
+        {
+          "path": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+          "sha256": "145a3c12bebea0cb2f4199c046387b791717d34feca8fcddf879ce6e0d0ae3ae"
+        },
+        {
+          "path": "packages/game/src/shell/avi-player.test.ts",
+          "sha256": "b11d9337d9829c862cbb475b1a9e73ca04cfda1dce3f3cdcb1749d49cbc23f69"
+        },
+        {
+          "path": "packages/game/src/shell/avi-player.glm-next-wave.test.ts",
+          "sha256": "d51a55110d175b45b54284685091e1103b273f32d055a79b4f3b1ad6d3588041"
+        },
+        {
+          "path": "packages/game/src/core/menu/menu-mode.ts",
+          "sha256": "1c5338f6cecc3c25747e91281d6242944a0aefa964259e4ad7e6cffb1adc3d82"
+        },
+        {
+          "path": "packages/game/src/core/menu/menu-stack.ts",
+          "sha256": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2"
+        },
+        {
+          "path": "packages/game/src/core/menu/menu-mode.test.ts",
+          "sha256": "d4dc1a4c1348bb038e4f6927f0910388e45aee10823934cea0a27e99a24e4b05"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.ts",
+          "sha256": "4d1615c4e1e50a9a725e0d5337adada2ec0746ca5e4ce1597d75e8267dc2c94c"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.test.ts",
+          "sha256": "cb1f0690d798b860bbedcf2ada1bb372c74dfbbd616dad1eb30dcd39e8950645"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+          "sha256": "a36718264caa4225c7a6e2b15e362fb0103614231af97ce97102d6ce3ffb47a3"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+          "sha256": "7a8dd000680c268a92be4de9f0b5837636b2931c0a2f38e866eaa56991fb3261"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.ts",
+          "sha256": "3a7e3a01dd41af9bc884f2a88e4b2497862b72785834b73a91a8b27c9fad618d"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.test.ts",
+          "sha256": "55bd19ae8f4be2cf77c982ec600dfb91298fdaab614292967a2a134905f5391e"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+          "sha256": "8b5090115089be7fea06da73b794bf27a090654e07690bc0719d00d4c2725967"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
+          "sha256": "e6e6fea658e4d97e6bf801750cf8833e8894a79b7fae6c239dae3813b16b5072"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-action-menu.ts",
+          "sha256": "c439e1cdca4d9e01f82956378a1ecc85ebd59f7917b5f518f619e53f80d5ddc2"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+          "sha256": "9a4e5a9005b994a76559aaf61f4c8f4263bdb6af25177a0280bc5b9d7996b8a4"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+          "sha256": "537b1c67dfa7fa3a636ff77224a18eaaa987cd12bc938064adfa680cea90cc86"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.ts",
+          "sha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.test.ts",
+          "sha256": "84512d7f14cd2a7ba1f889423230ff688fe3b0ab7659cd1a712da0e13f0cc8f5"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+          "sha256": "0f6920da06521cb5526e3e7f767947778ca3072ee22da73ad21f2bfe1a719eff"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+          "sha256": "8d12759e5045d6cef2abcd52897ea9b1510c3ea0d89990e612f4a968e2509a5f"
+        },
+        {
+          "path": "packages/game/src/core/menu/item-select.ts",
+          "sha256": "3b71f4a343d2f7fdec75f2651dcb464d3a3f85b2d5388e50335999b9f488cfc7"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.ts",
+          "sha256": "5b2adaaf06fc5a053e04ff09e44842e6aa95d2fdd9f3c324df4e991f8623e9d4"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.test.ts",
+          "sha256": "4be93984aad8f3be60b02fdbf9cbeba000a15b9baeb947e36141b1ee257218c2"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+          "sha256": "a67bd178c508aa75bf6ac807f3be2909abc64fedcc0b3f6ca7a613a9c2d79a90"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+          "sha256": "fd3ccf333d7ecb95e11b2e890121d35e0ea57eb4ce58a801964d98b5baa934c2"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.ts",
+          "sha256": "c6e061d30a0aa7e4220ad90a37dc582245a84836cc4c249afd872aa8095fda69"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.test.ts",
+          "sha256": "c2db666ad91197827ccd6de78e2ca2a6a02a392d5e64afd8648b13e49121888a"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+          "sha256": "2b5ed1f9fd88f46702bce6ce7b724c1ce80da9483f52212501346d3969103d84"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+          "sha256": "5e3524a285f8ddf34e7fbe4f197b97cacdeee58ad716a62e1aaa7f2b0dc9ebf9"
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-select.ts",
+          "sha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47"
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+          "sha256": "3335510ccf6e818681bfe5d6a49e4318a3637e6dbe362c993ce6c72a61d68f26"
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+          "sha256": "b68716a8763c91a19433a30503b34ad828f26af4e7d5df4dd5f079d11fe59ccd"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+          "sha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+          "sha256": "e8345b4bc17166791060983c3f73c9e0882b055ee6cb02a2da599c9e91814f99"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+          "sha256": "698aef7c01dde3c0d8a276ae97cf314ad13960359485b4a86d2b867170c941f0"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+          "sha256": "1bc0e6cf67c0905d0608884e756c61baa97bde5d1e51d7f1eeae8639922984d9"
+        },
+        {
+          "path": "packages/game/src/present/draw-sprite.ts",
+          "sha256": "d17f04ccaf8a771b6832cd7e833c093140d52f9e990ff97023c748e17e4cf7dc"
+        },
+        {
+          "path": "packages/game/src/present/draw-sprite.test.ts",
+          "sha256": "785f68010b06ef3714c76b6ec675aa77dc13eb34047ced3dc954786eecff832c"
+        },
+        {
+          "path": "packages/game/src/present/font.ts",
+          "sha256": "3df0f1a1b23d221f55050f1a172725f32f5019016b99da1e3f98d68fab46b539"
+        },
+        {
+          "path": "packages/game/src/present/font.test.ts",
+          "sha256": "614592161a00c8260f7a7a4b756e0360a76bca49ada54403f96c013985eb4d0f"
+        },
+        {
+          "path": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+          "sha256": "171c4254704b1715be87e8a524aa1a8445eeea1edacc6e10979700d4a72bf093"
+        },
+        {
+          "path": "packages/game/src/present/follower-render.ts",
+          "sha256": "6f750c045df964d1782919c728e751fb46cc2d5faa4a796cc52ea17d58c4b1c2"
+        },
+        {
+          "path": "packages/game/src/present/follower-render.test.ts",
+          "sha256": "f8528c719a3993205d859e07c0c7eacf6d2d52e25b77fcc0b586a063523dc350"
+        },
+        {
+          "path": "packages/game/src/present/draw-tilemap.ts",
+          "sha256": "6a5b77a7963ded096b9d8b1792dc6823472c65fba8376dbd7ddf25b25abe0166"
+        },
+        {
+          "path": "packages/game/src/present/draw-tilemap.test.ts",
+          "sha256": "14b4490b17fc8d0e13ebd0be6b6634d643255d55867789c0da6d8e9e6c5c4a51"
+        },
+        {
+          "path": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+          "sha256": "56e61414a737314b7af68b8b96614ac8756ec4aab7bfda36fb6f9644f757f882"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.ts",
+          "sha256": "306968e63cd42b0b2b084f1ccf14e179eac096196c05defcd0db85df0048ffb3"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.test.ts",
+          "sha256": "4da75460381dbef74f19b6fc2bf378f5b5b2a1ed18ebc75c6a9077d2d28198d1"
+        },
+        {
+          "path": "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
+          "sha256": "db4fa973307d0f6de37116b82af9a66577b3a17de0832e6fd3542414492d9394"
+        },
+        {
+          "path": "packages/game/src/tools/quick-save.ts",
+          "sha256": "d14479a0a789cfacc41fc12807182679d8fc8b150384a8a2616648f2299590d0"
+        },
+        {
+          "path": "packages/game/src/tools/quick-save.test.ts",
+          "sha256": "c30b44ef27d59af52acd9feb3216b30e8b1fe1ce4a020f51e567e1a49d674c47"
+        },
+        {
+          "path": "packages/game/src/analytics/install-analytics.ts",
+          "sha256": "586d8f71de49b625ef324e35fe9a92cc64e37da9cd892d3d7dcb1cdf6c19cad8"
+        },
+        {
+          "path": "packages/game/src/analytics/install-analytics.test.ts",
+          "sha256": "fffcb0ba4b11e7f8a308f733465e272f1581b4d95532e6bcce0830711b519cce"
+        },
+        {
+          "path": "packages/game/src/analytics/analytics-consent-ui.ts",
+          "sha256": "e8bce6086369e2b4bcbbd8bf4c21efc1b8030690c841b2769aa39d018261bc52"
+        },
+        {
+          "path": "packages/game/src/analytics/analytics-consent-ui.test.ts",
+          "sha256": "6acdd46767977253d6a6d33d3439fa0dd8a85f8193ab4b0675520471cb5bde83"
+        }
+      ],
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/private/tmp/type-pal-pre94-c1c3-20261020-LwPzlq/lint.stdout.raw",
+        "sha256": "b5ddb4fada7ff96947052fb84915023979035a4ce17b0c2d38c3d169c70bb05e",
+        "bytes": 193
+      },
+      "stderr": {
+        "path": "/private/tmp/type-pal-pre94-c1c3-20261020-LwPzlq/lint.stderr.raw",
         "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "bytes": 0
       }
@@ -8438,6 +10055,624 @@
       },
       "stderr": {
         "path": "/private/tmp/type-pal-pre94-c1c3-20261020-LwPzlq/loopFixtures.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "id": "protected",
+      "command": "node",
+      "args": ["scripts/coverage/run.mjs", "fast"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {
+        "TYPE_PAL_COVERAGE_BASE_REF": "origin/main"
+      },
+      "start": "2026-10-20T05:29:15.286Z",
+      "end": "2026-10-20T05:39:00.317Z",
+      "revision": "eb1037538cbd7a56faffefe5e04361b6e8d0c292",
+      "targetMain": "dec0626e1c3035bd2d4e6cbf440f79baa19a6354",
+      "workingTreeAtStart": "M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/verify-pending27.mjs\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md\n M scripts/coverage/baseline.fast.json",
+      "toolVersions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "bindings": [
+        {
+          "path": "packages/game/src/shell/input.ts",
+          "sha256": "0c12a5eab6cda48ab044f64a1747c3f618c3d25de06c1164fa1c9a27cffdce52"
+        },
+        {
+          "path": "packages/game/src/shell/main-loop.ts",
+          "sha256": "0ebe896af21c903697f011cfebe65b7140daa547d84de2759c8726dd1a66c6a8"
+        },
+        {
+          "path": "packages/game/src/shell/audio.ts",
+          "sha256": "c3532ceba544d6d68319b39af4b0ffc99f552d693d1c274b02d4d8a334d316ba"
+        },
+        {
+          "path": "packages/game/src/shell/rng-player.ts",
+          "sha256": "bd617b4af6be77f67f7fd8d28b231837852ca061520305d7010216991737d390"
+        },
+        {
+          "path": "packages/game/src/shell/avi-player.ts",
+          "sha256": "6e5d15b9a5d5aad927b766e67d38c0ee045d4fb44662aa4726f945dbbf2e027c"
+        },
+        {
+          "path": "packages/game/src/shell/input.test.ts",
+          "sha256": "b7f66d7995fc17c9c8fc8aa8bb1c8b944eeb277e4f75e7cc79a9ce96bf07bdef"
+        },
+        {
+          "path": "packages/game/src/shell/input.boundaries.test.ts",
+          "sha256": "44fba405429a739324bfb096959d04e081244b4631fb16b86067085093624e2f"
+        },
+        {
+          "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+          "sha256": "73e9a60b24aeeaff85822c0b6608ed0137b4dab7a91345c5c27595bbd50c2c00"
+        },
+        {
+          "path": "packages/game/src/shell/main-loop.test.ts",
+          "sha256": "54854a6fdc1591a2ee20c8dc8a84bfd704922feac8edc0478bb5af679c4d8524"
+        },
+        {
+          "path": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+          "sha256": "667bd9bc6fa79e1ef3b192c1124cc17da874f727b47c0576c0fac6d8f4ba4e65"
+        },
+        {
+          "path": "packages/game/src/shell/audio.test.ts",
+          "sha256": "c536e97cc6cd46b3a6ab21d4dc8ad8a1f02957c8cc43c18172330784a568ef3e"
+        },
+        {
+          "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+          "sha256": "3b9e2c718515cf8f522df2ae13c72458b458e4b3a8edfe5f5f0a56bbe923f4f3"
+        },
+        {
+          "path": "packages/game/src/shell/rng-player.test.ts",
+          "sha256": "9de20bd177a4da6e7b221ff0a3b0fa6012c51669c0061fbb80a23ef70c056042"
+        },
+        {
+          "path": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+          "sha256": "145a3c12bebea0cb2f4199c046387b791717d34feca8fcddf879ce6e0d0ae3ae"
+        },
+        {
+          "path": "packages/game/src/shell/avi-player.test.ts",
+          "sha256": "b11d9337d9829c862cbb475b1a9e73ca04cfda1dce3f3cdcb1749d49cbc23f69"
+        },
+        {
+          "path": "packages/game/src/shell/avi-player.glm-next-wave.test.ts",
+          "sha256": "d51a55110d175b45b54284685091e1103b273f32d055a79b4f3b1ad6d3588041"
+        },
+        {
+          "path": "packages/game/src/core/menu/menu-mode.ts",
+          "sha256": "1c5338f6cecc3c25747e91281d6242944a0aefa964259e4ad7e6cffb1adc3d82"
+        },
+        {
+          "path": "packages/game/src/core/menu/menu-stack.ts",
+          "sha256": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2"
+        },
+        {
+          "path": "packages/game/src/core/menu/menu-mode.test.ts",
+          "sha256": "d4dc1a4c1348bb038e4f6927f0910388e45aee10823934cea0a27e99a24e4b05"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.ts",
+          "sha256": "4d1615c4e1e50a9a725e0d5337adada2ec0746ca5e4ce1597d75e8267dc2c94c"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.test.ts",
+          "sha256": "cb1f0690d798b860bbedcf2ada1bb372c74dfbbd616dad1eb30dcd39e8950645"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+          "sha256": "a36718264caa4225c7a6e2b15e362fb0103614231af97ce97102d6ce3ffb47a3"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+          "sha256": "7a8dd000680c268a92be4de9f0b5837636b2931c0a2f38e866eaa56991fb3261"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.ts",
+          "sha256": "3a7e3a01dd41af9bc884f2a88e4b2497862b72785834b73a91a8b27c9fad618d"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.test.ts",
+          "sha256": "55bd19ae8f4be2cf77c982ec600dfb91298fdaab614292967a2a134905f5391e"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+          "sha256": "8b5090115089be7fea06da73b794bf27a090654e07690bc0719d00d4c2725967"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
+          "sha256": "e6e6fea658e4d97e6bf801750cf8833e8894a79b7fae6c239dae3813b16b5072"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-action-menu.ts",
+          "sha256": "c439e1cdca4d9e01f82956378a1ecc85ebd59f7917b5f518f619e53f80d5ddc2"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+          "sha256": "9a4e5a9005b994a76559aaf61f4c8f4263bdb6af25177a0280bc5b9d7996b8a4"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+          "sha256": "537b1c67dfa7fa3a636ff77224a18eaaa987cd12bc938064adfa680cea90cc86"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.ts",
+          "sha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.test.ts",
+          "sha256": "84512d7f14cd2a7ba1f889423230ff688fe3b0ab7659cd1a712da0e13f0cc8f5"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+          "sha256": "0f6920da06521cb5526e3e7f767947778ca3072ee22da73ad21f2bfe1a719eff"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+          "sha256": "8d12759e5045d6cef2abcd52897ea9b1510c3ea0d89990e612f4a968e2509a5f"
+        },
+        {
+          "path": "packages/game/src/core/menu/item-select.ts",
+          "sha256": "3b71f4a343d2f7fdec75f2651dcb464d3a3f85b2d5388e50335999b9f488cfc7"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.ts",
+          "sha256": "5b2adaaf06fc5a053e04ff09e44842e6aa95d2fdd9f3c324df4e991f8623e9d4"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.test.ts",
+          "sha256": "4be93984aad8f3be60b02fdbf9cbeba000a15b9baeb947e36141b1ee257218c2"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+          "sha256": "a67bd178c508aa75bf6ac807f3be2909abc64fedcc0b3f6ca7a613a9c2d79a90"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+          "sha256": "fd3ccf333d7ecb95e11b2e890121d35e0ea57eb4ce58a801964d98b5baa934c2"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.ts",
+          "sha256": "c6e061d30a0aa7e4220ad90a37dc582245a84836cc4c249afd872aa8095fda69"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.test.ts",
+          "sha256": "c2db666ad91197827ccd6de78e2ca2a6a02a392d5e64afd8648b13e49121888a"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+          "sha256": "2b5ed1f9fd88f46702bce6ce7b724c1ce80da9483f52212501346d3969103d84"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+          "sha256": "5e3524a285f8ddf34e7fbe4f197b97cacdeee58ad716a62e1aaa7f2b0dc9ebf9"
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-select.ts",
+          "sha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47"
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+          "sha256": "3335510ccf6e818681bfe5d6a49e4318a3637e6dbe362c993ce6c72a61d68f26"
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+          "sha256": "b68716a8763c91a19433a30503b34ad828f26af4e7d5df4dd5f079d11fe59ccd"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+          "sha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+          "sha256": "e8345b4bc17166791060983c3f73c9e0882b055ee6cb02a2da599c9e91814f99"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+          "sha256": "698aef7c01dde3c0d8a276ae97cf314ad13960359485b4a86d2b867170c941f0"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+          "sha256": "1bc0e6cf67c0905d0608884e756c61baa97bde5d1e51d7f1eeae8639922984d9"
+        },
+        {
+          "path": "packages/game/src/present/draw-sprite.ts",
+          "sha256": "d17f04ccaf8a771b6832cd7e833c093140d52f9e990ff97023c748e17e4cf7dc"
+        },
+        {
+          "path": "packages/game/src/present/draw-sprite.test.ts",
+          "sha256": "785f68010b06ef3714c76b6ec675aa77dc13eb34047ced3dc954786eecff832c"
+        },
+        {
+          "path": "packages/game/src/present/font.ts",
+          "sha256": "3df0f1a1b23d221f55050f1a172725f32f5019016b99da1e3f98d68fab46b539"
+        },
+        {
+          "path": "packages/game/src/present/font.test.ts",
+          "sha256": "614592161a00c8260f7a7a4b756e0360a76bca49ada54403f96c013985eb4d0f"
+        },
+        {
+          "path": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+          "sha256": "171c4254704b1715be87e8a524aa1a8445eeea1edacc6e10979700d4a72bf093"
+        },
+        {
+          "path": "packages/game/src/present/follower-render.ts",
+          "sha256": "6f750c045df964d1782919c728e751fb46cc2d5faa4a796cc52ea17d58c4b1c2"
+        },
+        {
+          "path": "packages/game/src/present/follower-render.test.ts",
+          "sha256": "f8528c719a3993205d859e07c0c7eacf6d2d52e25b77fcc0b586a063523dc350"
+        },
+        {
+          "path": "packages/game/src/present/draw-tilemap.ts",
+          "sha256": "6a5b77a7963ded096b9d8b1792dc6823472c65fba8376dbd7ddf25b25abe0166"
+        },
+        {
+          "path": "packages/game/src/present/draw-tilemap.test.ts",
+          "sha256": "14b4490b17fc8d0e13ebd0be6b6634d643255d55867789c0da6d8e9e6c5c4a51"
+        },
+        {
+          "path": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+          "sha256": "56e61414a737314b7af68b8b96614ac8756ec4aab7bfda36fb6f9644f757f882"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.ts",
+          "sha256": "306968e63cd42b0b2b084f1ccf14e179eac096196c05defcd0db85df0048ffb3"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.test.ts",
+          "sha256": "4da75460381dbef74f19b6fc2bf378f5b5b2a1ed18ebc75c6a9077d2d28198d1"
+        },
+        {
+          "path": "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
+          "sha256": "db4fa973307d0f6de37116b82af9a66577b3a17de0832e6fd3542414492d9394"
+        },
+        {
+          "path": "packages/game/src/tools/quick-save.ts",
+          "sha256": "d14479a0a789cfacc41fc12807182679d8fc8b150384a8a2616648f2299590d0"
+        },
+        {
+          "path": "packages/game/src/tools/quick-save.test.ts",
+          "sha256": "c30b44ef27d59af52acd9feb3216b30e8b1fe1ce4a020f51e567e1a49d674c47"
+        },
+        {
+          "path": "packages/game/src/analytics/install-analytics.ts",
+          "sha256": "586d8f71de49b625ef324e35fe9a92cc64e37da9cd892d3d7dcb1cdf6c19cad8"
+        },
+        {
+          "path": "packages/game/src/analytics/install-analytics.test.ts",
+          "sha256": "fffcb0ba4b11e7f8a308f733465e272f1581b4d95532e6bcce0830711b519cce"
+        },
+        {
+          "path": "packages/game/src/analytics/analytics-consent-ui.ts",
+          "sha256": "e8bce6086369e2b4bcbbd8bf4c21efc1b8030690c841b2769aa39d018261bc52"
+        },
+        {
+          "path": "packages/game/src/analytics/analytics-consent-ui.test.ts",
+          "sha256": "6acdd46767977253d6a6d33d3439fa0dd8a85f8193ab4b0675520471cb5bde83"
+        }
+      ],
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/private/tmp/type-pal-pre94-c1c3-20261020-LwPzlq/protected.stdout.raw",
+        "sha256": "ed2a04d23d5d0e28f225afeb924402c9f4043055b3c7b7ab91f8b103cc0e1861",
+        "bytes": 5945
+      },
+      "stderr": {
+        "path": "/private/tmp/type-pal-pre94-c1c3-20261020-LwPzlq/protected.stderr.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    {
+      "id": "ratchet",
+      "command": "pnpm",
+      "args": ["coverage:ratchet"],
+      "cwd": "/Users/zhangxu/.codex/worktrees/quality-3y-closeout/type-pal",
+      "environment": {},
+      "start": "2026-10-20T05:18:39.073Z",
+      "end": "2026-10-20T05:28:55.074Z",
+      "revision": "eb1037538cbd7a56faffefe5e04361b6e8d0c292",
+      "targetMain": "dec0626e1c3035bd2d4e6cbf440f79baa19a6354",
+      "workingTreeAtStart": "M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/README.md\n M docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/verify-pending27.mjs\n M docs/ops/tasks/QUALITY-PRE94-RETROSPECTIVE-1.md",
+      "toolVersions": {
+        "node": "v22.23.2",
+        "vitest": "4.1.7",
+        "typescript": "6.0.3"
+      },
+      "bindings": [
+        {
+          "path": "packages/game/src/shell/input.ts",
+          "sha256": "0c12a5eab6cda48ab044f64a1747c3f618c3d25de06c1164fa1c9a27cffdce52"
+        },
+        {
+          "path": "packages/game/src/shell/main-loop.ts",
+          "sha256": "0ebe896af21c903697f011cfebe65b7140daa547d84de2759c8726dd1a66c6a8"
+        },
+        {
+          "path": "packages/game/src/shell/audio.ts",
+          "sha256": "c3532ceba544d6d68319b39af4b0ffc99f552d693d1c274b02d4d8a334d316ba"
+        },
+        {
+          "path": "packages/game/src/shell/rng-player.ts",
+          "sha256": "bd617b4af6be77f67f7fd8d28b231837852ca061520305d7010216991737d390"
+        },
+        {
+          "path": "packages/game/src/shell/avi-player.ts",
+          "sha256": "6e5d15b9a5d5aad927b766e67d38c0ee045d4fb44662aa4726f945dbbf2e027c"
+        },
+        {
+          "path": "packages/game/src/shell/input.test.ts",
+          "sha256": "b7f66d7995fc17c9c8fc8aa8bb1c8b944eeb277e4f75e7cc79a9ce96bf07bdef"
+        },
+        {
+          "path": "packages/game/src/shell/input.boundaries.test.ts",
+          "sha256": "44fba405429a739324bfb096959d04e081244b4631fb16b86067085093624e2f"
+        },
+        {
+          "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+          "sha256": "73e9a60b24aeeaff85822c0b6608ed0137b4dab7a91345c5c27595bbd50c2c00"
+        },
+        {
+          "path": "packages/game/src/shell/main-loop.test.ts",
+          "sha256": "54854a6fdc1591a2ee20c8dc8a84bfd704922feac8edc0478bb5af679c4d8524"
+        },
+        {
+          "path": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+          "sha256": "667bd9bc6fa79e1ef3b192c1124cc17da874f727b47c0576c0fac6d8f4ba4e65"
+        },
+        {
+          "path": "packages/game/src/shell/audio.test.ts",
+          "sha256": "c536e97cc6cd46b3a6ab21d4dc8ad8a1f02957c8cc43c18172330784a568ef3e"
+        },
+        {
+          "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+          "sha256": "3b9e2c718515cf8f522df2ae13c72458b458e4b3a8edfe5f5f0a56bbe923f4f3"
+        },
+        {
+          "path": "packages/game/src/shell/rng-player.test.ts",
+          "sha256": "9de20bd177a4da6e7b221ff0a3b0fa6012c51669c0061fbb80a23ef70c056042"
+        },
+        {
+          "path": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+          "sha256": "145a3c12bebea0cb2f4199c046387b791717d34feca8fcddf879ce6e0d0ae3ae"
+        },
+        {
+          "path": "packages/game/src/shell/avi-player.test.ts",
+          "sha256": "b11d9337d9829c862cbb475b1a9e73ca04cfda1dce3f3cdcb1749d49cbc23f69"
+        },
+        {
+          "path": "packages/game/src/shell/avi-player.glm-next-wave.test.ts",
+          "sha256": "d51a55110d175b45b54284685091e1103b273f32d055a79b4f3b1ad6d3588041"
+        },
+        {
+          "path": "packages/game/src/core/menu/menu-mode.ts",
+          "sha256": "1c5338f6cecc3c25747e91281d6242944a0aefa964259e4ad7e6cffb1adc3d82"
+        },
+        {
+          "path": "packages/game/src/core/menu/menu-stack.ts",
+          "sha256": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2"
+        },
+        {
+          "path": "packages/game/src/core/menu/menu-mode.test.ts",
+          "sha256": "d4dc1a4c1348bb038e4f6927f0910388e45aee10823934cea0a27e99a24e4b05"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.ts",
+          "sha256": "4d1615c4e1e50a9a725e0d5337adada2ec0746ca5e4ce1597d75e8267dc2c94c"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.test.ts",
+          "sha256": "cb1f0690d798b860bbedcf2ada1bb372c74dfbbd616dad1eb30dcd39e8950645"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+          "sha256": "a36718264caa4225c7a6e2b15e362fb0103614231af97ce97102d6ce3ffb47a3"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+          "sha256": "7a8dd000680c268a92be4de9f0b5837636b2931c0a2f38e866eaa56991fb3261"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.ts",
+          "sha256": "3a7e3a01dd41af9bc884f2a88e4b2497862b72785834b73a91a8b27c9fad618d"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.test.ts",
+          "sha256": "55bd19ae8f4be2cf77c982ec600dfb91298fdaab614292967a2a134905f5391e"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+          "sha256": "8b5090115089be7fea06da73b794bf27a090654e07690bc0719d00d4c2725967"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
+          "sha256": "e6e6fea658e4d97e6bf801750cf8833e8894a79b7fae6c239dae3813b16b5072"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-action-menu.ts",
+          "sha256": "c439e1cdca4d9e01f82956378a1ecc85ebd59f7917b5f518f619e53f80d5ddc2"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+          "sha256": "9a4e5a9005b994a76559aaf61f4c8f4263bdb6af25177a0280bc5b9d7996b8a4"
+        },
+        {
+          "path": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+          "sha256": "537b1c67dfa7fa3a636ff77224a18eaaa987cd12bc938064adfa680cea90cc86"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.ts",
+          "sha256": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.test.ts",
+          "sha256": "84512d7f14cd2a7ba1f889423230ff688fe3b0ab7659cd1a712da0e13f0cc8f5"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+          "sha256": "0f6920da06521cb5526e3e7f767947778ca3072ee22da73ad21f2bfe1a719eff"
+        },
+        {
+          "path": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+          "sha256": "8d12759e5045d6cef2abcd52897ea9b1510c3ea0d89990e612f4a968e2509a5f"
+        },
+        {
+          "path": "packages/game/src/core/menu/item-select.ts",
+          "sha256": "3b71f4a343d2f7fdec75f2651dcb464d3a3f85b2d5388e50335999b9f488cfc7"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.ts",
+          "sha256": "5b2adaaf06fc5a053e04ff09e44842e6aa95d2fdd9f3c324df4e991f8623e9d4"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.test.ts",
+          "sha256": "4be93984aad8f3be60b02fdbf9cbeba000a15b9baeb947e36141b1ee257218c2"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.boundaries.test.ts",
+          "sha256": "a67bd178c508aa75bf6ac807f3be2909abc64fedcc0b3f6ca7a613a9c2d79a90"
+        },
+        {
+          "path": "packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts",
+          "sha256": "fd3ccf333d7ecb95e11b2e890121d35e0ea57eb4ce58a801964d98b5baa934c2"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.ts",
+          "sha256": "c6e061d30a0aa7e4220ad90a37dc582245a84836cc4c249afd872aa8095fda69"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.test.ts",
+          "sha256": "c2db666ad91197827ccd6de78e2ca2a6a02a392d5e64afd8648b13e49121888a"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.boundaries.test.ts",
+          "sha256": "2b5ed1f9fd88f46702bce6ce7b724c1ce80da9483f52212501346d3969103d84"
+        },
+        {
+          "path": "packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts",
+          "sha256": "5e3524a285f8ddf34e7fbe4f197b97cacdeee58ad716a62e1aaa7f2b0dc9ebf9"
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-select.ts",
+          "sha256": "1ec01d279f979e728ebe6403ad59a0cf28b9625fd5622235b0f9f4bf3ff01e47"
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-select.boundaries.test.ts",
+          "sha256": "3335510ccf6e818681bfe5d6a49e4318a3637e6dbe362c993ce6c72a61d68f26"
+        },
+        {
+          "path": "packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts",
+          "sha256": "b68716a8763c91a19433a30503b34ad828f26af4e7d5df4dd5f079d11fe59ccd"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.ts",
+          "sha256": "a9135c31a3fca5af2491e61dba05db7a0cd7124f4af0036d7d7caee77baa9414"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.test.ts",
+          "sha256": "e8345b4bc17166791060983c3f73c9e0882b055ee6cb02a2da599c9e91814f99"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts",
+          "sha256": "698aef7c01dde3c0d8a276ae97cf314ad13960359485b4a86d2b867170c941f0"
+        },
+        {
+          "path": "packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts",
+          "sha256": "1bc0e6cf67c0905d0608884e756c61baa97bde5d1e51d7f1eeae8639922984d9"
+        },
+        {
+          "path": "packages/game/src/present/draw-sprite.ts",
+          "sha256": "d17f04ccaf8a771b6832cd7e833c093140d52f9e990ff97023c748e17e4cf7dc"
+        },
+        {
+          "path": "packages/game/src/present/draw-sprite.test.ts",
+          "sha256": "785f68010b06ef3714c76b6ec675aa77dc13eb34047ced3dc954786eecff832c"
+        },
+        {
+          "path": "packages/game/src/present/font.ts",
+          "sha256": "3df0f1a1b23d221f55050f1a172725f32f5019016b99da1e3f98d68fab46b539"
+        },
+        {
+          "path": "packages/game/src/present/font.test.ts",
+          "sha256": "614592161a00c8260f7a7a4b756e0360a76bca49ada54403f96c013985eb4d0f"
+        },
+        {
+          "path": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+          "sha256": "171c4254704b1715be87e8a524aa1a8445eeea1edacc6e10979700d4a72bf093"
+        },
+        {
+          "path": "packages/game/src/present/follower-render.ts",
+          "sha256": "6f750c045df964d1782919c728e751fb46cc2d5faa4a796cc52ea17d58c4b1c2"
+        },
+        {
+          "path": "packages/game/src/present/follower-render.test.ts",
+          "sha256": "f8528c719a3993205d859e07c0c7eacf6d2d52e25b77fcc0b586a063523dc350"
+        },
+        {
+          "path": "packages/game/src/present/draw-tilemap.ts",
+          "sha256": "6a5b77a7963ded096b9d8b1792dc6823472c65fba8376dbd7ddf25b25abe0166"
+        },
+        {
+          "path": "packages/game/src/present/draw-tilemap.test.ts",
+          "sha256": "14b4490b17fc8d0e13ebd0be6b6634d643255d55867789c0da6d8e9e6c5c4a51"
+        },
+        {
+          "path": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+          "sha256": "56e61414a737314b7af68b8b96614ac8756ec4aab7bfda36fb6f9644f757f882"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.ts",
+          "sha256": "306968e63cd42b0b2b084f1ccf14e179eac096196c05defcd0db85df0048ffb3"
+        },
+        {
+          "path": "packages/game/src/tools/save-io.test.ts",
+          "sha256": "4da75460381dbef74f19b6fc2bf378f5b5b2a1ed18ebc75c6a9077d2d28198d1"
+        },
+        {
+          "path": "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
+          "sha256": "db4fa973307d0f6de37116b82af9a66577b3a17de0832e6fd3542414492d9394"
+        },
+        {
+          "path": "packages/game/src/tools/quick-save.ts",
+          "sha256": "d14479a0a789cfacc41fc12807182679d8fc8b150384a8a2616648f2299590d0"
+        },
+        {
+          "path": "packages/game/src/tools/quick-save.test.ts",
+          "sha256": "c30b44ef27d59af52acd9feb3216b30e8b1fe1ce4a020f51e567e1a49d674c47"
+        },
+        {
+          "path": "packages/game/src/analytics/install-analytics.ts",
+          "sha256": "586d8f71de49b625ef324e35fe9a92cc64e37da9cd892d3d7dcb1cdf6c19cad8"
+        },
+        {
+          "path": "packages/game/src/analytics/install-analytics.test.ts",
+          "sha256": "fffcb0ba4b11e7f8a308f733465e272f1581b4d95532e6bcce0830711b519cce"
+        },
+        {
+          "path": "packages/game/src/analytics/analytics-consent-ui.ts",
+          "sha256": "e8bce6086369e2b4bcbbd8bf4c21efc1b8030690c841b2769aa39d018261bc52"
+        },
+        {
+          "path": "packages/game/src/analytics/analytics-consent-ui.test.ts",
+          "sha256": "6acdd46767977253d6a6d33d3439fa0dd8a85f8193ab4b0675520471cb5bde83"
+        }
+      ],
+      "exit": 0,
+      "signal": null,
+      "spawnError": null,
+      "stdout": {
+        "path": "/private/tmp/type-pal-pre94-c1c3-20261020-LwPzlq/ratchet.stdout.raw",
+        "sha256": "347f60ceb04ff6e59e30d298bbdc77b92c89f82d256446e1e59518abd8f1cd5c",
+        "bytes": 23669
+      },
+      "stderr": {
+        "path": "/private/tmp/type-pal-pre94-c1c3-20261020-LwPzlq/ratchet.stderr.raw",
         "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
         "bytes": 0
       }
@@ -10627,19 +12862,27 @@
     "branch": "codex/code-quality-3y",
     "authorCommitsCherryPicked": 9,
     "sourceRepairCommitted": true,
-    "pushed": false,
-    "mainMerged": false,
-    "gateStatus": "pending"
+    "gateStatus": "passed",
+    "protectedMain": "dec0626e1c3035bd2d4e6cbf440f79baa19a6354",
+    "receiptPhase": "Before final receipt commit/push and main fast-forward;actual delivery truth is Git refs.",
+    "pushedCheckpoint": "eb1037538cbd7a56faffefe5e04361b6e8d0c292",
+    "mainAtGate": "dec0626e1c3035bd2d4e6cbf440f79baa19a6354",
+    "mergePrerequisites": [
+      "All seven final gate roles exit0 with zero diagnostics",
+      "Final receipt committed and pushed to existing3y",
+      "Fetch then origin/main...HEAD reports0behind",
+      "Fast-forward origin/main only;protect dirty primary tree"
+    ]
   },
   "quickVerify": {
     "command": "node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/verify-pending27.mjs",
-    "expected": "matched;gateStatus is separate and remains pending until all finalGateIds pass",
+    "expected": "matched;gateStatus follows the separately captured final gate results,not semantic file acceptance",
     "limits": "Read-only identity/native/process/original-byte checks. Does not certify all69 source quality,E2E or visual behavior."
   },
   "nativeArtifact": {
     "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/pending27-acceptance-native.json.gz",
-    "sha256": "db0073da307c539acdfa5a8ca9dffde7e01466156542522ec89c4c60e58c2f15",
-    "bytes": 26430,
+    "sha256": "08d38103ba67d67844e93d2694c4b20030456475342e63621118e46dc436afe8",
+    "bytes": 2686395,
     "members": [
       {
         "name": "audioBackend.execution.json",
@@ -10782,6 +13025,46 @@
         "sha256": "d8b7c3de19d0cc89e5922deb06c865df28d34edf2233890e09524ec10026ba45"
       },
       {
+        "name": "check.execution.json",
+        "bytes": 12208,
+        "sha256": "b27faa4c8f3f14511ea68b0beca75f706515a15fe1f74fb719eb9221554999c3"
+      },
+      {
+        "name": "check.scan.json",
+        "bytes": 1800,
+        "sha256": "19c09a3d0059460774debe16e9fa5ca3a39d52127e86cde1c01a61393d53993d"
+      },
+      {
+        "name": "check.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "check.stdout.raw",
+        "bytes": 184275,
+        "sha256": "b426006fc1ed1dcafc4fc8bd13ccffc19844085df7011fad79af33977ab7c257"
+      },
+      {
+        "name": "diff.execution.json",
+        "bytes": 12936,
+        "sha256": "4c5b8fdaa8a825dde86e4b4d89bc9da8727ec842d2cd7ced8a8c9f731b6f36e3"
+      },
+      {
+        "name": "diff.scan.json",
+        "bytes": 274,
+        "sha256": "e7f7989b7842d1d772fdce8d494503b2b2b83d89f1d6416c797b30b2375a8eaa"
+      },
+      {
+        "name": "diff.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "diff.stdout.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
         "name": "directed.execution.json",
         "bytes": 12664,
         "sha256": "5265bf0c1ac7e9bde41166cbdf731b5b4fcadc3b3d5c56f2dc09af1848bb89ac"
@@ -10802,9 +13085,39 @@
         "sha256": "b20b5336c581130b7c638b46dad1971592b2a50db1df50e2db2ced1df94de1b5"
       },
       {
+        "name": "docs.execution.json",
+        "bytes": 12920,
+        "sha256": "7e688d9f282deab2455a18726a14ed088bbb324fac9bff9a59c7a8d796f667c9"
+      },
+      {
+        "name": "docs.scan.json",
+        "bytes": 711,
+        "sha256": "e483c3ad52f1a24dadbf14c7c7d5e30a313271ec1165230228a547cb6b60de1e"
+      },
+      {
+        "name": "docs.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "docs.stdout.raw",
+        "bytes": 30510,
+        "sha256": "46c66e221f06d97ad50a3606ead1128f7b36f7c7d01544b94775bab60bcba986"
+      },
+      {
         "name": "empty-gates.identity.json",
         "bytes": 115,
         "sha256": "1f9fb05e7384b5d153062eb773a09eac49924d55b10ac3a8226a30c45809c72b"
+      },
+      {
+        "name": "final-controls.identity.json",
+        "bytes": 2189,
+        "sha256": "619474dd3445bc0b569c03be1f38e340269d447078fe4b555929e8e4df7e5b36"
+      },
+      {
+        "name": "final-controls.mjs",
+        "bytes": 2651,
+        "sha256": "bfe24adaaea061e8de243dabf50e3131f5192066b7f7658034322441a6770bb8"
       },
       {
         "name": "fixtureSeams.execution.json",
@@ -10830,6 +13143,46 @@
         "name": "invalid-option.identity.json",
         "bytes": 120,
         "sha256": "d513d9c2eabbbea40a367eb4f8afe5c8de2043721843a98c6320ced0e588520d"
+      },
+      {
+        "name": "ledger.execution.json",
+        "bytes": 12953,
+        "sha256": "537e585ab05f32873b0b48ebef52ffbf85450283c2bf800cee99b3b2ea06b8b2"
+      },
+      {
+        "name": "ledger.scan.json",
+        "bytes": 396,
+        "sha256": "ff8df74143e38ddc6ead22e9cea81e026f164cb003cb917040bf4f578ee69e23"
+      },
+      {
+        "name": "ledger.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ledger.stdout.raw",
+        "bytes": 113,
+        "sha256": "417fd3b86e4cdc4769bbadd6bb17cda18a1e6c1ee305ddcc6141e975c4179522"
+      },
+      {
+        "name": "lint.execution.json",
+        "bytes": 12912,
+        "sha256": "3d0ab1bdc689b6306cd185f8336f904417aacc008c4c6de5e867812787e17063"
+      },
+      {
+        "name": "lint.scan.json",
+        "bytes": 587,
+        "sha256": "63a6fd8a748a69889fdfbd9c3963d3f3bf6b47d232b68e722a7b1a2bbdd0173c"
+      },
+      {
+        "name": "lint.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "lint.stdout.raw",
+        "bytes": 193,
+        "sha256": "b5ddb4fada7ff96947052fb84915023979035a4ce17b0c2d38c3d169c70bb05e"
       },
       {
         "name": "lintBefore.execution.json",
@@ -10882,9 +13235,59 @@
         "sha256": "e5f77e6e0862be98ee79c20a2635d677b3f38f75d8116db63c4a569012fd8fe7"
       },
       {
+        "name": "protected.coverage-summary.json",
+        "bytes": 8470681,
+        "sha256": "1b3d8e1990cefa6e4d4b8f5f0e7650f9299e9e83fb885e93ea934a5cb62544c2"
+      },
+      {
+        "name": "protected.execution.json",
+        "bytes": 12524,
+        "sha256": "abeb601833d36aa995715f72bb3fa55b19820eb42aa613d937d2b8f52d603a44"
+      },
+      {
+        "name": "protected.scan.json",
+        "bytes": 2246,
+        "sha256": "883802c27331da4b5ff2b21c8bec452640bb4d7a0c8e4fb7d9323941734601b2"
+      },
+      {
+        "name": "protected.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "protected.stdout.raw",
+        "bytes": 5945,
+        "sha256": "ed2a04d23d5d0e28f225afeb924402c9f4043055b3c7b7ab91f8b103cc0e1861"
+      },
+      {
         "name": "quick-controls-final.result.json",
         "bytes": 1600,
         "sha256": "38bd22a73d597042ceaaed93efaec5e2d0bf476f9a9f636bf23ec844367e8eb4"
+      },
+      {
+        "name": "ratchet.coverage-summary.json",
+        "bytes": 8470681,
+        "sha256": "ccdf1e156db6caecca7a9c948f90775d1786a9109726997a64e6f3748b7bdfe4"
+      },
+      {
+        "name": "ratchet.execution.json",
+        "bytes": 12408,
+        "sha256": "dff847b791ba37c0889cf7faa656e6634d100373875eed0c8a01c9e9fbd8ce60"
+      },
+      {
+        "name": "ratchet.scan.json",
+        "bytes": 2224,
+        "sha256": "03b912ad24a597d8795cd957fd2c71fd9b2f7263442d4ca2869cccb0416bb80b"
+      },
+      {
+        "name": "ratchet.stderr.raw",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "ratchet.stdout.raw",
+        "bytes": 23669,
+        "sha256": "347f60ceb04ff6e59e30d298bbdc77b92c89f82d256446e1e59518abd8f1cd5c"
       },
       {
         "name": "rng-skip-disabled.patch",
@@ -10990,6 +13393,11 @@
         "name": "rngRecovery.stdout.raw",
         "bytes": 410,
         "sha256": "81666b4aa095485f75104689700cb4f91844aae6d1877f310d08b5a188918e8b"
+      },
+      {
+        "name": "scan.mjs",
+        "bytes": 1827,
+        "sha256": "690a91b657b7002805701ce0045887d002535566808ecf0c9f4e3dd56b39b84b"
       },
       {
         "name": "typecheck.execution.json",
@@ -11121,7 +13529,7 @@
     },
     {
       "path": "scripts/coverage/baseline.fast.json",
-      "sha256": "b6092859af15c984396bf5ef75329c32b111f933b4cf0afb79b36415bd2ccc92"
+      "sha256": "2b4e3c2f429df7c4b3928dc882517a7f5cf29114405d011638c14570c9df31d8"
     }
   ],
   "gateSourceCommit": "577aeb368cd345720463cae18bca1cfd55338458",
@@ -11151,16 +13559,381 @@
   "processNotes": [
     "Initial scoped formatter diagnosed one RNG test layout;formatted without rule changes.",
     "Initial lintBefore had1useTemplate info in new verifier;fixed formatting,lintBefore2 zero. All original runs retained.",
-    "Whole C1 reading history remains GLM attestation;hashes prove identity,not past reading."
+    "Whole C1 reading history remains GLM attestation;hashes prove identity,not past reading.",
+    "After official ratchet changed baseline,old packet correctly returned STALE for baseline SHA;resealed only after actual coverage evidence and delta review."
   ],
   "verifierReview": {
-    "A": "Read-only file/SHA/native validation;canonical40hex gate commit validated before fixed Git argv, preventing option injection.",
+    "A": "Read-only file/SHA/native validation;canonical40hex gate commit validated before fixed Git argv, preventing option injection. Execution stdout/stderr original SHA+bytes must match the immutable per-run metadata.",
     "B": "Output explicitly limits identity/native checks,not full semantic,E2E or visual acceptance.",
     "C": "Only file reads and fixed Git reads with optional locks disabled;no product state Owner mutation.",
     "D": "Reuse native JSON/gzip and Git instead of a generic policy framework.",
-    "E": "Positive and stale-source/corrupt-archive/changed-code controls;invalid-option control follows.",
+    "E": "Positive and stale-source/corrupt-archive/changed-code controls;invalid-option control follows. Final seven-role diagnostic scans are required and preserved alongside raw bytes.",
     "F": "Integrity failure and identity staleness have distinct labels/exit codes.",
     "G": "No network,generation mode or product/test rerun.",
     "H": "Temporary record copies exercise failure branches without source changes."
+  },
+  "majorGates": {
+    "check": {
+      "revision": "eb1037538cbd7a56faffefe5e04361b6e8d0c292",
+      "targetMain": "dec0626e1c3035bd2d4e6cbf440f79baa19a6354",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "testStderrBlocks": 0,
+        "warnings": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "stderrBytes": 0
+      },
+      "packages": [
+        {
+          "id": "content",
+          "files": 149,
+          "tests": {
+            "passed": 1498,
+            "skipped": 0,
+            "total": 1498
+          }
+        },
+        {
+          "id": "shared",
+          "files": 13,
+          "tests": {
+            "passed": 114,
+            "skipped": 0,
+            "total": 114
+          }
+        },
+        {
+          "id": "game",
+          "files": 324,
+          "tests": {
+            "passed": 3681,
+            "skipped": 0,
+            "total": 3681
+          }
+        },
+        {
+          "id": "pal-extract",
+          "files": 74,
+          "tests": {
+            "passed": 441,
+            "skipped": 0,
+            "total": 441
+          }
+        },
+        {
+          "id": "reforge",
+          "files": 359,
+          "tests": {
+            "passed": 8964,
+            "skipped": 0,
+            "total": 8964
+          }
+        },
+        {
+          "id": "editor",
+          "files": 631,
+          "tests": {
+            "passed": 4943,
+            "skipped": 0,
+            "total": 4943
+          }
+        },
+        {
+          "id": "migrate",
+          "files": 96,
+          "tests": {
+            "passed": 739,
+            "skipped": 0,
+            "total": 739
+          }
+        }
+      ],
+      "tests": 20380,
+      "originals": [
+        "check.stdout.raw",
+        "check.stderr.raw",
+        "check.execution.json",
+        "check.scan.json"
+      ]
+    },
+    "ratchet": {
+      "revision": "eb1037538cbd7a56faffefe5e04361b6e8d0c292",
+      "targetMain": "dec0626e1c3035bd2d4e6cbf440f79baa19a6354",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "testStderrBlocks": 0,
+        "warnings": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "stderrBytes": 0
+      },
+      "packages": [
+        {
+          "id": "shared",
+          "files": 13,
+          "tests": {
+            "passed": 114,
+            "skipped": 0,
+            "total": 114
+          }
+        },
+        {
+          "id": "content",
+          "files": 149,
+          "tests": {
+            "passed": 1498,
+            "skipped": 0,
+            "total": 1498
+          }
+        },
+        {
+          "id": "pal-extract",
+          "files": 63,
+          "tests": {
+            "passed": 301,
+            "skipped": 0,
+            "total": 301
+          }
+        },
+        {
+          "id": "migrate",
+          "files": 80,
+          "tests": {
+            "passed": 671,
+            "skipped": 0,
+            "total": 671
+          }
+        },
+        {
+          "id": "reforge",
+          "files": 359,
+          "tests": {
+            "passed": 8964,
+            "skipped": 0,
+            "total": 8964
+          }
+        },
+        {
+          "id": "game",
+          "files": 319,
+          "tests": {
+            "passed": 3653,
+            "skipped": 0,
+            "total": 3653
+          }
+        },
+        {
+          "id": "editor",
+          "files": 612,
+          "tests": {
+            "passed": 4781,
+            "skipped": 0,
+            "total": 4781
+          }
+        }
+      ],
+      "tests": 19982,
+      "originals": [
+        "ratchet.stdout.raw",
+        "ratchet.stderr.raw",
+        "ratchet.execution.json",
+        "ratchet.scan.json"
+      ],
+      "sourceFiles": 741,
+      "coverageSummary": "ratchet.coverage-summary.json"
+    },
+    "protected": {
+      "revision": "eb1037538cbd7a56faffefe5e04361b6e8d0c292",
+      "targetMain": "dec0626e1c3035bd2d4e6cbf440f79baa19a6354",
+      "exit": 0,
+      "diagnostics": {
+        "reactAct": 0,
+        "actEnvironment": 0,
+        "testStderrBlocks": 0,
+        "warnings": 0,
+        "tsErrors": 0,
+        "unhandled": 0,
+        "failedTap": 0,
+        "stderrBytes": 0
+      },
+      "packages": [
+        {
+          "id": "shared",
+          "files": 13,
+          "tests": {
+            "passed": 114,
+            "skipped": 0,
+            "total": 114
+          }
+        },
+        {
+          "id": "content",
+          "files": 149,
+          "tests": {
+            "passed": 1498,
+            "skipped": 0,
+            "total": 1498
+          }
+        },
+        {
+          "id": "pal-extract",
+          "files": 63,
+          "tests": {
+            "passed": 301,
+            "skipped": 0,
+            "total": 301
+          }
+        },
+        {
+          "id": "migrate",
+          "files": 80,
+          "tests": {
+            "passed": 671,
+            "skipped": 0,
+            "total": 671
+          }
+        },
+        {
+          "id": "reforge",
+          "files": 359,
+          "tests": {
+            "passed": 8964,
+            "skipped": 0,
+            "total": 8964
+          }
+        },
+        {
+          "id": "game",
+          "files": 319,
+          "tests": {
+            "passed": 3653,
+            "skipped": 0,
+            "total": 3653
+          }
+        },
+        {
+          "id": "editor",
+          "files": 612,
+          "tests": {
+            "passed": 4781,
+            "skipped": 0,
+            "total": 4781
+          }
+        }
+      ],
+      "tests": 19982,
+      "originals": [
+        "protected.stdout.raw",
+        "protected.stderr.raw",
+        "protected.execution.json",
+        "protected.scan.json"
+      ],
+      "sourceFiles": 741,
+      "coverageSummary": "protected.coverage-summary.json"
+    }
+  },
+  "baseline": {
+    "path": "scripts/coverage/baseline.fast.json",
+    "before": {
+      "revision": "dec0626e1c3035bd2d4e6cbf440f79baa19a6354",
+      "sha256": "b6092859af15c984396bf5ef75329c32b111f933b4cf0afb79b36415bd2ccc92",
+      "tests": 19979,
+      "sourceFiles": 741
+    },
+    "after": {
+      "sha256": "2b4e3c2f429df7c4b3928dc882517a7f5cf29114405d011638c14570c9df31d8",
+      "tests": 19982,
+      "sourceFiles": 741
+    },
+    "method": "Official ratchet only;no manual threshold/config/approval changes. Three audio contracts added;existing RNG skip cases strengthened without count change."
+  },
+  "finalGates": {
+    "check": "check",
+    "ratchet": "ratchet",
+    "protected": "protected",
+    "docs": "docs",
+    "lint": "lint",
+    "ledger": "ledger",
+    "diff": "diff"
+  },
+  "finalGateIds": ["check", "ratchet", "protected", "docs", "lint", "ledger", "diff"],
+  "finalStatic": {
+    "docs": {
+      "exit": 0,
+      "issues": 0,
+      "toolTests": 125
+    },
+    "lint": {
+      "exit": 0,
+      "files": 5688,
+      "error": 0,
+      "warning": 0,
+      "info": 0
+    },
+    "ledger": {
+      "exit": 0,
+      "tracked": 3318,
+      "closed": 214,
+      "review": 218,
+      "pending": 2886
+    },
+    "diff": {
+      "exit": 0
+    }
+  },
+  "authorToIntegration": [
+    {
+      "author": "50704d25e2c8559b2d0ed866eeb4b1357b0f2502",
+      "integration": "53c2ab89c44c71c2e4049b94407d3a8d8369b97e"
+    },
+    {
+      "author": "5d3e98cae9172f4f43c8dbd6d1d88350d85b3932",
+      "integration": "bd84e21d341b5ccb4708caed2de6a951b58c0f9a"
+    },
+    {
+      "author": "12a39b4c94a6e4254d27222201e7fd7cb4e2c6ea",
+      "integration": "52385145cd9dbc05e746f27452a763882721096c"
+    },
+    {
+      "author": "8e442940c38170bcdee56c39c0053da5e894862d",
+      "integration": "6b1d06a63cc4d41a6c6ecfbc8eb9d887e91448fa"
+    },
+    {
+      "author": "33cf347a8736777342a26f8e627ff41306f61bf9",
+      "integration": "ffb0fb684f5c5a04f849b233da14b70e43aa4b27"
+    },
+    {
+      "author": "a693848ddc1779fdd8c94b77d47fe507776e2e4d",
+      "integration": "68694d13aa14393152e788e934fcf6af52f6fc83"
+    },
+    {
+      "author": "89800a1c1bb9936c68bcf5558211d92a11fe00ae",
+      "integration": "3c5e382e246e9a2cfa1d393d1063e874a7d999ba"
+    },
+    {
+      "author": "7edf85e63fecf358d5b7955947f74f16fea2e5fa",
+      "integration": "71ee0cbea17640cd5d60f63c813045fb7f913318"
+    },
+    {
+      "author": "9fec7ac4f26d3c71f7b671537e3bb1fcdd8e4a31",
+      "integration": "7821114cd1b97df6e492db33f4c9fe4157804840"
+    }
+  ],
+  "finalExtensionControls": {
+    "original": "final-controls.identity.json",
+    "producer": "final-controls.mjs",
+    "checkerSha256": "6fd71b911d7c3cf83dabdcd41c6ab7ff14316885aa7cf607a8f05774a31bc4ad",
+    "positiveExit": 0,
+    "diagnosticRefusalExit": 1,
+    "rawBindingRefusalExit": 1,
+    "porcelainUnchanged": true,
+    "limits": "Only quick-verifier rejection branches;no product tests or behavior acceptance."
   }
 }

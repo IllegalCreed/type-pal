@@ -1040,7 +1040,7 @@
         }
       ],
       "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
-      "afterSha256": "85b8e0f1b460a6df7c1f701754d7b807bf40d57c4b73e54b8a245ebb192eb957",
+      "afterSha256": "2956fe4cec4382cb8c7142f3b3d363a44a8b5102745561fccf250a92bb9b2787",
       "publicCallers": [
         "docs/phase-governance/document-registry.json",
         "docs/phase-governance/routing.json",
@@ -1064,7 +1064,7 @@
       },
       "revision": {
         "currentSha": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "implementationSha": "85b8e0f1b460a6df7c1f701754d7b807bf40d57c4b73e54b8a245ebb192eb957",
+        "implementationSha": "2956fe4cec4382cb8c7142f3b3d363a44a8b5102745561fccf250a92bb9b2787",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1727,8 +1727,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r93-phase-governance-artifacts-20261017.json",
         "sourceSha256": "a36a66ed45a6f4fc35ce651e6680bf34f768574c9eb63b8cea368a2db3ebec7a",
         "candidateSha256": "e4f73fc976442e4a7bd031704f0a5f36067c92514287582c97198a42112d2be4",
-        "afterSha256": "85b8e0f1b460a6df7c1f701754d7b807bf40d57c4b73e54b8a245ebb192eb957",
-        "lineCount": 3486,
+        "afterSha256": "2956fe4cec4382cb8c7142f3b3d363a44a8b5102745561fccf250a92bb9b2787",
+        "lineCount": 3498,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable phase-governance artifact",
@@ -1817,6 +1817,18 @@
           "notRun": [
             "Whole gates are separately captured in this batch record;no browser/E2E/visual acceptance."
           ]
+        },
+        {
+          "revision": "eb1037538cbd7a56faffefe5e04361b6e8d0c292",
+          "date": "2026-10-20",
+          "action": "pre94-C1-C3-scoped-evidence-admission",
+          "previousAfterSha256": "85b8e0f1b460a6df7c1f701754d7b807bf40d57c4b73e54b8a245ebb192eb957",
+          "afterSha256": "2956fe4cec4382cb8c7142f3b3d363a44a8b5102745561fccf250a92bb9b2787",
+          "scope": "Incoming binding only for named reviewed current deltas;unrelated historical material unchanged.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+          "notRun": [
+            "Whole gates are separately captured in this batch record;no browser/E2E/visual acceptance."
+          ]
         }
       ],
       "supersedes": [
@@ -1831,7 +1843,7 @@
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "85b8e0f1b460a6df7c1f701754d7b807bf40d57c4b73e54b8a245ebb192eb957",
+      "candidateSha256": "2956fe4cec4382cb8c7142f3b3d363a44a8b5102745561fccf250a92bb9b2787",
       "primarySource": [
         {
           "path": "docs/phase-governance/reviews/20261004-semantic-current-batch.json",

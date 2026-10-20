@@ -459,7 +459,7 @@
       "templateCompliance": "template-compliant",
       "readMethod": "Actual scoped delta and explicitly bounded C1-C3/native evidence;not another whole83card review.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Only pre94 row:Codex accepts finite9fecC1-C3 candidate and directly repairs4tests;78partial/5pending/0accept,0newclosed,major gates pending;94-102excluded.",
+      "coreConclusion": "Only pre94 row:Codex accepts finite9fecC1-C3 candidate and directly repairs4tests;78partial/5pending/0accept,0newclosed,major gates separately recorded in the linked current receipt;94-102excluded.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -468,14 +468,14 @@
       "unresolved": [
         "Historical product/coverage/unified gates remain outside this documentation-only integration."
       ],
-      "nextStep": "Finish only this batch full gates and main integration if zero diagnostics;remainingpre94unknowns stayopen.",
+      "nextStep": "Integrate only this batch after linked zero-diagnostic gates and 0behind;remainingpre94unknowns stayopen.",
       "phase": "ops",
       "module": "board.md",
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "7266f064713b427b327c8dd35cc847a15e0dc32d262d10e64e47b45d8a62af5b",
-      "afterSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
+      "sourceSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
+      "afterSha256": "d5d5b934dd069f374ce56cb8ccf0f009c1fbc6aed68c1cbc5cdab0e696432d73",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -504,7 +504,7 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
+        "implementationSha": "d5d5b934dd069f374ce56cb8ccf0f009c1fbc6aed68c1cbc5cdab0e696432d73",
         "contentVersion": 24,
         "minimumSaveVersion": 12,
         "history": [
@@ -1651,7 +1651,7 @@
       "evidence": {
         "kind": "codex-scoped-C1-C3-admission",
         "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
-        "afterSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
+        "afterSha256": "d5d5b934dd069f374ce56cb8ccf0f009c1fbc6aed68c1cbc5cdab0e696432d73",
         "lineCount": 97
       },
       "history": [
@@ -1790,6 +1790,18 @@
           "action": "pre94-C1-C3-scoped-evidence-admission",
           "previousAfterSha256": "7266f064713b427b327c8dd35cc847a15e0dc32d262d10e64e47b45d8a62af5b",
           "afterSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
+          "scope": "Only pre94 current scope/counts and69path review registration;0newclosures,missingaxes remainreview.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+          "notRun": [
+            "Whole gates are separately captured in this batch record;no browser/E2E/visual acceptance."
+          ]
+        },
+        {
+          "revision": "eb1037538cbd7a56faffefe5e04361b6e8d0c292",
+          "date": "2026-10-20",
+          "action": "pre94-C1-C3-scoped-evidence-admission",
+          "previousAfterSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
+          "afterSha256": "d5d5b934dd069f374ce56cb8ccf0f009c1fbc6aed68c1cbc5cdab0e696432d73",
           "scope": "Only pre94 current scope/counts and69path review registration;0newclosures,missingaxes remainreview.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
           "notRun": [

@@ -4,7 +4,9 @@
 
 任务：[QUALITY-PRE94-RETROSPECTIVE-1](../../tasks/QUALITY-PRE94-RETROSPECTIVE-1.md)。当前要求是全部83卡逐卡逐文件复审，未全部完成。下文原f0cf0f7f抽查是历史快照；当前唯一3y分支、主工作树只读。
 
-当前增量（2026-10-19）：[CODE6a四文件八维](glm-foundation/codex-code6a.json)修复隐藏记录假进度/输出参数假成功，并整理事实缓存与夹具依赖。当前56partial/27pending/0accept；其余历史数字按各片时点。四文件仍review，232closed/123review/2961pending，0新关闭，统一门未过。
+当前增量（2026-10-20）：[C1–C3有限接收与Codex窄返工](codex-pending27-acceptance.json)为本轮入口；78partial/5pending/0accept、0新关闭，本批未为69文件新增全维关闭信用。只读快检：`node docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/verify-pending27.mjs`；本轮check七包20,380例、official ratchet/protected各19,982例与741源文件通过，最终静态门/诊断及交付边界见该回执。
+
+历史快照（2026-10-19）：[CODE6a四文件八维](glm-foundation/codex-code6a.json)修复隐藏记录假进度/输出参数假成功，并整理事实缓存与夹具依赖。当前56partial/27pending/0accept；其余历史数字按各片时点。四文件仍review，232closed/123review/2961pending，0新关闭，统一门未过。
 
 ## 2026-10-17 当前范围与优先级
 
@@ -252,4 +254,4 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 
 - 2026-10-19：[83卡实际范围/旧撤回对账](glm-foundation/codex-pre94-scope.json)——83范围路由、493关联路径字节索引；不授逐文件/整卡accept。annotation两测试与既有review证据同SHA，live已恢复review；234closed/120review/2962pending。
 
-2026-10-20 [C1–C3有限接收与Codex窄返工](codex-pending27-acceptance.json)：69身份/8读域撤回/五单红与恢复，修四测试夹具及RNG跳过oracle；78partial/5pending/0accept，缺维仍review、0新关闭，统一门待集中运行。
+2026-10-20 [C1–C3有限接收与Codex窄返工](codex-pending27-acceptance.json)：69身份/8读域撤回/五单红与恢复，修四测试夹具及RNG跳过oracle；78partial/5pending/0accept，缺维仍review、0新关闭，主门已集中实跑，最终静态门与原件见同一回执。

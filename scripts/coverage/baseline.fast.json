@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-20T01:15:43.985Z",
+  "generatedAt": "2026-10-20T05:28:54.712Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 741,
-  "testCount": 19979,
+  "testCount": 19982,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4688,7 +4688,7 @@
       ],
       "scopeDigest": "3d2a37677a6915652346f0ab336ce6db7aafdceae80d1a1a015c9e4c109dc676",
       "fastTests": {
-        "testCount": 3650,
+        "testCount": 3653,
         "testFileCount": 319,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
@@ -6239,8 +6239,8 @@
           },
           {
             "file": "packages/game/src/shell/audio.test.ts",
-            "testCount": 17,
-            "identityDigest": "6a2022411dc88c37c8633d0ea29ff06cd3e118a2ad835230ade59d3f4580b13e"
+            "testCount": 20,
+            "identityDigest": "b59841fd098d9d90e1af14028a26f84b385210e133c873934e4b4267d9650b7c"
           },
           {
             "file": "packages/game/src/shell/avi-player.async-lifecycle.test.ts",
@@ -6608,17 +6608,17 @@
             "identityDigest": "1e1868d0d636dbcd794649a3970d6f09897d3c1b05c7540656cf1a8adce7b18e"
           }
         ],
-        "identityDigest": "c0ff0bd62cf40ee80fb1289d196d898caffa66e054e581caf578583156f79e55",
+        "identityDigest": "42a64b670c145b048751e952d6a1fd81747d60ad434460a6cad357f08beeeaf7",
         "duplicateIdentityCount": 0,
-        "executionDigest": "3c087365448531a785d9f71c6548bef434a2875cf8c01dbd3f7b8e8fa22cfa34"
+        "executionDigest": "b8db10b9a47697bb4c73c393535032a64ffb2026641afaca6713a11448ab1cca"
       },
       "metrics": {
         "statements": {
-          "covered": 14360,
+          "covered": 14365,
           "total": 16090
         },
         "branches": {
-          "covered": 9351,
+          "covered": 9355,
           "total": 11643
         },
         "functions": {
@@ -6626,7 +6626,7 @@
           "total": 1966
         },
         "lines": {
-          "covered": 12809,
+          "covered": 12813,
           "total": 14103
         }
       }
@@ -10646,11 +10646,11 @@
   },
   "total": {
     "statements": {
-      "covered": 71419,
+      "covered": 71424,
       "total": 79286
     },
     "branches": {
-      "covered": 51860,
+      "covered": 51864,
       "total": 61906
     },
     "functions": {
@@ -10658,7 +10658,7 @@
       "total": 15103
     },
     "lines": {
-      "covered": 63796,
+      "covered": 63800,
       "total": 69380
     }
   }
