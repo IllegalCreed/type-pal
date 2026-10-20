@@ -5,7 +5,7 @@ Execution: rework（R23–R36追加撤信与R39后原撤信已纠错；逐篇语
 Phase: ops
 Capability: documentation governance
 Coding Owner: Codex
-Reviewer: S17保留；S18共73篇已接入（Owner六篇边界小修）；S19准入待交付；全量硬验收未完成
+Reviewer: S17/S18接收保留；S19固定039定点返工40篇正文及61条证据结论，21篇正文保留；全量硬验收未完成
 Branch: codex/docs-audit-rework
 Last reviewed: 2026-10-20
 Template: task-card-v1 / 1.0.0
@@ -2145,3 +2145,12 @@ S17中央最终[固定组合回执](../evidence/DOCS-REGISTRY-SPLIT-1/raw/centra
 - 新证据分片<512KiB+唯一索引，保失败/事故，真实Git与时间不手填；同一最终候选跑全包保全/结构、导航+索引byteequal、model实际或精确旧路由归因+拟模板内存0、testing、lint零EWI、base..HEAD diff。每门逐命令argv/cwd/真实ISO起止/exit/signal/完整输出SHA、候选和输入指纹前后一致；不用前一提交的run-meta覆盖最终身份。181/整仓check:docs/产品/E2E/coverage留中央，不合main、不推main、不标父卡done。结束主动附可转发提示词，最终集中回交完成/blocked精确集。
 
 S18实际中央[固定组合回执](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-actual73-central-combination/2048373ca3aede2f3e2d6b0de634addead2661e04cd6802b0a2c084b8e034452.gz)：73条native变化、其余2359逻辑绑定不变；11路由改绑、9既有review分区内旧完整条目以Git引用保留并逐项核hash；S17全365正文/绑定及旧481+31和本轮40原件不动。当前1156 content-reviewed/1276 partial，迁移1133/1838基线+17增量、1282候选待迁移；strict恰2558=1276状态+1282迁移，0 SHA或其它诊断。实际model/导航/testing/phase/lint4511零EWI/diff通过。上述是中央维护自验，独立正文裁定另见固定报告；父卡继续rework，不合main、不推main、不标done。
+
+### S19 固定039候选据证裁定与定点修正准入（2026-10-20）
+
+- 固定作者候选039f0d584be615cf5ac827aa3a5c15a783e63efa、base89d4ca8daff090e8a8d6528d5ed56e7d3ce5159d，五提交恰61篇。28件原证据冻结；61篇source/after/blob/UTF8 bytes、quote tail、明确sep-lf-1、H1均成立；R24历史勘误逐字恰一次且未冒充新SHA；S17/S18既有438篇全文件只读。Owner真实重放七门全部exit0（model1265合同0、lint4511零EWI、导航/索引/testing/diff/保全通过），静态绿不解决下面语义/证据问题。
+- S19-E01：61/61 coreConclusion再次都是同一metadata段，不能作逐篇结论。必须修逐篇证据字段、读取来源与生成器选段，不要求重做全部真源阅读。原错误字段与旧执行回执不覆盖；实际补读范围如实记录。
+- S19-C01：27篇早轮回执用原39–94初始scope作“无专属撤回”，遗漏已限定接收的expandedAudit20261018：R23/24/25/26/27/28/29/31/32/33/34/35/36共152旧深审claim，以及R30/31/32/34/35/36六个无效复制counter。目标review条目撤信不等于本篇只读提案每句都假；151旧binding降档与READ-FIRST真实S01后继保护须同时保留。不能继续笼统写R22–R38全部仅未认证，也不能倒过来全批重撤真实后继。逐篇目标/数量/已知无效counter见冻结清单。
+- S19-C02：R41–R53十三篇readonly正文沿用其它轮的WAVE-O/OPS-DOC例子（如R43真源前两项是E2E-001-CLOSE与DOC-CURSOR-5，并无这两外轮任务）；R53又把821–982当清单行数范围，真源实际含更长任务。只修本篇例子与范围/原文自相矛盾边界，不能修改quote里的旧模板错误。
+- [逐篇非作者counter及解除条件](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-fixed039-counter-preserve61-sources/8ee5c62d14d75b960a5060453de55fc344af987f6d8bd2f8dbe5afd4b2848353.gz)，payload SHA 8ee5c62d14d75b960a5060453de55fc344af987f6d8bd2f8dbe5afd4b2848353。准入一次定点修正：同分支、同原base，从039追加；仅40篇反例正文可写，21篇其余正文按039整文件SHA保留，61条新review记录修正；新证据仅/tmp/s19-glm-evidence-correction，旧28件不覆盖。438篇/全部quote/R24勘误与中央域、规则、配对JSON、产品/旧测试/coverage只读；已合格保全和正文成果复用，不全文重做。
+- 本轮中央新增content-reviewed/template-compliant为0，不采纳候选正文或改61绑定。当前1156 content-reviewed/1276 partial、1133/1838基线+17增量、1282候选待迁移及strict2558待治理项保持原口径；父卡仍rework，不合main、不推main、不标done。Contributor按document-delivery-acceptance/1.0.0一次回交修正候选与逐命令真实回执，无需逐批请示；无需新产品取舍。

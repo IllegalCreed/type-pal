@@ -278,7 +278,7 @@
       "reviewedSourceSha256": "522c958d325afaf4a92845d9dbb89a00d72bce72e3396aad4b890920b39c01f2",
       "sourceGitRevision": "5aadde88db6884234e70d9a7a43a6f2e6d3c5a27",
       "sourceGitObject": "906868289a9187830360dedaf4f28ab048318445",
-      "afterSha256": "044c5a41aa719780f67c181a9bed2b729ab78016a923a03218fc60b7a77e7917",
+      "afterSha256": "b055a7553be6d282741bf22cccbd2987ffcfaf82a29d262199f434a731feef84",
       "publicCallers": [
         "docs/phase-governance/README.md",
         "node scripts/docs/check-content-review.mjs --strict"
@@ -6898,6 +6898,15 @@
           "previousAfterSha256": "3db36fdcb3698e5862286af8e6c25e35097e9ecabc74355dba99f9a1ca8bb94b",
           "afterSha256": "044c5a41aa719780f67c181a9bed2b729ab78016a923a03218fc60b7a77e7917",
           "method": "Explicit S18 owner control/status/navigation/matrix writeback; no global semantic credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "S19 fixed039 targeted counter/admission control writeback only, zero new semantic grants",
+          "sourceRevision": "b60e0b681e7c1b399b4810d831cd42cdd9215cd7",
+          "previousAfterSha256": "044c5a41aa719780f67c181a9bed2b729ab78016a923a03218fc60b7a77e7917",
+          "afterSha256": "b055a7553be6d282741bf22cccbd2987ffcfaf82a29d262199f434a731feef84",
+          "method": "Exact Owner counter/admission and matrix writeback, no body adoption or review credit",
           "grantsNewSemanticAcceptance": false
         }
       ]

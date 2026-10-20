@@ -1928,6 +1928,28 @@
         "Owner metadata mapping and six derivative repairs are self-verified maintenance, not a second nonauthor review."
       ],
       "stopLine": "No restored historical deep-review, independence, test/runtime/E2E/visual/coverage credit from document receipt migration."
+    },
+    {
+      "id": "S19-history-preservation-vs-expanded-withdrawal",
+      "from": [
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r23-ops-audits-review-20261017.md",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r30-phase1-foundation-candidate-acceptance-20261017.md",
+        "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/independent-r43-ops-archive-task-readonly-review-20261017.md"
+      ],
+      "to": [
+        "docs/ops/evidence/DOCS-RECORD-INTEGRITY-1/integrity-audit.json",
+        "docs/ops/tasks/DOCS-RECORD-INTEGRITY-1.md",
+        "docs/phase2/READ-FIRST.md"
+      ],
+      "relationship": "Preserved historical receipts remain original claims. Expanded152 old target-review depth withdrawals and six invalid copied counters coexist with original1896scope; qualified successors retained. S19 fixed039 has40 body counters and61 metadata-core defects, with21 other bodies retained and no central promotion.",
+      "status": "guarded",
+      "evidence": [
+        "docs/ops/evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-fixed039-counter-preserve61-sources/8ee5c62d14d75b960a5060453de55fc344af987f6d8bd2f8dbe5afd4b2848353.gz"
+      ],
+      "unresolved": [
+        "Only fixed40 affected heads and61 review fields require correction; author actual targeted scope must be distinguished from prior full-source reading."
+      ],
+      "stopLine": "No new deep semantics, old execution or independent identity from source-byte preservation; no whole-goal/main/done credit."
     }
   ],
   "acceptance": {

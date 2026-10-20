@@ -2005,7 +2005,7 @@
       "supersedes": [],
       "stopLine": "No content-reviewed/template-compliant or independent execution credit from this mechanical control record.",
       "sourceSha256": "af84d2340f368b60efd099fceb387cfd57d50e5a8c285a03a091009799a64e35",
-      "afterSha256": "08768a2b87c5bd8304c1c0e93f5cbb3c2b129736f8411ad29df79586a45d5b33",
+      "afterSha256": "bd10965d9d4ffe13386df6bf47ea4dc137fd872b7a693e97c0a119a3699fb00f",
       "reviewedLines": "not semantic-reviewed; mechanical structure/byte registration only",
       "maintenanceDeltas": [
         {
@@ -2114,6 +2114,15 @@
           "previousAfterSha256": "533a5b0968a639b23a5f50c59968db78a9c9a4a955c3a64586add45e53fad49e",
           "afterSha256": "08768a2b87c5bd8304c1c0e93f5cbb3c2b129736f8411ad29df79586a45d5b33",
           "method": "Explicit S18 owner control/status/navigation/matrix writeback; no global semantic credit",
+          "grantsNewSemanticAcceptance": false
+        },
+        {
+          "date": "2026-10-20",
+          "task": "S19 fixed039 targeted counter/admission control writeback only, zero new semantic grants",
+          "sourceRevision": "b60e0b681e7c1b399b4810d831cd42cdd9215cd7",
+          "previousAfterSha256": "08768a2b87c5bd8304c1c0e93f5cbb3c2b129736f8411ad29df79586a45d5b33",
+          "afterSha256": "bd10965d9d4ffe13386df6bf47ea4dc137fd872b7a693e97c0a119a3699fb00f",
+          "method": "Exact Owner counter/admission and matrix writeback, no body adoption or review credit",
           "grantsNewSemanticAcceptance": false
         }
       ]

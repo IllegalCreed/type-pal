@@ -199,3 +199,7 @@ S16实际中央接入后共718篇文档接收、1714篇partial，N3本篇blocked
 ### S18 证据映射与执行身份（2026-10-20）
 
 73份作者coreConclusion误抽metadata；Owner以每篇正文明确的原始结论建立当前映射，原字段及40件原件不改。run-meta锚460而非最终b5，旧运行身份不认证，当前使用Owner固定候选真实重放。六篇排重账的执行闭合措辞收窄为合同登记，Owner自验，不编造第二次独立审。详见[固定裁定](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s18-evidence-led73-with-owner6/1f856cc9bdc02655d218a27570b3686c3290b9b1c1ca5d259391a5a949537089.gz)。历史验收真伪、产品通过和全量治理均不因本次接入重授。
+
+### S19 不能缩回初始撤信范围（2026-10-20）
+
+候选039的61份保全及静态门成立，但27篇未引用本卡已接收的扩大纠错，十三篇readonly又混入外轮示例；61条coreConclusion全为metadata。逐篇[具体反例](../evidence/DOCS-REGISTRY-SPLIT-1/raw/central-sessions/s19-fixed039-counter-preserve61-sources/8ee5c62d14d75b960a5060453de55fc344af987f6d8bd2f8dbe5afd4b2848353.gz)。只对40正文/61证据字段定点修正、21正文与438前序接收保留；不把目标review撤信当所有旧提案全错、不复活旧深审或旧非作者身份，不重新跑历史产品门。中央零新信用，父卡rework。
