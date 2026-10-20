@@ -60,7 +60,7 @@ describe('setupDevPanel 显式控制与释放(DEV-only debug overlay)', () => {
 
   afterEach(() => {
     // 通过 owner handler 关闭，覆盖 observer/异步资源 cleanup；不直接摘 DOM 绕过 currentPicker。
-    document.querySelector<HTMLButtonElement>('.tp-dev-panel button[title="Close (Esc)"]')?.click()
+    document.querySelector<HTMLButtonElement>('.tp-dev-panel button[title="Close"]')?.click()
     vi.restoreAllMocks()
   })
 

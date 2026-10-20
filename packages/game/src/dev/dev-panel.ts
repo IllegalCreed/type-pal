@@ -886,7 +886,7 @@ function openPicker(deps: DevPanelDeps): void {
   // M5.6 UX hotfix:close 按钮右上角 X(user 怒怼"Cancel 在底部不顺手")
   const closeBtn = document.createElement('button')
   closeBtn.textContent = '×'
-  closeBtn.title = 'Close (Esc)'
+  closeBtn.title = 'Close'
   closeBtn.style.cssText =
     'position:absolute; top:6px; right:8px; padding:0 8px; cursor:pointer; font-size:20px; line-height:1; background:transparent; border:none; color:#fff; font-weight:bold'
   closeBtn.addEventListener('click', closePicker)

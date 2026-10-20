@@ -95,7 +95,7 @@ function withPanel(deps: DevPanelDeps, run: () => void): void {
     run()
   } finally {
     // Close through the owning handler so module-level currentPicker is cleared too.
-    document.querySelector<HTMLButtonElement>('.tp-dev-panel button[title="Close (Esc)"]')?.click()
+    document.querySelector<HTMLButtonElement>('.tp-dev-panel button[title="Close"]')?.click()
     for (const [type, listener, options] of listeners.mock.calls)
       window.removeEventListener(type, listener, options)
     listeners.mockRestore()

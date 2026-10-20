@@ -134,7 +134,7 @@ function openSceneTab(deps: DevPanelDeps): HTMLElement {
 }
 
 function closePicker(): void {
-  document.querySelector<HTMLButtonElement>('.tp-dev-panel button[title="Close (Esc)"]')?.click()
+  document.querySelector<HTMLButtonElement>('.tp-dev-panel button[title="Close"]')?.click()
 }
 
 afterEach(() => {
