@@ -6,7 +6,7 @@
 - `5d3e98cae` audio.test 补强(DM29 + L47 两轴,17→20)
 - `12a39b4c9` rng-player leaves 测试头重复 docblock 清理
 
-范围:CODE-QUALITY-73(input)、74(audio)、76(main-loop)、77(rng-player)、78(avi-player)五卡的 5 生产文件 + 11 份卡内测试,全文逐文件八维;audio-midi 归 CODE75 不在本片。完整读取清单、SHA 与 primary 锚见 [`read-boundaries.json`](read-boundaries.json)。五卡当前建议 `pending → partial`(作者审查完成,待 Codex 据证验收;audio.ts/main-loop.ts 等文件的具体行状态建议见下)。
+范围:CODE-QUALITY-73(input)、74(audio)、76(main-loop)、77(rng-player)、78(avi-player)五卡的 5 生产文件 + 11 份卡内测试,全文逐文件八维;audio-midi 归 CODE75 不在本片。完整读取清单、SHA 与 primary 锚见 [`read-boundaries.json`](read-boundaries.json)。 逐文件 A–H 索引与读域标注见 [`per-file-index.md`](per-file-index.md)(2026-10-20 C1 返工新增)。C3 执行原件与声明矩阵见 [`c3-evidence/`](c3-evidence/README.md)。五卡当前建议 `pending → partial`(作者审查完成,待 Codex 据证验收;audio.ts/main-loop.ts 等文件的具体行状态建议见下)。
 
 ## A 正确性与边界(逐文件)
 

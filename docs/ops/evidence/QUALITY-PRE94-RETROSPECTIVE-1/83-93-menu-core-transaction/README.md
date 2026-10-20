@@ -1,6 +1,8 @@
 # CODE83/84/87/91/93 菜单核心+交易族五卡复审切片(GLM,只读零改动)
 
-基点 `dec0626e1c`;候选 HEAD `8e442940c`(本片零源码/测试改动,候选与基点在这些文件上逐字节相同)。范围:CODE-QUALITY-83(menu-mode/menu-stack)、84(inventory-menu)、87(in-game-menu)、91(inventory-action-menu)、93(sell-menu)五卡 8 生产文件 + 12 份卡内测试全文逐文件八维;85/86/88/89(shop/equip/magic-select/in-game-magic)留下一菜单切片。完整读取 SHA 见 [`read-boundaries.json`](read-boundaries.json),定向原件 [`directed-final.json`](directed-final.json)。
+基点 `dec0626e1c`;候选 HEAD `8e442940c`(本片零源码/测试改动,候选与基点在这些文件上逐字节相同)。范围:CODE-QUALITY-83(menu-mode/menu-stack)、84(inventory-menu)、87(in-game-menu)、91(inventory-action-menu)、93(sell-menu)五卡 **7 个生产/相邻文件(6 卡内生产 + 1 相邻 item-select.ts)+ 12 份卡内测试**全文逐文件八维;85/86/88/89(shop/equip/magic-select/in-game-magic)留下一菜单切片。完整读取 SHA 见 [`read-boundaries.json`](read-boundaries.json) 逐文件 A–H 索引与读域标注见 [`per-file-index.md`](per-file-index.md)(2026-10-20 C1 返工新增)。,定向原件 [`directed-final.json`](directed-final.json)。
+
+> 2026-10-20 C2 勘误:原文写"8 生产文件 + 12 份卡内测试"。实际 fullReads 共 19 条 = 7 个生产/相邻文件(6 卡内生产 + 1 相邻 `item-select.ts`,后者在本片中按相邻 filter oracle 全文读取并单列 boundary)+ 12 份测试。原结论不变,仅计数更正。
 
 **结论:未发现可由 primary source + 真实 caller 证实的新 direct defect;无需整改,零改动。**五卡建议 `pending → partial`(作者审查完成,待 Codex 据证验收)。
 

@@ -4,63 +4,74 @@
   "fullReads": [
     {
       "path": "packages/game/src/present/draw-sprite.ts",
-      "sha256": "35f38fc8c65b2f4b4bf45af9186696152c560c03",
       "lines": 49,
-      "boundary": "Full read; per-frame anchor (chunk193 climb regression) + opaque-mask blit vs scene.c:224/291/358."
+      "boundary": "Full read; per-frame anchor (chunk193 climb regression) + opaque-mask blit vs scene.c:224/291/358.",
+      "gitBlobSha1_at_candidate_89800a1c1": "35f38fc8c65b2f4b4bf45af9186696152c560c03",
+      "sha256_at_candidate_89800a1c1": "d17f04ccaf8a771b6832cd7e833c093140d52f9e990ff97023c748e17e4cf7dc"
     },
     {
       "path": "packages/game/src/present/draw-sprite.test.ts",
-      "sha256": "da68e352c9118e2c285b1cb9ff82cb80fdb780b5",
       "lines": 85,
-      "boundary": "Full per-case read; anchor/clamp/opaque-truth-table/offscreen."
+      "boundary": "Full per-case read; anchor/clamp/opaque-truth-table/offscreen.",
+      "gitBlobSha1_at_candidate_89800a1c1": "da68e352c9118e2c285b1cb9ff82cb80fdb780b5",
+      "sha256_at_candidate_89800a1c1": "785f68010b06ef3714c76b6ec675aa77dc13eb34047ced3dc954786eecff832c"
     },
     {
       "path": "packages/game/src/present/font.ts",
-      "sha256": "443455233b469ed2befbb17f5e88134098fbb179",
       "lines": 202,
-      "boundary": "Full read; tofu fallback, triple-shadow text.c:1144-1155, palCharWidth/palWordWidth approximations disclosed with exact deviation boundaries."
+      "boundary": "Full read; tofu fallback, triple-shadow text.c:1144-1155, palCharWidth/palWordWidth approximations disclosed with exact deviation boundaries.",
+      "gitBlobSha1_at_candidate_89800a1c1": "443455233b469ed2befbb17f5e88134098fbb179",
+      "sha256_at_candidate_89800a1c1": "3df0f1a1b23d221f55050f1a172725f32f5019016b99da1e3f98d68fab46b539"
     },
     {
       "path": "packages/game/src/present/font.test.ts",
-      "sha256": "e4010413ef9e4254e55a89a3a2450984dec5d460",
       "lines": 133,
-      "boundary": "Full per-case read (binary-ish encoding: GBK comments; read via shell)."
+      "boundary": "Full per-case read (binary-ish encoding: GBK comments; read via shell).",
+      "gitBlobSha1_at_candidate_89800a1c1": "e4010413ef9e4254e55a89a3a2450984dec5d460",
+      "sha256_at_candidate_89800a1c1": "614592161a00c8260f7a7a4b756e0360a76bca49ada54403f96c013985eb4d0f"
     },
     {
       "path": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
-      "sha256": "c1203fca4895dfb527659246e094dfdf7797e45d",
       "lines": 67,
-      "boundary": "Full per-case read; renderColoredText/triple-shadow/tofu pixel axes."
+      "boundary": "Full per-case read; renderColoredText/triple-shadow/tofu pixel axes.",
+      "gitBlobSha1_at_candidate_89800a1c1": "c1203fca4895dfb527659246e094dfdf7797e45d",
+      "sha256_at_candidate_89800a1c1": "171c4254704b1715be87e8a524aa1a8445eeea1edacc6e10979700d4a72bf093"
     },
     {
       "path": "packages/game/src/present/follower-render.ts",
-      "sha256": "c79ae2a4c83bb89441345609ed3e5a38316985a9",
       "lines": 64,
-      "boundary": "Full read; follower k -> trail[3+k], FOLLOWER_STEP_FRAME [0,2,0,1] vs leader, spriteNum=0x98 operand vs res.c:335-348."
+      "boundary": "Full read; follower k -> trail[3+k], FOLLOWER_STEP_FRAME [0,2,0,1] vs leader, spriteNum=0x98 operand vs res.c:335-348.",
+      "gitBlobSha1_at_candidate_89800a1c1": "c79ae2a4c83bb89441345609ed3e5a38316985a9",
+      "sha256_at_candidate_89800a1c1": "6f750c045df964d1782919c728e751fb46cc2d5faa4a796cc52ea17d58c4b1c2"
     },
     {
       "path": "packages/game/src/present/follower-render.test.ts",
-      "sha256": "b8df64d7d9f8657a3911a8b9765ffc2d2695aae3",
       "lines": 83,
-      "boundary": "Full per-case read."
+      "boundary": "Full per-case read.",
+      "gitBlobSha1_at_candidate_89800a1c1": "b8df64d7d9f8657a3911a8b9765ffc2d2695aae3",
+      "sha256_at_candidate_89800a1c1": "f8528c719a3993205d859e07c0c7eacf6d2d52e25b77fcc0b586a063523dc350"
     },
     {
       "path": "packages/game/src/present/draw-tilemap.ts",
-      "sha256": "9fcacfe86782a5f4bf12f92129c4d51b48031973",
       "lines": 382,
-      "boundary": "Full read; map.c:382-417 formulas, fence fill, L32 missing-tile fallback, repairTilemapSeams coverage-based dilation, PAL_CalcCoverTiles scene.c:77-178 case table + L31 trunc boundaries."
+      "boundary": "Full read; map.c:382-417 formulas, fence fill, L32 missing-tile fallback, repairTilemapSeams coverage-based dilation, PAL_CalcCoverTiles scene.c:77-178 case table + L31 trunc boundaries.",
+      "gitBlobSha1_at_candidate_89800a1c1": "9fcacfe86782a5f4bf12f92129c4d51b48031973",
+      "sha256_at_candidate_89800a1c1": "6a5b77a7963ded096b9d8b1792dc6823472c65fba8376dbd7ddf25b25abe0166"
     },
     {
       "path": "packages/game/src/present/draw-tilemap.test.ts",
-      "sha256": "1b1ec05f182fb2a09eaf06f7d3e3974368f69034",
       "lines": 198,
-      "boundary": "Full per-case read."
+      "boundary": "Full per-case read.",
+      "gitBlobSha1_at_candidate_89800a1c1": "1b1ec05f182fb2a09eaf06f7d3e3974368f69034",
+      "sha256_at_candidate_89800a1c1": "14b4490b17fc8d0e13ebd0be6b6634d643255d55867789c0da6d8e9e6c5c4a51"
     },
     {
       "path": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
-      "sha256": "6ee3a215a115f6600f2abaf757c92959875852ec",
       "lines": 195,
-      "boundary": "Full per-case read (G03-A01..A11)."
+      "boundary": "Full per-case read (G03-A01..A11).",
+      "gitBlobSha1_at_candidate_89800a1c1": "6ee3a215a115f6600f2abaf757c92959875852ec",
+      "sha256_at_candidate_89800a1c1": "56e61414a737314b7af68b8b96614ac8756ec4aab7bfda36fb6f9644f757f882",
+      "readProvenanceErratum": "C1 勘误:原 boundary\"Full per-case read (G03-A01..A11)\"过宽。原审查实际=头部 60 行+标题全列;全文于 2026-10-20 C1 返工补读,结论见 per-file-index.md。"
     }
   ],
   "primaryAnchorsVerified": [
@@ -70,5 +81,6 @@
     "reference/sdlpal/res.c:335-348 follower sprite num from wPlayerRole (0x98 operand)",
     "reference/sdlpal/text.c:1144-1155 triple shadow",
     "reference/sdlpal/font.c:611-629 + ui.c:836-861 char/word width (disclosed approximation)"
-  ]
+  ],
+  "fingerprintErratum": "2026-10-20 C2 勘误:原字段名 sha256(40 位十六进制)的值实为 `git hash-object` 的 Git blob SHA-1 OID,不是 SHA-256。原值保留于 gitBlobSha1_at_candidate_89800a1c1;新增 sha256_at_candidate_89800a1c1 为按候选 89800a1c1 blob 内容计算的真实 SHA-256。例外:packages/game/src/shell/input.ts 在本次 C2 返工中有一处注释级修改,其两值仍锚89800a1c1 版本;返工后版本的指纹见 per-file-index.md 勘误行。"
 }

@@ -1,0 +1,10 @@
+--- a/packages/game/src/shell/audio.ts
++++ b/packages/game/src/shell/audio.ts
+@@ -97,7 +97,6 @@
+   //   MIDI_Play 不收 fade)→ 忠实不做 gain ramp,只做结构性时序。)
+   battleIntroActive = false,
+ ): number {
+-  if (inBattle && battleIntroActive) return 0
+   return inBattle ? wNumBattleMusic : wNumMusic
+ }
+ 

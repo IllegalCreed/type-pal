@@ -5,99 +5,120 @@
   "fullReads": [
     {
       "path": "packages/game/src/core/menu/menu-mode.ts",
-      "sha256": "2fbb41aeb06fa0daca4730a2e602883a07109bd9",
-      "lines": 33
+      "lines": 33,
+      "gitBlobSha1_at_candidate_89800a1c1": "2fbb41aeb06fa0daca4730a2e602883a07109bd9",
+      "sha256_at_candidate_89800a1c1": "1c5338f6cecc3c25747e91281d6242944a0aefa964259e4ad7e6cffb1adc3d82"
     },
     {
       "path": "packages/game/src/core/menu/menu-stack.ts",
-      "sha256": "479d4b9ad362b7a4471ee2785bd52846baf6bfc8",
-      "lines": 32
+      "lines": 32,
+      "gitBlobSha1_at_candidate_89800a1c1": "479d4b9ad362b7a4471ee2785bd52846baf6bfc8",
+      "sha256_at_candidate_89800a1c1": "1a9681b2b26ccb5524486f25083659a0ab0fa4e4d765147e3b2702d0d0e5a7e2"
     },
     {
       "path": "packages/game/src/core/menu/menu-mode.test.ts",
-      "sha256": "34e5b16d5f5f8b545a27f54966d0a03a6cbae743",
-      "lines": 89
+      "lines": 89,
+      "gitBlobSha1_at_candidate_89800a1c1": "34e5b16d5f5f8b545a27f54966d0a03a6cbae743",
+      "sha256_at_candidate_89800a1c1": "d4dc1a4c1348bb038e4f6927f0910388e45aee10823934cea0a27e99a24e4b05"
     },
     {
       "path": "packages/game/src/core/menu/in-game-menu.ts",
-      "sha256": "00cbc7cd9a0788fe2cc5ac926e6539fbe788a81e",
-      "lines": 141
+      "lines": 141,
+      "gitBlobSha1_at_candidate_89800a1c1": "00cbc7cd9a0788fe2cc5ac926e6539fbe788a81e",
+      "sha256_at_candidate_89800a1c1": "4d1615c4e1e50a9a725e0d5337adada2ec0746ca5e4ce1597d75e8267dc2c94c"
     },
     {
       "path": "packages/game/src/core/menu/in-game-menu.test.ts",
-      "sha256": "5cfa3cdcb495ff0f7a88e9040a3722733206f316",
-      "lines": 130
+      "lines": 130,
+      "gitBlobSha1_at_candidate_89800a1c1": "5cfa3cdcb495ff0f7a88e9040a3722733206f316",
+      "sha256_at_candidate_89800a1c1": "cb1f0690d798b860bbedcf2ada1bb372c74dfbbd616dad1eb30dcd39e8950645"
     },
     {
       "path": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
-      "sha256": "994bf332020528aeebe55f4e9467739ea6f3e276",
-      "lines": 52
+      "lines": 52,
+      "gitBlobSha1_at_candidate_89800a1c1": "994bf332020528aeebe55f4e9467739ea6f3e276",
+      "sha256_at_candidate_89800a1c1": "a36718264caa4225c7a6e2b15e362fb0103614231af97ce97102d6ce3ffb47a3"
     },
     {
       "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
-      "sha256": "1ea9bd7f95b2a424b6c18d0f81f6d7e9b68b55aa",
-      "lines": 74
+      "lines": 74,
+      "gitBlobSha1_at_candidate_89800a1c1": "1ea9bd7f95b2a424b6c18d0f81f6d7e9b68b55aa",
+      "sha256_at_candidate_89800a1c1": "7a8dd000680c268a92be4de9f0b5837636b2931c0a2f38e866eaa56991fb3261"
     },
     {
       "path": "packages/game/src/core/menu/inventory-menu.ts",
-      "sha256": "34d1beceab6050c355738861b3e717a9926f8718",
-      "lines": 280
+      "lines": 280,
+      "gitBlobSha1_at_candidate_89800a1c1": "34d1beceab6050c355738861b3e717a9926f8718",
+      "sha256_at_candidate_89800a1c1": "3a7e3a01dd41af9bc884f2a88e4b2497862b72785834b73a91a8b27c9fad618d"
     },
     {
       "path": "packages/game/src/core/menu/inventory-menu.test.ts",
-      "sha256": "ecf26404fdc62663b83f7cf701acf082dcfff56f",
-      "lines": 371
+      "lines": 371,
+      "gitBlobSha1_at_candidate_89800a1c1": "ecf26404fdc62663b83f7cf701acf082dcfff56f",
+      "sha256_at_candidate_89800a1c1": "55bd19ae8f4be2cf77c982ec600dfb91298fdaab614292967a2a134905f5391e"
     },
     {
       "path": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
-      "sha256": "16eaa4536d9eb2b96203f8be7fa1fbf9a5f8a06f",
-      "lines": 107
+      "lines": 107,
+      "gitBlobSha1_at_candidate_89800a1c1": "16eaa4536d9eb2b96203f8be7fa1fbf9a5f8a06f",
+      "sha256_at_candidate_89800a1c1": "8b5090115089be7fea06da73b794bf27a090654e07690bc0719d00d4c2725967"
     },
     {
       "path": "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
-      "sha256": "9bcc618447a82d9dbaa30c19d9d9abad6121b8c4",
-      "lines": 186
+      "lines": 186,
+      "gitBlobSha1_at_candidate_89800a1c1": "9bcc618447a82d9dbaa30c19d9d9abad6121b8c4",
+      "sha256_at_candidate_89800a1c1": "e6e6fea658e4d97e6bf801750cf8833e8894a79b7fae6c239dae3813b16b5072"
     },
     {
       "path": "packages/game/src/core/menu/inventory-action-menu.ts",
-      "sha256": "c50441b641deab7298e8a5a71c4f8724e63d2f6d",
-      "lines": 79
+      "lines": 79,
+      "gitBlobSha1_at_candidate_89800a1c1": "c50441b641deab7298e8a5a71c4f8724e63d2f6d",
+      "sha256_at_candidate_89800a1c1": "c439e1cdca4d9e01f82956378a1ecc85ebd59f7917b5f518f619e53f80d5ddc2"
     },
     {
       "path": "packages/game/src/core/menu/inventory-action-menu.test.ts",
-      "sha256": "41b556121a2d2a0c7f040516b2dc60e216ef0e48",
-      "lines": 37
+      "lines": 37,
+      "gitBlobSha1_at_candidate_89800a1c1": "41b556121a2d2a0c7f040516b2dc60e216ef0e48",
+      "sha256_at_candidate_89800a1c1": "9a4e5a9005b994a76559aaf61f4c8f4263bdb6af25177a0280bc5b9d7996b8a4"
     },
     {
       "path": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
-      "sha256": "00f4d70593f8f07e700cae95d844a05be64607d9",
-      "lines": 47
+      "lines": 47,
+      "gitBlobSha1_at_candidate_89800a1c1": "00f4d70593f8f07e700cae95d844a05be64607d9",
+      "sha256_at_candidate_89800a1c1": "537b1c67dfa7fa3a636ff77224a18eaaa987cd12bc938064adfa680cea90cc86",
+      "readProvenanceErratum": "C1 勘误:原审查未读取本文件(误列 fullReads);2026-10-20 C1 返工全文补读,结论见 per-file-index.md。"
     },
     {
       "path": "packages/game/src/core/menu/sell-menu.ts",
-      "sha256": "ec8812719c591a95d4c32fea033a7291391b2934",
-      "lines": 139
+      "lines": 139,
+      "gitBlobSha1_at_candidate_89800a1c1": "ec8812719c591a95d4c32fea033a7291391b2934",
+      "sha256_at_candidate_89800a1c1": "8c4b784a0ddd5e10708d19e6539d330ac41b8cdfc405b31ca592490ecfb860b2"
     },
     {
       "path": "packages/game/src/core/menu/sell-menu.test.ts",
-      "sha256": "ffe2bfe9c135aef596ddb784d87e2be15325e51d",
-      "lines": 161
+      "lines": 161,
+      "gitBlobSha1_at_candidate_89800a1c1": "ffe2bfe9c135aef596ddb784d87e2be15325e51d",
+      "sha256_at_candidate_89800a1c1": "84512d7f14cd2a7ba1f889423230ff688fe3b0ab7659cd1a712da0e13f0cc8f5"
     },
     {
       "path": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
-      "sha256": "6d68be32362cc27bb4261b4a1a9fa8c1e88a7793",
-      "lines": 136
+      "lines": 136,
+      "gitBlobSha1_at_candidate_89800a1c1": "6d68be32362cc27bb4261b4a1a9fa8c1e88a7793",
+      "sha256_at_candidate_89800a1c1": "0f6920da06521cb5526e3e7f767947778ca3072ee22da73ad21f2bfe1a719eff"
     },
     {
       "path": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
-      "sha256": "15216700d35e23c7fd58467d581fe5f17a0fc82a",
-      "lines": 64
+      "lines": 64,
+      "gitBlobSha1_at_candidate_89800a1c1": "15216700d35e23c7fd58467d581fe5f17a0fc82a",
+      "sha256_at_candidate_89800a1c1": "8d12759e5045d6cef2abcd52897ea9b1510c3ea0d89990e612f4a968e2509a5f",
+      "readProvenanceErratum": "C1 勘误:原审查未读取本文件(误列 fullReads);2026-10-20 C1 返工全文补读,结论见 per-file-index.md。"
     },
     {
       "path": "packages/game/src/core/menu/item-select.ts",
-      "sha256": "7452416b59fe35226f4acc186d7bfc0be7b99298",
       "lines": 96,
-      "boundary": "Adjacent filter oracle read in full; createItemSelectMenu factory has no production caller (cleanup candidate stays registered)."
+      "boundary": "Adjacent filter oracle read in full; createItemSelectMenu factory has no production caller (cleanup candidate stays registered).",
+      "gitBlobSha1_at_candidate_89800a1c1": "7452416b59fe35226f4acc186d7bfc0be7b99298",
+      "sha256_at_candidate_89800a1c1": "3b71f4a343d2f7fdec75f2651dcb464d3a3f85b2d5388e50335999b9f488cfc7"
     }
   ],
   "primaryAnchorsVerified": [
@@ -114,5 +135,6 @@
     "reference/sdlpal/uigame.c:1383-1495 ItemUseMenu no disabled/dead check (H2)",
     "reference/sdlpal/uigame.c:1755+ / 1777 SellMenu via ItemSelectMenu kItemFlagSellable",
     "reference/sdlpal/play.c:266 usable filter entry"
-  ]
+  ],
+  "fingerprintErratum": "2026-10-20 C2 勘误:原字段名 sha256(40 位十六进制)的值实为 `git hash-object` 的 Git blob SHA-1 OID,不是 SHA-256。原值保留于 gitBlobSha1_at_candidate_89800a1c1;新增 sha256_at_candidate_89800a1c1 为按候选 89800a1c1 blob 内容计算的真实 SHA-256。例外:packages/game/src/shell/input.ts 在本次 C2 返工中有一处注释级修改,其两值仍锚89800a1c1 版本;返工后版本的指纹见 per-file-index.md 勘误行。"
 }

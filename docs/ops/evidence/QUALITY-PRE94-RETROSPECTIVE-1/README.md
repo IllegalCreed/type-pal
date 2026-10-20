@@ -231,6 +231,7 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 最新[GLM pre94 菜单 shop/equip/magic 切片](85-89-menu-shop-equip-magic/README.md)：CODE85/86/88/89 四卡( shop-buy、equip、magic-select、in-game-magic )4生产+11测试八维只读复审完成，零改动零缺陷；L35/L37/L38/L41/DL22 锚核验；定向80/80。菜单族九卡(83-89/91/93)本轮全部完成，四卡建议 pending→partial，候选 33cf347a8 待Codex验收。
 最新[GLM pre94 渲染四卡切片](43-54-present-render/README.md)：CODE43/44/45/54( draw-sprite、font、follower-render、draw-tilemap )4生产+6测试八维只读复审完成，零改动零缺陷；map.c/scene.c/res.c/text.c/font.c 锚核验，palCharWidth 近似边界披露核对；定向51/51。四卡建议 pending→partial，候选待Codex验收。
 最新[GLM pre94 存档+analytics四卡切片](40-60-save-analytics/README.md)：CODE59/60/40/41( save-io、quick-save、install-analytics、consent-ui )4生产+5测试八维只读复审完成，零改动零缺陷；version严格等/envelope拒绝、快存门、GA失败回滚、坏存储保持面板均有判别测试；定向21/21。四卡建议 pending→partial，候选待Codex验收。
+最新[GLM pre94 候选 C1–C3 窄返工](73-78-shell-lifecycle/c3-evidence/README.md)：按 Codex 47ce7781b 裁定补证——C1 五目录新增 per-file-index.md（69 条 fullReads 逐文件 A–H+8 文件读域勘误返工补读）；C2 sha256 字段勘误为 Git blob SHA-1+补真 SHA-256、菜单核心计数 8→7+12、input.ts 复活角点措辞收窄为非重复 keydown/keyup；C3 c3-evidence 五轮原生原件（基线/三枚单点位变异各恰 1 红/恢复 20/20 stderr 0+biome/tsc 静态原件+manifest），复合反控重分类为观察。
 
 
 - 2026-10-18：[3w结算复审](3w-settlement/README.md)——两源/测旧关闭撤回复审；事实注释、合法宿主、5→8合同迁移、六有效反控和8直接/221相邻，未统一收口。

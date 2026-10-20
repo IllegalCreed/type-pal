@@ -1,0 +1,11 @@
+--- a/packages/game/src/shell/audio.ts
++++ b/packages/game/src/shell/audio.ts
+@@ -309,7 +309,7 @@
+       if (on === musicEnabled) return // 幂等:无变化不重启/不重停(shell 可每帧调)
+       musicEnabled = on
+       if (!on) musicBackend?.stop()
+-      else if (curMusicTrack > 0) musicBackend?.play(curMusicTrack, curMusicLoop) // L47:用真实 loop(非循环场景曲开关音乐不被强制循环)
++      else if (curMusicTrack > 0) musicBackend?.play(curMusicTrack, true) // C3-MUT-A
+     },
+     setMusicBackend(backend) {
+       if (musicBackend === backend) return

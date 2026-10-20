@@ -1,0 +1,102 @@
+{
+  "captures": [
+    {
+      "tag": "audio-baseline-20",
+      "command": "../../node_modules/.bin/vitest run src/shell/audio.test.ts --reporter=default --reporter=json --outputFile=audio-baseline-20.json",
+      "cwd": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game",
+      "startedAt": "2026-10-20T12:42:21",
+      "exitCode": 0,
+      "stdoutChars": 462,
+      "stderrChars": 0,
+      "raw": "c3-evidence/audio-baseline-20.raw.txt",
+      "json": "c3-evidence/audio-baseline-20.json",
+      "numTotalTests": 20,
+      "numPassedTests": 20,
+      "numFailedTests": 0,
+      "failedFullNames": []
+    },
+    {
+      "tag": "audio-mut-dm29",
+      "command": "../../node_modules/.bin/vitest run src/shell/audio.test.ts --reporter=default --reporter=json --outputFile=audio-mut-dm29.json",
+      "cwd": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game",
+      "startedAt": "2026-10-20T12:42:22",
+      "exitCode": 1,
+      "stdoutChars": 1653,
+      "stderrChars": 712,
+      "raw": "c3-evidence/audio-mut-dm29.raw.txt",
+      "json": "c3-evidence/audio-mut-dm29.json",
+      "numTotalTests": 20,
+      "numPassedTests": 19,
+      "numFailedTests": 1,
+      "failedFullNames": [
+        "M6 audio url 映射(纯) pickMusicTrack DM29:入场揭场未完 → 0 静默;非战斗不受 intro 标志影响"
+      ]
+    },
+    {
+      "tag": "audio-mut-loop-enabled-only",
+      "command": "../../node_modules/.bin/vitest run src/shell/audio.test.ts --reporter=default --reporter=json --outputFile=audio-mut-loop-enabled-only.json",
+      "cwd": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game",
+      "startedAt": "2026-10-20T12:42:22",
+      "exitCode": 1,
+      "stdoutChars": 1666,
+      "stderrChars": 636,
+      "raw": "c3-evidence/audio-mut-loop-enabled-only.raw.txt",
+      "json": "c3-evidence/audio-mut-loop-enabled-only.json",
+      "numTotalTests": 20,
+      "numPassedTests": 19,
+      "numFailedTests": 1,
+      "failedFullNames": [
+        "M6 AudioManager.sync L47 补播还原真实 loop:非循环 track 经 setMusicEnabled 开关后仍以 loop=false 重播"
+      ]
+    },
+    {
+      "tag": "audio-mut-loop-backend-only",
+      "command": "../../node_modules/.bin/vitest run src/shell/audio.test.ts --reporter=default --reporter=json --outputFile=audio-mut-loop-backend-only.json",
+      "cwd": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game",
+      "startedAt": "2026-10-20T12:42:23",
+      "exitCode": 1,
+      "stdoutChars": 1666,
+      "stderrChars": 515,
+      "raw": "c3-evidence/audio-mut-loop-backend-only.raw.txt",
+      "json": "c3-evidence/audio-mut-loop-backend-only.json",
+      "numTotalTests": 20,
+      "numPassedTests": 19,
+      "numFailedTests": 1,
+      "failedFullNames": ["M6 AudioManager.sync L47 setMusicBackend 注入补播也用记录的 loop=false"]
+    },
+    {
+      "tag": "audio-recovery-20",
+      "command": "../../node_modules/.bin/vitest run src/shell/audio.test.ts --reporter=default --reporter=json --outputFile=audio-recovery-20.json",
+      "cwd": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game",
+      "startedAt": "2026-10-20T12:42:24",
+      "exitCode": 0,
+      "stdoutChars": 462,
+      "stderrChars": 0,
+      "raw": "c3-evidence/audio-recovery-20.raw.txt",
+      "json": "c3-evidence/audio-recovery-20.json",
+      "numTotalTests": 20,
+      "numPassedTests": 20,
+      "numFailedTests": 0,
+      "failedFullNames": []
+    },
+    {
+      "tag": "static-tsc-game",
+      "command": "../../node_modules/.bin/tsc --noEmit",
+      "cwd": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game",
+      "startedAt": "2026-10-20T12:43:05",
+      "exitCode": 0,
+      "stdoutChars": 0,
+      "stderrChars": 0,
+      "raw": "c3-evidence/static-tsc-game.raw.txt"
+    }
+  ],
+  "meta": {
+    "worktree": "/Users/zhangxu/.glm-worktrees/pre94-foundation",
+    "candidateBase": "89800a1c1",
+    "cwd": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game",
+    "os": "darwin 24.6.0 arm64",
+    "node": "node-v22.23.2",
+    "vitestVersion": "vitest/4.1.7",
+    "note": "All runs use --reporter=default --reporter=json --outputFile=<tag>.json; raw .txt files contain the exact terminal stdout/stderr plus command/cwd/start-time/exit."
+  }
+}

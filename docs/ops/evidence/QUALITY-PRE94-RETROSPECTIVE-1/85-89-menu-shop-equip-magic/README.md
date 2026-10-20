@@ -1,6 +1,6 @@
 # CODE85/86/88/89 菜单 shop/equip/magic 四卡复审切片(GLM,只读零改动)
 
-基点 `dec0626e1c`;候选 HEAD `33cf347a8`(本片零改动,文件与基点逐字节相同)。范围:CODE-QUALITY-85(shop-menu)、86(equip-menu)、88(magic-select)、89(in-game-magic-menu)四卡 4 生产文件 + 11 份测试全文逐文件八维。菜单族(83-89/91/93 九卡)至此全部完成本轮复审。读取 SHA 见 [`read-boundaries.json`](read-boundaries.json),定向原件 [`directed-final.json`](directed-final.json)。
+基点 `dec0626e1c`;候选 HEAD `33cf347a8`(本片零改动,文件与基点逐字节相同)。范围:CODE-QUALITY-85(shop-menu)、86(equip-menu)、88(magic-select)、89(in-game-magic-menu)四卡 4 生产文件 + 11 份测试全文逐文件八维。菜单族(83-89/91/93 九卡)至此全部完成本轮复审。读取 SHA 见 [`read-boundaries.json`](read-boundaries.json) 逐文件 A–H 索引与读域标注见 [`per-file-index.md`](per-file-index.md)(2026-10-20 C1 返工新增)。,定向原件 [`directed-final.json`](directed-final.json)。
 
 **结论:未发现可由 primary source + 真实 caller 证实的新 direct defect;零改动。**四卡建议 `pending → partial`。
 

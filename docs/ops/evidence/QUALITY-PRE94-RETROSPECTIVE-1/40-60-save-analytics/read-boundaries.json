@@ -4,61 +4,73 @@
   "fullReads": [
     {
       "path": "packages/game/src/tools/save-io.ts",
-      "sha256": "76ea293d02ce4e660d14da8043433abf28928f48",
       "lines": 26,
-      "boundary": "Full read; strict format/version===1 envelope, field gate partyMembers+wNumScene."
+      "boundary": "Full read; strict format/version===1 envelope, field gate partyMembers+wNumScene.",
+      "gitBlobSha1_at_candidate_89800a1c1": "76ea293d02ce4e660d14da8043433abf28928f48",
+      "sha256_at_candidate_89800a1c1": "306968e63cd42b0b2b084f1ccf14e179eac096196c05defcd0db85df0048ffb3"
     },
     {
       "path": "packages/game/src/tools/save-io.test.ts",
-      "sha256": "32f8a349a8f57be1fc74a10e4817b2dbc1600fad",
       "lines": 29,
-      "boundary": "Full per-case read incl. version-2 rejection."
+      "boundary": "Full per-case read incl. version-2 rejection.",
+      "gitBlobSha1_at_candidate_89800a1c1": "32f8a349a8f57be1fc74a10e4817b2dbc1600fad",
+      "sha256_at_candidate_89800a1c1": "81ea83ea67242f8178bcbbc67c5b7a7d00b685bf343496b3e229da7a089b187e"
     },
     {
       "path": "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
-      "sha256": "f50b6433480f75cda0ce330a1ddbf8f23bcb9ab2",
       "lines": 107,
-      "boundary": "Full per-case read (MSIO-D1/E1/E2/E3)."
+      "boundary": "Full per-case read (MSIO-D1/E1/E2/E3).",
+      "gitBlobSha1_at_candidate_89800a1c1": "f50b6433480f75cda0ce330a1ddbf8f23bcb9ab2",
+      "sha256_at_candidate_89800a1c1": "db4fa973307d0f6de37116b82af9a66577b3a17de0832e6fd3542414492d9394",
+      "readProvenanceErratum": "C1 勘误:原 boundary\"Full per-case read\"过宽。原审查实际=describe/it 标题级读取;全文于 2026-10-20 C1 返工补读,结论见 per-file-index.md。"
     },
     {
       "path": "packages/game/src/tools/quick-save.ts",
-      "sha256": "06bca8cdef014a4367b3df2c56b731dffc6d8703",
       "lines": 61,
-      "boundary": "Full read; explore-only gate, F5/F9 preventDefault, toast feedback, deps injection."
+      "boundary": "Full read; explore-only gate, F5/F9 preventDefault, toast feedback, deps injection.",
+      "gitBlobSha1_at_candidate_89800a1c1": "06bca8cdef014a4367b3df2c56b731dffc6d8703",
+      "sha256_at_candidate_89800a1c1": "d14479a0a789cfacc41fc12807182679d8fc8b150384a8a2616648f2299590d0"
     },
     {
       "path": "packages/game/src/tools/quick-save.test.ts",
-      "sha256": "1060a9cc38e5d6b6249dee064609d0394c8f9635",
       "lines": 160,
-      "boundary": "Full per-case read (C5 rewrite: real GameState, fake timers, async feedback oracles)."
+      "boundary": "Full per-case read (C5 rewrite: real GameState, fake timers, async feedback oracles).",
+      "gitBlobSha1_at_candidate_89800a1c1": "1060a9cc38e5d6b6249dee064609d0394c8f9635",
+      "sha256_at_candidate_89800a1c1": "c30b44ef27d59af52acd9feb3216b30e8b1fe1ce4a020f51e567e1a49d674c47",
+      "readProvenanceErratum": "C1 勘误:原 boundary\"Full per-case read\"过宽。原审查实际=前 100/160 行;尾部 60 行于 2026-10-20 C1 返工补读,结论见 per-file-index.md。"
     },
     {
       "path": "packages/game/src/analytics/install-analytics.ts",
-      "sha256": "19622bcd2969a69c54fb8fd311afa898098f300b",
       "lines": 64,
-      "boundary": "Full read; wiring + GA-failure UI rollback (GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 approved fix)."
+      "boundary": "Full read; wiring + GA-failure UI rollback (GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 approved fix).",
+      "gitBlobSha1_at_candidate_89800a1c1": "19622bcd2969a69c54fb8fd311afa898098f300b",
+      "sha256_at_candidate_89800a1c1": "586d8f71de49b625ef324e35fe9a92cc64e37da9cd892d3d7dcb1cdf6c19cad8"
     },
     {
       "path": "packages/game/src/analytics/install-analytics.test.ts",
-      "sha256": "737e8cc1a771d5d4d2bc965915ced667e9cb31b1",
       "lines": 48,
-      "boundary": "Full per-case read."
+      "boundary": "Full per-case read.",
+      "gitBlobSha1_at_candidate_89800a1c1": "737e8cc1a771d5d4d2bc965915ced667e9cb31b1",
+      "sha256_at_candidate_89800a1c1": "fffcb0ba4b11e7f8a308f733465e272f1581b4d95532e6bcce0830711b519cce"
     },
     {
       "path": "packages/game/src/analytics/analytics-consent-ui.ts",
-      "sha256": "e39aae5bfe3a5b4e0468775a677d56f79a57ceab",
       "lines": 124,
-      "boundary": "Full read; unset-only panel, broken-storage keeps panel, preferences reopen."
+      "boundary": "Full read; unset-only panel, broken-storage keeps panel, preferences reopen.",
+      "gitBlobSha1_at_candidate_89800a1c1": "e39aae5bfe3a5b4e0468775a677d56f79a57ceab",
+      "sha256_at_candidate_89800a1c1": "e8bce6086369e2b4bcbbd8bf4c21efc1b8030690c841b2769aa39d018261bc52"
     },
     {
       "path": "packages/game/src/analytics/analytics-consent-ui.test.ts",
-      "sha256": "6498ee6676d5d8ffda726deca1a39dd4079bac70",
       "lines": 57,
-      "boundary": "Full per-case read."
+      "boundary": "Full per-case read.",
+      "gitBlobSha1_at_candidate_89800a1c1": "6498ee6676d5d8ffda726deca1a39dd4079bac70",
+      "sha256_at_candidate_89800a1c1": "6acdd46767977253d6a6d33d3439fa0dd8a85f8193ab4b0675520471cb5bde83"
     }
   ],
   "primaryAnchorsVerified": [
     "phase1 save plan quick-key admission (card 60 scope)",
     "analytics-consent.ts/google-analytics.ts contracts already reviewed under cards 3y/3z (partial); this slice covers only install-analytics.ts + analytics-consent-ui.ts"
-  ]
+  ],
+  "fingerprintErratum": "2026-10-20 C2 勘误:原字段名 sha256(40 位十六进制)的值实为 `git hash-object` 的 Git blob SHA-1 OID,不是 SHA-256。原值保留于 gitBlobSha1_at_candidate_89800a1c1;新增 sha256_at_candidate_89800a1c1 为按候选 89800a1c1 blob 内容计算的真实 SHA-256。例外:packages/game/src/shell/input.ts 在本次 C2 返工中有一处注释级修改,其两值仍锚89800a1c1 版本;返工后版本的指纹见 per-file-index.md 勘误行。"
 }

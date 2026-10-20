@@ -1,0 +1,14 @@
+--- a/packages/game/src/shell/audio.ts
++++ b/packages/game/src/shell/audio.ts
+@@ -317,7 +317,7 @@
+       musicBackend?.dispose?.()
+       musicBackend = backend
+       // 注入后端时若已有当前 track → 立即起播(覆盖 M6a no-op 期间漏播的 BGM)。
+-      if (backend && musicEnabled && curMusicTrack > 0) backend.play(curMusicTrack, curMusicLoop) // L47:用真实 loop
+-    },
+-  }
+-}
++      if (backend && musicEnabled && curMusicTrack > 0) backend.play(curMusicTrack, true) // C3-MUT-B
++    },
++  }
++}

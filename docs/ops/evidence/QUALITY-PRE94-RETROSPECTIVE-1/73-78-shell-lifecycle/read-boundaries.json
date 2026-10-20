@@ -9,99 +9,116 @@
   "fullReads": [
     {
       "path": "packages/game/src/shell/input.ts",
-      "sha256_at_candidate": "f6978ea6e6446d36e8b6104dcc33ec6f0ccdad97",
       "lines": 166,
-      "boundary": "Full read at base dec0626e1c; candidate only moves suppressedHeld declaration, retypes it Set<AbstractKey>, extends the DM30 docblock with the verified multi-key resurrection corner. No executable change."
+      "boundary": "Full read at base dec0626e1c; candidate only moves suppressedHeld declaration, retypes it Set<AbstractKey>, extends the DM30 docblock with the verified multi-key resurrection corner. No executable change.",
+      "gitBlobSha1_at_candidate_89800a1c1": "f6978ea6e6446d36e8b6104dcc33ec6f0ccdad97",
+      "sha256_at_candidate_89800a1c1": "99fa15ce94353f269a14b8e8caae9d469810b1d546402e30acb4d2d8ffad2215"
     },
     {
       "path": "packages/game/src/shell/main-loop.ts",
-      "sha256_at_candidate": "4b2c9ebc3b24770cdb7b2db23b3b220d6b880113",
       "lines": 181,
-      "boundary": "Full read; byte-identical to base (no edit needed). DM30/DM31/DM32 invariants verified against game.c:65-80, palette.c:313-316/441-446."
+      "boundary": "Full read; byte-identical to base (no edit needed). DM30/DM31/DM32 invariants verified against game.c:65-80, palette.c:313-316/441-446.",
+      "gitBlobSha1_at_candidate_89800a1c1": "4b2c9ebc3b24770cdb7b2db23b3b220d6b880113",
+      "sha256_at_candidate_89800a1c1": "0ebe896af21c903697f011cfebe65b7140daa547d84de2759c8726dd1a66c6a8"
     },
     {
       "path": "packages/game/src/shell/audio.ts",
-      "sha256_at_candidate": "9a602c44aa6d8905c612287d3c9f8996eff698c6",
       "lines": 323,
-      "boundary": "Full read; candidate fixes midi.c:67->69 anchor in one comment. Dedup/DM29/L47 logic read and verified against sound.c:769-772/930, battle.c:717-728/1030-1032."
+      "boundary": "Full read; candidate fixes midi.c:67->69 anchor in one comment. Dedup/DM29/L47 logic read and verified against sound.c:769-772/930, battle.c:717-728/1030-1032.",
+      "gitBlobSha1_at_candidate_89800a1c1": "9a602c44aa6d8905c612287d3c9f8996eff698c6",
+      "sha256_at_candidate_89800a1c1": "c3532ceba544d6d68319b39af4b0ffc99f552d693d1c274b02d4d8a334d316ba"
     },
     {
       "path": "packages/game/src/shell/rng-player.ts",
-      "sha256_at_candidate": "96f8de9a6947ae6a0f1ca6d1cf13445302c0b011",
       "lines": 267,
-      "boundary": "Full read; candidate corrects 3 stale comments (per-frame PNG -> gzip RLE chunk prefetch; default skip claim -> DM27 not skippable). No executable change."
+      "boundary": "Full read; candidate corrects 3 stale comments (per-frame PNG -> gzip RLE chunk prefetch; default skip claim -> DM27 not skippable). No executable change.",
+      "gitBlobSha1_at_candidate_89800a1c1": "96f8de9a6947ae6a0f1ca6d1cf13445302c0b011",
+      "sha256_at_candidate_89800a1c1": "bd617b4af6be77f67f7fd8d28b231837852ca061520305d7010216991737d390"
     },
     {
       "path": "packages/game/src/shell/avi-player.ts",
-      "sha256_at_candidate": "7d2eda5831f575c202c1d3e78b4a67d86dcfee12",
       "lines": 203,
-      "boundary": "Full read; candidate fixes wrong anchor uigame.c:395 -> aviplay.c:711 in two comments. Skip-delay/stopImmediatePropagation history verified against aviplay.c:667/711/741-747."
+      "boundary": "Full read; candidate fixes wrong anchor uigame.c:395 -> aviplay.c:711 in two comments. Skip-delay/stopImmediatePropagation history verified against aviplay.c:667/711/741-747.",
+      "gitBlobSha1_at_candidate_89800a1c1": "7d2eda5831f575c202c1d3e78b4a67d86dcfee12",
+      "sha256_at_candidate_89800a1c1": "6e5d15b9a5d5aad927b766e67d38c0ee045d4fb44662aa4726f945dbbf2e027c"
     },
     {
       "path": "packages/game/src/shell/input.test.ts",
-      "sha256_at_candidate": "5ce91b04249f6602a5181dbdd1a345994898cc92",
       "lines": 223,
-      "boundary": "Full per-case read; candidate adds KeyM dev-addition note on one assertion."
+      "boundary": "Full per-case read; candidate adds KeyM dev-addition note on one assertion.",
+      "gitBlobSha1_at_candidate_89800a1c1": "5ce91b04249f6602a5181dbdd1a345994898cc92",
+      "sha256_at_candidate_89800a1c1": "b7f66d7995fc17c9c8fc8aa8bb1c8b944eeb277e4f75e7cc79a9ce96bf07bdef"
     },
     {
       "path": "packages/game/src/shell/input.boundaries.test.ts",
-      "sha256_at_candidate": "ef39b7cf72ccfdecb5bf323f7844ed020c508062",
       "lines": 74,
-      "boundary": "Full per-case read; byte-identical to base. H02 already discriminates direction-only fade suppression and detach."
+      "boundary": "Full per-case read; byte-identical to base. H02 already discriminates direction-only fade suppression and detach.",
+      "gitBlobSha1_at_candidate_89800a1c1": "ef39b7cf72ccfdecb5bf323f7844ed020c508062",
+      "sha256_at_candidate_89800a1c1": "e81a0927a66bf40ec764e7815af0f25c2080b207a33d9e3865c960b6c403bca4"
     },
     {
       "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
-      "sha256_at_candidate": "451884c5ca1bd9e8ae5137813767db4bb47fc2e0",
       "lines": 156,
-      "boundary": "Full per-case read; byte-identical to base."
+      "boundary": "Full per-case read; byte-identical to base.",
+      "gitBlobSha1_at_candidate_89800a1c1": "451884c5ca1bd9e8ae5137813767db4bb47fc2e0",
+      "sha256_at_candidate_89800a1c1": "73e9a60b24aeeaff85822c0b6608ed0137b4dab7a91345c5c27595bbd50c2c00"
     },
     {
       "path": "packages/game/src/shell/main-loop.test.ts",
-      "sha256_at_candidate": "3251cc550716288976e772afbf9f80d18ff1ed1c",
       "lines": 217,
-      "boundary": "Full per-case read; byte-identical to base."
+      "boundary": "Full per-case read; byte-identical to base.",
+      "gitBlobSha1_at_candidate_89800a1c1": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+      "sha256_at_candidate_89800a1c1": "8b49ad03c314ba12dc7d9f32176b8962839ee09c994bcef50e89541aef268e0e"
     },
     {
       "path": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
-      "sha256_at_candidate": "3b5c0aaff880fd0734280d9af22b693c5b261e6d",
       "lines": 247,
-      "boundary": "Full per-case read (titles + bodies of touched axes); byte-identical to base."
+      "boundary": "Full per-case read (titles + bodies of touched axes); byte-identical to base.",
+      "gitBlobSha1_at_candidate_89800a1c1": "3b5c0aaff880fd0734280d9af22b693c5b261e6d",
+      "sha256_at_candidate_89800a1c1": "667bd9bc6fa79e1ef3b192c1124cc17da874f727b47c0576c0fac6d8f4ba4e65",
+      "readProvenanceErratum": "C1 勘误:原 boundary\"Full per-case read (titles + bodies of touched axes)\"措辞矛盾且过宽。原审查实际=describe/it 标题全列+battleAnim/battleFade 命中行;全文 247 行于 2026-10-20 C1 返工补读(读域标注见 per-file-index.md),补读结论与原判一致。"
     },
     {
       "path": "packages/game/src/shell/audio.test.ts",
-      "sha256_at_candidate": "b840748518b3dd562eca3f4eef889d3c81779fdb",
       "lines": 231,
-      "boundary": "Full per-case read; candidate adds DM29 battleIntroActive test and two L47 loop-restoration tests (17->20 cases)."
+      "boundary": "Full per-case read; candidate adds DM29 battleIntroActive test and two L47 loop-restoration tests (17->20 cases).",
+      "gitBlobSha1_at_candidate_89800a1c1": "b840748518b3dd562eca3f4eef889d3c81779fdb",
+      "sha256_at_candidate_89800a1c1": "c536e97cc6cd46b3a6ab21d4dc8ad8a1f02957c8cc43c18172330784a568ef3e"
     },
     {
       "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
-      "sha256_at_candidate": "283fd215e71daa562bdf29603d86a5eee21d9bb7",
       "lines": 72,
-      "boundary": "Full per-case read; byte-identical to base."
+      "boundary": "Full per-case read; byte-identical to base.",
+      "gitBlobSha1_at_candidate_89800a1c1": "283fd215e71daa562bdf29603d86a5eee21d9bb7",
+      "sha256_at_candidate_89800a1c1": "3b9e2c718515cf8f522df2ae13c72458b458e4b3a8edfe5f5f0a56bbe923f4f3"
     },
     {
       "path": "packages/game/src/shell/rng-player.test.ts",
-      "sha256_at_candidate": "d3c6260946d21a1d78e15e6a6fdf9f1584b4360b",
       "lines": 326,
-      "boundary": "Full per-case read; byte-identical to base."
+      "boundary": "Full per-case read; byte-identical to base.",
+      "gitBlobSha1_at_candidate_89800a1c1": "d3c6260946d21a1d78e15e6a6fdf9f1584b4360b",
+      "sha256_at_candidate_89800a1c1": "2efeabdbf6c13c8c2f1105330f2e11e18ebfc534527c4c3734defb0062887082"
     },
     {
       "path": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
-      "sha256_at_candidate": "6f7addc096475ee0bcbc132a2d26a16a7e2694e7",
       "lines": 123,
-      "boundary": "Full per-case read; candidate removes one duplicated stacked docblock line."
+      "boundary": "Full per-case read; candidate removes one duplicated stacked docblock line.",
+      "gitBlobSha1_at_candidate_89800a1c1": "6f7addc096475ee0bcbc132a2d26a16a7e2694e7",
+      "sha256_at_candidate_89800a1c1": "145a3c12bebea0cb2f4199c046387b791717d34feca8fcddf879ce6e0d0ae3ae"
     },
     {
       "path": "packages/game/src/shell/avi-player.test.ts",
-      "sha256_at_candidate": "cbe36644bc605cc3b62db91728c8ae82009b013c",
       "lines": 152,
-      "boundary": "Full per-case read; byte-identical to base."
+      "boundary": "Full per-case read; byte-identical to base.",
+      "gitBlobSha1_at_candidate_89800a1c1": "cbe36644bc605cc3b62db91728c8ae82009b013c",
+      "sha256_at_candidate_89800a1c1": "b11d9337d9829c862cbb475b1a9e73ca04cfda1dce3f3cdcb1749d49cbc23f69"
     },
     {
       "path": "packages/game/src/shell/avi-player.glm-next-wave.test.ts",
-      "sha256_at_candidate": "0d5069f24956546d5c2842671f7c222004364c2b",
       "lines": 156,
-      "boundary": "Full per-case read; byte-identical to base."
+      "boundary": "Full per-case read; byte-identical to base.",
+      "gitBlobSha1_at_candidate_89800a1c1": "0d5069f24956546d5c2842671f7c222004364c2b",
+      "sha256_at_candidate_89800a1c1": "d51a55110d175b45b54284685091e1103b273f32d055a79b4f3b1ad6d3588041"
     }
   ],
   "partialReads": [
@@ -136,5 +153,6 @@
     "reference/sdlpal/sound.c:769-772/930 lastSFX dedup and reset",
     "reference/sdlpal/battle.c:715-730 battle-entry music sequence (DM29), 1030-1033 victory track",
     "reference/sdlpal/midi.c:69 Musics %.3d.mid"
-  ]
+  ],
+  "fingerprintErratum": "2026-10-20 C2 勘误:原字段名 sha256(40 位十六进制)的值实为 `git hash-object` 的 Git blob SHA-1 OID,不是 SHA-256。原值保留于 gitBlobSha1_at_candidate_89800a1c1;新增 sha256_at_candidate_89800a1c1 为按候选 89800a1c1 blob 内容计算的真实 SHA-256。例外:packages/game/src/shell/input.ts 在本次 C2 返工中有一处注释级修改,其两值仍锚89800a1c1 版本;返工后版本的指纹见 per-file-index.md 勘误行。"
 }
