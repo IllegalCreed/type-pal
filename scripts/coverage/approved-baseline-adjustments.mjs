@@ -4,6 +4,92 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // User-authorized structural recounts, pinned to complete old baseline and current
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
+  // Exact covered guard-line retirement; old baseline +9 pinned module inputs only.
+  {
+    id: 'pre94-shell-dead-dump-20261021',
+    authority:
+      'User2026-10-20 permits exact baseline adjustment after reasonable refactor; this removes one private unreachable dump branch,not tests or live behavior.',
+    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/shell-lifecycle-local.json',
+    baselineSha256: '800d61d3cefe3b3795ef3ccaf5d6146d02698fbb493b691feaa19531948c0f18',
+    sources: [
+      {
+        path: 'packages/game/src/shell/__tests__/audio-element-fixture.ts',
+        sha256: '15ad51f2efbeed5325590f3d110ea35683bdc779b855e68107ed814f106cfdc8',
+      },
+      {
+        path: 'packages/game/src/shell/audio-midi.ts',
+        sha256: 'acff05c05fe6ac204f8c5d050fba2768da0c8254da8488795605bca3c5a47322',
+      },
+      {
+        path: 'packages/game/src/shell/audio.glm-phase1-leaves.test.ts',
+        sha256: '80758a5d5799b736eda79c98b1fab76d0b6720653381aea650e85d4726f4f1b7',
+      },
+      {
+        path: 'packages/game/src/shell/audio.test.ts',
+        sha256: 'ec1b6053b13e148ab4560f4995b5c22d115f8d0de62d4736f4e3926699c5159d',
+      },
+      {
+        path: 'packages/game/src/shell/audio.ts',
+        sha256: 'bef9ea3289e8c76e3694151346a3784983bae153c4446a21bea3a2fdae578d2e',
+      },
+      {
+        path: 'packages/game/src/shell/avi-player.glm-next-wave.test.ts',
+        sha256: '4b874a206b4b33aeb97b8656ce57cfb5d7f7472974cea9de6b460421895bef2d',
+      },
+      {
+        path: 'packages/game/src/shell/avi-player.ts',
+        sha256: '848064b0d0c20f39930754af0686af38f3a1cf032011289cf7f57fad3a553216',
+      },
+      {
+        path: 'packages/game/src/shell/main-loop.ts',
+        sha256: '01842b519dd9bc8bee3a221c962d2c9cdec043f7c912f848efd2ef3e1c559847',
+      },
+      {
+        path: 'packages/game/src/shell/rng-player.ts',
+        sha256: '726d13f8e6293bb3f50ef42637f3a45e54f20f7d66bb7a9c056c78d3b15c6f04',
+      },
+    ],
+    packages: {
+      game: {
+        before: {
+          statements: {
+            covered: 14308,
+            total: 16044,
+          },
+          branches: {
+            covered: 9334,
+            total: 11626,
+          },
+          functions: {
+            covered: 1672,
+            total: 1961,
+          },
+          lines: {
+            covered: 12759,
+            total: 14060,
+          },
+        },
+        after: {
+          statements: {
+            covered: 14307,
+            total: 16042,
+          },
+          branches: {
+            covered: 9333,
+            total: 11622,
+          },
+          functions: {
+            covered: 1672,
+            total: 1961,
+          },
+          lines: {
+            covered: 12758,
+            total: 14059,
+          },
+        },
+      },
+    },
+  },
   // Finite user-authorized glyph-shadow/count sharing; exact baseline +19inputs.
   {
     id: 'pre94-present-glyph-shadow-20261021',
