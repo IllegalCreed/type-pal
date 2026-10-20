@@ -27,7 +27,7 @@ import {
   addPoisonForPlayer,
   curePlayerPoisonByKind,
   curePlayerPoisonByLevel,
-  partySlotForRole,
+  isPlayerPoisoned,
 } from '../player-poison-state.js'
 import {
   buildEnemyDivisionTimeline,
@@ -355,7 +355,7 @@ const OP_JUMP_IF_ENEMY_HP_ABOVE = 0x0064
 /** sdlpal `script.c:2016-2023` 0x0067:enemy.wMagic = operand[0],wMagicRate = operand[1]||10 */
 const OP_ENEMY_USE_MAGIC = 0x0067
 
-/** sdlpal `script.c:1957-1965` 0x0061:if !player_poisoned → jump operand[1] */
+/** sdlpal `script.c:1957-1965` 0x0061:if !player_poisoned → jump operand[0] */
 const OP_JUMP_IF_PLAYER_NOT_POISONED = 0x0061
 
 /** sdlpal `script.c:2035-2038` 0x0069:PAL_BattleEnemyEscape — 终止战斗,无击杀奖励。 */
@@ -1476,16 +1476,9 @@ export function dispatchBattleOpcode(
             ? ctx.caster
             : undefined
       const roleId = sel ? state.players[sel.idx]?.roleId : undefined
-      let poisoned = false
-      const partySlot = ctx.gs && roleId !== undefined ? partySlotForRole(ctx.gs, roleId) : -1
-      if (ctx.gs && partySlot >= 0) {
-        for (let slot = 0; slot < 16; slot++) {
-          if ((ctx.gs.rgPoisonStatus[`${slot}_${partySlot}`]?.wPoisonID ?? 0) !== 0) {
-            poisoned = true
-            break
-          }
-        }
-      }
+      // 与大世界共用 ByLevel(role,0)：普通 level0 毒算中毒，level>=99 装备效果不算。
+      // 定义由 bootstrap 注入 player-poison-state；寻址仍由该 Owner 把 role 转为队伍位置。
+      const poisoned = ctx.gs && roleId !== undefined && isPlayerPoisoned(ctx.gs, roleId)
       // 未中毒 → jump operand[0];已中毒 → ip++(不跳)
       return poisoned ? { consumed: true } : { consumed: true, newIp: operands[0] ?? 0 }
     }

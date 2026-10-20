@@ -36,7 +36,7 @@ export function partySlotForRole(gs: GameState, roleId: number): number {
  * poisonKind给定只看该种非零毒ID,不看等级;省略时:
  *   忽略 level>=99 的装备伪毒(寿葫芦 HP/MP 回补等),对齐 sdlpal global.c:1669-1675。
  *   否则装寿葫芦时这些伪毒会被当"中毒",令毒龙胆/九阴散的 0x61"没中毒就秒杀"误判为有毒 →
- *   白嫖解毒+回满血(原版早期 bug,后期已修)。rgPoisonStatus 16 槽/party slot。
+ *   分别免风险解毒或回血(原版早期 bug,后期已修)。rgPoisonStatus 16 槽/party slot。
  */
 export function isPlayerPoisoned(gs: GameState, roleId: number, poisonKind?: number): boolean {
   const partySlot = partySlotForRole(gs, roleId)
