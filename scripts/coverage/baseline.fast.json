@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
   "profile": "fast",
-  "generatedAt": "2026-10-20T19:28:06.588Z",
+  "generatedAt": "2026-10-20T20:52:00.887Z",
   "provider": {
     "name": "v8",
     "vitest": "4.1.7",
     "coverageV8": "4.1.7"
   },
   "sourceFileCount": 744,
-  "testCount": 19977,
+  "testCount": 19968,
   "packages": {
     "shared": {
       "name": "@type-pal/shared",
@@ -4697,7 +4697,7 @@
       ],
       "scopeDigest": "a2c95beb98ce984ff93ea4dd79909ea765b3b18f8628b5f223d5acf13bf710a7",
       "fastTests": {
-        "testCount": 3647,
+        "testCount": 3638,
         "testFileCount": 321,
         "files": [
           "packages/game/src/analytics/analytics-consent-ui.test.ts",
@@ -6020,13 +6020,13 @@
           },
           {
             "file": "packages/game/src/present/draw-sprite-clip.grok-r1.test.ts",
-            "testCount": 8,
-            "identityDigest": "2d759a3882d8f4edb40a4fb51841e9b65904650f48a27eebdb35afcc5cece457"
+            "testCount": 7,
+            "identityDigest": "c99d72fdd8f7b69d34ab0c89bb705e289f73ff075b94f8ffb705c7104f5d1b3f"
           },
           {
             "file": "packages/game/src/present/draw-sprite.test.ts",
             "testCount": 6,
-            "identityDigest": "79834be7b03ba673e711f17592f9ef2b038c725c24588534fb3a02203a5dd6e4"
+            "identityDigest": "dbac0e6023428126f602893ec7c2874f13af2116075408abdb4246a2aa84c654"
           },
           {
             "file": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
@@ -6050,28 +6050,28 @@
           },
           {
             "file": "packages/game/src/present/follower-render-gap.grok-r1.test.ts",
-            "testCount": 4,
-            "identityDigest": "f45e3d68b49b72d1355ddcf6455a174890504b6d9bb8882378952d257bd0152d"
+            "testCount": 3,
+            "identityDigest": "e5fe95c23e045031fe4aadc8c00e5409a10617fc2be2e35982203427f71b0063"
           },
           {
             "file": "packages/game/src/present/follower-render.test.ts",
             "testCount": 6,
-            "identityDigest": "4f5f6850ae9933300d702e0219145c0d1f6e41c53e8d82bc89fb61685d2fa32b"
+            "identityDigest": "b5dd3ec0a82ccdd24be7708fab08411800d4ba5e8abcf04c2bb7689e4ca9d463"
           },
           {
             "file": "packages/game/src/present/font-width.grok-r1.test.ts",
-            "testCount": 14,
-            "identityDigest": "78375df326e9d603337bf01614068b5058b7ade1b5676fcd2ebfe4f9805e4fc4"
+            "testCount": 10,
+            "identityDigest": "229690aeaad0984ebae36553d1bd131da7f90049eaeaaecb1dd10bcb900f436f"
           },
           {
             "file": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
             "testCount": 4,
-            "identityDigest": "8f3c7dc902941781b315d76513338a0e4b9421985a8a34086053d3716a5780ca"
+            "identityDigest": "c4a99a18dc3129519ee0a8c04161cd64d14319da30f5db941efd22b12bf727f0"
           },
           {
             "file": "packages/game/src/present/font.test.ts",
-            "testCount": 15,
-            "identityDigest": "64c0e0987fa1dbf02d678d704405e0df9309afef0dcb1ee935eb27a508c30ce9"
+            "testCount": 13,
+            "identityDigest": "3ad5f16d871ba526e0598c7c0cdc57a7f5108a4d2d5ecc332436e2775b5c4dc7"
           },
           {
             "file": "packages/game/src/present/framebuffer.glm-phase1-leaves.test.ts",
@@ -6090,8 +6090,8 @@
           },
           {
             "file": "packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts",
-            "testCount": 5,
-            "identityDigest": "bdd0b805e6ed539b0d052213e7fca4ad029ea08817ccc4b0f8e25ee5496d5c2b"
+            "testCount": 4,
+            "identityDigest": "0a0afb1cd010018b305e6c94f97425b71017b7e969aa4aa923a3f94b2948267b"
           },
           {
             "file": "packages/game/src/present/menu/draw-box.test.ts",
@@ -6101,7 +6101,7 @@
           {
             "file": "packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts",
             "testCount": 3,
-            "identityDigest": "fb47bcea41991cbae0a82b4187cc9638d23cafc2ae6ad6c4a94f916d2b1d9b3b"
+            "identityDigest": "4208fe816d06e8d74d3ad116946fd9ae5103d34b22ff46bf86e6e9dd7f8dce83"
           },
           {
             "file": "packages/game/src/present/menu/draw-equip.glm-phase1-leaves.test.ts",
@@ -6629,26 +6629,26 @@
             "identityDigest": "1e1868d0d636dbcd794649a3970d6f09897d3c1b05c7540656cf1a8adce7b18e"
           }
         ],
-        "identityDigest": "4d6af811e5ee8da6fe76f273ad7c33679be0ad695c2ddda363881f9553f02ce7",
+        "identityDigest": "caa4da444639e7283aa4d1b483add1b1bc8bc49bb20bacdb408b3e5ad3425f25",
         "duplicateIdentityCount": 0,
-        "executionDigest": "2a275b6b1445f5ccae0efa7994173dc927728f2708536f822cc52f4500933663"
+        "executionDigest": "f2649158c9f33af2984aae5cd8d6a5cb16dac21d95a7d4ac79869028f59e9f30"
       },
       "metrics": {
         "statements": {
-          "covered": 14315,
-          "total": 16051
+          "covered": 14308,
+          "total": 16044
         },
         "branches": {
-          "covered": 9336,
-          "total": 11628
+          "covered": 9334,
+          "total": 11626
         },
         "functions": {
           "covered": 1672,
           "total": 1961
         },
         "lines": {
-          "covered": 12766,
-          "total": 14067
+          "covered": 12759,
+          "total": 14060
         }
       }
     },
@@ -10667,20 +10667,20 @@
   },
   "total": {
     "statements": {
-      "covered": 71395,
-      "total": 79247
+      "covered": 71388,
+      "total": 79240
     },
     "branches": {
-      "covered": 51849,
-      "total": 61891
+      "covered": 51847,
+      "total": 61889
     },
     "functions": {
       "covered": 13548,
       "total": 15098
     },
     "lines": {
-      "covered": 63773,
-      "total": 69344
+      "covered": 63766,
+      "total": 69337
     }
   }
 }

@@ -4,6 +4,132 @@ import { aggregateMetrics, normalizeMetrics } from './metrics.mjs'
 // User-authorized structural recounts, pinned to complete old baseline and current
 // source bytes. These are finite migrations, never a percentage tolerance or flag.
 const approvedAdjustments = [
+  // Finite user-authorized glyph-shadow/count sharing; exact baseline +19inputs.
+  {
+    id: 'pre94-present-glyph-shadow-20261021',
+    authority:
+      '用户2026-10-20：合理重构造成覆盖率下降可精确调整baseline；本项仅font同体字形阴影共享及confirm委托既有色规则，不恢复死代码或堆弱测试。',
+    evidence: 'docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/present-leaves-recount.json',
+    baselineSha256: '6a101c82be5991859d874e283d38d19b37a5ec9e1a8ad16a23918033210425ca',
+    sources: [
+      {
+        path: 'packages/game/src/present/draw-sprite-clip.grok-r1.test.ts',
+        sha256: '72e2e06ce3b72b4877c9b24cfe064699a880efe1d95394f7d3e30f53ea0d006d',
+      },
+      {
+        path: 'packages/game/src/present/draw-sprite.test.ts',
+        sha256: '7b362e551d29920b87d3739da0d0d377429f65019f945c380f7336887977f364',
+      },
+      {
+        path: 'packages/game/src/present/draw-sprite.ts',
+        sha256: 'bd2fbc1abb0527267b032298e779ac5946089745fd83159181dd0af84f8ffcef',
+      },
+      {
+        path: 'packages/game/src/present/follower-render-gap.grok-r1.test.ts',
+        sha256: '546e86fa49e027289554d79297578a163b177358774b1e65253a247f00a326cc',
+      },
+      {
+        path: 'packages/game/src/present/follower-render.test.ts',
+        sha256: '4b7e687c809ce88817f668231a9881012b3fcad0cdb6dfd0485e7e854a315d75',
+      },
+      {
+        path: 'packages/game/src/present/follower-render.ts',
+        sha256: 'fe1bc4db16a6e3732cadaecc8247028c12209974ab8d03f4aa4432af7ce00e29',
+      },
+      {
+        path: 'packages/game/src/present/font-width.grok-r1.test.ts',
+        sha256: '1b5024cd2d448c38a619cb8a545a3c92d51851185b7b1b7fcaf54a819cb616f3',
+      },
+      {
+        path: 'packages/game/src/present/font.glm-phase1-leaves.test.ts',
+        sha256: '5d96d0ae5501f96c5a7075ce996c3ac2a3b586f52641cf9198eb00c73174c693',
+      },
+      {
+        path: 'packages/game/src/present/font.test.ts',
+        sha256: 'd502acc90f477b56a28eef745e17e4f219514ffacb9bbcf96d39992d3219cc6f',
+      },
+      {
+        path: 'packages/game/src/present/font.ts',
+        sha256: '0af092f60efef7dd1f39c82f4c492512dbf957092f0d20b13da27b5518fd7fe4',
+      },
+      {
+        path: 'packages/game/src/present/menu/box-shadow-pixels.grok-r1.test.ts',
+        sha256: '4adaf21e23bfd2d6da685430c237e7f1549377001d5fef2ea23145829650fee6',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-box.glm-phase1-leaves.test.ts',
+        sha256: '2ddaa6efbaf2016f40191c7c8cf49f77191ad62c187c76a2ac25aaa5e54c4295',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-box.test.ts',
+        sha256: 'a5fa29d9b440cebec03a20be4014696c47c3c14c3034d37e06dcb876cc1fe173',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-box.ts',
+        sha256: '2ab2d6e4aafcaa9848cab7e74ccfef8ac0669678a4f4fe58c7577ac89bafb4b4',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-confirm.glm-phase1-leaves.test.ts',
+        sha256: '4f6eae08db3ab3cecddcba64a72ae62e4a51f62963954d01ce3ad74836d7b9d2',
+      },
+      {
+        path: 'packages/game/src/present/menu/draw-confirm.ts',
+        sha256: '3488c60aac789360d5c9c49c78bb00a47120213f8b02bbb7342a3279d3a45b2d',
+      },
+      {
+        path: 'packages/game/src/present/menu/opening-confirm-pixels.grok-r1.test.ts',
+        sha256: '1fc84cda595debed5b09e20db9d24a79edd1c44b1bbf030717e9f2cedea02abf',
+      },
+      {
+        path: 'scripts/coverage/approved-test-retirements.mjs',
+        sha256: 'ce02d41304b559b03c9c15c93e574ca48daeaf1352dac8cc3e71710b9ddaa84c',
+      },
+      {
+        path: 'scripts/coverage/approved-test-retirements.test.mjs',
+        sha256: '6fcc0dc1cfc9407be68f3a32c9f31ba919de6762441ba777affb9967a09498df',
+      },
+    ],
+    packages: {
+      game: {
+        before: {
+          statements: {
+            covered: 14315,
+            total: 16051,
+          },
+          branches: {
+            covered: 9336,
+            total: 11628,
+          },
+          functions: {
+            covered: 1672,
+            total: 1961,
+          },
+          lines: {
+            covered: 12766,
+            total: 14067,
+          },
+        },
+        after: {
+          statements: {
+            covered: 14308,
+            total: 16044,
+          },
+          branches: {
+            covered: 9334,
+            total: 11626,
+          },
+          functions: {
+            covered: 1672,
+            total: 1961,
+          },
+          lines: {
+            covered: 12759,
+            total: 14060,
+          },
+        },
+      },
+    },
+  },
   // User-authorized finite structural recount; only the exact baseline and17source/test bytes.
   {
     id: 'pre94-renderer-shared-primitives-20261021',
