@@ -1,0 +1,140 @@
+{
+  "base": "dec0626e1c3035bd2d4e6cbf440f79baa19a6354",
+  "candidateHead": "12a39b4c9",
+  "candidateCommits": [
+    "50704d25e docs(game): correct shell comment anchors and clarify fade-suppression corner",
+    "5d3e98cae test(game): discriminate DM29 battle-intro silence and L47 loop restoration",
+    "12a39b4c9 test(game): drop duplicated docblock line in rng-player leaves header"
+  ],
+  "fullReads": [
+    {
+      "path": "packages/game/src/shell/input.ts",
+      "sha256_at_candidate": "f6978ea6e6446d36e8b6104dcc33ec6f0ccdad97",
+      "lines": 166,
+      "boundary": "Full read at base dec0626e1c; candidate only moves suppressedHeld declaration, retypes it Set<AbstractKey>, extends the DM30 docblock with the verified multi-key resurrection corner. No executable change."
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.ts",
+      "sha256_at_candidate": "4b2c9ebc3b24770cdb7b2db23b3b220d6b880113",
+      "lines": 181,
+      "boundary": "Full read; byte-identical to base (no edit needed). DM30/DM31/DM32 invariants verified against game.c:65-80, palette.c:313-316/441-446."
+    },
+    {
+      "path": "packages/game/src/shell/audio.ts",
+      "sha256_at_candidate": "9a602c44aa6d8905c612287d3c9f8996eff698c6",
+      "lines": 323,
+      "boundary": "Full read; candidate fixes midi.c:67->69 anchor in one comment. Dedup/DM29/L47 logic read and verified against sound.c:769-772/930, battle.c:717-728/1030-1032."
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.ts",
+      "sha256_at_candidate": "96f8de9a6947ae6a0f1ca6d1cf13445302c0b011",
+      "lines": 267,
+      "boundary": "Full read; candidate corrects 3 stale comments (per-frame PNG -> gzip RLE chunk prefetch; default skip claim -> DM27 not skippable). No executable change."
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.ts",
+      "sha256_at_candidate": "7d2eda5831f575c202c1d3e78b4a67d86dcfee12",
+      "lines": 203,
+      "boundary": "Full read; candidate fixes wrong anchor uigame.c:395 -> aviplay.c:711 in two comments. Skip-delay/stopImmediatePropagation history verified against aviplay.c:667/711/741-747."
+    },
+    {
+      "path": "packages/game/src/shell/input.test.ts",
+      "sha256_at_candidate": "5ce91b04249f6602a5181dbdd1a345994898cc92",
+      "lines": 223,
+      "boundary": "Full per-case read; candidate adds KeyM dev-addition note on one assertion."
+    },
+    {
+      "path": "packages/game/src/shell/input.boundaries.test.ts",
+      "sha256_at_candidate": "ef39b7cf72ccfdecb5bf323f7844ed020c508062",
+      "lines": 74,
+      "boundary": "Full per-case read; byte-identical to base. H02 already discriminates direction-only fade suppression and detach."
+    },
+    {
+      "path": "packages/game/src/shell/input-replay.grok-r1.test.ts",
+      "sha256_at_candidate": "451884c5ca1bd9e8ae5137813767db4bb47fc2e0",
+      "lines": 156,
+      "boundary": "Full per-case read; byte-identical to base."
+    },
+    {
+      "path": "packages/game/src/shell/main-loop.test.ts",
+      "sha256_at_candidate": "3251cc550716288976e772afbf9f80d18ff1ed1c",
+      "lines": 217,
+      "boundary": "Full per-case read; byte-identical to base."
+    },
+    {
+      "path": "packages/game/src/shell/main-loop-gates.grok-r1.test.ts",
+      "sha256_at_candidate": "3b5c0aaff880fd0734280d9af22b693c5b261e6d",
+      "lines": 247,
+      "boundary": "Full per-case read (titles + bodies of touched axes); byte-identical to base."
+    },
+    {
+      "path": "packages/game/src/shell/audio.test.ts",
+      "sha256_at_candidate": "b840748518b3dd562eca3f4eef889d3c81779fdb",
+      "lines": 231,
+      "boundary": "Full per-case read; candidate adds DM29 battleIntroActive test and two L47 loop-restoration tests (17->20 cases)."
+    },
+    {
+      "path": "packages/game/src/shell/audio.glm-phase1-leaves.test.ts",
+      "sha256_at_candidate": "283fd215e71daa562bdf29603d86a5eee21d9bb7",
+      "lines": 72,
+      "boundary": "Full per-case read; byte-identical to base."
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.test.ts",
+      "sha256_at_candidate": "d3c6260946d21a1d78e15e6a6fdf9f1584b4360b",
+      "lines": 326,
+      "boundary": "Full per-case read; byte-identical to base."
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.glm-next-wave.test.ts",
+      "sha256_at_candidate": "6f7addc096475ee0bcbc132a2d26a16a7e2694e7",
+      "lines": 123,
+      "boundary": "Full per-case read; candidate removes one duplicated stacked docblock line."
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.test.ts",
+      "sha256_at_candidate": "cbe36644bc605cc3b62db91728c8ae82009b013c",
+      "lines": 152,
+      "boundary": "Full per-case read; byte-identical to base."
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.glm-next-wave.test.ts",
+      "sha256_at_candidate": "0d5069f24956546d5c2842671f7c222004364c2b",
+      "lines": 156,
+      "boundary": "Full per-case read; byte-identical to base."
+    }
+  ],
+  "partialReads": [
+    {
+      "path": "packages/game/src/shell/bootstrap.ts",
+      "boundary": "pickMusicTrack caller lines 194-199 (battleIntroActive = gs.battleState?.introFade !== undefined) and audio wiring; not re-reviewed wholesale here."
+    },
+    {
+      "path": "packages/game/src/shell/trademark-fallback.ts",
+      "boundary": "playRng caller lines 19-38/96-102 (skipKeys passthrough); not re-reviewed wholesale here."
+    },
+    {
+      "path": "packages/game/src/shell/rng-player.io-lifecycle.test.ts",
+      "boundary": "Dedup header + fixtures read; full per-case E already owned by TEST-GAME-MEDIA-LIFECYCLE-1 (M6/M7 axes)."
+    },
+    {
+      "path": "packages/game/src/shell/avi-player.async-lifecycle.test.ts",
+      "boundary": "Dedup header + fixtures read; full per-case E already owned by TEST-GAME-MEDIA-LIFECYCLE-1 (M1/M2/M4/M5/M8 axes)."
+    }
+  ],
+  "primaryAnchorsVerified": [
+    "reference/sdlpal/input.c:58-92 keymap (no m->Menu; TS KeyM is a disclosed dev addition)",
+    "reference/sdlpal/input.c:200-300 PAL_KeyDown/PAL_KeyUp dir recompute via dwKeyOrder (resurrection corner)",
+    "reference/sdlpal/input.c:1188-1206 PAL_ClearKeyState clears dwKeyPress only",
+    "reference/sdlpal/palette.c:313-316 PAL_SceneFade per-step ClearKeyState + dir/prevdir=Unknown",
+    "reference/sdlpal/palette.c:441-446 PAL_PaletteFade fUpdateScene variant same clearing",
+    "reference/sdlpal/game.c:65-80 per-frame ClearKeyState + dwTime = now + FRAME_TIME (DM31)",
+    "reference/sdlpal/ui.c:473 PAL_ReadMenu loop ClearKeyState",
+    "reference/sdlpal/aviplay.c:667/711/741-747 PAL_PlayAVI entry clear / skip keys kKeyMenu|kKeySearch / UTIL_Delay(500)",
+    "reference/sdlpal/main.c:360-420 title-screen crane loop (skip check at main.c:395 is NOT the trademark path)",
+    "reference/sdlpal/rngplay.c no dwKeyPress check (RNG not skippable, DM27)",
+    "reference/sdlpal/sound.c:769-772/930 lastSFX dedup and reset",
+    "reference/sdlpal/battle.c:715-730 battle-entry music sequence (DM29), 1030-1033 victory track",
+    "reference/sdlpal/midi.c:69 Musics %.3d.mid"
+  ]
+}
