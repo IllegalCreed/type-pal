@@ -1,0 +1,1011 @@
+{
+  "numTotalTestSuites": 34,
+  "numPassedTestSuites": 34,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 84,
+  "numPassedTests": 84,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792462049460,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G09 SystemMenu 三阶段状态字段"],
+          "fullName": "G09 SystemMenu 三阶段状态字段 EnterConfirm 重置已有 Yes；ToggleConfirm 在否/是之间切换",
+          "status": "passed",
+          "title": "EnterConfirm 重置已有 Yes；ToggleConfirm 在否/是之间切换",
+          "duration": 0.9366249999999923,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09 SystemMenu 三阶段状态字段"],
+          "fullName": "G09 SystemMenu 三阶段状态字段 EnterSwitch 按当前音频开关初始化目标和高亮",
+          "status": "passed",
+          "title": "EnterSwitch 按当前音频开关初始化目标和高亮",
+          "duration": 0.24475000000001046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G09 SystemMenu 三阶段状态字段"],
+          "fullName": "G09 SystemMenu 三阶段状态字段 systemMenuChoice 按 label id 映射 choice，不按数组位置猜测",
+          "status": "passed",
+          "title": "systemMenuChoice 按 label id 映射 choice，不按数组位置猜测",
+          "duration": 0.09162499999996498,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792462051060,
+      "endTime": 1792462051061.2446,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/menu/in-game-menu.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L04 InGameMenu 首尾环绕"],
+          "fullName": "L04 InGameMenu 首尾环绕 cursor 0 Up → 末项 system；末项 Down → 0 status",
+          "status": "passed",
+          "title": "cursor 0 Up → 末项 system；末项 Down → 0 status",
+          "duration": 1.1178330000000187,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L04 InGameMenu 首尾环绕"],
+          "fullName": "L04 InGameMenu 首尾环绕 负 defaultCursor 归 0（>0 守卫对负值不生效的合法输入）",
+          "status": "passed",
+          "title": "负 defaultCursor 归 0（>0 守卫对负值不生效的合法输入）",
+          "duration": 0.21687500000007276,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L04 SystemMenu 剩余合同"],
+          "fullName": "L04 SystemMenu 剩余合同 cursor 0 Up → quit；quit Down → save（5 项环绕）",
+          "status": "passed",
+          "title": "cursor 0 Up → quit；quit Down → save（5 项环绕）",
+          "duration": 0.36333399999989524,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L04 SystemMenu 剩余合同"],
+          "fullName": "L04 SystemMenu 剩余合同 defaultCursor 越上界 → 归 0（守卫分支；词表断言在下一条）",
+          "status": "passed",
+          "title": "defaultCursor 越上界 → 归 0（守卫分支；词表断言在下一条）",
+          "duration": 0.07341600000017934,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L04 SystemMenu 剩余合同"],
+          "fullName": "L04 SystemMenu 剩余合同 SystemMenu 词表载入取 flat[11..15] 文案",
+          "status": "passed",
+          "title": "SystemMenu 词表载入取 flat[11..15] 文案",
+          "duration": 0.31966699999998127,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792462050609,
+      "endTime": 1792462050611.3633,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat)"
+          ],
+          "fullName": "菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat) InGameMenu id = GAMEMENU_LABEL 真值 [3,4,5,6](状态/仙术/物品/系统)",
+          "status": "passed",
+          "title": "InGameMenu id = GAMEMENU_LABEL 真值 [3,4,5,6](状态/仙术/物品/系统)",
+          "duration": 1.4883330000000115,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat)"
+          ],
+          "fullName": "菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat) SystemMenu id = SYSMENU_LABEL 真值 [11,12,13,14,15]",
+          "status": "passed",
+          "title": "SystemMenu id = SYSMENU_LABEL 真值 [11,12,13,14,15]",
+          "duration": 0.22775000000001455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat)"
+          ],
+          "fullName": "菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat) 词表载入 → label 取 flat[id](WORD.DAT 单一源)",
+          "status": "passed",
+          "title": "词表载入 → label 取 flat[id](WORD.DAT 单一源)",
+          "duration": 0.2783750000000964,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat)"
+          ],
+          "fullName": "菜单项 id = 真 WORD id + label 由 getWord 取(ui.h:61-70 / words.json flat) choice 反查在真 id 下仍正确(id 改值不破坏 choice 映射)",
+          "status": "passed",
+          "title": "choice 反查在真 id 下仍正确(id 改值不破坏 choice 映射)",
+          "duration": 0.16849999999999454,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["InGameMenu(主菜单 — 状态/仙术/物品/系统)"],
+          "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) 4 项真值顺序(sdlpal uigame.c:961-966)",
+          "status": "passed",
+          "title": "4 项真值顺序(sdlpal uigame.c:961-966)",
+          "duration": 0.16608399999995527,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["InGameMenu(主菜单 — 状态/仙术/物品/系统)"],
+          "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) 默认 cursor=0 → choice \"status\"",
+          "status": "passed",
+          "title": "默认 cursor=0 → choice \"status\"",
+          "duration": 0.06095800000002782,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["InGameMenu(主菜单 — 状态/仙术/物品/系统)"],
+          "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) defaultCursor 起手记忆(sdlpal iCurMainMenuItem 真值)",
+          "status": "passed",
+          "title": "defaultCursor 起手记忆(sdlpal iCurMainMenuItem 真值)",
+          "duration": 0.15629199999989396,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["InGameMenu(主菜单 — 状态/仙术/物品/系统)"],
+          "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) Down 推进:状态 → 仙术 → 物品 → 系统",
+          "status": "passed",
+          "title": "Down 推进:状态 → 仙术 → 物品 → 系统",
+          "duration": 0.08179200000017772,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["InGameMenu(主菜单 — 状态/仙术/物品/系统)"],
+          "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) Up 反推",
+          "status": "passed",
+          "title": "Up 反推",
+          "duration": 0.32337500000016917,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["InGameMenu(主菜单 — 状态/仙术/物品/系统)"],
+          "fullName": "InGameMenu(主菜单 — 状态/仙术/物品/系统) defaultCursor 超出 = noop(防越界 crash)",
+          "status": "passed",
+          "title": "defaultCursor 超出 = noop(防越界 crash)",
+          "duration": 0.08391600000004473,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束)"],
+          "fullName": "SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束) 5 项真值顺序(sdlpal uigame.c:543-552 PAL_CLASSIC build)",
+          "status": "passed",
+          "title": "5 项真值顺序(sdlpal uigame.c:543-552 PAL_CLASSIC build)",
+          "duration": 0.10712500000022374,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束)"],
+          "fullName": "SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束) choice 序列:save / load / music / sound / quit",
+          "status": "passed",
+          "title": "choice 序列:save / load / music / sound / quit",
+          "duration": 0.10416699999996126,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束)"],
+          "fullName": "SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束) defaultCursor 记忆(sdlpal iCurSystemMenuItem 真值)",
+          "status": "passed",
+          "title": "defaultCursor 记忆(sdlpal iCurSystemMenuItem 真值)",
+          "duration": 0.03708299999993869,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束)"],
+          "fullName": "SystemMenu(系统菜单 — 储存/读取/音乐/音效/结束) Up 反推",
+          "status": "passed",
+          "title": "Up 反推",
+          "duration": 0.042333000000098764,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792462050615,
+      "endTime": 1792462050618.3235,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/menu/in-game-menu.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L03 InventoryActionMenu 剩余合同"],
+          "fullName": "L03 InventoryActionMenu 剩余合同 defaultCursor 越上界（≥ 项数）→ 保持建表默认 0（守卫分支）",
+          "status": "passed",
+          "title": "defaultCursor 越上界（≥ 项数）→ 保持建表默认 0（守卫分支）",
+          "duration": 2.3896669999999176,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L03 InventoryActionMenu 剩余合同"],
+          "fullName": "L03 InventoryActionMenu 剩余合同 Down 两连：use → 环绕回 equip（2 项 SelectionMenu 环绕合同）",
+          "status": "passed",
+          "title": "Down 两连：use → 环绕回 equip（2 项 SelectionMenu 环绕合同）",
+          "duration": 0.4580829999999878,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L03 InventoryActionMenu 剩余合同"],
+          "fullName": "L03 InventoryActionMenu 剩余合同 词表载入 → label 取 flat[22]/flat[23]（WORD.DAT 单一文案源，同 uigame.c:901-902）",
+          "status": "passed",
+          "title": "词表载入 → label 取 flat[22]/flat[23]（WORD.DAT 单一文案源，同 uigame.c:901-902）",
+          "duration": 0.8392079999998714,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L03 InventoryActionMenu 剩余合同"],
+          "fullName": "L03 InventoryActionMenu 剩余合同 空 selection → choice 防御 undefined（直造状态可达的防御分支）",
+          "status": "passed",
+          "title": "空 selection → choice 防御 undefined（直造状态可达的防御分支）",
+          "duration": 0.4824579999999514,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792462050626,
+      "endTime": 1792462050629.4824,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["InventoryActionMenu(物品 / 装备 / 使用)"],
+          "fullName": "InventoryActionMenu(物品 / 装备 / 使用) 2 项真值顺序:装备 / 使用(sdlpal uigame.c:898-902)",
+          "status": "passed",
+          "title": "2 项真值顺序:装备 / 使用(sdlpal uigame.c:898-902)",
+          "duration": 1.047208000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["InventoryActionMenu(物品 / 装备 / 使用)"],
+          "fullName": "InventoryActionMenu(物品 / 装备 / 使用) id = 真 WORD id 22/23(ui.h:80-81 INVMENU_LABEL_EQUIP/USE,非下标)",
+          "status": "passed",
+          "title": "id = 真 WORD id 22/23(ui.h:80-81 INVMENU_LABEL_EQUIP/USE,非下标)",
+          "duration": 0.17533299999996643,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["InventoryActionMenu(物品 / 装备 / 使用)"],
+          "fullName": "InventoryActionMenu(物品 / 装备 / 使用) defaultCursor=1 → 起手 use(sdlpal `static WORD w = 0` 跨调用记忆)",
+          "status": "passed",
+          "title": "defaultCursor=1 → 起手 use(sdlpal `static WORD w = 0` 跨调用记忆)",
+          "duration": 0.0671249999999759,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["InventoryActionMenu(物品 / 装备 / 使用)"],
+          "fullName": "InventoryActionMenu(物品 / 装备 / 使用) Down → use,Up → equip",
+          "status": "passed",
+          "title": "Down → use,Up → equip",
+          "duration": 0.14558400000004212,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792462051059,
+      "endTime": 1792462051061.1455,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/menu/inventory-action-menu.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G02 confirmInventoryItem 确认门"],
+          "fullName": "G02 confirmInventoryItem 确认门 count===inUse 拒绝留在 list；少占用正控进 use-target；追加装备 count0/inUse-1 可确认",
+          "status": "passed",
+          "title": "count===inUse 拒绝留在 list；少占用正控进 use-target；追加装备 count0/inUse-1 可确认",
+          "duration": 2.4039999999999964,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G02 confirmInventoryItem 确认门"],
+          "fullName": "G02 confirmInventoryItem 确认门 party[2,0]：use-target 光标停在第二位时 confirm 返回 roleId 0 而非 cursor 1；错 phase 零请求",
+          "status": "passed",
+          "title": "party[2,0]：use-target 光标停在第二位时 confirm 返回 roleId 0 而非 cursor 1；错 phase 零请求",
+          "duration": 0.4490410000000793,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G02 confirmInventoryItem 确认门"],
+          "fullName": "G02 confirmInventoryItem 确认门 菜单 slot 不别名实际 gs.inventory；入参 items 数组不变",
+          "status": "passed",
+          "title": "菜单 slot 不别名实际 gs.inventory；入参 items 数组不变",
+          "duration": 0.2881250000000364,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792462050659,
+      "endTime": 1792462050662.449,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/menu/inventory-menu.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L03 createInventoryMenu 起始光标与快照默认"],
+          "fullName": "L03 createInventoryMenu 起始光标与快照默认 gs.iCurInvMenuItem 恢复为起始 cursor；越界 clamp 到末项",
+          "status": "passed",
+          "title": "gs.iCurInvMenuItem 恢复为起始 cursor；越界 clamp 到末项",
+          "duration": 1.3925419999998212,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L03 createInventoryMenu 起始光标与快照默认"],
+          "fullName": "L03 createInventoryMenu 起始光标与快照默认 条目缺 inUse 运行时字段 → slot.inUse 默认 0（?? 0 分支，合法 InventoryEntry）",
+          "status": "passed",
+          "title": "条目缺 inUse 运行时字段 → slot.inUse 默认 0（?? 0 分支，合法 InventoryEntry）",
+          "duration": 0.6593340000001717,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L03 use-target 相导航委派与 done 相 no-op"],
+          "fullName": "L03 use-target 相导航委派与 done 相 no-op use-target：Up/Down 移 targetMenu.cursor 且不动 list cursor；其余六键 no-op",
+          "status": "passed",
+          "title": "use-target：Up/Down 移 targetMenu.cursor 且不动 list cursor；其余六键 no-op",
+          "duration": 0.44595800000001873,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L03 use-target 相导航委派与 done 相 no-op"],
+          "fullName": "L03 use-target 相导航委派与 done 相 no-op done 相：全部移动键 no-op",
+          "status": "passed",
+          "title": "done 相：全部移动键 no-op",
+          "duration": 0.40599999999994907,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L03 cancel 路径 L40 记忆与防御 null"],
+          "fullName": "L03 cancel 路径 L40 记忆与防御 null use-target 取消也回写记忆 slot：下次确认默认停回取消时位置",
+          "status": "passed",
+          "title": "use-target 取消也回写记忆 slot：下次确认默认停回取消时位置",
+          "duration": 0.1514999999999418,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L03 cancel 路径 L40 记忆与防御 null"],
+          "fullName": "L03 cancel 路径 L40 记忆与防御 null use-target 但 selectedItemId 缺失 → confirmTarget 防御 null（直造状态可达）",
+          "status": "passed",
+          "title": "use-target 但 selectedItemId 缺失 → confirmTarget 防御 null（直造状态可达）",
+          "duration": 0.16579200000001038,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792462050618,
+      "endTime": 1792462050622.1658,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["pickItemRowColor — sdlpal itemmenu.c:135-181 6-case 真值"],
+          "fullName": "pickItemRowColor — sdlpal itemmenu.c:135-181 6-case 真值 selected + usable + non-equipped → SELECTED_FIRST 闪烁起始",
+          "status": "passed",
+          "title": "selected + usable + non-equipped → SELECTED_FIRST 闪烁起始",
+          "duration": 1.1552080000001297,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["pickItemRowColor — sdlpal itemmenu.c:135-181 6-case 真值"],
+          "fullName": "pickItemRowColor — sdlpal itemmenu.c:135-181 6-case 真值 selected + usable + equipped → EQUIPPEDITEM 0xC8",
+          "status": "passed",
+          "title": "selected + usable + equipped → EQUIPPEDITEM 0xC8",
+          "duration": 0.17012500000009823,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["pickItemRowColor — sdlpal itemmenu.c:135-181 6-case 真值"],
+          "fullName": "pickItemRowColor — sdlpal itemmenu.c:135-181 6-case 真值 selected + !usable(filter 不命中)→ SELECTED_INACTIVE 0x1C",
+          "status": "passed",
+          "title": "selected + !usable(filter 不命中)→ SELECTED_INACTIVE 0x1C",
+          "duration": 0.0858339999999771,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["pickItemRowColor — sdlpal itemmenu.c:135-181 6-case 真值"],
+          "fullName": "pickItemRowColor — sdlpal itemmenu.c:135-181 6-case 真值 !selected + usable + non-equipped → MENUITEM_COLOR 0x4F",
+          "status": "passed",
+          "title": "!selected + usable + non-equipped → MENUITEM_COLOR 0x4F",
+          "duration": 0.1209160000000793,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["pickItemRowColor — sdlpal itemmenu.c:135-181 6-case 真值"],
+          "fullName": "pickItemRowColor — sdlpal itemmenu.c:135-181 6-case 真值 !selected + usable + equipped → EQUIPPEDITEM 0xC8",
+          "status": "passed",
+          "title": "!selected + usable + equipped → EQUIPPEDITEM 0xC8",
+          "duration": 0.0656659999999647,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["pickItemRowColor — sdlpal itemmenu.c:135-181 6-case 真值"],
+          "fullName": "pickItemRowColor — sdlpal itemmenu.c:135-181 6-case 真值 !selected + !usable(filter 不命中)→ INACTIVE 0x18(防 EquipMenu 装备类全红 bug)",
+          "status": "passed",
+          "title": "!selected + !usable(filter 不命中)→ INACTIVE 0x18(防 EquipMenu 装备类全红 bug)",
+          "duration": 0.05695800000012241,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["pickItemRowColor — sdlpal itemmenu.c:135-181 6-case 真值"],
+          "fullName": "pickItemRowColor — sdlpal itemmenu.c:135-181 6-case 真值 selected + flash tick 推进 → cycle 0xF9..0xFE",
+          "status": "passed",
+          "title": "selected + flash tick 推进 → cycle 0xF9..0xFE",
+          "duration": 0.20287499999994907,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["matchesFilter — sdlpal kItemFlag* 真值"],
+          "fullName": "matchesFilter — sdlpal kItemFlag* 真值 filter='equip' 命中 equipable item",
+          "status": "passed",
+          "title": "filter='equip' 命中 equipable item",
+          "duration": 0.1016669999999067,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["matchesFilter — sdlpal kItemFlag* 真值"],
+          "fullName": "matchesFilter — sdlpal kItemFlag* 真值 filter='usable' 命中 usable item(EquipMenu 不该用此 filter)",
+          "status": "passed",
+          "title": "filter='usable' 命中 usable item(EquipMenu 不该用此 filter)",
+          "duration": 0.8083329999999478,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["matchesFilter — sdlpal kItemFlag* 真值"],
+          "fullName": "matchesFilter — sdlpal kItemFlag* 真值 filter='all' 全命中",
+          "status": "passed",
+          "title": "filter='all' 全命中",
+          "duration": 0.13466700000003584,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "createInventoryMenu — sdlpal itemmenu.c:331-377 全库存入列,不按 flag 过滤"
+          ],
+          "fullName": "createInventoryMenu — sdlpal itemmenu.c:331-377 全库存入列,不按 flag 过滤 filter='equip':非可装备项(观音符)仍入列表,不被剔除",
+          "status": "passed",
+          "title": "filter='equip':非可装备项(观音符)仍入列表,不被剔除",
+          "duration": 0.9992919999999685,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "createInventoryMenu — sdlpal itemmenu.c:331-377 全库存入列,不按 flag 过滤"
+          ],
+          "fullName": "createInventoryMenu — sdlpal itemmenu.c:331-377 全库存入列,不按 flag 过滤 filter='usable':非可用项(木剑)仍入列表，filter 保留供 renderer 判色",
+          "status": "passed",
+          "title": "filter='usable':非可用项(木剑)仍入列表，filter 保留供 renderer 判色",
+          "duration": 0.2156670000001668,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "createInventoryMenu — sdlpal itemmenu.c:331-377 全库存入列,不按 flag 过滤"
+          ],
+          "fullName": "createInventoryMenu — sdlpal itemmenu.c:331-377 全库存入列,不按 flag 过滤 L39:filter='usable' 追加全队装备槽里 usable 的已装备物(itemmenu.c:352-376)",
+          "status": "passed",
+          "title": "L39:filter='usable' 追加全队装备槽里 usable 的已装备物(itemmenu.c:352-376)",
+          "duration": 0.21129199999995762,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "createInventoryMenu — sdlpal itemmenu.c:331-377 全库存入列,不按 flag 过滤"
+          ],
+          "fullName": "createInventoryMenu — sdlpal itemmenu.c:331-377 全库存入列,不按 flag 过滤 L39:filter='equip' 不追加装备槽物(仅 usable 入口追加,itemmenu.c:352)",
+          "status": "passed",
+          "title": "L39:filter='equip' 不追加装备槽物(仅 usable 入口追加,itemmenu.c:352)",
+          "duration": 0.13733300000012605,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["inventoryMove* navigation"],
+          "fullName": "inventoryMove* navigation Up = -3(iItemsPerLine);clamp 0",
+          "status": "passed",
+          "title": "Up = -3(iItemsPerLine);clamp 0",
+          "duration": 0.16241700000000492,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["inventoryMove* navigation"],
+          "fullName": "inventoryMove* navigation Down = +3(iItemsPerLine);clamp inventory.length - 1",
+          "status": "passed",
+          "title": "Down = +3(iItemsPerLine);clamp inventory.length - 1",
+          "duration": 0.10537500000009459,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["inventoryMove* navigation"],
+          "fullName": "inventoryMove* navigation Left/Right = ±1",
+          "status": "passed",
+          "title": "Left/Right = ±1",
+          "duration": 0.09962500000006003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["inventoryMove* navigation"],
+          "fullName": "inventoryMove* navigation PgUp/PgDn = ±(3 * 7);clamp [0, length-1]",
+          "status": "passed",
+          "title": "PgUp/PgDn = ±(3 * 7);clamp [0, length-1]",
+          "duration": 0.12116700000001401,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["inventoryMove* navigation"],
+          "fullName": "inventoryMove* navigation Home/End = 0 / length - 1",
+          "status": "passed",
+          "title": "Home/End = 0 / length - 1",
+          "duration": 0.18862500000000182,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["inventoryMove* navigation"],
+          "fullName": "inventoryMove* navigation inventory 空时 cursor 保 0",
+          "status": "passed",
+          "title": "inventory 空时 cursor 保 0",
+          "duration": 0.2846249999997781,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["confirmInventoryItem / cancelInventoryMenu phase"],
+          "fullName": "confirmInventoryItem / cancelInventoryMenu phase 空角色/队伍防御：仍建空 targetMenu 并保留 selectedItemId",
+          "status": "passed",
+          "title": "空角色/队伍防御：仍建空 targetMenu 并保留 selectedItemId",
+          "duration": 0.27462500000001455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["confirmInventoryItem / cancelInventoryMenu phase"],
+          "fullName": "confirmInventoryItem / cancelInventoryMenu phase H2(sdlpal 审查):目标列表不禁选死人 — 死人可选作目标(复活药前提;uigame.c:1383-1495 无 disabled)",
+          "status": "passed",
+          "title": "H2(sdlpal 审查):目标列表不禁选死人 — 死人可选作目标(复活药前提;uigame.c:1383-1495 无 disabled)",
+          "duration": 0.16437500000006366,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["confirmInventoryItem / cancelInventoryMenu phase"],
+          "fullName": "confirmInventoryItem / cancelInventoryMenu phase Cancel use-target → 回 list;Cancel list → done",
+          "status": "passed",
+          "title": "Cancel use-target → 回 list;Cancel list → done",
+          "duration": 0.10820800000010422,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792462050662,
+      "endTime": 1792462050668.2747,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/menu/inventory-menu.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["M5.6 W0.a tickMenu 骨架"],
+          "fullName": "M5.6 W0.a tickMenu 骨架 menuStack 空 → 切回 explore mode",
+          "status": "passed",
+          "title": "menuStack 空 → 切回 explore mode",
+          "duration": 1.1144999999999072,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W0.a tickMenu 骨架"],
+          "fullName": "M5.6 W0.a tickMenu 骨架 按 Menu 键 → pop 栈顶 + 栈空时切回 explore",
+          "status": "passed",
+          "title": "按 Menu 键 → pop 栈顶 + 栈空时切回 explore",
+          "duration": 0.5279999999997926,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W0.a tickMenu 骨架"],
+          "fullName": "M5.6 W0.a tickMenu 骨架 栈非空 + 无 Menu 键 → mode 保持 menu(等待子菜单 dispatcher)",
+          "status": "passed",
+          "title": "栈非空 + 无 Menu 键 → mode 保持 menu(等待子菜单 dispatcher)",
+          "duration": 0.1588329999999587,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W0.a tickMenu 骨架"],
+          "fullName": "M5.6 W0.a tickMenu 骨架 栈两层(hub+system)+ Menu 键 → pop 一层(仍在 menu mode;sdlpal SystemMenu CANCELLED 留 hub)",
+          "status": "passed",
+          "title": "栈两层(hub+system)+ Menu 键 → pop 一层(仍在 menu mode;sdlpal SystemMenu CANCELLED 留 hub)",
+          "duration": 0.3734999999999218,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["M5.6 W0.a tickMenu 骨架"],
+          "fullName": "M5.6 W0.a tickMenu 骨架 DH9:物品列表 Menu 键 → goto out 关整个菜单栈(uigame.c:1024-1026,非 pop 回 hub)",
+          "status": "passed",
+          "title": "DH9:物品列表 Menu 键 → goto out 关整个菜单栈(uigame.c:1024-1026,非 pop 回 hub)",
+          "duration": 0.2837920000001759,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["openMenu / closeTopMenu"],
+          "fullName": "openMenu / closeTopMenu openMenu push + 切 menu mode",
+          "status": "passed",
+          "title": "openMenu push + 切 menu mode",
+          "duration": 0.11504100000001927,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["openMenu / closeTopMenu"],
+          "fullName": "openMenu / closeTopMenu closeTopMenu pop(不切 mode — 留 tickMenu 下帧处理)",
+          "status": "passed",
+          "title": "closeTopMenu pop(不切 mode — 留 tickMenu 下帧处理)",
+          "duration": 0.15299999999979264,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792462050876,
+      "endTime": 1792462050878.2837,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/menu/menu-mode.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G07 sellSelectItem 确认门与 confirm 期导航"],
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 inUse 耗尽拒绝；少占用正控进 confirm 并返回 No 意图",
+          "status": "passed",
+          "title": "inUse 耗尽拒绝；少占用正控进 confirm 并返回 No 意图",
+          "duration": 4.166917000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07 sellSelectItem 确认门与 confirm 期导航"],
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 confirm 期 Page/Home/End 不改 grid 或确认选择",
+          "status": "passed",
+          "title": "confirm 期 Page/Home/End 不改 grid 或确认选择",
+          "duration": 0.6183750000000146,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07 sellSelectItem 确认门与 confirm 期导航"],
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 等长刷新：保非零 cursor 并更新数量，snapshot 不别名实际库存",
+          "status": "passed",
+          "title": "等长刷新：保非零 cursor 并更新数量，snapshot 不别名实际库存",
+          "duration": 0.5147499999998217,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07 sellSelectItem 确认门与 confirm 期导航"],
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 刷新空表：非零 cursor 归 0",
+          "status": "passed",
+          "title": "刷新空表：非零 cursor 归 0",
+          "duration": 0.19508300000006784,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G07 sellSelectItem 确认门与 confirm 期导航"],
+          "fullName": "G07 sellSelectItem 确认门与 confirm 期导航 增表刷新：保非零 cursor，不复用 GameState 记忆光标",
+          "status": "passed",
+          "title": "增表刷新：保非零 cursor，不复用 GameState 记忆光标",
+          "duration": 0.15195799999992232,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792462050638,
+      "endTime": 1792462050644.1519,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/menu/sell-menu.boundaries.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L05 sell-menu 剩余合同"],
+          "fullName": "L05 sell-menu 剩余合同 空库存 !slot 防御不进 confirm",
+          "status": "passed",
+          "title": "空库存 !slot 防御不进 confirm",
+          "duration": 1.2148329999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L05 sell-menu 剩余合同"],
+          "fullName": "L05 sell-menu 剩余合同 真实确认态重复选择和 list 相重复确认零请求",
+          "status": "passed",
+          "title": "真实确认态重复选择和 list 相重复确认零请求",
+          "duration": 0.8125410000000102,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792462050637,
+      "endTime": 1792462050638.8125,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable)"
+          ],
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) createSellMenu:grid 含全部库存(sdlpal 全显示)，保留不可卖项与 sellable filter",
+          "status": "passed",
+          "title": "createSellMenu:grid 含全部库存(sdlpal 全显示)，保留不可卖项与 sellable filter",
+          "duration": 1.4141250000000127,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable)"
+          ],
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellSelectItem:选中 sellable cursor → 进 confirm，每轮默认 No",
+          "status": "passed",
+          "title": "sellSelectItem:选中 sellable cursor → 进 confirm，每轮默认 No",
+          "duration": 0.47125000000005457,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable)"
+          ],
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellSelectItem:光标停在非可卖项(87,红色)→ 不进 confirm,留 list",
+          "status": "passed",
+          "title": "sellSelectItem:光标停在非可卖项(87,红色)→ 不进 confirm,留 list",
+          "duration": 0.24133400000005167,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable)"
+          ],
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) grid 导航 right 跨列且末项 clamp",
+          "status": "passed",
+          "title": "grid 导航 right 跨列且末项 clamp",
+          "duration": 0.2295000000001437,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable)"
+          ],
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) confirm 期四方向键只 toggle yes/no，不移动 grid",
+          "status": "passed",
+          "title": "confirm 期四方向键只 toggle yes/no，不移动 grid",
+          "duration": 0.5100420000001122,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable)"
+          ],
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellConfirm yes → 仅返回意图并回 list，实际 cash/inventory 由 caller 持有",
+          "status": "passed",
+          "title": "sellConfirm yes → 仅返回意图并回 list，实际 cash/inventory 由 caller 持有",
+          "duration": 0.7743339999999534,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable)"
+          ],
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) sellCancel confirm→back 清选择，list→close，实际库存不变",
+          "status": "passed",
+          "title": "sellCancel confirm→back 清选择，list→close，实际库存不变",
+          "duration": 0.6285000000000309,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable)"
+          ],
+          "fullName": "sell-menu 全屏状态机(sdlpal PAL_SellMenu → PAL_ItemSelectMenu kItemFlagSellable) refreshSellGrid:卖光物品后 grid 缩短 + cursor clamp(sdlpal while 每轮重跑)",
+          "status": "passed",
+          "title": "refreshSellGrid:卖光物品后 grid 缩短 + cursor clamp(sdlpal while 每轮重跑)",
+          "duration": 0.2541670000000522,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792462050637,
+      "endTime": 1792462050642.2542,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/core/menu/sell-menu.test.ts"
+    }
+  ]
+}

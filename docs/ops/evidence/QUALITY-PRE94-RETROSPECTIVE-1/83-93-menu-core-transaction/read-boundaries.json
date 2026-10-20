@@ -1,0 +1,118 @@
+{
+  "base": "dec0626e1c3035bd2d4e6cbf440f79baa19a6354",
+  "candidateHead": "8e442940c",
+  "note": "Zero source/test changes in this slice; all listed files byte-identical between base and candidate.",
+  "fullReads": [
+    {
+      "path": "packages/game/src/core/menu/menu-mode.ts",
+      "sha256": "2fbb41aeb06fa0daca4730a2e602883a07109bd9",
+      "lines": 33
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-stack.ts",
+      "sha256": "479d4b9ad362b7a4471ee2785bd52846baf6bfc8",
+      "lines": 32
+    },
+    {
+      "path": "packages/game/src/core/menu/menu-mode.test.ts",
+      "sha256": "34e5b16d5f5f8b545a27f54966d0a03a6cbae743",
+      "lines": 89
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.ts",
+      "sha256": "00cbc7cd9a0788fe2cc5ac926e6539fbe788a81e",
+      "lines": 141
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.test.ts",
+      "sha256": "5cfa3cdcb495ff0f7a88e9040a3722733206f316",
+      "lines": 130
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.boundaries.test.ts",
+      "sha256": "994bf332020528aeebe55f4e9467739ea6f3e276",
+      "lines": 52
+    },
+    {
+      "path": "packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts",
+      "sha256": "1ea9bd7f95b2a424b6c18d0f81f6d7e9b68b55aa",
+      "lines": 74
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.ts",
+      "sha256": "34d1beceab6050c355738861b3e717a9926f8718",
+      "lines": 280
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.test.ts",
+      "sha256": "ecf26404fdc62663b83f7cf701acf082dcfff56f",
+      "lines": 371
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.boundaries.test.ts",
+      "sha256": "16eaa4536d9eb2b96203f8be7fa1fbf9a5f8a06f",
+      "lines": 107
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts",
+      "sha256": "9bcc618447a82d9dbaa30c19d9d9abad6121b8c4",
+      "lines": 186
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.ts",
+      "sha256": "c50441b641deab7298e8a5a71c4f8724e63d2f6d",
+      "lines": 79
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.test.ts",
+      "sha256": "41b556121a2d2a0c7f040516b2dc60e216ef0e48",
+      "lines": 37
+    },
+    {
+      "path": "packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts",
+      "sha256": "00f4d70593f8f07e700cae95d844a05be64607d9",
+      "lines": 47
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.ts",
+      "sha256": "ec8812719c591a95d4c32fea033a7291391b2934",
+      "lines": 139
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.test.ts",
+      "sha256": "ffe2bfe9c135aef596ddb784d87e2be15325e51d",
+      "lines": 161
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.boundaries.test.ts",
+      "sha256": "6d68be32362cc27bb4261b4a1a9fa8c1e88a7793",
+      "lines": 136
+    },
+    {
+      "path": "packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts",
+      "sha256": "15216700d35e23c7fd58467d581fe5f17a0fc82a",
+      "lines": 64
+    },
+    {
+      "path": "packages/game/src/core/menu/item-select.ts",
+      "sha256": "7452416b59fe35226f4acc186d7bfc0be7b99298",
+      "lines": 96,
+      "boundary": "Adjacent filter oracle read in full; createItemSelectMenu factory has no production caller (cleanup candidate stays registered)."
+    }
+  ],
+  "primaryAnchorsVerified": [
+    "reference/sdlpal/itemmenu.c:63-94 grid input deltas",
+    "reference/sdlpal/itemmenu.c:107-112 cursor clamp (three-branch exact match)",
+    "reference/sdlpal/itemmenu.c:287-307 confirm gate (usable flag && count>inUse)",
+    "reference/sdlpal/itemmenu.c:331-377 full-list init without flag filtering",
+    "reference/sdlpal/itemmenu.c:352-376 usable-entry equipment-slot append",
+    "reference/sdlpal/uigame.c:542-553 SystemMenu items (classic 5 + non-classic battlemode)",
+    "reference/sdlpal/uigame.c:649 SystemMenu QUIT returns TRUE",
+    "reference/sdlpal/uigame.c:878-919 InventoryMenu equip/use submenu",
+    "reference/sdlpal/uigame.c:1024-1026 case 3 goto out (DH9)",
+    "reference/sdlpal/uigame.c:1309-1324 sSelectedPlayer static memory + wrap to 0",
+    "reference/sdlpal/uigame.c:1383-1495 ItemUseMenu no disabled/dead check (H2)",
+    "reference/sdlpal/uigame.c:1755+ / 1777 SellMenu via ItemSelectMenu kItemFlagSellable",
+    "reference/sdlpal/play.c:266 usable filter entry"
+  ]
+}
