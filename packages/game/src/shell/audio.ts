@@ -143,10 +143,8 @@ export function sfxForBattleEvent(
 /**
  * BGM 后端 —— **预渲染 OGG** 播放(HTMLAudioElement,looped)。
  *
- * 浏览器不能直接播 MIDI(`Musics/{NNN}.mid`)。沿用本项目既定媒体模式(AVI 走离线
- * ffmpeg→mp4,见 memory avi-offline-ffmpeg-to-mp4):**离线** fluidsynth/timidity + SoundFont
- * 把 86 MIDI 渲染成 `music/{NNN}.ogg`(一次性 build 步,user 跑,可听验),运行时只播标准 OGG —
- * 无需运行时 synth / 巨型 soundfont 资源进仓。CD track(TRACKxx.ogg)本就是 OGG,直接命中。
+ * 此后端只播预渲染的`music/{NNN}.ogg`，不负责合成MIDI或生成资源。
+ * MIDI模式由独立的audio-midi后端处理，MusicSourceController选择并替换后端。
  *
  * OGG 缺失(MIDI 未渲染)→ Audio.play() reject → 静默(不阻塞游戏);渲染后即有 BGM。
  */

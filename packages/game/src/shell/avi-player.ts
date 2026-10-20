@@ -10,9 +10,9 @@
  * 设计:
  *  - 创 `<video>` DOM 元素 fixed 100% 全屏覆盖,黑底
  *  - object-fit: contain → 等比例缩放 + black bar(288×180 AVI 在 16:10/4:3 viewport 黑边)
- *  - skip keys Space/Enter/Escape 立即 resolve(sdlpal kKeyMenu | kKeySearch 真值,aviplay.c:711)
+ *  - skip keys Space/Enter/Escape被消费后延迟500ms收尾(aviplay.c:711,741-747)
  *  - autoplay policy 处理:Chrome/Safari 无 user gesture 时 play() reject,显示 "Click to start"
- *    overlay 让用户首次点击解锁;后续 session 内 AVI 不再被 reject
+ *    overlay让用户点击后重试；后续播放仍服从浏览器autoplay策略
  *  - 不知 gs / suspendRaf — caller(bootstrap)用 try/finally 控制 raf loop 暂停
  */
 
@@ -50,7 +50,7 @@ export interface PlayAviOptions {
 /**
  * 播 mp4 → Promise resolve 时机:`ended` 事件 / 跳过键 / 加载失败 / autoplay 拒绝 + user click overlay 后再尝试。
  *
- * **不抛错**:加载失败 / play 被拒只 console.warn,Promise 仍 resolve,保证 bootstrap 流程不卡住。
+ * 媒体error会warn并收尾；play()拒绝会warn并等待点击重试或跳过，不会因此立即resolve。
  */
 export function playAvi(options: PlayAviOptions): Promise<void> {
   const container = options.containerEl ?? document.body
@@ -127,7 +127,7 @@ export function playAvi(options: PlayAviOptions): Promise<void> {
 
     /**
      * 尝试 play();autoplay policy 拒绝时显示 click overlay,user click 后 retry。
-     * 第一次成功后整个 browser session 解锁,后续 AVI 不再走 overlay 路径。
+     * 每次播放独立处理策略拒绝，不假设一次成功便永久获得autoplay权限。
      */
     const tryPlay = (): void => {
       void video
@@ -160,7 +160,7 @@ export function playAvi(options: PlayAviOptions): Promise<void> {
           clickOverlay.addEventListener(
             'click',
             () => {
-              // user gesture 解锁后重试 — 第一次成功后整 session OK
+              // 在本次用户手势中重试；失败仍由当前播放的策略处理。
               tryPlay()
             },
             { once: true },
@@ -175,10 +175,8 @@ export function playAvi(options: PlayAviOptions): Promise<void> {
 
 /**
  * 2026-06-14:在用户手势(「进入游戏」click)的**同步栈**调用,muted play 一个 `<video>` 解锁本
- * session 的 video autoplay —— 之后开场 1.mp4 的 `play()` 不再被浏览器拒,不弹"点击屏幕开始"。
- * `video.play()` 需 transient activation(手势后短时内、同 task),故必须在 click handler 同步调用,
- * **不能**放到 `await` 之后(微任务,手势已过期)。muted 才允许无声 autoplay;成功后立即 pause 丢弃。
- * 失败静默(playAvi 自身仍有 click overlay 兜底,最坏退回现状,绝不更差)。默认用即将播放的 1.mp4 预热。
+ * session尝试预热视频。同步发起以利用当前手势；muted预热成功不保证后续有声播放被允许，
+ * playAvi仍保留点击重试。成功后pause并丢弃，失败静默。默认预热即将播放的1.mp4。
  */
 export function warmUpVideoAutoplay(src = '/extracted/videos/1.mp4'): void {
   if (typeof document === 'undefined') return

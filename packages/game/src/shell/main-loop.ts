@@ -7,11 +7,8 @@
  * setSceneContext 在 loop 启动前调用一次:ctx_singleton 在 loop 生命期内有效。
  * 不在每 tick 重设,避免和 EventSystem 装载的 cursor.commands 错位。
  *
- * T28 帧率切换设计:
- *   - 每个 raf 都按当前 gs.mode 决定 interval(累积 dt → accumulator)。
- *   - mode 中途切(explore → battle 或反向)时 accumulator 不清零;若累积过多
- *     (> 3 × interval)clamp 到 1 × interval,避免一下子 catch-up N tick。
- *   - tickN 仍是固定 step(不参与帧率),只跑逻辑用。
+ * 每个rAF按当前mode决定interval，至多推进一次逻辑；正常溢出余量结转，
+ * tick后仍超过一个interval的积压丢弃。tickN不参与wall-clock节流。
  */
 
 import type { Command, InputSource, Tilemap } from '@type-pal/shared'
@@ -59,8 +56,8 @@ export interface RafLoopState {
 /**
  * 单 raf 帧推进(从 startRafLoop 抽出便于单测,无需 mock rAF)。三不变量:
  *  ① 逻辑 interval = logicIntervalMs(battle 40 / 否则 100,fade 不提速)
- *  ② mode 切换 clamp:accumulator > 3×interval → 设为 interval(避免 explore→battle 一下 catch-up 多 tick)
- *  ③ present 门控:逻辑 tick 时 / fade(dither/palette)进行中才 present(否则跳过,避免空转重画)
+ *  ② 每帧至多一tick；tick后余量超过一个interval时丢弃，暂停时清空积压
+ *  ③ 逻辑tick或dither/palette fade、战斗淡出/动画期间present，其它rAF不重画
  * 返回 {ticked, presented}。
  */
 export function advanceRafFrame(
@@ -91,7 +88,7 @@ export function advanceRafFrame(
   //   —— 下一截止从**当前时刻**起算:慢帧只顺延、**永不补帧**,一次渲染恰一帧逻辑。旧 while 连跑
   //   (滞后 1~3×interval 时单 rAF 跑 2-3 tick 只 present 末态)→ 卡顿后走路瞬移/演出跳帧;
   //   accumulator 跨 mode 残留还会在 explore(100ms)→battle(40ms) 切换瞬间多跑 2 tick。
-  //   改:每 rAF 至多 1 tick,tick 后清零滞后量(= C 顺延);<interval 的余量正常累积(高刷屏不变快)。
+  //   当前每rAF至多1tick，正常溢出余量结转，真正积压才丢弃；不宣称逐次deadline与C完全相同。
   if (state.accumulator >= interval && frozen) {
     // 速通手动暂停(F8):冻结游戏世界(不推进逻辑、不消费输入 → 角色/NPC/演出全停),
     //   仅消费累积量避免恢复时一次性补帧。速通覆盖层/倒计时由 tickSpeedrunTimer 另行刷新。
@@ -136,14 +133,12 @@ export function advanceRafFrame(
   return { ticked, presented }
 }
 
-function singleTick(ctx: LoopContext, dump?: ReturnType<typeof initStateDump>): void {
+function singleTick(ctx: LoopContext): void {
   ctx.gs.nowMs = performance.now() // Bug1 fix:对话打字用 wall-clock,主循环每帧注入
   const snap = ctx.input.nextSnapshot(ctx.gs.frameNum)
   tickByMode(ctx.gs, snap, ctx.bus)
   const drained = ctx.bus.drain()
   ctx.onPresent(drained, true)
-  // 对照 sdlpal dump-frames.patch hook 位置:tickByMode 后(等同 PAL_StartFrame 末尾)
-  if (dump?.enabled) dump.push(ctx.gs, ctx.partyWalkFrames ?? 3)
 }
 
 function applySceneContext(ctx: LoopContext): void {
@@ -164,7 +159,7 @@ export function startRafLoop(ctx: LoopContext): () => void {
   // state-dump 仅 DEV:生产构建 `import.meta.env.DEV`=false → initStateDump 不被引用,
   // 整个 dev/state-dump.js 模块被 tree-shake 掉(与 bootstrap 守卫 setupDevPanel 同模式;
   // 那里注释说明用 cast 避免依赖 vite/client triple-slash 类型)。dump 为 undefined 时
-  // 下游 advanceRafFrame/singleTick 的 `dump?.enabled` 已空安全。e2e 走 vite dev(DEV=true)不受影响。
+  // advanceRafFrame的dump端口为空时安全跳过。e2e走vite dev(DEV=true)不受影响。
   const dump = (import.meta as unknown as { env?: { DEV?: boolean } }).env?.DEV
     ? initStateDump()
     : undefined

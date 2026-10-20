@@ -10,7 +10,7 @@
  *   3. `packages/game/public/soundfont.sf3` 已随仓库提供(TimGM6mb ~6MB,GPL-2;2026-06-12 从
  *      32MB GeneralUser GS 换轻量库压慢网启动等待,license/还原说明见同目录 soundfont-LICENSE.txt。
  *      文件名保持 .sf3 不动 URL,synth 按 RIFF 内容识别格式,SF2 装在 .sf3 名下兼容)。缺失或替换失败
- *      → init 失败 + warn,BGM 静默(不阻塞游戏)。
+ *      → ready拒绝，由MusicSourceController发布错误状态；不阻塞游戏主循环。
  *
  * SpessaSynth 4.3.x API:`new WorkletSynthesizer(ctx)` → `connect` → `soundBankManager.addSoundBank`
  * → `await isReady` → `new Sequencer(synth)` → `loadNewSongList([{binary,fileName}])` / `play` / `pause`
@@ -121,7 +121,7 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
     }
   }
 
-  // 异步初始化:worklet + synth + soundfont + sequencer。失败 → warn 静默(不阻塞)。
+  // 初始化失败通过ready拒绝传播；运行中曲目错误才走reportError，均由source controller处理。
   const readyPromise = (async () => {
     // AudioWorklet 仅在 secure context 下存在(https / http://localhost)。用 http:// + 局域网 IP
     //   (如 http://192.168.x.x:5173)访问时 `ctx.audioWorklet` 为 undefined → addModule 会抛
@@ -184,6 +184,7 @@ export function createSpessaSynthBackend(opts: SpessaSynthBackendOptions): Music
     }
     if (last) queuePlay(last.track, last.loop) // 就绪前已请求的曲 → 补播
   })()
+  // 三个生命周期入口统一fire-and-forget；doPlay拥有当前请求的错误与代际检查。
   function queuePlay(track: number, loop: boolean): void {
     void doPlay(track, loop)
   }

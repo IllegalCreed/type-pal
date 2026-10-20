@@ -56,7 +56,7 @@ export interface PlayRngOptions {
   /**
    * DM27:跳过键,**默认空 = 不可跳**(C 真值:PAL_RNGPlay/ShowFBP/ScrollFBP/EndingAnimation
    * 主循环均无 dwKeyPress 检查,rngplay.c:409-443,连 trademark 开机动画都不可跳;且末帧常驻
-   * 供后续脚本叠字——可跳会停在中间帧)。仅显式传入才可跳(目前无调用方,dev 工具可用)。
+   * 供后续脚本叠字——可跳会停在中间帧)。正式PAL路径不传，开发面板预览显式允许跳过。
    */
   skipKeys?: string[]
 
@@ -71,7 +71,7 @@ export interface PlayRngOptions {
 
   /**
    * 测试 only override fetchers — 生产从 `/extracted/` fetch,测试注入 mock。
-   * 不传则用默认 `fetch + decodePngToIndices`。
+   * 不传则加载manifest与gzip RNG chunk，解压后交shared decoder，不读取逐帧PNG。
    */
   fetchManifest?: () => Promise<RngFramesManifest>
   fetchFrame?: (chunkIdx: number, frameIdx: number) => Promise<IndexedImage>
@@ -176,9 +176,10 @@ async function fadeInFirstFrame(options: PlayRngOptions): Promise<void> {
 }
 
 /**
- * 播 RNG 动画 — sdlpal `PAL_RNGPlay` 等价。
+ * 播RNG动画；帧窗口/逐帧呈现参考PAL_RNGPlay，缓存与异步IO由本模块拥有。
  *
- * Promise resolve 时机 = 全部帧播完 OR 用户按跳过键 OR manifest/帧加载失败(warn + return)。
+ * manifest请求失败或缺chunk时warn后结束；单帧请求失败则warn并跳过该帧。
+ * 正常播放/显式跳过后resolve；呈现或解码数据合同错误仍可reject，由caller收尾RAF所有权。
  */
 export async function playRng(options: PlayRngOptions): Promise<void> {
   const skipKeys = new Set(options.skipKeys ?? [])
