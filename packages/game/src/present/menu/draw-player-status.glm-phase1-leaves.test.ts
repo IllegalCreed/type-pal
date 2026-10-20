@@ -89,26 +89,28 @@ describe('L11 drawPlayerStatus 剩余分支', () => {
       playerRoles: makeRoles(),
       items: [], // catalog 空
       uiSpriteFrames: makeUiFrames(),
+      itemIcons: new Map([
+        [0, { width: 1, height: 1, indices: Uint8Array.of(0x99), opaque: Uint8Array.of(1) }],
+      ]),
       glyphs,
     })
     // slot0 名字位 (195,38) 保持 sentinel（item find 失败 → continue）
     expect(pixel(fb, 195, 38)).toBe(0x5a)
+    expect(pixel(fb, 190, 0)).toBe(0x5a)
   })
 
   it('cursor 越界 / roles 缺 roleId：早退不画不崩', () => {
     const gs = gsForStatus()
-    const state = createPlayerStatus([0])
-    state.cursor = 5 // 越界
-    const fb = newFb()
-    drawPlayerStatus({
-      fb,
-      state,
-      gs,
-      playerRoles: makeRoles(),
-      items: [],
-      uiSpriteFrames: makeUiFrames(),
-      glyphs,
-    })
-    expect(pixel(fb, 195, 38)).toBe(0x5a) // 全屏无内容
+    const outside = createPlayerStatus([0])
+    outside.cursor = 5
+    for (const input of [
+      { state: outside, playerRoles: makeRoles() },
+      { state: createPlayerStatus([0]), playerRoles: { roles: [] } },
+    ]) {
+      const fb = newFb()
+      const before = fb.indices.slice()
+      drawPlayerStatus({ fb, gs, ...input, items: [], uiSpriteFrames: makeUiFrames(), glyphs })
+      expect(fb.indices).toEqual(before)
+    }
   })
 })

@@ -10,11 +10,18 @@
 
 import type { Command, Spell } from '@type-pal/shared'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { getGlobalLabelMap, setGlobalEvents, setObjectPoisons } from '../event-system.js'
 import { createInitialGameState } from '../game-state.js'
+import { setObjectPoisons } from '../player-poison-state.js'
+import { getGlobalLabelMap, setGlobalEvents } from '../script-catalog.js'
 import { castOverworldMagic, runMagicScriptSync } from './magic-script.js'
 
-// ── shared.json fixture(真值 chain)─────────────────────────────────────────
+afterEach(() => {
+  setGlobalEvents([])
+  setObjectPoisons([])
+  vi.restoreAllMocks()
+})
+
+// ── 全局脚本片段 fixture(原始入口与已声明的合成边界)─────────────────────────────────────────
 //
 // 气疗术 scriptOnSuccess=43016:`raw 0x1B [0, 75, 0]` → HP+75 single
 // 五气朝元 scriptOnSuccess=39554:`raw 0x1B [1, 300, 0]` → HP+300 all
@@ -59,7 +66,7 @@ const FIXTURE_COMMANDS: Command[] = [
   // L_506 HP+10+MP+10 applyToAll(idx 20)
   { op: 'raw', opcode: 0x1d, operands: [1, 10, 0], label: 'L_506' },
   { op: 'end' },
-] as Command[]
+]
 
 const FIXTURE_LABELS: Record<string, number> = {
   L_43016: 0,
@@ -90,11 +97,6 @@ function mkGs() {
 // 解析到的 ip 就是 fixture 命令所在的全局下标。
 
 describe('setGlobalEvents - 由 label 字段 derive 全局 labelMap(P2#5)', () => {
-  afterEach(() => {
-    setGlobalEvents([])
-    setObjectPoisons([])
-  })
-
   it('FIXTURE_COMMANDS 注册后 getGlobalLabelMap 与 FIXTURE_LABELS 期望下标一致', () => {
     setGlobalEvents(FIXTURE_COMMANDS)
     const map = getGlobalLabelMap()
@@ -108,7 +110,6 @@ describe('setGlobalEvents - 由 label 字段 derive 全局 labelMap(P2#5)', () =
 
 describe('runMagicScriptSync - opcode 0x1B OP_INCREASE_HP', () => {
   beforeEach(() => setGlobalEvents(FIXTURE_COMMANDS))
-  afterEach(() => setGlobalEvents([]))
 
   it('气疗术 chain (HP+75 single) → target role HP +75 clamp maxHP', () => {
     const gs = mkGs()
@@ -144,12 +145,6 @@ describe('runMagicScriptSync - opcode 0x1B OP_INCREASE_HP', () => {
     expect(gs.PlayerRolesRuntime.rgwHP[2]).toBe(200)
   })
 
-  it('single target=0xFFFF 但 applyAll=false → skip(防越界)', () => {
-    const gs = mkGs()
-    runMagicScriptSync(gs, 43016, 0xffff) // 真值需要 role id,0xFFFF 跳过
-    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(50) // unchanged
-  })
-
   it('M10:满血单体治疗 → success=false(无变化,sdlpal Avoid over treatment global.c:1324)', () => {
     const gs = mkGs()
     gs.PlayerRolesRuntime.rgwHP[0] = 200 // 满血(=maxHP)
@@ -168,18 +163,23 @@ describe('runMagicScriptSync - opcode 0x1B OP_INCREASE_HP', () => {
 
   it('M11:大世界复活只清 level<=3 毒,level>3 保留(script.c:1071)', () => {
     setObjectPoisons([
-      { id: 100, level: 2, color: 0, playerScript: 0, enemyScript: 0 },
+      { id: 100, level: 0, color: 0, playerScript: 0, enemyScript: 0 },
+      { id: 101, level: 3, color: 0, playerScript: 0, enemyScript: 0 },
       { id: 200, level: 5, color: 0, playerScript: 0, enemyScript: 0 },
     ])
     const gs = mkGs()
     gs.PlayerRolesRuntime.rgwHP[0] = 0
-    gs.rgPoisonStatus['0_0'] = { wPoisonID: 100, wPoisonScript: 0 }
-    gs.rgPoisonStatus['1_0'] = { wPoisonID: 200, wPoisonScript: 0 }
+    gs.rgPoisonStatus['0_0'] = { wPoisonID: 100, wPoisonScript: 1 }
+    gs.rgPoisonStatus['1_0'] = { wPoisonID: 101, wPoisonScript: 3 }
+    gs.rgPoisonStatus['2_0'] = { wPoisonID: 200, wPoisonScript: 5 }
     const ok = runMagicScriptSync(gs, 43024, 0) // 还魂咒 10%
     expect(ok).toBe(true)
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(20)
-    expect(gs.rgPoisonStatus['0_0']?.wPoisonID ?? 0).toBe(0)
-    expect(gs.rgPoisonStatus['1_0']?.wPoisonID ?? 0).toBe(200)
+    expect(gs.rgPoisonStatus).toEqual({
+      '0_0': { wPoisonID: 0, wPoisonScript: 0 },
+      '1_0': { wPoisonID: 0, wPoisonScript: 0 },
+      '2_0': { wPoisonID: 200, wPoisonScript: 5 },
+    })
   })
 })
 
@@ -187,12 +187,11 @@ describe('runMagicScriptSync - opcode 0x1B OP_INCREASE_HP', () => {
 
 describe('runMagicScriptSync - opcode 0x1C OP_INCREASE_MP', () => {
   beforeEach(() => setGlobalEvents(FIXTURE_COMMANDS))
-  afterEach(() => setGlobalEvents([]))
 
-  it('MP +20 single target → clamp maxMP', () => {
+  it('MP +20 single target → 仅目标回蓝', () => {
     const gs = mkGs()
     runMagicScriptSync(gs, 500, 1) // target = role 1, MP 50 + 20 = 70
-    expect(gs.PlayerRolesRuntime.rgwMP[1]).toBe(70)
+    expect(gs.PlayerRolesRuntime.rgwMP).toEqual([80, 70, 30, 0, 0, 0])
   })
 
   it('MP +20 当前 MP 接近 maxMP → clamp', () => {
@@ -220,7 +219,6 @@ describe('runMagicScriptSync - opcode 0x1C OP_INCREASE_MP', () => {
 
 describe('runMagicScriptSync - opcode 0x1D OP_INCREASE_HP_MP', () => {
   beforeEach(() => setGlobalEvents(FIXTURE_COMMANDS))
-  afterEach(() => setGlobalEvents([]))
 
   it('HP+10 + MP+10 同 delta', () => {
     const gs = mkGs()
@@ -250,34 +248,12 @@ describe('runMagicScriptSync - opcode 0x1D OP_INCREASE_HP_MP', () => {
 
 describe('runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER', () => {
   beforeEach(() => setGlobalEvents(FIXTURE_COMMANDS))
-  afterEach(() => setGlobalEvents([]))
-
-  it('还魂咒 HP==0 → 复活 maxHP * 1/10 = 20', () => {
-    const gs = mkGs()
-    gs.PlayerRolesRuntime.rgwHP[0] = 0
-    runMagicScriptSync(gs, 43024, 0)
-    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(20) // 200 * 1/10
-  })
 
   it('赎魂 HP==0 → 复活 maxHP * 3/10 = 60', () => {
     const gs = mkGs()
     gs.PlayerRolesRuntime.rgwHP[0] = 0
     runMagicScriptSync(gs, 43026, 0)
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(60)
-  })
-
-  it('HP > 0 时不复活(sdlpal 真值 PAL_RevivePlayer 检 HP==0)', () => {
-    const gs = mkGs() // HP 50
-    runMagicScriptSync(gs, 43024, 0)
-    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(50) // 未变
-  })
-
-  it('复活时清 poison(rgPoisonStatus sparse 清 0)', () => {
-    const gs = mkGs()
-    gs.PlayerRolesRuntime.rgwHP[0] = 0
-    gs.rgPoisonStatus['0_0'] = { wPoisonID: 99, wPoisonScript: 0 }
-    runMagicScriptSync(gs, 43024, 0)
-    expect(gs.rgPoisonStatus['0_0']?.wPoisonID).toBe(0)
   })
 
   it('单体复活：清 <=999 状态、保留 >999 装备状态，并按 roleId 作用于非顺序队伍', () => {
@@ -289,6 +265,7 @@ describe('runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER', () => {
     gs.rgPlayerStatus[2]![5] = 9 // 队友 role 2：单体目标不是它
     const ok = runMagicScriptSync(gs, 43024, 0)
     expect(ok).toBe(true)
+    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(20)
     expect(gs.rgPlayerStatus[0]![2]).toBe(0)
     expect(gs.rgPlayerStatus[0]![8]).toBe(32760)
     expect(gs.rgPlayerStatus[2]![5]).toBe(9)
@@ -305,23 +282,6 @@ describe('runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER', () => {
     expect(gs.rgPlayerStatus[0]![8]).toBe(32760)
   })
 
-  // ── g_fScriptSuccess 真值(sdlpal script.c:1077/1099)── user 2026-05-29 提醒:
-  // BattleWon 已 auto-revive 半 HP,大世界几乎无死人 → 还魂咒选活人应不扣 MP。
-  it('revive 选活人 target → runner return false(g_fScriptSuccess=FALSE)', () => {
-    const gs = mkGs() // HP[0]=50 活
-    const ok = runMagicScriptSync(gs, 43024, 0)
-    expect(ok).toBe(false) // dispatcher 据此不扣 MP
-    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(50) // 未变
-  })
-
-  it('revive 选死人 target → runner return true', () => {
-    const gs = mkGs()
-    gs.PlayerRolesRuntime.rgwHP[0] = 0
-    const ok = runMagicScriptSync(gs, 43024, 0)
-    expect(ok).toBe(true)
-    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(20)
-  })
-
   it('revive applyToAll 全活 → return false 且不清活人状态', () => {
     setGlobalEvents([
       { op: 'raw', opcode: 0x22, operands: [1, 1, 0], label: 'L_504' },
@@ -336,31 +296,17 @@ describe('runMagicScriptSync - opcode 0x22 OP_REVIVE_PLAYER', () => {
   })
 })
 
-// 补 fixture 测 revive applyToAll(用 inline event setShared)
+// 合成 WORD 入口只覆盖真实还魂/赎魂未提供的 applyAll 域。
 describe('runMagicScriptSync - revive applyToAll g_fScriptSuccess', () => {
-  it('revive applyToAll 全活 → return false', () => {
-    // P2#5:label 'L_77777' 在全局数组 idx 0 → setGlobalEvents 由 label 字段建 map(L_77777 → 0)。
-    setGlobalEvents([
-      { op: 'raw', opcode: 0x22, operands: [1, 1, 0], label: 'L_77777' },
-      { op: 'end' },
-    ] as Command[])
-    const gs = mkGs() // 全活
-    const ok = runMagicScriptSync(gs, 77777, 0xffff)
-    expect(ok).toBe(false) // 全活
-    setGlobalEvents([])
-  })
-
   it('revive applyToAll 至少 1 死 → return true', () => {
     setGlobalEvents([
-      { op: 'raw', opcode: 0x22, operands: [1, 1, 0], label: 'L_77778' },
+      { op: 'raw', opcode: 0x22, operands: [1, 1, 0], label: 'L_504' },
       { op: 'end' },
-    ] as Command[])
+    ])
     const gs = mkGs()
-    gs.PlayerRolesRuntime.rgwHP[1] = 0 // role 1 dead
-    const ok = runMagicScriptSync(gs, 77778, 0xffff)
-    expect(ok).toBe(true)
-    expect(gs.PlayerRolesRuntime.rgwHP[1]).toBe(20) // 200 * 1/10
-    setGlobalEvents([])
+    gs.PlayerRolesRuntime.rgwHP[1] = 0
+    expect(runMagicScriptSync(gs, 504, 0xffff)).toBe(true)
+    expect(gs.PlayerRolesRuntime.rgwHP).toEqual([50, 20, 50, 0, 0, 0])
   })
 
   it('applyAll：只清 party 中阵亡角色的 <=999，保留 >999 与 party 外角色状态', () => {
@@ -380,9 +326,9 @@ describe('runMagicScriptSync - revive applyToAll g_fScriptSuccess', () => {
     expect(runMagicScriptSync(gs, 504, 0xffff)).toBe(true)
     expect(gs.rgPlayerStatus[0]![2]).toBe(0)
     expect(gs.rgPlayerStatus[0]![8]).toBe(1000)
+    expect(gs.PlayerRolesRuntime.rgwHP).toEqual([20, 0, 20, 0, 0, 0])
     expect(gs.rgPlayerStatus[2]![5]).toBe(0)
     expect(gs.rgPlayerStatus[1]![2]).toBe(999)
-    setGlobalEvents([])
   })
 })
 
@@ -390,26 +336,25 @@ describe('runMagicScriptSync - revive applyToAll g_fScriptSuccess', () => {
 
 describe('runMagicScriptSync - 流程控制', () => {
   beforeEach(() => setGlobalEvents(FIXTURE_COMMANDS))
-  afterEach(() => setGlobalEvents([]))
 
   it('多 op chain 顺序执行(HP-50 → revive 不触发因 HP>0)', () => {
     const gs = mkGs()
     gs.PlayerRolesRuntime.rgwHP[0] = 200
-    runMagicScriptSync(gs, 502, 0)
+    expect(runMagicScriptSync(gs, 502, 0)).toBe(false)
     // L_502 chain:HP-50 → revive ratio 10%
     // HP=200 → 150;revive 检 HP==0 → skip;final HP=150
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(150)
   })
 
-  it('多 op chain HP-200 后 revive 真触发(HP=0 → maxHP * 1/10)', () => {
+  it('多 op chain 扣尽最后 50 HP 后复活(HP=0 → maxHP * 1/10)', () => {
     const gs = mkGs()
-    // 改 fixture L_502 chain 行为:HP=50 → -50 → 0 → revive 1/10 = 20
+    // fixture 指令不变，目标初始 HP=50：扣50→0，再复活为20。
     gs.PlayerRolesRuntime.rgwHP[0] = 50
-    runMagicScriptSync(gs, 502, 0)
+    expect(runMagicScriptSync(gs, 502, 0)).toBe(true)
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(20) // revive 1/10 of maxHP=200 = 20
   })
 
-  it('未知 opcode log skip 不阻流', () => {
+  it('未知 raw opcode 静默跳过，不阻断后续治疗', () => {
     const gs = mkGs()
     runMagicScriptSync(gs, 503, 0)
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(55) // 50+5
@@ -426,9 +371,10 @@ describe('runMagicScriptSync - 流程控制', () => {
     const gs = mkGs()
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     try {
-      const ok = runMagicScriptSync(gs, 99999, 0)
+      const ok = runMagicScriptSync(gs, 65000, 0)
       expect(ok).toBe(false)
-      expect(warn).toHaveBeenCalledWith('runMagicScriptSync: L_99999 不在全局 labelMap')
+      expect(warn).toHaveBeenCalledTimes(1)
+      expect(warn).toHaveBeenCalledWith('runMagicScriptSync: L_65000 不在全局 labelMap')
     } finally {
       warn.mockRestore()
     }
@@ -440,7 +386,7 @@ describe('runMagicScriptSync - 流程控制', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     try {
       expect(runMagicScriptSync(mkGs(), 504, 0)).toBe(false)
-      expect(warn).toHaveBeenCalledWith(expect.stringContaining('ip 99 越界'))
+      expect(warn).toHaveBeenCalledWith('runMagicScriptSync: ip 99 越界')
     } finally {
       warn.mockRestore()
     }
@@ -461,18 +407,18 @@ describe('runMagicScriptSync - 流程控制', () => {
 
 describe('castOverworldMagic - 双层 script', () => {
   beforeEach(() => setGlobalEvents(FIXTURE_COMMANDS))
-  afterEach(() => setGlobalEvents([]))
 
+  // 气疗术的公开字段结构；合成脚本指针验证 runner 合同，不冒称原盘施法实跑。
   function mkSpell(scriptOnUse: number, scriptOnSuccess: number): Spell {
     return {
-      id: 0,
+      id: 296,
       magicNumber: 33,
       scriptOnUse,
       scriptOnSuccess,
-      scriptDesc: 0,
+      scriptDesc: 43275,
       flags: {
         usableOutsideBattle: true,
-        usableInBattle: false,
+        usableInBattle: true,
         usableToEnemy: false,
         applyToAll: false,
       },
@@ -488,15 +434,24 @@ describe('castOverworldMagic - 双层 script', () => {
     expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(125) // 50+75
   })
 
+  it('非零 scriptOnUse 先执行再跑 success，runner 不代扣施法者 MP', () => {
+    const gs = mkGs()
+    // Use 扣尽 HP 后复活到20，Success 再恢复75；漏跑或颠倒均不等于95。
+    const spell = mkSpell(502, 43016)
+    expect(castOverworldMagic(gs, spell, 6, 2, 0)).toBe(true)
+    expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(95)
+    expect(gs.PlayerRolesRuntime.rgwMP).toEqual([80, 50, 30, 0, 0, 0])
+  })
+
   it('scriptOnUse 失败 → 不跑 scriptOnSuccess', () => {
     const gs = mkGs()
-    const spell = mkSpell(99999, 43016) // scriptOnUse label 不存在 → 失败
+    const spell = mkSpell(65000, 43016) // scriptOnUse label 不存在 → 失败
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     try {
       const ok = castOverworldMagic(gs, spell, 6, 0, 0)
       expect(ok).toBe(false)
       expect(gs.PlayerRolesRuntime.rgwHP[0]).toBe(50) // 不变(scriptOnSuccess 没跑)
-      expect(warn).toHaveBeenCalledWith('runMagicScriptSync: L_99999 不在全局 labelMap')
+      expect(warn).toHaveBeenCalledWith('runMagicScriptSync: L_65000 不在全局 labelMap')
     } finally {
       warn.mockRestore()
     }

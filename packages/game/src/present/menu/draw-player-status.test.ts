@@ -1,6 +1,6 @@
 import type { PlayerRole } from '@type-pal/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { createInitialGameState } from '../../core/game-state.js'
+import { createInitialGameState, hydratePlayerRolesRuntime } from '../../core/game-state.js'
 import { createPlayerStatus } from '../../core/menu/player-status.js'
 import { setWordTable } from '../../core/word-lookup.js'
 import * as fontModule from '../font.js'
@@ -43,6 +43,15 @@ function minimalRole(id: number): PlayerRole {
   }
 }
 
+function statusGs() {
+  const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+  gs.partyMembers = [0]
+  hydratePlayerRolesRuntime(gs.PlayerRolesRuntime, {
+    roles: Array.from({ length: 6 }, (_, id) => minimalRole(id)),
+  })
+  return gs
+}
+
 // C6:PlayerStatus 毒 row(sdlpal uigame.c:1245-1253)— rgPoisonStatus 的 wPoisonID,
 //   poison.level<=3 才显示,名 getWord(wPoisonID),色 wColor+10,位置 RolePoisonNames[j](185,58+j*18)。
 describe('drawPlayerStatus 毒 row(uigame.c:1245-1253)', () => {
@@ -57,7 +66,7 @@ describe('drawPlayerStatus 毒 row(uigame.c:1245-1253)', () => {
     color: number
     slot?: number
   }): ReturnType<typeof vi.spyOn> {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const gs = statusGs()
     gs.partyMembers = [0]
     gs.rgPoisonStatus[`${opts.slot ?? 0}_0`] = { wPoisonID: opts.id, wPoisonScript: 0 }
     const objectPoisons = new Map([[opts.id, { level: opts.level, color: opts.color }]])
@@ -93,7 +102,7 @@ describe('drawPlayerStatus 毒 row(uigame.c:1245-1253)', () => {
   })
 
   it('wPoisonID=0(无毒槽)→ 不画', () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const gs = statusGs()
     const spy = vi.spyOn(fontModule, 'renderText')
     drawPlayerStatus({
       fb: createFramebuffer(),
@@ -108,7 +117,7 @@ describe('drawPlayerStatus 毒 row(uigame.c:1245-1253)', () => {
   })
 
   it('重复角色队伍：状态页 cursor 2 不复用首个同角色队员的毒槽', () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const gs = statusGs()
     gs.partyMembers = [4, 5, 4]
     gs.rgPoisonStatus['0_0'] = { wPoisonID: 100, wPoisonScript: 0 }
     const words: string[] = []
@@ -132,7 +141,7 @@ describe('drawPlayerStatus 毒 row(uigame.c:1245-1253)', () => {
   })
 
   it('非顺序 party：SDLPal slot 0 的毒应显示给 partyMembers[0] 的 role', () => {
-    const gs = createInitialGameState({ x: 0, y: 0, facing: 'down' })
+    const gs = statusGs()
     gs.partyMembers = [4, 1]
     gs.rgPoisonStatus['0_0'] = { wPoisonID: 100, wPoisonScript: 0 }
     const roles = [minimalRole(0), minimalRole(1), minimalRole(2), minimalRole(3), minimalRole(4)]

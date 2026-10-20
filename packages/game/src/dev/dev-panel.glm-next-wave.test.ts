@@ -5,7 +5,7 @@
  *    computeMagicGrantsByRole / roleMagicsAtLevel / applyFixture / applyCustomBattle /
  *    applyBossBattle / applyAutoBattleT37。
  *  - dev-panel.test.ts:BOSS_ROSTER story-grounded 数据自检。
- * 本文件只证此前未证公开合同:
+ * 本文件核开关/模式门和真实dump输出；完整战中/探索换队合同由dev-panel-party-lifecycle.test.ts承接:
  *  1. `B`(探索模式)开 picker → 再按 B toggle 关闭,且对按键 preventDefault。
  *  2. 非 explore/battle 模式(如 event)B 不拦截、不开面板。
  *  3. `F1`(全局)console dump = gs 的深拷贝(后改 gs 不影响 dump,且非同引用)。
@@ -14,7 +14,7 @@
  * 均改变不了被测模块视角;生产侧由 dead-code-elimination 兜底。见 wave-I 回执。
  */
 
-import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
+import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
 import { SceneAssetsCache } from '../assets/loader.js'
 import { createInitialGameState } from '../core/game-state.js'
 import type { DevPanelDeps } from './dev-panel.js'
@@ -54,8 +54,20 @@ describe('setupDevPanel 显式控制与释放(DEV-only debug overlay)', () => {
   const deps = makeDeps()
 
   // vitest(vite)下 import.meta.env.DEV=true → 装配一次;后续用例共用同一批 keydown 监听。
+  const listenerCalls: Parameters<typeof window.addEventListener>[] = []
   beforeAll(() => {
-    setupDevPanel(deps)
+    const listenerSpy = vi.spyOn(window, 'addEventListener')
+    try {
+      setupDevPanel(deps)
+    } finally {
+      listenerCalls.push(...listenerSpy.mock.calls)
+      listenerSpy.mockRestore()
+    }
+  })
+
+  afterAll(() => {
+    for (const [type, listener, options] of listenerCalls)
+      window.removeEventListener(type, listener, options)
   })
 
   afterEach(() => {
@@ -88,47 +100,29 @@ describe('setupDevPanel 显式控制与释放(DEV-only debug overlay)', () => {
   it('F1(全局)dump gs 深拷贝:内容等于当时快照,后改 gs 不影响 dump,且非同引用', () => {
     deps.gs.mode = 'explore'
     deps.gs.wNumMusic = 42
-    const snapshot = JSON.parse(JSON.stringify(deps.gs))
+    deps.gs.party.x = 32
+    deps.gs.inventory = [{ itemId: 63, count: 2 }]
+    const expected = {
+      wNumMusic: 42,
+      party: { x: 32 },
+      inventory: [{ itemId: 63, count: 2 }],
+    }
     const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
     const f1 = new KeyboardEvent('keydown', { code: 'F1', cancelable: true })
     window.dispatchEvent(f1)
     expect(f1.defaultPrevented).toBe(true)
 
     const dumpCall = logSpy.mock.calls.find((c) => c[0] === '[dev] GameState dump:')
+    expect(logSpy).toHaveBeenCalledOnce()
     expect(dumpCall).toBeDefined()
     const dump = dumpCall?.[1]
-    expect(dump).toEqual(snapshot)
+    expect(dump).toMatchObject(expected)
     expect(dump).not.toBe(deps.gs)
 
     // dump 是深拷贝:此后 mutate 原 gs,dump 保持快照值。
     deps.gs.wNumMusic = 0
-    expect(dump).toEqual(snapshot)
-  })
-
-  it('battle 中队伍卡不可入队/离队；explore 中同一卡仍可切换', () => {
-    deps.gs.partyMembers = [0, 1]
-    deps.gs.mode = 'battle'
-    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyB', cancelable: true }))
-    const partyTab = Array.from(document.querySelectorAll<HTMLButtonElement>('.tp-dev-tab')).find(
-      (button) => button.textContent === '👥 队伍',
-    )
-    partyTab?.click()
-    const battleRole1 = Array.from(
-      document.querySelectorAll<HTMLButtonElement>('.tp-dev-panel button'),
-    ).find((button) => button.textContent === 'R1role1')
-    expect(battleRole1).toBeDefined()
-    expect(battleRole1?.disabled).toBe(true)
-    battleRole1?.click()
-    expect(deps.gs.partyMembers).toEqual([0, 1])
-
-    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyB', cancelable: true }))
-    deps.gs.mode = 'explore'
-    window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyB', cancelable: true }))
-    const exploreRole1 = Array.from(
-      document.querySelectorAll<HTMLButtonElement>('.tp-dev-panel button'),
-    ).find((button) => button.textContent === 'R1role1')
-    expect(exploreRole1?.disabled).toBe(false)
-    exploreRole1?.click()
-    expect(deps.gs.partyMembers).toEqual([0])
+    deps.gs.party.x = 64
+    deps.gs.inventory[0]!.count = 1
+    expect(dump).toMatchObject(expected)
   })
 })

@@ -5,15 +5,14 @@
  * 浮层是 DOM(z-index=9999),与 320×200 canvas 隔离,不进 framebuffer。
  *
  * 快捷键:
- *  - `B`(探索模式 only)→ 弹 picker,选 fixture → applyFixture(写 GameState + startBattle)
+ *  - `B`(探索/战斗)→ 开关面板；战斗期间队伍入队/离队不可用。
  *  - `F1`(全局)→ console.log GameState 深拷贝 dump
  *
  * **安全约束**:不用 `innerHTML`(security hook 会阻),全用 `document.createElement` +
  * `textContent`。
  *
  * **fixture 数据范围**:enemyTeam/spell/item id 在 `battle-fixtures.json` 注释里 lock,
- * 实施时 cat extracted data verify。spell id 0-101 范围;spec 原写 296/320/350 已删
- * (out of range)。
+ * 法术按 Spell.id(OBJECT ID)寻址，Magic 表索引另由 Spell.magicNumber 表达，不能混为0-based法术ID。
  */
 
 import type {
@@ -2322,7 +2321,10 @@ export function applyAutoBattleT37(deps: DevPanelDeps, rngSeed?: number): void {
  * 不更新 gs.palette/basePalette,场景调色板由 0x8B setPalette/脚本管理,dev 跳转后色表
  * 与目标场景可能不符 — 已知差异)。
  */
-async function applySceneJump(deps: DevPanelDeps, jump: SceneJump): Promise<void> {
+async function applySceneJump(
+  deps: Pick<DevPanelDeps, 'gs' | 'sceneAssetsCache' | 'onSceneChanged'>,
+  jump: SceneJump,
+): Promise<void> {
   try {
     // P0.e: partyStart 字段已从 scene-jumps.json 删除;loadScene 不传 → 走 wScriptOnEnter。
     // 若 jump.partyStart 仍存在(极端 dev override),仍可透传。

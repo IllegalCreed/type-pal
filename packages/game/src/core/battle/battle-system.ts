@@ -3014,7 +3014,7 @@ function tickPostAction(
   // DM12:毒 tick 前快照敌人 hp(玩家用 prePoisonHp)——毒后任何 HP 变化 = C 的
   //   PAL_BattleDisplayStatChange() 返回 TRUE → 转 selectAction 前设 8 帧停顿。
   const prePoisonEnemyHp = state.enemies.map((e) => e.e.health)
-  // 玩家毒 tick —— sdlpal fight.c:1657-1697(PAL_BattleStartFrame,action queue 耗尽时):每队员每毒槽
+  // 玩家毒 tick —— SDLPal PAL_BattleStartFrame 的回合末循环(fight.c:1616-1630):每队员每毒槽
   //   跑 wPlayerScript(target=该队员;毒脚本 0x1B 负 delta 扣血,0x1B battle handler 自带活人 gate)。
   //   玩家毒存全局 gs.rgPoisonStatus[`${slot}_${partySlot}`](持久,16 槽/party slot)。sdlpal 先玩家后敌。
   // battleDecidedByCombat → 跳过毒 tick(sdlpal 已 Won/Lost 则 PostActionCheck 前 return,不跑回合末毒)。

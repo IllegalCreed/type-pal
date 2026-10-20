@@ -166,7 +166,7 @@ export function runMagicScriptSync(
       continue
     }
 
-    const [a, b, _c] = cmd.operands as [number, number, number]
+    const [a, b, _c] = cmd.operands
     const applyAll = (a ?? 0) !== 0
     const delta = signExtendI16(b ?? 0)
 
@@ -218,7 +218,7 @@ export function runMagicScriptSync(
       }
       default:
       // 其它 opcode(eg 0x17 等装备 effect、0x19/0x1A 等永久 stat 改)
-      // outside-battle spell 真值实测不 hit 这些;log skip
+      // 当前同步法术子集不消费这些 raw opcode，保持既有静默跳过策略。
     }
 
     ip++
@@ -246,11 +246,11 @@ export function castOverworldMagic(
   void casterRoleId
 
   // 1. scriptOnUse(可能 = 0,runMagicScriptSync 直接 return true skip)
-  const sidUse = (spell as { scriptOnUse?: number }).scriptOnUse ?? 0
+  const sidUse = spell.scriptOnUse ?? 0
   const useOk = runMagicScriptSync(gs, sidUse, targetIdOrAll)
   if (!useOk) return false
 
   // 2. scriptOnSuccess
-  const sidSuccess = (spell as { scriptOnSuccess?: number }).scriptOnSuccess ?? 0
+  const sidSuccess = spell.scriptOnSuccess ?? 0
   return runMagicScriptSync(gs, sidSuccess, targetIdOrAll)
 }

@@ -27,11 +27,12 @@ test('批准账只含精确历史/审计文件，运行时不能扩大', () => {
   // CODE3h 两个坏 PNG 弱摘要并入完整上下文与真实 cause oracle。
   // CODE3h 启动主测试的 glyph 降级并入保留的独立屏障例。
   // CODE3u: duplicate player snapshots transferred with the independent conservation mutant.
-  assert.equal(approvedTestRetirements.length, 31)
-  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 31)
+  // CODE53/79/80/81/90：两份精确快照新增，分别净少6和1例；合同迁移见五卡回执。
+  assert.equal(approvedTestRetirements.length, 33)
+  assert.equal(new Set(approvedTestRetirements.map((entry) => entry.file)).size, 33)
   assert.equal(
     approvedTestRetirements.reduce((sum, entry) => sum + entry.previous - entry.current, 0),
-    66,
+    73,
   )
   assert.throws(() => approvedTestRetirements.push({}), TypeError)
   assert.throws(() => {

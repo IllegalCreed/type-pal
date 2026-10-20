@@ -7,6 +7,27 @@
 // Exact historical snapshots only; this is not a scope-removal switch.
 export const approvedTestRetirements = Object.freeze(
   [
+    // User2026-10-20 five-card necessary rework + standing test-quality/dedup authority.
+    // CODE90 seven weaker/invalid cases map to stronger retained tests;three names corrected.
+    // CODE80 fake-mode party case maps to realstartBattle DOM lifecycle tests.
+    // Exact native old/new identities,assertion transfers and business counters:
+    // docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/five-cards/review.json
+    {
+      file: 'packages/game/src/core/menu/magic-script.test.ts',
+      previous: 37,
+      current: 31,
+      previousIdentityDigest: 'b54cf21e965db09f3701c947dbb2401a5b4cd9ab1676d2e77a542cf41df4b9ba',
+      currentIdentityDigest: 'b0cd51bab955bbc043143ffe6608ffd9a856f5e190cb85a66a313b49b2ecb228',
+      fileSha256: 'e9128ddd85480e1230c2bde6b7eb809d1a28116d4b67266451a0d9afe1a4d796',
+    },
+    {
+      file: 'packages/game/src/dev/dev-panel.glm-next-wave.test.ts',
+      previous: 4,
+      current: 3,
+      previousIdentityDigest: '6e91e1d96388458d039cbc139fd7c10147c9c2b8d64d52cf06be428e753c8ac0',
+      currentIdentityDigest: 'e4afc9331554032827966b60d868476397d5d8538d3e5f721eaa728484d28a70',
+      fileSha256: 'ba9b3b17067c32305fc1f1dec50e7fc26bb6f2011da56a6171c9987f020f9c9f',
+    },
     // CODE3u, Codex 2026-10-18: duplicate player-snapshot assertions transferred
     // to the stronger main case, including source mutation/isolation. Both old
     // and retained tests reject the missing-scriptPrevHp mutant. Standing user
