@@ -1,12 +1,7 @@
 /**
- * 字符渲染(M4 P4.T3)。
- * 真 glyph blit:UTF-8 codepoint → GlyphTable → 16×16 indexed bitmap → blit。
- * 数据源:data/extracted/data/font/glyphs.json(Unifont CN BDF 预处理产物)。
- *
- * API 兼容说明:
- *   renderText(fb, text, x, y, color) — glyphs 默认 fallback(tofu 框占位)
- *   renderText(fb, text, x, y, color, glyphs) — 真字形 blit
- * 删除 M2 8×16 色块占位代码。
+ * 字表装载与文字绘制。JavaScript字符串按Unicode码点查GlyphTable；
+ * 字形位图每行按字节存储、最高位在左。缺字表/字形使用16px tofu。
+ * 装载入口只在启动资源边界调用；绘制入口只读字表、写framebuffer。
  */
 
 import type { Framebuffer } from './framebuffer.js'
@@ -31,7 +26,7 @@ const TOFU_BITMAP: Uint8Array = (() => {
   b[1] = 0xfe
   b[30] = 0xff
   b[31] = 0xfe
-  // 中间行只有最左最右各一像素
+  // 中间行亮第0/14列，第15列作为字间留白。
   for (let r = 1; r < 15; r++) {
     b[r * 2] = 0x80
     b[r * 2 + 1] = 0x02
@@ -41,7 +36,7 @@ const TOFU_BITMAP: Uint8Array = (() => {
 
 const TOFU_GLYPH: Glyph = { width: 16, height: 16, bitmap: TOFU_BITMAP }
 
-// ── loadGlyphs(browser 环境,fetch glyphs.json) ────────────────────────
+// 消费提取器拥有的glyphs.json合同；网络/JSON/base64失败向启动caller传播。
 
 export async function loadGlyphs(baseUrl = '/extracted'): Promise<GlyphTable> {
   const res = await fetch(`${baseUrl}/data/font/glyphs.json`)
@@ -85,6 +80,26 @@ function blitGlyph(fb: Framebuffer, x: number, y: number, glyph: Glyph, fgColor:
   }
 }
 
+/**
+ * 同一字形先三影后正色，避免阴影覆盖自身亮点(text.c PAL_DrawText)。
+ * SDLPal在此统一三影；其DOS/Win95分歧说明不等于本项目已核原版观感。
+ */
+function drawGlyph(
+  fb: Framebuffer,
+  x: number,
+  y: number,
+  glyph: Glyph,
+  color: number,
+  shadow: boolean,
+): void {
+  if (shadow) {
+    blitGlyph(fb, x + 1, y, glyph, 0)
+    blitGlyph(fb, x, y + 1, glyph, 0)
+    blitGlyph(fb, x + 1, y + 1, glyph, 0)
+  }
+  blitGlyph(fb, x, y, glyph, color)
+}
+
 // ── Public API ────────────────────────────────────────────────────────
 
 /**
@@ -111,16 +126,7 @@ export function renderText(
   for (const ch of text) {
     const cp = ch.codePointAt(0)!
     const g = glyphs.get(cp) ?? TOFU_GLYPH
-    // sdlpal text.c:1144-1155 真值 fShadow=TRUE 时 triple shadow offset
-    //   (+1, 0) / (0, +1) / (+1, +1) color=0(黑)+ 主色字。
-    // 注释明说 DOS triple / WIN95 single,sdlpal 自己 "fix" 统一 triple
-    // (认为 WIN95 单层是 bug)。ts 跟 sdlpal 真值,不凭截图视觉调整。
-    if (fShadow) {
-      blitGlyph(fb, cursorX + 1, y, g, 0)
-      blitGlyph(fb, cursorX, y + 1, g, 0)
-      blitGlyph(fb, cursorX + 1, y + 1, g, 0)
-    }
-    blitGlyph(fb, cursorX, y, g, fgColor)
+    drawGlyph(fb, cursorX, y, g, fgColor, fShadow)
     cursorX += g.width
   }
   return cursorX - x
@@ -147,13 +153,7 @@ export function renderColoredText(
   for (const ch of text) {
     const cp = ch.codePointAt(0)!
     const g = glyphs.get(cp) ?? TOFU_GLYPH
-    if (fShadow) {
-      // sdlpal text.c:1144-1155 triple shadow color 0(同 renderText)
-      blitGlyph(fb, cursorX + 1, y, g, 0)
-      blitGlyph(fb, cursorX, y + 1, g, 0)
-      blitGlyph(fb, cursorX + 1, y + 1, g, 0)
-    }
-    blitGlyph(fb, cursorX, y, g, colors[i] ?? 0x4f) // 缺色防御 → DEFAULT 0x4F
+    drawGlyph(fb, cursorX, y, g, colors[i] ?? 0x4f, fShadow)
     cursorX += g.width
     i++
   }
@@ -180,9 +180,9 @@ export function measureText(text: string, glyphs: GlyphTable = EMPTY_GLYPH_TABLE
 /**
  * sdlpal `PAL_CharWidth`(font.c:611-629)= `font_width[ch] >> 1` 的**近似**(非逐 codepoint 忠实):
  *   可打印 ASCII(0x20-0x7E)= 16→8px ✓;CJK = 32→16px ✓ —— 菜单文案(纯 CJK / 可打印 ASCII)完全正确。
- * **已知近似偏差**(对真实游戏菜单文案零影响,故不修运行逻辑):font_width 默认表(fontglyph.h)里
+ * **已知近似偏差**：font_width 默认表(fontglyph.h)里
  *   控制字符 0x00-0x1F / 0x7F = 32(本函数返 8)、Latin-1/希腊/西里尔 0xA0-0xFF 多为 16(本函数返 16 但真值 8);
- *   且未移植 unicode 代理/私用区裁剪(font.c:615-625 返 0 宽)。仅当未来用于含这些字符的布局才需查真 font_width 表。
+ *   且未移植 unicode 代理/私用区裁剪(font.c:615-625 返 0 宽)。这些字符不在此近似的保真范围。
  * **静态判定**(纯按 codepoint),不读字体资源/不依赖 glyph 加载 —— 与 measureText 区别:后者依赖 glyphs 且
  *   ASCII 缺失 fallback 成 16px,会让 ASCII 宽度翻倍,**不可**用于布局公式。
  */

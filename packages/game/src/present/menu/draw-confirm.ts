@@ -10,25 +10,16 @@
  *  - 默认 否(nDefault=0):confirmYes=false 时 否 高亮闪烁。
  */
 import type { IndexedImage } from '../../assets/png.js'
+import { MENUITEM_COLOR, selectedMenuItemColor } from '../../core/menu/menu-colors.js'
 import { type GlyphTable, renderText } from '../font.js'
 import type { Framebuffer } from '../framebuffer.js'
 import { drawSingleLineBox } from './draw-box.js'
-
-const MENUITEM_COLOR = 0x4f // ui.h:29
-const MENUITEM_COLOR_SELECTED_FIRST = 0xf9 // ui.h:39
-const MENUITEM_COLOR_SELECTED_TOTAL = 6
-
-/** 选中项闪烁色(sdlpal ui.h:39-40 MENUITEM_COLOR_SELECTED 动态循环 0xF9..0xFE)。 */
-function selectedColor(): number {
-  return (
-    MENUITEM_COLOR_SELECTED_FIRST + (Math.floor(Date.now() / 100) % MENUITEM_COLOR_SELECTED_TOTAL)
-  )
-}
 
 /**
  * 2 项左右选框(sdlpal PAL_SelectionMenu 2 项布局)。默认 否/是(PAL_ConfirmMenu);
  * 音乐/音效 开关(PAL_SwitchMenu,uigame.c:368-388)传 labels={left:'关', right:'开'} 复用同布局。
  * rightSelected = 右项高亮(confirmYes / switch 的"开")。
+ * 此helper固定单字双框，不实现PAL_SelectionMenu对任意长标签的动态扩框。
  */
 export function drawConfirmBox(
   fb: Framebuffer,
@@ -41,8 +32,8 @@ export function drawConfirmBox(
   drawSingleLineBox({ fb, x: 130, y: 100, len: 2, uiSpriteFrames })
   drawSingleLineBox({ fb, x: 205, y: 100, len: 2, uiSpriteFrames })
   // 文字 PAL_XY(145, 110) 左 / PAL_XY(220, 110) 右;selected 闪烁(默认左 index0)
-  const leftColor = !rightSelected ? selectedColor() : MENUITEM_COLOR
-  const rightColor = rightSelected ? selectedColor() : MENUITEM_COLOR
+  const leftColor = !rightSelected ? selectedMenuItemColor(Date.now()) : MENUITEM_COLOR
+  const rightColor = rightSelected ? selectedMenuItemColor(Date.now()) : MENUITEM_COLOR
   renderText(fb, labels.left, 145, 110, leftColor, glyphs, true)
   renderText(fb, labels.right, 220, 110, rightColor, glyphs, true)
 }
