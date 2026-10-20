@@ -1,0 +1,286 @@
+{
+  "numTotalTestSuites": 10,
+  "numPassedTestSuites": 10,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 21,
+  "numPassedTests": 21,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792462885635,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["analytics consent UI"],
+          "fullName": "analytics consent UI P2: 底部居中且高于 loading，不 autofocus、不遮挡进入游戏按钮",
+          "status": "passed",
+          "title": "P2: 底部居中且高于 loading，不 autofocus、不遮挡进入游戏按钮",
+          "duration": 43.69829099999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["analytics consent UI"],
+          "fullName": "analytics consent UI DNT 默认关闭时仍显示说明，访客可明确拒绝或允许",
+          "status": "passed",
+          "title": "DNT 默认关闭时仍显示说明，访客可明确拒绝或允许",
+          "duration": 11.256334000000038,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["analytics consent UI"],
+          "fullName": "analytics consent UI 存储不可用时保持面板，不伪装成已保存",
+          "status": "passed",
+          "title": "存储不可用时保持面板，不伪装成已保存",
+          "duration": 3.9095839999999953,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792462886409,
+      "endTime": 1792462886467.9097,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/analytics/analytics-consent-ui.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Type Pal analytics installation boundary"],
+          "fullName": "Type Pal analytics installation boundary 公开 Measurement ID 合法，开发环境只显示 UI 且无 Google 请求",
+          "status": "passed",
+          "title": "公开 Measurement ID 合法，开发环境只显示 UI 且无 Google 请求",
+          "duration": 52.78824999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Type Pal analytics installation boundary"],
+          "fullName": "Type Pal analytics installation boundary G2: DNT/GPC 未有存储选择时默认关闭，但 UI 仍可见",
+          "status": "passed",
+          "title": "G2: DNT/GPC 未有存储选择时默认关闭，但 UI 仍可见",
+          "duration": 6.011416000000054,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792462886413,
+      "endTime": 1792462886472.0115,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/analytics/install-analytics.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["quick-save"],
+          "fullName": "quick-save canQuickSave:explore 无对话无菜单 → true;战斗/对话/菜单 → false",
+          "status": "passed",
+          "title": "canQuickSave:explore 无对话无菜单 → true;战斗/对话/菜单 → false",
+          "duration": 2.1495000000001028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["quick-save"],
+          "fullName": "quick-save F5 可存态 → saveSlot(1, gs) + 成功 toast;F5/F9 均 preventDefault",
+          "status": "passed",
+          "title": "F5 可存态 → saveSlot(1, gs) + 成功 toast;F5/F9 均 preventDefault",
+          "duration": 37.39479099999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["quick-save"],
+          "fullName": "quick-save F5 不可存态(战斗) → 不调 saveSlot + 错误 toast",
+          "status": "passed",
+          "title": "F5 不可存态(战斗) → 不调 saveSlot + 错误 toast",
+          "duration": 4.079458000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["quick-save"],
+          "fullName": "quick-save F5 saveSlot reject → 存档失败 toast 带原因",
+          "status": "passed",
+          "title": "F5 saveSlot reject → 存档失败 toast 带原因",
+          "duration": 3.0682500000000346,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["quick-save"],
+          "fullName": "quick-save F9 → loadSlotIntoGame(1) + 成功 toast",
+          "status": "passed",
+          "title": "F9 → loadSlotIntoGame(1) + 成功 toast",
+          "duration": 3.223082999999974,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["quick-save"],
+          "fullName": "quick-save F9 空槽(false) → \"为空\"错误 toast",
+          "status": "passed",
+          "title": "F9 空槽(false) → \"为空\"错误 toast",
+          "duration": 2.263832999999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["quick-save"],
+          "fullName": "quick-save F9 loadSlotIntoGame reject → \"读档失败\"错误 toast 带原因",
+          "status": "passed",
+          "title": "F9 loadSlotIntoGame reject → \"读档失败\"错误 toast 带原因",
+          "duration": 2.827250000000049,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["quick-save"],
+          "fullName": "quick-save 解绑后 F5/F9 不再触发 save/load(解绑 oracle)",
+          "status": "passed",
+          "title": "解绑后 F5/F9 不再触发 save/load(解绑 oracle)",
+          "duration": 0.6493339999999534,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792462886414,
+      "endTime": 1792462886469.6494,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/tools/quick-save.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["TEST-GLM-GAME-MENU-SAVE-IO-1 坏导入守卫与快存反馈"],
+          "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 坏导入守卫与快存反馈 MSIO-D1 parseImportedSave:partyMembers 合法但 wNumScene 缺失/非数 → 拒(缺必要字段)",
+          "status": "passed",
+          "title": "MSIO-D1 parseImportedSave:partyMembers 合法但 wNumScene 缺失/非数 → 拒(缺必要字段)",
+          "duration": 1.2992080000000215,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-GAME-MENU-SAVE-IO-1 坏导入守卫与快存反馈"],
+          "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 坏导入守卫与快存反馈 MSIO-E1 F5/F9 keydown 被 preventDefault 拦浏览器刷新,非目标键(F6)放行",
+          "status": "passed",
+          "title": "MSIO-E1 F5/F9 keydown 被 preventDefault 拦浏览器刷新,非目标键(F6)放行",
+          "duration": 33.18333299999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-GAME-MENU-SAVE-IO-1 坏导入守卫与快存反馈"],
+          "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 坏导入守卫与快存反馈 MSIO-E2 F5 存档失败(saveSlot 拒绝)→ 错误 toast 带原因,不外抛未捕获异常",
+          "status": "passed",
+          "title": "MSIO-E2 F5 存档失败(saveSlot 拒绝)→ 错误 toast 带原因,不外抛未捕获异常",
+          "duration": 55.64412500000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["TEST-GLM-GAME-MENU-SAVE-IO-1 坏导入守卫与快存反馈"],
+          "fullName": "TEST-GLM-GAME-MENU-SAVE-IO-1 坏导入守卫与快存反馈 MSIO-E3 F9 读档:空槽 → 错误 toast「存档位 1 为空」;成功 → 成功 toast「已从存档位 1 读取」",
+          "status": "passed",
+          "title": "MSIO-E3 F9 读档:空槽 → 错误 toast「存档位 1 为空」;成功 → 成功 toast「已从存档位 1 读取」",
+          "duration": 103.914583,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792462886414,
+      "endTime": 1792462886607.9146,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/tools/save-import-quicksave.glm-msio.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["save-io"],
+          "fullName": "save-io serializeSave:gs → 带版本头的 JSON 字符串",
+          "status": "passed",
+          "title": "serializeSave:gs → 带版本头的 JSON 字符串",
+          "duration": 0.9222919999999704,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["save-io"],
+          "fullName": "save-io parseImportedSave:合法 → 返回 gs;格式错 → 抛",
+          "status": "passed",
+          "title": "parseImportedSave:合法 → 返回 gs;格式错 → 抛",
+          "duration": 0.6056669999999258,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["save-io"],
+          "fullName": "save-io parseImportedSave:缺必要字段(partyMembers)→ 抛",
+          "status": "passed",
+          "title": "parseImportedSave:缺必要字段(partyMembers)→ 抛",
+          "duration": 0.10620899999992162,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["save-io"],
+          "fullName": "save-io parseImportedSave:未知 version → 拒绝，不把未来/旧 envelope 交给 Save API",
+          "status": "passed",
+          "title": "parseImportedSave:未知 version → 拒绝，不把未来/旧 envelope 交给 Save API",
+          "duration": 0.1456670000000031,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792462886399,
+      "endTime": 1792462886400.6057,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/tools/save-io.test.ts"
+    }
+  ]
+}

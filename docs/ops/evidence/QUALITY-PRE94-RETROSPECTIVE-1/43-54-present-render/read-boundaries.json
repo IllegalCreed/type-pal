@@ -1,0 +1,74 @@
+{
+  "base": "dec0626e1c3035bd2d4e6cbf440f79baa19a6354",
+  "candidateHead": "(zero-change slice; files byte-identical to base)",
+  "fullReads": [
+    {
+      "path": "packages/game/src/present/draw-sprite.ts",
+      "sha256": "35f38fc8c65b2f4b4bf45af9186696152c560c03",
+      "lines": 49,
+      "boundary": "Full read; per-frame anchor (chunk193 climb regression) + opaque-mask blit vs scene.c:224/291/358."
+    },
+    {
+      "path": "packages/game/src/present/draw-sprite.test.ts",
+      "sha256": "da68e352c9118e2c285b1cb9ff82cb80fdb780b5",
+      "lines": 85,
+      "boundary": "Full per-case read; anchor/clamp/opaque-truth-table/offscreen."
+    },
+    {
+      "path": "packages/game/src/present/font.ts",
+      "sha256": "443455233b469ed2befbb17f5e88134098fbb179",
+      "lines": 202,
+      "boundary": "Full read; tofu fallback, triple-shadow text.c:1144-1155, palCharWidth/palWordWidth approximations disclosed with exact deviation boundaries."
+    },
+    {
+      "path": "packages/game/src/present/font.test.ts",
+      "sha256": "e4010413ef9e4254e55a89a3a2450984dec5d460",
+      "lines": 133,
+      "boundary": "Full per-case read (binary-ish encoding: GBK comments; read via shell)."
+    },
+    {
+      "path": "packages/game/src/present/font.glm-phase1-leaves.test.ts",
+      "sha256": "c1203fca4895dfb527659246e094dfdf7797e45d",
+      "lines": 67,
+      "boundary": "Full per-case read; renderColoredText/triple-shadow/tofu pixel axes."
+    },
+    {
+      "path": "packages/game/src/present/follower-render.ts",
+      "sha256": "c79ae2a4c83bb89441345609ed3e5a38316985a9",
+      "lines": 64,
+      "boundary": "Full read; follower k -> trail[3+k], FOLLOWER_STEP_FRAME [0,2,0,1] vs leader, spriteNum=0x98 operand vs res.c:335-348."
+    },
+    {
+      "path": "packages/game/src/present/follower-render.test.ts",
+      "sha256": "b8df64d7d9f8657a3911a8b9765ffc2d2695aae3",
+      "lines": 83,
+      "boundary": "Full per-case read."
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.ts",
+      "sha256": "9fcacfe86782a5f4bf12f92129c4d51b48031973",
+      "lines": 382,
+      "boundary": "Full read; map.c:382-417 formulas, fence fill, L32 missing-tile fallback, repairTilemapSeams coverage-based dilation, PAL_CalcCoverTiles scene.c:77-178 case table + L31 trunc boundaries."
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap.test.ts",
+      "sha256": "1b1ec05f182fb2a09eaf06f7d3e3974368f69034",
+      "lines": 198,
+      "boundary": "Full per-case read."
+    },
+    {
+      "path": "packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts",
+      "sha256": "6ee3a215a115f6600f2abaf757c92959875852ec",
+      "lines": 195,
+      "boundary": "Full per-case read (G03-A01..A11)."
+    }
+  ],
+  "primaryAnchorsVerified": [
+    "reference/sdlpal/scene.c:77-178 PAL_CalcCoverTiles case table",
+    "reference/sdlpal/scene.c:224/291/358 per-frame RLE width/height anchoring",
+    "reference/sdlpal/map.c:382-417 PAL_MapBlitToSurface formulas + fence NULL fallback",
+    "reference/sdlpal/res.c:335-348 follower sprite num from wPlayerRole (0x98 operand)",
+    "reference/sdlpal/text.c:1144-1155 triple shadow",
+    "reference/sdlpal/font.c:611-629 + ui.c:836-861 char/word width (disclosed approximation)"
+  ]
+}

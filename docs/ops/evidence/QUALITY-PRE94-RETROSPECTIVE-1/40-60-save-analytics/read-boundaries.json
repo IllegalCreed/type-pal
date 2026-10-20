@@ -1,0 +1,64 @@
+{
+  "base": "dec0626e1c3035bd2d4e6cbf440f79baa19a6354",
+  "candidateHead": "(zero-change slice; files byte-identical to base)",
+  "fullReads": [
+    {
+      "path": "packages/game/src/tools/save-io.ts",
+      "sha256": "76ea293d02ce4e660d14da8043433abf28928f48",
+      "lines": 26,
+      "boundary": "Full read; strict format/version===1 envelope, field gate partyMembers+wNumScene."
+    },
+    {
+      "path": "packages/game/src/tools/save-io.test.ts",
+      "sha256": "32f8a349a8f57be1fc74a10e4817b2dbc1600fad",
+      "lines": 29,
+      "boundary": "Full per-case read incl. version-2 rejection."
+    },
+    {
+      "path": "packages/game/src/tools/save-import-quicksave.glm-msio.test.ts",
+      "sha256": "f50b6433480f75cda0ce330a1ddbf8f23bcb9ab2",
+      "lines": 107,
+      "boundary": "Full per-case read (MSIO-D1/E1/E2/E3)."
+    },
+    {
+      "path": "packages/game/src/tools/quick-save.ts",
+      "sha256": "06bca8cdef014a4367b3df2c56b731dffc6d8703",
+      "lines": 61,
+      "boundary": "Full read; explore-only gate, F5/F9 preventDefault, toast feedback, deps injection."
+    },
+    {
+      "path": "packages/game/src/tools/quick-save.test.ts",
+      "sha256": "1060a9cc38e5d6b6249dee064609d0394c8f9635",
+      "lines": 160,
+      "boundary": "Full per-case read (C5 rewrite: real GameState, fake timers, async feedback oracles)."
+    },
+    {
+      "path": "packages/game/src/analytics/install-analytics.ts",
+      "sha256": "19622bcd2969a69c54fb8fd311afa898098f300b",
+      "lines": 64,
+      "boundary": "Full read; wiring + GA-failure UI rollback (GAME-ANALYTICS-FAILED-INSTALL-OWNERSHIP-1 approved fix)."
+    },
+    {
+      "path": "packages/game/src/analytics/install-analytics.test.ts",
+      "sha256": "737e8cc1a771d5d4d2bc965915ced667e9cb31b1",
+      "lines": 48,
+      "boundary": "Full per-case read."
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent-ui.ts",
+      "sha256": "e39aae5bfe3a5b4e0468775a677d56f79a57ceab",
+      "lines": 124,
+      "boundary": "Full read; unset-only panel, broken-storage keeps panel, preferences reopen."
+    },
+    {
+      "path": "packages/game/src/analytics/analytics-consent-ui.test.ts",
+      "sha256": "6498ee6676d5d8ffda726deca1a39dd4079bac70",
+      "lines": 57,
+      "boundary": "Full per-case read."
+    }
+  ],
+  "primaryAnchorsVerified": [
+    "phase1 save plan quick-key admission (card 60 scope)",
+    "analytics-consent.ts/google-analytics.ts contracts already reviewed under cards 3y/3z (partial); this slice covers only install-analytics.ts + analytics-consent-ui.ts"
+  ]
+}

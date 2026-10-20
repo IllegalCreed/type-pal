@@ -1,0 +1,613 @@
+{
+  "numTotalTestSuites": 17,
+  "numPassedTestSuites": 17,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 51,
+  "numPassedTests": 51,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1792462819842,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["toSpriteImages 逐帧 anchor(密道攀爬偏下根因回归)"],
+          "fullName": "toSpriteImages 逐帧 anchor(密道攀爬偏下根因回归) 每帧 anchorY = 自身高度,anchorX = 自身宽度/2(非整组钉死 frame0)",
+          "status": "passed",
+          "title": "每帧 anchorY = 自身高度,anchorX = 自身宽度/2(非整组钉死 frame0)",
+          "duration": 1.939707999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["toSpriteImages 逐帧 anchor(密道攀爬偏下根因回归)"],
+          "fullName": "toSpriteImages 逐帧 anchor(密道攀爬偏下根因回归) 脚底对齐:任意高度帧在 drawSprite(cy) 处底边都落在同一行(sdlpal PAL_RLEGetHeight 逐帧)",
+          "status": "passed",
+          "title": "脚底对齐:任意高度帧在 drawSprite(cy) 处底边都落在同一行(sdlpal PAL_RLEGetHeight 逐帧)",
+          "duration": 0.4670419999999922,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawSprite"],
+          "fullName": "drawSprite 画一个 2×2 精灵,anchor 在底部中心 (1, 2)",
+          "status": "passed",
+          "title": "画一个 2×2 精灵,anchor 在底部中心 (1, 2)",
+          "duration": 0.11275000000000546,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawSprite"],
+          "fullName": "drawSprite opaque=0 不覆盖底面(M3.5 fix:透明判定走 opaque mask,非 idx===0)",
+          "status": "passed",
+          "title": "opaque=0 不覆盖底面(M3.5 fix:透明判定走 opaque mask,非 idx===0)",
+          "duration": 0.06875000000002274,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawSprite"],
+          "fullName": "drawSprite opaque=1 且 idx=0 仍画(palette index 0 是合法 opaque 像素,M3.5 fix)",
+          "status": "passed",
+          "title": "opaque=1 且 idx=0 仍画(palette index 0 是合法 opaque 像素,M3.5 fix)",
+          "duration": 0.06950000000006185,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawSprite"],
+          "fullName": "drawSprite 屏幕外像素不抛错",
+          "status": "passed",
+          "title": "屏幕外像素不抛错",
+          "duration": 0.3605000000000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792462820752,
+      "endTime": 1792462820755.3606,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/draw-sprite.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A01 layer 0 的 lower 图缺失时，画面用 tile 0，upper 仍用自己的图",
+          "status": "passed",
+          "title": "G03-A01 layer 0 的 lower 图缺失时，画面用 tile 0，upper 仍用自己的图",
+          "duration": 1.00974999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A02 layer 1 的 upper 有 id 但没有图时，不回落 tile 0",
+          "status": "passed",
+          "title": "G03-A02 layer 1 的 upper 有 id 但没有图时，不回落 tile 0",
+          "duration": 0.5196250000000191,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A03 layer 1 的 lower 图缺失时仍回落 tile 0，upper 的 -1 不画",
+          "status": "passed",
+          "title": "G03-A03 layer 1 的 lower 图缺失时仍回落 tile 0，upper 的 -1 不画",
+          "duration": 0.10254199999997127,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A04 透明像素不记 coverage，不透明的 index 0 会写入并记 coverage",
+          "status": "passed",
+          "title": "G03-A04 透明像素不记 coverage，不透明的 index 0 会写入并记 coverage",
+          "duration": 0.17583400000000893,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A05 瓦片跨过 x=0 时，负列不记 coverage，屏内列写入 9",
+          "status": "passed",
+          "title": "G03-A05 瓦片跨过 x=0 时，负列不记 coverage，屏内列写入 9",
+          "duration": 0.10149999999998727,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A06 瓦片跨过 y=0 时，屏内那一行写入 9，再下一行保持空白",
+          "status": "passed",
+          "title": "G03-A06 瓦片跨过 y=0 时，屏内那一行写入 9，再下一行保持空白",
+          "duration": 0.07633399999997437,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A07 整行落在屏幕下方时不取该行的 tile id",
+          "status": "passed",
+          "title": "G03-A07 整行落在屏幕下方时不取该行的 tile id",
+          "duration": 0.20095800000001418,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A08 整列落在屏幕右边界外时不取该列的 tile id",
+          "status": "passed",
+          "title": "G03-A08 整列落在屏幕右边界外时不取该列的 tile id",
+          "duration": 0.2293329999999969,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A09 接缝先取扫描顺序里的西北邻居，不取东边更晚的邻居",
+          "status": "passed",
+          "title": "G03-A09 接缝先取扫描顺序里的西北邻居，不取东边更晚的邻居",
+          "duration": 0.42125000000010004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A10 maxPasses 为 1 时只填到紧邻已覆盖像素的一圈",
+          "status": "passed",
+          "title": "G03-A10 maxPasses 为 1 时只填到紧邻已覆盖像素的一圈",
+          "duration": 0.3258329999999887,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["G03-A drawTilemap 像素与接缝"],
+          "fullName": "G03-A drawTilemap 像素与接缝 G03-A11 blitTileAt 把屏内 1×1 写成给定索引",
+          "status": "passed",
+          "title": "G03-A11 blitTileAt 把屏内 1×1 写成给定索引",
+          "duration": 0.12845800000002328,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792462820752,
+      "endTime": 1792462820755.326,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["drawTilemap"],
+          "fullName": "drawTilemap lower (h=0) 画在 (-16,-8) 子行;upper (h=1) 画在 col/row baseline",
+          "status": "passed",
+          "title": "lower (h=0) 画在 (-16,-8) 子行;upper (h=1) 画在 col/row baseline",
+          "duration": 1.1116250000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawTilemap"],
+          "fullName": "drawTilemap ±1 fence(M3.5 T6 修):layer 0 fence 位置回落到 tile(cells[0][0].lower 的 h=0)",
+          "status": "passed",
+          "title": "±1 fence(M3.5 T6 修):layer 0 fence 位置回落到 tile(cells[0][0].lower 的 h=0)",
+          "duration": 0.17162500000006276,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawTilemap"],
+          "fullName": "drawTilemap ±1 fence:layer 1 fence 位置 fallback = -1,fence 不调 tiles.get",
+          "status": "passed",
+          "title": "±1 fence:layer 1 fence 位置 fallback = -1,fence 不调 tiles.get",
+          "duration": 0.3076659999999265,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawTilemap"],
+          "fullName": "drawTilemap layer 0:9-bit tile id 从低 16 bit 提取 (d & 0xff) | ((d >> 4) & 0x100)",
+          "status": "passed",
+          "title": "layer 0:9-bit tile id 从低 16 bit 提取 (d & 0xff) | ((d >> 4) & 0x100)",
+          "duration": 0.3859170000000631,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawTilemap"],
+          "fullName": "drawTilemap layer 1:tile id 从高 16 bit 提取且 -1;高 16 bit = 0 → id < 0 → skip",
+          "status": "passed",
+          "title": "layer 1:tile id 从高 16 bit 提取且 -1;高 16 bit = 0 → id < 0 → skip",
+          "duration": 0.15708399999994072,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["drawTilemap"],
+          "fullName": "drawTilemap 传入 coverage 时标记已画像素;远处未画处不标记",
+          "status": "passed",
+          "title": "传入 coverage 时标记已画像素;远处未画处不标记",
+          "duration": 0.18237499999997908,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "repairTilemapSeams(瓦片接缝漏黑修复——血池\"黑色三角\"根因:原版不清屏遮住,我们 clear 到 0 露黑)"
+          ],
+          "fullName": "repairTilemapSeams(瓦片接缝漏黑修复——血池\"黑色三角\"根因:原版不清屏遮住,我们 clear 到 0 露黑) 未覆盖像素用最近的已覆盖邻居填充",
+          "status": "passed",
+          "title": "未覆盖像素用最近的已覆盖邻居填充",
+          "duration": 0.2099590000000262,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "repairTilemapSeams(瓦片接缝漏黑修复——血池\"黑色三角\"根因:原版不清屏遮住,我们 clear 到 0 露黑)"
+          ],
+          "fullName": "repairTilemapSeams(瓦片接缝漏黑修复——血池\"黑色三角\"根因:原版不清屏遮住,我们 clear 到 0 露黑) 已覆盖像素保持不变,即使其值为 0(合法的不透明 index-0,不能当漏黑)",
+          "status": "passed",
+          "title": "已覆盖像素保持不变,即使其值为 0(合法的不透明 index-0,不能当漏黑)",
+          "duration": 0.06850000000008549,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "repairTilemapSeams(瓦片接缝漏黑修复——血池\"黑色三角\"根因:原版不清屏遮住,我们 clear 到 0 露黑)"
+          ],
+          "fullName": "repairTilemapSeams(瓦片接缝漏黑修复——血池\"黑色三角\"根因:原版不清屏遮住,我们 clear 到 0 露黑) 填宽接缝:逐圈向内扩散直到填满",
+          "status": "passed",
+          "title": "填宽接缝:逐圈向内扩散直到填满",
+          "duration": 0.3851249999999027,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792462820750,
+      "endTime": 1792462820753.385,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/draw-tilemap.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771)"
+          ],
+          "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 无 follower → 空",
+          "status": "passed",
+          "title": "无 follower → 空",
+          "duration": 1.0444159999999556,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771)"
+          ],
+          "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) trail 深度不足(< 4)→ 跳过(不报错)",
+          "status": "passed",
+          "title": "trail 深度不足(< 4)→ 跳过(不报错)",
+          "duration": 0.14400000000000546,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771)"
+          ],
+          "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) follower 0 → trail[3] 位置(world,无偏移)+ 角色 id",
+          "status": "passed",
+          "title": "follower 0 → trail[3] 位置(world,无偏移)+ 角色 id",
+          "duration": 0.5337499999999409,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771)"
+          ],
+          "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 站立帧 = dir*3(无 step;left dir=1 → 3)",
+          "status": "passed",
+          "title": "站立帧 = dir*3(无 step;left dir=1 → 3)",
+          "duration": 0.122333000000026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771)"
+          ],
+          "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 行走帧 = dir*3 + iStepFrameFollower[step](序列 [0,2,0,1],区别于 leader [0,1,0,2])",
+          "status": "passed",
+          "title": "行走帧 = dir*3 + iStepFrameFollower[step](序列 [0,2,0,1],区别于 leader [0,1,0,2])",
+          "duration": 0.1633750000000873,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771)"
+          ],
+          "fullName": "computeFollowerRenderItems(0x98 跟随者,sdlpal scene.c:732-743/767-771) 两 follower → trail[3]/[4],各自 dir/role/index",
+          "status": "passed",
+          "title": "两 follower → trail[3]/[4],各自 dir/role/index",
+          "duration": 0.4692919999999958,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792462820746,
+      "endTime": 1792462820748.4692,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/follower-render.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["L16 renderColoredText（逐字符色）"],
+          "fullName": "L16 renderColoredText（逐字符色） 逐字符颜色数组按 code point 对位上色",
+          "status": "passed",
+          "title": "逐字符颜色数组按 code point 对位上色",
+          "duration": 0.9972500000000082,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L16 renderColoredText（逐字符色）"],
+          "fullName": "L16 renderColoredText（逐字符色） colors 缺项回退 0x4F；fShadow 三影写黑 0",
+          "status": "passed",
+          "title": "colors 缺项回退 0x4F；fShadow 三影写黑 0",
+          "duration": 0.31225000000006276,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L16 tofu 缺字形回退"],
+          "fullName": "L16 tofu 缺字形回退 缺字形 → 16×16 空心框：顶/底行 cols0-14 亮 col15 暗，中间行只有 col0/col9",
+          "status": "passed",
+          "title": "缺字形 → 16×16 空心框：顶/底行 cols0-14 亮 col15 暗，中间行只有 col0/col9",
+          "duration": 0.2598329999999578,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["L16 tofu 缺字形回退"],
+          "fullName": "L16 tofu 缺字形回退 measureText 空表 ASCII fallback 16px/字（布局入口禁止用它，doc 锚）",
+          "status": "passed",
+          "title": "measureText 空表 ASCII fallback 16px/字（布局入口禁止用它，doc 锚）",
+          "duration": 0.08079200000008768,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792462820751,
+      "endTime": 1792462820752.3123,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/font.glm-phase1-leaves.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861)"],
+          "fullName": "palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861) palCharWidth:ASCII<0x80=8,CJK=16",
+          "status": "passed",
+          "title": "palCharWidth:ASCII<0x80=8,CJK=16",
+          "duration": 0.8616250000000036,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861)"],
+          "fullName": "palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861) palWordWidth:'新的故事'(4 CJK)→ (64+8)>>4 = 4",
+          "status": "passed",
+          "title": "palWordWidth:'新的故事'(4 CJK)→ (64+8)>>4 = 4",
+          "duration": 0.15558399999997619,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861)"],
+          "fullName": "palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861) palWordWidth:5 CJK → (80+8)>>4 = 5;6 CJK → (96+8)>>4 = 6",
+          "status": "passed",
+          "title": "palWordWidth:5 CJK → (80+8)>>4 = 5;6 CJK → (96+8)>>4 = 6",
+          "duration": 0.07841699999994489,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861)"],
+          "fullName": "palCharWidth / palWordWidth(sdlpal font.c:611-629 / ui.c:836-861) palWordWidth:8 ASCII → (64+8)>>4 = 4(ASCII 半宽,不等于 length)",
+          "status": "passed",
+          "title": "palWordWidth:8 ASCII → (64+8)>>4 = 4(ASCII 半宽,不等于 length)",
+          "duration": 0.05254100000001927,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["renderText (P4.T3)"],
+          "fullName": "renderText (P4.T3) blits ASCII A: top row 8 pixels lit at fgColor",
+          "status": "passed",
+          "title": "blits ASCII A: top row 8 pixels lit at fgColor",
+          "duration": 0.3251659999999674,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["renderText (P4.T3)"],
+          "fullName": "renderText (P4.T3) CJK 中: top row 16 pixels lit at fgColor",
+          "status": "passed",
+          "title": "CJK 中: top row 16 pixels lit at fgColor",
+          "duration": 0.1867499999999609,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["renderText (P4.T3)"],
+          "fullName": "renderText (P4.T3) cursor advances correctly: A then 中 occupies px 0..23",
+          "status": "passed",
+          "title": "cursor advances correctly: A then 中 occupies px 0..23",
+          "duration": 0.29187500000000455,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["renderText (P4.T3)"],
+          "fullName": "renderText (P4.T3) unknown codepoint → tofu 16×16 placeholder (no throw)",
+          "status": "passed",
+          "title": "unknown codepoint → tofu 16×16 placeholder (no throw)",
+          "duration": 0.45195799999999053,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["renderText (P4.T3)"],
+          "fullName": "renderText (P4.T3) empty string → no-op, returns 0",
+          "status": "passed",
+          "title": "empty string → no-op, returns 0",
+          "duration": 0.37266699999997854,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["renderText (P4.T3)"],
+          "fullName": "renderText (P4.T3) glyphs omitted → tofu fallback (no throw)",
+          "status": "passed",
+          "title": "glyphs omitted → tofu fallback (no throw)",
+          "duration": 0.12741699999992306,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["measureText (P4.T3)"],
+          "fullName": "measureText (P4.T3) 8 for A",
+          "status": "passed",
+          "title": "8 for A",
+          "duration": 0.1103329999999687,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["measureText (P4.T3)"],
+          "fullName": "measureText (P4.T3) 16 for 中",
+          "status": "passed",
+          "title": "16 for 中",
+          "duration": 0.038708999999926164,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["measureText (P4.T3)"],
+          "fullName": "measureText (P4.T3) 24 for A中",
+          "status": "passed",
+          "title": "24 for A中",
+          "duration": 0.032207999999968706,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["measureText (P4.T3)"],
+          "fullName": "measureText (P4.T3) unknown char defaults to 16",
+          "status": "passed",
+          "title": "unknown char defaults to 16",
+          "duration": 0.029999999999972715,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["measureText (P4.T3)"],
+          "fullName": "measureText (P4.T3) empty string → 0",
+          "status": "passed",
+          "title": "empty string → 0",
+          "duration": 0.02766600000006747,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1792462820750,
+      "endTime": 1792462820754.1274,
+      "status": "passed",
+      "message": "",
+      "name": "/Users/zhangxu/.glm-worktrees/pre94-foundation/packages/game/src/present/font.test.ts"
+    }
+  ]
+}
