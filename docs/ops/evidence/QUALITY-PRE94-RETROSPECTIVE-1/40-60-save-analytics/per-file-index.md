@@ -11,8 +11,14 @@
 
 ## 测试文件(5,E 为主)
 
-**save-io.test.ts**【原审全文】E:serialize 头/version、非法 JSON/格式错双例、缺 partyMembers 拒、version=2 拒(未来 envelope 不交 Save API)。注意:gs 用 `as never` 残缺对象——序列化往返不依赖完整 GameState,合法;quick-save 侧已由 C5 真实 GameState 补齐(见下)。
+**save-io.test.ts**【原审全文】E:serialize 头/version、非法 JSON/格式错双例、缺 partyMembers 拒、version=2 拒(未来 envelope 不交 Save API)。Codex更正：原`as never`残缺成功夹具的合法性判断撤回；三处已改为真实初始GameState，损坏JSON只在IO拒绝用例使用，四条测试身份/合同不增删。
 **save-import-quicksave.glm-msio.test.ts**【返工补读】原审查仅标题级读取,2026-10-20 返工全文补读。E:MSIO-D1 wNumScene 缺失/非数双臂、E1 F5/F9 preventDefault+F6 放行、E2 存档失败 toast 带原因不外抛、E3 空槽/成功双臂 toast+类名。补读结论:与 quick-save.test 分工互补,无缺口。
 **quick-save.test.ts**【返工补读】原审查仅前 100/160 行,2026-10-20 返工补读尾部。E:C5 重写——真实 createInitialGameState、canQuickSave 四态(battle/对话框含完整 dialogBox 形/菜单栈)、F5 成功+F9、不可存态、saveSlot reject 带原因、F9 成功/空槽/reject、解绑 oracle。补读结论:无缺口。
 **install-analytics.test.ts**【原审全文】E:Measurement ID 形状、disabled 只显 UI 无 GA script、DNT/GPC 默认关但 UI 可见;beforeEach/afterEach 清 head/body/localStorage/dataLayer。
 **analytics-consent-ui.test.ts**【原审全文】E:面板定位/zIndex 19 不遮进入按钮、不 autofocus、拒绝→允许→preferences 全环、destroy 移除 root、坏存储保持面板且不写入。
+
+## Codex接收边界（2026-10-20）
+
+本索引的读取身份、补读勘误和逐文件具体结论按各自范围接收；测试条目多为E维，不能读成69文件全部八维已验收。各文件A–H已陈述/尚缺依据的状态分别列于[Codex验收记录](../codex-pending27-acceptance.json)。未单列论据的维度保持review-unknown，文件不关闭；后续只补这些具体缺口，不重复已成立的E/primary。
+
+Codex已撤回“save-io主测as never残缺成功输入合法”的原判：三处改用createInitialGameState生成完整typed状态；损坏JSON仍只用于明确IO拒绝反例。测试身份和四条合同保留。

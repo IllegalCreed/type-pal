@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "e812ffe7b739604e5b1c370a5bb4fdd20fff086fd320cb81e28ec30c040712b0",
+      "afterSha256": "51f0d4c68c4778f7d85916470902e3abffb253b2262ab982c36125e5ca8ea194",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "a2101ce8ffeb73642521f0b489d17642f27bbd3fcdc581d0e9c354dedbc05778",
-        "implementationSha": "e812ffe7b739604e5b1c370a5bb4fdd20fff086fd320cb81e28ec30c040712b0",
+        "implementationSha": "51f0d4c68c4778f7d85916470902e3abffb253b2262ab982c36125e5ca8ea194",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1809,8 +1809,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "e812ffe7b739604e5b1c370a5bb4fdd20fff086fd320cb81e28ec30c040712b0",
-        "lineCount": 16086,
+        "afterSha256": "51f0d4c68c4778f7d85916470902e3abffb253b2262ab982c36125e5ca8ea194",
+        "lineCount": 16110,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -1932,6 +1932,18 @@
           "scope": "Only incoming identity for the scoped pre94 board-row/review-record change; unrelated historical material and original evidence unchanged.",
           "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-review.json",
           "notRun": ["product tests", "whole check", "coverage", "E2E/visual"]
+        },
+        {
+          "revision": "577aeb368cd345720463cae18bca1cfd55338458",
+          "date": "2026-10-20",
+          "action": "pre94-C1-C3-scoped-evidence-admission",
+          "previousAfterSha256": "e812ffe7b739604e5b1c370a5bb4fdd20fff086fd320cb81e28ec30c040712b0",
+          "afterSha256": "51f0d4c68c4778f7d85916470902e3abffb253b2262ab982c36125e5ca8ea194",
+          "scope": "Incoming binding only for named reviewed current deltas;unrelated historical material unchanged.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+          "notRun": [
+            "Whole gates are separately captured in this batch record;no browser/E2E/visual acceptance."
+          ]
         }
       ],
       "supersedes": [
@@ -1946,7 +1958,7 @@
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "e812ffe7b739604e5b1c370a5bb4fdd20fff086fd320cb81e28ec30c040712b0",
+      "candidateSha256": "51f0d4c68c4778f7d85916470902e3abffb253b2262ab982c36125e5ca8ea194",
       "primarySource": [
         {
           "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",

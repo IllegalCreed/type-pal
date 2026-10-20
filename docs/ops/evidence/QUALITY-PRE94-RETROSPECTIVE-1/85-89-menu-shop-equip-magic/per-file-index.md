@@ -22,3 +22,7 @@
 **in-game-magic-menu.test.ts**【原审全文】E:四相转换、L37 活人无 outside 法术仍可选、死人 caster noop、applyToAll 留相/单体切相、MP 不足 disabled null、target 边界、网格导航、refresh 落回、battle-only 过滤。
 **in-game-magic-menu.boundaries.test.ts**【原审全文】E:单人队直进、非顺序 party roleId、错相零请求、refresh cursor 落回。
 **in-game-magic-menu.glm-phase1-leaves.test.ts**【原审全文】E:DL22 记忆回放/越界归 0、roles 缺失 id 剔除、错相 confirmCaster 不重建、单人队死亡直进、空 spellMenu 八向兜底、pick-target Left/Right、非 pick-spell 相翻页零触达、关闭后 refresh 不复活、cancel 幂等。
+
+## Codex接收边界（2026-10-20）
+
+本索引的读取身份、补读勘误和逐文件具体结论按各自范围接收；测试条目多为E维，不能读成69文件全部八维已验收。各文件A–H已陈述/尚缺依据的状态分别列于[Codex验收记录](../codex-pending27-acceptance.json)。未单列论据的维度保持review-unknown，文件不关闭；后续只补这些具体缺口，不重复已成立的E/primary。

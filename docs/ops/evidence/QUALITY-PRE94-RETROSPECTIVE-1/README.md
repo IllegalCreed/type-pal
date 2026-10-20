@@ -251,3 +251,5 @@ shared16/131、game3文件24（ownership11/poison11/cleanup2）、extract YJ2两
 - 2026-10-19：[WORD/GBK当前返工](glm-foundation/codex-stage3-word.json)——定宽解码复用、词条身份强化/排重、九标点与业务反控；五文件继续review，旧stage2三项WORD绑定已过期，新旧证据分开使用。
 
 - 2026-10-19：[83卡实际范围/旧撤回对账](glm-foundation/codex-pre94-scope.json)——83范围路由、493关联路径字节索引；不授逐文件/整卡accept。annotation两测试与既有review证据同SHA，live已恢复review；234closed/120review/2962pending。
+
+2026-10-20 [C1–C3有限接收与Codex窄返工](codex-pending27-acceptance.json)：69身份/8读域撤回/五单红与恢复，修四测试夹具及RNG跳过oracle；78partial/5pending/0accept，缺维仍review、0新关闭，统一门待集中运行。

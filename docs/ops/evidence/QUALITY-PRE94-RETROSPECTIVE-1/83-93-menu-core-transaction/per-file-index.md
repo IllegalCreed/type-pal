@@ -26,3 +26,7 @@
 **sell-menu.test.ts**【原审全文】E:全显示含不可卖红项、选中门、confirm 四方向 toggle、意图返回不改 cash/inventory、cancel 分层、卖光 clamp。
 **sell-menu.boundaries.test.ts**【原审全文】E:inUse 耗尽拒、confirm 期翻页零触达、等长/空/增表刷新精确 cursor、不别名。
 **sell-menu.glm-phase1-leaves.test.ts**【返工补读】原审查未读取(误列 fullReads),2026-10-20 返工全文补读。E:空库存 !slot 防御、确认态重复选择零请求、list 相 sellConfirm null。补读结论:无缺口。
+
+## Codex接收边界（2026-10-20）
+
+本索引的读取身份、补读勘误和逐文件具体结论按各自范围接收；测试条目多为E维，不能读成69文件全部八维已验收。各文件A–H已陈述/尚缺依据的状态分别列于[Codex验收记录](../codex-pending27-acceptance.json)。未单列论据的维度保持review-unknown，文件不关闭；后续只补这些具体缺口，不重复已成立的E/primary。

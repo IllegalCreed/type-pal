@@ -457,9 +457,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Actual pre94 board-row delta and candidate-specific Codex evidence receipt; no duplicate22card whole-file review.",
+      "readMethod": "Actual scoped delta and explicitly bounded C1-C3/native evidence;not another whole83card review.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "User resumedpre94:GLM execution/Codex evidence-first acceptance;89800a1c1 evidence-only reworkC1-C3 before integration/card promotions. Previous gate closeout remains historical;94-102excluded.",
+      "coreConclusion": "Only pre94 row:Codex accepts finite9fecC1-C3 candidate and directly repairs4tests;78partial/5pending/0accept,0newclosed,major gates pending;94-102excluded.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -468,14 +468,14 @@
       "unresolved": [
         "Historical product/coverage/unified gates remain outside this documentation-only integration."
       ],
-      "nextStep": "GLM supplies bounded per-file A-H/caller and truthful execution evidence;Codex checks only delta then schedules major gates.",
+      "nextStep": "Finish only this batch full gates and main integration if zero diagnostics;remainingpre94unknowns stayopen.",
       "phase": "ops",
       "module": "board.md",
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "0caa783346d8ec16435ec4c7132b229a2b81934c5d1b06ce514fdca60fa1ee92",
-      "afterSha256": "7266f064713b427b327c8dd35cc847a15e0dc32d262d10e64e47b45d8a62af5b",
+      "sourceSha256": "7266f064713b427b327c8dd35cc847a15e0dc32d262d10e64e47b45d8a62af5b",
+      "afterSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -504,7 +504,7 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "7266f064713b427b327c8dd35cc847a15e0dc32d262d10e64e47b45d8a62af5b",
+        "implementationSha": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
         "contentVersion": 24,
         "minimumSaveVersion": 12,
         "history": [
@@ -1649,9 +1649,9 @@
         ]
       },
       "evidence": {
-        "kind": "codex-evidence-first-rework",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-review.json",
-        "afterSha256": "7266f064713b427b327c8dd35cc847a15e0dc32d262d10e64e47b45d8a62af5b",
+        "kind": "codex-scoped-C1-C3-admission",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+        "afterSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
         "lineCount": 97
       },
       "history": [
@@ -1783,6 +1783,18 @@
             "afterSha256": "a3227aa27b6b89b2846c666e66d92176e0c65d954bad9ee7c8001094f2258ce2",
             "lineCount": 97
           }
+        },
+        {
+          "revision": "577aeb368cd345720463cae18bca1cfd55338458",
+          "date": "2026-10-20",
+          "action": "pre94-C1-C3-scoped-evidence-admission",
+          "previousAfterSha256": "7266f064713b427b327c8dd35cc847a15e0dc32d262d10e64e47b45d8a62af5b",
+          "afterSha256": "7b8dc9faa727311de424efd5734a74884023e9deeafa111c6a8401fe047d03c5",
+          "scope": "Only pre94 current scope/counts and69path review registration;0newclosures,missingaxes remainreview.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+          "notRun": [
+            "Whole gates are separately captured in this batch record;no browser/E2E/visual acceptance."
+          ]
         }
       ],
       "supersedes": [],

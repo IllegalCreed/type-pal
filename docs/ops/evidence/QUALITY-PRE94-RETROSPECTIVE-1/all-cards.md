@@ -1,6 +1,6 @@
 # 94前全部83卡复审队列
 
-2026-10-19，结构基点bea19f80c；7fc92e98与72批准窄修为旧检查点，本次新增CODE82两文件八维有限续审；47–52统一门信用撤回。77历史done/1build/4review/1draft。本轮accept=0，partial=56，pending=27。pending表示本轮语义复审未完成；partial只表示有限证据，不能作整卡验收。当前计数由all-cards.json逐行核对，旧卡done和旧全仓门不自动继承。
+2026-10-19，结构基点bea19f80c；7fc92e98与72批准窄修为旧检查点，本次新增CODE82两文件八维有限续审；47–52统一门信用撤回。77历史done/1build/4review/1draft。本轮accept=0，partial=78，pending=5（2026-10-20 C1–C3有限接收；缺维仍review，不转整卡accept）。pending表示本轮语义复审未完成；partial只表示有限证据，不能作整卡验收。当前计数由all-cards.json逐行核对，旧卡done和旧全仓门不自动继承。
 
 | 卡 | 原卡状态 | 当前复审 | 范围/证据 |
 |---|---|---|---|
@@ -33,12 +33,12 @@
 | [CODE-QUALITY-3y](../../archive/tasks/done/CODE-QUALITY-3y-game-analytics-consent.md) | done | partial | [consent三文件](3y-analytics-consent/README.md)：原生存储/事件和五旧绿新单红，7定向/17相邻；跨realm/实网/统一门仍待 |
 | [CODE-QUALITY-3z](../../archive/tasks/done/CODE-QUALITY-3z-game-google-analytics.md) | done | partial | [GA四文件](3z-google-analytics/README.md)：共享宿主/五反控，13直接12相邻；初始化泄漏另卡draft，实网/统一门仍待 |
 | [CODE-QUALITY-6a](../../archive/tasks/done/CODE-QUALITY-6a-ledger-integrity.md) | done | partial | [四文件八维](glm-foundation/codex-code6a.json)：隐藏账本/输出参数修复；13旧身份保持+7针对性合同；20定向/47含该20；[既有反控](6a/README.md)保留，统一门待 |
-| [CODE-QUALITY-40](../../archive/tasks/done/CODE-QUALITY-40-game-analytics-install.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
-| [CODE-QUALITY-41](../../archive/tasks/done/CODE-QUALITY-41-game-analytics-consent-ui.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
+| [CODE-QUALITY-40](../../archive/tasks/done/CODE-QUALITY-40-game-analytics-install.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
+| [CODE-QUALITY-41](../../archive/tasks/done/CODE-QUALITY-41-game-analytics-consent-ui.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
 | [CODE-QUALITY-42](../../archive/tasks/done/CODE-QUALITY-42-game-dialog-box.md) | done | partial | [既有复审切片](42-dialog-box/README.md)：只同步 JSON 中已登记的 partial；有限证据不等于整卡 accept |
-| [CODE-QUALITY-43](../../archive/tasks/done/CODE-QUALITY-43-game-draw-sprite.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
-| [CODE-QUALITY-44](../../archive/tasks/done/CODE-QUALITY-44-game-font.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
-| [CODE-QUALITY-45](../../archive/tasks/done/CODE-QUALITY-45-game-follower-render.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
+| [CODE-QUALITY-43](../../archive/tasks/done/CODE-QUALITY-43-game-draw-sprite.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
+| [CODE-QUALITY-44](../../archive/tasks/done/CODE-QUALITY-44-game-font.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
+| [CODE-QUALITY-45](../../archive/tasks/done/CODE-QUALITY-45-game-follower-render.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
 | [CODE-QUALITY-46](../../archive/tasks/done/CODE-QUALITY-46-game-draw-confirm.md) | done | partial | [既有复审切片](46-draw-confirm/README.md)：只同步 JSON 中已登记的 partial；有限证据不等于整卡 accept |
 | [CODE-QUALITY-47](../../archive/tasks/done/CODE-QUALITY-47-game-draw-box.md) | done | partial | [draw-box 复审](47-draw-box/README.md)：四文件全文、box caller/SDL primary、22 直接 + 127 相邻通过；未发现直接缺陷，统一门仍待 |
 | [CODE-QUALITY-48](../../archive/tasks/done/CODE-QUALITY-48-game-draw-equip.md) | done | partial | [draw-equip 复审](48-draw-equip/README.md)：三文件全文、equip/menu caller/SDL primary、16 直接 + 167 相邻通过；零数量差异为不可达防御输入，统一门仍待 |
@@ -47,13 +47,13 @@
 | [CODE-QUALITY-51](../../archive/tasks/done/CODE-QUALITY-51-game-draw-opening-menu.md) | done | partial | [draw-opening-menu 复审](51-draw-opening-menu/README.md)：三文件/SDL primary/P06相邻、17 直接 + 107 相邻通过；未发现 direct defect，wave 统一门仍待 |
 | [CODE-QUALITY-52](../../archive/tasks/done/CODE-QUALITY-52-game-draw-shop-wave-member.md) | done | partial | [draw-shop 复审](52-draw-shop/README.md)：实现/三测试/P04/SDL primary，18/19 直接 + 117 相邻通过；shop-preview 保留 1 条 node DOM 诊断，wave 统一门仍待 |
 | [CODE-QUALITY-53](../../tasks/CODE-QUALITY-53-player-status-runtime-zero.md) | build | pending | 待全文核定真实交付文件及当前caller/oracle |
-| [CODE-QUALITY-54](../../archive/tasks/done/CODE-QUALITY-54-game-draw-tilemap.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
+| [CODE-QUALITY-54](../../archive/tasks/done/CODE-QUALITY-54-game-draw-tilemap.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
 | [CODE-QUALITY-55](../../archive/tasks/done/CODE-QUALITY-55-game-draw-menu-wave-member.md) | done | partial | [draw-menu 复审](55-draw-menu/README.md)：3 文件/SDL primary/caller，15 直接 + 197 相邻通过；清掉历史无效 lint 伪用法，仍留视觉/E2E 与统一整卡边界 |
 | [CODE-QUALITY-56](../../archive/tasks/done/CODE-QUALITY-56-game-minimap-thumbnail-lifecycle.md) | done | partial | [minimap lifecycle 复审](56-minimap/README.md)：2 文件/20 直接，tools/dev 51 + picker 5 相邻；loading ownership 变异1红5绿，seam repair 留 CODE-QUALITY-57 |
 | [CODE-QUALITY-57](../../tasks/CODE-QUALITY-57-game-bootstrap-thumbnail-seam-boundary.md) | review | partial | [工具/thumbnail有限切片](core-comment-audit/tools-thumbnail-hotkeys/README.md)：1944行宿主与两helper测试全文，注释/接线已核；未驱动thumbnail，seam/色板/视觉仍review |
 | [CODE-QUALITY-58](../../archive/tasks/done/CODE-QUALITY-58-game-tools-panel-audit.md) | done | partial | [夹具/隔离勘误](58-tools-panel-fixtures/README.md)：更正核心强转/窗口监听跨例，正式19绿/相邻199绿；无新统一门，save边界不认证 |
-| [CODE-QUALITY-59](../../archive/tasks/done/CODE-QUALITY-59-game-save-import-version-boundary.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
-| [CODE-QUALITY-60](../../archive/tasks/done/CODE-QUALITY-60-game-quick-save-lifecycle.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
+| [CODE-QUALITY-59](../../archive/tasks/done/CODE-QUALITY-59-game-save-import-version-boundary.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
+| [CODE-QUALITY-60](../../archive/tasks/done/CODE-QUALITY-60-game-quick-save-lifecycle.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
 | [CODE-QUALITY-61](../../archive/tasks/done/CODE-QUALITY-61-game-speedrun-store-boundary.md) | done | partial | [speedrun store 复审](61-speedrun-store/README.md)：2 文件/9 直接，index/overlay/tools-panel 30 相邻；非法 localStorage 与小数毫秒 PB 合同已核 |
 | [CODE-QUALITY-62](../../archive/tasks/done/CODE-QUALITY-62-game-speedrun-timer-boundary.md) | done | partial | [speedrun timer 复审](62-speedrun-timer/README.md)：3 文件/22 tests 通过；起表/暂停/倒计时/setStep/PB/detector 边界已核 |
 | [CODE-QUALITY-63](../../archive/tasks/done/CODE-QUALITY-63-game-speedrun-snapshot-boundary.md) | done | partial | [合法夹具/解绑勘误](63-65-speedrun-fixtures/README.md)：正式构造器，静默重置反控旧20绿新单红；正式20绿，无新统一门 |
@@ -66,26 +66,26 @@
 | [CODE-QUALITY-70](../../archive/tasks/done/CODE-QUALITY-70-game-audio-volume-boundary.md) | done | partial | [音量两测试](70-audio-volume/README.md)：排重/拆合同、共享key注释与独立oracle；忽略key旧6绿新单红，相邻36绿，无新统一门 |
 | [CODE-QUALITY-71](../../archive/tasks/done/CODE-QUALITY-71-game-fetch-retry-abort-boundary.md) | done | partial | [源/三测试与真实取消反证](3h/fetch-retry/README.md)：三旧绿新红、族19；取消生命周期draft/完整game17块未清 |
 | [CODE-QUALITY-72](../../archive/tasks/done/CODE-QUALITY-72-game-boot-loading-lifecycle.md) | done | partial | [启动加载](72-boot-loading/README.md)：20例排重/三枚旧绿新单红、相邻54绿；实际失败覆盖反例另卡，产品review/rework，无新统一门 |
-| [CODE-QUALITY-73](../../archive/tasks/done/CODE-QUALITY-73-game-input-lifecycle.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
-| [CODE-QUALITY-74](../../archive/tasks/done/CODE-QUALITY-74-game-audio-manager-contract.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
+| [CODE-QUALITY-73](../../archive/tasks/done/CODE-QUALITY-73-game-input-lifecycle.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
+| [CODE-QUALITY-74](../../archive/tasks/done/CODE-QUALITY-74-game-audio-manager-contract.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
 | [CODE-QUALITY-75](../../archive/tasks/done/CODE-QUALITY-75-game-audio-midi-race.md) | done | partial | MIDI局部排重见3Y/midi-review，整卡未accept |
-| [CODE-QUALITY-76](../../archive/tasks/done/CODE-QUALITY-76-game-main-loop-contract.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
-| [CODE-QUALITY-77](../../archive/tasks/done/CODE-QUALITY-77-game-rng-player-contract.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
-| [CODE-QUALITY-78](../../archive/tasks/done/CODE-QUALITY-78-game-avi-player-contract.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
+| [CODE-QUALITY-76](../../archive/tasks/done/CODE-QUALITY-76-game-main-loop-contract.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
+| [CODE-QUALITY-77](../../archive/tasks/done/CODE-QUALITY-77-game-rng-player-contract.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
+| [CODE-QUALITY-78](../../archive/tasks/done/CODE-QUALITY-78-game-avi-player-contract.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
 | [CODE-QUALITY-79](../../tasks/CODE-QUALITY-79-battle-poison-level-boundary.md) | draft | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-80](../../tasks/CODE-QUALITY-80-dev-party-edit-lifecycle.md) | review | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-81](../../tasks/CODE-QUALITY-81-dev-panel-picker-lifecycle.md) | review | pending | 待全文核定真实交付文件及当前caller/oracle |
 | [CODE-QUALITY-82](../../archive/tasks/done/CODE-QUALITY-82-data-mkf-diagnostic.md) | done | partial | [两文件八维/真实CLI](glm-foundation/codex-code82.json)：私有长度诊断、字段命名/计数复用；8身份不变、原盘等价与业务反控；统一门待 |
-| [CODE-QUALITY-83](../../archive/tasks/done/CODE-QUALITY-83-game-menu-stack.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
-| [CODE-QUALITY-84](../../archive/tasks/done/CODE-QUALITY-84-game-inventory-menu-contract.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
-| [CODE-QUALITY-85](../../archive/tasks/done/CODE-QUALITY-85-game-shop-menu-contract.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
-| [CODE-QUALITY-86](../../archive/tasks/done/CODE-QUALITY-86-game-equip-menu-contract.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
-| [CODE-QUALITY-87](../../archive/tasks/done/CODE-QUALITY-87-game-ingame-menu-contract.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
-| [CODE-QUALITY-88](../../archive/tasks/done/CODE-QUALITY-88-game-magic-select-contract.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
-| [CODE-QUALITY-89](../../archive/tasks/done/CODE-QUALITY-89-game-in-game-magic-contract.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
+| [CODE-QUALITY-83](../../archive/tasks/done/CODE-QUALITY-83-game-menu-stack.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
+| [CODE-QUALITY-84](../../archive/tasks/done/CODE-QUALITY-84-game-inventory-menu-contract.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
+| [CODE-QUALITY-85](../../archive/tasks/done/CODE-QUALITY-85-game-shop-menu-contract.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
+| [CODE-QUALITY-86](../../archive/tasks/done/CODE-QUALITY-86-game-equip-menu-contract.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
+| [CODE-QUALITY-87](../../archive/tasks/done/CODE-QUALITY-87-game-ingame-menu-contract.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
+| [CODE-QUALITY-88](../../archive/tasks/done/CODE-QUALITY-88-game-magic-select-contract.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
+| [CODE-QUALITY-89](../../archive/tasks/done/CODE-QUALITY-89-game-in-game-magic-contract.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
 | [CODE-QUALITY-90](../../tasks/CODE-QUALITY-90-magic-revive-status-boundary.md) | review | pending | 待全文核定真实交付文件及当前caller/oracle |
-| [CODE-QUALITY-91](../../archive/tasks/done/CODE-QUALITY-91-game-inventory-action-contract.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
+| [CODE-QUALITY-91](../../archive/tasks/done/CODE-QUALITY-91-game-inventory-action-contract.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
 | [CODE-QUALITY-92](../../archive/tasks/done/CODE-QUALITY-92-protected-fast-command-correction.md) | done | partial | [历史门/当前30源比对](92/README.md)：20同/10变，全30仍review |
-| [CODE-QUALITY-93](../../archive/tasks/done/CODE-QUALITY-93-game-sell-menu-contract.md) | done | pending | 待全文核定真实交付文件及当前caller/oracle |
+| [CODE-QUALITY-93](../../archive/tasks/done/CODE-QUALITY-93-game-sell-menu-contract.md) | done | partial | [C1–C3有限据证验收](codex-pending27-acceptance.json)：读取身份/具体claim与定向返工；缺维明确review，不是整卡accept |
 
 字节SHA、行数和待人工核定的范围原文见[结构原件](all-cards.json)。范围片段不是已验证文件清单；不会因正则命中自动关闭任何文件。

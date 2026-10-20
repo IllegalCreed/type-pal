@@ -3113,8 +3113,8 @@
       "historyOverlay": true,
       "templateCompliance": "template-compliant",
       "reviewDepth": "deep-semantic",
-      "readMethod": "Actual scoped delta read with original statements preserved in history; no unrelated full document or runtime acceptance",
-      "coreConclusion": "Two new coverage helper/test rows review; runner new semantic delta review instead of inheriting oldQ6closure; 3318/214/157/2947,0newclosed; historical tail byte-identical.",
+      "readMethod": "Actual scoped delta and explicitly bounded C1-C3/native evidence;not another whole83card review.",
+      "coreConclusion": "Only69scope ledger registrations:61previously implicitpending nowreview;oldclosed preserved unless directcounter;214closed/218review/2886pending,0newclosure;unknownaxes retained.",
       "documentStatus": "current",
       "owner": "Codex（原治理/调查及本次文档迁移；历史审查身份各自原样保留）",
       "provenance": [
@@ -3262,13 +3262,13 @@
       "unresolved": [
         "Whole1838/increment/artifact governance remains incomplete; no runtime/E2E/visual/coverage or original-code semantic credit."
       ],
-      "sourceSha256": "3eeb172bb758e32f671ba1975bdc72e5dafe511b3ca9f30b12447bbdb01e075c",
+      "sourceSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
       "sourceGitRevision": "ec2a87735435b409ff2c5b5e01bfb681af1e5c35",
       "sourceGitObject": "50012277f66ac304ce272ee89fd623db8590fac2",
-      "afterSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
+      "afterSha256": "d98151091a88906d69da8bcb8ea5bea65b9b17de8b83314c88ba6a388ccf4c40",
       "revision": {
         "currentSha": "addcb44c52fd00ab0fd3397e61ae316bf98d02e2aeef1d5533ed23a2c1e5845a",
-        "implementationSha": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
+        "implementationSha": "d98151091a88906d69da8bcb8ea5bea65b9b17de8b83314c88ba6a388ccf4c40",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -4121,10 +4121,10 @@
         ]
       },
       "evidence": {
-        "kind": "scoped-current-closeout-maintenance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
-        "afterSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
-        "lineCount": 788
+        "kind": "codex-scoped-C1-C3-admission",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+        "afterSha256": "d98151091a88906d69da8bcb8ea5bea65b9b17de8b83314c88ba6a388ccf4c40",
+        "lineCount": 851
       },
       "history": [
         {
@@ -4321,6 +4321,18 @@
             "afterSha256": "f8b6c6b9ee40044cc8404a91dff24660206b62147ed2f1a1e5dc0a3761cfefd6",
             "lineCount": 786
           }
+        },
+        {
+          "revision": "577aeb368cd345720463cae18bca1cfd55338458",
+          "date": "2026-10-20",
+          "action": "pre94-C1-C3-scoped-evidence-admission",
+          "previousAfterSha256": "f1c7259df5488f4edfb3763660520182ed02278db0bfbf326da67f3e78845920",
+          "afterSha256": "d98151091a88906d69da8bcb8ea5bea65b9b17de8b83314c88ba6a388ccf4c40",
+          "scope": "Only pre94 current scope/counts and69path review registration;0newclosures,missingaxes remainreview.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+          "notRun": [
+            "Whole gates are separately captured in this batch record;no browser/E2E/visual acceptance."
+          ]
         }
       ],
       "supersedes": [
@@ -4331,7 +4343,7 @@
       ],
       "successor": "Current route/workflow and original product task sources as explicitly linked; no old prompt executable.",
       "stopLine": "Do not infer current runtime/E2E/visual/coverage, product or old-test-quality acceptance from docs/record structure; preserve legal inputs and every original failure.",
-      "nextStep": "Report closeout gates truthfully;keep explicit unknowns and other83/94-102work deferred. No main merge before unified0diagnostics.",
+      "nextStep": "Finish only this batch full gates and main integration if zero diagnostics;remainingpre94unknowns stayopen.",
       "userVisibleBeforeAfter": {
         "before": "Actual3300 tracked paths with predecessor declared3294; six new docs tools not yet represented; stale live3292 prose retained from earlier maintenance.",
         "after": "Actual tracked inventory3300/229closed/5review/3066pending/3071unclosed. A8 adds exactly five tool rows and one focused test row, all pending. All248 prior live rows/order/category/status/evidence and complete273-line original bytes remain exact. Source-format-partial acceptance does not close CODE-QUALITY or grant document migration/runtime credit.",

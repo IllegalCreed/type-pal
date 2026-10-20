@@ -1564,7 +1564,7 @@
       "sha256": "9190895a9625082826e9d368895eb7fa0b6ac0a0d9f67a6125121d2aa15362c9",
       "lines": 41,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -1580,7 +1580,9 @@
           "text": "无下一位 Agent；Codex继续完成本批审计，签字门禁未完成前不得扩大范围或标记 done。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+      "findings": "Finite 40-60-save-analytics evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately pending."
     },
     {
       "id": "41",
@@ -1590,7 +1592,7 @@
       "sha256": "07107fcebb1a732bdac61ba7b406e466d139886eb543c6a39073d843cff9a977",
       "lines": 38,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -1610,7 +1612,9 @@
           "text": "无下一位 Agent；Codex继续完成本批审计，未完成准入前不得扩大范围或标记 done。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+      "findings": "Finite 40-60-save-analytics evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately pending."
     },
     {
       "id": "42",
@@ -1651,7 +1655,7 @@
       "sha256": "6406df7eaa0ccaa4dc4119bd7b0b49dc1e10ef1e1cd07cb19f10a5d4858f7064",
       "lines": 37,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -1671,7 +1675,9 @@
           "text": "无下一位 Agent；Codex继续完成本批审计，未完成准入前不得扩大范围或标记 done。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+      "findings": "Finite 43-54-present-render evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately pending."
     },
     {
       "id": "44",
@@ -1681,7 +1687,7 @@
       "sha256": "5b2a40148425ebee6d3d5c4f39481a67d0d7a8454f31cbeaef6410cb601c3984",
       "lines": 37,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -1697,7 +1703,9 @@
           "text": "无下一位 Agent；Codex继续完成本批审计，未完成准入前不得扩大范围或标记 done。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+      "findings": "Finite 43-54-present-render evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately pending."
     },
     {
       "id": "45",
@@ -1707,7 +1715,7 @@
       "sha256": "c5d51aa3b436f7d75fb4709b6e112f4470b540bbd04d84e93ffae7288fc2dd77",
       "lines": 36,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -1727,7 +1735,9 @@
           "text": "无下一位 Agent；Codex继续完成本批审计，未完成准入前不得扩大范围或标记 done。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+      "findings": "Finite 43-54-present-render evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately pending."
     },
     {
       "id": "46",
@@ -2090,7 +2100,7 @@
       "sha256": "7f3952759c08a2e2b28c444e85af77731a501e9b297bcd9d9222592c9ce824f2",
       "lines": 69,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -2114,7 +2124,9 @@
           "text": "- Codex 范围/前提核验: verified（实现、两份专属测试、primary、公共类型、extractor、present/bootstrap caller 已全文读取）"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+      "findings": "Finite 43-54-present-render evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately pending."
     },
     {
       "id": "55",
@@ -2261,7 +2273,7 @@
       "sha256": "0570b597f3073f3d7c3047825926fa1dbc22e96e92aef337ee0a419a5b93047a",
       "lines": 56,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -2277,7 +2289,9 @@
           "text": "- 已完整读取范围实现/测试、tools-panel/quick-save/bootstrap callers、phase1 工具计划、core Save API 与 phase2 current codec。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+      "findings": "Finite 40-60-save-analytics evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately pending."
     },
     {
       "id": "60",
@@ -2287,7 +2301,7 @@
       "sha256": "ba7fe741167a330a26b38552c79cd82722b73e68f606d38a20adf8edb1a186bd",
       "lines": 52,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -2315,7 +2329,9 @@
           "text": "- 2026-10-13 Codex：F5/F9 准入、preventDefault、解绑函数、Save/loader 异常 toast 与 bootstrap caller 均核验；save wave 全门通过。账本收口为 `3266 / 292 closed / 8 review / 2966 pending`。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+      "findings": "Finite 40-60-save-analytics evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately pending."
     },
     {
       "id": "61",
@@ -2602,7 +2618,7 @@
       "sha256": "2874450d11db286d9bbfad7577df49dde61915cf27d3fc730e4c485748173d18",
       "lines": 31,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -2610,7 +2626,9 @@
           "text": "## 范围"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+      "findings": "Finite 73-78-shell-lifecycle evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately pending."
     },
     {
       "id": "74",
@@ -2620,7 +2638,7 @@
       "sha256": "ccb49d3c6bf5a7b14e11b6a704e42e53bed43f814c26e6cbbbf6ee8a17609ed1",
       "lines": 62,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -2664,7 +2682,9 @@
           "text": "当前状态：done，已归档；无实现改动。若继续音频治理，请接 CODE-QUALITY-75，先核验 audio-midi 异步曲目切换风险。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+      "findings": "Finite 73-78-shell-lifecycle evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately pending."
     },
     {
       "id": "75",
@@ -2724,7 +2744,7 @@
       "sha256": "b91b5cc8c119613cab39f559682ef5217e614a80121fd75af4ecb22347ccfb8b",
       "lines": 63,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -2764,7 +2784,9 @@
           "text": "当前状态：done，已归档；无实现改动。下一批请从新的 pending 文件开始，不要把 CODE-QUALITY-57 thumbnail review 当作已关闭。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+      "findings": "Finite 73-78-shell-lifecycle evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately pending."
     },
     {
       "id": "77",
@@ -2774,7 +2796,7 @@
       "sha256": "8d5da4092fb3b4372265b838862bd296a7e9e72de0d4ee02cff669ace60bcff6",
       "lines": 62,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -2814,7 +2836,9 @@
           "text": "当前状态：done，已归档；无实现改动。下一批请从新的 pending 文件开始，不要把剧情 E2E 或 CODE-QUALITY-57 review 当作已关闭。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+      "findings": "Finite 73-78-shell-lifecycle evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately pending."
     },
     {
       "id": "78",
@@ -2824,7 +2848,7 @@
       "sha256": "bf0a73e28616201d112ccd6fbce7d5cc852bc51dae8c60974be7f68055651ec1",
       "lines": 62,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -2860,7 +2884,9 @@
           "text": "当前状态：done，已归档；无实现改动。下一批请从新的 pending 文件开始，不要把视频剧情 E2E 或 CODE-QUALITY-57 review 当作已关闭。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+      "findings": "Finite 73-78-shell-lifecycle evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately pending."
     },
     {
       "id": "79",
@@ -3033,7 +3059,7 @@
       "sha256": "45b305ee161630da06507573395aa6d9191be23dea7f6aa045b2b41e3970636f",
       "lines": 70,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -3077,7 +3103,9 @@
           "text": "全仓治理尚未完成；其余 Q3 core/present/shell/analytics/tools 文件仍需逐文件核验。无下一位 Agent 提示词，继续由 Codex 从最新账本选择下一组不重叠的 2–4 个 pending 文件；不得把本批全绿推成全仓完成。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+      "findings": "Finite 83-93-menu-core-transaction evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately pending."
     },
     {
       "id": "84",
@@ -3087,7 +3115,7 @@
       "sha256": "db35b542e1f79226a0447fdbecde8caa557d8960c7b511431e89dc0e118e2b93",
       "lines": 96,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -3135,7 +3163,9 @@
           "text": "- CODE-QUALITY-53/57/79/80/81 与其它 Q3 core/present/shell/analytics/tools 文件保持原状态，继续 pending/review/draft；未知的负 cursor、装备重复展示和迁移 id 假设不在本批猜测关闭。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+      "findings": "Finite 83-93-menu-core-transaction evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately pending."
     },
     {
       "id": "85",
@@ -3145,7 +3175,7 @@
       "sha256": "60855a6845f5dceb2dbf6eeec321551a601b4959ab973b17b9b8acddeef4a8d3",
       "lines": 93,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -3205,7 +3235,9 @@
           "text": "- `menu-driver.ts` 交易应用、`inventory-state.ts` 容量/装备占用差异、`sell-menu.ts` 与 `draw-shop.ts` 相邻文件仍不因本批自动关闭；如需修复必须另开不重叠卡并先核真实 runtime/save 证据。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+      "findings": "Finite 85-89-menu-shop-equip-magic evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately pending."
     },
     {
       "id": "86",
@@ -3215,7 +3247,7 @@
       "sha256": "3c5caf1b71af29e279a162eabbbad770e9d7c41921dbed6aa057a3313c87d162",
       "lines": 84,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -3279,7 +3311,9 @@
           "text": "- 相邻 dispatcher/equip-effect/inventory-state 风险保持独立 pending/review，未被本批账本关闭。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+      "findings": "Finite 85-89-menu-shop-equip-magic evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately pending."
     },
     {
       "id": "87",
@@ -3289,7 +3323,7 @@
       "sha256": "8425e3c993b30bfbfe739db38425672583bb8c9014a9d5f693efc1539e80a02d",
       "lines": 82,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -3349,7 +3383,9 @@
           "text": "- 运行时逻辑、schema/save、资源、公共接口和用户行为均未改变；源码头部菜单说明注释按真实菜单项修正，测试与官方 coverage baseline 也随合同补强更新。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+      "findings": "Finite 83-93-menu-core-transaction evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately pending."
     },
     {
       "id": "88",
@@ -3359,7 +3395,7 @@
       "sha256": "f773175015c0fd698c8c8aebcb104a5e2aea5c12809f92fdff7165f055eb75a0",
       "lines": 136,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -3435,7 +3471,9 @@
           "text": "- 2026-10-14 Codex: 完整读取四个白名单文件、in-game-magic caller、battle builder/input、draw caller、primitives、shared types、parser/player-role callers 与 SDLPal magicmenu/uigame；确认 object-id/排序/MP 真值。补强 boundaries 与组合测试为完整 typed fixtures，并把组合 fixture 改为生产 object id 300/301；早期定向回归暴露并修正一处旧 id 断言。Evidence: [evidence](../../../evidence/CODE-QUALITY-88/README.md)。Next: 无，四条记录已关闭；shared Spell.id 旧注释另留 pending。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+      "findings": "Finite 85-89-menu-shop-equip-magic evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately pending."
     },
     {
       "id": "89",
@@ -3445,7 +3483,7 @@
       "sha256": "41179120cf17f29a630e0682b8d4d982ae36506961adce77cfabeb058754c9ca",
       "lines": 109,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -3505,7 +3543,9 @@
           "text": "- 2026-10-14 Codex: 定向/相邻 9 files / 158 tests、白名单 3 files / 37 tests、game typecheck/Biome 通过；3 针隔离反控均业务红→恢复绿且源哈希一致。全仓 `pnpm check`、official ratchet、`pnpm check:fast`、lint-zero、docs/content-review、ledger 全部 exit 0；coverage baseline 未变。账本 3,270：closed 368、review 9、pending 2,893。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+      "findings": "Finite 85-89-menu-shop-equip-magic evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately pending."
     },
     {
       "id": "90",
@@ -3621,7 +3661,7 @@
       "sha256": "787362503b956244cb8dfbd0c0161d530c401d9f9c9ed7281976f085fa1aecef",
       "lines": 137,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -3713,7 +3753,9 @@
           "text": "- 2026-10-14 Codex: 完整读取三份白名单、menu-driver dispatch/state cursor、inventory/equip caller、selection primitive、draw oracle 与 SDLPal `uigame.c`/`ui.h`/`play.c`；确认本批无直接生产缺陷，准许仅文档/证据写入。Evidence: 本卡上下文锚点与 `docs/ops/evidence/CODE-QUALITY-91/`。Next: Codex 跑定向/相邻/全量质量门并独立收口。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+      "findings": "Finite 83-93-menu-core-transaction evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately pending."
     },
     {
       "id": "92",
@@ -3791,7 +3833,7 @@
       "sha256": "c2eeaeba7116b525b204c79f6978ac0f91ddd3cd15fa60597dc59449a09e947c",
       "lines": 131,
       "historicalStatus": "done",
-      "currentReview": "pending",
+      "currentReview": "partial",
       "currentAcceptance": false,
       "scopeTextCandidates": [
         {
@@ -3887,19 +3929,26 @@
           "text": "CODE93/96已经在源分支收口，按六文件白名单及相关卡/证据接收时须同时核精确退役metadata，不复制源分支整份coverage baseline，不整条合含CODE53/90的治理分支。再次核origin/main并同步至0behind，先commit/push候选，再进入阶段集成窗口；主工作树与活跃GLM/ED任务禁止覆盖。下一批仍按2–4文件或独立模块逐文件收证，未知review/pending不强关。保留原用户阶段裁决（见源CODE95提示词），输出全部真实门/账本/未修风险供独立验收。Codex当前工作到此停止，全仓goal未完成；后续heartbeat不能覆盖用户停止要求。"
         }
       ],
-      "scopeConfirmed": false
+      "scopeConfirmed": false,
+      "manualEvidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+      "findings": "Finite 83-93-menu-core-transaction evidence accepted;per-file missing axes explicitly review-unknown,not whole-card or file acceptance. Codex C1-C3 repair is scoped;full gates separately pending."
     }
   ],
   "reviewCheckpointBase": "0e3fc84fe5949f7ca9c3eb87b1d2a284be945f3c",
   "currentReviewCounts": {
-    "partial": 56,
-    "pending": 27
+    "partial": 78,
+    "pending": 5,
+    "accept": 0
   },
   "lastIncrementalReview": {
-    "date": "2026-10-19",
-    "card": "6a",
-    "base": "95a0a8218ee7fa72f1081f4952efb83504c4521a",
-    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/codex-code6a.json",
-    "scope": "Only CODE6a evidence update;state remainspartial,other82states unchanged,no accept"
+    "date": "2026-10-20",
+    "base": "89800a1c1",
+    "candidate": "9fec7ac4f26d3c71f7b671537e3bb1fcdd8e4a31",
+    "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json",
+    "previousCounts": {
+      "partial": 56,
+      "pending": 27
+    },
+    "limits": "22pending now have scoped evidence and explicit A-H unknowns;5active cards untouched;0whole-card acceptance."
   }
 }

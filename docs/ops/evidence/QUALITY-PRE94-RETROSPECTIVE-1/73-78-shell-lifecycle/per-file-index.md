@@ -6,7 +6,7 @@
 
 **packages/game/src/shell/input.ts**【原审全文】
 - A:键表/WASD 原义/pressed-edge/repeat 过滤/delete-then-add 键序与 input.c:58-92/213 一致;suppressedHeld 单键场景等价 C,多键复活角点已登记(docblock,input.c:236/286 带 !fRepeat 守卫)。真实 caller:bootstrap 装配 KeyboardInputSource;menu-driver/scene-system/battle 消费 InputSnapshot。
-- B:6 处错误/过时注释已修(候选 50704d25e);KeyM dev 追加已披露。C:键序/抑制状态唯一 Owner=本类,无跨层写。D:codeToAbstractKey 纯函数双 handler 复用;Replay/Recording 语义不同不合并。F:suppressedHeld 上移+`Set<AbstractKey>`(50704d25e)。G:无死分支(各防御有 C 对应+测试)。H:事件→快照可直接派发 KeyboardEvent 判别。
+- B:本文件补DM30多键近似与非repeat边界；组内6处错注分布于audio/avi/rng，并非都在input；KeyM dev 追加已披露。C:键序/抑制状态唯一 Owner=本类,无跨层写。D:codeToAbstractKey 纯函数双 handler 复用;Replay/Recording 语义不同不合并。F:suppressedHeld 上移+`Set<AbstractKey>`(50704d25e)。G:无死分支(各防御有 C 对应+测试)。H:事件→快照可直接派发 KeyboardEvent 判别。
 **packages/game/src/shell/main-loop.ts**【原审全文】
 - A:DM31 顺延/结转与 game.c:65-80 一致;present 门控五条件;DM30 分族边界(palette.c:313-316/441-446)。caller=bootstrap startRafLoop/tickN、tools-panel 暂停经 isSpeedrunPaused。B:注释与真值一致,本片未改。C:编排者不持业务状态,dump/fps/speedrun 旁路注入。D:advanceRafFrame 抽出即复用(单测+loop)。F/G:无冗余层。H:RafLoopState 显式化,无需 mock rAF。
 **packages/game/src/shell/audio.ts**【原审全文】
@@ -33,3 +33,9 @@
 ## 附:partialReads 4 条(bootstrap/trademark-fallback 片段、io/async-lifecycle 头部)
 
 按原登记为部分读取(caller 锚与去重头),不计入 69 条 fullReads,无 A–H 结论主张;io/async-lifecycle 的逐例 E 归 TEST-GAME-MEDIA-LIFECYCLE-1。
+
+## Codex接收边界（2026-10-20）
+
+本索引的读取身份、补读勘误和逐文件具体结论按各自范围接收；测试条目多为E维，不能读成69文件全部八维已验收。各文件A–H已陈述/尚缺依据的状态分别列于[Codex验收记录](../codex-pending27-acceptance.json)。未单列论据的维度保持review-unknown，文件不关闭；后续只补这些具体缺口，不重复已成立的E/primary。
+
+Codex补核并修复四份测试：save-io完整状态；input边界直接使用真实KeyboardEvent.code；RNG改用真实2D上下文的输出端口spy和typed Palette，并把两例实际未跳过的弱oracle改为显式skipKeys+假时钟/精确停帧与shake余额；main-loop用真实PaletteFade/BattleState工厂替代残缺核心状态，输入端口直接typed包裹。RNG旧弱例在关闭跳过的反控下14绿；新两枚单点业务反控各1红、恢复14绿。均不改产品实现/公开接口或新增用例。

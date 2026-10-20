@@ -27,3 +27,7 @@
 - 五份 `directed-final.json`(45 文件/345 passed):JSON 原生证明测试计数与通过/失败身份;当时的 exit 0 与"零 stderr"声明为**作者自报**(控制台观察过,完整 stdout/stderr 原件未保存)。本轮不重跑 345 例;audio 域的零诊断现由本目录基线/恢复两份原生原件支持。
 - 原审查期间的 typecheck/biome/check:docs 绿灯:作者自报,原件未保存;C2 改动后的当前状态由本目录两份静态原件支持,check:docs 以本返工提交前实跑为准(见返工提交说明)。
 - 原审查期间的变异恢复(`git checkout` 后 diff 干净):作者自报;本次三枚恢复为原生断言。
+
+## Codex输出路径勘误
+
+上述原件字节保留。manifest所录vitest命令的outputFile为basename，stdout却指向本证据目录，原始argv不据此认定精确；biome原件漏索引已补。当前单点反控的精确命令/源与测试身份/exit与signal/完整流由[Codex验收记录](../../codex-pending27-acceptance.json)所指新采集承接，不改写旧raw冒充正确命令。

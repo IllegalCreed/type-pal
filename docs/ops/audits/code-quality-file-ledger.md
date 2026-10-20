@@ -18,7 +18,7 @@ Template: governance-index-v1 / 1.0.0
 ## 当前状态
 
 起始基点机器清单：2,962。当前 tracked 清单：3,318。
-当前已闭合核验：214；已读但待审：157；尚未逐文件核验：2,947；合计未闭合：3,104。
+当前已闭合核验：214；已读但待审：218；尚未逐文件核验：2,886；合计未闭合：3,104。
 
 2026-10-18 审计簿记六项按同SHA字节/实际caller修正，另纠正两EOF界；55只后补当前读边界，未找回当时原件，无新增closed或产品/测试改动。见[簿记返工](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/audit-metadata-repair/README.md)。
 
@@ -35,6 +35,8 @@ Template: governance-index-v1 / 1.0.0
 2026-10-20本波仅门禁：E2E-route实质发布复核仍proposal；两新增覆盖率工具/测试登记review，runner新授权差异撤当前关闭信用为review，0新closed。精确baseline重算与未执行项见[集中门回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json)。
 
 2026-10-20本波集中主门：check七包20,377例、ratchet/protected各19,979例通过；main保护仍查精确退役与范围，合理结构重算原始计数保留。末轮静态与原件快检见[集中门回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json)；逐文件状态不随门通过升格，0新关闭，两退役文件仅有限数据协调仍待核。
+
+2026-10-20 pre94 C1–C3：69路径按具体证据接收为有限复审，61条原未登记路径仅转review，0新增关闭；八维缺项与产品未知不因原件/门通过消失。Codex修四份测试夹具与RNG弱跳过oracle，详见[本批记录](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json)。
 
 以下是唯一live机器表。证据描述属于各原卡/日期，尚未再核的当前源码、raw、测试质量或运行结果不继承；Q3k反控摘要只按原卡与总纲明确文字纠正，未重新执行反控。
 
@@ -427,6 +429,67 @@ Template: governance-index-v1 / 1.0.0
 | `scripts/coverage/approved-baseline-adjustments.test.mjs` | test | review | [本轮三个合同测试](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json) | 精确迁移、错误/未知输入及额外回退；不计产品覆盖信用 |
 | `scripts/coverage/approved-test-retirements.mjs` | tool | 待核 | [本轮3u精确快照协调](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json) | 只核新增4→3快照、授权与保全反控；其余历史条目不据本次继承整文件验收 |
 | `scripts/coverage/approved-test-retirements.test.mjs` | test | 待核 | [本轮46合同工具测试](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json) | 更新精确总数并保留原拒绝轴；工具绿不等于全部历史授权已重审 |
+| `packages/game/src/shell/input.ts` | product | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/shell/main-loop.ts` | product | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/shell/audio.ts` | product | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/shell/rng-player.ts` | product | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/shell/avi-player.ts` | product | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/shell/input.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/shell/input.boundaries.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/shell/input-replay.grok-r1.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/shell/main-loop.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/shell/main-loop-gates.grok-r1.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/shell/audio.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/shell/audio.glm-phase1-leaves.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/shell/rng-player.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/shell/rng-player.glm-next-wave.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/shell/avi-player.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/shell/avi-player.glm-next-wave.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/menu-mode.ts` | product | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/menu-stack.ts` | product | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/menu-mode.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/in-game-menu.ts` | product | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/in-game-menu.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/in-game-menu.boundaries.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/in-game-menu.glm-phase1-leaves.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/inventory-menu.ts` | product | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/inventory-menu.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/inventory-menu.boundaries.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/inventory-menu.glm-phase1-leaves.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/inventory-action-menu.ts` | product | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/inventory-action-menu.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/inventory-action-menu.glm-phase1-leaves.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/sell-menu.ts` | product | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/sell-menu.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/sell-menu.boundaries.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/sell-menu.glm-phase1-leaves.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/shop-menu.ts` | product | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/shop-menu.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/shop-menu.boundaries.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/shop-menu.glm-phase1-leaves.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/equip-menu.ts` | product | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/equip-menu.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/equip-menu.boundaries.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/equip-menu.glm-phase1-leaves.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/magic-select.ts` | product | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/magic-select.boundaries.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/magic-select.glm-phase1-leaves.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/in-game-magic-menu.ts` | product | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/in-game-magic-menu.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/in-game-magic-menu.boundaries.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/core/menu/in-game-magic-menu.glm-phase1-leaves.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/present/font.ts` | product | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/present/font.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/present/font.glm-phase1-leaves.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/present/follower-render.ts` | product | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/present/follower-render.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/present/draw-tilemap.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/present/draw-tilemap-pixels.grok-r1.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/tools/save-io.ts` | product | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/tools/save-io.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/tools/save-import-quicksave.glm-msio.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/analytics/analytics-consent-ui.ts` | product | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
+| `packages/game/src/analytics/analytics-consent-ui.test.ts` | test | review | [pre94 C1–C3有限据证验收](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-acceptance.json) | GLM读取身份/具体claim与Codex定向返工；缺维及已知边界仍review，不计关闭 |
 
 | `packages/editor/src/ui/command-form-control.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 CanonicalScriptBodyEditor→EntityAddressEditor caller、合法 EntityAddress 与自动改绑 oracle | 1合同/4定向测试通过；相邻测试有22条 React act诊断，保持 review，不标已验证 |
 | `packages/editor/src/ui/ItemUseEffectEditor.residual.glm.test.tsx` | test | review | [CODE-QUALITY-103 Codex当前逐文件复核](../evidence/CODE-QUALITY-103/codex-current-review.md)；真实 ItemTab/loader/EditSession/save-gate caller、R1/R3/R5 oracle | 3合同/4定向测试通过；相邻测试有22条 React act诊断，P1 puppet/battleOnly仍是产品裁决，保持 review |
