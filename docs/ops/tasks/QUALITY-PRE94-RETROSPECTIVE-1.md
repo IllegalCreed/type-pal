@@ -11,11 +11,11 @@ Visual Verification Timing: 按逐卡风险登记，源码/测试工具本身N/A
 
 ## 当前用户要求、范围与准入
 
-用户2026-10-20收紧当前执行：只完成GLM foundation基点53db76bbb→5af1b6372的全部交付返工。其它83卡治理、94–102后续和无关工具切片暂不扩展，不作为本次返工结束条件；本批文件内GLM漏审的已证缺陷仍修复，未知明确登记，代码接受与统一合并门分开。
+用户2026-10-20在上一波GLM返工/统一门合入main后恢复pre94剩余工作：GLM负责27张pending与56张partial的主要逐文件八维审查和授权内整改；Codex按证据验收、维护中央状态与同一3y分支集成，不重复作者全部复审。覆盖率/全仓门仍集中到大批收尾，94–102暂不扩展。此前“只完成53db76bbb→5af1b6372返工、本波后暂停”仅保留为上一波范围，不再限制本次恢复。
 
 用户2026-10-16重申“复审94号之前的所有卡的成果”，本卡当前覆盖全部83张CODE-QUALITY编号小于94的卡，包含字母后缀，不是抽样。77张历史done、1张build、4张review、1张draft仅是原卡状态；本轮重新accept为0。当前复审队列已推进为56张partial、27张pending；partial只表示有限证据切片，不是验收。按当前Git tracked路径收集，大小写敏感编号规则排除行政卡CODE-QUALITY-3Y-CLOSEOUT-1；不按编号空缺虚构卡。完整83行清单与卡SHA见[复审队列](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/all-cards.md)。原36卡结构/8卡全文抽查是历史部分证据，不能替代任何整卡成果复验。3y的58差异卡矩阵也不是全部83卡。
 
-唯一治理集成工作树/分支codex/code-quality-3y；主树和其它Owner只读，不再新建长期治理分支。当前只按GLM冻结交付处理已证返工与具体证据缺口；6a/CODE82旧片保留，94–102及editor其它工作不在本次扩大推进。既有活跃卡的其它实现边界仍只读；本轮battle-opcodes仅由Codex按已准入的复活补项写入，不据此接收53/79整卡或修改其其它opcode。
+唯一治理集成工作树/分支codex/code-quality-3y；主树和其它Owner只读，不再新建长期治理分支。GLM在自有detached候选内连续推进pre94，Codex核具体差异和证据缺口；6a/CODE82旧片按各自边界保留，94–102及其它无关任务不扩大。53/79/80/81/90当前候选均未触碰，既有活跃卡保持pending；不据本次恢复授权修改这些卡的实现或解除机制冻结。
 
 Codex premise verified / design agree / build allowed：完整读取任务卡、实现、真实caller/出口/类型/生命周期，核注释事实、可复用代码边界、内聚耦合、输入/错误/异步取消/清理/ownership；测试核合法输入、真实oracle、排重、判别力与隔离。只读复核、隔离反控、测试与治理证据允许；发现需修复时先钉有限白名单和反例，低风险工具/测试补证逐批准入。产品机制、schema/save/migration/资产、公共接口或可感知行为变化立即停线专卡，不用本卡泛化授权。
 
@@ -26,6 +26,8 @@ Codex premise verified / design agree / build allowed：完整读取任务卡、
 所有文件按[工程代码质量与验收规范](../code-quality.md)的八维和可独立复验要求推进；本卡只保存本轮范围、进度与证据，不另维护质量条文。本轮原由GLM主要全文审查与获准整改；用户2026-10-19明确本批返工改由Codex执行，Codex接手5af1b6372候选的修正、缺维补核和集成，保留GLM原始署名/证据。RLE有限文案/证据包已接收，格式算法仍冻结、三文件仍review；当前按下方持续任务滚动推进。历史partial不继承新的八维验收。
 
 ## 当前推进
+
+2026-10-20新候选89800a1c1（基点dec0626e1c、7提交）完成首次据证验收，结论为有限返工、未集成：[验收记录](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-review.json)。实际改动4源码/3测试；69条读取路径的Git blob/行数、45文件/345原生passed及两份反控指定1/2个AssertionError均核对一致，未重读全部受审源码或重跑作者全部测试。尚缺逐文件B–H/具体caller索引，指纹字段误名为sha256（实际Git SHA-1），完整执行/诊断原件缺失，需GLM在原候选窄补；5活跃卡继续pending，22卡升partial建议暂不采用，中央仍56partial/27pending/0accept、0新增文件关闭。候选树保留，统一门/coverage未启动，不以静态记录或原生passed冒充零诊断；此前已合入的上一波门仍只证明其原范围。
 
 本波GLM有限返工主门实跑完成：普通check七包20,377测试、全部typecheck与editor作者脚本typecheck通过；editor631文件/4,943例无act/环境诊断。official ratchet和针对最新origin/main的protected fast各19,979例/741源文件通过；合理结构重算按完整旧baseline与当前source SHA精确授权，原始比例下降如实保存，不恢复死代码或弱测试。末轮文档/账本/lint与只读原件快检的最终状态由[集中门回执](../evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json)记载；全部通过、提交推送3y且0behind后执行main同步，实际落点以Git refs为准。
 

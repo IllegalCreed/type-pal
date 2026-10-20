@@ -457,9 +457,9 @@
       "templateId": "governance-index-v1",
       "template": "docs/phase-governance/templates/governance-index.md",
       "templateCompliance": "template-compliant",
-      "readMethod": "Actual scoped delta read with original statements preserved in history; no unrelated full document or runtime acceptance",
+      "readMethod": "Actual pre94 board-row delta and candidate-specific Codex evidence receipt; no duplicate22card whole-file review.",
       "reviewDepth": "deep-semantic",
-      "coreConclusion": "Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion.",
+      "coreConclusion": "User resumedpre94:GLM execution/Codex evidence-first acceptance;89800a1c1 evidence-only reworkC1-C3 before integration/card promotions. Previous gate closeout remains historical;94-102excluded.",
       "truthAnchors": [
         "docs/ops/code-quality.md",
         "AGENTS.md:操作与必读",
@@ -468,14 +468,14 @@
       "unresolved": [
         "Historical product/coverage/unified gates remain outside this documentation-only integration."
       ],
-      "nextStep": "Report closeout gates truthfully;keep explicit unknowns and other83/94-102work deferred. No main merge before unified0diagnostics.",
+      "nextStep": "GLM supplies bounded per-file A-H/caller and truthful execution evidence;Codex checks only delta then schedules major gates.",
       "phase": "ops",
       "module": "board.md",
       "capability": "ops-board",
       "owner": "Codex",
       "provenance": ["source-document", "full-text-structured-review", "repository-history"],
-      "sourceSha256": "741bae446fc31bb95a1962f343c2fd70b0013f9a6412049d889fc49d616d6d35",
-      "afterSha256": "0caa783346d8ec16435ec4c7132b229a2b81934c5d1b06ce514fdca60fa1ee92",
+      "sourceSha256": "0caa783346d8ec16435ec4c7132b229a2b81934c5d1b06ce514fdca60fa1ee92",
+      "afterSha256": "7266f064713b427b327c8dd35cc847a15e0dc32d262d10e64e47b45d8a62af5b",
       "publicCallers": [
         "docs/ops/board.md → archive/board-history/board-20261004.md",
         "docs/ops/board.md → README.md",
@@ -493,7 +493,7 @@
       "businessOracle": {
         "type": "authorized-document-content-and-real-route-template-consumers",
         "assertions": [
-          "Only pre94 current row advances:29GLM changed sources now have finiteA-H records;41/41records,0newclosed.13comment sources repaired,private dither extraction/two-test oracle repairs. Whole-wave gates separately recorded;no83card/94-102expansion/main merge.",
+          "User resumedpre94:GLM execution/Codex evidence-first acceptance;89800a1c1 evidence-only reworkC1-C3 before integration/card promotions. Previous gate closeout remains historical;94-102excluded.",
           "One canonical cross-phase quality contract; entry/form instructions preserve actual task state and risk boundaries",
           "Current delta does not claim historical byte preservation or independent third-party/product execution acceptance"
         ]
@@ -504,8 +504,8 @@
       },
       "revision": {
         "currentSha": "8fdfe74dff8584c83541780640cce7089c5919af293ec73a0850af8883b2da3d",
-        "implementationSha": "0caa783346d8ec16435ec4c7132b229a2b81934c5d1b06ce514fdca60fa1ee92",
-        "contentVersion": 23,
+        "implementationSha": "7266f064713b427b327c8dd35cc847a15e0dc32d262d10e64e47b45d8a62af5b",
+        "contentVersion": 24,
         "minimumSaveVersion": 12,
         "history": [
           {
@@ -1649,12 +1649,36 @@
         ]
       },
       "evidence": {
-        "kind": "scoped-current-closeout-maintenance",
-        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
-        "afterSha256": "0caa783346d8ec16435ec4c7132b229a2b81934c5d1b06ce514fdca60fa1ee92",
+        "kind": "codex-evidence-first-rework",
+        "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-review.json",
+        "afterSha256": "7266f064713b427b327c8dd35cc847a15e0dc32d262d10e64e47b45d8a62af5b",
         "lineCount": 97
       },
       "history": [
+        {
+          "revision": "dec0626e1c3035bd2d4e6cbf440f79baa19a6354",
+          "date": "2026-10-20",
+          "action": "pre94-resumption-and-pending27-evidence-admission",
+          "previousAfterSha256": "0caa783346d8ec16435ec4c7132b229a2b81934c5d1b06ce514fdca60fa1ee92",
+          "previousCoreConclusion": "Only GLM finite gate-closeout row changed; same3y, actual E2E publication review and exact authorized structural normalization; no other83/94-102expansion.",
+          "previousEvidence": {
+            "kind": "scoped-current-closeout-maintenance",
+            "path": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json",
+            "afterSha256": "0caa783346d8ec16435ec4c7132b229a2b81934c5d1b06ce514fdca60fa1ee92",
+            "lineCount": 97
+          },
+          "scope": "Only pre94 row: user resumes83card execution;89800a1c1 requires evidence rework before22promotions;56partial/27pending/0accept unchanged.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-review.json",
+          "notRun": [
+            "Contributor45-file345-case rerun",
+            "Mutation rerun",
+            "Product typecheck",
+            "Whole repository check",
+            "Coverage ratchet",
+            "Protected fast",
+            "Browser/E2E/visual"
+          ]
+        },
         {
           "revision": "working-tree",
           "action": "read-and-reviewed",

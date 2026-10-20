@@ -1046,7 +1046,7 @@
         }
       ],
       "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
-      "afterSha256": "df1165337e521b1713baaa972a8d6438404562b96088417ea6ba1ce7b7c94422",
+      "afterSha256": "e812ffe7b739604e5b1c370a5bb4fdd20fff086fd320cb81e28ec30c040712b0",
       "publicCallers": ["docs/phase-governance/document-registry.json"],
       "legalInputs": [
         "current repository documentation",
@@ -1066,7 +1066,7 @@
       },
       "revision": {
         "currentSha": "a2101ce8ffeb73642521f0b489d17642f27bbd3fcdc581d0e9c354dedbc05778",
-        "implementationSha": "df1165337e521b1713baaa972a8d6438404562b96088417ea6ba1ce7b7c94422",
+        "implementationSha": "e812ffe7b739604e5b1c370a5bb4fdd20fff086fd320cb81e28ec30c040712b0",
         "history": [
           {
             "revision": "fc68ac86b4009bd39a91f0fdc17e10270dcb6dd6",
@@ -1809,8 +1809,8 @@
         "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r94-final-machine-artifacts-20261017.json",
         "sourceSha256": "224abd88d6fb5ba7acfa9f04afa6644cf497d08061c7c52446893ac47af640d3",
         "candidateSha256": "e2546bd7866e90796364090af32c4dd04d93cfa088b46636a41c6640f7ef3c53",
-        "afterSha256": "df1165337e521b1713baaa972a8d6438404562b96088417ea6ba1ce7b7c94422",
-        "lineCount": 16076,
+        "afterSha256": "e812ffe7b739604e5b1c370a5bb4fdd20fff086fd320cb81e28ec30c040712b0",
+        "lineCount": 16086,
         "artifactPreserved": true,
         "originalPreservation": {
           "method": "byte-stable JSON artifact",
@@ -1922,6 +1922,16 @@
               "byteStable": true
             }
           }
+        },
+        {
+          "revision": "dec0626e1c3035bd2d4e6cbf440f79baa19a6354",
+          "date": "2026-10-20",
+          "action": "pre94-pending27-review-incoming-binding",
+          "previousAfterSha256": "df1165337e521b1713baaa972a8d6438404562b96088417ea6ba1ce7b7c94422",
+          "afterSha256": "e812ffe7b739604e5b1c370a5bb4fdd20fff086fd320cb81e28ec30c040712b0",
+          "scope": "Only incoming identity for the scoped pre94 board-row/review-record change; unrelated historical material and original evidence unchanged.",
+          "evidence": "docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/codex-pending27-review.json",
+          "notRun": ["product tests", "whole check", "coverage", "E2E/visual"]
         }
       ],
       "supersedes": [
@@ -1936,7 +1946,7 @@
       "artifactFormat": "json",
       "documentStatus": "historical",
       "sourceGitRevision": "bff13f74a4f95bbba05a8353651b5997fea7fc95",
-      "candidateSha256": "df1165337e521b1713baaa972a8d6438404562b96088417ea6ba1ce7b7c94422",
+      "candidateSha256": "e812ffe7b739604e5b1c370a5bb4fdd20fff086fd320cb81e28ec30c040712b0",
       "primarySource": [
         {
           "path": "docs/phase-governance/reviews/20261017-r93-phase-governance-artifacts.json",
@@ -1963,7 +1973,7 @@
           "statement": "No runtime/E2E/visual/coverage credit."
         }
       ],
-      "reviewNotes": "\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json"
+      "reviewNotes": "\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Incoming binding only for named reviewed deltas; unrelated historical entries unchanged Evidence: docs/ops/evidence/QUALITY-PRE94-RETROSPECTIVE-1/glm-foundation/gate-closeout.json\n2026-10-20: Scoped pre94 review/board delta incoming binding; historical source facts unchanged. See codex-pending27-review.json."
     },
     {
       "path": "docs/ops/evidence/DOCS-FULL-TEMPLATE-1/contributor-r88-ops-evidence-artifacts-20261017.json",
