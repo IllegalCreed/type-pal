@@ -11,9 +11,9 @@
  *     decompressGzip → shared decodeRngFrames 解出全帧,按 chunk 缓存)
  *
  * 设计:
- *  - Prefetch 全帧 PNG → IndexedImage[](chunk 6 = 54 帧,~MB,可接受)
+ *  - Prefetch 全 chunk(gzip RLE → decodeRngFrames → IndexedImage[];chunk 6 = 54 帧,~MB,可接受)
  *  - 逐帧 fb.indices 直写 + flushToCanvas + sleep(frameDelayMs)
- *  - Space/Enter/Escape 跳过
+ *  - skipKeys 显式传入才可跳(默认不可跳,DM27 C 真值:PAL_RNGPlay 无 dwKeyPress 检查)
  *  - 不知 gs — caller(bootstrap)try/finally 包 suspendRaf
  */
 import { decodeRngFrames, type Palette, RNG_HEIGHT, RNG_WIDTH } from '@type-pal/shared'
@@ -214,7 +214,7 @@ export async function playRng(options: PlayRngOptions): Promise<void> {
     const endFrame = endFrameRaw < 0 ? chunk.frameCount - 1 : endFrameRaw
     if (startFrame > endFrame) return
 
-    // 2. prefetch 全部帧 PNG
+    // 2. prefetch 全部帧(经 in-flight chunk 缓存,同一 chunk 只加载一次)
     const frameIndices = chunk.frames
       .filter((f) => f.index >= startFrame && f.index <= endFrame)
       .map((f) => f.index)

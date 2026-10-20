@@ -19,7 +19,7 @@ describe('M6 audio url 映射(纯)', () => {
     expect(sfxUrl('/extracted', 88)).toBe('/extracted/sounds/88.wav')
     expect(sfxUrl('/extracted', 47)).toBe('/extracted/sounds/47.wav')
   })
-  it('musicUrl → {base}/music/{NNN}.mid(3 位零填充,sdlpal midi.c:67 Musics/%.3d.mid)', () => {
+  it('musicUrl → {base}/music/{NNN}.mid(3 位零填充,sdlpal midi.c:69 Musics/%.3d.mid)', () => {
     expect(musicUrl('/extracted', 1)).toBe('/extracted/music/001.mid')
     expect(musicUrl('/extracted', 16)).toBe('/extracted/music/016.mid')
     expect(musicUrl('/extracted', 94)).toBe('/extracted/music/094.mid')

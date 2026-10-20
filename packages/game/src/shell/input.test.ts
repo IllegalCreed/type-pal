@@ -32,7 +32,7 @@ describe('codeToAbstractKey', () => {
     expect(codeToAbstractKey('AltRight')).toBe('Menu')
     expect(codeToAbstractKey('Insert')).toBe('Menu')
     expect(codeToAbstractKey('Numpad0')).toBe('Menu')
-    expect(codeToAbstractKey('KeyM')).toBe('Menu')
+    expect(codeToAbstractKey('KeyM')).toBe('Menu') // KeyM = 本项目 dev 追加(sdlpal 键表无 m→Menu)
   })
 
   it('Numpad 方向键(sdlpal input.c:58-65)', () => {

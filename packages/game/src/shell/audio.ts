@@ -76,7 +76,7 @@ export function createSfxDedup(): {
   }
 }
 
-/** BGM track → MIDI url(纯,可测;sdlpal midi.c:67 `Musics/%.3d.mid`,3 位零填充)。 */
+/** BGM track → MIDI url(纯,可测;sdlpal midi.c:69 `Musics%s%.3d.mid`,3 位零填充)。 */
 export function musicUrl(baseUrl: string, track: number): string {
   return `${baseUrl}/music/${track.toString().padStart(3, '0')}.mid`
 }

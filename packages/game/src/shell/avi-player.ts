@@ -10,7 +10,7 @@
  * 设计:
  *  - 创 `<video>` DOM 元素 fixed 100% 全屏覆盖,黑底
  *  - object-fit: contain → 等比例缩放 + black bar(288×180 AVI 在 16:10/4:3 viewport 黑边)
- *  - skip keys Space/Enter/Escape 立即 resolve(sdlpal kKeyMenu | kKeySearch 真值,uigame.c:395)
+ *  - skip keys Space/Enter/Escape 立即 resolve(sdlpal kKeyMenu | kKeySearch 真值,aviplay.c:711)
  *  - autoplay policy 处理:Chrome/Safari 无 user gesture 时 play() reject,显示 "Click to start"
  *    overlay 让用户首次点击解锁;后续 session 内 AVI 不再被 reject
  *  - 不知 gs / suspendRaf — caller(bootstrap)用 try/finally 控制 raf loop 暂停
@@ -39,7 +39,7 @@ export interface PlayAviOptions {
 
   /**
    * 跳过键列表(`KeyboardEvent.code`),默认 `Space` / `Enter` / `Escape`,
-   * 对应 sdlpal `kKeyMenu | kKeySearch`(uigame.c:395)。
+   * 对应 sdlpal `kKeyMenu | kKeySearch`(aviplay.c:711)。
    */
   skipKeys?: string[]
 
